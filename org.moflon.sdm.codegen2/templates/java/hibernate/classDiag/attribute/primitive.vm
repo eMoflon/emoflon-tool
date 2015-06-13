@@ -1,0 +1,110 @@
+#**##parse("$lang/default:classDiag/attribute/import.vm" )
+#**##set( $opComment = "attr $name:$type" )
+#**##if ($enumConstant)
+#*   *#$name, ##
+#**##else
+#*   *##if( !$instanceOf.hasKeyInStereotypes("derived") )
+#*      *##set( $classToImport = $attrType )
+#*      *##if ( ${classToImport.InheritedCodeStyle} )#set( $importStyle = "$lang/${classToImport.InheritedCodeStyle.Name}:" )
+#*      *##else#set( $importStyle = "$lang/default:" )#end
+#*         *##parse("$!{importStyle}classDiag/class/addClassImport.vm" )
+#*         *### check , if target Class is an interface
+#*         *##set( $class = $token.Parent.Element )
+#*         *##set ( $classIsInterface = $utility.isInterface($class) )
+#*         *###
+#*         *#
+#*         *##if ( ( $prop && !$static ) || $annotationsEnabled )
+#*            *#public static final String PROPERTY_$utility.camelToUpperCase($name) = "$name";
+#*            *#
+#*         *##end
+#*         *##if( $comment )
+#*            *#/**
+#*            *#$!comment
+#*            *# **/
+#*         *##end
+#*         *##if ( $annotationsEnabled )
+#*            *##set( $return = $imports.addToImports("de.uni_kassel.features.annotation.util.Property") )##
+#*            *##set( $return = $imports.addToImports("de.uni_kassel.features.ReferenceHandler") )##
+#*            *#@Property( name = PROPERTY_$utility.camelToUpperCase($name), kind = ReferenceHandler.ReferenceKind.ATTRIBUTE )
+#*            *##if($class.hasKeyInStereotypes("hibernate"))
+#*               *##if( $attr.hasKeyInStereotypes("transient") )
+#*                  *#@Transient
+#*               *##else
+#*                  *#@Column(name="$utility.camelToUpperCase($name)")
+#*               *##end
+#*               *##if($attrType.hasKeyInStereotypes("enum"))
+#*                  *#@Enumerated
+#*               *##end
+#*            *##end
+#*         *##end##
+#*         *##if ( !$classIsInterface || $constant)
+#*            *##set ( $attrWasGenerated = true )##
+#*         *#$attrvis $!static$!final$!transient$type $name#if($init) = $init#end;
+#*            *#
+#*         *##end
+#*         *##if( $createMethods==0 || ($createMethods==2 && !$constant))
+#*         *##if( !$static )#set( $thisname = "this.$name" )#else#set( $thisname = "${class.Name}.$name" )#end
+#*            *##if( !$final && !$readOnly )## no setter for final attributes
+#*               *##if ( $annotationsEnabled && $attrWasGenerated )##
+#*                  *#@Property( name = PROPERTY_$utility.camelToUpperCase($name) )
+#*               *##end##
+#*               *##set ( $setWasGenerated = true )##
+#*               *#$visibility $!{static}void set$methodSuffix ($type value)##
+#*               *##if ( $classIsInterface )
+#*                  *#;
+#*               *##else
+#*                  *#
+#*                  *#{
+#*                  *##if ( $prop || $preHook || $postHook )
+#*                     *##if ( $type == "String" )
+#*                        *##set( $return = $imports.addToImports("de.upb.tools.sdm.*") )
+#*                        *#   if ( ! JavaSDM.stringEquals ($thisname, value))
+#*                     *##else
+#*                        *#   if ( $thisname != value )
+#*                     *##end
+#*                     *#   {$!preHook
+#*                     *##if ($prop)
+#*                        *#      $type oldValue = $thisname;
+#*                     *##end
+#*                  *#   #end
+#*                  *#   $thisname = value;
+#*                  *##if ( $prop || $preHook || $postHook )
+#*                     *##if ($prop && !$static)
+#*                        *#      getPropertyChangeSupport().firePropertyChange(PROPERTY_$utility.camelToUpperCase($attr.Name), oldValue, value);
+#*                     *##end
+#*                     *#   $!postHook}
+#*                  *##end
+#*                  *#}
+#*               *##end
+#*            *##end
+#*            *#
+#*            *##if (! $static)
+#*               *#$visibility $class with$methodSuffix ($type value)##
+#*               *##if ( $classIsInterface )
+#*                  *#;
+#*               *##else
+#*                  *#
+#*                  *#{
+#*                  *#   set$methodSuffix (value);
+#*                  *#   return this;
+#*                  *#}
+#*               *##end
+#*            *##end
+#*            *#
+#*            *##if ( $annotationsEnabled && ( $setWasGenerated || $attrWasGenerated ) )##
+#*               *#@Property( name = PROPERTY_$utility.camelToUpperCase($name) )
+#*            *##end
+#*         *#$visibility $!static$type #if( $type == "boolean" )is#else
+#*         *#get#end
+#*         *#$methodSuffix ()##
+#*         *##if ( $classIsInterface )
+#*            *#;
+#*         *##else
+#*            *#
+#*            *#{
+#*            *#   return $thisname;
+#*            *#}
+#*         *##end
+#*      *##end
+#*   *##end
+#**##end

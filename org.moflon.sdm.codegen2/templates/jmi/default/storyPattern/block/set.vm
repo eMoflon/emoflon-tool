@@ -1,0 +1,16 @@
+#**##set( $name = $object.ObjectName )
+#**##set( $qualifiedName = $mofutility.getQualifiedName($object.InstanceOf))
+#**##set( $type = $object.InstanceOf.Name )
+#**##set( $iter = "fujaba__Iter$mofutility.upFirstChar($name)" )
+#**##set( $setName = "fujaba__TmpObject$mofutility.upFirstChar($name)" )
+#**##set( $children = $mofutility.indent("   ",$!children) )
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##set( $return = $localVars.addLocalVariable($iter, "Iterator", $object) )
+#**##set( $return = $localVars.addLocalVariable($setName, $object.InstanceOf, $object) )
+#**#// iterate set
+#**#$iter = ${name}.iterator ();
+#**#while ( ${iter}.hasNext () )
+#**#{   
+#**#   $setName = ($qualifiedName) ${iter}.next ();
+#**#$children
+#**#} // while

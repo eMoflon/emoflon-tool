@@ -1,0 +1,5 @@
+datatype EInt := 'Integer'
+datatype EString := 'String'
+datatype EBoolean := 'Boolean'
+datatype EFloat := 'Float'
+datatype EDouble := 'Double'

@@ -1,0 +1,6 @@
+
+// attributes for action container method parameters 
+#**##foreach ( $param in $method.iteratorOfParam() )
+public $param.paramType.name $param.name;
+#**##end
+

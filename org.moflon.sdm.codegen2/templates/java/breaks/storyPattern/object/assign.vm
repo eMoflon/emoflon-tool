@@ -1,0 +1,41 @@
+#**##set( $directSetAccess = true )
+#**##parse("java/breaks:storyPattern/object/import.vm" )
+#**##parse("${style}storyPattern/object/tmpvar.vm" )
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##if( $set )
+#*   *##set( $return = $imports.addToImports("de.upb.tools.fca.*") )
+#*   *##set( $return = $localVars.addLocalVariable($name, "FHashSet", $object) )
+#**##else
+#*   *##set( $return = $localVars.addLocalVariable($name, $object.InstanceOf, $object) )
+#**##end
+#**##set($toContinue = $flowUtil.getSearchToContinue($token))
+#**##if( ! $roleType )
+#*   *##set( $roleType = "Object" )
+#*   *##set( $targetType = $object.InstanceOf )
+#**##elseif( $role.Target )
+#*   *##set( $classToImport = $role.Target )
+#*   *##parse("$!{importStyle}classDiag/class/addClassImport.vm" )
+#**##end
+#**##if($typeCast)
+#*   *#$roleType $tmpVar = $source; 
+#*   *##if( $optional )
+#*      *#if ($tmpVar instanceof $targetType)
+#*      *#{
+#*      *#   $name = ($targetType) $tmpVar;
+#*      *#}
+#*   *##else
+#*      *#if (!($tmpVar instanceof $targetType))
+#*      *#{
+#*      *##parse("${style}storyPattern/breakOrContinue.vm")
+#*      *#}
+#*      *#else
+#*      *#{
+#*      *#   $name = ($targetType) $tmpVar;
+#*      *#}
+#*   *##end
+#**##else
+#*   *#$name = $source;
+#*   *##if ( !$optional )
+#*      *##parse("${style}storyPattern/object/bound.vm")
+#*   *##end
+#**##end

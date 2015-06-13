@@ -1,0 +1,19 @@
+#**##parse("java/breaks:storyPattern/object/import.vm" )
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##set( $class = $object.InstanceOf )
+#**##if ( $createVar )
+#*   *##set( $return = $localVars.addLocalVariable($name, $class, $object) )
+#**##end
+#**##if ( ${class.InheritedCodeStyle} )#set( $style = "$lang/${class.InheritedCodeStyle.Name}:" )
+#**##else#set( $style = "$lang/default:" )#end
+#*   *#// create object
+#*   *##if ( $optional )
+#*      *#if ($name == null)
+#*      *#{
+#*   *#   #end
+#*   *##parse("$!{style}storyPattern/object/createObject.vm" )
+#*   *##if ( $optional )
+#*      *#
+#*      *#}
+#*   *##end
+#*   *#

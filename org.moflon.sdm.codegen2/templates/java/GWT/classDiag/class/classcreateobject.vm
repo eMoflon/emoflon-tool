@@ -1,0 +1,16 @@
+#* *##if ( !$utility.isInterface($gwtClass) )
+#*   *##if ( $firstClass )
+#*      *##set ( $firstClass = false )
+#*      *#      if ##
+#*   *##else
+#*      *#      else if ##
+#*   *##end
+#*   *#("$gwtClass.getFullClassName()".equals(classname))
+#*   *#      {
+#*   *##if ( $gwtClass.hasKeyInStereotypes("Singleton") )
+#*      *#         return ${gwtClass.getFullClassName()}.get();
+#*   *##else
+#*      *#         return new $gwtClass.getFullClassName()();
+#*   *##end
+#*   *#      }
+#* *##end

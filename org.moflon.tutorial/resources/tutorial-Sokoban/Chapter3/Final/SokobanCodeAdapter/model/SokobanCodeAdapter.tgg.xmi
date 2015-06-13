@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="ASCII"?>
+<TGGLanguage:TripleGraphGrammar xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:TGGLanguage="http://www.moflon.org.TGGLanguage" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:expressions="http://www.moflon.org.SDMLanguage.expressions" xmlns:patternExpressions="http://www.moflon.org.SDMLanguage.patterns.patternExpressions" name="SokobanCodeAdapter">
+  <domain name="Source" metamodel="//@metamodel.2" type="SOURCE"/>
+  <domain name="Target" metamodel="//@metamodel.0" type="TARGET"/>
+  <domain name="Correspondence" metamodel="//@metamodel.1"/>
+  <tggRule name="AdminNodeToFigureRule" correspondence="//@domain.2" source="//@domain.0" target="//@domain.1" cspSpec="&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;">
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floorNode" incomingLink="//@tggRule.0/@linkVariable.1" outgoingLink="//@tggRule.0/@linkVariable.0" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="figureNode" incomingLink="//@tggRule.0/@linkVariable.0" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;@&quot;"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToFloor" outgoingLink="//@tggRule.0/@linkVariable.1 //@tggRule.0/@linkVariable.2" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToFloor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floor" incomingLink="//@tggRule.0/@linkVariable.2" outgoingLink="//@tggRule.0/@linkVariable.3" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="admin" incomingLink="//@tggRule.0/@linkVariable.3" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Admin"/>
+    </objectVariable>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.0/@objectVariable.1" source="//@tggRule.0/@objectVariable.0" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.0/@objectVariable.0" source="//@tggRule.0/@objectVariable.2" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.0/@objectVariable.3" source="//@tggRule.0/@objectVariable.2" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="figure" target="//@tggRule.0/@objectVariable.4" source="//@tggRule.0/@objectVariable.3" bindingOperator="CREATE" domain="//@domain.1"/>
+  </tggRule>
+  <tggRule name="AllOtherNodeToFloorRule" correspondence="//@domain.2" source="//@domain.0" target="//@domain.1" cspSpec="&#xD;&#xA;&#x9;&#x9;sub(floor.row, 1, topNeighbor.row)&#xD;&#xA;&#x9;&#x9;sub(floor.col, 1, leftNeighbor.col)&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;eq(floor.row, rowNode.index)&#xD;&#xA;&#x9;&#x9;eq(floor.col, columnNode.index)&#xD;&#xA;&#x9;&#x9;eq(floor.row, leftNeighbor.row)&#xD;&#xA;&#x9;&#x9;eq(floor.col, topNeighbor.col)&#xD;&#xA;&#x9;">
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="boardNode" incomingLink="//@tggRule.1/@linkVariable.2" outgoingLink="//@tggRule.1/@linkVariable.0" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <constraint>
+        <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+          <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;BOARD&quot;"/>
+          <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//@tggRule.1/@objectVariable.0">
+            <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+          </leftExpression>
+        </constraintExpression>
+      </constraint>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="rowNode" incomingLink="//@tggRule.1/@linkVariable.0 //@tggRule.1/@linkVariable.1" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <constraint>
+        <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+          <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;ROW&quot;"/>
+          <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//@tggRule.1/@objectVariable.1">
+            <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+          </leftExpression>
+        </constraintExpression>
+      </constraint>
+      <constraint>
+        <constraintExpression xsi:type="expressions:ComparisonExpression" operator="UNEQUAL">
+          <rightExpression xsi:type="expressions:LiteralExpression" value="0"/>
+          <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//@tggRule.1/@objectVariable.1">
+            <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+          </leftExpression>
+        </constraintExpression>
+      </constraint>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="columnNode" incomingLink="//@tggRule.1/@linkVariable.4" outgoingLink="//@tggRule.1/@linkVariable.1" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;COLUMN&quot;"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToBoard" outgoingLink="//@tggRule.1/@linkVariable.2 //@tggRule.1/@linkVariable.3" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToBoard"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToFloor" outgoingLink="//@tggRule.1/@linkVariable.4 //@tggRule.1/@linkVariable.5" bindingOperator="CREATE" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToFloor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="board" incomingLink="//@tggRule.1/@linkVariable.3" outgoingLink="//@tggRule.1/@linkVariable.6 //@tggRule.1/@linkVariable.7 //@tggRule.1/@linkVariable.8" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Board"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="leftNeighbor" incomingLink="//@tggRule.1/@linkVariable.6 //@tggRule.1/@linkVariable.9" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="topNeighbor" incomingLink="//@tggRule.1/@linkVariable.7 //@tggRule.1/@linkVariable.10" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floor" incomingLink="//@tggRule.1/@linkVariable.5 //@tggRule.1/@linkVariable.8" outgoingLink="//@tggRule.1/@linkVariable.9 //@tggRule.1/@linkVariable.10" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </objectVariable>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.1/@objectVariable.1" source="//@tggRule.1/@objectVariable.0" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="parentNode" target="//@tggRule.1/@objectVariable.1" source="//@tggRule.1/@objectVariable.2" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.1/@objectVariable.0" source="//@tggRule.1/@objectVariable.3" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.1/@objectVariable.5" source="//@tggRule.1/@objectVariable.3" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.1/@objectVariable.2" source="//@tggRule.1/@objectVariable.4" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.1/@objectVariable.8" source="//@tggRule.1/@objectVariable.4" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="floors" target="//@tggRule.1/@objectVariable.6" source="//@tggRule.1/@objectVariable.5" domain="//@domain.1"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="floors" target="//@tggRule.1/@objectVariable.7" source="//@tggRule.1/@objectVariable.5" domain="//@domain.1"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="floors" target="//@tggRule.1/@objectVariable.8" source="//@tggRule.1/@objectVariable.5" bindingOperator="CREATE" domain="//@domain.1"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="left" target="//@tggRule.1/@objectVariable.6" source="//@tggRule.1/@objectVariable.8" bindingOperator="CREATE" domain="//@domain.1"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="top" target="//@tggRule.1/@objectVariable.7" source="//@tggRule.1/@objectVariable.8" bindingOperator="CREATE" domain="//@domain.1"/>
+  </tggRule>
+  <tggRule name="BoardNodeToBoardRule" correspondence="//@domain.2" source="//@domain.0" target="//@domain.1" cspSpec="&#xD;&#xA;&#x9;&#x9;stringToNumber(rowCountNode.name, board.height)&#xD;&#xA;&#x9;&#x9;stringToNumber(columnCountNode.name, board.width)&#xD;&#xA;&#x9;">
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="file" outgoingLink="//@tggRule.2/@linkVariable.0" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//File"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="boardSpecNode" incomingLink="//@tggRule.2/@linkVariable.0" outgoingLink="//@tggRule.2/@linkVariable.1 //@tggRule.2/@linkVariable.2" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;BOARD_SPEC&quot;"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="dimensionNode" incomingLink="//@tggRule.2/@linkVariable.2" outgoingLink="//@tggRule.2/@linkVariable.3 //@tggRule.2/@linkVariable.4" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;DIMENSIONS&quot;"/>
+      </attributeAssignment>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="rowsNode" incomingLink="//@tggRule.2/@linkVariable.3" outgoingLink="//@tggRule.2/@linkVariable.5" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;ROWS&quot;"/>
+      </attributeAssignment>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="colsNode" incomingLink="//@tggRule.2/@linkVariable.4" outgoingLink="//@tggRule.2/@linkVariable.6" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;COLS&quot;"/>
+      </attributeAssignment>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="1"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="rowCountNode" incomingLink="//@tggRule.2/@linkVariable.5" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="columnCountNode" incomingLink="//@tggRule.2/@linkVariable.6" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="boardNode" incomingLink="//@tggRule.2/@linkVariable.1 //@tggRule.2/@linkVariable.9" outgoingLink="//@tggRule.2/@linkVariable.7" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;BOARD&quot;"/>
+      </attributeAssignment>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="1"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="topRowNode" incomingLink="//@tggRule.2/@linkVariable.7" outgoingLink="//@tggRule.2/@linkVariable.8" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;ROW&quot;"/>
+      </attributeAssignment>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="topRowLeftColumnNode" incomingLink="//@tggRule.2/@linkVariable.8 //@tggRule.2/@linkVariable.11" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;COLUMN&quot;"/>
+      </attributeAssignment>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToBoard" outgoingLink="//@tggRule.2/@linkVariable.9 //@tggRule.2/@linkVariable.10" bindingOperator="CREATE" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToBoard"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToFloor" outgoingLink="//@tggRule.2/@linkVariable.11 //@tggRule.2/@linkVariable.12" bindingOperator="CREATE" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToFloor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="board" incomingLink="//@tggRule.2/@linkVariable.10" outgoingLink="//@tggRule.2/@linkVariable.13" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Board"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="topLeftFloor" incomingLink="//@tggRule.2/@linkVariable.12 //@tggRule.2/@linkVariable.13" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.SokobanLanguage#//Floor/row"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.SokobanLanguage#//Floor/col"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+    </objectVariable>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="rootNode" target="//@tggRule.2/@objectVariable.1" source="//@tggRule.2/@objectVariable.0" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.2/@objectVariable.7" source="//@tggRule.2/@objectVariable.1" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.2/@objectVariable.2" source="//@tggRule.2/@objectVariable.1" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.2/@objectVariable.3" source="//@tggRule.2/@objectVariable.2" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.2/@objectVariable.4" source="//@tggRule.2/@objectVariable.2" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.2/@objectVariable.5" source="//@tggRule.2/@objectVariable.3" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.2/@objectVariable.6" source="//@tggRule.2/@objectVariable.4" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.2/@objectVariable.8" source="//@tggRule.2/@objectVariable.7" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.2/@objectVariable.9" source="//@tggRule.2/@objectVariable.8" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.2/@objectVariable.7" source="//@tggRule.2/@objectVariable.10" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.2/@objectVariable.12" source="//@tggRule.2/@objectVariable.10" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.2/@objectVariable.9" source="//@tggRule.2/@objectVariable.11" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.2/@objectVariable.13" source="//@tggRule.2/@objectVariable.11" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="floors" target="//@tggRule.2/@objectVariable.13" source="//@tggRule.2/@objectVariable.12" bindingOperator="CREATE" domain="//@domain.1"/>
+  </tggRule>
+  <tggRule name="GoalNodeToFigureRule" correspondence="//@domain.2" source="//@domain.0" target="//@domain.1" cspSpec="&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;">
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floorNode" incomingLink="//@tggRule.3/@linkVariable.1" outgoingLink="//@tggRule.3/@linkVariable.0" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="figureNode" incomingLink="//@tggRule.3/@linkVariable.0" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;.&quot;"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToFloor" outgoingLink="//@tggRule.3/@linkVariable.1 //@tggRule.3/@linkVariable.2" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToFloor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floor" incomingLink="//@tggRule.3/@linkVariable.2" outgoingLink="//@tggRule.3/@linkVariable.3" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="goal" incomingLink="//@tggRule.3/@linkVariable.3" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Goal"/>
+    </objectVariable>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.3/@objectVariable.1" source="//@tggRule.3/@objectVariable.0" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.3/@objectVariable.0" source="//@tggRule.3/@objectVariable.2" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.3/@objectVariable.3" source="//@tggRule.3/@objectVariable.2" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="figure" target="//@tggRule.3/@objectVariable.4" source="//@tggRule.3/@objectVariable.3" bindingOperator="CREATE" domain="//@domain.1"/>
+  </tggRule>
+  <tggRule name="LeftcolumnNodeToFloorRule" correspondence="//@domain.2" source="//@domain.0" target="//@domain.1" cspSpec="&#xD;&#xA;&#x9;&#x9;sub(floor.row, 1, topNeighbor.row)&#xD;&#xA;&#x9;&#x9;eq(floor.row , rowNode.index)&#x9;&#xD;&#xA;&#x9;">
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="boardNode" incomingLink="//@tggRule.4/@linkVariable.2" outgoingLink="//@tggRule.4/@linkVariable.0" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <constraint>
+        <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+          <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;BOARD&quot;"/>
+          <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//@tggRule.1/@objectVariable.0">
+            <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+          </leftExpression>
+        </constraintExpression>
+      </constraint>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="rowNode" incomingLink="//@tggRule.4/@linkVariable.0" outgoingLink="//@tggRule.4/@linkVariable.1" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;ROW&quot;"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="columnNode" incomingLink="//@tggRule.4/@linkVariable.1 //@tggRule.4/@linkVariable.4" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;COLUMN&quot;"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToBoard" outgoingLink="//@tggRule.4/@linkVariable.2 //@tggRule.4/@linkVariable.3" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToBoard"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToFloor" outgoingLink="//@tggRule.4/@linkVariable.4 //@tggRule.4/@linkVariable.5" bindingOperator="CREATE" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToFloor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="board" incomingLink="//@tggRule.4/@linkVariable.3" outgoingLink="//@tggRule.4/@linkVariable.6 //@tggRule.4/@linkVariable.7" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Board"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="topNeighbor" incomingLink="//@tggRule.4/@linkVariable.6 //@tggRule.4/@linkVariable.8" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <constraint>
+        <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+          <rightExpression xsi:type="expressions:LiteralExpression" value="0"/>
+          <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//@tggRule.1/@objectVariable.7">
+            <attribute href="http://www.moflon.org.SokobanLanguage#//Floor/col"/>
+          </leftExpression>
+        </constraintExpression>
+      </constraint>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floor" incomingLink="//@tggRule.4/@linkVariable.5 //@tggRule.4/@linkVariable.7" outgoingLink="//@tggRule.4/@linkVariable.8" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.SokobanLanguage#//Floor/col"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+    </objectVariable>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.4/@objectVariable.1" source="//@tggRule.4/@objectVariable.0" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.4/@objectVariable.2" source="//@tggRule.4/@objectVariable.1" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.4/@objectVariable.0" source="//@tggRule.4/@objectVariable.3" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.4/@objectVariable.5" source="//@tggRule.4/@objectVariable.3" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.4/@objectVariable.2" source="//@tggRule.4/@objectVariable.4" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.4/@objectVariable.7" source="//@tggRule.4/@objectVariable.4" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="floors" target="//@tggRule.4/@objectVariable.6" source="//@tggRule.4/@objectVariable.5" domain="//@domain.1"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="floors" target="//@tggRule.4/@objectVariable.7" source="//@tggRule.4/@objectVariable.5" bindingOperator="CREATE" domain="//@domain.1"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="top" target="//@tggRule.4/@objectVariable.6" source="//@tggRule.4/@objectVariable.7" bindingOperator="CREATE" domain="//@domain.1"/>
+  </tggRule>
+  <tggRule name="ServerNodeToFigureRule" correspondence="//@domain.2" source="//@domain.0" target="//@domain.1" cspSpec="&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;">
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floorNode" incomingLink="//@tggRule.5/@linkVariable.1" outgoingLink="//@tggRule.5/@linkVariable.0" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="figureNode" incomingLink="//@tggRule.5/@linkVariable.0" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;$&quot;"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToFloor" outgoingLink="//@tggRule.5/@linkVariable.1 //@tggRule.5/@linkVariable.2" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToFloor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floor" incomingLink="//@tggRule.5/@linkVariable.2" outgoingLink="//@tggRule.5/@linkVariable.3" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="server" incomingLink="//@tggRule.5/@linkVariable.3" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Server"/>
+    </objectVariable>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.5/@objectVariable.1" source="//@tggRule.5/@objectVariable.0" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.5/@objectVariable.0" source="//@tggRule.5/@objectVariable.2" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.5/@objectVariable.3" source="//@tggRule.5/@objectVariable.2" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="figure" target="//@tggRule.5/@objectVariable.4" source="//@tggRule.5/@objectVariable.3" bindingOperator="CREATE" domain="//@domain.1"/>
+  </tggRule>
+  <tggRule name="TopRowNodeToFloorRule" correspondence="//@domain.2" source="//@domain.0" target="//@domain.1" cspSpec="&#xD;&#xA;&#x9;&#x9;sub(floor.col, 1, leftNeighbor.col)&#xD;&#xA;&#x9;&#x9;eq(floor.col, columnNode.index)&#xD;&#xA;&#x9;">
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="boardNode" incomingLink="//@tggRule.6/@linkVariable.2" outgoingLink="//@tggRule.6/@linkVariable.0" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <constraint>
+        <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+          <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;BOARD&quot;"/>
+          <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//@tggRule.1/@objectVariable.0">
+            <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+          </leftExpression>
+        </constraintExpression>
+      </constraint>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="rowNode" incomingLink="//@tggRule.6/@linkVariable.0" outgoingLink="//@tggRule.6/@linkVariable.1" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <constraint>
+        <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+          <rightExpression xsi:type="expressions:LiteralExpression" value="0"/>
+          <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//@tggRule.1/@objectVariable.1">
+            <attribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+          </leftExpression>
+        </constraintExpression>
+      </constraint>
+      <constraint>
+        <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+          <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;ROW&quot;"/>
+          <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//@tggRule.1/@objectVariable.1">
+            <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+          </leftExpression>
+        </constraintExpression>
+      </constraint>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="columnNode" incomingLink="//@tggRule.6/@linkVariable.1 //@tggRule.6/@linkVariable.4" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;COLUMN&quot;"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToBoard" outgoingLink="//@tggRule.6/@linkVariable.2 //@tggRule.6/@linkVariable.3" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToBoard"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToFloor" outgoingLink="//@tggRule.6/@linkVariable.4 //@tggRule.6/@linkVariable.5" bindingOperator="CREATE" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToFloor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="board" incomingLink="//@tggRule.6/@linkVariable.3" outgoingLink="//@tggRule.6/@linkVariable.6 //@tggRule.6/@linkVariable.7" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Board"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="leftNeighbor" incomingLink="//@tggRule.6/@linkVariable.6 //@tggRule.6/@linkVariable.8" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <constraint>
+        <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+          <rightExpression xsi:type="expressions:LiteralExpression" value="0"/>
+          <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//@tggRule.1/@objectVariable.6">
+            <attribute href="http://www.moflon.org.SokobanLanguage#//Floor/row"/>
+          </leftExpression>
+        </constraintExpression>
+      </constraint>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floor" incomingLink="//@tggRule.6/@linkVariable.5 //@tggRule.6/@linkVariable.7" outgoingLink="//@tggRule.6/@linkVariable.8" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.SokobanLanguage#//Floor/row"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="0"/>
+      </attributeAssignment>
+    </objectVariable>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.6/@objectVariable.1" source="//@tggRule.6/@objectVariable.0" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.6/@objectVariable.2" source="//@tggRule.6/@objectVariable.1" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.6/@objectVariable.0" source="//@tggRule.6/@objectVariable.3" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.6/@objectVariable.5" source="//@tggRule.6/@objectVariable.3" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.6/@objectVariable.2" source="//@tggRule.6/@objectVariable.4" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.6/@objectVariable.7" source="//@tggRule.6/@objectVariable.4" bindingOperator="CREATE" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="floors" target="//@tggRule.6/@objectVariable.6" source="//@tggRule.6/@objectVariable.5" domain="//@domain.1"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="floors" target="//@tggRule.6/@objectVariable.7" source="//@tggRule.6/@objectVariable.5" bindingOperator="CREATE" domain="//@domain.1"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="left" target="//@tggRule.6/@objectVariable.6" source="//@tggRule.6/@objectVariable.7" bindingOperator="CREATE" domain="//@domain.1"/>
+  </tggRule>
+  <tggRule name="WallNodeToFigureRule" correspondence="//@domain.2" source="//@domain.0" target="//@domain.1" cspSpec="&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;">
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floorNode" incomingLink="//@tggRule.7/@linkVariable.1" outgoingLink="//@tggRule.7/@linkVariable.0" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="figureNode" incomingLink="//@tggRule.7/@linkVariable.0" bindingOperator="CREATE" domain="//@domain.0">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.MocaTree#//Node"/>
+      <attributeAssignment>
+        <attribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        <valueExpression xsi:type="expressions:LiteralExpression" value="&quot;#&quot;"/>
+      </attributeAssignment>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="nodeToFloor" outgoingLink="//@tggRule.7/@linkVariable.1 //@tggRule.7/@linkVariable.2" domain="//@domain.2">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanCodeAdapter#//NodeToFloor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="floor" incomingLink="//@tggRule.7/@linkVariable.2" outgoingLink="//@tggRule.7/@linkVariable.3" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </objectVariable>
+    <objectVariable xsi:type="TGGLanguage:TGGObjectVariable" name="wall" incomingLink="//@tggRule.7/@linkVariable.3" bindingOperator="CREATE" domain="//@domain.1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.SokobanLanguage#//Wall"/>
+    </objectVariable>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="children" target="//@tggRule.7/@objectVariable.1" source="//@tggRule.7/@objectVariable.0" bindingOperator="CREATE" domain="//@domain.0"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="source" target="//@tggRule.7/@objectVariable.0" source="//@tggRule.7/@objectVariable.2" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="target" target="//@tggRule.7/@objectVariable.3" source="//@tggRule.7/@objectVariable.2" domain="//@domain.2"/>
+    <linkVariable xsi:type="TGGLanguage:TGGLinkVariable" name="figure" target="//@tggRule.7/@objectVariable.4" source="//@tggRule.7/@objectVariable.3" bindingOperator="CREATE" domain="//@domain.1"/>
+  </tggRule>
+  <metamodel name="SokobanLanguage">
+    <outermostPackage href="http://www.moflon.org.SokobanLanguage#/"/>
+  </metamodel>
+  <metamodel name="SokobanCodeAdapter">
+    <outermostPackage href="http://www.moflon.org.SokobanCodeAdapter#/"/>
+  </metamodel>
+  <metamodel name="MocaTree">
+    <outermostPackage href="http://www.moflon.org.MocaTree#/"/>
+  </metamodel>
+</TGGLanguage:TripleGraphGrammar>

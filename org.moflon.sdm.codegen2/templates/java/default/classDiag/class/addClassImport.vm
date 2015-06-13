@@ -1,0 +1,7 @@
+#**##if (!$classToImport.name.contains("[]"))
+#*   *##set ( $importClassName = $classToImport.FullClassName )
+#*   *##if ( $importClassName && $importClassName.indexOf('<') != -1 )
+#*      *##set ( $importClassName = $importClassName.substring(0, $importClassName.indexOf('<')) )
+#*   *##end
+#*   *##set( $return = $imports.addToImports( $importClassName ) )
+#**##end

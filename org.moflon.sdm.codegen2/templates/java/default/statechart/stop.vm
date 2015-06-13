@@ -1,0 +1,2 @@
+#**#// TODO not yet tested
+#**#FState stopStateChart = myFReactive.makeComplexState ("stopStateChart", null, null, null);

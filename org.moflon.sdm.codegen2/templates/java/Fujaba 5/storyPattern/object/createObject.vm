@@ -1,0 +1,8 @@
+#**##set( $createCode = "project.getFromFactories( ${type}.class ).create()"  )
+#**##if ( $utility.nullIfEmpty($object.TypeCastSource) )
+#*   *##set ( $createCode = $object.TypeCastSource )
+#**##end
+#**##if ( $utility.nullIfEmpty($object.ConstructionExpression) )
+#*   *##set ( $createCode = $object.ConstructionExpression )
+#**##end
+#**#$name = $createCode;

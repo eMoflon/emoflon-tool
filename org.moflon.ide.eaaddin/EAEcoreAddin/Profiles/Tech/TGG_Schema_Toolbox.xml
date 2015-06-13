@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="BCA72F78-5" name="TGG (Schema)" version="1.0" notes="TGG (Schema)"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="TGG (Schema)" notes="" cx="312" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="TGGElements::CorrespondenceType" type="" description="" unit="" values="" default="CorrespondenceType"/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="Ecore" notes="" cx="254" cy="85" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="ECORE_Elements::EClass" type="int" description="" unit="" values="" default="EClass"/>
+					<Tag name="ECORE_Elements::EPackage" type="" description="" unit="" values="" default="EPackage"/>
+					<Tag name="ECORE_Elements::EDatatype" type="int" description="" unit="" values="" default="EDataType"/>
+					<Tag name="ECORE_Elements::EEnum" type="int" description="" unit="" values="" default="EEnum"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

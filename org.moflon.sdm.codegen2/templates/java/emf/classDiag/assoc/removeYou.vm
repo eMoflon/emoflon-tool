@@ -1,0 +1,8 @@
+#**##parse("java/default:classDiag/assoc/import.vm" )
+#**##set( $qualifier = $role.Qualifier )
+#**##if (($role.Card.UpperBound > 1) || $qualified)
+#*   *#      this.get$methodSuffix().clear();
+#**##else
+#**#      this.set$methodSuffix (#if( $qualifier && $qualifier.isExternalQualifier())$utility.getDefaultAsString($qualifier.Type), #end
+#*   *#null);
+#**##end

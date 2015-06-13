@@ -1,0 +1,64 @@
+#**##set( $flowUtil = $utility.newInstance("de.uni_kassel.fujaba.codegen.SequenceUtility") )
+#**##parse("${style}storyPattern/object/tmpvar.vm")
+#**##parse("java/breaks:classDiag/assoc/accessors.vm")
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##set( $return = $localVars.addLocalVariable($targetName, $object.InstanceOf, $object) )
+#**##set( $toContinue = $flowUtil.getSearchToContinue($token))
+#**##set( $optional = $object.isOptional() )
+#**##if($typeCast)
+#*   *##set( $classToImport = $role.Target )
+#*   *##parse("$!{importStyle}classDiag/class/addClassImport.vm" )
+#*   *#$roleType $tmpVar = $getter;// bind object $targetName 
+#*   *##if( $optional )
+#*      *#if ($tmpVar instanceof $targetType)
+#*      *#{
+#*      *#   $targetName = ($targetType) $tmpVar;
+#*      *#}
+#*      *#$children##
+#*   *##elseif($negative)
+#*      *#if ($tmpVar instanceof $targetType)
+#*      *#{
+#*      *##if($children)
+#*         *##set( $children = $utility.indent("   ",$!children) )
+#*         *#   $targetName = ($targetType) $tmpVar;
+#*         *#$children##
+#*      *##else## !$children
+#*         *##parse("${style}storyPattern/breakOrContinue.vm")
+#*         *###<
+#*      *##end
+#*      *#}
+#*   *##else## negative
+#*      *#if (!($tmpVar instanceof $targetType))
+#*      *#{
+#*      *##parse("${style}storyPattern/breakOrContinue.vm")
+#*      *#}
+#*      *#$targetName = ($targetType) $tmpVar;
+#*      *#$!children##
+#*   *##end## negative
+#**##else## ! typecast
+#*   *##if($negative)
+#*      *##if(!$children)
+#*         *### TODO other template?
+#*         *#if ($getter != null) // check object $targetName
+#*         *#{
+#*         *##parse("${style}storyPattern/breakOrContinue.vm")
+#*         *#}
+#*      *##else##children
+#*         *#$targetName = $getter; // bind object $targetName
+#*         *#if ($targetName != null)
+#*         *#{
+#*         *##set( $children = $utility.indent("   ",$!children) )
+#*         *#$!children##
+#*         *#}
+#*      *##end## children
+#*   *##else## ! negative
+#*      *#$targetName = $getter; // bind object $targetName
+#*      *##if ( ! $optional ) 
+#*         *#if ($targetName == null)
+#*         *#{
+#*         *##parse("${style}storyPattern/breakOrContinue.vm")
+#*         *#}
+#*      *##end##optional
+#*      *#$!children##
+#*   *##end## ! negative
+#**##end## typecast

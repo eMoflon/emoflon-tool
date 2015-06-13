@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><!--
+ <copyright>
+ </copyright>
+
+ $Id$
+--><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.TGGLanguagePackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.consistencycheck.ConsistencycheckPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//consistencycheck"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.csp.CspPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.modelgenerator.ModelgeneratorPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//modelgenerator"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.algorithm.AlgorithmPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//algorithm"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.analysis.AnalysisPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//analysis"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.analysis.decNACs.DecNACsPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//analysis/decNACs"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.compiler.CompilerPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//compiler"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.compiler.compilerfacade.CompilerfacadePackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//compiler/compilerfacade"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.precompiler.PrecompilerPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//precompiler"/>
+  </extension>
+</plugin>

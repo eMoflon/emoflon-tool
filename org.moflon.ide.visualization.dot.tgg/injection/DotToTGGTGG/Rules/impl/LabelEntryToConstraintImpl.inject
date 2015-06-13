@@ -1,0 +1,45 @@
+
+import org.moflon.csp.*;
+
+import csp.constraints.*;
+import TGGLanguage.csp.*;
+
+
+partial class LabelEntryToConstraintImpl {
+
+@members <--
+
+
+   private String getVariableName(Variable elt)
+   {
+      if(elt instanceof AttributeVariable){
+         AttributeVariable attrVar = (AttributeVariable)elt;
+         return attrVar.getName();
+      } else if(elt instanceof Literal){
+         return elt.getValue().toString();
+      } else {
+         return ((LocalVariable)elt).getName();
+      }
+   }
+   
+   
+-->
+
+@model postProcessBACKWARD (LabelEntry labelEntry, TGGConstraint constraint) <--
+
+
+      String variableList = constraint.getVariables().stream().
+            collect(StringBuilder::new, 
+                    (result, elt) -> {
+                       if(!result.toString().isEmpty())
+                          result.append(",");
+                       result.append(getVariableName(elt));
+                    },
+                    (str1, str2)  -> {
+                       str1.append(",").append(str2);
+                    }).toString(); 
+      
+      labelEntry.setValue(constraint.getName() + "(" + variableList.replace("\"", "\\\"") + ")");
+-->
+
+}

@@ -1,0 +1,7 @@
+pattern increaseWidth {
+
+	@this : Board { 
+		this.width := 'this.width + 1'
+	}
+
+}

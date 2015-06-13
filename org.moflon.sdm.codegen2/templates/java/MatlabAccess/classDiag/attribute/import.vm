@@ -1,0 +1,25 @@
+#**### needs: $elem
+#**##set( $attr = $elem )
+#**### variables passed to template
+#**##set( $name = $attr.Name )
+#**##set( $methodSuffix = $utility.upFirstChar($name) )
+#**##set( $visibility = $utility.getVisibilityString($attr.Visibility) )
+#**##if( $attr.isStatic() )
+#*   *##set( $static = "static " )
+#**##end
+#**##if( $attr.hasKeyInStereotypes("transient") )
+#*   *##set( $transient = "transient " )
+#**##end
+#**##if( $attr.hasKeyInStereotypes("final") )
+#*   *##set( $final = "final " )
+#**##end
+#**##set( $attrType = $attr.AttrType )
+#**##set( $type = $utility.getTypeAsString($attrType) )
+#**##if( $static && $final )
+#*   *##set( $attrvis = "public" )
+#**##else
+#*   *##set( $attrvis = "private" )
+#**##end
+#**##set( $init = $utility.nullIfEmpty($attr.InitialValue) )
+#**##set( $createMethods = $attr.CreateAccessMethods )
+#**##set ( $prop = $utility.isJavaBean($attr.Parent) )

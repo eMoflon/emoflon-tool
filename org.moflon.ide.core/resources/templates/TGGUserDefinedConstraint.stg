@@ -1,0 +1,36 @@
+group TGGUserDefinedConstraint;
+
+
+main(constraintName, adornments, parameters) ::= <<
+package csp.constraints;
+
+import TGGLanguage.csp.Variable;
+import TGGLanguage.csp.impl.TGGConstraintImpl;
+
+public class <constraintName> extends TGGConstraintImpl {
+	public void solve(<parameters: parameterType(parameter=it); separator=", ">){
+    	String bindingStates = getBindingStates(<parameters: parameterName(parameter=it); separator=", ">);
+    	
+    	switch(bindingStates){
+    	<adornments; separator="\n">
+    	default: 
+    		throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
+    	}
+    	
+  	}	  
+}
+>>
+
+adornmentCase(adornment) ::= <<
+case "<adornment>":
+	// TODO Implement <adornment>-operation
+	throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
+>>
+
+parameterName(parameter) ::= <<
+var_<i0>
+>>
+
+parameterType(parameter) ::= <<
+Variable var_<i0>
+>>

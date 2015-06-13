@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="1D709A9F-0" name="Ecore" version="1.0" alias="Ecore Modeling" notes="Structural Elements for Essential Ecore diagrams"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="Ecore" notes="Elements of EMOF diagrams" cx="293" cy="111" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="ECORE_Elements::EPackage" type="" description="" unit="" values="" default="EPackage"/>
+					<Tag name="ECORE_Elements::EClass" type="" description="" unit="" values="" default="EClass"/>
+					<Tag name="ECORE_Elements::EDatatype" type="" description="" unit="" values="" default="EDataType"/>
+					<Tag name="ECORE_Elements::EEnum" type="" description="" unit="" values="" default="EEnum"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

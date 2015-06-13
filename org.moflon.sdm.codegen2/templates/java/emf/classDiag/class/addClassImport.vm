@@ -1,0 +1,1 @@
+#**##set( $return = $imports.addToImports("${classToImport.declaredInPackage.fullPackageName}.${classToImport.Name}") )

@@ -1,0 +1,189 @@
+package org.moflon.util.plugins.manifest;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.apache.commons.io.IOUtils;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.util.plugins.xml.XMLUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+/**
+ * This class updates plugin.xml, e.g., with information from the genmodel.
+ */
+public class PluginXmlUpdater
+{
+   private static class GeneratedPackageEntry
+   {
+      private String uri;
+
+      private String className;
+
+      private String genmodelFile;
+
+      public GeneratedPackageEntry(final String uri, final String className, final String genmodelFile)
+      {
+         this.uri = uri;
+         this.className = className;
+         this.genmodelFile = genmodelFile;
+      }
+
+   }
+
+   /**
+    * Minimal content of a plugin.xml file
+    */
+   public static final String DEFAULT_PLUGIN_XML_CONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<?eclipse version=\"3.0\"?>\n<plugin>\n</plugin>";
+
+   /**
+    * Updates plugin.xml from the information in the given project. The genmodel is fetched from the default path.
+    * 
+    * @see WorkspaceHelper#getProjectGenmodelFile(IProject)
+    */
+   public void updatePluginXml(final IProject currentProject, final IProgressMonitor monitor) throws CoreException
+   {
+      try
+      {
+         monitor.beginTask("Create/update plugin.xml", 1);
+
+         IFile projectGenModelFile = currentProject.getFile(MoflonUtil.getDefaultPathToGenModelInProject(currentProject.getName()));
+         String pathToGenmodel = projectGenModelFile.getRawLocation().toOSString();
+         GenModel genmodel = (GenModel) eMoflonEMFUtil.loadAndInitModel(EcorePackage.eINSTANCE, pathToGenmodel);
+
+         updatePluginXml(currentProject, genmodel, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+
+      } finally
+      {
+         monitor.done();
+      }
+   }
+
+   /**
+    * Updates plugin.xml from the information in the given project and the given genmodel.
+    */
+   public void updatePluginXml(final IProject project, final GenModel genmodel, final IProgressMonitor monitor) throws CoreException
+   {
+      try
+      {
+         monitor.beginTask("Updating plugin.xml from Genmodel", 3);
+         final String content = readOrGetDefaultPluginXmlContent(project);
+         final Document doc = XMLUtil.parseXmlModel(content);
+         monitor.worked(1);
+
+         removeExtensionPointsForGeneratedPackages(doc);
+
+         final List<Element> extensionElements = createListOfGeneratedPackageExtensions(doc, project, genmodel);
+         final Node pluginRootElement = getRootNode(doc);
+         extensionElements.forEach(element -> pluginRootElement.appendChild(element));
+
+         String output = XMLUtil.formatXmlString(doc, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+
+         MoflonUtil.writeContentToFile(output, getPluginXml(project), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+
+      } catch (IOException | XPathExpressionException e)
+      {
+         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.PLUGIN_ID, "Error reading/writing plugin.xml for project "
+               + project.getName() + ": " + e.getMessage(), e));
+      } finally
+      {
+         monitor.done();
+      }
+   }
+
+   public static Node getRootNode(final Document doc)
+   {
+      return doc.getElementsByTagName("plugin").item(0);
+   }
+
+   private static void removeExtensionPointsForGeneratedPackages(final Document doc) throws XPathExpressionException
+   {
+      NodeList extensionPoints = PluginXmlUpdater.getGeneratedPackageExtensionPoints(doc);
+      for (int n = 0; n < extensionPoints.getLength(); ++n)
+      {
+         extensionPoints.item(n).getParentNode().removeChild(extensionPoints.item(n));
+      }
+   }
+
+   private static String readOrGetDefaultPluginXmlContent(final IProject project) throws IOException, CoreException
+   {
+      IFile pluginXmlFile = getPluginXml(project);
+      String content = "";
+      if (pluginXmlFile.exists())
+      {
+         content = IOUtils.toString(pluginXmlFile.getContents());
+      } else
+      {
+         content = DEFAULT_PLUGIN_XML_CONTENT;
+      }
+      return content;
+   }
+
+   private static List<Element> createListOfGeneratedPackageExtensions(final Document doc, final IProject project, final GenModel genmodel)
+   {
+      final List<GeneratedPackageEntry> entries = extractGeneratedPackageEntries(project, genmodel);
+      final List<Element> extensionElements = new ArrayList<>();
+
+      entries.forEach(entry -> {
+         Element extensionElement = doc.createElement("extension");
+         extensionElement.setAttribute("point", "org.eclipse.emf.ecore.generated_package");
+         Element packageElement = doc.createElement("package");
+         packageElement.setAttribute("uri", entry.uri);
+         packageElement.setAttribute("class", entry.className);
+         packageElement.setAttribute("genModel", entry.genmodelFile);
+         extensionElement.appendChild(packageElement);
+         extensionElements.add(extensionElement);
+      });
+      return extensionElements;
+   }
+
+   private static List<GeneratedPackageEntry> extractGeneratedPackageEntries(final IProject project, final GenModel genmodel)
+   {
+      String genmodelFile = MoflonUtil.getDefaultPathToGenModelInProject(project.getName());
+      final List<GeneratedPackageEntry> entries = new ArrayList<>();
+      final List<GenPackage> ePackages = genmodel.getAllGenPackagesWithClassifiers();
+      for (final GenPackage genPackage : ePackages)
+      {
+         final String fullyQualifiedPackageClassName = genPackage.getInterfacePackageName() + "." + genPackage.getPackageInterfaceName();
+
+         entries.add(new GeneratedPackageEntry(genPackage.getNSURI(), fullyQualifiedPackageClassName, genmodelFile));
+      }
+      return entries;
+   }
+
+   private static IFile getPluginXml(final IProject currentProject)
+   {
+      return currentProject.getFile("plugin.xml");
+   }
+
+   private static NodeList getGeneratedPackageExtensionPoints(final Document doc) throws XPathExpressionException
+   {
+      XPathFactory xPathfactory = XPathFactory.newInstance();
+      XPath xpath = xPathfactory.newXPath();
+      XPathExpression expr = xpath.compile("/plugin/extension[@point='org.eclipse.emf.ecore.generated_package']");
+      NodeList extensionPoints = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+      return extensionPoints;
+   }
+
+}

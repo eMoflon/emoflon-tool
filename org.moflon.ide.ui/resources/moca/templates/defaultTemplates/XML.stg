@@ -1,0 +1,22 @@
+group xml;
+leaf(label) ::= <<
+<$label$ />
+>>
+
+node(label, children, attributes) ::= <<
+<$label$$attributes(attributes)$>
+  $children; separator="\n"$
+</$label$>
+>>
+
+text(content) ::= <<
+$content$
+>>
+
+attribute(name,value) ::= <<
+$name$="$value$"
+>>
+
+attributes(attributes) ::= <<
+$if(attributes)$ $endif$$attributes; separator=" "$
+>>

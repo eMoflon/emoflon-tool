@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SokobanGUI
+Bundle-SymbolicName: SokobanGUI
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: SokobanGUI.jar,
+ eburdon/workspace/Dependencies/bin,
+ eburdon/workspace/MoflonIdeCore
+Export-Package: org.moflon.tutorial.sokobangamegui,
+ org.moflon.tutorial.sokobangamegui.actions,
+ org.moflon.tutorial.sokobangamegui.addon
+Require-Bundle: org.moflon.core.utilities,
+ org.moflon.moca.MocaTree,
+ org.moflon.moca,
+ org.moflon.TGGLanguage

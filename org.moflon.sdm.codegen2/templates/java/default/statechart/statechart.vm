@@ -1,0 +1,113 @@
+#*check for stereotype <<actioncontainer>> and generate specific code*#
+#*if .hasKeyInStereotypes("ActionContainer") )*#
+#**#### TypeOf[ ${elem} ] := de.uni_paderborn.fujaba.uml.behavior.UMLStatechart
+#if($elem.owner.hasKeyInStereotypes("ActionContainer"))
+
+#**#### TypeOf[ ${elem} ] := de.uni_paderborn.fujaba.uml.behavior.UMLStatechart
+#**#### TypeOf[ ${children} ] := java.lang.String
+#**#### TypeOf[ ${transitions} ] := java.lang.String
+#**#### TypeOf[ ${methods} ] := java.lang.String
+#**#### TypeOf[ ${utility} ] := de.uni_kassel.fujaba.codegen.Utility
+#**##set( $statechart = $elem )
+#**##set( $name = $statechart.Name )
+#**##set( $theClass = $statechart.ParentElement )
+#**#### TypeOf[ ${theClass} ] := de.uni_paderborn.fujaba.metamodel.structure.FClass
+#**##set( $className = $theClass.Name )
+#**##set( $statechartVars = $utility.getStatechartVars() )
+#**##set( $statechartClassConstructor = $theClass.getFromMethodsByShortName($className) )
+#**##set( $return = $imports.addToImports("de.upb.tools.sdm.*") )
+#**##set( $return = $imports.addToImports("fujaba.fullruntime.*") )
+#**##set( $children = $utility.indent("   ",$!children) )
+#**##set( $transitions = $utility.indent("   ",$!transitions) )
+#**#
+#**#// create attributes for every object in every states of this statechart
+#**##foreach( $stateVar in $statechartVars.keySet() )
+#*   *#private $statechartVars.get($stateVar) $stateVar;
+#**##end
+#**##set( $result = $statechartVars.clear() )
+
+
+public void start()
+{
+   initStateChart();
+   // call doAction on initial state
+   ${utility.downFirstChar("$statechart.getInitialState()")}.doAction();
+}
+
+public void start(SAction parent)
+{
+   initStateChart();
+   //set parent of rootState
+   ${utility.downFirstChar("$statechart.getInitialState()")}.setToParent(parent);
+   // call doAction on rootState
+   ${utility.downFirstChar("$statechart.getInitialState()")}.doAction();
+}
+
+// Swing statechart code
+public void initStateChart()
+{
+   if(${utility.downFirstChar("$statechart.getInitialState()")} != null)
+      return;
+
+$!children##
+$!transitions##
+}
+
+$!methods##
+
+#else
+#**##parse("$lang/default:statechart/import.vm" )
+#**#
+#**##if( !$statechartClassConstructor )
+#*   *#public ${className}()
+#*   *#{
+#*   *#   initStateChart ();
+#*   *#}
+#*   *#
+#**##end
+#**#private FReactive myFReactive;
+#**#
+#**#public boolean alwaysTrue()
+#**#{
+#**#   return true;
+#**#}
+#**#   
+#**#public synchronized void notifyMe()
+#**#{
+#**#   notify ();
+#**#}
+#**#
+#**#public synchronized void waitForResultForEvent(FEvent event)
+#**#{
+#**#   while (!event.getHasResult ())
+#**#   {
+#**#      try
+#**#      {
+#**#         wait ();
+#**#      }
+#**#      catch (InterruptedException e) {}
+#**#   }
+#**#}
+#**#
+#**#public FReactive getFReactive()
+#**#{
+#**#   return myFReactive;
+#**#}
+#**#   
+#**#public void initStateChart()
+#**#{
+#**#   myFReactive = new FReactive ();
+#**#   myFReactive.setHandler (this);
+#**#   FComplexState $name = myFReactive.makeComplexState ("$name", null, null, null);
+#**#   myFReactive.setCurrent ($name);
+#**#$!children##
+#**#$!transitions##
+#**#   myFReactive.enqueueEvent (new FEvent (FReactive.INIT_EVENT_PREFIX + "$name" ), FReactive.INTERNAL_EVENT);
+#**###TODo seen '+ "A"'???
+#**##if( $statechart.isSpawningOwnThread() )
+#*   *#   myFReactive.start ();
+#**##end
+#**#}
+#**##parse("$!{style}statechart/statechartHook.vm" )
+#**#$!methods##
+#end

@@ -1,0 +1,44 @@
+#**##parse("java/default:classDiag/assoc/import.vm" )
+#**##parse("$!{style}classDiag/assoc/container.vm" )
+#**##parse("$!{partnerStyle}classDiag/assoc/backlink.vm" )
+#**#/**
+#**# * <pre>
+#**# *           $role.Card.CardString     $role.Assoc.Name     $partnerRole.Card.CardString 
+#**# * $role.Target.Name ------------------------- $type
+#**# *           $role.AttrName      $name 
+#**# * </pre>
+#**##if( $assocComment )
+#*   *# *
+#*   *# * $assocComment
+#**##end
+#**##if( $roleComment )
+#*   *# *
+#*   *# * $roleComment
+#**##end
+#**# */
+#**##if ($prop)
+#*   *#public static final String PROPERTY_$utility.camelToUpperCase($name) = "$name";
+#**##end
+#**###
+#**##set( $return = $imports.addToImports($partnerRole.Target.FullClassName) )
+#**##if ( $qualified )
+#*   *##set( $return = $imports.addToImports($qualified.Type.FullClassName) )
+#**##end
+#**##if( $qualified )
+#*   *##parse("$!{style}classDiag/assoc/toMany.vm" )
+#*   *##parse("$!{style}classDiag/assoc/qualified.vm" )
+#*   *##if( $toMany )
+#*      *##parse("$!{style}classDiag/assoc/qualifiedToMany.vm" )
+#*   *##else
+#*      *##parse("$!{style}classDiag/assoc/qualifiedToOne.vm" )
+#*   *##end
+#*   *##if( $internalQualified )
+#*      *##parse("$!{style}classDiag/assoc/internalQualified.vm" )
+#*   *##end
+#**##else
+#*   *##if( $toMany )
+#*      *##parse("$!{style}classDiag/assoc/toMany.vm" )
+#*   *##else
+#*      *##parse("$!{style}classDiag/assoc/toOne.vm" )
+#*   *##end
+#**##end

@@ -1,0 +1,6 @@
+#**##parse("$lang/default:storyPattern/link/import2.vm" )
+#**##if( $toOne || $multi )
+#*   *##parse("$!{style}storyPattern/link/toOne.vm" )
+#**##else
+#*   *##parse("$!{style}storyPattern/link/toMany.vm" )
+#**##end

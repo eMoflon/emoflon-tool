@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SokobanCodeAdapter
+Bundle-SymbolicName: SokobanCodeAdapter
+Bundle-Version: 1.0.0.qualifier
+Export-Package: SokobanCodeAdapter,
+ SokobanCodeAdapter.Rules,
+ SokobanCodeAdapter.Rules.impl,
+ SokobanCodeAdapter.Rules.util,
+ SokobanCodeAdapter.impl,
+ SokobanCodeAdapter.util,
+ org.moflon.moca,
+ org.moflon.moca.sok.parser,
+ org.moflon.moca.sok.unparser,
+ org.moflon.tie

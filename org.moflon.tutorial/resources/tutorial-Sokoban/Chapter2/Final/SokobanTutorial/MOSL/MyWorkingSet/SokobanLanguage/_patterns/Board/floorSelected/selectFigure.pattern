@@ -1,0 +1,15 @@
+pattern selectFigure {
+
+	// This pattern matches a free Figure to a specific Floor instance, selecting it by 
+	//	updating the reference in the invoking Board.
+	
+	@floor : Floor { 
+		-figure-> figure
+	}
+	
+	@this : Board { 
+		++ -selectedFigure-> figure
+	}
+	
+	figure : Figure
+}

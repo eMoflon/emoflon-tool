@@ -1,0 +1,10 @@
+#**##set( $act = $elem )
+#**##set( $textComment = $act.TextComment )
+#**##set( $comment = $act.Comment.Text )
+#**##if( $textComment )
+#*   *#$mofutility.indent("// ",$!textComment)
+#**##end
+#**##if( $comment )
+#*   *#$mofutility.indent("// ",$!comment)
+#**##end
+#**#$!children

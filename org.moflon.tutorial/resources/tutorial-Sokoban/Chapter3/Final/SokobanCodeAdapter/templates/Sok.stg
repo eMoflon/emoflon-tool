@@ -1,0 +1,13 @@
+group board;
+
+board(rows) ::= <<
+<rows; separator="\n">
+>>
+
+row(columns) ::= <<
+<columns>
+>>
+
+column(type) ::= <<
+<if(type)><type><else> <endif>
+>>

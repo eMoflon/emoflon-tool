@@ -1,0 +1,46 @@
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##set( $needsDecls = $mofutility.needs_Success_And_TmpObject_VarDecl($elem) )
+#**#
+#**##if( $needsDecls )
+#*   *#boolean fujaba__Success = false;
+#**##end
+#**#
+#**##set( $return = $localVars.removeParamsFromList($elem) )
+#**#Object fujaba_temp1 = null;
+#**#boolean fujaba_cond = false;
+#**#int fujaba_index = 0;
+#**##foreach( $localVar in $localVars.iteratorOfLocalVars() )
+#*   *#  #if( $localVar.Type )
+#*      *#    #set( $typeName = $mofutility.getTypeAsString($localVar.Type) )
+#*   *#  #else
+#*      *#    #set( $typeName = $localVar.TypeName )
+#*   *#  #end
+#*   *#  #set($classOfLocalVar = "$localVar.Type.getClass()")
+#*   *#  #if($classOfLocalVar == "class de.tu_darmstadt.fujaba.mof.adapter.FMAClass")
+#*      *#    #set($isReference = "false")
+#*      *#    #set($tagCollection = $localVar.Type.Adaptee.Tag)
+#*      *#    #foreach($actualTag in $tagCollection)
+#*         *#      #if($actualTag.Name == "reference" )
+#*            *#		#if($isReference == "true")
+#*               *#		  #if($actualTag.Value != $referenceValue)
+#*                  *#error /*ambiguity: 'reference' tags with different values exist in class $mofutility.getQualifiedName($localVar.Type)*/
+#*               *#          #else
+#*                  *#/*FIXME 'reference' tag exists more than once in class $mofutility.getQualifiedName($localVar.Type)*/
+#*               *#		  #end
+#*            *#		#else
+#*               *#          #set($isReference = "true")
+#*               *#		  #set($referenceValue = $actualTag.Value)
+#*               *#$referenceValue
+#*            *#        #end
+#*         *#      #end
+#*      *#    #end
+#*      *#    #if($isReference == "false")
+#*         *#      #set ($qualifiedName = $mofutility.getQualifiedName($localVar.Type) )
+#*      *#$qualifiedName #end $localVar.Name = $localVar.DefaultValue;
+#*   *#  #else
+#*      *#$typeName $localVar.Name = $localVar.DefaultValue;
+#*   *#  #end
+#**##end
+#**#
+#**#
+#**#$!children

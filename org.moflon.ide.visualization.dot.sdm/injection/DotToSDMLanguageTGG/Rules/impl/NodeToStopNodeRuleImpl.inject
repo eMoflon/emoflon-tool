@@ -1,0 +1,18 @@
+
+import org.moflon.csp.*;
+import org.moflon.util.eMoflonSDMUtil;
+
+import csp.constraints.*;
+import TGGLanguage.csp.*;
+
+
+partial class NodeToStopNodeRuleImpl {
+
+
+
+@model postProcessBACKWARD (StopNode activityNode, DoubleCircle node) <--
+
+      node.setLabel(eMoflonSDMUtil.extractExpression(activityNode.getReturnValue(), ""));
+-->
+
+}

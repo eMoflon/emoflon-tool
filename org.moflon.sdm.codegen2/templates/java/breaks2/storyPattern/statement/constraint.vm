@@ -1,0 +1,6 @@
+#**##set( $constraint = $elem )
+#**##set( $constraintText = $constraint.getText() )
+#**##set( $opComment = "constraint $constraintText" )
+#**#// $opComment
+#**##set($depth = $utility.getPatternDepth($token))
+#**#if ( ! ($constraintText#parse("$lang/default:storyPattern/sdmComment.vm"))) break pattern#if($depth>0)$depth#end; // <==== not a match

@@ -1,0 +1,36 @@
+#**### multi
+#**##if ( $targetMulti.ContainerObject.equals($source) )
+#*   *##set( $targetMultiName = $targetMulti.SourceObject.ObjectName )
+#*   *##set( $list = "${sourceName}.get$targetRoleName ()" )
+#*   *##if ( $targetMulti.Type == 2 )## DIRECT
+#*      *##set( $mparam = "${list}.indexOf ($targetMultiName) + 1" )
+#*      *##set( $multi = "NextOf" )
+#*   *##elseif ( $targetMulti.Type == 3 )## INDEX
+#*      *##set( $mparam = "${list}.indexOf ($targetMultiName) + $targetMulti.Index" )
+#*      *##set( $multi = "NextOf" )
+#*   *##elseif ( $targetMulti.Type == 4 )## INDIRECT
+#*      *##set( $indmulti = "${list}.indexOf ($targetMultiName) < ${list}.indexOf ($targetMulti.TargetObject.ObjectName)" )
+#*   *##end
+#**##elseif ( $sourceMulti.ContainerObject.equals($source) )
+#*   *##set( $sourceMultiName = $sourceMulti.TargetObject.ObjectName )
+#*   *##set( $list = "${sourceName}.get$targetRoleName ()" )
+#*   *##if ( $sourceMulti.Type == 2 )## DIRECT
+#*      *##set( $mparam = "${list}.indexOf ($sourceMultiName) - 1" )
+#*      *##set( $multi = "PreviousOf" )
+#*   *##elseif ( $sourceMulti.Type == 3 )## INDEX
+#*      *##set( $mparam = "${list}.indexOf ($sourceMultiName) - $sourceMulti.Index" )
+#*      *##set( $multi = "PreviousOf" )
+#*   *##elseif ( $sourceMulti.Type == 4 )## INDIRECT
+#*      *##set( $indmulti = "${list}.indexOf ($sourceMultiName) > ${list}.indexOf ($sourceMulti.SourceObject.ObjectName)" )
+#*   *##end	
+#**##end
+#**##set( $multiLink = $link )
+#**##set( $linkNegative = $multiLink.isNegative() )
+#**### copied from check.vm
+#**#// check multi link
+#**#JavaSDM.ensure ( ##
+#**##if ( $linkNegative )!(#end
+#**##parse("$!{style}storyPattern/link/linkcheck.vm" )
+#**##if ( $targetNegative ))#end
+#**# );
+#**#

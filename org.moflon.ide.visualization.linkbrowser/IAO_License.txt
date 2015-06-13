@@ -1,0 +1,54 @@
+Licensing of MatrixBrowser Visualization Kit
+
+1.1.	MatrixBrowser Technology Licensing
+
+Technology licensing is the smartest approach for scientists or students to develop research prototypes, 
+as well as for more seasoned companies who want to focus on the integration of MatrixBrowser 
+into valuable commercial products. 
+Licensing high-quality technology for a fair price often makes the whole difference between a brilliant idea 
+that fades away with development difficulties and a groundbreaking title that hits the shelves 
+with outrageous success.
+
+That is the way MatrixBrowser creators understand the technology licensing issue. 
+The Competence Center Software Engineering and Interactive Systems at the 
+Fraunhofer Institute for Industrial Engineering is workgroup focusing on innovative visualization techniques 
+as well as ambient intelligence system, which do a lot of work in the background, 
+but in an unobtrusively way. But the user is always the center, 
+where we start from. The MatrixBrowser Visualization Toolkit is intended as a generic API, where developers 
+can build various applications around like search interfaces, knowledge acquisition toolkits or semantic web systems.
+With this in mind, we have designed alternative ways of licensing Fly3D that trade the licensing fee for open-source freedom.
+
+
+1.2.	MatrixBrowser Visualization Kit Commercial License
+
+The MatrixBrowser Visualization Kit full software package, including the API and various tools with full source code,
+is available for use in a commercial product or application in conjunction with a collaboration or partnership 
+with our institute (Fraunhofer Institute for Industrial Engineering / IAO).
+
+
+The commercial license includes:
+	- Full access to the licensee-restricted CVS repository, where the full version of the software is available for download; 
+	- Customized special e-mail, instant message and telephone support.
+	- The rights to use MatrixBrowser Visualization Kit in one commercial product, without other payments or any kind of revenue share.
+
+Additional services, like programming a new feature or on-site support, are not included in the license and 
+can be arranged separately if requested by the licensee.
+The licensee is NOT allowed to sell, provide or publicly expose the MatrixBrowser Visualization Kit source code, 
+in part or as a whole, to anybody except the current employees of the licensee company.
+
+
+1.3.	MatrixBrowser Visualization Kit GPL General Public Licence
+
+Alternatively, MatrixBrowser Visualization Kit is also available for licensing under the GNU General Public License terms.
+The full description of the GPL system is available at the GPL website (http://www.fsf.org/copyleft/gpl.html), 
+but in short it means that the licensing company (Fraunhofer Institute for Industrial Engineering) will not charge any fees 
+for the intellectual property regarding the licensed software; it will provide the source code and other resources for free, 
+and can only charge packing, distribution and transportation costs.
+The licensee, however, is obligated to provide the full source code of the product he develops with the licensed software 
+to anybody who asks it, free of charge.
+
+
+Fraunhofer IAO
+Nobelstrasse 12
+70569 Stuttgart
+Germany

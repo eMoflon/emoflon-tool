@@ -1,0 +1,49 @@
+group Custom;
+
+ParserAdapter(name, package) ::= <<
+package <package>;
+import java.io.Reader;
+import Moca.parser.impl.ParserImpl;
+import MocaTree.Node;
+
+public class <name;format="firstToUpper">ParserAdapter extends ParserImpl 
+{
+
+  @Override
+  public boolean canParseFile(String fileName) 
+  {
+    return fileName.endsWith(".<name>");
+  }
+
+  @Override
+  public Node parse(Reader reader) 
+  {
+    //TODO implement parser
+    return null;
+  }
+}
+>>
+
+UnparserAdapter(name, package) ::= <<
+package org.moflon.moca.<name>.unparser;
+import Moca.unparser.impl.UnparserImpl;
+import MocaTree.Node;
+
+public class <name;format="firstToUpper">UnparserAdapter extends UnparserImpl 
+{
+  
+  @Override
+  public boolean canUnparseFile(String fileName) 
+  {
+    return fileName.endsWith(".<name>");
+  }
+
+  public String unparse(Node node) 
+  {
+    // TODO: implement unparser
+    return null;
+  }
+  
+}
+>>
+

@@ -1,0 +1,10 @@
+SingleMatch(engine, importManager, body, chain) ::= <<
+return <first(body.header.internalSymbolicParameters):/democles/Name(importManager)>;
+>>
+
+MatchSingleMethod(engine, importManager, body, adornment, boundSymbolicParameters, chain, alwaysSuccessful) ::= <<
+public static final <if (first(adornment.rawBindingInformation).isFree)><importManager.(first(body.header.internalSymbolicParameters).type.linkedElement)><else>void<endif> <body.header.name><adornment>(<boundSymbolicParameters:/democles/TypeAndName(importManager); separator=", ">) {
+	<if (chain)><(chain.value.template)(engine, importManager, body, chain)><endif>
+	<if (!alwaysSuccessful)>return<if (first(adornment.rawBindingInformation).isFree)> <first(body.header.internalSymbolicParameters).type.linkedElement.defaultValue><endif>;<endif>
+}
+>>

@@ -1,0 +1,62 @@
+#**##parse( "jmi/default:classDiag/attribute/import.vm" )
+#**##set( $imports = $engine.getFromInformation("imports") )
+#**##set( $classToImport = $attrType )
+#**##if ( ${classToImport.InheritedCodeStyle} ) #set( $importStyle = "java/${classToImport.InheritedCodeStyle.Name}:" )
+#**##else #set( $importStyle = "java/default:" ) #end
+#*   *##parse("$!{importStyle}classDiag/class/addClassImport.vm" )
+#*   *### check , if target Class is an interface
+#*   *##set( $class = $token.Parent.Element )
+#*   *##set ( $classIsInterface = $utility.isInterface($class) )
+#*   *###
+#*   *#
+#*   *##if ( !$classIsInterface || ($static && $final))
+#*      *##if ($prop && !$static)
+#*         *#public static final String PROPERTY_$utility.camelToUpperCase($name) = "$name";
+#*      *##end
+#*   *#$attrvis $!static$!final$!transient$type $name#if($init) = $init#end;
+#*   *##end
+#*   *##if( !($static && $final) && ($createMethods!=1))
+#*   *##if( !$static ) #set( $name = "this.$name" ) #end
+#*      *#
+#*      *##if( !$final ) ## no setter for final attributes
+#*         *#$visibility $!{static}void set$methodSuffix ($type value)##
+#*         *##if ( $classIsInterface )
+#*            *#;
+#*         *##else
+#*            *#
+#*            *#{
+#*            *##if ( $prop || $preHook || $postHook )
+#*               *##if ( $type == "String" )
+#*                  *##set( $return = $imports.addToImports("de.upb.tools.sdm.*") )
+#*                  *#   if ( JavaSDM.stringCompare ($name, value) != 0 )
+#*               *##else
+#*                  *#   if ( $name != value )
+#*               *##end
+#*               *#   {$!preHook
+#*               *##if ($prop)
+#*                  *#      $type oldValue = $name;
+#*               *##end
+#*            *##end
+#*            *#      $name = value;
+#*            *##if ( $prop || $preHook || $postHook )
+#*               *##if ($prop && !$static)
+#*                  *#      getPropertyChangeSupport().firePropertyChange(PROPERTY_$utility.camelToUpperCase($attr.Name), oldValue, value);
+#*               *##end
+#*               *#   $!postHook}
+#*            *##end
+#*            *#}
+#*         *##end
+#*      *##end
+#*      *#
+#*   *#$visibility $!static$type #if( $type.equals("boolean") )is#else
+#*   *#get#end
+#*   *#$methodSuffix ()##
+#*   *##if ( $classIsInterface )
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*      *#   return $name;
+#*      *#}
+#*   *##end
+#**##end

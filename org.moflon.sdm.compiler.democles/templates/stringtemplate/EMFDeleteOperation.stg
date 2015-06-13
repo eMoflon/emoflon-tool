@@ -1,0 +1,19 @@
+DeleteToManyLink(engine, importManager, body, chain) ::= <<
+<first(chain.value.operation.parameters):/democles/ParameterName(importManager)>.<chain.value.operation.type.linkedElement.genModelElement.getAccessor>().remove(<first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>);
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>
+
+DeleteToOneLink(engine, importManager, body, chain) ::= <<
+<first(chain.value.operation.parameters):/democles/ParameterName(importManager)>.set<chain.value.operation.type.linkedElement.genModelElement.accessorName; format="uppercase">(null);
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>
+
+ReverseDeleteToOneEReference(engine, importManager, body, chain) ::= <<
+<first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>.set<chain.value.operation.type.linkedElement.eOpposite.genModelElement.accessorName; format="uppercase"><if (chain.value.operation.type.linkedElement.genModelElement.collidingSetAccessorOperation)>_<endif>(null);
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>
+
+ReverseDeleteToManyEReference(engine, importManager, body, chain) ::= <<
+<first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>.<chain.value.operation.type.linkedElement.eOpposite.genModelElement.getAccessor>().remove(<first(chain.value.operation.parameters):/democles/ParameterName(importManager)>);
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>

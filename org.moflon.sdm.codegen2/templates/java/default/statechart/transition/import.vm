@@ -1,0 +1,41 @@
+#**##set( $transition = $elem )
+#**##set( $id = $elem.hashCode() )
+#**##set( $eventName = $transition.Event )
+#**##set( $from = $transition.RevExit.Name )
+#**##set( $to = $transition.RevEntry.Name )
+#**##if( $utility.isNullOrEmpty($eventName) )
+#*   *##set( $eventName = "${from}IsReady" )
+#**##end
+#**##if( $eventName.startsWith("after") )
+#*   *##set( $after = true )
+#*   *##set( $timeout = $eventName.substring(6) )
+#*   *##set( $eventName = "after$id" )
+#**##elseif( $eventName.startsWith("when") )
+#*   *##set( $when = true )
+#*   *##set( $start = ($eventName.indexOf("[") + 1) )
+#*   *##set( $end = $eventName.indexOf("]") )
+#*   *##set( $guardText = $eventName.substring($start, $end).trim() )
+#*   *##set( $end = ($end + 1) )
+#*   *##set( $timeout = $eventName.substring($end).trim() )
+#*   *##if( !$timeout )
+#*      *##set( $timeout = "100" )
+#*   *##end
+#*   *##set( $eventName = "when$id" )
+#**##end
+#**##set( $suffix = "For$utility.upFirstChar($eventName)From$utility.upFirstChar($from)To$utility.upFirstChar($to)" )
+#**##set( $guard = $transition.Guard )
+#**##set( $guardType = $guard.Type )
+#**##if( $guardType )
+#*   *##if( $guardType == 6)## BOOL
+#*      *##set( $guardName = "guard${id}$suffix" )
+#*      *##set( $guardText = $guard.BoolExpr )
+#*   *##elseif( $guardType == 5 )## UMLTransitionGuard.ELSE
+#*      *##set( $guardName = "FReactive.ELSE_GUARD" )
+#*   *##end
+#**##end
+#**##set( $action = $transition.Action )
+#**##if ( !$utility.isNullOrEmpty($action) )
+#*   *##set( $actionName = "action${id}$suffix" )
+#**##end
+#**##if ( ${class.InheritedCodeStyle} )#set( $style = "$lang/${class.InheritedCodeStyle.Name}:" )
+#**##else#set( $style = "java/default:" )#end

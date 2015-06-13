@@ -1,0 +1,22 @@
+#**##parse("${style}storyPattern/object/tmpvar.vm")
+#**##parse("java/breaks:classDiag/assoc/accessors.vm")
+#**##set( $return = $imports.addToImports("java.util.*") )
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##set( $searchOpComment = "to-many link $link.InstanceOf.Name from $sourceName to $targetName" )
+#**##set( $return = $localVars.addLocalVariable($targetName, $object.InstanceOf, $object) )
+#**##if($negative)
+#*   *#if (${iterator}.hasNext()) // check $searchOpComment
+#*   *#{
+#*   *##set($toContinue = $flowUtil.getSearchToContinue($token))
+#*   *##parse("${style}storyPattern/breakOrContinue.vm")}
+#**##else
+#*   *#Iterator<$roleType> $tmpVarIterator = $iterator; // $searchOpComment
+#*   *#if (${tmpVarIterator}.hasNext()) // read $searchOpComment
+#*   *#{
+#*   *#	$targetName = ${tmpVarIterator}.next();
+#*   *#}
+#*   *#else
+#*   *#{
+#*   *##set($toContinue = $flowUtil.getSearchToContinue($token))
+#*   *##parse("${style}storyPattern/breakOrContinue.vm")}
+#**##end

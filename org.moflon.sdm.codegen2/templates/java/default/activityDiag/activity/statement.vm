@@ -1,0 +1,28 @@
+#**##set( $statement = $elem )
+#**##set( $text = $statement.getState().getStatement() )
+#**#// statement node '$!elem.name'
+#**##if( $sdmTrace )
+#*   *##set( $lightweightId = ${utility.getUniqueTempVarName("LightWeightID")})
+#*   *##set( $isFirstPatternInForEach = $utility.hasDirectInconnectionFromControllingForEachActivity(${elem}) )
+#*   *##set( $returnsToForEach = $utility.hasDirectOutconnectionToControllingForEachActivity(${elem}) )
+#*   *##if( $isFirstPatternInForEach )
+#*      *#   SDMTraceUtil.logLightweightPatternExit(__sdmTracing_context, __sdmTracing_stw, this, __sdmTracing_method, __sdmTracing_patternStack.peek(), "$lightweightId");
+#*   *##end
+#*   *#SDMTraceUtil.logPatternEnter(__sdmTracing_context, __sdmTracing_stw, this, __sdmTracing_method, "$esc.java($elem.name)");
+#*   *#__sdmTracing_patternStack.push("$esc.java($elem.name)");
+#**##end
+#**#$!text
+#**##if( $sdmTrace )
+#*   *#SDMTraceUtil.logPatternExit(__sdmTracing_context, __sdmTracing_stw, this, __sdmTracing_method, "$esc.java($elem.name)");
+#*   *#__sdmTracing_patternStack.pop();
+#*   *##if( $returnsToForEach )
+#*      *##set( $edgeType = $utility.returnsToControllingForEachVia(${elem}) )
+#*      *##if( $edgeType == 1 )
+#*      *#   if (fujaba__Success)
+#*      *##end
+#*      *##if ( $edgeType == 2 )
+#*      *#   if (!fujaba__Success)
+#*      *##end
+#*      *#   SDMTraceUtil.logLightweightPatternEnter(__sdmTracing_context, __sdmTracing_stw, this, __sdmTracing_method, __sdmTracing_patternStack.peek(), "$lightweightId");
+#*   *##end
+#**##end

@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: eMoflon Text Editor
+Bundle-SymbolicName: org.moflon.ide.TextEditor;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.moflon.ide.texteditor.TextEditorActivator
+Require-Bundle: 
+ org.apache.log4j;bundle-version="1.2.15",org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text;bundle-version="3.7.0",
+ org.eclipse.ui.editors;bundle-version="3.7.0",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.7.0",
+ org.eclipse.core.resources;bundle-version="3.7.100",
+ org.eclipse.jdt.core;bundle-version="3.7.0",
+ org.eclipse.jdt.launching;bundle-version="3.6.100",
+ org.moflon.core.utilities,
+ org.eclipse.emf.codegen.ecore;bundle-version="2.7.0",
+ org.moflon.ide.core,
+ org.eclipse.ui.views;bundle-version="3.6.100",
+ org.eclipse.jdt.ui,
+ MocaTree,
+ Moca
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: 
+ org.moflon.ide.texteditor,
+ org.moflon.ide.texteditor.config,
+ org.moflon.ide.texteditor.editors,
+ org.moflon.ide.texteditor.editors.colors,
+ org.moflon.ide.texteditor.helpers,
+ org.moflon.ide.texteditor.modules.folding,
+ org.moflon.ide.texteditor.modules.rules,
+ org.moflon.ide.texteditor.modules.outline,
+ org.moflon.ide.texteditor.modules.content 
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt

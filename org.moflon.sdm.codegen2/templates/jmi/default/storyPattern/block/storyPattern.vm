@@ -1,0 +1,23 @@
+#**##if( $children )
+#*   *#  #set( $imports = $engine.getFromInformation("imports") )
+#*   *#  #set( $return = $imports.addToImports("de.upb.tools.sdm.*") )
+#*   *#  #set( $withTryCatch = ! $token.storyPattern.noTryCatch )
+#*   *#// story pattern
+#*   *#  #if ( $withTryCatch )
+#*      *#    #set( $children = $mofutility.indent("   ",$!children) )
+#*      *#try 
+#*      *#{
+#*      *#   fujaba__Success = false; 
+#*      *#
+#*   *#  #end
+#*   *#$!children##
+#*   *#  #if ($withTryCatch )
+#*      *#   fujaba__Success = true;
+#*      *#}
+#*      *#catch ( JavaSDMException fujaba__InternalException )
+#*      *#{
+#*      *#   fujaba__Success = false;
+#*      *#}
+#*      *#
+#*   *#  #end
+#**##end

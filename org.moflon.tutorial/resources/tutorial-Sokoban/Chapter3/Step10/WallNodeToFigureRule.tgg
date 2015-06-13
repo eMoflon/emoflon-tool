@@ -1,0 +1,30 @@
+rule WallNodeToFigureRule {
+	source {
+		floorNode : Node { 
+			++ -children-> figureNode
+		}
+		
+		// Check and match to a node with Admin definition
+		++ figureNode : Node { 
+			figureNode.name := "#"
+		}
+	}
+	
+	correspondence {
+		// The Floor space must already exist
+		floorNode <- nodeToFloor : NodeToFloor -> floor
+	}
+	
+	target {
+		// Create a new reference to an Admin
+		floor : Floor { 
+		++ -figure-> wall
+		}
+		
+		++ wall : Wall
+	}
+	
+	constraints {[
+	
+	]}
+}

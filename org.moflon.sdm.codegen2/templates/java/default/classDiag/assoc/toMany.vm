@@ -1,0 +1,258 @@
+#**#
+#**##parse("$lang/default:classDiag/assoc/annotation.vm")
+#**##if( ! $targetClassIsInterface )
+#*   *#private $!transient$container $name;
+#*   *#
+#*   *##parse("$lang/default:classDiag/assoc/annotationShort.vm")
+#**##end
+#**###
+#**##set( $return = $imports.addToImports("java.util.*") )
+#**##set( $return = $imports.addToImports("de.upb.tools.fca.*") )
+#**##if( !$qualified || $internalQualified )
+#**#$visibility #if( $class.name.equals("List") )java.util.#end
+#**#$collectionType<#if ( $qualified )$keyWrapper, #end? extends $type> get$methodSuffix()##
+#*   *##if( $targetClassIsInterface )
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*      *##set( $collectionTypeUC = $collectionType.toUpperCase() )
+#*      *#   return ((this.$name == null)
+#*      *#           ? Collections.EMPTY_$collectionTypeUC
+#*      *#           : Collections.unmodifiable$collectionType(this.$name));
+#*      *#}
+#*      *#
+#*   *##end
+#*   *##parse("$lang/default:classDiag/assoc/annotationShort.vm")
+#**#$visibility $modificationMethodReturnType addTo$methodSuffix (#if($partnerKey)$partnerKey partnerKey, #end$type value)##
+#*   *##if( $targetClassIsInterface )
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*      *##if( $internalQualified )
+#*         *##if ( !$isTaggedWithVoid )
+#*         *#   return this.addTo$methodSuffix (#if($partnerKey)partnerKey,#end getKeyFor$methodSuffix (value), value);
+#*         *##else
+#*         *#   this.addTo$methodSuffix (#if($partnerKey)partnerKey,#end getKeyFor$methodSuffix (value), value);
+#*         *##end
+#*      *##else
+#*         *#   boolean changed = false;
+#*         *#
+#*         *#   if (value != null$!linkedList)
+#*         *#   {
+#*         *#      if (this.$name == null)
+#*         *#      {
+#*         *#         this.$name = new $container ($!constParams);
+#*         *#
+#*         *#      }
+#*         *#      $!preHook
+#*         *#      changed = this.${name}.add (value);
+#*         *##if( !$ref )
+#*            *#      if (changed)
+#*            *#      {
+#*            *#         value.$insert;
+#*            *#      }
+#*         *##end
+#*         *#      $!postHook
+#*         *#   }
+#*         *##if ( !$isTaggedWithVoid )
+#*         *#   return changed;
+#*         *##end
+#*      *##end
+#*      *#}
+#*      *#
+#*      *##parse("$lang/default:classDiag/assoc/annotationShort.vm")
+#*   *##end
+#**#$visibility $class with$methodSuffix (#if($partnerKey)$partnerKey partnerKey, #end$type value)##
+#*   *##if( $targetClassIsInterface )
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*   *#   addTo$methodSuffix (#if($partnerKey)partnerKey, #end
+#*      *#value);
+#*      *#   return this;
+#*      *#}
+#*   *##end
+#*   *#
+#*   *#$visibility $class without$methodSuffix ($type value)##
+#*   *##if( $targetClassIsInterface )
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*      *#   removeFrom$methodSuffix (value);
+#*      *#   return this;
+#*      *#}
+#*   *##end
+#*   *#
+#**##end
+#**#
+#**#$visibility $modificationMethodReturnType removeFrom$methodSuffix ($type value)##
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#
+#*   *#{
+#*   *##if( $internalQualified )
+#*      *##if ( !$isTaggedWithVoid )
+#*      *#   return removeFrom$methodSuffix (getKeyFor$methodSuffix (value), value);
+#*      *##else
+#*      *#   removeFrom$methodSuffix (getKeyFor$methodSuffix (value), value);
+#*      *##end
+#*   *##else
+#*      *#   boolean changed = false;
+#*      *#
+#*      *##if( $qualified )
+#*         *#   if (this.$name != null)
+#*         *#   {
+#*         *#      Iterator iter = this.entriesOf$methodSuffix ();
+#*         *#      Map.Entry entry;
+#*         *#      while (iter.hasNext ())
+#*         *#      {
+#*         *#         entry = (Map.Entry) iter.next ();
+#*         *#         if (entry.getValue () == value)
+#*         *#         {
+#*         *#            $!preHook
+#*         *#            if (this.removeFrom$methodSuffix (($keyWrapper) entry.getKey (), value))
+#*         *#            {
+#*         *#               changed = true;
+#*         *#            }
+#*         *#            $!postHook
+#*         *#         }
+#*         *#      }
+#*         *#   }
+#*      *##else
+#*         *### TODO hier value != null und oben nicht?
+#*         *#   if ((this.$name != null) && (value != null))
+#*         *#   {
+#*         *#      $!preHook
+#*         *#      changed = this.${name}.remove (value);
+#*         *##if( !$ref )
+#*            *#      if (changed)
+#*            *#      {
+#*            *#         value.$remove;
+#*            *#      }
+#*         *##end
+#*         *#      $!postHook
+#*         *#   }
+#*      *##end
+#*      *##if ( !$isTaggedWithVoid )
+#*      *#   return changed;
+#*      *##end
+#*   *##end
+#*   *#}
+#**##end
+#**#
+#**##parse("$lang/default:classDiag/assoc/annotationShort.vm")
+#**#$visibility void removeAllFrom$methodSuffix ()##
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#{
+#*   *##if( $ref )
+#*      *#   if (this.$name != null && this.${name}.size () > 0)
+#*      *#   {
+#*      *#      $!preHook
+#*      *#      this.${name}.clear();
+#*      *#      $!postHook
+#*      *#   }
+#*   *##else
+#*      *#   $!preHook
+#*      *##if( $qualified )
+#*         *#   Map.Entry entry;
+#*         *#   Iterator iter = entriesOf$methodSuffix ();
+#*         *#   while (iter.hasNext ())
+#*         *#   {
+#*         *#      entry = (Map.Entry) iter.next ();
+#*         *#      removeFrom$methodSuffix (($keyWrapper) entry.getKey (), ($type) entry.getValue ());
+#*         *#   }
+#*      *##else
+#*         *#   $type tmpValue;
+#*         *#   Iterator<? extends $type> iter = this.iteratorOf$methodSuffix ();
+#*         *#   while (iter.hasNext ())
+#*         *#   {
+#*         *#      tmpValue = ($type) iter.next ();
+#*         *#      this.removeFrom$methodSuffix (tmpValue);
+#*         *#   }
+#*         *#   $!postHook
+#*      *##end
+#*   *##end
+#*   *#}
+#**##end
+#**#
+#**##parse("$lang/default:classDiag/assoc/annotationShort.vm")
+#**#$visibility boolean hasIn$methodSuffix ($type value)##
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#
+#*   *#{
+#*   *##if( $internalQualified )
+#*      *#   return (this.hasIn$methodSuffix (this.getKeyFor$methodSuffix (value), value));
+#*   *##else
+#*      *#   return ((this.$name != null) &&
+#*      *##if( $qualified )
+#*         *#           this.${name}.containsValue (value));
+#*      *##else
+#*         *#           (value != null) &&
+#*         *#           this.${name}.contains (value));
+#*      *##end
+#*   *##end
+#*   *#}
+#**##end
+#**#
+#**##parse("$lang/default:classDiag/assoc/annotationShort.vm")
+#**#$visibility #if( $ordered )List#end
+#**#Iterator<? extends $type> iteratorOf$methodSuffix ()##
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#
+#*   *#{
+#*   *#   return ((this.$name == null)
+#**#           ? FEmpty#if( $ordered )List#end
+#*   *#Iterator.<$type>get ()
+#*   *#           : this.$name##
+#*   *##if( $qualified )
+#*      *#.values ()##
+#*   *##end
+#**##if( $ordered ).listIterator());#else
+#**#.iterator ());#end
+#**#
+#**#}
+#**##end
+#**#
+#**##parse("$lang/default:classDiag/assoc/annotationShort.vm")
+#**#$visibility int sizeOf$methodSuffix ()##
+#**##if( $targetClassIsInterface )
+#**#;
+#**##else
+#**#
+#**#{
+#**#   return ((this.$name == null)
+#**#           ? 0
+#**#           : this.${name}.size ());
+#**#}
+#**##end
+#**###
+#**##if( $sorted )
+#**##parse("$lang/default:classDiag/assoc/sorted.vm" )
+#**##end
+#**##if( $ordered )
+#**##parse("$lang/default:classDiag/assoc/sorted.vm" )
+#**##parse("$lang/default:classDiag/assoc/ordered.vm" )
+#**##end
+#**##if ( $role.Assoc.hasKeyInStereotypes("arraybased" ) )
+#**#$visibility $type getFrom$methodSuffix (int i)
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#{
+#*   *#   return ((this.$name == null)
+#*   *#           ? null
+#*   *#           : ($type) this.${name}.get (i));
+#*   *#}
+#**##end
+#**##end

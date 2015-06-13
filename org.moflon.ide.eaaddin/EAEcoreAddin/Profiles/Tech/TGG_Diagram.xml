@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="E39BFC47-3" name="eMoflon TGG Diagrams" version="1.0" notes="eMoflon TGG Diagrams"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="TGG Schema" metatype="TGG Schema" notes="" cx="189" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Logical">
+						<Property name="alias" value="TGG Schema"/>
+						<Property name="diagramID" value="TGG Schema"/>
+						<Property name="toolbox" value="TGG (Schema)"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="TGG Rule" metatype="TGG Rule" notes="" cx="171" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Object">
+						<Property name="alias" value="TGG Rule"/>
+						<Property name="diagramID" value="TGG Rule"/>
+						<Property name="toolbox" value="TGG (Rule)"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="TGG Rules" metatype="TGG Rules" notes="" cx="175" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Logical">
+						<Property name="alias" value="TGG Rules"/>
+						<Property name="diagramID" value="TGG Rules"/>
+						<Property name="toolbox" value="TGG (Rules Diagram)"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

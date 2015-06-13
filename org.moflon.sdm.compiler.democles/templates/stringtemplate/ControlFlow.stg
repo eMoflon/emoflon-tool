@@ -1,0 +1,315 @@
+group ControlFlow;
+
+ScopeImpl(scope, importManager) ::= <<
+<if (scope.contents)><first(scope.contents):Node(importManager)><endif>
+>>
+
+Node(node, importManager) ::= <<
+<if(node.mainAction)><([(node.class.simpleName), (node.mainAction.class.simpleName)])(node, importManager)><else><(node.class.simpleName)(node, importManager)><endif>
+>>
+
+IfStatementImplRegularPatternInvocationImpl(node, importManager) ::= <<
+// <node.origin.name>
+<if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
+<importManager.("java.lang.Object")>[] result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
+if (result<node.mainAction.id> != null) {
+	<node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
+	<if (node.mainAction.next)><node.mainAction.next:NextActions(importManager)><endif>
+	<first(node.scopes):ScopeImpl(importManager)>
+} else {
+	<last(node.scopes):ScopeImpl(importManager)>
+}
+<if (node.next)><node.next:Node(importManager)><endif>
+>>
+
+CFNodeImplRegularPatternInvocationImpl(node, importManager) ::= <<
+<\n>// <node.origin.name>
+<if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
+<importManager.("java.lang.Object")>[] result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
+if (result<node.mainAction.id> == null) {
+	throw new RuntimeException("Pattern matching in node [<node.origin.name>] failed."<VariablesByFailedPatternMatching(node.mainAction)>);
+}
+<node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
+<if (node.mainAction.next)><node.mainAction.next:NextActions(importManager)><endif>
+<if (node.next)><node.next:Node(importManager)><endif>
+>>
+
+TailControlledLoopImplRegularPatternInvocationImpl(node, importManager) ::= <<
+// <node.origin.name>
+<importManager.("java.lang.Object")>[] result<node.mainAction.id>;
+do {
+	<first(node.scopes):ScopeImpl(importManager)>
+	
+	<if (!node.onlyShortcuts)><([(node.class.simpleName), "LoopEndTasks"])(node, importManager)><endif>
+<if (node.loopAlongTrue)>
+} while (result<node.mainAction.id> != null);
+<else>
+} while (result<node.mainAction.id> == null);
+<node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
+<if (node.mainAction.next)><node.mainAction.next:NextActions(importManager)><endif>
+<endif>
+<if (node.next)><node.next:Node(importManager)><endif>
+>>
+
+TailControlledLoopImplLoopEndTasks(node, importManager) ::= <<
+<if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
+result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
+<if (node.loopAlongTrue)>
+if (result<node.mainAction.id> != null) {
+	<node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
+	<if (node.mainAction.next)><node.mainAction.next:NextActions(importManager)><endif>
+}
+<endif>
+>>
+
+HeadControlledLoopImplRegularPatternInvocationImpl(node, importManager) ::= <<
+// <node.origin.name>
+<if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
+<importManager.("java.lang.Object")>[] result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
+<if (node.loopAlongTrue)>
+while (result<node.mainAction.id> != null) {
+	<node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
+	<if (node.mainAction.next)><node.mainAction.next:NextActions(importManager)><endif>
+
+	<first(node.scopes):ScopeImpl(importManager)>
+	<if (!node.onlyShortcuts)><([(node.class.simpleName), "LoopEndTasks"])(node, importManager)><endif>
+}
+<else>
+while (result<node.mainAction.id> == null) {
+	<first(node.scopes):ScopeImpl(importManager)>
+	<if (!node.onlyShortcuts)><([(node.class.simpleName), "LoopEndTasks"])(node, importManager)><endif>
+}
+<node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
+<if (node.mainAction.next)><node.mainAction.next:NextActions(importManager)><endif>
+<endif>
+<if (node.next)><node.next:Node(importManager)><endif>
+>>
+
+HeadControlledLoopImplLoopEndTasks(node, importManager) ::= <<
+result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
+>>
+
+ForEachImplRegularPatternInvocationImpl(node, importManager) ::= <<
+// ForEach <node.origin.name>
+<if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
+for (<importManager.("java.lang.Object")>[] result<node.mainAction.id> : <node.mainAction:InvokePattern(importManager)>) {
+	<node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
+	<if (node.mainAction.next)><node.mainAction.next:NextActions(importManager)><endif>
+	<first(node.scopes):ScopeImpl(importManager)>
+}
+<if (node.next)><node.next:Node(importManager)><endif>
+>>
+
+ForEachImplLoopEndTasks(node, importManager) ::= <<>>
+
+IfStatementImplSingleResultPatternInvocationImpl(node, importManager) ::= <<
+// <node.origin.name>
+if (<node.mainAction:InvokePattern(importManager)>) {
+	<first(node.scopes):ScopeImpl(importManager)>
+} else {
+	<last(node.scopes):ScopeImpl(importManager)>
+}
+<if (node.next)><node.next:Node(importManager)><endif>
+>>
+
+CFNodeImplSingleResultPatternInvocationImpl(node, importManager) ::= <<
+// <node.origin.name>
+<node.mainAction:InvokePattern(importManager)>;
+<if (node.next)><node.next:Node(importManager)><endif>
+>>
+
+TailControlledLoopImplSingleResultPatternInvocationImpl(node, importManager) ::= <<
+// <node.origin.name>
+<if (node.loopAlongTrue)>
+do {
+	<first(node.scopes):ScopeImpl(importManager)>
+} while (<node.mainAction:InvokePattern(importManager)>);
+<if (node.next)><node.next:Node(importManager)><endif>
+<else>
+do {
+	<first(node.scopes):ScopeImpl(importManager)>
+} while (!<node.mainAction:InvokePattern(importManager)>);
+<if (node.next)><node.next:Node(importManager)><endif>
+<endif>
+>>
+
+HeadControlledLoopImplSingleResultPatternInvocationImpl(node, importManager) ::= <<
+// <node.origin.name>
+<if (node.loopAlongTrue)>
+while (<node.mainAction:InvokePattern(importManager)>) {
+	<first(node.scopes):ScopeImpl(importManager)>
+}
+<if (node.next)><node.next:Node(importManager)><endif>
+<else>
+while (!<node.mainAction:InvokePattern(importManager)>) {
+	<first(node.scopes):ScopeImpl(importManager)>
+}
+<if (node.next)><node.next:Node(importManager)><endif>
+<endif>
+>>
+
+ReturnStatementImplSingleResultPatternInvocationImpl(node, importManager) ::= <<
+<if(node.mainAction.returnType)>return <endif><node.mainAction:InvokePattern(importManager)>;
+>>
+
+ReturnStatementImplActionImpl(node, importManager) ::= <<
+return;
+>>
+
+ContinueStatementImpl(node, importManager) ::= <<
+<if (node.header)><([(node.header.class.simpleName), "LoopEndTasks"])(node.header, importManager)><endif>
+continue;
+>>
+
+CFNodeImpl(node, importManager) ::= <<
+// <node.origin.name> story node is empty
+<if (node.next)><node.next:Node(importManager)><endif>
+>>
+
+IfStatementImpl(node, importManager) ::= <<
+// <node.origin.name> story node is empty (else branch was ignored)
+<if (node.scopes)><first(node.scopes):ScopeImpl(importManager)><endif>
+<if (node.next)><node.next:Node(importManager)><endif>
+>>
+
+TailControlledLoopImpl(node, importManager) ::= <<
+// <node.origin.name> story node is empty (loop body was ignored)
+<if (!node.loopAlongTrue)>
+<if (node.next)><node.next:Node(importManager)><endif>
+<endif>
+>>
+
+HeadControlledLoopImpl(node, importManager) ::= <<
+// <node.origin.name> story node is empty (loop body was ignored)
+<if (!node.loopAlongTrue)>
+<if (node.next)><node.next:Node(importManager)><endif>
+<endif>
+>>
+
+PreviousActions(action, importManager) ::= <<
+<if (action.prev)><action.prev:PreviousActions(importManager)><endif>
+<PerformAction(action, importManager)>
+>>
+
+NextActions(action, importManager) ::= <<
+<PerformAction(action, importManager)>
+<if (action.next)><action.next:NextActions(importManager)><endif>
+>>
+
+PerformAction(action, importManager) ::= <<
+<([(action.class.simpleName), "In", (action.cfNode.class.simpleName)])(action, importManager)>
+>>
+
+BindingPatternInvocationImplInForEachImpl(action, importManager) ::= <<
+<if (action.referencedFreeParameters)><importManager.("java.lang.Object")>[] result<action.id> = <endif><InvokePattern(action, importManager)>;
+if (result<action.id> == null) {
+	throw new RuntimeException("Binding in node <action.cfNode.origin.name> failed."<VariablesByFailedPatternMatching(action)>);
+}
+<action.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
+>>
+
+SingleResultPatternInvocationImplInIfStatementImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+SingleResultPatternInvocationImplInCFNodeImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+SingleResultPatternInvocationImplInTailControlledLoopImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+SingleResultPatternInvocationImplInHeadControlledLoopImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+SingleResultPatternInvocationImplInForEachImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+RegularPatternInvocationImplInIfStatementImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+RegularPatternInvocationImplInCFNodeImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+RegularPatternInvocationImplInTailControlledLoopImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+RegularPatternInvocationImplInHeadControlledLoopImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+RegularPatternInvocationImplInForEachImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+NodeDeletionImplInIfStatementImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+NodeDeletionImplInCFNodeImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+NodeDeletionImplInHeadControlledLoopImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+NodeDeletionImplInTailControlledLoopImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+NodeDeletionImplInForEachImpl(action, importManager) ::= <<
+<DefaultPerformAction(action, importManager)>
+>>
+
+DefaultPerformAction(action, importManager) ::= <<
+<if (action.referencedFreeParameters)><importManager.("java.lang.Object")>[] result<action.id> = <endif><InvokePattern(action, importManager)>;
+<action.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
+>>
+
+InvokePattern(action, importManager) ::= <<
+<(action.class.simpleName)(action, importManager)>
+>>
+
+NodeDeletionImpl(action, importManager) ::= <<
+<action.destructedVariables:DeleteNode(importManager); separator="\n">
+>>
+
+DeleteNode(variable, importManager) ::= <<
+<importManager.("org.eclipse.emf.ecore.util.EcoreUtil")>.delete(<variable.name>);
+<variable.name> = null;
+>>
+
+BindingPatternInvocationImpl(invocation, importManager) ::= <<
+<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
+>>
+
+RegularPatternInvocationImpl(invocation, importManager) ::= <<
+<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
+>>
+
+SingleResultPatternInvocationImpl(invocation, importManager) ::= <<
+<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
+>>
+
+WriteVariable(varRef, index, importManager) ::= <<
+<if(varRef.from.onlyDefined)>// <endif><if(varRef.constructed)><importManager.(varRef.from.type)> <endif><varRef.from.name> = (<importManager.(varRef.from.type)>) result<varRef.invocation.id>[<varRef.index>];
+>>
+
+BoundOrFree(varRef) ::= <<
+<if (varRef.free)>F<else>B<endif>
+>>
+
+VariablesByFailedPatternMatching(invocation) ::= <<
+<if(invocation.boundParameters)> + " Variables: " + <invocation.boundParameters:{ varRef | "[<VariableName(varRef)>] = " + <VariableName(varRef)>}; separator=" + \", \" + "> + "."<endif>
+>>
+
+VariableName(varRef) ::= <<
+<varRef.from.name>
+>>

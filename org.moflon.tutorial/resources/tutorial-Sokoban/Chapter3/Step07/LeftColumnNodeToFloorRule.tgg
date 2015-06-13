@@ -1,0 +1,67 @@
+rule LeftColumnNodeToFloorRule {
+// In order to complete the construction of Board, we should separately connect Floor spaces
+// 	in the leftmost column, those in the topmost row (effectively completing the two exposed
+// 	sides of the origin Floor space), then finally all the rest in the middle. 
+
+// This rule will build up the leftmost column, increasing the number of rows by adding a 
+//	single Floor directly below the one before.
+	
+	
+	// Handling MocaTree, this scope will demand that a root boardNode to already exist. It
+	//	will then establish the new row root, and then create its first row element, a single
+	// 	column node bound to position 0.
+	source {
+		
+		boardNode : Node { 
+			boardNode.name == "BOARD"
+			++ -children-> rowNode
+		}
+	
+		++ rowNode : Node { 
+			rowNode.name := "ROW"
+			++ -children-> columnNode
+		}
+		
+		++ columnNode : Node { 
+			columnNode.index := 0
+			columnNode.name := "COLUMN"
+		}
+	}
+
+	// These correspondences ensure we're working with the same Board throughout all rules,
+	//	and that the new column elements in both domains are equivalent.
+	correspondence {
+		boardNode <- nodeToBoard : NodeToBoard -> board
+		++ columnNode <- nodeToFloor : NodeToFloor -> floor
+	}
+	
+	
+	// Handling SokobanLanguage, this scope demands a Board already exists with a
+	//	reference to a floor space (the origin initilized in BoardNodeToBoardRule).
+	//	It will then create a new Floor space (and correspondence reference) to 
+	// 	column 0.
+	target {
+
+		board : Board { 
+			-floors-> topNeighbor
+			++ -floors-> floor
+		}
+		
+		topNeighbor : Floor {
+			topNeighbor.col == 0
+		}
+		
+		++ floor : Floor { 
+			floor.col := 0
+			++ -top-> topNeighbor
+		}
+	}
+	
+		// The first constraint (of form a - b = c) ensures that the newest Floor is 
+		// 	connected directly below the previous instance. The latter then makes sure
+		//	the row values in both domains are equivalent.
+	constraints {[
+		sub(floor.row, 1, topNeighbor.row)
+		eq(floor.row , rowNode.index)	
+	]}
+}

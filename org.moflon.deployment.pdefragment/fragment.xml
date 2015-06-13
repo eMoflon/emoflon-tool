@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.pde.core.target.ITargetDefinition"
+            class="org.moflon.eclipse.pde.fragment.MoflonFeatureExportAdapterFactory">
+         <adapter type="org.eclipse.pde.core.target.LoadTargetDefinitionJob"/>
+         <adapter
+               type="org.eclipse.equinox.p2.ui.ProvisioningUI">
+         </adapter>
+         <adapter
+               type="org.moflon.eclipse.pde.fragment.UpdateSiteReloadJob">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="java.lang.String"
+            class="org.moflon.eclipse.pde.fragment.MoflonFeatureExportAdapterFactory">
+         <adapter
+               type="org.eclipse.pde.internal.core.exports.FeatureExportOperation"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.core.resources.IProject"
+            class="org.moflon.eclipse.pde.fragment.MoflonFeatureExportAdapterFactory">
+         <adapter
+               type="org.eclipse.pde.internal.core.exports.SiteBuildOperation">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.core.resources.IFile"
+            class="org.moflon.eclipse.pde.fragment.MoflonFeatureExportAdapterFactory">
+         <adapter
+               type="org.eclipse.pde.core.target.LoadTargetDefinitionJob">
+         </adapter>
+         <adapter
+               type="org.eclipse.pde.core.target.ITargetDefinition">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.equinox.p2.ui.ProvisioningUI"
+            class="org.moflon.eclipse.pde.fragment.MoflonFeatureExportAdapterFactory">
+         <adapter
+               type="org.moflon.eclipse.pde.fragment.UpdateSiteReloadJob">
+         </adapter>
+      </factory>
+   </extension>
+</fragment>

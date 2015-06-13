@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<templates>
+	<template autoinsert="true" context="java" deleted="false"
+		description="Log4j Logger for current class" enabled="true" name="logger">private
+		static final Logger logger =
+		Logger.getLogger(${enclosing_type}.class);</template>
+</templates>

@@ -1,0 +1,29 @@
+#**##set( $children = $utility.indent("   ",$!children) )
+#**##if( $sdmTrace )
+#*   *#   SDMTraceUtil.logBeginNACEvaluation(__sdmTracing_context, __sdmTracing_stw, __sdmTracing_patternStack.peek());
+#**##end
+#**#// check negative bindings
+#**#try
+#**#{
+#**#   fujaba__Success = false;
+#**#
+#**#$children
+#**#   fujaba__Success = true;
+#**#}
+#**#catch ( JavaSDMException fujaba__InternalException )
+#**#{
+#**#   fujaba__Success = false;
+#**#}
+#**##if( $sdmTrace )
+#*   *#   SDMTraceUtil.logEndOfNACEvaluation(__sdmTracing_context, __sdmTracing_stw, __sdmTracing_patternStack.peek());
+#*   *#   if (fujaba__Success) {
+#*   *#      SDMTraceUtil.logNACNotSatisfied(__sdmTracing_context, __sdmTracing_stw, __sdmTracing_patternStack.peek());
+#*   *#   } else {
+#*   *#      SDMTraceUtil.logNACSatisfied(__sdmTracing_context, __sdmTracing_stw, __sdmTracing_patternStack.peek());
+#*   *#   }
+#**##end
+#**#
+#**#fujaba__Success = !(fujaba__Success);
+#**#
+#**#JavaSDM.ensure ( fujaba__Success );
+#**#

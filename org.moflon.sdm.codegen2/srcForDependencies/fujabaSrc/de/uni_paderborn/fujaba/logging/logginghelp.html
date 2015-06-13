@@ -1,0 +1,57 @@
+<HTML>
+	<BODY>
+			<H1>Logging in Fujaba - a quick guide</H1>			
+
+			<H2>Using the GUI</H2>
+
+				<H3>The logger tree</H3>
+
+					<P>The logger tree can be used to add and delete loggers from the configuration, and to change the level of existing loggers. A popup menu can be brought 
+						up by right-clicking any logger. A logger can also be added by using the "Add Logger" button.</P>
+
+					<P>Adding a logger to the tree does not automatically create any parent loggers its name would suggest, as the insertion of unnecessary parent loggers
+						can have an adverse effect on the performance of log4j. However, should the insertion of a parent logger make configuration easier for the user,
+						this can be done by adding a logger of the required name - the tree will alter itself accordingly. Deletion of a parent logger, if it is later decided
+						it is not required, will not cause the deletion of the child loggers from the tree.</P>
+
+					<P>The deletion of a logger from the tree simply removes the logger from the configuration. If the configuration has already been applied, the logger
+					   will remain in the system until Fujaba is restarted. If the logger is instantiated by Fujaba itself (i.e., Fujaba logs to it) it will reappear in the
+						system anyway with the default configuration, but will not show up in the configuration tree unless added again.</P>
+
+					<P>
+
+				<H3>Appenders</H3>
+
+				   <P>Appenders can be configured by using the appender panel on the right hand side of the dialog. The threshold of the appender determines the minimum
+						level a log statement must have to be output to the appender. The conversion pattern specified for an appender determines the format of any message
+						output to the appender. The conversion pattern used by log4j is closely related to the conversion pattern used for the <CODE>printf</CODE> function
+						in C - a detailed specification can be found in the <A href="http://jakarta.apache.org/log4j/docs/api/org/apache/log4j/PatternLayout.html">
+						documentation for <CODE>org.apache.log4j.PatternLayout</CODE></A>.</P>	
+
+					<P>		
+				
+				<H3>Generating test messages</H3>
+
+					<P>Test messages can be generated to test your logging configuration. The configuration needs to be applied first to make any changes effective. 
+						<I>(TODO: get panel to check whether changes have been made and if so, ask the user if they want to apply them)</I> The test works by sending
+						a message of every level to every logger - this will allow the user to see where the messages are ending up and how they look. Please note that
+						at a maximum of five messages to every appender for every logger, this could generate a very large number of messages!</P>
+
+					<P>		
+
+			<H2>Inserting log statements into your code</H2>
+
+				<P>This logging system is based on log4j, and logging calls should be made following standard log4j convention. An example of this can be seen in the
+				documentation for <CODE>de.uni_paderborn.fujaba.basic.OptionsLog4J</CODE>, or in the <A href="http://jakarta.apache.org/log4j/docs/documentation.html">
+				log4j documentation</A>.</P>
+
+				<P>		
+
+			<H2>log4j</H2>
+			
+				<P>The log4j project can be found <A href="http://jakarta.apache.org/log4j/docs/index.html">here</A>.</P>
+				
+				<P>&nbsp;</P>		
+		
+	</BODY>
+</HTML>

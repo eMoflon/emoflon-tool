@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE Version SYSTEM "http://www.upb.de/cs/fujaba/DTDs/Version.dtd">
+
+<Version>
+  <Major>5</Major>
+  <Minor>3</Minor>
+  <Revision>2</Revision>
+  <Build>20100120</Build>
+  <Release></Release>
+</Version>
+

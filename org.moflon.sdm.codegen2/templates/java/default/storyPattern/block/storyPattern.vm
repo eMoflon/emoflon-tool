@@ -1,0 +1,73 @@
+#**##if( $children )
+#*   *##set( $return = $imports.addToImports("de.upb.tools.sdm.*") )
+#*   *##set( $elem = $token.storyPattern )
+#*   *##set( $name = $elem.Name )
+#*   *##set( $withTryCatch = ! $token.storyPattern.noTryCatch )
+#*   *##set( $opComment = "story node '$!name'" )
+#*   *#// $opComment
+#*   *##if( $sdmTrace )
+#*      *##set( $lightweightId = ${utility.getUniqueTempVarName("LightWeightID")})
+#*      *##set( $isFirstPatternInForEach = $utility.hasDirectInconnectionFromControllingForEachActivity(${elem.getParentElement()}) )
+#*      *##set( $returnsToForEach = $utility.hasDirectOutconnectionToControllingForEachActivity(${elem.getParentElement()}) )
+#*      *##if( $isFirstPatternInForEach )
+#*         *#   //SDMTraceUtil.logLightweightPatternExit(__sdmTracing_context, __sdmTracing_stw, this, __sdmTracing_method, __sdmTracing_patternStack.peek(), "$lightweightId");
+#*      *##end
+#*      *#SDMTraceUtil.logPatternEnter(__sdmTracing_context, __sdmTracing_stw, this, __sdmTracing_method, "$esc.java($!name)" );
+#*      *#__sdmTracing_patternStack.push("$esc.java($name)");
+#*   *##end
+#*   *##if ( $withTryCatch )
+#*      *##set( $children = $utility.indent("   ",$!children) )
+#*      *#try 
+#*      *#{
+#*      *#   fujaba__Success = false; 
+#*      *#
+#*   *##end
+#*   *#$!children##
+#*   *##if( $withTryCatch )
+#*      *#   fujaba__Success = true;
+#*      *#}
+#*      *#catch ( JavaSDMException fujaba__InternalException )
+#*      *#{
+#*      *#   fujaba__Success = false;
+#*      *##if( $elem.revStoryPattern.hasKeyInStereotypes("assert") )
+#*         *###   fujaba__InternalException.printStackTrace();
+#*         *##set( $return = $imports.addToImports("junit.framework.AssertionFailedError") )
+#*         *###   AssertionFailedError fujaba_AssertionFailedError = new AssertionFailedError(fujaba__InternalException.getStackTraceAsString());
+#*         *###   fujaba_AssertionFailedError.setStackTrace(new StackTraceElement[] {});
+#*         *##set( $return = $imports.addToImports("java.io.PrintWriter") )
+#*         *##set( $return = $imports.addToImports("java.io.StringWriter") )
+#*         *#   StringWriter fujaba_StringWriter = new StringWriter();
+#*         *#   PrintWriter fujaba_PrintWriter = new PrintWriter(fujaba_StringWriter);
+#*         *#   fujaba__InternalException.printStackTrace(fujaba_PrintWriter);
+#*         *#   int length = fujaba__InternalException.getClass().getName().length() + 2;
+#*         *#   AssertionFailedError fujaba_AssertionFailedError = new AssertionFailedError(fujaba_StringWriter.toString().substring(length));
+#*         *#   fujaba_AssertionFailedError.setStackTrace(new StackTraceElement[] {});
+#*         *###   AssertionFailedError fujaba_AssertionFailedError = new AssertionFailedError(fujaba__InternalException.getMessage());
+#*         *###   fujaba_AssertionFailedError.setStackTrace(fujaba__InternalException.getStackTrace());
+#*         *###
+#*         *###   fujaba_AssertionFailedError.printStackTrace();
+#*         *#   throw fujaba_AssertionFailedError;
+#*      *##end
+#*      *#}
+#*      *##if( $sdmTrace )
+#*        *#   if (fujaba__Success) {
+#*        *#      SDMTraceUtil.logMatchFound(__sdmTracing_context, __sdmTracing_stw, "$esc.java($name)", this, __sdmTracing_method, __sdmTracing_paramValues);
+#*        *#   } else {
+#*        *#      SDMTraceUtil.logNoMatchFound(__sdmTracing_context, __sdmTracing_stw, "$esc.java($name)", this, __sdmTracing_method, __sdmTracing_paramValues);
+#*        *#   }
+#*        *#   SDMTraceUtil.logPatternExit(__sdmTracing_context, __sdmTracing_stw, this, __sdmTracing_method, "$esc.java($name)");
+#*        *#   __sdmTracing_patternStack.pop();
+#*        *##if( $returnsToForEach )
+#*           *##set( $edgeType = $utility.returnsToControllingForEachVia(${elem.getParentElement()}) )
+#*           *##if( $edgeType == 1 )
+#*              *#   if (fujaba__Success)
+#*           *##end
+#*           *##if ( $edgeType == 2 )
+#*              *#   if (!fujaba__Success)
+#*           *##end
+#*           *#   //SDMTraceUtil.logLightweightPatternEnter(__sdmTracing_context, __sdmTracing_stw, this, __sdmTracing_method, __sdmTracing_patternStack.peek(), "$lightweightId");
+#*        *##end
+#*      *##end
+#*      *#
+#*   *##end
+#**##end

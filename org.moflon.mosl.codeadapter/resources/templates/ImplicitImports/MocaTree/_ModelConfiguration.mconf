@@ -1,0 +1,7 @@
+opposites {
+	attribute : Node <-> node : Attribute
+	children : Node <-> parentNode : Text
+	file : Node <-> rootNode : File
+	file : Folder <-> folder : File
+	subFolder : Folder <-> parentFolder : Folder
+}

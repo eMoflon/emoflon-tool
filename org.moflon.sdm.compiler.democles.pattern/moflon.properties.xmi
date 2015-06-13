@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="SDMLanguageToDemocles">
+  <dependencies value="platform:/plugin/LiteralExprResolver/model/LiteralExprResolver.ecore"/>
+  <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
+  <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
+  <dependencies value="platform:/plugin/ValidationResult/model/ValidationResult.ecore"/>
+  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
+  <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.ecore"/>
+  <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/emf.ecore"/>
+  <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.ecore"/>
+  <metaModelProject MetaModelProjectName="Validation"/>
+  <replaceGenModel/>
+  <factoryMappings key="relational" value="RelationalConstraintFactory"/>
+  <factoryMappings key="emf" value="EMFTypeFactory"/>
+  <genTracingInstrumentation/>
+  <sdmCodegeneratorHandlerId value="DEMOCLES"/>
+  <tGGBuildMode/>
+  <importMappings key="specification" value="org.gervarro.democles.specification.emf"/>
+  <importMappings key="emf" value="org.gervarro.democles.specification.emf.constraint.emf.emf"/>
+  <importMappings key="relational" value="org.gervarro.democles.specification.emf.constraint.relational"/>
+  <importMappings key="SDMLanguage.patterns.Constraint" value="org.gervarro.democles.specification.emf.Constraint"/>
+  <additionalUsedGenPackages value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel"/>
+  <additionalUsedGenPackages value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel"/>
+  <additionalUsedGenPackages value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel"/>
+  <debugMode/>
+  <strictSDMConditionalBranching/>
+</MoflonPropertyContainer:MoflonPropertiesContainer>

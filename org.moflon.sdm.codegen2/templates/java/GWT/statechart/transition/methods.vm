@@ -1,0 +1,44 @@
+#parse("$lang/default:statechart/transition/import.vm" )
+
+// my style test for method.vm
+
+## TODO dirty bugfix to copy signals params
+#set( $parentToken = $token.Parent )
+#set( $statechart = $parentToken.Element )
+#set( $class = $statechart.owner )
+#set( $method = $class.getFromMethodsByShortName($eventName) )
+##
+#if( $after || $when )
+
+public void $eventName()
+{
+   FEvent event = new FEvent ("$eventName" );
+   myFReactive.enqueueEvent (event, FReactive.INTERNAL_EVENT);
+   myFReactive.notifyMe ();
+}
+
+#end
+#if ( !$utility.isNullOrEmpty($action) )
+
+public void $actionName(##
+## TODO dirty bugfix to copy signals params
+#set( $params = $method.iteratorOfParam() )
+#parse("$lang/default:classDiag/method/params.vm" )
+)
+{
+   $action;
+}
+
+#end
+#if( $guardText )
+
+public boolean $guardName(##
+## TODO dirty bugfix to copy signals params
+#set( $params = $method.iteratorOfParam() )
+#parse("$lang/default:classDiag/method/params.vm" )
+)
+{
+   return ($guardText);
+}
+
+#end

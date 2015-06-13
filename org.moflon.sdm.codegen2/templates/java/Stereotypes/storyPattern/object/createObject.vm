@@ -1,0 +1,12 @@
+#**##if ( $utility.nullIfEmpty($object.typeCastSource) )
+#*   *#$name = $object.typeCastSource;
+#**##end
+#**##if ( $utility.nullIfEmpty($object.constructionExpression) )
+#*   *#$name = $object.constructionExpression;
+#**##else
+#*   *##set( $return = $imports.addToImports("org.eclipse.emf.ecore.util.EcoreUtil") )
+#*   *##set( $return = $imports.addToImports("org.eclipse.uml2.uml.internal.operations.ElementOperations") )
+#*   *#$name = EcoreUtil.create(ElementOperations.getDefinition(model,model.getAppliedProfile("${class.project.name}").getOwnedStereotype("${class.name}")));
+#*   *##set( $return = $imports.addToImports("org.eclipse.uml2.common.util.CacheAdapter") )
+#*   *#CacheAdapter.INSTANCE.adapt($name);
+#**##end

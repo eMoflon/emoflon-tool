@@ -1,0 +1,22 @@
+group rule;
+
+rule(name) ::= <<
+rule <name> {
+	source {
+	
+	}
+	
+	correspondence {
+	
+	}
+	
+	target {
+	
+	
+	}
+	
+	constraints {[
+	
+	]}
+}
+>>

@@ -1,0 +1,32 @@
+rule AdminNodeToFigureRule {
+	source {
+		floorNode : Node { 
+			++ -children-> figureNode
+		}
+		
+		// Despite being green, this rule will only create a new node if it's name 
+		//	is "@"
+		++ figureNode : Node { 
+			figureNode.name := "@"
+		}
+	}
+	
+	correspondence {
+		floorNode <- nodeToFloor : NodeToFloor -> floor
+	}
+	
+	target {
+		// There's no need to define the symbol here - it will be defined differently
+		//	from the other Figures in the compiler during rule execution.
+		
+		floor : Floor { 
+		++ -figure-> admin
+		}
+		
+		++ admin : Admin 
+	}
+	
+	constraints {[
+	
+	]}
+}

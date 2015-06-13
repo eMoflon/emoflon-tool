@@ -1,0 +1,68 @@
+ ---------------------------------
+              About
+ ---------------------------------
+ Software Engineering Group Kassel
+
+About CoObRA 2
+
+* Mission
+
+  Working on large software projects commonly requires software development
+  in teams, which requires a tight interaction within the development team.
+  Usually each developer is responsible for a certain part of the whole system.
+  Therefore, it is necessary to let developers work independently without
+  disturbing their teammates as well as allowing them to share their results
+  with their teammates at a certain time and to integrate the developed
+  software parts.
+
+  Common practice is to use CASE-tools to support large software projects and a
+  Software Configuration Management (SCM) system that supports team coordination.
+  Popular SCM systems are usually based upon text files and fail in versioning
+  binary files or object-oriented structures on a fine-grained level, as usually
+  produced by CASE-tools. On the other hand, current CASE-tools insufficiently support
+  versioning and team coordination.
+
+* Framework
+
+  CoObRA 2 is a framework that offers undo/redo-, persistency-, multi-user-support
+  and version control techniques for applications based on object-oriented data
+  models in general. The major advantage is that it provides an easy-to-use mechanism
+  requiring very low integration costs. CoObRA 2 was successfully integrated in the
+  {{{http://www.fujaba.de}Fujaba 5 Tool Suite}} as well as into {{{http://www.moflon.org/}MOFLON}}
+  plus several other research projects.
+  CoObRA may easily be used for any Java 5 application.
+
+* Features
+
+  * Load/Store (Persistency)
+
+  * Undo/Redo
+
+  * SCM Integration (CVS, Subversion, etc.)
+
+  * Conflict detection
+
+  * Client-Server / Peer-to-Peer (TCP)
+
+  * Realtime Communication (UDP)
+
+  * Hierarchical Servers
+
+  * Minimum integration cost
+
+  * Great performance
+
+  * Server Manager: {{{http://www.se.eecs.uni-kassel.de/~maven/sites/coobrasc2/}CoObRA 2 Server Control}}
+
+Download
+
+  You can download the {{{download/index.html}latest developer binary}}.
+
+  A {{{http://www.se.eecs.uni-kassel.de/~fujabawiki/index.php/CoObRA2_developer_guide}user/developer guide}}
+  can be found in our Wiki.
+
+  The API Documentation can be found on the {{{project-reports.html}reports}} page.
+  
+CoObRA Server Control
+
+  CoObRA Server Control's purpose is the administration of CoObRA2 servers. You can find it on its {{{../coobrasc2/} site}}.

@@ -1,0 +1,850 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6339C0C2-8169-4952-A80F-65E89A651B2B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EAEcoreAddin</RootNamespace>
+    <AssemblyName>EAEcoreAddin</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>EA_Addin_MOFLON.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+    <BaseAddress>285212672</BaseAddress>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.EA, Version=2.10.238.1, Culture=neutral, PublicKeyToken=d28e1c76302f6a17, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>C:\Program Files (x86)\Sparx Systems\EA\Interop.EA.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Consistency\Gui\NewErrorOutput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Consistency\Gui\NewErrorOutput.Designer.cs">
+      <DependentUpon>NewErrorOutput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consistency\Gui\RuleQuickFixControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Consistency\Gui\RuleQuickFixControl.Designer.cs">
+      <DependentUpon>RuleQuickFixControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consistency\PropertyFile\PropertyFileReader.cs" />
+    <Compile Include="Consistency\PropertyFile\PropertyObject.cs" />
+    <Compile Include="Consistency\PropertyFile\PropertyEntry.cs" />
+    <Compile Include="Consistency\PropertyFile\PropertyLine.cs" />
+    <Compile Include="Consistency\Gui\ConsistencyDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Consistency\Rules\AttributeRules\EnumConstantsShouldHaveDefaultValues.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\InvalidConnector.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\LvWrongBindingSemantics.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ActivityNodeRules\InvalidActivityNodeParent.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\EnumShouldContainConstants.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\CorrespondenceTypeInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\DuplicateEReference.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\EClassParentInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\OvInvalidDiagramPosition.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\TGGObjectVariableUndefinedDomain.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\OvTypeNotUnique.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\TGGCorrespondenceInvalidMetamodel.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\CSPInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\TGGRuleSetInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\WrongBindingSemantics.cs" />
+    <Compile Include="Consistency\Rules\PackageRules\ObsoleteTaggedValues.cs" />
+    <Compile Include="Consistency\Rules\PackageRules\PackageWithoutDiagram.cs" />
+    <Compile Include="ControlPanel\Global\GlobalFunctions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlPanel\Global\GlobalFunctions.Designer.cs">
+      <DependentUpon>GlobalFunctions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPanel\Global\GlobalFunctionsContextMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ControlPanel\Global\UnableToExportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlPanel\Global\UnableToExportDialog.Designer.cs">
+      <DependentUpon>UnableToExportDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPanel\Navigation\Navigator.cs" />
+    <Compile Include="ControlPanel\SDM\ConfirmDeleteSDMs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlPanel\SDM\ConfirmDeleteSDMs.Designer.cs">
+      <DependentUpon>ConfirmDeleteSDMs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPanel\TCPServer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlPanel\TCPServer.Designer.cs">
+      <DependentUpon>TCPServer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import\GraphPath.cs" />
+    <Compile Include="Modeling\CSP\CSPController.cs" />
+    <Compile Include="Modeling\CSP\Gui\SDMCSPDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\CSP\Gui\SDMCSPDialog.Designer.cs">
+      <DependentUpon>SDMCSPDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\CSP\SDMCSPController.cs" />
+    <Compile Include="Modeling\CSP\TGGCSPController.cs" />
+    <Compile Include="Modeling\CSP\Util\CSPUtil.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\Common\CommonUtil.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\Common\LiteralExpressionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Common\LiteralExpressionForm.Designer.cs">
+      <DependentUpon>LiteralExpressionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Common\TreeView\ExpressionTreeNode.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\CreateSDMDialog\CreateSDMDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\CreateSDMDialog\CreateSDMDialog.Designer.cs">
+      <DependentUpon>CreateSDMDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\AcceptInformationLoss.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\AcceptInformationLoss.Designer.cs">
+      <DependentUpon>AcceptInformationLoss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\ComplexNAC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\ComplexNAC.Designer.cs">
+      <DependentUpon>ComplexNAC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\IOVDialog.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\SDMCSP\SDMCSPExpressionProvider.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\Util\GUIUtil.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\Util\SDMExportWrapperComparator.cs" />
+    <Compile Include="Modeling\CSP\CSPExpressionProvider.cs" />
+    <Compile Include="Modeling\CSP\TGGCSPExpressionProvider.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\FirstObject.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\SecondObject.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\TGGRuleSet.cs" />
+    <Compile Include="Modeling\TGGModeling\Util\CSPConstraintComparer.cs" />
+    <Compile Include="Modeling\CSP\Util\TggExpressionIComparer.cs" />
+    <Compile Include="Modeling\CSP\ExportWrapper\CSPInstance.cs" />
+    <Compile Include="Modeling\CSP\ExportWrapper\CSPInstanceEntry.cs" />
+    <Compile Include="Modeling\Util\EAPUpdater.cs" />
+    <Compile Include="Modeling\Util\UpdateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\Util\UpdateDialog.Designer.cs">
+      <DependentUpon>UpdateDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Server\DataReceiveStrategy.cs" />
+    <Compile Include="Server\DataStrategies\AbstractDataReceiveStrategy.cs" />
+    <Compile Include="Server\DataStrategies\HighlightObjectReceiveStrategy.cs" />
+    <Compile Include="Server\EMoflonTCPServer.cs" />
+    <Compile Include="Consistency\PropertyFile\Util\ValidationPropertyUtil.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\ConnectorNotOnDiagram.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\InvalidEReferenceFragment.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\MultiplicitiesInvalid.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\RoleNameInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\InvalidRuleDiagramElements.cs" />
+    <Compile Include="Consistency\Rules\GlobalRule.cs" />
+    <Compile Include="Consistency\Rules\PackageRules\PackageNameInvalid.cs" />
+    <Compile Include="Consistency\Rules\AttributeRules\AttributeAndReferenceNamesMustBeExplicit.cs" />
+    <Compile Include="Consistency\Rules\AttributeRules\BlanksInAttributeNamesNotAllowed.cs" />
+    <Compile Include="Consistency\Rules\AttributeRules\KeywordsNotAllowedInAttributeNames.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\EndWithRoleNameMustBeNavigable.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\MultiplicitiesMustBeSpecified.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\RelatedAssociationInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ActivityNodeRules\ActivityNodeInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ActivityNodeRules\IncomingEdgesInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\BlanksInElementNamesNotAllowed.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ClassNameInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\InvalidMocaFragment.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\NameNotUnique.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\EmptyObjectVariableNameForbidden.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\InvalidAssignmentConstraint.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\InvalidBindingExpression.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\InvalidObjectVariable.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\KeywordsNotAllowedInElementNames.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\InvalidOutgoingLinkVariable.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\ObjectVariableNotInStoryPattern.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ActivityNodeRules\OutgoingEdgesInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\OvNameNotExplicit.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\TGGObjectVariableInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\RuleInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\RuleNameInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ActivityNodeRules\StatementNodeInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ActivityNodeRules\StopNodeReturnValueInvalid.cs" />
+    <Compile Include="Consistency\Rules\MethodRules\BlanksInMethodNamesNotAllowed.cs" />
+    <Compile Include="Consistency\Rules\MethodRules\InconsistentSDM.cs" />
+    <Compile Include="Consistency\Rules\MethodRules\InvalidParameterTypes.cs" />
+    <Compile Include="Consistency\Rules\PackageRules\BlanksInPackageNamesNotAllowed.cs" />
+    <Compile Include="Consistency\Rules\PackageRules\EmptyPackageNotAllowed.cs" />
+    <Compile Include="Consistency\Rules\PackageRules\NoProjectPackagesWithSameName.cs" />
+    <Compile Include="Consistency\Rules\PackageRules\PackageNameShouldntEqualsEAPName.cs" />
+    <Compile Include="Consistency\Rules\PackageRules\TGGMetamodelInvalid.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ActivityNodeRules\SDMActivityInvalid.cs" />
+    <Compile Include="Consistency\Util\ConsistencyUtil.cs" />
+    <Compile Include="Consistency\Util\RuleResultIComparer.cs" />
+    <Compile Include="ControlPanel\TGGFunctions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlPanel\TGGFunctions.Designer.cs">
+      <DependentUpon>TGGFunctions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPanel\SDM\SDMFunctions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlPanel\SDM\SDMFunctions.Designer.cs">
+      <DependentUpon>SDMFunctions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import\Gui\ImportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import\Gui\ImportDialog.Designer.cs">
+      <DependentUpon>ImportDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import\Gui\ProgressBarType.cs" />
+    <Compile Include="Import\Gui\ProgressObject.cs" />
+    <Compile Include="Import\TGGImport.cs" />
+    <Compile Include="Import\EcoreImport.cs" />
+    <Compile Include="Import\MainImport.cs" />
+    <Compile Include="Import\SDMImport.cs" />
+    <Compile Include="Import\Util\ImportUtil.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EReferenceEnd.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EAttribute.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EClass.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EDatatype.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EEnum.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EEnumLiteral.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EOperation.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EPackage.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EParameter.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREExportWrapper\EReference.cs" />
+    <Compile Include="Modeling\ECOREModeling\ECOREModelingMain.cs" />
+    <Compile Include="Main.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ECOREModeling\Util\EcoreUtil.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\ActivityEdgeDialog\ActivityEdgePropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ActivityEdgeDialog\ActivityEdgePropertiesForm.Designer.cs">
+      <DependentUpon>ActivityEdgePropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ActivityEdgeDialog\GuardTypeComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ActivityNodeDialog\StatementNodeExpressionProvider.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\ActivityNodeDialog\ActivityNodePropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ActivityNodeDialog\ActivityNodePropertiesUserControl.Designer.cs">
+      <DependentUpon>ActivityNodePropertiesUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ActivityNodeDialog\ActivityNodeTabsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ActivityNodeDialog\ActivityNodeTabsForm.Designer.cs">
+      <DependentUpon>ActivityNodeTabsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ActivityNodeDialog\ActivityNodeTypeComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Common\ExpressionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Common\ExpressionControl.Designer.cs">
+      <DependentUpon>ExpressionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Common\ExpressionControlData.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\Common\ExpressionReturnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Common\ExpressionReturnForm.Designer.cs">
+      <DependentUpon>ExpressionReturnForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Common\IExpressionProvider.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\Common\SDMExpressionProvider.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\LinkVariableDialog\LinkDialogueEntry.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\LinkVariableDialog\LinkDialogueEntryDirection.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\LinkVariableDialog\LinkVariablePropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\LinkVariableDialog\LinkVariablePropertiesForm.designer.cs">
+      <DependentUpon>LinkVariablePropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\ConstraintExpressionProvider.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvConstraintUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvClassifiersComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvConstraintUserControl.Designer.cs">
+      <DependentUpon>OvConstraintUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Common\CommonExpressionProvider.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvDialog.Designer.cs">
+      <DependentUpon>OvDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvExpressionProvider.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvPropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvPropertiesUserControl.Designer.cs">
+      <DependentUpon>OvPropertiesUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\StopNodeDialog\StopNodeExpressionProvider.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\StopNodeDialog\StopNodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\StopNodeDialog\StopNodeForm.Designer.cs">
+      <DependentUpon>StopNodeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Util\SmoothListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Gui\Util\SmoothTableLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\expressions\Expressions.cs" />
+    <Compile Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvNamesComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Util\ExtractSDM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Util\ExtractSDM.designer.cs">
+      <DependentUpon>ExtractSDM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Util\EditMultipleObjects.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Util\EditMultipleObjects.Designer.cs">
+      <DependentUpon>EditMultipleObjects.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Util\SendInputClass.cs" />
+    <Compile Include="Modeling\SDMModeling\Util\SIClass.cs" />
+    <Compile Include="Modeling\CSP\Gui\CSPDefinitionDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modeling\CSP\Gui\CSPInstanceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\CSP\Gui\CSPInstanceDialog.Designer.cs">
+      <DependentUpon>CSPInstanceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\CSP\Gui\NewCSPDefDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modeling\CSP\Gui\NewCSPDefinitionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\CSP\Gui\NewCSPDefinitionDialog.Designer.cs">
+      <DependentUpon>NewCSPDefinitionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\TGGModeling\Gui\AddPostProcessForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\TGGModeling\Gui\AddPostProcessForm.Designer.cs">
+      <DependentUpon>AddPostProcessForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\TGGModeling\Gui\SelectCorrespondenceObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\TGGModeling\Gui\SelectCorrespondenceObject.Designer.cs">
+      <DependentUpon>SelectCorrespondenceObject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\TGGModeling\Gui\TGGExpressionProvider.cs" />
+    <Compile Include="Modeling\TGGModeling\Gui\TggOvExpressionProvider.cs" />
+    <Compile Include="Modeling\CSP\ExportWrapper\CSPConstraint.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\TGGCorrespondence.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\TGGCorrespondenceType.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\TGGRulePackage.cs" />
+    <Compile Include="Modeling\TGGModeling\Util\DeriveNewTGGRule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\TGGModeling\Util\DeriveNewTGGRule.Designer.cs">
+      <DependentUpon>DeriveNewTGGRule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\TGGModeling\Util\InvalidLinkVariableException.cs" />
+    <Compile Include="Modeling\TGGModeling\Util\InvalidObjectVariableException.cs" />
+    <Compile Include="Persistency\EcoreExport.cs" />
+    <Compile Include="Persistency\Export.cs" />
+    <Compile Include="Persistency\ExportProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Persistency\ExportProgressBar.Designer.cs">
+      <DependentUpon>ExportProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistency\SDMExport.cs" />
+    <Compile Include="Persistency\TGGExport.cs" />
+    <Compile Include="Persistency\Util\UpdateEap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Persistency\Util\UpdateEap.Designer.cs">
+      <DependentUpon>UpdateEap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistency\Util\PersistencyUtil.cs" />
+    <Compile Include="Serialization\MocaSerializableElement.cs" />
+    <Compile Include="Serialization\MocaTaggableElement.cs" />
+    <Compile Include="Serialization\MocaTree\MocaAttribute.cs" />
+    <Compile Include="Serialization\MocaTree\MocaFile.cs" />
+    <Compile Include="Serialization\MocaTree\MocaFolder.cs" />
+    <Compile Include="Serialization\MocaTree\MocaNode.cs" />
+    <Compile Include="Serialization\MocaTree\MocaText.cs" />
+    <Compile Include="Serialization\MocaTree\MocaTreeElement.cs" />
+    <Compile Include="Serialization\MocaTree\Util\MocaTreeUtil.cs" />
+    <Compile Include="Serialization\XmlTreeSerializableElement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\ComparingOperator.cs" />
+    <Compile Include="Serialization\MocaTree\Util\XmlUtil.cs" />
+    <Compile Include="Modeling\SDMModeling\Util\DeleteMethod.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Util\DeleteMethod.designer.cs">
+      <DependentUpon>DeleteMethod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\SDMModeling\Util\SDMUtil.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\activities\StoryNode.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\ConstraintHelper.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\EAObjectIComparer.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\EditorAttributeValueExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\EditorExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\EditorLiteralExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\EditorMethodCallExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\EditorObjectVariableExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\EditorParameterExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExpressionHelper\TObjectICompare.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMModelingMain.cs" />
+    <Compile Include="Server\DataStrategies\TracingReceiveStrategy.cs" />
+    <Compile Include="Server\Tracing\TracingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Server\Tracing\TracingDialog.Designer.cs">
+      <DependentUpon>TracingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Server\DataStrategies\ValidationReceiveStrategy.cs" />
+    <Compile Include="Util\EAUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PerformanceMeasure\Measurements.txt" />
+    <Content Include="Profiles\Images\anchorIcon.bmp" />
+    <Content Include="Profiles\Images\emoflon.bmp" />
+    <Content Include="Profiles\Images\emoflon.png" />
+    <Content Include="Profiles\Images\emoflonIcon.bmp" />
+    <Content Include="Profiles\Images\emoflonSmall.png" />
+    <Content Include="Profiles\Images\sdmContainerIcon.bmp" />
+    <Content Include="Profiles\Images\widder.bmp" />
+    <Content Include="Profiles\Images\widder.ico" />
+    <Content Include="Profiles\Images\widders.bmp" />
+    <Content Include="Profiles\Images\widderSmall.ico" />
+    <Content Include="Profiles\Tech\ECORE_Diagram.xml" />
+    <Content Include="Profiles\Tech\ECORE_Elements.xml" />
+    <Content Include="Profiles\Tech\ECORE_Toolbox.xml" />
+    <Content Include="Profiles\Tech\ESDM_Diagram.xml" />
+    <Content Include="Profiles\Tech\ESDM_Elements.xml" />
+    <Content Include="Profiles\Tech\ESDM_Toolbox.xml" />
+    <EmbeddedResource Include="ControlPanel\Global\GlobalFunctions.resx">
+      <DependentUpon>GlobalFunctions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlPanel\Global\UnableToExportDialog.resx">
+      <DependentUpon>UnableToExportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\Common\LiteralExpressionForm.resx">
+      <DependentUpon>LiteralExpressionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\AcceptInformationLoss.resx">
+      <DependentUpon>AcceptInformationLoss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Profiles\Tech\MOFLON2_Technology.xml" />
+    <Content Include="Profiles\Tech\MOFLON2_Technology_Selection.mts" />
+    <Content Include="Profiles\Tech\TGG_Diagram.xml" />
+    <Content Include="Profiles\Tech\TGG_Elements.xml" />
+    <Content Include="Profiles\Tech\TGG_RulesToolbox.xml" />
+    <Content Include="Profiles\Tech\TGG_RuleToolbox.xml" />
+    <Content Include="Profiles\Tech\TGG_Schema_Toolbox.xml" />
+    <Content Include="Resources\Aboutbox_EA_Addin_MOFLON.png" />
+    <None Include="Resources\arrow_up.png" />
+    <None Include="Resources\arrow_down.png" />
+    <Content Include="Resources\emoflon.png" />
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consistency\Gui\ConsistencyProgressBar.resx">
+      <DependentUpon>ConsistencyProgressBar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consistency\Gui\NewErrorOutput.resx">
+      <DependentUpon>NewErrorOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consistency\Gui\RuleQuickFixControl.resx">
+      <DependentUpon>RuleQuickFixControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consistency\Gui\RuleQuickfixDialogue.resx">
+      <DependentUpon>RuleQuickfixDialogue.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlPanel\SDM\ConfirmDeleteSDMs.resx">
+      <DependentUpon>ConfirmDeleteSDMs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlPanel\TCPServer.resx">
+      <DependentUpon>TCPServer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlPanel\TGGFunctions.resx">
+      <DependentUpon>TGGFunctions.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlPanel\SDM\SDMFunctions.resx">
+      <DependentUpon>SDMFunctions.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import\Gui\ImportDialog.resx">
+      <DependentUpon>ImportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\CSP\Gui\SDMCSPDialog.resx">
+      <DependentUpon>SDMCSPDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\ActivityEdgeDialog\ActivityEdgePropertiesForm.resx">
+      <DependentUpon>ActivityEdgePropertiesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\ActivityNodeDialog\ActivityNodePropertiesUserControl.resx">
+      <DependentUpon>ActivityNodePropertiesUserControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\ActivityNodeDialog\ActivityNodeTabsForm.resx">
+      <DependentUpon>ActivityNodeTabsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\Common\ExpressionControl.resx">
+      <DependentUpon>ExpressionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\Common\ExpressionReturnForm.resx">
+      <DependentUpon>ExpressionReturnForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\CreateSDMDialog\CreateSDMDialog.resx">
+      <DependentUpon>CreateSDMDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\LinkVariableDialog\LinkVariablePropertiesForm.resx">
+      <DependentUpon>LinkVariablePropertiesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\ComplexNAC.resx">
+      <DependentUpon>ComplexNAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvConstraintUserControl.resx">
+      <DependentUpon>OvConstraintUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvDialog.resx">
+      <DependentUpon>OvDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\OvPropertiesUserControl.resx">
+      <DependentUpon>OvPropertiesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Gui\StopNodeDialog\StopNodeForm.resx">
+      <DependentUpon>StopNodeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Util\EditMultipleObjects.resx">
+      <DependentUpon>EditMultipleObjects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Util\ExtractSDM.resx">
+      <DependentUpon>ExtractSDM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\CSP\Gui\CSPInstanceDialog.resx">
+      <DependentUpon>CSPInstanceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\CSP\Gui\NewCSPDefinitionDialog.resx">
+      <DependentUpon>NewCSPDefinitionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\TGGModeling\Gui\AddPostProcessForm.resx">
+      <DependentUpon>AddPostProcessForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\TGGModeling\Gui\SelectCorrespondenceObject.resx">
+      <DependentUpon>SelectCorrespondenceObject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\TGGModeling\Util\DeriveNewTGGRule.resx">
+      <DependentUpon>DeriveNewTGGRule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\Util\UpdateDialog.resx">
+      <DependentUpon>UpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistency\ExportProgressBar.resx">
+      <DependentUpon>ExportProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistency\Util\UpdateEap.resx">
+      <DependentUpon>UpdateEap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ECORE_Datatypes.xml" />
+    <EmbeddedResource Include="Resources\MOFLON2_Technology.xml">
+      <SubType>
+      </SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\SDMModeling\Util\DeleteMethod.resx">
+      <DependentUpon>DeleteMethod.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Server\Tracing\TracingDialog.resx">
+      <DependentUpon>TracingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQLWrapperClasses\ExtractingDatabaseProgessBar.resx">
+      <DependentUpon>ExtractingDatabaseProgessBar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\TGGModeling\Gui\NewTGGProjectDialog.resx">
+      <DependentUpon>NewTGGProjectDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="EA_Addin_MOFLON.snk" />
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consistency\ConsistencyModule.cs" />
+    <Compile Include="Consistency\Gui\ConsistencyProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consistency\Gui\ConsistencyProgressBar.Designer.cs">
+      <DependentUpon>ConsistencyProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consistency\RuleHandling\RuleControl.cs" />
+    <Compile Include="Consistency\Gui\RuleQuickfixDialogue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consistency\Gui\RuleQuickfixDialogue.Designer.cs">
+      <DependentUpon>RuleQuickfixDialogue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consistency\Rules\AttributeRule.cs" />
+    <Compile Include="Consistency\Rules\AttributeRules\InvalidAttributeType.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRule.cs" />
+    <Compile Include="Consistency\Rules\ConnectorRules\NavigableEndMustHaveName.cs" />
+    <Compile Include="Consistency\Rules\DiagramRule.cs" />
+    <Compile Include="Consistency\Rules\ElementRule.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ElementNotOnDiagram.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\OvWithoutClassifier.cs" />
+    <Compile Include="Consistency\Rules\ElementRules\ActivityNodeRules\EvacuatedDiagramNameNotEqual.cs" />
+    <Compile Include="Consistency\Rules\MethodRule.cs" />
+    <Compile Include="Consistency\Rules\MethodRules\InvalidReturnValue.cs" />
+    <Compile Include="Consistency\Rules\MethodRules\CorruptedParameterOrder.cs" />
+    <Compile Include="Consistency\Rules\PackageRule.cs" />
+    <Compile Include="Consistency\Rules\Rule.cs" />
+    <Compile Include="Consistency\Rules\RuleErrorLevel.cs" />
+    <Compile Include="Consistency\Rules\RuleExecutionPoint.cs" />
+    <Compile Include="Consistency\Rules\RuleResult.cs" />
+    <Compile Include="Consistency\Rules\RuleType.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\activities\Activity.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\activities\ActivityEdge.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\activities\ActivityNode.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\activities\StartNode.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\activities\StatementNode.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\activities\StopNode.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\activities\EdgeGuard.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\calls\expressions\MethodCallExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\calls\expressions\ParameterExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\calls\ParameterBinding.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\expressions\ComparisonExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\expressions\Expression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\expressions\LiteralExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\expressions\TextualExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\AttributeAssignment.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\BindingOperator.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\BindingSemantics.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\BindingState.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\Constraint.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\expressions\AttributeValueExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\expressions\ObjectVariableExpression.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\LinkVariable.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\ObjectVariable.cs" />
+    <Compile Include="Modeling\SDMModeling\SDMExportWrapper\patterns\StoryPattern.cs" />
+    <Compile Include="SQLWrapperClasses\SQLAttribute.cs" />
+    <Compile Include="SQLWrapperClasses\SQLCollection.cs" />
+    <Compile Include="SQLWrapperClasses\SQLConnector.cs" />
+    <Compile Include="SQLWrapperClasses\SQLConnectorEnd.cs" />
+    <Compile Include="SQLWrapperClasses\SQLConnectorTag.cs" />
+    <Compile Include="SQLWrapperClasses\SQLDiagram.cs" />
+    <Compile Include="SQLWrapperClasses\SQLElement.cs" />
+    <Compile Include="SQLWrapperClasses\SQLMethod.cs" />
+    <Compile Include="SQLWrapperClasses\SQLPackage.cs" />
+    <Compile Include="SQLWrapperClasses\SQLParameter.cs" />
+    <Compile Include="SQLWrapperClasses\SQLTaggedValue.cs" />
+    <Compile Include="SQLWrapperClasses\SQLTemplate.cs" />
+    <Compile Include="SQLWrapperClasses\ExtractingDatabaseProgessBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SQLWrapperClasses\ExtractingDatabaseProgessBar.Designer.cs">
+      <DependentUpon>ExtractingDatabaseProgessBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SQLWrapperClasses\IEnumeratorImpl.cs" />
+    <Compile Include="SQLWrapperClasses\SQLRepository.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\Domain.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\DomainType.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\Metamodel.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\TGG.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\TGGLinkVariable.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\TGGObjectVariable.cs" />
+    <Compile Include="Modeling\TGGModeling\TGGExportWrapper\TGGRule.cs" />
+    <Compile Include="Modeling\TGGModeling\Gui\NewTGGProjectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\TGGModeling\Gui\NewTGGProjectDialog.Designer.cs">
+      <DependentUpon>NewTGGProjectDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modeling\TGGModeling\TGGModelingMain.cs" />
+    <Compile Include="Modeling\TGGModeling\Util\TGGModelingUtil.cs" />
+    <None Include="Profiles\Ecore_Profile.eap" />
+    <None Include="Profiles\Images\anchor.bmp" />
+    <None Include="Profiles\Images\anchor.emf" />
+    <None Include="Profiles\Images\anchor_button_bg..png" />
+    <None Include="Profiles\Images\anchor_small..png" />
+    <None Include="Profiles\Images\anchor_transparent.bmp" />
+    <None Include="Profiles\Images\arrowInside.png" />
+    <None Include="Profiles\Images\create.emf" />
+    <None Include="Profiles\Images\destroy.emf" />
+    <None Include="Profiles\Images\eMoflon.acrobat.pdf" />
+    <None Include="Profiles\Images\eMoflon.original.svg" />
+    <None Include="Profiles\Images\widder.xcf" />
+    <None Include="Profiles\Quicklinker.csv" />
+    <None Include="Profiles\SDM_Profile.eap" />
+    <None Include="Profiles\TGG_Profile.eap" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Consistency\Rules\DiagramRules\" />
+    <Folder Include="Profiles\.svn\prop-base\" />
+    <Folder Include="Profiles\.svn\props\" />
+    <Folder Include="Profiles\.svn\text-base\" />
+    <Folder Include="Profiles\.svn\tmp\prop-base\" />
+    <Folder Include="Profiles\.svn\tmp\props\" />
+    <Folder Include="Profiles\.svn\tmp\text-base\" />
+    <Folder Include="Profiles\Images\.svn\prop-base\" />
+    <Folder Include="Profiles\Images\.svn\props\" />
+    <Folder Include="Profiles\Images\.svn\text-base\" />
+    <Folder Include="Profiles\Images\.svn\tmp\prop-base\" />
+    <Folder Include="Profiles\Images\.svn\tmp\props\" />
+    <Folder Include="Profiles\Images\.svn\tmp\text-base\" />
+    <Folder Include="Profiles\Tech\.svn\prop-base\" />
+    <Folder Include="Profiles\Tech\.svn\props\" />
+    <Folder Include="Profiles\Tech\.svn\text-base\" />
+    <Folder Include="Profiles\Tech\.svn\tmp\prop-base\" />
+    <Folder Include="Profiles\Tech\.svn\tmp\props\" />
+    <Folder Include="Profiles\Tech\.svn\tmp\text-base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

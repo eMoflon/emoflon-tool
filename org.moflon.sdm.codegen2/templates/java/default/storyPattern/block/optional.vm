@@ -1,0 +1,21 @@
+#**##set( $afterfirst = false )
+#**##set( $children = $utility.indent("   ",$!children) )
+#**#// check optional
+#**#if (##
+#**##foreach( $candidate in $objects )
+#*   *##if ( $afterfirst )
+#*      *# && ##
+#*   *##else
+#*      *##set( $afterfirst = true )
+#*   *##end
+#*   *##set( $object = $candidate.Ref )
+#*   *##set( $name = $object.ObjectName )
+#*   *##if ( $object.isSet() )
+#*      *##set( $name = "fujaba__TmpObject$utility.upFirstChar($name)" )
+#*   *##end
+#*   *#$name != null##
+#**##end
+#**#)
+#**#{
+#**#$children##
+#**#}

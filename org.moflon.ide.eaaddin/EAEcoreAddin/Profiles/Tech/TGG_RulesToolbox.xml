@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="A2F71014-4" name="TGG (Rules Diagram)" version="1.0" notes="TGG (Rules Diagram)"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="TGG (Rules Diagram)" notes="" cx="210" cy="85" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="TGGElements::Rule" type="" description="" unit="" values="" default="Rule"/>
+					<Tag name="TGGElements::Rule-Set" type="" description="" unit="" values="" default="Rule-Set"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

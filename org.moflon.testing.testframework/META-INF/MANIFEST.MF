@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MoflonTestFramework
+Bundle-SymbolicName: org.moflon.testframework
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: 
+ org.apache.log4j;bundle-version="1.2.15",org.eclipse.emf.ecore.xmi,
+ org.eclipse.core.resources;bundle-version="3.8.101",
+ org.eclipse.emf.compare,
+ org.moflon.core.utilities,
+ org.junit;bundle-version="4.11.0",
+ org.moflon.ide.ui,
+ TGGLanguage,
+ Moca,
+ MocaTree
+Export-Package: org.moflon.testframework.tgg,
+ org.moflon.testframework.tgg.xml.unparser
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt

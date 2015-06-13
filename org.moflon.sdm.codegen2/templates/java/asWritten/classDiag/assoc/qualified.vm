@@ -1,0 +1,210 @@
+#**##if( $internalQualified )
+#*   *##set( $visibility2 = "protected" )
+#**##else
+#*   *##set( $visibility2 = $visibility )
+#**##end
+#**#
+#**##if( !$targetClassIsInterface || !$internalQualified )
+#*   *#$visibility2 boolean hasIn$methodSuffix ($key key, $type value)##
+#*   *##if ( $targetClassIsInterface ) 
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*      *#   return ((this.$name != null) &&
+#*      *##if( $toMany )
+#*         *#           this.${name}.containsEntry (key, value));
+#*      *##else
+#*         *#           (value != null || this.${name}.containsKey (key)) && 
+#*         *#           (this.${name}.get (key) == value));
+#*      *##end
+#*      *#}
+#*   *##end
+#**##end
+#**#
+#**#$visibility boolean hasKeyIn$methodSuffix ($key key)##
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#
+#*   *#{
+#*   *#   return ((this.$name != null) &&
+#*   *#           this.${name}.containsKey (key));
+#*   *#}
+#**##end
+#**#
+#**#$visibility Iterator keysOf$methodSuffix ()##
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#
+#*   *#{
+#*   *#   return ((this.$name == null)
+#*   *#           ? FEmptyIterator.get ()
+#*   *#           : this.${name}.keySet ().iterator ());
+#*   *#}
+#**##end
+#**#
+#**#$visibility Iterator entriesOf$methodSuffix ()##
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#
+#*   *#{
+#*   *#   return ((this.$name == null)
+#*   *#           ? FEmptyIterator.get ()
+#*   *#           : this.${name}.entrySet ().iterator ());
+#*   *#}
+#**##end
+#**#
+#**##if( !$targetClassIsInterface || !$internalQualified )
+#**#$visibility2 boolean addTo$methodSuffix (#if($partnerKey)$partnerKey partnerKey, #end
+#*   *#$key key, $type value)##
+#*   *##if ( $targetClassIsInterface ) 
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*      *#   boolean changed = false;
+#*      *#
+#*      *#   if (this.$name == null)
+#*      *#   {
+#*      *#      this.$name = new $container ($!constParams);
+#*      *#   }
+#*      *#   $!preHook
+#*      *#   $type oldValue = ($type) this.${name}.put (key, value);
+#*      *#   if (oldValue != value)
+#*      *#   {
+#*      *##if( !$ref )
+#*         *#      if (oldValue != null)
+#*         *#      {
+#*         *#         oldValue.$remove;
+#*         *#      }
+#*         *#      if (value != null)
+#*         *#      {
+#*         *#         value.$insert;
+#*         *#      }
+#*      *##end
+#*      *#      changed = true;
+#*      *#   }
+#*      *#   $!postHook
+#*      *#   return changed;
+#*      *#}
+#*   *##end
+#**##end
+#**#
+#**##if( !$targetClassIsInterface || !$internalQualified )
+#**#$visibility2 boolean addTo$methodSuffix (#if($partnerKey)$partnerKey partnerKey, #end
+#*   *#Map.Entry entry)##
+#*   *##if ( $targetClassIsInterface ) 
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*   *#   return addTo$methodSuffix (#if($partnerKey)partnerKey, #end
+#*      *#($keyWrapper) entry.getKey (), ($type) entry.getValue ());
+#*      *#}
+#*   *##end
+#**##end
+#**#
+#**##if( !$targetClassIsInterface  || !$internalQualified )
+#*   *#$visibility2 boolean removeFrom$methodSuffix ($key key, $type value)##
+#*   *##if ( $targetClassIsInterface ) 
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*      *#   boolean changed = false;
+#*      *#
+#*      *##if( $toMany )
+#*         *#   if ((this.$name != null) &&
+#*         *#       (value != null || this.${name}.containsEntry (key, value)))
+#*         *#   {
+#*         *#      $!preHook
+#*         *#      $type oldValue  = ($type) this.${name}.remove (key, value);
+#*         *#      if (oldValue == value)
+#*         *#      {
+#*         *##if( !$ref )
+#*            *#        if (value != null)
+#*            *#        {
+#*            *#           value.$remove;
+#*            *#        }
+#*         *##end
+#*         *#        changed = true;
+#*         *#      }
+#*         *#      $!postHook
+#*         *#   }
+#*      *##else
+#*         *#   if (this.$name != null)
+#*         *#   {
+#*         *#      $type oldValue = ($type) this.${name}.get (key);
+#*         *#      if (oldValue == value && 
+#*         *#          (oldValue != null || this.${name}.containsKey (key)))
+#*         *#      {
+#*         *#         $!preHook
+#*         *#         this.${name}.remove (key);
+#*         *##if( !$ref )
+#*            *#         if (value != null)
+#*            *#         {
+#*            *#            value.$remove;
+#*            *#         }
+#*         *##end
+#*         *#         changed = true;
+#*         *#         $!postHook
+#*         *#      }
+#*         *#   }
+#*      *##end
+#*      *#   return changed;
+#*      *#}
+#*   *##end
+#**##end
+#**#
+#**##if( !$targetClassIsInterface  || !$internalQualified )
+#*   *#$visibility boolean removeKeyFrom$methodSuffix ($key key)##
+#*   *##if ( $targetClassIsInterface )
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#{
+#*      *#   boolean changed = false;
+#*      *#
+#*      *##if( $toMany )
+#*         *#   if (this.$name != null)
+#*         *#   {
+#*         *#      $!preHook
+#*         *#      Collection tmpCol = (Collection) this.${name}.values (key);
+#*         *#      if (tmpCol != null)
+#*         *#      {
+#*         *#         $type tmpValue;
+#*         *#         Iterator iter = tmpCol.iterator ();
+#*         *#         while (iter.hasNext ())
+#*         *#         {
+#*         *#            tmpValue = ($type) iter.next ();
+#*         *#            this.removeFrom$methodSuffix (key, tmpValue);
+#*         *#         }
+#*         *#         changed = true;
+#*         *#      }
+#*         *#      $!postHook
+#*         *#   }
+#*      *##else
+#*         *#   if (this.$name != null)
+#*         *#   {
+#*         *#      changed = this.${name}.containsKey (key);
+#*         *#      if (changed)
+#*         *#      {
+#*         *#         $!preHook
+#*         *#         $type tmpValue = ($type) this.${name}.remove (key);
+#*         *##if( !$ref )
+#*            *#         if (tmpValue != null)
+#*            *#         {
+#*            *#            tmpValue.$remove;
+#*            *#         }
+#*         *##end
+#*         *#         $!postHook
+#*         *#      }
+#*         *#   }
+#*      *##end
+#*      *#   return changed;
+#*      *#}
+#*   *##end
+#**##end

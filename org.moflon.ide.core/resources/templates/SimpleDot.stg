@@ -1,0 +1,25 @@
+group dot;
+
+root(leaves) ::= <<
+digraph modelAsDot {
+  node [shape=record];
+  <leaves; separator="\n">
+}
+>>
+
+leaf(src, attrs, refs) ::= <<
+<src> [label="{<src> | <attrs; separator="|">}"];
+<refs; separator="\n">
+>>
+
+ref(name, children) ::= <<
+<children; separator="\n">
+>>
+
+child(trg) ::= <<
+<src> -> <trg> [label=<name>];
+>>
+
+property(name, value) ::= <<
+<name> = <value>
+>>

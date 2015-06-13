@@ -1,0 +1,668 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLSUBFOLDER">
+            <Directory Id="dir4F15D8EA243D075A11CF3E9A5845024E" Name="eMoflonAddinInstaller" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="MyFilesGroup">
+            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{3EBC7E51-53CA-4733-937B-821E0CD01E68}">
+                <Class Id="{00963F77-2436-385B-9E79-3C31B2FEF9A5}" Context="InprocServer32" Description="EAEcoreAddin.Serialization.MocaTree.MocaNode" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Serialization.MocaTree.MocaNode" Description="EAEcoreAddin.Serialization.MocaTree.MocaNode" />
+                </Class>
+                <Class Id="{02DFFF68-2786-3D96-9A12-56F8DC671BDF}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorLiteralExpression" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorLiteralExpression" Description="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorLiteralExpression" />
+                </Class>
+                <Class Id="{0320B251-64D8-3A34-B766-83B926A359EF}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.PropertyFile.PropertyLine" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.PropertyFile.PropertyLine" Description="EAEcoreAddin.Consistency.PropertyFile.PropertyLine" />
+                </Class>
+                <Class Id="{04695460-8692-3D06-B9FF-ACB2B7CCAB49}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControl" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControl" />
+                </Class>
+                <Class Id="{060E772E-FFB9-3A74-B03F-851455B1E148}" Context="InprocServer32" Description="EAEcoreAddin.Serialization.MocaTree.MocaFolder" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Serialization.MocaTree.MocaFolder" Description="EAEcoreAddin.Serialization.MocaTree.MocaFolder" />
+                </Class>
+                <Class Id="{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.PropertyFile.PropertyEntry" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.PropertyFile.PropertyEntry" Description="EAEcoreAddin.Consistency.PropertyFile.PropertyEntry" />
+                </Class>
+                <Class Id="{190C39D1-85F5-3BD0-B34A-545112321CE9}" Context="InprocServer32" Description="EAEcoreAddin.Serialization.MocaTree.Util.XmlUtil" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Serialization.MocaTree.Util.XmlUtil" Description="EAEcoreAddin.Serialization.MocaTree.Util.XmlUtil" />
+                </Class>
+                <Class Id="{1D5056B9-563D-38C7-A3F3-69347E6432A4}" Context="InprocServer32" Description="EAEcoreAddin.ControlPanel.SDMFunctions" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.ControlPanel.SDMFunctions" Description="EAEcoreAddin.ControlPanel.SDMFunctions" />
+                </Class>
+                <Class Id="{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Domain" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Domain" Description="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Domain" />
+                </Class>
+                <Class Id="{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}" Context="InprocServer32" Description="EAEcoreAddin.Server.Tracing.TracingDialog" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Server.Tracing.TracingDialog" Description="EAEcoreAddin.Server.Tracing.TracingDialog" />
+                </Class>
+                <Class Id="{27608553-EDA4-31EF-8BE1-0EE5727F48D5}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.Rules.RuleResult" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.Rules.RuleResult" Description="EAEcoreAddin.Consistency.Rules.RuleResult" />
+                </Class>
+                <Class Id="{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.PropertyFile.PropertyObject" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.PropertyFile.PropertyObject" Description="EAEcoreAddin.Consistency.PropertyFile.PropertyObject" />
+                </Class>
+                <Class Id="{2D151922-43A4-3ABF-9AE9-229347A37CE4}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvClassifiersComboBox" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvClassifiersComboBox" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvClassifiersComboBox" />
+                </Class>
+                <Class Id="{3110C5D9-C176-3DC1-AAA9-67505D172245}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodeTypeComboBox" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodeTypeComboBox" Description="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodeTypeComboBox" />
+                </Class>
+                <Class Id="{337709C8-BF7A-33F9-96BF-80649D7815F0}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.expressions.LiteralExpression" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.expressions.LiteralExpression" Description="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.expressions.LiteralExpression" />
+                </Class>
+                <Class Id="{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}" Context="InprocServer32" Description="EAEcoreAddin.Serialization.MocaTree.MocaAttribute" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Serialization.MocaTree.MocaAttribute" Description="EAEcoreAddin.Serialization.MocaTree.MocaAttribute" />
+                </Class>
+                <Class Id="{439565A8-39FC-3D63-A253-F484B7BEE16C}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.Util.UpdateDialog" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.Util.UpdateDialog" Description="EAEcoreAddin.Modeling.Util.UpdateDialog" />
+                </Class>
+                <Class Id="{44FF4879-588C-3398-A8A6-3C64D0BC344C}" Context="InprocServer32" Description="EAEcoreAddin.Persistency.ExportProgressBar" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Persistency.ExportProgressBar" Description="EAEcoreAddin.Persistency.ExportProgressBar" />
+                </Class>
+                <Class Id="{519588D0-EAD3-389E-AB8E-63753034A5FD}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefinitionDialog" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefinitionDialog" Description="EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefinitionDialog" />
+                </Class>
+                <Class Id="{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.ConsistencyModule" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.ConsistencyModule" Description="EAEcoreAddin.Consistency.ConsistencyModule" />
+                </Class>
+                <Class Id="{555DC205-BC65-3218-BD23-AC301919A823}" Context="InprocServer32" Description="EAEcoreAddin.Serialization.MocaTree.MocaFile" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Serialization.MocaTree.MocaFile" Description="EAEcoreAddin.Serialization.MocaTree.MocaFile" />
+                </Class>
+                <Class Id="{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.ECOREModeling.Util.EcoreUtil" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.ECOREModeling.Util.EcoreUtil" Description="EAEcoreAddin.Modeling.ECOREModeling.Util.EcoreUtil" />
+                </Class>
+                <Class Id="{6268C3C1-4663-3377-B8FD-095BCEF24AB2}" Context="InprocServer32" Description="EAEcoreAddin.Persistency.Util.UpdateEap" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Persistency.Util.UpdateEap" Description="EAEcoreAddin.Persistency.Util.UpdateEap" />
+                </Class>
+                <Class Id="{709BED67-3FAD-395A-9336-DB4E6A9317BE}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.ConsistencyProgressBar" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.ConsistencyProgressBar" Description="EAEcoreAddin.Consistency.ConsistencyProgressBar" />
+                </Class>
+                <Class Id="{7EF88684-7AA7-3C31-AE99-214760D2A11D}" Context="InprocServer32" Description="EAEcoreAddin.Serialization.MocaTree.Util.MocaTreeUtil" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Serialization.MocaTree.Util.MocaTreeUtil" Description="EAEcoreAddin.Serialization.MocaTree.Util.MocaTreeUtil" />
+                </Class>
+                <Class Id="{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorMethodCallExpression" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorMethodCallExpression" Description="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorMethodCallExpression" />
+                </Class>
+                <Class Id="{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.Util.ConsistencyUtil" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.Util.ConsistencyUtil" Description="EAEcoreAddin.Consistency.Util.ConsistencyUtil" />
+                </Class>
+                <Class Id="{858C3118-2CE4-3C53-BD32-40C324517C9F}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.Util.RuleResultIComparer" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.Util.RuleResultIComparer" Description="EAEcoreAddin.Consistency.Util.RuleResultIComparer" />
+                </Class>
+                <Class Id="{87165FB6-D358-3F8D-A8FA-317681CCAE4F}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.CreateSDMDialog.CreateSDMDialog" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.Gui.CreateSDMDialog.CreateSDMDialog" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.CreateSDMDialog.CreateSDMDialog" />
+                </Class>
+                <Class Id="{87ED3715-48B6-3D4B-B6CA-F68816D243D8}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorParameterExpression" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorParameterExpression" Description="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorParameterExpression" />
+                </Class>
+                <Class Id="{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}" Context="InprocServer32" Description="EAEcoreAddin.ControlPanel.TGGFunctions" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.ControlPanel.TGGFunctions" Description="EAEcoreAddin.ControlPanel.TGGFunctions" />
+                </Class>
+                <Class Id="{900FF321-993C-350D-AA6B-AE29AF728FD6}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothListBox" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothListBox" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothListBox" />
+                </Class>
+                <Class Id="{909B23FB-9154-3678-A9C5-06C195193483}" Context="InprocServer32" Description="EAEcoreAddin.ControlPanel.Global.GlobalFunctions" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.ControlPanel.Global.GlobalFunctions" Description="EAEcoreAddin.ControlPanel.Global.GlobalFunctions" />
+                </Class>
+                <Class Id="{91A33531-A878-3792-807A-58FC986BF48E}" Context="InprocServer32" Description="EAEcoreAddin.ControlPanel.TCPServerUserControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.ControlPanel.TCPServerUserControl" Description="EAEcoreAddin.ControlPanel.TCPServerUserControl" />
+                </Class>
+                <Class Id="{931EE995-2E62-3AF6-8B97-631F258F9563}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvPropertiesUserControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvPropertiesUserControl" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvPropertiesUserControl" />
+                </Class>
+                <Class Id="{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvNamesComboBox" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvNamesComboBox" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvNamesComboBox" />
+                </Class>
+                <Class Id="{94277C29-9F75-36F6-8B38-B3F10E0431AD}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothTableLayoutPanel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothTableLayoutPanel" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothTableLayoutPanel" />
+                </Class>
+                <Class Id="{995F3280-5200-3339-8BDF-4103383144CD}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvConstraintUserControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvConstraintUserControl" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvConstraintUserControl" />
+                </Class>
+                <Class Id="{997B6020-8B37-37DD-993D-1032739F0783}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Metamodel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Metamodel" Description="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Metamodel" />
+                </Class>
+                <Class Id="{B147F2A7-C684-38F6-9F95-4665D625B348}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.SDMModelingMain" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.SDMModelingMain" Description="EAEcoreAddin.Modeling.SDMModeling.SDMModelingMain" />
+                </Class>
+                <Class Id="{BEEBB047-0617-3183-B6E0-13E53D3EFE76}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.ComplexNAC" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.ComplexNAC" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.ComplexNAC" />
+                </Class>
+                <Class Id="{C52EAAAD-5486-374C-B34F-14164C3E6B4C}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControlData" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControlData" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControlData" />
+                </Class>
+                <Class Id="{C7C42C27-94B0-32BF-944D-AF12573759BC}" Context="InprocServer32" Description="EAEcoreAddin.Main" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Main" Description="EAEcoreAddin.Main" />
+                </Class>
+                <Class Id="{CF550D1D-1FAD-3130-885B-F463CA9157A0}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.RuleHandling.NewErrorOutput" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.RuleHandling.NewErrorOutput" Description="EAEcoreAddin.Consistency.RuleHandling.NewErrorOutput" />
+                </Class>
+                <Class Id="{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.LinkVariableDialog.LinkDialogueEntry" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.LinkVariableDialog.LinkDialogueEntry" Description="EAEcoreAddin.Modeling.SDMModeling.LinkVariableDialog.LinkDialogueEntry" />
+                </Class>
+                <Class Id="{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodePropertiesUserControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodePropertiesUserControl" Description="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodePropertiesUserControl" />
+                </Class>
+                <Class Id="{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}" Context="InprocServer32" Description="EAEcoreAddin.ControlPanel.SDM.ConfirmDeleteSDMs" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.ControlPanel.SDM.ConfirmDeleteSDMs" Description="EAEcoreAddin.ControlPanel.SDM.ConfirmDeleteSDMs" />
+                </Class>
+                <Class Id="{E9000AB0-FD19-3755-BFC4-F154B899EFB8}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.AcceptInformationLoss" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.AcceptInformationLoss" Description="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.AcceptInformationLoss" />
+                </Class>
+                <Class Id="{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}" Context="InprocServer32" Description="EAEcoreAddin.ControlPanel.Global.UnableToExportDialog" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.ControlPanel.Global.UnableToExportDialog" Description="EAEcoreAddin.ControlPanel.Global.UnableToExportDialog" />
+                </Class>
+                <Class Id="{F02C9F03-8496-35DD-B506-EBD8878EA035}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.Gui.RuleQuickFixControl" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Consistency.Gui.RuleQuickFixControl" Description="EAEcoreAddin.Consistency.Gui.RuleQuickFixControl" />
+                </Class>
+                <Class Id="{F8B76878-A203-373F-89D6-01CFF3418C3C}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.CSP.ExportWrapper.CSPConstraint" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.CSP.ExportWrapper.CSPConstraint" Description="EAEcoreAddin.Modeling.CSP.ExportWrapper.CSPConstraint" />
+                </Class>
+                <File Id="filA1C34050C1E7EC80F88D6C691674D780" KeyPath="yes" Source="$(var.SolutionDir)\eMoflonAddinInstaller\EAEcoreAddin.dll" />
+                <ProgId Id="Record" />
+                <RegistryValue Root="HKCR" Key="CLSID\{00963F77-2436-385B-9E79-3C31B2FEF9A5}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{00963F77-2436-385B-9E79-3C31B2FEF9A5}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.MocaNode" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{00963F77-2436-385B-9E79-3C31B2FEF9A5}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{00963F77-2436-385B-9E79-3C31B2FEF9A5}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{00963F77-2436-385B-9E79-3C31B2FEF9A5}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{00963F77-2436-385B-9E79-3C31B2FEF9A5}\InprocServer32" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.MocaNode" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{00963F77-2436-385B-9E79-3C31B2FEF9A5}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{00963F77-2436-385B-9E79-3C31B2FEF9A5}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{00963F77-2436-385B-9E79-3C31B2FEF9A5}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{02DFFF68-2786-3D96-9A12-56F8DC671BDF}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{02DFFF68-2786-3D96-9A12-56F8DC671BDF}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorLiteralExpression" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{02DFFF68-2786-3D96-9A12-56F8DC671BDF}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{02DFFF68-2786-3D96-9A12-56F8DC671BDF}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{02DFFF68-2786-3D96-9A12-56F8DC671BDF}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{02DFFF68-2786-3D96-9A12-56F8DC671BDF}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorLiteralExpression" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{02DFFF68-2786-3D96-9A12-56F8DC671BDF}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{02DFFF68-2786-3D96-9A12-56F8DC671BDF}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{02DFFF68-2786-3D96-9A12-56F8DC671BDF}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0320B251-64D8-3A34-B766-83B926A359EF}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0320B251-64D8-3A34-B766-83B926A359EF}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.PropertyFile.PropertyLine" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0320B251-64D8-3A34-B766-83B926A359EF}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0320B251-64D8-3A34-B766-83B926A359EF}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0320B251-64D8-3A34-B766-83B926A359EF}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0320B251-64D8-3A34-B766-83B926A359EF}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.PropertyFile.PropertyLine" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0320B251-64D8-3A34-B766-83B926A359EF}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0320B251-64D8-3A34-B766-83B926A359EF}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0320B251-64D8-3A34-B766-83B926A359EF}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{04695460-8692-3D06-B9FF-ACB2B7CCAB49}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{04695460-8692-3D06-B9FF-ACB2B7CCAB49}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{04695460-8692-3D06-B9FF-ACB2B7CCAB49}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{04695460-8692-3D06-B9FF-ACB2B7CCAB49}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{04695460-8692-3D06-B9FF-ACB2B7CCAB49}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{04695460-8692-3D06-B9FF-ACB2B7CCAB49}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{04695460-8692-3D06-B9FF-ACB2B7CCAB49}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{04695460-8692-3D06-B9FF-ACB2B7CCAB49}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{04695460-8692-3D06-B9FF-ACB2B7CCAB49}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{060E772E-FFB9-3A74-B03F-851455B1E148}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{060E772E-FFB9-3A74-B03F-851455B1E148}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.MocaFolder" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{060E772E-FFB9-3A74-B03F-851455B1E148}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{060E772E-FFB9-3A74-B03F-851455B1E148}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{060E772E-FFB9-3A74-B03F-851455B1E148}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{060E772E-FFB9-3A74-B03F-851455B1E148}\InprocServer32" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.MocaFolder" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{060E772E-FFB9-3A74-B03F-851455B1E148}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{060E772E-FFB9-3A74-B03F-851455B1E148}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{060E772E-FFB9-3A74-B03F-851455B1E148}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.PropertyFile.PropertyEntry" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.PropertyFile.PropertyEntry" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{0D1C422D-8F7F-3136-AA0D-810F10F29FA1}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{190C39D1-85F5-3BD0-B34A-545112321CE9}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{190C39D1-85F5-3BD0-B34A-545112321CE9}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.Util.XmlUtil" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{190C39D1-85F5-3BD0-B34A-545112321CE9}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{190C39D1-85F5-3BD0-B34A-545112321CE9}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{190C39D1-85F5-3BD0-B34A-545112321CE9}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{190C39D1-85F5-3BD0-B34A-545112321CE9}\InprocServer32" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.Util.XmlUtil" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{190C39D1-85F5-3BD0-B34A-545112321CE9}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{190C39D1-85F5-3BD0-B34A-545112321CE9}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{190C39D1-85F5-3BD0-B34A-545112321CE9}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1D5056B9-563D-38C7-A3F3-69347E6432A4}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1D5056B9-563D-38C7-A3F3-69347E6432A4}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.ControlPanel.SDMFunctions" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1D5056B9-563D-38C7-A3F3-69347E6432A4}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1D5056B9-563D-38C7-A3F3-69347E6432A4}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1D5056B9-563D-38C7-A3F3-69347E6432A4}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1D5056B9-563D-38C7-A3F3-69347E6432A4}\InprocServer32" Name="Class" Value="EAEcoreAddin.ControlPanel.SDMFunctions" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1D5056B9-563D-38C7-A3F3-69347E6432A4}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1D5056B9-563D-38C7-A3F3-69347E6432A4}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1D5056B9-563D-38C7-A3F3-69347E6432A4}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Domain" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Domain" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1E24AC73-90DC-3AB7-B853-AF8D4FE62680}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Server.Tracing.TracingDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}\InprocServer32" Name="Class" Value="EAEcoreAddin.Server.Tracing.TracingDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1FE90E74-000C-3F5D-B56B-FE3F60F95E9E}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27608553-EDA4-31EF-8BE1-0EE5727F48D5}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27608553-EDA4-31EF-8BE1-0EE5727F48D5}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.Rules.RuleResult" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27608553-EDA4-31EF-8BE1-0EE5727F48D5}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27608553-EDA4-31EF-8BE1-0EE5727F48D5}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27608553-EDA4-31EF-8BE1-0EE5727F48D5}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27608553-EDA4-31EF-8BE1-0EE5727F48D5}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.Rules.RuleResult" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27608553-EDA4-31EF-8BE1-0EE5727F48D5}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27608553-EDA4-31EF-8BE1-0EE5727F48D5}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27608553-EDA4-31EF-8BE1-0EE5727F48D5}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.PropertyFile.PropertyObject" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.PropertyFile.PropertyObject" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{27FFDC9F-FB5B-3FC0-A618-9C84720E4F0C}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{2D151922-43A4-3ABF-9AE9-229347A37CE4}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{2D151922-43A4-3ABF-9AE9-229347A37CE4}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvClassifiersComboBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{2D151922-43A4-3ABF-9AE9-229347A37CE4}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{2D151922-43A4-3ABF-9AE9-229347A37CE4}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{2D151922-43A4-3ABF-9AE9-229347A37CE4}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{2D151922-43A4-3ABF-9AE9-229347A37CE4}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvClassifiersComboBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{2D151922-43A4-3ABF-9AE9-229347A37CE4}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{2D151922-43A4-3ABF-9AE9-229347A37CE4}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{2D151922-43A4-3ABF-9AE9-229347A37CE4}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3110C5D9-C176-3DC1-AAA9-67505D172245}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3110C5D9-C176-3DC1-AAA9-67505D172245}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodeTypeComboBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3110C5D9-C176-3DC1-AAA9-67505D172245}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3110C5D9-C176-3DC1-AAA9-67505D172245}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3110C5D9-C176-3DC1-AAA9-67505D172245}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3110C5D9-C176-3DC1-AAA9-67505D172245}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodeTypeComboBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3110C5D9-C176-3DC1-AAA9-67505D172245}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3110C5D9-C176-3DC1-AAA9-67505D172245}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3110C5D9-C176-3DC1-AAA9-67505D172245}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{337709C8-BF7A-33F9-96BF-80649D7815F0}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{337709C8-BF7A-33F9-96BF-80649D7815F0}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.expressions.LiteralExpression" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{337709C8-BF7A-33F9-96BF-80649D7815F0}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{337709C8-BF7A-33F9-96BF-80649D7815F0}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{337709C8-BF7A-33F9-96BF-80649D7815F0}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{337709C8-BF7A-33F9-96BF-80649D7815F0}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.expressions.LiteralExpression" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{337709C8-BF7A-33F9-96BF-80649D7815F0}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{337709C8-BF7A-33F9-96BF-80649D7815F0}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{337709C8-BF7A-33F9-96BF-80649D7815F0}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.MocaAttribute" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}\InprocServer32" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.MocaAttribute" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{3C792EC6-4909-3BBD-AB09-DE76F4EBBB7E}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{439565A8-39FC-3D63-A253-F484B7BEE16C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{439565A8-39FC-3D63-A253-F484B7BEE16C}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.Util.UpdateDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{439565A8-39FC-3D63-A253-F484B7BEE16C}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{439565A8-39FC-3D63-A253-F484B7BEE16C}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{439565A8-39FC-3D63-A253-F484B7BEE16C}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{439565A8-39FC-3D63-A253-F484B7BEE16C}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.Util.UpdateDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{439565A8-39FC-3D63-A253-F484B7BEE16C}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{439565A8-39FC-3D63-A253-F484B7BEE16C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{439565A8-39FC-3D63-A253-F484B7BEE16C}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{44FF4879-588C-3398-A8A6-3C64D0BC344C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{44FF4879-588C-3398-A8A6-3C64D0BC344C}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Persistency.ExportProgressBar" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{44FF4879-588C-3398-A8A6-3C64D0BC344C}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{44FF4879-588C-3398-A8A6-3C64D0BC344C}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{44FF4879-588C-3398-A8A6-3C64D0BC344C}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{44FF4879-588C-3398-A8A6-3C64D0BC344C}\InprocServer32" Name="Class" Value="EAEcoreAddin.Persistency.ExportProgressBar" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{44FF4879-588C-3398-A8A6-3C64D0BC344C}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{44FF4879-588C-3398-A8A6-3C64D0BC344C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{44FF4879-588C-3398-A8A6-3C64D0BC344C}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{519588D0-EAD3-389E-AB8E-63753034A5FD}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{519588D0-EAD3-389E-AB8E-63753034A5FD}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefinitionDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{519588D0-EAD3-389E-AB8E-63753034A5FD}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{519588D0-EAD3-389E-AB8E-63753034A5FD}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{519588D0-EAD3-389E-AB8E-63753034A5FD}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{519588D0-EAD3-389E-AB8E-63753034A5FD}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefinitionDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{519588D0-EAD3-389E-AB8E-63753034A5FD}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{519588D0-EAD3-389E-AB8E-63753034A5FD}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{519588D0-EAD3-389E-AB8E-63753034A5FD}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.ConsistencyModule" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.ConsistencyModule" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{52624F0D-D2FD-3397-8143-27E5DF0F1FF1}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{555DC205-BC65-3218-BD23-AC301919A823}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{555DC205-BC65-3218-BD23-AC301919A823}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.MocaFile" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{555DC205-BC65-3218-BD23-AC301919A823}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{555DC205-BC65-3218-BD23-AC301919A823}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{555DC205-BC65-3218-BD23-AC301919A823}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{555DC205-BC65-3218-BD23-AC301919A823}\InprocServer32" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.MocaFile" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{555DC205-BC65-3218-BD23-AC301919A823}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{555DC205-BC65-3218-BD23-AC301919A823}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{555DC205-BC65-3218-BD23-AC301919A823}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.ECOREModeling.Util.EcoreUtil" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.ECOREModeling.Util.EcoreUtil" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5AE3168D-C2C8-3667-B6FB-DCAEEF8939CF}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6268C3C1-4663-3377-B8FD-095BCEF24AB2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6268C3C1-4663-3377-B8FD-095BCEF24AB2}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Persistency.Util.UpdateEap" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6268C3C1-4663-3377-B8FD-095BCEF24AB2}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6268C3C1-4663-3377-B8FD-095BCEF24AB2}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6268C3C1-4663-3377-B8FD-095BCEF24AB2}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6268C3C1-4663-3377-B8FD-095BCEF24AB2}\InprocServer32" Name="Class" Value="EAEcoreAddin.Persistency.Util.UpdateEap" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6268C3C1-4663-3377-B8FD-095BCEF24AB2}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6268C3C1-4663-3377-B8FD-095BCEF24AB2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6268C3C1-4663-3377-B8FD-095BCEF24AB2}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{709BED67-3FAD-395A-9336-DB4E6A9317BE}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{709BED67-3FAD-395A-9336-DB4E6A9317BE}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.ConsistencyProgressBar" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{709BED67-3FAD-395A-9336-DB4E6A9317BE}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{709BED67-3FAD-395A-9336-DB4E6A9317BE}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{709BED67-3FAD-395A-9336-DB4E6A9317BE}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{709BED67-3FAD-395A-9336-DB4E6A9317BE}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.ConsistencyProgressBar" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{709BED67-3FAD-395A-9336-DB4E6A9317BE}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{709BED67-3FAD-395A-9336-DB4E6A9317BE}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{709BED67-3FAD-395A-9336-DB4E6A9317BE}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7EF88684-7AA7-3C31-AE99-214760D2A11D}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7EF88684-7AA7-3C31-AE99-214760D2A11D}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.Util.MocaTreeUtil" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7EF88684-7AA7-3C31-AE99-214760D2A11D}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7EF88684-7AA7-3C31-AE99-214760D2A11D}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7EF88684-7AA7-3C31-AE99-214760D2A11D}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7EF88684-7AA7-3C31-AE99-214760D2A11D}\InprocServer32" Name="Class" Value="EAEcoreAddin.Serialization.MocaTree.Util.MocaTreeUtil" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7EF88684-7AA7-3C31-AE99-214760D2A11D}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7EF88684-7AA7-3C31-AE99-214760D2A11D}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7EF88684-7AA7-3C31-AE99-214760D2A11D}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorMethodCallExpression" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorMethodCallExpression" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{80EDC11A-7EC7-3268-80ED-6E807F01F0B1}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.Util.ConsistencyUtil" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.Util.ConsistencyUtil" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8490E8BF-B429-3FFA-9A07-8359F9E06CDA}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{858C3118-2CE4-3C53-BD32-40C324517C9F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{858C3118-2CE4-3C53-BD32-40C324517C9F}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.Util.RuleResultIComparer" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{858C3118-2CE4-3C53-BD32-40C324517C9F}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{858C3118-2CE4-3C53-BD32-40C324517C9F}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{858C3118-2CE4-3C53-BD32-40C324517C9F}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{858C3118-2CE4-3C53-BD32-40C324517C9F}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.Util.RuleResultIComparer" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{858C3118-2CE4-3C53-BD32-40C324517C9F}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{858C3118-2CE4-3C53-BD32-40C324517C9F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{858C3118-2CE4-3C53-BD32-40C324517C9F}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87165FB6-D358-3F8D-A8FA-317681CCAE4F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87165FB6-D358-3F8D-A8FA-317681CCAE4F}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.CreateSDMDialog.CreateSDMDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87165FB6-D358-3F8D-A8FA-317681CCAE4F}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87165FB6-D358-3F8D-A8FA-317681CCAE4F}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87165FB6-D358-3F8D-A8FA-317681CCAE4F}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87165FB6-D358-3F8D-A8FA-317681CCAE4F}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.CreateSDMDialog.CreateSDMDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87165FB6-D358-3F8D-A8FA-317681CCAE4F}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87165FB6-D358-3F8D-A8FA-317681CCAE4F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87165FB6-D358-3F8D-A8FA-317681CCAE4F}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87ED3715-48B6-3D4B-B6CA-F68816D243D8}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87ED3715-48B6-3D4B-B6CA-F68816D243D8}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorParameterExpression" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87ED3715-48B6-3D4B-B6CA-F68816D243D8}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87ED3715-48B6-3D4B-B6CA-F68816D243D8}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87ED3715-48B6-3D4B-B6CA-F68816D243D8}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87ED3715-48B6-3D4B-B6CA-F68816D243D8}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper.EditorParameterExpression" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87ED3715-48B6-3D4B-B6CA-F68816D243D8}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87ED3715-48B6-3D4B-B6CA-F68816D243D8}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{87ED3715-48B6-3D4B-B6CA-F68816D243D8}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.ControlPanel.TGGFunctions" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}\InprocServer32" Name="Class" Value="EAEcoreAddin.ControlPanel.TGGFunctions" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8E6F88A8-20FB-36CA-83CF-8A71E72AD2D6}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{900FF321-993C-350D-AA6B-AE29AF728FD6}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{900FF321-993C-350D-AA6B-AE29AF728FD6}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothListBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{900FF321-993C-350D-AA6B-AE29AF728FD6}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{900FF321-993C-350D-AA6B-AE29AF728FD6}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{900FF321-993C-350D-AA6B-AE29AF728FD6}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{900FF321-993C-350D-AA6B-AE29AF728FD6}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothListBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{900FF321-993C-350D-AA6B-AE29AF728FD6}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{900FF321-993C-350D-AA6B-AE29AF728FD6}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{900FF321-993C-350D-AA6B-AE29AF728FD6}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{909B23FB-9154-3678-A9C5-06C195193483}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{909B23FB-9154-3678-A9C5-06C195193483}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.ControlPanel.Global.GlobalFunctions" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{909B23FB-9154-3678-A9C5-06C195193483}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{909B23FB-9154-3678-A9C5-06C195193483}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{909B23FB-9154-3678-A9C5-06C195193483}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{909B23FB-9154-3678-A9C5-06C195193483}\InprocServer32" Name="Class" Value="EAEcoreAddin.ControlPanel.Global.GlobalFunctions" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{909B23FB-9154-3678-A9C5-06C195193483}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{909B23FB-9154-3678-A9C5-06C195193483}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{909B23FB-9154-3678-A9C5-06C195193483}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{91A33531-A878-3792-807A-58FC986BF48E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{91A33531-A878-3792-807A-58FC986BF48E}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.ControlPanel.TCPServerUserControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{91A33531-A878-3792-807A-58FC986BF48E}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{91A33531-A878-3792-807A-58FC986BF48E}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{91A33531-A878-3792-807A-58FC986BF48E}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{91A33531-A878-3792-807A-58FC986BF48E}\InprocServer32" Name="Class" Value="EAEcoreAddin.ControlPanel.TCPServerUserControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{91A33531-A878-3792-807A-58FC986BF48E}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{91A33531-A878-3792-807A-58FC986BF48E}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{91A33531-A878-3792-807A-58FC986BF48E}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{931EE995-2E62-3AF6-8B97-631F258F9563}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{931EE995-2E62-3AF6-8B97-631F258F9563}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvPropertiesUserControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{931EE995-2E62-3AF6-8B97-631F258F9563}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{931EE995-2E62-3AF6-8B97-631F258F9563}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{931EE995-2E62-3AF6-8B97-631F258F9563}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{931EE995-2E62-3AF6-8B97-631F258F9563}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvPropertiesUserControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{931EE995-2E62-3AF6-8B97-631F258F9563}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{931EE995-2E62-3AF6-8B97-631F258F9563}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{931EE995-2E62-3AF6-8B97-631F258F9563}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvNamesComboBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvNamesComboBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{93D99BCF-10FA-31D0-A8B6-CCA58DA8F3ED}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{94277C29-9F75-36F6-8B38-B3F10E0431AD}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{94277C29-9F75-36F6-8B38-B3F10E0431AD}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothTableLayoutPanel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{94277C29-9F75-36F6-8B38-B3F10E0431AD}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{94277C29-9F75-36F6-8B38-B3F10E0431AD}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{94277C29-9F75-36F6-8B38-B3F10E0431AD}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{94277C29-9F75-36F6-8B38-B3F10E0431AD}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothTableLayoutPanel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{94277C29-9F75-36F6-8B38-B3F10E0431AD}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{94277C29-9F75-36F6-8B38-B3F10E0431AD}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{94277C29-9F75-36F6-8B38-B3F10E0431AD}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{995F3280-5200-3339-8BDF-4103383144CD}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{995F3280-5200-3339-8BDF-4103383144CD}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvConstraintUserControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{995F3280-5200-3339-8BDF-4103383144CD}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{995F3280-5200-3339-8BDF-4103383144CD}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{995F3280-5200-3339-8BDF-4103383144CD}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{995F3280-5200-3339-8BDF-4103383144CD}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvConstraintUserControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{995F3280-5200-3339-8BDF-4103383144CD}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{995F3280-5200-3339-8BDF-4103383144CD}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{995F3280-5200-3339-8BDF-4103383144CD}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{997B6020-8B37-37DD-993D-1032739F0783}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{997B6020-8B37-37DD-993D-1032739F0783}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Metamodel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{997B6020-8B37-37DD-993D-1032739F0783}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{997B6020-8B37-37DD-993D-1032739F0783}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{997B6020-8B37-37DD-993D-1032739F0783}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{997B6020-8B37-37DD-993D-1032739F0783}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.Metamodel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{997B6020-8B37-37DD-993D-1032739F0783}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{997B6020-8B37-37DD-993D-1032739F0783}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{997B6020-8B37-37DD-993D-1032739F0783}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B147F2A7-C684-38F6-9F95-4665D625B348}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B147F2A7-C684-38F6-9F95-4665D625B348}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMModelingMain" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B147F2A7-C684-38F6-9F95-4665D625B348}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B147F2A7-C684-38F6-9F95-4665D625B348}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B147F2A7-C684-38F6-9F95-4665D625B348}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B147F2A7-C684-38F6-9F95-4665D625B348}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMModelingMain" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B147F2A7-C684-38F6-9F95-4665D625B348}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B147F2A7-C684-38F6-9F95-4665D625B348}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B147F2A7-C684-38F6-9F95-4665D625B348}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{BEEBB047-0617-3183-B6E0-13E53D3EFE76}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{BEEBB047-0617-3183-B6E0-13E53D3EFE76}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.ComplexNAC" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{BEEBB047-0617-3183-B6E0-13E53D3EFE76}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{BEEBB047-0617-3183-B6E0-13E53D3EFE76}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{BEEBB047-0617-3183-B6E0-13E53D3EFE76}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{BEEBB047-0617-3183-B6E0-13E53D3EFE76}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.ComplexNAC" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{BEEBB047-0617-3183-B6E0-13E53D3EFE76}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{BEEBB047-0617-3183-B6E0-13E53D3EFE76}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{BEEBB047-0617-3183-B6E0-13E53D3EFE76}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C52EAAAD-5486-374C-B34F-14164C3E6B4C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C52EAAAD-5486-374C-B34F-14164C3E6B4C}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControlData" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C52EAAAD-5486-374C-B34F-14164C3E6B4C}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C52EAAAD-5486-374C-B34F-14164C3E6B4C}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C52EAAAD-5486-374C-B34F-14164C3E6B4C}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C52EAAAD-5486-374C-B34F-14164C3E6B4C}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.ExpressionControlData" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C52EAAAD-5486-374C-B34F-14164C3E6B4C}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C52EAAAD-5486-374C-B34F-14164C3E6B4C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C52EAAAD-5486-374C-B34F-14164C3E6B4C}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C7C42C27-94B0-32BF-944D-AF12573759BC}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C7C42C27-94B0-32BF-944D-AF12573759BC}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Main" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C7C42C27-94B0-32BF-944D-AF12573759BC}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C7C42C27-94B0-32BF-944D-AF12573759BC}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C7C42C27-94B0-32BF-944D-AF12573759BC}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C7C42C27-94B0-32BF-944D-AF12573759BC}\InprocServer32" Name="Class" Value="EAEcoreAddin.Main" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C7C42C27-94B0-32BF-944D-AF12573759BC}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C7C42C27-94B0-32BF-944D-AF12573759BC}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C7C42C27-94B0-32BF-944D-AF12573759BC}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CF550D1D-1FAD-3130-885B-F463CA9157A0}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CF550D1D-1FAD-3130-885B-F463CA9157A0}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.RuleHandling.NewErrorOutput" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CF550D1D-1FAD-3130-885B-F463CA9157A0}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CF550D1D-1FAD-3130-885B-F463CA9157A0}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CF550D1D-1FAD-3130-885B-F463CA9157A0}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CF550D1D-1FAD-3130-885B-F463CA9157A0}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.RuleHandling.NewErrorOutput" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CF550D1D-1FAD-3130-885B-F463CA9157A0}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CF550D1D-1FAD-3130-885B-F463CA9157A0}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CF550D1D-1FAD-3130-885B-F463CA9157A0}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.LinkVariableDialog.LinkDialogueEntry" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.LinkVariableDialog.LinkDialogueEntry" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{D594D1BA-4FCD-33D3-BFAF-0DCEF8543DDD}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodePropertiesUserControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodePropertiesUserControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC6634AB-9991-3C5F-9D0C-EC095BC33F59}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.ControlPanel.SDM.ConfirmDeleteSDMs" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}\InprocServer32" Name="Class" Value="EAEcoreAddin.ControlPanel.SDM.ConfirmDeleteSDMs" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E725E3B8-EC1B-3257-AAC3-4C22809EC0E0}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E9000AB0-FD19-3755-BFC4-F154B899EFB8}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E9000AB0-FD19-3755-BFC4-F154B899EFB8}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.AcceptInformationLoss" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E9000AB0-FD19-3755-BFC4-F154B899EFB8}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E9000AB0-FD19-3755-BFC4-F154B899EFB8}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E9000AB0-FD19-3755-BFC4-F154B899EFB8}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E9000AB0-FD19-3755-BFC4-F154B899EFB8}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.AcceptInformationLoss" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E9000AB0-FD19-3755-BFC4-F154B899EFB8}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E9000AB0-FD19-3755-BFC4-F154B899EFB8}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E9000AB0-FD19-3755-BFC4-F154B899EFB8}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.ControlPanel.Global.UnableToExportDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}\InprocServer32" Name="Class" Value="EAEcoreAddin.ControlPanel.Global.UnableToExportDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{EC538E53-35B7-3DF0-A377-0B19F9F2C1A4}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F02C9F03-8496-35DD-B506-EBD8878EA035}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F02C9F03-8496-35DD-B506-EBD8878EA035}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.Gui.RuleQuickFixControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F02C9F03-8496-35DD-B506-EBD8878EA035}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F02C9F03-8496-35DD-B506-EBD8878EA035}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F02C9F03-8496-35DD-B506-EBD8878EA035}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F02C9F03-8496-35DD-B506-EBD8878EA035}\InprocServer32" Name="Class" Value="EAEcoreAddin.Consistency.Gui.RuleQuickFixControl" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F02C9F03-8496-35DD-B506-EBD8878EA035}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F02C9F03-8496-35DD-B506-EBD8878EA035}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F02C9F03-8496-35DD-B506-EBD8878EA035}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F8B76878-A203-373F-89D6-01CFF3418C3C}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F8B76878-A203-373F-89D6-01CFF3418C3C}\InprocServer32\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.CSP.ExportWrapper.CSPConstraint" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F8B76878-A203-373F-89D6-01CFF3418C3C}\InprocServer32\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F8B76878-A203-373F-89D6-01CFF3418C3C}\InprocServer32\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F8B76878-A203-373F-89D6-01CFF3418C3C}\InprocServer32\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F8B76878-A203-373F-89D6-01CFF3418C3C}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.CSP.ExportWrapper.CSPConstraint" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F8B76878-A203-373F-89D6-01CFF3418C3C}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F8B76878-A203-373F-89D6-01CFF3418C3C}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{F8B76878-A203-373F-89D6-01CFF3418C3C}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{02109129-0FB7-3700-95DF-A6BDD03BCC0C}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.patterns.BindingSemantics" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{02109129-0FB7-3700-95DF-A6BDD03BCC0C}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{02109129-0FB7-3700-95DF-A6BDD03BCC0C}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{02109129-0FB7-3700-95DF-A6BDD03BCC0C}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{0A31464E-8FBA-35D7-AC29-6CFB55529482}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.LinkVariableDialog.LinkDialogueEntryDirection" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{0A31464E-8FBA-35D7-AC29-6CFB55529482}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{0A31464E-8FBA-35D7-AC29-6CFB55529482}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{0A31464E-8FBA-35D7-AC29-6CFB55529482}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{3411DEC4-B5FB-3011-974E-5939387C8B71}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper.DomainType" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{3411DEC4-B5FB-3011-974E-5939387C8B71}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{3411DEC4-B5FB-3011-974E-5939387C8B71}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{3411DEC4-B5FB-3011-974E-5939387C8B71}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{47A62C58-7BD6-3103-BC01-9A8671239D75}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.Rules.RuleErrorLevel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{47A62C58-7BD6-3103-BC01-9A8671239D75}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{47A62C58-7BD6-3103-BC01-9A8671239D75}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{47A62C58-7BD6-3103-BC01-9A8671239D75}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{694CFC89-012A-3654-98A0-9807967613AD}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.patterns.BindingOperator" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{694CFC89-012A-3654-98A0-9807967613AD}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{694CFC89-012A-3654-98A0-9807967613AD}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{694CFC89-012A-3654-98A0-9807967613AD}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{6EFBE3E3-A4A6-3463-BC56-978370DA3DED}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.activities.EdgeGuard" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{6EFBE3E3-A4A6-3463-BC56-978370DA3DED}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{6EFBE3E3-A4A6-3463-BC56-978370DA3DED}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{6EFBE3E3-A4A6-3463-BC56-978370DA3DED}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{92253CBD-17E3-31D9-AA6A-A1A075F30C0E}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.Rules.RuleType" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{92253CBD-17E3-31D9-AA6A-A1A075F30C0E}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{92253CBD-17E3-31D9-AA6A-A1A075F30C0E}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{92253CBD-17E3-31D9-AA6A-A1A075F30C0E}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{92BCCAA6-0AE7-3FDE-AB53-16BE97D45BCA}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Consistency.Rules.RuleExecutionPoint" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{92BCCAA6-0AE7-3FDE-AB53-16BE97D45BCA}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{92BCCAA6-0AE7-3FDE-AB53-16BE97D45BCA}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{92BCCAA6-0AE7-3FDE-AB53-16BE97D45BCA}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{9819C93D-D488-3C52-B6AE-31ED396F328B}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.expressions.ComparingOperator" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{9819C93D-D488-3C52-B6AE-31ED396F328B}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{9819C93D-D488-3C52-B6AE-31ED396F328B}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{9819C93D-D488-3C52-B6AE-31ED396F328B}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{FAC0CEE7-75E0-311C-81F2-976600DF3242}\1.7.0.0" Name="Class" Value="EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.patterns.BindingState" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{FAC0CEE7-75E0-311C-81F2-976600DF3242}\1.7.0.0" Name="Assembly" Value="EAEcoreAddin, Version=1.7.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{FAC0CEE7-75E0-311C-81F2-976600DF3242}\1.7.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{FAC0CEE7-75E0-311C-81F2-976600DF3242}\1.7.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

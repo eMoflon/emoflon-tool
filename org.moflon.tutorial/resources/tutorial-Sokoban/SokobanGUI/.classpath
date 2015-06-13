@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry exported="true" kind="src" path="/SokobanLanguage"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/MoflonLibraries"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/SokobanCodeAdapter"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/eburdon/Downloads/eclipseKepler/plugins/org.moflon.core.utilities_1.0.0.201402261352/lib/antlr-3.3-complete.jar"/>
+	<classpathentry kind="lib" path="C:/Users/eburdon/Downloads/eclipseKepler/plugins/org.moflon.core.utilities_1.0.0.201402261352/lib/log4j.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

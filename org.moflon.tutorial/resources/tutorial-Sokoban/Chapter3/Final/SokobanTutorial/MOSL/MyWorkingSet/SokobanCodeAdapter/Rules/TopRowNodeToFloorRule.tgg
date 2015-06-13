@@ -1,0 +1,52 @@
+rule TopRowNodeToFloorRule {
+// Identical to 'LeftColumnNodeToFloorRule,' this rule will also start from the upper left
+// 	corner. It will increase the number of columns by adding the newest Floor space immediately
+// 	to the right of its predecessor. In fact, this enture rule is strongly similar to the previous
+//	rule, except that it demands a second element to exist in both the source and target scopes.
+// 	This effectively forces the left column to be created first.
+
+	source {	
+		
+		boardNode : Node { 
+			boardNode.name == "BOARD"
+			-children-> rowNode
+		}
+		
+		rowNode : Node { 
+			rowNode.index == 0
+			rowNode.name == "ROW"
+			++ -children-> columnNode
+		}
+		
+		++ columnNode : Node { 
+			columnNode.name := "COLUMN"
+		}
+	}
+	
+	
+	correspondence {
+		boardNode <- nodeToBoard : NodeToBoard -> board
+		++ columnNode <- nodeToFloor : NodeToFloor -> floor
+	}
+	
+	target {
+		board : Board { 
+			-floors-> leftNeighbor 
+			++ -floors-> floor 
+		} 
+
+		leftNeighbor : Floor { 
+			leftNeighbor.row == 0 
+		} 
+		
+		++ floor : Floor { 
+			floor.row := 0 
+			++ -left-> leftNeighbor 
+		} 
+	}
+	
+	constraints {[
+		sub(floor.col, 1, leftNeighbor.col)
+		eq(floor.col, columnNode.index)
+	]}
+}

@@ -1,0 +1,6 @@
+partial class DefaultExpressionTransformerImpl {
+
+@model createLocalVariableNameAndIncrementCounter() <--
+	return "_localVariable_" + calleeETypeNameCounter++;
+-->
+}

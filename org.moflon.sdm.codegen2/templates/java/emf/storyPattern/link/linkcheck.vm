@@ -1,0 +1,26 @@
+#**##parse("java/default:storyPattern/link/import.vm" )
+#**### TODO check if range is correct
+#**##if ( $toOne && !($linkNegative && $utility.isOriginallyNavigableViaComposite($targetRoleName)))
+#*   *#${targetName}.equals (##
+#*   *##if( $utility.nullIfEmpty($range) || $mparam )
+#*      *##set( $targetTypeName = $role.Target.Name )
+#*      *##set( $fullTargetName = "${role.Target.declaredInPackage.fullPackageName.toLowerCase()}.$targetTypeName" )
+#*      *##set( $return = $imports.addToImports( $fullTargetName ) )
+#*      *#($targetTypeName) ##
+#*   *##end
+#**##if($utility.isOriginallyNavigableViaComposite($targetRoleName))
+#*    *#${sourceName}.eContainer()
+#**##else
+#**#${sourceName}.get$targetRoleName ()
+#**##end
+#if($utility.nullIfEmpty($range) || $mparam).get($!range$!mparam)#end)##
+#**##elseif ( $indmulti )
+#*   *#$indmulti##
+#**##else
+#*   *##if($utility.isOriginallyNotNavigable($targetRoleName) || ($utility.isOriginallyNavigableViaComposite($targetRoleName) && $linkNegative))
+#*     *#$utility.genCrossReferenceCallForCollection($sourceName, $targetType, $targetRoleName)
+#*     *#.contains ($targetName)##
+#*   *##else
+#*     *#${sourceName}.get$targetRoleName ().contains ($targetName)##
+#*   *##end
+#**##end

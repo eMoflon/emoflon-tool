@@ -1,0 +1,15 @@
+#**### @param $token - the current SearchOperation
+#**### @param $targetName - the target variable to check
+#**### @param $negative - true to invert check
+#**##set($nullAll = false)
+#**##set($toContinue = $flowUtil.getSearchToContinue($token))
+#**##if($negative)
+#*   *#if ($targetName != null)
+#*   *#{
+#*   *#   $targetName = null;
+#**##else
+#*   *#if ($targetName == null)
+#*   *#{
+#**##end
+#**##parse("${style}storyPattern/breakOrContinue.vm")
+#**#}

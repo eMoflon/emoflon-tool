@@ -1,0 +1,44 @@
+#**##set( $collabStat = $elem )
+#**##set( $object = $collabStat.CallTarget )
+#**##if ( $object )
+#*   *##if( !$collabStat.CallOnElementsOfSet )
+#*      *##set( $directSetAccess = true )
+#*   *##end
+#*   *##parse( "jmi/default:storyPattern/object/import.vm" )
+#*   *##set( $onSet = ($collabStat.isCallOnElementsOfSet() && $set) )
+#**##end
+#**##set( $ifCond = $mofutility.nullIfEmpty($collabStat.IfCondText) )
+#**##set( $loopVar = $mofutility.nullIfEmpty($collabStat.LoopVarName) )
+#**##set( $loopStart = $collabStat.LoopStartVal )
+#**##set( $loopStop = $collabStat.LoopStopVal )
+#**##set( $whileLoop = $mofutility.nullIfEmpty($collabStat.WhileLoopText) )
+#**##set( $target = $mofutility.nullIfEmpty($collabStat.AssignTgtText) )
+#**##set( $targetType = $collabStat.AssignTgtType )
+#**##if( $targetType )
+#*   *##set( $localVars = $engine.getFromInformation("localVars") )
+#*   *##set( $return = $localVars.addLocalVariable($target, $targetType, $mofutility.getDefaultAsString($targetType), $collabStat) )
+#**##end
+#**##set( $call = $collabStat.CallText )
+#**#// collabStat call
+#**##if ( $ifCond )
+#*   *#if ( $ifCond )
+#*   *#{
+#**##end
+#**##if ( $whileLoop )
+#*   *#while ( $whileLoop )
+#*   *#{
+#**##end
+#**##if ( $loopVar )
+#*   *#for ( int $loopVar = $loopStart;$loopVar <= $loopStop;++$loopVar )
+#*   *#{
+#**##end
+#**##if($target)$target = #end#if($object)${name}.#end$call;
+#**##if ( $ifCond )
+#*   *#}
+#**##end
+#**##if ( $whileLoop )
+#*   *#}
+#**##end
+#**##if ( $loopVar )
+#*   *#}
+#**##end

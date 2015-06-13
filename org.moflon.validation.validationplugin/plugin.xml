@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.core.resources.IProject"
+            class="org.moflon.validation.EnterpriseArchitectAdapterFactory">
+         <adapter
+               type="org.moflon.validation.EnterpriseArchitectValidationHelper">
+         </adapter>
+      </factory>
+   </extension>
+
+</plugin>

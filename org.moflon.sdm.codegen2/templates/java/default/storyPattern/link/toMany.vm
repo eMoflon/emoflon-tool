@@ -1,0 +1,123 @@
+#**##set( $return = $imports.addToImports("java.util.*") )
+#**##set( $postfix = "$utility.upFirstChar($sourceName)To$utility.upFirstChar($targetName)" )
+#**##set( $iter = "fujaba__Iter$postfix" )
+#**##set( $children = $utility.indent("      ",$!children) )
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##set( $return = $localVars.addLocalVariable($iter, "Iterator", $link) )
+#**##set( $searchOpComment = "iterate to-many link $link.InstanceOf.Name from $sourceName to $targetName" )
+#**#// $searchOpComment
+#**##if ( $targetSet )
+#*   *##set( $return = $imports.addToImports("de.upb.tools.fca.*") )
+#*   *##set( $return = $localVars.addLocalVariable($collectionName, "FHashSet", $link) )
+#*   *#$collectionName = new FHashSet ();
+#**##else
+#*   *#fujaba__Success = false;
+#**##end
+#**#
+#**##if ( $shuffleListBeforeIteration )
+#*   *#// Perform shuffling of list before subsequent iteration
+#*   *#/**
+#*   *# * Warning!
+#*   *# * 
+#*   *# * This code fragment was generated due to explicit configuration
+#*   *# * during code generation. The following three lines should be
+#*   *# * considered experimental and might induce unwanted side-effects
+#*   *# * because of listener notifications.
+#*   *# **/
+#*   *##if ( not( $utility.isOriginallyNotNavigable($targetRoleName) ) )
+#*      *#if(${sourceName}.get${targetRoleName}() instanceof java.util.List) {
+#*      *#   org.moflon.core.utilities.eMoflonEMFUtil.shuffle(${sourceName}.get${targetRoleName}());
+#*      *#}
+#*   *##end
+#*   *#// obtain the actual iterator
+#**##end
+#if($link.getClass().getCanonicalName().equals("org.reclipse.patterns.structure.generator.uml.UMLTransitiveClosurePath"))
+	$iter = this.getCatalog().getInferenceEngine().createTopDownPathVisitor ($sourceName, ${targetType}.class, null);
+##$iter = new Path ($sourceName, "$path");
+#elseif( $path )
+#*   *#$iter = new de.uni_kassel.sdm.Path ($sourceName, "$path");
+#**##else
+#*   *#$iter = #parse("$!{style}storyPattern/link/iterator.vm" )
+#*   *#
+#**##end
+#**##if ( $upperbound )
+#*   *#fujaba__UpperBound_$postfix = false;
+#*   *##set( $return = $localVars.addLocalVariable("fujaba__UpperBound_$postfix","boolean","false", $link) )
+#*   *##set( $upperadd = " && !(fujaba__UpperBound_$postfix)" )
+#**##end
+#**##set( $debug = $debug || $elem.firstFromDiagrams.parentElement.hasKeyInStereotypes("assert") )
+#**##if( $debug )
+#*   *#List<JavaSDMException> causes$postfix = new ArrayList<JavaSDMException>();
+#**##end
+#**##if( $sdmTrace )
+#**#   if(!${iter}.hasNext())
+#**#      SDMTraceUtil.logNoMoreLinkEndOptions(__sdmTracing_context, __sdmTracing_stw, "$link.InstanceOf.Name", "$sourceName", "$targetName");
+#**##end
+#**#while ( #if(!$forEach && !$targetSet || $targetNegative || $check)!(fujaba__Success) && #end${iter}.hasNext ()$!upperadd )
+#**#{
+#**##if( $sdmTrace )
+#*  *##set( $tempVarName = $utility.getUniqueTempVarName(${object.name}) )
+#**#   $object.instanceOf $tempVarName = null; // helper variable for tracing
+#**##end
+#**#   try
+#**#   {
+#**##if($check)
+#*   *#      JavaSDM.ensure (${targetName}.equals (${iter}.next ())#parse("$lang/default:storyPattern/sdmComment.vm"));
+#**##else
+#*   *##set( $typeCast = (!$role.getTarget().equals($target.getInstanceOf())) )
+#**##set( $source = "#if(!$typeCast)($targetType)#end ${iter}.next ()" )
+#*   *##set( $toMany = true )
+#*   *##set( $targetToken = $dlrTool.createDLRToken([$target]) )
+#*   *#$!targetToken.createStartTag()##
+#*   *##set( $template = "$lang/default:storyPattern/object/assign.vm" )
+## Call the template that assigns the variable to the next value
+#*   *#$utility.indent("      ", "#parse($template)" )##
+#**##if( $sdmTrace )
+#**#   $tempVarName = $name;
+#**#
+#**##end
+#*   *#$!targetToken.createEndTag()##
+#**##if($targetToken)#set( $targetToken.comment = $opComment )#end
+#*   *##if ( $upperbound )
+#*      *#      if ( ${targetName}.equals ($upperbound) )
+#*      *#      {
+#*      *#         fujaba__UpperBound_$postfix = true;
+#*      *#         throw new JavaSDMException () ;
+#*      *#      }
+#*   *##end
+#**##end
+#**##set( $opComment = $searchOpComment )
+## Add/inline the code for the next PM steps
+#**#$!children
+#**##if ( $targetSet )
+#*   *#      ${collectionName}.add ($targetName);
+#**##else
+#*   *#      fujaba__Success = true;
+#**##end
+#**#   }
+#**#   catch ( JavaSDMException fujaba__InternalException )
+#**#   {
+#**##if( $debug )
+#*   *#      causes${postfix}.add (fujaba__InternalException);
+#**##end
+#**#      fujaba__Success = false;
+#**#   }
+#**##if( $sdmTrace )
+#**#   if (#if(!$forEach && !$targetSet || $targetNegative || $check)!(fujaba__Success) && #end $tempVarName != null) {
+#**#      SDMTraceUtil.logUnbindObjVar(__sdmTracing_context, __sdmTracing_stw, "${object.name}", ${object.name}.getClass(), $tempVarName, null);
+#**#   }
+#**#   if(#if(!$forEach && !$targetSet || $targetNegative || $check)!(fujaba__Success) && #end !${iter}.hasNext())
+#**#      SDMTraceUtil.logNoMoreLinkEndOptions(__sdmTracing_context, __sdmTracing_stw, "$link.InstanceOf.Name", "$sourceName", "$targetName");
+#**##end
+#**#}
+#**##if ( $targetOptional )
+#*   *#if (!fujaba__Success)
+#*   *#{
+#*   *#   fujaba__Success = true;
+#*   *#   $targetName = null;
+#*   *#}
+#**##elseif ( !$targetSet )
+#*   *#JavaSDM.ensure (##
+#**##if( $path && $linkNegative )!#end
+#**#fujaba__Success#if( $debug ), "$opComment", causes$postfix#end);
+#**##end

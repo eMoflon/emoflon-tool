@@ -1,0 +1,4 @@
+#**##if ( $annotationsEnabled )##
+#*   *##set( $return = $imports.addToImports("de.uni_kassel.features.annotation.util.Property") )## 
+#*   *#@Property( name = PROPERTY_$utility.camelToUpperCase($name) )
+#**##end

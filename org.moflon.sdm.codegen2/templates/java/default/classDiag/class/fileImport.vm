@@ -1,0 +1,9 @@
+#**##if( !$fileImport )
+#*   *##set( $fileImport = true )
+#*   *##set( $file = $elem )
+#*   *##set( $comment = $file.Comment.Text )
+#*   *##set( $footer = $file.Footer.toString() )
+#*   *##set( $package = $utility.nullIfEmpty($file.Package.FullPackageName) )
+#*   *##set( $path = $file.Package.PackagePath )
+#*   *##set( $fileName = $file.Name )
+#**##end

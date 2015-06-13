@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="2D1C7ADC-0" name="TGGElements" version="1.0" notes="TGGElements"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="CorrespondenceType" notes="" cx="184" cy="85" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIACRc6UJ7AmPWNQEAAL4DAAAHABEAc3RyLmRhdFVUDQAH/vTbUf7021H+9NtR
+jZLbbsIwDIb/60l7hwhumIS0g4R2gXa5vcAeYCq0o2g0rdLALqa9O79dEkIHdIrsHPzZiR23
+KJGhQQGDiqs1LG5xo/ITVyIlPmjfkFiRMXihjLCkp4WndtzNldz9myyQk/KkF+QLfHJXcJVH
+L0tbxbPgIXLP0fLMK7/hWKKmrhl5gic8cEyTecZxl/hXJHfqX5OfKSU6ZeSOhvGkHp6xLcmR
+viilRP5S4/jqcY9vNVdH3XD2rOlE7UbvM3iPdqOvE+14IrUz3G/VklGC//mcnpnPtJeR/IeN
+xOOhOv28T6kuTsdepqTCw9TwbV2ca8S5vKSr8gv1fFXbsYoSazVQyc7z7dBZ4ltq9Y8/IRGD
+l8G3drCsAhm60iR9GaIHW6Yvk35wtH/R7zSDwDvNfcvZ9vrul/H3UEsBAhcLFAAAAAgAJFzp
+QnsCY9Y1AQAAvgMAAAcACQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB/7021FQSwUGAAAA
+AAEAAQA+AAAAawEAAAAA</Image>
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="RulesPackage" notes="" cx="184" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAIiJMjymCEp0dAEAABgGAAAHABEAc3RyLmRhdFVUDQAHlJZUS5SWVEuUllRL
+pVTLTsMwEJxr+xVWeykSiIdUcUAc4Qf4ABSa0KAmJkpSOCD+ndl1neBUaRLQyq94Zta7XqdC
+iggFEhjknL3B4gtzzNSM2vhVimdqZFTZUsfgnm2BDdUtavYlV3cNZ8aZ4/VZgphaNTVfqJrg
+lauEsxhe23Iv5zenG7K7667leMcHuTXHFda4wrn2Z4czhrEVPL1kp6Z/S/wC4t9hxyPbyD26
+a8fsZRPlMtBxfaURSGYy2oaxZGwlmTeMZs2Y/Ogj63oMrdJ8l+wLjjXvdKU8g0uawVOzbzRz
+0pf8IrdsuN7rTgSJxPElP10voYU3cRuctnsPUl22wV4Td/reQrzTdqwxeMndFPyUszjtFtvi
++lmm4Rlc6Gwq29X5f9nTTt2euY93ihvWw1Atyb8mPqpdX70PutvWrPjZ4q916zQfD29PVFN9
+Be2LEF9ez+AT8jeTmUf6d2t+vdxhv54VaTTyYksyd1QM4x5WKjXLe472gJ/jm+0HUEsBAhcL
+FAAAAAgAiIkyPKYISnR0AQAAGAYAAAcACQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB5SW
+VEtQSwUGAAAAAAEAAQA+AAAAqgEAAAAA</Image>
+				<AppliesTo>
+					<Apply type="Package"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="Rule" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="Correspondence" metatype="ObjectVariable" notes="" cx="188" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIALxkVETcO2TN9AMAAMgRAAAHABEAc3RyLmRhdFVUDQAHCvcFUwr3BVMK9wVT
+xVjbbtNAEJ3XIPEPVvLSSi3QFlRRxENFgSIBfSiCR5Q2V5GbmrSoIP6dc2YyWa+9TkwLQlbX
+jnfm7MyZy647l4G0ZSZdyWSMp6FM8PRTHsoDaeCyu40dSPXkHDI/8LQlz+WJ7MgzjNvyQmWy
+5GXaQ+huySnWmMsnjH38asqVYnLVLvCbwMswLvD+Gm+aQN5e6gebzjGzkDfQGuF6JVOMU2hs
+yb48hT07hbtbR93HuOaqT58ncpnT3oM8teI7tZ2BXxEfhjNaWj/H8y1+kZkmbDyT9/JOTtQH
+X38dExeK09Gxrz4yHhOgDmHlXLlpwtKZvplipo3VjCHnOHC0zrYTOQb+aWSZe1bHtjPl7gqz
+C2XOLLvUWPKdx61sVRq9fg7ksdzHchyZlfsYGcOQm9RwLxvQGan+/XBN3uMa8MM6YTbtex1m
+WXeM4BXe3f5nblkR5v/f5XYzblx75THtf7GqFqsMJbMXWP1a59Odht2CDF6qHhGshnbV1l10
+CNrL0foFn/K25739Dhs6+DWA/kFUebEfjHQbq1KPtlKe0plaky194HymWcKRGXMp7OH0hzNt
+/Lm+4Y4xd6P2TIF4WKoO7xU2T0+K3b0oYxgmWSXjnXSdzKZ1DKN6vuwL+e5U8Pda5wJrlhnr
+mDM932+oOVCuA+/Ec51MI21PLskKNN2Q84btM8yuzqrKv0Ertv4uuZ7eQchbX7GHmg/eT0LW
+x5lSZj/NfzHGaZyyVAorLxH6yjrf2c8mpfruCfdIVmG6vttgi6xfg7v56iREPEaCnbgLq7h3
+8j1jN9a4sPrGwixbLHuq10vRP7PeT0LeGd2Xf2mJV1TYnarXMPas83C189Xsekzzzp7zfgZ0
+Pte1v8jJQL5q/IaIMU+lL4V7F+uN0sRs5vLoprZ08Xw6wxxzcKFctIQnK9rUwtwR/lpAYYXO
+cTH7horW0pwK6wee0xlarM46OxHZCLj1kM+0j810NOwYMd6P8ycVz04/WxRlGwWmyA5ZbsGW
+Y3mLX9WWlNkKK3MHDGumfUzX9+ZzTNyDUhXKK733lSXrnXGK0sUq4R4f6qO69kw2IJfzlBXF
+s6GzG9els0p+bcaR/J7/PrPvO1amnT/tGyMrxTQ+oQb/Y9/zT9w/09XJrF8o0ljytdxQbNYZ
+vc1bY3of5YvKF1eKo72LPedAI8mxGPN0nn2AZk936Any+Ug+q7e003aR6qwr1koafz2bm76k
+UutwJe7zfbFe3i35kMd7JDwV9HQl9vVD5ScDV7bzZivO+G5P4q9nXiGb7u/pui+bu/kaI1Z7
+uwcv3V/7P0be39g/u2IO8lbGv/6ki44w0o9yb7R7qE7fq3wtl/Xn31BLAQIXCxQAAAAIALxk
+VETcO2TN9AMAAMgRAAAHAAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAcK9wVTUEsFBgAA
+AAABAAEAPgAAACoEAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Object"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="TGGObjectVariable" metatype="ObjectVariable" notes="" cx="188" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAAJaTERFOdfPbQMAAJAPAAAHABEAc3RyLmRhdFVUDQAHEVj7UhFY+1IRWPtS
+xVfJbhNBEK2rkfiHkX1JpABZWEQQh4gIggTkEARH5HiLJduJMpOggPh33qt2uZfpcSYEhEbu
+6enlVdWrpdulnElfLmQkhczRm8oCvYfyQH5q24naIdaN5QSrfqC3IS9lW7bkGdpNeaVriuzj
+dk+xd0OOIKWUz2gn+OrKpWJS7gj4XeAVaCuMX2GkC+TN5X7TqAMNRljxFrtmeN7IOdpz7NiQ
+XXkKfbaSt2nHvU/wlLqfVi9kEOzewXruit/cbQz8ivhwOLOl9iX6N/giM13oeCwf5L0cqg0m
+fx0Tp4oz1HaiNtIjC6BOoWWp3HSh6YWOnGOmD2mOIePYc7ROt0M5AP5RpJlZ1ka3Y+XuErOV
+Muc0G6gvOWZ+q2uVR28fAyGW2Vj3I6NyFy196GOTO8zKDvbMdP/9cN1686vH93L8bN72Nswy
+7+jBS4zd/GdumRHO/r/L7e24ce7lrU1zqFrFI3k8hawrnc/XlVC378AY4usMuHtRnjgNbA/5
+HagcSnQZ5mxg/dgO3mEdubsl+WpAr07Uxqlcr/xZj405LOc8o8r0Czm2OuHm63o349TX5LHC
+NW08yfhc1Dw4FtY8+invwT4YG2L+CvyVq7ONeMwfZtYIWrEWcpzxN0evj/EKPfq9WuZIEwdO
+dzvZLNLNln+piZ2zvto0y3DsUZJj72Q1ux7TWee9Y3Z6dPbb6p9ycibf1H9T+Jj3jNdaiwbL
+1cTsBnF03Xp1et+4wBxjsFIuesKTkjr1MLePXw8oM2G8lRp9U0XraUx5+Z7nfISmGdqm1pAN
+j9sO+Rg4rEpsHXaMGNfX8OSx6LR6kK7tJEyRHbLcgy4H8g5fzZrU2fKSWSO9zLyN+fy+/Vxq
+U4GaalB9ZbszK12dZglPDp8fzbnn1nrkepwyo3jWG7txXhqr5NfNGJK9w/u2u68zM919wt0Z
+i5pP4xuHtz+2PezxDp3PTkZ9pUhzCXO5o9jMM1obauP2fZKvuj6VFHv7EW4Je+pJtqnP83H2
+ETvHestYIJ735YtaSz3dKdIcdWmu5PHXs3nbzTgnh5J41k/E1fJRzYYQ77HwZjBWSYVyU4Cn
+F3qXKuT5amQn+R/Ex8fR/W1cd0f9MytjxLydO4gEZyn/q6W2xra5J7Y/1DD+ukvtnKGlDfWK
+6N4+J+2EMlm21vq/AVBLAQIXCxQAAAAIAAJaTERFOdfPbQMAAJAPAAAHAAkAAAAAAAAAAAAA
+gAAAAABzdHIuZGF0VVQFAAcRWPtSUEsFBgAAAAABAAEAPgAAAKMDAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Object"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="TGGLinkVariable" metatype="LinkVariable" notes="" cx="188" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAFS89kKof+9vCAIAAJoHAAAHABEAc3RyLmRhdFVUDQAHcsHtUXLB7VFywe1R
+rVVNT8JAEJ0rJv4HgheMkijGaDQePOnBj4PGqwHLVwItoVVDiP/d92a63S2CfGg23Zbd92be
+zM4OqfSlJWPpSFVG+BpILDPZlR2pyBC/p5LIu2TyjC9DXeGpYa8jXaxPwOjBRoa1y5zXl1e5
+BoI7ccF4AyMGrgOOx35sgI2h5Un1Rvj6LNBU8Q6sQ1bzkWItU9UxLCbwkgBZlyM5zJ/9wrZh
+u9AxxFiOruR4mwdg1OUWilJkqIUY6lDR1ixGOvfkURVMsJupxRpsMcIJVrlG3fsY1SLvTs1i
+5U3Mp3PqV+kvc4g33tef44iwluoJJKiQ9SNpQo8pWj+Sn5ztInmCB9Y6K2wAD2keSwKdXEmw
+04LXZdGwWuM87qnwJtBHpD77ynLROFWOb2/HZx7rcoxY5rPgY6luHQ099PS0BrhlvsrM9izQ
+UwE/UYwpOlE9DTmfO5my7jNFzWPKlgyzypL5K2Nc5phR3nX2ojYYQ83APfgRBnP/rOd2V+yH
++e8rjqshexSw22BnqmMUoMyG5ceU8KEW3yu9DbLHAdtl2EW7ST9c1hHNR4hz78UVfw98V3hz
+YrnAeFE/jJY1bBXi+yYrw+tdZvM/+gHHWPivwdiHmGm5geFyHsbm6+Bvqn7vtos1HWCEtWRq
+yvq8Os8ndw/6ruUGeaffriqyDtiRB+gY4b1Xsl7uFJy/AVBLAQIXCxQAAAAIAFS89kKof+9v
+CAIAAJoHAAAHAAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAdywe1RUEsFBgAAAAABAAEA
+PgAAAD4CAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Association"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="TGGSchemaPackage" notes="" cx="132" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Package"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="ConstraintLink" metatype="ConstraintLink" notes="" cx="188" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAGycREPkLsGVPQEAAAIEAAAHABEAc3RyLmRhdFVUDQAHahhPUmoYT1JqGE9S
+tVJNS8NAEH3XCv6H0FMFxY+TIB70bE/1Lq0JptAmJVkrIv5335v9SFI/IAdZZrOZ997szOy0
+KLHEDgUybHlao8IxjvBh+4ToE+6wof+FSIZb2hTP5Fdw3Bv+3QTufgS3Qo2F3Z3z9JbYjqxX
+cjtmyXg5PRtyV/adEZ2bN+dfgUdG2OEh4VOcjFDfU+24atZ/GGMSoizoc0TVnYJ/Du+mVayW
+StWc9+7NwmpNp+5W7IN4Neub4QKnwbpM/T4nYx9qiryOEzPw6CWxIaMfqWXt6uzvlf933z5T
+TsolTpnjqeGEqDMR99MmO+fKeENDlqZiaZMkRWPVlNRpZuRzFk2eYdTM+p2nmFIKl60sdz9t
+cdZ8zWPfWLYNr6UuHL6WTBpF8/iVMa4T4y/1T8qznlZ9GnK+39637i1kcUa0fwFQSwECFwsU
+AAAACABsnERD5C7BlT0BAAACBAAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAHahhP
+UlBLBQYAAAAAAQABAD4AAABzAQAAAAA=</Image>
+				<AppliesTo>
+					<Apply type="Dependency">
+						<Property name="direction" value="Undirected"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BindingExpressionLink" metatype="BindingExpressionLink" notes="" cx="188" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAL6tykJSIBUZPQEAAP4DAAAHABEAc3RyLmRhdFVUDQAH60i2UetItlHrSLZR
+tVPLTsMwEJxrkfiHqKcigXickBAHONNTuaMWR6RSm1SJKUKIf2dmbedRHlIOyFrH3p3ZlzcN
+CiyxQ44MW57WKHGMI3zYPqH1CXfYUP9CS4ZbyhTPxJfw3GvebiJ2PwJbosLCYjue3lq0J+qV
+2A5Z0J+jZkPsyr4zWuemdbzleKSHHR5a+xQnI9j3ZHuuivUf+phELwvqPK3qTs6bx7tx5cuR
+0zBOFzWLqzGWeluyCxUZFaub4QKnUbo8wz4nYh8rSrgOk+IH6yVtQ0TfkzJSX3+v+7+79tnm
+pFzSjHmeas6HOpPsYdYk51wZI9REaSaWNkdi1FZNQZ4mRjpv3qQZes2s3671KabskpXlHmYt
+TVqoedwLS7bxrdSDw7eS6D+Qr2C/MsR1i/iL/RPzrMdVl4aY79H70r2EJE2I9i9QSwECFwsU
+AAAACAC+rcpCUiAVGT0BAAD+AwAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH60i2
+UVBLBQYAAAAAAQABAD4AAABzAQAAAAA=</Image>
+				<AppliesTo>
+					<Apply type="Dependency">
+						<Property name="direction" value="Undirected"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="TGGCustomGeneralization" notes="" cx="188" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAEy5+kIxSpneXwEAAIYEAAAHABEAc3RyLmRhdFVUDQAH7gHzUe4B81HuAfNR
+tVJNS8NAEH3XCv6H0FMFRXvpRTxU0JMFod6lNaER06Qka0XE/+57s/m2FXKQZTabfR+7MzsF
+YqywQ4QAW65ekeIUJ/iyeUT0GXMk3N8QCXDDGOOF/BSOc86/65K7H8BNkWFpZ4dcfdRsR9Y7
+uQ0zpl/InYTctX0nRBe2G/IvwhMddnio8THOBqhvqXYcGfPve4xKlyX3HFFVJ+Kfw6dp5VVQ
+qZzD1rlBOQrTqbop6yBexvwmuMJ5Gc1N/bwgY1/mVPEaTnUDj06JdRltp4K5q7LHM//vun3X
+d9Jdqi5zXOXsEFWmwn23KS45Ap6Qk6WuWFknSZFbNjF16hntOXPTTtc1sHqHtaeUwhVru7vv
+tqrXfM5D39hr/LkOj+Yfk9190W35nqpT/z0VctV5Hp9iRsasZvylPqS8aGkP4Q2qOncZ/V67
+sxoey+ue2oRjbizVQVV+o9tvRRVNPzQ+fv4BUEsBAhcLFAAAAAgATLn6QjFKmd5fAQAAhgQA
+AAcACQAAAAAAAAAAAACAAAAAAHN0ci5kYXRVVAUAB+4B81FQSwUGAAAAAAEAAQA+AAAAlQEA
+AAAA</Image>
+				<AppliesTo>
+					<Apply type="Association">
+						<Property name="direction" value="undirected"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="Rule-Set" notes="" cx="188" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAIZ4S0RDL0o3eQAAABIBAAAHABEAc3RyLmRhdFVUDQAHEzz6UhM8+lITPPpS
+K2bIYEhkKGBIZVBgyAWyMhnyGHgZuBiqwSQnUDYeKJoDFE8Hyigw2AKxEkMyUH0eQwmQLALy
+rKFqA4A8kP4SoPo8Bg2gjDJDMVRVKkM+kFUJtkkZKKMJ1+UD1pPKEAJUocFgyGAAhDpATEgF
+hMalijgVyLIgshaIAVBLAQIXCxQAAAAIAIZ4S0RDL0o3eQAAABIBAAAHAAkAAAAAAAAAAAAA
+gAAAAABzdHIuZGF0VVQFAAcTPPpSUEsFBgAAAAABAAEAPgAAAK8AAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="TGGCsp" metatype="Constraint" notes="" cx="355" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Icon type="bitmap" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAA
+wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+wMDAOpDbAAAAtmYAwMDAwMDAOpDbAAAAtmYAwMDAwMDAwMDAwMDAwMDAwMDAwMDAkNv/ZgA6
+//+2wMDAwMDAwMDAwMDAtv//OgBm/9uQwMDAwMDAwMDAwMDAwMDAwMDAZrb/kDoA///bwMDA
+wMDAwMDAwMDAwMDAAGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDAZrb/kDoA///bwMDAwMDAwMDA
+wMDAwMDAAGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDAZrb/kDoA///bwMDAwMDAwMDAwMDAwMDA
+AGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDAOpDbtmYAwMDAwMDAwMDAwMDAwMDAwMDAAGa225A6
+wMDAwMDAwMDAwMDAtv//AABmtmYAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAOpDbOgAA/9uQ
+wMDAwMDAwMDAwMDAZrb/tmYAwMDAwMDAwMDAwMDAwMDAwMDAAGa225A6wMDAwMDAwMDAwMDA
+wMDAwMDAZrb/kDoA///bwMDAwMDAwMDAwMDAwMDAAGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDA
+Zrb/kDoA///bwMDAwMDAwMDAwMDAwMDAAGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDAkNv/ZgA6
+//+2wMDAwMDAwMDAwMDAtv//OgBm/9uQwMDAwMDAwMDAwMDAwMDAwMDAwMDAAGa2AAAAtmYA
+/v7+/v7+OpDbAAAAtmYAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+wMDAwMDAwMDAwMDAdQBwAHAAQwBvAG4AbgBlAGMAdABvAHIATABhAGIAZQBsAHMAPQAwADsA
+UAByAGkAbgB0AFAAYQBnAGUASABlAGEAZABGAG8AbwB0AD0AMAA7AFMAaABvAHcAQQBzAEwA
+aQBzAHQAPQAwADsAUwB1AHAAcAByAGUAcwBzAGUAZABDAG8AbQBwAGEAcgB0AG0AZQBuAHQA
+cwA9ADsAUwBhAHYAZQBUAGEAZwA9AEQAMwA1AEYAMgA2ADIAMQA7AAAAAAAAAAAAAAAA
+AA==</Icon>
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAGJrcUPOXeQ1nQAAAGABAAAHABEAc3RyLmRhdFVUDQAHJcSIUiXEiFIlxIhS
+dZBBCsIwEEXftoJ3ELup4EIFV65E8AD2BFWDCmqkqavSu/ubEBoFGfJnyMz7TOK4UvHCMOGh
+6saTMSNarxmlOg173d8VO6zUUlOwYq2Y/+QZG08G+iD6JL6S60WkEbfQbH+W0iF/c6luOStK
+3hylcduCqTytvA1O9T+/6OKSdw5c6MW3ZurX/gca79+SJ7M5ne563+jZ+Rw0Pen+H1BLAQIX
+CxQAAAAIAGJrcUPOXeQ1nQAAAGABAAAHAAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAcl
+xIhSUEsFBgAAAAABAAEAPgAAANMAAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="TGGBindingExpressionLink" metatype="BindingExpressionLink" notes="" cx="188" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAL6tykJSIBUZPQEAAP4DAAAHABEAc3RyLmRhdFVUDQAH60i2UetItlHrSLZR
+tVPLTsMwEJxrkfiHqKcigXickBAHONNTuaMWR6RSm1SJKUKIf2dmbedRHlIOyFrH3p3ZlzcN
+CiyxQ44MW57WKHGMI3zYPqH1CXfYUP9CS4ZbyhTPxJfw3GvebiJ2PwJbosLCYjue3lq0J+qV
+2A5Z0J+jZkPsyr4zWuemdbzleKSHHR5a+xQnI9j3ZHuuivUf+phELwvqPK3qTs6bx7tx5cuR
+0zBOFzWLqzGWeluyCxUZFaub4QKnUbo8wz4nYh8rSrgOk+IH6yVtQ0TfkzJSX3+v+7+79tnm
+pFzSjHmeas6HOpPsYdYk51wZI9REaSaWNkdi1FZNQZ4mRjpv3qQZes2s3671KabskpXlHmYt
+TVqoedwLS7bxrdSDw7eS6D+Qr2C/MsR1i/iL/RPzrMdVl4aY79H70r2EJE2I9i9QSwECFwsU
+AAAACAC+rcpCUiAVGT0BAAD+AwAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH60i2
+UVBLBQYAAAAAAQABAD4AAABzAQAAAAA=</Image>
+				<AppliesTo>
+					<Apply type="Dependency">
+						<Property name="direction" value="Undirected"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="Kernel Morphism" notes="" cx="185" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Association">
+						<Property name="compositionKind" value="none"/>
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

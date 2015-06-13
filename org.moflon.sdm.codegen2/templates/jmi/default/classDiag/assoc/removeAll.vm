@@ -1,0 +1,25 @@
+#**### FRole.COMPOSITION:= 2
+#**##if($elem.Adornment==2)
+#*   *##if (($role.FCard.UpperBound > 1) || $elem.Qualifier)
+#*      *#      for (Iterator iter$roleName = this.iteratorOf$roleName (); iter${roleName}.hasNext ();)
+#*      *#      {
+#*      *###       FIXME: Check if removeYou exists
+#*      *#         (($targetType)iter${roleName}.next ()).removeYou ();
+#*      *#      }
+#*   *##else
+#*      *#      final $targetType tmp$roleName = this.get$roleName ();
+#*      *#      if (tmp$roleName != null)
+#*      *#      {
+#*      *###       FIXME: Check if removeYou exists
+#*      *#         tmp${roleName}.removeYou ();
+#*      *#      }
+#*   *##end
+#**##else
+#*   *##set( $qualifier = $partnerRole.Qualifier )
+#*   *##if (($partnerRole.Card.UpperBound > 1) || $qualified)
+#*      *#      this.removeAllFrom$methodSuffix ();
+#*   *##else
+#*   *#      this.set$methodSuffix (#if( $qualifier && $qualifier.isExternalQualifier())$utility.getDefaultAsString($qualifier.Type), #end
+#*      *#null);
+#*   *##end
+#**##end

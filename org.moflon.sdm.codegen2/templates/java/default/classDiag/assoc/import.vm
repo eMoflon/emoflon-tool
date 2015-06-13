@@ -1,0 +1,64 @@
+#**##set( $role = $elem )
+#**##set( $partnerRole = $role.PartnerRole )
+#**##set( $adornment = $partnerRole.Adornment )
+#**##set( $partnerAdornment = $role.Adornment )
+#**### FRole.NONE = 0
+#**##set( $isAggregation = ($adornment == 1) )## FRole.AGGREGATION = 1
+#**##set( $isComposition = ($adornment == 2) )## FRole.COMPOSITION = 2
+#**##set( $isParent = ($partnerAdornment == 2 || $partnerAdornment == 1) )
+#**##set( $isUsage = $partnerRole.hasKeyInStereotypes("context") || $role.hasKeyInStereotypes("usage") )
+#**##set( $ref = ($partnerAdornment == 3) )## FRole.REFERENCE = 3
+#**###
+#**##set( $readOnly = $partnerRole.readOnly )
+#**###TODO: regard readOnly in to-many and qualified
+#**##set( $name = $role.AttrName )
+#**##set( $type = $role.Target.Name )
+#**##set( $visibility = $utility.getVisibilityString($role.Visibility) )
+#**##set( $class = $token.Parent.Element )
+#**##if ( $role.Assoc.hasKeyInStereotypes("transient") )
+#*   *##set( $transient = "transient " )
+#**##elseif( $utility.isJavaBean($partnerRole.Target) )
+#*   *##set( $prop = "Prop" )
+#**##end
+#**### check , if target Class is an interface
+#**##set( $targetClassIsInterface = $utility.isInterface($class))
+#**###
+#**##if ( ${role.InheritedCodeStyle} )#set( $style = "$lang/${role.InheritedCodeStyle.Name}:" )
+#**##else#set( $style = "$lang/default:" )#end
+#*   *##if ( ${partnerRole.InheritedCodeStyle} )#set( $partnerStyle = "$lang/${partnerRole.InheritedCodeStyle.Name}:" )
+#*   *##else#set( $partnerStyle = "$lang/default:" )#end
+#*      *##parse("${style}classDiag/assoc/roleProperties.vm")
+#*      *##set( $keyType = $qualified.Type )
+#*      *##set( $key = $utility.getTypeAsString($keyType) )
+#*      *##set( $keyWrapper = $utility.getProgLangWrapperType($keyType) )
+#*      *##if( !$ref )## we don't need to analyze the partner stuff if it's a reference
+#*         *##set( $partnerQualified = $role.Qualifier )
+#*         *##if( $partnerQualified && $partnerQualified.isExternalQualifier() )
+#*            *##set( $partnerKey = $utility.getTypeAsString($partnerQualified.Type) )
+#*         *##end
+#*         *##set( $partnerToMany = ( $partnerRole.Card.UpperBound > 1 ) )
+#*         *##if($partnerRole.hasKeyInStereotypes("pluralized"))
+#*            *##set( $partnerName = $utility.pluralize($utility.upFirstChar($partnerRole.AttrName)) )
+#*         *##else
+#*            *##if("class" == $partnerRole.AttrName)
+#*               *##set( $partnerName = "$utility.upFirstChar($partnerRole.AttrName)_" )
+#*            *##else
+#*               *##set( $partnerName = $utility.upFirstChar($partnerRole.AttrName) )
+#*            *##end
+#*         *##end
+#*      *##end
+#*      *###
+#*      *##if ( $sorted )
+#*         *##set( $comparator = $role.SortedComparator.trim() )
+#*      *##end
+#*      *##parse("${style}classDiag/assoc/accessorSuffix.vm")
+#**### Associations and roles may be tagged with stereotype "void".
+#**### This changes the return type of some methods (add/remove methods of unqualified associations) to "void"
+#**### (default is "boolean" which indicates whether modification-methods have changed something).
+#**### Allows to generate code that is compatible with return types defined in F-interfaces.
+#**##set( $isTaggedWithVoid = ($role.Assoc.hasKeyInStereotypes("void") || $role.hasKeyInStereotypes("void")) )
+#**##if ( !$isTaggedWithVoid )
+#*   *##set( $modificationMethodReturnType = "boolean" )
+#**##else
+#*   *##set( $modificationMethodReturnType = "void" )
+#**##end

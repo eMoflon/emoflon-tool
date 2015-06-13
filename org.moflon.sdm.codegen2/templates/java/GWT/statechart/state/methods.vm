@@ -1,0 +1,119 @@
+### TypeOf[ ${children} ] := java.lang.String
+### TypeOf[ ${elem} ] := de.uni_paderborn.fujaba.uml.behavior.UMLComplexState
+#parse("$lang/GWT:statechart/state/import.vm" )
+#set( $children = $utility.indent("   ",$!children) )
+
+private $upName $downName;
+public class $upName extends FAction
+{
+    public void doAction()
+    {
+	###TypeOf[ ${activityDiag} ] := de.uni_paderborn.fujaba.uml.behavior.UMLActivityDiagram
+	#set( $activityDiag = $elem )
+	#parse("$lang/GWT:statechart/state/activityDiagBody.vm" )	
+#**##if($elem.sizeOfContains() != 0)
+#*   *##set( $stateChart = $elem.iteratorOfContains().next() )
+		 ${utility.downFirstChar("$stateChart.getInitialState()")}.doAction();
+#**##else
+#*scan for event listeners to be added*#
+#*   *##foreach( $eventTrans in $elem.iteratorOfExit() )
+#*      *##set ( $eventName = $eventTrans.toString() )
+#*      *##if ( $eventName.endsWith(".click") )
+#*         *##set ( $objectName = $eventName.substring(0,$eventName.indexOf(".click")))
+      ${objectName}.addClickHandler($utility.downFirstChar("$eventTrans.getTarget()"));
+#*      *##elseif ( $eventName.endsWith(".select") )
+#*        *##set ( $objectName = $eventName.substring(0,$eventName.indexOf(".select")))
+      ${objectName}.addSelectionHandler($utility.downFirstChar("$eventTrans.getTarget()"));
+#*      *##elseif ( $eventName.endsWith(".change") )
+#*        *##set ( $objectName = $eventName.substring(0,$eventName.indexOf(".change")))
+#*        *##set ( $typeName = "no_type" )
+#*        *##set ( $typeName = $statechartVars.get($objectName) )
+#*        *##if ("TextBox" == $typeName || "TextArea" == $typeName)
+      ${objectName}.addChangeHandler($utility.downFirstChar("$eventTrans.getTarget()"));
+#*        *##else
+      ${objectName}.addPropertyChangeListener($utility.downFirstChar("$eventTrans.getTarget()"));
+#*        *##end
+#*      *##end
+#*   *##end
+#*generate auto transitions*#
+#*   *##set ( $amount = 1 )
+#*   *##foreach( $autoTrans in $elem.iteratorOfExit() )
+#*      *##set ( $autoTransName = $autoTrans.toString() )
+#*      *##if ( $autoTransName.equals("auto") )
+#*         *##set ( $guardExpr = $autoTrans.getGuardExprText())
+#*         *##if ( $guardExpr.equals("NONE") || $guardExpr.equals("") )
+#*            *##set ( $fGuardName = "autoGuard"+${elem.toString()}+${amount})
+#*         *##else
+#*            *##set ( $fGuardName = $autoTrans.getGuardExprText().replaceAll("[' '|.|(|)]","") )
+#*            replace *#
+#*            *##set ( $fGuardName = $fGuardName.replace("==","Equals") )
+#*            *##set ( $fGuardName = $fGuardName.replace("!=","NotEquals") )
+#*            *##set ( $fGuardName = $fGuardName.replace(">","GreaterThan") )
+#*            *##set ( $fGuardName = $fGuardName.replace(">=","GreaterThanEquals") )
+#*            *##set ( $fGuardName = $fGuardName.replace("<","LessThan") )
+#*            *##set ( $fGuardName = $fGuardName.replace("<=","LessThanEquals") )
+#*            replace operands*#
+#*            *##set ( $fGuardName = $fGuardName.replace("+","Plus") )
+#*            *##set ( $fGuardName = $fGuardName.replace("-","Minus") )
+#*            *##set ( $fGuardName = $fGuardName.replace("*","MultipliedWith") )
+#*            *##set ( $fGuardName = $fGuardName.replace("/","DevidedBy") )
+#*            *##set ( $fGuardName = $fGuardName.replace("%","Modulo") )
+#*         *##end
+#*         *##set ( $fGuardUpName = $utility.upFirstChar($fGuardName) )
+		 if( $fGuardName == null)
+		 {
+			 $fGuardName = new $fGuardUpName();
+			 ${fGuardName}.setSource($downName);
+			 ${fGuardName}.setTarget($utility.downFirstChar("$autoTrans.getTarget()"));
+			 ${downName}.addToAutoTransitions(${fGuardName}.toString(), $fGuardName);
+		 }
+#*         *##set ( $amount = $amount + 1 )
+#*      *##end
+#*   *##end
+#*   *##if ( $amount > 1 )
+
+		 doAuto();
+#*   *##end 
+#**##end
+    }
+#*generate inner FGuard classes*#
+#**##set ( $amount = 1 )
+#**##foreach( $autoTrans in $elem.iteratorOfExit() )
+#*   *##set ( $autoTransName = $autoTrans.toString() )
+#*   *##if ( $autoTransName.equals("auto") )
+#*      *##set ( $guardExpr = $autoTrans.getGuardExprText())
+#*      *##if ( $guardExpr.equals("NONE") || $guardExpr.equals("") )
+#*         *##set ( $fGuardName = "autoGuard"+${elem.toString()}+${amount})
+#*      *##else
+#*         *##set ( $fGuardName = $autoTrans.getGuardExprText().replaceAll("[' '|.|(|)]","") )
+#*         replace *#
+#*         *##set ( $fGuardName = $fGuardName.replace("==","Equals") )
+#*         *##set ( $fGuardName = $fGuardName.replace("!=","NotEquals") )
+#*         *##set ( $fGuardName = $fGuardName.replace(">","GreaterThan") )
+#*         *##set ( $fGuardName = $fGuardName.replace(">=","GreaterThanEquals") )
+#*         *##set ( $fGuardName = $fGuardName.replace("<","LessThan") )
+#*         *##set ( $fGuardName = $fGuardName.replace("<=","LessThanEquals") )
+#*         replace operands*#
+#*         *##set ( $fGuardName = $fGuardName.replace("+","Plus") )
+#*         *##set ( $fGuardName = $fGuardName.replace("-","Minus") )
+#*         *##set ( $fGuardName = $fGuardName.replace("*","MultipliedWith") )
+#*         *##set ( $fGuardName = $fGuardName.replace("/","DevidedBy") )
+#*         *##set ( $fGuardName = $fGuardName.replace("%","Modulo") )
+#*      *##end
+#*      *##set ( $fGuardUpName = $utility.upFirstChar($fGuardName) )
+   private $fGuardUpName $fGuardName;
+   private class $fGuardUpName extends FGuard
+   {
+#*      *##if ( $guardExpr.equals("NONE") || $guardExpr.equals(""))
+#*      *##else
+      public boolean evaluate()
+      {
+         return $guardExpr;
+      }
+#*      *##end
+#*      *##set ( $amount = $amount + 1 )
+   }
+
+#*   *##end
+#**##end
+}

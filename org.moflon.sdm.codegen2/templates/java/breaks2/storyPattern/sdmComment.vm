@@ -1,0 +1,3 @@
+#**##if( $debug || $elem.firstFromDiagrams.parentElement.hasKeyInStereotypes("assert") )
+#*   *#, "$esc.java($opComment)"##, localVars##
+#**##end

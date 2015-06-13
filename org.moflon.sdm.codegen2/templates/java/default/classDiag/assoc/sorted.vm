@@ -1,0 +1,51 @@
+#**##parse("$lang/default:classDiag/assoc/annotationShort.vm")
+#**#$visibility $type getFirstOf$methodSuffix ()##
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#
+#*   *#{
+#*   *#   if ($name == null)
+#*   *#   {
+#*   *#      return null;
+#*   *#   }
+#*   *#   else
+#*   *#   {
+#*   *#      if (${name}.size() == 0) 	 
+#*   *#      { 	 
+#*   *#         return null; 	 
+#*   *#      }
+#*   *##if ($qualified)
+#*      *#      return ($type) ${name}.get (${name}.firstKey ());
+#*   *##else
+#*      *#      return ($type) ${name}.getFirst ();
+#*   *##end      
+#*   *#   }
+#*   *#}
+#**##end
+#**#
+#**##parse("$lang/default:classDiag/assoc/annotationShort.vm")
+#**#$visibility $type getLastOf$methodSuffix ()##
+#**##if( $targetClassIsInterface )
+#*   *#;
+#**##else
+#*   *#
+#*   *#{
+#*   *#   if ($name == null)
+#*   *#   {
+#*   *#      return null;
+#*   *#   }
+#*   *#   else
+#*   *#   {
+#*   *#      if (${name}.size() == 0) 	 
+#*   *#      { 	 
+#*   *#         return null; 	 
+#*   *#      }
+#*   *##if ($qualified)
+#*      *#      return ($type) ${name}.get (${name}.lastKey ());
+#*   *##else
+#*      *#      return ($type) ${name}.getLast ();
+#*   *##end      
+#*   *#   }
+#*   *#}
+#**##end

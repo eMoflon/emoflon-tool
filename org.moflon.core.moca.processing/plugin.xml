@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><!--
+ <copyright>
+ </copyright>
+
+ $Id$
+--><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="Moca.MocaPackage" genModel="model/Moca.genmodel" uri="platform:/plugin/Moca/model/Moca.ecore"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="Moca.compare.ComparePackage" genModel="model/Moca.genmodel" uri="platform:/plugin/Moca/model/Moca.ecore#//compare"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="Moca.parser.ParserPackage" genModel="model/Moca.genmodel" uri="platform:/plugin/Moca/model/Moca.ecore#//parser"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="Moca.unparser.UnparserPackage" genModel="model/Moca.genmodel" uri="platform:/plugin/Moca/model/Moca.ecore#//unparser"/>
+  </extension>
+</plugin>

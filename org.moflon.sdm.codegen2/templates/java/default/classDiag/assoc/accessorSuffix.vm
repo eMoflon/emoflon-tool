@@ -1,0 +1,9 @@
+#**##if($role.hasKeyInStereotypes("pluralized"))
+#*   *##set ($methodSuffix = $utility.pluralize( $utility.upFirstChar($role.AttrName) ) )
+#**##else
+#*   *##if($role.AttrName && "class" == $role.AttrName)
+#*      *##set ($methodSuffix = "$utility.upFirstChar($role.AttrName)_")
+#*   *##else
+#*      *##set ($methodSuffix = $utility.upFirstChar($role.AttrName))
+#*   *##end
+#**##end

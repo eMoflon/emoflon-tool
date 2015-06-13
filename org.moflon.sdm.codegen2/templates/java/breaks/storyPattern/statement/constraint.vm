@@ -1,0 +1,8 @@
+#**##parse("java/breaks:storyPattern/import.vm")
+#**##set( $constraint = $elem )
+#**##if ( ${constraint.InheritedCodeStyle} )#set( $style = "$lang/${constraint.InheritedCodeStyle.Name}:" )
+#**##else#set( $style = "$lang/default:" )#end
+#*   *##set( $condition = $constraint.getText() )
+#*   *##set( $opComment = "constraint $condition" )
+#*   *#// breaks: style $style
+#*   *##parse("${style}storyPattern/condition.vm")

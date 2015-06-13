@@ -1,0 +1,27 @@
+pattern pushRight {
+
+oldFloor : Floor { 
+		-right-> floor
+	}
+	
+	@floor : Floor { 
+		-right-> neighbor
+	}
+	
+	@this : Figure { 
+		-- -floor-> oldFloor
+		++ -floor-> floor
+	}
+	
+	server : Server { 
+		-- -floor-> floor
+		++ -floor-> neighbor
+	}
+	
+	neighbor : Floor
+	
+	! noWall : Wall { 
+		-floor-> neighbor
+	}
+
+}

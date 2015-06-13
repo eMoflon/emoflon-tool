@@ -1,0 +1,66 @@
+#* *##if( $role.Adornment != 3 )
+#*   *##set( $partnerRole = $role.getPartnerRole() )
+#*   *##set( $pQualified = false )
+#*   *##set( $pQualified = $role.getPartnerRole().getQualifier() )
+#*   *##set( $qualified = false )
+#*   *##set( $qualified = $role.getQualifier() )
+#*   *##set( $qualifiedType = $qualified.getType() )
+#*   *##set( $pQualifiedType = $pQualified.getType() )
+#*   *##set( $qName = $qualified.getName() )
+#*   *##set( $pQName = $pQualified.getName() )
+#*   *##set( $internalQualified = ( $pQualified && !$pQualified.isExternalQualifier() ) )
+#*   *##set( $pInternalQualified = ( $qualified && !$qualified.isExternalQualifier() ) )
+#*   *##set( $fromMany = ( $role.Card.UpperBound > 1 ) )
+#*   *##set( $ordered = $utility.isOrdered($role) )
+#*   *##set( $sorted = $utility.isSorted($partnerRole) )
+#*   *##set( $pOrdered = $utility.isOrdered($partnerRole) )
+#*   *##set( $pSorted = $utility.isSorted($role) )
+#*   *##set( $toMany = ( $partnerRole.Card.UpperBound > 1 ) )
+#*   *##if ( $toMany || $qualified )
+#*      *##set ( $accessor = "addTo$utility.upFirstChar($partnerRole.name)" )
+#*   *##else
+#*      *##set ( $accessor = "set$utility.upFirstChar($partnerRole.name)" )
+#*   *##end
+#*   *##if( !$fromMany && $qualified  )
+#*      *##if(  $pQualified && !$internalQualified )
+#*         *##set ( $valueExpr = "((Map.Entry<String,Map.Entry>) value).getKey(),((Map.Entry<String,Map.Entry>) value).getValue()" )
+#*      *##else
+#*         *##set ( $valueExpr = "(Map.Entry) value" )
+#*      *##end
+#*   *##else## $fromMany || !$qualified
+#*      *##if( $pQualified )
+#*         *##if( $qualified)
+#*            *##if($internalQualified)
+#*               *##set ( $valueExpr = "($partnerRole.Target.FullClassName) value" )
+#*            *##else
+#*               *##set ( $valueExpr = "((Map.Entry<String,Map.Entry>) value).getKey(),((Map.Entry<String,Map.Entry>) value).getValue()" )
+#*            *##end
+#*         *##else## !$qualified
+#*            *##if($toMany)
+#*               *##set ( $valueExpr = "((Map.Entry<String,$partnerRole.Target.FullClassName>) value).getKey(),((Map.Entry<String,$partnerRole.Target.FullClassName>) value).getValue()" )
+#*            *##else
+#*               *##if($internalQualified)
+#*                  *##set ( $valueExpr = "($partnerRole.Target.FullClassName) value" )
+#*               *##else
+#*                  *##set ( $valueExpr = "((Map.Entry<String,$partnerRole.Target.FullClassName>) value).getKey(),((Map.Entry<String,$partnerRole.Target.FullClassName>) value).getValue()" )
+#*               *##end
+#*            *##end
+#*         *##end
+#*      *##else## !$pQualified
+#*         *##if($qualified)
+#*            *##set ( $valueExpr = "((Map.Entry<String,$partnerRole.Target.FullClassName>) value).getKey(),((Map.Entry<String,$partnerRole.Target.FullClassName>) value).getValue()" )
+#*         *##else
+#*            *##set ( $valueExpr = "($partnerRole.Target.FullClassName) value" )
+#*         *##end
+#*      *##end
+#*   *##end
+#*   *##if ( ! $firstAttr )
+#*      *#else ##
+#*   *##else
+#*      *#      ##leerzeichen
+#*   *##end
+#*   *##set ( $firstAttr = false )
+#*   *#if ("$partnerRole.name".equals(fieldName)){
+#*   *#         $accessor ($valueExpr);
+#*   *#      }##
+#* *##end

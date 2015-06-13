@@ -1,0 +1,11 @@
+opposites {
+
+	// By setting pairs of independent, undirectional references as opposites of on another,
+	// 	MOSL essentially creates four bidirectional references, meaning that when one side 
+	//	is changed, the other is updated accordingly. These will always be synched!
+
+	figure : Floor <-> floor : Figure
+	floors : Board <-> board : Floor
+	left : Floor <-> right : Floor
+	top : Floor <-> bottom : Floor
+}

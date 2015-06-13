@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+	<Product Id="5c0e46a8-9d2f-4a02-b5f3-d3057caf4e5e" Name="eMoflon EA Addin" Language="1033" Version="1.0.0.0" Manufacturer="TU Darmstadt FG Echtzeitsysteme" UpgradeCode="37aaa1eb-c0ba-4893-b0b3-ec740575dbe4">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="eMoflonAddinInstaller" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="MyFilesGroup"/>
+		</Feature>
+    
+    <Icon Id="eMoflonLogo.ico" SourceFile="images\eMoflonLogo.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="eMoflonLogo.ico" />
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLSUBFOLDER" />
+    <UIRef Id="WixUI_InstallDir"  />
+
+    <PropertyRef Id="NETFRAMEWORK40FULL"/>
+    <Condition Message='This setup requires Microsoft .NET Framework 4.0 Full package or greater needs to be installed for this installation to continue.'>
+      <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+    </Condition>
+
+  </Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="TU Darmstadt FG Echtzeitsysteme">
+          <Directory Id="INSTALLSUBFOLDER" Name="eMoflonEAAddin" />
+        </Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLSUBFOLDER">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<Component Id="ProductComponent" Guid='dc87cfef-4f36-4c89-b95f-75594228e584'>
+        <RegistryValue Root="HKLM" 
+                       Key="Software\Sparx Systems\EAAddins\EAEcoreAddin" 
+                       Value="EAEcoreAddin.Main" 
+                       Type="string" 
+                       Action="write" />
+      </Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>

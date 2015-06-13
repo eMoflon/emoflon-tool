@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.moflon.ide.debug.ui.MoflonDebugPerspective"
+            fixed="false"
+            icon="icons/moflonSmallDebug.png"
+            id="org.moflon.ide.debug.ui.perspective"
+            name="eMoflon (Debug)">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="org.moflon.ide.debug.ui.launcher.MoflonTabGroup"
+            description="Specify and launch a PDA(DSF) program"
+            id="org.moflon.ide.debug.ui.tabGroup"
+            type="org.moflon.ide.debug.core.launchType">
+         <launchMode
+               description="The eMoflon debug perspective"
+               mode="debug"
+               perspective="org.moflon.ide.debug.ui.perspective">
+         </launchMode>
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.debug.ui.DebugPerspective">
+         <view
+               id="org.moflon.ide.ui.admin.views.GraphView"
+               ratio="0.5"
+               relationship="left"
+               relative="org.eclipse.jdt.debug.ui.DisplayView"
+               visible="true">
+         </view>
+         <view
+               id="org.moflon.ide.ui.admin.views.Matrixbrowser"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.ContentOutline"
+               visible="true">
+         </view>
+         <view
+               id="org.eclipse.ui.views.ContentOutline"
+               ratio="0.5"
+               relationship="stack"
+               relative="org.eclipse.jdt.debug.ui.DisplayView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.contextViewBindings">
+      <perspective
+            perspectiveId="org.eclipse.debug.ui.DebugPerspective">
+      </perspective>
+      <contextViewBinding
+            autoOpen="false"
+            contextId="org.eclipse.jdt.debug.ui.debugging"
+            viewId="org.eclipse.ui.views.ContentOutline">
+      </contextViewBinding>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation
+            class="org.moflon.ide.debug.ui.presentation.MoflonDebugModelPresentation"
+            id="org.moflon.ide.debug.core.debugModel">
+      </debugModelPresentation>
+   </extension>
+<!--TODO: This extension point should no longer be used, instead use 'org.eclipse.ui.menus' -->
+<!--For an example, see plugin.xml in MoflonIdeUi-->
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.moflon.ide.debug.core.objectContribution1"
+            objectClass="org.moflon.ide.debug.core.model.phases.init.ConfiguratorVariable">
+         <action
+               class="org.eclipse.jdt.internal.debug.ui.actions.OpenVariableConcreteTypeAction"
+               icon="icons/full/obj16/jump2Configurator.png"
+               id="org.moflon.ide.debug.core.j2c"
+               label="Jump to Configurator">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.moflon.ide.debug.core.objectContribution1"
+            objectClass="org.moflon.ide.debug.core.model.phases.init.TripleMatchVariable">
+         <action
+               class="org.moflon.ide.debug.ui.actions.JumpToEA"
+               icon="icons/full/obj16/jump2Rule.png"
+               id="org.moflon.ide.debug.core.action1"
+               label="Jump to Rule">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.moflon.ide.debug.core.objectContribution2"
+            objectClass="org.moflon.ide.debug.core.model.phases.init.RuleVariable">
+         <action
+               class="org.moflon.ide.debug.ui.actions.JumpToEA"
+               icon="icons/full/obj16/jump2Rule.png"
+               id="org.moflon.ide.debug.core.action2"
+               label="Jump to Rule">
+         </action>
+      </objectContribution>
+   </extension>
+</plugin>

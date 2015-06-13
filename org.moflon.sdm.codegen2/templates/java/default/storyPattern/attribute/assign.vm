@@ -1,0 +1,14 @@
+#**##parse("$lang/default:storyPattern/attribute/import.vm" )
+#**##set( $opComment = "assign attribute $name" )
+#**#// $opComment
+#**##if ( $reflective )
+#*   *#de.uni_kassel.features.util.FeaturesUtil.setAttribute( ${name}, $attrName , $attrExpr );
+#**##elseif($useMethods)
+#*   *##if(!$instanceOf.hasKeyInStereotypes("ToManyProperty"))
+#*      *#${name}.set$attrNameUC ($attrExpr);
+#*   *##else
+#*      *#${name}.get$attrNameUC ().add($attrExpr);
+#*   *##end
+#**##else
+#*   *#${name}.$attrName = $attrExpr;
+#**##end

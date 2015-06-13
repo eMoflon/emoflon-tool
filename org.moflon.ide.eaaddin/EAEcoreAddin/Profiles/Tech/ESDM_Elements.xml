@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="80565665-5" name="ESDM_Elements" version="1.0" notes="\v"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="StopNode" metatype="ActivityNode" notes="" cx="20" cy="20" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAEa4ZECBB1F44gAAAFACAAAHABEAc3RyLmRhdFVUDQAHm/RTT5v0U0+b9FNP
+jVLLCsIwEJyrgv9Q6qWCoOLBg3jxrN8gta1WtA/S4EX8d2fT1yo9SMjsJjs7u3lUSBGiRAIP
+Gb0bcrwwwRgj7j04boxW9AMsMXdzReztDNuGLyyLCzMkL0JBLGBU5jfbsp4hlrSWfQQq+lt7
+7fJr3HSo+TniQaW2n9AxpKphV3dmDLEXHCkzYtdBiLOzAXwc3W7MVYI9FSxHwTs7dCz/L51M
+6YhCqeJa4d1YwUq9Us+WSPtWNT5xYlTu7crTethx+k0Vv1NOB1mRu0NLNIpbciV/wrrep/RC
+niChp3sVrPv9AFBLAQIXCxQAAAAIAEa4ZECBB1F44gAAAFACAAAHAAkAAAAAAAAAAAAAgAAA
+AABzdHIuZGF0VVQFAAeb9FNPUEsFBgAAAAABAAEAPgAAABgBAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="ActivityFinal"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="StartNode" metatype="ActivityNode" notes="" cx="20" cy="20" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIANq9ZEAXfV8ocwAAAO4AAAAHABEAc3RyLmRhdFVUDQAHxf5TT8X+U0/F/lNP
+bY7BCoMwEETftQX/oUcLHvTs10irGNREYm6l/95JSFVoWXZ2YSYvuzHSsdJzY9FmsLwouHLJ
+uskLDHJm1QMndXhKaqrcd9o9HUTx0lUziF6e3D4xjLxIPQiN9JjnvOX5l/S9p0uJ+KvXVZNe
+/KbfSWN/AFBLAQIXCxQAAAAIANq9ZEAXfV8ocwAAAO4AAAAHAAkAAAAAAAAAAAAAgAAAAABz
+dHIuZGF0VVQFAAfF/lNPUEsFBgAAAAABAAEAPgAAAKkAAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="ActivityInitial"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="StoryNode" metatype="ActivityNode" notes="" cx="188" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAJK79kJ+mk7RWQEAAOAEAAAHABEAc3RyLmRhdFVUDQAHCcDtUQnA7VEJwO1R
+tZRLS8NQEIXPtoL/oaSbFlz4wIWKiyIFN4pg96Lpw0KblCQVH/jf/eYmMWmalKpI6NzXmTkz
+Z+5trGc9aqmx2lowmynQvvb04WyL0wf1NWd/yklbl/w8+eADJdiI1UWGfanFJgqJX6BGeE10
+D+qdWVfHOuQ7yMbeN24Gqqtrcoo1xE5ZeeyFcA5Y++Tm4WcMkVbE8vDuwZn65xW0OA05D2CO
+QPnguzrF01iPMvYzt3Pi5maLPOr9DWceqV8epc7/MxvHKBNjd8nOopSz2yV+WTXraVm1Gzgm
+8IfwnPMN9OpUMxWtiyP6YX2K9KY7dpOst4FTOO1iWeNqDX0iWIyVnrD5jTLmJX52pxLdsrtg
+96p0dwpsyrNe72aNuYbG+Zcchu5ONrFv0zcf49K72YxfX2M145+8rabX1YQucppjTYUOY5pd
+x3Wxvr7tdVV1+4+Kqv8Xv60lnX8BUEsBAhcLFAAAAAgAkrv2Qn6aTtFZAQAA4AQAAAcACQAA
+AAAAAAAAAACAAAAAAHN0ci5kYXRVVAUABwnA7VFQSwUGAAAAAAEAAQA+AAAAjwEAAAAA
+</Image>
+				<AppliesTo>
+					<Apply type="Activity">
+						<Property name="isReadOnly" value="false"/>
+						<Property name="isSingleExecution" value=""/>
+						<Property name="parameterName" value=""/>
+						<Property name="postcondition" value=""/>
+						<Property name="precondition" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="StatementNode" metatype="ActivityNode" notes="" cx="197" cy="62" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAHa79kLPI5D10QAAACACAAAHABEAc3RyLmRhdFVUDQAH37/tUd+/7VHfv+1R
+dZBNDoIwFIRnq4l3ILjRxIU/S+PCM3gAUwV/EgUj6ELj3f1KKTWKafreQGfmtVPoIKOLUkU6
+g47K1FNXz6p2OF1rqRP/95xEWrBjbeFnKqlXvuY1997KLZXjH1gJqp1WsB6ggaYas0Z1Hza8
+K7obPgkoZWIJ1/LsntQa32dNDfoLOvuakhtlaGP16YZXpqD4g+mqYVKigpkbqk/F6go8TPVa
+q7WOMdMilp8fsHd1nsEnanFxHJ+0y9r85Nee9b+0/7FDGj6JvGIVX1m8mts79AZQSwECFwsU
+AAAACAB2u/ZCzyOQ9dEAAAAgAgAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRhdFVUBQAH37/t
+UVBLBQYAAAAAAQABAD4AAAAHAQAAAAA=</Image>
+				<AppliesTo>
+					<Apply type="Activity">
+						<Property name="isReadOnly" value="false"/>
+						<Property name="isSingleExecution" value=""/>
+						<Property name="parameterName" value=""/>
+						<Property name="postcondition" value=""/>
+						<Property name="precondition" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="ObjectVariable" metatype="ObjectVariable" notes="" cx="197" cy="62" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIACpxcUTCvTFVZgMAAAYPAAAHABEAc3RyLmRhdFVUDQAHMQInUzECJ1MxAidT
+tVfJThtBEK2rI+UfRvYFJLIYRKIQ5YCEFJCScCBKjpGxx4tkG2QPJCTKv/NeFe1epj3YRJFF
+T09PddWrV0s3SxlLT66llEJmmE1kjtlzeSZ/dGxF4wByQ7mA1G/MduSdvJY9OcS4K+9Vpsj+
+bPcSeyqZqo0Sb5Xc4Y162tB5Lp/kTE4wd7qc1Qls7sgp0C3lK8aR7rhUPQMdR9hfKv45tE6k
+D8k2kLXlCr5x5QpferBG7bsrRM7HZmwncgz9pxGyv1tgO1d+F/haAcfiAVkfs1LXykdQcfcc
+8ldAxP07yvo+xkM8jXtK8xejC9eejpRRJyMLrN1tjXUfKA2nwxpj3BzdBfQ7vojrEhZu9Lth
+akL0EzoGeBtD70GEwhC4PYxJX+3QomWAId+TLkb/NNZDH7bxJJ+tzL2R+jiR24a8mMFzfmeU
+HD7vU2uVx/a9jnu9nrpMXtf6SB7DywE8vIHPF6vuQg5Ygf1gjT4XqtHn8eNMLjTmaS4MhdXN
+iOdzoaeolopqGaFiZjPnS/jHquc683eGWQ/rFWbMoCrAm2PKWHAdr3xA43z5n0hc/3W2mmwY
+e7Rk7OWikdMZx9iPfuY89/Y439SjlKWx/NCIThB1nkgf8MeeadLU2Q5y9HZj6fRkusY35nel
+7HQ0R4mpg29H+OtAy1SYgUvNx4lq62iWefue+XzOptW/SR8jG17vZprPoYcdj6PpjjWGDMen
+hMtX12tS2VbCFNkhyx1gOZaPeFuPpM6Wt8z+623mfcxXPM+jG32LOfNWNulu6/pbXdJjdlzl
+bKbS9rS5jWF9rK9Gk/Wa63nKiuK57NhNK9Xfury9tAOnVvJ1xPyslJ+ZhFWXr1HiHOEbM9DL
+5iNreM40b0r51RDL1H+XdamGNNfqUfPZ1hS3lE2OzNWw6/ld4S3XbsnscnaPsrtnUasP8u9v
+Wh5TjCecvcJvuwi1VDd7FpkL0di+L/Jd5VNLceW8wB3uQKuCY1o/+ch+xs6h3gHniNKRfFNv
+idPO6PUVnPadvP5mNh+7Yefs0BLvZCOxk7Ks+RDqeym8wQ3VUqHcFODprd5kCnmzWuliJebL
+el7I9r/42HQ3f5qXsca8n11kgnna1f9DYl9j3+wX+x8ijN/qVZp64DvBFCN9qJ8u9vQ16U57
+Z8vJuvk9UEsBAhcLFAAAAAgAKnFxRMK9MVVmAwAABg8AAAcACQAAAAAAAAAAAACAAAAAAHN0
+ci5kYXRVVAUABzECJ1NQSwUGAAAAAAEAAQA+AAAAnAMAAAAA</Image>
+				<AppliesTo>
+					<Apply type="Object"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="SDM Activity" metatype="SDM Activity" notes="" cx="258" cy="62" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Icon type="bitmap" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAADAAASCwAAEgsAAAAAAAAAAAAA
+////////////////////////////////////////////////////////////////////////
+////////AAAAAAAAAAAA////AAAAAAAAAAAA////////////////////////////////////
+AAAA////AAAA////AAAA////AAAA////////////////////////////////////AAAAAAAA
+AAAA////AAAAAAAAAAAA////////////////////////////////////////AAAA////////
+////AAAA////////////////////////////////ZmZmAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAZmZm////////////////ZmZmAAAA////////////////////////////////////
+AAAAZmZm////////////AAAA////AAAAAAAAAAAAAAAA////AMwzAMwzAMwzAMwz////AAAA
+////////////AAAA////AAAA////////AAAAAMwzAMwz////////AMwz////AAAA////////
+////AAAA////AAAAAAAAAAAAAAAA////AMwzAMwzAMwzAMwz////AAAA////////////ZmZm
+AAAA////////////////////////////////////AAAAZmZm////////////////ZmZmAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZmZm////////////////////////////////////
+////AAAA////////////////////////////////////////////////////////AAAAAAAA
+AAAA////////////////////////////////////////////////////AAAAAAAAAAAA////
+////////////////////////////////////////////////AAAAAAAAAAAA////////////
+////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AA==</Icon>
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="LinkVariable" metatype="LinkVariable" notes="" cx="251" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAM5xcUQtrqGHWQIAAFoJAAAHABEAc3RyLmRhdFVUDQAHLwMnUy8DJ1MvAydT
+vVXBbtNAEH3XIPUfrPaSCgKlVQUq4tATIFF6aMUVJbWdWErsKHaBquLfeTPjsTepQ9JEQis7
+m915M+/Nzo5LTDDEHAkizDjLkOMRB3iBHqb8/4AC96hwy5lZfeRzyL0EKdcXRIzpo+Lahxo3
+wQ9c0kJ28gZxR0ROu4SY1vbnM2xzcrlRvjFnvxprYXFPW7eM6lFyrVLWOT0WjFLQso8TvKqf
+48a32abkMeVYb92r7e2dEdHHZzIqmaEhNfTJYqRZjPU9xrUyWHC3Uo+H9CUKF1yVNeF9zBE1
+eXc23cxP+T5fYb+J/zJG7A33Z28dMddKPYGCFbK9klPyMUbbK3mK2U3JDSNIrUuFZYxQ1loK
+8pSVgjtDRl2nRqo1r3U/QG6CxIg15kRRrsZZOd5+HS957OMttaxmodUS7axGIoz1tDLesrbK
+zPdjwKdHfKE2xuhM+QzwfuVklnm/U6tVm2VPZrPJk8VbtvHMSUblrksvGhEx1QxcER9zSO5v
+9dy+Nvth/rvRswA94n6lPGaBlfmw/BgTecRb2ys3+RCEV87+HVG8zwOr7jqXur3DF62OBL/r
+M/cT9+zPIV1bIgvmiPhLfMLFE/TR2lreLi/G+X9l5N89+YrWKaST5FR6ge8aQ05O7rTdmPY7
+0pW1br+790j320YIT2bKt/gfcHg1hje2hzccmd78MbwDhXFeQ/pCqhwivWERe82ZdlCZnehX
+webnQb2Lbz/rfVR3feG20/ySI6y8brWh/y6tA3afVqutuNJWZ5hVV73ufki8VJXa1yzBN8af
+8Te8Ke7lL1BLAQIXCxQAAAAIAM5xcUQtrqGHWQIAAFoJAAAHAAkAAAAAAAAAAAAAgAAAAABz
+dHIuZGF0VVQFAAcvAydTUEsFBgAAAAABAAEAPgAAAI8CAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Association">
+						<Property name="direction" value="Unspecified"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="ActivityEdge" notes="" cx="140" cy="54" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ControlFlow">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="SDMAnchor" metatype="SDMAnchor" notes="" cx="188" cy="75" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Icon type="bitmap" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">Qk02BQAAAAAAADYEAAAoAAAAEAAAABAAAAABAAgAAAAAAAABAAASCwAAEgsAAAABAAAAAAAA
+AAAAAPn5+QCtra0AZmZmADMzMwDZ2dkAg4ODACIiIgBCQkIAEBAQALu7uwCTk5MAenp6AE5O
+TgDn5+cAx8fHAFpaWgD///8ACAgIAKGhoQA6OjoAKioqAI+PjwCzs7MAGhoaAN/f3wCZmZkA
+zMzMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABER
+ERERERERAREREREREREREREREQ4GBwcMGRERERERERERERYSAAAAABIGERERERERERYJCxsJ
+CQ8aCQYREREREQ0AGhERFRURERMACBERERkACQIREQQVEREXCQAFEREKFRkREREEBBERERkV
+FxERDg4RERERFBQRERERDg4REREREREREQgUEREREREREREREREREREICBEREREREREREQ4D
+AwMDBxgDAwMDDhEREREBCgoKChQUCgoKCgEREREREREREQ8JCQoREREREREREREREREDDAYQ
+ERERERERERERERERFwkJAhEREREREREREREREREODhERERERERE=</Icon>
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAA4AskIij07xiAAAAO4AAAAHABEAc3RyLmRhdFVUDQAHl8SWUZfEllGXxJZR
+VY7BCsIwEETfVcF/KD0pBFHQg/oNvbRfUKrWQpuKerL0351sxSBLZieZ2dk8uVFy50JCJ9bg
+xRbMGQxn5NIqXtI8Na1uSzY4O1th7CtO35mzXFcKpb3Nv1M59n+exvbVpqfCjF4zrdBzVIV9
+lX7X82AtvZOaKiVRTshyHH4YUwOO6hOb3iL/AFBLAQIXCxQAAAAIAA4AskIij07xiAAAAO4A
+AAAHAAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAeXxJZRUEsFBgAAAAABAAEAPgAAAL4A
+AAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="ObjectVariableQuickCreate" metatype="ObjectVariable" notes="" cx="197" cy="62" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIACpxcUTCvTFVZgMAAAYPAAAHABEAc3RyLmRhdFVUDQAHMQInUzECJ1MxAidT
+tVfJThtBEK2rI+UfRvYFJLIYRKIQ5YCEFJCScCBKjpGxx4tkG2QPJCTKv/NeFe1epj3YRJFF
+T09PddWrV0s3SxlLT66llEJmmE1kjtlzeSZ/dGxF4wByQ7mA1G/MduSdvJY9OcS4K+9Vpsj+
+bPcSeyqZqo0Sb5Xc4Y162tB5Lp/kTE4wd7qc1Qls7sgp0C3lK8aR7rhUPQMdR9hfKv45tE6k
+D8k2kLXlCr5x5QpferBG7bsrRM7HZmwncgz9pxGyv1tgO1d+F/haAcfiAVkfs1LXykdQcfcc
+8ldAxP07yvo+xkM8jXtK8xejC9eejpRRJyMLrN1tjXUfKA2nwxpj3BzdBfQ7vojrEhZu9Lth
+akL0EzoGeBtD70GEwhC4PYxJX+3QomWAId+TLkb/NNZDH7bxJJ+tzL2R+jiR24a8mMFzfmeU
+HD7vU2uVx/a9jnu9nrpMXtf6SB7DywE8vIHPF6vuQg5Ygf1gjT4XqtHn8eNMLjTmaS4MhdXN
+iOdzoaeolopqGaFiZjPnS/jHquc683eGWQ/rFWbMoCrAm2PKWHAdr3xA43z5n0hc/3W2mmwY
+e7Rk7OWikdMZx9iPfuY89/Y439SjlKWx/NCIThB1nkgf8MeeadLU2Q5y9HZj6fRkusY35nel
+7HQ0R4mpg29H+OtAy1SYgUvNx4lq62iWefue+XzOptW/SR8jG17vZprPoYcdj6PpjjWGDMen
+hMtX12tS2VbCFNkhyx1gOZaPeFuPpM6Wt8z+623mfcxXPM+jG32LOfNWNulu6/pbXdJjdlzl
+bKbS9rS5jWF9rK9Gk/Wa63nKiuK57NhNK9Xfury9tAOnVvJ1xPyslJ+ZhFWXr1HiHOEbM9DL
+5iNreM40b0r51RDL1H+XdamGNNfqUfPZ1hS3lE2OzNWw6/ld4S3XbsnscnaPsrtnUasP8u9v
+Wh5TjCecvcJvuwi1VDd7FpkL0di+L/Jd5VNLceW8wB3uQKuCY1o/+ch+xs6h3gHniNKRfFNv
+idPO6PUVnPadvP5mNh+7Yefs0BLvZCOxk7Ks+RDqeym8wQ3VUqHcFODprd5kCnmzWuliJebL
+el7I9r/42HQ3f5qXsca8n11kgnna1f9DYl9j3+wX+x8ijN/qVZp64DvBFCN9qJ8u9vQ16U57
+Z8vJuvk9UEsBAhcLFAAAAAgAKnFxRMK9MVVmAwAABg8AAAcACQAAAAAAAAAAAACAAAAAAHN0
+ci5kYXRVVAUABzECJ1NQSwUGAAAAAAEAAQA+AAAAnAMAAAAA</Image>
+				<AppliesTo>
+					<Apply type="Object"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="CSPInstance" metatype="CSPInstance" notes="" cx="185" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Icon type="bitmap" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">Qk02AwAAAAAAADYAAAAoAAAAEAAAABAAAAABABgAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAA
+wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+wMDAOpDbAAAAtmYAwMDAwMDAOpDbAAAAtmYAwMDAwMDAwMDAwMDAwMDAwMDAwMDAkNv/ZgA6
+//+2wMDAwMDAwMDAwMDAtv//OgBm/9uQwMDAwMDAwMDAwMDAwMDAwMDAZrb/kDoA///bwMDA
+wMDAwMDAwMDAwMDAAGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDAZrb/kDoA///bwMDAwMDAwMDA
+wMDAwMDAAGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDAZrb/kDoA///bwMDAwMDAwMDAwMDAwMDA
+AGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDAOpDbtmYAwMDAwMDAwMDAwMDAwMDAwMDAAGa225A6
+wMDAwMDAwMDAwMDAtv//AABmtmYAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAOpDbOgAA/9uQ
+wMDAwMDAwMDAwMDAZrb/tmYAwMDAwMDAwMDAwMDAwMDAwMDAAGa225A6wMDAwMDAwMDAwMDA
+wMDAwMDAZrb/kDoA///bwMDAwMDAwMDAwMDAwMDAAGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDA
+Zrb/kDoA///bwMDAwMDAwMDAwMDAwMDAAGa2/7ZmwMDAwMDAwMDAwMDAwMDAwMDAkNv/ZgA6
+//+2wMDAwMDAwMDAwMDAtv//OgBm/9uQwMDAwMDAwMDAwMDAwMDAwMDAwMDAAGa2AAAAtmYA
+/v7+/v7+OpDbAAAAtmYAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA
+wMDAwMDAwMDAwMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AA==</Icon>
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAIxigkWmcNPEEAEAAPYCAAAHABEAc3RyLmRhdFVUDQAHlq59VJaufVSWrn1U
+fZFBS8NAFITnGsH/EJJLCx5U8KL0UApar9a7RBvTQtpIE4tQ+t/9duO6mzSUZWfbfW/mzU5q
+rZTpS7libfi11laXutDBYqQFlUaP3JesmSqw0k4j3eqOddU7x3qwzJb9AvsDfoZqATOHd02v
+2TegP7u8Fqdashb61jvofI6UoJah6+8SdGKrZJx4tfMaFc5y1ZY97MY5CbEOEvMabc2lFlHf
+2SwbO+ugNOhNdeTOzHCaxzMTui/tz9nrjUrJrILeWBN2wlvNrAbc8M+9JUJlqNs4Lag1nd61
+PvE+p7/WK1gEyT9zLnHzY98x/ud4X/0EUjSmetL9iUL6l4VjuiwiqiWzTQpD+qf9YZYthjv8
+ir9QSwECFwsUAAAACACMYoJFpnDTxBABAAD2AgAABwAJAAAAAAAAAAAAAIAAAAAAc3RyLmRh
+dFVUBQAHlq59VFBLBQYAAAAAAQABAD4AAABGAQAAAAA=</Image>
+				<AppliesTo>
+					<Apply type="Object"/>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+		<QuickLink data="Class,CorrespondenceType,Class,EClass,,,,Association,,directed,Create EReference,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,EClass,Class,CorrespondenceType,,,,Association,,directed,Not allowed,,FALSE,FALSE,,TRUE,,0&#xA;&#xA;Class,EClass,Class,EClass,,,,Association,uniSingle,directed,Create Unidirectional EReference 0..1,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,EClass,Class,EClass,,,,Association,uniMultiple,directed,Create Unidirectional EReference 0..*,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,EClass,Class,EClass,,,,Association,uniComposite,directed,Create Unidirectional Composite EReference,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,EClass,Class,EClass,,,,Association,bi,bidirectional,Create Bidirectional EReference,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,EClass,Class,EClass,,,,Association,biComposite,bidirectional,Create Bidirectional Composite EReference,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,TGGPattern,Class,EClass,,,,Association,,directed,Create EReference,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,Rule,Class,Rule,,,,Association,Kernel Morphism,directed,Create Kernel Morphism,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,Rule,Class,Rule,,,,Association,TGGCustomGeneralization,directed,Create Refinement Link,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,Rule-Set,Class,Rule,,,,Association,TGGCustomGeneralization,directed,Create Refinement Link,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,Rule,Class,Rule-Set,,,,Association,TGGCustomGeneralization,directed,Create Refinement Link,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,Rule-Set,Class,Rule-Set,,,,Association,TGGCustomGeneralization,directed,Create Refinement Link,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,EClass,Class,EClass,,,,Generalization,,directed,Create Inheritance,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,CorrespondenceType,Class,CorrespondenceType,,,,Generalization,,directed,Create Inheritance,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Class,EClass,,,,Class,EClass,Association,uniMultiple,directed,,Append EClass with EReference,TRUE,TRUE,TRUE,TRUE,,0&#xA;&#xA;Class,EClass,,,,Class,EClass,Generalization,,from,,Append EClass with Inheritance,TRUE,TRUE,TRUE,TRUE,,0&#xA;&#xA;Object,ObjectVariable,Object,ObjectVariable,,,,Association,LinkVariable,to,Create LinkVariable,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Object,ObjectVariable,,,,Object,ObjectVariableQuickCreate,Association,LinkVariable,to,,Append ObjectVariable,TRUE,TRUE,TRUE,TRUE,,0&#xA;&#xA;Activity,,Activity,,eMoflon SDM Diagrams::SDM Diagram,,,ControlFlow,,to,Create ActivityEdge,,TRUE,FALSE,TRUE,TRUE,,0&#xA;&#xA;Activity,,ActivityFinal,,eMoflon SDM Diagrams::SDM Diagram,,,ControlFlow,,to,,,TRUE,FALSE,TRUE,TRUE,,0&#xA;&#xA;&#xA;ActivityInitial,,Activity,,eMoflon SDM Diagrams::SDM Diagram,,,ControlFlow,,to,,,TRUE,FALSE,TRUE,TRUE,,0&#xA;&#xA;ActivityInitial,,,,eMoflon SDM Diagrams::SDM Diagram,Activity,StoryNode,ControlFlow,,to,,Append StoryNode,TRUE,TRUE,TRUE,TRUE,,0&#xA;&#xA;ActivityInitial,,,,eMoflon SDM Diagrams::SDM Diagram,Activity,StatementNode,ControlFlow,,to,,Append StatementNode,TRUE,TRUE,TRUE,TRUE,,0&#xA;&#xA;Activity,,,,eMoflon SDM Diagrams::SDM Diagram,Activity,StoryNode,ControlFlow,,to,,Append StoryNode,TRUE,TRUE,TRUE,TRUE,,0&#xA;&#xA;Activity,,,,eMoflon SDM Diagrams::SDM Diagram,Activity,StatementNode,ControlFlow,,to,,Append StatementNode,TRUE,TRUE,TRUE,TRUE,,0&#xA;&#xA;Activity,,,,eMoflon SDM Diagrams::SDM Diagram,ActivityFinal,StopNode,ControlFlow,,to,,Append StopNode,TRUE,TRUE,TRUE,TRUE,,0&#xA;&#xA;Class,EClass,Class,EClass,eMoflon TGG Diagrams::TGG Schema,,,Dependency,tggLink,to,Create TGG Correspondence Type,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Object,Correspondence,Object,TGGObjectVariable,,,,Association,TGGLinkVariable,undirected,Create Link,,TRUE,FALSE,TRUE,TRUE,,0&#xA;&#xA;Object,TGGObjectVariable,Object,Correspondence,,,,Association,TGGLinkVariable,undirected,Create Link,,TRUE,FALSE,TRUE,TRUE,,0&#xA;&#xA;Object,TGGObjectVariable,Object,TGGObjectVariable,,,,Association,TGGLinkVariable,undirected,Create Link,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;Object,TGGObjectVariable,Object,TGGObjectVariable,,,,Association,tggCorrLink,undirected,Create TGG Correspondence Link,,TRUE,FALSE,,TRUE,,0&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;"/>
+	</Content>
+</UMLProfile>

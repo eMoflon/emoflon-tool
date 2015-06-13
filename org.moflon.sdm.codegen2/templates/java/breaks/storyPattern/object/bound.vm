@@ -1,0 +1,4 @@
+#**##parse("java/breaks:storyPattern/object/import.vm" )
+#**##set( $opComment = "bound check for $name" )
+#**##set( $condition = "$name != null" )
+#**##parse("${style}storyPattern/condition.vm" )

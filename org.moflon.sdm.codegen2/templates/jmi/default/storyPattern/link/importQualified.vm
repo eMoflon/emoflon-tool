@@ -1,0 +1,27 @@
+#**###----- note that "importQualified.vm" is used in conjunction with "import.vm"
+#**###----- so it sees all variables that are defined there 
+#**##set( $qualifier = $role.Qualifier)
+#**##set( $qualifierType = $qualifier.Adaptee.Type)
+#**##set( $range = $mofutility.nullIfEmpty($link.getRange()))
+#**##if($range)
+#*   *#	#set( $rangeIsInteger = $mofutility.isInteger($range))
+#**##end
+#**#
+#**##if($qualifier && $range)
+#*   *#	#if($ordered)
+#*      *#		#if($rangeIsInteger)
+#*         *#			#set($getQualified = false)
+#*      *#		#else
+#*         *#			#set($getQualified = true)
+#*      *#		#end
+#*   *#	#else
+#*      *#		#set($getQualified = true)
+#*   *#	#end
+#**##else
+#*   *#	#set($getQualified = false)
+#**##end
+#**#
+#**##if($getQualified)
+#*   *#	#set( $valueOfQualifier = $range)
+#*   *#	#set( $queryEndName = $role.getAttrName() )
+#**##end

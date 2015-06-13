@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdma:OperationExtension xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdma="http://ns.storydriven.org/sdm/activities/0.1.0" xmlns:sdmp="http://ns.storydriven.org/sdm/patterns/0.1.0" xsi:schemaLocation="http://ns.storydriven.org/sdm/activities/0.1.0 ../model/SDMLanguage.ecore#//activities http://ns.storydriven.org/sdm/patterns/0.1.0 ../model/SDMLanguage.ecore#//patterns">
+  <ownedActivity>
+    <ownedActivityNode xsi:type="sdma:ModifyingStoryNode" incoming="//@ownedActivity/@ownedActivityEdge.0" outgoing="//@ownedActivity/@ownedActivityEdge.1">
+      <ownedRule>
+        <objectVariable name="this" outgoingLink="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@linkVariable.2 //@ownedActivity/@ownedActivityNode.0/@ownedRule/@linkVariable.0" bindingState="BOUND"/>
+        <objectVariable name="newNode" incomingLink="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@linkVariable.0" outgoingLink="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@linkVariable.1" bindingState="BOUND"/>
+        <objectVariable name="nextNode" incomingLink="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@linkVariable.1 //@ownedActivity/@ownedActivityNode.0/@ownedRule/@linkVariable.2"/>
+        <linkVariable xsi:type="sdmp:LinkVariable" name="next" modifier="CREATE" source="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@objectVariable.0" target="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@objectVariable.1"/>
+        <linkVariable xsi:type="sdmp:LinkVariable" name="next" modifier="CREATE" source="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@objectVariable.1" target="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@objectVariable.2"/>
+        <linkVariable xsi:type="sdmp:LinkVariable" name="next" modifier="DESTROY" source="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@objectVariable.0" target="//@ownedActivity/@ownedActivityNode.0/@ownedRule/@objectVariable.2"/>
+      </ownedRule>
+    </ownedActivityNode>
+    <ownedActivityNode xsi:type="sdma:StartNode" outgoing="//@ownedActivity/@ownedActivityEdge.0"/>
+    <ownedActivityNode xsi:type="sdma:StopNode" incoming="//@ownedActivity/@ownedActivityEdge.1"/>
+    <ownedActivityEdge target="//@ownedActivity/@ownedActivityNode.0" source="//@ownedActivity/@ownedActivityNode.1"/>
+    <ownedActivityEdge target="//@ownedActivity/@ownedActivityNode.2" source="//@ownedActivity/@ownedActivityNode.0"/>
+  </ownedActivity>
+</sdma:OperationExtension>

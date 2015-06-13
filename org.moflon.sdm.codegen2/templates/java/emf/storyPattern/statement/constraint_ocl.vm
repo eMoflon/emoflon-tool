@@ -1,0 +1,17 @@
+#**##set( $constraint = $elem )
+#**##set( $constraintText = $constraint.getText() )
+#**##set( $return = $imports.addToImports("de.ubt.ai1.sdm.ocl.FujabaOCLHelper") )
+#**##set( $createdVarList = false )
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##foreach( $identifier in $utility.getOCLVarList($constraint, $localVars).iterator() )
+#*   *##if ( !$createdVarList )
+#*      *##set( $return = $imports.addToImports("java.util.HashMap") )
+#*      *##set( $return = $localVars.addLocalVariable("contextInstances", "HashMap<String, Object>", $method) )
+#*      *#contextInstances = new HashMap<String, Object>();
+#*      *##set( $createdVarList = true )
+#*   *##end
+#*   *#contextInstances.put("$identifier", $identifier);
+#**##end
+#**#JavaSDM.ensure ( ##
+#**#FujabaOCLHelper.createQuery(this.eClass(), "$constraintText"#if ( $createdVarList ), contextInstances#end).check(this) ##
+#**#);

@@ -1,0 +1,9 @@
+#**##set( $firstParam = true )
+#**##foreach( $param in $params)
+#**##if( !$firstParam ), #else
+#**##set( $firstParam = false )#end
+#**##set( $return = $imports.addToImports($param.ParamType.FullClassName) )
+#**##set( $paramType = $utility.getTypeAsString($param.ParamType) )
+#**##set( $paramName = $param.Name )
+#**#$paramType $paramName##
+#**##end

@@ -1,0 +1,36 @@
+#**### multi
+#**##if ( $targetMulti.ContainerObject.equals($source) )
+#*   *##if ( $targetMulti.Type == 2 )## DIRECT
+#*      *##set( $mparam = $targetMulti.SourceObject.ObjectName )
+#*      *##set( $multi = "NextOf" )
+#*   *##elseif ( $targetMulti.Type == 3 )## INDEX
+#*      *##set( $mparam = "$targetMulti.SourceObject.ObjectName, $targetMulti.Index" )
+#*      *##set( $multi = "NextOf" )
+#*   *##elseif ( $targetMulti.Type == 4 )## INDIRECT
+#*      *##set( $mparam = "$targetMulti.TargetObject.ObjectName, $targetMulti.SourceObject.ObjectName" )
+#*      *##set( $indmulti = "isAfterOf" )
+#*   *##end
+#**##elseif ( $sourceMulti.ContainerObject.equals($source) )
+#*   *##if ( $sourceMulti.Type == 2 )## DIRECT
+#*      *##set( $mparam = $sourceMulti.TargetObject.ObjectName )
+#*      *##set( $multi = "PreviousOf" )
+#*   *##elseif ( $sourceMulti.Type == 3 )## INDEX
+#*      *##set( $mparam = "$sourceMulti.TargetObject.ObjectName, $sourceMulti.Index" )
+#*      *##set( $multi = "PreviousOf" )
+#*   *##elseif ( $sourceMulti.Type == 4 )## INDIRECT
+#*      *##set( $mparam = "$sourceMulti.SourceObject.ObjectName, $sourceMulti.TargetObject.ObjectName" )
+#*      *##set( $indmulti = "isBeforeOf" )
+#*   *##end	
+#**##end
+#**##set( $linkNegative = $link.isNegative() )
+#**### copied from check.vm
+#**##set( $opComment = "multi link check $link.InstanceOf.Name from $sourceName to $targetName" )
+#**#// $opComment
+#**#if ( ##
+#**##if ( ! $linkNegative )!(#end
+#**##parse("$!{style}storyPattern/link/linkcheck.vm" )
+#**##if ( ! $linkNegative ))#end
+#**##parse("$lang/default:storyPattern/sdmComment.vm")
+#**##set($depth = $utility.getPatternDepth($token))
+#**# ) break pattern#if($depth>0)$depth#end; // <==== not a match
+#**#

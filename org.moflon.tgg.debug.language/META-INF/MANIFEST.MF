@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: DebugLanguage;singleton:=true
+Export-Package: DebugLanguage,
+ DebugLanguage.DebugGenerics,
+ DebugLanguage.DebugGenerics.impl,
+ DebugLanguage.DebugGenerics.util,
+ DebugLanguage.impl,
+ DebugLanguage.util,
+ org.moflon.ide.debug
+Bundle-Name: DebugLanguage
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: TGGRuntime,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities,
+ TGGLanguage,
+ SDMLanguage,
+ MocaTree,
+ org.apache.log4j;bundle-version="1.2.15"
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt

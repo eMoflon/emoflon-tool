@@ -1,0 +1,27 @@
+pattern pushUp {
+
+oldFloor : Floor { 
+		-top-> floor
+	}
+	
+	@floor : Floor { 
+		-top-> neighbour
+	}
+	
+	@this : Figure { 
+		-- -floor-> oldFloor
+		++ -floor-> floor
+	}
+	
+	server : Server { 
+		-- -floor-> floor
+		++ -floor-> neighbour
+	}
+	
+	neighbour : Floor
+	
+	! noWall : Wall { 
+		-floor-> neighbour
+	}
+
+}

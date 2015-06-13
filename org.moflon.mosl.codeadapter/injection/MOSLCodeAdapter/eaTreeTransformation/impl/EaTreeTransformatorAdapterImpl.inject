@@ -1,0 +1,158 @@
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.mosl.utils.GuidResolver;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+
+partial class EaTreeTransformatorAdapterImpl {
+
+@members <--
+
+   private Map<Node, Node> visited = new HashMap<>();
+
+   private int id = 0;
+
+   private GuidResolver resolver = new GuidResolver();
+   
+-->
+
+@model concat (String arg0, String arg1) <--
+
+      return arg0 + arg1;
+-->
+
+@model transferBaseClasses (Node eClassNode, Attribute baseClasses) <--
+
+      if(eClassNode.getChildren("BaseClasses").isEmpty())
+         return;
+      
+      Node baseClassesNode = (Node) eClassNode.getChildren("BaseClasses").iterator().next();
+      baseClassesNode.getChildren().forEach(base -> {
+         Node baseAsNode = (Node)base;
+         Attribute category = baseAsNode.getAttribute("searchCategory").iterator().next();
+         String path = baseAsNode.getAttribute("baseClass").iterator().next().getValue();
+         String id = getGuid(path, category);
+         baseClasses.setValue(baseClasses.getValue() + " " + id);
+      });
+-->
+
+@model registerSearchAttribute (Attribute category, Attribute searchAttribute) <--
+
+      resolver.addSearchAttribute(category, searchAttribute);
+-->
+
+@model getUnregisteredGuid () <--
+
+      return id++ + "";
+-->
+
+@model incrementIndex (int index) <--
+
+      return ++index;
+-->
+
+@model decrementIndex (int index) <--
+
+      return index - 1;
+-->
+
+@model visit (Node moslPlusNode, Node eaNode) <--
+
+      visited.put(moslPlusNode, eaNode);
+-->
+
+@model isVisited (Node moslPlusNode) <--
+
+      return visited.containsKey(moslPlusNode);
+-->
+
+@model getGuid (String path, Attribute category) <--
+
+      // TODO: Idea here is to keep a map of these paths/categories and later on resolve all Guids based on a mapping to
+      // some format for ids.
+      return path;
+-->
+
+@model getChildrenSize (Node node) <--
+
+      return node.getChildren().size();
+-->
+
+@model copyNode (Node node) <--
+
+      return EcoreUtil.copy(node);
+-->
+
+@model copyAttribute (Attribute attribute) <--
+
+      return EcoreUtil.copy(attribute);
+-->
+
+@model getNewPath (String oldPath, TreeElement treeElement) <--
+
+      if (treeElement instanceof Attribute)
+         return oldPath + "/" + Attribute.class.cast(treeElement).getValue();
+      else if (treeElement instanceof Node)
+      {
+         Node node = Node.class.cast(treeElement);
+         List<Attribute> attribute = new ArrayList<Attribute>(node.getAttribute("name"));
+         if (attribute.size() == 1)
+         {
+            return oldPath + "/" + attribute.get(0).getValue();
+         } else
+            return oldPath;
+      } else
+         return oldPath;
+-->
+
+@model getNewRelativePath (String path, TreeElement element) <--
+
+      String newPath = getNewPath(path, element);
+
+      return newPath.equals(path) ? path + "/" + element.getName() : newPath;
+-->
+
+@model resolveGuids () <--
+
+      resolver.resolveGuids();
+-->
+
+@model computePluginID (String name, String parentURI) <--
+
+      if ("".equals(parentURI))
+      {
+         return "platform:/plugin/" + name + "/" + MoflonUtil.getDefaultPathToEcoreFileInProject(name);
+      } else if (parentURI.endsWith(".ecore"))
+      {
+         return parentURI + "#//" + name;
+      } else
+      {
+         return parentURI + "/" + name;
+      }
+-->
+
+@model getVisitedReference (Node moslPlusNode) <--
+
+      return visited.get(moslPlusNode);
+-->
+
+@model isNull (TreeElement element) <--
+
+      return element == null;
+-->
+
+@model getNullString () <--
+
+      return null;
+-->
+
+@model getNullNode () <--
+
+      return null;
+-->
+
+}

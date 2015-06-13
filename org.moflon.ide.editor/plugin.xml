@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+ <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.moflon.ide.texteditor.editors.MoflonTextEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            default="true"
+            icon="icons/moflonSmall.png"
+            id="org.moflon.ide.texteditor.editors.MoflonTextEditor"
+            name="eMoflon Text Editor">
+      </editor>
+   </extension>
+   <extension
+         id="org.moflon.ide.texteditor.editors.TextEditorBuilder"
+         name="Text Editor Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            callOnEmptyDelta="false"
+            hasNature="false"
+            isConfigurable="true"
+            supportsConfigurations="true">
+         <run
+               class="org.moflon.ide.texteditor.builders.TextEditorBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="MoflonEditorProblem"
+         name="Molfon Text Editor Problem"
+         point="org.eclipse.core.resources.markers">
+     	<super type="org.eclipse.core.resources.problemmarker"/>
+   		<!--<super type="org.moflon.ide.TextEditor.MoflonEditorMarker"/>-->
+   		<persistent value="true"/>
+   </extension>
+</plugin>

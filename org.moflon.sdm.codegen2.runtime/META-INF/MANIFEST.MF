@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.moflon.sdm.codegen2.runtime
+Bundle-SymbolicName: org.moflon.sdm.codegen2.runtime
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-ClassPath: .,
+ lib/RuntimeTools.jar
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.upb.tools.fca,
+ de.upb.tools.pcs,
+ de.upb.tools.sdm
+Bundle-Activator: org.moflon.sdm.codegen2.runtime.CodeGen2RuntimeActivator
+Require-Bundle: org.eclipse.osgi,
+ org.eclipse.core.jobs,
+ org.eclipse.equinox.registry,
+ org.apache.commons.io;bundle-version="2.0.0",
+ org.apache.log4j,
+ org.eclipse.pde.core,
+ org.eclipse.core.runtime;bundle-version="3.10.0"

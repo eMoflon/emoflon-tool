@@ -1,0 +1,64 @@
+#**##macro(container)
+#**#F$!{prop}##
+#**##if($qualified && $toMany)
+#*   *#Duplicated##
+#**##end
+#**##if($sorted)
+#*   *#Tree##
+#**##elseif($ordered)
+#*   *#Linked##
+#**##else
+#*   *#Hash##
+#**##end
+#**##if($qualified)
+#*   *#Map##
+#**##elseif($ordered)
+#*   *#List##
+#**##else
+#*   *#Set##
+#**##end
+#**##end
+#**###
+#**###
+#**##set( $role = $elem )
+#**##set( $partnerRole = $role.PartnerRole )
+#**##set( $ref = ($partnerRole.Adornment == 3) )
+#**##set( $name = $partnerRole.AttrName )
+#**##set( $type = $partnerRole.Target.Name )
+#**##set( $methodSuffix = $utility.upFirstChar($name) )
+#**##set( $visibility = $utility.getVisibilityString($role.Visibility) )
+#**##set( $class = $token.Parent.Element )
+#**##if ( $role.Assoc.hasKeyInStereotypes("transient") )
+#**##set( $transient = "transient " )
+#**##end
+#**##if( $utility.isJavaBean($role.Target) )
+#**##set( $prop = "Prop" )
+#**##end
+#**###
+#**### check , if target Class is an interface
+#**##set( $targetClassIsInterface = $utility.isInterface($class))
+#**###
+#**##set( $qualified = $role.Qualifier )
+#**##set( $internalQualified = ( $qualified && !$qualified.isExternalQualifier() ) )
+#**##set( $keyType = $qualified.Type )
+#**##set( $key = $utility.getTypeAsString($keyType) )
+#**##set( $keyWrapper = $keyType.Name )
+#**##set( $partnerQualified = $partnerRole.Qualifier )
+#**##if( $partnerQualified && $partnerQualified.isExternalQualifier() )
+#**##set( $partnerKey = $utility.getTypeAsString($partnerQualified.Type) )
+#**##end
+#**##set( $toMany = ( $partnerRole.Card.UpperBound > 1 ) )
+#**##set( $partnerToMany = ( $role.Card.UpperBound > 1 ) )
+#**##set( $partnerName = $utility.upFirstChar($role.AttrName) )
+#**#
+#**##if ( $toMany || $qualified )
+#**##set( $ordered = $utility.isOrdered($partnerRole) )
+#**##if ( $utility.isSorted($partnerRole) )
+#*   *##set( $comparator = $partnerRole.SortedComparator.trim() )
+#*   *##set( $sorted = true )
+#**##end
+#**##end
+#**##if ( ${partnerRole.InheritedCodeStyle} )#set( $style = "java/${partnerRole.InheritedCodeStyle.Name}:" )
+#**##else#set( $style = "java/default:" )#end
+#**##if ( ${role.InheritedCodeStyle} )#set( $partnerStyle = "java/${role.InheritedCodeStyle.Name}:" )
+#**##else#set( $partnerStyle = "java/default:" )#end

@@ -1,0 +1,4 @@
+class Wall extends Figure {
+
+
+}

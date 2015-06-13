@@ -1,0 +1,68 @@
+
+import ValidationResult.ErrorMessage;
+import ValidationResult.Severity;
+import ValidationResult.ValidationReport;
+import ValidationResult.ValidationResultFactory;
+
+import org.moflon.moca.AttributeConstraint.parser.AttributeConstraintLexer;
+import org.moflon.moca.AttributeConstraint.parser.AttributeConstraintParser;
+import org.moflon.moca.AttributeConstraint.parser.AttributeConstraintParserAdapter;
+import org.antlr.runtime.ANTLRReaderStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.tree.CommonTree;
+import org.apache.log4j.Logger;
+import org.moflon.moca.MocaUtil;
+
+import antlr.debug.ParserAdapter;
+
+import java.io.IOException;
+import java.io.StringReader;
+
+import Moca.Problem;
+import Moca.MocaFactory;
+
+
+partial class AttributeConstraintsExporterImpl {
+
+@members <--
+
+   private static final Logger logger = Logger.getLogger(AttributeConstraintsExporter.class);
+   
+-->
+
+@model setUp () <--
+
+      this.setCodeAdapter(MocaFactory.eINSTANCE.createCodeAdapter());
+      this.getCodeAdapter().getParser().add(new AttributeConstraintParserAdapter());
+-->
+
+@model createUnknownVariableError (StoryPattern storyPattern, Attribute ovNameNode, Attribute attrVarNode) <--
+
+      ErrorMessage errMessage = ValidationResultFactory.eINSTANCE.createErrorMessage();
+      errMessage.setSeverity(Severity.ERROR);
+      errMessage.setId("Attribute Constraint Error: Variable " + ovNameNode.getValue() + "." + attrVarNode.getValue() + " is unknown");
+      errMessage.getLocation().add(storyPattern);
+      this.getExporter().getMocaToMoflonReport().getErrorMessages().add(errMessage);
+-->
+
+@model calcAttrVarName (String ovName, String attrName, String postFix) <--
+
+      return ovName + "_" + attrName + postFix;
+-->
+
+@model getEDatatypeFromString (String datatypeString) <--
+
+      return (EDataType) org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEClassifier(datatypeString);
+-->
+
+@model parse (StoryPattern storyPattern, String parseString) <--
+
+      AttributeConstraintParserAdapter parser = (AttributeConstraintParserAdapter) this.getCodeAdapter().getParser().get(0);
+      ValidationReport report = parser.parse(parseString, storyPattern);
+      this.getExporter().getMocaToMoflonReport().merge(report);
+
+      return (Node) report.getResult();
+-->
+
+}

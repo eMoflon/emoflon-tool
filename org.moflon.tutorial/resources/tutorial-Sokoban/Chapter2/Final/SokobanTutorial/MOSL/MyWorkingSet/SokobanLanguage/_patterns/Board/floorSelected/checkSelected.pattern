@@ -1,0 +1,11 @@
+pattern checkSelected {
+
+// If this pattern successfully matches to a Figure on specified Floor space, 
+//	deselect it by removing the reference.
+	
+	alreadySelectedFigure : Figure
+	
+	@this : Board { 
+		-- -selectedFigure-> alreadySelectedFigure
+	}
+}

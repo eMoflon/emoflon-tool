@@ -1,0 +1,25 @@
+AllMatches(engine, importManager, body, chain) ::= <<
+_result.add(new <importManager.("java.lang.Object")>[] { <body.header.internalSymbolicParameters:/democles/Name(importManager); separator=", "> });
+>> 
+
+SingleMatch(engine, importManager, body, chain) ::= <<
+return new <importManager.("java.lang.Object")>[] { <body.header.internalSymbolicParameters:/democles/Name(importManager); separator=", "> };
+>>
+
+MatchSingleMethod(engine, importManager, body, adornment, boundSymbolicParameters, chain, alwaysSuccessful) ::= <<
+public static final <importManager.("java.lang.Object")>[] <body.header.name><adornment>(<boundSymbolicParameters:/democles/TypeAndName(importManager); separator=", ">) {
+	<if (chain)><(chain.value.template)(engine, importManager, body, chain)>
+<if (!alwaysSuccessful)>return null;<endif>
+<else><SingleMatch(engine, importManager, body, chain)>
+	<endif>
+}
+>>
+
+MatchAllMethod(engine, importManager, body, adornment, boundSymbolicParameters, chain, alwaysSuccessful) ::= <<
+public static final <importManager.("java.lang.Iterable")>\<<importManager.("java.lang.Object")>[]> <body.header.name><adornment>(<boundSymbolicParameters:/democles/TypeAndName(importManager); separator=", ">) {
+	<importManager.("java.util.LinkedList")>\<<importManager.("java.lang.Object")>[]> _result =
+		new <importManager.("java.util.LinkedList")>\<<importManager.("java.lang.Object")>[]>();
+	<if (chain)><(chain.value.template)(engine, importManager, body, chain)><else>_result.add(new <importManager.("java.lang.Object")>[] { <boundSymbolicParameters:/democles/Name(importManager); separator=", "> });<endif>
+	return _result;
+}
+>>

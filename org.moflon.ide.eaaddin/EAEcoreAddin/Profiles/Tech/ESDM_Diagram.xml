@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="6B4077C3-A" name="eMoflon SDM Diagrams" version="1.0" notes="eMoflon SDM Diagrams"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="SDM Diagram" metatype="SDM Diagram" notes="" cx="192" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Activity">
+						<Property name="alias" value="SDM Diagram"/>
+						<Property name="diagramID" value="SDM Diagram"/>
+						<Property name="pdata" value="HideEStereo=1;"/>
+						<Property name="toolbox" value="SDM"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="SDM Pattern" metatype="SDM Diagram" notes="" cx="186" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Custom">
+						<Property name="alias" value="SDM Pattern"/>
+						<Property name="diagramID" value="SDM Pattern"/>
+						<Property name="toolbox" value="SDM"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

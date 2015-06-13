@@ -1,0 +1,4 @@
+class Admin extends Figure {
+
+
+}

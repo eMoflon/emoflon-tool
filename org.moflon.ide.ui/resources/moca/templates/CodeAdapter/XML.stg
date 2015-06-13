@@ -1,0 +1,43 @@
+group XML;
+
+ParserAdapter(name, package) ::= <<
+package <package>;
+
+import Moca.parser.impl.XMLParserImpl;
+
+public class <name; format="firstToUpper">ParserAdapter extends XMLParserImpl 
+{
+  @Override
+  public boolean canParseFile(String fileName) 
+  {
+    return fileName.endsWith(".<name>");
+  } 
+}
+
+>>
+
+UnparserAdapter(name, package) ::= <<
+package <package>;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import org.antlr.stringtemplate.StringTemplateGroup;
+import Moca.unparser.impl.XMLUnparserImpl;
+import org.antlr.stringtemplate.language.DefaultTemplateLexer;
+
+public class <name; format="firstToUpper">UnparserAdapter extends XMLUnparserImpl 
+{
+  @Override
+  public boolean canUnparseFile(String fileName) 
+  {
+    return fileName.endsWith(".<name>");
+  }
+
+  @Override
+  protected StringTemplateGroup getStringTemplateGroup() throws FileNotFoundException 
+  {
+    return new StringTemplateGroup(new FileReader(new File("./templates/XML.stg")), DefaultTemplateLexer.class);
+  }
+}
+>>

@@ -1,0 +1,32 @@
+#**##set( $method = $elem )
+#**##set( $name = $method.Name )
+#**##set( $returnType = $utility.getEMFTypeAsString($method.ResultType, $engine) )
+#**##set( $returnTypeIsRef = $method.ResultType.hasKeyInStereotypes("reference") )
+#**##if($method.ResultType.Name != "constructor")
+#*   *##set( $params = $method.iteratorOfParam() )
+#*   *##set( $throws = $method.iteratorOfThrowsTypes() )
+#*   *### missing: visibility, static, final, abstract, native, synchronized, $initializer
+#*   *##if ($method.Visibility == 1 && !$utility.isAccessorReplacement($method))## check if visibility is PUBLIC and no accessor replacement
+#*      *#<eOperations name="$name"##
+#*      *##if($returnType)
+#*         *# eType="ecore:EDataType $returnType"##
+#*      *##end
+#*      *# eExceptions="##
+#*      *##foreach( $throw in $throws )
+#*         *##if( $firstClass )
+#*            *##set( $firstClass = false )
+#*         *##else
+#*            *# ##
+#*         *##end
+#*         *#$utility.getEMFTypeAsString($throw, $engine)##
+#*      *##end
+#*      *#">
+#*      *##parse("$lang/default:classDiag/class/annotations.vm" )
+#*      *##foreach( $param in $params)
+#*         *##set( $paramType = $utility.getEMFTypeAsString($param.ParamType, $engine) )
+#*      *#<eParameters#if ( $utility.isArrayType($param.ParamType) ) upperBound="-1"#end name="$param.Name" eType="ecore:EDataType $paramType"/>
+#*      *##end
+#*      *#</eOperations>
+#*   *##end
+#*   *#
+#**##end

@@ -1,0 +1,13 @@
+#**### @param $attr - the attribute
+#**### @param $owner - the owner of the attr 
+#**### @param $value - the new value
+#**### @return $setter
+#**### @return $getter
+#**##set( $attrType = $attr.getInstanceOf().getAttrType().getName() )
+#**##if( $attrType == "Boolean" )
+#*   *##set( $prefix = "is" )
+#**##else
+#*   *##set( $prefix = "get" )
+#**##end
+#**##set( $getter = "${name}.$prefix$attrNameUC ()" )
+#**##set( $setter = "${name}.set$attrNameUC ($value)" )

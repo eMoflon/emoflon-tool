@@ -1,0 +1,26 @@
+#**##parse("$lang/default:storyPattern/object/import.vm" )
+#**##set( $secondName = $secondObject.ObjectName )
+#**##set( $secondSet = $secondObject.isSet() )
+#**##set( $opComment = "check isomorphic binding between objects $name and $secondName" )
+#**#// $opComment 
+#**##if ( $sdmTrace )
+#*   *#SDMTraceUtil.logCheckIsomorphicBinding(__sdmTracing_context, __sdmTracing_stw, "${name}", ${name}.getClass(), ${name}, "${secondName}", ${secondName}.getClass(), ${secondName});
+#*   *#try {
+#**##end
+#**#JavaSDM.ensure ( ##
+#**##if( $secondSet )
+#*   *#!${secondName}.contains ($name)##
+#**##else
+#*   *#!${name}.equals ($secondName)##
+#**##end
+#**##set( $debug = $debug || $object.firstFromDiagrams.parentElement.hasKeyInStereotypes("assert") )
+#**##parse("$lang/default:storyPattern/sdmComment.vm")
+#**# );
+#**##if ( $sdmTrace )
+#*  *#  SDMTraceUtil.logSuccessIsomorphicBinding(__sdmTracing_context, __sdmTracing_stw, "${name}", ${name}.getClass(), ${name}, "${secondName}", ${secondName}.getClass(), ${secondName});
+#*  *#} catch( JavaSDMException e ) {
+#*  *#  SDMTraceUtil.logFailedIsomorphicBinding(__sdmTracing_context, __sdmTracing_stw, "${name}", ${name}.getClass(), ${name}, "${secondName}", ${secondName}.getClass(), ${secondName});
+#*  *#  throw e;
+#*  *#}
+#**##end
+#**#

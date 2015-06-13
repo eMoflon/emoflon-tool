@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DebugLanguage:DebugModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DebugLanguage="platform:/plugin/DebugLanguage/model/DebugLanguage.ecore" xmlns:TGGRuntime="platform:/plugin/TGGRuntime/model/TGGRuntime.ecore">
+  <phases xsi:type="DebugLanguage:InitializationPhase">
+    <sourceProxy className="Box" name="box" packageName="LearningBoxLanguage">
+      <attributeProxy value="ACED000574000F456E676C697368204E756D62657273" name="name"/>
+      <attributeProxy value="ACED000574000454657374" name="stringRep"/>
+      <children className="EReference" name="containedPartition" packageName="ecore">
+        <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B0200007870FFFFFFFF" name="upperBound"/>
+        <children className="Partition" name="partition" packageName="LearningBoxLanguage">
+          <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000002" name="index"/>
+          <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000000" name="partitionSize"/>
+          <children className="EReference" name="card" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B0200007870FFFFFFFF" name="upperBound"/>
+            <children className="Card" name="card" packageName="LearningBoxLanguage">
+              <children referenceChildren="//@phases.0/@sourceProxy/@children.0/@children.0" className="EReference" name="cardContainer" packageName="ecore">
+                <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+              </children>
+            </children>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy" className="EReference" name="box" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy/@children.0/@children.2" className="EReference" name="previous" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy/@children.0/@children.3" className="EReference" name="next" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+        </children>
+        <children className="Partition" name="partition" packageName="LearningBoxLanguage">
+          <children className="EReference" name="card" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B0200007870FFFFFFFF" name="upperBound"/>
+            <children className="Card" name="card" packageName="LearningBoxLanguage">
+              <children referenceChildren="//@phases.0/@sourceProxy/@children.0/@children.1" className="EReference" name="cardContainer" packageName="ecore">
+                <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+              </children>
+            </children>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy" className="EReference" name="box" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy/@children.0/@children.2" className="EReference" name="previous" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy/@children.0/@children.0" className="EReference" name="next" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+        </children>
+        <children className="Partition" name="partition" packageName="LearningBoxLanguage">
+          <children className="EReference" name="card" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B0200007870FFFFFFFF" name="upperBound"/>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy" className="EReference" name="box" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+          <children className="EReference" name="previous" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy/@children.0/@children.1" className="EReference" name="next" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+        </children>
+        <children className="Partition" name="partition" packageName="LearningBoxLanguage">
+          <children className="EReference" name="card" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B0200007870FFFFFFFF" name="upperBound"/>
+            <children className="Card" name="card" packageName="LearningBoxLanguage">
+              <children referenceChildren="//@phases.0/@sourceProxy/@children.0/@children.3" className="EReference" name="cardContainer" packageName="ecore">
+                <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+              </children>
+            </children>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy" className="EReference" name="box" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+          <children referenceChildren="//@phases.0/@sourceProxy/@children.0/@children.2" className="EReference" name="previous" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+          <children className="EReference" name="next" packageName="ecore">
+            <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+          </children>
+        </children>
+      </children>
+    </sourceProxy>
+    <targetProxy className="Dictionary" name="dictionary" packageName="DictionaryLanguage">
+      <attributeProxy value="ACED000574000F456E676C697368204E756D62657273" name="title"/>
+      <children className="EReference" name="shelf" packageName="ecore">
+        <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+      </children>
+      <children className="EReference" name="author" packageName="ecore">
+        <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+      </children>
+      <children className="EReference" name="entry" packageName="ecore">
+        <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B0200007870FFFFFFFF" name="upperBound"/>
+        <children className="Entry" name="entry" packageName="DictionaryLanguage"/>
+        <children className="Entry" name="entry" packageName="DictionaryLanguage"/>
+        <children className="Entry" name="entry" packageName="DictionaryLanguage"/>
+        <children className="Entry" name="entry" packageName="DictionaryLanguage">
+          <attributeProxy value="ACED000574000A4F6E65203A2045696E73" name="content"/>
+          <attributeProxy value="ACED00057400066D6173746572" name="level"/>
+        </children>
+      </children>
+    </targetProxy>
+    <correspondenceModel source="//@phases.0/@sourceProxy" target="//@phases.0/@targetProxy">
+      <correspondences xsi:type="DebugLanguage:DebugCorrespondence" source="//@phases.0/@sourceProxy" target="//@phases.0/@targetProxy"/>
+      <correspondences xsi:type="DebugLanguage:DebugCorrespondence" source="//@phases.0/@sourceProxy/@children.0/@children.3/@children.0/@children.0" target="//@phases.0/@targetProxy/@children.2/@children.0"/>
+      <correspondences xsi:type="DebugLanguage:DebugCorrespondence" source="//@phases.0/@sourceProxy/@children.0/@children.1/@children.0/@children.0" target="//@phases.0/@targetProxy/@children.2/@children.1"/>
+      <correspondences xsi:type="DebugLanguage:DebugCorrespondence" source="//@phases.0/@sourceProxy/@children.0/@children.0/@children.0/@children.0" target="//@phases.0/@targetProxy/@children.2/@children.2"/>
+      <correspondences xsi:type="DebugLanguage:DebugCorrespondence" source="//@phases.0/@delta/@deletedNodes.0" target="//@phases.0/@targetProxy/@children.2/@children.3"/>
+    </correspondenceModel>
+    <synchronizationProtocol>
+      <matches sourceElements="//@phases.0/@sourceProxy/@children.0/@children.1/@children.0/@children.0 //@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.0 //@phases.0/@sourceProxy //@phases.0/@sourceProxy/@children.0/@children.1 //@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.3 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.5" contextElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@targetProxy //@phases.0/@sourceProxy/@children.0/@children.1 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.5 //@phases.0/@correspondenceModel/@correspondences.0" targetElements="//@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.1 //@phases.0/@targetProxy //@phases.0/@targetProxy/@children.2/@children.1" correspondenceElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@correspondenceModel/@correspondences.2 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.2 //@phases.0/@correspondenceModel/@correspondences.0 //@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.4" createdElements="//@phases.0/@sourceProxy/@children.0/@children.1/@children.0/@children.0 //@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.1 //@phases.0/@correspondenceModel/@correspondences.2 //@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.3 //@phases.0/@synchronizationProtocol/@matches.0/@containedEdges.4 //@phases.0/@targetProxy/@children.2/@children.1" ruleName="CardToEntryRule" number="1">
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.1" trg="//@phases.0/@sourceProxy/@children.0/@children.1/@children.0/@children.0" name="card"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@targetProxy" trg="//@phases.0/@targetProxy/@children.2/@children.1" name="entry"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.2" trg="//@phases.0/@sourceProxy/@children.0/@children.1/@children.0/@children.0" name="source"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.1/@children.0/@children.0" trg="//@phases.0/@sourceProxy/@children.0/@children.1" name="cardContainer"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.2" trg="//@phases.0/@targetProxy/@children.2/@children.1" name="target"/>
+      </matches>
+      <matches sourceElements="//@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.0 //@phases.0/@delta/@deletedNodes.0 //@phases.0/@sourceProxy/@children.0/@children.2 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.1 //@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.4" contextElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@targetProxy //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.0 //@phases.0/@sourceProxy/@children.0/@children.2 //@phases.0/@correspondenceModel/@correspondences.0 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.1" targetElements="//@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.1 //@phases.0/@targetProxy //@phases.0/@targetProxy/@children.2/@children.3" correspondenceElements="//@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@correspondenceModel/@correspondences.4 //@phases.0/@correspondenceModel/@correspondences.0 //@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.3" createdElements="//@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.1 //@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.2 //@phases.0/@delta/@deletedNodes.0 //@phases.0/@correspondenceModel/@correspondences.4 //@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.3 //@phases.0/@targetProxy/@children.2/@children.3 //@phases.0/@synchronizationProtocol/@matches.1/@containedEdges.4" ruleName="CardToEntryRule" number="4">
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.4" trg="//@phases.0/@targetProxy/@children.2/@children.3" name="target"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@targetProxy" trg="//@phases.0/@targetProxy/@children.2/@children.3" name="entry"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.2" trg="//@phases.0/@delta/@deletedNodes.0" name="card"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.4" trg="//@phases.0/@delta/@deletedNodes.0" name="source"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@delta/@deletedNodes.0" trg="//@phases.0/@sourceProxy/@children.0/@children.2" name="cardContainer"/>
+      </matches>
+      <matches sourceElements="//@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.1 //@phases.0/@sourceProxy/@children.0/@children.3 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.5 //@phases.0/@sourceProxy/@children.0/@children.3/@children.0/@children.0 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.4" contextElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.2 //@phases.0/@targetProxy //@phases.0/@correspondenceModel/@correspondences.0 //@phases.0/@sourceProxy/@children.0/@children.3 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.5" targetElements="//@phases.0/@targetProxy/@children.2/@children.0 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.0 //@phases.0/@targetProxy" correspondenceElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@correspondenceModel/@correspondences.0 //@phases.0/@correspondenceModel/@correspondences.1 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.3" createdElements="//@phases.0/@targetProxy/@children.2/@children.0 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.1 //@phases.0/@correspondenceModel/@correspondences.1 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.3 //@phases.0/@sourceProxy/@children.0/@children.3/@children.0/@children.0 //@phases.0/@synchronizationProtocol/@matches.2/@containedEdges.4" ruleName="CardToEntryRule" number="2">
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@targetProxy" trg="//@phases.0/@targetProxy/@children.2/@children.0" name="entry"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.3/@children.0/@children.0" trg="//@phases.0/@sourceProxy/@children.0/@children.3" name="cardContainer"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.1" trg="//@phases.0/@sourceProxy/@children.0/@children.3/@children.0/@children.0" name="source"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.1" trg="//@phases.0/@targetProxy/@children.2/@children.0" name="target"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.3" trg="//@phases.0/@sourceProxy/@children.0/@children.3/@children.0/@children.0" name="card"/>
+      </matches>
+      <matches sourceElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.3 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.0 //@phases.0/@sourceProxy/@children.0/@children.2 //@phases.0/@sourceProxy/@children.0/@children.0 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.1 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.2 //@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.3 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.1 //@phases.0/@sourceProxy/@children.0/@children.1 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.4 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.5 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.1" targetElements="//@phases.0/@targetProxy" correspondenceElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@correspondenceModel/@correspondences.0" createdElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.3 //@phases.0/@targetProxy //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.0 //@phases.0/@sourceProxy/@children.0/@children.2 //@phases.0/@sourceProxy/@children.0/@children.0 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.1 //@phases.0/@correspondenceModel/@correspondences.0 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.3 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.1 //@phases.0/@sourceProxy/@children.0/@children.1 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.4 //@phases.0/@synchronizationProtocol/@matches.3/@containedEdges.5 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.1" ruleName="BoxToDictionaryRule" number="5">
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy" trg="//@phases.0/@sourceProxy/@children.0/@children.1" name="containedPartition"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.1" trg="//@phases.0/@sourceProxy/@children.0/@children.2" name="previous"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.1" trg="//@phases.0/@sourceProxy/@children.0/@children.0" name="next"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.0" trg="//@phases.0/@sourceProxy/@children.0/@children.2" name="previous"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.2" trg="//@phases.0/@sourceProxy/@children.0/@children.1" name="next"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.1" trg="//@phases.0/@sourceProxy" name="box"/>
+      </matches>
+      <matches sourceElements="//@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.1 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.3 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.3 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.4 //@phases.0/@sourceProxy/@children.0/@children.2 //@phases.0/@sourceProxy/@children.0/@children.0 //@phases.0/@sourceProxy/@children.0/@children.3 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.5 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.1" contextElements="//@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.1 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.3 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.0 //@phases.0/@sourceProxy/@children.0/@children.2 //@phases.0/@sourceProxy/@children.0/@children.0 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.1" createdElements="//@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.3 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.4 //@phases.0/@sourceProxy/@children.0/@children.3 //@phases.0/@synchronizationProtocol/@matches.4/@containedEdges.5" ruleName="AllOtherCardsRule" number="3">
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.2" trg="//@phases.0/@sourceProxy" name="box"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy" trg="//@phases.0/@sourceProxy/@children.0/@children.2" name="containedPartition"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy" trg="//@phases.0/@sourceProxy/@children.0/@children.3" name="containedPartition"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.3" trg="//@phases.0/@sourceProxy/@children.0/@children.2" name="previous"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.0" trg="//@phases.0/@sourceProxy/@children.0/@children.3" name="next"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.3" trg="//@phases.0/@sourceProxy" name="box"/>
+      </matches>
+      <matches sourceElements="//@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.4 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.1 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.3 //@phases.0/@sourceProxy/@children.0/@children.0/@children.0/@children.0 //@phases.0/@sourceProxy/@children.0/@children.0 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.6" contextElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@sourceProxy //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.1 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.3 //@phases.0/@targetProxy //@phases.0/@sourceProxy/@children.0/@children.0 //@phases.0/@correspondenceModel/@correspondences.0" targetElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.5 //@phases.0/@targetProxy //@phases.0/@targetProxy/@children.2/@children.2" correspondenceElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.0 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.2 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.7 //@phases.0/@correspondenceModel/@correspondences.0 //@phases.0/@correspondenceModel/@correspondences.3 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.8" createdElements="//@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.4 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.5 //@phases.0/@sourceProxy/@children.0/@children.0/@children.0/@children.0 //@phases.0/@targetProxy/@children.2/@children.2 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.6 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.7 //@phases.0/@correspondenceModel/@correspondences.3 //@phases.0/@synchronizationProtocol/@matches.5/@containedEdges.8" ruleName="CardToEntryRule">
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.0" trg="//@phases.0/@sourceProxy" name="source"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy" trg="//@phases.0/@sourceProxy/@children.0/@children.0" name="containedPartition"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.0" trg="//@phases.0/@targetProxy" name="target"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.0" trg="//@phases.0/@sourceProxy" name="box"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.0" trg="//@phases.0/@sourceProxy/@children.0/@children.0/@children.0/@children.0" name="card"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@targetProxy" trg="//@phases.0/@targetProxy/@children.2/@children.2" name="entry"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@sourceProxy/@children.0/@children.0/@children.0/@children.0" trg="//@phases.0/@sourceProxy/@children.0/@children.0" name="cardContainer"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.3" trg="//@phases.0/@targetProxy/@children.2/@children.2" name="target"/>
+        <containedEdges xsi:type="TGGRuntime:EMoflonEdge" src="//@phases.0/@correspondenceModel/@correspondences.3" trg="//@phases.0/@sourceProxy/@children.0/@children.0/@children.0/@children.0" name="source"/>
+      </matches>
+    </synchronizationProtocol>
+    <rules>
+      <sourceRules ruleName="BoxToDictionaryRule"/>
+      <sourceRules ruleName="CardToEntryRule"/>
+      <sourceRules ruleName="AllOtherCardsRule"/>
+      <targetRules ruleName="BoxToDictionaryRule"/>
+      <targetRules ruleName="CardToEntryRule"/>
+      <targetRules ruleName="AllOtherCardsRule"/>
+    </rules>
+    <delta>
+      <deletedNodes className="Card" name="card" packageName="LearningBoxLanguage">
+        <attributeProxy value="ACED000574000D5175657374696F6E204F6E6520" name="back"/>
+        <attributeProxy value="ACED000574000B416E737765722045696E73" name="face"/>
+        <attributeProxy name="partitionHistory"/>
+        <children className="EReference" name="cardContainer" packageName="ecore">
+          <attributeProxy value="ACED0005737200116A6176612E6C616E672E496E746567657212E2A0A4F781873802000149000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B020000787000000001" name="upperBound"/>
+        </children>
+      </deletedNodes>
+      <deletedEdges src="//@phases.0/@sourceProxy/@children.0/@children.2" trg="//@phases.0/@delta/@deletedNodes.0" name="card"/>
+      <deletedEdges src="//@phases.0/@delta/@deletedNodes.0" trg="//@phases.0/@sourceProxy/@children.0/@children.2" name="cardContainer"/>
+      <attributeChanges affectedAttribute="//@phases.0/@sourceProxy/@attributeProxy.1" newValue="Test"/>
+    </delta>
+  </phases>
+</DebugLanguage:DebugModel>

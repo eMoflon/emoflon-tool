@@ -1,0 +1,18 @@
+#**##set( $searchOpComment = "search to-one link $link.InstanceOf.Name from $sourceName to $targetName" )
+#**#// $searchOpComment
+#**##set( $typeCast = (!$role.getTarget().equals($target.getInstanceOf())) )
+#**##if ( $link.name == "instances" )
+#*   *##set ( $source = "de.uni_kassel.features.util.FeaturesUtil.getClassHandler ( ${sourceName} )" )
+#**##else
+#**##set( $source = "${sourceName}.get$!multi#if($utility.nullIfEmpty($range) && $utility.nullIfEmpty($targetRoleName))From#end$!targetRoleName ($!mparam$!range)" )
+#**##end
+#**##set( $targetToken = $dlrTool.createDLRToken([$target]) )
+#**#$!targetToken.createStartTag()##
+#**##parse("$lang/default:storyPattern/object/assign.vm" )##
+#**##if($targetToken)#set( $!targetToken.Comment = $opComment )#end
+#**#$!targetToken.createEndTag()
+#**#$!dlrToken.createEndTag()##
+#**##set( $opComment = $searchOpComment )
+#**#$!children##
+#**#
+#**#$!dlrToken.createStartTag()

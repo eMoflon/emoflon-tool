@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.4"?><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="CSPCodeAdapter.CSPCodeAdapterPackage" genModel="model/CSPCodeAdapter.genmodel" uri="platform:/plugin/CSPCodeAdapter/model/CSPCodeAdapter.ecore"/>
+  </extension>
+</plugin>

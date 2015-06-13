@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.moflon.ide.plugins
+Bundle-SymbolicName: org.moflon.ide.plugins
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.moflon.util.plugins,
+ org.moflon.util.plugins.manifest
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.equinox.registry,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.codegen.ecore,
+ org.moflon.core.utilities,
+ org.eclipse.osgi
+Bundle-Activator: org.moflon.ide.plugins.MoflonPluginsActivator

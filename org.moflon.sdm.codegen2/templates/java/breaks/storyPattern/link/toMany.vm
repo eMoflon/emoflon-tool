@@ -1,0 +1,74 @@
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##if($check)
+#*   *##set( $oldTargetName = $targetName )
+#*   *##set( $targetName = "inCheck$targetName" )
+#*   *##set( $return = $localVars.addLocalVariable($targetName, "Object", $object) )
+#**##end
+#**##parse("${style}storyPattern/object/tmpvar.vm")
+#**##if( $path )
+#*   *##set( $quote = '"' )
+#*   *##set( $iterator = "new de.uni_kassel.sdm.Path ($sourceName, $quote$path$quote)" )
+#*   *###$iter = new Path ($sourceName, "$path");
+#**##else
+#*   *##parse("$!{style}classDiag/assoc/accessors.vm")
+#**##end
+#**##set( $return = $imports.addToImports("java.util.*") )
+#**##set( $children = $utility.indent("   ",$!children) )
+#**##set( $searchOpComment = "iterate to-many link $link.InstanceOf.Name from $sourceName to $targetName" )
+#**##if( !$check )
+#*   *##set( $return = $localVars.addLocalVariable($targetName, $object.InstanceOf, $object) )
+#**##end
+#**#
+#**#$targetName = null;
+#**##if( !$path && $targetRoleName == "" )
+#*   *##set( $iterator = "${sourceName}.iterator()" )
+#**##end
+#**##if ( $targetSet )
+#*   *##set( $return = $imports.addToImports("de.upb.tools.fca.*") )
+#*   *##set( $return = $localVars.addLocalVariable($collectionName, "FHashSet", $link) )
+#*   *#$collectionName = new FHashSet ();
+#**##end
+#**##set( $classToImport = $role.Target )
+#**##parse("$!{importStyle}classDiag/class/addClassImport.vm" )
+#**#for (Iterator<? extends $roleType> $tmpVarIterator = $iterator; ${tmpVarIterator}.hasNext(); $targetName = null) // $searchOpComment
+#**#{
+#**##if( !$check )
+#*   *#   boolean _check$utility.upFirstChar($target.getObjectName()) = true;
+#**##end
+#**###invariant: $targetName is null here
+#**##if($typeCast)
+#*   *#   $roleType $tmpVar = ${tmpVarIterator}.next(); 
+#*   *#   if (!($tmpVar instanceof $targetType))
+#*   *#   {
+#*   *#      continue;
+#*   *#   }
+#*   *#   $targetName = ($targetType) $tmpVar;
+#**##else
+#*   *#   $targetName = ${tmpVarIterator}.next();
+#**##end
+#**##if ( $upperbound )## handle multilink with upper bound
+#*   *#   if ( ${targetName}.equals ($upperbound) )
+#*   *#   {
+#*   *#      ${targetName} = null;
+#*   *#      break;
+#*   *#   }
+#**##end
+#**##if($check)
+#*   *#   if ( !${oldTargetName}.equals (${targetName}) )
+#*   *#   {
+#*   *#      continue;
+#*   *#   }
+#**##end
+#**#$!children
+#**##if ( $targetSet )
+#*   *#   ${collectionName}.add ($targetName);
+#**##else
+#*   *##set ( $foreach = $object.getParentElement().getParentElement().isForEach() )
+#*   *##if (! $foreach  || $targetNegative || $targetOptional || $check )	
+#*      *#   break;
+#*   *##end
+#**##end
+#**#}
+#**##if(!$targetOptional && !$targetSet)
+#*   *##parse("${style}storyPattern/link/checkSuccess.vm")
+#**##end

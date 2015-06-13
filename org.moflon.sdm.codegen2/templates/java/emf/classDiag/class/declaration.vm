@@ -1,0 +1,4 @@
+#**##parse("java/default:classDiag/class/import.vm" )
+#**##set( $name = "${name}Impl" )
+#**##set( $comment = " * @generated")
+#**##parse("java/default:classDiag/class/declaration.vm" )

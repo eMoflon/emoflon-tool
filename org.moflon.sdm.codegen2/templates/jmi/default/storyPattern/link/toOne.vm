@@ -1,0 +1,32 @@
+#**#// bind object
+#**##set( $typeCast = (!$role.getTarget().equals($target.getInstanceOf())) )
+#**##if($reflective)
+#*   *#	## access to metaobject (reflective SDM)
+#*   *#	#set($tagCollection = $target.InstanceOf.Type.Adaptee.Tag)
+#*   *#	#set( $isReference = "false")
+#*   *#	#foreach($actualTag in $tagCollection)
+#*      *#		#if( $actualTag.Name == "reference" )
+#*         *#			#if( $isReference == "true")
+#*            *#				#if( $actualTag.Value != $referenceValue)
+#*               *#					#set($cast = "<ambiguity - 'reference' tags with different values>") 
+#*            *#				#end
+#*         *#			#else
+#*            *#				#set($isReference = "true")
+#*            *#				#set($cast = $actualTag.Value)
+#*         *#			#end
+#*      *#		#end
+#*   *#			#end
+#*   *#	#if(!$cast)
+#*      *#		#set( $cast = $mofutility.getQualifiedName($target.getInstanceOf()))
+#*   *#	#end
+#*   *#	#set( $source = "($cast)${sourceName}.refMetaObject()")
+#**##else
+#*   *#	## access to object
+#*   *#	#if($ref)
+#*   *#		#set( $source = "${sourceName}.get$!multi#if($mofutility.nullIfEmpty($range))From#end$targetRoleName ($!mparam$!range)" )
+#*   *#	#else
+#*      *#		#set( $source = "toOneNotNavigable")
+#*   *#	#end
+#**##end
+#**##parse( "jmi/default:storyPattern/object/assign.vm" )
+#**#$!children

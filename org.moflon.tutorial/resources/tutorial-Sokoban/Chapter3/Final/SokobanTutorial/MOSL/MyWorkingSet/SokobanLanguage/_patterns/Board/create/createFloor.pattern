@@ -1,0 +1,32 @@
+pattern createFloor {
+
+	// The '$' operator is an expression to access create() parameters
+	@this : Board { 
+		this.width < $w
+		-floors-> topNeighbor
+		-floors-> leftNeighbor
+		++ -floors-> newFloor
+	}
+	
+	
+	++ newFloor : Floor { 
+		newFloor.row := this.height
+		newFloor.col := this.width
+		++ -top-> topNeighbor
+		++ -left-> leftNeighbor	
+	}
+	
+	// The question mark specifies that this is an option execution block
+	// '' indicates that it will be translated literally
+	// i.e., implemented directly into the corresponding Java class
+	? topNeighbor : Floor { 
+		topNeighbor.row == 'this.height - 1'
+		topNeighbor.col == this.width
+	}
+	
+	? leftNeighbor : Floor { 
+		leftNeighbor.col == 'this.width - 1'
+		leftNeighbor.row == this.height
+	}
+	
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DebugLanguage:DebugModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:DebugLanguage="platform:/plugin/DebugLanguage/model/DebugLanguage.ecore">
+  <phases xsi:type="DebugLanguage:AdditionPhase">
+    <breakpoints line="147" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer"/>
+  </phases>
+  <phases xsi:type="DebugLanguage:DeletionPhase">
+    <breakpoints xsi:type="DebugLanguage:DeletionBreakpoint" line="273" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer"/>
+    <breakpoints line="131" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer"/>
+  </phases>
+  <phases xsi:type="DebugLanguage:TranslationPhase">
+    <breakpoints xsi:type="DebugLanguage:TranslationBreakpoint" line="340" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer" subPhase="TRANSLATION_STEP"/>
+    <breakpoints xsi:type="DebugLanguage:TranslationBreakpoint" line="319" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer" subPhase="TRANSLATION_START"/>
+    <breakpoints xsi:type="DebugLanguage:TranslationBreakpoint" line="346" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer" subPhase="TRANSLATION_END"/>
+  </phases>
+  <phases xsi:type="DebugLanguage:InitializationPhase">
+    <breakpoints line="414" classname="org.moflon.tgg.algorithm.synchronization.SynchronizationHelper"/>
+  </phases>
+</DebugLanguage:DebugModel>

@@ -1,0 +1,16 @@
+#**##parse("$lang/default:storyPattern/object/import.vm" )
+#**##set( $secondName = $secondObject.ObjectName )
+#**##set( $secondSet = $secondObject.isSet() )
+#**##set( $opComment = "check isomorphic binding between objects $name and $secondName" )
+#**#// $opComment
+#**#if ( ##
+#**##if( $secondSet )
+#*   *#${secondName}.contains ($name)##
+#**##else
+#*   *#${name}.equals ($secondName)##
+#**##end
+#**##set( $debug = $debug || $object.firstFromDiagrams.parentElement.hasKeyInStereotypes("assert") )
+#**##parse("$lang/default:storyPattern/sdmComment.vm")
+#**##set($depth = $utility.getPatternDepth($token))
+#**# ) break pattern#if($depth>0)$depth#end; // <== not a match depth $depth
+#**#

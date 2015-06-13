@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.4"?><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="MOSLCodeAdapter.eaToMoslPlus.EaToMoslPlusPackage" genModel="model/MOSLCodeAdapter.genmodel" uri="platform:/plugin/MOSLCodeAdapter/model/MOSLCodeAdapter.ecore#//eaToMoslPlus"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="MOSLCodeAdapter.eaTreeTransformation.EaTreeTransformationPackage" genModel="model/MOSLCodeAdapter.genmodel" uri="platform:/plugin/MOSLCodeAdapter/model/MOSLCodeAdapter.ecore#//eaTreeTransformation"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="MOSLCodeAdapter.moslPlus.MoslPlusPackage" genModel="model/MOSLCodeAdapter.genmodel" uri="platform:/plugin/MOSLCodeAdapter/model/MOSLCodeAdapter.ecore#//moslPlus"/>
+  </extension>
+</plugin>

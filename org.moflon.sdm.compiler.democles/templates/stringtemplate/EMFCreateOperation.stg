@@ -1,0 +1,24 @@
+CreateToManyLink(engine, importManager, body, chain) ::= <<
+<first(chain.value.operation.parameters):/democles/ParameterName(importManager)>.<chain.value.operation.type.linkedElement.genModelElement.getAccessor>().add(<first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>);
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>
+
+CreateToOneLink(engine, importManager, body, chain) ::= <<
+<first(chain.value.operation.parameters):/democles/ParameterName(importManager)>.set<chain.value.operation.type.linkedElement.genModelElement.accessorName; format="uppercase"><if (chain.value.operation.type.linkedElement.genModelElement.collidingSetAccessorOperation)>_<endif>(<first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>);
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>
+
+CreateObject(engine, importManager, body, chain) ::= <<
+<importManager.(chain.value.operation.type.linkedElement)> <first(chain.value.operation.parameters):/democles/ParameterName(importManager)> = <importManager.(chain.value.operation.type.linkedElement.genModelElement.genPackage.qualifiedFactoryInterfaceName)>.eINSTANCE.create<chain.value.operation.type.linkedElement.name; format="uppercase">();
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>
+
+ReverseCreateToOneEReference(engine, importManager, body, chain) ::= <<
+<first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>.set<chain.value.operation.type.linkedElement.eOpposite.genModelElement.accessorName; format="uppercase"><if (chain.value.operation.type.linkedElement.genModelElement.collidingSetAccessorOperation)>_<endif>(<first(chain.value.operation.parameters):/democles/ParameterName(importManager)>);
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>
+
+ReverseCreateToManyEReference(engine, importManager, body, chain) ::= <<
+<first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>.<chain.value.operation.type.linkedElement.eOpposite.genModelElement.getAccessor>().add(<first(chain.value.operation.parameters):/democles/ParameterName(importManager)>);
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>

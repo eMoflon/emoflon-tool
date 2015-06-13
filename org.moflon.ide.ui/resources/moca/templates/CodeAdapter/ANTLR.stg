@@ -1,0 +1,254 @@
+group ANTLR;
+
+Lexer(name, package) ::= <<
+lexer grammar <name;format="firstToUpper">Lexer;
+
+@members {
+  public Collection\<Problem\> problems = new ArrayList\<Problem\>();
+
+      public void displayRecognitionError(String[] tokenNames,
+                                        RecognitionException e) {
+          Problem problem = MocaFactory.eINSTANCE.createProblem();
+          int line  = e.line;
+          int charPos = e.charPositionInLine;
+          int tokenLenght = 1;
+          Token token = e.token;
+          if(token != null) 
+            tokenLenght = token.getText().length();
+                  
+          
+          problem.setType(ProblemType.ERROR);
+          problem.setLine(line); 
+          problem.setCharacterPositionStart(charPos); 
+          problem.setCharacterPositionEnd(charPos+tokenLenght);
+          problem.setMessage("Lexer: " + getErrorMessage(e, tokenNames)); 
+          
+          problems.add(problem);
+          super.displayRecognitionError(tokenNames, e);
+    }
+}
+
+@header {
+package <package>;
+import java.util.Collection;
+import Moca.MocaFactory;
+import Moca.Problem;
+import Moca.ProblemType;
+}
+
+// Lexer Rules:
+RULE:;
+
+// Common Token Definitions
+// ID: ('a'..'z' | 'A'..'Z')+;
+// STRING: ('_' | ID | ('0'..'9') )+; 
+// WS : (' ' | '\t' | '\f' | '\n' | '\r')+ {skip();};
+// COMMENT: '//' .* '\n' {skip();};
+
+>>
+
+Parser(name, package) ::= <<
+parser grammar <name;format="firstToUpper">Parser;
+
+options {
+  language = Java;
+  tokenVocab = <name; format="firstToUpper">Lexer;
+  output = AST;
+}
+
+// List of tokens used to structure the tree
+//tokens {
+//  MY_TOKEN;
+//}
+
+@members {
+  public Collection\<Problem\> problems = new ArrayList\<Problem\>();
+
+      public void displayRecognitionError(String[] tokenNames,
+                                        RecognitionException e) {
+          Problem problem = MocaFactory.eINSTANCE.createProblem();
+          int line  = e.line;
+          int charPos = e.charPositionInLine;
+          int tokenLenght = 1;
+          Token token = e.token;
+          if(token != null) 
+            tokenLenght = token.getText().length();
+                  
+          
+          problem.setType(ProblemType.ERROR);
+          problem.setLine(line); 
+          problem.setCharacterPositionStart(charPos); 
+          problem.setCharacterPositionEnd(charPos+tokenLenght);
+          problem.setMessage("Parser: " + getErrorMessage(e, tokenNames));
+          
+          problems.add(problem);
+          super.displayRecognitionError(tokenNames, e);
+    }
+}
+
+@header {
+package <package>; 
+import java.util.Collection;
+import Moca.MocaFactory;
+import Moca.Problem;
+import Moca.ProblemType;
+}
+
+// Parser Rules:
+main:;
+>>
+
+TreeGrammar(name, package) ::= <<
+tree grammar <name;format="firstToUpper">TreeGrammar;
+
+options {
+  ASTLabelType = CommonTree; 
+  output       = template;
+}
+
+// Tokens used internally by Moca
+// ID: ('a'..'z' | 'A'..'Z')+;
+// STRING: ( ID | ('0'..'9') )+; 
+// ATRIBUTE: Used as an imaginary token for coding attributes in XML files (ATTRIBUTE name=ID value=STRING)
+tokens {
+  ID;
+  STRING;
+  ATTRIBUTE; 
+} 
+  
+@members {
+	public Object recoverFromMismatchedToken(IntStream input, int ttype, BitSet follow)	throws RecognitionException  {
+		try {
+        		return super.recoverFromMismatchedToken(input, ttype, follow);
+            } catch(java.util.NoSuchElementException e){
+                throw new IllegalArgumentException("Your tree does not comply with your tree grammar!\n"
+                		+ " Problems encountered at: [" + "..." + getTreeNodeStream().LT(-1) + " " 
+                		+ getTreeNodeStream().LT(1) + "..." + "] in tree.");
+		}
+    }
+}  
+  
+@header {
+package <package>;
+}
+// tree grammar rules:
+main:;
+>>
+
+ParserAdapter(name, package) ::= <<
+package <package>;
+import java.io.IOException;
+import java.io.Reader;
+import org.antlr.runtime.ANTLRReaderStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.tree.CommonTree;
+import org.moflon.moca.MocaUtil;
+import Moca.parser.impl.ParserImpl;
+import MocaTree.Node;
+import Moca.Problem;
+
+public class <name;format="firstToUpper">ParserAdapter extends ParserImpl 
+{
+  String filename;
+
+  @Override
+  public boolean canParseFile(String fileName) 
+  {
+    this.filename = fileName;
+    return fileName.endsWith(".<name>");
+  }
+
+  @Override
+  public Node parse(Reader reader) 
+  {
+    try 
+    {
+      <name;format="firstToUpper">Lexer lexer = new <name;format="firstToUpper">Lexer(new ANTLRReaderStream(reader));
+      CommonTokenStream tokens = new CommonTokenStream(lexer);
+      <name;format="firstToUpper">Parser parser = new <name;format="firstToUpper">Parser(tokens);
+      CommonTree result = (CommonTree) parser.main().tree; 
+      
+	  // Log Lexer Errors
+	  for (Problem problem : lexer.problems) {
+	    problem.setCodeAdapter(getCodeAdapter());
+		problem.setSource(filename);	  
+		getCodeAdapter().getProblems().add(problem);
+	  }
+
+      // Log Parser Errors
+	  for (Problem problem : parser.problems) {
+	    problem.setCodeAdapter(getCodeAdapter());
+		problem.setSource(filename);	  
+		getCodeAdapter().getProblems().add(problem);
+	  }
+      
+      return MocaUtil.commonTreeToMocaTree(result);
+    } catch (IOException e) 
+    {
+      e.printStackTrace();
+    } catch (RecognitionException e) 
+    {
+      e.printStackTrace();
+    } 
+    return null;
+  }
+}
+>>
+
+UnparserAdapter(name, package) ::= <<
+package org.moflon.moca.<name>.unparser;
+
+import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.FileReader;
+
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.antlr.stringtemplate.StringTemplate;
+import org.antlr.stringtemplate.StringTemplateGroup;
+
+import Moca.unparser.impl.TemplateUnparserImpl;
+
+public class <name;format="firstToUpper">UnparserAdapter extends TemplateUnparserImpl 
+{
+  
+  @Override
+  public boolean canUnparseFile(String fileName) 
+  {
+    return fileName.endsWith(".<name>");
+  }
+
+  @Override
+  protected String callMainRule(CommonTreeNodeStream tree, StringTemplateGroup templates) throws RecognitionException 
+  {
+    <name;format="firstToUpper">TreeGrammar <name>TreeGrammar = new <name;format="firstToUpper">TreeGrammar(tree);
+    <name>TreeGrammar.setTemplateLib(templates);  
+    StringTemplate st = <name>TreeGrammar.main().st;
+    if (st==null) {
+      return "";
+    }
+    else {
+      return st.toString();
+    }  
+  }
+
+  @Override
+  protected StringTemplateGroup getStringTemplateGroup() throws FileNotFoundException 
+  {
+    //TODO provide StringTemplateGroup ...
+    // ... from folder "<name>" containing .st files
+    // return new StringTemplateGroup("<name>", "templates/<name>");
+    // ... from group file <name;format="firstToUpper">.stg
+    // return new StringTemplateGroup(new FileReader(new File("./templates/<name;format="firstToUpper">.stg")));
+    throw new UnsupportedOperationException("Creation of StringTemplateGroup not implemented yet ...");
+  }
+
+  @Override
+  protected String[] getTokenNames() 
+  {
+    return <name;format="firstToUpper">TreeGrammar.tokenNames;
+  }
+}
+>>
+

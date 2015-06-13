@@ -1,0 +1,4 @@
+#**##parse( "jmi/default:storyPattern/object/import.vm" )
+#**#// delete object
+#**#${name}.refDelete();
+#**#  

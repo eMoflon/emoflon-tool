@@ -1,0 +1,424 @@
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
+import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.csp.codegenerator.MyBasicFormatRenderer;
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroupFile;
+
+import MocaTree.MocaTreeFactory;
+import MocaTree.Node;
+import SDMLanguage.expressions.ComparingOperator;
+import SDMLanguage.expressions.ComparisonExpression;
+import SDMLanguage.expressions.Expression;
+import SDMLanguage.expressions.LiteralExpression;
+import SDMLanguage.patterns.AttributeAssignment;
+import SDMLanguage.patterns.BindingOperator;
+import SDMLanguage.patterns.Constraint;
+import SDMLanguage.patterns.ObjectVariable;
+import SDMLanguage.sdmUtil.CompilerInjection;
+import SDMLanguage.sdmUtil.CompilerInjectionEntry;
+import SDMLanguage.sdmUtil.ImportInjectionEntry;
+import SDMLanguage.sdmUtil.SdmUtilFactory;
+import TGGLanguage.Domain;
+import TGGLanguage.DomainType;
+import TGGLanguage.TGGObjectVariable;
+import TGGLanguage.TGGRule;
+import TGGLanguage.algorithm.ApplicationTypes;
+import TGGLanguage.compiler.CompilerPackage;
+import TGGLanguage.compiler.TGGCompiler;
+import TGGLanguage.compiler.compilerfacade.CompilerfacadePackage;
+import TGGLanguage.compiler.compilerfacade.Helper;
+import TGGLanguage.compiler.compilerfacade.InjectionHelper;
+import TGGLanguage.csp.AttributeVariable;
+import TGGLanguage.csp.CSP;
+import TGGLanguage.csp.CspFactory;
+import TGGLanguage.csp.Literal;
+import TGGLanguage.csp.LocalVariable;
+import TGGLanguage.csp.OperationalCSP;
+import TGGLanguage.csp.TGGConstraint;
+import TGGLanguage.csp.Variable;
+
+
+partial class InjectionHelperImpl {
+
+@members <--
+
+   private String buildMethodCall(final String attribute, final String type, final String ov)
+   {
+      String prefix = ".get" + StringUtils.capitalize(attribute);
+      if ("boolean".equals(type) || "Boolean".equals(type) || "EBoolean".equals(type))
+      {
+         prefix = MoflonUtil.handlePrefixForBooleanAttributes("", attribute);
+      }
+      return ov + prefix + "()";
+   }
+
+   private String getOperand(final Expression expression)
+   {
+      if (expression instanceof LiteralExpression)
+      {
+         return ((LiteralExpression) expression).getValue();
+      }
+
+      return "null";
+   }
+
+   private Object handleType(final EClassifier type)
+   {
+      // Some Java dependent adjustments
+      String typeName = type.getName();
+      if ("boolean".equals(typeName))
+         return "Boolean";
+
+      if (CORE_ECORE_CLASS_NAMES.contains(typeName))
+         return "org.eclipse.emf.ecore." + typeName;
+
+      return MoflonUtil.getFQN(type);
+   }
+
+   private String getComparisonOp(final ComparingOperator comparingOperator)
+   {
+      String result = "*";
+      switch (comparingOperator)
+      {
+      case LESS:
+         result = "<";
+         break;
+      case LESS_OR_EQUAL:
+         result = "<=";
+         break;
+      case EQUAL:
+         result = "==";
+         break;
+      case GREATER_OR_EQUAL:
+         result = ">=";
+         break;
+      case GREATER:
+         result = ">";
+         break;
+      case UNEQUAL:
+         result = "!=";
+         break;
+      default:
+         break;
+      }
+      return result;
+   }
+
+   private Collection<Variable> getDestVariables(final EList<Variable> variables, final ArrayList<String> relevantOVs)
+   {
+      return variables.stream().filter(v -> {
+         if (v instanceof AttributeVariable)
+         {
+            AttributeVariable av = (AttributeVariable) v;
+            if (relevantOVs.contains(av.getObjectVariable()))
+               return true;
+         }
+
+         return false;
+      }).collect(Collectors.toList());
+   }
+
+   private void handleImports(final EClass ruleClass)
+   {
+      ImportInjectionEntry entryForNodeMapping = SdmUtilFactory.eINSTANCE.createImportInjectionEntry();
+      entryForNodeMapping.setContent("TGGRuntime.TripleMatchNodeMapping");
+      entryForNodeMapping.setEClass(ruleClass);
+      this.getCompilerInjection().getImportInjectionEntries().add(entryForNodeMapping);
+
+      ImportInjectionEntry entryForOptional = SdmUtilFactory.eINSTANCE.createImportInjectionEntry();
+      entryForOptional.setContent("java.util.Optional");
+      entryForOptional.setEClass(ruleClass);
+      this.getCompilerInjection().getImportInjectionEntries().add(entryForOptional);
+   }
+
+   private void fillObjectVariables(final TGGRule rule, final ArrayList<String> source, final ArrayList<String> target)
+   {
+      for (ObjectVariable ov : rule.getObjectVariable())
+      {
+         if (ov instanceof TGGObjectVariable)
+         {
+            TGGObjectVariable tggOV = (TGGObjectVariable) ov;
+            if (tggOV.getDomain().getType() == DomainType.SOURCE)
+            {
+               source.add(ov.getName());
+            }
+            if (tggOV.getDomain().getType() == DomainType.TARGET)
+            {
+               target.add(ov.getName());
+            }
+         }
+      }
+   }
+
+   private void handleAttributeAssignmentsAndConstraints(final TGGRule rule, final STGroupFile stg, final StringBuilder result, final String separator,
+         final StringBuilder aAssign, final StringBuilder cCons)
+   {
+      HashMap<String, String> variables = new HashMap<String, String>();
+      EList<ObjectVariable> ovs = rule.getObjectVariable();
+      for (ObjectVariable ov : ovs)
+      {
+         ST oVT = stg.getInstanceOf("locate_node");
+         oVT.add("var_name", ov.getName());
+         oVT.add("type", handleType(ov.getType()));
+         variables.put(ov.getName(), ov.getType().getName());
+         result.append(oVT.render());
+         result.append(separator);
+
+         // handle AttributeAssignments
+         for (AttributeAssignment a : ov.getAttributeAssignment())
+         {
+            ST aAtr = stg.getInstanceOf("check_constraints");
+            aAtr.add("op1", buildMethodCall(a.getAttribute().getName(), a.getAttribute().getEAttributeType().getName(), a.getObjectVariable().getName()));
+            aAtr.add("op2", getOperand(a.getValueExpression()));
+            aAtr.add("comp", "==");
+            aAssign.append(aAtr.render() + separator);
+         }
+
+         // handle Constraints
+         for (Constraint c : ov.getConstraint())
+         {
+            Expression exp = c.getConstraintExpression();
+            if (exp instanceof ComparisonExpression)
+            {
+               ST cC = stg.getInstanceOf("check_constraints");
+               cC.add("op1", getOperand(((ComparisonExpression) exp).getLeftExpression()));
+               cC.add("op2", getOperand(((ComparisonExpression) exp).getRightExpression()));
+               cC.add("comp", getComparisonOp(((ComparisonExpression) exp).getOperator()));
+               cCons.append(cC.render() + separator);
+            }
+         }
+      }
+   }
+
+   private Map<Variable, String> handleVariableValueExtraction(final STGroupFile stg, final String separator, final OperationalCSP ocsp,
+         final StringBuilder csp_result)
+   {
+      Map<Variable, String> varToLabel = new HashMap<>();
+      int j = 0;
+      int k = 0;
+      for (Variable v : ocsp.getVariables())
+      {
+         if (v instanceof AttributeVariable)
+         {
+            AttributeVariable aV = (AttributeVariable) v;
+            String label = "var_" + aV.getObjectVariable() + "_" + aV.getAttribute();
+
+            ST bV = stg.getInstanceOf("BoundVariable");
+            bV.add("var_name", label);
+            bV.add("name", aV.getObjectVariable());
+            bV.add("value", buildMethodCall(aV.getAttribute(), aV.getType(), aV.getObjectVariable()));
+            bV.add("type", aV.getType());
+            csp_result.append(bV.render() + separator);
+
+            varToLabel.put(v, label);
+         } else if (v instanceof Literal)
+         {
+            String label = "var_literal" + j;
+
+            ST bV = stg.getInstanceOf("BoundVariable");
+            bV.add("var_name", label);
+            bV.add("name", "literal");
+            bV.add("value", v.getValue());
+            bV.add("type", v.getType());
+            csp_result.append(bV.render() + separator);
+            j++;
+
+            varToLabel.put(v, label);
+         } else if (v instanceof LocalVariable)
+         {
+            String label = "var_local" + k;
+
+            ST fV = stg.getInstanceOf("UnboundVariable");
+            fV.add("var_name", label);
+            fV.add("name", "local");
+            fV.add("type", v.getType());
+            csp_result.append(fV.render() + separator);
+            k++;
+
+            varToLabel.put(v, label);
+         }
+
+      }
+
+      return varToLabel;
+   }
+
+   private void handleCSPSolving(final TGGRule rule, final ArrayList<String> target, final STGroupFile stg, final String separator, final OperationalCSP ocsp,
+         final StringBuilder csp_result, final StringBuilder solver, final Map<Variable, String> varToLabel)
+   {
+      int i = 0;
+      for (TGGConstraint c : ocsp.getConstraints())
+      {
+         EList<Variable> vars = c.getVariables();
+
+         ST templateForConstraint;
+         if (c.getName().equals("eq"))
+         {
+            templateForConstraint = stg.getInstanceOf("Eq");
+            templateForConstraint.add("instanceName", c.getName() + i);
+
+         } else
+         {
+            templateForConstraint = stg.getInstanceOf("Constraint");
+            templateForConstraint.add("constraint", c.getName());
+            templateForConstraint.add("instanceName", c.getName() + i);
+         }
+
+         csp_result.append(templateForConstraint.render() + separator);
+         ST csp_bar = stg.getInstanceOf("AddConstraints");
+         csp_bar.add("constraints", c.getName() + i);
+         csp_result.append(csp_bar.render() + separator);
+
+         Collection<String> solveVars = c.getVariables().stream().map(v -> varToLabel.get(v)).collect(Collectors.toList());
+
+         ST solver_csp = stg.getInstanceOf("Solve");
+         solver_csp.add("constraint", c.getName() + i);
+         solver_csp.add("ruleName", rule.getName());
+         solver_csp.add("variables", solveVars);
+         solver.append(solver_csp.render());
+
+         ST checker = stg.getInstanceOf("check_csp");
+
+         checker.add("target", getDestVariables(c.getVariables(), target));
+         checker.add("variables", solveVars);
+         checker.add("constraint", c.getName() + i);
+         solver.append(checker.render() + separator);
+
+         i++;
+      }
+   }
+
+   private static List<String> CORE_ECORE_CLASS_NAMES = Arrays
+         .asList(EAnnotation.class, EAttribute.class, EClass.class, EClassifier.class, EDataType.class, EEnum.class, EEnumLiteral.class, EGenericType.class,
+               EModelElement.class, ENamedElement.class, EObject.class, EOperation.class, EPackage.class, EParameter.class, EReference.class,
+               EStructuralFeature.class, ETypedElement.class, ETypeParameter.class).stream().map(clazz -> clazz.getSimpleName()).collect(Collectors.toList());
+   
+-->
+
+@model createInjectionForCheckAttributesMethod (String name, TGGRule rule, EClass ruleClass) <--
+
+      // this is the actual implementation of the method but attribute synchronization does not work properly yet.
+// Nico, Tony, and Erhan will check what can be done to save this implementation
+//		handleImports(ruleClass);
+//
+//		ArrayList<String> source = new ArrayList<String>();
+//		ArrayList<String> target = new ArrayList<String>();
+//		fillObjectVariables(rule, source, target);
+//
+//		STGroupFile stg = new STGroupFile(this.getClass().getClassLoader()
+//				.getResource("/templates/Csp.stg"), "UTF-8", '<', '>');
+//		stg.registerRenderer(String.class, new MyBasicFormatRenderer());
+//
+//		StringBuilder result = new StringBuilder();
+//		String separator = "\n\n";
+//		result.append(separator);
+//
+//		ST rR = stg.getInstanceOf("createRuleResult");
+//		rR.add("ruleName", rule.getName());
+//		result.append(rR.render());
+//		result.append(separator);
+//
+//		StringBuilder attributeAssignments = new StringBuilder();
+//		StringBuilder constraints = new StringBuilder();
+//		handleAttributeAssignmentsAndConstraints(rule, stg, result, separator,
+//				attributeAssignments, constraints);
+//
+//		CSP csp = EcoreUtil.copy(rule.getCsp());
+//		OperationalCSP ocsp = CspFactory.eINSTANCE.createOperationalCSP();
+//		ocsp.getConstraints().addAll(csp.getConstraints());
+//		ocsp.getVariables().addAll(csp.getVariables());
+//		ocsp.getVariables().forEach(v -> {
+//			// Local variables are never bound
+//				if (!(v instanceof LocalVariable))
+//					v.setBound(true);
+//			});
+//
+//		CSPSearchPlanAdapterImpl plan = new CSPSearchPlanAdapterImpl();
+//		plan.computeConstraintOrder(ocsp);
+//
+//		StringBuilder variableValueExtraction = new StringBuilder();
+//		Map<Variable, String> varToLabel = handleVariableValueExtraction(stg,
+//				separator, ocsp, variableValueExtraction);
+//
+//		StringBuilder solver = new StringBuilder();
+//		handleCSPSolving(rule, target, stg, separator, ocsp,
+//				variableValueExtraction, solver, varToLabel);
+//
+//		result.append(attributeAssignments);
+//		result.append(separator);
+//		result.append(constraints);
+//		result.append(separator);
+//		result.append(variableValueExtraction);
+//		result.append(separator);
+//		result.append(solver);
+//		result.append(separator);
+//		result.append(separator);
+//		result.append("return ruleResult;");
+//
+//		return result.toString();
+		
+		return "throw new UnsupportedOperationException(\"developments on attribute synchronization with eMoflon not yet completed\");";
+-->
+
+@model createInjectionForCheckTypesMethod (TGGRule rule, EOperation eOperation, Helper compilerHelper, ApplicationTypes direction) <--
+
+      boolean forward = direction.equals(ApplicationTypes.FORWARD);
+      Domain sourceDomain = rule.getSource();
+      Domain targetDomain = rule.getTarget();
+
+      String injectionContent = "return " + rule.getObjectVariable().stream().filter(ov -> {
+         Domain domain = ((TGGObjectVariable) ov).getDomain();
+         boolean hasCorrectDomain = (forward && domain.equals(sourceDomain)) || (!forward && domain.equals(targetDomain));
+         boolean isGreenInRule = ov.getBindingOperator().equals(BindingOperator.CREATE);
+         return hasCorrectDomain && isGreenInRule;
+      }).map(compilerHelper::determineTypeCheckStatement).reduce("true", (acc, str) -> acc + " && " + str) + ";";
+
+      if (compilerInjection == null)
+      {
+         setCompilerInjection(SdmUtilFactory.eINSTANCE.createCompilerInjection());
+      }
+
+      CompilerInjectionEntry entry = SdmUtilFactory.eINSTANCE.createCompilerInjectionEntry();
+      entry.setContent(injectionContent);
+      entry.setEOperation(eOperation);
+
+      getCompilerInjection().getCompilerInjectionEntries().add(entry);
+-->
+
+}

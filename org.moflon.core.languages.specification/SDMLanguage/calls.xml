@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3">
+	<XMI.header>
+		<XMI.documentation>
+			<XMI.exporter>Enterprise Architect</XMI.exporter>
+			<XMI.exporterVersion>2.5</XMI.exporterVersion>
+		</XMI.documentation>
+	</XMI.header>
+	<XMI.content>
+		<UML:Model name="EA Model" xmi.id="MX_EAID_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C">
+			<UML:Namespace.ownedElement>
+				<UML:Class name="EARootClass" xmi.id="EAID_11111111_5487_4080_A7F4_41526CB0AA00" isRoot="true" isLeaf="false" isAbstract="false"/>
+				<UML:Package name="calls" xmi.id="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+					<UML:ModelElement.stereotype>
+						<UML:Stereotype xmi.idref="EAID_D247E437_123A_48ba_A744_976390E8F061"/>
+					</UML:ModelElement.stereotype>
+					<UML:ModelElement.taggedValue>
+						<UML:TaggedValue tag="parent" value="EAPK_5BB678F1_07CF_4905_91F1_C0478CDCEE23"/>
+						<UML:TaggedValue tag="created" value="2011-04-25 20:09:15"/>
+						<UML:TaggedValue tag="modified" value="2011-04-25 20:09:15"/>
+						<UML:TaggedValue tag="iscontrolled" value="TRUE"/>
+						<UML:TaggedValue tag="xmlpath" value="SDMLanguage\calls.xml"/>
+						<UML:TaggedValue tag="lastloaddate" value="2014-07-03 16:51:54"/>
+						<UML:TaggedValue tag="lastsavedate" value="2012-06-16 20:41:54"/>
+						<UML:TaggedValue tag="version" value="1.0"/>
+						<UML:TaggedValue tag="isprotected" value="FALSE"/>
+						<UML:TaggedValue tag="usedtd" value="FALSE"/>
+						<UML:TaggedValue tag="xmiver" value="Enterprise Architect XMI/UML 1.3"/>
+						<UML:TaggedValue tag="logxml" value="FALSE"/>
+						<UML:TaggedValue tag="tpos" value="2"/>
+						<UML:TaggedValue tag="packageFlags" value="Recurse=0;VCCFG=CoreLanguages;CRC=0;"/>
+						<UML:TaggedValue tag="batchsave" value="0"/>
+						<UML:TaggedValue tag="batchload" value="0"/>
+						<UML:TaggedValue tag="phase" value="1.0"/>
+						<UML:TaggedValue tag="status" value="Proposed"/>
+						<UML:TaggedValue tag="author" value="anjorin"/>
+						<UML:TaggedValue tag="complexity" value="1"/>
+						<UML:TaggedValue tag="stereotype" value="EPackage"/>
+						<UML:TaggedValue tag="ea_stype" value="Public"/>
+						<UML:TaggedValue tag="tpos" value="2"/>
+						<UML:TaggedValue tag="gentype" value="Java"/>
+					</UML:ModelElement.taggedValue>
+					<UML:Namespace.ownedElement>
+						<UML:Collaboration xmi.id="EAID_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C_Collaboration" name="Collaborations">
+							<UML:Namespace.ownedElement>
+								<UML:ClassifierRole name="callExpressions" xmi.id="EAID_453E2A49_875C_44d1_A8B6_58C7B4940E4D" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="EPackage"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="isAbstract" value="false"/>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="Package"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="isActive" value="false"/>
+										<UML:TaggedValue tag="package" value="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C"/>
+										<UML:TaggedValue tag="date_created" value="2011-04-29 14:14:57"/>
+										<UML:TaggedValue tag="date_modified" value="2011-09-15 16:51:24"/>
+										<UML:TaggedValue tag="gentype" value="Java"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package2" value="EAID_453E2A49_875C_44d1_A8B6_58C7B4940E4D"/>
+										<UML:TaggedValue tag="package_name" value="calls"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="anjorin"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="stereotype" value="EPackage"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="598"/>
+										<UML:TaggedValue tag="ea_eleType" value="package"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={A75D8155-9533-459a-8C5F-AA30EC0CC43F}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EPackage;FQName=ECORE_Elements::EPackage;@ENDSTEREO;$DES;$CLT={453E2A49-875C-44d1-A8B6-58C7B4940E4D}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:ClassifierRole>
+							</UML:Namespace.ownedElement>
+							<UML:Collaboration.interaction/>
+						</UML:Collaboration>
+						<UML:Class name="Invocation" xmi.id="EAID_E2305FE6_2F4A_41ec_BDAA_A6434C3A9D75" visibility="public" namespace="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C" isRoot="false" isLeaf="false" isAbstract="true" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="documentation" value="An Invocation is used to invoke an operation (the callee).&#xA;As this can be done in various ways, Invocation is abstract.&#xA;An Invocation binds values to the parameters of the callee using ParameterBindings."/>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C"/>
+								<UML:TaggedValue tag="date_created" value="2011-04-29 14:22:58"/>
+								<UML:TaggedValue tag="date_modified" value="2012-11-22 21:03:48"/>
+								<UML:TaggedValue tag="gentype" value="Java"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="calls"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="anjorin"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="99043"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={256B9681-EFF7-4590-BE53-96D7D57467B3}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={E2305FE6-2F4A-41ec-BDAA-A6434C3A9D75}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Class>
+						<UML:Generalization subtype="EAID_B70CC233_C64E_4351_83B4_63E91A764265" supertype="EAID_E2305FE6_2F4A_41ec_BDAA_A6434C3A9D75" xmi.id="EAID_0B41D1AF_4DFC_403f_9177_B18E00C17711" visibility="public">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="inheritance"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Generalization"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="stereotype" value="inheritance"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="conditional" value=" &#xA;«inheritance»"/>
+								<UML:TaggedValue tag="ea_localid" value="85516"/>
+								<UML:TaggedValue tag="ea_sourceName" value="MethodCallExpression"/>
+								<UML:TaggedValue tag="ea_targetName" value="Invocation"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="99047"/>
+								<UML:TaggedValue tag="ea_targetID" value="99043"/>
+								<UML:TaggedValue tag="src_visibility" value="Public"/>
+								<UML:TaggedValue tag="src_aggregation" value="0"/>
+								<UML:TaggedValue tag="src_isOrdered" value="false"/>
+								<UML:TaggedValue tag="src_targetScope" value="instance"/>
+								<UML:TaggedValue tag="src_changeable" value="none"/>
+								<UML:TaggedValue tag="src_isNavigable" value="false"/>
+								<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="dst_visibility" value="Public"/>
+								<UML:TaggedValue tag="dst_aggregation" value="0"/>
+								<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+								<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+								<UML:TaggedValue tag="dst_changeable" value="none"/>
+								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={8DD931B8-5DCF-4377-8A7F-4B132317FB57}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=inheritance;FQName=Ecore Elements::inheritance;@ENDSTEREO;$DES;$CLT={0B41D1AF-4DFC-403f-9177-B18E00C17711}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="mb" value=" &#xA;«inheritance»"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Generalization>
+						<UML:Association xmi.id="EAID_0C97D094_861A_4b4f_89FA_D7C57576D5FE" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Association"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="85511"/>
+								<UML:TaggedValue tag="ea_sourceName" value="Invocation"/>
+								<UML:TaggedValue tag="ea_targetName" value="EOperation"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="99043"/>
+								<UML:TaggedValue tag="ea_targetID" value="99018"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="rb" value="1"/>
+								<UML:TaggedValue tag="rt" value="+callee"/>
+								<UML:TaggedValue tag="Moflon::ExportTree" value="notes" xmi.id="EAID_D34DC060_762F_49b5_B82A_990BF9BDE41B">
+									<XMI.extension xmi.extender="Enterprise Architect 2.5">
+										<UML:Comment name="&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;http://www.moflon.org.MocaTree&quot;&gt;&#xA;  &lt;children name=&quot;EAReferences&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;ClientReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;SupplierReference&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{E5AF0CFA-E354-4d48-B4AB-5F89F7924B62}&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;callee&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{0C97D094-861A-4b4f-89FA-D7C57576D5FE}Supplier&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;containment&quot; value=&quot;false&quot; index=&quot;5&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;"/>
+									</XMI.extension>
+								</UML:TaggedValue>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_E2305FE6_2F4A_41ec_BDAA_A6434C3A9D75">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Unspecified;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="callee" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_E5AF0CFA_E354_4d48_B4AB_5F89F7924B62">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Generalization subtype="EAID_E2305FE6_2F4A_41ec_BDAA_A6434C3A9D75" supertype="EAID_0F123E77_63F4_4c82_A325_B51585E8311F" xmi.id="EAID_9705C039_3E18_4a19_9D7C_689F0CF69A4F" visibility="public">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="inheritance"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Generalization"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="stereotype" value="inheritance"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="conditional" value=" &#xA;«inheritance»"/>
+								<UML:TaggedValue tag="ea_localid" value="85510"/>
+								<UML:TaggedValue tag="ea_sourceName" value="Invocation"/>
+								<UML:TaggedValue tag="ea_targetName" value="CommentableElement"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="99043"/>
+								<UML:TaggedValue tag="ea_targetID" value="124932"/>
+								<UML:TaggedValue tag="src_visibility" value="Public"/>
+								<UML:TaggedValue tag="src_aggregation" value="0"/>
+								<UML:TaggedValue tag="src_isOrdered" value="false"/>
+								<UML:TaggedValue tag="src_targetScope" value="instance"/>
+								<UML:TaggedValue tag="src_changeable" value="none"/>
+								<UML:TaggedValue tag="src_isNavigable" value="false"/>
+								<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="dst_visibility" value="Public"/>
+								<UML:TaggedValue tag="dst_aggregation" value="0"/>
+								<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+								<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+								<UML:TaggedValue tag="dst_changeable" value="none"/>
+								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={FEA9EDCB-8D94-42bd-A927-C7EDEC1143EC}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=inheritance;FQName=Ecore Elements::inheritance;@ENDSTEREO;$DES;$CLT={9705C039-3E18-4a19-9D7C-689F0CF69A4F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="mb" value=" &#xA;«inheritance»"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Generalization>
+						<UML:Association xmi.id="EAID_B5014EAB_43D7_4923_89A2_805D9C4EC69D" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="ereference"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Association"/>
+								<UML:TaggedValue tag="direction" value="Bi-Directional"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="stereotype" value="ereference"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="conditional" value=" &#xA;«ereference»"/>
+								<UML:TaggedValue tag="ea_localid" value="85509"/>
+								<UML:TaggedValue tag="ea_sourceName" value="Invocation"/>
+								<UML:TaggedValue tag="ea_targetName" value="ParameterBinding"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="99043"/>
+								<UML:TaggedValue tag="ea_targetID" value="99044"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={D52351BF-6195-4ef7-9DAD-D0152275ECF1}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=ereference;FQName=Ecore Elements::ereference;@ENDSTEREO;$DES;$CLT={B5014EAB-43D7-4923-89A2-805D9C4EC69D}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="lb" value="1"/>
+								<UML:TaggedValue tag="lt" value="+invocation"/>
+								<UML:TaggedValue tag="mb" value=" &#xA;«ereference»"/>
+								<UML:TaggedValue tag="rb" value="0..*"/>
+								<UML:TaggedValue tag="rt" value="+ownedParameterBindings"/>
+								<UML:TaggedValue tag="Moflon::ExportTree" value="notes" xmi.id="EAID_8C277213_4E98_4a33_931B_151AC0F1D72E">
+									<XMI.extension xmi.extender="Enterprise Architect 2.5">
+										<UML:Comment name="&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;http://www.moflon.org.MocaTree&quot;&gt;&#xA;  &lt;children name=&quot;EAReferences&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;ClientReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{E2305FE6-2F4A-41ec-BDAA-A6434C3A9D75}&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;invocation&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{B5014EAB-43D7-4923-89A2-805D9C4EC69D}Client&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;containment&quot; value=&quot;false&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;oppositeGuid&quot; value=&quot;{B5014EAB-43D7-4923-89A2-805D9C4EC69D}Supplier&quot; index=&quot;6&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;SupplierReference&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{E59F3922-35A1-4327-BC8D-DC96329B34BF}&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;ownedParameterBindings&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{B5014EAB-43D7-4923-89A2-805D9C4EC69D}Supplier&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;0&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;-1&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;containment&quot; value=&quot;true&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;oppositeGuid&quot; value=&quot;{B5014EAB-43D7-4923-89A2-805D9C4EC69D}Client&quot; index=&quot;6&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;"/>
+									</XMI.extension>
+								</UML:TaggedValue>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="invocation" aggregation="composite" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_E2305FE6_2F4A_41ec_BDAA_A6434C3A9D75">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" multiplicity="0..*" name="ownedParameterBindings" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_E59F3922_35A1_4327_BC8D_DC96329B34BF">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Class name="ParameterBinding" xmi.id="EAID_E59F3922_35A1_4327_BC8D_DC96329B34BF" visibility="public" namespace="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="documentation" value="A ParameterBinding, binds its parameter (an EParameter) to its valueExpression (an arbitrary Expression)."/>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C"/>
+								<UML:TaggedValue tag="date_created" value="2011-04-29 14:22:43"/>
+								<UML:TaggedValue tag="date_modified" value="2012-11-22 21:03:48"/>
+								<UML:TaggedValue tag="gentype" value="Java"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="calls"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="anjorin"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="99044"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="$ea_classified" value="{F387CED9-EC3C-41d8-9F7B-BB81AB230948},{F9495E81-A49A-4370-85DD-331EF5A6CC4C},{EA77651E-3051-4951-9784-B6C3F51B0667},{D433FC25-9B89-4a85-A741-80376342DF69},{ED0011A0-BF9D-44f0-8952-78A7417A433A},{F28B6015-9551-4fb2-A658-04055024AAD9},{DE403A7B-497E-4628-BB04-99B4CECE1B22},{F30ADD66-18D1-4efb-9CA2-6D4EDEF33CE3},{29E372D5-09DA-41dd-89F4-638B288A0B5B},{335413D1-9781-4b3a-AD17-44E40B5CB04B},{EF864D84-5B6D-432e-A6F1-ECCF901E4254},{19CBFC9F-7266-4143-85B1-F4986D4BAB8A},{255B54FB-7C08-442c-AA50-FF4134EC7876}"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={5DB1930F-64AD-4540-B982-0035AA1DF57F}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={E59F3922-35A1-4327-BC8D-DC96329B34BF}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Class>
+						<UML:Association xmi.id="EAID_33E1823D_654C_4fdb_AC76_B618DF2D6ECA" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="ereference"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Association"/>
+								<UML:TaggedValue tag="direction" value="Destination -&gt; Source"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="stereotype" value="ereference"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="conditional" value=" &#xA;«ereference»"/>
+								<UML:TaggedValue tag="ea_localid" value="87542"/>
+								<UML:TaggedValue tag="ea_sourceName" value="Expression"/>
+								<UML:TaggedValue tag="ea_targetName" value="ParameterBinding"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="101518"/>
+								<UML:TaggedValue tag="ea_targetID" value="99044"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={781B39EF-926E-4f8b-B138-62A66E02C301}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=ereference;FQName=Ecore Elements::ereference;@ENDSTEREO;$DES;$CLT={33E1823D-654C-4fdb-AC76-B618DF2D6ECA}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="lb" value="1"/>
+								<UML:TaggedValue tag="lt" value="+valueExpression"/>
+								<UML:TaggedValue tag="mb" value=" &#xA;«ereference»"/>
+								<UML:TaggedValue tag="Moflon::ExportTree" value="notes" xmi.id="EAID_D966E852_DAA2_4996_8986_BDC3FFC7C087">
+									<XMI.extension xmi.extender="Enterprise Architect 2.5">
+										<UML:Comment name="&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;http://www.moflon.org.MocaTree&quot;&gt;&#xA;  &lt;children name=&quot;EAReferences&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;ClientReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{9F6A4100-6286-47ae-9B88-5BCDEA1FB42E}&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;valueExpression&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{33E1823D-654C-4fdb-AC76-B618DF2D6ECA}Client&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;containment&quot; value=&quot;true&quot; index=&quot;5&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;SupplierReference&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;"/>
+									</XMI.extension>
+								</UML:TaggedValue>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="valueExpression" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_9F6A4100_6286_47ae_9B88_5BCDEA1FB42E">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" aggregation="composite" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_E59F3922_35A1_4327_BC8D_DC96329B34BF">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Unspecified;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Generalization subtype="EAID_E59F3922_35A1_4327_BC8D_DC96329B34BF" supertype="EAID_0F123E77_63F4_4c82_A325_B51585E8311F" xmi.id="EAID_581ECFF9_AC7D_4cdb_9A5B_8C9CFF52C4B0" visibility="public">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="inheritance"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Generalization"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="stereotype" value="inheritance"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="conditional" value=" &#xA;«inheritance»"/>
+								<UML:TaggedValue tag="ea_localid" value="85507"/>
+								<UML:TaggedValue tag="ea_sourceName" value="ParameterBinding"/>
+								<UML:TaggedValue tag="ea_targetName" value="CommentableElement"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="99044"/>
+								<UML:TaggedValue tag="ea_targetID" value="124932"/>
+								<UML:TaggedValue tag="src_visibility" value="Public"/>
+								<UML:TaggedValue tag="src_aggregation" value="0"/>
+								<UML:TaggedValue tag="src_isOrdered" value="false"/>
+								<UML:TaggedValue tag="src_targetScope" value="instance"/>
+								<UML:TaggedValue tag="src_changeable" value="none"/>
+								<UML:TaggedValue tag="src_isNavigable" value="false"/>
+								<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="dst_visibility" value="Public"/>
+								<UML:TaggedValue tag="dst_aggregation" value="0"/>
+								<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+								<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+								<UML:TaggedValue tag="dst_changeable" value="none"/>
+								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={77A5B3A2-3FA5-4c4c-8818-4C72F0DC922D}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=inheritance;FQName=Ecore Elements::inheritance;@ENDSTEREO;$DES;$CLT={581ECFF9-AC7D-4cdb-9A5B-8C9CFF52C4B0}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="mb" value=" &#xA;«inheritance»"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Generalization>
+						<UML:Association xmi.id="EAID_95B58D30_53FD_4dab_8B5B_41B633D279CB" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Association"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="85506"/>
+								<UML:TaggedValue tag="ea_sourceName" value="ParameterBinding"/>
+								<UML:TaggedValue tag="ea_targetName" value="EParameter"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="99044"/>
+								<UML:TaggedValue tag="ea_targetID" value="99021"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="rb" value="1"/>
+								<UML:TaggedValue tag="rt" value="+parameter"/>
+								<UML:TaggedValue tag="Moflon::ExportTree" value="notes" xmi.id="EAID_67DDE73B_5481_44b6_9F5C_9178861210CA">
+									<XMI.extension xmi.extender="Enterprise Architect 2.5">
+										<UML:Comment name="&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;http://www.moflon.org.MocaTree&quot;&gt;&#xA;  &lt;children name=&quot;EAReferences&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;ClientReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;SupplierReference&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{EF89ADBA-5A13-4c05-A9D9-74C1FF4164E5}&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;parameter&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{95B58D30-53FD-4dab-8B5B-41B633D279CB}Supplier&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;containment&quot; value=&quot;false&quot; index=&quot;5&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;"/>
+									</XMI.extension>
+								</UML:TaggedValue>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_E59F3922_35A1_4327_BC8D_DC96329B34BF">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Unspecified;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="parameter" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_EF89ADBA_5A13_4c05_A9D9_74C1FF4164E5">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Package name="callExpressions" xmi.id="EAPK_453E2A49_875C_44d1_A8B6_58C7B4940E4D" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype xmi.idref="EAID_D247E437_123A_48ba_A744_976390E8F061"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="parent" value="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C"/>
+								<UML:TaggedValue tag="created" value="2011-04-29 14:14:57"/>
+								<UML:TaggedValue tag="modified" value="2011-09-15 16:51:24"/>
+								<UML:TaggedValue tag="iscontrolled" value="TRUE"/>
+								<UML:TaggedValue tag="xmlpath" value="SDMLanguage\calls\callExpressions.xml"/>
+								<UML:TaggedValue tag="lastloaddate" value="2014-07-03 16:51:55"/>
+								<UML:TaggedValue tag="lastsavedate" value="2012-06-16 20:41:54"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="isprotected" value="FALSE"/>
+								<UML:TaggedValue tag="usedtd" value="FALSE"/>
+								<UML:TaggedValue tag="xmiver" value="Enterprise Architect XMI/UML 1.3"/>
+								<UML:TaggedValue tag="logxml" value="FALSE"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="batchsave" value="0"/>
+								<UML:TaggedValue tag="batchload" value="0"/>
+								<UML:TaggedValue tag="packageFlags" value="Recurse=0;VCCFG=CoreLanguages;CheckedOutTo=leblebici;"/>
+								<UML:TaggedValue tag="savedasstub" value="true"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="author" value="anjorin"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="stereotype" value="EPackage"/>
+								<UML:TaggedValue tag="ea_stype" value="Public"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Package>
+					</UML:Namespace.ownedElement>
+				</UML:Package>
+				<UML:Stereotype xmi.id="EAID_D247E437_123A_48ba_A744_976390E8F061" name="EPackage" isRoot="false" isLeaf="false" isAbstract="false">
+					<UML:Stereotype.baseClass>Package</UML:Stereotype.baseClass>
+				</UML:Stereotype>
+			</UML:Namespace.ownedElement>
+		</UML:Model>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_D1465B23_A079_48aa_8C96_BB9B17AC4882" value="notes#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;http://www.moflon.org.MocaTree&quot;&gt;&#xA;  &lt;children name=&quot;EPackage&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;classes&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;packages&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;nsURI&quot; value=&quot;http://www.moflon.org.SDMLanguage.calls&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{07A28FF1-9489-486a-9FEF-2B8CF38BDB8C}&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;calls&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;nsPrefix&quot; value=&quot;calls&quot; index=&quot;3&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="MX_EAID_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C"/>
+		<UML:TaggedValue tag="Moflon::Name" xmi.id="EAID_68BAB275_B52A_4080_9E92_653A5F0AAE2D" value="__default__" modelElement="MX_EAID_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C"/>
+		<UML:TaggedValue tag="Moflon::NsPrefix" xmi.id="EAID_B79FBDD4_1C64_429b_96E4_C3D5FB7D624C" value="__default__" modelElement="MX_EAID_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C"/>
+		<UML:TaggedValue tag="Moflon::NsUri" xmi.id="EAID_B041AE74_E229_4146_859A_4C1AF20B17CA" value="__default__" modelElement="MX_EAID_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_7455C50A_6199_465b_82B3_B0F8D7CAFFB5" value="notes#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;http://www.moflon.org.MocaTree&quot;&gt;&#xA;  &lt;children name=&quot;EPackage&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;classes&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;packages&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;nsURI&quot; value=&quot;http://www.moflon.org.SDMLanguage.calls.callExpressions&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{453E2A49-875C-44d1-A8B6-58C7B4940E4D}&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;callExpressions&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;nsPrefix&quot; value=&quot;callExpressions&quot; index=&quot;3&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_453E2A49_875C_44d1_A8B6_58C7B4940E4D"/>
+		<UML:TaggedValue tag="Moflon::Name" xmi.id="EAID_62EB545F_E83E_4c81_896F_FF9D927B6470" value="__default__" modelElement="EAID_453E2A49_875C_44d1_A8B6_58C7B4940E4D"/>
+		<UML:TaggedValue tag="Moflon::NsPrefix" xmi.id="EAID_A3CADA4E_8B80_47e8_B3B0_BFF702561B58" value="__default__" modelElement="EAID_453E2A49_875C_44d1_A8B6_58C7B4940E4D"/>
+		<UML:TaggedValue tag="Moflon::NsUri" xmi.id="EAID_73BFD377_1B09_42db_8DC4_1FEDBCBA3644" value="__default__" modelElement="EAID_453E2A49_875C_44d1_A8B6_58C7B4940E4D"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_41FB0A34_28A6_436c_9652_31F58D988BEC" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;http://www.moflon.org.MocaTree&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;etypeParameters&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;genericSuperTypes&quot; index=&quot;4&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;Invocation&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;true&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{E2305FE6-2F4A-41ec-BDAA-A6434C3A9D75}&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;mocaFragmentVersion&quot; value=&quot;0.01&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_E2305FE6_2F4A_41ec_BDAA_A6434C3A9D75"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_75995147_00B1_4e7d_95DD_CB42504666EC" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;http://www.moflon.org.MocaTree&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;etypeParameters&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;genericSuperTypes&quot; index=&quot;4&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;ParameterBinding&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{E59F3922-35A1-4327-BC8D-DC96329B34BF}&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;mocaFragmentVersion&quot; value=&quot;0.01&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_E59F3922_35A1_4327_BC8D_DC96329B34BF"/>
+		<UML:Diagram name="calls" xmi.id="EAID_DEDDC2E9_B00B_4786_AD5A_FC94E9511C80" diagramType="ClassDiagram" owner="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C" toolName="Enterprise Architect 2.5">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="version" value="1.0"/>
+				<UML:TaggedValue tag="author" value="anjorin"/>
+				<UML:TaggedValue tag="created_date" value="2011-04-25 20:09:18"/>
+				<UML:TaggedValue tag="modified_date" value="2011-10-28 13:24:56"/>
+				<UML:TaggedValue tag="package" value="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C"/>
+				<UML:TaggedValue tag="type" value="Logical"/>
+				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;tcol=-1;ofCol=-1;hl=1;cls=0;"/>
+				<UML:TaggedValue tag="matrixitems" value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;"/>
+				<UML:TaggedValue tag="ea_localid" value="14586"/>
+				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=2;PPgs.cy=1;DocSize.cx=795;DocSize.cy=1138;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<UML:TaggedValue tag="styleex" value="SaveTag=DA17B44F;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=eMoflon Ecore Diagrams::Ecore Diagram;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
+			</UML:ModelElement.taggedValue>
+			<UML:Diagram.element>
+				<UML:DiagramElement geometry="Left=159;Top=279;Right=249;Bottom=349;" subject="EAID_E5AF0CFA_E354_4d48_B4AB_5F89F7924B62" seqno="1" style="DUID=B33396C1;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=138;Top=75;Right=257;Bottom=145;" subject="EAID_EF89ADBA_5A13_4c05_A9D9_74C1FF4164E5" seqno="2" style="DUID=76E10200;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=669;Top=284;Right=823;Bottom=354;" subject="EAID_9F6A4100_6286_47ae_9B88_5BCDEA1FB42E" seqno="3" style="NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;italic=0;ul=0;charset=0;pitch=0;DUID=7FCF9EDA;"/>
+				<UML:DiagramElement geometry="Left=402;Top=279;Right=556;Bottom=349;" subject="EAID_E2305FE6_2F4A_41ec_BDAA_A6434C3A9D75" seqno="4" style="DUID=F044B7F9;"/>
+				<UML:DiagramElement geometry="Left=397;Top=71;Right=551;Bottom=141;" subject="EAID_E59F3922_35A1_4327_BC8D_DC96329B34BF" seqno="5" style="DUID=9895C9BF;"/>
+				<UML:DiagramElement geometry="Left=895;Top=284;Right=1065;Bottom=361;" subject="EAID_453E2A49_875C_44d1_A8B6_58C7B4940E4D" seqno="6" style="DUID=C8460DBB;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;italic=0;ul=0;charset=0;pitch=0;HideIcon=0;"/>
+				<UML:DiagramElement geometry="SX=-2;SY=5;EX=-2;EY=9;EDGE=4;$LLB=;LLT=;LMT=;LMB=;LRT=CX=54:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_95B58D30_53FD_4dab_8B5B_41B633D279CB" style="Mode=3;EOID=76E10200;SOID=9895C9BF;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=4;$LLB=;LLT=;LMT=;LMB=;LRT=CX=35:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_0C97D094_861A_4b4f_89FA_D7C57576D5FE" style="Mode=3;EOID=B33396C1;SOID=F044B7F9;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=-7;SY=4;EX=-2;EY=4;EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=55:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=CX=62:CY=13:OX=0:OY=0:HDN=1:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRT=CX=127:CY=13:OX=36:OY=12:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRB=CX=16:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_B5014EAB_43D7_4923_89A2_805D9C4EC69D" style="Mode=3;EOID=9895C9BF;SOID=F044B7F9;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=82:CY=13:OX=-8:OY=-6:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=CX=62:CY=13:OX=0:OY=0:HDN=1:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_33E1823D_654C_4fdb_AC76_B618DF2D6ECA" style="Mode=3;EOID=9895C9BF;SOID=7FCF9EDA;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="EDGE=1;SX=2;SY=-2;EX=8;EY=-2;$LLB=;LLT=CX=59:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=CX=65:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRB=CX=16:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_841696E3_3DEA_4724_872B_7795CADEB3A5" style="Mode=3;EOID=76E10200;SOID=B33396C1;Color=-1;LWidth=0;Hidden=0;"/>
+			</UML:Diagram.element>
+		</UML:Diagram>
+		<UML:DiagramElement geometry="Left=375;Top=379;Right=505;Bottom=473;" subject="EAID_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C" seqno="14" style="DUID=603CC7AD;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;italic=0;ul=0;charset=0;pitch=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_EDE2FB61_BDBD_4513_8EB0_BD55F993C750"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="SX=4;SY=-10;EX=4;EY=-10;EDGE=4;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_1F996A55_B65D_48c7_A655_CF2DA6E0806B" style="Mode=3;EOID=603CC7AD;SOID=01F333B8;Color=-1;LWidth=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_EDE2FB61_BDBD_4513_8EB0_BD55F993C750"/>
+				<UML:TaggedValue tag="hidden" value="0"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+	</XMI.content>
+	<XMI.difference/>
+	<XMI.extensions xmi.extender="Enterprise Architect 2.5">
+		<EAModel.paramSub/>
+		<EAStub xmi.id="EAID_E5AF0CFA_E354_4d48_B4AB_5F89F7924B62" name="EOperation" UMLType="Class"/>
+		<EAStub xmi.id="EAID_0F123E77_63F4_4c82_A325_B51585E8311F" name="CommentableElement" UMLType="Class"/>
+		<EAStub xmi.id="EAID_9F6A4100_6286_47ae_9B88_5BCDEA1FB42E" name="Expression" UMLType="Class"/>
+		<EAStub xmi.id="EAID_EF89ADBA_5A13_4c05_A9D9_74C1FF4164E5" name="EParameter" UMLType="Class"/>
+		<EAStub xmi.id="EAID_F64D7D91_F6FE_4efe_B791_B1311D768176" UMLType="Note"/>
+		<EANoteLink xmi.id="EAID_1F996A55_B65D_48c7_A655_CF2DA6E0806B" source="EAID_F64D7D91_F6FE_4efe_B791_B1311D768176" target="EAPK_07A28FF1_9489_486a_9FEF_2B8CF38BDB8C">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="linecolor" value="-1"/>
+				<UML:TaggedValue tag="linewidth" value="0"/>
+			</UML:ModelElement.taggedValue>
+		</EANoteLink>
+	</XMI.extensions>
+</XMI>

@@ -1,0 +1,26 @@
+#**### TODO currently path expressions are not supported
+#**##parse("$lang/default:storyPattern/link/import2.vm" )
+#**##if($path)
+#*   *##set( $opComment = "negative check for path expresion $path from $sourceName" )
+#**##else
+#*   *##set( $opComment = "negative check for link $link.InstanceOf.Name from $sourceName" )
+#**##end
+#**#// $opComment
+#**#JavaSDM.ensure (##
+#**##if ( $toOne || $multi )
+#**#${sourceName}.get$!multi#if($utility.nullIfEmpty($range) && $utility.nullIfEmpty($targetRoleName))From#end$!targetRoleName ($!mparam$!range) == null##
+#**##else
+#*   *##if($range || $mparam)
+#*      *#! #if( $path )
+#*         *#new de.uni_kassel.sdm.Path ($sourceName, "$path")
+#*         *###new Path ($sourceName, "$path");
+#*      *##else
+#*         *##parse("$!{style}storyPattern/link/iterator.vm")
+#*      *##end
+#*      *#.hasNext()##
+#*   *##else
+#*   *#${sourceName}.size#if($targetRoleName)Of$targetRoleName#end() == 0##
+#*   *##end
+#**##end
+#**##parse("$lang/default:storyPattern/sdmComment.vm")
+#**#);

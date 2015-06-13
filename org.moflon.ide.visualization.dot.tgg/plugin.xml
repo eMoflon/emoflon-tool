@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.4"?><plugin>
+  <extension point="org.eclipse.ui.handlers">
+    <handler class="org.moflon.visualization.ui.ConvertToDotHandler" commandId="org.moflon.ide.ui.commands.conversion.ConvertToDotCommand">
+      <enabledWhen>
+        <with variable="selection">
+          <iterate ifEmpty="false" operator="and">
+            <instanceof value="org.eclipse.core.resources.IFile"/>
+          </iterate>
+          <count value="1"/>
+        </with>
+      </enabledWhen>
+    </handler>
+  </extension>
+  <extension point="org.eclipse.ui.commands">
+    <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.conversion.ConvertToDotCommand" name="Convert to dot"/>
+  </extension>
+  <extension point="org.eclipse.ui.menus">
+    <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupConversions">
+      <command commandId="org.moflon.ide.ui.commands.conversion.ConvertToDotCommand" icon="resources/icons/convertToDot.png" label="Convert to dot" style="push" tooltip="Visualize contained SDMs in dot format">
+        <visibleWhen checkEnabled="false"/>
+      </command>
+    </menuContribution>
+  </extension>
+  <!--
+   	* M1 = COMMAND/Ctrl
+	* M2 = Shift
+	* M3 = Option/Alt
+   -->
+  <extension point="org.eclipse.ui.bindings">
+    <key commandId="org.moflon.ide.ui.commands.conversion.ConvertToDotCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E S"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="DotToTGGTGG.DotToTGGTGGPackage" genModel="model/DotToTGGTGG.genmodel" uri="platform:/plugin/DotToTGGTGG/model/DotToTGGTGG.ecore"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="DotToTGGTGG.Rules.RulesPackage" genModel="model/DotToTGGTGG.genmodel" uri="platform:/plugin/DotToTGGTGG/model/DotToTGGTGG.ecore#//Rules"/>
+  </extension>
+</plugin>

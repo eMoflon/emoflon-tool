@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ControlFlow" default="zip" basedir=".">
+	<property name="version" value="1.0.0"/>
+	<property name="lib" value="lib"/>
+	<property name="democles.binary.jar" value="${lib}/org.gervarro.democles.specification.jar"/>
+	<property name="democles.source.zip" value="${lib}/src.zip"/>
+	
+	<target name="init-eclipse">
+		<mkdir dir=".settings"/>
+		<propertyfile file=".settings/org.eclipse.jdt.core.prefs">
+			<entry key="eclipse.preferences.version" value="1"/>
+			<entry key="org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode" value="enabled"/>
+			<entry key="org.eclipse.jdt.core.compiler.codegen.targetPlatform" value="1.6"/>
+			<entry key="org.eclipse.jdt.core.compiler.compliance" value="1.6"/>
+			<entry key="org.eclipse.jdt.core.compiler.problem.assertIdentifier" value="error"/>
+			<entry key="org.eclipse.jdt.core.compiler.problem.enumIdentifier" value="error"/>
+			<entry key="org.eclipse.jdt.core.compiler.source" value="1.6"/>
+		</propertyfile>
+	</target>
+
+	<target name="init-java-project">
+		<tstamp/>
+	</target>
+
+	<target name="copy" depends="clean-plugin-dir,init-eclipse,init-java-project">
+		<copy todir="${basedir}">
+		    <fileset dir="${basedir}/../org.gervarro.democles.common">
+				<include name="src/**/*.java"/>
+		    </fileset>
+		    <fileset dir="${basedir}/../org.gervarro.democles.emf">
+				<include name="src/**/*.java"/>
+		    </fileset>
+		    <fileset dir="${basedir}/../org.gervarro.democles.specification.emf">
+				<include name="src/**/*.java"/>
+				<include name="model/*"/>
+		    </fileset>
+		</copy>
+	</target>
+
+	<available file="${democles.binary.jar}" property="binary.plugin.exists"/>
+	<target name="zip-binary" unless="binary.plugin.exists">
+		<jar destfile="${democles.binary.jar}">
+			<fileset dir="bin">
+				<include name="org/gervarro/democles/**"/>
+			</fileset>
+			<fileset dir="${basedir}">
+				<include name="model/emf.ecore"/>
+				<include name="model/emf.genmodel"/>
+				<include name="model/relational.ecore"/>
+				<include name="model/relational.genmodel"/>
+				<include name="model/specification.ecore"/>
+				<include name="model/specification.genmodel"/>
+			</fileset>
+		</jar>
+		<antcall target="clean-java"/>
+		<!--
+		<echoxml file=".classpath">
+			<classpath>
+				<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+				<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+				<classpathentry exported="true" kind="lib" path="${democles.binary.jar}"/>
+			</classpath>
+		</echoxml>
+		<propertyfile file="build.properties">
+			<entry key="bin.includes" value="META-INF/,**/*.class"/>
+			<entry key="customBuildCallbacks" value="build-democles.xml"/>
+		</propertyfile>
+		-->
+	</target>
+
+	<target name="zip" unless="binary.plugin.exists">
+		<zip destfile="${democles.source.zip}">
+			<fileset dir="src"/>
+		</zip>
+		<antcall target="zip-binary"/>
+		<!--
+		<echoxml file=".classpath">
+			<classpath>
+				<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+				<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+				<classpathentry exported="true" kind="lib" path="${democles.binary.jar}" sourcepath="${democles.source.zip}"/>
+			</classpath>
+		</echoxml>
+		<propertyfile file="build.properties">
+			<entry key="src.includes" value="${democles.source.zip}"/>
+			<entry key="bin.includes" value="META-INF/,**/*.class"/>
+			<entry key="customBuildCallbacks" value="build-democles.xml"/>
+		</propertyfile>
+		-->
+	</target>
+
+	<available file="${lib}" property="plugin.dir.exists"/>
+	<target name="clean-plugin-dir" if="plugin.dir.exists">
+		<delete includeemptyDirs="true">
+			<fileset dir="${lib}" includes="**/*"/>
+		</delete>
+		<!-- <delete file="build.properties"/> -->
+	</target>
+
+	<target name="clean-template-dirs">
+		<delete includeemptyDirs="true">
+			<fileset dir="${basedir}">
+			<include name="model/emf.ecore"/>
+			<include name="model/emf.genmodel"/>
+			<include name="model/relational.ecore"/>
+			<include name="model/relational.genmodel"/>
+			<include name="model/specification.ecore"/>
+			<include name="model/specification.genmodel"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="clean-java" depends="clean-template-dirs">
+		<delete includeemptyDirs="true">
+			<fileset dir="src" includes="**/*"/>
+			<fileset dir="bin" includes="**/*"/>
+			<fileset dir=".settings"/>
+		</delete>
+	</target>
+
+	<target name="pre.gather.bin.parts">
+		<unzip src="${democles.binary.jar}" dest="${target.folder}">
+			<patternset>
+				<exclude name="META-INF/MANIFEST.MF"/>
+			</patternset>
+		</unzip>
+	</target>
+
+	<target name="post.gather.bin.parts">
+		<!--
+		<delete includeemptyDirs="true">
+			<fileset dir="${target.folder}">
+				<include name="org/gervarro/democles/**/*.class"/>
+				<include name="model/emf.ecore"/>
+				<include name="model/emf.genmodel"/>
+				<include name="model/relational.ecore"/>
+				<include name="model/relational.genmodel"/>
+				<include name="model/specification.ecore"/>
+				<include name="model/specification.genmodel"/>
+			</fileset>
+		</delete>
+		-->
+	</target>
+</project>

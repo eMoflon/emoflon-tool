@@ -1,0 +1,47 @@
+#**##if( !$toMany )
+#*   *##set( $directSetAccess = true )
+#**##end
+#**##parse("$lang/default:storyPattern/object/import.vm" )
+#**##if( $set && !$toMany )
+#*   *##set( $return = $imports.addToImports("de.upb.tools.fca.*") )
+#*   *##if ( $createVar )
+#*      *##set( $return = $localVars.addLocalVariable($name, "FHashSet", $object) )
+#*   *##end
+#**##else
+#*   *##set( $class = $object.instanceOf )
+#*   *##if ( $createVar )
+#*      *##if ( ${class.inheritedCodeStyle} )#set( $style = "$lang/${class.inheritedCodeStyle.name}:" )
+#*      *##else#set( $style = "$lang/default:" )#end
+#*         *##parse("$!{style}storyPattern/object/addVariable.vm" )
+#*      *##end
+#*   *##end
+#*   *#$tmpName = $source;
+#**###if( $debug )localVars.put( "$tmpName", $tmpName );#end
+#*   *#
+#*   *##if ( $typeCast )
+#*      *##set( $opComment = "ensure correct type and really bound of object $name" )
+#*      *#// $opComment
+#*      *##if ( $optional && !$toMany )
+#*         *#if ( $tmpName instanceof $type )
+#*         *#{
+#*         *#   $name = ($type) $tmpName;
+#*         *#}
+#*      *##else
+#*         *#JavaSDM.ensure ( $tmpName instanceof $type#parse("$lang/default:storyPattern/sdmComment.vm") );
+#*         *#$name = ($type) $tmpName;
+#*      *##end
+#*   *##elseif ( $utility.nullIfEmpty($object.reflectiveTypeExpr) )
+#*      *#JavaSDM.ensure ( de.uni_kassel.features.util.FeaturesUtil.isInstanceOf ( $tmpName, $object.reflectiveTypeExpr ) );
+#*      *#$name = ($type) $tmpName;
+#*   *##elseif ( !$optional )
+#*      *##parse("$lang/default:storyPattern/object/bound.vm" )
+#*   *##end
+#*   *##if(${eContainerCheck})
+#*   *#
+#*   *#// check if contained via correct reference
+#*   *#${eContainerCheck}
+#*   *##end
+#**##if( $sdmTrace )
+#*    *#SDMTraceUtil.logBindObjVar(__sdmTracing_context, __sdmTracing_stw, "$!name", ${name}.getClass(), null, ${name});
+#**##end
+#**#

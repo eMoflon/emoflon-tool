@@ -1,0 +1,22 @@
+#* *##if( ($removeYou || !$superClass || $superClass.hasKeyInStereotypes("reference")) && !$remote )
+#*   *#   public void removeYou()##
+#*   *##if ( $interface )
+#*      *#;
+#*   *##else
+#*      *#
+#*      *#   {
+#*      *#$!removeYou##
+#*      *##if( $superClass )
+#*         *##set( $superClassStyle = $superClass.InheritedCodeStyle() )
+#*         *##if( !$superClassStyle && (!$superClass.hasKeyInStereotypes("reference") || $superClass.hasKeyInStereotypes("ReferenceWithRemoveYou")))
+#*            *##set( $superClassStyle = "$lang/default:" )
+#*         *##end
+#*         *##if( $superClassStyle )
+#*            *##set( $name = "super" )
+#*            *#      #parse("$!{superClassStyle}storyPattern/object/deleteObject.vm" )
+#*            *#
+#*         *##end
+#*      *##end
+#*      *#   }
+#*   *##end
+#* *##end

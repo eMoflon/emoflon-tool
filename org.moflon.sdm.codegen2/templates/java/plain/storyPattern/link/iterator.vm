@@ -1,0 +1,5 @@
+#**##if ( $reflective )
+#*   *#de.uni_kassel.features.util.FeaturesUtil.getIterator ( ${sourceName}, ${link.name});
+#**##else
+#*   *#${sourceName}.$link.name;
+#**##end

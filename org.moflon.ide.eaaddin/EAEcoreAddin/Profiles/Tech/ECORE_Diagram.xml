@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="DE7C6D17-8" name="eMoflon Ecore Diagrams" version="1.0" notes="eMoflon Ecore Diagrams"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="Ecore Diagram" notes="" cx="100" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Logical">
+						<Property name="alias" value="Ecore Diagram"/>
+						<Property name="diagramID" value="Ecore Diagram"/>
+						<Property name="toolbox" value="Ecore"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

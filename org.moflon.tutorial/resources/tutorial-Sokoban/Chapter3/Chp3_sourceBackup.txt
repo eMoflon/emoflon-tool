@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cheatsheet SYSTEM "cheatSheetFormat.dtd">
+<cheatsheet title="Chapter 3 - TGG">
+	<intro>
+    	<description>
+    		This final chapter intends to introduce you to Triple Graph
+    		Grammars (TGGs). Please note that in an effort to keep this tutorial short, 
+    		all explanations are intentionally brief. In addition, you will only be 
+    		able to execute the transformation using the GUI we introduced in Chapter 1.
+    		<br/>
+    		
+    		<br/>
+    		For detailed information regarding TGGs, we strongly recommend reviewing the 
+    		official eMoflon handbook, specifically Parts IV and V which explain 
+    		bidirectional TGG transformations. It can be found at <b>www.emoflon.org</b>. <br/>
+        	
+        	<br/>
+        	To briefly explain, a TGG is a set of rules similar to story patterns in SDM
+        	activity nodes, which describe the simultaneous evolution of a language of 
+        	triples of graphs (source, correspondence, and target graphs). The main
+        	difference to SDM is that TGGs are completely declarative, i.e., there is no
+        	need to specify any control flow at all. From the same high-level TGG, both
+        	forward and backward transformations can be derived, providing support for
+        	bidirectionality. <br/>
+
+			<br/>
+        	This chapter will show you how to implement an import/export with TGGs for a
+        	standard textual representation of Sokoban levels.  This will require
+        	three things: a triple of source, correspondence, and target metamodels, a
+        	set of declarative rules, and a string parser to handle the textual format.
+        	<br/>
+        	
+        	<br/>
+        	Well, there's no time to waste - Let's begin!
+        </description>
+	</intro>
+
+<item 
+		title="Step 1 - Setting up your workspace">
+	<description>
+		Let's start by defining our source and target metamodels. Please note that the  
+		terms 'source' and 'target' have no bearing on the direction of the transformation;
+		TGGs are bidirectional, and you will be able to execute the transformation both 
+		ways. <br/>
+		
+		<br/>
+		Let's take as our source metamodel SokobanLanguage as specified in Chapter 1. Our
+		target metamodel will be MocaTree, a standard metamodel included as a built-in model in every 
+		eMoflon project. MocaTree basically combines concepts from a filesystem 
+		(nodes and attributes), and a general indexed containment hierarchy (to represent XML or parse
+		trees). <br/>
+		
+		<br/>Right-click on "SokobanTutorial/MOSL/MyWorkingSet,"  and select <b>New -> TGG</b> 
+		from the menu to define a new TGG project.<br/>
+		Enter the following into the wizard window:<br/>
+		
+		<br/>
+		Package name: <b> SokobanCodeAdapter </b> <br/>
+		Source language: <b> MocaTree </b><br/>
+		Target language: <b> SokobanLanguage </b> 
+		<br/>
+		
+		<br/>
+		Press <b>Finish</b>. Feel free to save your workspace, but be careful
+		not to build! Step 2 needs to be completed first.
+	</description>
+	<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step01"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet"
+      param3 = "nobuild"/>>
+</item>
+
+<item
+      title="Step 2 - Initializing the TGG project">
+   <description>
+   		A TGG Schema file should have automatically opened in the editor. This file models
+   		the correspondence metamodel of your TGG. These types are
+   		used in rules to create correspondence (or traceability) links between specific
+   		elements of the source and target metamodels. <br/>
+   		
+   		<br/>
+   		Press <b>Ctrl + Space</b> for help with creating the following classes
+   		in your schema:<br/>
+
+		<br/>
+		<b> class NodeToBoard { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; source -> Node </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; target -> Board</b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> class NodeToFloor { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; source -> Node </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; target -> Floor </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		Now you can save and build your TGG! Select <b>SokobanTutorial</b> in the package
+		explorer and press <b>Build (without cleaning)</b> in the toolbar.<br/>
+   </description>
+   <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step02"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet/SokobanCodeAdapter"/>>
+</item>
+
+<item
+      title= "Step 3 - Setting up the parser">
+   <description>
+   		Our convention is that any code adapter project, like the
+   		one we just established, should also contain its transformation 
+   		logic. Therefore, to finalize our TGG framework, let's
+   		establish a grammar-based parser/unparser that will enable us to 
+   		transform the game states to and from a text file.
+      	<br/>
+      
+      	<br/>
+      	Right-click on the generated "SokobanCodeAdapter" TGG node, and navigate to
+      	"eMoflon/ Add parser/unparser."<br/>
+
+	  	<br/>
+   		In the window that appears, enter <b>sok</b> as the extension type, and make
+   		sure ANTLR is selected for both language types. Press OK to close. If
+   		successful, parser and unparser stubs should have been created in
+   		"SokobanCodeAdapter/src."<br/>
+    </description>
+	<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step11"
+      param2 = "SokobanCodeAdapter/src/org/moflon/moca/sok"/>>
+</item>
+
+<item
+         title="Step 4 - Including a concrete textual syntax">
+      <description>
+        Let's create a sample input text file of what we want our first 
+        game level to look like. We invite you to visit <b>sokobano.de</b>, particularly the 'Levels' and 'Wiki'
+      	pages. This site has provided a platform for users share their own unique
+      	game levels (and solutions) that works with most major Sokoban programs.
+      	So why don't we base our concrete textual input files on the same format so that 
+      	you can upload and download your own instances?<br/>
+      	
+      	<br/>
+      	Visiting the Wiki, you'll notice that common symbols for representing a level are:
+      	<br/>
+      	Wall: <b> '#' </b> <br/>
+      	Player (admin): <b> '@' </b> <br/>
+      	Box (server): <b> '$' </b> <br/>
+      	Goal: <b> '.' </b> <br/>
+      	Floor: <b> (Space) </b> <br/>
+      	
+      	<br/>
+      	The last few rules we need to implement are those to handle the figure movements, and
+      	we'll need to identify them by these symbols!<br/>
+      	
+      	<br/>
+      	Let's create a simple 8x8 level. Navigate to "SokobanGUI/instances" and create a
+      	file called "Sample.sok." It should automatically open in the editor window.
+      	Add the following: (without extra white space between walls)<br/>
+      	
+      	
+      	
+      	<!-- FORMATTING == 
+      	Empty Space: &#160;&#160;
+      	Wall: #&#160; 
+      	Server: $&#160;
+      	Goal: .&#160;
+      	Admin: @&#160; -->
+      	
+      	<br/>
+      	<!-- Row 1 (x8 wall) -->
+      	<b> #&#160;#&#160;#&#160;#&#160;#&#160;#&#160;#&#160;#&#160;</b> <br/>
+      	
+      	<!-- Row 2 (wall, x6 empty, wall) -->
+		<b> #&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+		&#160;&#160;&#160;&#160;&#160;#&#160; </b> <br/> 
+		
+		<!-- Row 3 (wall, empty, server, x2 empty, admin, empty, wall)-->
+		<b> #&#160;&#160;&#160;$&#160;&#160;&#160;&#160;&#160;&#160;&#160;@&#160;&#160;&#160;&#160;&#160;#&#160; </b> <br/>
+		
+		<!-- Row 4 (wall, x2 empty, x5 wall) -->
+		<b> #&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#&#160;#&#160;#&#160;#&#160;#&#160;</b> <br/>
+		
+		<!-- Row 5 (wall, x2 empty, goal, x2 empty, x2 wall) -->
+		<b> #&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#&#160;.&#160;
+		&#160;&#160;#&#160;#&#160; </b> <br/>
+		
+		<!-- Row 6 (wall, x6 empty, wall) -->
+		<b> #&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+		&#160;&#160;&#160;&#160;&#160;#&#160; </b> <br/> 
+		
+		<!-- Row 7 (wall, x4 empty, x3 wall) -->
+		<b> #&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+		#&#160;#&#160;#&#160; </b> <br/>
+		
+		<!-- Row 8 (x8 wall)-->
+		<b> #&#160;#&#160;#&#160;#&#160;#&#160;#&#160;#&#160;#&#160;</b> <br/>
+      	
+      	
+      	
+      	<br/>
+      	You now have a level with one Admin, one Server, and one Goal that should
+      	translate into a valid GUI instance model! Please note that the parser we'll define
+      	in the next step is simplistic, and may not be able to handle all .sok levels
+      	available from the Sokoban project website, as the final floor space (i.e., 
+      	position 7,7) MUST have a Figure.
+      </description>
+	  <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step13"
+      param2 = "SokobanGUI/instances"/>>
+</item> 
+
+<item
+      title="Step 5 - Defining ANTLR grammars">
+   <description>
+   		Now we can define the lexer and parser that will tokenize the symbols from 
+   		the input file into a tree, and the tree grammar to unparse a tree back
+   		into an output .sok file.<br/>
+   		
+   		<br/>
+   		Given that this tutorial is intended to focus on 
+   		eMoflon however, we have opted to avoid getting sidetracked discussing
+   		ANTLR by providing you with these files. Press "Click to Proceed" below to 
+   		load SokLexer.g, SokParser.g, and SokTreeGrammar.g into the parser
+   		and unparser packages. <br/>
+   		
+   		<br/>
+   		Feel free to inspect the new files to understand how ANTLR will work, 
+   		and review the documentation provided at <b>www.antlr.org</b>.
+   </description>
+   	  <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step14"
+      param2 = "SokobanCodeAdapter"/>>
+</item>
+
+
+<item
+    title="Step 6 - BoardNodeToBoardRule"
+    validation="chapter3;1">
+    <description>
+    	Let's define our first rule, initializing Board with a single Floor
+    	element in the top left corner. This rule will be completely 'green' 
+    	as there are no previous instances to match with. This rule will be
+    	the largets of the set, as it has the most to handle. <br/>
+    	
+    	<br/>
+    	Expand "SokobanCodeAdapter."<br/>
+    	Right-click on "Rules" and select <b>New -> TGG Rule</b>. <br/> 
+    	Set <b>Rule Name</b> as <b>BoardNodeToBoardRule</b> and press Finish.<br/> 
+	    
+	    <br/>
+	    The rule's .tgg file will automatically open in the editor. You'll notice that
+	    it has been split into four scopes, the first three referencing the TGG triple,
+	    and a final <b>Constraints</b> scope for high-level handling of class
+	    attributes.<br/>
+	    
+		<br/>
+		In this and all subsequent steps, feel free to press "Click to Proceed" to have the
+		tutorial complete the step by loading the relevant files into your workspace. For
+		the interested reader, these files also include comments with more information about
+		TGGs that couldn't be included directly in these information boxes.
+		Since this is our first rule, we'll construct each source in their own steps.<br/>
+		
+		<br/>
+		The 'source' scope below defines the unfamiliar MocaTree mode, which is based on a 
+		tree of folders containing further (sub)folders and files. Use eMoflon's 
+		auto-completion feature to help you complete it as follows:<br/>
+		
+		<br/>
+		<b> ++ file : File { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> rootNode : boardSpecNode </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ boardSpecNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; boardSpecNode.name := "BOARD_SPEC" </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : boardNode </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : dimensionNode </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ dimensionNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; dimensionNode.name := "DIMENSIONS"  </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; dimensionNode.index := 0 </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : rowsNode </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : colsNode </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ rowsNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; rowsNode.name := "ROWS" </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; rowsNode.index := 0 </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : rowCountNode </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ colsNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; colsNode.name := "COLS" </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; colsNode.index := 1 </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : columnCountNode </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ rowCountNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; rowCountNode.index := 0 </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ columnCountNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; columnCountNode.index := 0 </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ boardNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; boardNode.name := "BOARD" </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; boardNode.index := 1 </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : topRowNode </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ topRowNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; topRowNode.name := "ROW" </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; topRowNode.index := 0 </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : topRowLeftColumnNode </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ topRowLeftColumnNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; topRowLeftColumnNode.name := "COLUMN" </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; topRowLeftColumnNode.index := 0 </b> <br/>
+		<b> { </b> <br/>
+      </description>
+       <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step03"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet/SokobanCodeAdapter/Rules"
+      param3 = "nobuild"/>>
+</item>
+
+<item
+      title="Step 7 - The Target scope">
+   <description>
+   		Don't worry if your object variables are in a slightly different order than ours
+   		- the order in which they appear have no effect on the result of
+   		the transformation, so long as they are correctly specified in the right scope.<br/>
+   		
+   		<br/>
+		Now for BoardToBoardNodeRule's 'target' scope. This will create our actual Board
+		instance, as well as create and set a single Floor space as the board's origin.
+		We'll be able to 'append' the remaining Floor elements here.
+		Complete Source as follows:<br/>
+		
+		<br/>
+		<b> ++ board : Board { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> floors : topLeftFloor </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ topLeftFloor : Floor { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; topLeftFloor.row := 0 </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; topLeftFloor.col := 0 </b> <br/>
+		<b> } </b> <br/>
+		
+   </description>
+       <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step04"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet/SokobanCodeAdapter/Rules"
+      param3 = "nobuild"/>>
+</item>
+   
+<item
+      title="Step 8 - The Correspondence Scope">
+      <description>
+     	With elements now defined in each of the source and target scopes, let's
+     	create a link between 'board' and its intended equivalent 'boardNode' and a link
+     	between 'topLeftFloor'  and 'topRowLeftColumnNode'. 
+        Complete 'correspondence' as follows: <br/>
+        
+        <br/>
+		<b> ++ boardNode &lt;- nodeToBoard  :  NodeToBoard -> board </b> <br/>
+		<br/>
+		<b> ++ topRowLeftColumnNode &lt;- nodeToFloor : NodeToFloor-> topLeftFloor </b> <br/>
+		
+		<br/> Note that these statements create one link each, i.e., 'nodeToBoard' of 
+		type 'NodeToBoard' (defined in the schema), with two pointers referencing an element
+		in each scope.
+      </description>
+      <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step05"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet/SokobanCodeAdapter/Rules"
+      param3 = "nobuild"/>>
+</item>
+
+<item
+      title="Step 9 - TGG Constraints">
+   <description>
+   	  The last step of any rule is to declare constraints to ensure attributes of one 
+   	  model are equal to those in the other i.e., values in an instance of 
+   	  Sokobanlanguage are consistent with those in MocaTree. Press "Click to Proceed" for
+   	  a listing of all pre-existing constraints or edit the 'constraints' scope as 
+   	  follows: <br/>
+      
+      <br/>
+      <b> stringToNumber(rowCountNode.name,board.height) </b> <br/>
+      <br/>
+      <b> stringToNumber(columnCountNode.name,board.width) </b> <br/>
+      
+      <br/>
+      Your first TGG rule is now complete! Save and build your workspace, confirming no
+      errors persist before proceeding.
+      To complete the transformation, we need some rules to create all remaining
+      Floor instances. We also need rules to handle each unique Figure type. 
+      Don't worry - they'll all be much shorter than 'BoardToBoardNodeRule' as we can 
+      demand some context elements to already exist.
+   </description>
+   <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step06"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet/SokobanCodeAdapter/Rules"/>>
+</item>
+
+<item
+     title="Step 10 - LeftColumnNodeToFloorRule"
+     validation="chapter3;6">
+     <description>
+     	This rule will handle all the floors in the leftmost
+     	column, similar to how the previous rule exclusively handles all the floors in
+     	the topmost row. In fact, if you understood the previous rule, the following
+     	two should be easy to follow as they are so similar. Create and complete each scope
+     	in <b>LeftColumnFoorToNodeRule</b> as follows: <br/>
+     
+     	<br/>Source: <br/>
+     	
+     	<br/>
+     	<b> boardNode : Node { </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; boardNode.name == "BOARD" </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : rowNode </b> <br/>
+     	<b> } </b> <br/>
+     	
+     	<br/>
+     	<b> ++ rowNode : Node { </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; rowNode.name := "ROW" </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : columnNode </b><br/>
+     	<b> } </b> <br/>
+     	
+     	<br/>
+     	<b> ++ columnNode : Node { </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; columnNode.index := 0 </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; columnNode.name := "COLUMN" </b> <br/>
+     	<b> } </b> <br/>
+     
+     	<br/>Target:<br/>
+     	
+     	<br/>
+     	<b> board : Board { </b> <br/> 
+     	<b> &#160;&#160;&#160;&#160;&#160; -> floors : topNeighbor </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; ++ -> floors : floor </b> <br/>
+     	<b> } </b> <br/>
+     	
+     	<br/>
+     	<b> topNeighbor : Floor { </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; topNeighbor.col == 0 </b> <br/>
+     	<b> } </b> <br/>
+     	
+     	<br/>
+     	<b> ++ floor : Floor { </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; floor.col := 0 </b> <br/>
+     	<b> &#160;&#160;&#160;&#160;&#160; ++ -> top : topNeighbor </b> <br/>
+     	<b> } </b> <br/>
+     	
+     	<br/>Correspondence:<br/>
+     	
+     	<br/>
+     	<b> boardNode &lt;- nodeToBoard : NodeToBoard -> board </b> <br/>
+     	<b> ++ columnNode &lt;- nodeToFloor: NodeToFloor -> floor </b>
+     	<br/>
+     	
+     	<br/>Constraints:<br/>
+     	
+     	<br/>
+     	<b> sub(floor.row, 1, topNeighbor.row) </b> <br/>
+     	<b> eq(floor.row, rowNode.index) </b>
+     	
+     </description>
+	<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+    	required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step07"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet/SokobanCodeAdapter/Rules"/>>
+</item>
+
+<item
+         title="Step 11 - TopRowNodeToFloorRule"
+         validation="chapter3;7">
+    <description>
+    	This rule will create and append new Floors into the first row, connecting
+    	each to its neighbor starting from our established origin element. Right-click
+    	on "Rules" once again, and create a new TGG Rule called
+    	<b>TopFloorToNodeRule</b>.
+    	<br/>Complete each scope as follows:<br/>
+    	
+    	<br/>Source: <br/>
+    	
+    	<br/>
+    	<b> boardNode : Node { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; boardNode.name == "BOARD" </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; -> children : rowNode </b> <br/>
+    	<b> } </b> <br/>
+    	
+    	<br/>
+    	<b> rowNode : Node { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; rowNode.index == 0 </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; rowNode.name == "ROW" </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : columnNode </b> <br/>
+    	<b> } </b> <br/>
+    	
+    	<br/>
+    	<b> ++ columnNode : Node { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; columnNode.name := "COLUMN" </b>  <br/>
+    	<b> } </b> <br/>
+    	
+    	
+    	<br/>Target: <br/>
+    	
+    	<br/>
+    	<b> board : Board { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; -> floors : leftNeighbor </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; ++ -> floors : floor </b> <br/>
+    	<b> } </b> <br/>
+    	
+    	<br/>
+    	<b> leftNeighbor : Floor { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; leftNeighbor.row == 0 </b> <br/>
+    	<b> } </b> <br/>
+    	
+    	<br/>
+    	<b> ++ floor : Floor { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; floor.row := 0 </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; ++ -> left : leftNeighbor </b> <br/>
+    	<b> } </b> <br/>
+    	
+    	
+    	<br/>Correspondence: <br/>
+    	
+    	<br/>
+		<b> boardNode &lt;- nodeToBoard  :  NodeToBoard -> board </b> <br/>
+		<b> ++ columnNode &lt;- nodeToFloor : NodeToFloor-> floor </b> <br/>
+    	
+    	<br/>Constraints: <br/>
+    	
+    	<br/>
+    	<b> sub(floor.col, 1 , leftNeighbor.col) </b><br/>
+    	<b> eq(floor.col, columnNode.index) </b>
+    	<br/>
+    	
+    </description>
+	 <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step08"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet/SokobanCodeAdapter/Rules"/>>
+</item>
+   
+<item
+         title="Step 12 - AllOtherNodeToFloorRule"
+         validation="chapter3;8">
+    <description>
+    	This goal of this rule is to transform all remaining floor elements (i.e., those
+    	that don't belong to the top row or left column). 
+    	<br/>Create and complete <b>AllOtherFloorToNodeRule</b> as follows:<br/>
+    	
+    	<br/>Source: <br/>
+    	
+    	<br/>
+		<b> boardNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; boardNode.name == "BOARD" </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; -> children : rowNode </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> rowNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; rowNode.name == "ROW" </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; rowNode.index != 0 </b> <br/>
+		<b> } </b> <br/>
+		
+		<br/>
+		<b> ++ columnNode : Node { </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; columnNode.name := "COLUMN" </b> <br/>
+		<b> &#160;&#160;&#160;&#160;&#160; ++ -> parentNode : rowNode </b> <br/>
+		<b> } </b> <br/>
+		
+		
+    	<br/>Target: <br/>
+    	
+    	<br/>
+    	<b> board : Board { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; -> floors : leftNeighbor </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; -> floors : topNeighbor </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; ++ -> floors : floor </b> <br/>
+    	<b> } </b> <br/>
+    	
+    	<br/>
+    	<b> leftNeighbor : Floor </b> <br/>
+    	
+    	<br/>
+    	<b> topNeighbor : Floor </b> <br/>
+    	
+    	<br/>
+    	<b> ++ floor : Floor { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; ++ -> left : leftNeighbor </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; ++ -> top : topNeighbor </b> <br/>
+    	<b> } </b> <br/>
+    	
+		<br/>Correspondence: <br/>
+    	
+		<br/>
+    	<b> boardNode &lt;- nodeToBoard : NodeToBoard -> board </b> <br/>
+    	<b> ++ columnNode &lt;- nodeToFloor : NodeToFloor -> floor </b> <br/>
+    	
+		<br/>Constraints: <br/>
+		
+		<br/>
+		<b> sub(floor.row, 1, topNeighbor.row) </b> <br/>
+		<b> sub(floor.col, 1, leftNeighbor.col) </b> <br/>
+		<br/>
+		<b> eq(floor.row, rowNode.index) </b> <br/>
+		<b> eq(floor.col, columnNode.index) </b> <br/>
+		<b> eq(floor.row, leftNeighbor.row) </b> <br/>
+		<b> eq(floor.col, topNeighbor.col) </b> <br/>
+		
+		<br/>
+		You'll notice that this rule has more attributes to take care of, namely
+		leftNeighbor and topNeightbor. You'll also notice that 'right' and 'bottom' never
+		seem to be mentioned. Don't forget that you established these references as
+		bidirectional and opposites in Chapter 1, meaning that when you set one, you set
+		the other automatically.
+		
+    </description>
+	<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step09"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet/SokobanCodeAdapter/Rules"/>>
+</item>
+
+
+
+<item
+     title="Step 13 - Rules for Figures"
+     validation="chapter3;9">
+    <description>
+    	Let's finally handle our Figure types! Figure itself is an abstract 
+    	class, so we won't need to provide any direct transformation on that type.
+    	Instead, we need 4 rules for each unique figure type, Admin, Server,
+    	Goal, and Wall.
+    	
+		<br/>Create and complete <b>AdminNodeToFigureRule</b> as follows:<br/>
+
+		<br/>Source: <br/>
+
+		<br/>
+    	<b> floorNode : Node { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; ++ -> children : figureNode </b> <br/>
+    	<b> } </b> <br/>
+    	
+    	<br/>
+    	<b> ++ figureNode : Node { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; figureNode.name := "@" </b> <br/>
+    	<b> } </b> <br/>
+    	
+    	
+    	<br/>Target: <br/>
+    	
+    	<br/>
+    	<b> floor : Floor { </b> <br/>
+    	<b> &#160;&#160;&#160;&#160;&#160; ++ -> figure : admin </b> <br/>
+    	<b> } </b> <br/>
+    	
+		<br/>
+    	<b> ++ admin : Admin </b> <br/>
+    	
+    	<br/>Correspondence: <br/>
+    	
+    	<br/>
+    	<b> floorNode &lt;- nodeToFloor : NodeToFloor -> floor </b> <br/>
+    	
+    	<br/>
+    	There aren't any <b>constraints</b> to handle, as Figures don't have any attributes 
+    	to equate to their destination target object.<br/>
+    	
+    	<br/>
+    	The remaining figure rules are nearly identical to this one, except for the new
+    	variable (i.e., '++ admin : Admin') and 'figure' reference type in the target scope,
+    	and the figure token ('figureNode.name') defined in the source scope. We listed
+    	each of the different symbols in the previous Step, so create and complete
+    	<b>ServerNodeToFigureRule</b>, <b>GoalNodeToFigureRule</b>, and 
+    	<b>WallNodeToFigureRule</b> by copying the majority of this rule, and editing where
+    	necessary. You may, of course, press "Click to Proceed" to load these commented 
+    	solutions into your workspace.
+    </description>
+		<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step10"
+      param2 = "SokobanTutorial/MOSL/MyWorkingSet/SokobanCodeAdapter/Rules"/>>
+</item>
+
+<item
+      title="Step 14 - Refreshing the GUI">
+   <description>
+   		Let's update the GUI so it includes functionality to allow you to both play our game as we just implemented, or
+   		save or load any valid game state to a .sok text tile! Press "Click to Proceed" below to load the required files 
+   		into your workspace.
+   </description>
+   	  <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
+         required = "false"
+      param1 = "resources/tutorial-Sokoban/Chapter3/Step12"
+      param2 = "SokobanGUI"/>>
+</item>
+
+
+<item
+      title="Step 15 - Executing the transformation">
+   <description>
+   		Awesome job - every component of your TGG transformation is now finished! <br/>
+   		
+   		<br/>
+   		Run the GUI and check out your latest work! Navigate to
+   		"SokobanGui" and click the green 'Run' icon in the toolbar.<br/>
+   		
+   		<br/>
+   		To perform the forward transformation, from text input to Board model, go to 
+   		"File / Load Text instance..." in the menu bar, and find your 'Sample.sok' file.
+   		If your rules were successful, this should load as a new Board without error! 
+   		<br/>
+   		
+   		<br/>
+   		To perform a backwards transformation, modify your current instance a little
+   		bit, then go to "Save text instance..." If successful, return to the 
+   		Eclipse workspace and refresh the "SokobanGUI/instances" folder until your
+   		new file appears. Double-click to open it in the editor -- are all the symbols
+   		in the correct place?<br/>
+   		
+   		<br/>
+   		You'll notice in this instance folder that correspondence (corr), protocol .xmi
+   		files, and some temporary files were also generated. To lightly touch on them,
+   		the temporary files are required as 'middle-men' during the parsing/unparsing
+   		process. They are your original .sok or Board models in the MocaTree format.
+   		The correspondence file is the generated link model, modelling each of your
+   		correspondence links, and the protocol is a listing of each step of the
+   		transformation process. This final file is useful for determining what went
+   		wrong if your transformation is ever unsuccessful.
+   </description>
+</item>
+
+<item
+         title="End of Chapter 3">
+      <description>
+      	Congratulations! You've finished Chapter 3 and the entire eMoflon tutorial!
+      	<br/>
+      	
+      	<br/>
+      	Chapter 1 taught you how to build a model using Ecore and MOSL. Chapter 2
+      	introduced Story Driven Modeling (SDMs), where you could establish game
+      	behaviours for both Board and each Figure type. Finally, Chapter 3
+      	showed how Triple Graph Grammars (TGGs) could transform a concrete textual
+      	syntax into a valid Board model. <br/>
+      	
+      	<br/>
+      	We hope you've enjoyed the show! If you have any questions, comments,
+      	or ideas on how we can improve, feel free to shoot us an email at
+      	<b>contact@moflon.org</b>. Don't forget to check out our project website
+      	for any new developments or updates, and to download the handbook for a
+      	new example project that will highlight ALL features of eMoflon, 
+      	including it's UML-based visual syntax!
+	</description>
+   </item>
+
+</cheatsheet>

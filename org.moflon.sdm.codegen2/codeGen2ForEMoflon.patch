@@ -1,0 +1,13 @@
+Index: target/generated-sources/fujaba/de/uni_kassel/fujaba/codegen/engine/CodeWritingEngine.java
+===================================================================
+--- target/generated-sources/fujaba/de/uni_kassel/fujaba/codegen/engine/CodeWritingEngine.java	(revision 9879)
++++ target/generated-sources/fujaba/de/uni_kassel/fujaba/codegen/engine/CodeWritingEngine.java	(working copy)
+@@ -691,7 +691,7 @@
+                JavaSDM.ensure ( responsible != null );
+                // collabStat call
+                code = responsible.generateCode (token);
+-               if ( code != null )
++               if ( code != null  && code.compareTo("") != 0)
+                {
+                   return code;
+ 

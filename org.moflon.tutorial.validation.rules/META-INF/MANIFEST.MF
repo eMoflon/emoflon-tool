@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: TutorialValidationRules;singleton:=true
+Export-Package: TutorialValidationRules.impl,
+ org.moflon.tutorial.validationrules.handlers,
+ TutorialValidationRules.util,
+ TutorialValidationRules
+Bundle-Name: TutorialValidationRules
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.8.1",
+ org.eclipse.core.runtime;bundle-version="3.8.0",
+ org.eclipse.ui,
+ org.eclipse.core.resources,
+ org.eclipse.emf.ecore,
+ SDMLanguage,
+ TGGLanguage,
+ org.moflon.core.utilities,
+ TGGRuntime,
+ org.eclipse.emf.ecore.xmi,
+ MocaTree,
+ org.apache.log4j;bundle-version="1.2.15"
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt

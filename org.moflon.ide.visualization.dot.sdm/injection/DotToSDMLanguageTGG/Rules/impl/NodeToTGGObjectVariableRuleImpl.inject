@@ -1,0 +1,63 @@
+
+import org.moflon.csp.CSPFactoryHelper;
+import org.moflon.util.eMoflonSDMUtil;
+
+import DotLanguage.DirectedGraph;
+import DotLanguage.DotColor;
+import DotLanguage.DotLanguageFactory;
+import DotLanguage.Record;
+import DotLanguage.RecordEntry;
+import DotToSDMLanguageTGG.DirectedGraphToStoryPattern;
+import DotToSDMLanguageTGG.DotToSDMLanguageTGGFactory;
+import DotToSDMLanguageTGG.RecordToObjectVariable;
+import DotToSDMLanguageTGG.Rules.NodeToTGGObjectVariableRule;
+import DotToSDMLanguageTGG.Rules.RulesPackage;
+import SDMLanguage.patterns.AttributeAssignment;
+import SDMLanguage.patterns.Constraint;
+import SDMLanguage.patterns.StoryPattern;
+import TGGLanguage.TGGObjectVariable;
+import TGGLanguage.csp.CSP;
+import TGGLanguage.csp.CspFactory;
+import TGGLanguage.csp.Variable;
+import TGGRuntime.EMoflonEdge;
+import TGGRuntime.EObjectContainer;
+import TGGRuntime.IsApplicableMatch;
+import TGGRuntime.IsApplicableRuleResult;
+import TGGRuntime.Match;
+import TGGRuntime.PerformRuleResult;
+import TGGRuntime.RuleResult;
+import TGGRuntime.TGGRuntimeFactory;
+import TGGRuntime.TripleMatch;
+import TGGRuntime.impl.AbstractRuleImpl;
+import csp.constraints.BoldToState;
+import csp.constraints.Concat;
+import csp.constraints.SetColor;
+
+
+partial class NodeToTGGObjectVariableRuleImpl {
+
+
+
+@model postProcessBACKWARD (Record ov, TGGObjectVariable trg__ov) <--
+
+      for (Constraint constraint : trg__ov.getConstraint())
+      {
+         RecordEntry entry = DotLanguageFactory.eINSTANCE.createRecordEntry();
+         entry.setValue(eMoflonSDMUtil.extractConstraint(constraint).replace("\"", "\\\""));
+         ov.getEntries().add(entry);
+      }
+
+      for (AttributeAssignment attributeAssignment : trg__ov.getAttributeAssignment())
+      {
+         RecordEntry entry = DotLanguageFactory.eINSTANCE.createRecordEntry();
+         entry.setValue(eMoflonSDMUtil.extractAttributeAssignment(attributeAssignment).replace("\"", "\\\""));
+         ov.getEntries().add(entry);
+      }
+
+      if (trg__ov.getBindingExpression() != null)
+      {
+         ov.setLabel(ov.getLabel() + " := " + eMoflonSDMUtil.extractExpression(trg__ov.getBindingExpression(), ""));
+      }
+-->
+
+}

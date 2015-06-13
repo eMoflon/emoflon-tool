@@ -1,0 +1,6 @@
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##set( $return = $localVars.addLocalVariable("fujabaIndex", "int", "0", $link) )
+#**#fujabaIndex = $!mparam$!range;
+#**#JavaSDM.ensure (#if ( $linkNegative )!(#end
+#**#(fujabaIndex >= 0) && (fujabaIndex < ${sourceName}.get$targetRoleName ().size())##
+#**##if ( $linkNegative ))#end);

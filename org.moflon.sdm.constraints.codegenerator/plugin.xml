@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.moflon.codegen.eclipse.MoflonCodeGenerator"
+            class="org.moflon.compiler.sdm.democles.attributes.eclipse.AttributeConstraintAdapterFactory">
+         <adapter
+               type="org.moflon.compiler.sdm.democles.attributes.AttributeConstraintCodeGeneratorConfig">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.moflon.compiler.sdm.democles.eclipse.DemoclesValidationProcess"
+            class="org.moflon.compiler.sdm.democles.attributes.eclipse.AttributeConstraintAdapterFactory">
+         <adapter
+               type="org.moflon.compiler.sdm.democles.attributes.AttributeConstraintCodeGeneratorConfig">
+         </adapter>
+      </factory>
+   </extension>
+</plugin>

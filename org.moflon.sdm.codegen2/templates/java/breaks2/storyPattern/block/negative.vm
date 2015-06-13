@@ -1,0 +1,18 @@
+#**##set( $children = $utility.indent("   ",$!children) )
+#**#// check negative bindings
+#**##set($depth = $utility.getPatternDepth($token))
+#**#pattern$depth:
+#**#{
+#**#   fujaba__Success = false;
+#**#
+#**#$children
+#**#   fujaba__Success = true;
+#**#}
+#**#
+#**##set($depth = $depth - 1)
+#**#if ( fujaba__Success) 
+#**#{ 
+#**#   fujaba__Success = false;
+#**#   break pattern#if($depth>0)$depth#end; // <==== found negative match
+#**#}
+#**#

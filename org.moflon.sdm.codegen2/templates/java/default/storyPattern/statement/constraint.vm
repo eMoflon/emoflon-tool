@@ -1,0 +1,5 @@
+#**##set( $constraint = $elem )
+#**##set( $constraintText = $constraint.getText() )
+#**##set( $opComment = "constraint $constraintText" )
+#**#// $opComment
+#**#JavaSDM.ensure ( $constraintText#parse("$lang/default:storyPattern/sdmComment.vm") );

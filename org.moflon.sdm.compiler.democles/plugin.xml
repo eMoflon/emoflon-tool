@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.moflon.compiler.sdm.democles.eclipse.DemoclesValidationProcess"
+            class="org.moflon.compiler.sdm.democles.eclipse.DemoclesAdapterFactory">
+         <adapter
+               type="org.moflon.compiler.sdm.democles.DefaultCodeGeneratorConfig">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.moflon.codegen.eclipse.MoflonCodeGenerator"
+            class="org.moflon.compiler.sdm.democles.eclipse.DemoclesAdapterFactory">
+         <adapter
+               type="org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler">
+         </adapter>
+         <adapter
+               type="org.moflon.compiler.sdm.democles.DefaultCodeGeneratorConfig">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.core.resources.IFile"
+            class="org.moflon.compiler.sdm.democles.eclipse.DemoclesAdapterFactory">
+         <adapter
+               type="org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator">
+         </adapter>
+         <adapter
+               type="org.moflon.compiler.sdm.democles.eclipse.EclipseErrorReporter">
+         </adapter>
+      </factory>
+   </extension>
+</plugin>

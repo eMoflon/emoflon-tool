@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: AttributeConstraintScopeValidation;singleton:=tru
+ e
+Export-Package: AttributeConstraintScopeValidation,
+ AttributeConstraintScopeValidation.util,
+ AttributeConstraintScopeValidation.impl
+Bundle-Name: AttributeConstraintScopeValidation
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: ScopeValidation,
+ ControlFlow,
+ SDMLanguage,
+ ValidationResult,
+ SDMLanguageToDemocles,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities,
+ LiteralExprResolver,
+ MocaTree,
+ org.apache.log4j;bundle-version="1.2.15"
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt

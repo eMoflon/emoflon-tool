@@ -1,0 +1,14 @@
+Double(constant, importManager, autoboxing) ::= <<
+<if(autoboxing)><importManager.("java.lang.Double")>.valueOf(<constant>)<else><constant><endif>
+>>
+Short(constant, importManager, autoboxing) ::= <<
+<if(autoboxing)><importManager.("java.lang.Short")>.valueOf(<constant>)<else><constant><endif>
+>>
+
+Long(constant, importManager, autoboxing) ::= <<
+<if(autoboxing)><importManager.("java.lang.Long")>.valueOf(<constant>)<else><constant><endif>
+>>
+
+Float(constant, importManager, autoboxing) ::= <<
+<if(autoboxing)><importManager.("java.lang.Float")>.valueOf(<constant>)<else><constant>f<endif>
+>>

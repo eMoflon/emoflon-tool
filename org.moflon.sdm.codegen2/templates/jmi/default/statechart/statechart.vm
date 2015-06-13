@@ -1,0 +1,49 @@
+#**##set( $statechart = $elem )
+#**##set( $name = $statechart.Name )
+#**##set( $imports = $engine.getFromInformation("imports") )
+#**##set( $return = $imports.addToImports("de.upb.tools.sdm.*") )
+#**##set( $children = $utility.indent("   ",$!children) )
+#**#public ${statechart.ParentElement.Name}()
+#**#{
+#**#   initStateChart ();
+#**#}
+#**#
+#**#private FReactive myFReactive;
+#**#
+#**#public boolean alwaysTrue()
+#**#{
+#**#   return true;
+#**#}
+#**#   
+#**#public synchronized void notifyMe()
+#**#{
+#**#   notify ();
+#**#}
+#**#
+#**#public synchronized void waitForResultForEvent(FEvent event)
+#**#{
+#**#   while (!event.getHasResult ())
+#**#   {
+#**#      try
+#**#      {
+#**#         wait ();
+#**#      }
+#**#      catch (InterruptedException e) {}
+#**#   }
+#**#}
+#**#   
+#**#public void initStateChart()
+#**#{
+#**#   myFReactive = new FReactive ();
+#**#   myFReactive.setHandler (this);
+#**#   FComplexState $name = myFReactive.makeComplexState ("$name", null, null, null);
+#**#   myFReactive.setCurrent ($name);
+#**#$!children##
+#**#   myFReactive.enqueueEvent (new FEvent (FReactive.INIT_EVENT_PREFIX + "$name" ), FReactive.INTERNAL_EVENT);
+#**###TODo seen '+ "A"'???
+#**##if( $statechart.isSpawningOwnThread() )
+#*   *#   myFReactive.start ();
+#**##end
+#**#}
+#**#
+#**#$!methods##

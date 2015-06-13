@@ -1,0 +1,30 @@
+#**##parse("java/default:storyPattern/link/import.vm" )
+#**##if( $sdmTrace )
+#*   *##set( $tempTargetName = $targetName )
+#*   *##if ( $token == $token.getParent().getFirstOfChildren() )
+#*   *#   SDMTraceUtil.logCommenceOfGraphRewriting(__sdmTracing_context, __sdmTracing_stw, __sdmTracing_patternStack.peek());
+#*   *##end
+#**##end
+#**#// destroy link
+#**##if ($toOne)
+#**##if($utility.isOriginallyNavigableViaComposite($targetRoleName))
+	#if($sourceToOne)
+		${targetName}.set$utility.upFirstChar($sourceRoleName)(null); // delete link to one
+	#else
+		${targetName}.get$utility.upFirstChar($sourceRoleName)().remove($sourceName); // delete link
+	#end
+#*  *##else
+#*   *##set( $targetName = "null" )
+#*   *#${sourceName}.set$targetRoleName(#if($range)$range#else$targetName#end);##
+#end
+#**##else
+#*   *##if($utility.isOriginallyNotNavigable($targetRoleName))
+#*     *#$utility.genCrossReferenceCallForRemove($targetName, $sourceName, $targetRoleName);##
+#*   *##else
+#*     *#${sourceName}.get$targetRoleName().remove(#if($range)$range#else$targetName#end);##
+#*   *##end
+#**##end
+#**##if( $sdmTrace )
+#*   *#   SDMTraceUtil.logLinkDeletion(__sdmTracing_context, __sdmTracing_stw, "$sourceName", ${sourceName}.getClass(), $sourceName, "$sourceRoleName", "$tempTargetName", ${tempTargetName}.getClass(), $tempTargetName, "$targetRoleName");
+#**##end
+#**#

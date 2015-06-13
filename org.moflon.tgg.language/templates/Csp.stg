@@ -1,0 +1,71 @@
+group Csp;
+
+BoundVariable(var_name, name, value, type) ::= <<
+Variable <var_name> = CSPFactoryHelper.eINSTANCE.createVariable("<name>", true, csp);
+<if(value)><var_name>.setValue(<value>);<endif>
+<var_name>.setType("<type>");
+>>
+
+UnboundVariable(var_name, name, type) ::= <<
+Variable <var_name> = CSPFactoryHelper.eINSTANCE.createVariable("<name>", csp);
+<var_name>.setType("<type>");
+>>
+
+AddConstraints(constraints, variables) ::= <<
+<constraints:{constraint|csp.getConstraints().add(<constraint>);}; separator="\n">
+>>
+
+Constraint(constraint, instanceName, variables) ::= <<
+<constraint; format="firstToUpper"> <instanceName> = new <constraint; format="firstToUpper">();
+>>
+
+Eq(type, instanceName) ::= <<
+Eq <instanceName> = new Eq();
+>>
+
+Solve(constraint, variables, ruleName) ::= <<
+<constraint>.setRuleName("<ruleName>");
+<constraint>.solve(<variables; separator=",">);
+>>
+
+NegateConstraint(constraint) ::= <<
+<constraint>.setSatisfied(!<constraint>.isSatisfied());
+>>
+
+createRuleResult(ruleName) ::=<<
+RuleResult ruleResult = TGGRuntimeFactory.eINSTANCE.createRuleResult();
+ruleResult.setRule("<ruleName>");	
+ruleResult.setSuccess(false);
+
+CSP csp = CspFactory.eINSTANCE.createCSP();
+>>
+
+
+locate_node(var_name, type) ::= <<
+Optional\<TripleMatchNodeMapping> matchFor<var_name; format="firstToUpper"> = tripleMatch.getNodeMappings().stream().filter(nm -> nm.getNodeName().equals("<var_name>")).findAny();
+<type> <var_name> = (<type>) matchFor<var_name; format="firstToUpper">.get().getNode();
+>>
+
+check_constraints(op1, op2, comp) ::= <<
+if(<op1> <comp> <op2>){ 
+	ruleResult.setSuccess(true);}
+else {
+	ruleResult.setSuccess(false);
+}	
+>>
+
+check_csp(variables, target, constraint) ::= <<
+if(csp.check()){ 
+	ruleResult.setSuccess(true);
+} else {
+	<target:{t | var_<t.objectVariable>_<t.attribute>.setBound(false);}; separator="\n">
+	<constraint>.solve(<variables; separator=",">);
+	if(csp.check()){ 
+		ruleResult.setSuccess(true);
+		<target:{t | <t.objectVariable>.set<t.attribute; format="firstToUpper">((<t.type>) var_<t.objectVariable>_<t.attribute>.getValue());}; separator="\n">
+	} else {
+		ruleResult.setSuccess(false);
+		return ruleResult;
+	}		
+}	
+>>

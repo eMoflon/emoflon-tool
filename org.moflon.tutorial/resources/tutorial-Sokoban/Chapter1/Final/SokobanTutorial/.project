@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>SokobanTutorial</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.moflon.ide.texteditor.editors.TextEditorBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.moflon.ide.core.runtime.builders.MOSLBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.moflon.ide.core.runtime.builders.MetamodelBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.moflon.ide.ui.runtime.natures.MetamodelNature</nature>
+		<nature>org.moflon.ide.ui.runtime.natures.MOSLNature</nature>
+	</natures>
+</projectDescription>

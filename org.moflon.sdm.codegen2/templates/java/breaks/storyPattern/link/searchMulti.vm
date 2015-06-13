@@ -1,0 +1,27 @@
+#**#// search multilink $token.MultiLink
+#**##parse("java/breaks:storyPattern/link/import.vm" )
+#**##set( $multiLink = $token.MultiLink )
+#**##if ( $token.Type == 0 )## NEXT
+#*   *##set( $multiName = $multiLink.SourceObject.ObjectName )
+#*   *##if ( $multiLink.Type == 2 )## DIRECT
+#*      *##set( $mparam = $multiName )
+#*      *##set( $multi = "NextOf" )
+#*   *##elseif ( $multiLink.Type == 3 )## INDEX
+#*      *##set( $mparam = "$multiName, $multiLink.Index" )
+#*      *##set( $multi = "NextOf" )
+#*   *##elseif ( $multiLink.Type == 4 )## INDIRECT
+#*      *##set( $mparam = $multiName )
+#*   *##end
+#**##elseif ( $token.Type == 1 )## PREVIOUS
+#*   *##set( $multiName = $multiLink.TargetObject.ObjectName )
+#*   *##if ( $multiLink.Type == 2 )## DIRECT
+#*      *##set( $mparam = $multiName )
+#*      *##set( $multi = "PreviousOf" )
+#*   *##elseif ( $multiLink.Type == 3 )## INDEX
+#*      *##set( $mparam = "$multiName, $multiLink.Index" )
+#*      *##set( $multi = "PreviousOf" )
+#*   *##elseif ( $multiLink.Type == 4 )## INDIRECT
+#*      *##set( $upperbound = $multiName )
+#*   *##end
+#**##end
+#**##parse("$!{style}storyPattern/link/search.vm" )

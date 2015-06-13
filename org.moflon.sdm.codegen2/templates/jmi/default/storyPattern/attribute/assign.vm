@@ -1,0 +1,26 @@
+#parse( "jmi/default:storyPattern/attribute/import.vm" )
+
+#set( $attrType = $attr.InstanceOf.Adaptee.Type.Name )
+#if( $attrType.equals("Boolean") )
+	#if( $attr.getName().startsWith("is"))
+		## remove the prefix "is"
+		#set( $attrName = $attr.getName().substring(2) )
+	#end
+#end
+
+// assign statement
+#if ( $reflective )
+	#set( $reflectAttrName = $attr.Name)
+	${name}.refSetValue(${reflectAttrName}, ${attrExpr});
+
+#else
+	#set ($qualifiedEnumName = $mofutility.getQualifiedEnumName($attr.InstanceOf.Type))
+	#if($qualifiedEnumName)
+		## attr is an enumeration literal
+		#set($qualifiedLiteralName = $mofutility.getLiteralFromEnum($attrExpr, $qualifiedEnumName))
+		${name}.set$attrName ($qualifiedLiteralName);
+	#else
+		## attr is no enumeration literal
+		${name}.set$attrName ($attrExpr);
+	#end
+#end

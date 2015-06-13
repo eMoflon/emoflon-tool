@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.moflon.ide.debug.core.launcher.MoflonDebugLaunchDelegate"
+            id="org.moflon.ide.debug.core.launchType"
+            modes="debug"
+            name="eMoflon Application"
+            sourceLocatorId="org.moflon.ide.debug.core.sourceLocator1"
+            sourcePathComputerId="org.moflon.ide.debug.core.sourcePathComputer1"/>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            icon="icons/moflonSmallDebug.png"
+            configTypeID="org.moflon.ide.debug.core.launchType"
+            id="org.moflon.ide.debug.core.typeImage"/>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.sourceLocators">
+      <sourceLocator
+            class="org.eclipse.jdt.internal.launching.JavaSourceLookupDirector"
+            id="org.moflon.ide.debug.core.sourceLocator1"
+            name="name">
+      </sourceLocator>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.sourcePathComputers">
+      <sourcePathComputer
+            class="org.eclipse.jdt.launching.sourcelookup.containers.JavaSourcePathComputer"
+            id="org.moflon.ide.debug.core.sourcePathComputer1">
+      </sourcePathComputer>
+   </extension>
+</plugin>

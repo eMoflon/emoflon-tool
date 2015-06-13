@@ -1,0 +1,400 @@
+package org.moflon.compiler.sdm.democles;
+
+import java.io.IOException;
+
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.gervarro.democles.codegen.GeneratorOperation;
+import org.gervarro.democles.codegen.SimpleCombiner;
+import org.gervarro.democles.codegen.emf.BasicEMFOperationBuilder;
+import org.gervarro.democles.codegen.emf.EMFOperationBuilder;
+import org.gervarro.democles.compiler.CompilerPatternBuilder;
+import org.gervarro.democles.constraint.CoreConstraintModule;
+import org.gervarro.democles.constraint.emf.EMFConstraintModule;
+import org.gervarro.democles.emf.EMFWeightedOperationBuilder;
+import org.gervarro.democles.plan.WeightedOperationBuilder;
+import org.gervarro.democles.plan.common.DefaultAlgorithm;
+import org.gervarro.democles.relational.RelationalOperationBuilder;
+import org.gervarro.democles.specification.emf.EMFPatternBuilder;
+import org.gervarro.democles.specification.emf.constraint.emf.emf.util.EMFTypeModule;
+import org.gervarro.democles.specification.emf.constraint.relational.util.RelationalTypeModule;
+import org.gervarro.democles.specification.emf.util.PatternInvocationTypeModule;
+import org.gervarro.democles.specification.impl.DefaultPattern;
+import org.gervarro.democles.specification.impl.DefaultPatternBody;
+import org.gervarro.democles.specification.impl.DefaultPatternFactory;
+import org.gervarro.democles.specification.impl.PatternInvocationConstraintModule;
+
+import LiteralExprResolver.ConstantTransformer;
+import LiteralExprResolver.LiteralExprResolverFactory;
+import SDMLanguageToDemocles.BindingPatternTransformer;
+import SDMLanguageToDemocles.BlackAndNacPatternTransformer;
+import SDMLanguageToDemocles.DefaultExpressionTransformer;
+import SDMLanguageToDemocles.GreenPatternTransformer;
+import SDMLanguageToDemocles.LiteralExpressionTransformer;
+import SDMLanguageToDemocles.NacPatternTransformer;
+import SDMLanguageToDemocles.PatternTransformer;
+import SDMLanguageToDemocles.RedPatternTransformer;
+import SDMLanguageToDemocles.SDMLanguageToDemoclesFactory;
+import ScopeValidation.BindingAndBlackPatternBuilder;
+import ScopeValidation.BindingExpressionBuilder;
+import ScopeValidation.BlackPatternBuilder;
+import ScopeValidation.ExpressionExplorer;
+import ScopeValidation.GreenPatternBuilder;
+import ScopeValidation.NacPatternBuilder;
+import ScopeValidation.PatternMatcher;
+import ScopeValidation.RedNodeDeletionBuilder;
+import ScopeValidation.RedPatternBuilder;
+import ScopeValidation.ScopeValidationFactory;
+import ScopeValidation.ScopeValidator;
+import ScopeValidation.SingleResultPatternInvocationBuilder;
+import ScopeValidation.StoryNodeActionBuilder;
+
+public class DefaultValidatorConfig implements ScopeValidationConfigurator {
+	protected final ResourceSet resourceSet;
+
+	// ***************************************************
+	// Pattern matcher configuration
+	// ***************************************************
+	private final WeightedOperationBuilder<GeneratorOperation> builder =
+			new EMFWeightedOperationBuilder<GeneratorOperation>();
+	private final DefaultAlgorithm<SimpleCombiner, GeneratorOperation> algorithm =
+			new DefaultAlgorithm<SimpleCombiner, GeneratorOperation>(builder);
+
+	// Constraint modules
+	final EMFConstraintModule emfTypeModule;
+	final EMFTypeModule internalEMFTypeModule;
+	final RelationalTypeModule internalRelationalTypeModule =
+			new RelationalTypeModule(CoreConstraintModule.INSTANCE);
+	protected final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> bindingAndBlackPatternBuilder =
+			new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(new DefaultPatternFactory());
+	final PatternInvocationConstraintModule<DefaultPattern, DefaultPatternBody> bindingAndBlackPatternInvocationTypeModule =
+			new PatternInvocationConstraintModule<DefaultPattern, DefaultPatternBody>(bindingAndBlackPatternBuilder);
+	final PatternInvocationTypeModule<DefaultPattern, DefaultPatternBody> internalPatternInvocationTypeModule =
+			new PatternInvocationTypeModule<DefaultPattern, DefaultPatternBody>(bindingAndBlackPatternInvocationTypeModule);
+
+	// Operation modules (constraint to operation (constraint + adornment) mappings)
+	protected final RelationalOperationBuilder relationalOperationBuilder = new RelationalOperationBuilder();
+	private final AssignmentOperationBuilder assignmentOperationBuilder = new AssignmentOperationBuilder();
+	private final BindingAssignmentOperationBuilder bindingAssignmentOperationBuilder = new BindingAssignmentOperationBuilder();
+	private final BasicEMFOperationBuilder basicOperationBuilder = new BasicEMFOperationBuilder();
+	protected final EMFOperationBuilder emfBlackOperationBuilder = new EMFOperationBuilder();
+	private final EMFRedOperationBuilder emfRedOperationBuilder = new EMFRedOperationBuilder();
+	private final EMFGreenOperationBuilder emfGreenOperationBuilder = new EMFGreenOperationBuilder();
+
+	public DefaultValidatorConfig(ResourceSet resourceSet) {
+		this.resourceSet = resourceSet;
+		// Pattern matcher configuration
+		this.emfTypeModule = new EMFConstraintModule(this.resourceSet);
+		this.internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
+		this.bindingAndBlackPatternBuilder.addConstraintTypeSwitch(internalPatternInvocationTypeModule.getConstraintTypeSwitch());
+		this.bindingAndBlackPatternBuilder.addConstraintTypeSwitch(internalRelationalTypeModule.getConstraintTypeSwitch());
+		this.bindingAndBlackPatternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+		this.bindingAndBlackPatternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+	}
+	
+	public ScopeValidator createScopeValidator() {
+		final Resource resource = new ResourceImpl(URI.createURI("ScopeValidator"));
+		resourceSet.getResources().add(resource);
+		final ScopeValidator scopeValidator = ScopeValidationFactory.eINSTANCE.createScopeValidator();
+		resource.getContents().add(scopeValidator);
+
+		try {
+			final Resource expressionTransformerResource = new ResourceImpl(URI.createURI("ExpressionHandler"));
+			resourceSet.getResources().add(expressionTransformerResource);
+			final ConstantTransformer constantTransformer = LiteralExprResolverFactory.eINSTANCE.createConstantTransformer();
+			expressionTransformerResource.getContents().add(constantTransformer);
+			final LiteralExpressionTransformer literalExpressionTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createLiteralExpressionTransformer();
+			expressionTransformerResource.getContents().add(literalExpressionTransformer);
+			literalExpressionTransformer.setConstantTransformer(constantTransformer);
+			final DefaultExpressionTransformer expressionTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createDefaultExpressionTransformer();
+			expressionTransformerResource.getContents().add(expressionTransformer);
+			expressionTransformer.setDelegate(literalExpressionTransformer);
+			final ExpressionExplorer expressionExplorer = ScopeValidationFactory.eINSTANCE.createExpressionExplorer();
+			expressionTransformerResource.getContents().add(expressionExplorer);
+			expressionExplorer.setExpressionTransformer(expressionTransformer);
+
+			final PatternMatcher bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
+			final PatternMatcher bindingPatternMatcher = configureBindingPatternMatcher(resource);
+			final PatternMatcher blackPatternMatcher = configureBlackPatternMatcher(resource);
+			final PatternMatcher redPatternMatcher = configureRedPatternMatcher(resource);
+			final PatternMatcher greenPatternMatcher = configureGreenPatternMatcher(resource);
+			
+			// (1) Handler for regular story nodes
+			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeValidationFactory.eINSTANCE.createStoryNodeActionBuilder();
+			scopeValidator.getActionBuilders().add(regularStoryNodeActionBuilder);
+			regularStoryNodeActionBuilder.setRequiresForEach(false);
+
+			final BindingAndBlackPatternBuilder regularBindingAndBlackInvocationBuilder = ScopeValidationFactory.eINSTANCE.createBindingAndBlackPatternBuilder();
+			regularStoryNodeActionBuilder.getChildren().add(regularBindingAndBlackInvocationBuilder);
+			regularBindingAndBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION);
+			regularBindingAndBlackInvocationBuilder.setMainActionBuilder(true);
+			regularBindingAndBlackInvocationBuilder.setPatternMatcher(bindingAndBlackPatternMatcher);
+
+			final BindingExpressionBuilder regularBindingExpressionBuilder = ScopeValidationFactory.eINSTANCE.createBindingExpressionBuilder();
+			regularBindingAndBlackInvocationBuilder.getChildBuilders().add(regularBindingExpressionBuilder);
+			final BindingPatternTransformer regularBindingPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createBindingPatternTransformer();
+			regularBindingExpressionBuilder.setPatternTransformer(regularBindingPatternTransformer);
+			regularBindingExpressionBuilder.setExpressionExplorer(expressionExplorer);
+			regularBindingExpressionBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION);
+			regularBindingExpressionBuilder.setMainActionBuilder(false);
+			regularBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
+			regularBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final BlackPatternBuilder regularBlackInvocationBuilder = ScopeValidationFactory.eINSTANCE.createBlackPatternBuilder();
+			regularBindingAndBlackInvocationBuilder.getChildBuilders().add(regularBlackInvocationBuilder);
+			regularBindingAndBlackInvocationBuilder.setBlackPatternBuilder(regularBlackInvocationBuilder);
+			final BlackAndNacPatternTransformer regularBlackPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createBlackAndNacPatternTransformer();
+			regularBlackInvocationBuilder.setPatternTransformer(regularBlackPatternTransformer);
+			regularBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
+			regularBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
+			regularBlackInvocationBuilder.setMainActionBuilder(true);
+			regularBlackInvocationBuilder.setPatternMatcher(blackPatternMatcher);
+			regularBlackPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final NacPatternBuilder regularNacPatternBuilder = ScopeValidationFactory.eINSTANCE.createNacPatternBuilder();
+			regularBlackInvocationBuilder.getChildBuilders().add(regularNacPatternBuilder);
+			final NacPatternTransformer regularNacPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createNacPatternTransformer();
+			regularNacPatternBuilder.setPatternTransformer(regularNacPatternTransformer);
+			regularNacPatternBuilder.setExpressionExplorer(expressionExplorer);
+			regularNacPatternBuilder.setMainActionBuilder(false);
+			regularNacPatternBuilder.setPatternMatcher(blackPatternMatcher);
+			regularNacPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final RedPatternBuilder regularRedInvocationBuilder = ScopeValidationFactory.eINSTANCE.createRedPatternBuilder();
+			regularStoryNodeActionBuilder.getChildren().add(regularRedInvocationBuilder);
+			final RedPatternTransformer regularRedPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createRedPatternTransformer();
+			regularRedInvocationBuilder.setPatternTransformer(regularRedPatternTransformer);
+			regularRedInvocationBuilder.setExpressionExplorer(expressionExplorer);
+			regularRedInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.RED_FILE_EXTENSION);
+			regularRedInvocationBuilder.setMainActionBuilder(false);
+			regularRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
+			regularRedPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final GreenPatternBuilder regularGreenInvocationBuilder = ScopeValidationFactory.eINSTANCE.createGreenPatternBuilder();
+			regularStoryNodeActionBuilder.getChildren().add(regularGreenInvocationBuilder);
+			final GreenPatternTransformer regularGreenPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createGreenPatternTransformer();
+			regularGreenInvocationBuilder.setPatternTransformer(regularGreenPatternTransformer);
+			regularGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
+			regularGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
+			regularGreenInvocationBuilder.setMainActionBuilder(true);
+			regularGreenInvocationBuilder.setPatternMatcher(greenPatternMatcher);
+			regularGreenPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final RedNodeDeletionBuilder regularRedNodeDeletionBuilder = ScopeValidationFactory.eINSTANCE.createRedNodeDeletionBuilder();
+			regularStoryNodeActionBuilder.getChildren().add(regularRedNodeDeletionBuilder);
+
+			// (2) Handler for ForEach story nodes
+			final StoryNodeActionBuilder forEachStoryNodeActionBuilder = ScopeValidationFactory.eINSTANCE.createStoryNodeActionBuilder();
+			scopeValidator.getActionBuilders().add(forEachStoryNodeActionBuilder);
+			forEachStoryNodeActionBuilder.setRequiresForEach(true);
+
+			final BindingExpressionBuilder forEachBindingExpressionBuilder = ScopeValidationFactory.eINSTANCE.createBindingExpressionBuilder();
+			forEachStoryNodeActionBuilder.getChildren().add(forEachBindingExpressionBuilder);
+			final BindingPatternTransformer forEachBindingPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createBindingPatternTransformer();
+			forEachBindingExpressionBuilder.setPatternTransformer(forEachBindingPatternTransformer);
+			forEachBindingExpressionBuilder.setExpressionExplorer(expressionExplorer);
+			forEachBindingExpressionBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION);
+			forEachBindingExpressionBuilder.setMainActionBuilder(false);
+			forEachBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
+			forEachBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final BlackPatternBuilder forEachBlackInvocationBuilder = ScopeValidationFactory.eINSTANCE.createBlackPatternBuilder();
+			forEachStoryNodeActionBuilder.getChildren().add(forEachBlackInvocationBuilder);
+			final BlackAndNacPatternTransformer forEachBlackPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createBlackAndNacPatternTransformer();
+			forEachBlackInvocationBuilder.setPatternTransformer(forEachBlackPatternTransformer);
+			forEachBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
+			forEachBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
+			forEachBlackInvocationBuilder.setMainActionBuilder(true);
+			forEachBlackInvocationBuilder.setPatternMatcher(blackPatternMatcher);
+			forEachBlackPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final NacPatternBuilder forEachNacPatternBuilder = ScopeValidationFactory.eINSTANCE.createNacPatternBuilder();
+			forEachBlackInvocationBuilder.getChildBuilders().add(forEachNacPatternBuilder);
+			final NacPatternTransformer forEachNacPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createNacPatternTransformer();
+			forEachNacPatternBuilder.setPatternTransformer(forEachNacPatternTransformer);
+			forEachNacPatternBuilder.setExpressionExplorer(expressionExplorer);
+			forEachNacPatternBuilder.setMainActionBuilder(false);
+			forEachNacPatternBuilder.setPatternMatcher(blackPatternMatcher);
+			forEachNacPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final RedPatternBuilder forEachRedInvocationBuilder = ScopeValidationFactory.eINSTANCE.createRedPatternBuilder();
+			forEachStoryNodeActionBuilder.getChildren().add(forEachRedInvocationBuilder);
+			final RedPatternTransformer forEachRedPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createRedPatternTransformer();
+			forEachRedInvocationBuilder.setPatternTransformer(forEachRedPatternTransformer);
+			forEachRedInvocationBuilder.setExpressionExplorer(expressionExplorer);
+			forEachRedInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.RED_FILE_EXTENSION);
+			forEachRedInvocationBuilder.setMainActionBuilder(false);
+			forEachRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
+			forEachRedPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final GreenPatternBuilder forEachGreenInvocationBuilder = ScopeValidationFactory.eINSTANCE.createGreenPatternBuilder();
+			forEachStoryNodeActionBuilder.getChildren().add(forEachGreenInvocationBuilder);
+			final GreenPatternTransformer forEachGreenPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createGreenPatternTransformer();
+			forEachGreenInvocationBuilder.setPatternTransformer(forEachGreenPatternTransformer);
+			forEachGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
+			forEachGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
+			forEachGreenInvocationBuilder.setMainActionBuilder(true);
+			forEachGreenInvocationBuilder.setPatternMatcher(greenPatternMatcher);
+			forEachGreenPatternTransformer.setExpressionTransformer(expressionTransformer);
+
+			final RedNodeDeletionBuilder forEachRedNodeDeletionBuilder = ScopeValidationFactory.eINSTANCE.createRedNodeDeletionBuilder();
+			forEachStoryNodeActionBuilder.getChildren().add(forEachRedNodeDeletionBuilder);
+
+			// (3) Handler for statement and stop nodes
+			final SingleResultPatternInvocationBuilder expressionActionBuilder = ScopeValidationFactory.eINSTANCE.createSingleResultPatternInvocationBuilder();
+			scopeValidator.getActionBuilders().add(expressionActionBuilder);
+			final PatternTransformer expressionPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createPatternTransformer();
+			expressionActionBuilder.setPatternVariableHandler(expressionPatternTransformer);
+			expressionActionBuilder.setExpressionExplorer(expressionExplorer);
+			expressionActionBuilder.setSuffix(DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION);
+			expressionActionBuilder.setPatternMatcher(configureExpressionPatternMatcher(resource));
+			expressionPatternTransformer.setExpressionTransformer(expressionTransformer);
+		} catch (final IOException e) {
+			// Do nothing
+		}
+		return scopeValidator;
+	}
+
+	protected PatternMatcher configureBindingAndBlackPatternMatcher(Resource resource) throws IOException {
+		return configureBindingAndBlackPatternMatcherCompiler(resource);
+	}
+	
+	protected PatternMatcherCompiler configureBindingAndBlackPatternMatcherCompiler(Resource resource) {
+		// Configuring binding & black pattern matcher
+		final CompilerPatternBuilder bindingAndBlackCompilerPatternBuilder = new CompilerPatternBuilder();
+		bindingAndBlackCompilerPatternBuilder.addOperationBuilder(basicOperationBuilder);
+		bindingAndBlackCompilerPatternBuilder.setAlgorithm(algorithm);
+
+		final PatternMatcherCompiler bindingAndBlackPatternMatcherCompiler =
+				new BindingAndBlackPatternMatcherCompiler(bindingAndBlackPatternBuilder, bindingAndBlackCompilerPatternBuilder);
+		resource.getContents().add(bindingAndBlackPatternMatcherCompiler);
+		return bindingAndBlackPatternMatcherCompiler;
+	}
+	
+	protected PatternMatcher configureBindingPatternMatcher(Resource resource) throws IOException {
+		return configureBindingPatternMatcherCompiler(resource);
+	}
+	
+	protected PatternMatcherCompiler configureBindingPatternMatcherCompiler(Resource resource) {
+		// Configuring binding pattern matcher
+//		final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> bindingPatternBuilder =
+//				new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(new DefaultPatternFactory());
+//		bindingPatternBuilder.addConstraintTypeSwitch(internalRelationalTypeModule.getConstraintTypeSwitch());
+//		bindingPatternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+//		bindingPatternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+
+		final CompilerPatternBuilder bindingCompilerPatternBuilder = new CompilerPatternBuilder();
+		bindingCompilerPatternBuilder.addOperationBuilder(basicOperationBuilder);
+		bindingCompilerPatternBuilder.addOperationBuilder(bindingAssignmentOperationBuilder);
+		bindingCompilerPatternBuilder.setAlgorithm(algorithm);
+
+		final PatternMatcherCompiler bindingPatternMatcherCompiler =
+				new PatternMatcherCompiler(bindingAndBlackPatternBuilder, bindingCompilerPatternBuilder);
+		resource.getContents().add(bindingPatternMatcherCompiler);
+		return bindingPatternMatcherCompiler;
+	}
+	
+	protected PatternMatcher configureBlackPatternMatcher(Resource resource) throws IOException {
+		return configureBlackPatternMatcherCompiler(resource);
+	}
+	
+	protected PatternMatcherCompiler configureBlackPatternMatcherCompiler(Resource resource) {
+		// Configuring black pattern matcher
+//		final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> blackPatternBuilder =
+//				new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(new DefaultPatternFactory());
+//		final PatternInvocationConstraintModule<DefaultPattern, DefaultPatternBody> patternInvocationTypeModule =
+//				new PatternInvocationConstraintModule<DefaultPattern, DefaultPatternBody>(blackPatternBuilder);
+//		final PatternInvocationTypeModule<DefaultPattern, DefaultPatternBody> internalPatternInvocationTypeModule =
+//				new PatternInvocationTypeModule<DefaultPattern, DefaultPatternBody>(patternInvocationTypeModule);
+//		blackPatternBuilder.addConstraintTypeSwitch(internalPatternInvocationTypeModule.getConstraintTypeSwitch());
+//		blackPatternBuilder.addConstraintTypeSwitch(internalRelationalTypeModule.getConstraintTypeSwitch());
+//		blackPatternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+//		blackPatternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+
+		final CompilerPatternBuilder blackCompilerPatternBuilder = new CompilerPatternBuilder();
+		blackCompilerPatternBuilder.addOperationBuilder(emfBlackOperationBuilder);
+		blackCompilerPatternBuilder.addOperationBuilder(relationalOperationBuilder);
+		blackCompilerPatternBuilder.setAlgorithm(algorithm);
+
+		final PatternMatcherCompiler blackPatternMatcherCompiler =
+				new PatternMatcherCompiler(bindingAndBlackPatternBuilder, blackCompilerPatternBuilder);
+		resource.getContents().add(blackPatternMatcherCompiler);
+		return blackPatternMatcherCompiler;
+	}
+
+	protected PatternMatcher configureRedPatternMatcher(Resource resource) throws IOException {
+		return configureRedPatternMatcherCompiler(resource);
+	}
+	
+	protected PatternMatcherCompiler configureRedPatternMatcherCompiler(Resource resource) {
+		// Configuring red pattern matcher
+		final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> redPatternBuilder =
+				new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(new DefaultPatternFactory());
+		redPatternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+		redPatternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+
+		final CompilerPatternBuilder redCompilerPatternBuilder = new CompilerPatternBuilder();
+		redCompilerPatternBuilder.addOperationBuilder(emfRedOperationBuilder);
+		redCompilerPatternBuilder.setAlgorithm(algorithm);
+
+		final PatternMatcherCompiler redPatternMatcherCompiler =
+				new PatternMatcherCompiler(redPatternBuilder, redCompilerPatternBuilder);
+		resource.getContents().add(redPatternMatcherCompiler);
+		return redPatternMatcherCompiler;
+	}
+
+	protected PatternMatcher configureGreenPatternMatcher(Resource resource) throws IOException {
+		return configureGreenPatternMatcherCompiler(resource);
+	}
+
+	protected PatternMatcherCompiler configureGreenPatternMatcherCompiler(Resource resource) {
+		// Configuring green pattern matcher
+		final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> greenPatternBuilder =
+				new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(new DefaultPatternFactory());
+		greenPatternBuilder.addConstraintTypeSwitch(internalRelationalTypeModule.getConstraintTypeSwitch());
+		greenPatternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+		greenPatternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+
+		final CompilerPatternBuilder greenCompilerPatternBuilder = new CompilerPatternBuilder();
+		greenCompilerPatternBuilder.addOperationBuilder(assignmentOperationBuilder);
+		greenCompilerPatternBuilder.addOperationBuilder(emfGreenOperationBuilder);
+		greenCompilerPatternBuilder.setAlgorithm(algorithm);
+
+		final PatternMatcherCompiler greenPatternMatcherCompiler =
+				new PatternMatcherCompiler(greenPatternBuilder, greenCompilerPatternBuilder);
+		resource.getContents().add(greenPatternMatcherCompiler);
+		return greenPatternMatcherCompiler;
+	}
+
+	protected PatternMatcher configureExpressionPatternMatcher(Resource resource) throws IOException {
+		return configureExpressionPatternMatcherCompiler(resource);
+	}
+
+	protected PatternMatcherCompiler configureExpressionPatternMatcherCompiler(Resource resource) {
+		// Configuring expression pattern matcher
+		final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> expressionPatternBuilder =
+				new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(new DefaultPatternFactory());
+		expressionPatternBuilder.addConstraintTypeSwitch(internalRelationalTypeModule.getConstraintTypeSwitch());
+		expressionPatternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+		expressionPatternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+
+		final CompilerPatternBuilder expressionCompilerPatternBuilder = new CompilerPatternBuilder();
+		expressionCompilerPatternBuilder.addOperationBuilder(assignmentOperationBuilder);
+		expressionCompilerPatternBuilder.addOperationBuilder(basicOperationBuilder);
+		expressionCompilerPatternBuilder.setAlgorithm(algorithm);
+
+		final PatternMatcherCompiler expressionPatternMatcherCompiler =
+				new PatternMatcherCompiler(expressionPatternBuilder, expressionCompilerPatternBuilder);
+		resource.getContents().add(expressionPatternMatcherCompiler);
+		return expressionPatternMatcherCompiler;
+	}
+
+	@Override
+	public TemplateConfigurationProvider createTemplateConfiguration(
+			GenModel genModel) {
+		return new DefaultTemplateConfiguration(genModel);
+	}
+}

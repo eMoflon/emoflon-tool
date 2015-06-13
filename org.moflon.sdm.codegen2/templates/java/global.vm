@@ -1,0 +1,19 @@
+#**##set( $sdmTrace = $utility.isSdmTracingActivated() )
+#**##set( $shuffleListBeforeIteration = $utility.isShuffleLists() )
+#**##if( !$global )
+#*   *##set( $global = true )
+#*   *##set( $imports = $engine.getFromInformation("imports") )
+#*   *##set( $anEnabledRaw = $utility.getProperty( $elem, "de.fujaba.codegen.annotations.enabled" ) )
+#*   *##if ( $elem && ( !$anEnabledRaw || !$anEnabledRaw.equals("false") ) )##
+#*      *##set( $annotationsEnabled = true )##
+#*   *##end
+#*   *##* TODO
+#macro( addImport $classToImport )
+#if ( ${classToImport.InheritedCodeStyle} )#set( $importStyle = "java/${classToImport.InheritedCodeStyle.Name}:" )
+#else#set( $importStyle = "java/default:" )#end
+#parse("$!{importStyle}classDiag/class/addClassImport.vm" )
+#end
+*###
+#*   *##set( $lang = $engine.TargetName )
+#*   *##set( $debug = false )## || $elem.hasKeyInStereotypes("assert") )
+#**##end

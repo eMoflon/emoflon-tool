@@ -1,0 +1,8 @@
+#**##parse("$lang/default:storyPattern/object/import.vm" )
+#**##if ( ${class.InheritedCodeStyle} )#set( $style = "$lang/${class.InheritedCodeStyle.Name}:" )
+#**##else#set( $style = "$lang/default:" )#end
+#*   *##set( $opComment = "delete object $name" )
+#*   *#// $opComment
+#*   *##parse("$!{style}storyPattern/object/deleteObject.vm" )
+#*   *#
+#*   *#

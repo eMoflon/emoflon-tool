@@ -1,0 +1,23 @@
+#**### param role - the accessed role
+#**### param sourceName - the source of the link
+#**### param targetName - the target of the link
+#**### param range - the key or index to query, null if none
+#**### return adder
+#**### return remover
+#**### return getter
+#**### return iterator
+#**### return iterable
+#**### return contains
+#**##parse("${style}classDiag/assoc/accessorSuffix.vm")
+#**##parse("${style}classDiag/assoc/roleProperties.vm")
+#**##set($adder = "${sourceName}.addTo$methodSuffix(#if($range)$range, #end$targetName)")
+#**##set($setter = "${sourceName}.set$methodSuffix(#if($range)$range, #end$targetName)")
+#**##set($remover = "${sourceName}.removeFrom$methodSuffix($!range#if($range && $targetName), #end$!targetName)")
+#**##set($getter = "${sourceName}.get#if($qualified||$toMany)From#end$methodSuffix($!range)")
+#**##set($iterator = "${sourceName}.iteratorOf$methodSuffix($!range)")
+#**##set($iterable = false)
+#**##if($qualified||$toMany)
+#**##set($contains = "${sourceName}.has#if(!$targetName)Key#{end}In$methodSuffix($!range#if($range && $targetName), #end$!targetName)")
+#**##else
+#*   *##set($contains = "${sourceName}.get$methodSuffix() == $targetName")
+#**##end

@@ -1,0 +1,14 @@
+#**##**##set( $children = $utility.indent("   ",$!children) )
+#**##**##set( $fileName = $token.fileName )
+#**##**#<token id="$token.id" startLine="$token.startLine" endLine="$token.endLine" offset="$token.offset" length="$token.length"
+#**##**#   comment="$esc.html($!token.comment)"#if($fileName) fileName="$fileName" path="$token.path"#end>
+#**##**##foreach($ref in $token.iteratorOfElements())
+#*   *##*   *#   <element id="$ref.element.iD"/>
+#**##**##end
+#**##**#$!children##
+#**##**#</token>
+#**##**##if(!$token.parent)
+#*   *##*   *##set( $project = $token.iteratorOfElements().next().element )
+#*   *##*   *##set( $fileName="$project.Name" )
+#*   *##*   *##set( $path="dlr" )
+#**##**##end

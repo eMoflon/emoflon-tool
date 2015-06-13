@@ -1,0 +1,50 @@
+#**##parse("java/default:storyPattern/link/import.vm" )
+#**### multi
+#**##set( $multiLink = $token.getMultiLink() )
+#**##if( $multiLink )
+#*   *##if ( $multiLink.equals($targetMulti) )
+#*      *##set( $range = "${sourceName}.get$targetRoleName ().indexOf ($targetMulti.SourceObject.ObjectName) + 1" )
+#*   *##elseif ( $multiLink.equals($sourceMulti) )
+#*      *##set( $range = "${sourceName}.get$targetRoleName ().indexOf ($sourceMulti.TargetObject.ObjectName)" )
+#*   *##end
+#**##end
+#**##if ($first)
+#*   *##set( $range = "0" )
+#**##end
+
+#**#// create link
+#**##if ($toOne)
+#*  *##if($utility.isOriginallyNavigableViaComposite($targetRoleName))
+#*    *##if($sourceToOne)
+#*    *#	${targetName}.set$utility.upFirstChar($sourceRoleName)($sourceName); // add link to one
+#*    *##else
+#*    *#	${targetName}.get$utility.upFirstChar($sourceRoleName)().add($sourceName); // add link
+#*    *##end
+#*  *##else
+#*   *#${sourceName}.set$targetRoleName(#if($range)$range, #end $targetName);
+#* *##end
+#**##else
+#*   *##if($linkOptional)
+#*     *#// link is set to optional create
+#*     *#if(!
+#*     *##if($utility.isOriginallyNotNavigable($targetRoleName))
+#*       *#$utility.genCrossReferenceCallForCollection($sourceName, $targetType, $targetRoleName)
+#*       *#.contains ($targetName)##
+#*     *##else
+#*       *#${sourceName}.get$targetRoleName ().contains ($targetName)##
+#*     *##end
+#*   *#){
+#*   *##end
+#*   *##if($utility.isOriginallyNotNavigable($targetRoleName))
+#*     *#$utility.genCrossReferenceCallForAdd($targetName, $sourceName, $targetRoleName);##
+#*   *##else
+#*     *#${sourceName}.get$targetRoleName().add(#if($range)$range, #end$targetName);
+#*   *##end
+#*   *##if($linkOptional)
+#*     *#}
+#*   *##end
+#**##end
+#**##if( $sdmTrace )
+#**#   SDMTraceUtil.logLinkCreation(__sdmTracing_context, __sdmTracing_stw, "$sourceName", ${sourceName}.getClass(), $sourceName, "$sourceRoleName", "$targetName", ${targetName}.getClass(), $targetName, "$targetRoleName");
+#**##end
+#**#

@@ -1,0 +1,17 @@
+#**##set( $sel = $token )
+#**##set( $exceptionText = $sel.ExceptionUMLTransitionGuard.BoolExpr )
+#**###set( $comment = $thenTrans.Comment.Text )
+#**##set( $children = $utility.indent("   ",$!children) )
+#**##set( $exception = $utility.indent("   ",$!exception) )
+#**##if( $comment )
+#*   *#// $comment
+#**##end
+#**#try
+#**#{
+#**#$!children##flowActivity
+#**#}
+#**#catch ($exceptionText)
+#**#{
+#**#$!exception##exception case
+#**#}
+#**#$!default

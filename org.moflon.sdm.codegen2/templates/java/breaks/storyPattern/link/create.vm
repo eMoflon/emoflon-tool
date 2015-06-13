@@ -1,0 +1,22 @@
+#**##parse("java/breaks:storyPattern/link/import.vm" )
+#**### multi
+#**##set( $multiLink = $token.getMultiLink() )
+#**##if( $multiLink )
+#*   *##if ( $multiLink.equals($targetMulti) )
+#*      *##set( $range = $targetMulti.SourceObject.ObjectName )
+#*      *##set( $cmulti = "AfterOf" )
+#*   *##elseif ( $multiLink.equals($sourceMulti) )
+#*      *##set( $range = $sourceMulti.TargetObject.ObjectName )
+#*      *##set( $cmulti = "BeforeOf" )
+#*   *##end
+#**##end
+#**##if ($first)
+#*   *##set( $range = "0" )
+#**##end
+#**###
+#**##parse("java/breaks:classDiag/assoc/accessors.vm")
+#**##if ( $toOneSetter )
+#*   *#$setter; // create link
+#**##else
+#*   *#${adder}; // create link
+#**##end

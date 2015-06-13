@@ -1,0 +1,25 @@
+#**##parse("$lang/default:classDiag/assoc/import.vm" )
+#**##set( $opComment = "removeYou for role $name" )
+#**##set( $target = $role.Target )
+#**##set($targetRemove = !$target.hasKeyInStereotypes("reference") || $target.hasKeyInMethods("removeYou()") )
+#**##if($partnerRole.Adornment==2 && $targetRemove)##Composition
+#*   *##if (($role.Card.UpperBound > 1) || $qualified)
+#*      *#      for (Iterator iter$methodSuffix = this.iteratorOf$methodSuffix (); iter${methodSuffix}.hasNext ();)
+#*      *#      {
+#*      *#         (($type)iter${methodSuffix}.next ()).removeYou ();
+#*      *#      }
+#*   *##else
+#*      *#      final $type tmp$methodSuffix = this.get$methodSuffix ();
+#*      *#      if (tmp$methodSuffix != null)
+#*      *#      {
+#*      *#         tmp${methodSuffix}.removeYou ();
+#*      *#      }
+#*   *##end
+#**##else
+#*   *##if (($role.Card.UpperBound > 1) || $qualified)
+#*      *#      this.removeAllFrom$methodSuffix ();
+#*   *##else
+#*   *#      this.set$methodSuffix (#if( $partnerQualified && $partnerQualified.isExternalQualifier())$utility.getDefaultAsString($partnerQualified.Type), #end
+#*      *#null);
+#*   *##end
+#**##end

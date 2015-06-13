@@ -1,0 +1,4 @@
+#**##set( $constraint = $elem )
+#**##set( $constraintText = $constraint.getText() )
+#**#// constraint
+#**#JavaSDM.ensure ( $constraintText );

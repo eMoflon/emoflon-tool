@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compositeCheatsheet name="Developing Sokoban with eMoflon">
+   <taskGroup kind="sequence" name="Developing Sokoban with eMoflon" skip="false">
+      <intro>
+         Welcome, and thank you for trying eMoflon! This tutorial is designed to take around <b>two hours</b>, and will guide you step-by-step through the process of creating your first model-driven project with eMoflon&apos;s textual syntax. <br/>
+<br/>Our goal is to recreate the popular logic board game, Sokoban.  In three chapters we will show you how to create an Ecore model, how to implement methods via Story Driven Modeling (SDMs), and how to establish a textual import/export format for your game using Triple Graph Grammars (TGGs). <br/>
+<br/>Please note that this tutorial focuses exclusively on eMoflon&apos;s textual syntax. eMoflon supports both textual and visual modelling (via an external UML standard tool). We encourage you to read the official eMoflon handbook for more information about each syntax and for detailed explanations about all features that we&apos;re simply not able to provide in this short tutorial. You can find the handbook on our project website, <b>www.emoflon.org</b><br/>
+<br/>It&apos;s good to have you with us, even if its just for two hours. Let&apos;s get started!
+      </intro>
+      <onCompletion>
+         Don&apos;t forget to visit our project website, <b>www.emoflon.org</b>! If you&apos;ve got a little time, try extending the board game language to include some crazy new figures (with icons), or start your own project.
+      </onCompletion>
+      <task kind="cheatsheet" name="Ecore: Creating a model for Sokoban" skip="false">
+         <intro>
+            Learn how to create an Ecore model of Sokoban using eMoflon&apos;s MOSL (MOflon Specification Language) syntax, complete with classes, references, and method signatures.
+         </intro>
+         <onCompletion>
+            Now that you know how to model classes, including their operations and attributes, you can choose to implement each method in Chapter 2, or skip ahead to Chapter 3 to learn about TGGs.
+         </onCompletion>
+         <param name="path" value="Chapter1 Ecore.xml">
+         </param>
+      </task>
+      <task kind="cheatsheet" name="SDM: Implementing behaviour" skip="true">
+         <intro>
+            Learn how to implement methods with Story Driven Modeling (SDM). (You may skip this chapter if you are only interested in TGGs.)
+         </intro>
+         <onCompletion>
+            Congratulations! You can now implement methods in a much cooler way than writing plain Java code. Continue to Chapter 3 to learn how to import valid Board levels from other users.
+         </onCompletion>
+         <param name="path" value="Chapter2 SDM.xml">
+         </param>
+      </task>
+      <task kind="cheatsheet" name="TGG: Transform your Sokoban models to and from text" skip="true">
+         <intro>
+            Learn how to implement a bidirectional transformation via Triple Graph Grammars (TGGs) from a saved text file into a playable Board level.
+         </intro>
+         <onCompletion>
+            Great work! You&apos;ve implemented a TGG transformation to parse and create a playable Sokoban game.
+         </onCompletion>
+         <param name="path" value="Chapter3 TGG.xml">
+         </param>
+      </task>
+   </taskGroup>
+</compositeCheatsheet>

@@ -1,0 +1,16 @@
+#**##macro( access $add )
+#**##if( $partnerToMany || $partnerQualified )
+#**##if( $add )get$partnerName().add (#else
+#**#get$partnerName().remove (#end
+#**##else
+#**#set$partnerName (#end
+#**##if( $add )
+#**##if( $qualified && !$internalQualified )key, #end
+#**##if( $partnerKey )partnerKey, #end
+#**#$backlinkSource)#else
+#**##if( $partnerToMany || $partnerQualified )
+#**#$backlinkSource)#else
+#**##if( $qualified && !$internalQualified )$utility.getDefaultAsString($keyType), #end
+#**#null)#end#end#end
+#**##set( $insert = "#access(true)" )
+#**##set( $remove = "#access(false)" )

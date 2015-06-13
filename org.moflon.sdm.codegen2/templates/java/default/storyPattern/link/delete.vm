@@ -1,0 +1,16 @@
+#**##parse("$lang/default:storyPattern/link/import.vm" )
+#**##set( $opComment = "destroy link $link.InstanceOf.Name from $sourceName to $targetName" )
+#**#// $opComment
+#**##if ( $reflective )
+#*   *#de.uni_kassel.features.util.FeaturesUtil.destroyLink ( ${sourceName}, ${link.name}, $targetName );
+#**##else
+#*   *#${sourceName}.##
+#*   *##if ($toOne)
+#*      *##set( $targetName = "null" )
+#*      *#set##
+#*   *##else
+#*   *#remove#if($targetRoleName)From#end##
+#*   *##end
+#**#$!targetRoleName (#if($range)$range, #end
+#*   *#$targetName);
+#**##end

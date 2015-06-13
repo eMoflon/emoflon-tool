@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="0C7DCF90-C" name="TGG (Rule)" version="1.0" notes="TGG (Rule)"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="TGG (Rule)" notes="" cx="303" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="ESDM_Elements::CSPInstance" type="" description="" unit="" values="" default="CSP Instance"/>
+					<Tag name="TGGElements::Correspondence" type="" description="" unit="" values="" default="Correspondence"/>
+					<Tag name="TGGElements::TGGObjectVariable" type="" description="" unit="" values="" default="TGG ObjectVariable"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

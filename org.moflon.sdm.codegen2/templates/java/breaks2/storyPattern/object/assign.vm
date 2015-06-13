@@ -1,0 +1,38 @@
+#**##if( !$toMany )
+#*   *##set( $directSetAccess = true )
+#**##end
+#**##parse("$lang/default:storyPattern/object/import.vm" )
+#**##if( $set && !$toMany )
+#*   *##set( $return = $imports.addToImports("de.upb.tools.fca.*") )
+#*   *##if ( $createVar )
+#*      *##set( $return = $localVars.addLocalVariable($name, "FHashSet", $object) )
+#*   *##end
+#**##else
+#*   *##set( $class = $object.instanceOf )
+#*   *##if ( $createVar )
+#*      *##if ( ${class.inheritedCodeStyle} )#set( $style = "$lang/${class.inheritedCodeStyle.name}:" )
+#*      *##else#set( $style = "$lang/default:" )#end
+#*         *##parse("$!{style}storyPattern/object/addVariable.vm" )
+#*      *##end
+#*   *##end
+#*   *#$tmpName = $source;
+#**###if( $debug )localVars.put( "$tmpName", $tmpName );#end
+#*   *#
+#*   *##if ( $typeCast )
+#*      *##set( $opComment = "ensure correct type and really bound of object $name" )
+#*      *#// $opComment
+#*      *##if ( $optional && !$toMany )
+#*         *#if ( $tmpName instanceof $type )
+#*         *#{
+#*         *#   $name = ($type) $tmpName;
+#*         *#}
+#*         *#
+#*      *##else
+#*         *##set($depth = $utility.getPatternDepth($token))
+#*      *#if ( ! ($tmpName instanceof $type#parse("$lang/default:storyPattern/sdmComment.vm"))) break pattern#if($depth>0)$depth#end; // <==== not a match
+#*         *#$name = ($type) $tmpName;
+#*         *#
+#*      *##end
+#*   *##elseif ( !$optional )
+#*      *##parse("$lang/breaks2:storyPattern/object/bound.vm" )
+#*   *##end

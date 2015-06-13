@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="ASCII"?>
+<SokobanLanguage:Board xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SokobanLanguage="platform:/plugin/SokobanLanguage/model/SokobanLanguage.ecore" width="8" height="8">
+  <floors right="//@floors.1" bottom="//@floors.8">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.0" right="//@floors.2" bottom="//@floors.9" col="1">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.1" right="//@floors.3" bottom="//@floors.10" col="2">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.2" right="//@floors.4" bottom="//@floors.11" col="3">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.3" right="//@floors.5" bottom="//@floors.12" col="4">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.4" right="//@floors.6" bottom="//@floors.13" col="5">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.5" right="//@floors.7" bottom="//@floors.14" col="6">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.6" bottom="//@floors.15" col="7">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors right="//@floors.9" top="//@floors.0" bottom="//@floors.16" row="1">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.8" right="//@floors.10" top="//@floors.1" bottom="//@floors.17" row="1" col="1"/>
+  <floors left="//@floors.9" right="//@floors.11" top="//@floors.2" bottom="//@floors.18" row="1" col="2"/>
+  <floors left="//@floors.10" right="//@floors.12" top="//@floors.3" bottom="//@floors.19" row="1" col="3"/>
+  <floors left="//@floors.11" right="//@floors.13" top="//@floors.4" bottom="//@floors.20" row="1" col="4"/>
+  <floors left="//@floors.12" right="//@floors.14" top="//@floors.5" bottom="//@floors.21" row="1" col="5">
+    <figure xsi:type="SokobanLanguage:Admin"/>
+  </floors>
+  <floors left="//@floors.13" right="//@floors.15" top="//@floors.6" bottom="//@floors.22" row="1" col="6"/>
+  <floors left="//@floors.14" top="//@floors.7" bottom="//@floors.23" row="1" col="7">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors right="//@floors.17" top="//@floors.8" bottom="//@floors.24" row="2">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.16" right="//@floors.18" top="//@floors.9" bottom="//@floors.25" row="2" col="1"/>
+  <floors left="//@floors.17" right="//@floors.19" top="//@floors.10" bottom="//@floors.26" row="2" col="2"/>
+  <floors left="//@floors.18" right="//@floors.20" top="//@floors.11" bottom="//@floors.27" row="2" col="3">
+    <figure xsi:type="SokobanLanguage:Server"/>
+  </floors>
+  <floors left="//@floors.19" right="//@floors.21" top="//@floors.12" bottom="//@floors.28" row="2" col="4"/>
+  <floors left="//@floors.20" right="//@floors.22" top="//@floors.13" bottom="//@floors.29" row="2" col="5"/>
+  <floors left="//@floors.21" right="//@floors.23" top="//@floors.14" bottom="//@floors.30" row="2" col="6"/>
+  <floors left="//@floors.22" top="//@floors.15" bottom="//@floors.31" row="2" col="7">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors right="//@floors.25" top="//@floors.16" bottom="//@floors.32" row="3">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.24" right="//@floors.26" top="//@floors.17" bottom="//@floors.33" row="3" col="1"/>
+  <floors left="//@floors.25" right="//@floors.27" top="//@floors.18" bottom="//@floors.34" row="3" col="2"/>
+  <floors left="//@floors.26" right="//@floors.28" top="//@floors.19" bottom="//@floors.35" row="3" col="3">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.27" right="//@floors.29" top="//@floors.20" bottom="//@floors.36" row="3" col="4">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.28" right="//@floors.30" top="//@floors.21" bottom="//@floors.37" row="3" col="5">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.29" right="//@floors.31" top="//@floors.22" bottom="//@floors.38" row="3" col="6">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.30" top="//@floors.23" bottom="//@floors.39" row="3" col="7">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors right="//@floors.33" top="//@floors.24" bottom="//@floors.40" row="4">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.32" right="//@floors.34" top="//@floors.25" bottom="//@floors.41" row="4" col="1"/>
+  <floors left="//@floors.33" right="//@floors.35" top="//@floors.26" bottom="//@floors.42" row="4" col="2"/>
+  <floors left="//@floors.34" right="//@floors.36" top="//@floors.27" bottom="//@floors.43" row="4" col="3">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.35" right="//@floors.37" top="//@floors.28" bottom="//@floors.44" row="4" col="4">
+    <figure xsi:type="SokobanLanguage:Goal"/>
+  </floors>
+  <floors left="//@floors.36" right="//@floors.38" top="//@floors.29" bottom="//@floors.45" row="4" col="5"/>
+  <floors left="//@floors.37" right="//@floors.39" top="//@floors.30" bottom="//@floors.46" row="4" col="6">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.38" top="//@floors.31" bottom="//@floors.47" row="4" col="7">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors right="//@floors.41" top="//@floors.32" bottom="//@floors.48" row="5">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.40" right="//@floors.42" top="//@floors.33" bottom="//@floors.49" row="5" col="1"/>
+  <floors left="//@floors.41" right="//@floors.43" top="//@floors.34" bottom="//@floors.50" row="5" col="2"/>
+  <floors left="//@floors.42" right="//@floors.44" top="//@floors.35" bottom="//@floors.51" row="5" col="3"/>
+  <floors left="//@floors.43" right="//@floors.45" top="//@floors.36" bottom="//@floors.52" row="5" col="4"/>
+  <floors left="//@floors.44" right="//@floors.46" top="//@floors.37" bottom="//@floors.53" row="5" col="5"/>
+  <floors left="//@floors.45" right="//@floors.47" top="//@floors.38" bottom="//@floors.54" row="5" col="6"/>
+  <floors left="//@floors.46" top="//@floors.39" bottom="//@floors.55" row="5" col="7">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors right="//@floors.49" top="//@floors.40" bottom="//@floors.56" row="6">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.48" right="//@floors.50" top="//@floors.41" bottom="//@floors.57" row="6" col="1"/>
+  <floors left="//@floors.49" right="//@floors.51" top="//@floors.42" bottom="//@floors.58" row="6" col="2"/>
+  <floors left="//@floors.50" right="//@floors.52" top="//@floors.43" bottom="//@floors.59" row="6" col="3"/>
+  <floors left="//@floors.51" right="//@floors.53" top="//@floors.44" bottom="//@floors.60" row="6" col="4"/>
+  <floors left="//@floors.52" right="//@floors.54" top="//@floors.45" bottom="//@floors.61" row="6" col="5">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.53" right="//@floors.55" top="//@floors.46" bottom="//@floors.62" row="6" col="6">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.54" top="//@floors.47" bottom="//@floors.63" row="6" col="7">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors right="//@floors.57" top="//@floors.48" row="7">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.56" right="//@floors.58" top="//@floors.49" row="7" col="1">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.57" right="//@floors.59" top="//@floors.50" row="7" col="2">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.58" right="//@floors.60" top="//@floors.51" row="7" col="3">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.59" right="//@floors.61" top="//@floors.52" row="7" col="4">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.60" right="//@floors.62" top="//@floors.53" row="7" col="5">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.61" right="//@floors.63" top="//@floors.54" row="7" col="6">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+  <floors left="//@floors.62" top="//@floors.55" row="7" col="7">
+    <figure xsi:type="SokobanLanguage:Wall"/>
+  </floors>
+</SokobanLanguage:Board>

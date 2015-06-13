@@ -1,0 +1,7 @@
+#**##parse("java/default:storyPattern/link/import.vm" )
+#**#// create link
+#**##set( $linkName = $link.getName() )
+#**##set( $methodName = $utility.extendMethodName($linkName,"create") )
+#**##set( $methodName = $utility.getMethodName($methodName) )
+#**##set( $params = $utility.getParams($linkName) )
+#**#${methodName}($source.getObjectName(), $target.getObjectName()$params);

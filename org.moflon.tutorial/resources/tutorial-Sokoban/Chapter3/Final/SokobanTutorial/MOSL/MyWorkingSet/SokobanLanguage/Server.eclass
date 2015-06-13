@@ -1,0 +1,4 @@
+class Server extends Wall {
+
+
+}

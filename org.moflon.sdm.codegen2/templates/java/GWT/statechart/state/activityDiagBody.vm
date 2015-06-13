@@ -1,0 +1,27 @@
+#**#### TypeOf[ ${children} ] := java.lang.String
+#**#### TypeOf[ ${utility} ] := de.uni_kassel.fujaba.codegen.Utility
+#**#### TypeOf[ ${engine} ] := de.uni_kassel.fujaba.codegen.engine.CodeWritingEngine
+#**##set( $opComment = "activity diagram" )
+#**##set( $localVars = $engine.getFromInformation("localVars") )
+#**##set( $statechartVars = $utility.getStatechartVars() )
+#**#### TypeOf[ ${localVars} ] := de.uni_kassel.fujaba.codegen.rules.engine.LocalVariableInformation
+#**##set( $needsDecls = $utility.needs_Success_And_TmpObject_VarDecl($activityDiag) )
+#**##if( $needsDecls )
+#*   *# boolean fujaba__Success = false;
+#*   *###if( $debug )
+#*      *###set( $return = $imports.addToImports("java.util.*") )
+#*      *###Map<String, Object> localVars = new HashMap<String, Object>();
+#*   *###end
+#**##end
+#**##set( $return = $localVars.removeParamsFromList($activityDiag) )
+#**##foreach( $localVar in $localVars.iteratorOfLocalVars() )
+#*   *##if( $localVar.Type )
+#*      *##set( $typeName = $utility.getTypeAsString($localVar.Type) )
+#*   *##else
+#*      *##set( $typeName = $localVar.TypeName )
+#*   *##end
+#*   *##set( $result = $statechartVars.put($localVar.Name, $typeName) )
+#**##end
+#**##set( $children = $utility.indent("   ",$!children) )
+#**#
+#**#$!children

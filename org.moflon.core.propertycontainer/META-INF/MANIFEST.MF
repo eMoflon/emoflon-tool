@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: MoflonPropertyContainer;singleton:=true
+Export-Package: MoflonPropertyContainer,
+ MoflonPropertyContainer.impl,
+ MoflonPropertyContainer.util,
+ org.moflon.properties
+Bundle-Name: MoflonPropertyContainer
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
+ org.eclipse.core.runtime;bundle-version="3.8.0",
+ org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.emf.ecore,
+ org.moflon.core.utilities,
+ org.eclipse.emf.ecore.xmi
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt

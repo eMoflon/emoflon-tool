@@ -1,0 +1,18 @@
+#**### TODO currently path expressions are not supported
+#**##parse("jmi/default:storyPattern/link/import2.vm" )
+#**##set( $opComment = "negative check for link $link.InstanceOf.Name from $sourceName" )
+#**#
+#**#// $opComment
+#**#JavaSDM.ensure (##
+#**##if ( $toOne || $multi )
+#**#${sourceName}.get$!multi#if($mofutility.nullIfEmpty($range) && $mofutility.nullIfEmpty($targetRoleName))From#end$!targetRoleName ($!mparam$!range) == null##
+#**##else
+#*   *##if($range || $mparam)
+#*      *#!
+#*   *#${sourceName}.iterator#if($targetRoleName)Of$!targetRoleName#end ($!mparam$!range)
+#*      *#.hasNext()##
+#*   *##else
+#*   *#${sourceName}.size#if($targetRoleName)Of$targetRoleName#end() == 0##
+#*   *##end
+#**##end
+#**#);

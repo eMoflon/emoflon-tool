@@ -1,0 +1,33 @@
+BackwardExtendToMany(engine, importManager, body, chain) ::= <<
+for (<type()> <param()> : <accessor()>) {
+	<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+}
+>>
+
+param() ::= <%
+<if (first(chain.value.operation.postcondition.rawBindingInformation).isNotTypeChecked)>
+	<paramNameNotTypedChecked()>
+<else>
+	<paramName()>
+<endif>
+%>
+
+type() ::= <<
+<importManager.(chain.value.operation.type.linkedElement.genModelElement.genClass.typeName)>
+>>
+
+paramNameNotTypedChecked() ::= <<
+<first(chain.value.operation.parameters):/democles/ParameterName(importManager, false, true)>
+>>
+
+paramName() ::= <<
+<first(chain.value.operation.parameters):/democles/ParameterName(importManager, false, false)>
+>>
+
+var() ::= <<
+<first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager, true, false)>
+>>
+
+accessor() ::= <<
+org.moflon.core.utilities.eMoflonEMFUtil.getOppositeReferenceTyped(<var()>, <type()>.class, "<chain.value.operation.type.linkedElement.name>")
+>>

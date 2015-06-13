@@ -1,0 +1,40 @@
+group BasicAtributeValueGeneratorTemplate;
+
+
+
+
+alwaysSuccessful(templateName,bT,eT) ::=<<
+$templateName$$DemParameters()$$bT$
+$userDeclaration()$
+$userOperation()$;
+$DemNextOperation()$
+$eT$
+>>
+
+notAlwaysSuccessful(templateName,bT,eT) ::=<<
+$templateName$$DemParameters()$$bT$
+$userDeclaration()$
+if($userOperation()$){
+$DemNextOperation()$}
+$eT$
+>>
+
+DemParameters()::=<<(engine,importManager,body,chain)>>
+
+DemNextOperation()::=<< §if (chain.next)§§(chain.next.value.template)(engine, importManager, body, chain.next)§§endif§ >>
+
+
+
+p0()::=<< §first(chain.value.operation.parameters)>>
+p1()::=<< §first(rest(chain.value.operation.parameters))>>
+p2()::=<< §first(rest(rest(chain.value.operation.parameters)))>>
+p3()::=<< §first(rest(rest(rest(chain.value.operation.parameters))))>>
+p4()::=<< §first(rest(rest(rest(rest(chain.value.operation.parameters)))))>>
+p5()::=<< §first(rest(rest(rest(rest(rest(chain.value.operation.parameters))))))>>
+p6()::=<< §first(rest(rest(rest(rest(rest(rest(chain.value.operation.parameters)))))))>>
+p7()::=<< §first(rest(rest(rest(rest(rest(rest(rest(chain.value.operation.parameters))))))))>>
+p8()::=<< §first(rest(rest(rest(rest(rest(rest(rest(rest(chain.value.operation.parameters)))))))))>>
+p9()::=<< §first(rest(rest(rest(rest(rest(rest(rest(rest(rest(chain.value.operation.parameters))))))))))>>
+
+Param()::=<< :/democles/ParameterName(importManager,false,false)§ >>
+Decl()::=<< :/democles/ParameterTypeAndName(importManager)§ >>

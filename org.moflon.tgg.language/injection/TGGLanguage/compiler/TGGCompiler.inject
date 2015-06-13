@@ -1,0 +1,17 @@
+
+import MoflonPropertyContainer.MoflonPropertiesContainer;
+
+
+partial class TGGCompiler {
+
+@members <--
+
+	void setProperties(MoflonPropertiesContainer moflonProperties);
+
+	MoflonPropertiesContainer getProperties();
+
+	String correctPathWithMappings(String fullyQualifiedEPackageName);
+	
+-->
+
+}

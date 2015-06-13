@@ -1,0 +1,32 @@
+#**##parse("java/default:storyPattern/link/import.vm" )
+#**##if( $range && !$role.PartnerRole.Qualifier )
+#*   *##set($range="")
+#**##end
+#**##set( $toOne = $toOne || ($range && ($role.Card.UpperBound==1)) )
+#**##set( $parentLink = $token.Parent.Link.Ref )
+#**##if ( $targetMulti.ContainerObject.equals($source) && ($targetMulti.SourceLink.Modifier!=2) && ( !$parentLink || $parentLink.RevSourceLink ) )
+#*   *##if ( $targetMulti.Type == 2 )## DIRECT
+#*      *##set( $mparam = $targetMulti.SourceObject.ObjectName )
+#*      *##set( $multi = "NextOf" )
+#*   *##elseif ( $targetMulti.Type == 3 )## INDEX
+#*      *##set( $mparam = "$targetMulti.SourceObject.ObjectName, $targetMulti.Index" )
+#*      *##set( $multi = "NextOf" )
+#*   *##elseif ( $targetMulti.Type == 4 )## INDIRECT
+#*      *##set( $mparam = $targetMulti.SourceObject.ObjectName )
+#*   *##end
+#**##elseif ( $sourceMulti.ContainerObject.equals($source) && ($sourceMulti.TargetLink.Modifier!=2) && ( !$parentLink || $parentLink.RevTargetLink ) )
+#*   *##if ( $sourceMulti.Type == 2 )## DIRECT
+#*      *##set( $mparam = $sourceMulti.TargetObject.ObjectName )
+#*      *##set( $multi = "PreviousOf" )
+#*   *##elseif ( $sourceMulti.Type == 3 )## INDEX
+#*      *##set( $mparam = "$sourceMulti.TargetObject.ObjectName, $sourceMulti.Index" )
+#*      *##set( $multi = "PreviousOf" )
+#*   *##elseif ( $sourceMulti.Type == 4 )## INDIRECT
+#*      *##set( $upperbound = $sourceMulti.TargetObject.ObjectName )
+#*   *##end	
+#**##end
+#**##if( $toOne || $multi )
+#*   *##parse("java/asWritten:storyPattern/link/toOne.vm" )
+#**##else
+#*   *##parse("java/default:storyPattern/link/toMany.vm" )
+#**##end

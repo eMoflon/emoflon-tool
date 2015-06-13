@@ -1,0 +1,65 @@
+
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroup;
+import org.stringtemplate.v4.STGroupString;
+import org.stringtemplate.v4.compiler.CompiledST;
+import DemoclesAttributeConstraintSpecification.ParamIdentifier;
+import java.util.List;
+
+
+partial class OperationSpecificationGroupImpl {
+
+@members <--
+
+	private final static String TEMPLATE_LOC = "platform:/plugin/DemoclesAttributeConstraintSpecification/lib/stringtemplates/basicStringtemplateDef.stg";
+	//private final static String TEMPLATE_LOC="file:/F:/Workspaces/Eclipse/2015_01_22_DevWs_ComplexAttributeValidation/DemoclesAttributeConstraintSpecification/lib/stringtemplates/basicStringtemplateDef.stg";
+	
+-->
+
+@model gernerateTemplate () <--
+
+		final char del = '$';
+		String finalGroupString = "group BuildInConstraints;";
+		List<ParamIdentifier> parameterIdlist = this.getParameterIDs();
+		for (OperationSpecification opSpec : this.getOperationSpecifications()) {
+			String userOpTemplateString = opSpec.getSpecification();
+			String declarationTemplateString = "";
+
+			for (int i = 0; i < parameterIdlist.size(); i++) {
+				String identifier = "$"
+						+ parameterIdlist.get(i).getIdentifier() + "$";
+				userOpTemplateString = userOpTemplateString.replace(identifier,
+						"§p" + i + "()§§Param()§");
+				if (opSpec.getAdornmentString().charAt(i) == 'F') {
+					declarationTemplateString = declarationTemplateString
+							+ "§p" + i + "()§§Decl()§;\n";
+				}
+
+			}
+
+			STGroup stg = new STGroup('$', '$');
+			stg.loadGroupFile("/", TEMPLATE_LOC);
+			ST decl;
+			if (opSpec.isAlwaysSuccessful()) {
+				decl = stg.getInstanceOf("/alwaysSuccessful");
+			} else {
+				decl = stg.getInstanceOf("/notAlwaysSuccessful");
+			}
+
+			decl.add("templateName",
+					this.getOperationIdentifier() + opSpec.getAdornmentString());
+			decl.add("bT", "::=<<");
+			decl.add("eT", ">>");
+
+			ST declST = new ST(declarationTemplateString, '§', '§');
+			stg.rawDefineTemplate("/userDeclaration", declST.impl, null);
+
+			ST operationST = new ST(userOpTemplateString, '§', '§');
+			stg.rawDefineTemplate("/userOperation", operationST.impl, null);
+			finalGroupString = finalGroupString + "\n" + decl.render();
+		}
+		this.setTemplateGroupString(finalGroupString);
+		return null;
+-->
+
+}

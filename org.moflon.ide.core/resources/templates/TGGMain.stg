@@ -1,0 +1,384 @@
+group TGGMain;
+
+basicHeader() ::= <<
+package org.moflon.tie;
+
+import java.io.IOException;
+import org.apache.log4j.BasicConfigurator;
+import org.moflon.ide.debug.DebugSynchronizationHelper;
+import org.eclipse.emf.ecore.EPackage;
+
+>>
+
+basic() ::= <<
+<projects: {project | import <project>.<project; format="firstToUpper">Package;<\n>}>
+
+public class <className> extends DebugSynchronizationHelper{
+
+   public <className>()
+   {
+      super(<corrPackage; format="firstToUpper">, ".");
+   }
+>>
+
+TGGMainBatch(projects, corrPackage, className) ::= <<
+<basicHeader()>
+import org.eclipse.emf.ecore.EObject;
+
+<basic()>
+
+	public static void main(String[] args) throws IOException {
+		// Set up logging
+        BasicConfigurator.configure();
+
+		// Forward Transformation
+        <className> helper = new <className>();
+		helper.performForward("instances/fwd.src.xmi");
+		
+		// Backward Transformation
+		helper = new <className>();
+		helper.performBackward("instances/bwd.src.xmi");
+	}
+
+	public void performForward() {
+		integrateForward();
+
+		saveTrg("instances/fwd.trg.xmi");
+		saveCorr("instances/fwd.corr.xmi");
+		saveSynchronizationProtocol("instances/fwd.protocol.xmi");
+
+		System.out.println("Completed forward transformation!");
+	}
+
+	public void performForward(EObject srcModel) {
+		setSrc(srcModel);
+		performForward();
+	}
+
+	public void performForward(String source) {
+		try {
+			loadSrc(source);
+			performForward();
+		} catch (IllegalArgumentException iae) {
+			System.err.println("Unable to load " + source + ", "
+					+ iae.getMessage());
+			return;
+		}
+	}
+
+	public void performBackward() {
+		integrateBackward();
+
+		saveSrc("instances/bwd.trg.xmi");
+		saveCorr("instances/bwd.corr.xmi");
+		saveSynchronizationProtocol("instances/bwd.protocol.xmi");
+
+		System.out.println("Completed backward transformation!");
+	}
+
+	public void performBackward(EObject targetModel) {
+		setTrg(targetModel);
+		performBackward();
+	}
+
+	public void performBackward(String target) {
+		try {
+			loadTrg(target);
+			performBackward();
+		} catch (IllegalArgumentException iae) {
+			System.err.println("Unable to load " + target + ", "
+					+ iae.getMessage());
+			return;
+		}
+	}
+}
+>>
+
+
+TGGMainSync(projects, corrPackage, className) ::= <<
+<basicHeader()>
+
+import org.eclipse.emf.common.util.URI;
+import TGGRuntime.CorrespondenceModel;
+
+<basic()>
+	
+	public static void main(String[] args) throws IOException {
+		// Set up logging
+        BasicConfigurator.configure();
+
+		// Propagate changes made to source
+        <className> helper = new <className>();
+		helper.syncForward("instances/fwd.corr.xmi");
+		
+		// Propagate changes made to target
+        helper = new <className>();
+		helper.syncBackward("instances/fwd.corr.xmi");
+	}
+
+	public void syncForward(String corr) {
+		setChangeSrc(root -> {});
+		loadTriple(corr);
+		loadSynchronizationProtocol("instances/fwd.protocol.xmi");
+		integrateForward();
+		saveResult("fwd");
+		
+		System.out.println("Completed forward synchronization");
+	}
+	
+	public void syncBackward(String corr) {
+		setChangeTrg(root -> {});
+		loadTriple(corr);
+		loadSynchronizationProtocol("instances/fwd.protocol.xmi");
+		integrateBackward();
+		saveResult("bwd");
+		
+		System.out.println("Completed backward synchronization");
+	}
+	
+	private void loadTriple(String corr){ 
+		try {
+			loadCorr(corr);
+			CorrespondenceModel corrModel = (CorrespondenceModel) getCorr();
+			setSrc(corrModel.getSource());
+			setTrg(corrModel.getTarget());
+		} catch (IllegalArgumentException iae) {
+			System.err.println("Unable to load input triple for " + corr
+					+ ", " + iae.getMessage());
+		}
+	}
+	
+	private void saveResult(String direction){ 
+		getSrc().eResource().setURI(URI.createFileURI("sync." + direction + ".src.xmi"));
+		getTrg().eResource().setURI(URI.createFileURI("sync." + direction + ".trg.xmi"));
+		getCorr().eResource().setURI(URI.createFileURI("sync." + direction + ".corr.xmi"));
+		
+		saveSrc("instances/sync." + direction + ".src.xmi");
+		saveTrg("instances/sync." + direction + ".trg.xmi");
+		saveCorr("instances/sync." + direction + ".corr.xmi");
+		saveSynchronizationProtocol("instances/sync." + direction + ".protocol.xmi");
+	}
+}
+>>
+
+
+TGGMainModelGen(projects, corrPackage, className) ::= <<
+<basicHeader()>
+
+import org.moflon.tgg.algorithm.modelgenerator.ModelGenerator;
+import org.moflon.tgg.algorithm.modelgenerator.controller.*;
+
+<basic()>
+	
+	public static void main(String[] args) throws IOException {
+		// Set up logging
+		BasicConfigurator.configure();
+
+		AbstractModelGenerationController controller = new DefaultModelGenController();
+		controller.addContinuationController(new MaxRulePerformCounterController(20));
+      	controller.addContinuationController(new TimeoutController(5000));
+      	controller.setRuleSelector(new LimitedRandomRuleSelector().addRuleLimit("\<enter rule name\>", 1));
+
+		ModelGenerator gen = new ModelGenerator(<corrPackage; format="firstToUpper">, controller);
+		gen.generate();
+	}
+}
+>>
+
+TGGMainModelgenScalability(projects, corrPackage, className) ::= <<
+<basicHeader()>
+
+import org.moflon.tgg.algorithm.modelgenerator.*;
+import org.moflon.tgg.algorithm.modelgenerator.controller.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+
+<basic()>
+
+	private BufferedWriter writer;
+	
+	public static void main(String[] args) throws IOException
+	{
+		// Set up logging
+		BasicConfigurator.configure();
+
+		<className> test = new <className>();
+      	test.initWriter();
+
+		int[] durations = new int[] { 100, 250, 500, 750, 1000, 2000, 5000, 10000 };
+		for (int duration : durations)
+		{
+			AbstractModelGenerationController controller = new DefaultModelGenController();
+			controller.addContinuationController(new TimeoutController(duration));
+			controller.setRuleSelector(new LimitedRandomRuleSelector().addRuleLimit("\<enter rule name\>", 1));
+			ModelGenerator gen = new ModelGenerator(<corrPackage; format="firstToUpper">, controller, false, false);
+			GenerationResult result = gen.generate();
+			int performs = result.getModelgenStats().getTotalRulePerformCount();
+			double ratio = (double) performs / (double) result.getModelgenStats().getTotalDuration();
+
+			test.appendLine(duration, performs, ratio);
+		}
+		test.closeWriter();
+	}
+
+	protected void initWriter() throws IOException
+	{
+		long timestamp = System.currentTimeMillis();
+		File resultFolder = new File("scalability_results/modelgen");
+		resultFolder.mkdirs();
+		writer = new BufferedWriter(new FileWriter(new File(resultFolder.getPath() + "/" + timestamp + "_results.csv")));
+		writer.write("sep=;");
+		writer.newLine();
+		writer.write("Modelgen duration; Modelgen performs; performs/ms");
+		writer.newLine();
+	}
+
+	protected void appendLine(int modelgenDuration, int currentPerformCount, double ratio) throws IOException
+	{
+		writer.append(modelgenDuration + "; " + currentPerformCount + "; " + round(ratio,2));
+		writer.newLine();
+	}
+
+	protected void closeWriter() throws IOException
+	{
+		writer.close();
+	}
+
+	public static double round(double value, int places)
+	{
+		if (places \< 0)
+			throw new IllegalArgumentException();
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+}
+>>
+
+
+
+TGGMainTrafoScalability(projects, corrPackage, className, corrPackageSimpleName) ::= <<
+<basicHeader()>
+
+import org.moflon.tgg.algorithm.modelgenerator.*;
+import org.moflon.tgg.algorithm.modelgenerator.controller.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import TGGLanguage.DomainType;
+
+<basic()>
+	
+	
+	public static void main(String[] args) throws IOException
+   {
+      // Set up logging
+      BasicConfigurator.configure();
+
+      DomainType fwdBwd = parseDomainTypeFromArgs(args);
+      int modelElementCount = parseModelElementCountFromArgs(args);
+      runTrafoOnGeneratedModel(modelElementCount, fwdBwd);
+
+   }
+
+   private static long runTrafoOnGeneratedModel(int modelElementCount, DomainType domainType) throws IOException
+   {
+      <className> helper = new <className>();
+
+      PrintWriter writer = createWriter(modelElementCount, domainType);
+
+      AbstractModelGenerationController controller = new DefaultModelGenController();
+      controller.addContinuationController(new MaxModelSizeController(modelElementCount, domainType));
+      controller.setRuleSelector(new LimitedRandomRuleSelector().addRuleLimit("\<enter rule name\>", 1));
+      ModelGenerator gen = new ModelGenerator(<corrPackage; format="firstToUpper">, controller, false, true);
+      GenerationResult result = gen.generate();
+
+      long duration = 0;
+
+      boolean saveModels = false;
+      if (domainType == DomainType.SOURCE)
+      {
+         helper.setSrc(result.getSrcModel());
+         long timestamp = System.currentTimeMillis();
+         helper.integrateForward();
+         duration = System.currentTimeMillis() - timestamp;
+         if (saveModels)
+         {
+            helper.saveTrg("instances/fwd.trg.xmi");
+            helper.saveCorr("instances/fwd.corr.xmi");
+            helper.saveSynchronizationProtocol("instances/fwd.protocol.xmi");
+         }
+         System.out.println("Completed forward transformation!");
+      } else if (domainType == DomainType.TARGET)
+      {
+         helper.setTrg(result.getTrgModel());
+         long timestamp = System.currentTimeMillis();
+         helper.integrateBackward();
+         duration = System.currentTimeMillis() - timestamp;
+         if(saveModels) {
+            helper.saveSrc("instances/bwd.trg.xmi");
+            helper.saveCorr("instances/bwd.corr.xmi");
+            helper.saveSynchronizationProtocol("instances/bwd.protocol.xmi");
+            System.out.println("Completed backward transformation!");
+         }
+         
+      }
+
+      writer.println(duration);
+      writer.close();
+      return duration;
+   }
+
+   private static PrintWriter createWriter(int modelElementCount, DomainType domainType) throws IOException
+   {
+      String fwdBwd = "FWD";
+      if (domainType == DomainType.TARGET)
+      {
+         fwdBwd = "BWD";
+      }
+
+      String folderName = "scalability_results/trafo/";
+      File file = new File(folderName);
+      file.mkdirs();
+      String fileName = folderName + "/<corrPackageSimpleName>_" + modelElementCount + "_" + fwdBwd + ".txt";
+
+      PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(new File(fileName), true)));
+      return writer;
+   }
+
+   private static int parseModelElementCountFromArgs(String[] args)
+   {
+      if (args.length > 0)
+      {
+         try
+         {
+            int modelElementCount = Integer.parseInt(args[0]);
+            return modelElementCount;
+         } catch (NumberFormatException e)
+         {
+
+         }
+      }
+      return 1000;
+   }
+
+   private static DomainType parseDomainTypeFromArgs(String args[])
+   {
+      if (args.length > 1)
+      {
+
+         if (args[1].toLowerCase().equals("bwd"))
+         {
+            return DomainType.TARGET;
+         }
+      }
+      return DomainType.SOURCE;
+   }
+}
+>>
+

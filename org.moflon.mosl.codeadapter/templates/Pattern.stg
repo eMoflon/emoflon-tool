@@ -1,0 +1,77 @@
+group pattern;
+
+pattern(name, variables) ::= <<
+pattern <name> {
+	<variables; separator="\n">
+}
+>>
+
+box(name,type,state,operator,semantics,constraints,assignments,links,binding) ::= "<semantics> <operator> <state><name> : <type> <binding> {<constraints><assignments><links>}"
+
+constraints(constraints) ::= <<
+<if(constraints)><\n><endif><constraints>
+>>
+
+constraint(op, expr1, expr2) ::= "<\t><expr1> <op> <expr2><\n>"
+
+links(links) ::= <<
+<if(links)><\n><endif><links>
+>>
+
+link(target, object,operator, semantics) ::= "<\t><semantics> <operator> -<object>-\> <target><\n>"
+
+assignments(assignments) ::= <<
+<if(assignments)><\n><endif><assignments>
+>>
+
+assignment(object, attr, expr) ::= "<\t><object>.<attr> := <expr><\n>"
+
+value(value) ::= <<
+<value>
+>>
+
+binding(expression) ::= <<
+:= <expression>
+>>
+
+// Expressions
+
+expression(expression) ::= <<
+<expression>
+>>
+
+undefined_expression(value) ::= "'<value>'"
+
+string_expression(value) ::= <<
+"<value>"
+>>
+
+literal_expression(value) ::= <<
+<value>
+>>
+
+parameter_expression(name) ::= <<
+$<name>
+>>
+
+object_variable_expression(name) ::= <<
+@<name>
+>>
+
+method_call_expression(target, method, arguments) ::= <<
+<target>.<method>(<arguments; separator=", ">)
+>>
+
+attribute_value_expression(object, attribute) ::= <<
+<object>.<attribute>
+>>
+
+arguments(arguments) ::= <<
+<arguments; separator=", ">
+>>
+
+argument(value) ::= <<
+<value>
+>>
+
+dummy(arg) ::= "<arg>"

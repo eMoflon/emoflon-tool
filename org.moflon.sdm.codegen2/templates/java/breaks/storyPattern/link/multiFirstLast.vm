@@ -1,0 +1,21 @@
+#**### multi link handling
+#**##set( $targetMulti = $link.RevTargetLink )
+#**##set( $sourceMulti = $link.RevSourceLink )
+#**##if ( $targetMulti.ContainerObject.equals($source) )
+#*   *##if ( $targetMulti.Type == 0 )## FIRST
+#*      *##set( $first = true )
+#*      *##if($targetRoleName != "")
+#*         *##set( $multi = "FirstOf" )
+#*      *##else
+#*         *##set( $multi = "First" )
+#*      *##end
+#*   *##end
+#**##elseif ( $sourceMulti.ContainerObject.equals($source) )
+#*   *##if ( $sourceMulti.Type == 1 )## LAST
+#*      *##if($targetRoleName != "")
+#*         *##set( $multi = "LastOf" )
+#*      *##else
+#*         *##set( $multi = "Last" )
+#*      *##end
+#*   *##end
+#**##end

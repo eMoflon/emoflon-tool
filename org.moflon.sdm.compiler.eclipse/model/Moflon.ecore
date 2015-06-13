@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="emoflon"
+    nsURI="platform:/plugin/org.gervarro.democles.emoflon/model/Moflon.ecore" nsPrefix="emoflon">
+  <eClassifiers xsi:type="ecore:EClass" name="MoflonOperation" eSuperTypes="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="ecore:EClass platform:/plugin/org.moflon.languages.SDMLanguage/model/SDMLanguage.ecore#//activities/Activity"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

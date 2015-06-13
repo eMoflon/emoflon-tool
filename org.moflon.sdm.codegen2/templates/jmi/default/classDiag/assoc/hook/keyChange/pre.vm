@@ -1,0 +1,22 @@
+#**### WARNING: Here $key refers to key type of other side of Association!
+#**##if( $toMany )
+#*   *#LinkedList tmpList$methodSuffix = new LinkedList ();
+#*   *#Iterator tmpIter$methodSuffix = iteratorOf$methodSuffix ();
+#*   *#while (tmpIter$methodSuffix.hasNext ())
+#*   *#{
+#*   *#   $type tmp$methodSuffix = ($type)tmpIter$methodSuffix.next ();
+#*   *#   if (tmp$methodSuffix != null)
+#*   *#   {
+#*   *#      $key tmpKey$methodSuffix = tmp$methodSuffix.getKeyFor$PARTNERMETHOD_SUFFIX$ (this);
+#*   *#      tmpList$methodSuffix.add (tmp$methodSuffix);
+#*   *#      tmpList$methodSuffix.add (tmpKey$methodSuffix);
+#*   *#   }
+#*   *#}
+#**##else
+#*   *#$type tmp$methodSuffix = get$methodSuffix ();
+#*   *#$key tmpKey$methodSuffix = null;
+#*   *#if (tmp$methodSuffix != null)
+#*   *#{
+#*   *#   tmpKey$methodSuffix = tmp$methodSuffix.getKeyFor$PARTNERMETHOD_SUFFIX$ (this);
+#*   *#}
+#**##end

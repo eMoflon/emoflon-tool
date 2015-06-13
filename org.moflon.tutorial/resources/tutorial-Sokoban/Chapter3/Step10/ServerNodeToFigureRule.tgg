@@ -1,0 +1,28 @@
+rule ServerNodeToFigureRule {
+	source {
+		floorNode : Node { 
+			++ -children-> figureNode
+		}
+		
+		++ figureNode : Node { 
+			figureNode.name := "$"
+		}
+	}
+	
+	correspondence {
+		floorNode <- nodeToFloor : NodeToFloor -> floor
+	}
+	
+	target {
+
+		floor : Floor { 
+		++ -figure-> server
+		}
+		
+		++ server : Server
+	}
+	
+	constraints {[
+	
+	]}
+}

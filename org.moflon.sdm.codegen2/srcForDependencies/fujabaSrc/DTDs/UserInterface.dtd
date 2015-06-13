@@ -1,0 +1,53 @@
+  <!ELEMENT UserInterface (Action*, MenuBar, PopupMenu*, ToolBar*)>
+
+  <!ELEMENT Action (Name, Shortcut?, Mnemonic?, ToolTip?, Icon?, Composite?)>
+
+  <!ELEMENT MenuBar (MenuSection+)>
+  <!ELEMENT MenuSection ((Menu | MenuItem)*)>
+  <!ELEMENT Menu (Name?, Mnemonic?, Icon?, MenuSection+)>
+  <!ELEMENT MenuItem EMPTY>
+
+  <!ELEMENT PopupMenu (MenuSection+)>
+
+  <!ELEMENT ToolBar (ToolBarSection+)>
+  <!ELEMENT ToolBarSection (Button*)>
+  <!ELEMENT Button EMPTY>
+
+  <!ELEMENT Name (#PCDATA)>
+  <!ELEMENT Shortcut (#PCDATA)>
+  <!ELEMENT Mnemonic (#PCDATA)>
+  <!ELEMENT ToolTip (#PCDATA)>
+  <!ELEMENT Icon (#PCDATA)>
+
+  <!ELEMENT Composite (Responsible+)> 
+  <!ELEMENT Responsible (#PCDATA)>
+
+
+  <!ATTLIST Action           id       ID           #REQUIRED
+                             class    CDATA        #REQUIRED
+                             enabled  (true|false) #IMPLIED>
+
+  <!ATTLIST MenuBar          id       ID           #REQUIRED>
+
+  <!ATTLIST Menu             id       ID           #REQUIRED
+                             visible  (true|false) #IMPLIED>
+
+  <!ATTLIST MenuSection      id       ID           #REQUIRED>
+
+  <!ATTLIST MenuItem         actionId IDREF                           #REQUIRED
+                             type     (menuItem|checkBox|radioButton) #IMPLIED
+                             selected (true|false)                    #IMPLIED>
+
+  <!ATTLIST PopupMenu        class    ID           #REQUIRED>
+
+  <!ATTLIST ToolBar          id              ID           #REQUIRED
+                             rolloverButtons (true|false) #IMPLIED
+                             visible         (true|false) #IMPLIED>
+
+  <!ATTLIST ToolBarSection   id       ID           #REQUIRED>
+
+  <!ATTLIST Button           actionId IDREF        #REQUIRED
+                             showText (true|false) #IMPLIED
+                             type     (default|toggle) #IMPLIED>
+
+  <!ATTLIST Composite        id       ID           #REQUIRED>

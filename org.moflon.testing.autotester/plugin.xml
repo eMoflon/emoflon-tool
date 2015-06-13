@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.moflon.ide.ui.perspective">
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="org.moflon.ide.ui.toolbar"
+               label="eMoflon Toolbar">
+            <command
+                  commandId="org.moflon.devtools.ui.commands.MoflonDevtoolsMenuCommand"
+                  icon="icons/junitmoflon.gif"
+                  id="org.moflon.devtools.ui.commands.toolbar.MoflonDevtoolsMenuCommand"
+                  label="Install, Configure and Deploy eMoflon"
+                  style="pulldown">
+               <visibleWhen
+                     checkEnabled="false">
+                  <reference
+                        definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
+                  </reference>
+               </visibleWhen>
+            </command>
+         </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.moflon.devtools.ui.commands.toolbar.MoflonDevtoolsMenuCommand">
+         <menu
+               id="org.moflon.devtools.ui.menus.InstallAndConfigureMenu"
+               label="Install Workspace">
+         </menu>
+          <command
+               commandId="org.moflon.devtools.ui.commands.deploy.DeployCommand"
+               label="Deploy eMoflon..."
+               style="push">
+         </command>
+         
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureMenu">
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommand"
+               label="Developer Workspace"
+               style="push">
+         </command>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator1"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceMiscCommand"
+               label="Test Workspace Misc."
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG0Command"
+               label="Test Workspace TGG 0"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG1Command"
+               label="Test Workspace TGG 1"
+               style="push">
+         </command>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator2"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceDemocles0Command"
+               label="Test Workspace Democles 0"
+               style="push">
+         </command>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator3"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallTransformationZoo0Command"
+               label="Transformation Zoo 0"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallTransformationZoo1Command"
+               label="Transformation Zoo 1"
+               style="push">
+         </command>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator3"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallTextualSyntaxTestsCommand"
+               label="Run all tests for textual syntax"
+               style="push">
+         </command>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator4"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookCommand"
+               label="Install handbook"
+               style="push">
+         </command>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator5"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallPsfFilesOnlyCommand"
+               label="PSF files only"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.LoadPsfFileCommand"
+               label="Load PSF file"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallDevAndTestWorkspacesCommand"
+               label="Load Dev + all Test Workspaces"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.DoNothingHandler"
+            id="org.moflon.devtools.ui.commands.MoflonDevtoolsMenuCommand"
+            name="Install, configure, and deploy Moflon">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDeveloperWorkspaceHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommand"
+            name="Install developer workspace">
+      </command>
+      <category
+            id="org.moflon.ide.ui.commands.DevelopmentCategory"
+            name="Development commands">
+      </category>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            id="org.moflon.devtools.ui.commands.deploy.DeployCommand"
+            name="Deploy local">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallTestWorkspaceMiscHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceMiscCommand"
+            name="Install test workspace misc.">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallTestWorkspaceTGG0Handler"
+            id="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG0Command"
+            name="Install test workspace TGG 0">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallTestWorkspaceTGG1Handler"
+            id="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG1Command"
+            name="Install test workspace TGG 1">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallTestWorkspaceDemocles0Handler"
+            id="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceDemocles0Command"
+            name="Install test workspace Democles 0">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallTransformationZoo0Handler"
+            id="org.moflon.devtools.ui.commands.install.InstallTransformationZoo0Command"
+            name="Install transformation zoo 0">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallTransformationZoo1Handler"
+            id="org.moflon.devtools.ui.commands.install.InstallTransformationZoo1Command"
+            name="Install transformation zoo 1">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallHandbookWorkspaceHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallHandbookCommand"
+            name="Install handbook">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallTestsForTextualSyntaxHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallTextualSyntaxTestsCommand"
+            name="Install: Run all tests for textual syntax">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallPsfFileHandler"
+            id="org.moflon.devtools.ui.commands.install.LoadPsfFileCommand"
+            name="Install: Load PSF file">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDevAndTestWorkspacesHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallDevAndTestWorkspacesCommand"
+            name="Install Dev + all test workspaces">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallPsfFilesOnlyHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallPsfFilesOnlyCommand"
+            name="PSF files only">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.moflon.devtools.ui.handlers.deploy.DeploymentHandler"
+            commandId="org.moflon.devtools.ui.commands.deploy.DeployCommand">
+      </handler>
+   </extension>
+   <extension
+         id="org.moflon.testapplication"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="org.moflon.autotest.AutotestApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.moflon.autotest.StartUp">
+      </startup>
+   </extension>
+
+</plugin>

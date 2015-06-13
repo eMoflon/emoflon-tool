@@ -1,0 +1,4 @@
+#**##parse("$lang/default:storyPattern/attribute/import.vm" )
+#**##set( $q = '"' )
+#**##set( $method = "${name}.eGet(${name}.eClass().getEStructuralFeature($q$attrName$q))" )
+#**##parse("$lang/default:storyPattern/attribute/check.vm" )

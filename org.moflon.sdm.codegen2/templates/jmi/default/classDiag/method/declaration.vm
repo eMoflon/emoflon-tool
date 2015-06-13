@@ -1,0 +1,56 @@
+#**##parse( "jmi/default:classDiag/method/import.vm" )
+#**#
+#**##set( $children = $utility.indent("   ",$!children) )
+#**##set( $return = $imports.addToImports($method.ResultType.FullClassName) )
+#**##if ( $comment )
+#*   *##if( $parsed )
+#*      *#$comment
+#*   *##elseif( $comment )
+#*      *#/**
+#*      *#$!comment
+#*      *# **/
+#*   *##end
+#**##end
+#**##if ( $initializer )
+#*   *#static
+#**##else
+#*   *#$visibility ##
+#**##if( $abstract )abstract #end##
+#**##if( $native )native #end##
+#**##if( $synchronized )synchronized #end##
+#**##if( $static )static #end##
+#**##if( $final )final #end##
+#*   *#$returnType ##
+#*   *#$name (##
+#*   *##parse( "jmi/default:classDiag/method/params.vm" )
+#*   *#)##
+#*   *##set( $firstThrow = true )
+#*   *##foreach( $throw in $throws )
+#*      *##if( $firstThrow )
+#*         *##set( $return = $imports.addToImports($throw.FullClassName) )
+#*         *# throws #set( $firstThrow = false )
+#*      *##else
+#*         *#, ##
+#*      *##end
+#*      *#$throw.Name##
+#*   *##end
+#**##end
+#**##if( $abstract || $interface )
+#*   *#;
+#**##else
+#*   *##if( $parsed && $body)
+#*      *#   $body
+#*   *##else
+#*      *#
+#*      *#{
+#*      *##if( $signal )
+#*         *##parse( "jmi/default:classDiag/method/bodySignal.vm" )
+#*      *##elseif( $body )
+#*         *#$body
+#*      *##else
+#*         *#$!children
+#*      *##end
+#*   *##end
+#*   *#} // end CodeGen2 generated method ##FIXME: remove this comment
+#*   *#
+#**##end

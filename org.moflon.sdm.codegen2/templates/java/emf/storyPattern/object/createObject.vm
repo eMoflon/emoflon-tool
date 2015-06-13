@@ -1,0 +1,11 @@
+#**##set( $package = $class.DeclaredInPackage )
+#**##set( $factory = "$utility.getFactory($package.Name)" )
+#**##set( $return = $imports.addToImports("${package.FullPackageName}.$factory") )
+#**##set( $createCode = "${factory}.eINSTANCE.create${object.InstanceOf.Name}()"  )
+#**##if ( $utility.nullIfEmpty($object.getTypeCastSource()) )
+#*   *##set ( $createCode = $object.getTypeCastSource() )
+#**##end
+#**##if ( $utility.nullIfEmpty($object.constructionExpression) )
+#*   *##set ( $createCode = $object.constructionExpression )
+#**##end
+#**#$name = $createCode;

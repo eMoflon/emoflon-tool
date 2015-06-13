@@ -1,0 +1,19 @@
+
+import org.moflon.csp.*;
+import org.moflon.util.eMoflonSDMUtil;
+
+import csp.constraints.*;
+import TGGLanguage.csp.*;
+
+
+partial class NodeToStatementNodeRuleImpl {
+
+
+
+@model postProcessBACKWARD (RecordEntry entry, MethodCallExpression methodCallExp) <--
+
+
+      entry.setValue(eMoflonSDMUtil.extractMethodCall(methodCallExp, ""));
+-->
+
+}

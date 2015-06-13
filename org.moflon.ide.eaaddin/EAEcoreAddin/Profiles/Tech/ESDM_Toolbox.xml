@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="C9F2CE87-B" name="SDM" version="1.0" alias="SDM" notes="SDM Elements"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="SDM" notes="" cx="384" cy="113" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="ESDM_Elements::ObjectVariable" type="" description="" unit="" values="" default="SDM ObjectVariable"/>
+					<Tag name="ESDM_Elements::StartNode" type="int" description="" unit="" values="" default="SDM StartNode"/>
+					<Tag name="ESDM_Elements::StopNode" type="" description="" unit="" values="" default="SDM StopNode"/>
+					<Tag name="ESDM_Elements::StoryNode" type="" description="" unit="" values="" default="SDM StoryNode"/>
+					<Tag name="ESDM_Elements::CSPInstance" type="int" description="" unit="" values="" default="CSP Instance"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

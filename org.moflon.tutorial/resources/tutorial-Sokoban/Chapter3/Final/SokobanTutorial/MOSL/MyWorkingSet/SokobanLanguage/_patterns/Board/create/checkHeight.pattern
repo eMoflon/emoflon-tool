@@ -1,0 +1,10 @@
+pattern checkHeight {
+
+	// This is the only OV where order is important: assignment must come
+	//	before conditions, BUT statement will only hold if condition succeeds
+	@this : Board { 
+		this.width := 0
+		this.height < $h
+	}
+
+}

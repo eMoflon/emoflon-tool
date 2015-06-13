@@ -1,0 +1,39 @@
+#**##parse("$lang/default:storyPattern/attribute/import.vm" )
+#**##set( $debug = $debug || $object.firstFromDiagrams.parentElement.hasKeyInStereotypes("assert") )
+#**##set( $attrType = $attr.getInstanceOf().getAttrType().getName() )
+#**##if ( !$method )
+#*   *##if ( $reflective )
+#*      *##set( $method = "de.uni_kassel.features.util.FeaturesUtil.getAttribute( ${name} , $attrName )" )
+#*   *##elseif ( $useMethods )
+#*      *##if( $attrType == "Boolean" )
+#*         *##set( $prefix = "is" )
+#*      *##else
+#*         *##set( $prefix = "get" )
+#*      *##end
+#*      *##set( $method = "${name}.$prefix$attrNameUC ()" )
+#*   *##else
+#*      *##if($static)
+#*         *#$engine.warning("static attribute access does not make sense here",$elem)
+#*      *##end
+#*      *##set( $method = "${name}.$attrName" )
+#*   *##end
+#**##end
+#**##set( $opComment = "attribute condition $attrName $attrOp $attrExpr" )
+#**#// $opComment
+#**#if ( ! ( ##
+#**##if ( $attrOp == "== RegExp:" )
+#*   *##set( $return = $imports.addToImports("java.util.regex.*") )
+#*   *#($method != null) && Pattern.matches ($attrExpr, $method)##
+#**##elseif ( $reflective )
+#*   *#de.uni_kassel.features.util.FeaturesUtil.objectCompare( $method, $attrExpr ) $attrOp 0##
+#**##elseif ( $attrType == "String" )
+#*   *#JavaSDM.stringCompare ((String) $method, $attrExpr) $attrOp 0##
+#**##elseif ( $utility.isBaseType( $attr.getInstanceOf().getAttrType() ) &&  $attrType.endsWith( "Array" ) )
+#*   *#java.util.Arrays.equals( $method, $attrExpr)##
+#**##else
+#*   *#$method $attrOp $attrExpr##
+#**##end
+#**##parse("$lang/default:storyPattern/sdmComment.vm")
+#**##set($depth = $utility.getPatternDepth($token))
+#**# )) break pattern#if($depth>0)$depth#end; // <==== not a match
+#**#

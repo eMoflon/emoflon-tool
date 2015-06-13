@@ -1,0 +1,32 @@
+#**##parse("$lang/default:storyPattern/link/import.vm" )
+#**### multi
+#**##set( $multiLink = $token.getMultiLink() )
+#**##if( $multiLink )
+#*   *##if ( $multiLink.equals($targetMulti) )
+#*      *##set( $range = $targetMulti.SourceObject.ObjectName )
+#*      *##set( $cmulti = "AfterOf" )
+#*   *##elseif ( $multiLink.equals($sourceMulti) )
+#*      *##set( $range = $sourceMulti.TargetObject.ObjectName )
+#*      *##set( $cmulti = "BeforeOf" )
+#*   *##end
+#**##end
+#**##if ($first)
+#*   *##set( $range = "0" )
+#**##end
+#**##set( $opComment = "create link $link.InstanceOf.Name from $sourceName to $targetName" )
+#**#// $opComment
+#**##if ( $reflective )
+#*   *#de.uni_kassel.features.util.FeaturesUtil.createLink ( ${sourceName}, ${link.name}, $targetName );
+#**##else
+#*   *#${sourceName}.##
+#*   *##if ($toOne)
+#*      *#set##
+#*   *##elseif ($cmulti)
+#*      *#add$cmulti##
+#*   *##else
+#*   *#add#if($targetRoleName)To#end##
+#*   *##end
+#**#$!targetRoleName (#if($range)$range, #end
+#*   *#$targetName);
+#**##end
+#**#

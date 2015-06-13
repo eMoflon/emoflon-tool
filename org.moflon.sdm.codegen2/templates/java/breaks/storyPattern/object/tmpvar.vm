@@ -1,0 +1,26 @@
+#**### @param $targetName
+#**### @return $tmpVar
+#**### @return $tmpVarIterator
+#**### @return $tmpVarChecks
+#**##parse("java/breaks:storyPattern/import.vm")
+#**##if( $targetName )
+#*   *##set( $upperName = $utility.upFirstChar($targetName) )
+#**##else
+#*   *##set( $upperName = $utility.upFirstChar($name) )
+#**##end
+#**##set( $tmpVar = "_tmp$!upperName" )
+#**##set( $tmpVarIterator = "_iter$!upperName" )
+#**###set($toContinue1 = $flowUtil.getSearchToContinue($token))
+#**##set($toContinue1 = $flowUtil.getOperationToContinue($token,true).subject.ref)
+#**##if($toContinue1)
+#*   *##set( $upperName = $utility.upFirstChar($toContinue1.ObjectName) )
+#*   *##set( $tmpVarChecks = "_check$!upperName" )
+#**##else
+#*   *##set( $tmpVarChecks = "fujaba__Success" )
+#**##end
+#**##if( $target )
+#*   *##if ( ${target.InstanceOf.InheritedCodeStyle} )#set( $importStyle = "$lang/${target.InstanceOf.InheritedCodeStyle.Name}:" )
+#*   *##else#set( $importStyle = "$lang/default:" )#end
+#*      *##set( $classToImport = $target.InstanceOf )
+#*      *##parse("$!{importStyle}classDiag/class/addClassImport.vm" )
+#*   *##end

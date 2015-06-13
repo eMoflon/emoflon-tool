@@ -1,0 +1,21 @@
+AssignWithTypeCheck(engine, importManager, body, chain) ::= <<
+<first(rest(chain.value.operation.parameters)):/democles/ParameterType(importManager)> <first(chain.value.operation.parameters):/democles/ParameterName(importManager, false, true)> = <first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>;
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>
+
+AssignWithNullCheck(engine, importManager, body, chain) ::= <<
+<first(chain.value.operation.parameters):/democles/ParameterType(importManager)> <first(chain.value.operation.parameters):/democles/ParameterName(importManager, false, false)> = <first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>;
+if (<first(chain.value.operation.parameters):/democles/ParameterName(importManager, false, false)> != null) {
+	<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif> 
+}
+>>
+
+Assign(engine, importManager, body, chain) ::= <<
+<first(chain.value.operation.parameters):/democles/ParameterType(importManager)> <first(chain.value.operation.parameters):/democles/ParameterName(importManager, false, false)> = <first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>;
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>
+
+AssignWithClassCastException(engine, importManager, body, chain) ::= <<
+<first(chain.value.operation.parameters):/democles/ParameterType(importManager)> <first(chain.value.operation.parameters):/democles/ParameterName(importManager, false, false)> = (<first(chain.value.operation.parameters):/democles/ParameterType(importManager)>) <first(rest(chain.value.operation.parameters)):/democles/ParameterName(importManager)>;
+<if (chain.next)><(chain.next.value.template)(engine, importManager, body, chain.next)><endif>
+>>

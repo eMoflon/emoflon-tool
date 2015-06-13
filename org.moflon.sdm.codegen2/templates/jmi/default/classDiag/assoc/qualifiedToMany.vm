@@ -1,0 +1,13 @@
+#**#$visibility Iterator iteratorOf$methodSuffix ($key key)
+#**#{
+#**#   return ((this.$name == null)
+#**#           ? FEmptyIterator.get ()
+#**#           : FCollections.iterator (this.${name}.values (key)));
+#**#}
+#**#
+#**#$visibility int sizeOf$methodSuffix ($key key)
+#**#{
+#**#   return ((this.$name == null)
+#**#           ? 0
+#**#           : this.${name}.size (key));
+#**#}

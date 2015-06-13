@@ -1,0 +1,13 @@
+pattern deleteNode {
+
+	@this : Node { 
+		   - next -> next
+		++ - next -> newNext
+	}
+	
+	-- next : Node {
+		 - next -> newNext		
+	}	
+	
+	newNext : Node
+}

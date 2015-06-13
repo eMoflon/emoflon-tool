@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="ASCII"?>
+<analysis:StaticAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:analysis="http://www.moflon.org.TGGLanguage.analysis">
+  <sourceLNCCTable>
+    <entries referenceName="children">
+      <edgeSourceType href="http://www.moflon.org.MocaTree#//Node"/>
+      <edgeTargetType href="http://www.moflon.org.MocaTree#//Node"/>
+      <targetAssertions value="&quot;@&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="parentNode" creationContext="TARGET">
+      <edgeSourceType href="http://www.moflon.org.MocaTree#//Node"/>
+      <edgeTargetType href="http://www.moflon.org.MocaTree#//Node"/>
+      <sourceAssertions value="&quot;COLUMN&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </sourceAssertions>
+      <targetAssertions value="&quot;ROW&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </targetAssertions>
+      <targetAssertions value="0" operator="UNEQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="children">
+      <edgeSourceType href="http://www.moflon.org.MocaTree#//Node"/>
+      <edgeTargetType href="http://www.moflon.org.MocaTree#//Node"/>
+      <targetAssertions value="&quot;.&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="children">
+      <edgeSourceType href="http://www.moflon.org.MocaTree#//Node"/>
+      <edgeTargetType href="http://www.moflon.org.MocaTree#//Node"/>
+      <sourceAssertions value="&quot;BOARD&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </sourceAssertions>
+      <targetAssertions value="&quot;ROW&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="children">
+      <edgeSourceType href="http://www.moflon.org.MocaTree#//Node"/>
+      <edgeTargetType href="http://www.moflon.org.MocaTree#//Node"/>
+      <targetAssertions value="&quot;$&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="children">
+      <edgeSourceType href="http://www.moflon.org.MocaTree#//Node"/>
+      <edgeTargetType href="http://www.moflon.org.MocaTree#//Node"/>
+      <sourceAssertions value="0" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+      </sourceAssertions>
+      <sourceAssertions value="&quot;ROW&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </sourceAssertions>
+      <targetAssertions value="&quot;COLUMN&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="children">
+      <edgeSourceType href="http://www.moflon.org.MocaTree#//Node"/>
+      <edgeTargetType href="http://www.moflon.org.MocaTree#//Node"/>
+      <targetAssertions value="&quot;#&quot;" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+      </targetAssertions>
+    </entries>
+  </sourceLNCCTable>
+  <sourceTable>
+    <types>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AdminNodeToFigureRule/isAppropriate_FWD_Node_1"/>
+        <assertions value="&quot;@&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_FWD_Node_4"/>
+        <assertions value="&quot;COLUMN&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_5"/>
+        <assertions value="&quot;BOARD_SPEC&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_6"/>
+        <assertions value="&quot;DIMENSIONS&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_6"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_7"/>
+        <assertions value="&quot;ROWS&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_7"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_8"/>
+        <assertions value="&quot;COLS&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_8"/>
+        <assertions value="1" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_9"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_10"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_11"/>
+        <assertions value="&quot;BOARD&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_11"/>
+        <assertions value="1" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_12"/>
+        <assertions value="&quot;ROW&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_12"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_13"/>
+        <assertions value="&quot;COLUMN&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_13"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/GoalNodeToFigureRule/isAppropriate_FWD_Node_15"/>
+        <assertions value="&quot;.&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_FWD_Node_17"/>
+        <assertions value="&quot;ROW&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_FWD_Node_18"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/index"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_FWD_Node_18"/>
+        <assertions value="&quot;COLUMN&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/ServerNodeToFigureRule/isAppropriate_FWD_Node_20"/>
+        <assertions value="&quot;$&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_FWD_Node_23"/>
+        <assertions value="&quot;COLUMN&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/WallNodeToFigureRule/isAppropriate_FWD_Node_25"/>
+        <assertions value="&quot;#&quot;" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.MocaTree#//TreeElement/name"/>
+        </assertions>
+      </filters>
+      <type href="http://www.moflon.org.MocaTree#//Node"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AdminNodeToFigureRule/isAppropriate_FWD_Node_1"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_FWD_Node_4"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_5"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_6"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_7"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_8"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_9"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_10"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_11"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_12"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_13"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/GoalNodeToFigureRule/isAppropriate_FWD_Node_15"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_FWD_Node_17"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_FWD_Node_18"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/ServerNodeToFigureRule/isAppropriate_FWD_Node_20"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_FWD_Node_23"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/WallNodeToFigureRule/isAppropriate_FWD_Node_25"/>
+    </types>
+    <types>
+      <type href="http://www.moflon.org.MocaTree#//File"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_File_0"/>
+    </types>
+  </sourceTable>
+  <sourcePrecedenceTable>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AdminNodeToFigureRule/isAppropriate_FWD_Node_0"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AdminNodeToFigureRule/isAppropriate_FWD_Node_1"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_FWD_Node_2"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_FWD_Node_3"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_FWD_Node_4"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_File_0"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_5"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_6"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_7"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_8"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_9"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_10"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_11"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_12"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_FWD_Node_13"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/GoalNodeToFigureRule/isAppropriate_FWD_Node_14"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/GoalNodeToFigureRule/isAppropriate_FWD_Node_15"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_FWD_Node_16"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_FWD_Node_17"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_FWD_Node_18"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/ServerNodeToFigureRule/isAppropriate_FWD_Node_19"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/ServerNodeToFigureRule/isAppropriate_FWD_Node_20"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_FWD_Node_21"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_FWD_Node_22"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_FWD_Node_23"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/WallNodeToFigureRule/isAppropriate_FWD_Node_24"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/WallNodeToFigureRule/isAppropriate_FWD_Node_25"/>
+      </entries>
+    </group>
+  </sourcePrecedenceTable>
+  <targetTable>
+    <types>
+      <type href="http://www.moflon.org.SokobanLanguage#//Admin"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AdminNodeToFigureRule/isAppropriate_BWD_Admin_0"/>
+    </types>
+    <types>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_BWD_Floor_4"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/row"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_BWD_Floor_4"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/col"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_BWD_Floor_7"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/col"/>
+        </assertions>
+      </filters>
+      <filters>
+        <candidateRule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_BWD_Floor_10"/>
+        <assertions value="0" operator="EQUAL">
+          <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/row"/>
+        </assertions>
+      </filters>
+      <type href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_BWD_Floor_3"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_BWD_Floor_4"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_BWD_Floor_7"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_BWD_Floor_10"/>
+    </types>
+    <types>
+      <type href="http://www.moflon.org.SokobanLanguage#//Board"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_BWD_Board_1"/>
+    </types>
+    <types>
+      <type href="http://www.moflon.org.SokobanLanguage#//Goal"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/GoalNodeToFigureRule/isAppropriate_BWD_Goal_0"/>
+    </types>
+    <types>
+      <type href="http://www.moflon.org.SokobanLanguage#//Server"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/ServerNodeToFigureRule/isAppropriate_BWD_Server_0"/>
+    </types>
+    <types>
+      <type href="http://www.moflon.org.SokobanLanguage#//Wall"/>
+      <candidateRules href="http://www.moflon.org.SokobanCodeAdapter#//Rules/WallNodeToFigureRule/isAppropriate_BWD_Wall_0"/>
+    </types>
+  </targetTable>
+  <targetPrecedenceTable>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AdminNodeToFigureRule/isAppropriate_BWD_Floor_0"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AdminNodeToFigureRule/isAppropriate_BWD_Admin_0"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_BWD_Board_0"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_BWD_Floor_1"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_BWD_Floor_2"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/AllOtherNodeToFloorRule/isAppropriate_BWD_Floor_3"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_BWD_Board_1"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/BoardNodeToBoardRule/isAppropriate_BWD_Floor_4"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/GoalNodeToFigureRule/isAppropriate_BWD_Floor_5"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/GoalNodeToFigureRule/isAppropriate_BWD_Goal_0"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_BWD_Board_2"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_BWD_Floor_6"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/LeftcolumnNodeToFloorRule/isAppropriate_BWD_Floor_7"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/ServerNodeToFigureRule/isAppropriate_BWD_Floor_8"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/ServerNodeToFigureRule/isAppropriate_BWD_Server_0"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_BWD_Board_3"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_BWD_Floor_9"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/TopRowNodeToFloorRule/isAppropriate_BWD_Floor_10"/>
+      </entries>
+    </group>
+    <group>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/WallNodeToFigureRule/isAppropriate_BWD_Floor_11"/>
+      </entries>
+      <entries>
+        <rule href="http://www.moflon.org.SokobanCodeAdapter#//Rules/WallNodeToFigureRule/isAppropriate_BWD_Wall_0"/>
+      </entries>
+    </group>
+  </targetPrecedenceTable>
+  <targetEdgeRuleTable/>
+  <targetLNCCTable>
+    <entries referenceName="figure">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Admin"/>
+    </entries>
+    <entries referenceName="left" creationContext="TARGET">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </entries>
+    <entries referenceName="top" creationContext="TARGET">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </entries>
+    <entries referenceName="floors">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Board"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+    </entries>
+    <entries referenceName="figure">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Goal"/>
+    </entries>
+    <entries referenceName="top" creationContext="TARGET">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <sourceAssertions value="0" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/col"/>
+      </sourceAssertions>
+      <targetAssertions value="0" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/col"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="floors">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Board"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <targetAssertions value="0" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/col"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="figure">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Server"/>
+    </entries>
+    <entries referenceName="left" creationContext="TARGET">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <sourceAssertions value="0" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/row"/>
+      </sourceAssertions>
+      <targetAssertions value="0" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/row"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="floors">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Board"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <targetAssertions value="0" operator="EQUAL">
+        <eattribute href="http://www.moflon.org.SokobanLanguage#//Floor/row"/>
+      </targetAssertions>
+    </entries>
+    <entries referenceName="figure">
+      <edgeSourceType href="http://www.moflon.org.SokobanLanguage#//Floor"/>
+      <edgeTargetType href="http://www.moflon.org.SokobanLanguage#//Wall"/>
+    </entries>
+  </targetLNCCTable>
+  <sourceEdgeRuleTable/>
+</analysis:StaticAnalysis>

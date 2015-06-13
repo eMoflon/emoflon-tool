@@ -1,0 +1,17 @@
+<!-- fujaba.dtd v0.4 2002/04/11  -->
+
+<!ELEMENT fujaba_export (comment, diagram+)>
+<!ELEMENT diagram (comment?, object+)>
+<!ELEMENT object (class,(attribute)*)>
+<!ATTLIST object 
+	id ID #REQUIRED
+>
+<!ELEMENT attribute (value|(reference,value) )>
+<!ATTLIST attribute
+	name NMTOKEN #IMPLIED
+	type (single|container) #IMPLIED
+>
+<!ELEMENT reference (#PCDATA)>
+<!ELEMENT value (#PCDATA)>
+<!ELEMENT class (#PCDATA)>
+<!ELEMENT comment (#PCDATA)>

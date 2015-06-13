@@ -1,0 +1,215 @@
+<?xml version="1.0" ?> 
+
+<xsd:schema targetNamespace="http://www.moflon.org"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:mof="http://www.moflon.org" xmlns="http://www.moflon.org">
+
+	<!-- This is the outermost element. It contains the list of
+	top level nodes in the treeview. -->
+	<xsd:element name="prefdialog">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="treeviewitem"  minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>			
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- A node in the navigation treeview. Each node may be
+	associated with a dialog and contain have arbitrary number of
+	children. -->
+	<xsd:element name="treeviewitem">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="panel"  minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="treeviewitem" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="label" use="required" />
+			<xsd:attribute name="scope" use="optional" type="scopetype" default="both" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Each panel may contain arbitrary component, i.e. other
+	panels or components for concrete settings like file choosers,
+	checkoxes etc. -->
+	<xsd:element name="panel" substitutionGroup="propertyless" type="panelType" />
+	<xsd:complexType name="panelType">
+      <xsd:complexContent>
+         <xsd:restriction base="propertylessType">
+	        <xsd:sequence>
+			    <xsd:element ref="abstractcomponent"  minOccurs="0" maxOccurs="unbounded"/>
+  	        </xsd:sequence>
+	        <xsd:attribute name="layout" type="layouttype" use="optional" default="none"/>
+	  	     <!-- A panel may have a caption. In this case a TitledBorder with the caption is drawn around the panel. -->
+		     <xsd:attribute name="caption" type="xsd:string" use="optional"/>
+		     <xsd:attribute name="help" type="xsd:string" use="optional" />
+         </xsd:restriction>
+      </xsd:complexContent>
+   </xsd:complexType>		
+
+	<!-- Basisklasse fuer alle GUI-Komponenten -->
+	<xsd:element name="abstractcomponent" type="abstractComponentType" abstract="true" />
+	<xsd:complexType name="abstractComponentType">
+	      <xsd:sequence>
+		      <xsd:element ref="onupdate" minOccurs="0" maxOccurs="unbounded" />
+     		</xsd:sequence>
+     	<xsd:attribute name="merge" type="mergetype" use="optional" default="add"/>
+     	<!-- The id or propertyid of the successor element (if the document is merged 
+     	into another one and the value of merge is "add"). If an element with that id does not
+     	exist, this element will be appended after the last existing element. If the
+     	mergetype is "overwrite" or "delete", this attribute is ignored. -->
+     	<xsd:attribute name="successor" type="xsd:string" use="optional"/>
+		<xsd:attribute name="scope" use="optional" type="scopetype" default="both" />
+		<xsd:anyAttribute />
+	</xsd:complexType>
+	
+	<!-- Basisklasse aller GUI-Elemente, die reine Dekoration sind, also keine property setzen -->
+	<xsd:element name="propertyless" abstract="true" type="propertylessType" substitutionGroup="abstractcomponent"/>
+	<xsd:complexType name="propertylessType">
+      <xsd:complexContent>
+         <xsd:restriction base="abstractComponentType">
+		      <xsd:attribute name="id" type="xsd:string" use="required" />
+      		<xsd:anyAttribute />
+         </xsd:restriction>
+      </xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- Basisklasse aller Einstellungs-GUI-Elemente, von der die anderen erben -->
+	<xsd:element name="component" abstract="true" type="componentType" substitutionGroup="abstractcomponent"/>
+	<xsd:complexType name="componentType">
+      <xsd:complexContent>
+         <xsd:restriction base="abstractComponentType">
+		      <xsd:attribute name="propertyid" type="xsd:string" use="required" />
+      		<xsd:attribute name="enabled" type="boolean" use="optional" default="true" />
+      		<xsd:attribute name="visible" type="boolean" use="optional" default="true" />
+      		<xsd:attribute name="help" type="xsd:string" use="optional" />
+      		<xsd:anyAttribute />
+         </xsd:restriction>
+      </xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- Basisklasse fuer GUI-Elemente mit Label -->
+	<xsd:element name="labeledComponent" abstract="true" type="labeledComponentType" substitutionGroup="component"/>
+	<xsd:complexType name="labeledComponentType">
+      <xsd:complexContent>
+         <xsd:restriction base="componentType">
+		      <xsd:sequence>
+			      <xsd:element ref="onupdate" minOccurs="0" maxOccurs="unbounded" />
+      		</xsd:sequence>
+      		<xsd:attribute name="label" type="xsd:string" use="required" />
+         </xsd:restriction>
+      </xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- Beim Aendern des Wertes einer component zu newValue wird die component jedes 
+	listener (angegeben durch seine propertyid) aktiviert/deaktiviert oder ihr Wert gesetzt -->
+	<xsd:element name="onupdate">
+		<xsd:complexType>
+			<xsd:attribute name="newValue" use="required"/>
+			<xsd:attribute name="propertyid" type="xsd:string" use="required"/>
+			<xsd:attribute name="propertyvalue" type="xsd:string" use="optional"/>
+			<xsd:attribute name="setEnabled" type="boolean" use="optional"/>
+			<xsd:attribute name="setVisible" type="boolean" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="checkbox" substitutionGroup="labeledComponent" />
+
+	<xsd:element name="colorchooser" substitutionGroup="component" />
+
+	<xsd:element name="directorychooser" substitutionGroup="component" />
+
+	<xsd:element name="filechooser" substitutionGroup="component" />
+
+	<xsd:element name="fontchooser" substitutionGroup="component" />
+
+	<xsd:element name="number" substitutionGroup="component" />
+
+	<xsd:element name="list" substitutionGroup="component" type="listType" />
+
+	<xsd:element name="combobox" substitutionGroup="component" type="listType" />
+
+	<xsd:element name="radiobutton" substitutionGroup="labeledComponent" />
+
+	<xsd:element name="textfield" substitutionGroup="component" />
+
+	<xsd:element name="buttongroup" substitutionGroup="propertyless" type="buttongroupType" />
+
+	<xsd:element name="label" substitutionGroup="propertyless" type="labelType" />
+	<xsd:complexType name="labelType">
+		<xsd:complexContent>
+			<xsd:restriction base="propertylessType">
+				<xsd:attribute name="text" use="required" />
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>	
+
+	<!-- Fuer Listen Erweiterung von component um option-Kinder-->
+	<xsd:complexType name="listType">
+		<xsd:complexContent>
+			<xsd:restriction base="componentType">
+				<xsd:sequence>
+					<xsd:element ref="option" minOccurs="2" maxOccurs="unbounded" />
+					<xsd:element ref="onupdate" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="option">
+		<xsd:complexType>
+			<xsd:attribute name="value" type="xsd:string" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Fuer Buttons Erweiterung von abstractcomponent um radiobutton-Kinder -->
+	<xsd:complexType name="buttongroupType">
+		<xsd:complexContent>
+			<xsd:restriction base="propertylessType">
+				<xsd:sequence>
+					<xsd:element ref="radiobutton" minOccurs="2" maxOccurs="unbounded" />
+					<xsd:element ref="onupdate" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- Fuer Benutzerdefinierte Dialogklassen Erweiterung von component um class-Attribute -->
+	<xsd:element name="custom" substitutionGroup="propertyless" type="customType" />
+	<xsd:complexType name="customType">
+		<xsd:complexContent>
+			<xsd:restriction base="propertylessType">
+				<xsd:attribute name="class" type="xsd:string" />
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="class">
+		<xsd:complexType mixed="true" />
+	</xsd:element>
+
+	<xsd:simpleType name="layouttype">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="none|rows|columns"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- defines whether a setting is shown in the dialog for
+	projects, for the workspace or in both of these -->
+	<xsd:simpleType name="scopetype">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="project|workspace|both"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="mergetype">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="add|overwrite|delete"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="boolean">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="true|false"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

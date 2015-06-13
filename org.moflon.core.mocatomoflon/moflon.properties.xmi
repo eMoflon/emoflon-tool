@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="MocaToMoflonTransformation">
+  <dependencies value="platform:/plugin/CSPCodeAdapter/model/CSPCodeAdapter.ecore"/>
+  <dependencies value="platform:/plugin/Moca/model/Moca.ecore"/>
+  <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
+  <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
+  <dependencies value="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore"/>
+  <dependencies value="platform:/plugin/ValidationResult/model/ValidationResult.ecore"/>
+  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
+  <additionalDependencies value="platform:/plugin/TGGRuntime/model/TGGRuntime.ecore"/>
+  <metaModelProject MetaModelProjectName="MoflonBackend"/>
+  <replaceGenModel/>
+  <genTracingInstrumentation/>
+  <sdmCodegeneratorHandlerId value="DEMOCLES"/>
+  <tGGBuildMode/>
+  <additionalUsedGenPackages value="platform:/plugin/TGGRuntime/model/TGGRuntime.genmodel"/>
+  <debugMode/>
+  <strictSDMConditionalBranching bool="false"/>
+</MoflonPropertyContainer:MoflonPropertiesContainer>

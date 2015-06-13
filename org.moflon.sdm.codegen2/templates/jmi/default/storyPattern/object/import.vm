@@ -1,0 +1,40 @@
+#**##if( !$object )
+#*   *### not set if called from link templates
+#*   *##set( $object = $elem )
+#*   *##set( $source = $object.TypeCastSource )
+#*   *##set( $typeCast = $object.isCheckTypeCast() )
+#**##end
+#**##set( $name = $object.ObjectName )
+#**###----------------------------
+#**##set ($qualifiedName = $mofutility.getQualifiedName($object.InstanceOf))
+#**##set($tagCollection = $object.InstanceOf.Type.Adaptee.Tag)
+#**##foreach($actualTag in $tagCollection)
+#*   *#	#if( $actualTag.Name.equals("reference"))
+#*      *#		#set ($qualifiedName = $actualTag.Value)
+#*   *#	#end
+#**##end
+#**###---------------------------
+#**##if($object.reflectiveTypeExpr)
+#*   *##set( $paramType = $object.reflectiveTypeExpr )
+#*   *##set($package = $object.InstanceOf.DeclaredInPackage)
+#*   *##set($naviPath = $mofutility.getNavigationPath($package))
+#**##end
+#**###---------------------------
+#**##set( $type = $object.InstanceOf.Name )
+#**##set( $set = $object.isSet() )
+#**##set( $optional = ($object.isOptional() && !$set) )
+#**##set( $bound = $object.isBound())
+#**###set( $createVar = (!$bound || $object.TypeCastSource) )
+#**##set( $createVar = true )
+#**##if ( $set && !$directSetAccess )
+#*   *#  #set ( $name = "fujaba__TmpObject$mofutility.upFirstChar($name)" )
+#**##end
+#**##if ( $typeCast )
+#*   *#  #set( $tmpName = "fujaba__TmpObject" )
+#*   *#  #set( $localVars = $engine.getFromInformation("localVars") )
+#*   *#  #set( $return = $localVars.addLocalVariable($tmpName, "Object", $object) )
+#**##else
+#*   *#  #set( $tmpName = $name )
+#**##end
+#**##set( $imports = $engine.getFromInformation("imports") )
+#**##set( $return = $imports.addToImports($object.InstanceOf.FullClassName) )

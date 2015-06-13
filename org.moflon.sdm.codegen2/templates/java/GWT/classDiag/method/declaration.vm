@@ -1,0 +1,63 @@
+#**##parse("$lang/default:classDiag/method/import.vm" )
+#**##set( $style = "$lang/${method.Parent.InheritedCodeStyle.Name}" )
+#**##set( $children = $utility.indent("   ",$!children) )
+#**##set( $classToImport = $method.ResultType )
+#**##if ( ${classToImport.InheritedCodeStyle} )#set( $importStyle = "$lang/${classToImport.InheritedCodeStyle.Name}:" )
+#**##else#set( $importStyle = "$lang/default:" )#end
+#*   *##parse("$!{importStyle}classDiag/class/addClassImport.vm" )
+#*   *##if ( $comment )
+#*      *##if( $parsed )
+#*         *#$comment
+#*      *##elseif( $comment )
+#*         *#/**
+#*         *#$!comment
+#*         *# **/
+#*      *##end
+#*   *##end
+#*   *##if ( $overrides )
+#*      *#@Override
+#*   *##end
+#*   *##if ( $initializer )
+#*      *#static
+#*   *##else
+#*      *#$visibility ##
+#*   *##if( $abstract )abstract #end##
+#*   *##if( $native )native #end##
+#*   *##if( $synchronized )synchronized #end##
+#*   *##if( $static )static #end##
+#*   *##if( $final )final #end##
+#*      *##set( $template = "$lang/default:classDiag/method/params.vm" )
+#*      *##set( $paramsString = "#parse($template)" )
+#*      *##set( $opComment = "method $name ($paramsString) : $returnType" )
+#*      *#$returnType $name ($paramsString)##
+#*      *##set( $firstThrow = true )
+#*      *##foreach( $throw in $throws )
+#*         *##set( $classToImport = $throw )
+#*         *##if ( ${classToImport.InheritedCodeStyle} )#set( $importStyle = "$lang/${classToImport.InheritedCodeStyle.Name}:" )
+#*         *##else#set( $importStyle = "$lang/default:" )#end
+#*            *##parse("$!{importStyle}classDiag/class/addClassImport.vm" )
+#*            *##if( $firstThrow )
+#*               *# throws #set( $firstThrow = false )
+#*            *##else
+#*               *#, ##
+#*            *##end
+#*            *#$throw.Name##
+#*         *##end
+#*      *##end
+#*      *##if( $abstract || $interface )
+#*         *#;
+#*      *##else
+#*         *#
+#*         *#{ 
+#*         *##if( $signal )
+#*            *##parse("$style:classDiag/method/bodyActionContainer.vm" )
+#*         *##elseif( $body )
+#*            *#$body
+#*         *##else
+#*            *#$!children##
+#*         *##end
+#*         *#}
+#*         *##if ( $signal )
+#*            *##parse("$style:classDiag/method/methodParamsActionContainer.vm" )
+#*         *##end
+#*      *##end
