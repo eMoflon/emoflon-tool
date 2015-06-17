@@ -11,6 +11,9 @@ import java.util.Map.Entry;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import MOSLCodeAdapter.moslPlus.Category;
 import MOSLCodeAdapter.moslPlus.MOSLConverterAdapter;
 import MOSLCodeAdapter.moslPlus.MOSLToMOSLPlusConverter;
@@ -154,14 +157,63 @@ public class PathResolver extends AbstractResolver {
 					attribute.setValue(tryToGetPath(typePath, attribute.getValue(), Category.ATTRIBUTE));
 					
 				} else if("MethodCallExpression".compareTo(expression.getName())==0){
-					Attribute methodName = getAttribute(expression, "methodGuid");
+					Attribute methodGuid = getAttribute(expression, "methodGuid");
 					typePath = getSimpleStatementType(getChild(expression, "Expression"));
-					methodName.setValue(tryToGetPath(typePath, methodName.getValue(), Category.OPERATION));
+					methodGuid.setValue(tryToGetPath(typePath, methodGuid.getValue(), Category.OPERATION));
+					resolvingArguments(expression, moslCache.get(methodGuid.getValue()), path, methodGuid.getValue());
 				}else{
 					throw new CanNotResolvePathException("Expression is no typedExpression: " + expression.getName(), path, expression.getName(), Category.TYPED_EXPRESSION);
 				}
 			}
 		}
+	}
+	
+	private void  resolvingArguments(Node mce, Node method, String path, String methodPath){
+		if(method != null){
+			Node parametersNode=getChild(method, "parameters");
+			List<Text> arguments= new ArrayList<>(mce.getChildren("ownedParameterBinding"));
+			if(parametersNode==null && arguments.size()==0)
+				return;
+			
+			List<Text> parameters = new ArrayList<>(parametersNode.getChildren());
+			
+			if(parameters.size() == arguments.size()){
+				Comparator<Text> idComparator = new Comparator<Text>() {
+					@Override
+					public int compare(Text o1, Text o2) {
+						Attribute id1 = null;
+						Attribute id2 = null;
+						Node node1 = Node.class.cast(o1);
+						Node node2 = Node.class.cast(o2);
+							id1 = getAttribute(node1, "nummberID");
+							id2 = getAttribute(node2, "nummberID");
+
+						return Integer.signum(Integer.parseInt(id1.getValue()) - Integer.parseInt(id2.getValue()));
+					}
+				};
+				
+				Collections.sort(parameters, idComparator);
+				Collections.sort(arguments, idComparator);
+				
+				for(int i=0; i<parameters.size(); i++){
+					Attribute parameterGuid = createAttribute("parameterGuid", methodPath + "/" +getAttribute(Node.class.cast(parameters.get(i)), "name").getValue(), 0);
+					
+					Attribute parameterType = EcoreUtil.copy(getAttribute(Node.class.cast(parameters.get(i)), "search"));
+					parameterType.setName("parameterType");
+					
+					Node argument = Node.class.cast(arguments.get(i));
+					
+					parameterGuid.setNode(argument);
+					parameterType.setNode(argument);
+				}
+				
+			}else if(parameters.size() > arguments.size())
+				throw new CanNotResolvePathException("Too less arguments for " + mce, path, mce.getName(), Category.TYPED_EXPRESSION);
+			else
+				throw new CanNotResolvePathException("Too many arguments for " + mce, path, mce.getName(), Category.TYPED_EXPRESSION);
+		}
+		else
+			throw new CanNotResolvePathException("MethodCallExpression: "+mce+" has no guid", path, mce.getName(), Category.TYPED_EXPRESSION);
 	}
 	
 	private void resolveTypes(){

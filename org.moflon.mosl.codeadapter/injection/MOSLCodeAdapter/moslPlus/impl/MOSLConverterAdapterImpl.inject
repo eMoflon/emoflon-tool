@@ -3,6 +3,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.mosl.utils.PathResolver;
 import MOSLCodeAdapter.moslPlus.MoslPlusFactory;
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
+import org.moflon.mosl.MOSLUtils;
 
 partial class MOSLConverterAdapterImpl {
 
@@ -33,6 +34,7 @@ partial class MOSLConverterAdapterImpl {
 	
 @model init() <--
 		resolver.init();
+		MOSLUtils.resetIndex();
 	-->
 	
 @model addPath(String path, String name, Node node) <--

@@ -174,6 +174,7 @@ lParameter: name=ID COLON type=lTypeReference
 		-> ^(EParameter 
 				^(ATTRIBUTE T["name"] $name)
 				^(ATTRIBUTE T["type"] $type)
+				^(ATTRIBUTE T["nummberID"] T["" + MOSLUtils.getIndex()])
 				^(ATTRIBUTE T["category"] T["parameter"])													              
                 ^(ATTRIBUTE T["searchCategory"] T["type"])
 				^(ATTRIBUTE T["search"] T["type"])
@@ -218,7 +219,7 @@ lPatternStatement: SQUARED_BRACKET_OPEN name=ID SQUARED_BRACKET_CLOSE
 			    ^(ATTRIBUTE T["searchCategory"] T["patternFile"])
 				^(ATTRIBUTE T["search"] T["pattern"]));
 
-lMethodCallStatement:lMethodCallExpression -> ^(T["call_stmt"] ^(T["Expression"] lMethodCallExpression));
+lMethodCallStatement: LT lMethodCallExpression GT -> ^(T["call_stmt"] ^(T["Expression"] lMethodCallExpression));
 
 lIfStatement:IF lNegation lBooleanStatement lThenBlock? lElseBlock?
 		-> ^(T["if_stmt"]
@@ -273,7 +274,7 @@ lExpression:lExpressionType
 
 lExpressionType: lLiteralExpression
           | lSimpleExpressionType
-          //| lMethodCallExpression
+          | lMethodCallExpression
           | lAttributeValueExpression;
 
 lSimpleExpression: lSimpleExpressionType 
@@ -358,18 +359,31 @@ lAttributeValueExpression: objectVariable=ID DOT attribute=ID
 				             	^(ATTRIBUTE T["attributeName"] $attribute)
 				             	^(ATTRIBUTE T["searchCategory"] T["objectVariable"])
 								^(ATTRIBUTE T["search"] T["objectVariable"])
-				             	^(ATTRIBUTE T["category"] T["typedExpression"])				             	
+				             	^(ATTRIBUTE T["category"] T["typedExpression"])			             	
 				            );
 				            
 // ***********************************************************************
 // Argument lists
 
 lArgumentList: ( lArgument COMMA ) * lArgument 
-			-> ^(T["ownedParameterBinding"] lArgument+ );
+			-> ^(T["ownedParameterBinding"] 
+				^(ATTRIBUTE T["nummberID"] T["" + MOSLUtils.getIndex()])
+				lArgument+ );
 
-lArgument: value=ID
+lArgument: value=lObjectVariableExpression
             -> ^(T["valueExpression"] 
-           				^(ATTRIBUTE T["type"] T["TextualExpression"])
-            		    ^(ATTRIBUTE T["expressionText"] $value)
-               );
+           			^(T["Expression"]	 $value))
+           	| value=lParameterExpression
+            -> ^(T["valueExpression"] 
+           			^(T["Expression"]	 $value))
+           | value=lLiteralExpression
+            -> ^(T["valueExpression"] 
+           			^(T["Expression"]	 $value))
+         /*  | value=lMethodCallExpression
+            -> ^(T["valueExpression"] 
+           			^(T["Expression"]	 $value)) */
+           | value=lAttributeValueExpression
+            -> ^(T["valueExpression"] 
+           			^(T["Expression"]	 $value));
+           				 
 

@@ -64,6 +64,10 @@ public class MOSLUtils {
    
 	private static long generatedIndex = 0L;
 	
+	public static void resetIndex(){
+		generatedIndex = 0L;
+	}
+	
 	public static long getIndex(){
 		if(generatedIndex == Long.MAX_VALUE){
 			generatedIndex = 0L;
