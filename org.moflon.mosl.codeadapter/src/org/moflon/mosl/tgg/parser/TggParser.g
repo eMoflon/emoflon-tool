@@ -322,6 +322,7 @@ lAttributeValueExpression: objectVariable=ID DOT attribute=ID
   				        		^(ATTRIBUTE T["objectVariable"] $objectVariable)
   				        		^(ATTRIBUTE T["name"] T["AVE:"+ $objectVariable.text + "." + $attribute.text + "_ID=" + MOSLUtils.getIndex()])	
 				             	^(ATTRIBUTE T["attribute"] $attribute)
+				                ^(ATTRIBUTE T["attributeName"] $attribute)
 				             	^(ATTRIBUTE T["searchCategory"] T["tggObjectVariable"])
 								^(ATTRIBUTE T["search"] T["objectVariable"])
 				             	^(ATTRIBUTE T["category"] T["typedExpression"])				             	

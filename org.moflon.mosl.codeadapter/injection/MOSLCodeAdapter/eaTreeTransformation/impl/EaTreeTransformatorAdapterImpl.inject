@@ -1,5 +1,6 @@
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.mosl.utils.EcoreDatatypeProvider;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.mosl.utils.GuidResolver;
 import java.util.List;
@@ -153,6 +154,10 @@ partial class EaTreeTransformatorAdapterImpl {
 @model getNullNode () <--
 
       return null;
+-->
+
+@model getEcoreTypeFromLEType(Attribute leType) <--
+		return EcoreDatatypeProvider.getDatatype(leType.getValue());
 -->
 
 }

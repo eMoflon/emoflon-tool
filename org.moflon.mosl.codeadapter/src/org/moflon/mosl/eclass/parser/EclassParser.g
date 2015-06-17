@@ -218,7 +218,7 @@ lPatternStatement: SQUARED_BRACKET_OPEN name=ID SQUARED_BRACKET_CLOSE
 			    ^(ATTRIBUTE T["searchCategory"] T["patternFile"])
 				^(ATTRIBUTE T["search"] T["pattern"]));
 
-lMethodCallStatement:LT lMethodCallExpression GT -> ^(T["call_stmt"] ^(T["Expression"] lMethodCallExpression));
+lMethodCallStatement:lMethodCallExpression -> ^(T["call_stmt"] ^(T["Expression"] lMethodCallExpression));
 
 lIfStatement:IF lNegation lBooleanStatement lThenBlock? lElseBlock?
 		-> ^(T["if_stmt"]
@@ -273,7 +273,7 @@ lExpression:lExpressionType
 
 lExpressionType: lLiteralExpression
           | lSimpleExpressionType
-          | lMethodCallExpression
+          //| lMethodCallExpression
           | lAttributeValueExpression;
 
 lSimpleExpression: lSimpleExpressionType 
@@ -340,12 +340,12 @@ lParameterExpression: DOLLAR name=ID
 							^(ATTRIBUTE T["search"] T["parameterName"])
 					);
 
-lMethodCallExpression: target=lSimpleExpression DOT method=ID LEFT_PARENTHESIS lArgumentList? RIGHT_PARENTHESIS
+lMethodCallExpression: target=lObjectVariableExpression DOT method=ID LEFT_PARENTHESIS lArgumentList? RIGHT_PARENTHESIS
                     -> ^(MethodCallExpression
                     		^(ATTRIBUTE T["name"] T["MCE:"+ $method.text + "()_ID=" + MOSLUtils.getIndex()])
                     		^(ATTRIBUTE T["methodName"] $method)
                     		^(ATTRIBUTE T["methodGuid"] $method)
-                    		 $target
+                    		^(T["Expression"] $target)
                     		^(ATTRIBUTE T["category"] T["typedExpression"])
                        		lArgumentList?				       		
 				       );
@@ -355,6 +355,7 @@ lAttributeValueExpression: objectVariable=ID DOT attribute=ID
   				        		^(ATTRIBUTE T["objectVariable"] $objectVariable)
   				        		^(ATTRIBUTE T["name"] T["AVE:"+ $objectVariable.text + "." + $attribute.text + "_ID=" + MOSLUtils.getIndex()])	
 				             	^(ATTRIBUTE T["attribute"] $attribute)
+				             	^(ATTRIBUTE T["attributeName"] $attribute)
 				             	^(ATTRIBUTE T["searchCategory"] T["objectVariable"])
 								^(ATTRIBUTE T["search"] T["objectVariable"])
 				             	^(ATTRIBUTE T["category"] T["typedExpression"])				             	
