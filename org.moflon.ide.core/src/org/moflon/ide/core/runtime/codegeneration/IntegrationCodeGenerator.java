@@ -1,13 +1,10 @@
 package org.moflon.ide.core.runtime.codegeneration;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -17,10 +14,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -42,13 +35,10 @@ import org.moflon.moca.tie.RunModelGenScalabilityTestGenerator;
 import org.moflon.moca.tie.RunModelGenerationGenerator;
 import org.moflon.moca.tie.RunTrafoScalabilityTestGenerator;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
-import org.moflon.util.eMoflonSDMUtil;
 
 import CSPCodeAdapter.CSPCodeAdapterFactory;
 import CSPCodeAdapter.VariableTypeManager;
 import MocaTree.MocaTreePackage;
-import MoflonPropertyContainer.BuildFilter;
-import MoflonPropertyContainer.BuildFilterRule;
 import MoflonPropertyContainer.MoflonPropertiesContainer;
 import SDMLanguage.SDMLanguagePackage;
 import SDMLanguage.sdmUtil.CompilerInjection;
@@ -76,9 +66,7 @@ import TGGRuntime.TGGRuntimePackage;
 public class IntegrationCodeGenerator extends RepositoryCodeGenerator
 {
    private static final Logger logger = Logger.getLogger(IntegrationCodeGenerator.class);
-
-   private HashMap<IFile, String> cachedGeneratedCode = new HashMap<>();
-
+   
    List<TGGConstraint> userDefinedConstraints = new ArrayList<TGGConstraint>();
 
    public static final String SUFFIX_SMA = ".sma.xmi";
@@ -98,7 +86,6 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          monitor.beginTask("Generating code", 500);
          processTGG(monitor);
 
-         // filtered tgg rules should not be built
          ResourceSet set = CodeGeneratorPlugin.createDefaultResourceSet();
          eMoflonEMFUtil.installCrossReferencers(set);
          final MoflonPropertiesContainer moflonProperties = MoflonPropertiesContainerHelper.load(project, WorkspaceHelper.createSubMonitor(monitor, 100));
@@ -107,7 +94,6 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          metamodelLoader.run(monitor);
          WorkspaceHelper.createSubMonitor(monitor, 100);
 
-         filterTGGsFromBuildFilterProps(metamodelLoader.getEcoreResource());
          Resource ecoreResource = metamodelLoader.getEcoreResource();
          HashMap<String, Object> saveOptions = new HashMap<String, Object>();
          saveOptions.put(SDMEnhancedEcoreResource.SAVE_GENERATED_PACKAGE_CROSSREF_URIS, Boolean.valueOf(true));
@@ -121,8 +107,6 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          WorkspaceHelper.createSubMonitor(monitor, 100);
 
          boolean success = super.generateCode(WorkspaceHelper.createSubMonitor(monitor, 100));
-
-         restoreCachedGeneratedCode(WorkspaceHelper.createSubMonitor(monitor, 100));
 
          CoreActivator.getDefault().setDirty(project, false);
 
@@ -377,84 +361,6 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
                WorkspaceHelper.addFile(project, path, content, new NullProgressMonitor());
          }
 
-      }
-   }
-
-   private void cacheGeneratedCodeForRules(final List<EClassifier> rulesToFilter)
-   {
-      cachedGeneratedCode.clear();
-
-      List<EClassifier> rulesToDeactivate = new ArrayList<>();
-      for (EClassifier rule : rulesToFilter)
-      {
-         IFile impl = project.getFile("gen/" + project.getName() + "/Rules/impl/" + rule.getName() + "Impl.java");
-
-         try
-         {
-            StringWriter writer = new StringWriter();
-            IOUtils.copy(impl.getContents(), writer, impl.getCharset());
-            cachedGeneratedCode.put(impl, writer.toString());
-         } catch (Exception e)
-         {
-            logger.error("Unable to chache code for: " + rule.getName() + ", deactivating corresponding filter...");
-            rulesToDeactivate.add(rule);
-         }
-      }
-
-      rulesToFilter.removeAll(rulesToDeactivate);
-   }
-
-   private void restoreCachedGeneratedCode(final IProgressMonitor monitor)
-   {
-      try
-      {
-         monitor.beginTask("Restoring cached generated code", cachedGeneratedCode.keySet().size());
-         for (IFile file : cachedGeneratedCode.keySet())
-            try
-            {
-               file.setContents(IOUtils.toInputStream(cachedGeneratedCode.get(file)), IFile.FORCE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            } catch (CoreException e)
-            {
-               logger.error("Unable to restore code for: " + file.getName());
-            }
-
-         cachedGeneratedCode.clear();
-      } finally
-      {
-         monitor.done();
-      }
-   }
-
-   private void filterTGGsFromBuildFilterProps(final Resource genEcoreResource)
-   {
-      MoflonPropertiesContainer moflonProperties = MoflonPropertiesContainerHelper.load(project,
-            WorkspaceHelper.createSubmonitorWith1Tick(new NullProgressMonitor()));
-
-      Collection<BuildFilter> filter = moflonProperties.getBuildFilter();
-
-      EPackage rootPackage = (EPackage) genEcoreResource.getContents().get(0);
-      EPackage rulesPackage = rootPackage.getESubpackages().get(0);
-      List<EClassifier> rulesToFilter = new ArrayList<>();
-      for (EClassifier rule : rulesPackage.getEClassifiers())
-      {
-         for (BuildFilter bf : filter)
-         {
-            if (bf.isActivated())
-               for (BuildFilterRule bfr : bf.getRules())
-               {
-                  if (bfr.getValue().equals(rule.getName()))
-                     rulesToFilter.add(rule);
-               }
-         }
-      }
-
-      cacheGeneratedCodeForRules(rulesToFilter);
-
-      for (EClassifier rule : rulesToFilter)
-      {
-         EClass ruleClass = (EClass) rule;
-         for (EOperation op : ruleClass.getEOperations())
-            eMoflonSDMUtil.deleteActivity(op);
       }
    }
 
