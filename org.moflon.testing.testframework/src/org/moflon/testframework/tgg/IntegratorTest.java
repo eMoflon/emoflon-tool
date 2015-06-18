@@ -8,14 +8,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
 import org.moflon.core.utilities.EmfCompareUtil;
-import org.moflon.core.utilities.eMoflonEMFUtil;
 
-import MocaTree.File;
-import MocaTree.Folder;
-import MocaTree.Node;
-import TGGLanguage.TGGLanguagePackage;
 import TGGLanguage.algorithm.ApplicationTypes;
-import TGGLanguage.analysis.StaticAnalysis;
 
 public class IntegratorTest extends TransformationTest
 {
@@ -28,46 +22,10 @@ public class IntegratorTest extends TransformationTest
    @Override
    public EObject performTransformation(ApplicationTypes direction) throws IOException
    {
-      enableCachingIfMocaTree(direction);
       performIntegration(direction);
 
       EObject created = (direction == ApplicationTypes.FORWARD) ? helper.getTrg() : helper.getSrc();
       return created;
-   }
-
-   // MOCATREE caching methods
-   protected void enableCachingIfMocaTree(ApplicationTypes direction)
-   {
-
-      EObject input = null;
-      if (ApplicationTypes.FORWARD == direction)
-         input = helper.getSrc();
-      else if (ApplicationTypes.BACKWARD == direction)
-         input = helper.getTrg();
-      else
-         return;
-
-      if (input.eClass().getEPackage().getName().equals("MocaTree"))
-      {
-         if (input instanceof Node)
-            ((Node) input).enableCachingForTree();
-         else if (input instanceof File)
-            ((File) input).getRootNode().enableCachingForTree();
-         else if (input instanceof Folder)
-            enableCachingInFolder((Folder) input);
-      }
-   }
-
-   private void enableCachingInFolder(Folder input)
-   {
-      for (File file : input.getFile())
-      {
-         file.getRootNode().enableCachingForTree();
-      }
-      for (Folder subfolder : input.getSubFolder())
-      {
-         enableCachingInFolder(subfolder);
-      }
    }
 
    /**

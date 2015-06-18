@@ -5,8 +5,6 @@ import java.io.IOException;
 import org.eclipse.emf.ecore.EPackage;
 import org.moflon.tgg.algorithm.delta.Delta;
 
-import TGGLanguage.algorithm.ApplicationTypes;
-
 public class IncrementalIntegratorTest extends IntegratorTest
 {
    public IncrementalIntegratorTest(EPackage sourcePackage, EPackage corrPackage, EPackage targetPackage)
@@ -25,12 +23,6 @@ public class IncrementalIntegratorTest extends IntegratorTest
    public void setInputModelDelta(Delta delta)
    {
       helper.setDelta(delta);
-   }
-
-      
-   @Override
-   protected void enableCachingIfMocaTree(ApplicationTypes direction) {
-	   //do not cache the input model in the incremental case, maybe a tiny change is to be propagated
    }
 
    /**
