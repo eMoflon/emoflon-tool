@@ -3,91 +3,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+
 partial class NodeImpl {
 
 @members <--
 
-	private boolean isCachingEnabled = false;
-
-   private HashMap<String, Collection<Text>> nameToChildren;
-
-   private HashMap<Integer, Collection<Text>> indexToChildren;
-
-   private HashMap<String, Collection<Attribute>> nameToAttributes;
-
-   private HashMap<Integer, Collection<Attribute>> indexToAttributes;
-
-   @Override
-   public void enableCachingForTree()
-   {
-      isCachingEnabled = true;
-
-      fillChildrenCache();
-      fillAttributeCache();
-
-      for (Text child : getChildren())
-         if (child instanceof Node)
-            ((Node) child).enableCachingForTree();
-   }
-
-   private void fillAttributeCache()
-   {
-      nameToAttributes = new HashMap<>();
-      indexToAttributes = new HashMap<>();
-      for (Attribute attr : getAttribute())
-      {
-         String keyName = attr.getName();
-         int keyIndex = attr.getIndex();
-
-         if (!nameToAttributes.containsKey(keyName))
-            nameToAttributes.put(keyName, new ArrayList<Attribute>());
-
-         if (!indexToAttributes.containsKey(keyIndex))
-            indexToAttributes.put(keyIndex, new ArrayList<Attribute>());
-
-         nameToAttributes.get(keyName).add(attr);
-         indexToAttributes.get(keyIndex).add(attr);
-      }
-   }
-
-   private void fillChildrenCache()
-   {
-      nameToChildren = new HashMap<>();
-      indexToChildren = new HashMap<>();
-      for (Text child : getChildren())
-      {
-         String keyName = child.getName();
-         int keyIndex = child.getIndex();
-
-         if (!nameToChildren.containsKey(keyName))
-            nameToChildren.put(keyName, new ArrayList<Text>());
-
-         if (!indexToChildren.containsKey(keyIndex))
-            indexToChildren.put(keyIndex, new ArrayList<Text>());
-
-         nameToChildren.get(keyName).add(child);
-         indexToChildren.get(keyIndex).add(child);
-      }
-   }
-
-   @Override
-   public void disableCachingForTree()
-   {
-      isCachingEnabled = false;
-
-      for (Text child : getChildren())
-         if (child instanceof Node)
-            ((Node) child).disableCachingForTree();
-   }
-
    @Override
    public Collection<Attribute> getAttribute(String nameOfAttribute)
    {
-      if (isCachingEnabled)
-      {
-         Collection<Attribute> result = nameToAttributes.get(nameOfAttribute);
-         return result != null ? result : new ArrayList<Attribute>();
-      }
       ArrayList<Attribute> filteredAttributes = new ArrayList<>();
       for (Attribute attr : getAttribute())
       {
@@ -103,12 +26,6 @@ partial class NodeImpl {
    @Override
    public Collection<Attribute> getAttribute(int indexOfAttribute)
    {
-      if (isCachingEnabled)
-      {
-         Collection<Attribute> result = indexToAttributes.get(indexToAttributes);
-         return result != null ? result : new ArrayList<Attribute>();
-      }
-
       ArrayList<Attribute> filteredAttributes = new ArrayList<>();
       for (Attribute attr : getAttribute())
       {
@@ -124,21 +41,6 @@ partial class NodeImpl {
    @Override
    public Collection<Attribute> getAttribute(String nameOfAttribute, int indexOfAttribute)
    {
-      if (isCachingEnabled)
-      {
-         Collection<Attribute> withCorrectName = nameToAttributes.get(nameOfAttribute);
-         Collection<Attribute> withCorrectIndex = indexToAttributes.get(indexOfAttribute);
-
-         withCorrectName = withCorrectName != null ? withCorrectName : new ArrayList<Attribute>();
-         withCorrectIndex = withCorrectIndex != null ? withCorrectIndex : new ArrayList<Attribute>();
-
-         ArrayList<Attribute> intersection = new ArrayList<>();
-         intersection.addAll(withCorrectName);
-         intersection.retainAll(withCorrectIndex);
-
-         return intersection;
-      }
-
       ArrayList<Attribute> filteredAttributes = new ArrayList<>();
       for (Attribute attr : getAttribute())
       {
@@ -154,12 +56,6 @@ partial class NodeImpl {
    @Override
    public Collection<Text> getChildren(String nameOfChild)
    {
-      if (isCachingEnabled)
-      {
-         Collection<Text> result = nameToChildren.get(nameOfChild);
-         return result != null ? result : new ArrayList<Text>();
-      }
-
       ArrayList<Text> filteredChildren = new ArrayList<>();
       for (Text child : getChildren())
       {
@@ -175,12 +71,6 @@ partial class NodeImpl {
    @Override
    public Collection<Text> getChildren(int indexOfChild)
    {
-      if (isCachingEnabled)
-      {
-         Collection<Text> result = indexToChildren.get(indexOfChild);
-         return result != null ? result : new ArrayList<Text>();
-      }
-
       ArrayList<Text> filteredChildren = new ArrayList<>();
       for (Text child : getChildren())
       {
@@ -196,21 +86,6 @@ partial class NodeImpl {
    @Override
    public Collection<Text> getChildren(String nameOfChild, int indexOfChild)
    {
-      if (isCachingEnabled)
-      {
-         Collection<Text> withCorrectName = nameToChildren.get(nameOfChild);
-         Collection<Text> withCorrectIndex = indexToChildren.get(indexOfChild);
-
-         withCorrectName = withCorrectName != null ? withCorrectName : new ArrayList<Text>();
-         withCorrectIndex = withCorrectIndex != null ? withCorrectIndex : new ArrayList<Text>();
-
-         ArrayList<Text> intersection = new ArrayList<>();
-         intersection.addAll(withCorrectName);
-         intersection.retainAll(withCorrectIndex);
-
-         return intersection;
-      }
-
       ArrayList<Text> filteredChildren = new ArrayList<>();
       for (Text child : getChildren())
       {
@@ -222,8 +97,7 @@ partial class NodeImpl {
 
       return filteredChildren;
    }
-
-	
+   
 -->
 
 }

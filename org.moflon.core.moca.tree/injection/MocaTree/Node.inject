@@ -5,10 +5,7 @@ partial class Node {
 
 @members <--
 
-   void enableCachingForTree();
-   void disableCachingForTree();
-   
-	Collection<Attribute> getAttribute(String nameOfAttribute);
+    Collection<Attribute> getAttribute(String nameOfAttribute);
 	Collection<Attribute> getAttribute(int indexOfAttribute);
 	Collection<Attribute> getAttribute(String nameOfAttribute, int indexOfAttribute);
 	
