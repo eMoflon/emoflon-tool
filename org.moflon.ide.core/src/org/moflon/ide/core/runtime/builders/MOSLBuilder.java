@@ -114,15 +114,15 @@ public class MOSLBuilder extends AbstractBuilder
 
          temp.create(true, true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-         eMoflonEMFUtil.saveModel(moslTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".mosl.xmi");
+         eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), moslTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".mosl.xmi");
          monitor.worked(1);
 
          Node moslPlusTree = converter.convertMOSLFolder(moslTree);
-         eMoflonEMFUtil.saveModel(moslPlusTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".mosl.plus.xmi");
+         eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), moslPlusTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".mosl.plus.xmi");
          monitor.worked(1);
 
          Node eaTree = transformer.transform(moslPlusTree);
-         eMoflonEMFUtil.saveModel(eaTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".moca.xmi");
+         eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), eaTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".moca.xmi");
          monitor.worked(1);
 
          temp.refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
