@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
-<provider id="org.tigris.subversion.subclipse.core.svnnature">
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/siemenscme/trunk/CAMLanguage,CAMLanguage"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/siemenscme/trunk/ClsToCAMLanguageTGG,ClsToCAMLanguageTGG"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/siemenscme/trunk/CME,CME"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/siemenscme/trunk/CMEVortragInBerlin,CMEVortragInBerlin"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/siemenscme/trunk/Example,Example"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/siemenscme/trunk/MpfToCAMLanguageTGG,MpfToCAMLanguageTGG"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/vwsoftcompanal/trunk/workspace/ExportToComponentLanguage,ExportToComponentLanguage"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/vwsoftcompanal/trunk/workspace/ComponentLanguage,ComponentLanguage"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/vwsoftcompanal/trunk/workspace/PathAnalysis,PathAnalysis"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/vwsoftcompanal/trunk/workspace/SoftwareComponentAnalysis,SoftwareComponentAnalysis"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/vwsoftcompanal/trunk/workspace/TextualSyntaxComponentLanguage,TextualSyntaxComponentLanguage"/>
-<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/emoflon-tests/trunk/test_suite/ZooTestSuite1,ZooTestSuite1"/>
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git,master,CAMLanguage"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git,master,ClsToCAMLanguageTGG"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git,master,CME"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git,master,CMEVortragInBerlin"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/vw-software-component-analysis.git,master,ComponentLanguage"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/vw-software-component-analysis.git,master,ExportToComponentLanguage"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git,master,MpfToCAMLanguageTGG"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/vw-software-component-analysis.git,master,PathAnalysis"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/vw-software-component-analysis.git,master,SoftwareComponentAnalysis"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/vw-software-component-analysis.git,master,TextualSyntaxComponentLanguage"/>
+<project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git,master,ZooTestSuite1"/>
 </provider>
 </psf>
