@@ -4,12 +4,10 @@ partial class ScopeValidatorImpl {
 
 
 @model isNull (CFVariable variable) <--
-
 		return variable == null;
 -->
 
 @model lookupErrorMessage (Errors errorID) <--
-
 		if (Errors.GREEN_BOUND_VAR_FOUND == errorID) {
 			return "A bound variable can not be newly created";
 		} else if (Errors.UNBOUND_IS_BOUND_IN_SPEC == errorID) {
@@ -42,6 +40,8 @@ partial class ScopeValidatorImpl {
 			return "Binding in green variable is not allowed";
 		} else if (Errors.THIS_OBJECT_DELETED == errorID) {
 			return "Deletion of this object is not allowed";
+		} else if (Errors.EMPTY_FOREACH_NODE == errorID) {
+			return "For each node must contain at least one variable";
 		}
 		return "Unknown error";
 -->
