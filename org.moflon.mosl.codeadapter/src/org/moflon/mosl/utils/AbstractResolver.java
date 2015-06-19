@@ -52,6 +52,10 @@ public abstract class AbstractResolver {
 		return getCategory(node, "category");
 	}
 	
+	public Category getSearchCategory(Attribute searchCategory){
+		return getCategory(searchCategory.getValue());
+	}
+	
 	protected Category getCategory(Attribute attribute){
 		return getCategory(attribute.getValue());
 	}
@@ -104,5 +108,12 @@ public abstract class AbstractResolver {
 		attribute.setValue(value);
 		attribute.setIndex(index);
 		return attribute;
+	}
+	
+	protected Node createNode(String name, int index){
+		Node node = MocaTreeFactory.eINSTANCE.createNode();
+		node.setName(name);
+		node.setIndex(index);
+		return node;
 	}
 }

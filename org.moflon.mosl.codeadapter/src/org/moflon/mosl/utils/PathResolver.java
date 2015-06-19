@@ -225,7 +225,9 @@ public class PathResolver extends AbstractResolver {
 			for(Pair<String, Attribute> pair : pairs){
 				attribute = pair.second;
 				referencePath = pair.first;
-				attribute.setValue(getPath(referencePath, attribute.getValue(), Category.TYPE));
+				String path = getPath(referencePath, attribute.getValue(), Category.TYPE);
+				attribute.setValue(path);
+				setDependency(referencePath, path);
 			}
 			searchCache.remove(Category.TYPE);
 		}
@@ -244,13 +246,51 @@ public class PathResolver extends AbstractResolver {
 				for(Pair<String, Attribute> pair : pairs){
 					 attribute = pair.second;
 					 referencePath = pair.first;
-					 attribute.setValue(tryToGetPath(referencePath, attribute.getValue(), cat));
+					 String path = tryToGetPath(referencePath, attribute.getValue(), cat);
+					 attribute.setValue(path);
 				}
 			}
 		}
 		resolveTypedExpressions();
 	}
 
+	
+	private void setDependency(String from, String to){
+		List<String> fromPackages = getPathesForPathReferncesAndCategory(from, Category.PACKAGE);
+		List<String> toPackages = getPathesForPathReferncesAndCategory(to, Category.PACKAGE);
+		for(String fromPackagePath : fromPackages){
+			if(!toPackages.contains(fromPackagePath)){
+				Node ePackage = moslCache.get(fromPackagePath);
+				Node dependenciesNode = null;
+				if(hasChild(ePackage, "dependencies"))
+				 dependenciesNode = getChild(ePackage, "dependencies");
+				else{
+					dependenciesNode=createNode("dependencies", ePackage.getChildren().size());
+					dependenciesNode.setParentNode(ePackage);
+				}
+				for(String toPackagePath : toPackages){
+					Node dependencyPackage = moslCache.get(toPackagePath);
+					Attribute dependencyPackageName = getAttribute(dependencyPackage, "name");
+					if("Ecore".compareTo(dependencyPackageName.getValue())!=0 && !hasChild(dependenciesNode, dependencyPackageName.getValue())){
+						Node newDependency = createNode(dependencyPackageName.getValue(), dependenciesNode.getChildren().size());
+						newDependency.setParentNode(dependenciesNode);
+					}
+				}
+			}
+		}
+	}
+	
+	private List<String> getPathesForPathReferncesAndCategory(String refPath, Category cat){
+		Map<String, String> pathTable = categorizedPathTable.get(cat);
+		List<String> elements = new ArrayList<>();
+		for(String path : pathTable.keySet()){
+			if(refPath.contains(path))
+				elements.add(path);
+		}		
+		return elements;
+	}
+	
+	
 	private void fixEReferenceOpposites(){
 		Map<String, String> oppositePathes = categorizedPathTable.get(Category.OPPOSITE);
 		if(oppositePathes != null){
@@ -405,10 +445,6 @@ public class PathResolver extends AbstractResolver {
 		Node cpyPattern = Node.class.cast(EcoreUtil.copy(moslCache.get(tryToGetPath(path, relativeName, Category.PATTERN_FILE)).getChildren().get(0)));
 		cpyPattern.setParentNode(destination);
 		converter.traverseTree(path, cpyPattern);
-	}
-	
-	public Category getSearchCategory(Attribute searchCategory){
-		return getCategory(searchCategory.getValue());
 	}
 	
 	public void removeNodeFromCache(String path){
