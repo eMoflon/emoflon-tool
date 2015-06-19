@@ -19,6 +19,7 @@ public abstract class AbstractResolver {
 		case "other": return Category.OTHER;
 		case "eclassFile": return Category.ECLASS_FILE;
 		case "tggFile": return Category.TGG_FILE;
+		case "tggFolder": return Category.TGG_FOLDER;
 		case "rulesFolder": return Category.RULES_FOLDER;
 		case "mconfFile": return Category.MCONF_FILE;
 		case "schemaFile": return Category.SCHEMA_FILE;
