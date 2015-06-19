@@ -145,12 +145,13 @@ lAssignmentList: lAssignment+ -> ^(T["attributeAssignments"] lAssignment+);
 
 lAssignment: name=ID DOT attr=ID op=lAssignmentOperator value=lExpression
       -> ^(T["attributeAssignment"] 
-      								^(ATTRIBUTE T["objectName"] $name)      								
+      								^(ATTRIBUTE T["objectName"] $name)
+      								^(ATTRIBUTE T["attributeGuid"] $attr)      								
   	                                ^(ATTRIBUTE T["attributeName"] $attr)
   	                                ^(ATTRIBUTE T["searchCategory"] T["objectVariable"])
 									^(ATTRIBUTE T["search"] T["objectName"])
 									^(ATTRIBUTE T["searchCategory"] T["attribute"])
-									^(ATTRIBUTE T["search"] T["attributeName"])
+									^(ATTRIBUTE T["search"] T["attributeGuid"])
   	                                ^(T["valueExpression"] $value)
   	      );
           
@@ -257,10 +258,23 @@ lAttributeValueExpression: objectVariable=ID DOT attribute=ID
 // Argument lists
 
 lArgumentList: ( lArgument COMMA ) * lArgument 
-			-> ^(T["ownedParameterBinding"] lArgument+ );
+			-> ^(T["ownedParameterBinding"] 
+				^(ATTRIBUTE T["nummberID"] T["" + MOSLUtils.getIndex()])
+				lArgument+ );
 
-lArgument: value=ID
+lArgument: value=lObjectVariableExpression
             -> ^(T["valueExpression"] 
-           				^(ATTRIBUTE T["type"] T["TextualExpression"])
-            		    ^(ATTRIBUTE T["expressionText"] $value)
-               );
+           			^(T["Expression"]	 $value))
+           	| value=lParameterExpression
+            -> ^(T["valueExpression"] 
+           			^(T["Expression"]	 $value))
+           | value=lLiteralExpression
+            -> ^(T["valueExpression"] 
+           			^(T["Expression"]	 $value))
+         /*  | value=lMethodCallExpression
+            -> ^(T["valueExpression"] 
+           			^(T["Expression"]	 $value)) */
+           | value=lAttributeValueExpression
+            -> ^(T["valueExpression"] 
+           			^(T["Expression"]	 $value));
+           				 
