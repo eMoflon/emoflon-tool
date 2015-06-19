@@ -1,6 +1,7 @@
 parser grammar PatternParser;
 
 options {
+  backtrack = true;
   language = Java;
   tokenVocab = PatternLexer;
   output = AST;
@@ -271,9 +272,9 @@ lArgument: value=lObjectVariableExpression
            | value=lLiteralExpression
             -> ^(T["valueExpression"] 
            			^(T["Expression"]	 $value))
-         /*  | value=lMethodCallExpression
+           | value=lMethodCallExpression
             -> ^(T["valueExpression"] 
-           			^(T["Expression"]	 $value)) */
+           			^(T["Expression"]	 $value)) 
            | value=lAttributeValueExpression
             -> ^(T["valueExpression"] 
            			^(T["Expression"]	 $value));
