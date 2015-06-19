@@ -371,20 +371,8 @@ lArgumentList: ( lArgument COMMA ) * lArgument
 				^(ATTRIBUTE T["nummberID"] T["" + MOSLUtils.getIndex()])
 				lArgument+ );
 
-lArgument: value=lObjectVariableExpression
+lArgument: value=lExpression
             -> ^(T["valueExpression"] 
-           			^(T["Expression"]	 $value))
-           	| value=lParameterExpression
-            -> ^(T["valueExpression"] 
-           			^(T["Expression"]	 $value))
-           | value=lLiteralExpression
-            -> ^(T["valueExpression"] 
-           			^(T["Expression"]	 $value))
-          | value=lMethodCallExpression
-            -> ^(T["valueExpression"] 
-           			^(T["Expression"]	 $value)) 
-           | value=lAttributeValueExpression
-            -> ^(T["valueExpression"] 
-           			^(T["Expression"]	 $value));
+           			 $value);
            				 
 
