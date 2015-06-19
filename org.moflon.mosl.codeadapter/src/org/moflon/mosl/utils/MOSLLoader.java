@@ -37,14 +37,17 @@ public class MOSLLoader {
 	    	// MoflonDependenciesPlugin.getPathRelToPlugIn("resources/templates/ImplicitImports/", "MOSLCodeAdapter");
 	         URL url = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/templates/ImplicitImports/", "MOSLCodeAdapter");
 	         File file=new File(url.getFile());//url.getPath());
-	         imports.getSubFolder().add(codeAdapter.parse(file));
+	         Folder implicitImports=codeAdapter.parse(file);
+//	         MocaTree.File adornments = getFileFromFolder(implicitImports, "_MOSLConfiguration.mconf");
+//	         adornments.setFolder(imports);
+	         imports.getSubFolder().add(implicitImports);
 	         
 	      } catch (Exception e) {
 	         throw new MoslLoadException("Cannot load implicit Imports", e);
 	      }
 
-	      Folder external = MocaTreeFactory.eINSTANCE.createFolder();
-	      external.setName("ExternalImports");
+//	      Folder external = MocaTreeFactory.eINSTANCE.createFolder();
+//	      external.setName("ExternalImports");
 	      
 	      //FIXME after Untransforming import from Local
 //	      try {
@@ -65,7 +68,7 @@ public class MOSLLoader {
 //	      }
 //	         
 //	      throw new IllegalArgumentException("Cannot resolve import '" + identifier + "'.");
-	      imports.getSubFolder().add(external);
+//	      imports.getSubFolder().add(external);
 	      
 	      
 	      return imports;
@@ -109,4 +112,12 @@ public class MOSLLoader {
 		   }		   
 	   }
 
+	   private MocaTree.File getFileFromFolder(Folder folder, String fileName){
+		   for(MocaTree.File file : folder.getFile()){
+			   if(file.getName().compareTo(fileName)==0){
+				   return file;
+			   }
+		   }
+		   return null;
+	   }
 }
