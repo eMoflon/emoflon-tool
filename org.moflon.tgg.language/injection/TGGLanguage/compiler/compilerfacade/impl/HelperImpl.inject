@@ -5,7 +5,6 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -13,7 +12,6 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.core.utilities.MoflonUtil;
-
 import TGGRuntime.TGGRuntimePackage;
 
 
@@ -23,6 +21,12 @@ partial class HelperImpl {
 
 	private static Map<String, Integer> indexMap = new HashMap<String, Integer>();
 	
+-->
+
+@model CONSISTENCY () <--
+
+		// TODO: implement this method here but do not remove the injection marker 
+		return ApplicationTypes.CONSISTENCY;
 -->
 
 @model BACKWARD () <--
@@ -75,8 +79,12 @@ partial class HelperImpl {
 		if (prefix.equals("postProcess"))
 			return prefix + direction.toString();
 
-		String shortDir = direction.equals(ApplicationTypes.FORWARD) ? "FWD"
-				: "BWD";
+		String shortDir = "BWD";
+		switch(direction) {
+		case FORWARD: shortDir = "FWD"; break;
+		case BACKWARD: shortDir = "BWD"; break;
+		case CONSISTENCY: shortDir = "CC"; break;
+		}
 
 		if (variableType == null)
 			return prefix + "_" + shortDir;
@@ -226,6 +234,18 @@ partial class HelperImpl {
 @model UNBOUND () <--
 
 		return BindingState.UNBOUND;
+-->
+
+@model SOURCE () <--
+
+		// TODO: implement this method here but do not remove the injection marker 
+		return DomainType.SOURCE;
+-->
+
+@model TARGET () <--
+
+		// TODO: implement this method here but do not remove the injection marker 
+		return DomainType.TARGET;
 -->
 
 }

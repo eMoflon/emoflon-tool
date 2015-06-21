@@ -18,6 +18,9 @@
     <package class="TGGLanguage.modelgenerator.ModelgeneratorPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//modelgenerator"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="TGGLanguage.precompiler.PrecompilerPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//precompiler"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="TGGLanguage.algorithm.AlgorithmPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//algorithm"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
@@ -31,8 +34,5 @@
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="TGGLanguage.compiler.compilerfacade.CompilerfacadePackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//compiler/compilerfacade"/>
-  </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="TGGLanguage.precompiler.PrecompilerPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//precompiler"/>
   </extension>
 </plugin>

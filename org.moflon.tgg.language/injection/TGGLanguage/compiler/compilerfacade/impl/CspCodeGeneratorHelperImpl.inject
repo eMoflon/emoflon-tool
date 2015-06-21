@@ -3,7 +3,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.csp.CSPNotSolvableException;
 import org.moflon.csp.codegenerator.BasicFormatRenderer;
-
 import TGGLanguage.csp.CSP;
 import SDMLanguage.sdmUtil.*;
 import net.sf.javabdd.BDDException;
@@ -80,6 +79,9 @@ partial class CspCodeGeneratorHelperImpl {
 
 		case SIMULTANEOUS:
 			return csp.getSimultaneous();
+			
+		case CONSISTENCY:
+			return csp.getForward();
 
 		default:
 			throw new IllegalArgumentException(
