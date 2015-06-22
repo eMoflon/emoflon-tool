@@ -12,6 +12,11 @@ import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.antlr.Tool;
+import org.antlr.tool.ANTLRErrorListener;
+import org.antlr.tool.ErrorManager;
+import org.antlr.tool.Message;
+import org.antlr.tool.ToolMessage;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
@@ -20,11 +25,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.URIUtil;
-import org.moflon.core.utilities.AntlrUtil;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
@@ -134,53 +135,43 @@ public class AntlrBuilder extends AbstractBuilder
 
       resource.deleteMarkers(MARKER, false, IResource.DEPTH_ZERO);
 
-      String javaHome = System.getProperty("java.home");
-      IPath javaHomePath = new Path(javaHome);
-      IPath javaPath = javaHomePath.append("bin").append("java");
-
-      String antlrPath = URIUtil.toFile(URIUtil.toURI(AntlrUtil.getAntrlPathUrl())).getAbsolutePath();
-
-      debug("Found java path: " + javaPath.toOSString());
-      debug("Found antlr.jar: " + antlrPath);
-
-      List<String> command = new ArrayList<String>();
-      command.add(javaPath.toOSString());
-      command.add("-jar");
-      command.add(antlrPath);
-      command.add("-o");
-      command.add(resource.getParent().getRawLocation().toOSString());
-      command.add(resource.getRawLocation().toOSString());
-
-      ProcessBuilder processBuilder = new ProcessBuilder(command);
-      processBuilder.redirectErrorStream(true);
-
-      Process process = null;
-
+      String outputDirectory = resource.getParent().getRawLocation().toOSString();
+      String inputFile = resource.getRawLocation().toOSString();
       try
       {
-         process = processBuilder.start();
+         String[] args = new String[] { "-o", outputDirectory, inputFile };
+         Tool antlr = new Tool(args);
+         ErrorManager.setErrorListener(new ANTLRErrorListener() {
 
-         int res = executeCommandLine(TIME_OUT, command, process, resource);
+            @Override
+            public void warning(final Message msg)
+            {
+               logger.warn("[ANTLR warning] " + msg);
+            }
 
-         if (res == 0)
-         {
-            logger.debug("Success.");
-         } else
-         {
-            logger.debug("Error: " + res);
-         }
-      } catch (IOException e)
+            @Override
+            public void info(final String msg)
+            {
+               logger.warn("[ANTLR info] " + msg);
+            }
+
+            @Override
+            public void error(final ToolMessage msg)
+            {
+               logger.error("[ANTLR error] " + msg);
+            }
+
+            @Override
+            public void error(final Message msg)
+            {
+               logger.error("[ANTLR error] " + msg);
+            }
+         });
+         antlr.process();
+      } catch (Exception e)
       {
-         logger.debug("Error while executing command: " + e.getMessage());
-         logger.error("Error while executing command", e);
-      } catch (InterruptedException e)
-      {
-         logger.error("Interrupted command: " + e.getMessage());
-      } catch (TimeoutException e)
-      {
-         logger.error("Timeout (60s) reached.");
+         e.printStackTrace();
       }
-
       this.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
    }
 
@@ -221,15 +212,17 @@ public class AntlrBuilder extends AbstractBuilder
                {
                   deleteResource(container, m.group(1) + ".tokens", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
                   deleteResource(container, m.group(1) + ".java", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-               } else {
+               } else
+               {
                   monitor.worked(2);
                }
             }
-            
+
             if (res.getType() == IResource.FOLDER)
             {
                cleanDirectory((IFolder) res, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            } else {
+            } else
+            {
                monitor.worked(1);
             }
          }
@@ -248,14 +241,14 @@ public class AntlrBuilder extends AbstractBuilder
       if (res != null && res.exists())
       {
          res.delete(true, monitor);
-      }
-      else {
+      } else
+      {
          monitor.done();
       }
    }
 
-   public static int executeCommandLine(final long timeout, final List<String> command, final Process process, final IResource resource) throws IOException,
-         InterruptedException, TimeoutException
+   public static int executeCommandLine(final long timeout, final Process process, final IResource resource) throws IOException, InterruptedException,
+         TimeoutException
    {
       Worker worker = new Worker(process, resource);
       worker.start();
