@@ -105,7 +105,7 @@ public class NewMetamodelWizard extends AbstractExampleWizard
    {
       try
       {
-         monitor.beginTask("Creating metamodel project", 7);
+         monitor.beginTask("Creating metamodel project", 8);
 
          String projectName = projectInfo.getProjectName();
 
@@ -138,7 +138,8 @@ public class NewMetamodelWizard extends AbstractExampleWizard
 
                WorkspaceHelper.addFile(newProjectHandle, "MOSL/_imports.mconf", content, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             }
-         } else
+            monitor.worked(1);
+         } else /* EA/visual metamodel project */
          {
             if (projectInfo.eMoflonDemo())
             {
@@ -153,6 +154,7 @@ public class NewMetamodelWizard extends AbstractExampleWizard
                      MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", UIActivator.getModuleID()), UIActivator.getModuleID(),
                      WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             }
+            WorkspaceHelper.addFile(newProjectHandle, ".gitignore", ".temp", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
          }
 
          // Add Nature and Builders
