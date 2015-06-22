@@ -1,7 +1,6 @@
 
 import org.moflon.csp.CSPFactoryHelper;
 import org.moflon.util.eMoflonSDMUtil;
-
 import DotLanguage.DirectedGraph;
 import DotLanguage.DotColor;
 import DotLanguage.DotLanguageFactory;
@@ -32,6 +31,9 @@ import TGGRuntime.impl.AbstractRuleImpl;
 import csp.constraints.BoldToState;
 import csp.constraints.Concat;
 import csp.constraints.SetColor;
+import org.moflon.csp.*;
+import csp.constraints.*;
+import TGGLanguage.csp.*;
 
 
 partial class NodeToTGGObjectVariableRuleImpl {
@@ -56,7 +58,7 @@ partial class NodeToTGGObjectVariableRuleImpl {
 
       if (trg__ov.getBindingExpression() != null)
       {
-         ov.setLabel(ov.getLabel() + " := " + eMoflonSDMUtil.extractExpression(trg__ov.getBindingExpression(), ""));
+         ov.setLabel(ov.getLabel() + " := " + eMoflonSDMUtil.extractExpression(trg__ov.getBindingExpression(), "").replace("\"", "\\\""));
       }
 -->
 

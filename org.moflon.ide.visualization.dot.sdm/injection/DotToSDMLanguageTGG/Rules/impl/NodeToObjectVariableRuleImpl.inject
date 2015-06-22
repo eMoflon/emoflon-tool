@@ -40,6 +40,9 @@ import TGGLanguage.csp.*;
 import org.moflon.csp.*;
 import csp.constraints.*;
 import TGGLanguage.csp.*;
+import org.moflon.csp.*;
+import csp.constraints.*;
+import TGGLanguage.csp.*;
 
 
 partial class NodeToObjectVariableRuleImpl {
@@ -64,7 +67,7 @@ partial class NodeToObjectVariableRuleImpl {
 
       if (trg__ov.getBindingExpression() != null)
       {
-         ov.setLabel(ov.getLabel() + " := " + eMoflonSDMUtil.extractExpression(trg__ov.getBindingExpression(), ""));
+         ov.setLabel(ov.getLabel() + " := " + eMoflonSDMUtil.extractExpression(trg__ov.getBindingExpression(), "").replace("\"", "\\\""));
       }
 -->
 
