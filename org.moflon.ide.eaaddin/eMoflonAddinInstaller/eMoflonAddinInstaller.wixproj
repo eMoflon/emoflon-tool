@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Date>$([System.DateTime]::Now.ToString("yyyyMMddhhmm"))</Date>
+    <Date>$([System.DateTime]::Now.ToString("yyyyMMdd__HHmmss"))</Date>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.8</ProductVersion>
@@ -71,4 +71,26 @@ heat.exe file EAEcoreAddin.dll -cg MyFilesGroup -dr INSTALLSUBFOLDER -gg -var va
 	<Target Name="AfterBuild">
 	</Target>
 	-->
+    <Target Name="BeforeBuild">
+      <!-- Get the programs assembly version from the .exe file -->
+      <GetAssemblyIdentity AssemblyFiles="..\EAEcoreAddin\bin\$(Configuration)\EAEcoreAddin.dll">
+        <Output TaskParameter="Assemblies" ItemName="AsmInfo" />
+      </GetAssemblyIdentity>
+      
+      <!-- Store the assembly version number in ProductVersion preprocessor variable -->
+      <CreateProperty Value="$(DefineConstants);ProductVersion=%(AsmInfo.Version)">
+        <Output TaskParameter="Value" PropertyName="DefineConstants" />
+      </CreateProperty>
+      
+      <!-- Name the .msi file after the solution platform and assembly version e.g TestService-x86-1.4.0.0.msi -->
+      <CreateProperty Value="$(SolutionName)-$(Platform)-%(AsmInfo.Version)-b$(Date)">
+        <Output TaskParameter="Value" PropertyName="TargetName" />
+      </CreateProperty>
+      
+      <!-- Name the .wixpdb file after the solution platform and assembly version e.g TestService-x86-1.4.0.0.msi -->
+      <CreateProperty Value="$(TargetName)$(TargetPdbExt)">
+        <Output TaskParameter="Value" PropertyName="TargetPdbName" />
+      </CreateProperty>
+      
+    </Target>
 </Project>
