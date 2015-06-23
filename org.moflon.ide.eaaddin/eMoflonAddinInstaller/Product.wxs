@@ -10,6 +10,8 @@
 			<ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="MyFilesGroup"/>
 		</Feature>
+
+    <Property Id="BuildDate" Value="$(var.Date)"/>
     
     <Icon Id="eMoflonLogo.ico" SourceFile="images\eMoflonLogo.ico"/>
     <Property Id="ARPPRODUCTICON" Value="eMoflonLogo.ico" />
