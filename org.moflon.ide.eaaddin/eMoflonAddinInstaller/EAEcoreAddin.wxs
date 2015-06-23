@@ -7,7 +7,7 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="MyFilesGroup">
-            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{3EBC7E51-53CA-4733-937B-821E0CD01E68}">
+            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{408D196A-3BA7-4E6A-974B-309569955205}">
                 <Class Id="{00963F77-2436-385B-9E79-3C31B2FEF9A5}" Context="InprocServer32" Description="EAEcoreAddin.Serialization.MocaTree.MocaNode" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="EAEcoreAddin.Serialization.MocaTree.MocaNode" Description="EAEcoreAddin.Serialization.MocaTree.MocaNode" />
                 </Class>

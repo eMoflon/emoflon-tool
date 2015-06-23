@@ -115,7 +115,6 @@
     <Compile Include="Consistency\Rules\ElementRules\EClassParentInvalid.cs" />
     <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\OvInvalidDiagramPosition.cs" />
     <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\TGGObjectVariableUndefinedDomain.cs" />
-    <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\OvTypeNotUnique.cs" />
     <Compile Include="Consistency\Rules\ElementRules\ObjectVariableRules\TGGCorrespondenceInvalidMetamodel.cs" />
     <Compile Include="Consistency\Rules\ElementRules\CSPInvalid.cs" />
     <Compile Include="Consistency\Rules\ElementRules\TGGRuleSetInvalid.cs" />
