@@ -13,7 +13,6 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.moflon.ide.core.CoreActivator;
 
 /**
  * Handler for the 'Build' command that only rebuilds dirty projects.
@@ -61,21 +60,5 @@ public class BuildOnlyDirtyProjectsHandler extends AbstractCommandHandler
          job.setUser(true);
          job.schedule();
       }
-   }
-
-   private final class EMoflonBuildJobForDirtyProjects extends EMoflonBuildJob
-   {
-
-      private EMoflonBuildJobForDirtyProjects(final String name, final List<IProject> projects)
-      {
-         super(name, projects);
-      }
-
-      @Override
-      protected boolean shallBuildProject(final IProject project)
-      {
-         return CoreActivator.getDefault().isDirty(project);
-      }
-
    }
 }
