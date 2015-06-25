@@ -1,11 +1,5 @@
 package org.moflon.devtools.ui.handlers.deploy;
 
-import java.io.File;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -23,17 +17,7 @@ public class DeploymentHandler extends AbstractCommandHandler
 
    public static final String LOCAL_DEPLOY_PATH_PROPERTY = "org.moflon.ide.deployment.deploymentpath";
 
-   private static final String VERSION_NUMBER_PROPERTY = "org.moflon.deployment.versionnumber";
-
-   private static final String DEFAULT_IGNORED_PLUGIN_ID_PATTERNS_PROPERTY = "org.moflon.deployment.ignoredpluginidpatterns";
-
-   private static final String DEFAULT_VERSION_NUMBER = "";// "1.0.0.qualifier";
-
    private static final String DEFAULT_LOCAL_DEPLOY_PATH = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString();
-
-   private static final List<String> DEFAULT_IGNORED_PLUGIN_ID_PATTERNS = Arrays.asList("de.uni_kassel.*", "org.gervarro.*");
-
-   private static final String DEFAULT_IGNORED_PLUGIN_ID_PATTERNS_AS_STRING = DEFAULT_IGNORED_PLUGIN_ID_PATTERNS.stream().collect(Collectors.joining(","));
 
    @Override
    public Object execute(final ExecutionEvent event) throws ExecutionException
@@ -42,21 +26,15 @@ public class DeploymentHandler extends AbstractCommandHandler
 
       DeploymentDialog dialog = new DeploymentDialog(window.getShell());
       dialog.setDeploymentDirectory(getDefaultDeploymentPath());
-      dialog.setVersionNumber(getDefaultVersionNumber());
-      dialog.setIgnoredPluginIDPatterns(getDefaultIgnoredPluginIdPatterns());
       int exitCode = dialog.open();
 
       switch (exitCode)
       {
       case Dialog.OK:
          String selectedDirectory = dialog.getSelectedDirectory();
-         String versionNumber = dialog.getVersionNumber();
-         List<String> ignoredPluginIdPatterns = dialog.getIgnoredPluginIdPatternsAsList();
          setDefaultDeploymentPath(selectedDirectory);
-         setDefaultVersionNumber(versionNumber);
-         setDefaultIgnoredPluginIdPatterns(ignoredPluginIdPatterns);
 
-         performDeploy(selectedDirectory, versionNumber, ignoredPluginIdPatterns);
+         performDeploy(selectedDirectory);
 
          break;
       case Dialog.CANCEL:
@@ -69,10 +47,10 @@ public class DeploymentHandler extends AbstractCommandHandler
       return null;
    }
 
-   protected void performDeploy(final String destinationDirectory, final String versionNumber, final List<String> ignoredPluginIdPatterns)
+   protected void performDeploy(final String destinationDirectory)
          throws ExecutionException
    {
-      DeploymentJob deploymentController = new DeploymentJob(destinationDirectory, versionNumber, ignoredPluginIdPatterns);
+      DeploymentJob deploymentController = new DeploymentJob(destinationDirectory);
       deploymentController.schedule();
    }
 
@@ -89,32 +67,4 @@ public class DeploymentHandler extends AbstractCommandHandler
       InstanceScope.INSTANCE.getNode(AutoTestActivator.getModuleID()).put(LOCAL_DEPLOY_PATH_PROPERTY, defaultPath);
    }
 
-   private String getDefaultVersionNumber()
-   {
-      return InstanceScope.INSTANCE.getNode(AutoTestActivator.getModuleID()).get(VERSION_NUMBER_PROPERTY, DEFAULT_VERSION_NUMBER);
-   }
-
-   private void setDefaultVersionNumber(final String defaultVersion)
-   {
-      InstanceScope.INSTANCE.getNode(AutoTestActivator.getModuleID()).put(VERSION_NUMBER_PROPERTY, defaultVersion == null ? "" : defaultVersion);
-   }
-
-   private List<String> getDefaultIgnoredPluginIdPatterns()
-   {
-      String ignoredPluginIdsAsString = InstanceScope.INSTANCE.getNode(AutoTestActivator.getModuleID()).get(DEFAULT_IGNORED_PLUGIN_ID_PATTERNS_PROPERTY,
-            DEFAULT_IGNORED_PLUGIN_ID_PATTERNS_AS_STRING);
-
-      return Arrays.asList(ignoredPluginIdsAsString.split(","));
-   }
-
-   private void setDefaultIgnoredPluginIdPatterns(final List<String> ignoredPluginIdPatterns)
-   {
-      String listAsString = ignoredPluginIdPatterns.stream().collect(Collectors.joining(","));
-      InstanceScope.INSTANCE.getNode(AutoTestActivator.getModuleID()).put(DEFAULT_IGNORED_PLUGIN_ID_PATTERNS_PROPERTY, listAsString);
-   }
-
-   public static final String uriToOSPath(final URI uri)
-   {
-      return new File(uri.getSchemeSpecificPart()).toString();
-   }
 }

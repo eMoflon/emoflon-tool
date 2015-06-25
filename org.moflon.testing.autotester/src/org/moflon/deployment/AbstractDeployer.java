@@ -20,7 +20,6 @@ public abstract class AbstractDeployer
 
    private final String deploymentPath;
 
-   private String versionNumber;
 
    /**
     * Instantiates a deployer that uses the given deployment path as root directory for its deployment and that updates the versions of plugins and the feature using the given version number.
@@ -28,12 +27,10 @@ public abstract class AbstractDeployer
     * If the version number is null or empty, the current version is left unchanged.
     * 
     * @param deploymentPath
-    * @param versionNumber
     */
-   public AbstractDeployer(final String deploymentPath, final String versionNumber)
+   public AbstractDeployer(final String deploymentPath)
    {
       this.deploymentPath = deploymentPath;
-      this.versionNumber = versionNumber;
       this.warningCount = 0;
    }
 
@@ -48,10 +45,6 @@ public abstract class AbstractDeployer
    public String getDeploymentPath()
    {
       return this.deploymentPath;
-   }
-   
-   public String getVersionNumber() {
-      return this.versionNumber;
    }
    
    /**

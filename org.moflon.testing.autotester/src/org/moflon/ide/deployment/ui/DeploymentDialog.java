@@ -1,19 +1,10 @@
 package org.moflon.ide.deployment.ui;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-import java.util.stream.Collectors;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -27,7 +18,6 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.moflon.ide.ui.UIActivator;
 
 public class DeploymentDialog extends Dialog
 {
@@ -37,11 +27,7 @@ public class DeploymentDialog extends Dialog
 
    private Text deploymentDirectoryTextBox;
 
-   private Text versionNumberTextBox;
-
    private List<String> ignoredPluginIdPatterns;
-
-   private Text ignoredPluginIdPatternsTextBox;
 
    public DeploymentDialog(final Shell parentShell)
    {
@@ -54,6 +40,7 @@ public class DeploymentDialog extends Dialog
       this.deploymentDirectory = selectedDirectory;
    }
 
+   @Deprecated
    public void setVersionNumber(final String versionNumber)
    {
       this.versionNumber = versionNumber;
@@ -64,11 +51,13 @@ public class DeploymentDialog extends Dialog
       return deploymentDirectory;
    }
 
+   @Deprecated
    public String getVersionNumber()
    {
       return this.versionNumber;
    }
 
+   @Deprecated
    public List<String> getIgnoredPluginIdPatternsAsList()
    {
       return this.ignoredPluginIdPatterns;
@@ -84,22 +73,15 @@ public class DeploymentDialog extends Dialog
 
       addRowForBetaAndRelease(shell);
 
-      addRowForVersionNumber(shell);
+//      addRowForVersionNumber(shell);
 
-      addRowForIgnoredPluginIdPatterns(shell);
+      //      addRowForIgnoredPluginIdPatterns(shell);
 
       addRowWithButtons(shell);
 
       updateDeploymentDirectoryTextBox();
-      updateVersionNumberTextBox();
-      updateIgnoredPluginIdPatternsTextBox();
 
       return parent;
-   }
-
-   private void updateIgnoredPluginIdPatternsTextBox()
-   {
-      this.ignoredPluginIdPatternsTextBox.setText(this.ignoredPluginIdPatterns.stream().collect(Collectors.joining(",")));
    }
 
    public void addRowForDeploymentPath(final Shell shell)
@@ -193,100 +175,6 @@ public class DeploymentDialog extends Dialog
 
    }
 
-   private void addRowForVersionNumber(final Shell shell)
-   {
-      // Show the message
-      Label label = new Label(shell, SWT.NONE);
-      label.setText("New version number:");
-      // data.horizontalSpan = 2;
-      label.setLayoutData(new GridData());
-
-      // Display the input box
-      this.versionNumberTextBox = new Text(shell, SWT.BORDER);
-      // data.horizontalSpan = 2;
-      this.versionNumberTextBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      this.versionNumberTextBox.addModifyListener(new ModifyListener() {
-
-         @Override
-         public void modifyText(final ModifyEvent e)
-         {
-            if (!versionNumberTextBox.getText().matches("\\s*"))
-            {
-               versionNumber = versionNumberTextBox.getText();
-            } else
-            {
-               versionNumber = null;
-            }
-         }
-      });
-      this.versionNumberTextBox.setToolTipText("The new version number for all plugins and features to be deployed. If empty, no changes will be performed.");
-
-      Label dummy = new Label(shell, SWT.NONE);
-      dummy.setText("");
-      GridData dummyData = new GridData();
-      dummyData.horizontalSpan = 2;
-      dummy.setLayoutData(dummyData);
-
-   }
-
-   private void addRowForIgnoredPluginIdPatterns(final Shell shell)
-   {
-      // Show the message
-      Label label = new Label(shell, SWT.NONE);
-      label.setText("Ignored plugin ID patterns:");
-      // data.horizontalSpan = 2;
-      label.setLayoutData(new GridData());
-
-      // Display the input box
-      this.ignoredPluginIdPatternsTextBox = new Text(shell, SWT.BORDER);
-      // data.horizontalSpan = 2;
-      this.ignoredPluginIdPatternsTextBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      this.ignoredPluginIdPatternsTextBox.addFocusListener(new FocusListener() {
-
-         @Override
-         public void focusLost(final FocusEvent e)
-         {
-            if (!ignoredPluginIdPatternsTextBox.getText().matches("\\s*"))
-            {
-               boolean allPatternsCorrect = true;
-               List<String> newPatternList = Arrays.asList(ignoredPluginIdPatternsTextBox.getText().split(","));
-               for (final String newPattern : newPatternList)
-               {
-                  try
-                  {
-                     Pattern.compile(newPattern);
-                  } catch (PatternSyntaxException e1)
-                  {
-                     ErrorDialog.openError(getShell(), "Invalid pattern", "The pattern ' " + newPattern + "' is invalid.", new Status(IStatus.ERROR,
-                           UIActivator.getModuleID(), e1.getMessage()));
-                     allPatternsCorrect = false;
-                     break;
-                  }
-               }
-               if (allPatternsCorrect)
-                  ignoredPluginIdPatterns = newPatternList;
-
-            } else
-            {
-               ignoredPluginIdPatterns = null;
-            }
-         }
-
-         @Override
-         public void focusGained(final FocusEvent e)
-         {
-         }
-      });
-      this.ignoredPluginIdPatternsTextBox.setToolTipText("Comma-separated list of patterns that specify which plugins will *not* be touched during a version number update");
-
-      Label dummy = new Label(shell, SWT.NONE);
-      dummy.setText("");
-      GridData dummyData = new GridData();
-      dummyData.horizontalSpan = 2;
-      dummy.setLayoutData(dummyData);
-
-   }
-
    public void addRowWithButtons(final Shell shell)
    {
       // Show the message
@@ -325,16 +213,12 @@ public class DeploymentDialog extends Dialog
       shell.setDefaultButton(ok);
    }
 
-   private void updateVersionNumberTextBox()
-   {
-      this.versionNumberTextBox.setText(this.versionNumber);
-   }
-
    private void updateDeploymentDirectoryTextBox()
    {
       this.deploymentDirectoryTextBox.setText(this.deploymentDirectory);
    }
 
+   @Deprecated
    public void setIgnoredPluginIDPatterns(final List<String> ignoredPluginIdPatterns)
    {
       this.ignoredPluginIdPatterns = ignoredPluginIdPatterns;

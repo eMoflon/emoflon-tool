@@ -1,7 +1,5 @@
 package org.moflon.devtools.ui.handlers.deploy;
 
-import java.util.List;
-
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -21,7 +19,7 @@ public class ImprovedMoflonDeploymentHandler extends DeploymentHandler
 {
 
    @Override
-   protected void performDeploy(final String destinationDirectory, final String versionNumber, final List<String> ignoredPluginIdPatterns)
+   protected void performDeploy(final String destinationDirectory)
          throws ExecutionException
    {
       assert destinationDirectory != null;
@@ -31,7 +29,7 @@ public class ImprovedMoflonDeploymentHandler extends DeploymentHandler
          final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("MoflonIdeUpdateSite");
          if (project.isAccessible())
          {
-            final DeploymentJob deploymentController = new DeploymentJob(destinationDirectory, versionNumber, ignoredPluginIdPatterns);
+            final DeploymentJob deploymentController = new DeploymentJob(destinationDirectory);
             final IFile moflonTargetDefinitionFile = project.getFile("moflon.target");
             if (moflonTargetDefinitionFile.isAccessible())
             {

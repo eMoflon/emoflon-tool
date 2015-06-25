@@ -16,9 +16,9 @@ public class HandbookDeployer extends AbstractDeployer
 {
    private static final Logger logger = Logger.getLogger(HandbookDeployer.class);
 
-   public HandbookDeployer(final String deploymentPath, final String versionNumber)
+   public HandbookDeployer(final String deploymentPath)
    {
-      super(deploymentPath, versionNumber);
+      super(deploymentPath);
    }
 
    @Override

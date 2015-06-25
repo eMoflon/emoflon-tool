@@ -3,7 +3,6 @@ package org.moflon.autotest.core;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -27,24 +26,14 @@ public class DeploymentJob extends Job
 
    private final String deploymentRoot;
 
-   private final String versionNumber;
-
-   private List<String> ignoredPluginIdPatterns;
-
    /**
     * @param deploymentPath
     *           the root deployment path. Each sub-deployment controller will create separate subdirectories within it.
-    * @param versionNumber
-    *           the version number to be set for this deployment. If null or empty, the current version number will not be
-    *           modified.
-    * @param ignoredPluginIdPatterns
     */
-   public DeploymentJob(final String deploymentPath, final String versionNumber, final List<String> ignoredPluginIdPatterns)
+   public DeploymentJob(final String deploymentPath)
    {
       super("eMoflon: Deploying ...");
       this.deploymentRoot = deploymentPath;
-      this.versionNumber = versionNumber;
-      this.ignoredPluginIdPatterns = ignoredPluginIdPatterns;
       setUser(true);
    }
 
@@ -52,14 +41,13 @@ public class DeploymentJob extends Job
    protected IStatus run(final IProgressMonitor monitor)
    {
 
-      final AbstractDeployer eclipsePluginDeployer = new EclipsePluginDeployer(deploymentRoot + "/update-site2", "MoflonIdeUpdateSite", versionNumber,
-            ignoredPluginIdPatterns);
-      final AbstractDeployer eaAddinDeployer = new EAAddinDeployer(deploymentRoot + "/ea-ecore-addin", versionNumber);
-      final AbstractDeployer handbookDeployer = new HandbookDeployer(deploymentRoot + "/documents/release/handbook", versionNumber);
+      final AbstractDeployer eclipsePluginDeployer = new EclipsePluginDeployer(deploymentRoot + "/update-site2", "MoflonIdeUpdateSite");
+      final AbstractDeployer eaAddinDeployer = new EAAddinDeployer(deploymentRoot + "/ea-ecore-addin");
+      final AbstractDeployer handbookDeployer = new HandbookDeployer(deploymentRoot + "/documents/release/handbook");
       try
       {
          monitor.beginTask("Deploying eMoflon", 300);
-         logger.info("Deploying eMoflon [path: " + deploymentRoot + ", version: " + this.versionNumber + "]");
+         logger.info("Deploying eMoflon [path: " + deploymentRoot + "]");
 
          ensureThatDirectoryIsWritable(new File(deploymentRoot));
 

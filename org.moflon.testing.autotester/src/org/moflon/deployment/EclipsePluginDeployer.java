@@ -2,8 +2,6 @@ package org.moflon.deployment;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -18,7 +16,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.util.plugins.FeatureUtils;
 
 public class EclipsePluginDeployer extends AbstractDeployer
 {
@@ -29,14 +26,10 @@ public class EclipsePluginDeployer extends AbstractDeployer
 
    private String updateSiteProjectName;
 
-   private List<String> ignoredPluginIdPatterns;
-
-   public EclipsePluginDeployer(final String deploymentPath, final String updateSiteProject, final String versionNumber,
-         final List<String> ignoredPluginIdPatterns)
+   public EclipsePluginDeployer(final String deploymentPath, final String updateSiteProject)
    {
-      super(deploymentPath, versionNumber);
+      super(deploymentPath);
       this.updateSiteProjectName = updateSiteProject;
-      this.ignoredPluginIdPatterns = ignoredPluginIdPatterns;
    }
 
    @Override
@@ -46,20 +39,12 @@ public class EclipsePluginDeployer extends AbstractDeployer
       final IProject updateSiteProject = WorkspaceHelper.getProjectByName(projectName);
       try
       {
-         monitor.beginTask("Deploying eMoflon update site", 80);
+         monitor.beginTask("Deploying eMoflon update site", 60);
          logger.info("Deploying eMoflon update site...");
 
          if (!updateSiteProject.exists())
             throw new CoreException(new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Update site project " + this.updateSiteProjectName + " is missing"));
 
-
-         if (this.getVersionNumber() != null && !this.getVersionNumber().isEmpty())
-         {
-            updateVersionPluginNumbers(WorkspaceHelper.createSubMonitor(monitor, 20), updateSiteProject);
-         } else
-         {
-            monitor.worked(20);
-         }
 
          // 1. Delete all jars in project MoflonIdeUpdateSite and make copy
          // of site.xml
@@ -97,45 +82,6 @@ public class EclipsePluginDeployer extends AbstractDeployer
          updateSiteProject.getFile("site.xml.temp").delete(true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
          monitor.done();
       }
-   }
-
-   private void updateVersionPluginNumbers(final IProgressMonitor monitor, final IProject updateSiteProject) throws CoreException
-   {
-      try
-      {
-         final List<IProject> projects = getFeatureProjectsOfSite(updateSiteProject);
-         monitor.beginTask("Update version numbers", projects.size() * 2);
-
-         for (final IProject project : projects)
-         {
-            final IFile featureFile = project.getFile("feature.xml");
-
-            FeatureUtils.updateVersionOfFeature(featureFile, getSiteXmlFile(updateSiteProject), getVersionNumber(), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            FeatureUtils.updateVersionsOfAllPluginsInFeature(featureFile, ignoredPluginIdPatterns, this.getVersionNumber(),
-                  WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-         }
-      } finally
-      {
-         monitor.done();
-      }
-   }
-
-   public static List<IProject> getFeatureProjectsOfSite(final IProject updateSiteProject) throws CoreException
-   {
-      List<String> featureIds = FeatureUtils.getAllFeatureIdsInSite(getSiteXmlFile(updateSiteProject));
-      List<IProject> projects = WorkspaceHelper.getAllProjectsInWorkspace().stream().filter(p -> {
-         IFile file = p.getFile("feature.xml");
-         if (file.exists())
-            try
-            {
-               return featureIds.contains(FeatureUtils.getFeatureId(file));
-            } catch (Exception e)
-            { // ignore
-            }
-         return false;
-
-      }).collect(Collectors.toList());
-      return projects;
    }
 
    public static IFile getSiteXmlFile(final IProject updateSiteProject)

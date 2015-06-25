@@ -47,9 +47,9 @@ public class EAAddinDeployer extends AbstractDeployer
    private static final IFolder INSTALLER_FOLDER_SOURCE = WorkspaceHelper.getProjectByName(EA_ADDIN_PROJECT_NAME).getFolder(EA_INSTALLER_PROJECT_NAME)
          .getFolder("bin").getFolder(BUILD_TYPE_FOR_DEPLOYMENT);
 
-   public EAAddinDeployer(final String deploymentPath, final String versionNumber)
+   public EAAddinDeployer(final String deploymentPath)
    {
-      super(deploymentPath, versionNumber);
+      super(deploymentPath);
    }
 
    @Override
