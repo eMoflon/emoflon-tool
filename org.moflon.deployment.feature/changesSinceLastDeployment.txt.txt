@@ -1,0 +1,5 @@
+# Changes since last deployment
+# Please use the following notation
+#   date: plugin old-version new-version
+# For example:
+#   2015-06-27 org.moflon.ide.core 1.0.0 1.1.0
