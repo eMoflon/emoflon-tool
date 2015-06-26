@@ -42,7 +42,7 @@ public class DebugAnnotation
    private File computeSourceFile(Class<?> clazz)
    {
       URL location = clazz.getProtectionDomain().getCodeSource().getLocation();
-      return new File(location.getPath().replace("/bin/", "/src/") + clazz.getCanonicalName().replace(".", "/") + ".java");
+      return new File(location.getPath().replace("%20", " ").replace("/bin/", "/src/") + clazz.getCanonicalName().replace(".", "/") + ".java");
    }
 
    /**
@@ -54,11 +54,11 @@ public class DebugAnnotation
    public void computeDebugAnnotations() throws Exception
    {
       // http://stackoverflow.com/questions/15513330/toolprovider-getsystemjavacompiler-returns-null-usable-with-only-jre-install
-      System.setProperty("java.home", "C:\\Program Files\\Java\\jdk1.8.0_40");
+      System.setProperty("java.home", "C:\\Program Files\\Java\\jdk1.8.0_20");
 
       // Get an instance of java compiler
       JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-      System.err.println(compiler.getClass().getClassLoader());
+      //System.err.println(compiler.getClass().getClassLoader());
       System.err.println(this.getClass().getClassLoader());
       // Get a new instance of the standard file manager implementation
       StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
