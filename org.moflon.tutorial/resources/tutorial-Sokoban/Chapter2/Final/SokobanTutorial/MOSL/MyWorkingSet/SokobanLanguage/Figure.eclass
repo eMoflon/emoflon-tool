@@ -6,8 +6,7 @@ abstract class Figure {
 	// Method signatures can only set the control flow; 
 	//	No actions are implemented here
 	moveTo(floor : Floor) : void { 
-		if [moveFigure] {
-			return
-		}
+		if [moveFigure]
+		return
 	}
 }
