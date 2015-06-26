@@ -26,7 +26,7 @@ class Board {
 	//	methods and arbitrary Java code from SDMs.
 	floorSelected(floor : Floor) : void { 
 		if [checkSelected] { 
-			<@alreadySelectedFigure.moveTo(floor)>
+			<@alreadySelectedFigure.moveTo($floor)>
 		} else { 
 			if [selectFigure] {
 				return

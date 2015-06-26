@@ -115,8 +115,8 @@
          title="Step 3 - Board.floorSelected()"
          validation="chapter2;1">
       <description>
-      	Even though we've implemented how a Figure will move between floors, we haven't implemented the 
-      	<b>floorSelected</b> method of our <b>Board</b> so that the game actually 'activates'
+      	Even though we&apos;ve implemented how a Figure will move between floors, we haven&apos;t implemented the 
+      	<b>floorSelected</b> method of our <b>Board</b> so that the game actually &apos;activates&apos;
       	the relevant Figure.<br/>
       	
       	<br/>
@@ -129,30 +129,30 @@
 		It will also need an if/else control flow.<br/>
 		
 		<br/>
-		Open 'Board' and implement the 'floorSelected' method as described below. Don't
-		forget about eMoflon's auto-completion feature! You can use it here to generate a template.<br/>
+		Open &apos;Board&apos; and implement the &apos;floorSelected&apos; method as described below. Don&apos;t
+		forget about eMoflon&apos;s auto-completion feature! You can use it here to generate a template.<br/>
 		
 		<br/>
 		<b> floorSelected(floor : Floor) : void {</b><br/>
-		<b> &#160;&#160;&#160;&#160;&#160; if [checkSelected] { </b><br/>
-		<b> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;@alreadySelectedFigure.moveTo(floor)&gt; </b><br/>
-		<b> &#160;&#160;&#160;&#160;&#160; } else { </b><br/>
-		<b> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; if [selectFigure] { </b><br/>
-		<b> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; return</b><br/>
-		<b> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; } </b><br/>
-		<b> &#160;&#160;&#160;&#160;&#160; } </b><br/>
-		<b> &#160;&#160;&#160;&#160;&#160; return </b><br/>
+		<b>       if [checkSelected] { </b><br/>
+		<b>          &lt;@alreadySelectedFigure.moveTo($floor)&gt; </b><br/>
+		<b>       } else { </b><br/>
+		<b>          if [selectFigure] { </b><br/>
+		<b>               return</b><br/>
+		<b>          } </b><br/>
+		<b>       } </b><br/>
+		<b>       return </b><br/>
 		<b> } </b><br/>
 		
 		<br/>
-		As you can see, the moveTo method call is NOT implemented as a pattern. In fact, MOSL doesn't 
+		As you can see, the moveTo method call is NOT implemented as a pattern. In fact, MOSL doesn&apos;t 
 		allow direct method calls. Instead, it uses statement nodes and syntax similar to Java to 
 		permit communication between classes.<br/>
 		
 		<br/>
 		Save your project and build the two new patterns or press <b>Click to Proceed</b> below to 
-		load an updated and commented 'Board.eclass' file with more details about method control and 
-		statement nodes. Don't worry about the error message that remains after creating the patterns 
+		load an updated and commented &apos;Board.eclass&apos; file with more details about method control and 
+		statement nodes. Don&apos;t worry about the error message that remains after creating the patterns 
 		- the next step will take care of this.
    	</description>
 	<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
