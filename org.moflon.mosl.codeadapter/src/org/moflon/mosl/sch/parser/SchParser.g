@@ -36,39 +36,64 @@ schema_declaration: source_decl target_decl classes_decl ->
     );
     
 source_decl: SOURCE type=type_reference
-         -> ^(Domain ^(ATTRIBUTE T["metamodel"] $type)
-         ^(ATTRIBUTE T["category"] T["metamodel"]) );
+         -> ^(Domain ^(ATTRIBUTE T["metamodelGuid"] $type)
+         			^(ATTRIBUTE T["domainType"] T["source"])
+         			^(ATTRIBUTE T["category"] T["metamodel"])
+         			^(ATTRIBUTE T["searchCategory"] T["package"])
+					^(ATTRIBUTE T["search"] T["metamodelGuid"]));
 
 target_decl: TARGET type=type_reference
-         -> ^(Domain ^(ATTRIBUTE T["metamodel"] $type)
-         ^(ATTRIBUTE T["category"] T["metamodel"]) );
-         	         
+         -> ^(Domain ^(ATTRIBUTE T["metamodelGuid"] $type)
+         	^(ATTRIBUTE T["domainType"] T["target"])
+            ^(ATTRIBUTE T["category"] T["metamodel"]) 								
+            ^(ATTRIBUTE T["searchCategory"] T["package"])
+			^(ATTRIBUTE T["search"] T["metamodelGuid"]));
+								
+								
 classes_decl: class_decl* -> ^(T["classes"] class_decl*);
 
-class_decl: CLASS name=ID extends_decl? references_decl?
-       ->   ^(T["CorrespondenceType"] ^(ATTRIBUTE T["name"] $name) 
-       ^(ATTRIBUTE T["category"] T["type"]) 
-                     extends_decl?
+class_decl: CLASS name=ID lExtendList? references_decl?
+       ->   ^(T["CorrespondenceType"]
+       			^(ATTRIBUTE T["name"] $name) 
+        		^(ATTRIBUTE T["category"] T["type"]) 
+                  ^(ATTRIBUTE T["isAbstract"] T["false"])
+                  lExtendList?
                      ^(T["references"] references_decl?)
+                     ^(T["attributes"])
+                     ^(T["operations"])
+                     
               );
                      
-extends_decl: EXTENDS name=type_reference -> ^(ATTRIBUTE T["baseClassName"] $name);
+lExtendList: EXTENDS (lExtends COMMA)* lExtends // FIXME should be changed in Transformer and Untransformer
+		-> ^(T["BaseClasses"] lExtends+);			 
+
+lExtends: ext=type_reference -> ^(T["baseClass"]
+								^(ATTRIBUTE T["baseClass"] $ext)
+								^(ATTRIBUTE T["searchCategory"] T["type"])
+								^(ATTRIBUTE T["search"] T["baseClass"]));
+
 
 references_decl: OPEN source_reference target_reference CLOSE -> source_reference target_reference;
 
-source_reference: SOURCE REF type=type_reference
-           ->   ^(EReference 
-           					 ^(ATTRIBUTE T["name"] T["source"])
-           					 ^(ATTRIBUTE T["type"]  $type )
-           					 ^(ATTRIBUTE T["category"] T["reference"]) );
-           					 
+subreference_decl:REF type=type_reference
+          ->    ^(ATTRIBUTE T["type"] $type)
+           		^(ATTRIBUTE T["category"] T["reference"]) 
+           		^(ATTRIBUTE T["searchCategory"] T["type"])
+				^(ATTRIBUTE T["search"] T["type"])
+           		^(ATTRIBUTE T["containment"] T["false"])
+           		^(ATTRIBUTE T["lowerBound"] T["1"])
+           		^(ATTRIBUTE T["upperBound"] T["1"]);
+
+source_reference: SOURCE subreference_decl
+ 		    -> ^(EReference 
+           			    ^(ATTRIBUTE T["name"] T["source"]) 
+						subreference_decl);         					 
            		
 
-target_reference:TARGET REF type=type_reference
+target_reference:TARGET subreference_decl
            ->   ^(EReference 
            					 ^(ATTRIBUTE T["name"] T["target"])
-           					 ^(ATTRIBUTE T["type"] $type )
-           					 ^(ATTRIBUTE T["category"] T["reference"]) );
+           					 subreference_decl);
            	
 
 type_reference:  i+=SLASH? ((i+=ID | i+=DDOT) i+=SLASH)* i+=ID -> {MOSLUtils.concat(T, $i)};
