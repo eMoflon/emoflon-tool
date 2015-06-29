@@ -66,4 +66,9 @@ public class BackwardSynchronizer extends Synchronizer
    {
       return determineInputElements(coreMatch);
    }
+
+@Override
+protected String getDirection() {
+	return "BWD";
+}
 }

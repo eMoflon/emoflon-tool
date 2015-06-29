@@ -17,6 +17,7 @@ AddConstraints(constraints, variables) ::= <<
 
 Constraint(constraint, instanceName, variables) ::= <<
 <constraint; format="firstToUpper"> <instanceName> = new <constraint; format="firstToUpper">();
+
 >>
 
 Eq(type, instanceName) ::= <<
@@ -33,7 +34,7 @@ NegateConstraint(constraint) ::= <<
 >>
 
 createRuleResult(ruleName) ::=<<
-RuleResult ruleResult = TGGRuntimeFactory.eINSTANCE.createRuleResult();
+AttributeConstraintsRuleResult ruleResult = TGGRuntimeFactory.eINSTANCE.createAttributeConstraintsRuleResult();
 ruleResult.setRule("<ruleName>");	
 ruleResult.setSuccess(false);
 
@@ -54,12 +55,12 @@ else {
 }	
 >>
 
-check_csp(variables, target, constraint) ::= <<
+check_csp(variables, target, constraints) ::= <<
 if(csp.check()){ 
 	ruleResult.setSuccess(true);
 } else {
 	<target:{t | var_<t.objectVariable>_<t.attribute>.setBound(false);}; separator="\n">
-	<constraint>.solve(<variables; separator=",">);
+	<constraints:{con | <con.instanceName>.solve(<con.solveVars; separator=",">);}; separator="\n">
 	if(csp.check()){ 
 		ruleResult.setSuccess(true);
 		<target:{t | <t.objectVariable>.set<t.attribute; format="firstToUpper">((<t.type>) var_<t.objectVariable>_<t.attribute>.getValue());}; separator="\n">

@@ -10,22 +10,23 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import TGGRuntime.AttributeConstraintsRuleResult;
 import TGGRuntime.RuleResult;
 import TGGRuntime.TripleMatch;
 
-public class InvokeCheckAttributes_FWD implements
+public class InvokeCheckAttributes implements
 		Function<TripleMatch, RuleResult> {
 
 	private EClass ruleClass;
 	private EOperation op;
 
-	public InvokeCheckAttributes_FWD(EClass ruleClass, EOperation op) {
+	public InvokeCheckAttributes(EClass ruleClass, EOperation op) {
 		this.ruleClass = ruleClass;
 		this.op = op;
 	}
 
 	@Override
-	public RuleResult apply(TripleMatch match) {
+	public AttributeConstraintsRuleResult apply(TripleMatch match) {
 
 		EObject object = EcoreUtil.create((EClass) ruleClass);
 
@@ -34,7 +35,7 @@ public class InvokeCheckAttributes_FWD implements
 	      parameterValues.add(match);
 
 	     try {
-			return (RuleResult) object.eInvoke(op, parameterValues);
+			return (AttributeConstraintsRuleResult) object.eInvoke(op, parameterValues);
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); 

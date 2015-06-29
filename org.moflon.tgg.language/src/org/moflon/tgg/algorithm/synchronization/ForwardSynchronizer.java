@@ -66,4 +66,9 @@ public class ForwardSynchronizer extends Synchronizer
    {
       return all.remove(determineSourceElements(coreMatch, all, corr)).removeDestructive(corr);
    }
+
+@Override
+protected String getDirection() {
+	return "FWD";
+}
 }
