@@ -156,19 +156,17 @@ public abstract class Synchronizer {
 		for (AttributeDelta attributeDelta : toBeChanged) {
 			collectMatches(attributeDelta.getAffectedNode());
 		}
-		
-		
+
 		updateAttrReadyset();
 
-		
 		while (!attrReadySet.isEmpty()) {
 			TripleMatch tMatch = attrReadySet.get(0);
 			AttributeConstraintsRuleResult acRuleResult = checkCSP(tMatch);
 			if (acRuleResult.isSuccess()) {
 				if (acRuleResult.isRequiredChange()) {
-					tobeChecked.addAll(protocol.children(tMatch).stream()
-							.collect(Collectors.toList()));
-					updateAttrReadyset();
+					List<TripleMatch> candidates = protocol.children(tMatch)
+							.stream().collect(Collectors.toList());
+					incUpdateAttrReadyset(candidates);
 				} else {
 					if (attrReadySet.isEmpty() && !tobeChecked.isEmpty()) {
 						updateAttrReadyset();
@@ -182,6 +180,23 @@ public abstract class Synchronizer {
 			attrReadySet.remove(tMatch);
 		}
 
+	}
+
+	private void incUpdateAttrReadyset(List<TripleMatch> candidates) {
+
+		for (TripleMatch m : candidates) {
+			if (protocol.parents(m).isEmpty()) {
+				attrReadySet.add(m);
+			}
+
+			Collection<TripleMatch> parents = protocol.parents(m);
+			if (parents.stream().noneMatch(p1 -> tobeChecked.contains(p1))) {
+				attrReadySet.add(m);
+
+			}
+			tobeChecked.add(m);
+
+		}
 	}
 
 	private void collectMatches(EObject node) {
@@ -213,12 +228,10 @@ public abstract class Synchronizer {
 			}
 
 			Collection<TripleMatch> parents = protocol.parents(match);
-			for (TripleMatch p : parents) {
 				if (parents.stream().noneMatch(p1 -> tobeChecked.contains(p1))) {
 					attrReadySet.add(match);
 					removeFromList.add(match);
 				}
-			}
 		}
 		tobeChecked.removeAll(removeFromList);
 
