@@ -55,6 +55,13 @@ if(!(<op1> <comp> <op2>)){
 }	
 >>
 
+check_constraints_eq(op1, op2, not) ::=<<
+if(<not><op1>.equalsTo(<op2>)){ 
+	ruleResult.setSuccess(false);
+	return ruleResult;
+}
+>>
+
 check_csp(variables, target, constraints) ::= <<
 if(csp.check()){ 
 	ruleResult.setSuccess(true);

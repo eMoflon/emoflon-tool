@@ -223,7 +223,7 @@ public class AttributeConstraintCodeGenerator {
 						.getAttribute().getEAttributeType().getName(), a
 						.getObjectVariable().getName());
 				String op2 = getOperand(a.getValueExpression());
-				attrConsResult.append(buildAssignmentsAndConstraints(op1, op2, "=="));
+				attrConsResult.append(buildAssignmentsAndConstraints(op1, op2, "==", a.getAttribute().getEType().getName()));
 				attrConsResult.append(separator);
 			}
 
@@ -237,7 +237,7 @@ public class AttributeConstraintCodeGenerator {
 							.getRightExpression());
 					String comp = getComparisonOp(((ComparisonExpression) exp)
 							.getOperator());
-					attrConsResult.append(buildAssignmentsAndConstraints(op1, op2, comp));
+					attrConsResult.append(buildAssignmentsAndConstraints(op1, op2, comp, ov.getType().getName()));
 					attrConsResult.append(separator);
 				}
 			}
@@ -247,8 +247,25 @@ public class AttributeConstraintCodeGenerator {
 	}
 
 	private String buildAssignmentsAndConstraints(String op1, String op2,
-			String comp) {
-
+			String comp, String type) {
+		
+		if(type.equals("EString")){
+		if(comp.equals("==")){
+			ST equalConstraint = stg.getInstanceOf("check_constraints_eq");
+			equalConstraint.add("op1", op1);
+			equalConstraint.add("op2", op2);
+			equalConstraint.add("not", "!");
+			return equalConstraint.render();
+		}
+		
+		if(comp.equals("!=")){
+			ST equalConstraint = stg.getInstanceOf("check_constraints_eq");
+			equalConstraint.add("op1", op1);
+			equalConstraint.add("op2", op2);
+			equalConstraint.add("not", "");
+			return equalConstraint.render();
+		}
+		}
 		ST assignmentsAndConstraints = stg.getInstanceOf("check_constraints");
 		assignmentsAndConstraints.add("op1", op1);
 		assignmentsAndConstraints.add("op2", op2);
