@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.csp.codegenerator.MyBasicFormatRenderer;
 import org.stringtemplate.v4.ST;
@@ -45,10 +44,7 @@ import SDMLanguage.patterns.patternExpressions.AttributeValueExpression;
 import TGGLanguage.DomainType;
 import TGGLanguage.TGGObjectVariable;
 import TGGLanguage.TGGRule;
-import TGGLanguage.compiler.compilerfacade.impl.CSPSearchPlanAdapterImpl;
 import TGGLanguage.csp.AttributeVariable;
-import TGGLanguage.csp.CSP;
-import TGGLanguage.csp.CspFactory;
 import TGGLanguage.csp.Literal;
 import TGGLanguage.csp.LocalVariable;
 import TGGLanguage.csp.OperationalCSP;
@@ -60,20 +56,18 @@ public class AttributeConstraintCodeGenerator {
 	private TGGRule rule;
 	private String name;
 	private String separator;
-//	private String attributeAssignmentAndConstraints;
 	private STGroupFile stg;
 	ArrayList<String> source;
 	ArrayList<String> target;
-//	private StringBuilder csp_result;
 	private StringBuilder code;
 	private ArrayList<AttributConstraintContainer> csp_solver;
+	private OperationalCSP ocsp;
 
 	public AttributeConstraintCodeGenerator() {
 		this.separator = "\n\n";
 		stg = new STGroupFile(this.getClass().getClassLoader()
 				.getResource("/templates/Csp.stg"), "UTF-8", '<', '>');
 		stg.registerRenderer(String.class, new MyBasicFormatRenderer());
-//		csp_result = new StringBuilder();
 		code = new StringBuilder();
 	}
 	
@@ -87,7 +81,6 @@ public class AttributeConstraintCodeGenerator {
 
 		handleCSPSolving();
 
-
 		return code.toString();
 	}
 	
@@ -99,9 +92,6 @@ public class AttributeConstraintCodeGenerator {
 	public void setDirection(String name) {
 		this.name = name;
 	}
-
-
-
 
 
 	private void createAttributeConstraintRuleResult() {
@@ -325,24 +315,12 @@ public class AttributeConstraintCodeGenerator {
 
 		int i = 0;
 
-		CSP csp = EcoreUtil.copy(rule.getCsp());
-		OperationalCSP ocsp = CspFactory.eINSTANCE.createOperationalCSP();
-		ocsp.getConstraints().addAll(csp.getConstraints());
-		ocsp.getVariables().addAll(csp.getVariables());
-		ocsp.getVariables().forEach(v -> {
-			// Local variables are never bound
-				if (!(v instanceof LocalVariable))
-					v.setBound(true);
-			});
-
-		CSPSearchPlanAdapterImpl plan = new CSPSearchPlanAdapterImpl();
-		plan.computeConstraintOrder(ocsp);
+		
 
 		Map<Variable, String> varToLabel = handleVariableValueExtraction(ocsp);
 
 		csp_solver = new ArrayList<AttributConstraintContainer>();
 		for (TGGConstraint c : ocsp.getConstraints()) {
-//			EList<Variable> vars = c.getVariables();
 
 			AttributConstraintContainer container = new AttributConstraintContainer(
 					rule.getName());
@@ -412,7 +390,6 @@ public class AttributeConstraintCodeGenerator {
 
 	private void createCheckCSP(){
 
-	//	ArrayList<String> constraints = new ArrayList<String>();
 		ArrayList<Variable> destination = new ArrayList<Variable>();
 		for (AttributConstraintContainer con : csp_solver) {
 			destination.addAll(con.getDestinationVars());
@@ -432,5 +409,10 @@ public class AttributeConstraintCodeGenerator {
 					EReference.class, EStructuralFeature.class,
 					ETypedElement.class, ETypeParameter.class).stream()
 			.map(clazz -> clazz.getSimpleName()).collect(Collectors.toList());
+
+	public void setOCSP(OperationalCSP ocsp) {
+		this.ocsp = ocsp;
+		
+	}
 
 }
