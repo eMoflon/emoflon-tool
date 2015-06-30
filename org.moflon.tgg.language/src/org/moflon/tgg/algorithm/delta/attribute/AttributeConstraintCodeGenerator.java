@@ -233,17 +233,32 @@ public class AttributeConstraintCodeGenerator {
 				if (exp instanceof ComparisonExpression) {
 					String op1 = getOperand(((ComparisonExpression) exp)
 							.getLeftExpression());
+					
+					
+				
+					
 					String op2 = getOperand(((ComparisonExpression) exp)
 							.getRightExpression());
 					String comp = getComparisonOp(((ComparisonExpression) exp)
 							.getOperator());
-					attrConsResult.append(buildAssignmentsAndConstraints(op1, op2, comp, ov.getType().getName()));
+					attrConsResult.append(buildAssignmentsAndConstraints(op1, op2, comp,isOperandOfTypeString(((ComparisonExpression) exp).getLeftExpression())));
 					attrConsResult.append(separator);
 				}
 			}
 		}
 
 		code.append(locateObjects.toString() + attrConsResult + separator);
+	}
+
+	private String isOperandOfTypeString(Expression exp) {
+		
+	
+		if (exp instanceof AttributeValueExpression) {
+			AttributeValueExpression attrValueExp = (AttributeValueExpression) exp;
+				return attrValueExp.getAttribute().getEType().getName();
+		}
+		
+		return "notString";
 	}
 
 	private String buildAssignmentsAndConstraints(String op1, String op2,
