@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.csp.codegenerator.MyBasicFormatRenderer;
 import org.moflon.tgg.algorithm.delta.AttributeDelta;
-import org.moflon.tgg.algorithm.delta.attribute.CSPContainer;
+import org.moflon.tgg.algorithm.delta.attribute.AttributConstraintContainer;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 import MocaTree.MocaTreeFactory;
@@ -290,11 +290,11 @@ partial class InjectionHelperImpl {
 			final StringBuilder csp_result, final StringBuilder solver,
 			final Map<Variable, String> varToLabel) {
 		int i = 0;
-		ArrayList<CSPContainer> csp_solver = new ArrayList<CSPContainer>();
+		ArrayList<AttributConstraintContainer> csp_solver = new ArrayList<AttributConstraintContainer>();
 		for (TGGConstraint c : ocsp.getConstraints()) {
 			EList<Variable> vars = c.getVariables();
 
-			CSPContainer container = new CSPContainer(rule.getName());
+			AttributConstraintContainer container = new AttributConstraintContainer(rule.getName());
 			container.setInstanceName(c.getName() + i);
 
 			if (c.getName().equals("eq")) {
@@ -318,10 +318,10 @@ partial class InjectionHelperImpl {
 		createCheckCSP(csp_solver, solver, stg, separator);
 	}
 
-	private void createConstraints(ArrayList<CSPContainer> csp_solver,
+	private void createConstraints(ArrayList<AttributConstraintContainer> csp_solver,
 			StringBuilder solver, STGroupFile stg, String separator) {
 
-		for (CSPContainer con : csp_solver) {
+		for (AttributConstraintContainer con : csp_solver) {
 			ST template;
 			if (con.isEq()) {
 				template = stg.getInstanceOf("Eq");
@@ -342,10 +342,10 @@ partial class InjectionHelperImpl {
 
 	}
 
-	private void createSolveConstraints(ArrayList<CSPContainer> csp_solver,
+	private void createSolveConstraints(ArrayList<AttributConstraintContainer> csp_solver,
 			StringBuilder solver, STGroupFile stg, String separator) {
 
-		for (CSPContainer con : csp_solver) {
+		for (AttributConstraintContainer con : csp_solver) {
 			ST template = stg.getInstanceOf("Solve");
 			template.add("constraint", con.getInstanceName());
 			template.add("variables", con.getSolveVars());
@@ -357,12 +357,12 @@ partial class InjectionHelperImpl {
 
 	}
 
-	private void createCheckCSP(ArrayList<CSPContainer> csp_solver,
+	private void createCheckCSP(ArrayList<AttributConstraintContainer> csp_solver,
 			StringBuilder solver, STGroupFile stg, String separator) {
 
 		ArrayList<String> constraints = new ArrayList<String>();
 		ArrayList<Variable> destination = new ArrayList<Variable>();
-		for (CSPContainer con : csp_solver) {
+		for (AttributConstraintContainer con : csp_solver) {
 			destination.addAll(con.getDestinationVars());
 		}
 		ST template = stg.getInstanceOf("check_csp");

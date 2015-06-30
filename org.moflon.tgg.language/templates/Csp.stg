@@ -36,7 +36,8 @@ NegateConstraint(constraint) ::= <<
 createRuleResult(ruleName) ::=<<
 AttributeConstraintsRuleResult ruleResult = TGGRuntimeFactory.eINSTANCE.createAttributeConstraintsRuleResult();
 ruleResult.setRule("<ruleName>");	
-ruleResult.setSuccess(false);
+ruleResult.setSuccess(true);
+
 
 CSP csp = CspFactory.eINSTANCE.createCSP();
 >>
@@ -48,10 +49,9 @@ Optional\<TripleMatchNodeMapping> matchFor<var_name; format="firstToUpper"> = tr
 >>
 
 check_constraints(op1, op2, comp) ::= <<
-if(<op1> <comp> <op2>){ 
-	ruleResult.setSuccess(true);}
-else {
+if(!(<op1> <comp> <op2>)){ 
 	ruleResult.setSuccess(false);
+	return ruleResult;
 }	
 >>
 
@@ -63,6 +63,7 @@ if(csp.check()){
 	<constraints:{con | <con.instanceName>.solve(<con.solveVars; separator=",">);}; separator="\n">
 	if(csp.check()){ 
 		ruleResult.setSuccess(true);
+		ruleResult.setRequiredChange(true);
 		<target:{t | <t.objectVariable>.set<t.attribute; format="firstToUpper">((<t.type>) var_<t.objectVariable>_<t.attribute>.getValue());}; separator="\n">
 	} else {
 		ruleResult.setSuccess(false);

@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import TGGLanguage.csp.Variable;
 
-public class CSPContainer {
+public class AttributConstraintContainer {
 	
 	
 	String instanceName;
@@ -23,7 +23,7 @@ public class CSPContainer {
 	Collection<Variable> destinationVars;
 	Collection<String> solveVars;
 	
-	public CSPContainer(String ruleName) {
+	public AttributConstraintContainer(String ruleName) {
 		destinationVars = new ArrayList<Variable>();
 		solveVars = new ArrayList<String>();
 		this.ruleName = ruleName;	
