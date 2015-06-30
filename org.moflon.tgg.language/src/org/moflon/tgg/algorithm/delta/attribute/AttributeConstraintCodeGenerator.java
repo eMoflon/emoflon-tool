@@ -212,6 +212,7 @@ public class AttributeConstraintCodeGenerator {
 
 		HashMap<String, String> variables = new HashMap<String, String>();
 
+		StringBuilder locateObjects = new StringBuilder();
 		StringBuilder attrConsResult = new StringBuilder();
 
 		EList<ObjectVariable> ovs = rule.getObjectVariable();
@@ -223,8 +224,8 @@ public class AttributeConstraintCodeGenerator {
 			oVT.add("var_name", ov.getName());
 			oVT.add("type", handleType(ov.getType()));
 			variables.put(ov.getName(), ov.getType().getName());
-			attrConsResult.append(oVT.render());
-			attrConsResult.append(separator);
+			locateObjects.append(oVT.render());
+			locateObjects.append(separator);
 
 			// handle AttributeAssignments
 			for (AttributeAssignment a : ov.getAttributeAssignment()) {
@@ -252,7 +253,7 @@ public class AttributeConstraintCodeGenerator {
 			}
 		}
 
-		code.append(attrConsResult + separator);
+		code.append(locateObjects.toString() + attrConsResult + separator);
 	}
 
 	private String buildAssignmentsAndConstraints(String op1, String op2,
