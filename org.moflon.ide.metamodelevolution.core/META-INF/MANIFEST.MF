@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.moflon.ide.metamodelevolution.core;singleton:
+ =true
+Export-Package: org.moflon.ide.metamodelevolution.core.util,
+ org.moflon.ide.metamodelevolution.core,
+ org.moflon.ide.metamodelevolution.core.impl
+Bundle-Name: org.moflon.ide.metamodelevolution.core
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt
