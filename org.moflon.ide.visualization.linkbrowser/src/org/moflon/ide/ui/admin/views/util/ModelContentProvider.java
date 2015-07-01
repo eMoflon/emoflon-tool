@@ -53,8 +53,10 @@ public class ModelContentProvider implements IGraphEntityRelationshipContentProv
          } else if (object instanceof EObject)
          {
             content.add((EObject) object);
-         } else
+         } else if (object != null)
+         {
             throw new RuntimeException("Unsupported input element type: " + object.getClass().toString());
+         }
       }
    }
 

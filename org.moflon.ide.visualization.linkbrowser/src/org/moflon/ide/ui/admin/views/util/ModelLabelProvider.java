@@ -31,7 +31,9 @@ public class ModelLabelProvider extends LabelProvider implements IEntityStylePro
       } else if (element instanceof DebugCorrespondence)
       {
          DebugCorrespondence dc = (DebugCorrespondence) element;
-         return dc.getSource().getName() + " <-> " + dc.getTarget().getName();
+         DebugEObjectProxy source = dc.getSource();
+         DebugEObjectProxy target = dc.getTarget();
+         return (source != null ? source.getName() : "null") + " <-> " + (target != null ? target.getName() : "null");
       } else if (element instanceof DebugEObjectProxy)
       {
          DebugEObjectProxy proxy = (DebugEObjectProxy) element;
