@@ -111,8 +111,7 @@ public abstract class Synchronizer {
 		this.readyButUnreadySiblings = new HashSet<>();
 	}
 
-	public void synchronize() throws InputLocalCompletenessException,
-			TranslationLocalCompletenessException {
+	public void synchronize() throws InputLocalCompletenessException, TranslationLocalCompletenessException {
 		handleDeletions();
 
 		handleAdditions();
@@ -133,25 +132,23 @@ public abstract class Synchronizer {
 
 	// @DebugBreakpoint(phase = Phase.DELETE)
 	protected void handleAdditions() {
-		Collection<Match> collectedMatches = collectDerivations(toBeTranslated,
-				lookupMethods);
+		Collection<Match> collectedMatches = collectDerivations(toBeTranslated, lookupMethods);
 
 		addedElts = getAddedElementsFromMatches(collectedMatches);
 
 		allRevokedElts = revoke(addedElts);
 		toBeTranslated.addConstructive(allRevokedElts);
 
-		collectedMatches.addAll(collectDerivations(allRevokedElts,
-				lookupMethods));
+		collectedMatches.addAll(collectDerivations(allRevokedElts, lookupMethods));
 		inputMatches = collectedMatches;
 		new @DebugBreakpoint(phase = Phase.ADD) String();
 		allRevokedElts = null;
 	}
 
 	private void handleAttributeChanges() {
-
 		attrReadySet = new ArrayList<TripleMatch>();
 		tobeChecked = new ArrayList<TripleMatch>();
+		Graph allRevokedElts = Graph.getEmptyGraph();
 
 		for (AttributeDelta attributeDelta : toBeChanged) {
 			collectMatches(attributeDelta.getAffectedNode());
@@ -164,8 +161,7 @@ public abstract class Synchronizer {
 			AttributeConstraintsRuleResult acRuleResult = checkCSP(tMatch);
 			if (acRuleResult.isSuccess()) {
 				if (acRuleResult.isRequiredChange()) {
-					List<TripleMatch> candidates = protocol.children(tMatch)
-							.stream().collect(Collectors.toList());
+					List<TripleMatch> candidates = protocol.children(tMatch).stream().collect(Collectors.toList());
 					incUpdateAttrReadyset(candidates);
 				} else {
 					if (attrReadySet.isEmpty() && !tobeChecked.isEmpty()) {
@@ -176,10 +172,12 @@ public abstract class Synchronizer {
 				Graph g = tMatch.getCreatedElements();
 				Graph changesRevoked = revoke(g);
 				toBeTranslated.addConstructive(changesRevoked);
+				allRevokedElts.addConstructive(changesRevoked);
 			}
 			attrReadySet.remove(tMatch);
 		}
-
+		
+		inputMatches.addAll(collectDerivations(allRevokedElts, lookupMethods));
 	}
 
 	private void incUpdateAttrReadyset(List<TripleMatch> candidates) {
@@ -190,30 +188,25 @@ public abstract class Synchronizer {
 			}
 
 			Collection<TripleMatch> parents = protocol.parents(m);
-			if (parents.stream().noneMatch(p1 -> tobeChecked.contains(p1))) {
+			if (parents.stream().noneMatch(p1 -> tobeChecked.contains(p1)))
 				attrReadySet.add(m);
 
-			}
 			tobeChecked.add(m);
-
 		}
 	}
 
 	private void collectMatches(EObject node) {
 		// creatingMatches
-		tobeChecked.addAll(protocol.getCreatingMatches(node).collect(
-				Collectors.toList()));
+		tobeChecked.addAll(protocol.getCreatingMatches(node).collect(Collectors.toList()));
 
 		// contextMatches
-		tobeChecked.addAll(protocol.getContextMatches(node).collect(
-				Collectors.toList()));
+		tobeChecked.addAll(protocol.getContextMatches(node).collect(Collectors.toList()));
 	}
 
 	private Graph getAddedElementsFromMatches(Collection<Match> sourceMatches) {
 		return sourceMatches
 				.stream()
-				.map(m -> new Graph(m.getToBeTranslatedNodes(), m
-						.getToBeTranslatedEdges()))
+				.map(m -> new Graph(m.getToBeTranslatedNodes(), m.getToBeTranslatedEdges()))
 				.reduce(Graph.getEmptyGraph(), Graph::addConstructive);
 	}
 
@@ -221,27 +214,21 @@ public abstract class Synchronizer {
 		ArrayList<TripleMatch> removeFromList = new ArrayList<TripleMatch>();
 
 		for (TripleMatch match : tobeChecked) {
-
 			if (protocol.parents(match).isEmpty()) {
 				attrReadySet.add(match);
 				removeFromList.add(match);
 			}
 
-			Collection<TripleMatch> parents = protocol.parents(match);
-				if (parents.stream().noneMatch(p1 -> tobeChecked.contains(p1))) {
-					attrReadySet.add(match);
-					removeFromList.add(match);
-				}
+         Collection<TripleMatch> parents = protocol.parents(match);
+         if (parents.stream().noneMatch(p1 -> tobeChecked.contains(p1)))
+         {
+            attrReadySet.add(match);
+            removeFromList.add(match);
+         }
 		}
+		
 		tobeChecked.removeAll(removeFromList);
 
-	}
-
-	private Graph constructGraph(EObject affectedNode) {
-		EObject node = affectedNode;
-		Collection<EObject> collection = new HashSet<>();
-		collection.add(node);
-		return new Graph(collection);
 	}
 
 	private Rule findRule(String ruleName) {
@@ -249,18 +236,21 @@ public abstract class Synchronizer {
 			if (rule.getRuleName().equals(ruleName))
 				return rule;
 		}
+		
 		return null;
 	}
 
 	private AttributeConstraintsRuleResult checkCSP(TripleMatch match) {
 		EClass ruleClass = findRule(match.getRuleName())
 				.getIsAppropriateMethods().get(0).getEContainingClass();
+		
 		for (EOperation o : ruleClass.getEAllOperations()) {
 			if (("checkAttributes_" + getDirection()).equals(o.getName())) {
 				TGGRuntime.TripleMatch tmatch = protocol.toEMF(match);
 				return new InvokeCheckAttributes(ruleClass, o).apply(tmatch);
 			}
 		}
+		
 		throw new UnsupportedOperationException();
 	}
 
