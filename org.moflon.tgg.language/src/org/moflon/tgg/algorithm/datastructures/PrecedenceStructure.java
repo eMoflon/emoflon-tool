@@ -104,6 +104,8 @@ public abstract class PrecedenceStructure<M>
 
    public Collection<M> parents(M m)
    {
+      if (matchToParents.get(m) == null)
+         return Collections.emptyList();
       return matchToParents.get(m);
    }
    
