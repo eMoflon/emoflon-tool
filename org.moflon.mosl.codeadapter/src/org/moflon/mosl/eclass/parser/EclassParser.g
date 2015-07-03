@@ -106,7 +106,7 @@ lTypeDefinition: TYPEDEF name=ID type=lTypeReference
                 ^(ATTRIBUTE T["searchCategory"] T["type"])
 				^(ATTRIBUTE T["search"] T["name"]));
                      
-lExtendList: EXTENDS (lExtends COMMA)* lExtends // FIXME should be changed in Transformer and Untransformer
+lExtendList: EXTENDS (lExtends COMMA)* lExtends 
 		-> ^(T["BaseClasses"] lExtends+);			 
 
 lExtends: ext=lTypeReference -> ^(T["baseClass"]
@@ -190,9 +190,24 @@ lOperationBody: lMethodBody  -> ^(Activity lMethodBody);
 
 lMethodBody: CURLY_BRACKET_OPEN lBody CURLY_BRACKET_CLOSE -> lBody;
 
-lBody: lStatementList? -> ^(T["body"] lStatementList?);
+lBody: lClosedStatementList? -> ^(T["body"] lClosedStatementList?);
 
 lStatementList: lStatement+ -> ^(T["stmt_list"] lStatement+);
+
+lClosedStatementList: lStatement* lReturnStatement -> ^(T["stmt_list"] lStatement* lReturnStatement)
+					| lStatement* lClosedIfStatement -> ^(T["stmt_list"] lStatement* lClosedIfStatement);
+
+lClosedIfStatement:IF lNegation lBooleanStatement lClosedThenBlock lClosedElseBlock
+		-> ^(T["if_stmt"]
+				lNegation
+				lBooleanStatement
+				lClosedThenBlock
+				lClosedElseBlock			
+		);
+
+lClosedThenBlock: CURLY_BRACKET_OPEN lClosedStatementList CURLY_BRACKET_CLOSE -> ^(T["if"] lClosedStatementList)  ;
+
+lClosedElseBlock: ELSE CURLY_BRACKET_OPEN lClosedStatementList CURLY_BRACKET_CLOSE -> ^(T["else"] lClosedStatementList);
 
 lStatement: lStatementType -> ^(T["stmt"] lStatementType);
 
@@ -202,12 +217,10 @@ lStatementType:	lSimplePatternStatement -> lSimplePatternStatement
 
 lSimplePatternStatement: lSimplePatternStatementType -> ^(T["simple_stmt"] lSimplePatternStatementType);
 
-lSimplePatternStatementType: lReturnStatement -> lReturnStatement 
-						   | lBooleanPatternStatement -> lBooleanPatternStatement;
+lSimplePatternStatementType:// lReturnStatement -> lReturnStatement |
+						   lBooleanPatternStatement -> lBooleanPatternStatement;
 
-lReturnStatement: RETURN lReturnValue -> ^(T["return_stmt"] lReturnValue);
-
-lReturnValue: lExpression ->  lExpression | -> T[" "];
+lReturnStatement: RETURN lExpression? -> ^(T["return_stmt"] lExpression?);
 
 lBooleanStatement: lBooleanPatternStatement -> ^(T["simple_stmt"] lBooleanPatternStatement);
 
@@ -228,6 +241,20 @@ lIfStatement:IF lNegation lBooleanStatement lThenBlock? lElseBlock?
 				lBooleanStatement
 				lThenBlock?
 				lElseBlock?				
+		)
+		| IF lNegation lBooleanStatement lClosedThenBlock lElseBlock?
+		-> ^(T["if_stmt"]
+				lNegation
+				lBooleanStatement
+				lClosedThenBlock
+				lElseBlock?				
+		)
+		| IF lNegation lBooleanStatement lThenBlock? lClosedElseBlock
+		-> ^(T["if_stmt"]
+				lNegation
+				lBooleanStatement
+				lThenBlock?
+				lClosedElseBlock				
 		);
 
 lThenBlock: CURLY_BRACKET_OPEN lStatementList? CURLY_BRACKET_CLOSE -> ^(T["if"] lStatementList?)  ;
