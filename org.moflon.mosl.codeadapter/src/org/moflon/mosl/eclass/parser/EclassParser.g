@@ -211,14 +211,9 @@ lClosedElseBlock: ELSE CURLY_BRACKET_OPEN lClosedStatementList CURLY_BRACKET_CLO
 
 lStatement: lStatementType -> ^(T["stmt"] lStatementType);
 
-lStatementType:	lSimplePatternStatement -> lSimplePatternStatement 
+lStatementType:	lBooleanStatement -> lBooleanStatement 
 			  |	lIfStatement -> lIfStatement
 			  |	lLoopStatement -> lLoopStatement;
-
-lSimplePatternStatement: lSimplePatternStatementType -> ^(T["simple_stmt"] lSimplePatternStatementType);
-
-lSimplePatternStatementType:// lReturnStatement -> lReturnStatement |
-						   lBooleanPatternStatement -> lBooleanPatternStatement;
 
 lReturnStatement: RETURN lExpression? -> ^(T["simple_stmt"] ^(T["return_stmt"] lExpression?));
 
