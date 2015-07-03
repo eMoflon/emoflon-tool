@@ -17,9 +17,9 @@ tokens {
   EOperation;
   
   Rule;
+  TGGLinkVariable;
   TGGCorrespondence;
   TGGObjectVariable;
-  TGGLinkVariable;
   MethodCallExpression;
 }
 
@@ -32,6 +32,8 @@ import org.moflon.moca.MocaTokenFactory;
 @members {
 	private String scope;
 	private String operator;
+	private String binding;
+	private String correspondenceName;
 	
     	private CommonTree concat(int type, List<Object> list) {
     		StringBuilder sb = new StringBuilder();
@@ -61,35 +63,47 @@ import org.moflon.moca.MocaTokenFactory;
 }
 
 // parser rules:
-main: RULEX name=ID rule_parameter_decl? lRefinmentList? CURLY_BRACKET_OPEN source_pattern? correspondence_pattern? target_pattern? lCSPList operations_decl? CURLY_BRACKET_CLOSE //EOF
+main: RULEX name=ID rule_parameter_decl? lRefinmentList? CURLY_BRACKET_OPEN source_pattern? correspondence_pattern? target_pattern? csp=lCSPList operations_decl? CURLY_BRACKET_CLOSE //EOF
   -> ^(Rule 
   			^(ATTRIBUTE T["name"] $name)
   			^(ATTRIBUTE T["category"] T["rule"])
-  			lCSPList
+  			^(ATTRIBUTE T["cspSpec"] T[$csp.text])
+  			$csp
   			lRefinmentList?
-  			source_pattern?
-  			correspondence_pattern?
-  			target_pattern?
+  			^(T["objectVariables"] 
+  			     source_pattern?
+  			     correspondence_pattern?
+  			     target_pattern?)
   			^(T["parameters"] rule_parameter_decl?)
   			^(T["operations"] operations_decl?) 
       );
 
 lRefinmentList: REFINES (lRefinment COMMA)* lRefinment
-		-> ^(T["BaseClasses"] lRefinment+);			 
+		-> ^(T["refines"] lRefinment+);			 
 
 lRefinment: ext=lTypeReference 
-		-> ^(ATTRIBUTE T["baseClassName"] $ext)
-		   ^(ATTRIBUTE T["searchCategory"] T["pattern"])
-		   ^(ATTRIBUTE T["search"] T["baseClassName"]);
+		-> ^(T["BaseRule"]
+		       ^(ATTRIBUTE T["baseRuleName"] $ext)
+		       ^(ATTRIBUTE T["searchCategory"] T["rule"])
+		       ^(ATTRIBUTE T["search"] T["baseRuleName"])
+		     );
       
 lCSPList: CONSTRAINTS CURLY_BRACKET_OPEN lCSP? CURLY_BRACKET_CLOSE -> ^(T["cspSpec"] lCSP? ) ;
       
 rule_parameter_decl: LEFT_PARENTHESIS parameterlist_decl RIGHT_PARENTHESIS -> parameterlist_decl;
   
-correspondence: lBindingOperator source_ref LEFT_ARROW name=ID COLON type=lTypeReference RIGHT_ARROW target_ref
+correspondence: lBindingOperator source_ref LEFT_ARROW name=ID {correspondenceName = $name.text;}COLON type=lTypeReference RIGHT_ARROW source_ref
      -> ^(TGGCorrespondence ^(T["constraints"])
                          ^(T["attributeAssignments"])
-                         ^(T["outgoingLinks"] source_ref target_ref)
+                         ^(T["outgoingLinks"] 
+                             ^(TGGLinkVariable 
+                                 ^(ATTRIBUTE T["name"] T["source"]) 
+                                 ^(ATTRIBUTE T["guid"] $name) 
+                                 source_ref)
+                             ^(TGGLinkVariable 
+                                 ^(ATTRIBUTE T["name"] T["target"]) 
+                                 ^(ATTRIBUTE T["guid"] $name) 
+                                 source_ref))
                          ^(ATTRIBUTE T["name"] $name)
                          ^(ATTRIBUTE T["category"] T["correspondence"])
                          lBindingOperator
@@ -101,20 +115,45 @@ correspondence: lBindingOperator source_ref LEFT_ARROW name=ID COLON type=lTypeR
          );
          
 source_ref: name=ID
-      -> ^(TGGLinkVariable ^(ATTRIBUTE T["name"] T["source"])
-      					^(ATTRIBUTE T["category"] T["tggLink"])
+      -> 			^(ATTRIBUTE T["category"] T["tggLink"])
+						
+      					^(ATTRIBUTE T["bindingOperator"] T[binding])
                          ^(ATTRIBUTE T["bindingSemantics"] T["mandatory"])
                         ^(ATTRIBUTE T["targetObject"] $name)
                          ^(ATTRIBUTE T["domain"] T["correspondence"])
-          );
+      					^(ATTRIBUTE T["searchCategory"] T["tggObjectVariable"])
+				        ^(ATTRIBUTE T["search"] T["targetObject"])
+				        ^(ATTRIBUTE T["searchCategory"] T["correspondence"])
+						^(ATTRIBUTE T["search"] T["guid"])                        
+          ;
 
-target_ref: name=ID
+/*target_ref: name=ID
       -> ^(TGGLinkVariable ^(ATTRIBUTE T["name"] T["target"])
      					 ^(ATTRIBUTE T["category"] T["tggLink"])
+						^(ATTRIBUTE T["guid"] T[correspondenceName])
+     					 ^(ATTRIBUTE T["bindingOperator"] T[binding])
                          ^(ATTRIBUTE T["bindingSemantics"] T["mandatory"])
                         ^(ATTRIBUTE T["targetObject"] $name)
                          ^(ATTRIBUTE T["domain"] T["correspondence"])
-          );
+                         ^(ATTRIBUTE T["searchCategory"] T["tggObjectVariable"])
+				        ^(ATTRIBUTE T["search"] T["targetObject"])
+				        ^(ATTRIBUTE T["searchCategory"] T["correspondence"])
+						^(ATTRIBUTE T["search"] T["guid"])   
+          );*/
+
+    /*  -> ^(LinkVariable 
+      			^(ATTRIBUTE T["name"] $target)
+      			^(ATTRIBUTE T["guid"] $target)
+         		^(ATTRIBUTE T["targetObject"] $target_object)
+         		^(ATTRIBUTE T["category"] T["tggLink"])
+         		^(ATTRIBUTE T["searchCategory"] T["objectVariable"])
+				^(ATTRIBUTE T["search"] T["targetObject"])
+				^(ATTRIBUTE T["searchCategory"] T["reference"])
+				^(ATTRIBUTE T["search"] T["guid"])
+				^(ATTRIBUTE T["domain"] T[scope])
+                lBindingOperator
+                lBindingSemantics
+          ); */
 
 lBoxBlock: -> ^(T["constraints"]) ^(T["attributeAssignments"]) ^(T["outgoingLinks"]) 
 		| CURLY_BRACKET_OPEN lAssignmentList CURLY_BRACKET_CLOSE -> ^(T["constraints"]) lAssignmentList  ^(T["outgoingLinks"]) 
@@ -181,9 +220,9 @@ lBindingSemantics: (
             | -> ^(ATTRIBUTE T["bindingSemantics"] T["mandatory"])
             );
             
-lBindingOperator: ( -> ^(ATTRIBUTE T["bindingOperator"] T["check_only"])
-            | DPLUS -> ^(ATTRIBUTE T["bindingOperator"] T["create"])
-            | DMINUS -> ^(ATTRIBUTE T["bindingOperator"] T["destroy"])
+lBindingOperator: ( {binding = "check_only";} -> ^(ATTRIBUTE T["bindingOperator"] T["check_only"])
+            | DPLUS {binding = "create";} -> ^(ATTRIBUTE T["bindingOperator"] T["create"])
+            | DMINUS {binding = "destroy";} -> ^(ATTRIBUTE T["bindingOperator"] T["destroy"])
             );
 
 lBindingState: ( -> ^(ATTRIBUTE T["bindingState"] T["unbound"])
@@ -195,8 +234,14 @@ lLinkList: lLink+ -> ^(T["outgoingLinks"] lLink+);
 lLink: lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_object=ID
       -> ^(TGGLinkVariable 
       			^(ATTRIBUTE T["name"] $target)
+      			^(ATTRIBUTE T["guid"] $target)
          		^(ATTRIBUTE T["targetObject"] $target_object)
          		^(ATTRIBUTE T["category"] T["tggLink"])
+         		^(ATTRIBUTE T["searchCategory"] T["tggObjectVariable"])
+				^(ATTRIBUTE T["search"] T["targetObject"])
+				^(ATTRIBUTE T["searchCategory"] T["reference"])
+				^(ATTRIBUTE T["search"] T["guid"])
+				^(ATTRIBUTE T["domain"] T[scope])
                 lBindingOperator
                 lBindingSemantics
           );

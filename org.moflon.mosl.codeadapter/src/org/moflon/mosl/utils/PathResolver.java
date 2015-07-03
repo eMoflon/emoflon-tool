@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
@@ -21,58 +20,21 @@ import MocaTree.Attribute;
 import MocaTree.Node;
 import MocaTree.Text;
 
-public class PathResolver extends AbstractResolver {
+public class PathResolver extends AbstractPathResolver {
 	
 	private final static String MOSL_CONFIGURATION_FILE="_MOSLConfiguration.mconf";
 	private final static Category[] inheritTypes = {Category.OPERATION, Category.ATTRIBUTE, Category.PATTERN, Category.REFERENCE};
-	private final static Category[] forbiddenCategories = {Category.TYPE, Category.PATTERN_FILE, Category.PATTERN, Category.TYPED_EXPRESSION};
+	private final static Category[] forbiddenCategories = {Category.TYPE, Category.PATTERN_FILE, Category.PATTERN, Category.TYPED_EXPRESSION, Category.CORRESPONDENCE};
 	
 	
-	public class Pair<F, S>{
-	      private  F first;
-	      private  S second;
-	      
-	      public Pair(F k, S v){
-	         first = k;
-	         second =v;
-	      }
-	      
-	      public F getFirst()
-	      {
-	         return first;
-	      }
-	      public void setFirst(F first)
-	      {
-	         this.first = first;
-	      }
-	      public S getSecond()
-	      {
-	         return second;
-	      }
-	      public void setSecond(S second)
-	      {
-	         this.second = second;
-	      }
 
-	      
-	      public String toString(){
-	    	  return "(" + first.toString() + "; " + second.toString() +")";
-	      }
-
-	   }
-	/**
-	 * saves all pathes. category -> path -> name
-	 */
-	private Map<Category, Map<String, String>> categorizedPathTable;
-	private Map<String, Node> moslCache;
 	private Map<Category, List<Pair<String, Attribute>>> searchCache;
 	private MOSLToMOSLPlusConverter converter;
 	private List<Category> inheritTypesList;
 	private List<Category> blackList;
 	
 	public PathResolver(MOSLConverterAdapter adapter){
-		categorizedPathTable = new HashMap<>();
-		moslCache = new HashMap<>();
+		super();
 		searchCache = new HashMap<>();
 		if(adapter instanceof MOSLToMOSLPlusConverter){
 			converter=MOSLToMOSLPlusConverter.class.cast(adapter);
@@ -82,8 +44,7 @@ public class PathResolver extends AbstractResolver {
 	}
 	
 	public void init(){
-		categorizedPathTable.clear();
-		moslCache.clear();
+		super.init();
 		searchCache.clear();
 	}
 	
@@ -113,7 +74,8 @@ public class PathResolver extends AbstractResolver {
 	
 	public void resolveOpposites(){
 		fixEReferenceOpposites();
-		fixLinksReferences();
+		fixLinksReferences(Category.LINK);
+		fixLinksReferences(Category.TGG_LINK);
 	}
 	
 	public void copyPatterns(){
@@ -122,9 +84,9 @@ public class PathResolver extends AbstractResolver {
 	         List<Pair<String, Attribute>> pairs = searchCache.get(Category.PATTERN_FILE);
 	         for (Pair<String, Attribute> pair : pairs)
 	         {
-	            String name = pair.second.getValue();
-	            Node destination = pair.second.getNode();
-	            getPattern(destination, name, pair.first);
+	            String name = pair.getSecond().getValue();
+	            Node destination = pair.getSecond().getNode();
+	            getPattern(destination, name, pair.getFirst());
 	         }
 	      }
 	   }
@@ -223,8 +185,8 @@ public class PathResolver extends AbstractResolver {
 		pairs = searchCache.get(Category.TYPE);
 		if(pairs != null){
 			for(Pair<String, Attribute> pair : pairs){
-				attribute = pair.second;
-				referencePath = pair.first;
+				attribute = pair.getSecond();
+				referencePath = pair.getFirst();
 				String path = getPath(referencePath, attribute.getValue(), Category.TYPE);
 				attribute.setValue(path);
 				setDependency(referencePath, path);
@@ -233,27 +195,7 @@ public class PathResolver extends AbstractResolver {
 		}
 	}
 	
-	public void resolveAllPathes(){
-		Attribute attribute = null;
-		String referencePath = null;
-		List<Pair<String, Attribute>> pairs = null;
-		resolveTypes();
-		this.copyPatterns();
-		resolveTypes();
-		for(Category cat : searchCache.keySet()){
-			if(!blackList.contains(cat)){
-				pairs = searchCache.get(cat);
-				for(Pair<String, Attribute> pair : pairs){
-					 attribute = pair.second;
-					 referencePath = pair.first;
-					 String path = tryToGetPath(referencePath, attribute.getValue(), cat);
-					 attribute.setValue(path);
-				}
-			}
-		}
-		resolveTypedExpressions();
-	}
-
+	
 	
 	private void setDependency(String from, String to){
 		List<String> fromPackages = getPathesForPathReferncesAndCategory(from, Category.PACKAGE);
@@ -314,8 +256,8 @@ public class PathResolver extends AbstractResolver {
 		}
 	}
 	
-	private void fixLinksReferences() {
-		Map<String,String> linkPathes = categorizedPathTable.get(Category.LINK);
+	private void fixLinksReferences(Category cat) {
+		Map<String,String> linkPathes = categorizedPathTable.get(cat);
 		if(linkPathes != null){
 			for(String linkPath : linkPathes.keySet()){
 				Node linkNode = moslCache.get(linkPath);
@@ -447,96 +389,32 @@ public class PathResolver extends AbstractResolver {
 		converter.traverseTree(path, cpyPattern);
 	}
 	
-	public void removeNodeFromCache(String path){
-		moslCache.remove(path);
+	private void resolveCategory(Category cat){
+		Attribute attribute = null;
+		String referencePath = null;
+		List<Pair<String, Attribute>> pairs = searchCache.get(cat);
+		for(Pair<String, Attribute> pair : pairs){
+			 attribute = pair.getSecond();
+			 referencePath = pair.getFirst();
+			 String path = tryToGetPath(referencePath, attribute.getValue(), cat);
+			 attribute.setValue(path);
+		}
 	}
 	
-	public Node getNodeFromCache(String path){
-		return moslCache.get(path);
+	public void resolveAllPathes(){
+		resolveTypes();
+		this.copyPatterns();
+		resolveTypes();
+		for(Category cat : searchCache.keySet()){
+			if(!blackList.contains(cat)){
+				resolveCategory(cat);
+			}
+		}
+		resolveCategory(Category.CORRESPONDENCE);
+		resolveTypedExpressions();
 	}
+	
+
 		
-	public void addPath(String path, String name, Node node){
-		moslCache.put(path, node);
-		Category cat = getCategory(node);
-		Map<String, String> pathTable=categorizedPathTable.get(cat);
-		if(pathTable==null){
-			pathTable=new HashMap<>();
-		}
-		pathTable.put(path, name);
-		categorizedPathTable.put(cat, pathTable);
-	}
-	
-	// FIXME Categories Operation and Attributes are problematic because they can reference to SuperClasses
-	public String getPath(String referencePath, String nameReference, Category cat) {
-		Map<String,String> pathTable = categorizedPathTable.get(cat);
-		LinkedList<String> nameReferenceParts = new LinkedList<>(Arrays.asList(nameReference.split("/")));
-		LinkedList<String> referencePathParts = new LinkedList<>(Arrays.asList(referencePath.split("/")));
-		String name=nameReferenceParts.pollLast();
-		if(name.equalsIgnoreCase("void"))
-			return "void";
-		else
-			return getPath(referencePathParts, nameReferenceParts, name, nameReference, pathTable);
-	}
-	
-	private String getPath(List<String> referencePathParts, List<String> nameReferenceParts, String name, String nameReference, Map<String, String> pathTable){
-		List<String> candidates = getCandidates(name, pathTable);
-		int candiateSize = candidates.size();
-		if(candiateSize == 0)
-			throw new CanNotResolvePathException("For the name "+ name + " cannot find any path!");
-		else if(candiateSize == 1)
-			return candidates.get(0);
-		else
-			return findBestCandidate(referencePathParts, nameReferenceParts, nameReference, candidates);
-	}
-	
-	private List<String> getCandidates(String name, Map<String, String> pathTable){
-		List<String> candidates = new LinkedList<>();
-		for(Entry<String,String> entry : pathTable.entrySet()){
-			String value=entry.getValue();
-			if( value != null && value.compareTo(name)==0){
-				candidates.add(entry.getKey());
-			}
-		}
-		return candidates;
-	}
-	
-	private String findBestCandidate(List<String> referencePathParts, List<String> nameReferenceParts, String nameReference, List<String> candidates) {
-		findBestCandidateFromRight(0, nameReferenceParts, nameReference, candidates);
-		findBestCandidateFromLeft(0, referencePathParts, nameReference, candidates);
-		return candidates.get(0);
-	}
-	
-	private void findBestCandidateFromRight(int position, List<String> nameReferenceParts, String nameReference, List<String> candidates) {
-		if(candidates.size()==0)
-			throw new CanNotResolvePathException("The Reference to " + nameReference + " is wrong");
-		else if(candidates.size()==1)
-			return;
-		else if(position < nameReferenceParts.size()){
-			List<String> cpyCandidates = new LinkedList<String>(candidates);
-			for(String path : cpyCandidates){
-				String[] pathParts = path.split("/");
-				if(pathParts.length-1 > position && nameReferenceParts.get(nameReferenceParts.size()-1-position).compareTo(pathParts[pathParts.length-2-position])!=0)
-					candidates.remove(path);
-			}
-			findBestCandidateFromRight(position + 1, nameReferenceParts, nameReference, candidates);
-		}
-	}
-	
-	private void findBestCandidateFromLeft(int position, List<String> referencePathParts, String nameReference, List<String> candidates) {
-		if(candidates.size()==0)
-			throw new CanNotResolvePathException("The Reference to " + nameReference + " is too imprecise");
-		else if(candidates.size()==1)
-			return;
-		else if(position < referencePathParts.size()){
-			List<String> cpyCandidates = new LinkedList<String>(candidates);
-			for(String path : cpyCandidates){
-				String[] pathParts = path.split("/");
-				if(position < pathParts.length && referencePathParts.get(position).compareTo(pathParts[position])!=0)
-					candidates.remove(path);
-			}
-			findBestCandidateFromLeft(position + 1, referencePathParts, nameReference, candidates);
-		}
-		else
-			throw new CanNotResolvePathException("The Reference to " + nameReference + " is too imprecise");
-	}
+
 }

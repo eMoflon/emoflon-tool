@@ -6,8 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import MOSLCodeAdapter.moslPlus.Category;
 import MocaTree.Attribute;
+import MocaTree.Node;
+import MocaTree.Text;
 
 public class GuidResolver extends AbstractResolver{
 
@@ -30,6 +34,19 @@ public class GuidResolver extends AbstractResolver{
 				searchGuidCache.get(searchCategory).setValue("");
 			}
 		}
+	}
+	
+	public void findMetamodel(Node domains, Attribute type, Node target){
+		for(Text domainsChild : domains.getChildren()){
+			Node domain = Node.class.cast(domainsChild);
+			Attribute guid = getAttribute(domain, "metamodelGuid");
+			if(type.getValue().contains(guid.getValue())){
+				Attribute metamodelGuid = EcoreUtil.copy(guid);
+				metamodelGuid.setIndex(7);
+				metamodelGuid.setNode(target);
+			}
+		}
+
 	}
 	
 	
