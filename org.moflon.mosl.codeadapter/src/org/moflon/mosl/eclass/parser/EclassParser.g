@@ -220,7 +220,7 @@ lSimplePatternStatement: lSimplePatternStatementType -> ^(T["simple_stmt"] lSimp
 lSimplePatternStatementType:// lReturnStatement -> lReturnStatement |
 						   lBooleanPatternStatement -> lBooleanPatternStatement;
 
-lReturnStatement: RETURN lExpression? -> ^(T["return_stmt"] lExpression?);
+lReturnStatement: RETURN lExpression? -> ^(T["simple_stmt"] ^(T["return_stmt"] lExpression?));
 
 lBooleanStatement: lBooleanPatternStatement -> ^(T["simple_stmt"] lBooleanPatternStatement);
 
