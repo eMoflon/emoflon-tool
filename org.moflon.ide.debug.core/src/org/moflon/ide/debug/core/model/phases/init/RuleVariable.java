@@ -19,11 +19,13 @@ public class RuleVariable extends MoflonDebugElement implements IVariable
       SOURCE, SOURCES, TARGET, TARGETS, RULE
    };
 
-   Mode mode;
+   private Mode mode;
 
-   IValue value;
+   private IValue value;
 
-   Rule rule;
+   private Rule rule;
+
+   private String label;
 
    public RuleVariable(IDebugTarget target, Mode mode, EList<Rule> rules)
    {
@@ -38,6 +40,15 @@ public class RuleVariable extends MoflonDebugElement implements IVariable
       this.value = new RuleValue(target, mode);
       this.rule = rule;
       this.mode = mode;
+   }
+
+   public RuleVariable(Mode mode, Rule rule, String label)
+   {
+      super(null);
+      this.value = new RuleValue(null, mode, rule);
+      this.rule = rule;
+      this.mode = mode;
+      this.label = label;
    }
 
    @Override
@@ -92,6 +103,8 @@ public class RuleVariable extends MoflonDebugElement implements IVariable
       case SOURCE:
       case TARGET:
          return rule.getRuleName();
+      case RULE:
+         return label;
       default:
          return null;
       }

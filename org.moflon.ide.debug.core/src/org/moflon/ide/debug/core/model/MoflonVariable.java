@@ -7,11 +7,16 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
+import org.moflon.ide.debug.core.model.phases.init.RuleVariable;
+import org.moflon.ide.debug.core.model.phases.init.RuleVariable.Mode;
+import org.moflon.ide.debug.core.model.phases.translation.MatchVariable;
 
 import DebugLanguage.AttributeProxy;
 import DebugLanguage.DebugAttributeDelta;
 import DebugLanguage.DebugCorrespondence;
 import DebugLanguage.DebugEObjectProxy;
+import DebugLanguage.DebugMatch;
+import TGGLanguage.analysis.Rule;
 import TGGRuntime.EMoflonEdge;
 
 public class MoflonVariable // extends MoflonDebugElement implements IValue
@@ -32,7 +37,7 @@ public class MoflonVariable // extends MoflonDebugElement implements IValue
          }
       } else if (value instanceof DynamicEObjectImpl)
       {
-         switch (values.length)  
+         switch (values.length)
          {
          case 1:
             return new DynamicEObjectImplVariable((DynamicEObjectImpl) value);
@@ -82,6 +87,13 @@ public class MoflonVariable // extends MoflonDebugElement implements IValue
       } else if (value instanceof DebugAttributeDelta)
       {
          return new DebugAttributeDeltaVariable((DebugAttributeDelta) value);
+      } else if (value instanceof DebugMatch)
+      {
+         return new MatchVariable((DebugMatch) value);
+
+      } else if (value instanceof Rule)
+      {
+         return new RuleVariable((Mode) values[1], (Rule) value, (String) values[2]);
       } else if (value instanceof EObject)
       {
          switch (values.length)

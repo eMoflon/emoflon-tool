@@ -411,8 +411,7 @@ public class SynchronizationHelper
       establishForwardDelta();
       establishTranslationProtocol();
 
-      performSynchronization(new @DebugBreakpoint(phase = Phase.INIT) ForwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(),
-            tempOutputContainer));
+      performSynchronization(new ForwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(), tempOutputContainer));
 
       if (trg == null)
          trg = corr.getTarget();
@@ -420,6 +419,7 @@ public class SynchronizationHelper
 
    protected void performSynchronization(final Synchronizer synchronizer)
    {
+      new @DebugBreakpoint(phase = Phase.INIT) String();
       try
       {
          synchronizer.synchronize();

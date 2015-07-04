@@ -13,7 +13,7 @@
       <view id="org.moflon.ide.ui.admin.views.GraphView"
          name="Graph View"
          class="org.moflon.ide.ui.admin.views.GraphView"
-         icon="resources/model_integrator.gif"
+         icon="resources/graphView.png"
       />
  </extension>
  <extension

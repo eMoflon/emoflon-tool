@@ -15,7 +15,7 @@ public class RuleValue implements IValue
 
    private EList<Rule> rules;
 
-   // private Rule rule;
+   private Rule rule;
 
    private IVariable[] variables;
 
@@ -46,6 +46,12 @@ public class RuleValue implements IValue
    public RuleValue(IDebugTarget target, Mode mode)
    {
       this.mode = mode;
+   }
+
+   public RuleValue(IDebugTarget target, Mode mode, Rule rule)
+   {
+      this.mode = mode;
+      this.rule = rule;
    }
 
    @Override
@@ -94,6 +100,8 @@ public class RuleValue implements IValue
       case SOURCE:
       case TARGET:
          return "";
+      case RULE:
+         return rule.getRuleName();
       default:
          return null;
       }

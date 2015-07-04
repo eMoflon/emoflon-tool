@@ -37,6 +37,8 @@ import org.moflon.ide.debug.core.model.phases.init.RulesVariable;
 import org.moflon.ide.debug.core.model.phases.init.SynchronizationVariable;
 import org.moflon.ide.debug.core.model.phases.init.TripleMatchValue;
 import org.moflon.ide.debug.core.model.phases.init.TripleMatchVariable;
+import org.moflon.ide.debug.core.model.phases.translation.MatchValue;
+import org.moflon.ide.debug.core.model.phases.translation.MatchVariable;
 import org.moflon.ide.debug.core.model.phases.translation.TranslationStateStackFrame;
 import org.moflon.ide.debug.ui.Activator;
 import org.moflon.ide.ui.UIActivator;
@@ -118,6 +120,10 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
       itemTranslated = null;
       toBeTranslated.dispose();
       toBeTranslated = null;
+      match.dispose();
+      match = null;
+      context.dispose();
+      context = null;
 
       if (adapterFactoryLabelProvider != null)
       {
@@ -211,6 +217,10 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
 
    Image toBeTranslated = Activator.getImage("icons/full/obj16/toBeTranslated.png").createImage();
 
+   Image match = Activator.getImage("icons/full/obj16/match.png").createImage();
+
+   Image context = Activator.getImage("icons/full/obj16/context.png").createImage();
+
    @Override
    public Image getImage(Object element)
    {
@@ -228,6 +238,9 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
          default:
             break;
          }
+      } else if (element instanceof MatchVariable)
+      {
+         return match;
       } else if (element instanceof RuleVariable || element instanceof RulesVariable)
       {
          return rule;
@@ -290,6 +303,8 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
                return correspondenceElements;
             case TranslationStateStackFrame.TO_BE_TRANSLATED:
                return toBeTranslated;
+            case MatchValue.CONTEXT:
+               return context;
             default:
                // Do nothing
             }

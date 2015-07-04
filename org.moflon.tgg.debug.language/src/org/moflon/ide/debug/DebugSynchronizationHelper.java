@@ -40,6 +40,7 @@ import DebugLanguage.DebugDelta;
 import DebugLanguage.DebugEObjectProxy;
 import DebugLanguage.DebugLanguageFactory;
 import DebugLanguage.DebugLanguagePackage;
+import DebugLanguage.DebugMatch;
 import DebugLanguage.DebugModel;
 import DebugLanguage.DebugPrecedenceGraph;
 import DebugLanguage.DebugRules;
@@ -79,7 +80,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
    {
       super(corrPackage, pathToProject);
    }
-   
+
    /**
     * This class wrap's the default behavior of EMF to XML serialization. There is currently an issue in EMF regarding
     * the serialization of {@link EcorePackage#EJAVA_OBJECT}s. The serialization is mocked by returning the actual
@@ -336,11 +337,14 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
          } else if (obj instanceof Match)
          {
             Match match = (Match) obj;
-            Match newMatch = TGGRuntimeFactory.eINSTANCE.createMatch();
+            DebugMatch newMatch = DebugLanguageFactory.eINSTANCE.createDebugMatch();
             newMatch.setRuleName(match.getRuleName());
-            match.getContextNodes().forEach(e -> newMatch.getContextNodes().add(traverseToProxy(e, EObject.class)));
-            // match.getContextEdges().forEach(e -> newMatch.getContextEdges().add(traverseToProxy(e, EObject.class)));
-            match.getToBeTranslatedNodes().forEach(e -> newMatch.getToBeTranslatedNodes().add(traverseToProxy(e, EObject.class)));
+
+            match.getContextNodes().forEach(e -> newMatch.getContext().add(traverseToProxy(e, DebugEObjectProxy.class)));
+            match.getContextEdges().forEach(e -> newMatch.getContext().add(traverseToProxy(e, DebugEObjectProxy.class)));
+            match.getToBeTranslatedNodes().forEach(e -> newMatch.getToBeTranslated().add(traverseToProxy(e, DebugEObjectProxy.class)));
+            match.getToBeTranslatedEdges().forEach(e -> newMatch.getToBeTranslated().add(traverseToProxy(e, DebugEObjectProxy.class)));
+            
             proxy = newMatch;
          } else if (obj instanceof TripleMatch)
          {
@@ -652,7 +656,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       }
       // precedenceGraph
       DebugPrecedenceGraph dpg = DebugLanguageFactory.eINSTANCE.createDebugPrecedenceGraph();
-      precedenceGraph.forEach(e -> dpg.getMatches().add(traverseToProxy(e, Match.class)));
+      precedenceGraph.forEach(e -> dpg.getMatches().add(traverseToProxy(e, DebugMatch.class)));
       tp.setPrecedenceGraph(dpg);
 
       return dm;

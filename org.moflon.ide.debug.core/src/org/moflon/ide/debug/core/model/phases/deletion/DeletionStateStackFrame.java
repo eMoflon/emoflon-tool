@@ -97,16 +97,8 @@ public class DeletionStateStackFrame extends MoflonStackFrame
          this.variables = new IVariable[] { MoflonVariable.createVariable(dp.getSourceProxy(), SOURCE_MODEL),
                MoflonVariable.createVariable(dp.getTargetProxy(), TARGET_MODEL), new CorrespondenceVariable(getDebugTarget(), dp.getCorrespondenceModel()),
                MoflonVariable.createVariable(dp.getDeletedElements(), DELETED_ELEMENTS),
-               MoflonVariable.createVariable(dp.getRevokedElements(), REVOKED_ELEMENTS),
-               // new CorrespondenceVariable(target, ip.getCorrespondenceModel()),
-               new SynchronizationVariable(getDebugTarget(), dp.getRevokedProtocol()), new SynchronizationVariable(getDebugTarget(), revokedProtocol) // ,
-         // , new RulesVariable(target,
-         // ip.getRules()),
-         // new SynchronizationVariable(target,
-         // dp.getDeletedMatches(),
-         // DELETED_TRIPLE_MATCHES)
-         // new DeltaVariable(target, ip.getDelta()), new ConfiguratorVariable(target)
-         };
+               MoflonVariable.createVariable(dp.getRevokedElements(), REVOKED_ELEMENTS), new SynchronizationVariable(getDebugTarget(), dp.getRevokedProtocol()) };
+         // , new SynchronizationVariable(getDebugTarget(), revokedProtocol),
       }
       return variables;
    }
