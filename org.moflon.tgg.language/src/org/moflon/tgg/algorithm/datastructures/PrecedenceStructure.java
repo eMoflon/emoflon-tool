@@ -106,7 +106,7 @@ public abstract class PrecedenceStructure<M>
 
    public Collection<M> parents(M m)
    {
-      if (matchToParents.containsKey(m))
+      if (!matchToParents.containsKey(m))
          return Collections.emptyList();
       return matchToParents.get(m);
    }
