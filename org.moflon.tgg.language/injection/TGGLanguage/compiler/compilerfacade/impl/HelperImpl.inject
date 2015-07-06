@@ -23,10 +23,23 @@ partial class HelperImpl {
 	
 -->
 
-@model CONSISTENCY () <--
+@model isConsistencyCheckGenerated (ApplicationTypes type) <--
+
 
 		// TODO: implement this method here but do not remove the injection marker 
-		return ApplicationTypes.CONSISTENCY;
+		return type.equals(ApplicationTypes.ALL);
+-->
+
+@model ALL () <--
+
+
+		// TODO: implement this method here but do not remove the injection marker 
+		return ApplicationTypes.ALL;
+-->
+
+@model FORWARD () <--
+
+		return ApplicationTypes.FORWARD;
 -->
 
 @model BACKWARD () <--
@@ -34,34 +47,32 @@ partial class HelperImpl {
 		return ApplicationTypes.BACKWARD;
 -->
 
-@model BOUND () <--
+@model CONSISTENCY () <--
 
-		return BindingState.BOUND;
+		// TODO: implement this method here but do not remove the injection marker 
+		return ApplicationTypes.CONSISTENCY;
 -->
 
-@model CHECK_ONLY () <--
+@model SOURCE () <--
 
-		return BindingOperator.CHECK_ONLY;
--->
-
-@model convertDirectionToInputDomain (ApplicationTypes direction) <--
-
-		if (direction == ApplicationTypes.FORWARD)
-			return DomainType.SOURCE;
-		else if (direction == ApplicationTypes.BACKWARD)
-			return DomainType.TARGET;
-		else
-			return null;
--->
-
-@model copy (EObject eObject) <--
-
-		return EcoreUtil.copy(eObject);
+		// TODO: implement this method here but do not remove the injection marker 
+		return DomainType.SOURCE;
 -->
 
 @model CORRESPONDENCE () <--
 
 		return DomainType.CORRESPONDENCE;
+-->
+
+@model TARGET () <--
+
+		// TODO: implement this method here but do not remove the injection marker 
+		return DomainType.TARGET;
+-->
+
+@model CHECK_ONLY () <--
+
+		return BindingOperator.CHECK_ONLY;
 -->
 
 @model CREATE () <--
@@ -74,16 +85,92 @@ partial class HelperImpl {
 		return BindingOperator.DESTROY;
 -->
 
+@model MANDATORY () <--
+
+		return BindingSemantics.MANDATORY;
+-->
+
+@model NEGATIVE () <--
+
+		return BindingSemantics.NEGATIVE;
+-->
+
+@model OPTIONAL () <--
+
+		return BindingSemantics.OPTIONAL;
+-->
+
+@model BOUND () <--
+
+		return BindingState.BOUND;
+-->
+
+@model UNBOUND () <--
+
+		return BindingState.UNBOUND;
+-->
+
+@model NONE () <--
+
+		return EdgeGuard.NONE;
+-->
+
+@model SUCCESS () <--
+
+		return EdgeGuard.SUCCESS;
+-->
+
+@model FAILURE () <--
+
+		return EdgeGuard.FAILURE;
+-->
+
+@model EACH_TIME () <--
+
+		return EdgeGuard.EACH_TIME;
+-->
+
+@model END () <--
+
+		return EdgeGuard.END;
+-->
+
+@model EQUAL () <--
+
+		return ComparingOperator.EQUAL;
+-->
+
+@model copy (EObject eObject) <--
+
+		return EcoreUtil.copy(eObject);
+-->
+
+@model convertDirectionToInputDomain (ApplicationTypes direction) <--
+
+		if (direction == ApplicationTypes.FORWARD)
+			return DomainType.SOURCE;
+		else if (direction == ApplicationTypes.BACKWARD)
+			return DomainType.TARGET;
+		else
+			return null;
+-->
+
 @model determineOperationSignature (String prefix, ApplicationTypes direction, EClass variableType) <--
 
 		if (prefix.equals("postProcess"))
 			return prefix + direction.toString();
 
 		String shortDir = "BWD";
-		switch(direction) {
-		case FORWARD: shortDir = "FWD"; break;
-		case BACKWARD: shortDir = "BWD"; break;
-		case CONSISTENCY: shortDir = "CC"; break;
+		switch (direction) {
+		case FORWARD:
+			shortDir = "FWD";
+			break;
+		case BACKWARD:
+			shortDir = "BWD";
+			break;
+		case CONSISTENCY:
+			shortDir = "CC";
+			break;
 		}
 
 		if (variableType == null)
@@ -134,31 +221,6 @@ partial class HelperImpl {
 				+ suffix + "())";
 -->
 
-@model EACH_TIME () <--
-
-		return EdgeGuard.EACH_TIME;
--->
-
-@model END () <--
-
-		return EdgeGuard.END;
--->
-
-@model EQUAL () <--
-
-		return ComparingOperator.EQUAL;
--->
-
-@model FAILURE () <--
-
-		return EdgeGuard.FAILURE;
--->
-
-@model FORWARD () <--
-
-		return ApplicationTypes.FORWARD;
--->
-
 @model getEClassFromTGGMetamodel (String className) <--
 
 		EClassifier result = (EClassifier) TGGRuntimePackage.eINSTANCE
@@ -204,48 +266,6 @@ partial class HelperImpl {
 		default:
 			return true;
 		}
--->
-
-@model MANDATORY () <--
-
-		return BindingSemantics.MANDATORY;
--->
-
-@model NEGATIVE () <--
-
-		return BindingSemantics.NEGATIVE;
--->
-
-@model NONE () <--
-
-		return EdgeGuard.NONE;
--->
-
-@model OPTIONAL () <--
-
-		return BindingSemantics.OPTIONAL;
--->
-
-@model SUCCESS () <--
-
-		return EdgeGuard.SUCCESS;
--->
-
-@model UNBOUND () <--
-
-		return BindingState.UNBOUND;
--->
-
-@model SOURCE () <--
-
-		// TODO: implement this method here but do not remove the injection marker 
-		return DomainType.SOURCE;
--->
-
-@model TARGET () <--
-
-		// TODO: implement this method here but do not remove the injection marker 
-		return DomainType.TARGET;
 -->
 
 }
