@@ -550,6 +550,13 @@ public class SynchronizationHelper
       eMoflonEMFUtil.saveModel(ps, path);
    }
 
+   /**
+    * This can be set to true to activate a stricter comparison of matches. This influences when matches are considered
+    * to be equal and can have a positive/negative effect on efficiency and memory consumption due to all the hashsets
+    * used.
+    * 
+    * @param value
+    */
    public void filterMatches(final boolean value)
    {
       MatchImpl.filterMatches = value;

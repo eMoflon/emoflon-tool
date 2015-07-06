@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -28,6 +27,17 @@ public class SynchronizationProtocol extends PrecedenceStructure<TripleMatch>
 
       return desc;
    }
+   
+   public Collection<TripleMatch> ancestors(TripleMatch m)
+   {
+      Collection<TripleMatch> asc = new HashSet<TripleMatch>(parents(m));
+      
+      for(TripleMatch parent : parents(m))
+         asc.addAll(ancestors(parent));
+      
+      return asc;
+   }
+
    
    public void collectPrecedences(TripleMatch match){
       matches.add(match);
@@ -115,6 +125,4 @@ public TGGRuntime.TripleMatch toEMF(TripleMatch m)
              new Graph(m.getContextElements()),
              nodeMappings); 
    }
-
-
 }

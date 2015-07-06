@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -42,7 +41,6 @@ import org.moflon.tgg.algorithm.delta.attribute.AttributConstraintContainer;
 import org.moflon.tgg.algorithm.delta.attribute.AttributeConstraintCodeGenerator;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
-
 import MocaTree.MocaTreeFactory;
 import MocaTree.Node;
 import SDMLanguage.expressions.ComparingOperator;
@@ -82,93 +80,49 @@ partial class InjectionHelperImpl {
 
 @members <--
 
+   private void handleImports(final EClass ruleClass)
+   {
+      ImportInjectionEntry entryForNodeMapping = SdmUtilFactory.eINSTANCE.createImportInjectionEntry();
+      entryForNodeMapping.setContent("TGGRuntime.TripleMatchNodeMapping");
+      entryForNodeMapping.setEClass(ruleClass);
+      this.getCompilerInjection().getImportInjectionEntries().add(entryForNodeMapping);
 
-	
-	
-	private void handleImports(final EClass ruleClass) {
-		ImportInjectionEntry entryForNodeMapping = SdmUtilFactory.eINSTANCE
-				.createImportInjectionEntry();
-		entryForNodeMapping.setContent("TGGRuntime.TripleMatchNodeMapping");
-		entryForNodeMapping.setEClass(ruleClass);
-		this.getCompilerInjection().getImportInjectionEntries()
-				.add(entryForNodeMapping);
-
-		ImportInjectionEntry entryForOptional = SdmUtilFactory.eINSTANCE
-				.createImportInjectionEntry();
-		entryForOptional.setContent("java.util.Optional");
-		entryForOptional.setEClass(ruleClass);
-		this.getCompilerInjection().getImportInjectionEntries()
-				.add(entryForOptional);
-	}
-
-	
-	private OperationalCSP computeOCSP(TGGRule rule) {
-		CSP csp = EcoreUtil.copy(rule.getCsp());
-		OperationalCSP ocsp = CspFactory.eINSTANCE.createOperationalCSP();
-		ocsp.getConstraints().addAll(csp.getConstraints());
-		ocsp.getVariables().addAll(csp.getVariables());
-		ocsp.getVariables().forEach(v -> {
-			// Local variables are never bound
-				if (!(v instanceof LocalVariable))
-					v.setBound(true);
-			});
-
-		CSPSearchPlanAdapterImpl plan = new CSPSearchPlanAdapterImpl();
-		plan.computeConstraintOrder(ocsp);
-		
-		return ocsp;
-	}
-
-	
+      ImportInjectionEntry entryForOptional = SdmUtilFactory.eINSTANCE.createImportInjectionEntry();
+      entryForOptional.setContent("java.util.Optional");
+      entryForOptional.setEClass(ruleClass);
+      this.getCompilerInjection().getImportInjectionEntries().add(entryForOptional);
+   }
+   
 -->
 
 @model createInjectionForCheckAttributesMethod (String name, TGGRule rule, EClass ruleClass) <--
 
-		
-		handleImports(ruleClass);
-		
-		AttributeConstraintCodeGenerator codeGen = new AttributeConstraintCodeGenerator();
-		
-		OperationalCSP ocsp = computeOCSP(rule);
-		codeGen.setTGGRule(rule);
-		codeGen.setDirection(name);
-		codeGen.setOCSP(ocsp);
-
-		return codeGen.getInjection();
+      handleImports(ruleClass);
+      AttributeConstraintCodeGenerator codeGen = new AttributeConstraintCodeGenerator(rule, name);
+      return codeGen.getInjection();
 -->
 
 @model createInjectionForCheckTypesMethod (TGGRule rule, EOperation eOperation, Helper compilerHelper, ApplicationTypes direction) <--
 
-		boolean forward = direction.equals(ApplicationTypes.FORWARD);
-		Domain sourceDomain = rule.getSource();
-		Domain targetDomain = rule.getTarget();
+      boolean forward = direction.equals(ApplicationTypes.FORWARD);
+      Domain sourceDomain = rule.getSource();
+      Domain targetDomain = rule.getTarget();
 
-		String injectionContent = "return "
-				+ rule.getObjectVariable()
-						.stream()
-						.filter(ov -> {
-							Domain domain = ((TGGObjectVariable) ov)
-									.getDomain();
-							boolean hasCorrectDomain = (forward && domain
-									.equals(sourceDomain))
-									|| (!forward && domain.equals(targetDomain));
-							boolean isGreenInRule = ov.getBindingOperator()
-									.equals(BindingOperator.CREATE);
-							return hasCorrectDomain && isGreenInRule;
-						}).map(compilerHelper::determineTypeCheckStatement)
-						.reduce("true", (acc, str) -> acc + " && " + str) + ";";
+      String injectionContent = "return " + rule.getObjectVariable().stream().filter(ov -> {
+         Domain domain = ((TGGObjectVariable) ov).getDomain();
+         boolean hasCorrectDomain = (forward && domain.equals(sourceDomain)) || (!forward && domain.equals(targetDomain));
+         boolean isGreenInRule = ov.getBindingOperator().equals(BindingOperator.CREATE);
+         return hasCorrectDomain && isGreenInRule;
+      }).map(compilerHelper::determineTypeCheckStatement).reduce("true", (acc, str) -> acc + " && " + str) + ";";
 
-		if (compilerInjection == null) {
-			setCompilerInjection(SdmUtilFactory.eINSTANCE
-					.createCompilerInjection());
-		}
+      if (compilerInjection == null)
+         setCompilerInjection(SdmUtilFactory.eINSTANCE.createCompilerInjection());
 
-		CompilerInjectionEntry entry = SdmUtilFactory.eINSTANCE
-				.createCompilerInjectionEntry();
-		entry.setContent(injectionContent);
-		entry.setEOperation(eOperation);
+      CompilerInjectionEntry entry = SdmUtilFactory.eINSTANCE.createCompilerInjectionEntry();
+      entry.setContent(injectionContent);
+      entry.setEOperation(eOperation);
 
-		getCompilerInjection().getCompilerInjectionEntries().add(entry);
+      getCompilerInjection().getCompilerInjectionEntries().add(entry);
 -->
 
 }

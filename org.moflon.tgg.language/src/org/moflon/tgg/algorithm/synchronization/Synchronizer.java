@@ -78,10 +78,6 @@ public abstract class Synchronizer
 
    private Collection<AttributeDelta> toBeChanged;
 
-   private ArrayList<TripleMatch> attrReadySet;
-
-   private ArrayList<TripleMatch> toBeChecked;
-
    private Logger logger = Logger.getLogger(Synchronizer.class);
 
    // Debugger relevant fields
@@ -151,94 +147,66 @@ public abstract class Synchronizer
 
    private void handleAttributeChanges()
    {
-      attrReadySet = new ArrayList<TripleMatch>();
-      toBeChecked = new ArrayList<TripleMatch>();
+      Collection<TripleMatch> toBeChecked = new HashSet<>();
       Graph allRevokedElts = Graph.getEmptyGraph();
 
-      for (AttributeDelta attributeDelta : toBeChanged)
-         collectMatches(attributeDelta.getAffectedNode());
-
-      updateAttrReadyset();
-
+      toBeChanged.forEach(attrDelta -> toBeChecked.addAll(collectMatches(attrDelta.getAffectedNode())));
+      
       while (!toBeChecked.isEmpty())
       {
-         TripleMatch tMatch = attrReadySet.get(0);
+         TripleMatch tMatch = chooseNext(toBeChecked);
          AttributeConstraintsRuleResult acRuleResult = checkCSP(tMatch);
          
          if (acRuleResult.isSuccess())
          {
             if (acRuleResult.isRequiredChange())
             {
-               List<TripleMatch> candidates = protocol.children(tMatch).stream().collect(Collectors.toList());
-               incUpdateAttrReadyset(candidates);
+               Collection<TripleMatch> candidates = protocol.children(tMatch);
+               toBeChecked.addAll(candidates);
             }
          } else
          {
-            Graph g = tMatch.getCreatedElements();
-            Graph changesRevoked = revoke(g);
+            Graph createdElts = tMatch.getCreatedElements();
+            Graph changesRevoked = revoke(createdElts);
             toBeTranslated.addConstructive(changesRevoked);
             allRevokedElts.addConstructive(changesRevoked);
          }
-         attrReadySet.remove(tMatch);
+
          toBeChecked.remove(tMatch);
-         if (attrReadySet.isEmpty())
-            updateAttrReadyset();
       }
 
       inputMatches.addAll(collectDerivations(allRevokedElts, lookupMethods));
    }
 
-   private void updateAttrReadyset()
+   private TripleMatch chooseNext(Collection<TripleMatch> toBeChecked)
    {
-      for (TripleMatch m : toBeChecked)
-      {
-         Collection<TripleMatch> parents = protocol.parents(m);
-
-         if (parents.isEmpty())
-            attrReadySet.add(m);
-
-         if (parents.stream().noneMatch(p1 -> toBeChecked.contains(p1)))
-            attrReadySet.add(m);
-      }       
+      for(TripleMatch m : toBeChecked){
+         if (protocol.ancestors(m).stream().noneMatch(ascendant -> toBeChecked.contains(ascendant)))
+            return m;
+      }
       
-
+      throw new IllegalStateException("No next candidate match found in toBeChecked!");
    }
 
-   private void collectMatches(EObject node)
+   /**
+    * Collect all matches that have to be considered due to changing attributes of node.
+    * Note that if node has already been revoked, the protocol will return neither creating nor context matches for it.
+    * @param node
+    * @param toBeChecked
+    * @return 
+    */
+   private Collection<TripleMatch> collectMatches(EObject node)
    {
-      // creatingMatches
-      toBeChecked.addAll(protocol.getCreatingMatches(node).collect(Collectors.toList()));
-
-      // contextMatches
-      toBeChecked.addAll(protocol.getContextMatches(node).collect(Collectors.toList()));
+      Stream<TripleMatch> creatingMatches = protocol.getCreatingMatches(node);
+      Stream<TripleMatch> contextMatches = protocol.getContextMatches(node);
+      
+      return Stream.concat(creatingMatches, contextMatches).collect(Collectors.toList());
    }
 
    private Graph getAddedElementsFromMatches(Collection<Match> sourceMatches)
    {
       return sourceMatches.stream().map(m -> new Graph(m.getToBeTranslatedNodes(), m.getToBeTranslatedEdges()))
             .reduce(Graph.getEmptyGraph(), Graph::addConstructive);
-   }
-
-   private void incUpdateAttrReadyset(Collection<TripleMatch> candidates)
-   {
-
-      for (TripleMatch match : candidates)
-      {
-         Collection<TripleMatch> parents = protocol.parents(match);
-
-         if (parents.isEmpty())
-         {
-            attrReadySet.add(match);
-            candidates.remove(match);
-         }
-
-         if (parents.stream().noneMatch(p1 -> toBeChecked.contains(p1)))
-         {
-            attrReadySet.add(match);
-            candidates.remove(match);
-         }
-      }
-      toBeChecked.addAll(candidates);
    }
 
    private Rule findRule(String ruleName)

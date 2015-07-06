@@ -6,12 +6,11 @@ import java.util.Collection;
 import TGGLanguage.csp.Variable;
 
 public class AttributConstraintContainer {
-	
-	
 	String instanceName;
 	String ruleName;
 	String constraint;
 	boolean eq;
+	
 	public boolean isEq() {
 		return eq;
 	}
@@ -65,9 +64,4 @@ public class AttributConstraintContainer {
 	public void setConstraint(String constraint) {
 		this.constraint = constraint;
 	}
-	
-
-	
-	
-
 }
