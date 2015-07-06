@@ -128,6 +128,21 @@ namespace EAEcoreAddin.Persistency
                     {
                         exporter.enhanceMetamodelNodeWithDependencies(projectPackage, metamodelNode);
                     }
+
+                    // refactor
+                    /*MocaNode refactorNode = null;
+                    foreach (MocaNode node in exporter.RefactorTree.Children)
+                    {
+                        if (node.getAttributeOrCreate(EPackageHelper.MoflonCustomNameTaggedValueName).Value == projectPackage.Name)
+                        {
+                            refactorNode = node;
+                            break;
+                        }
+                    }
+                    if (refactorNode != null)
+                    {
+                        exporter.enhanceMetamodelNodeWithDependencies(projectPackage, refactorNode);
+                    }*/
                 }
 
                 exporter.finalize();

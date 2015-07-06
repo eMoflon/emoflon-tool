@@ -17,6 +17,7 @@ using EAEcoreAddin.Modeling.TGGModeling.TGGExportWrapper;
 using EAEcoreAddin.Util;
 using System.Text.RegularExpressions;
 using EAEcoreAddin.Serialization;
+using EAEcoreAddin.Refactoring;
 using EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper;
 
 namespace EAEcoreAddin.Persistency
@@ -30,6 +31,7 @@ namespace EAEcoreAddin.Persistency
         String tempDirectoryPath;
 
         public MocaNode MocaTree { get; set; }
+        public MocaNode RefactorTree { get; set; }
 
         public Boolean FullExport { get; set; }
         private Dictionary<String, EPackage> packageNameToEPackage = new Dictionary<string, EPackage>();
@@ -42,6 +44,7 @@ namespace EAEcoreAddin.Persistency
 
         public EcoreExport ecoreExport { get; set; }
         public TggExport tggExport { get; set; }
+        public Refactor refactor { get; set; }
 
         public static Boolean ExportRunning = false;
 
@@ -56,7 +59,11 @@ namespace EAEcoreAddin.Persistency
             this.FullExport = fullExport;
             this.ecoreExport = new EcoreExport(sqlrepository, this);
             this.tggExport = new TggExport(sqlrepository, this);
+            this.refactor = new Refactor(sqlrepository, this);
+
             this.MocaTree = new MocaNode("exportedTree");
+            this.RefactorTree = new MocaNode("refactorTree");
+
             String rootDirectoryPath = Path.GetDirectoryName(sqlrepository.ConnectionString);
             this.tempDirectoryPath = Path.Combine(rootDirectoryPath, ".temp");
 
@@ -90,17 +97,22 @@ namespace EAEcoreAddin.Persistency
         {
         }
 
-        private void writeDocumentToFile(XmlDocument docToWrite)
+        private void writeDocumentToFile(XmlDocument docToWrite, String refactorExtension)
         {
+            String filePath = null;
             String currentValue = MocaTreeUtil.xmlDocumentToString(docToWrite);
+            if (refactorExtension != null)       
+                filePath = Path.Combine(tempDirectoryPath, fileName + "." + refactorExtension + ".moca.xmi");
+            
+            else
+                filePath = Path.Combine(tempDirectoryPath, fileName + ".moca.xmi");
 
-            String filePath = Path.Combine(tempDirectoryPath, fileName + ".moca.xmi");
             String dirName = new FileInfo(filePath).DirectoryName;
-            
-            if (Directory.Exists(dirName))
-                clearAndDeleteDirectory(dirName);
-            
-            Directory.CreateDirectory(dirName);
+            if (!(Directory.Exists(dirName)))
+                Directory.CreateDirectory(dirName);
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
             
             File.AppendAllText(filePath, currentValue);
         }
@@ -159,6 +171,8 @@ namespace EAEcoreAddin.Persistency
         internal void exportPackage(SQLPackage projectPackage)
         {
             MocaNode outermostPackageNode = null;
+            MocaNode outerMostPackageNodeRefactorTree = null;
+
             foreach (SQLDiagram diagram in projectPackage.Diagrams)
             {
 
@@ -174,6 +188,8 @@ namespace EAEcoreAddin.Persistency
                         EPackage ePackage = new EPackage(projectPackage, Repository);
                         packageNameToEPackage.Add(projectPackage.Name, ePackage);
 
+                        outerMostPackageNodeRefactorTree = refactor.processOutermostPackage(projectPackage);
+                    
                         break;
                     }
                     else if (TGGModelingMain.TggSchemaDiagramMetatype.Contains(diagram.MetaType))
@@ -210,13 +226,41 @@ namespace EAEcoreAddin.Persistency
                     outermostPackageNode.appendChildAttribute(MetamodelHelper.MoflonExportTaggedValueName, "false");
                 }
             }
+            //refactor
+            if (outerMostPackageNodeRefactorTree != null)
+            {
+                this.RefactorTree.appendChildNode(outerMostPackageNodeRefactorTree);
+                SQLTaggedValue moflonExportTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(projectPackage, MetamodelHelper.MoflonRefactorTaggedValueName);
+
+                Boolean createProperyFile = true;
+
+                if (moflonExportTag != null && moflonExportTag.Value == "false")
+                    createProperyFile = false;
+
+                if (!this.FullExport && !this.packageGuidsToExport.Contains(projectPackage.PackageGUID))
+                    createProperyFile = false;
+
+                if (createProperyFile)
+                {
+                    outerMostPackageNodeRefactorTree.appendChildAttribute(MetamodelHelper.MoflonRefactorTaggedValueName, "true");
+                }
+                else
+                {
+                    outerMostPackageNodeRefactorTree.appendChildAttribute(MetamodelHelper.MoflonRefactorTaggedValueName, "false");
+                }
+            }
         }
 
         internal void finalize()
         {
             XmlDocument xmlDoc = MocaTreeUtil.createMocaXMLDoc();
             xmlDoc.DocumentElement.AppendChild(this.MocaTree.serializeToXmlTree(xmlDoc));
-            writeDocumentToFile(xmlDoc);
+            writeDocumentToFile(xmlDoc, null);
+
+            //refactor
+            XmlDocument xmlRefactorDoc = MocaTreeUtil.createMocaXMLDoc();
+            xmlRefactorDoc.DocumentElement.AppendChild(this.RefactorTree.serializeToXmlTree(xmlRefactorDoc));
+            writeDocumentToFile(xmlRefactorDoc, "Refactored");
 
             ExportRunning = false;
 
@@ -226,6 +270,7 @@ namespace EAEcoreAddin.Persistency
         internal void setWorker(System.ComponentModel.BackgroundWorker worker)
         {
             this.ecoreExport.backgroundWorker = worker;
+            this.refactor.backgroundWorker = worker;
             this.tggExport.backgroundWorker = worker;
         }
 

@@ -211,6 +211,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Refactoring\CachedClass.cs" />
+    <Compile Include="Refactoring\CachedElement.cs" />
+    <Compile Include="Refactoring\CachedPackage.cs" />
+    <Compile Include="Refactoring\Refactor.cs" />
     <Compile Include="Server\DataReceiveStrategy.cs" />
     <Compile Include="Server\DataStrategies\AbstractDataReceiveStrategy.cs" />
     <Compile Include="Server\DataStrategies\HighlightObjectReceiveStrategy.cs" />

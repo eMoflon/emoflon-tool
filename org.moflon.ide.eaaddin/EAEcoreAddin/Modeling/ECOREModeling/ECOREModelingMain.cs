@@ -7,6 +7,7 @@ using EAEcoreAddin.SQLWrapperClasses;
 using EAEcoreAddin.Modeling.SDMModeling;
 using EAEcoreAddin.Util;
 using EAEcoreAddin.Modeling.TGGModeling;
+using EAEcoreAddin.Refactoring;
 
 namespace EAEcoreAddin.Modeling.ECOREModeling
 {
@@ -25,6 +26,8 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
         public static readonly String EReferenceConnectorType = "Association";
         public static readonly String[] EcoreDiagramMetatype = { "eMoflon Ecore Diagrams::Ecore Diagram",
                                                                  "Ecore Diagram::Ecore Diagram" };
+
+        private CachedElement currentElement;
 
         public Boolean EA_OnPostNewConnector(SQLRepository sqlRepository, EA.Connector actCon, EA.Diagram currentDiagram)
         {
@@ -139,6 +142,22 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
             
         }
 
+        public void EA_OnContextItemChanged(EA.Repository Repository, String GUID, EA.ObjectType ot)
+        {
+            if (ot == EA.ObjectType.otElement)
+            {
+                this.currentElement = new CachedClass();
+                currentElement.getElement(GUID, Repository);
+                currentElement.cache();
+            }
+            else if (ot == EA.ObjectType.otPackage)
+            {
+                this.currentElement = new CachedPackage();
+                currentElement.getElement(GUID, Repository);
+                currentElement.cache();
+            }
+        }
+
         public void EA_OnNotifyContextItemModified(EA.Repository Repository, String GUID, EA.ObjectType ot)
         {
 
@@ -151,6 +170,11 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
                     EPackage ePackage = new EPackage(sqlRepository.GetPackageByID(eaPackage.PackageID), sqlRepository);
                     Main.addToTreeQueue(GUID, ePackage);
                 }
+
+                // for Refactoring
+                CachedPackage temp = (CachedPackage)this.currentElement;
+                temp.name = eaPackage.Name;
+                temp.saveElementToEATaggedValue();
             }
             if (ot == EA.ObjectType.otElement)
             {
@@ -160,6 +184,11 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
                 {
                     EClass eClass = new EClass(eaElement, sqlRepository);
                     eClass.saveTreeToEATaggedValue(false);
+
+                    // for Refactoring
+                    CachedClass temp = (CachedClass)this.currentElement;
+                    temp.name = eaElement.Name;
+                    temp.saveElementToEATaggedValue();
                 }
                 else if (eaElement.Stereotype.ToLower() == EDatatypeStereotype.ToLower())
                 {

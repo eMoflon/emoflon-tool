@@ -82,6 +82,7 @@ namespace EAEcoreAddin
         public static readonly String MoflonVerboseTaggedValueName = "Moflon::Verbose";
         public static readonly String MoflonExtractedStoryPatternTaggedValueName = "Moflon::ExtractedStoryPattern";
         public static readonly String MoflonExportTreeTaggedValueName = "Moflon::ExportTree";
+        public static readonly String MoflonRefactorTreeTaggedValueName = "Moflon::RefactorTree";
 
         public static readonly String MoflonValidationFilterTaggedValueName = "Moflon::ValidationFilter";
         #endregion
@@ -285,7 +286,9 @@ namespace EAEcoreAddin
             }
             //delete all queued Elements
             deleteElementsInQueue(Repository);
-      
+
+            ecoreModeling.EA_OnContextItemChanged(Repository, GUID, ot);
+
         }
 
         public bool EA_OnPreNewConnector(EA.Repository Repository, EA.EventProperties Info)
