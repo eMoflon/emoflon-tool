@@ -234,7 +234,6 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          {
             try
             {
-
                eMoflonEMFUtil.addToResourceSet(set, tgg);
 
                TGGLanguage.modelgenerator.Compiler compiler = TGGLanguage.modelgenerator.ModelgeneratorFactory.eINSTANCE.createCompiler();
@@ -246,6 +245,7 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
                {
                   logger.warn(analyzerResult.getMessage() + ": " + analyzerResult.getEObject());
                }
+               
                // Persist compiler injections
                saveInjectionFiles(saveOptions, compiler, compilerInjectionResource);
             } catch (CSPNotSolvableException e)
