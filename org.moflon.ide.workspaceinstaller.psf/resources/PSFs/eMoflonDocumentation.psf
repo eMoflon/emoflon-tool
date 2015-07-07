@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
 <provider id="org.tigris.subversion.subclipse.core.svnnature">
-	<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.00_common,org.moflon.doc.handbook.00_common"/>
-	<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.00_introduction,org.moflon.doc.handbook.00_introduction"/>
-	<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.01_installation,org.moflon.doc.handbook.01_installation"/>
-	<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.03_leitnersLearningBox,org.moflon.doc.handbook.02_leitnersLearningBox"/>
-	<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.03_storyDiagrams,org.moflon.doc.handbook.03_storyDiagrams"/>
-	<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.04_tripleGraphTransformations,org.moflon.doc.handbook.04_tripleGraphTransformations"/>
-	<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.05_modelToTextTransformations,org.moflon.doc.handbook.05_modelToTextTransformations"/>
-	<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.06_miscellaneous,org.moflon.doc.handbook.06_miscellaneous"/>
+	<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.00_common,org.moflon.doc.handbook.00_common"/>
+	<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.00_introduction,org.moflon.doc.handbook.00_introduction"/>
+	<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.01_installation,org.moflon.doc.handbook.01_installation"/>
+	<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.03_leitnersLearningBox,org.moflon.doc.handbook.02_leitnersLearningBox"/>
+	<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.03_storyDiagrams,org.moflon.doc.handbook.03_storyDiagrams"/>
+	<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.04_tripleGraphTransformations,org.moflon.doc.handbook.04_tripleGraphTransformations"/>
+	<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.05_modelToTextTransformations,org.moflon.doc.handbook.05_modelToTextTransformations"/>
+	<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-docu/trunk/Handbook/org.moflon.doc.handbook.06_miscellaneous,org.moflon.doc.handbook.06_miscellaneous"/>
 </provider>
 </psf>
