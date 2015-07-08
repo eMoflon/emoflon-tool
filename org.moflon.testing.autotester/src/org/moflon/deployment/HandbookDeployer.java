@@ -81,7 +81,7 @@ public class HandbookDeployer extends AbstractDeployer
       IFile introPdfFile = getFirstPdfFile(project);
       if (introPdfFile != null)
       {
-         copyFile(introPdfFile.getLocation().toFile(), new File(handbookRoot, partName));
+         WorkspaceHelper.copyFile(introPdfFile.getLocation().toFile(), new File(handbookRoot, partName));
       } else
       {
          logger.error("Missing PDF file for project " + project.getName());

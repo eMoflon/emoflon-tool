@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.moflon.autotest.AutoTestActivator;
 
+@Deprecated
 public class ZipUtil
 {
 
@@ -21,7 +22,10 @@ public class ZipUtil
     * Compresses the files in the given folder to the given target archive file.
     * @return the archive
     * @throws CoreException
+    * 
+    * @Deprecated no longer necessary due to post-build event in VS
     */
+   @Deprecated
    public static void getZipArchive(final IFolder sourceFolder, final IFile archive) throws CoreException
    {
       byte[] buffer = new byte[1024];

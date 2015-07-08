@@ -50,8 +50,8 @@ public class DeploymentHandler extends AbstractCommandHandler
    protected void performDeploy(final String destinationDirectory)
          throws ExecutionException
    {
-      DeploymentJob deploymentController = new DeploymentJob(destinationDirectory);
-      deploymentController.schedule();
+      DeploymentJob deploymentJob = new DeploymentJob(destinationDirectory);
+      deploymentJob.schedule();
    }
 
    /*

@@ -1,6 +1,12 @@
 package org.moflon.core.utilities;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -912,6 +918,37 @@ public class WorkspaceHelper
    {
       if (monitor.isCanceled())
          throw new InterruptedException();
+   }
+
+   /**
+    * Copies the content of the source file into the target file.
+    * 
+    * @param source source file
+    * @param target target file
+    */
+   public static void copyFile(final File source, final File target)
+   {
+      try
+      {
+         byte[] buffer = new byte[1024];
+         BufferedInputStream origin = new BufferedInputStream(new FileInputStream(source));
+         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(target));
+         int count;
+   
+         while ((count = origin.read(buffer)) > 0)
+         {
+            out.write(buffer, 0, count);
+         }
+   
+         origin.close();
+         out.close();
+      } catch (FileNotFoundException e)
+      {
+         e.printStackTrace();
+      } catch (IOException e)
+      {
+         e.printStackTrace();
+      }
    }
 
 }

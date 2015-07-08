@@ -111,7 +111,7 @@ public class EclipsePluginDeployer extends AbstractDeployer
 
             for (IResource file : features.members())
             {
-               copyFile(file.getLocation().toFile(), new File(featuresFolder.getCanonicalPath().toString() + File.separator + file.getName()));
+               WorkspaceHelper.copyFile(file.getLocation().toFile(), new File(featuresFolder.getCanonicalPath().toString() + File.separator + file.getName()));
             }
 
             File pluginsFolder = new File(target + File.separator + "plugins");
@@ -123,22 +123,22 @@ public class EclipsePluginDeployer extends AbstractDeployer
 
             for (IResource file : plugins.members())
             {
-               copyFile(file.getLocation().toFile(), new File(pluginsFolder.getCanonicalPath().toString() + File.separator + file.getName()));
+               WorkspaceHelper.copyFile(file.getLocation().toFile(), new File(pluginsFolder.getCanonicalPath().toString() + File.separator + file.getName()));
             }
 
-            copyFile(site.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + site.getName()));
-            copyFile(associatedSites.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + associatedSites.getName()));
-            copyFile(indexHtml.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + indexHtml.getName()));
+            WorkspaceHelper.copyFile(site.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + site.getName()));
+            WorkspaceHelper.copyFile(associatedSites.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + associatedSites.getName()));
+            WorkspaceHelper.copyFile(indexHtml.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + indexHtml.getName()));
 
          } else if (source instanceof IFolder)
          {
             for (IResource file : ((IFolder) source).members())
             {
-               copyFile(file.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + file.getName()));
+               WorkspaceHelper.copyFile(file.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + file.getName()));
             }
          } else if (source instanceof IFile)
          {
-            copyFile(source.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + source.getName()));
+            WorkspaceHelper.copyFile(source.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + source.getName()));
          }
       } catch (CoreException e)
       {

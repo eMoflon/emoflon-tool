@@ -32,7 +32,7 @@ public class DeploymentJob extends Job
     */
    public DeploymentJob(final String deploymentPath)
    {
-      super("eMoflon: Deploying ...");
+      super("Deploying eMoflon...");
       this.deploymentRoot = deploymentPath;
       setUser(true);
    }
@@ -52,8 +52,8 @@ public class DeploymentJob extends Job
          ensureThatDirectoryIsWritable(new File(deploymentRoot));
 
          eaAddinDeployer.deploy(WorkspaceHelper.createSubMonitor(monitor, 100));
-         eclipsePluginDeployer.deploy(WorkspaceHelper.createSubMonitor(monitor, 100));
-         handbookDeployer.deploy(WorkspaceHelper.createSubMonitor(monitor, 100));
+         //eclipsePluginDeployer.deploy(WorkspaceHelper.createSubMonitor(monitor, 100));
+         //handbookDeployer.deploy(WorkspaceHelper.createSubMonitor(monitor, 100));
 
          return new Status(IStatus.OK, AutoTestActivator.getModuleID(), "Successfully deployed eMoflon ...");
          

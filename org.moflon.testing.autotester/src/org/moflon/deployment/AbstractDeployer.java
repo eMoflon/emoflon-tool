@@ -1,12 +1,6 @@
 package org.moflon.deployment;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -47,34 +41,6 @@ public abstract class AbstractDeployer
       return this.deploymentPath;
    }
    
-   /**
-    * Copies the content of the source file into the target file.
-    */
-   protected static void copyFile(final File source, final File target)
-   {
-      try
-      {
-         byte[] buffer = new byte[1024];
-         BufferedInputStream origin = new BufferedInputStream(new FileInputStream(source));
-         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(target));
-         int count;
-
-         while ((count = origin.read(buffer)) > 0)
-         {
-            out.write(buffer, 0, count);
-         }
-
-         origin.close();
-         out.close();
-      } catch (FileNotFoundException e)
-      {
-         e.printStackTrace();
-      } catch (IOException e)
-      {
-         e.printStackTrace();
-      }
-   }
-
    /**
     * Creates or clears the given target folder.
     */
