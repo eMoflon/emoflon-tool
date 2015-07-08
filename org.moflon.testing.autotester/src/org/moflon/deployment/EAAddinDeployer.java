@@ -62,8 +62,7 @@ public class EAAddinDeployer extends AbstractDeployer
          boolean areAllFilesPresent = true;
          if (!INSTALLER_ARCHIVE_SOURCE.exists())
          {
-            logger.warn("The installer archive is missing. Expected location: '" + INSTALLER_ARCHIVE_SOURCE.getFullPath().toPortableString()
-                  + "'.");
+            logger.warn("The installer archive is missing. Expected location: '" + INSTALLER_ARCHIVE_SOURCE.getFullPath().toPortableString() + "'.");
             ++warningCount;
             areAllFilesPresent = false;
          }
@@ -91,10 +90,11 @@ public class EAAddinDeployer extends AbstractDeployer
             monitor.worked(1);
             try
             {
-               WorkspaceHelper.copyFile(INSTALLER_ARCHIVE_TARGET.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + INSTALLER_ARCHIVE_TARGET.getName()));
+               WorkspaceHelper.copyFile(INSTALLER_ARCHIVE_TARGET.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator
+                     + INSTALLER_ARCHIVE_TARGET.getName()));
             } catch (IOException e)
             {
-               e.printStackTrace();
+               logger.error("Problem while copying addin installer archive. Reason: " + e.getMessage());
             }
             monitor.worked(1);
 
