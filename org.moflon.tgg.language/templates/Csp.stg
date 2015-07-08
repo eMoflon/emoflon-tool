@@ -22,6 +22,7 @@ Constraint(constraint, instanceName, variables) ::= <<
 
 Eq(type, instanceName) ::= <<
 Eq <instanceName> = new Eq();
+
 >>
 
 Solve(constraint, variables, ruleName) ::= <<
@@ -62,7 +63,7 @@ if(<not><op1>.equals(<op2>)){
 }
 >>
 
-check_csp(variables, target, constraints) ::= <<
+check_csp(target, constraints) ::= <<
 if(csp.check()){ 
 	ruleResult.setSuccess(true);
 } else {

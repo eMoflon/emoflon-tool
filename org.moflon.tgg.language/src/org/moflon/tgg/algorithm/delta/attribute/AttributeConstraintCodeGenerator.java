@@ -409,7 +409,7 @@ public class AttributeConstraintCodeGenerator
          Collection<String> solveVars = c.getVariables().stream().map(v -> varToLabel.get(v)).collect(Collectors.toList());
          container.setSolveVars(solveVars);
 
-         Collection<Variable> freeVars = allFreeVars.stream().filter(v -> c.getVariables().contains(v)).collect(Collectors.toList());
+         Collection<Variable> freeVars = allFreeVars.stream().filter(v -> c.getVariables().contains(v) && v instanceof AttributeVariable).collect(Collectors.toList());
          container.setDestinationVars(freeVars);
 
          csp_solver.add(container);
