@@ -524,30 +524,27 @@ public class SynchronizationHelper
 
    public void saveSrc(final String path)
    {
-      //TODO eleblebici: Please check whether this is a valid fix for issue #456
       src.eResource().setURI(eMoflonEMFUtil.createFileURI(path, false));
-      eMoflonEMFUtil.saveModel(src, path);
+      eMoflonEMFUtil.saveModel(src.eResource().getResourceSet(), src, path);
    }
 
    public void saveTrg(final String path)
    {
-      //TODO eleblebici: Please check whether this is a valid fix for issue #456
       trg.eResource().setURI(eMoflonEMFUtil.createFileURI(path, false));
-      eMoflonEMFUtil.saveModel(trg, path);
+      eMoflonEMFUtil.saveModel(trg.eResource().getResourceSet(), trg, path);
    }
 
    public void saveCorr(final String path)
    {
-      //TODO eleblebici: Please check whether this is a valid fix for issue #456
       corr.eResource().setURI(eMoflonEMFUtil.createFileURI(path, false));
-      eMoflonEMFUtil.saveModel(corr, path);
+      eMoflonEMFUtil.saveModel(corr.eResource().getResourceSet(), corr, path);
    }
 
    public void saveSynchronizationProtocol(final String path)
    {
       TGGRuntime.PrecedenceStructure ps = protocol.save();
       set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(ps);
-      eMoflonEMFUtil.saveModel(ps, path);
+      eMoflonEMFUtil.saveModel(ps.eResource().getResourceSet(), ps, path);
    }
 
    /**
