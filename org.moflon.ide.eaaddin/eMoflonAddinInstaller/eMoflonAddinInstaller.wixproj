@@ -90,7 +90,7 @@ heat.exe file EAEcoreAddin.dll -cg MyFilesGroup -dr INSTALLSUBFOLDER -gg -var va
     </CreateProperty>
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>cd $(OutDir)
-$(ProjectDir)\resources\7-Zip64\7z.exe a ../ea-ecore-addin.zip %2a.cab %2a.msi %2a.wixpdb</PostBuildEvent>
+    <PostBuildEvent>del "$(ProjectDir)bin\ea-ecore-addin.zip"
+"$(ProjectDir)\resources\7-Zip64\7z.exe" a "$(ProjectDir)bin\ea-ecore-addin.zip" %2a.cab %2a.msi %2a.wixpdb</PostBuildEvent>
   </PropertyGroup>
 </Project>
