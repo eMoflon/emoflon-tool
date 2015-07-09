@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -925,7 +926,10 @@ public class WorkspaceHelper
     * 
     * @param source source file
     * @param target target file
+    * 
+    * @deprecated Use {@link FileUtils#copyFile(File, File)}
     */
+   @Deprecated
    public static void copyFile(final File source, final File target)
    {
       try

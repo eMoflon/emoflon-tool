@@ -28,7 +28,6 @@ public abstract class AbstractDeployer
       this.warningCount = 0;
    }
 
-   //TODO@rkluge: Add return type "DeploymentStatusMessage"
    public abstract void deploy(IProgressMonitor monitor) throws CoreException;
 
    public int getWarningCount()

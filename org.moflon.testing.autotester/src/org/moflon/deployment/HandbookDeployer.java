@@ -1,17 +1,26 @@
 package org.moflon.deployment;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 
+/**
+ * @deprecated This deployer should be replaced by something else during the next hacker days 
+ */
+@Deprecated 
 public class HandbookDeployer extends AbstractDeployer
 {
    private static final Logger logger = Logger.getLogger(HandbookDeployer.class);
@@ -81,7 +90,13 @@ public class HandbookDeployer extends AbstractDeployer
       IFile introPdfFile = getFirstPdfFile(project);
       if (introPdfFile != null)
       {
-         WorkspaceHelper.copyFile(introPdfFile.getLocation().toFile(), new File(handbookRoot, partName));
+         try
+         {
+            FileUtils.copyFile(introPdfFile.getLocation().toFile(), new File(handbookRoot, partName));
+         } catch (IOException e)
+         {
+            throw new CoreException(new Status(IStatus.WARNING, AutoTestActivator.getModuleID(), "Copying PDF file failed", e));
+         }
       } else
       {
          logger.error("Missing PDF file for project " + project.getName());
