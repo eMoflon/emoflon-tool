@@ -393,11 +393,13 @@ public class PathResolver extends AbstractPathResolver {
 		Attribute attribute = null;
 		String referencePath = null;
 		List<Pair<String, Attribute>> pairs = searchCache.get(cat);
-		for(Pair<String, Attribute> pair : pairs){
-			 attribute = pair.getSecond();
-			 referencePath = pair.getFirst();
-			 String path = tryToGetPath(referencePath, attribute.getValue(), cat);
-			 attribute.setValue(path);
+		if(pairs != null){
+			for(Pair<String, Attribute> pair : pairs){
+				attribute = pair.getSecond();
+				referencePath = pair.getFirst();
+				String path = tryToGetPath(referencePath, attribute.getValue(), cat);
+				attribute.setValue(path);
+			}
 		}
 	}
 	
