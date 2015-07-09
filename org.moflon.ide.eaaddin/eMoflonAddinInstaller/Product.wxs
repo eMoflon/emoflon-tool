@@ -29,9 +29,9 @@
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLFOLDER" Name="TU Darmstadt FG Echtzeitsysteme">
-          <Directory Id="INSTALLSUBFOLDER" Name="eMoflonEAAddin" />
-        </Directory>
+		        <Directory Id="INSTALLFOLDER" Name="TU Darmstadt FG Echtzeitsysteme">
+		          <Directory Id="INSTALLSUBFOLDER" Name="eMoflonEAAddin" />
+		        </Directory>
 			</Directory>
 		</Directory>
 	</Fragment>
