@@ -72,9 +72,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF exist $(SolutionDir)\..\MoflonIdeCore\resources\commandLineEAExport (
+    <PostBuildEvent>IF exist "$(SolutionDir)..\MoflonIdeCore\resources\commandLineEAExport" (
   echo "Copying eMoflon command-line utility"
-  cp Interop.EA.dll CommandLineParser.dll EAEcoreAddin.dll eMoflonCommandLine.exe $(SolutionDir)\..\MoflonIdeCore\resources\commandLineEAExport
+  copy Interop.EA.dll + CommandLineParser.dll + EAEcoreAddin.dll + eMoflonCommandLine.exe "$(SolutionDir)..\MoflonIdeCore\resources\commandLineEAExport"
 ) ELSE (
   echo "!!! WARNING !!! WARNING !!! WARNING !!!"
   echo "!!! MoflonIdeCore does not exist. eMoflon command-line utility will not be copied"
