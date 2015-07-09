@@ -38,14 +38,13 @@
 
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLSUBFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
 			<Component Id="ProductComponent" Guid='dc87cfef-4f36-4c89-b95f-75594228e584'>
-        <RegistryValue Root="HKLM" 
-                       Key="Software\Sparx Systems\EAAddins\EAEcoreAddin" 
-                       Value="EAEcoreAddin.Main" 
-                       Type="string" 
-                       Action="write" />
-      </Component>
+		        <RegistryValue Root="HKLM" 
+		                       Key="Software\Sparx Systems\EAAddins\EAEcoreAddin" 
+		                       Value="EAEcoreAddin.Main" 
+		                       Type="string" 
+		                       Action="write" />
+      		</Component>
 		</ComponentGroup>
 	</Fragment>
 </Wix>
