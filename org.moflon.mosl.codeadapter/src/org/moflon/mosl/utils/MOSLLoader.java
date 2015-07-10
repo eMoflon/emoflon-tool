@@ -43,6 +43,7 @@ public class MOSLLoader {
 	         imports.getSubFolder().add(implicitImports);
 	         
 	      } catch (Exception e) {
+	    	 e.printStackTrace();
 	         throw new MoslLoadException("Cannot load implicit Imports", e);
 	      }
 
