@@ -192,7 +192,7 @@ lBoxBlock: -> ^(T["constraints"]) ^(T["attributeAssignments"]) ^(T["outgoingLink
 
 lTypeReference:  i+=SLASH? (((i+=ID|i+=SOURCE|i+=TARGET) | i+=DDOT) i+=SLASH)* i+=ID -> {concat(T, $i)};
 
-correspondence_pattern: CORRESPONDENCE CURLY_BRACKET_OPEN correspondence* CURLY_BRACKET_CLOSE -> correspondence*;
+correspondence_pattern: CORRESPONDENCE CURLY_BRACKET_OPEN correspondence* CURLY_BRACKET_CLOSE -> ^( T["correspondence"] correspondence*);
 
 source_pattern: SOURCE CURLY_BRACKET_OPEN { scope = "source"; } box_decl* CURLY_BRACKET_CLOSE -> ^( T["source"] box_decl*);
 

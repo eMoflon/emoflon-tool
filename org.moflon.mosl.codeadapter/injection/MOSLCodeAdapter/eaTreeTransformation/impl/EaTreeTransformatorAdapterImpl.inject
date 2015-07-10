@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import MocaTree.Text;
 
 
 partial class EaTreeTransformatorAdapterImpl {
@@ -159,5 +160,11 @@ partial class EaTreeTransformatorAdapterImpl {
 @model getEcoreTypeFromLEType(Attribute leType) <--
 		return EcoreDatatypeProvider.getDatatype(leType.getValue());
 -->
-
+	
+@model findAndSetMetamodelGuid(Attribute referenceType, Node target, Node domains) <--
+		for(Text textChild : domains.getChildren()){
+			Node child = Node.class.cast(textChild);
+			
+		}
+	-->
 }
