@@ -24,7 +24,7 @@
 	      <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
 	    </Condition>
 	    
-    	<WixVariable Id="WixUILicenseRtf" Value="eMoflonLicense.txt" />
+    	<WixVariable Id="WixUILicenseRtf" Value="eMoflonLicense.rtf" />
 
  	</Product>
 

@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="EAEcoreAddin.dll" />
+    <Content Include="eMoflonLicense.rtf" />
     <Content Include="images\eMoflonLogo.ico" />
     <Content Include="Interop.EA.dll" />
   </ItemGroup>
