@@ -15,6 +15,7 @@ import javax.tools.ToolProvider;
 
 import org.eclipse.emf.ecore.EObject;
 import org.example.processor.internal.CodeAnalyzerProcessor;
+import org.junit.Assert;
 import org.junit.Test;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.debug.core.Activator;
@@ -54,12 +55,14 @@ public class DebugAnnotation
    public void computeDebugAnnotations() throws Exception
    {
       // http://stackoverflow.com/questions/15513330/toolprovider-getsystemjavacompiler-returns-null-usable-with-only-jre-install
-      System.setProperty("java.home", "C:\\Program Files\\Java\\jdk1.8.0_20");
+      System.out.println("JAVA_HOME:" + System.getenv("JAVA_HOME"));
+      System.out.println("java.home:" + System.getProperty("java.home"));
 
       // Get an instance of java compiler
       JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-      //System.err.println(compiler.getClass().getClassLoader());
-      System.err.println(this.getClass().getClassLoader());
+      Assert.assertNotNull("No Java Compiler was found. Please ensure that you are using a JDK. "
+            + "Actions: Run this class with a JDK. Therefore, e.g. configure the JDK in your"
+            + " Eclipse and check the Launch Configuration (see JRE tab) to be configured with a valid JDK.", compiler);
       // Get a new instance of the standard file manager implementation
       StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
 
@@ -155,13 +158,10 @@ public class DebugAnnotation
             throw new RuntimeException("The breakpoint type " + phase + " is currently not supported. Please remove it or implement it's handling.");
          }
       });
-      // MoflonUtil.
-      // String file = MoflonUtil.get
-      // ResourcesPlugin.getWorkspace().getRoot().getProject(Activator.PLUGIN_ID).getFile(MoflonDebugTarget.DEBUG_INIT_XMI).getRawLocation().toFile().getAbsolutePath();
+
       // Bundle version:
       Activator a = new Activator();
       String pluginpath = a.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin", "/");
-      // ResourcesPlugin.getWorkspace().getRoot().getProjects()
       eMoflonEMFUtil.saveModel(dm, pluginpath + MoflonDebugTarget.DEBUG_INIT_XMI);
    }
 
