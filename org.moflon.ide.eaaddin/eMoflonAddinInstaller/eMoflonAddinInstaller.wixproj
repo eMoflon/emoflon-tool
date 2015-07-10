@@ -92,6 +92,16 @@ heat.exe file EAEcoreAddin.dll -cg MyFilesGroup -dr INSTALLSUBFOLDER -gg -var va
   </Target>
   <PropertyGroup>
     <PostBuildEvent>del "$(ProjectDir)bin\ea-ecore-addin.zip"
-"$(ProjectDir)\resources\7-Zip64\7z.exe" a "$(ProjectDir)bin\ea-ecore-addin.zip" %2a.cab %2a.msi %2a.wixpdb</PostBuildEvent>
+
+"$(ProjectDir)\resources\7-Zip64\7z.exe" a "$(ProjectDir)bin\ea-ecore-addin.zip" %2a.cab %2a.msi %2a.wixpdb
+
+IF exist "$(SolutionDir)..\MoflonIdeUpdateSite" (
+  echo "Copying eMoflon installer to MoflonIdeUpdateSite"
+  copy "$(ProjectDir)bin\ea-ecore-addin.zip" "$(SolutionDir)..\MoflonIdeUpdateSite"
+) ELSE (
+  echo "!!! WARNING !!! WARNING !!! WARNING !!!"
+  echo "!!! MoflonIdeUpdateSite does not exist. eMoflon installer will not be copied."
+  echo "!!! WARNING !!! WARNING !!! WARNING !!!"
+)</PostBuildEvent>
   </PropertyGroup>
 </Project>
