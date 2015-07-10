@@ -1,5 +1,7 @@
 package org.moflon.devtools.ui.handlers.deploy;
 
+import java.io.File;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -31,10 +33,18 @@ public class DeploymentHandler extends AbstractCommandHandler
       switch (exitCode)
       {
       case Dialog.OK:
-         String selectedDirectory = dialog.getSelectedDirectory();
-         setDefaultDeploymentPath(selectedDirectory);
+         String selectedDirectoryPath = dialog.getSelectedDirectory();
+         File targetDirectory = new File(selectedDirectoryPath);
+         if (!targetDirectory.exists())
+         {
+            final boolean successful = targetDirectory.mkdirs();
+            if (!successful)
+               throw new ExecutionException("Failed to create target directory. Try to create it manually");
+         }
 
-         performDeploy(selectedDirectory);
+         setDefaultDeploymentPath(selectedDirectoryPath);
+
+         performDeploy(selectedDirectoryPath);
 
          break;
       case Dialog.CANCEL:
@@ -47,8 +57,7 @@ public class DeploymentHandler extends AbstractCommandHandler
       return null;
    }
 
-   protected void performDeploy(final String destinationDirectory)
-         throws ExecutionException
+   protected void performDeploy(final String destinationDirectory) throws ExecutionException
    {
       DeploymentJob deploymentJob = new DeploymentJob(destinationDirectory);
       deploymentJob.schedule();
