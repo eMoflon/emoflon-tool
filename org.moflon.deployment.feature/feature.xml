@@ -2,7 +2,7 @@
 <feature
       id="org.moflon.ide.feature"
       label="eMoflon IDE"
-      version="1.7.16.qualifier"
+      version="1.7.17.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt">
 
    <description url="http://www.emoflon.org/">
