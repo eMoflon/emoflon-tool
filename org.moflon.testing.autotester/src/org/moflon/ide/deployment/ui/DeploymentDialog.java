@@ -73,10 +73,6 @@ public class DeploymentDialog extends Dialog
 
       addRowForBetaAndRelease(shell);
 
-//      addRowForVersionNumber(shell);
-
-      //      addRowForIgnoredPluginIdPatterns(shell);
-
       addRowWithButtons(shell);
 
       updateDeploymentDirectoryTextBox();
