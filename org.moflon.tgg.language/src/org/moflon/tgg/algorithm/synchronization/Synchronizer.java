@@ -293,7 +293,7 @@ public abstract class Synchronizer
    {
       pg.collectAllPrecedences(inputMatches);
 
-      configurator.optimizePG(pg);
+      configurator.inspectPG(pg);
       inputMatches = pg.getMatches();
 
       extendReady(inputMatches);

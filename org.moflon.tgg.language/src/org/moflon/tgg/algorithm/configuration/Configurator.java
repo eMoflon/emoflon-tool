@@ -3,6 +3,7 @@ package org.moflon.tgg.algorithm.configuration;
 import java.util.Collection;
 
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
+import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 
 public interface Configurator
 {
@@ -28,9 +29,11 @@ public interface Configurator
     * ignore certain elements (by removing their matches from the precedence graph) or by resolving conflicts by
     * filtering matches for the same element.
     * 
+    * This method can also be used to save the precedence graph via {@link SynchronizationHelper#savePrecedenceGraph(PrecedenceInputGraph, String)}
+    * 
     * @param pg The precedence graph built for all collected input matches.
     */
-   public default void optimizePG(PrecedenceInputGraph pg)
+   public default void inspectPG(PrecedenceInputGraph pg)
    {
 
    }

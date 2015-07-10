@@ -18,12 +18,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.configuration.Configurator;
+import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
 import org.moflon.tgg.algorithm.datastructures.SynchronizationProtocol;
 import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 import org.moflon.tgg.algorithm.exceptions.LocalCompletenessException;
-
 import org.moflon.tgg.algorithm.synchronization.DebugBreakpoint.Phase;
+
 import TGGLanguage.TGGLanguagePackage;
 import TGGLanguage.algorithm.AlgorithmFactory;
 import TGGLanguage.algorithm.TempOutputContainer;
@@ -545,6 +546,13 @@ public class SynchronizationHelper
       TGGRuntime.PrecedenceStructure ps = protocol.save();
       set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(ps);
       eMoflonEMFUtil.saveModel(ps.eResource().getResourceSet(), ps, path);
+   }
+   
+   public void savePrecedenceGraph(final PrecedenceInputGraph pg, final String path)
+   {
+      TGGRuntime.PrecedenceStructure pgAsPSs = pg.save();
+      set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(pgAsPSs);
+      eMoflonEMFUtil.saveModel(pgAsPSs.eResource().getResourceSet(), pgAsPSs, path);
    }
 
    /**
