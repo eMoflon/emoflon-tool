@@ -23,6 +23,8 @@
 	    <Condition Message='This setup requires Microsoft .NET Framework 4.0 Full package or greater needs to be installed for this installation to continue.'>
 	      <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
 	    </Condition>
+	    
+    	<WixVariable Id="WixUILicenseRtf" Value="eMoflonLicense.txt" />
 
  	</Product>
 

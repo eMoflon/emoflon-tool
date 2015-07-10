@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Real-Time Systems Lab, TU Darmstadt")]
 [assembly: AssemblyProduct("eMoflonCommandLine")]
-[assembly: AssemblyCopyright("Â© 2011-2015 Real-Time Systems Lab. Dual license: GNU General Public License version 3 (or above) and Eclipse Public License 1.0 (or above)")]
+[assembly: AssemblyCopyright("© 2011-2015 Real-Time Systems Lab. Dual license: GNU General Public License version 3 (or above) and Eclipse Public License 1.0 (or above)")]
 [assembly: AssemblyTrademark("eMoflon")]
 [assembly: AssemblyCulture("")]
 

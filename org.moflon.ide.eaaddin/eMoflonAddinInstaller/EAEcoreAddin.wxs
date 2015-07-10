@@ -7,7 +7,7 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="MyFilesGroup">
-            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{6C23F441-33A8-4F07-B134-4245AA8A4206}">
+            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{B9CB9197-FD5A-4428-A99E-5AA60122CCD1}">
                 <Class Id="{04055915-F513-39BD-904E-5FA6496BC140}" Context="InprocServer32" Description="EAEcoreAddin.ControlPanel.TCPServerUserControl" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="EAEcoreAddin.ControlPanel.TCPServerUserControl" Description="EAEcoreAddin.ControlPanel.TCPServerUserControl" />
                 </Class>
