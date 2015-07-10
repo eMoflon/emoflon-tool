@@ -41,7 +41,7 @@ partial class MOSLConverterAdapterImpl {
 		try{
 			resolver.addPath(path, name, node);
 		} catch (RuntimeException e){
-			ErrorMessage errorMessage = MoslPlusFactory.eINSTANCE.createErrorMessage();
+			MoslErrorMessage errorMessage = MoslPlusFactory.eINSTANCE.createMoslErrorMessage();
 			errorMessage.setMessage(e.getMessage());
 			errorMessage.setPath(path);
 			this.getErrorHandler().add(errorMessage);

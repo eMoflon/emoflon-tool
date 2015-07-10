@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import MOSLCodeAdapter.moslPlus.Category;
+import MOSLCodeAdapter.moslPlus.MoslCategory;
 import MocaTree.Attribute;
 import MocaTree.Node;
 import MocaTree.Text;
@@ -30,7 +30,7 @@ public class GuidResolver extends AbstractResolver{
 	
 	public void resolveGuids(){
 		for(Attribute searchCategory : searchGuidCache.keySet()){
-			if(getCategory(searchCategory)==Category.TYPE && blackList.contains(searchCategory.getNode().getAttribute().get(searchCategory.getNode().getAttribute().indexOf(searchCategory) + 1).getValue())){
+			if(getCategory(searchCategory)==MoslCategory.TYPE && blackList.contains(searchCategory.getNode().getAttribute().get(searchCategory.getNode().getAttribute().indexOf(searchCategory) + 1).getValue())){
 				searchGuidCache.get(searchCategory).setValue("");
 			}
 		}

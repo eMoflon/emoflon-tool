@@ -33,13 +33,9 @@ public class MOSLLoader {
 	     
 	      // load implicit imports
 	      try {
-	    	  
-	    	// MoflonDependenciesPlugin.getPathRelToPlugIn("resources/templates/ImplicitImports/", "MOSLCodeAdapter");
 	         URL url = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/templates/ImplicitImports/", "MOSLCodeAdapter");
-	         File file=new File(url.getFile());//url.getPath());
+	         File file=new File(url.getFile());
 	         Folder implicitImports=codeAdapter.parse(file);
-//	         MocaTree.File adornments = getFileFromFolder(implicitImports, "_MOSLConfiguration.mconf");
-//	         adornments.setFolder(imports);
 	         imports.getSubFolder().add(implicitImports);
 	         
 	      } catch (Exception e) {

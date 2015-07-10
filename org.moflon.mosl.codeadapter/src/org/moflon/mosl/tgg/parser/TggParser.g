@@ -27,6 +27,8 @@ tokens {
 package org.moflon.mosl.tgg.parser; 
 import org.moflon.mosl.MOSLUtils;
 import org.moflon.moca.MocaTokenFactory;
+import java.util.Map;
+import java.util.HashMap;
 }
 
 @members {
@@ -34,6 +36,28 @@ import org.moflon.moca.MocaTokenFactory;
 	private String operator;
 	private String binding;
 	private String correspondenceName;
+
+	private int lastGeneratedNacIndex=0;
+	
+	private Map<Integer,Integer> nacMap = new HashMap<>();
+	
+	private int getGeneratedNac(){ 
+		return lastGeneratedNacIndex++;
+	}
+	
+		private int setNac(int userNac){ 
+			if(nacMap.containsKey(userNac)){
+				return nacMap.get(userNac);
+			} else{
+				int nacIndex=getGeneratedNac();
+				nacMap.put(userNac, nacIndex);
+				return nacIndex;
+			}
+		}
+
+	private String getCspSpec(String cspText){ 
+		return cspText.substring(cspText.indexOf("{")+1, cspText.lastIndexOf("}"));		
+	}
 	
     	private CommonTree concat(int type, List<Object> list) {
     		StringBuilder sb = new StringBuilder();
@@ -67,7 +91,7 @@ main: RULEX name=ID rule_parameter_decl? lRefinmentList? CURLY_BRACKET_OPEN sour
   -> ^(Rule 
   			^(ATTRIBUTE T["name"] $name)
   			^(ATTRIBUTE T["category"] T["rule"])
-  			^(ATTRIBUTE T["cspSpec"] T[$csp.text])
+  			^(ATTRIBUTE T["cspSpec"] T[getCspSpec($csp.text)])
   			$csp
   			lRefinmentList?
   			^(T["objectVariables"] 
@@ -92,7 +116,7 @@ lCSPList: CONSTRAINTS CURLY_BRACKET_OPEN lCSP? CURLY_BRACKET_CLOSE -> ^(T["cspSp
       
 rule_parameter_decl: LEFT_PARENTHESIS parameterlist_decl RIGHT_PARENTHESIS -> parameterlist_decl;
   
-correspondence: lBindingOperator source_ref LEFT_ARROW name=ID {correspondenceName = $name.text;}COLON type=lTypeReference RIGHT_ARROW source_ref
+correspondence: lNac lBindingOperator source_ref LEFT_ARROW name=ID {correspondenceName = $name.text;}COLON type=lTypeReference RIGHT_ARROW source_ref
      -> ^(TGGCorrespondence ^(T["constraints"])
                          ^(T["attributeAssignments"])
                          ^(T["outgoingLinks"] 
@@ -107,6 +131,7 @@ correspondence: lBindingOperator source_ref LEFT_ARROW name=ID {correspondenceNa
                          ^(ATTRIBUTE T["name"] $name)
                          ^(ATTRIBUTE T["category"] T["correspondence"])
                          lBindingOperator
+                         lNac
                          ^(ATTRIBUTE T["bindingSemantics"] T["mandatory"])
                          ^(ATTRIBUTE T["domain"] T["correspondence"])
                          ^(ATTRIBUTE T["type"] $type)
@@ -127,33 +152,9 @@ source_ref: name=ID
 						^(ATTRIBUTE T["search"] T["guid"])                        
           ;
 
-/*target_ref: name=ID
-      -> ^(TGGLinkVariable ^(ATTRIBUTE T["name"] T["target"])
-     					 ^(ATTRIBUTE T["category"] T["tggLink"])
-						^(ATTRIBUTE T["guid"] T[correspondenceName])
-     					 ^(ATTRIBUTE T["bindingOperator"] T[binding])
-                         ^(ATTRIBUTE T["bindingSemantics"] T["mandatory"])
-                        ^(ATTRIBUTE T["targetObject"] $name)
-                         ^(ATTRIBUTE T["domain"] T["correspondence"])
-                         ^(ATTRIBUTE T["searchCategory"] T["tggObjectVariable"])
-				        ^(ATTRIBUTE T["search"] T["targetObject"])
-				        ^(ATTRIBUTE T["searchCategory"] T["correspondence"])
-						^(ATTRIBUTE T["search"] T["guid"])   
-          );*/
-
-    /*  -> ^(LinkVariable 
-      			^(ATTRIBUTE T["name"] $target)
-      			^(ATTRIBUTE T["guid"] $target)
-         		^(ATTRIBUTE T["targetObject"] $target_object)
-         		^(ATTRIBUTE T["category"] T["tggLink"])
-         		^(ATTRIBUTE T["searchCategory"] T["objectVariable"])
-				^(ATTRIBUTE T["search"] T["targetObject"])
-				^(ATTRIBUTE T["searchCategory"] T["reference"])
-				^(ATTRIBUTE T["search"] T["guid"])
-				^(ATTRIBUTE T["domain"] T[scope])
-                lBindingOperator
-                lBindingSemantics
-          ); */
+lNac: NOT -> ^(ATTRIBUTE T["nacIndex"] T["" + getGeneratedNac()]) 
+    | NOT LEFT_PARENTHESIS userNac=NUM RIGHT_PARENTHESIS ->  ^(ATTRIBUTE T["nacIndex"] T["" + setNac(Integer.parseInt($userNac.text))])
+    | -> ^(ATTRIBUTE T["nacIndex"] T["-1"]);
 
 lBoxBlock: -> ^(T["constraints"]) ^(T["attributeAssignments"]) ^(T["outgoingLinks"]) 
 		| CURLY_BRACKET_OPEN lAssignmentList CURLY_BRACKET_CLOSE -> ^(T["constraints"]) lAssignmentList  ^(T["outgoingLinks"]) 
@@ -197,12 +198,13 @@ source_pattern: SOURCE CURLY_BRACKET_OPEN { scope = "source"; } box_decl* CURLY_
 
 target_pattern: TARGET CURLY_BRACKET_OPEN { scope = "target"; } box_decl* CURLY_BRACKET_CLOSE -> ^( T["target"] box_decl*);
 
-box_decl: lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference lBoxBlock
+box_decl: lNac lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference lBoxBlock
      -> ^(TGGObjectVariable 
      						lBoxBlock
                             lBindingState
                             lBindingOperator
                             lBindingSemantics
+                            lNac
                             ^(ATTRIBUTE T["domain"] T[scope])
                             ^(ATTRIBUTE T["name"] $name)
                             ^(ATTRIBUTE T["scopeTyped"] T[scope + "/" + $type.text])
@@ -231,7 +233,7 @@ lBindingState: ( -> ^(ATTRIBUTE T["bindingState"] T["unbound"])
           
 lLinkList: lLink+ -> ^(T["outgoingLinks"] lLink+);
 
-lLink: lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_object=ID
+lLink: lNac lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_object=ID
       -> ^(TGGLinkVariable 
       			^(ATTRIBUTE T["name"] $target)
       			^(ATTRIBUTE T["guid"] $target)
@@ -242,6 +244,7 @@ lLink: lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_obj
 				^(ATTRIBUTE T["searchCategory"] T["reference"])
 				^(ATTRIBUTE T["search"] T["guid"])
 				^(ATTRIBUTE T["domain"] T[scope])
+				lNac
                 lBindingOperator
                 lBindingSemantics
           );
@@ -412,13 +415,6 @@ parameter_decl: name=ID COLON type=lTypeReference -> ^(EParameter ^(ATTRIBUTE T[
 
 
 // CSP
-
-/*  lCSP: lCalledCSP+ -> ^(T["CalledCSPs"] lCalledCSP+);
-  
-  lCalledCSP: cspName=ID LEFT_PARENTHESIS (lCSPArgument COMMA)* lCSPArgument RIGHT_PARENTHESIS -> ^(T["CSP"] lCSPArgument+);
-  
-  lCSPArgument: lExpression  ->  ^(T["CSPArgument"] lExpression);
-  */
   
     lCSP:
   ( constraints+=constraintRule

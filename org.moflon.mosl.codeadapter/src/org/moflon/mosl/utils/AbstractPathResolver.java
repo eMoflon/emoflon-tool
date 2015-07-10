@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
 
-import MOSLCodeAdapter.moslPlus.Category;
+import MOSLCodeAdapter.moslPlus.MoslCategory;
 import MocaTree.Node;
 
 public abstract class AbstractPathResolver extends AbstractResolver {
@@ -21,7 +21,7 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 	/**
 	 * saves all pathes. category -> path -> name
 	 */
-	protected Map<Category, Map<String, String>> categorizedPathTable;
+	protected Map<MoslCategory, Map<String, String>> categorizedPathTable;
 	protected Map<String, Node> moslCache;
 
 	protected void init(){
@@ -64,7 +64,7 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 	
 	public void addPath(String path, String name, Node node){
 		moslCache.put(path, node);
-		Category cat = getCategory(node);
+		MoslCategory cat = getCategory(node);
 		Map<String, String> pathTable=categorizedPathTable.get(cat);
 		if(pathTable==null){
 			pathTable=new HashMap<>();
@@ -75,7 +75,7 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 
 	
 	
-	public String getPath(String referencePath, String nameReference, Category cat) {
+	public String getPath(String referencePath, String nameReference, MoslCategory cat) {
 		Map<String,String> pathTable = categorizedPathTable.get(cat);
 		LinkedList<String> nameReferenceParts = new LinkedList<>(Arrays.asList(nameReference.split("/")));
 		LinkedList<String> referencePathParts = new LinkedList<>(Arrays.asList(referencePath.split("/")));

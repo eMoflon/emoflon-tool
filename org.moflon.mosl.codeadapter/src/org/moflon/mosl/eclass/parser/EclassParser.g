@@ -198,16 +198,17 @@ lClosedStatementList: lStatement* lReturnStatement -> ^(T["stmt_list"] lStatemen
 					| lStatement* lClosedIfStatement -> ^(T["stmt_list"] lStatement* lClosedIfStatement);
 
 lClosedIfStatement:IF lNegation lBooleanStatement lClosedThenBlock lClosedElseBlock
-		-> ^(T["if_stmt"]
-				lNegation
-				lBooleanStatement
-				lClosedThenBlock
-				lClosedElseBlock			
-		);
+		-> ^( T["stmt"]
+		       ^(T["if_stmt"]
+				  lNegation
+				  lBooleanStatement
+				  lClosedThenBlock
+				  lClosedElseBlock			
+		));
 
-lClosedThenBlock: CURLY_BRACKET_OPEN lClosedStatementList CURLY_BRACKET_CLOSE -> ^(T["if"] lClosedStatementList)  ;
+lClosedThenBlock: CURLY_BRACKET_OPEN lClosedStatementList CURLY_BRACKET_CLOSE -> ^(T["then_branch"] lClosedStatementList)  ;
 
-lClosedElseBlock: ELSE CURLY_BRACKET_OPEN lClosedStatementList CURLY_BRACKET_CLOSE -> ^(T["else"] lClosedStatementList);
+lClosedElseBlock: ELSE CURLY_BRACKET_OPEN lClosedStatementList CURLY_BRACKET_CLOSE -> ^(T["else_branch"] lClosedStatementList);
 
 lStatement: lStatementType -> ^(T["stmt"] lStatementType);
 
@@ -215,7 +216,7 @@ lStatementType:	lBooleanStatement -> lBooleanStatement
 			  |	lIfStatement -> lIfStatement
 			  |	lLoopStatement -> lLoopStatement;
 
-lReturnStatement: RETURN lExpression? -> ^(T["simple_stmt"] ^(T["return_stmt"] lExpression?));
+lReturnStatement: RETURN lExpression? -> ^(T["stmt"] ^(T["simple_stmt"] ^(T["return_stmt"] lExpression?)));
 
 lBooleanStatement: lBooleanPatternStatement -> ^(T["simple_stmt"] lBooleanPatternStatement);
 
@@ -252,9 +253,9 @@ lIfStatement:IF lNegation lBooleanStatement lThenBlock? lElseBlock?
 				lClosedElseBlock				
 		);
 
-lThenBlock: CURLY_BRACKET_OPEN lStatementList? CURLY_BRACKET_CLOSE -> ^(T["if"] lStatementList?)  ;
+lThenBlock: CURLY_BRACKET_OPEN lStatementList? CURLY_BRACKET_CLOSE -> ^(T["then_branch"] lStatementList?)  ;
 
-lElseBlock: ELSE CURLY_BRACKET_OPEN lStatementList? CURLY_BRACKET_CLOSE -> ^(T["else"] lStatementList?);
+lElseBlock: ELSE CURLY_BRACKET_OPEN lStatementList? CURLY_BRACKET_CLOSE -> ^(T["else_branch"] lStatementList?);
 
 lLoopStatement: lForEachStatement -> lForEachStatement |
 				lWhileStatement -> lWhileStatement |

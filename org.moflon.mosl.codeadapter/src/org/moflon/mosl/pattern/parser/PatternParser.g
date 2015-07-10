@@ -25,6 +25,28 @@ tokens {
 @header {
 package org.moflon.mosl.pattern.parser; 
 import org.moflon.mosl.MOSLUtils;
+import java.util.Map;
+import java.util.HashMap;
+}
+
+@members{ 
+	private int lastGeneratedNacIndex=0;
+	
+	private Map<Integer,Integer> nacMap = new HashMap<>();
+	
+	private int getGeneratedNac(){ 
+		return lastGeneratedNacIndex++;
+	}
+	
+		private int setNac(int userNac){ 
+			if(nacMap.containsKey(userNac)){
+				return nacMap.get(userNac);
+			} else{
+				int nacIndex=getGeneratedNac();
+				nacMap.put(userNac, nacIndex);
+				return nacIndex;
+			}
+		}
 }
 
 // parser rules:
@@ -43,20 +65,24 @@ lName: ID | SINGLE_QUOTED_STRING;
 
 lInnerPattern: lObjectVariable* -> ^(T["objectVariables"] lObjectVariable*);
 
-lObjectVariable: lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference lBoxBlock
+lObjectVariable: lNac lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference lBoxBlock
      -> ^(ObjectVariable 
      					 ^(ATTRIBUTE T["name"] $name)
      					 ^(ATTRIBUTE T["type"] $type)
      					 ^(ATTRIBUTE T["category"] T["objectVariable"])
      					 ^(ATTRIBUTE T["searchCategory"] T["type"])
 						 ^(ATTRIBUTE T["search"] T["type"])
+						 lNac
      					 lBindingState
      					 lBindingOperator
      					 lBindingSemantics
      					 lBoxBlock    
-         );
+         ); 
 
  
+lNac: NOT -> ^(ATTRIBUTE T["nacIndex"] T["" + getGeneratedNac()]) 
+    | NOT LEFT_PARENTHESIS userNac=NUM RIGHT_PARENTHESIS ->  ^(ATTRIBUTE T["nacIndex"] T["" + setNac(Integer.parseInt($userNac.text))])
+    | -> ^(ATTRIBUTE T["nacIndex"] T["-1"]);
 
 lBoxBlock: -> ^(T["constraints"]) ^(T["attributeAssignments"]) ^(T["outgoingLinks"]) 
 		| CURLY_BRACKET_OPEN lAssignmentList CURLY_BRACKET_CLOSE -> ^(T["constraints"]) lAssignmentList  ^(T["outgoingLinks"]) 
@@ -110,7 +136,7 @@ lBindingState: ( -> ^(ATTRIBUTE T["bindingState"] T["unbound"])
 
 lLinkList: lLink+ -> ^(T["outgoingLinks"] lLink+);
 
-lLink: lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_object=ID
+lLink: lNac lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_object=ID
       -> ^(LinkVariable 
       			^(ATTRIBUTE T["name"] $target)
       			^(ATTRIBUTE T["guid"] $target)
@@ -120,6 +146,7 @@ lLink: lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_obj
 				^(ATTRIBUTE T["search"] T["targetObject"])
 				^(ATTRIBUTE T["searchCategory"] T["reference"])
 				^(ATTRIBUTE T["search"] T["guid"])
+				lNac
                 lBindingOperator
                 lBindingSemantics
           );
