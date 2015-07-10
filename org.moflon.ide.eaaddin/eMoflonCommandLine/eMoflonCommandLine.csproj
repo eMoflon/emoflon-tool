@@ -9,9 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>eMoflonCommandLine</RootNamespace>
     <AssemblyName>eMoflonCommandLine</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <!--<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>-->
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -67,14 +67,11 @@
       <Name>EAEcoreAddin</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF exist "$(SolutionDir)..\MoflonIdeCore\resources\commandLineEAExport" (
   echo "Copying eMoflon command-line utility"
-  copy Interop.EA.dll + CommandLineParser.dll + EAEcoreAddin.dll + eMoflonCommandLine.exe "$(SolutionDir)..\MoflonIdeCore\resources\commandLineEAExport"
+  for %25%25F in (Interop.EA.dll   CommandLineParser.dll  EAEcoreAddin.dll  EAEcoreAddin.pdb  eMoflonCommandLine.exe  eMoflonCommandLine.pdb) do copy $(TargetDir)%25%25F "$(SolutionDir)..\MoflonIdeCore\resources\commandLineEAExport"
 ) ELSE (
   echo "!!! WARNING !!! WARNING !!! WARNING !!!"
   echo "!!! MoflonIdeCore does not exist. eMoflon command-line utility will not be copied"
