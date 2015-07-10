@@ -3,6 +3,7 @@ package org.moflon.deployment;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -43,8 +44,8 @@ public class EclipsePluginDeployer extends AbstractDeployer
          logger.info("Deploying eMoflon update site...");
 
          if (!updateSiteProject.exists())
-            throw new CoreException(new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Update site project " + this.updateSiteProjectName + " is missing"));
-
+            throw new CoreException(new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Update site project " + this.updateSiteProjectName
+                  + " is missing"));
 
          // 1. Delete all jars in project MoflonIdeUpdateSite and make copy
          // of site.xml
@@ -57,7 +58,8 @@ public class EclipsePluginDeployer extends AbstractDeployer
          monitor.worked(10);
 
          if (source == null)
-            throw new CoreException(new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Plugin '" + this.updateSiteProjectName + "' could not be built."));
+            throw new CoreException(new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Plugin '" + this.updateSiteProjectName
+                  + "' could not be built."));
 
          // 3. Delete contents of target
          File target = clearUpdateSite(this.getDeploymentPath());
@@ -95,50 +97,47 @@ public class EclipsePluginDeployer extends AbstractDeployer
       {
          if (source instanceof IProject)
          {
+            /*
+             * Files and folders to be copied
+             */
             IProject sourceProject = (IProject) source;
             IFolder features = sourceProject.getFolder("features");
             IFolder plugins = sourceProject.getFolder("plugins");
             IFile site = getSiteXmlFile(sourceProject);
             IFile associatedSites = sourceProject.getFile("associateSites.xml");
             IFile indexHtml = sourceProject.getFile("index.html");
+            IFile eaAddinArchive = sourceProject.getFile("ea-ecore-addin.zip");
 
-            File featuresFolder = new File(target + File.separator + "features");
-            if (!featuresFolder.exists())
-               featuresFolder.mkdir();
-            while (!featuresFolder.exists())
-            { // nop
-            }
+            File featuresFolder = createFeaturesFolderInTarget(target);
 
             for (IResource file : features.members())
             {
-               WorkspaceHelper.copyFile(file.getLocation().toFile(), new File(featuresFolder.getCanonicalPath().toString() + File.separator + file.getName()));
+               copyAndReportMissingFile(file.getLocation().toFile(), new File(featuresFolder.getCanonicalPath().toString() + File.separator + file.getName()));
             }
 
-            File pluginsFolder = new File(target + File.separator + "plugins");
-            if (!pluginsFolder.exists())
-               pluginsFolder.mkdir();
-            while (!pluginsFolder.exists())
-            { // nop
-            }
+            File pluginsFolder = createPluginsFolderInTarget(target);
 
             for (IResource file : plugins.members())
             {
-               WorkspaceHelper.copyFile(file.getLocation().toFile(), new File(pluginsFolder.getCanonicalPath().toString() + File.separator + file.getName()));
+               copyAndReportMissingFile(file.getLocation().toFile(), new File(pluginsFolder.getCanonicalPath().toString() + File.separator + file.getName()));
             }
 
-            WorkspaceHelper.copyFile(site.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + site.getName()));
-            WorkspaceHelper.copyFile(associatedSites.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + associatedSites.getName()));
-            WorkspaceHelper.copyFile(indexHtml.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + indexHtml.getName()));
+            copyAndReportMissingFile(site.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + site.getName()));
+            copyAndReportMissingFile(associatedSites.getLocation().toFile(),
+                  new File(target.getCanonicalPath().toString() + File.separator + associatedSites.getName()));
+            copyAndReportMissingFile(indexHtml.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + indexHtml.getName()));
+            copyAndReportMissingFile(eaAddinArchive.getLocation().toFile(),
+                  new File(target.getCanonicalPath().toString() + File.separator + eaAddinArchive.getName()));
 
          } else if (source instanceof IFolder)
          {
             for (IResource file : ((IFolder) source).members())
             {
-               WorkspaceHelper.copyFile(file.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + file.getName()));
+               copyAndReportMissingFile(file.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + file.getName()));
             }
          } else if (source instanceof IFile)
          {
-            WorkspaceHelper.copyFile(source.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + source.getName()));
+            copyAndReportMissingFile(source.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + source.getName()));
          }
       } catch (CoreException e)
       {
@@ -148,6 +147,39 @@ public class EclipsePluginDeployer extends AbstractDeployer
          e.printStackTrace();
       }
 
+   }
+
+   private static void copyAndReportMissingFile(final File source, final File target)
+   {
+      try
+      {
+         FileUtils.copyFile(source, target);
+      } catch (IOException e)
+      {
+         logger.warn("\tProblem while copying " + source.getAbsolutePath());
+      }
+   }
+
+   public static File createFeaturesFolderInTarget(final File target)
+   {
+      File featuresFolder = new File(target + File.separator + "features");
+      if (!featuresFolder.exists())
+         featuresFolder.mkdir();
+      while (!featuresFolder.exists())
+      { // nop
+      }
+      return featuresFolder;
+   }
+
+   public static File createPluginsFolderInTarget(final File target)
+   {
+      File pluginsFolder = new File(target + File.separator + "plugins");
+      if (!pluginsFolder.exists())
+         pluginsFolder.mkdir();
+      while (!pluginsFolder.exists())
+      { // nop
+      }
+      return pluginsFolder;
    }
 
    private static IProject build(final String projectName) throws CoreException
@@ -238,6 +270,6 @@ public class EclipsePluginDeployer extends AbstractDeployer
    private static boolean fileToBeRetained(final File file)
    {
       return file.getName().equals(".project") || file.getName().equals(".svn") || file.getName().equals("site.xml")
-            || file.getName().equals("associateSites.xml") || file.getName().equals("index.html") || file.getName().equals("moflon.target");
+            || file.getName().equals("associateSites.xml") || file.getName().equals("index.html") || file.getName().equals("moflon.target") || file.getName().equals("ea-ecore-addin.zip");
    }
 }
