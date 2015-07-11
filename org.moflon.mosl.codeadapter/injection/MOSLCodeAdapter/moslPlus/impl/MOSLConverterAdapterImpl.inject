@@ -48,11 +48,11 @@ partial class MOSLConverterAdapterImpl {
 		}
 	-->
 	
-@model getPath(String currentPath, String nameReference, Category category) <--
+@model getPath(String currentPath, String nameReference, MoslCategory category) <--
 		try{
 			return resolver.getPath(currentPath, nameReference, category);
 		} catch (RuntimeException e){
-			ErrorMessage errorMessage = MoslPlusFactory.eINSTANCE.createErrorMessage();
+			MoslErrorMessage errorMessage = MoslPlusFactory.eINSTANCE.createMoslErrorMessage();
 			errorMessage.setMessage(e.getMessage());
 			errorMessage.setPath(currentPath);
 			this.getErrorHandler().add(errorMessage);

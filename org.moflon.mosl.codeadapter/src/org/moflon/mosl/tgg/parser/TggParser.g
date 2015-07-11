@@ -116,8 +116,9 @@ lCSPList: CONSTRAINTS CURLY_BRACKET_OPEN lCSP? CURLY_BRACKET_CLOSE -> ^(T["cspSp
       
 rule_parameter_decl: LEFT_PARENTHESIS parameterlist_decl RIGHT_PARENTHESIS -> parameterlist_decl;
   
-correspondence: lNac lBindingOperator source_ref LEFT_ARROW name=ID {correspondenceName = $name.text;}COLON type=lTypeReference RIGHT_ARROW source_ref
-     -> ^(TGGCorrespondence ^(T["constraints"])
+correspondence: lBindingOperator source_ref LEFT_ARROW name=ID {correspondenceName = $name.text;}COLON type=lTypeReference RIGHT_ARROW source_ref
+     -> ^(TGGCorrespondence 
+     					 ^(T["constraints"])
                          ^(T["attributeAssignments"])
                          ^(T["outgoingLinks"] 
                              ^(TGGLinkVariable 
@@ -128,20 +129,39 @@ correspondence: lNac lBindingOperator source_ref LEFT_ARROW name=ID {corresponde
                                  ^(ATTRIBUTE T["name"] T["target"]) 
                                  ^(ATTRIBUTE T["guid"] $name) 
                                  source_ref))
-                         ^(ATTRIBUTE T["name"] $name)
-                         ^(ATTRIBUTE T["category"] T["correspondence"])
+                         ^(ATTRIBUTE T["bindingState"] T["unbound"])
                          lBindingOperator
-                         lNac
                          ^(ATTRIBUTE T["bindingSemantics"] T["mandatory"])
+                         ^(ATTRIBUTE T["nacIndex"] T["-1"])
                          ^(ATTRIBUTE T["domain"] T["correspondence"])
+                         ^(ATTRIBUTE T["name"] $name)
                          ^(ATTRIBUTE T["type"] $type)
+                         ^(ATTRIBUTE T["scopeTyped"] T["correspondence/" + $type.text])                         
                          ^(ATTRIBUTE T["searchCategory"] T["type"])
 		   				 ^(ATTRIBUTE T["search"] T["type"])
+		   				 ^(ATTRIBUTE T["category"] T["correspondence"])
+         );
+         
+         
+         box_decl: lNac lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference lBoxBlock
+     -> ^(TGGObjectVariable 
+     						lBoxBlock
+                            lBindingState
+                            lBindingOperator
+                            lBindingSemantics
+                            lNac
+                            ^(ATTRIBUTE T["domain"] T[scope])
+                            ^(ATTRIBUTE T["name"] $name)
+                            ^(ATTRIBUTE T["scopeTyped"] T[scope + "/" + $type.text])
+                            ^(ATTRIBUTE T["type"] $type)
+                        	^(ATTRIBUTE T["searchCategory"] T["type"])
+		   				 	^(ATTRIBUTE T["search"] T["type"])
+                            ^(ATTRIBUTE T["category"] T["tggObjectVariable"])
          );
          
 source_ref: name=ID
       -> 			^(ATTRIBUTE T["category"] T["tggLink"])
-						
+						^(ATTRIBUTE T["nacIndex"] T["-1"])
       					^(ATTRIBUTE T["bindingOperator"] T[binding])
                          ^(ATTRIBUTE T["bindingSemantics"] T["mandatory"])
                         ^(ATTRIBUTE T["targetObject"] $name)
@@ -197,22 +217,6 @@ correspondence_pattern: CORRESPONDENCE CURLY_BRACKET_OPEN correspondence* CURLY_
 source_pattern: SOURCE CURLY_BRACKET_OPEN { scope = "source"; } box_decl* CURLY_BRACKET_CLOSE -> ^( T["source"] box_decl*);
 
 target_pattern: TARGET CURLY_BRACKET_OPEN { scope = "target"; } box_decl* CURLY_BRACKET_CLOSE -> ^( T["target"] box_decl*);
-
-box_decl: lNac lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference lBoxBlock
-     -> ^(TGGObjectVariable 
-     						lBoxBlock
-                            lBindingState
-                            lBindingOperator
-                            lBindingSemantics
-                            lNac
-                            ^(ATTRIBUTE T["domain"] T[scope])
-                            ^(ATTRIBUTE T["name"] $name)
-                            ^(ATTRIBUTE T["scopeTyped"] T[scope + "/" + $type.text])
-                            ^(ATTRIBUTE T["type"] $type)
-                        	^(ATTRIBUTE T["searchCategory"] T["type"])
-		   				 	^(ATTRIBUTE T["search"] T["type"])
-                            ^(ATTRIBUTE T["category"] T["tggObjectVariable"])
-         );
          
 
 lBindingSemantics: ( 

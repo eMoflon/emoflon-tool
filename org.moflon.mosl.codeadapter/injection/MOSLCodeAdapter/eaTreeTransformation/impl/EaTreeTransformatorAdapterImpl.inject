@@ -161,10 +161,16 @@ partial class EaTreeTransformatorAdapterImpl {
 		return EcoreDatatypeProvider.getDatatype(leType.getValue());
 -->
 	
-@model findAndSetMetamodelGuid(Attribute referenceType, Node target, Node domains) <--
+@model findAndSetMetamodelGuid(Attribute referenceType, Node target, Node domains, int index) <--
 		for(Text textChild : domains.getChildren()){
-			Node child = Node.class.cast(textChild);
-			
+			Node domain = Node.class.cast(textChild);
+			Attribute domaineType = new ArrayList<Attribute>(domain.getAttribute("domainType")).get(0);
+			if(domaineType.getValue().compareTo(referenceType.getValue())==0){
+				Attribute metamodelGuid = copyAttribute(new ArrayList<Attribute>(domain.getAttribute("metamodelGuid")).get(0));
+				metamodelGuid.setIndex(index);
+				metamodelGuid.setNode(target);
+				return;
+			}
 		}
 	-->
 }
