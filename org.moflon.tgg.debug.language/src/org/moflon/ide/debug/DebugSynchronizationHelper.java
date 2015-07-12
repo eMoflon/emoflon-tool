@@ -609,7 +609,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
 
    public static DebugModel toTranslationPhase(CorrespondenceModel corr, Graph toBeTranslated, Collection<EObject> translated,
          Collection<org.moflon.tgg.algorithm.datastructures.TripleMatch> allToBeRevokedTripleMatches, Graph revokedElements, PrecedenceStructure protocol,
-         TripleMatch createdTripleMatch, Collection<Match> precedenceGraph)
+         Collection<TripleMatch> newlyCreatedTripleMatches, Collection<Match> precedenceGraph)
    {
       visited.clear();
       DebugEObjectProxy srcProxy = traverseToProxy(corr.getSource(), DebugEObjectProxy.class);
@@ -633,7 +633,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       for (TripleMatch m : protocol.getTripleMatches())
       {
          DebugTripleMatch newMatch = (DebugTripleMatch) traverseToProxy(m);
-         if (createdTripleMatch != null && m.getNumber() == createdTripleMatch.getNumber())
+         if (newlyCreatedTripleMatches.stream().anyMatch(nctp -> nctp.getNumber() == m.getNumber()))
          {
             newMatch.setChangeMode(ChangeMode.ADDED);
          }
@@ -722,7 +722,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       {
          return convertToXml(toTranslationPhase(synchronizer.getGraphTriple(), synchronizer.getToBeTranslated(), synchronizer.getTranslated(),
                synchronizer.getAllToBeRevokedTripleMatches(), synchronizer.getAllRevokedElts(), synchronizer.getProtocol().save(),
-               DebugSynchronizationProtocolHelper.convertInternalTripleMatchToEMFTripleMatch(synchronizer.getCreatedTripleMatch()),
+               DebugSynchronizationProtocolHelper.convertInternalTripleMatchesToEMFTripleMatches(synchronizer.getCreatedTripleMatch()),
                synchronizer.getInputMatches()));
       } catch (IOException e)
       {

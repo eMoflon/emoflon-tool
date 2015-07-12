@@ -89,7 +89,7 @@ public abstract class Synchronizer
 
    private Collection<EObject> translated;
 
-   private TripleMatch createdTripleMatch;
+   private Collection<TripleMatch> createdTripleMatchesInLastStep;
 
    public Synchronizer(CorrespondenceModel graphTriple, Delta delta, SynchronizationProtocol protocol, Configurator configurator, StaticAnalysis rules,
          TempOutputContainer tempOutputContainer)
@@ -106,6 +106,7 @@ public abstract class Synchronizer
       this.readySet = new HashSet<>();
       this.readyWithSiblings = new HashSet<>();
       this.readyButUnreadySiblings = new HashSet<>();
+      this.createdTripleMatchesInLastStep = new ArrayList<>();
    }
 
    public void synchronize() throws InputLocalCompletenessException, TranslationLocalCompletenessException
@@ -124,7 +125,6 @@ public abstract class Synchronizer
       allRevokedElts = revoke(toBeDeleted);
       toBeTranslated.addConstructive(allRevokedElts);
       toBeTranslated.removeDestructive(toBeDeleted);
-      // TempWorkaround
       new @DebugBreakpoint(phase = Phase.DELETE) String();
       allRevokedElts = null;
    }
@@ -320,7 +320,7 @@ public abstract class Synchronizer
             processAmalgamationComplements(inputMatches, chosen, chosenRR);
          new @DebugBreakpoint(phase = Phase.TRANSLATION_STEP) String();
          translated = null;
-         createdTripleMatch = null;
+         createdTripleMatchesInLastStep = new ArrayList<>();
       }
 
       finalizeGraphTriple(graphTriple);
@@ -337,8 +337,10 @@ public abstract class Synchronizer
       tempOutputContainer.getPotentialRoots().addAll(
             performRR.getCreatedElements().stream().filter(elt -> elt.eContainer() == null).collect(Collectors.toSet()));
 
-      createdTripleMatch = createTripleMatch(performRR, isApplMatch);
-      protocol.collectPrecedences(createdTripleMatch);
+      TripleMatch newTripleMatch = createTripleMatch(performRR, isApplMatch);
+      protocol.collectPrecedences(newTripleMatch);
+      
+      createdTripleMatchesInLastStep.add(newTripleMatch);
 
       return performRR;
    }
@@ -579,8 +581,8 @@ public abstract class Synchronizer
       return inputMatches;
    }
 
-   public TripleMatch getCreatedTripleMatch()
+   public Collection<TripleMatch> getCreatedTripleMatch()
    {
-      return createdTripleMatch;
+      return createdTripleMatchesInLastStep;
    }
 }
