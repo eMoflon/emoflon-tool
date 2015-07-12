@@ -61,13 +61,11 @@ public class PathResolver extends AbstractPathResolver {
 	public void resolveCSPs(){
 		Node declarations=getCSPDeclaration();
 		
-		Map<String, String> rulesPathes = categorizedPathTable.get(MoslCategory.RULE);
-		if(rulesPathes != null){
-			for(String rulePath : rulesPathes.keySet()){
-				Node ruleCSP = getChild(moslCache.get(rulePath), "cspSpec");
-				if(hasChild(ruleCSP, "ROOT")){
-					getChild(ruleCSP, "ROOT").getChildren().add(EcoreUtil.copy(declarations));
-				}
+		Map<String, String> schemaPathes = categorizedPathTable.get(MoslCategory.SCHEMA_FILE);
+		if(schemaPathes != null){
+			for(String schemaPath : schemaPathes.keySet()){
+				Node constraints = getChild(getChild(moslCache.get(schemaPath), "TGG"), "constraints");				
+				constraints.getChildren().add(EcoreUtil.copy(declarations));				
 			}		
 		}
 	}
@@ -293,8 +291,17 @@ public class PathResolver extends AbstractPathResolver {
 		throw new CanNotResolvePathException("path is unknown");
 	}
 	
+	
+	private void repairImportedAdornments(Node adornmentDeclarations){
+		for(Text adChild : adornmentDeclarations.getChildren()){
+			Attribute userDefined = getAttribute(Node.class.cast(adChild), "USER_DEFINED");
+			userDefined.setValue("false");
+		}
+	}
+	
 	private Node getCSPDeclaration(){
 		Node adornmentDeclarations = getChild(getChild(getChild(getChild(getAdornment(), "Configuration"), "UserDefinedConstraints"), "ROOT"),"DECLARATIONS");
+		repairImportedAdornments(adornmentDeclarations);
 		Node mconfFileNode=getMoslConfigurationFileNode();
 		
 		if(mconfFileNode==null){

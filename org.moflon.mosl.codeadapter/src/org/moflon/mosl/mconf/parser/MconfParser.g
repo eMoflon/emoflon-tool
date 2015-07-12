@@ -11,8 +11,7 @@ options {
 tokens {
   ATTRIBUTE;
   T;
-  Opposite;  
-
+  Opposite;
 }
 
 @header {
@@ -30,6 +29,12 @@ import org.moflon.moca.MocaTokenFactory;
         	}
         	return MocaTokenFactory.createCommonTree(token, tokenNames);
   }
+  
+  private int declarationIndex = 0;
+  private String getDecIndex(){
+  	return "" + declarationIndex++;
+  }
+
 }
 
 // parser rules:
@@ -86,16 +91,25 @@ type_reference:  i+=SLASH? ((i+=ID | i+=DDOT) i+=SLASH)* i+=ID -> {MOSLUtils.con
       ^(
         ROOT
         ^(DECLARATIONS $declarations*)
+       CONSTRAINTS_UPPER
        )
        
   ;
 
 declarationRule
   :
-  constraintToken=ID adornments=adornmentRule signature=signatureRule?
+  constraintToken=ID adornments=adornmentRule? signature=signatureRule informationText
     ->
-      ^($constraintToken $adornments $signature?)
+      ^($constraintToken 
+      informationText
+      ^(ATTRIBUTE T["USER_DEFINED"] T["true"])
+      ^(ATTRIBUTE T["INDEX"] T[getDecIndex()])
+      	$adornments 
+     	 $signature?)
   ;
+
+informationText:INFORMATION ASSIGN informationString=DOUBLE_QUOTED_STRING -> ^(ATTRIBUTE T["INFORMATION_TEXT"] T["Semantics:" + $informationString.text])
+				| -> ^(ATTRIBUTE T["INFORMATION_TEXT"] T[""]);
 
 adornmentRule
   :
@@ -107,9 +121,9 @@ adornmentRule
 
 signatureRule
   :
-  LEFT_PARENTHESIS types+=compositeType (COMMA types+=compositeType)* RIGHT_PARENTHESIS
+  (LEFT_PARENTHESIS types+=compositeType (COMMA types+=compositeType)* RIGHT_PARENTHESIS)?
     ->
-      ^(SIGNATURE $types+)
+      ^(SIGNATURE $types*)
   ;
 
 compositeType

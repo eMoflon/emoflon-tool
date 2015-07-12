@@ -33,6 +33,7 @@ schema_declaration: source_decl target_decl classes_decl ->
          				target_decl
 		)
          classes_decl
+         T["constraints"]
     );
     
 source_decl: SOURCE type=type_reference

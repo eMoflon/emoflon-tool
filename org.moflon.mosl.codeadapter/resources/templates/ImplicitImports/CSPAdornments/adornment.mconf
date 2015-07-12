@@ -1,16 +1,16 @@
 udc { 
-	setDefaultNumber[BB,FB | FF](EDouble, EDouble)
-	setDefaultString[BB,FB | FF](EString, EString)
-	concat[BBBB,BBBF,BBFB,BFFB,BFBB | BFFF, BFBF, BBFF](EString,EString,EString,EString)
-	addPrefix[BBB,BBF,BFB,FBB | BFF,FBF](EString,EString,EString)
-	addSuffix[BBB,BBF,BFB,FBB | BFF,FFF,FBF](EString,EString,EString)
-	multiply[BBB,BBF,BFB,FBB](EDouble,EDouble,EDouble)
-	divide[BBB,BBF,BFB,FBB](EDouble,EDouble,EDouble)
-	add[BBB,BBF,BFB,FBB | FFB,FBF,BFF](EDouble,EDouble,EDouble)
-	sub[BBB,BBF,BFB,FBB | FFB,BFF,FBF,FFF](EDouble,EDouble,EDouble)
-	max[BBB,BBF,BFB,FBB](EDouble,EDouble,EDouble)
-	stringToDouble[BB,BF,FB](EString,EDouble)
-	stringToInt[BB,BF,FB](EString,EInt)
-	smallerOrEqual[BB,BF,FB | FF](EDouble, EDouble)
-	eq[BB,BF,FB | FF]
+	setDefaultNumber[BB,FB | FF](EDouble, EDouble) Information := "set number = default only if number is free"
+	setDefaultString[BB,FB | FF](EString, EString) Information := "set string = default only if string is free"
+	concat[BBBB,BBBF,BBFB,BFFB,BFBB | BFFF, BFBF, BBFF](EString,EString,EString,EString) Information := "a separator b = c"
+	addPrefix[BBB,BBF,BFB,FBB | BFF,FBF](EString,EString,EString) Information := "prefix a = b"
+	addSuffix[BBB,BBF,BFB,FBB | BFF,FFF,FBF](EString,EString,EString) Information := "a suffix = b"
+	multiply[BBB,BBF,BFB,FBB](EDouble,EDouble,EDouble) Information := "a * b = c"
+	divide[BBB,BBF,BFB,FBB](EDouble,EDouble,EDouble) Information := "a / b = c"
+	add[BBB,BBF,BFB,FBB | FFB,FBF,BFF](EDouble,EDouble,EDouble) Information := "a + b = c"
+	sub[BBB,BBF,BFB,FBB | FFB,BFF,FBF,FFF](EDouble,EDouble,EDouble) Information := "a - b = c"
+	max[BBB,BBF,BFB,FBB](EDouble,EDouble,EDouble) Information := "max(a,b) = c"
+	stringToDouble[BB,BF,FB](EString,EDouble) Information := "string = number.toString()"
+	stringToInt[BB,BF,FB](EString,EInt) Information := "string = number.toString()"
+	smallerOrEqual[BB,BF,FB | FF](EDouble, EDouble) Information := "a <= b"
+	eq[BB,BF,FB | FF] Information := "a = b"
 }

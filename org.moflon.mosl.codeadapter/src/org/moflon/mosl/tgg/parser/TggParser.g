@@ -112,7 +112,7 @@ lRefinment: ext=lTypeReference
 		       ^(ATTRIBUTE T["search"] T["baseRuleName"])
 		     );
       
-lCSPList: CONSTRAINTS CURLY_BRACKET_OPEN lCSP? CURLY_BRACKET_CLOSE -> ^(T["cspSpec"] lCSP? ) ;
+lCSPList: CONSTRAINTS CURLY_BRACKET_OPEN lCSP? CURLY_BRACKET_CLOSE -> ^(T["csps"] lCSP? ) ;
       
 rule_parameter_decl: LEFT_PARENTHESIS parameterlist_decl RIGHT_PARENTHESIS -> parameterlist_decl;
   
@@ -421,73 +421,29 @@ parameter_decl: name=ID COLON type=lTypeReference -> ^(EParameter ^(ATTRIBUTE T[
 // CSP
   
     lCSP:
-  ( constraints+=constraintRule
-    | constraints+=constraintNegatedRule
-  )+
+  ( constraints+=constraintRule )+
     ->
       ^(
-        ROOT
-        ^(CONSTRAINTS_UPPER $constraints+)
+        T["ConstraintInstance"]
+        ^(ATTRIBUTE T["mocaFragmentVersion"] T[""])
+        ^(T["entries"] $constraints+)
        )
        
   ;
   
 constraintRule
   :
-  constraintToken=ID constraintBody
+  constraintToken=ID lNegative LEFT_PARENTHESIS expressions RIGHT_PARENTHESIS
     ->
-      ^($constraintToken  ^(NEGATED FALSE) constraintBody)
+      ^(T["Entry"] 
+      ^(ATTRIBUTE T["constraintName"] $constraintToken )
+       lNegative 
+       expressions)
   ;
   
-constraintBody: LEFT_PARENTHESIS
-  (
-    vars+=parameter
-    | LITERAL 
-  )
-  (
-    COMMA
-    (
-      vars+=parameter
-      | LITERAL
-    )
-  )*
-  RIGHT_PARENTHESIS  
-  -> $vars+
-  ;
+expressions:(lExpression COMMA)* lExpression -> ^(T["expressions"] lExpression+);
   
-constraintNegatedRule
-  :
-  NOT LEFT_PARENTHESIS constraintToken=ID constraintBody RIGHT_PARENTHESIS
-    ->
-      ^($constraintToken ^(NEGATED TRUE) constraintBody)
-  ;
-
-parameter
-  :
-  variable
-  | literal
-  ;
-
-variable
-  :
-  ID
-    -> ID
-  | objectVariable=ID DOT attribute=ID
-    ->
-      ^(IMPLICIT_PARAMETER $objectVariable $attribute)
-  ;
-
-literal
-  :
-  (
-    value=DOUBLE_QUOTED_STRING
-    | value=NUM
-  )
-    ->
-      ^(LITERAL $value)
-  ;
-  
-
+lNegative: ( -> ^(ATTRIBUTE T["negative"] T["false"]) | NOT -> ^(ATTRIBUTE T["negative"] T["true"]));
   
 			           
 
