@@ -425,7 +425,6 @@ parameter_decl: name=ID COLON type=lTypeReference -> ^(EParameter ^(ATTRIBUTE T[
     ->
       ^(
         T["ConstraintInstance"]
-        ^(ATTRIBUTE T["mocaFragmentVersion"] T[""])
         ^(T["entries"] $constraints+)
        )
        
