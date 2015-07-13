@@ -29,7 +29,8 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  Moca,
  DotLanguage,
  DebugLanguage,
- DotToSDMLanguageTGG
+ DotToSDMLanguageTGG,
+ org.moflon.ide.visualization.dot.tgg.runtime;bundle-version="1.0.0"
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -30,6 +30,7 @@ import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.ui.admin.handlers.AbstractCommandHandler;
+import org.moflon.ide.visualization.dot.tgg.runtime.RuntimePackage;
 import org.moflon.moca.MocaTreeSorter;
 import org.moflon.moca.ModelToTreeConverter;
 import org.moflon.moca.dot.unparser.DotUnparserAdapter;
@@ -50,9 +51,8 @@ import MocaTree.impl.MocaTreeFactoryImpl;
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.ActivityNode;
 import SDMLanguage.activities.StartNode;
-import TGGLanguage.TGGLanguagePackage;
 import TGGLanguage.TripleGraphGrammar;
-import TGGLanguage.analysis.StaticAnalysis;
+import TGGRuntime.PrecedenceStructure;
 
 public class ConvertToDotHandler extends AbstractCommandHandler
 {
@@ -151,25 +151,29 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 
          final String visualizationFolderPath = model.getProject().getLocation().toOSString() + java.io.File.separator + "visualisation";
 
-         final DotUnparserAdapter unparser = new DotUnparserAdapter();
          if (root instanceof TripleGraphGrammar)
          {
             final TripleGraphGrammar tgg = (TripleGraphGrammar) root;
 
             logger.debug("Visualizing TGG '" + tgg.getName() + "'...");
-            treeToDot(unparser, visualizationFolderPath, modelToTree_TGG(tgg, model));
+            treeToDot(new DotUnparserAdapter(), visualizationFolderPath, modelToTree_TGG(tgg, model));
          } else if (root instanceof EPackage)
          {
             final EPackage ePackage = (EPackage) root;
 
             logger.debug("Visualizing meta-model '" + ePackage.getName() + "'...");
-            treeToDot(unparser, visualizationFolderPath, modelToTree_Ecore(ePackage, model));
+            treeToDot(new DotUnparserAdapter(), visualizationFolderPath, modelToTree_Ecore(ePackage, model));
+         } else if(root instanceof TGGRuntime.PrecedenceStructure){
+           final TGGRuntime.PrecedenceStructure ps = (TGGRuntime.PrecedenceStructure) root;
+           
+           logger.debug("Visualizing precedence structure ...");
+           treeToDot(new DotUnparserAdapter(), visualizationFolderPath, modelToTree_PS(ps, model));
          } else
          {
             logger.debug("Unknown type of model. Trying to visualize its abstract syntax as a simple object diagram...");
             final Folder folder = MocaTreeFactory.eINSTANCE.createFolder();
             final File file = new ModelToTreeConverter().modelToTree(root, true);
-            folder.getFile().add(file);
+            folder.getFile().add(file); 
             folder.setName(file.getName());
             file.setName(file.getName() + ".dot");
             treeToDot(new SimpleDotUnparserAdapter(), visualizationFolderPath, folder);
@@ -184,6 +188,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 
    }
 
+
    /**
     * unparses the data of the folder with the given unparser and calls for svg creation
     * 
@@ -192,11 +197,25 @@ public class ConvertToDotHandler extends AbstractCommandHandler
     */
    private void treeToDot(final Unparser unparser, final String visualizationFolderPath, final Folder targetFolder)
    {
-
       final CodeAdapter codeAdapter = MocaFactory.eINSTANCE.createCodeAdapter();
       codeAdapter.getUnparser().add(unparser);
       codeAdapter.unparse(visualizationFolderPath, targetFolder);
       createSVG(visualizationFolderPath, targetFolder);
+   }
+
+   
+   private Folder modelToTree_PS(PrecedenceStructure ps, IFile model)
+   {
+      Folder folder = null;
+      
+      final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.PLUGIN_ID_DOTTGGRUNTIME);
+      SynchronizationHelper helper = new SynchronizationHelper(RuntimePackage.eINSTANCE, pathToPlugin.getFile(), ps.eResource().getResourceSet());
+      helper.setSrc(ps);
+      helper.integrateForward();
+      
+      folder = (Folder) helper.getTrg();
+      folder.setName(getFileName(model));
+      return folder;
    }
 
    /**
@@ -207,7 +226,6 @@ public class ConvertToDotHandler extends AbstractCommandHandler
     */
    private Folder modelToTree_TGG(final TripleGraphGrammar tgg, final IFile model)
    {
-
       Folder folder = null;
       try
       {

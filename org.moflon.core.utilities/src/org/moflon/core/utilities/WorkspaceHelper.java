@@ -133,6 +133,8 @@ public class WorkspaceHelper
    
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
 
+   public static final String PLUGIN_ID_DOTTGGRUNTIME = "org.moflon.ide.visualization.dot.tgg.runtime"; 
+
    /**
     * Checks if given name is a valid name for a new project in the current workspace.
     * 
