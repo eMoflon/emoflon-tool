@@ -1,7 +1,6 @@
 package org.moflon.moca.tie;
 
 import java.net.URL;
-import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -33,9 +32,10 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
       return "/src/org/moflon/tie/" + getClassName() + ".java";
    }
 
+   @Override
    protected String getClassName()
    {
-      return project.getName() + "Trafo";
+      return getRootOfClassName() + "Trafo";
    }
 
    @Override
@@ -49,14 +49,4 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
    {
       return WorkspaceHelper.REPOSITORY_NATURE_ID;
    }
-
-   @Override
-   protected Map<String, Object> extractTemplateParameters()
-   {
-      Map<String, Object> attributes = super.extractTemplateParameters();
-      attributes.put("corrPackage", project.getName() + "Package.eINSTANCE");
-      attributes.put("className", getClassName());
-      return attributes;
-   }
-
 }

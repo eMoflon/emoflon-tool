@@ -133,9 +133,17 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
       }
 
       attributes.put("projects", projects);
+      attributes.put("corrPackage", getRootOfClassName() + "Package.eINSTANCE");
+      attributes.put("className", getClassName());
+      
       return attributes;
    }
 
    protected abstract String getSupportedNature();
-
+   
+   protected String getRootOfClassName(){
+      return MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(project.getName());
+   }
+   
+   protected abstract String getClassName();
 }

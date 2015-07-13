@@ -18,6 +18,6 @@ public class RunIntegrationGeneratorSync extends RunIntegrationGeneratorBatch
    @Override
    protected String getClassName()
    {
-      return project.getName() + "Sync";
+      return getRootOfClassName() + "Sync";
    }
 }

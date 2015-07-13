@@ -1,6 +1,7 @@
 package org.moflon.moca;
 
 import org.antlr.stringtemplate.AttributeRenderer;
+import org.moflon.core.utilities.MoflonUtil;
 
 /**
  * A basic format renderer, which provides String operation for StringTemplates.
@@ -17,18 +18,18 @@ public class BasicFormatRenderer implements AttributeRenderer
 
    public String toString(Object o, String formatName)
    {
-      if (formatName.equals("firstToUpper"))
+      switch (formatName)
       {
+      case "firstToUpper":
          return firstToUpper(o.toString());
-      } else if (formatName.equals("firstToLower"))
-      {
+      case "firstToLower":
          return firstToLower(o.toString());
-      } else if (formatName.equals("toLower"))
-      {
+      case "toLower":
          return o.toString().toLowerCase();
-      } else
-      {
-         throw new IllegalArgumentException("Unsupported format name");
+      case "extractLastSegment":
+         return extractLastSegment(o.toString());
+      default:
+         throw new IllegalArgumentException("Unsupported format name: " + formatName);
       }
    }
 
@@ -42,4 +43,8 @@ public class BasicFormatRenderer implements AttributeRenderer
       return s.substring(0, 1).toLowerCase() + s.substring(1);
    }
 
+   public static String extractLastSegment(String s)
+   {
+      return MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(s);
+   }
 }
