@@ -37,7 +37,8 @@ public class Eq extends TGGConstraintImpl
       // modelgen implementation
       else if (bindingStates.equals("FF"))
       {
-         String value = Generator.getNewRandomString(a.getType());
+         String type = a.getType();
+         Object value = generateValue(type);
          a.bindToValue(value);
          b.bindToValue(value);
          setSatisfied(true);
@@ -46,6 +47,31 @@ public class Eq extends TGGConstraintImpl
          throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
 
       }
+   }
+
+   private Object generateValue(String type)
+   {
+      Object value = null;
+      
+      if(type.equals("String"))
+      {
+         value = Generator.getNewRandomString(null);     
+      }
+      else if(type.equals("Integer"))
+      {
+         value = Integer.valueOf((int) (Math.random() * 1000.0));
+      }
+      else if(type.equals("Double"))
+      {
+         value = Double.valueOf((Math.random() * 1000.0));
+      }
+      else if(type.equals("Boolean"))
+      {
+         value = Boolean.valueOf((Math.random() > Math.random()));
+      }
+      else 
+         throw new RuntimeException("The type " + type + " is not supported for random value generation in Eq-constraints");
+      return value;
    }
 
    private void compareNumbers(Variable a, Variable b)
