@@ -552,6 +552,11 @@ public class SynchronizationHelper
    public void savePrecedenceGraph(final PrecedenceInputGraph pg, final String path)
    {
       TGGRuntime.PrecedenceStructure pgAsPSs = pg.save();
+      for (int i = 0; i < pgAsPSs.getTripleMatches().size(); i++)
+      {
+         pgAsPSs.getTripleMatches().get(i).setNumber(i);
+      }
+      
       set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(pgAsPSs);
       eMoflonEMFUtil.saveModel(pgAsPSs.eResource().getResourceSet(), pgAsPSs, path);
    }

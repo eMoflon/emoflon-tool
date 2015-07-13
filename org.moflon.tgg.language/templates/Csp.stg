@@ -45,7 +45,7 @@ CSP csp = CspFactory.eINSTANCE.createCSP();
 
 
 locate_node(var_name, type) ::= <<
-Optional\<TripleMatchNodeMapping> matchFor<var_name; format="firstToUpper"> = tripleMatch.getNodeMappings().stream().filter(nm -> nm.getNodeName().equals("<var_name>")).findAny();
+Optional\<TripleMatchNodeMapping> matchFor<var_name; format="firstToUpper"> = __tripleMatch.getNodeMappings().stream().filter(nm -> nm.getNodeName().equals("<var_name>")).findAny();
 <type> <var_name> = (<type>) matchFor<var_name; format="firstToUpper">.get().getNode();
 >>
 
@@ -54,7 +54,7 @@ if(!(<op1> <comp> <op2>)){
 	ruleResult.setSuccess(false);
 	return ruleResult;
 }	
->>
+>> 
 
 check_constraints_eq(op1, op2, not) ::=<<
 if(<not><op1>.equals(<op2>)){ 
