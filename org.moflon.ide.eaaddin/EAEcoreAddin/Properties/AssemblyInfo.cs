@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("http://www.emoflon.org/emoflon/")]
 [assembly: AssemblyProduct("eMoflon::Ecore Extension")]
-[assembly: AssemblyCopyright("© 2011-2015 Real-Time Systems Lab. Dual license: GNU General Public License version 3 (or above) and Eclipse Public License 1.0 (or above)")]
+[assembly: AssemblyCopyright("(c) 2011-2015 Real-Time Systems Lab. Dual license: GNU General Public License version 3 (or above) and Eclipse Public License 1.0 (or above)")]
 [assembly: AssemblyTrademark("eMoflon")]
 [assembly: AssemblyCulture("")]
 
@@ -41,5 +41,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.7.15.0")]
-[assembly: AssemblyFileVersion("1.7.15.0")]
+[assembly: AssemblyVersion("1.7.17.0")]
+[assembly: AssemblyFileVersion("1.7.17.0")]
