@@ -48,14 +48,14 @@ public class StringTemplateTextEditorConfiguration extends MoflonTextEditorConfi
 		return delimiters;
 	}
 
-	/**
-	    * Here the scope for syntax highlighting can be defined. {-4,4} means four lines before the text
-	    * change and four lines after the text change. Default is the complete dokument which is {1,-1}.
-	    */
+   /**
+    * Here the scope for syntax highlighting can be defined. {-4,4} means four lines before the text change and four
+    * lines after the text change. Default is the complete document which is {1,-1}.
+    */
 	@Override
 	public int[] getRefreshScope()
 	{
-		return super.getRefreshScope();
+		return new int[] {-10,10};
 	}
 	
 	
