@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -485,7 +486,7 @@ public class SynchronizationHelper
     */
    private void loadRulesFromProject(final String pathToProject, final String rulesFileBaseName)
    {
-      setRules((StaticAnalysis) eMoflonEMFUtil.loadModelWithDependencies(pathToProject + "/model/" + rulesFileBaseName + ".sma.xmi", set));
+      setRules((StaticAnalysis) eMoflonEMFUtil.loadModelWithDependencies(pathToProject + "/model/" + MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi", set));
    }
 
    /**
