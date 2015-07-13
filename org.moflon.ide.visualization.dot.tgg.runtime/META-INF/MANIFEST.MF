@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.moflon.ide.visualization.dot.tgg.runtime;sing
+ leton:=true
+Export-Package: org.moflon.ide.visualization.dot.tgg.runtime.util,
+ org.moflon.ide.visualization.dot.tgg.runtime,
+ org.moflon.ide.visualization.dot.tgg.runtime.Rules.impl,
+ org.moflon.ide.visualization.dot.tgg.runtime.impl,
+ org.moflon.ide.visualization.dot.tgg.runtime.Rules,
+ org.moflon.ide.visualization.dot.tgg.runtime.Rules.util
+Bundle-Name: org.moflon.ide.visualization.dot.tgg.runtime
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities,
+ DotLanguage,
+ MocaTree,
+ TGGRuntime,
+ org.apache.log4j;bundle-version="1.2.15",
+ SDMLanguage,
+ TGGLanguage,
+ DebugLanguage
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt

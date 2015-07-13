@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.ide.visualization.dot.tgg.runtime.RuntimePackage" genModel="model/Runtime.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.tgg.runtime/model/Runtime.ecore"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.ide.visualization.dot.tgg.runtime.Rules.RulesPackage" genModel="model/Runtime.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.tgg.runtime/model/Runtime.ecore#//Rules"/>
+  </extension>
+</plugin>
