@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.ICommand;
@@ -109,6 +110,9 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
                   {
                      e.printStackTrace();
                   }
+
+                  changed |= migrateOldManifests(manifest);
+
                   return changed;
                });
 
@@ -118,6 +122,16 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
       {
          monitor.done();
       }
+   }
+
+   private boolean migrateOldManifests(final Manifest manifest)
+   {
+      boolean changed = false;
+      
+      // Old ID of the "Moflon Utilities" plugin
+      changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.dependencies");
+      
+      return changed;
    }
 
    private static void registerPluginBuildersAndAddNature(final IProject currentProject, final IProgressMonitor monitor) throws CoreException

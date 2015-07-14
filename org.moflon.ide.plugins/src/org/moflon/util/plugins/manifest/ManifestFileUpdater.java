@@ -153,10 +153,44 @@ public class ManifestFileUpdater
             currentDependencies.add(newDependency);
          }
 
-         addDependenciesToManifest(manifest, currentDependencies);
+         setDependencies(manifest, currentDependencies);
          return true;
       } else
       {
+         return false;
+      }
+   }
+
+   /**
+    * Removes the given plugin ID from the dependencies of the given manifest
+    * 
+    * @param manifest
+    * @return true if the manifest has been modified by this methood, false otherwise
+    */
+   public static boolean removeDependency(final Manifest manifest, final String dependencyPluginIDToBeRemoved)
+   {
+      return removeDependencies(manifest, Arrays.asList(dependencyPluginIDToBeRemoved));
+   }
+   
+   /**
+    * Removes the given plugin IDs from the dependencies of the given manifest
+    * 
+    * @return true if the manifest has been modified by this methood, false otherwise
+    */
+   public static boolean removeDependencies(final Manifest manifest, final List<String> dependencyPluginIDsToBeRemoved)
+   {
+      final List<String> currentDependencies = extractDependencies(manifest);
+
+      final List<String> newDependencies = currentDependencies.stream()//
+            .filter(dependency -> !dependencyPluginIDsToBeRemoved.contains(extractPluginId(dependency)))//
+            .collect(Collectors.toList());
+
+      if (!currentDependencies.equals(newDependencies))
+      {
+         setDependencies(manifest, newDependencies);
+         return true;
+      }
+      else {
          return false;
       }
    }
@@ -175,8 +209,11 @@ public class ManifestFileUpdater
    {
       final Collection<String> existingDependencyPluginIds = existingDependencies.stream().map(ManifestFileUpdater::extractPluginId)
             .collect(Collectors.toList());
-      final List<String> missingDependencies = newDependencies.stream().filter(newDependency -> !newDependency.contains(IGNORE_PLUGIN_ID))
-            .filter(newDependency -> !existingDependencyPluginIds.contains(ManifestFileUpdater.extractPluginId(newDependency))).collect(Collectors.toList());
+
+      final List<String> missingDependencies = newDependencies.stream()//
+            .filter(newDependency -> !newDependency.contains(IGNORE_PLUGIN_ID))//
+            .filter(newDependency -> !existingDependencyPluginIds.contains(ManifestFileUpdater.extractPluginId(newDependency)))//
+            .collect(Collectors.toList());
 
       return missingDependencies;
    }
@@ -194,6 +231,14 @@ public class ManifestFileUpdater
       return dependencies;
    }
 
+   /**
+    * Creates an ID-to-project mapping from the given list of projects.
+    * 
+    * The projects must be plugin projects.
+    * 
+    * @param projects
+    * @return
+    */
    public Map<String, IProject> extractPluginIDToProjectMap(final Collection<IProject> projects)
    {
       final Map<String, IProject> idToProject = new HashMap<>();
@@ -201,7 +246,7 @@ public class ManifestFileUpdater
          try
          {
             processManifest(p, manifest -> {
-               idToProject.put(extractPluginId(getID(p, manifest)), p);
+               idToProject.put(extractPluginId(getID(manifest)), p);
                return false;
             });
          } catch (Exception e)
@@ -213,11 +258,12 @@ public class ManifestFileUpdater
       return idToProject;
    }
 
-   private String getID(final IProject p, final Manifest manifest)
-   {
-      return (String) manifest.getMainAttributes().get(PluginManifestConstants.BUNDLE_SYMBOLIC_NAME);
-   }
-
+   /**
+    * Returns the list of dependencies as plugin id from the manifest file of the given project.
+    * 
+    * @param project
+    * @return
+    */
    public Collection<String> getDependenciesAsPluginIDs(final IProject project)
    {
       Collection<String> dependencies = new ArrayList<>();
@@ -237,9 +283,11 @@ public class ManifestFileUpdater
    }
 
    /**
-    * Returns the plugin Id for a given dependency entry, which may contain additional metadata, e.g.
+    * Returns the plugin ID for a given dependency entry, which may contain additional metadata, e.g.
     *
-    * Input: org.moflon.ide.core;bundle-version="1.0.0" Output: org.moflon.ide.core
+    * Input: org.moflon.ide.core;bundle-version="1.0.0"
+    * 
+    * Output: org.moflon.ide.core
     */
    public static String extractPluginId(final String existingDependency)
    {
@@ -285,7 +333,13 @@ public class ManifestFileUpdater
       }
    }
 
-   private static void addDependenciesToManifest(final Manifest manifest, final List<String> dependencies)
+   /**
+    * Sets the Require-Bundle property of the given manifest
+    * 
+    * @param manifest the manifest to be manipulated
+    * @param dependencies the dependencies to be used for Require-Bundle
+    */
+   private static void setDependencies(final Manifest manifest, final List<String> dependencies)
    {
       String dependenciesString = ManifestFileUpdater.createDependenciesString(dependencies);
 
@@ -295,9 +349,18 @@ public class ManifestFileUpdater
       }
    }
 
+   /**
+    * Joins the given list of dependencies using ","
+    * @param dependencies the dependencies
+    * @return the dependency string combining all dependencies 
+    */
    private static String createDependenciesString(final List<String> dependencies)
    {
-      return dependencies.stream().filter(dep -> !dep.equals("")).collect(Collectors.joining(","));
+      return dependencies.stream().filter(dep -> !dep.isEmpty()).collect(Collectors.joining(","));
    }
 
+   private static String getID(final Manifest manifest)
+   {
+      return (String) manifest.getMainAttributes().get(PluginManifestConstants.BUNDLE_SYMBOLIC_NAME);
+   }
 }
