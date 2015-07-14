@@ -1,0 +1,14 @@
+
+import DotLanguage.DotColor;
+
+partial class EdgeToLVRuleImpl {
+
+
+
+@model postProcessFORWARD (EdgeCommand lv, EMoflonEdge edge, TripleMatch tripleMatch) <--
+
+      if (tripleMatch.getCreatedElements().contains(edge))
+         lv.setColor(DotColor.GREEN);
+-->
+
+}

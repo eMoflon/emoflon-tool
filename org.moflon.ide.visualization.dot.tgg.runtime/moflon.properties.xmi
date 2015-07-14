@@ -10,7 +10,7 @@
   <replaceGenModel/>
   <genTracingInstrumentation/>
   <sdmCodegeneratorHandlerId value="DEMOCLES_REVERSE_NAVI"/>
-  <tGGBuildMode/>
+  <tGGBuildMode buildMode="FORWARD"/>
   <debugMode/>
   <strictSDMConditionalBranching/>
 </MoflonPropertyContainer:MoflonPropertiesContainer>

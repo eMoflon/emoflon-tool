@@ -1,0 +1,16 @@
+
+import org.moflon.core.utilities.eMoflonEMFUtil;
+import DotLanguage.DotColor;
+
+partial class NodeMappingToOVRuleImpl {
+
+
+
+@model postProcessFORWARD (Record record, TripleMatchNodeMapping mapping, TripleMatch tripleMatch) <--
+
+      record.setLabel(mapping.getNodeName() + " ==> " + eMoflonEMFUtil.getIdentifier(mapping.getNode()));
+      if (tripleMatch.getCreatedElements().contains(mapping.getNode()))
+         record.setColor(DotColor.GREEN);
+-->
+
+}
