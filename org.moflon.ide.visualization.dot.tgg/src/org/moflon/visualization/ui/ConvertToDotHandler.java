@@ -390,7 +390,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
       for (final File file : folder.getFile())
       {
          final String filePath = path + java.io.File.separator + folder.getName() + java.io.File.separator + file.getName();
-         final String cmd = getAbsolutePathToDotExe() + " -Tsvg \"" + filePath + "\" -o \"" + filePath.replaceFirst(".dot", ".svg") + "\"";
+         final String cmd = getAbsolutePathToDotExe() + " -Tsvg \"" + filePath + "\" -o \"" + filePath.substring(0, filePath.lastIndexOf(".dot")) +  ".svg" + "\"";
          try
          {
             logger.debug("Executing: " + cmd);
