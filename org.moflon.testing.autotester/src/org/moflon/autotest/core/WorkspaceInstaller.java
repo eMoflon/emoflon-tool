@@ -162,10 +162,10 @@ public class WorkspaceInstaller
             @Override
             public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
             {
-               logger.info("Installing workspace(s) " + displayName + "...");
+               logger.info("Installing " + displayName + "...");
                try
                {
-                  monitor.beginTask("Installing workspace(s) " + displayName, 400);
+                  monitor.beginTask("Installing " + displayName, 400);
                   if (BuilderHelper.turnOffAutoBuild())
                   {
                      logger.info("Ok - I was able to switch off auto build ...");
