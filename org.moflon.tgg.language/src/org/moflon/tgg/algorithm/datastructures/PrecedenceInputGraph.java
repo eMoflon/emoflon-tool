@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import TGGRuntime.EMoflonEdge;
 import TGGRuntime.Match;
 import TGGRuntime.TGGRuntimeFactory;
+import TGGRuntime.TripleMatchNodeMapping;
 
 /**
  * An on-the-fly collection of source/target matches and their precedence dependencies created and used during
@@ -101,6 +102,13 @@ public class PrecedenceInputGraph extends PrecedenceStructure<Match>
       addEdges(tripleMatch);
 
       tripleMatch.setRuleName(m.getRuleName());
+      
+      m.getNodeMappings().keySet().stream().forEach(nodeName ->{
+         TripleMatchNodeMapping nodeMapping = TGGRuntimeFactory.eINSTANCE.createTripleMatchNodeMapping();
+         nodeMapping.setNodeName(nodeName);
+         nodeMapping.setNode(m.getNodeMappings().get(nodeName));
+         tripleMatch.getNodeMappings().add(nodeMapping);});
+      
       return tripleMatch;
    }
 
