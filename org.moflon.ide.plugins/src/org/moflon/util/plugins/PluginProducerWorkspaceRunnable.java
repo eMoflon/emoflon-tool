@@ -103,8 +103,8 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
                         changed |= ManifestFileUpdater.updateDependencies(
                               manifest,
                               Arrays.asList(new String[] { WorkspaceHelper.PLUGIN_ID_LOG4J, WorkspaceHelper.PLUGIN_ID_MOCATREE,
-                                    WorkspaceHelper.PLUGIN_ID_SDMLANGUAGE, WorkspaceHelper.PLUGIN_ID_TGGLANGUAGE, WorkspaceHelper.PLUGIN_ID_TGGRUNTIME,
-                                    WorkspaceHelper.PLUGIN_ID_DEBUGLANGUAGE }));
+                                    WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, WorkspaceHelper.PLUGIN_ID_SDMLANGUAGE, WorkspaceHelper.PLUGIN_ID_TGGLANGUAGE,
+                                    WorkspaceHelper.PLUGIN_ID_TGGRUNTIME, WorkspaceHelper.PLUGIN_ID_DEBUGLANGUAGE }));
                   } catch (Exception e)
                   {
                      e.printStackTrace();

@@ -204,7 +204,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
    }
 
    
-   private Folder modelToTree_PS(PrecedenceStructure ps, IFile model)
+   private Folder modelToTree_PS(final PrecedenceStructure ps, final IFile model)
    {
       Folder folder = null;
       

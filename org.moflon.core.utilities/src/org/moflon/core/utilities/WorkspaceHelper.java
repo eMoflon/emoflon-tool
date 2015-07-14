@@ -104,6 +104,8 @@ public class WorkspaceHelper
    public static final String PLUGIN_ID_ECORE = "org.eclipse.emf.ecore";
 
    public static final String PLUGIN_ID_ECORE_XMI = "org.eclipse.emf.ecore.xmi";
+   
+   public static final String PLUGIN_ID_ECLIPSE_RUNTIME= "org.eclipse.core.runtime";
 
    public static final String PLUGIN_ID_TGGRUNTIME = "TGGRuntime";
 
