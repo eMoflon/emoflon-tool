@@ -180,7 +180,7 @@ public class AttributeConstraintCodeGenerator
       if (expression instanceof AttributeValueExpression)
       {
          attrValueExp = (AttributeValueExpression) expression;
-         return buildMethodCall(attrValueExp.getAttribute().getName(), attrValueExp.getObject().getType().getName(), attrValueExp.getObject().getName());
+         return buildMethodCall(attrValueExp.getAttribute().getName(), attrValueExp.getAttribute().getEAttributeType().getName(), attrValueExp.getObject().getName());
 
       }
 
