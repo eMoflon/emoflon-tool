@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileFilter;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -84,7 +85,15 @@ public class JumpToEA extends OpenVariableConcreteTypeAction
       // Load moflon.properties.xmi and extract path to metamodel project
       MoflonPropertiesContainer properties = (MoflonPropertiesContainer) eMoflonEMFUtil.loadModel(pathToMoflonProperties);
       String metamodelproject = properties.getMetaModelProject().getMetaModelProjectName();
-      IPath metamodelprojectPath = ResourcesPlugin.getWorkspace().getRoot().getProject(metamodelproject).getRawLocation();
+      IProject metamodelIproject = ResourcesPlugin.getWorkspace().getRoot().getProject(metamodelproject);
+      IPath metamodelprojectPath = null;
+      if (metamodelIproject.getRawLocation() == null)
+      {
+         metamodelprojectPath = metamodelIproject.getLocation();
+      } else
+      {
+         metamodelprojectPath = metamodelIproject.getRawLocation();
+      }
 
       // Determine .eap file location in EA project
       File[] eapFiles = metamodelprojectPath.toFile().listFiles(new FileFilter() {
