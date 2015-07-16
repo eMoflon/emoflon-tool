@@ -74,10 +74,9 @@ public class Controller {
 	 */
 	public void newBoard(int width, int height) {
 		/* Create a new board with the factory and the given size */
-		Board board = factory.createBoard();
 		
 		try {
-			board.create(width, height);
+			board = BoardCreator.createEmptyBoard(width, height);
 			printBoard(board);
 			switchBoard(board);
 		} catch (UnsupportedOperationException e) {
@@ -151,33 +150,28 @@ public class Controller {
 	
 
 	/**
-	 * Load a user-selected file: parse .sok into .xmi tree,
-	 * then translate into .xmi board instance.
-	 * @param fileToLoad gives full file path of selection
+	 * Load a user-selected file: parse .sok into .xmi tree, then translate into
+	 * .xmi board instance.
+	 * 
+	 * @param fileToLoad
+	 *            gives full file path of selection
 	 */
-	 	public void loadText(String fileToLoad) {
-		try {
-			/* instances/tempTree.xmi */
-			String tempTree = "instances" + File.separator + "tempTree.xmi";
-			TGGMain helper = new TGGMain();
+	public void loadText(String fileToLoad) {
+		/* instances/tempTree.xmi */
+		String tempTree = "instances" + File.separator + "tempTree.xmi";
+		TGGMain helper = new TGGMain("../SokobanCodeAdapter/");
 
-			/* Parse user selected file, save to tempTree */
-			helper.performParse(fileToLoad, tempTree);
+		/* Parse user selected file, save to tempTree */
+		helper.performParse(fileToLoad, tempTree);
 
-			/* Transform tempTree */
-			helper = new TGGMain();
-			helper.performForward(tempTree);
-		 
-			/* Load transformed tempTree */
-			Board newBoard = (Board)eMoflonEMFUtil.loadModel(tempTree + "_FWD.xmi");
-			switchBoard(newBoard);
-			
-			// System.out.println(".sok instance successfully loaded!");
-			
-		} catch (IOException e){
-			// e.printStackTrace();
-			System.out.println("Failed to load .sok instance");
-		}
+		/* Transform tempTree */
+		helper = new TGGMain("../SokobanCodeAdapter/");
+		helper.performForward(tempTree);
+
+		/* Load transformed tempTree */
+		Board newBoard = (Board) eMoflonEMFUtil
+				.loadModel(tempTree + "_FWD.xmi");
+		switchBoard(newBoard);
 	}
 	
 	

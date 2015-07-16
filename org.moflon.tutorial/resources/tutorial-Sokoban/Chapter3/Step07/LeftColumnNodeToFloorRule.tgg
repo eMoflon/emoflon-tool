@@ -60,8 +60,8 @@ rule LeftColumnNodeToFloorRule {
 		// The first constraint (of form a - b = c) ensures that the newest Floor is 
 		// 	connected directly below the previous instance. The latter then makes sure
 		//	the row values in both domains are equivalent.
-	constraints {[
+	constraints {
 		sub(floor.row, 1, topNeighbor.row)
 		eq(floor.row , rowNode.index)	
-	]}
+	}
 }

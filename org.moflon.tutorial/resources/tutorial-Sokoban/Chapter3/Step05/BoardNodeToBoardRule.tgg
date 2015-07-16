@@ -129,7 +129,7 @@ rule BoardNodeToBoardRule {
 	target {
 		
 		++ board : Board { 
-			++ -floors-> : topLeftFloor
+			++ -floors-> topLeftFloor
 		}
 		
 		++ topLeftFloor : Floor { 
@@ -141,7 +141,7 @@ rule BoardNodeToBoardRule {
 	
 	/// Finally, correspondence constraints ensure that the involved attributes remain
 	// 	equvalent in both the target and source domains.
-	constraints {[
+	constraints {
 
-	]}
+	}
 }

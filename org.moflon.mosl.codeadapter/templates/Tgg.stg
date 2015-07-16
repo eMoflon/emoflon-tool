@@ -13,9 +13,9 @@ rule <name><parameters> <if (refine)>refines <refine> <endif>{
 		<target>
 	}<endif>
 	
-	constraints {[
+	constraints {
 		<constraints>
-	]}
+	}
 	
 	operations {
 	

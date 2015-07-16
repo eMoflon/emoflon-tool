@@ -15,8 +15,8 @@ rule <name> {
 	
 	}
 	
-	constraints {[
+	constraints {
 	
-	]}
+	}
 }
 >>

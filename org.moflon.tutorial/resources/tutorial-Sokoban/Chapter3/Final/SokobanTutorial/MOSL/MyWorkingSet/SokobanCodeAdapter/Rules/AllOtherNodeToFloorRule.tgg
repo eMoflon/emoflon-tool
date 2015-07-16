@@ -41,7 +41,7 @@ rule AllOtherNodeToFloorRule {
 	
 	}
 	
-	constraints {[
+	constraints {
 		sub(floor.row, 1, topNeighbor.row)
 		sub(floor.col, 1, leftNeighbor.col)
 		
@@ -49,5 +49,5 @@ rule AllOtherNodeToFloorRule {
 		eq(floor.col, columnNode.index)
 		eq(floor.row, leftNeighbor.row)
 		eq(floor.col, topNeighbor.col)
-	]}
+	}
 }

@@ -1,8 +1,8 @@
 group Sch;
 
 schema(source, target, classes) ::= <<
-source /<source>
-target /<target>
+source <source>
+target <target>
 
 <classes>
 >>

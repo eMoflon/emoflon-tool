@@ -22,7 +22,7 @@ rule ServerNodeToFigureRule {
 		++ server : Server
 	}
 	
-	constraints {[
+	constraints {
 	
-	]}
+	}
 }

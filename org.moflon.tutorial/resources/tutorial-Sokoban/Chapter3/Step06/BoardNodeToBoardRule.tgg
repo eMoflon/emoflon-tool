@@ -146,8 +146,8 @@ rule BoardNodeToBoardRule {
 	//	numerical value. Note that these constraints are valid in both directions,
 	// 	meaning that they will also convert an EInt into a STRING.
 
-	constraints {[
+	constraints {
 		stringToNumber(rowCountNode.name, board.height)
 		stringToNumber(columnCountNode.name, board.width)
-	]}
+	}
 }

@@ -24,7 +24,7 @@ rule GoalNodeToFigureRule {
 		++ goal : Goal
 	}
 	
-	constraints {[
+	constraints {
 	
-	]}
+	}
 }

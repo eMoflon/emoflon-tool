@@ -45,8 +45,8 @@ rule TopRowNodeToFloorRule {
 		} 
 	}
 	
-	constraints {[
+	constraints {
 		sub(floor.col, 1, leftNeighbor.col)
 		eq(floor.col, columnNode.index)
-	]}
+	}
 }

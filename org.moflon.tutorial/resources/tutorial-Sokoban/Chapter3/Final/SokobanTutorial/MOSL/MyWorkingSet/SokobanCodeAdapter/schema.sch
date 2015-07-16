@@ -1,5 +1,5 @@
-source /MocaTree
-target /SokobanLanguage
+source MocaTree
+target SokobanLanguage
 
 // You're encouraged to read Part IV: Triple Graph Grammars of the eMoflon handbook for thorough details on TGGs. It will explain the
 //	creation of rules and each part of a Graph triple in greater detail than what we can offer here. It will also introduce an

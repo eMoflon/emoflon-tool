@@ -5,24 +5,20 @@ import java.io.File;
 
 import org.apache.log4j.BasicConfigurator;
 import org.moflon.moca.MocaMain;
-import org.moflon.util.IntegratorHelper;
+import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 
 import SokobanCodeAdapter.SokobanCodeAdapterPackage;
-import SokobanLanguage.SokobanLanguagePackage;
-import MocaTree.Folder;
 
-public class TGGMain extends IntegratorHelper {
+public class TGGMain extends SynchronizationHelper {
 
 	/* Constructor */
 	public TGGMain() throws IOException {
-		/* Register packages */
-        eMoflonEMFUtil.init(SokobanCodeAdapterPackage.eINSTANCE);
-        eMoflonEMFUtil.init(SokobanLanguagePackage.eINSTANCE);
-                
-        /* Load rules and set correspondence; Adjust path here if executing TGGMain on own */
-		setCorrPackage(SokobanCodeAdapterPackage.eINSTANCE);
-		loadRulesFromProject("..");
+		super(SokobanCodeAdapterPackage.eINSTANCE, ".");
+	}
+	
+	public TGGMain(String pathToProject){
+		super(SokobanCodeAdapterPackage.eINSTANCE, pathToProject);
 	}
 	
 	/**
@@ -62,9 +58,7 @@ public class TGGMain extends IntegratorHelper {
 		integrateForward();
 		saveTrg(source + "_FWD.xmi");
 		saveCorr("instances/corr_FWD.xmi");
-		saveProtocol("instances/protocol_FWD.xmi");
-		
-		// System.out.println("Completed forward transformation!");
+		saveSynchronizationProtocol("instances/protocol_FWD.xmi");		
 	}
 
 	/**
@@ -82,9 +76,7 @@ public class TGGMain extends IntegratorHelper {
 		integrateBackward();
 		saveSrc(target + "_BWD.xmi");
 		saveCorr("instances/corr_BWD.xmi");
-		saveProtocol("instances/protocol_BWD.xmi");
-		
-		// System.out.println("Completed backward transformation!");
+		saveSynchronizationProtocol("instances/protocol_BWD.xmi");
 	}
 	
 	/**
@@ -94,9 +86,7 @@ public class TGGMain extends IntegratorHelper {
 	 */
 	public void performParse(String src, String target){
 		MocaTree.File file = MocaMain.getCodeAdapter().parseFile(new File(src), null);
-        eMoflonEMFUtil.saveModel(file, target);
-        
-		// System.out.println("Completed file parse!");
+        eMoflonEMFUtil.saveModel(file, target);        
 	}
 	
 	/**
@@ -110,8 +100,6 @@ public class TGGMain extends IntegratorHelper {
 		createdFile.setName(nameOfFile);
 		
 		MocaMain.getCodeAdapter().unparseFile(createdFile, new File(target));
-		
-		// System.out.println("Completed file unparse!");
 	}
 	
 }
