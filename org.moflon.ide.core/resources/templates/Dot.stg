@@ -11,6 +11,7 @@ digraph "<directGraph.name>" {
 SubGraph(subGraph) ::= <<
 subgraph "cluster_<subGraph.name>" {
 	 label="";
+	 pencolor="invis";
      <Pattern(subGraph.nodes, subGraph.edges)>
 }
 >>

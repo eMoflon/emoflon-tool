@@ -3,6 +3,7 @@ package org.moflon.moca.dot.unparser;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
+import org.eclipse.emf.common.util.ECollections;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.ide.core.CoreActivator;
 import org.stringtemplate.v4.ST;
@@ -25,7 +26,8 @@ public class DotUnparserAdapter extends UnparserImpl
    @Override
    public String unparse(Node node)
    {
-      DirectedGraph graph = (DirectedGraph) node;
+      DirectedGraph graph = (DirectedGraph) node; 
+      ECollections.sort(graph.getSubGraphs(), (a,b) -> a.getIndex() - b.getIndex());
       
       try
       {
