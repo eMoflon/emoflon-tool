@@ -272,12 +272,16 @@ lConstraintOperator: ( EQUALS -> T["equal"] )
                   |   ( GEQ    -> T["greater_or_equal"] );
 
 lAssignmentList: lAssignment+ -> ^(T["attributeAssignments"] lAssignment+);
-
+  	      
 lAssignment: name=ID DOT attr=ID op=lAssignmentOperator value=lExpression
       -> ^(T["attributeAssignment"] 
-      								^(ATTRIBUTE T["objectName"] $name)      								
-  	                                ^(ATTRIBUTE T["attributeGuid"] $attr)      								
+      								^(ATTRIBUTE T["objectName"] $name)
+      								^(ATTRIBUTE T["attributeGuid"] $attr)      								
   	                                ^(ATTRIBUTE T["attributeName"] $attr)
+  	                                ^(ATTRIBUTE T["searchCategory"] T["tggObjectVariable"])
+									^(ATTRIBUTE T["search"] T["objectName"])
+									^(ATTRIBUTE T["searchCategory"] T["attribute"])
+									^(ATTRIBUTE T["search"] T["attributeGuid"])
   	                                ^(T["valueExpression"] $value)
   	      );
           

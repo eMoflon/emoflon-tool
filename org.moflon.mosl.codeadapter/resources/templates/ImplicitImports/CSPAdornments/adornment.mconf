@@ -9,7 +9,7 @@ udc {
 	add[BBB,BBF,BFB,FBB | FFB,FBF,BFF](EDouble,EDouble,EDouble) Information := "a + b = c"
 	sub[BBB,BBF,BFB,FBB | FFB,BFF,FBF,FFF](EDouble,EDouble,EDouble) Information := "a - b = c"
 	max[BBB,BBF,BFB,FBB](EDouble,EDouble,EDouble) Information := "max(a,b) = c"
-	stringToDouble[BB,BF,FB](EString,EDouble) Information := "string = number.toString()"
+	stringToDouble[BB,BF,FB | FF](EString,EDouble) Information := "string = number.toString()"
 	stringToInt[BB,BF,FB | FF](EString,EInt) Information := "string = number.toString()"
 	smallerOrEqual[BB,BF,FB | FF](EDouble, EDouble) Information := "a <= b"
 	eq[BB,BF,FB | FF] Information := "a = b"
