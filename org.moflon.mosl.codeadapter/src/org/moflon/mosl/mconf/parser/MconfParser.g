@@ -116,7 +116,7 @@ adornmentRule
   SQUARED_BRACKET_OPEN adornments+=ADORNMENT (COMMA adornments+=ADORNMENT)* (LINE genmod_adornments+=ADORNMENT | LINE genmod_adornments+=ADORNMENT (COMMA genmod_adornments+=ADORNMENT)+)? SQUARED_BRACKET_CLOSE
     ->
       ^(ALLOWED_ADORNMENTS $adornments+)
-      ^(GENMOD_ADORNMENTS $adornments+ $genmod_adornments*)
+      ^(MODELGEN_ADORNMENTS $adornments+ $genmod_adornments*)
   ;
 
 signatureRule
