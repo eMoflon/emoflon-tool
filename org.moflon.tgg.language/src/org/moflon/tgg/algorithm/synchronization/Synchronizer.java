@@ -151,12 +151,12 @@ public abstract class Synchronizer
       Graph allRevokedElts = Graph.getEmptyGraph();
 
       toBeChanged.forEach(attrDelta -> toBeChecked.addAll(collectMatches(attrDelta.getAffectedNode())));
-      
+
       while (!toBeChecked.isEmpty())
       {
          TripleMatch tMatch = chooseNext(toBeChecked);
          AttributeConstraintsRuleResult acRuleResult = checkCSP(tMatch);
-         
+
          if (acRuleResult.isSuccess())
          {
             if (acRuleResult.isRequiredChange())
@@ -180,26 +180,28 @@ public abstract class Synchronizer
 
    private TripleMatch chooseNext(Collection<TripleMatch> toBeChecked)
    {
-      for(TripleMatch m : toBeChecked){
+      for (TripleMatch m : toBeChecked)
+      {
          if (protocol.ancestors(m).stream().noneMatch(ascendant -> toBeChecked.contains(ascendant)))
             return m;
       }
-      
+
       throw new IllegalStateException("No next candidate match found in toBeChecked!");
    }
 
    /**
-    * Collect all matches that have to be considered due to changing attributes of node.
-    * Note that if node has already been revoked, the protocol will return neither creating nor context matches for it.
+    * Collect all matches that have to be considered due to changing attributes of node. Note that if node has already
+    * been revoked, the protocol will return neither creating nor context matches for it.
+    * 
     * @param node
     * @param toBeChecked
-    * @return 
+    * @return
     */
    private Collection<TripleMatch> collectMatches(EObject node)
    {
       Stream<TripleMatch> creatingMatches = protocol.getCreatingMatches(node);
       Stream<TripleMatch> contextMatches = protocol.getContextMatches(node);
-      
+
       return Stream.concat(creatingMatches, contextMatches).collect(Collectors.toList());
    }
 
@@ -339,7 +341,7 @@ public abstract class Synchronizer
 
       TripleMatch newTripleMatch = createTripleMatch(performRR, isApplMatch);
       protocol.collectPrecedences(newTripleMatch);
-      
+
       createdTripleMatchesInLastStep.add(newTripleMatch);
 
       return performRR;
@@ -585,4 +587,10 @@ public abstract class Synchronizer
    {
       return createdTripleMatchesInLastStep;
    }
+
+   public TempOutputContainer getTempOutputContainer()
+   {
+      return tempOutputContainer;
+   }
+
 }

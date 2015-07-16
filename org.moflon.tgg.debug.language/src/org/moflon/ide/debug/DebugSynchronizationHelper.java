@@ -49,6 +49,7 @@ import DebugLanguage.DebugTripleMatch;
 import DebugLanguage.DeletionPhase;
 import DebugLanguage.InitializationPhase;
 import DebugLanguage.TranslationPhase;
+import TGGLanguage.algorithm.TempOutputContainer;
 import TGGLanguage.analysis.AnalysisFactory;
 import TGGLanguage.analysis.Rule;
 import TGGLanguage.analysis.StaticAnalysis;
@@ -59,7 +60,6 @@ import TGGRuntime.Delta;
 import TGGRuntime.EMoflonEdge;
 import TGGRuntime.Match;
 import TGGRuntime.PrecedenceStructure;
-import TGGRuntime.TGGRuntimeFactory;
 import TGGRuntime.TripleMatch;
 
 /**
@@ -178,7 +178,6 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       HashMap<String, String> options = new HashMap<String, String>();
       options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, Boolean.FALSE.toString());
       XMLProcessor processor = new XMLProcessor();
-      System.out.println("INIT DONE");
       if (eObject.eResource() == null)
       {
          XMLResourceImpl resource = new XMLResourceImplExtension();
@@ -344,7 +343,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
             match.getContextEdges().forEach(e -> newMatch.getContext().add(traverseToProxy(e, DebugEObjectProxy.class)));
             match.getToBeTranslatedNodes().forEach(e -> newMatch.getToBeTranslated().add(traverseToProxy(e, DebugEObjectProxy.class)));
             match.getToBeTranslatedEdges().forEach(e -> newMatch.getToBeTranslated().add(traverseToProxy(e, DebugEObjectProxy.class)));
-            
+
             proxy = newMatch;
          } else if (obj instanceof TripleMatch)
          {
@@ -410,6 +409,19 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
                throw new RuntimeException("The attribute for the given delta could not be found. Please contact the eMoflon Team.");
             }
             proxy = newAttributeDelta;
+         } else if (obj instanceof TempOutputContainer)
+         {
+            TempOutputContainer toc = (TempOutputContainer) obj;
+            if (toc.getPotentialRoots().size() == 1)
+            {
+               proxy = traverseToProxy(toc.getPotentialRoots().get(0));
+            } else if (toc.getPotentialRoots().size() > 0)
+            {
+               proxy = traverseToProxy(toc);
+            } else if (toc.getPotentialRoots().size() == 0)
+            {
+               return null;
+            }
          } else if (obj instanceof EObject)
          {
             proxy = traverseToDebugProxy((EObject) obj);
@@ -607,13 +619,27 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       return dm;
    }
 
-   public static DebugModel toTranslationPhase(CorrespondenceModel corr, Graph toBeTranslated, Collection<EObject> translated,
-         Collection<org.moflon.tgg.algorithm.datastructures.TripleMatch> allToBeRevokedTripleMatches, Graph revokedElements, PrecedenceStructure protocol,
-         Collection<TripleMatch> newlyCreatedTripleMatches, Collection<Match> precedenceGraph)
+   public static DebugModel toTranslationPhase(CorrespondenceModel corr, TempOutputContainer tempOutputContainer, Graph toBeTranslated,
+         Collection<EObject> translated, Collection<org.moflon.tgg.algorithm.datastructures.TripleMatch> allToBeRevokedTripleMatches, Graph revokedElements,
+         PrecedenceStructure protocol, Collection<TripleMatch> newlyCreatedTripleMatches, Collection<Match> precedenceGraph)
    {
       visited.clear();
-      DebugEObjectProxy srcProxy = traverseToProxy(corr.getSource(), DebugEObjectProxy.class);
-      DebugEObjectProxy trgProxy = traverseToProxy(corr.getTarget(), DebugEObjectProxy.class);
+      DebugEObjectProxy srcProxy;
+      if (corr.getSource() == null)
+      { // In a translation step the source model is empty (backward)
+         srcProxy = traverseToProxy(tempOutputContainer, DebugEObjectProxy.class);
+      } else
+      {
+         srcProxy = traverseToProxy(corr.getSource(), DebugEObjectProxy.class);
+      }
+      DebugEObjectProxy trgProxy;
+      if (corr.getTarget() == null)
+      { // In a translation step the target model is empty (forward)
+         trgProxy = traverseToProxy(tempOutputContainer, DebugEObjectProxy.class);
+      } else
+      {
+         trgProxy = traverseToProxy(corr.getTarget(), DebugEObjectProxy.class);
+      }
       DebugModel dm = DebugLanguageFactory.eINSTANCE.createDebugModel();
       TranslationPhase tp = DebugLanguageFactory.eINSTANCE.createTranslationPhase();
       dm.getPhases().add(tp);
@@ -720,8 +746,9 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
    {
       try
       {
-         return convertToXml(toTranslationPhase(synchronizer.getGraphTriple(), synchronizer.getToBeTranslated(), synchronizer.getTranslated(),
-               synchronizer.getAllToBeRevokedTripleMatches(), synchronizer.getAllRevokedElts(), synchronizer.getProtocol().save(),
+         return convertToXml(toTranslationPhase(synchronizer.getGraphTriple(), synchronizer.getTempOutputContainer(), synchronizer.getToBeTranslated(),
+               synchronizer.getTranslated(), synchronizer.getAllToBeRevokedTripleMatches(), synchronizer.getAllRevokedElts(),
+               synchronizer.getProtocol().save(),
                DebugSynchronizationProtocolHelper.convertInternalTripleMatchesToEMFTripleMatches(synchronizer.getCreatedTripleMatch()),
                synchronizer.getInputMatches()));
       } catch (IOException e)
