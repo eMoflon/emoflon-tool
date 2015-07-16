@@ -124,7 +124,7 @@
 	<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
          required = "false"
       param1 = "resources/tutorial-Sokoban/Chapter3/Step11"
-      param2 = "SokobanCodeAdapter/src/org/moflon/moca/sok"/>>
+      param2 = "SokobanCodeAdapter"/>>
 </item>
 
 <item title="Step 4 - Including a concrete textual syntax">
@@ -390,14 +390,14 @@
    <description>
    	  The last step of any rule is to declare constraints to ensure attributes of one 
    	  model are equal to those in the other i.e., values in an instance of 
-   	  Sokobanlanguage are consistent with those in MocaTree. Press "Click to Proceed" for
+   	  SokobanLanguage are consistent with those in MocaTree. Press "Click to proceed" for
    	  a listing of all pre-existing constraints or edit the 'constraints' scope as 
    	  follows: <br/>
       
       <br/>
-      <b> stringToNumber(rowCountNode.name,board.height) </b> <br/>
+      <b> stringToInt(rowCountNode.name,board.height) </b> <br/>
       <br/>
-      <b> stringToNumber(columnCountNode.name,board.width) </b> <br/>
+      <b> stringToInt(columnCountNode.name,board.width) </b> <br/>
       
       <br/>
       Your first TGG rule is now complete! Save and build your workspace, confirming no

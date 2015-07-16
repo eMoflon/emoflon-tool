@@ -147,7 +147,7 @@ rule BoardNodeToBoardRule {
 	// 	meaning that they will also convert an EInt into a STRING.
 
 	constraints {
-		stringToNumber(rowCountNode.name, board.height)
-		stringToNumber(columnCountNode.name, board.width)
+		stringToInt(rowCountNode.name, board.height)
+		stringToInt(columnCountNode.name, board.width)
 	}
 }
