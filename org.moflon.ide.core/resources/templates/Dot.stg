@@ -9,7 +9,7 @@ digraph "<directGraph.name>" {
 >>
 
 SubGraph(subGraph) ::= <<
-subgraph "cluster_<subGraph.name>" {
+subgraph "<if(subGraph.cluster)>cluster_<endif><subGraph.name>" {
 	 label="";
 	 pencolor="invis";
      <Pattern(subGraph.nodes, subGraph.edges)>

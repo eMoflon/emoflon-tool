@@ -167,7 +167,7 @@ public class MetamodelBuilder extends AbstractBuilder
             resource.save(saveOnlyIfChangedOption);
          } catch (IOException e)
          {
-            logger.warn(resource.getURI() + ": " + e.getMessage());
+            logger.debug(resource.getURI() + ": " + e.getMessage());
          }
       }
    }

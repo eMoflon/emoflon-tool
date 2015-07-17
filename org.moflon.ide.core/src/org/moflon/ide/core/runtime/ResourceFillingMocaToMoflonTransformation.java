@@ -154,7 +154,7 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
                subMonitor.worked(32);
             } catch (RuntimeException e)
             {
-               logger.warn("Ignoring " + getProjectName(node));
+               logger.debug("Ignoring " + getProjectName(node));
             }
          }
       } finally
