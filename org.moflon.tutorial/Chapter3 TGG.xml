@@ -417,64 +417,11 @@
      title="Step 10 - LeftColumnNodeToFloorRule"
      validation="chapter3;6">
      <description>
-     	This rule will handle all the floors in the leftmost
-     	column, similar to how the previous rule exclusively handles all the floors in
-     	the topmost row. In fact, if you understood the previous rule, the following
-     	two should be easy to follow as they are so similar. Create and complete each scope
-     	in <b>LeftColumnFoorToNodeRule</b> as follows: <br/>
-     
-     	<br/>Source: <br/>
-     	
-     	<br/>
-     	<b> boardNode : Node { </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; boardNode.name == "BOARD" </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; ++ -children-> rowNode </b> <br/>
-     	<b> } </b> <br/>
-     	
-     	<br/>
-     	<b> ++ rowNode : Node { </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; rowNode.name := "ROW" </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; ++ -children-> columnNode </b><br/>
-     	<b> } </b> <br/>
-     	
-     	<br/>
-     	<b> ++ columnNode : Node { </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; columnNode.index := 0 </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; columnNode.name := "COLUMN" </b> <br/>
-     	<b> } </b> <br/>
-     
-     	<br/>Target:<br/>
-     	
-     	<br/>
-     	<b> board : Board { </b> <br/> 
-     	<b> &#160;&#160;&#160;&#160;&#160; -floors-> topNeighbor </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; ++ -floors-> floor </b> <br/>
-     	<b> } </b> <br/>
-     	
-     	<br/>
-     	<b> topNeighbor : Floor { </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; topNeighbor.col == 0 </b> <br/>
-     	<b> } </b> <br/>
-     	
-     	<br/>
-     	<b> ++ floor : Floor { </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; floor.col := 0 </b> <br/>
-     	<b> &#160;&#160;&#160;&#160;&#160; ++ -top-> topNeighbor </b> <br/>
-     	<b> } </b> <br/>
-     	
-     	<br/>Correspondence:<br/>
-     	
-     	<br/>
-     	<b> boardNode &lt;- nodeToBoard : NodeToBoard -> board </b> <br/>
-     	<b> ++ columnNode &lt;- nodeToFloor: NodeToFloor -> floor </b>
-     	<br/>
-     	
-     	<br/>Constraints:<br/>
-     	
-     	<br/>
-     	<b> sub(floor.row, 1, topNeighbor.row) </b> <br/>
-     	<b> eq(floor.row, rowNode.index) </b>
-     	
+     	This rule will handle all the floors in the leftmost column, now that the previous rule has 
+     	created the first left- and top-most floor.
+     	As all floors in the leftmost column (apart from the first, topmost one) all follow the same pattern
+     	(connected to their top neighbour), this rule can be used to handle all of them uniformly.
+     	Press "Click to proceed" to load the rule and take a good look at it.
      </description>
 	<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
     	required = "false"
@@ -487,65 +434,12 @@
          validation="chapter3;7">
     <description>
     	This rule will create and append new Floors into the first row, connecting
-    	each to its neighbor starting from our established origin element. Right-click
-    	on "Rules" once again, and create a new TGG Rule called
-    	<b>TopFloorToNodeRule</b>.
-    	<br/>Complete each scope as follows:<br/>
-    	
-    	<br/>Source: <br/>
-    	
-    	<br/>
-    	<b> boardNode : Node { </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; boardNode.name == "BOARD" </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; -children-> rowNode </b> <br/>
-    	<b> } </b> <br/>
-    	
-    	<br/>
-    	<b> rowNode : Node { </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; rowNode.index == 0 </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; rowNode.name == "ROW" </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; ++ -children-> columnNode </b> <br/>
-    	<b> } </b> <br/>
-    	
-    	<br/>
-    	<b> ++ columnNode : Node { </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; columnNode.name := "COLUMN" </b>  <br/>
-    	<b> } </b> <br/>
-    	
-    	
-    	<br/>Target: <br/>
-    	
-    	<br/>
-    	<b> board : Board { </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; -floors-> leftNeighbor </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; ++ -floors-> floor </b> <br/>
-    	<b> } </b> <br/>
-    	
-    	<br/>
-    	<b> leftNeighbor : Floor { </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; leftNeighbor.row == 0 </b> <br/>
-    	<b> } </b> <br/>
-    	
-    	<br/>
-    	<b> ++ floor : Floor { </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; floor.row := 0 </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; ++ -left-> leftNeighbor </b> <br/>
-    	<b> } </b> <br/>
-    	
-    	
-    	<br/>Correspondence: <br/>
-    	
-    	<br/>
-		<b> boardNode &lt;- nodeToBoard  :  NodeToBoard -> board </b> <br/>
-		<b> ++ columnNode &lt;- nodeToFloor : NodeToFloor-> floor </b> <br/>
-    	
-    	<br/>Constraints: <br/>
-    	
-    	<br/>
-    	<b> sub(floor.col, 1 , leftNeighbor.col) </b><br/>
-    	<b> eq(floor.col, columnNode.index) </b>
-    	<br/>
-    	
+    	each floor to its left neighbor starting from our already established topmost, leftmost floor. 
+  		This is now the third pattern we have seen, i.e., (1) was the topmost, leftmost floor, (2) was all floors in the leftmost column,
+  		and now (3) all floors in the topmost row.
+  		This strategy of breaking down a problem into parts that can be addressed with the same pattern is crucial for applying TGGs.
+  		<br/>
+  		Press "Click to proceed" to load the rule and take a good look at it.
     </description>
 	 <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
          required = "false"
@@ -557,76 +451,10 @@
          title="Step 12 - AllOtherNodeToFloorRule"
          validation="chapter3;8">
     <description>
-    	This goal of this rule is to transform all remaining floor elements (i.e., those
-    	that don't belong to the top row or left column). 
-    	<br/>Create and complete <b>AllOtherFloorToNodeRule</b> as follows:<br/>
-    	
-    	<br/>Source: <br/>
-    	
+    	The final pattern involved can be used to handle all other floors, which have both a top and a left neighbour (i.e., those
+    	that belong neither to the top row nor to the left column of the board). 
     	<br/>
-		<b> boardNode : Node { </b> <br/>
-		<b> &#160;&#160;&#160;&#160;&#160; boardNode.name == "BOARD" </b> <br/>
-		<b> &#160;&#160;&#160;&#160;&#160; -children-> rowNode </b> <br/>
-		<b> } </b> <br/>
-		
-		<br/>
-		<b> rowNode : Node { </b> <br/>
-		<b> &#160;&#160;&#160;&#160;&#160; rowNode.name == "ROW" </b> <br/>
-		<b> &#160;&#160;&#160;&#160;&#160; rowNode.index != 0 </b> <br/>
-		<b> } </b> <br/>
-		
-		<br/>
-		<b> ++ columnNode : Node { </b> <br/>
-		<b> &#160;&#160;&#160;&#160;&#160; columnNode.name := "COLUMN" </b> <br/>
-		<b> &#160;&#160;&#160;&#160;&#160; ++ -parentNode-> rowNode </b> <br/>
-		<b> } </b> <br/>
-		
-		
-    	<br/>Target: <br/>
-    	
-    	<br/>
-    	<b> board : Board { </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; -floors-> leftNeighbor </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; -floors-> topNeighbor </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; ++ -floors-> floor </b> <br/>
-    	<b> } </b> <br/>
-    	
-    	<br/>
-    	<b> leftNeighbor : Floor </b> <br/>
-    	
-    	<br/>
-    	<b> topNeighbor : Floor </b> <br/>
-    	
-    	<br/>
-    	<b> ++ floor : Floor { </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; ++ -left-> leftNeighbor </b> <br/>
-    	<b> &#160;&#160;&#160;&#160;&#160; ++ -top-> topNeighbor </b> <br/>
-    	<b> } </b> <br/>
-    	
-		<br/>Correspondence: <br/>
-    	
-		<br/>
-    	<b> boardNode &lt;- nodeToBoard : NodeToBoard -> board </b> <br/>
-    	<b> ++ columnNode &lt;- nodeToFloor : NodeToFloor -> floor </b> <br/>
-    	
-		<br/>Constraints: <br/>
-		
-		<br/>
-		<b> sub(floor.row, 1, topNeighbor.row) </b> <br/>
-		<b> sub(floor.col, 1, leftNeighbor.col) </b> <br/>
-		<br/>
-		<b> eq(floor.row, rowNode.index) </b> <br/>
-		<b> eq(floor.col, columnNode.index) </b> <br/>
-		<b> eq(floor.row, leftNeighbor.row) </b> <br/>
-		<b> eq(floor.col, topNeighbor.col) </b> <br/>
-		
-		<br/>
-		You'll notice that this rule has more attributes to take care of, namely
-		leftNeighbor and topNeightbor. You'll also notice that 'right' and 'bottom' never
-		seem to be mentioned. Don't forget that you established these references as
-		bidirectional and opposites in Chapter 1, meaning that when you set one, you set
-		the other automatically.
-		
+    	Press again "Click to proceed" to load this last rule for floors and look through it carefully.
     </description>
 	<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
          required = "false"
@@ -641,11 +469,11 @@
      validation="chapter3;9">
     <description>
     	Let's finally handle our Figure types! Figure itself is an abstract 
-    	class, so we won't need to provide any direct transformation on that type.
+    	class, so we won't need to provide any rule to handle that type.
     	Instead, we need 4 rules for each unique figure type, Admin, Server,
     	Goal, and Wall.
     	
-		<br/>Create and complete <b>AdminNodeToFigureRule</b> as follows:<br/>
+		<br/>As these rules are not so large, create and complete <b>AdminNodeToFigureRule</b> yourself as follows:<br/>
 
 		<br/>Source: <br/>
 
@@ -686,7 +514,7 @@
     	each of the different symbols in the previous Step, so create and complete
     	<b>ServerNodeToFigureRule</b>, <b>GoalNodeToFigureRule</b>, and 
     	<b>WallNodeToFigureRule</b> by copying the majority of this rule, and editing where
-    	necessary. You may, of course, press "Click to Proceed" to load these commented 
+    	necessary. As always, you may, of course, press "Click to proceed" to load these commented 
     	solutions into your workspace.
     </description>
 		<action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
@@ -699,7 +527,7 @@
       title="Step 14 - Refreshing the GUI">
    <description>
    		Let's update the GUI so it includes functionality to allow you to both play our game as we just implemented, or
-   		save or load any valid game state to a .sok text tile! Press "Click to Proceed" below to load the required files 
+   		save or load any valid game state to a .sok text tile! Press "Click to proceed" below to load the required files 
    		into your workspace.
    </description>
    	  <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
