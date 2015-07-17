@@ -21,11 +21,17 @@ rule TopRowNodeToFloorRule {
 		++ columnNode : Node { 
 			columnNode.name := "COLUMN"
 		}
+		
+		leftColNode : Node { 
+			leftColNode.name == "COLUMN"
+			-parentNode-> rowNode
+		}
 	}
 	
 	
 	correspondence {
 		boardNode <- nodeToBoard : NodeToBoard -> board
+		leftColNode <- leftColToFloor : NodeToFloor -> leftNeighbor
 		++ columnNode <- nodeToFloor : NodeToFloor -> floor
 	}
 	
@@ -48,5 +54,6 @@ rule TopRowNodeToFloorRule {
 	constraints {
 		sub(floor.col, 1, leftNeighbor.col)
 		eq(floor.col, columnNode.index)
+		sub(columnNode.index, 1, leftColNode.index)
 	}
 }

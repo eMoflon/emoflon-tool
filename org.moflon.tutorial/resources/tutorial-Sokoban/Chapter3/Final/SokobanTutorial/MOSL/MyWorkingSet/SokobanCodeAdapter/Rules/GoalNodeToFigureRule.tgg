@@ -16,7 +16,6 @@ rule GoalNodeToFigureRule {
 	}
 	
 	target {
-
 		// Create a new reference to an Admin
 		floor : Floor { 
 		++ -figure-> goal

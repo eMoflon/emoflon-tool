@@ -16,7 +16,6 @@ rule WallNodeToFigureRule {
 	}
 	
 	target {
-
 		// Create a new reference to an Admin
 		floor : Floor { 
 		++ -figure-> wall

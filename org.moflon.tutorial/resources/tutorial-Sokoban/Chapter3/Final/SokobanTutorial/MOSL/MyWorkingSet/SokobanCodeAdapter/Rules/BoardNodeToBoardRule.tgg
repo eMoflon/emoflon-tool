@@ -135,9 +135,9 @@ rule BoardNodeToBoardRule {
 		
 		++ topLeftFloor : Floor { 
 			topLeftFloor.row := 0
-			topLeftFloor.col := 0
+			topLeftFloor.col := 0 
 		}
-	}
+	} 
 	
 	
 	// Finally, these two correspondence constraints ensure that the dimensions are
@@ -146,7 +146,7 @@ rule BoardNodeToBoardRule {
 	//	numerical value. Note that these constraints are valid in both directions,
 	// 	meaning that they will also convert an EInt into a STRING.
 
-	constraints {
+	constraints { 
 		stringToInt(rowCountNode.name, board.height)
 		stringToInt(columnCountNode.name, board.width)
 	}

@@ -1,4 +1,4 @@
-rule LeftcolumnNodeToFloorRule {
+rule LeftColumnNodeToFloorRule {
 // In order to complete the construction of Board, we should separately connect Floor spaces
 // 	in the leftmost column, those in the topmost row (effectively completing the two exposed
 // 	sides of the origin Floor space), then finally all the rest in the middle. 
@@ -17,6 +17,17 @@ rule LeftcolumnNodeToFloorRule {
 			++ -children-> rowNode
 		}
 	
+		topRowNode : Node { 
+			topRowNode.name == "ROW"
+			-parentNode-> boardNode
+		}
+	
+		topColNode : Node { 
+			topColNode.name == "COLUMN"
+			topColNode.index == 0
+			-parentNode-> topRowNode
+		}
+	
 		++ rowNode : Node { 
 			rowNode.name := "ROW"
 			++ -children-> columnNode
@@ -32,6 +43,7 @@ rule LeftcolumnNodeToFloorRule {
 	//	and that the new column elements in both domains are equivalent.
 	correspondence {
 		boardNode <- nodeToBoard : NodeToBoard -> board
+		topColNode <- topToFloor : NodeToFloor -> topNeighbor
 		++ columnNode <- nodeToFloor : NodeToFloor -> floor
 	}
 	
@@ -61,7 +73,8 @@ rule LeftcolumnNodeToFloorRule {
 		// 	connected directly below the previous instance. The latter then makes sure
 		//	the row values in both domains are equivalent.
 	constraints {
-		sub(floor.row, 1, topNeighbor.row)
+		sub(floor.row, 1, topNeighbor.row) 
 		eq(floor.row , rowNode.index)	
+		sub(rowNode.index, 1, topRowNode.index)
 	}
 }

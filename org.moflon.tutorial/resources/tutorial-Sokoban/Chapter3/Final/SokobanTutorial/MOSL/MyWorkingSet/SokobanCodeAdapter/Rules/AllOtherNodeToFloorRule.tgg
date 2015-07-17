@@ -16,10 +16,27 @@ rule AllOtherNodeToFloorRule {
 			columnNode.name := "COLUMN"
 			++ -parentNode-> rowNode
 		}
+		
+		leftColNode : Node { 
+			leftColNode.name == "COLUMN"
+			- parentNode -> rowNode			
+		}
+		
+		topRowNode : Node { 
+			topRowNode.name == "ROW"
+			 - parentNode -> boardNode
+		}
+		
+		topColNode : Node { 
+			topColNode.name == "COLUMN"
+			 - parentNode -> topRowNode
+		} 
 	}
 	
 	correspondence {
 		boardNode <- nodeToBoard : NodeToBoard -> board
+		leftColNode <- l2f : NodeToFloor -> leftNeighbor
+		topColNode <- t2f : NodeToFloor -> topNeighbor
 		++ columnNode <- nodeToFloor : NodeToFloor -> floor
 	}
 	
@@ -49,5 +66,9 @@ rule AllOtherNodeToFloorRule {
 		eq(floor.col, columnNode.index)
 		eq(floor.row, leftNeighbor.row)
 		eq(floor.col, topNeighbor.col)
+		
+		sub(columnNode.index, 1, leftColNode.index)
+		sub(rowNode.index, 1, topRowNode.index)
+		eq(topColNode.index, columnNode.index)
 	}
 }

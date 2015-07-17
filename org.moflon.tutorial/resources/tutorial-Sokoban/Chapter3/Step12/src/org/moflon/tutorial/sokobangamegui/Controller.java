@@ -122,30 +122,24 @@ public class Controller {
 		/* Save current board to instances/tempBoard.xmi */
 		String tempBoard = "instances" + File.separator + "tempBoard.xmi";
 		eMoflonEMFUtil.saveModel(board, tempBoard);
-		
-		try {
-			TGGMain helper = new TGGMain();
-			
-			/* transform board .xmi instance to tree .xmi instance */
-			helper.performBackward(tempBoard);
-			
-			/* Get current directory reference */
-			File file = new File(tempBoard);
-			String parentDir = file.getParent();
-			
-			/* Get user's desired filename from JFrame dialog */
-			Path tempPath = Paths.get(saveToFileName);
-			String fileName = tempPath.getFileName().toString();
-			
-			/* Unparse tree into .sok instance */
-			helper.performUnParse(parentDir, helper, fileName);
-			
-			System.out.println("Board instance successfully saved!");
-			
-		} catch (IOException e) {
-			// e.printStackTrace();
-			System.out.println("Failed to save .sok instance");
-		}
+
+		TGGMain helper = new TGGMain("../SokobanCodeAdapter/");
+
+		/* transform board .xmi instance to tree .xmi instance */
+		helper.performBackward(tempBoard);
+
+		/* Get current directory reference */
+		File file = new File(tempBoard);
+		String parentDir = file.getParent();
+
+		/* Get user's desired filename from JFrame dialog */
+		Path tempPath = Paths.get(saveToFileName);
+		String fileName = tempPath.getFileName().toString();
+
+		/* Unparse tree into .sok instance */
+		helper.performUnParse(parentDir, helper, fileName);
+
+		System.out.println("Board instance successfully saved!");
 	}
 	
 
