@@ -9,10 +9,10 @@
     <package class="TGGLanguage.TGGLanguagePackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="TGGLanguage.consistencycheck.ConsistencycheckPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//consistencycheck"/>
+    <package class="TGGLanguage.csp.CspPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="TGGLanguage.csp.CspPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp"/>
+    <package class="TGGLanguage.consistencycheck.ConsistencycheckPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//consistencycheck"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="TGGLanguage.modelgenerator.ModelgeneratorPackage" genModel="model/TGGLanguage.genmodel" uri="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//modelgenerator"/>

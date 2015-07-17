@@ -526,24 +526,44 @@ public class SynchronizationHelper
 
    public void saveSrc(final String path)
    {
+      if(src == null){
+         logger.error("Sorry, I don't have any source model to save.");
+         return;
+      }
+      
       src.eResource().setURI(eMoflonEMFUtil.createFileURI(path, false));
       eMoflonEMFUtil.saveModel(src.eResource().getResourceSet(), src, path);
    }
 
    public void saveTrg(final String path)
    {
+      if(trg == null){
+         logger.error("Sorry, I don't have any target model to save.");
+         return;
+      }
+         
       trg.eResource().setURI(eMoflonEMFUtil.createFileURI(path, false));
       eMoflonEMFUtil.saveModel(trg.eResource().getResourceSet(), trg, path);
    }
 
    public void saveCorr(final String path)
    {
+      if(corr == null){
+         logger.error("Sorry, I don't have any correspondence model to save.");
+         return;
+      }
+      
       corr.eResource().setURI(eMoflonEMFUtil.createFileURI(path, false));
       eMoflonEMFUtil.saveModel(corr.eResource().getResourceSet(), corr, path);
    }
 
    public void saveSynchronizationProtocol(final String path)
    {
+      if(protocol == null){
+         logger.error("Sorry, I don't have a synchronization protocol to save.");
+         return;
+      }
+      
       TGGRuntime.PrecedenceStructure ps = protocol.save();
       set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(ps);
       eMoflonEMFUtil.saveModel(ps.eResource().getResourceSet(), ps, path);
