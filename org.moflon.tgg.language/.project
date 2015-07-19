@@ -40,6 +40,11 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.moflon.ide.debug.annotation.processor.builder.BreakpointBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.moflon.ide.ui.runtime.natures.RepositoryNature</nature>

@@ -221,26 +221,47 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
 
    Image context = Activator.getImage("icons/full/obj16/context.png").createImage();
 
+   protected Image getTripleMatchImage(ChangeMode mode)
+   {
+      switch (mode)
+      {
+      case ADDED:
+         return tripleMatchAdded;
+      case DELETED:
+         return tripleMatchDeleted;
+      case NONE:
+         return arrow;
+      default:
+         break;
+      }
+      return null;
+   }
+
+   protected Image getCorrespondenceImage()
+   {
+      return correspondence;
+   }
+
+   protected Image getSynchronizationImage()
+   {
+      return sync;
+   }
+
+   protected Image getMatchImage()
+   {
+      return match;
+   }
+
    @Override
    public Image getImage(Object element)
    {
       if (element instanceof TripleMatchVariable)
       {
          TripleMatchVariable variable = (TripleMatchVariable) element;
-         switch (((ChangeMode) variable.getAdapter(ChangeMode.class)))
-         {
-         case ADDED:
-            return tripleMatchAdded;
-         case DELETED:
-            return tripleMatchDeleted;
-         case NONE:
-            return arrow;
-         default:
-            break;
-         }
+         return getTripleMatchImage((ChangeMode) variable.getAdapter(ChangeMode.class));
       } else if (element instanceof MatchVariable)
       {
-         return match;
+         return getMatchImage();
       } else if (element instanceof RuleVariable || element instanceof RulesVariable)
       {
          return rule;
@@ -249,7 +270,7 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
          return configurator;
       } else if (element instanceof SynchronizationVariable)
       {
-         return sync;
+         return getSynchronizationImage();
       } else if (element instanceof DeltaVariable)
       {
          return delta;
@@ -271,7 +292,7 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
          }
       } else if (element instanceof DebugCorrespondenceVariable)
       {
-         return correspondence;
+         return getCorrespondenceImage();
       } else if (element instanceof EListVariable)
       {
          EListVariable eListVar = (EListVariable) element;
@@ -320,6 +341,7 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
          case TRANSLATED:
             return itemTranslated;
          case NONE:
+         case ADDED:
             return adapterFactoryLabelProvider.getImage(adaptable.getAdapter(EObject.class));
          default:
             break;

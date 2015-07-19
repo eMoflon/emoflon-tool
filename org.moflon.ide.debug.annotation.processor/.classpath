@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry excluding="main/resources/" kind="src" path="src"/>
 	<classpathentry kind="src" path="src/main/resources"/>
-	<classpathentry exported="true" kind="lib" path="lib/tools.jar" sourcepath="C:/Program Files/Java/jdk1.8.0_40/lib/tools.jar"/>
+	<classpathentry kind="lib" path="lib/tools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

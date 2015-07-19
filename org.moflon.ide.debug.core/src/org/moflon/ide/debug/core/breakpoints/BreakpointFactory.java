@@ -29,12 +29,10 @@ public class BreakpointFactory
       {
          return createDeletionBreakpoint((DeletionBreakpoint) bp, phase);
       } else if (phase instanceof AbstractPhase)
-
       {
          return createPhaseBreakpoint(bp, phase);
       } else
       {
-         // Null
          return null;
       }
    }

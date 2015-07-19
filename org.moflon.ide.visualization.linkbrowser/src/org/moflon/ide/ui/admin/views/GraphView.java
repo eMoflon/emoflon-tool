@@ -1,11 +1,15 @@
 package org.moflon.ide.ui.admin.views;
 
+import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.debug.ui.IDebugUIConstants;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.gef4.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.gef4.zest.core.viewers.GraphViewer;
 import org.eclipse.gef4.zest.core.viewers.IZoomableWorkbenchPart;
 import org.eclipse.gef4.zest.core.viewers.ZoomContributionViewItem;
 import org.eclipse.gef4.zest.core.widgets.Graph;
+import org.eclipse.gef4.zest.core.widgets.GraphItem;
 import org.eclipse.gef4.zest.core.widgets.ZestStyles;
 import org.eclipse.gef4.zest.layouts.LayoutAlgorithm;
 import org.eclipse.gef4.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
@@ -19,12 +23,16 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 import org.moflon.ide.ui.admin.views.listeners.DoubleClickListener;
 import org.moflon.ide.ui.admin.views.listeners.KeyListener;
@@ -89,7 +97,38 @@ public class GraphView extends ViewPart implements IZoomableWorkbenchPart
       //
       // }
       // });
+      getSite().getWorkbenchWindow().getSelectionService().addPostSelectionListener(IDebugUIConstants.ID_VARIABLE_VIEW, new ISelectionListener() {
 
+         private GraphItem lastSelection;
+
+         @Override
+         public void selectionChanged(IWorkbenchPart part, ISelection selection)
+         {
+            if (selection instanceof IStructuredSelection)
+            {
+               // TODO Multiple selection and unselection
+               IStructuredSelection is = (IStructuredSelection) selection;
+               Object o = is.getFirstElement();
+               if (o instanceof IVariable)
+               {
+                  IVariable iv = (IVariable) o;
+                  o = iv.getAdapter(EObject.class);
+               }
+
+               GraphItem gi = viewer.findGraphItem(o);
+               if (lastSelection != null)
+               {
+                  lastSelection.unhighlight();
+               }
+               lastSelection = gi;
+
+               if (gi != null)
+               {
+                  gi.highlight();
+               }
+            }
+         }
+      });
    }
 
    private void addDropSupport()

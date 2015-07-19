@@ -8,18 +8,22 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef4.zest.core.viewers.IEntityConnectionStyleProvider;
 import org.eclipse.gef4.zest.core.viewers.IEntityStyleProvider;
 import org.eclipse.gef4.zest.core.widgets.ZestStyles;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.ide.debug.ui.presentation.MoflonDebugModelPresentation;
 
 import DebugLanguage.DebugCorrespondence;
 import DebugLanguage.DebugCorrespondenceModel;
 import DebugLanguage.DebugEObjectProxy;
+import DebugLanguage.DebugMatch;
+import DebugLanguage.DebugSynchronizationProtocol;
+import DebugLanguage.DebugTripleMatch;
 import TGGRuntime.CorrespondenceModel;
 
-public class ModelLabelProvider extends LabelProvider implements IEntityStyleProvider, IEntityConnectionStyleProvider
+public class ModelLabelProvider extends MoflonDebugModelPresentation implements IEntityStyleProvider, IEntityConnectionStyleProvider
 {
 
    @Override
@@ -77,6 +81,27 @@ public class ModelLabelProvider extends LabelProvider implements IEntityStylePro
    @Override
    public Color getBackgroundColour(Object entity)
    {
+      if (entity instanceof DebugEObjectProxy)
+      {
+         DebugEObjectProxy proxy = (DebugEObjectProxy) entity;
+         switch (proxy.getChangeMode())
+         {
+         case ADDED:
+            return Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
+         default:
+            break;
+         }
+      } else if (entity instanceof DebugTripleMatch)
+      {
+         DebugTripleMatch dtm = (DebugTripleMatch) entity;
+         switch (dtm.getChangeMode())
+         {
+         case ADDED:
+            return Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
+         default:
+            break;
+         }
+      }
       return Display.getDefault().getSystemColor(SWT.COLOR_TITLE_BACKGROUND);
    }
 
@@ -159,6 +184,26 @@ public class ModelLabelProvider extends LabelProvider implements IEntityStylePro
    public ConnectionRouter getRouter(Object src, Object dest)
    {
       return null;
+   }
+
+   @Override
+   public Image getImage(Object element)
+   {
+      if (element instanceof DebugCorrespondence)
+      {
+         return getCorrespondenceImage();
+      } else if (element instanceof DebugTripleMatch)
+      {
+         DebugTripleMatch dtm = (DebugTripleMatch) element;
+         return getTripleMatchImage(dtm.getChangeMode());
+      } else if (element instanceof DebugSynchronizationProtocol)
+      {
+         return getSynchronizationImage();
+      } else if (element instanceof DebugMatch)
+      {
+         return getMatchImage();
+      }
+      return super.getImage(element);
    }
 
 }

@@ -3,6 +3,9 @@ package org.moflon.ide.debug.core.model.phases.translation;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jdt.debug.core.IJavaModifiers;
+import org.eclipse.jdt.debug.core.IJavaVariable;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 
 import DebugLanguage.DebugMatch;
@@ -85,4 +88,16 @@ public class MatchVariable extends MoflonDebugElement implements IVariable
       return false;
    }
 
+   @Override
+   public Object getAdapter(Class adapter)
+   {
+      if (adapter == IJavaVariable.class || adapter == IJavaModifiers.class)
+      {
+         return this;
+      } else if (adapter == EObject.class)
+      {
+         return match;
+      }
+      return super.getAdapter(adapter);
+   }
 }

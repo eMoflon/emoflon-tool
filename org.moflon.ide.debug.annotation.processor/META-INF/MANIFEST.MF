@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Java 6 Annotation Processor Plug-in
-Bundle-SymbolicName: org.example.java6processor;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Name: Java 6 Breakpoint Annotation Processor Plug-in
+Bundle-SymbolicName: org.moflon.ide.debug.annotation.processor;singleton:=true
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.example.processor.internal.Activator
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.apt.core,
  TGGLanguage;bundle-version="1.0.0",
@@ -17,9 +17,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;bundle-version="2.10.0",
  org.eclipse.ui.workbench;bundle-version="3.106.0",
  org.moflon.ide.debug.core;bundle-version="1.0.0",
- org.moflon.core.utilities;bundle-version="1.0.0"
+ org.moflon.core.utilities;bundle-version="1.0.0";visibility:=reexport,
+ org.moflon.ide.core
 Eclipse-LazyStart: true
-Export-Package: com.sun.source.tree
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: lib/tools.jar,
  .
+Export-Package: org.moflon.ide.debug.annotation.processor.builder

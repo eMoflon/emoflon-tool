@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.lang.model.element.Element;
 
+import org.apache.log4j.Logger;
 import org.moflon.tgg.algorithm.synchronization.DebugBreakpoint;
 
 import com.sun.source.tree.AnnotationTree;
@@ -40,6 +41,7 @@ import demo.codeanalyzer.helper.FieldInfoDataSetter;
  */
 public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees>
 {
+   public static final Logger log = Logger.getLogger(CodeAnalyzerTreeVisitor.class);
 
    // Model class stores the details of the visiting class
    private JavaClassInfo clazzInfo = new JavaClassInfo();
@@ -101,10 +103,10 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees>
                   String fullClassName = getCurrentPath().getCompilationUnit().getPackageName() + "." + classDeclaration.getSimpleName().toString();
                   phaseBreakpoints.put(DebugBreakpoint.Phase.valueOf(name), new Pair<String, Long>(fullClassName, linenumber));
                }
-               System.out.println(classDeclaration.getSimpleName() + "->" + annotationName + "#" + name + " : " + linenumber);
+               log.info(classDeclaration.getSimpleName() + "->" + annotationName + "#" + name + " : " + linenumber);
             } else
             {
-               System.out.println(classDeclaration.getSimpleName() + "->" + annotationName + " : " + linenumber);
+               log.info(classDeclaration.getSimpleName() + "->" + annotationName + " : " + linenumber);
             }
          }
       }

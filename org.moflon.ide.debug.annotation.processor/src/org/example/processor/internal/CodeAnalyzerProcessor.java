@@ -31,7 +31,17 @@ public class CodeAnalyzerProcessor extends AbstractProcessor
    // private JavacTrees trees;
    private Trees trees;
 
-   private static CodeAnalyzerTreeVisitor visitor;
+   private CodeAnalyzerTreeVisitor visitor;
+
+   protected CodeAnalyzerTreeVisitor getVisitor()
+   {
+      // Scanner class to scan through various component elements
+      if (visitor == null)
+      {
+         visitor = new CodeAnalyzerTreeVisitor();
+      }
+      return visitor;
+   }
 
    @Override
    public void init(ProcessingEnvironment pe)
@@ -41,17 +51,11 @@ public class CodeAnalyzerProcessor extends AbstractProcessor
       System.err.println(pe.getClass().getClassLoader());
       System.err.println(this.getClass().getClassLoader());
       trees = Trees.instance(pe);
-
-      // Scanner class to scan through various component elements
-      if (visitor == null)
-      {
-         visitor = new CodeAnalyzerTreeVisitor();
-      }
    }
 
    public Map<DebugBreakpoint.Phase, Pair<String, Long>> getPhaseBreakpoints()
    {
-      return visitor.getPhaseBreakpoints();
+      return getVisitor().getPhaseBreakpoints();
    }
 
    /**
@@ -67,7 +71,7 @@ public class CodeAnalyzerProcessor extends AbstractProcessor
    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment)
    {
       // invoke the scanner for all root elements
-      roundEnvironment.getRootElements().forEach(root -> visitor.scan(trees.getPath(root), trees));
+      roundEnvironment.getRootElements().forEach(root -> getVisitor().scan(trees.getPath(root), trees));
 
       return true;
    }

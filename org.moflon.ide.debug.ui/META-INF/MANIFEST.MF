@@ -29,5 +29,6 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.106.0",
  org.moflon.core.utilities;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: org.moflon.ide.debug.ui
+Export-Package: org.moflon.ide.debug.ui,
+ org.moflon.ide.debug.ui.presentation
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt

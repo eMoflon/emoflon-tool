@@ -35,7 +35,11 @@ public class ClassInfoDataSetter {
             ClassTree classTree, TreePath path, Trees trees) {
 
         TypeElement e = (TypeElement) trees.getElement(path);
-
+        
+        if (e == null){
+           return;
+        }
+        
         //Set qualified class name
         clazzInfo.setName(e.getQualifiedName().toString());
 

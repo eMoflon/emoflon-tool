@@ -662,6 +662,8 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
          if (newlyCreatedTripleMatches.stream().anyMatch(nctp -> nctp.getNumber() == m.getNumber()))
          {
             newMatch.setChangeMode(ChangeMode.ADDED);
+            newMatch.getCreatedElements().stream().filter(e -> e instanceof DebugEObjectProxy)
+                  .forEach(e -> ((DebugEObjectProxy) e).setChangeMode(ChangeMode.ADDED));
          }
          syncProtocol.getMatches().add(newMatch);
       }
