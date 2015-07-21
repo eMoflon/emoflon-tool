@@ -1,8 +1,15 @@
 package org.moflon.ide.debug.annotation.processor.builder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+
 import main.DebugAnnotation;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.CoreException;
@@ -10,6 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.builders.AbstractBuilder;
@@ -26,6 +34,34 @@ public class BreakpointBuilder extends AbstractBuilder
    @Override
    protected void cleanResource(final IProgressMonitor monitor) throws CoreException
    {
+   }
+
+   /**
+    * Check whether the current project has build issues (e.g. due to a missing eMoflon build). Only if no errors are
+    * reported the builder runs.
+    */
+   @Override
+   protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException
+   {
+      IMarker[] findMarkers = getProject().findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+      long count = Arrays.asList(findMarkers).stream().filter(m -> {
+         try
+         {
+            return m.getAttribute(IMarker.SEVERITY) != null && m.getAttribute(IMarker.SEVERITY).equals(IMarker.SEVERITY_ERROR);
+         } catch (Exception e)
+         {
+            return false;
+         }
+      }).count();
+      if (count == 0)
+      {
+         return super.build(kind, args, monitor);
+      } else
+      {
+         logger.warn("The Breakpoint Builder was not executed due to " + count + " issues in the project " + getProject().getName()
+               + ". Please build the project correctly and try again.");
+      }
+      return null;
    }
 
    @Override
