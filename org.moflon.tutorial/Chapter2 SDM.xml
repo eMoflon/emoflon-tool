@@ -27,9 +27,9 @@
          
          <br/>
          <b> moveTo(floor : Floor) : void { </b><br/>
-         <b> &#160;&#160;&#160;&#160;&#160; if [moveFigure] { </b><br/>
+         <b> &#160;&#160;&#160;&#160;&#160; if [moveFigure] </b><br/>
          <b> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; return </b><br/>
-         <b> &#160;&#160;&#160;&#160;&#160; } </b><br/>
+         <b> &#160;&#160;&#160;&#160;&#160; </b><br/>
          <b> } </b>  <br/>
                             
          <br/>
@@ -150,7 +150,7 @@
 		permit communication between classes.<br/>
 		
 		<br/>
-		Save your project and build the two new patterns or press <b>Click to Proceed</b> below to 
+		Save your project and build the two new patterns or press <b>Click to perform</b> below to 
 		load an updated and commented &apos;Board.eclass&apos; file with more details about method control and 
 		statement nodes. Don&apos;t worry about the error message that remains after creating the patterns 
 		- the next step will take care of this.
@@ -316,7 +316,7 @@
         <br/>
         
         <br/>
-        <b> Note:</b> You may also press <b>Click to Proceed </b> below to load a commented
+        <b> Note:</b> You may also press <b>Click to perform </b> below to load a commented
         pattern file into your workspace with more explanations.
    </description>
    <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
