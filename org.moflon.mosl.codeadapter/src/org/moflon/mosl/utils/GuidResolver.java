@@ -30,7 +30,7 @@ public class GuidResolver extends AbstractResolver{
 	
 	public void resolveGuids(){
 		for(Attribute searchCategory : searchGuidCache.keySet()){
-			if(getCategory(searchCategory)==MoslCategory.TYPE && blackList.contains(searchCategory.getNode().getAttribute().get(searchCategory.getNode().getAttribute().indexOf(searchCategory) + 1).getValue())){
+			if(getCategory(searchCategory,"")==MoslCategory.TYPE && blackList.contains(searchCategory.getNode().getAttribute().get(searchCategory.getNode().getAttribute().indexOf(searchCategory) + 1).getValue())){
 				searchGuidCache.get(searchCategory).setValue("");
 			}
 		}
@@ -47,6 +47,17 @@ public class GuidResolver extends AbstractResolver{
 			}
 		}
 
+	}
+
+	@Override
+	protected String getPathForNode(Node node) {
+		return getPathForNode(node.getName(), node.getParentNode());
+	}
+	
+	private String getPathForNode(String path, Node node){
+		if(node.getParentNode() == null)
+			return path;
+		else return getPathForNode(node.getName() + "/" + path, node.getParentNode());
 	}
 	
 	

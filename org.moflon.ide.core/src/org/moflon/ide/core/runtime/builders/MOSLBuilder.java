@@ -1,6 +1,7 @@
 package org.moflon.ide.core.runtime.builders;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -23,10 +24,12 @@ import org.moflon.ide.core.CoreActivator;
 import org.moflon.mosl.MOSLUtils;
 import org.moflon.mosl.utils.GuidGenerator;
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
+import org.moflon.mosl.utils.exceptions.MoslException;
 
 import MOSLCodeAdapter.eaTreeTransformation.EaTreeTransformationFactory;
 import MOSLCodeAdapter.eaTreeTransformation.EaTreeTransformator;
 import MOSLCodeAdapter.moslPlus.MOSLToMOSLPlusConverter;
+import MOSLCodeAdapter.moslPlus.MoslErrorMessage;
 import MOSLCodeAdapter.moslPlus.MoslPlusFactory;
 import Moca.CodeAdapter;
 import Moca.Problem;
@@ -121,12 +124,15 @@ public class MOSLBuilder extends AbstractBuilder
          eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), moslPlusTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".mosl.plus.xmi");
          monitor.worked(1);
 
-         Node eaTree = transformer.transform(moslPlusTree);
-         eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), eaTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".moca.xmi");
-         monitor.worked(1);
-
+         if (converter.getErrorHandler().size() == 0){
+        	 Node eaTree = transformer.transform(moslPlusTree);
+        	 eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), eaTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".moca.xmi");
+        	 monitor.worked(1);
+         }
+         else 
+        	 createErrorMarker(converter.getErrorHandler(), moslFolder);
          temp.refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-      } catch (Exception e)
+      } catch (MoslException e)
       {
          if(e instanceof CanNotResolvePathException){
             CanNotResolvePathException cnrpe = (CanNotResolvePathException)e;
@@ -159,6 +165,21 @@ public class MOSLBuilder extends AbstractBuilder
       return true;
    }
 
+   private void createErrorMarker(List<MoslErrorMessage> errors, IFolder moslFolder) throws CoreException{
+	   for(MoslErrorMessage errorMessage : errors){	
+		   String filePath = errorMessage.getFileName();
+		   if(filePath !=null && filePath.compareTo("")!=0){
+			   IResource resource = moslFolder.getFile(filePath);
+	           if(!resource.exists())
+	               resource = moslFolder;
+	           createMarker(resource,errorMessage.getErrorNode().getStartLineIndex() , errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
+		   }
+		   else 
+			   createMarker(moslFolder, errorMessage.getErrorNode().getStartLineIndex(), errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
+	 
+	   }
+   }
+   
    @SuppressWarnings("unused")
    private IResource findResourceForError(final IFolder moslFolder, final String packageName, final String className) throws CoreException
    {

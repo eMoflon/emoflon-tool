@@ -4,6 +4,7 @@ import org.moflon.mosl.utils.PathResolver;
 import MOSLCodeAdapter.moslPlus.MoslPlusFactory;
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
 import org.moflon.mosl.MOSLUtils;
+import org.moflon.mosl.utils.exceptions.MoslException;
 
 partial class MOSLConverterAdapterImpl {
 
@@ -40,23 +41,17 @@ partial class MOSLConverterAdapterImpl {
 @model addPath(String path, String name, Node node) <--
 		try{
 			resolver.addPath(path, name, node);
-		} catch (RuntimeException e){
-			MoslErrorMessage errorMessage = MoslPlusFactory.eINSTANCE.createMoslErrorMessage();
-			errorMessage.setMessage(e.getMessage());
-			errorMessage.setPath(path);
-			this.getErrorHandler().add(errorMessage);
+		} catch (MoslException e){
+			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
 		}
 	-->
 	
-@model getPath(String currentPath, String nameReference, MoslCategory category) <--
-		try{
-			return resolver.getPath(currentPath, nameReference, category);
-		} catch (RuntimeException e){
-			MoslErrorMessage errorMessage = MoslPlusFactory.eINSTANCE.createMoslErrorMessage();
-			errorMessage.setMessage(e.getMessage());
-			errorMessage.setPath(currentPath);
-			this.getErrorHandler().add(errorMessage);
-			throw new CanNotResolvePathException(e.getMessage(), e);
+@model getPath(String currentPath, String nameReference, MoslCategory category, TreeElement element) <--
+		try {
+			return resolver.getPath(currentPath, nameReference, category, element);
+		} catch (MoslException e) {
+			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
+			return "";
 		}
 	-->	
 	
@@ -77,15 +72,27 @@ partial class MOSLConverterAdapterImpl {
 	-->	
 	
 @model resolve() <--
-		resolver.resolveAllPathes();
+		try {
+			resolver.resolveAllPathes();
+		} catch (MoslException e) {
+			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
+		}
 	-->	
 
 @model resolveCSPs() <--
-		resolver.resolveCSPs();
+		try{
+			resolver.resolveCSPs();
+		} catch (MoslException e) {
+			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
+		}
 -->
 
 @model resolveOpposites() <--
-		resolver.resolveOpposites();
+		try{
+			resolver.resolveOpposites();
+		} catch (MoslException e) {
+			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
+		}
 -->
 	
 }		

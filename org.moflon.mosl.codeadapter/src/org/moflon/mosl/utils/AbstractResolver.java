@@ -3,6 +3,7 @@ package org.moflon.mosl.utils;
 import java.util.ArrayList;
 
 import org.moflon.mosl.utils.exceptions.CanNotResolveCategoryException;
+import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
 
 import MOSLCodeAdapter.moslPlus.MoslCategory;
 import MocaTree.Attribute;
@@ -11,7 +12,7 @@ import MocaTree.Node;
 import MocaTree.Text;
 
 public abstract class AbstractResolver {
-	public static MoslCategory getCategory(String value){
+	public static MoslCategory getCategory(String value, String path){
 		//add new Categories recognition here
 		switch(value){		
 		case "workingSet": return MoslCategory.WORKING_SET;
@@ -44,23 +45,23 @@ public abstract class AbstractResolver {
 		case "typedExpression": return MoslCategory.TYPED_EXPRESSION;
 		case "type": return MoslCategory.TYPE;
 		
-		default: throw new CanNotResolveCategoryException("Unknown Category: "+value);
+		default: throw new CanNotResolveCategoryException("Unknown Category: "+value, path);
 		}
 	}
 	
-	public MoslCategory getCategory(Node node){
-		return getCategory(node, "category");
+	public MoslCategory getCategory(Node node, String path){
+		return getCategory(node, "category", path);
 	}
 	
-	public MoslCategory getSearchCategory(Attribute searchCategory){
-		return getCategory(searchCategory.getValue());
+	public MoslCategory getSearchCategory(Attribute searchCategory, String path){
+		return getCategory(searchCategory.getValue(), path);
 	}
 	
-	protected MoslCategory getCategory(Attribute attribute){
-		return getCategory(attribute.getValue());
+	protected MoslCategory getCategory(Attribute attribute, String path){
+		return getCategory(attribute.getValue(), path);
 	}
 	
-	protected MoslCategory getCategory(Node node, String type){
+	protected MoslCategory getCategory(Node node, String type, String path){
 		Attribute categoryAttr=null;
 		MoslCategory category=null;
 		try{
@@ -68,15 +69,15 @@ public abstract class AbstractResolver {
 		}catch (IndexOutOfBoundsException ioobe){
 			categoryAttr = createAttribute("category", "other", node.getAttribute().size());					
 		}catch (Exception e){
-			throw new CanNotResolveCategoryException("Unknown Exception", node, e);
+			throw new CanNotResolveCategoryException("Unknown Exception", path, node, e);
 		}		 
 		try{
-			category=getCategory(categoryAttr.getValue());
+			category=getCategory(categoryAttr.getValue(), path);
 		} catch(CanNotResolveCategoryException ce){	
 		
-			throw new CanNotResolveCategoryException("Unknown Category: "+categoryAttr.getValue(),node);
+			throw new CanNotResolveCategoryException("Unknown Category: "+categoryAttr.getValue(), path ,node, ce);
 		}catch (Exception e){
-			throw new CanNotResolveCategoryException("Unknown Exception", node, e);
+			throw new CanNotResolveCategoryException("Unknown Exception", path, node, e);
 		}	
 		return category;
 	
@@ -99,9 +100,15 @@ public abstract class AbstractResolver {
 	}
 	
 	protected Attribute getAttribute (Node node, String attributeName){
-		return new ArrayList<Attribute>(node.getAttribute(attributeName)).get(0);
+		try {
+			return new ArrayList<Attribute>(node.getAttribute(attributeName)).get(0);
+		} catch (Exception e){
+			throw new CanNotResolvePathException("Attribute "+attributeName+" does not exist", e, getPathForNode(node), node); 
+		}
 	}
 	
+	protected abstract String getPathForNode(Node node);
+
 	protected Attribute createAttribute(String name, String value, int index){
 		Attribute attribute = MocaTreeFactory.eINSTANCE.createAttribute();
 		attribute.setName(name);

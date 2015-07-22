@@ -11,6 +11,7 @@ import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
 
 import MOSLCodeAdapter.moslPlus.MoslCategory;
 import MocaTree.Node;
+import MocaTree.TreeElement;
 
 public abstract class AbstractPathResolver extends AbstractResolver {
 
@@ -64,7 +65,7 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 	
 	public void addPath(String path, String name, Node node){
 		moslCache.put(path, node);
-		MoslCategory cat = getCategory(node);
+		MoslCategory cat = getCategory(node, path);
 		Map<String, String> pathTable=categorizedPathTable.get(cat);
 		if(pathTable==null){
 			pathTable=new HashMap<>();
@@ -75,7 +76,7 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 
 	
 	
-	public String getPath(String referencePath, String nameReference, MoslCategory cat) {
+	public String getPath(String referencePath, String nameReference, MoslCategory cat, TreeElement referenceAttribute) {
 		Map<String,String> pathTable = categorizedPathTable.get(cat);
 		LinkedList<String> nameReferenceParts = new LinkedList<>(Arrays.asList(nameReference.split("/")));
 		LinkedList<String> referencePathParts = new LinkedList<>(Arrays.asList(referencePath.split("/")));
@@ -83,18 +84,18 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 		if(name.equalsIgnoreCase("void"))
 			return "void";
 		else
-			return getPath(referencePathParts, nameReferenceParts, name, nameReference, pathTable);
+			return getPath(referencePathParts, nameReferenceParts, name, nameReference, pathTable, referencePath, cat, referenceAttribute);
 	}
 	
-	private String getPath(List<String> referencePathParts, List<String> nameReferenceParts, String name, String nameReference, Map<String, String> pathTable){
+	private String getPath(List<String> referencePathParts, List<String> nameReferenceParts, String name, String nameReference, Map<String, String> pathTable, String referencePath, MoslCategory cat, TreeElement referenceAttribute){
 		List<String> candidates = getCandidates(name, pathTable);
 		int candiateSize = candidates.size();
 		if(candiateSize == 0)
-			throw new CanNotResolvePathException("For the name "+ name + " cannot find any path!");
+			throw new CanNotResolvePathException("For the name "+ name + " cannot find any path!", referencePath, referenceAttribute, cat);
 		else if(candiateSize == 1)
 			return candidates.get(0);
 		else
-			return findBestCandidate(referencePathParts, nameReferenceParts, nameReference, candidates);
+			return findBestCandidate(referencePathParts, nameReferenceParts, nameReference, candidates, referencePath, cat, referenceAttribute);
 	}
 	
 	private List<String> getCandidates(String name, Map<String, String> pathTable){
@@ -108,15 +109,15 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 		return candidates;
 	}
 	
-	private String findBestCandidate(List<String> referencePathParts, List<String> nameReferenceParts, String nameReference, List<String> candidates) {
-		findBestCandidateFromRight(0, nameReferenceParts, nameReference, candidates);
-		findBestCandidateFromLeft(0, referencePathParts, nameReference, candidates);
+	private String findBestCandidate(List<String> referencePathParts, List<String> nameReferenceParts, String nameReference, List<String> candidates, String referencePath, MoslCategory cat, TreeElement referenceAttribute) {
+		findBestCandidateFromRight(0, nameReferenceParts, nameReference, candidates, referencePath, cat, referenceAttribute);
+		findBestCandidateFromLeft(0, referencePathParts, nameReference, candidates, referencePath, cat, referenceAttribute);
 		return candidates.get(0);
 	}
 	
-	private void findBestCandidateFromRight(int position, List<String> nameReferenceParts, String nameReference, List<String> candidates) {
+	private void findBestCandidateFromRight(int position, List<String> nameReferenceParts, String nameReference, List<String> candidates, String referencePath, MoslCategory cat, TreeElement referenceAttribute) {
 		if(candidates.size()==0)
-			throw new CanNotResolvePathException("The Reference to " + nameReference + " is wrong");
+			throw new CanNotResolvePathException("The Reference to " + nameReference + " is wrong", referencePath, referenceAttribute, cat);
 		else if(candidates.size()==1)
 			return;
 		else if(position < nameReferenceParts.size()){
@@ -126,13 +127,13 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 				if(pathParts.length-1 > position && nameReferenceParts.get(nameReferenceParts.size()-1-position).compareTo(pathParts[pathParts.length-2-position])!=0)
 					candidates.remove(path);
 			}
-			findBestCandidateFromRight(position + 1, nameReferenceParts, nameReference, candidates);
+			findBestCandidateFromRight(position + 1, nameReferenceParts, nameReference, candidates, referencePath, cat, referenceAttribute);
 		}
 	}
 	
-	private void findBestCandidateFromLeft(int position, List<String> referencePathParts, String nameReference, List<String> candidates) {
+	private void findBestCandidateFromLeft(int position, List<String> referencePathParts, String nameReference, List<String> candidates, String referencePath, MoslCategory cat, TreeElement referenceAttribute) {
 		if(candidates.size()==0)
-			throw new CanNotResolvePathException("The Reference to " + nameReference + " is too imprecise");
+			throw new CanNotResolvePathException("The Reference to " + nameReference + " is too imprecise", referencePath, referenceAttribute, cat);
 		else if(candidates.size()==1)
 			return;
 		else if(position < referencePathParts.size()){
@@ -142,10 +143,10 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 				if(position < pathParts.length && referencePathParts.get(position).compareTo(pathParts[position])!=0)
 					candidates.remove(path);
 			}
-			findBestCandidateFromLeft(position + 1, referencePathParts, nameReference, candidates);
+			findBestCandidateFromLeft(position + 1, referencePathParts, nameReference, candidates, referencePath, cat, referenceAttribute);
 		}
 		else
-			throw new CanNotResolvePathException("The Reference to " + nameReference + " is too imprecise");
+			throw new CanNotResolvePathException("The Reference to " + nameReference + " is too imprecise", referencePath, referenceAttribute, cat);
 	}
 	
 	public void removeNodeFromCache(String path){
@@ -154,6 +155,18 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 	
 	public Node getNodeFromCache(String path){
 		return moslCache.get(path);
+	}
+
+
+
+	@Override
+	protected String getPathForNode(Node node) {
+		for(Entry<String, Node> entry : moslCache.entrySet()){
+			if (entry.getValue().equals(node)){
+				return entry.getKey();
+			}
+		}
+		return "";
 	}
 	
 }
