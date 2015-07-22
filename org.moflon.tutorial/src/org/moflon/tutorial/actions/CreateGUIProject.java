@@ -23,6 +23,7 @@ import org.moflon.tutorial.helper.MyWorkspaceHelper;
 public class CreateGUIProject extends Action implements ICheatSheetAction
 {
 
+   private static final String MAIN_CLASS = "org.moflon.tutorial.sokobangamegui.Controller";
    private static final Logger logger = Logger.getLogger(CreateGUIProject.class);
 
    /**
@@ -137,19 +138,19 @@ public class CreateGUIProject extends Action implements ICheatSheetAction
          for (int i = 0; i < configurations.length; i++)
          {
             ILaunchConfiguration configuration = configurations[i];
-            if (configuration.getName().equals("Run BoardGameGUI"))
+            if (configuration.getName().equals("BoardGameGUI"))
             {
                configuration.delete();
                break;
             }
          }
 
-         ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null, "Run BoardGameGUI");
+         ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null, "BoardGameGUI");
          ;
 
          // The projects classpath should have all necessary entries
          workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, project.getProject().getName());
-         workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, "org.moflon.tutorial.boardgamegui.Controller");
+         workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, MAIN_CLASS);
 
          workingCopy.doSave();
 
