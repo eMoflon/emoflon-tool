@@ -305,10 +305,17 @@ public class MoflonUtil
       return false;
    }
 
-   public static String correctPathWithImportMappings(final String typePath, final Map<String, String> importMappings)
+   /**
+    * This function replaces the first matching prefix of the given package name with the corresponding value of the package name map
+    * 
+    * @param fullyQualifiedPackageName the package name to be transformed
+    * @param packageNameMap a map from source package name prefix to target package name prefix
+    * @return the transformed package
+    */
+   public static String transformPackageNameUsingImportMapping(final String fullyQualifiedPackageName, final Map<String, String> packageNameMap)
    {
       // Break path up into all segments
-      List<String> segments = Arrays.asList(typePath.split(Pattern.quote(".")));
+      List<String> segments = Arrays.asList(fullyQualifiedPackageName.split(Pattern.quote(".")));
       Optional<String> EMPTY_OPTION = Optional.<String> empty();
       Pair<Optional<String>, Optional<String>> EMPTY_PAIR = Pair.of(EMPTY_OPTION, EMPTY_OPTION);
 
@@ -321,13 +328,13 @@ public class MoflonUtil
             String oldPrefix = oldPair.getLeft().isPresent() ? oldPair.getLeft().get() + "." : "";
             String newPrefix = oldPrefix + newSegment;
 
-            if (importMappings.containsKey(newPrefix))
-               return Pair.of(Optional.of(newPrefix), Optional.of(importMappings.get(newPrefix)));
+            if (packageNameMap.containsKey(newPrefix))
+               return Pair.of(Optional.of(newPrefix), Optional.of(packageNameMap.get(newPrefix)));
             else
                return Pair.of(Optional.of(newPrefix), EMPTY_OPTION);
          }
       }, (p1, p2) -> Pair.of(p1.getLeft().isPresent() ? p1.getLeft() : p2.getLeft(), p1.getRight().isPresent() ? p1.getRight() : p2.getRight())).getRight()
-            .orElse(typePath);
+            .orElse(fullyQualifiedPackageName);
    }
 
    /**

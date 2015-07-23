@@ -1,9 +1,7 @@
 package org.moflon.util;
 
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcoreFactory;
+import java.util.HashMap;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.moflon.core.utilities.MoflonUtil;
@@ -11,29 +9,25 @@ import org.moflon.core.utilities.MoflonUtil;
 public class MoflonUtilTest
 {
    @Test
-   public void testFQNForGenPackages() throws Exception
+   public void testCorrectPathWithImportMappings() throws Exception
    {
-      
-      GenPackage topPackage = createGenPackage("1");
-      GenPackage mediumPackage = createGenPackage("2");
-      topPackage.getEcorePackage().getESubpackages().add(mediumPackage.getEcorePackage());
-      GenPackage lowestPackage = createGenPackage("3");
-      mediumPackage.getSubGenPackages().add(lowestPackage);
-      Assert.assertEquals("1.2.3", MoflonUtil.getFQN(lowestPackage));
-   }
+      HashMap<String, String> importMappings = new HashMap<String, String>();
+      importMappings.put("java.classifiers", "org.emftext.language.java.classifiers");
+      importMappings.put("java.classifiers.foo", "longer.prefix");
 
-   public GenPackage createGenPackage(final String label)
-   {
-      EPackage ePackage = createEPackage(label);
-      GenPackage genPackage = GenModelFactory.eINSTANCE.createGenPackage();
-      genPackage.setEcorePackage(ePackage);
-      return genPackage;
-   }
+      Assert.assertEquals("", MoflonUtil.transformPackageNameUsingImportMapping("", importMappings));
+      Assert.assertEquals("notcontained", MoflonUtil.transformPackageNameUsingImportMapping("notcontained", importMappings));
+      Assert.assertEquals("not.contained", MoflonUtil.transformPackageNameUsingImportMapping("not.contained", importMappings));
+      Assert.assertEquals("java.partialmatch", MoflonUtil.transformPackageNameUsingImportMapping("java.partialmatch", importMappings));
+      Assert.assertEquals("org.emftext.language.java.classifiers", MoflonUtil.transformPackageNameUsingImportMapping("java.classifiers", importMappings));
 
-   public EPackage createEPackage(final String name)
-   {
-      EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-      ePackage.setName(name);
-      return ePackage;
+      //TODO@rkluge: Isn't this what we want?
+      // Assert.assertEquals("org.emftext.language.java.classifiers.some-suffix",
+      // MoflonUtil.transformPackageNameUsingImportMapping("java.classifiers.some-suffix", importMappings));
+
+      // Matching the longest prefix is currently not supported. Instead, the first matching prefix is chosen
+      // Assert.assertEquals("longer.prefix", MoflonUtil.transformPackageNameUsingImportMapping("java.classifiers.foo",
+      // importMappings));
+      Assert.assertEquals("org.emftext.language.java.classifiers", MoflonUtil.transformPackageNameUsingImportMapping("java.classifiers.foo", importMappings));
    }
 }

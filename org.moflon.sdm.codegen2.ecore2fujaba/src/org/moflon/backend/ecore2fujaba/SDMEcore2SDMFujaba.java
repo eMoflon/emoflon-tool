@@ -792,7 +792,7 @@ public class SDMEcore2SDMFujaba
 
       // Correct instanceTypeName with import mappings
       Map<String, String> importMappings = MoflonPropertiesContainerHelper.mappingsToMap(properties.getImportMappings());
-      instanceTypeName = MoflonUtil.correctPathWithImportMappings(instanceTypeName, importMappings);
+      instanceTypeName = MoflonUtil.transformPackageNameUsingImportMapping(instanceTypeName, importMappings);
 
       return instanceTypeName;
    }

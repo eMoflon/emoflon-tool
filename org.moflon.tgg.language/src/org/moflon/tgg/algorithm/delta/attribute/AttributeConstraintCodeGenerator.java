@@ -203,7 +203,8 @@ public class AttributeConstraintCodeGenerator
          return "org.eclipse.emf.ecore." + typeName;
 
       String fqn = MoflonUtil.getFQN(type);
-      // Return immediately if there is only the default package
+      
+      // Return immediately if the type is only contained in the default package
       if(fqn.lastIndexOf('.') == -1){
          return fqn;
       }
