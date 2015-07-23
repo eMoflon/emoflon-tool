@@ -12,9 +12,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.INewWizard;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.ui.admin.wizards.AbstractWizard;
 
-public class NewTGGRuleWizard extends AbstractWizard implements INewWizard
+public class NewTGGRuleWizard extends AbstractMOSLWizard implements INewWizard
 {
    protected NewTGGRulePage tggRuleInfo;
 

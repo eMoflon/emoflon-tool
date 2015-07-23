@@ -12,9 +12,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.INewWizard;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.ui.admin.wizards.AbstractWizard;
 
-public class NewEClassWizard extends AbstractWizard implements INewWizard
+public class NewEClassWizard extends AbstractMOSLWizard implements INewWizard
 {
    // Page containing controls for taking user input
    private NewEClassPage eclassInfo;

@@ -7,9 +7,6 @@ import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.moca.MocaUtil;
 
 import Moca.Problem;
@@ -28,13 +25,13 @@ public class AttributeConstraintParserAdapter extends ParserImpl
    private StoryPattern sourceStoryPattern;
    private ValidationReport parseReport;
    @Override
-   public boolean canParseFile(String fileName) 
+   public boolean canParseFile(final String fileName) 
    {
       
       return false;
    }
 
-   public ValidationReport parse(String input, StoryPattern storyPattern){
+   public ValidationReport parse(final String input, final StoryPattern storyPattern){
       
       inputString=input;
       sourceStoryPattern=storyPattern;
@@ -44,7 +41,7 @@ public class AttributeConstraintParserAdapter extends ParserImpl
    }
 
    @Override
-   public Node parse(Reader reader) 
+   public Node parse(final Reader reader) 
    {
       try 
       {
@@ -75,7 +72,7 @@ public class AttributeConstraintParserAdapter extends ParserImpl
       return null;
    }
    
-   private ErrorMessage createErrorMessage(Problem problem){
+   private ErrorMessage createErrorMessage(final Problem problem){
       StringBuilder msg = new StringBuilder();
       msg.append("Problems parsing attribute constraint expression:\n ");
       msg.append("\t"+inputString.replace("\n", "\n\t"));

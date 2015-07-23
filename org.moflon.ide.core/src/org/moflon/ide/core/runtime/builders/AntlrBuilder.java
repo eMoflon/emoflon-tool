@@ -46,8 +46,6 @@ public class AntlrBuilder extends AbstractBuilder
 
    private static final Pattern ANTLR_FILENAME_PATTERN = Pattern.compile("(.*)((?:Lexer)|(?:Parser)).g");
 
-   private static final long TIME_OUT = 60000;
-
    private List<String> builtParsers = new ArrayList<String>();
 
    @Override

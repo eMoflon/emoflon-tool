@@ -3,8 +3,6 @@ package org.moflon.ide.texteditor.editors;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.DefaultFormatter;
-
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -166,7 +164,7 @@ public class MoflonSourceViewerConfiguration extends SourceViewerConfiguration
    }
    
    @Override
-   public IContentFormatter getContentFormatter(ISourceViewer sourceViewer)
+   public IContentFormatter getContentFormatter(final ISourceViewer sourceViewer)
    {
       ContentFormatter formatter = new ContentFormatter();
       

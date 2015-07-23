@@ -12,9 +12,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.INewWizard;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.ui.admin.wizards.AbstractWizard;
 
-public class NewPatternWizard extends AbstractWizard implements INewWizard
+public class NewPatternWizard extends AbstractMOSLWizard implements INewWizard
 {
 
    protected NewPatternPage patternInfo;

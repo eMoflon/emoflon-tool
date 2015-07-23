@@ -26,7 +26,7 @@ public class MOSLLoader {
 	      codeAdapter = MOSLUtils.createCodeAdapter();
 	}
 	
-	   public Folder getImport(Node importNode)
+	   public Folder getImport(final Node importNode)
 	   {
 	     Folder imports = MocaTreeFactory.eINSTANCE.createFolder();
 	     imports.setName("imports");
@@ -71,7 +71,7 @@ public class MOSLLoader {
 	      return imports;
 	   }
 	   
-	   public static Node loadTrees(Node external){
+	   public static Node loadTrees(final Node external){
 		   Node importedTrees=null;
 		   try{
 			   URL urlToImplicitImports = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/trees/CoreLangugae.coca.xmi", "MOSLCodeAdapter");
@@ -100,7 +100,7 @@ public class MOSLLoader {
 		   return importedTrees;
 	   }
 	   
-	   private static void mergeEATrees(Node importedTree, Node externalTree) throws Exception{
+	   private static void mergeEATrees(final Node importedTree, final Node externalTree) throws Exception{
 		   Node importedExportedTree = Node.class.cast(new ArrayList<>(importedTree.getChildren("exportedTree")).get(0));
 		   Node externalExportedTree = Node.class.cast(new ArrayList<>(externalTree.getChildren("exportedTree")).get(0));
 		   for(Text text : externalExportedTree.getChildren()){
@@ -109,12 +109,4 @@ public class MOSLLoader {
 		   }		   
 	   }
 
-	   private MocaTree.File getFileFromFolder(Folder folder, String fileName){
-		   for(MocaTree.File file : folder.getFile()){
-			   if(file.getName().compareTo(fileName)==0){
-				   return file;
-			   }
-		   }
-		   return null;
-	   }
 }
