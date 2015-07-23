@@ -5,6 +5,7 @@
 	<projects>
 	</projects>
 	<buildSpec>
+	
 		<buildCommand>
 			<name>org.moflon.ide.core.runtime.builders.MetamodelBuilder</name>
 			<arguments>
