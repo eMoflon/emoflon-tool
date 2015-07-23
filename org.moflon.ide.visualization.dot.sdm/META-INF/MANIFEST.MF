@@ -19,7 +19,8 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  TGGRuntime,
  DebugLanguage,
  DotLanguage,
- org.moflon.core.utilities
+ org.moflon.core.utilities,
+ org.eclipse.core.runtime
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
