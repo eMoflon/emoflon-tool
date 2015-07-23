@@ -10,15 +10,14 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -315,26 +314,24 @@ public class MoflonUtil
    public static String transformPackageNameUsingImportMapping(final String fullyQualifiedPackageName, final Map<String, String> packageNameMap)
    {
       // Break path up into all segments
-      List<String> segments = Arrays.asList(fullyQualifiedPackageName.split(Pattern.quote(".")));
-      Optional<String> EMPTY_OPTION = Optional.<String> empty();
-      Pair<Optional<String>, Optional<String>> EMPTY_PAIR = Pair.of(EMPTY_OPTION, EMPTY_OPTION);
-
-      // Check all possible segment prefixes for fitting entry in import mappings
-      return segments.stream().reduce(EMPTY_PAIR, (oldPair, newSegment) -> {
-         if (oldPair.getRight().isPresent())
-            return oldPair;
-         else
+      List<String> inputSegments = Arrays.asList(fullyQualifiedPackageName.split(Pattern.quote(".")));
+      for (int i = inputSegments.size(); i >= 1; --i)
+      {
+         final String currentPrefix = joinPackageNameSegments(inputSegments.subList(0, i));
+         if (packageNameMap.containsKey(currentPrefix))
          {
-            String oldPrefix = oldPair.getLeft().isPresent() ? oldPair.getLeft().get() + "." : "";
-            String newPrefix = oldPrefix + newSegment;
-
-            if (packageNameMap.containsKey(newPrefix))
-               return Pair.of(Optional.of(newPrefix), Optional.of(packageNameMap.get(newPrefix)));
-            else
-               return Pair.of(Optional.of(newPrefix), EMPTY_OPTION);
+            String suffixToKeep = joinPackageNameSegments(inputSegments.subList(i, inputSegments.size()));
+            return packageNameMap.get(currentPrefix) + (suffixToKeep.isEmpty() ? "" : "." + suffixToKeep);
          }
-      }, (p1, p2) -> Pair.of(p1.getLeft().isPresent() ? p1.getLeft() : p2.getLeft(), p1.getRight().isPresent() ? p1.getRight() : p2.getRight())).getRight()
-            .orElse(fullyQualifiedPackageName);
+      }
+      
+      // No prefix match - return input
+      return fullyQualifiedPackageName;
+   }
+
+   public static String joinPackageNameSegments(final List<String> l)
+   {
+      return l.stream().collect(Collectors.joining("."));
    }
 
    /**
