@@ -5,7 +5,7 @@
     	<description>
          In this Chapter, you'll learn about Story Driven Modeling (SDM). For the
          interested reader, the content of this chapter is based on Part III of the 
-         eMoflon handbook.<br/>
+         eMoflon handbook (http://tiny.cc/emoflon-rel-handbook/part3.pdf).<br/>
          
          <br/>
          To briefly explain, SDMs implement unidirectional model transformations. They're
@@ -316,7 +316,7 @@
         <br/>
         
         <br/>
-        <b> Note:</b> You may also press <b>Click to perform </b> below to load a commented
+        <b> Note:</b> You may also press <b>Click to perform</b> below to load a commented
         pattern file into your workspace with more explanations.
    </description>
    <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"

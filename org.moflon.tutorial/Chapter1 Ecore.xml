@@ -6,7 +6,7 @@
 <description>
          Welcome to Chapter 1, where you&apos;ll learn how to make an Ecore model of Sokoban,
          including any needed classes, attributes, references, and method signatures.  
-         You are encouraged to download and read Part II of the eMoflon handbook for more details on creating models 
+         You are encouraged to download and read Part II of the eMoflon handbook (http://tiny.cc/emoflon-rel-handbook/part2.pdf) for more details on creating models 
          after working through this chapter.<br/>
          
          <br/>
@@ -59,7 +59,7 @@
          <br/>
          <b>Note:</b> If you&apos;re ever feeling lazy and just want to see the results of each step
          without doing anything, you can always take a shortcut by pressing 
-         <b>Click To Proceed</b> at the end of most steps (such as this step). At this point, the 
+         <b>Click to perform</b> at the end of most steps (such as this step). At this point, the 
          tutorial will overwrite any files with the same name and load the solution for the
          current step into your workspace. Feel free to press this button anyway and review 
          the comments and explanations in the new files. These provide more detail than
@@ -163,18 +163,19 @@
          the &apos;composite&apos; and &apos;reference&apos; templates.<br/>
          
          <br/>
-         Open <b>Board</b> and add the following container reference:<br/>
+         Open <b>Board</b> and add the following <b>composite</b> reference:<br/>
          <br/><b>&lt;&gt;- floors(0..*) -&gt; Floor</b><br/>
          
          <br/>
          This states that <b>Board</b> can have an unlimited number of <b>Floor</b> spaces.
          
-         <br/>
-         Now add the following simple reference:<br/>
-         <br/><b>- selectedFigure(0..1) ->	 Figure</b><br/>
+         <br/><br/>
+         Now add the following (simple) <b>reference</b>:<br/>
+         <br/><b>- selectedFigure(0..1) -&gt;	 Figure</b><br/>
          
          <br/>
          This reference will store <b>Board</b>&apos;s active figure, which may(1) or may not(0)
+         be currently active.ly active.>&apos;s active figure, which may(1) or may not(0)
          be currently active.
       </description>
 	 <action class = "org.moflon.tutorial.actions.CopyResourceToProject" pluginId = "org.moflon.CheatSheetTutorial"
@@ -197,7 +198,7 @@
          
 		 <br/>
          We're not done yet; Given that every Floor can be either empty or contain exactly one
-         <b>Figure</b>, add the container reference below:<br/>
+         <b>Figure</b>, add the composite reference below:<br/>
          
          <br/><b>&lt;&gt;- figure(0..1) -&gt; Figure</b><br/>
          
@@ -386,7 +387,7 @@
 
          <br/><br/>
          We hope you're enjoying using our tool! If you have any comments or suggestions,
-         feel free to contact us at <b>contact@moflon.org.</b> 
+         feel free to contact us at <b>contact@emoflon.org.</b> 
          Finally, don't forget to check out the official eMoflon handbook for more details 
          at <b>www.emoflon.org.</b>
       </description>
