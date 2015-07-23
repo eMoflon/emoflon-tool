@@ -95,10 +95,11 @@ partial class InjectionHelperImpl {
    
 -->
 
-@model createInjectionForCheckAttributesMethod (String name, TGGRule rule, EClass ruleClass) <--
+@model createInjectionForCheckAttributesMethod (String name, TGGRule rule, EClass ruleClass, TGGCompiler compiler) <--
+
 
       handleImports(ruleClass);
-      AttributeConstraintCodeGenerator codeGen = new AttributeConstraintCodeGenerator(rule, name);
+      AttributeConstraintCodeGenerator codeGen = new AttributeConstraintCodeGenerator(rule, name,compiler);
       return codeGen.getInjection();
 -->
 

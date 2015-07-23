@@ -47,6 +47,7 @@ import SDMLanguage.patterns.patternExpressions.AttributeValueExpression;
 import TGGLanguage.DomainType;
 import TGGLanguage.TGGObjectVariable;
 import TGGLanguage.TGGRule;
+import TGGLanguage.compiler.TGGCompiler;
 import TGGLanguage.compiler.compilerfacade.CSPSearchPlanAdapter;
 import TGGLanguage.compiler.compilerfacade.CompilerfacadeFactory;
 import TGGLanguage.csp.AttributeVariable;
@@ -78,16 +79,19 @@ public class AttributeConstraintCodeGenerator
 
    private OperationalCSP ocsp;
 
-   public AttributeConstraintCodeGenerator(TGGRule rule, String name)
+   private TGGCompiler compiler;
+
+   public AttributeConstraintCodeGenerator(final TGGRule rule, final String name, final TGGCompiler compiler)
    {
-      separator = "\n\n";
-      stg = new STGroupFile(this.getClass().getClassLoader().getResource("/templates/Csp.stg"), "UTF-8", '<', '>');
-      stg.registerRenderer(String.class, new MyBasicFormatRenderer());
-      code = new StringBuilder();
+      this.separator = "\n\n";
+      this.stg = new STGroupFile(this.getClass().getClassLoader().getResource("/templates/Csp.stg"), "UTF-8", '<', '>');
+      this.stg.registerRenderer(String.class, new MyBasicFormatRenderer());
+      this.code = new StringBuilder();
+      this.compiler = compiler;
 
       this.rule = rule;
-      this.name = name;     
-      
+      this.name = name;
+
       locateObjectVariables();
       initOCSP();
    }
@@ -104,7 +108,7 @@ public class AttributeConstraintCodeGenerator
    {
       source = new ArrayList<String>();
       target = new ArrayList<String>();
-   
+
       for (ObjectVariable ov : rule.getObjectVariable())
       {
          if (ov instanceof TGGObjectVariable)
@@ -128,31 +132,31 @@ public class AttributeConstraintCodeGenerator
       ocsp = CspFactory.eINSTANCE.createOperationalCSP();
       ocsp.getConstraints().addAll(csp.getConstraints());
       ocsp.getVariables().addAll(csp.getVariables());
-      
+
       // First of all everything bound apart from local variables
       ocsp.getVariables().forEach(v -> {
          if (!(v instanceof LocalVariable))
             v.setBound(true);
       });
-      
+
       // If OV is green in the rule then it may be changed to free (for the right domain)
-      Collection<String> destVarNames = isOutputDomainTarget()? target : source;
+      Collection<String> destVarNames = isOutputDomainTarget() ? target : source;
       Collection<Variable> destVars = getDestVariables(ocsp.getVariables(), destVarNames);
       destVars.forEach(v -> {
-         if(v instanceof AttributeVariable){
+         if (v instanceof AttributeVariable)
+         {
             AttributeVariable av = AttributeVariable.class.cast(v);
             rule.getObjectVariable().forEach(ov -> {
-               if(ov.getName().equals(av.getObjectVariable()) && ov.getBindingOperator().equals(BindingOperator.CREATE))
-                  v.setBound(false); 
+               if (ov.getName().equals(av.getObjectVariable()) && ov.getBindingOperator().equals(BindingOperator.CREATE))
+                  v.setBound(false);
             });
          }
       });
-      
+
       // Solve the CSP to ensure that this bounding state is possible
       CSPSearchPlanAdapter plan = CompilerfacadeFactory.eINSTANCE.createCSPSearchPlanAdapter();
       plan.computeConstraintOrder(ocsp);
    }
-
 
    private void createAttributeConstraintRuleResult()
    {
@@ -180,14 +184,15 @@ public class AttributeConstraintCodeGenerator
       if (expression instanceof AttributeValueExpression)
       {
          attrValueExp = (AttributeValueExpression) expression;
-         return buildMethodCall(attrValueExp.getAttribute().getName(), attrValueExp.getAttribute().getEAttributeType().getName(), attrValueExp.getObject().getName());
+         return buildMethodCall(attrValueExp.getAttribute().getName(), attrValueExp.getAttribute().getEAttributeType().getName(), attrValueExp.getObject()
+               .getName());
 
       }
 
       return "null";
    }
 
-   private Object handleType(final EClassifier type)
+   private String handleType(final EClassifier type)
    {
       // Some Java dependent adjustments
       String typeName = type.getName();
@@ -197,7 +202,17 @@ public class AttributeConstraintCodeGenerator
       if (CORE_ECORE_CLASS_NAMES.contains(typeName))
          return "org.eclipse.emf.ecore." + typeName;
 
-      return MoflonUtil.getFQN(type);
+      String fqn = MoflonUtil.getFQN(type);
+      // Return immediately if there is only the default package
+      if(fqn.lastIndexOf('.') == -1){
+         return fqn;
+      }
+      
+      String fullyQualifiedPackageName = fqn.substring(0, fqn.lastIndexOf('.'));
+
+      String remappedPackage = this.compiler.correctPathWithMappings(fullyQualifiedPackageName);
+      String remappedType = remappedPackage + "." + typeName;
+      return remappedType;
    }
 
    private String getComparisonOp(final ComparingOperator comparingOperator)
@@ -292,7 +307,7 @@ public class AttributeConstraintCodeGenerator
       code.append(locateObjects.toString() + attrConsResult + separator);
    }
 
-   private String isOperandOfTypeString(Expression exp)
+   private String isOperandOfTypeString(final Expression exp)
    {
       if (exp instanceof AttributeValueExpression)
       {
@@ -303,7 +318,7 @@ public class AttributeConstraintCodeGenerator
       return "notString";
    }
 
-   private String buildAssignmentsAndConstraints(String op1, String op2, String comp, String type)
+   private String buildAssignmentsAndConstraints(final String op1, final String op2, final String comp, final String type)
    {
 
       if (type.equals("EString"))
@@ -389,7 +404,7 @@ public class AttributeConstraintCodeGenerator
 
    private void handleCSPSolving()
    {
-      Collection<Variable> allFreeVars = ocsp.getVariables().stream().filter(v -> !v.isBound()).collect(Collectors.toList()); 
+      Collection<Variable> allFreeVars = ocsp.getVariables().stream().filter(v -> !v.isBound()).collect(Collectors.toList());
       Map<Variable, String> varToLabel = handleVariableValueExtraction(ocsp);
       csp_solver = new ArrayList<AttributConstraintContainer>();
       int i = 0;
@@ -409,7 +424,8 @@ public class AttributeConstraintCodeGenerator
          Collection<String> solveVars = c.getVariables().stream().map(v -> varToLabel.get(v)).collect(Collectors.toList());
          container.setSolveVars(solveVars);
 
-         Collection<Variable> freeVars = allFreeVars.stream().filter(v -> c.getVariables().contains(v) && v instanceof AttributeVariable).collect(Collectors.toList());
+         Collection<Variable> freeVars = allFreeVars.stream().filter(v -> c.getVariables().contains(v) && v instanceof AttributeVariable)
+               .collect(Collectors.toList());
          container.setDestinationVars(freeVars);
 
          csp_solver.add(container);
