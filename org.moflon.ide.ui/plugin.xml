@@ -398,6 +398,9 @@
             <newWizardShortcut
                   id="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard">
             </newWizardShortcut>
+            <newWizardShortcut
+                  id="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard">
+            </newWizardShortcut>
       </perspectiveExtension>
    </extension>
    <extension
