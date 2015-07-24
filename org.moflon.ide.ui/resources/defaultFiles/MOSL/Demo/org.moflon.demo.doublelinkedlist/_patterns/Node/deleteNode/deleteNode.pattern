@@ -1,12 +1,16 @@
-pattern deleteNode {
+pattern deleteNode 
+{
 
-	@this : Node { 
-		   - next -> next
+ 	// repairs 'next' link
+	@ this : Node 
+	{ 
 		++ - next -> newNext
 	}
 	
-	-- next : Node {
-		 - next -> newNext		
+	// delete next Node
+	-- next : Node 
+	{
+		-- - next -> newNext		
 	}	
 	
 	newNext : Node

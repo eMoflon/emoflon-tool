@@ -1,14 +1,17 @@
-pattern insertNodeAfter {
+pattern insertNodeAfter 
+{
 	
 	// Make space for new node immediately after current node
-	@this : Node {
+	@this : Node 
+	{
 		-- -next-> next
 	}
 	
 	next : Node
 
 	// Create outgoing links to/from new node
-	@newNode : Node {
+	@newNode : Node 
+	{
 		++ -previous-> this
 		++ -next-> next
 	}	
