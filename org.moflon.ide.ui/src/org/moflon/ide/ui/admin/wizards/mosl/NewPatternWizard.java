@@ -38,7 +38,7 @@ public class NewPatternWizard extends AbstractMOSLWizard implements INewWizard
 
          Map<String, Object> attrs = new HashMap<String, Object>();
          attrs.put("name", patternName);
-         String content = renderTemplate(stg, "rule", attrs);
+         String content = renderTemplate(stg, "pattern", attrs);
 
          String patternPath = resource.getProjectRelativePath() + "/" + patternName + ".pattern";
 

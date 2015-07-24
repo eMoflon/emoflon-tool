@@ -85,6 +85,18 @@
             preferredPerspectives="org.moflon.ide.ui.perspective"
             project="false">
       </wizard>
+      <wizard
+            canFinishEarly="false"
+            category="org.moflon.ide.ui.category"
+            class="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard"
+            finalPerspective="org.moflon.ide.ui.perspective"
+            hasPages="true"
+            icon="resources/icons/patterns.gif"
+            id="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard"
+            name="Pattern"
+            preferredPerspectives="org.moflon.ide.ui.perspective"
+            project="false">
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.ide.projectNatureImages">
