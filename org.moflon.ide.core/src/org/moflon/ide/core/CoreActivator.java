@@ -246,6 +246,14 @@ public class CoreActivator extends Plugin
       return isDirty.containsKey(projectName) ? isDirty.get(projectName) : false;
    }
 
+   /**
+    * Sets the projects dirty state.
+    * 
+    * A repository project is dirty if its corresponding metamodel project has been built recently so that new code needs to be generated for this project.
+    * A metamodel project is dirty if its EAP file is newer than the generated Moca tree (.temp/<project-name>.moca.xmi)
+    * @param project
+    * @param isDirty
+    */
    public void setDirty(final IProject project, final boolean isDirty)
    {
       this.isDirty.put(project.getName(), isDirty);
