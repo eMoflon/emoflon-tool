@@ -43,6 +43,12 @@ public class NewEClassWizard extends AbstractMOSLWizard implements INewWizard
          String filePath = resource.getProjectRelativePath() + "/" + className + ".eclass";
          WorkspaceHelper.addFile(resource.getProject(), filePath, content, monitor);
 
+         String patternFolderPath = resource.getProjectRelativePath() + "/_patterns";
+         if(!resource.getProject().getFolder(patternFolderPath).exists())
+        	 WorkspaceHelper.addFolder(resource.getProject(), patternFolderPath, monitor);
+         
+         WorkspaceHelper.addFolder(resource.getProject(), patternFolderPath + "/" + className, monitor);
+         
          IFile classFile = resource.getProject().getFile(filePath);
 
          openEditor(classFile);

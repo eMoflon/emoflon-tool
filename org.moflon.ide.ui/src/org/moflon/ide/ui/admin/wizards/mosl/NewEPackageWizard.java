@@ -42,7 +42,7 @@ public class NewEPackageWizard extends AbstractMOSLWizard implements INewWizard
 
          WorkspaceHelper.addFolder(resource.getProject(), packagePath, monitor);
          WorkspaceHelper.addFolder(resource.getProject(), packagePath + "/_patterns", monitor);
-         WorkspaceHelper.addFile(resource.getProject(), packagePath + "/_constraints.mconf", content, monitor);
+         WorkspaceHelper.addFile(resource.getProject(), packagePath + "/_ModelConfiguration.mconf", content, monitor);
       } finally
       {
          monitor.done();
