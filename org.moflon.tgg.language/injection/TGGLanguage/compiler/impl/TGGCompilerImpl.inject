@@ -2,10 +2,8 @@
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
-
 import MoflonPropertyContainer.MoflonPropertiesContainer;
 import TGGRuntime.impl.TGGRuntimePackageImpl;
-
 import java.util.regex.Pattern;
 import java.util.Map;
 
@@ -30,7 +28,7 @@ partial class TGGCompilerImpl {
 	public String correctPathWithMappings(final String typePath) {
 		Map<String, String> importMappings = MoflonPropertiesContainerHelper
 				.mappingsToMap(properties.getImportMappings());
-		return MoflonUtil.correctPathWithImportMappings(typePath,
+		return MoflonUtil.transformPackageNameUsingImportMapping(typePath,
 				importMappings);
 	}
 	
