@@ -72,7 +72,6 @@ lObjectVariable: lBindingSemantics lBindingOperator lBindingState name=ID COLON 
      					 ^(ATTRIBUTE T["category"] T["objectVariable"])
      					 ^(ATTRIBUTE T["searchCategory"] T["type"])
 						 ^(ATTRIBUTE T["search"] T["type"])
-						 lNac
      					 lBindingState
      					 lBindingOperator
      					 lBindingSemantics
@@ -142,7 +141,6 @@ lLink: lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_obj
 				^(ATTRIBUTE T["search"] T["targetObject"])
 				^(ATTRIBUTE T["searchCategory"] T["reference"])
 				^(ATTRIBUTE T["search"] T["guid"])
-				lNac
                 lBindingOperator
                 lBindingSemantics
           );

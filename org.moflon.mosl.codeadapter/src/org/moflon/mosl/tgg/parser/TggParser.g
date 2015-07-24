@@ -149,7 +149,6 @@ correspondence: lBindingOperator source_ref LEFT_ARROW name=ID {correspondenceNa
                             lBindingState
                             lBindingOperator
                             lBindingSemantics
-                            lNac
                             ^(ATTRIBUTE T["domain"] T[scope])
                             ^(ATTRIBUTE T["name"] $name)
                             ^(ATTRIBUTE T["scopeTyped"] T[scope + "/" + $type.text])
@@ -245,7 +244,6 @@ lLink: lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_obj
 				^(ATTRIBUTE T["searchCategory"] T["reference"])
 				^(ATTRIBUTE T["search"] T["guid"])
 				^(ATTRIBUTE T["domain"] T[scope])
-				lNac
                 lBindingOperator
                 lBindingSemantics
           );
