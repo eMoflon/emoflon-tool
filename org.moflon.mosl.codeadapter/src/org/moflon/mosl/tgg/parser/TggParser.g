@@ -143,7 +143,7 @@ correspondence: lBindingOperator source_ref LEFT_ARROW name=ID {correspondenceNa
          );
          
          
-         box_decl: lNac lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference lBoxBlock
+         box_decl: lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference lBoxBlock
      -> ^(TGGObjectVariable 
      						lBoxBlock
                             lBindingState
@@ -172,9 +172,7 @@ source_ref: name=ID
 						^(ATTRIBUTE T["search"] T["guid"])                        
           ;
 
-lNac: NOT -> ^(ATTRIBUTE T["nacIndex"] T["" + getGeneratedNac()]) 
-    | NOT LEFT_PARENTHESIS userNac=NUM RIGHT_PARENTHESIS ->  ^(ATTRIBUTE T["nacIndex"] T["" + setNac(Integer.parseInt($userNac.text))])
-    | -> ^(ATTRIBUTE T["nacIndex"] T["-1"]);
+
 
 lBoxBlock: -> ^(T["constraints"]) ^(T["attributeAssignments"]) ^(T["outgoingLinks"]) 
 		| CURLY_BRACKET_OPEN lAssignmentList CURLY_BRACKET_CLOSE -> ^(T["constraints"]) lAssignmentList  ^(T["outgoingLinks"]) 
@@ -217,14 +215,13 @@ correspondence_pattern: CORRESPONDENCE CURLY_BRACKET_OPEN correspondence* CURLY_
 source_pattern: SOURCE CURLY_BRACKET_OPEN { scope = "source"; } box_decl* CURLY_BRACKET_CLOSE -> ^( T["source"] box_decl*);
 
 target_pattern: TARGET CURLY_BRACKET_OPEN { scope = "target"; } box_decl* CURLY_BRACKET_CLOSE -> ^( T["target"] box_decl*);
-         
-
-lBindingSemantics: ( 
-			NEGATE DOT id=NUM -> ^(ATTRIBUTE T["bindingSemantics"] T["negative"])
-										^(ATTRIBUTE T["nacIndex"] $id) 
-            | NEGATE -> ^(ATTRIBUTE T["bindingSemantics"] T["negative"])
-            | -> ^(ATTRIBUTE T["bindingSemantics"] T["mandatory"])
-            );
+            
+lBindingSemantics: NOT -> ^(ATTRIBUTE T["bindingSemantics"] T["negative"])
+            			 ^(ATTRIBUTE T["nacIndex"] T["" + getGeneratedNac()]) 
+    | NOT DOT userNac=NUM  -> ^(ATTRIBUTE T["bindingSemantics"] T["negative"])  
+    						  ^(ATTRIBUTE T["nacIndex"] T["" + setNac(Integer.parseInt($userNac.text))])
+    | -> ^(ATTRIBUTE T["bindingSemantics"] T["mandatory"]) 
+       ^(ATTRIBUTE T["nacIndex"] T["-1"]);
             
 lBindingOperator: ( {binding = "check_only";} -> ^(ATTRIBUTE T["bindingOperator"] T["check_only"])
             | DPLUS {binding = "create";} -> ^(ATTRIBUTE T["bindingOperator"] T["create"])
@@ -237,7 +234,7 @@ lBindingState: ( -> ^(ATTRIBUTE T["bindingState"] T["unbound"])
           
 lLinkList: lLink+ -> ^(T["outgoingLinks"] lLink+);
 
-lLink: lNac lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_object=ID
+lLink: lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_object=ID
       -> ^(TGGLinkVariable 
       			^(ATTRIBUTE T["name"] $target)
       			^(ATTRIBUTE T["guid"] $target)
