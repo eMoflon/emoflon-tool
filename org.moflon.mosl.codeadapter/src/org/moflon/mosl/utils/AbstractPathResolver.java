@@ -91,7 +91,7 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 		List<String> candidates = getCandidates(name, pathTable);
 		int candiateSize = candidates.size();
 		if(candiateSize == 0)
-			throw new CanNotResolvePathException("For the name "+ name + " cannot find any path!", referencePath, referenceAttribute, cat);
+			throw new CanNotResolvePathException("For the name "+ name + " cannot find any "+ getStringOfCategory(cat) +"!", referencePath, referenceAttribute, cat);
 		else if(candiateSize == 1)
 			return candidates.get(0);
 		else
@@ -117,7 +117,7 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 	
 	private void findBestCandidateFromRight(int position, List<String> nameReferenceParts, String nameReference, List<String> candidates, String referencePath, MoslCategory cat, TreeElement referenceAttribute) {
 		if(candidates.size()==0)
-			throw new CanNotResolvePathException("The Reference to " + nameReference + " is wrong", referencePath, referenceAttribute, cat);
+			throw new CanNotResolvePathException("The "+ getStringOfCategory(cat) + " of " + nameReference + " does not exist", referencePath, referenceAttribute, cat);
 		else if(candidates.size()==1)
 			return;
 		else if(position < nameReferenceParts.size()){
@@ -133,7 +133,7 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 	
 	private void findBestCandidateFromLeft(int position, List<String> referencePathParts, String nameReference, List<String> candidates, String referencePath, MoslCategory cat, TreeElement referenceAttribute) {
 		if(candidates.size()==0)
-			throw new CanNotResolvePathException("The Reference to " + nameReference + " is too imprecise", referencePath, referenceAttribute, cat);
+			throw new CanNotResolvePathException("The name " + nameReference + " is too imprecise for" + getStringOfCategory(cat), referencePath, referenceAttribute, cat);
 		else if(candidates.size()==1)
 			return;
 		else if(position < referencePathParts.size()){
@@ -146,7 +146,7 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 			findBestCandidateFromLeft(position + 1, referencePathParts, nameReference, candidates, referencePath, cat, referenceAttribute);
 		}
 		else
-			throw new CanNotResolvePathException("The Reference to " + nameReference + " is too imprecise", referencePath, referenceAttribute, cat);
+			throw new CanNotResolvePathException("The name " + nameReference + " is too imprecise for" + getStringOfCategory(cat), referencePath, referenceAttribute, cat);
 	}
 	
 	public void removeNodeFromCache(String path){

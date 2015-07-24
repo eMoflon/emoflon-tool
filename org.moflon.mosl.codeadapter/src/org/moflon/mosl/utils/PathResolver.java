@@ -12,6 +12,10 @@ import java.util.Map;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
 
+import java.util.Collections;
+import java.util.Comparator;
+
+import MOSLCodeAdapter.moslPlus.MoslCategory;
 import MOSLCodeAdapter.moslPlus.MOSLConverterAdapter;
 import MOSLCodeAdapter.moslPlus.MOSLToMOSLPlusConverter;
 import MOSLCodeAdapter.moslPlus.MoslCategory;
@@ -33,7 +37,7 @@ public class PathResolver extends AbstractPathResolver {
 	private List<MoslCategory> inheritTypesList;
 	private List<MoslCategory> blackList;
 	
-	public PathResolver(final MOSLConverterAdapter adapter){
+	public PathResolver(MOSLConverterAdapter adapter){
 		super();
 		searchCache = new HashMap<>();
 		if(adapter instanceof MOSLToMOSLPlusConverter){
@@ -43,15 +47,14 @@ public class PathResolver extends AbstractPathResolver {
 		blackList = new LinkedList<MoslCategory>(Arrays.asList(forbiddenCategories));
 	}
 	
-	@Override
-   public void init(){
+	public void init(){
 		super.init();
 		searchCache.clear();
 	}
 	
 	
 	
-	public void addSearchPair(final String path, final Attribute searchCategory, final Attribute attribute){
+	public void addSearchPair(String path, Attribute searchCategory, Attribute attribute){
 		MoslCategory cat=getSearchCategory(searchCategory,path);
 		List<Pair<String, Attribute>> tripleList = searchCache.get(cat);
 		if(tripleList == null){
@@ -92,7 +95,7 @@ public class PathResolver extends AbstractPathResolver {
 	      }
 	   }
 
-	private String getSimpleStatementType(final Node expression){
+	private String getSimpleStatementType(Node expression){
 		if(expression.getChildren("ObjectVariableExpression").size()>0){
 			Node ove = getChild(expression, "ObjectVariableExpression");
 			Attribute oveNamePath = getAttribute(ove, "objectVariable");
@@ -131,7 +134,7 @@ public class PathResolver extends AbstractPathResolver {
 		}
 	}
 	
-	private void  resolvingArguments(final Node mce, final Node method, final String path, final String methodPath){
+	private void  resolvingArguments(Node mce, Node method, String path, String methodPath){
 		if(method != null){
 			Node parametersNode=getChild(method, "parameters");
 			List<Text> arguments= new ArrayList<>(mce.getChildren("ownedParameterBinding"));
@@ -143,7 +146,7 @@ public class PathResolver extends AbstractPathResolver {
 			if(parameters.size() == arguments.size()){
 				Comparator<Text> idComparator = new Comparator<Text>() {
 					@Override
-					public int compare(final Text o1, final Text o2) {
+					public int compare(Text o1, Text o2) {
 						Attribute id1 = null;
 						Attribute id2 = null;
 						Node node1 = Node.class.cast(o1);
@@ -171,12 +174,12 @@ public class PathResolver extends AbstractPathResolver {
 				}
 				
 			}else if(parameters.size() > arguments.size())
-				throw new CanNotResolvePathException("Too less arguments for " + mce, path, mce, mce.getName(), MoslCategory.TYPED_EXPRESSION);
+				throw new CanNotResolvePathException("Too less arguments for " + mce.getName(), path, mce, mce.getName(), MoslCategory.TYPED_EXPRESSION);
 			else
-				throw new CanNotResolvePathException("Too many arguments for " + mce, path, mce, mce.getName(), MoslCategory.TYPED_EXPRESSION);
+				throw new CanNotResolvePathException("Too many arguments for " + mce.getName(), path, mce, mce.getName(), MoslCategory.TYPED_EXPRESSION);
 		}
 		else
-			throw new CanNotResolvePathException("MethodCallExpression: "+mce+" has no guid", path, mce, mce.getName(), MoslCategory.TYPED_EXPRESSION);
+			throw new CanNotResolvePathException("MethodCallExpression: "+mce.getName()+" has no guid", path, mce, mce.getName(), MoslCategory.TYPED_EXPRESSION);
 	}
 	
 	private void resolveTypes(){
@@ -198,7 +201,7 @@ public class PathResolver extends AbstractPathResolver {
 	
 	
 	
-	private void setDependency(final String from, final String to){
+	private void setDependency(String from, String to){
 		List<String> fromPackages = getPathesForPathReferncesAndCategory(from, MoslCategory.PACKAGE);
 		List<String> toPackages = getPathesForPathReferncesAndCategory(to, MoslCategory.PACKAGE);
 		for(String fromPackagePath : fromPackages){
@@ -223,7 +226,7 @@ public class PathResolver extends AbstractPathResolver {
 		}
 	}
 	
-	private List<String> getPathesForPathReferncesAndCategory(final String refPath, final MoslCategory cat){
+	private List<String> getPathesForPathReferncesAndCategory(String refPath, MoslCategory cat){
 		Map<String, String> pathTable = categorizedPathTable.get(cat);
 		List<String> elements = new ArrayList<>();
 		for(String path : pathTable.keySet()){
@@ -257,7 +260,7 @@ public class PathResolver extends AbstractPathResolver {
 		}
 	}
 	
-	private void fixLinksReferences(final MoslCategory cat) {
+	private void fixLinksReferences(MoslCategory cat) {
 		Map<String,String> linkPathes = categorizedPathTable.get(cat);
 		if(linkPathes != null){
 			for(String linkPath : linkPathes.keySet()){
@@ -283,7 +286,7 @@ public class PathResolver extends AbstractPathResolver {
 		}
 	}
 	
-	private String findMyTypePath(final String path, final TreeElement reference){
+	private String findMyTypePath(String path, TreeElement reference){
 		Map<String, String> typePathes = categorizedPathTable.get(MoslCategory.TYPE);
 		if(typePathes != null){
 			for(String typePath : typePathes.keySet()){
@@ -291,11 +294,11 @@ public class PathResolver extends AbstractPathResolver {
 					return typePath;
 			}
 		}
-		throw new CanNotResolvePathException("path is unknown", path, reference, MoslCategory.TYPE);
+		throw new CanNotResolvePathException("Cannot find any " + getStringOfCategory(MoslCategory.TYPE) + " for " +reference.getName(), path, reference, MoslCategory.TYPE);
 	}
 	
 	
-	private void repairImportedAdornments(final Node adornmentDeclarations){
+	private void repairImportedAdornments(Node adornmentDeclarations){
 		for(Text adChild : adornmentDeclarations.getChildren()){
 			Attribute userDefined = getAttribute(Node.class.cast(adChild), "USER_DEFINED");
 			userDefined.setValue("false");
@@ -327,26 +330,6 @@ public class PathResolver extends AbstractPathResolver {
 		
 	}
 	
-//	private void checkAllPackagesForConfiguration(){
-//		checkCategoryForConfiguration(MODEL_CONFIGURATION_FILE, Category.PACKAGE);
-//	}
-//	
-//	private void checkAllWorkingSetsForConfiguration(){
-//		checkCategoryForConfiguration(MOSL_CONFIGURATION_FILE, Category.WORKING_SET);
-//	}
-//	
-//	private void checkCategoryForConfiguration(String config, Category cat){
-//		Map<String, String> allWorkingSetPathes = categorizedPathTable.get(cat);
-//		for(String path:allWorkingSetPathes.keySet()){
-//			Node configuration = null;
-//			Node workingSetNode = moslCache.get(path);
-//			if(!hasChild(workingSetNode, config)){
-//				configuration = createNodeForCSPs(config, path);
-//				workingSetNode.getChildren().add(configuration);
-//			}
-//		}
-//	}
-	
 	private Node getMoslConfigurationFileNode(){
 		try{
 			return moslCache.get(getPath("", MOSL_CONFIGURATION_FILE, MoslCategory.MCONF_FILE, null));
@@ -359,11 +342,11 @@ public class PathResolver extends AbstractPathResolver {
 		return moslCache.get(getPath("", "adornment.mconf", MoslCategory.MCONF_FILE, null));
 	}
 	
-	private String createNewReferencePath(final String oldReferencePath, final String typePath, final String baseClassPath){
+	private String createNewReferencePath(String oldReferencePath, String typePath, String baseClassPath){
 		return baseClassPath + oldReferencePath.replaceFirst(typePath, "");
 	}
 	
-	private String tryToGetPath(final String referencePath, final String name, final MoslCategory cat, final TreeElement referenceAttribute){
+	private String tryToGetPath(String referencePath, String name, MoslCategory cat, TreeElement referenceAttribute){
 		String path = null;
 		try{
 			path = getPath(referencePath, name, cat, referenceAttribute);
@@ -375,7 +358,7 @@ public class PathResolver extends AbstractPathResolver {
 					for(Text child : getChild(myType, "BaseClasses").getChildren()){
 						path = tryToGetPath(createNewReferencePath(referencePath, myTypePath, getAttribute(Node.class.cast(child), "baseClass").getValue()), name, cat, referenceAttribute);
 						if(path != null)
-							break;
+							return path;
 					}
 					if(path==null)
 						throw new CanNotResolvePathException(e.getMessage(), e, referencePath, referenceAttribute, name, cat);
@@ -390,7 +373,7 @@ public class PathResolver extends AbstractPathResolver {
 		return path;
 	}
 	
-	private void getPattern(final Node destination, final String name, final String path, final TreeElement referenceElement){
+	private void getPattern(Node destination, String name, String path, TreeElement referenceElement){
 		String[] pathParts=path.split("/");
 		String relativeName=pathParts[pathParts.length-2]+"/"+pathParts[pathParts.length-1]+"/"+name+".pattern";
 		
@@ -399,7 +382,7 @@ public class PathResolver extends AbstractPathResolver {
 		converter.traverseTree(path, cpyPattern);
 	}
 	
-	private void resolveCategory(final MoslCategory cat){
+	private void resolveCategory(MoslCategory cat){
 		Attribute attribute = null;
 		String referencePath = null;
 		List<Pair<String, Attribute>> pairs = searchCache.get(cat);

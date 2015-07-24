@@ -49,6 +49,73 @@ public abstract class AbstractResolver {
 		}
 	}
 	
+	public static String getStringOfCategory(MoslCategory cat){
+		switch(cat){
+		case ACTVITY:
+			return "Activity";
+		case ATTRIBUTE:
+			return "Attribute";
+		case CORRESPONDENCE:
+			return "Correspondence";
+		case ECLASS_FILE:
+			return "EClass File";
+		case LINK:
+			return "Link";
+		case MCONF_FILE:
+			return "MOSL Configuration File";
+		case METAMODEL:
+			return "Meta-Model";
+		case OBJECT_VARIABLE:
+			return "Object Variable";
+		case OPERATION:
+			return "Operation";
+		case OPPOSITE:
+			return "Opposite";
+		case OTHER:
+			return "Something";
+		case PACKAGE:
+			return "Package";
+		case PARAMETER:
+			return "Parameter";
+		case PATTERN:
+			return "Pattern";
+		case PATTERN_FILE:
+			return "Pattern File";
+		case PATTERN_FOLDER:
+			return "Pattern Folder";
+		case REFERENCE:
+			return "Reference";
+		case RULE:
+			return "Rule";
+		case RULES_FOLDER:
+			return "Rules Folder";
+		case SCHEMA_FILE:
+			return "Schema File";
+		case TGG:
+			return "Triple Graph Grammar";
+		case TGG_FILE:
+			return "Triple Graph Grammar File";
+		case TGG_FOLDER:
+			return "Triple Graph Grammar Folder";
+		case TGG_LINK:
+			return "TGG Link";
+		case TGG_OBJECT_VARIABLE:
+			return "TGG Object Variable";
+		case TGG_RULE:
+			return "TGG Rule";
+		case TGG_SCHEMA:
+			return "TGG Schema";
+		case TYPE:
+			return "Type";
+		case TYPED_EXPRESSION:
+			return "Typed Expression";
+		case WORKING_SET:
+			return "Working Set";
+		default:
+			return null;		 
+		}
+	}
+	
 	public MoslCategory getCategory(Node node, String path){
 		return getCategory(node, "category", path);
 	}
@@ -69,7 +136,7 @@ public abstract class AbstractResolver {
 		}catch (IndexOutOfBoundsException ioobe){
 			categoryAttr = createAttribute("category", "other", node.getAttribute().size());					
 		}catch (Exception e){
-			throw new CanNotResolveCategoryException("Unknown Exception", path, node, e);
+			throw new CanNotResolveCategoryException("Unknown Exception: " + e.getClass().getSimpleName(), path, node, e);
 		}		 
 		try{
 			category=getCategory(categoryAttr.getValue(), path);
@@ -77,7 +144,7 @@ public abstract class AbstractResolver {
 		
 			throw new CanNotResolveCategoryException("Unknown Category: "+categoryAttr.getValue(), path ,node, ce);
 		}catch (Exception e){
-			throw new CanNotResolveCategoryException("Unknown Exception", path, node, e);
+			throw new CanNotResolveCategoryException("Unknown Exception: " + e.getClass().getSimpleName(), path, node, e);
 		}	
 		return category;
 	
