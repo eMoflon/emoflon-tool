@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -104,8 +105,8 @@ public class WorkspaceHelper
    public static final String PLUGIN_ID_ECORE = "org.eclipse.emf.ecore";
 
    public static final String PLUGIN_ID_ECORE_XMI = "org.eclipse.emf.ecore.xmi";
-   
-   public static final String PLUGIN_ID_ECLIPSE_RUNTIME= "org.eclipse.core.runtime";
+
+   public static final String PLUGIN_ID_ECLIPSE_RUNTIME = "org.eclipse.core.runtime";
 
    public static final String PLUGIN_ID_TGGRUNTIME = "TGGRuntime";
 
@@ -132,10 +133,10 @@ public class WorkspaceHelper
    public static final String ISSUE_TRACKER_URL = "https://github.com/eMoflon/emoflon-issue-tracking-system/issues";
 
    public static final String MOSL_PROBLEM_MARKER_ID = "org.moflon.ide.marker.MOSLProblem";
-   
+
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
 
-   public static final String PLUGIN_ID_DOTTGGRUNTIME = "org.moflon.ide.visualization.dot.tgg.runtime"; 
+   public static final String PLUGIN_ID_DOTTGGRUNTIME = "org.moflon.ide.visualization.dot.tgg.runtime";
 
    /**
     * Checks if given name is a valid name for a new project in the current workspace.
@@ -714,6 +715,22 @@ public class WorkspaceHelper
       return project != null && project.hasNature(METAMODEL_NATURE_ID);
    }
 
+   /**
+    * Same as {@link #isMetamodelProject(IProject)} but catches {@link CoreException}s, returning false.
+    * @param project
+    * @return
+    */
+   public static boolean isMetamodelProjectNoThrow(final IProject project)
+   {
+      try
+      {
+         return isMetamodelProject(project);
+      } catch (CoreException e)
+      {
+         return false;
+      }
+   }
+
    public static boolean isInjectionFile(final IResource resource)
    {
       return resource != null && isFile(resource) && resource.getName().endsWith(INJECTION_FILE_EXTENSION);
@@ -928,8 +945,10 @@ public class WorkspaceHelper
    /**
     * Copies the content of the source file into the target file.
     * 
-    * @param source source file
-    * @param target target file
+    * @param source
+    *           source file
+    * @param target
+    *           target file
     * 
     * @deprecated Use {@link FileUtils#copyFile(File, File)}
     */
@@ -942,12 +961,12 @@ public class WorkspaceHelper
          BufferedInputStream origin = new BufferedInputStream(new FileInputStream(source));
          BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(target));
          int count;
-   
+
          while ((count = origin.read(buffer)) > 0)
          {
             out.write(buffer, 0, count);
          }
-   
+
          origin.close();
          out.close();
       } catch (FileNotFoundException e)
@@ -957,6 +976,42 @@ public class WorkspaceHelper
       {
          e.printStackTrace();
       }
+   }
+
+   /**
+    * Returns a file handle for the EAP file in the given metamodel project.
+    * 
+    * The file need not exist and needs to be checked using {@link IFile#exists()}.
+    * 
+    * @param metamodelProject
+    * @return the file handle. Never null.
+    */
+   public static IFile getEapFileFromMetamodelProject(final IProject metamodelProject)
+   {
+      return metamodelProject.getFile(metamodelProject.getName().concat(".eap"));
+   }
+
+   /**
+    * Returns the file handle of the MOCA tree of a metamodel project.
+    * 
+    * The MOCA tree may not exist and has to be checked using {@link IFile#exists()}.
+    * 
+    * @param metamodelProject
+    * @return the file handle. Never null.
+    */
+   public static IFile getExportedMocaTree(final IProject metamodelProject)
+   {
+      Function<String, IFile> loadMocaTree = name -> metamodelProject.getFolder(TEMP_FOLDER).getFile(name + MOCA_XMI_FILE_EXTENSION);
+
+      IFile mocaTreeFile = loadMocaTree.apply(metamodelProject.getName());
+
+      if (!mocaTreeFile.exists())
+         mocaTreeFile = loadMocaTree.apply(metamodelProject.getName().toUpperCase());
+
+      if (!mocaTreeFile.exists())
+         mocaTreeFile = loadMocaTree.apply(metamodelProject.getName().toLowerCase());
+
+      return mocaTreeFile;
    }
 
 }
