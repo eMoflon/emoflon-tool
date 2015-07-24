@@ -26,6 +26,10 @@ public class MoflonDirtyProjectDecorator extends LabelProvider implements ILight
          decoration.addPrefix(IS_DIRTY_PREFIX);
    }
 
+   /**
+    * Triggers an update of the decorator label for the given project
+    * @param project
+    */
    public void projectStateChanged(final IProject project)
    {
       this.fireLabelProviderChanged(new LabelProviderChangedEvent(this, project));

@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -35,9 +34,9 @@ public class MocaTreeEAPropertiesReader
 
    private Node mocaTree;
 
-   public Map<String, MetamodelProperties> getProperties(IProject project) throws CoreException
+   public Map<String, MetamodelProperties> getProperties(final IProject project) throws CoreException
    {
-      IFile mocaFile = getFileToExportTree(project);
+      IFile mocaFile = WorkspaceHelper.getExportedMocaTree(project);
 
       if (mocaFile.exists())
       {
@@ -56,21 +55,6 @@ public class MocaTreeEAPropertiesReader
       {
          throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Cannot extract project properties, since Moca tree is missing."));
       }
-   }
-
-   private IFile getFileToExportTree(IProject project)
-   {
-      Function<String, IFile> loadMocaTree = name -> project.getFolder(WorkspaceHelper.TEMP_FOLDER).getFile(name + WorkspaceHelper.MOCA_XMI_FILE_EXTENSION);
-      
-      IFile mocaTreeFile = loadMocaTree.apply(project.getName());
-      
-      if(!mocaTreeFile.exists())
-         mocaTreeFile = loadMocaTree.apply(project.getName().toUpperCase());
-      
-      if(!mocaTreeFile.exists())
-         mocaTreeFile = loadMocaTree.apply(project.getName().toLowerCase());
-      
-      return mocaTreeFile;
    }
 
    public Map<String, MetamodelProperties> getProperties(final Node rootNode) throws CoreException

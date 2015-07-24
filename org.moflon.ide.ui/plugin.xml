@@ -605,6 +605,10 @@
                            name="projectNature"
                            value="org.moflon.ide.ui.runtime.natures.IntegrationNature">
                      </objectState>
+                     <objectState
+                           name="projectNature"
+                           value="org.moflon.ide.ui.runtime.natures.MetamodelNature">
+                     </objectState>
                   </or>
             	</and>
             </enablement>

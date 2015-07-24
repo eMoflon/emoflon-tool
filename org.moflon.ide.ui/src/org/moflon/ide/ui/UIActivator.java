@@ -5,8 +5,18 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -18,6 +28,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.DirtyProjectListener;
 import org.moflon.ide.ui.decorators.MoflonDirtyProjectDecorator;
@@ -32,12 +43,6 @@ public class UIActivator extends AbstractUIPlugin
 {
 
    private static Logger logger = Logger.getLogger(UIActivator.class);
-
-   /**
-    * Use {@link UIActivator#getModuleID()}
-    */
-   @Deprecated 
-   public static final String PLUGIN_ID = "org.moflon.ide.ui"; //$NON-NLS-1$
 
    // The shared instance
    private static UIActivator plugin;
@@ -66,11 +71,6 @@ public class UIActivator extends AbstractUIPlugin
          return bundleId;
    }
 
-   /*
-    * (non-Javadoc)
-    * 
-    * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-    */
    @Override
    public void start(final BundleContext context) throws Exception
    {
@@ -79,32 +79,12 @@ public class UIActivator extends AbstractUIPlugin
       bundleId = context.getBundle().getSymbolicName();
 
       CoreActivator.getDefault().reconfigureLogging();
-      CoreActivator.getDefault().registerDirtyProjectListener(new DirtyProjectListener() {
 
-         @Override
-         public void dirtyStateChanged(final IProject project, final boolean isDirty)
-         {
-            final MoflonDirtyProjectDecorator decorator = (MoflonDirtyProjectDecorator) PlatformUI.getWorkbench().getDecoratorManager()
-                  .getBaseLabelProvider(MoflonDirtyProjectDecorator.DECORATOR_ID);
-            if (decorator != null)
-            {
-               Display.getDefault().asyncExec(new Runnable() {
-                  @Override
-                  public void run()
-                  {
-                     decorator.projectStateChanged(project);
-                  }
-               });
-            }
-         }
-      });
+      registerDirtyStateChangedListener();
+      // labelDirtyMetamodelProjects();
+      registerListenerForDirtyMetamodelProjects();
    }
 
-   /*
-    * (non-Javadoc)
-    * 
-    * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-    */
    @Override
    public void stop(final BundleContext context) throws Exception
    {
@@ -163,7 +143,7 @@ public class UIActivator extends AbstractUIPlugin
 
    public static ImageDescriptor getImage(final String pathToIcon)
    {
-      return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, pathToIcon);
+      return AbstractUIPlugin.imageDescriptorFromPlugin(getModuleID(), pathToIcon);
    }
 
    public static void showMessage(final String title, final String message)
@@ -188,4 +168,97 @@ public class UIActivator extends AbstractUIPlugin
       });
    }
 
+   /**
+    * Registers a listener that is triggered, whenever the 'dirty' state of a project changes.
+    * 
+    * It triggers the {@link MoflonDirtyProjectDecorator} to update the dirty flag
+    */
+   private void registerDirtyStateChangedListener()
+   {
+      CoreActivator.getDefault().registerDirtyProjectListener(new DirtyProjectListener() {
+
+         @Override
+         public void dirtyStateChanged(final IProject project, final boolean isDirty)
+         {
+            final MoflonDirtyProjectDecorator decorator = (MoflonDirtyProjectDecorator) PlatformUI.getWorkbench().getDecoratorManager()
+                  .getBaseLabelProvider(MoflonDirtyProjectDecorator.DECORATOR_ID);
+            if (decorator != null)
+            {
+               Display.getDefault().asyncExec(new Runnable() {
+                  @Override
+                  public void run()
+                  {
+                     decorator.projectStateChanged(project);
+                  }
+               });
+            }
+         }
+      });
+   }
+
+   /**
+    * Registers a listener that is triggered when the EAP file in a metamodel project is becoming more recent than its
+    * generated Moca tree.
+    */
+   private void registerListenerForDirtyMetamodelProjects()
+   {
+      ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
+
+         @Override
+         public void resourceChanged(final IResourceChangeEvent event)
+         {
+            try
+            {
+               event.getDelta().accept(new IResourceDeltaVisitor() {
+
+                  @Override
+                  public boolean visit(final IResourceDelta delta) throws CoreException
+                  {
+                     IResource eapFile = delta.getResource();
+                     if (eapFile.getName().endsWith(".eap"))
+                     {
+                        IFile xmiTree = WorkspaceHelper.getExportedMocaTree(eapFile.getProject());
+                        if (xmiTree.exists() && xmiTree.getLocalTimeStamp() < eapFile.getLocalTimeStamp())
+                        {
+                           CoreActivator.getDefault().setDirty(eapFile.getProject(), true);
+                        }
+                        return false;
+                     } else
+                     {
+                        return true;
+                     }
+                  }
+               });
+            } catch (CoreException e)
+            {
+               e.printStackTrace();
+            }
+         }
+      }, IResourceChangeEvent.POST_CHANGE);
+   }
+
+   /**
+    * Iterates over all metamodel projects and marks them as dirty if necessary
+    * 
+    * @throws CoreException
+    */
+   private void labelDirtyMetamodelProjects() throws CoreException
+   {
+      ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+
+         @Override
+         public void run(final IProgressMonitor monitor) throws CoreException
+         {
+            WorkspaceHelper.getProjectsByNatureID(WorkspaceHelper.METAMODEL_NATURE_ID).stream().forEach(p -> {
+               IFile eapFile = WorkspaceHelper.getEapFileFromMetamodelProject(p);
+               IFile mocaTreeFile = WorkspaceHelper.getExportedMocaTree(p);
+               if (eapFile.exists() && mocaTreeFile.exists() && mocaTreeFile.getLocalTimeStamp() < eapFile.getLocalTimeStamp())
+               {
+                  CoreActivator.getDefault().setDirty(eapFile.getProject(), true);
+                  logger.info("Setting dirty: " + eapFile.getProject());
+               }
+            });
+         }
+      }, new NullProgressMonitor());
+   }
 }

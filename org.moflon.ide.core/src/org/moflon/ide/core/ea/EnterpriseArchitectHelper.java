@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.util.RefreshProjectJob;
 
@@ -39,7 +40,7 @@ public class EnterpriseArchitectHelper
          monitor.beginTask("Exporting project " + project.getName(), 2);
 
          URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXPORT, CoreActivator.getModuleID());
-         IFile eap = project.getFile(project.getName().concat(".eap"));
+         IFile eap = WorkspaceHelper.getEapFileFromMetamodelProject(project);
          Runtime rt = Runtime.getRuntime();
          String command = "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\"" + " -e --eap " + "\"" + eap.getLocation() + "\"";
          logger.debug("Executing '" + command + "'");

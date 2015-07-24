@@ -53,7 +53,7 @@ public class MetamodelBuilder extends AbstractBuilder
    {
       final MultiStatus mocaToMoflonStatus = new MultiStatus(CoreActivator.getModuleID(), 0, BUILDER_ID + " failed", null);
       try
-      {
+      {         
          logger.debug("Start processing .temp folder");
          monitor.beginTask(getProgressBarMessage(), 140);
          SubProgressMonitor exporterSubMonitor = WorkspaceHelper.createSubMonitor(monitor, 100);
@@ -80,7 +80,6 @@ public class MetamodelBuilder extends AbstractBuilder
 
          saveGeneratedMetamodels();
          monitor.worked(20);
-
       } catch (Exception e)
       {
          logger.warn("Unable to update created projects: " + e.getMessage() == null ? e.toString() : e.getMessage());
@@ -91,6 +90,8 @@ public class MetamodelBuilder extends AbstractBuilder
       }
 
       handleErrorsInEclipse(mocaToMoflonStatus);
+      
+      CoreActivator.getDefault().setDirty(this.getProject(), false);
 
       return mocaToMoflonStatus.isOK();
    }
