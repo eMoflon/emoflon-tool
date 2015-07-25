@@ -46,7 +46,6 @@ public class TextEditorBuilder extends IncrementalProjectBuilder
                {
                   for (IResourceDelta change : getAllDeltaLeaves(delta, editor))
                      editor.onSave(change.getResource().getLocation().toString());
-                  editor.getProblems();
                }
 
                for (IResourceDelta change : changedDeltas)
@@ -63,7 +62,6 @@ public class TextEditorBuilder extends IncrementalProjectBuilder
                   if (modelPath != null)
                   {
                      editor.onSave(path.toString());
-                     MarkerHelper.removeMarkers(resource);
                      pathToRefresh = modelPath.substring(projectPath.length() + 1);
                   } else if (textPath != null)
                   {
@@ -75,11 +73,11 @@ public class TextEditorBuilder extends IncrementalProjectBuilder
                   // IFile textFile = project.getFile(path);
 
                   fileToRefresh.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-                  editor.getProblems();
 
                   focusEditor(fileToRefresh, 0);
                }
-
+               
+               editor.getProblems();
             } catch (Exception e)
             {
                e.printStackTrace();
