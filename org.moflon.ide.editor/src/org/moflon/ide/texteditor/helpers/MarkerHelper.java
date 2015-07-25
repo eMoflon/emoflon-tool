@@ -3,16 +3,17 @@ package org.moflon.ide.texteditor.helpers;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 import Moca.Problem;
 
 public class MarkerHelper {
 	IResource resource;
-	final static String MARKER_TYPE = "org.moflon.ide.TextEditor.MoflonEditorProblem";
 
 	/**
 	 * returns the number of Markers for the given resource.  
@@ -36,7 +37,7 @@ public class MarkerHelper {
 	 */
 	public static void removeMarkers(IResource resource) {
 		try {
-			resource.deleteMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+			resource.deleteMarkers(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}      
@@ -53,7 +54,7 @@ public class MarkerHelper {
 	public static void reportError(IResource resource, Exception exception) {
 		IMarker m;
 		try {
-			m = resource.createMarker(MARKER_TYPE);
+			m = resource.createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID);
 			m.setAttribute(IMarker.MESSAGE, exception.getMessage());
 			m.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
 			m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
@@ -72,7 +73,6 @@ public class MarkerHelper {
 	public static void reportError(IResource resource, Problem problem, ITextEditor editor) {
 		if (resource.getType() == IResource.FILE)
 		{
-			IMarker m;
 			int line = problem.getLine();
 			if(line == 0)
 				line++;
@@ -94,7 +94,7 @@ public class MarkerHelper {
 			}
 			
 			try {
-				m = resource.createMarker(MARKER_TYPE);
+			   IMarker m = resource.createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID);
 				m.setAttribute(IMarker.LINE_NUMBER, line);
 				m.setAttribute(IMarker.CHAR_START, posStart);
 				m.setAttribute(IMarker.CHAR_END,   posEnd);
@@ -111,8 +111,9 @@ public class MarkerHelper {
 					m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
 					break;
 				default:
-					break;
+					break;					
 				}
+				
 			} catch (CoreException e) {
 				e.printStackTrace();
 			}
