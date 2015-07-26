@@ -192,7 +192,6 @@ public class MOSLBuilder extends AbstractBuilder
 		   }
 		   else 
 			   createMarker(moslFolder, errorMessage.getErrorNode().getStartLineIndex(), errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
-	 
 	   }
    }
    
@@ -253,57 +252,62 @@ public class MOSLBuilder extends AbstractBuilder
    private void createMarker(final IResource resource, final int lineNumber, final int characterStart, final int characterEnd, final String message,
          final String errorType) throws CoreException
    {
-      UIJob uiJob = new UIJob("Create Marker") {
+      logger.debug("Creating marker on resource: " + resource);
+      IMarker m = resource.createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID);
+      m.setAttribute(IMarker.CHAR_START, -1);
+      m.setAttribute(IMarker.CHAR_END, -1);
+      if (lineNumber > 0)
+         m.setAttribute(IMarker.LINE_NUMBER, lineNumber);
+
+      m.setAttribute(IMarker.MESSAGE, message);
+      m.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+      m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+      m.setAttribute("errorType", errorType == null ? "Unspecified" : errorType);
+
+      UIJob uiJob = new UIJob("Correct Marker") {
          @Override
          public IStatus runInUIThread(IProgressMonitor monitor)
          {
             try
             {
-               IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-
-               if (editor instanceof AbstractTextEditor)
-               {
-                  IDocumentProvider provider = AbstractTextEditor.class.cast(editor).getDocumentProvider();
-                  IDocument document = provider.getDocument(editor.getEditorInput());
-
-                  logger.debug("Creating marker on resource: " + resource);
-                  IMarker m = resource.createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID);
-                  if (document != null)
-                  {
-                     int posStart;
-                     try
-                     {
-                        posStart = characterStart + document.getLineOffset(lineNumber - 1);
-                        int posEnd = characterEnd + document.getLineOffset(lineNumber - 1);
-
-                        if (posStart < 0)
-                        {
-                           posStart = 0;
-                           posEnd = 1;
-                        }
-
-                        m.setAttribute(IMarker.CHAR_START, posStart);
-                        m.setAttribute(IMarker.CHAR_END, posEnd);
-                     } catch (BadLocationException e)
-                     {
-                        // Can't set position of marker
-                     }
-                  }
-
-                  if (lineNumber > 0)
-                     m.setAttribute(IMarker.LINE_NUMBER, lineNumber);
-
-                  m.setAttribute(IMarker.MESSAGE, message);
-                  m.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-                  m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-                  m.setAttribute("errorType", errorType == null ? "Unspecified" : errorType);
-               }
+               correctLocationOfMarker(lineNumber, characterStart, characterEnd, m);
             } catch (Exception e)
             {
                return Status.CANCEL_STATUS;
             }
 
             return Status.OK_STATUS;
+         }
+
+         private void correctLocationOfMarker(final int lineNumber, final int characterStart, final int characterEnd, IMarker m) throws CoreException
+         {
+            IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            if (editor instanceof AbstractTextEditor)
+            {
+               IDocumentProvider provider = AbstractTextEditor.class.cast(editor).getDocumentProvider();
+               IDocument document = provider.getDocument(editor.getEditorInput());
+
+               if (document != null)
+               {
+                  try
+                  {
+                     int posStart = characterStart + document.getLineOffset(lineNumber - 1);
+                     int posEnd = characterEnd + document.getLineOffset(lineNumber - 1);
+
+                     if (posStart < 0)
+                     {
+                        posStart = 0;
+                        posEnd = 1;
+                     }
+
+                     m.setAttribute(IMarker.CHAR_START, posStart);
+                     m.setAttribute(IMarker.CHAR_END, posEnd);
+                  } catch (BadLocationException e)
+                  {
+                     // Can't set position of marker
+                  }
+               }
+            }
          };
       };
 
