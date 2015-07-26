@@ -187,7 +187,7 @@ public class EClassTextEditorConfiguration extends AbstractMOSLTextEditorConfigu
    @Override
    public void getProblems()
    {
-      super.getProblems();
+      
    }
 
    @Override
