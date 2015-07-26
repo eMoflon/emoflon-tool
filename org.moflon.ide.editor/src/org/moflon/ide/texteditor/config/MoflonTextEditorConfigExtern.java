@@ -23,14 +23,7 @@ public abstract class MoflonTextEditorConfigExtern extends MoflonTextEditorConfi
 
    public Node getUnderlyingTree(String filepath)
    {
-      try
-      {
-         return codeAdapter.parseFile(new File(filepath), null).getRootNode();
-      } catch (Exception e)
-      {
-         e.printStackTrace();
-         return null;
-      }
+      return null;
    }
 
    public int[] getRefreshScope()

@@ -14,17 +14,25 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.progress.UIJob;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.mosl.MOSLUtils;
 import org.moflon.mosl.utils.GuidGenerator;
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
-import org.moflon.mosl.utils.exceptions.MoslException;
 
 import MOSLCodeAdapter.eaTreeTransformation.EaTreeTransformationFactory;
 import MOSLCodeAdapter.eaTreeTransformation.EaTreeTransformator;
@@ -92,15 +100,19 @@ public class MOSLBuilder extends AbstractBuilder
 
          // Perform text to tree
          MocaTree.Folder moslTree = codeAdapter.parse(dir);
-
          if (codeAdapter.getProblems().size() > 0)
          {
-            for (Problem p : codeAdapter.getProblems())
-            {
-               System.err.println("ERROR: " + p.getSource() + ": " + p.getMessage());
-               IResource resource = findResource(moslFolder, p.getSource());
-               createMarker(resource != null ? resource : moslFolder, p.getLine(), p.getCharacterPositionStart(), p.getCharacterPositionEnd(), p.getMessage(), "Parser");
-            }
+            codeAdapter.getProblems().stream().distinct().forEach(p -> 
+              {
+                try {
+                   IResource resource;
+                   resource = findResource(moslFolder, p.getSource());
+                   createMarker(resource != null ? resource : moslFolder, p.getLine(), p.getCharacterPositionStart(), p.getCharacterPositionEnd(), p.getMessage(), "Parser");
+                 } catch (Exception e) {
+                    // Can't create marker
+                 }
+              });
+
             return false;
          }
          monitor.worked(1);
@@ -117,45 +129,49 @@ public class MOSLBuilder extends AbstractBuilder
 
          temp.create(true, true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-         eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), moslTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".mosl.xmi");
+         eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), moslTree,
+               temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".mosl.xmi");
          monitor.worked(1);
 
          Node moslPlusTree = converter.convertMOSLFolder(moslTree);
-         eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), moslPlusTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".mosl.plus.xmi");
+         eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), moslPlusTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR
+               + project.getName() + ".mosl.plus.xmi");
          monitor.worked(1);
 
-         if (converter.getErrorHandler().size() == 0){
-        	 Node eaTree = transformer.transform(moslPlusTree);
-        	 eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), eaTree, temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".moca.xmi");
-        	 monitor.worked(1);
-         }
-         else 
-        	 createErrorMarker(converter.getErrorHandler(), moslFolder);
+         if (converter.getErrorHandler().size() == 0)
+         {
+            Node eaTree = transformer.transform(moslPlusTree);
+            eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), eaTree,
+                  temp.getLocation().toFile() + WorkspaceHelper.PATH_SEPARATOR + project.getName() + ".moca.xmi");
+            monitor.worked(1);
+         } else
+            createErrorMarker(converter.getErrorHandler(), moslFolder);
          temp.refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-      } catch (MoslException e)
+      } catch (Exception e)
       {
-         if(e instanceof CanNotResolvePathException){
-            CanNotResolvePathException cnrpe = (CanNotResolvePathException)e;
-                        
+         if (e instanceof CanNotResolvePathException)
+         {
+            CanNotResolvePathException cnrpe = (CanNotResolvePathException) e;
+
             int lastSlash = cnrpe.getReferencePath().lastIndexOf('/');
             String pathToEClassWithMissingPattern = cnrpe.getReferencePath().substring(0, lastSlash);
             IResource resource = moslFolder.getFile(pathToEClassWithMissingPattern + ".eclass");
-            
-            //TODO [szander]  Improve for cases where the resource is not an eclass - maybe check the category?
-            if(!resource.exists())
+
+            // TODO [szander] Improve for cases where the resource is not an eclass - maybe check the category?
+            if (!resource.exists())
                resource = moslFolder;
-            
+
             int lastSlashBeforePattern = cnrpe.getName().lastIndexOf('/');
             String patternName = cnrpe.getName().substring(lastSlashBeforePattern + 1, cnrpe.getName().length());
-            
+
             String message = "Cannot find: '" + patternName + "' for path '" + cnrpe.getReferencePath() + "'";
-            createMarker(resource, -1, -1, -1, message, CanNotResolvePathException.class.getSimpleName());            
+            createMarker(resource, -1, -1, -1, message, CanNotResolvePathException.class.getSimpleName());
+         } else
+         {
+            createMarker(moslFolder, -1, -1, -1, "I'm unable to handle this MOSL specification due to some errors", e.getClass().getSimpleName());
+            logger.debug("Unable to handle MOSL spec: " + e.getMessage());
          }
-         else {
-            createMarker(moslFolder, -1, -1, -1, e.toString(), e.getClass().getSimpleName());
-            e.printStackTrace();
-         }
-         
+
          return false;
       } finally
       {
@@ -233,24 +249,66 @@ public class MOSLBuilder extends AbstractBuilder
       return null;
    }
 
-   private void createMarker(final IResource resource, final int lineNumber, final int characterStart, final int characterEnd, final String message, final String errorType)
-         throws CoreException
+   // FIXME: This code is almost exactly contained in MarkerHelper (TextEditorFramework) and should be moved somewhere else.
+   private void createMarker(final IResource resource, final int lineNumber, final int characterStart, final int characterEnd, final String message,
+         final String errorType) throws CoreException
    {
-      logger.debug("Creating marker on resource: " + resource);
-      IMarker m = resource.createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID);
-      if (lineNumber > 0)
-      {
-         m.setAttribute(IMarker.LINE_NUMBER, lineNumber);
-         if (characterStart > 0)
+      UIJob uiJob = new UIJob("Create Marker") {
+         @Override
+         public IStatus runInUIThread(IProgressMonitor monitor)
          {
-            m.setAttribute(IMarker.CHAR_START, characterStart);
-            m.setAttribute(IMarker.CHAR_END, characterEnd);
-         }
-      }
-      m.setAttribute(IMarker.MESSAGE, message);
-      m.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-      m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-      m.setAttribute("errorType", errorType == null ? "Unspecified" : errorType);
+            try
+            {
+               IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+
+               if (editor instanceof AbstractTextEditor)
+               {
+                  IDocumentProvider provider = AbstractTextEditor.class.cast(editor).getDocumentProvider();
+                  IDocument document = provider.getDocument(editor.getEditorInput());
+
+                  logger.debug("Creating marker on resource: " + resource);
+                  IMarker m = resource.createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID);
+                  if (document != null)
+                  {
+                     int posStart;
+                     try
+                     {
+                        posStart = characterStart + document.getLineOffset(lineNumber - 1);
+                        int posEnd = characterEnd + document.getLineOffset(lineNumber - 1);
+
+                        if (posStart < 0)
+                        {
+                           posStart = 0;
+                           posEnd = 1;
+                        }
+
+                        m.setAttribute(IMarker.CHAR_START, posStart);
+                        m.setAttribute(IMarker.CHAR_END, posEnd);
+                     } catch (BadLocationException e)
+                     {
+                        // Can't set position of marker
+                     }
+                  }
+
+                  if (lineNumber > 0)
+                     m.setAttribute(IMarker.LINE_NUMBER, lineNumber);
+
+                  m.setAttribute(IMarker.MESSAGE, message);
+                  m.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+                  m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+                  m.setAttribute("errorType", errorType == null ? "Unspecified" : errorType);
+               }
+            } catch (Exception e)
+            {
+               return Status.CANCEL_STATUS;
+            }
+
+            return Status.OK_STATUS;
+         };
+      };
+
+      uiJob.setSystem(true);
+      uiJob.schedule();
    }
 
    public static void convertEAPProjectToMOSL(final IProject project)

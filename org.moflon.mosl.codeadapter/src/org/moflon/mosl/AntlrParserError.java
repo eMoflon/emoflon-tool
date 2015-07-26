@@ -1,40 +1,21 @@
 package org.moflon.mosl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.antlr.runtime.MismatchedTokenException;
-import org.antlr.runtime.MismatchedTreeNodeException;
 import org.antlr.runtime.RecognitionException;
 
 
 public class AntlrParserError
 {
-
    private final int line;
    private final int positionInLine;
    private final RecognitionException recognitionException;
-   private final List<String> tokenNames;
-   
-   public AntlrParserError()
-   {
-      this.line = 0;
-      this.positionInLine = 0;
-      this.recognitionException = null;
-      this.tokenNames = new ArrayList<String>(1);
-   }
-   
-   public AntlrParserError(RecognitionException re) {
-      this(re, new String[] {});
-   }
+   private final String token;
 
-   public AntlrParserError(RecognitionException re, String[] tokenNames)
+   public AntlrParserError(RecognitionException re)
    {
       this.recognitionException = re;
       this.line = re.line;
       this.positionInLine = re.charPositionInLine;
-      this.tokenNames = Arrays.asList(tokenNames);
+      this.token = recognitionException.token != null? recognitionException.token.getText() : null;
    }
 
    public int getLine()
@@ -47,16 +28,15 @@ public class AntlrParserError
       return positionInLine;
    }
    
+   public String getToken(){
+      return token != null? token : " ";
+   }
+   
    public String getMessage()
    {
-      if (recognitionException instanceof MismatchedTokenException) {
-         MismatchedTokenException mte = (MismatchedTokenException) recognitionException;
-         return String.format("Mismatched token. Expected: %s, actual: %s", mte.expecting > -1 ? tokenNames.get(mte.expecting) : "<unknown>", tokenNames.get(mte.getUnexpectedType()));
-      }
-      if (recognitionException instanceof MismatchedTreeNodeException) {
-         MismatchedTreeNodeException mte = (MismatchedTreeNodeException) recognitionException;
-         return String.format("Mismatched tree node token. Expected: %s, actual: %s", mte.expecting > -1 ? tokenNames.get(mte.expecting) : "<unknown>", mte.getUnexpectedType() > -1 ? tokenNames.get(mte.getUnexpectedType()) : "<unknown>");
-      }
-      return recognitionException.toString();
+      if(token != null)
+         return "I can't make any sense of this token: " + recognitionException.token.getText();
+      else
+         return "I'm confused and unable to continue parsing.  Please take a good look at the marked region in your text.";
    }
 }

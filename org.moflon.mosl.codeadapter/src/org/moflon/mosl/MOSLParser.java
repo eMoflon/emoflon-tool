@@ -26,7 +26,7 @@ public abstract class MOSLParser extends Parser
    @Override
    public void reportError(RecognitionException e)
    {
-      errors.add(new AntlrParserError(e, getTokenNames()));
+      errors.add(new AntlrParserError(e));
    }
 
    public List<AntlrParserError> getErrors()

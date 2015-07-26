@@ -38,6 +38,7 @@ import org.moflon.mosl.tgg.unparser.TggUnparserAdapter;
 import Moca.CodeAdapter;
 import Moca.MocaFactory;
 import Moca.Problem;
+import Moca.ProblemType;
 import MocaTree.Attribute;
 import MocaTree.File;
 import MocaTree.Folder;
@@ -198,13 +199,20 @@ public class MOSLUtils {
     }
 	
 	public static Problem createProblem(CodeAdapter codeAdapter, String file, AntlrParserError e) {
-		Problem p = MocaFactory.eINSTANCE.createProblem();
+	   int line  = e.getLine();
+	   int charPos = e.getPositionInLine();
+	   int tokenLength = e.getToken().length();
+	   
+	   Problem p = MocaFactory.eINSTANCE.createProblem();
+	   p.setCharacterPositionStart(charPos); 
+	   p.setCharacterPositionEnd(charPos+tokenLength); 
 		p.setMessage(e.getMessage());
-		p.setLine(e.getLine());
-		p.setCharacterPositionStart(e.getPositionInLine());
+		p.setLine(line);
 		p.setSource(file);
 		p.setCodeAdapter(codeAdapter);
+		p.setType(ProblemType.ERROR);
 		return p;
+		
 	}
 
    public static URL getImport(String name)

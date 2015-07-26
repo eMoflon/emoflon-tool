@@ -8,7 +8,6 @@ import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
-import org.apache.log4j.Logger;
 import org.moflon.moca.MocaUtil;
 
 import Moca.parser.impl.ParserImpl;
@@ -18,11 +17,10 @@ import MocaTree.Node;
 public abstract class AbstractMOSLParserAdapter extends ParserImpl
 {
    private String currentFilename;
-   private final Logger log = Logger.getLogger(this.getClass());
+
    @Override
    public final boolean canParseFile(String fileName) {
       if (fileName.endsWith(getExtension())) {
-         log.debug("parse " + fileName);
          currentFilename = fileName;
          return true;
       }
@@ -59,7 +57,6 @@ public abstract class AbstractMOSLParserAdapter extends ParserImpl
       } catch (RecognitionException e)
       {
          MOSLUtils.createProblem(getCodeAdapter(), file.getAbsolutePath(), new AntlrParserError(e));
-         System.err.format("ParserError: [%s]: %s", getCurrentFilename(), e.toString());
       }
       return null;
    }

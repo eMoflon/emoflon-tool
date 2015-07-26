@@ -165,7 +165,6 @@ public class EClassTextEditorConfiguration extends AbstractMOSLTextEditorConfigu
    @Override
    public void onSave(final String textFilePath)
    {
-      super.onSave(textFilePath);
    }
 
    /**

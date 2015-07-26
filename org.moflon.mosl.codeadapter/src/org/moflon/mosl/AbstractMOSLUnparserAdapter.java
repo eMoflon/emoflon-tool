@@ -49,7 +49,7 @@ public abstract class AbstractMOSLUnparserAdapter extends TemplateUnparserImpl
       
       if (st == null || eclassTreeGrammar.getErrors().size() > 0) {
          for (RecognitionException e : eclassTreeGrammar.getErrors()) {
-            MOSLUtils.createProblem(getCodeAdapter(), currentFilename, new AntlrParserError(e, eclassTreeGrammar.getTokenNames()));
+            MOSLUtils.createProblem(getCodeAdapter(), currentFilename, new AntlrParserError(e));
          }
          return "";
       }
