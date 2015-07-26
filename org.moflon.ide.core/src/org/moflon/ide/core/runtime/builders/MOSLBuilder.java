@@ -188,10 +188,12 @@ public class MOSLBuilder extends AbstractBuilder
 			   IResource resource = moslFolder.getFile(filePath);
 	           if(!resource.exists())
 	               resource = moslFolder;
-	           createMarker(resource,errorMessage.getErrorNode().getStartLineIndex() , errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
+	           //createMarker(resource,errorMessage.getErrorNode().getStartLineIndex() , errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
+	           createMarker(resource, -1, -1, -1, errorMessage.getMessage(), "SemanticError");
 		   }
 		   else 
-			   createMarker(moslFolder, errorMessage.getErrorNode().getStartLineIndex(), errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
+			   //createMarker(moslFolder, errorMessage.getErrorNode().getStartLineIndex(), errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
+		      createMarker(moslFolder, -1, -1, -1, errorMessage.getMessage(), "SemanticError");
 	   }
    }
    
