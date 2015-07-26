@@ -12,6 +12,7 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeNodeStream;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.moflon.moca.SafeCommonTreeNodeStream;
@@ -22,6 +23,7 @@ public abstract class AbstractMOSLUnparserAdapter extends TemplateUnparserImpl
 {
    private String currentFilename;
    protected final String templateDir;
+   private final Logger log = Logger.getLogger(this.getClass());
 
    public AbstractMOSLUnparserAdapter(String templateDir)
    {
@@ -32,7 +34,7 @@ public abstract class AbstractMOSLUnparserAdapter extends TemplateUnparserImpl
    @Override
    public boolean canUnparseFile(String fileName) {
       if (fileName.endsWith(getExtension())) {
-         System.out.println("  - " + fileName);
+         log.debug("unparse " + fileName);
          currentFilename = fileName;
          return true;
       }
