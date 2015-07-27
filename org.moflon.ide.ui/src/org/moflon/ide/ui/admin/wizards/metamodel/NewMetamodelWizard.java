@@ -136,7 +136,7 @@ public class NewMetamodelWizard extends AbstractExampleWizard
                Map<String, Object> attrs = new HashMap<String, Object>();
                String content = renderTemplate(stg, "imports", attrs);
 
-               WorkspaceHelper.addFile(newProjectHandle, "MOSL/_imports.mconf", content, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+               WorkspaceHelper.addFile(newProjectHandle, "MOSL/_MOSLConfiguration.mconf", content, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             }
             monitor.worked(1);
          } else /* EA/visual metamodel project */
