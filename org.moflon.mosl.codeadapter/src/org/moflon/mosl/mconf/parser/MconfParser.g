@@ -50,7 +50,7 @@ imports_decl: import_decl+ -> ^(T["imports"] import_decl+);
 
 import_decl: IMPORT name=type_reference -> ^(ATTRIBUTE T["import"] $name);
 
-udcs_decl: USER_DEFINED_CONSTRAINTS CURLY_BRACKET_OPEN lCSP CURLY_BRACKET_CLOSE -> ^(T["UserDefinedConstraints"] lCSP);
+udcs_decl: USER_DEFINED_CONSTRAINTS CURLY_BRACKET_OPEN lCSP? CURLY_BRACKET_CLOSE -> ^(T["UserDefinedConstraints"] lCSP?);
 
 opposites_decl: OPPOSITES CURLY_BRACKET_OPEN opposite_reference* CURLY_BRACKET_CLOSE -> ^(T["opposites"] opposite_reference*);
 
