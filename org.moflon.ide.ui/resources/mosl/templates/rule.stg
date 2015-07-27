@@ -1,21 +1,26 @@
 group rule;
 
 rule(name) ::= <<
-rule <name> {
-	source {
+rule <name> 
+{
+	source 
+	{
 	
 	}
 	
-	correspondence {
+	correspondence 
+	{
 	
 	}
 	
-	target {
+	target 
+	{
 	
 	
 	}
 	
-	constraints {
+	constraints 
+	{
 	
 	}
 }

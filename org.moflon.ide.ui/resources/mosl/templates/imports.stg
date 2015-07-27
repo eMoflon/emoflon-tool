@@ -1,7 +1,8 @@
 group imports;
 
 imports() ::= <<
-user_defined_constraints{ 
+user_defined_constraints
+{ 
 	
 }
 >>

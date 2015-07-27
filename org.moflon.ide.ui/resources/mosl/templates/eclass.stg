@@ -1,7 +1,8 @@
 group eclass;
 
 eclass(name) ::= <<
-class <name> {
+class <name> 
+{
 
 
 }

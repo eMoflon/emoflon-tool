@@ -36,6 +36,30 @@
             id="org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard"
             name="Add Parser/Unparser Wizard">
       </wizard>
+      <wizard
+            canFinishEarly="false"
+            category="org.moflon.ide.ui.category"
+            class="org.moflon.ide.ui.admin.wizards.mosl.NewMOSLConfiguration"
+            finalPerspective="org.moflon.ide.ui.perspective"
+            hasPages="false"
+            icon="resources/icons/mconf.png"
+            id="org.moflon.ide.ui.admin.wizards.mosl.NewMOSLConfiguration"
+            name="MOSLConfiguration"
+            preferredPerspectives="org.moflon.ide.ui.perspective"
+            project="false">
+      </wizard>
+      <wizard
+            canFinishEarly="false"
+            category="org.moflon.ide.ui.category"
+            class="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard"
+            finalPerspective="org.moflon.ide.ui.perspective"
+            hasPages="true"
+            icon="resources/icons/folder_add.png"
+            id="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard"
+            name="EPackage"
+            preferredPerspectives="org.moflon.ide.ui.perspective"
+            project="false">
+      </wizard>
      
       <wizard
             canFinishEarly="false"
@@ -52,12 +76,12 @@
       <wizard
             canFinishEarly="false"
             category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard"
+            class="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard"
             finalPerspective="org.moflon.ide.ui.perspective"
             hasPages="true"
-            icon="resources/icons/folder_add.png"
-            id="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard"
-            name="EPackage"
+            icon="resources/icons/patterns.gif"
+            id="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard"
+            name="Pattern"
             preferredPerspectives="org.moflon.ide.ui.perspective"
             project="false">
       </wizard>
@@ -82,18 +106,6 @@
             icon="resources/icons/link_add.png"
             id="org.moflon.ide.ui.admin.wizards.mosl.NewTGGRuleWizard"
             name="TGG Rule"
-            preferredPerspectives="org.moflon.ide.ui.perspective"
-            project="false">
-      </wizard>
-      <wizard
-            canFinishEarly="false"
-            category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard"
-            finalPerspective="org.moflon.ide.ui.perspective"
-            hasPages="true"
-            icon="resources/icons/patterns.gif"
-            id="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard"
-            name="Pattern"
             preferredPerspectives="org.moflon.ide.ui.perspective"
             project="false">
       </wizard>
@@ -392,11 +404,20 @@
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="org.moflon.ide.ui.perspective">
+            <newWizardShortcut
+                  id="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard">
+            </newWizardShortcut>
+         <newWizardShortcut
+               id="org.moflon.ide.ui.admin.wizards.mosl.NewMOSLConfiguration">
+         </newWizardShortcut>
             <newWizardShortcut id="org.moflon.ide.ui.admin.wizards.mosl.NewEClassWizard"/>
+            <newWizardShortcut
+                  id="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard">
+            </newWizardShortcut>
             <newWizardShortcut id="org.moflon.ide.ui.admin.wizards.mosl.NewTGGWizard"/>
             <newWizardShortcut id="org.moflon.ide.ui.admin.wizards.mosl.NewTGGRuleWizard"/>
             <newWizardShortcut
-                  id="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard">
+                  id="org.moflon.ide.ui.admin.wizards.mosl.NewMOSLConfiguration">
             </newWizardShortcut>
             <newWizardShortcut
                   id="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard">

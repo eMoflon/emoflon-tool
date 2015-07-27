@@ -1,7 +1,8 @@
 group constraints;
 
 constraints() ::= <<
-opposites {
+opposites 
+{
 
 }
 >>
