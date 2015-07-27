@@ -26,6 +26,8 @@ public class MConfTextEditorConfiguration extends AbstractMOSLTextEditorConfigur
       addKeyWord("opposites").as(COLORS.VIOLET, BOLD, 0);
       addKeyWord("import").as(COLORS.VIOLET, BOLD, 0);
       addKeyWord("foreign").as(COLORS.VIOLET, BOLD, 0);
+      addKeyWord("user_defined_constraints").as(COLORS.VIOLET, BOLD, 0);
+      addKeyWord("udc").as(COLORS.VIOLET, BOLD, 0);
       // choose one of the following calls:
       // addKeyWord("public").as(COLORS.VIOLET);
       // addKeyWord("public").as(COLORS.VIOLET, COLORS.GRAY, String "Arial", 12, BOLD, UNDERLINED)
