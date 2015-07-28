@@ -81,6 +81,8 @@ public abstract class AbstractPathResolver extends AbstractResolver {
 		LinkedList<String> nameReferenceParts = new LinkedList<>(Arrays.asList(nameReference.split("/")));
 		LinkedList<String> referencePathParts = new LinkedList<>(Arrays.asList(referencePath.split("/")));
 		String name=nameReferenceParts.pollLast();
+		if(pathTable==null)
+			throw new CanNotResolvePathException("For the name "+ name + " cannot find any "+ getStringOfCategory(cat) +"!", referencePath, referenceAttribute, cat);
 		if(name.equalsIgnoreCase("void"))
 			return "void";
 		else
