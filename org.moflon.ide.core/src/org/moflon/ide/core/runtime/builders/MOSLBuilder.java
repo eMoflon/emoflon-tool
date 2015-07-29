@@ -31,6 +31,7 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.mosl.MOSLUtils;
+import org.moflon.mosl.utils.AbstractResolver;
 import org.moflon.mosl.utils.GuidGenerator;
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
 
@@ -40,7 +41,6 @@ import MOSLCodeAdapter.moslPlus.MOSLToMOSLPlusConverter;
 import MOSLCodeAdapter.moslPlus.MoslErrorMessage;
 import MOSLCodeAdapter.moslPlus.MoslPlusFactory;
 import Moca.CodeAdapter;
-import Moca.Problem;
 import MocaTree.Node;
 
 public class MOSLBuilder extends AbstractBuilder
@@ -107,9 +107,9 @@ public class MOSLBuilder extends AbstractBuilder
                 try {
                    IResource resource;
                    resource = findResource(moslFolder, p.getSource());
-                   createMarker(resource != null ? resource : moslFolder, p.getLine(), p.getCharacterPositionStart(), p.getCharacterPositionEnd(), p.getMessage(), "Parser");
+                   createMarker(resource != null ? resource : moslFolder, p.getLine(), p.getCharacterPositionStart(), p.getCharacterPositionEnd(), p.getMessage(), "Parser", null);
                  } catch (Exception e) {
-                    // Can't create marker
+                    logger.debug("Can't create marker");
                  }
               });
 
@@ -165,10 +165,10 @@ public class MOSLBuilder extends AbstractBuilder
             String patternName = cnrpe.getName().substring(lastSlashBeforePattern + 1, cnrpe.getName().length());
 
             String message = "Cannot find: '" + patternName + "' for path '" + cnrpe.getReferencePath() + "'";
-            createMarker(resource, -1, -1, -1, message, CanNotResolvePathException.class.getSimpleName());
+            createMarker(resource, -1, -1, -1, message, CanNotResolvePathException.class.getSimpleName(), ((CanNotResolvePathException) e).getPath());
          } else
          {
-            createMarker(moslFolder, -1, -1, -1, "I'm unable to handle this MOSL specification due to some errors", e.getClass().getSimpleName());
+            createMarker(moslFolder, -1, -1, -1, "I'm unable to handle this MOSL specification due to some errors", e.getClass().getSimpleName(), "");
             logger.debug("Unable to handle MOSL spec: " + e.getMessage());
          }
 
@@ -184,16 +184,16 @@ public class MOSLBuilder extends AbstractBuilder
    private void createErrorMarker(List<MoslErrorMessage> errors, IFolder moslFolder) throws CoreException{
 	   for(MoslErrorMessage errorMessage : errors){	
 		   String filePath = errorMessage.getFileName();
-		   if(filePath !=null && filePath.compareTo("")!=0){
-			   IResource resource = moslFolder.getFile(filePath);
-	           if(!resource.exists())
-	               resource = moslFolder;
-	           //createMarker(resource,errorMessage.getErrorNode().getStartLineIndex() , errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
-	           createMarker(resource, -1, -1, -1, errorMessage.getMessage(), "SemanticError");
-		   }
-		   else 
-			   //createMarker(moslFolder, errorMessage.getErrorNode().getStartLineIndex(), errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
-		      createMarker(moslFolder, -1, -1, -1, errorMessage.getMessage(), "SemanticError");
+		   IResource resource = null;
+		   if(filePath !=null && filePath.compareTo("")!=0)
+			   resource = moslFolder.getFile(filePath);
+	       if(resource==null || !resource.exists())
+	    	   resource = moslFolder;
+	       //createMarker(resource,errorMessage.getErrorNode().getStartLineIndex() , errorMessage.getErrorNode().getStartIndex(), errorMessage.getErrorNode().getStopIndex(), errorMessage.getMessage(), "SemanticError");
+	       if(errorMessage.getCategory()!=null)
+	    	   createMarker(resource, -1, -1, -1, errorMessage.getMessage(), "SemanticError:" + AbstractResolver.getStringOfCategory(errorMessage.getCategory()), errorMessage.getPath());
+	       else
+	    	   createMarker(moslFolder, -1, -1, -1, errorMessage.getMessage(), "SemanticError", errorMessage.getPath());
 	   }
    }
    
@@ -252,7 +252,7 @@ public class MOSLBuilder extends AbstractBuilder
 
    // FIXME: This code is almost exactly contained in MarkerHelper (TextEditorFramework) and should be moved somewhere else.
    private void createMarker(final IResource resource, final int lineNumber, final int characterStart, final int characterEnd, final String message,
-         final String errorType) throws CoreException
+         final String errorType, final String referencePath) throws CoreException
    {
       logger.debug("Creating marker on resource: " + resource);
       IMarker m = resource.createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID);
@@ -265,6 +265,7 @@ public class MOSLBuilder extends AbstractBuilder
       m.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
       m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
       m.setAttribute("errorType", errorType == null ? "Unspecified" : errorType);
+      m.setAttribute("referencePath", referencePath == null ? "" : referencePath);
 
       UIJob uiJob = new UIJob("Correct Marker") {
          @Override
@@ -306,7 +307,7 @@ public class MOSLBuilder extends AbstractBuilder
                      m.setAttribute(IMarker.CHAR_END, posEnd);
                   } catch (BadLocationException e)
                   {
-                     // Can't set position of marker
+                     logger.debug("Can't set position of marker");
                   }
                }
             }

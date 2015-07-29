@@ -6,10 +6,9 @@ import static org.moflon.ide.ui.admin.wizards.util.WizardUtil.renderTemplate;
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -22,7 +21,8 @@ import org.eclipse.ui.ide.IDE;
 
 class MissingPatternResolution implements IMarkerResolution
 {
-
+   private final Logger log= Logger.getLogger(this.getClass());
+	
    @Override
    public String getLabel()
    {
@@ -33,23 +33,27 @@ class MissingPatternResolution implements IMarkerResolution
    public void run(final IMarker marker)
    {
       try {
+    	  
+    	 String path = marker.getAttribute("referencePath").toString();    	 
+    	 
+    	 String[] pathParts = path.split("/");
+    	 
+    	 if(pathParts.length >= 3){
+    	 
          String message = marker.getAttribute(IMarker.MESSAGE).toString();
-         
-         Pattern p = Pattern.compile("Cannot find: '(([^\\.]*)\\.pattern)' for path '.*/([^/]*)/([^/]*)'");
-         
-         Matcher m = p.matcher(message);
-         
-         if (m.matches()) {
-            String patternName = m.group(2);
-            String className = m.group(3);
-            String operationName = m.group(4);
+
+            String patternFileName = message.replace("For the name ", "");
+            patternFileName = patternFileName.substring(0, patternFileName.indexOf(" cannot"));
+            String patternName = patternFileName.replace(".pattern", "");
+            String operationName = pathParts[pathParts.length-1];
+            String className = pathParts[pathParts.length-2];         
             IResource resource = marker.getResource();
             IProject project = resource.getProject();
             IContainer parent = resource.getParent();
             String patternDir = parent.getProjectRelativePath().toString() + "/_patterns";
             String patternClassDir = patternDir + "/" + className;
             String patternOperationDir = patternClassDir + "/" + operationName; 
-            String patternFileName = m.group(1);
+            
             
             IFolder patternFolder = project.getFolder(patternDir);
             if (!patternFolder.exists()) {
@@ -75,8 +79,10 @@ class MissingPatternResolution implements IMarkerResolution
             patternFile.create(source, true, null);
             
             IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), patternFile);
-         }
+
+    	 }
       } catch (Exception e) {
+    	 log.debug(e.getMessage(), e);
          e.printStackTrace();
       }
 
