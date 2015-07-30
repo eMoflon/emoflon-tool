@@ -13,11 +13,11 @@
     </handler>
   </extension>
   <extension point="org.eclipse.ui.commands">
-    <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.conversion.ConvertToDotCommand" name="Convert to dot"/>
+    <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.conversion.ConvertToDotCommand" name="Visualize"/>
   </extension>
   <extension point="org.eclipse.ui.menus">
     <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupConversions">
-      <command commandId="org.moflon.ide.ui.commands.conversion.ConvertToDotCommand" icon="resources/icons/convertToDot.png" label="Convert to dot" style="push" tooltip="Visualize contained SDMs in dot format">
+      <command commandId="org.moflon.ide.ui.commands.conversion.ConvertToDotCommand" icon="resources/icons/convertToDot.png" label="Visualize" style="push" tooltip="Visualize contained SDMs in dot format">
         <visibleWhen checkEnabled="false"/>
       </command>
     </menuContribution>
