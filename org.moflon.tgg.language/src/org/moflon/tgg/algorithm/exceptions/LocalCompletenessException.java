@@ -22,7 +22,7 @@ public abstract class LocalCompletenessException extends Exception {
          Iterator<String> itrNames = ruleNames.iterator();
          Iterator<Map<String, EObject>> itrMappings = matches.iterator();
          
-         while(itrNames.hasNext()){
+         while(itrNames.hasNext() && itrMappings.hasNext()){
             Map<String, EObject> mapping = itrMappings.next();
             detailedInfo.append("\n" + itrNames.next() + "\n-------------------\n");
             mapping.forEach((label, node) -> detailedInfo.append(label + " ---> " + "[" + node + "]" + "\n"));
