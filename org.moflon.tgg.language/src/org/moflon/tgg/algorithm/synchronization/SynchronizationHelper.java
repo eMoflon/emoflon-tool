@@ -458,20 +458,29 @@ public class SynchronizationHelper
 
    /* Persistency */
 
+   private EObject loadModel(final String path)
+   {
+      return set.getResource(eMoflonEMFUtil.createFileURI(path, true), true).getContents().get(0);
+   }
+   
+   private EObject loadModelFromJar(final String pathToJar, final String pathToResource)
+   {
+      return set.getResource(eMoflonEMFUtil.createInJarURI(pathToJar, pathToResource), true).getContents().get(0);
+   }
+   
    public void loadTrg(final String path)
    {
-      setTrg(eMoflonEMFUtil.loadModelWithDependencies(path, set));
+      setTrg(loadModel(path));
    }
-
 
    public void loadSrc(final String path)
    {
-      setSrc(eMoflonEMFUtil.loadModelWithDependencies(path, set));
+      setSrc(loadModel(path));
    }
 
    public void loadCorr(final String path)
    {
-      setCorr(eMoflonEMFUtil.loadModelWithDependencies(path, set));
+      setCorr(loadModel(path));
    }
 
    /**
@@ -486,7 +495,7 @@ public class SynchronizationHelper
     */
    private void loadRulesFromProject(final String pathToProject, final String rulesFileBaseName)
    {
-      setRules((StaticAnalysis) eMoflonEMFUtil.loadModelWithDependencies(pathToProject + "/model/" + MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi", set));
+      setRules((StaticAnalysis) loadModel(pathToProject + "/model/" + MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi"));
    }
 
    /**
@@ -497,10 +506,9 @@ public class SynchronizationHelper
     * @param pathToResourceInJar
     *           the absolute path of the rules package inside the Jar file (e.g., "/model/MyIntegration.sma.xmi")
     */
-   private void loadRulesFromJarArchive(final String pathToJarArchive, final String pathToResourceInJar)
+   public void loadRulesFromJarArchive(final String pathToJarArchive, final String pathToResourceInJar)
    {
-      setRules((StaticAnalysis) eMoflonEMFUtil.loadAndInitModelFromJarFileWithDependencies(TGGLanguagePackage.eINSTANCE, pathToJarArchive, pathToResourceInJar,
-            set));
+      setRules((StaticAnalysis) loadModelFromJar(pathToJarArchive, pathToResourceInJar));
    }
 
 
@@ -519,7 +527,7 @@ public class SynchronizationHelper
 
    public void loadSynchronizationProtocol(final String path)
    {
-      TGGRuntime.PrecedenceStructure ps = (TGGRuntime.PrecedenceStructure) eMoflonEMFUtil.loadModelWithDependencies(path, set);
+      TGGRuntime.PrecedenceStructure ps = (TGGRuntime.PrecedenceStructure) loadModel(path);
       protocol = new SynchronizationProtocol();
       protocol.load(ps);
    }
