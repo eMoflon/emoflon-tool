@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-	<Product Id="5c0e46a8-9d2f-4a02-b5f3-d3057caf4e5e" Name="eMoflon EA Addin" Language="1033" Version="$(var.ProductVersion)" Manufacturer="TU Darmstadt FG Echtzeitsysteme" UpgradeCode="37aaa1eb-c0ba-4893-b0b3-ec740575dbe4">
+	<Product Id="*" 
+           Name="eMoflon EA Addin" 
+           Language="1033" 
+           Version="$(var.ProductVersion)" 
+           Manufacturer="TU Darmstadt FG Echtzeitsysteme" 
+           UpgradeCode="37aaa1eb-c0ba-4893-b0b3-ec740575dbe4">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 	
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MajorUpgrade 
+      Schedule="afterInstallInitialize"
+      DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate />
 	
 		<Feature Id="ProductFeature" Title="eMoflonAddinInstaller" Level="1">
