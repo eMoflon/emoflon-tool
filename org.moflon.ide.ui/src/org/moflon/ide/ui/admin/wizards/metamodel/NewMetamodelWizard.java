@@ -108,9 +108,10 @@ public class NewMetamodelWizard extends AbstractExampleWizard
          monitor.beginTask("Creating metamodel project", 8);
 
          String projectName = projectInfo.getProjectName();
+         IPath location = projectInfo.getProjectLocation();
 
          // Create project
-         IProject newProjectHandle = WorkspaceHelper.createProject(projectName, UIActivator.getModuleID(), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         IProject newProjectHandle = WorkspaceHelper.createProject(projectName, UIActivator.getModuleID(), location , WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          // Add directory folders MOSL and imports file
          if (projectInfo.textual())

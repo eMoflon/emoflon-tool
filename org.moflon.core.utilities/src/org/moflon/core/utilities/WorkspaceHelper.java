@@ -105,8 +105,8 @@ public class WorkspaceHelper
    public static final String PLUGIN_ID_ECORE = "org.eclipse.emf.ecore";
 
    public static final String PLUGIN_ID_ECORE_XMI = "org.eclipse.emf.ecore.xmi";
-   
-   public static final String PLUGIN_ID_ECLIPSE_RUNTIME= "org.eclipse.core.runtime";
+
+   public static final String PLUGIN_ID_ECLIPSE_RUNTIME = "org.eclipse.core.runtime";
 
    public static final String PLUGIN_ID_TGGRUNTIME = "TGGRuntime";
 
@@ -133,10 +133,10 @@ public class WorkspaceHelper
    public static final String ISSUE_TRACKER_URL = "https://github.com/eMoflon/emoflon-issue-tracking-system/issues";
 
    public final static String MOSL_PROBLEM_MARKER_ID = "org.moflon.ide.marker.MOSLProblem";
-   
+
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
 
-   public static final String PLUGIN_ID_DOTTGGRUNTIME = "org.moflon.ide.visualization.dot.tgg.runtime"; 
+   public static final String PLUGIN_ID_DOTTGGRUNTIME = "org.moflon.ide.visualization.dot.tgg.runtime";
 
    /**
     * Checks if given name is a valid name for a new project in the current workspace.
@@ -179,10 +179,13 @@ public class WorkspaceHelper
     *           name of the new project
     * @param monitor
     *           a progress monitor, or null if progress reporting is not desired
+    * @param location
+    *          the file system location where the project should be placed
     * @return handle to newly created project
     * @throws CoreException
     */
-   public static IProject createProject(final String projectName, final String pluginId, final IProgressMonitor monitor) throws CoreException
+   public static IProject createProject(final String projectName, final String pluginId, final IPath location, final IProgressMonitor monitor)
+         throws CoreException
    {
       try
       {
@@ -194,7 +197,7 @@ public class WorkspaceHelper
 
          // Use default location (in workspace)
          final IProjectDescription description = ResourcesPlugin.getWorkspace().newProjectDescription(newProject.getName());
-         description.setLocation(null);
+         description.setLocation(location);
 
          // Complain if project already exists
          if (newProject.exists())
@@ -211,6 +214,21 @@ public class WorkspaceHelper
       {
          monitor.done();
       }
+   }
+
+   /**
+    * Creates a new project in current workspace
+    * 
+    * @param projectName
+    *           name of the new project
+    * @param monitor
+    *           a progress monitor, or null if progress reporting is not desired
+    * @return handle to newly created project
+    * @throws CoreException
+    */
+   public static IProject createProject(final String projectName, final String pluginId, final IProgressMonitor monitor) throws CoreException
+   {
+      return createProject(projectName, pluginId, null, monitor);
    }
 
    /**
@@ -274,8 +292,8 @@ public class WorkspaceHelper
       }
    }
 
-   public static void clearFolder(final IProject project, final String folder, final IProgressMonitor monitor) throws CoreException, URISyntaxException,
-         IOException
+   public static void clearFolder(final IProject project, final String folder, final IProgressMonitor monitor)
+         throws CoreException, URISyntaxException, IOException
    {
       try
       {
@@ -717,6 +735,7 @@ public class WorkspaceHelper
 
    /**
     * Same as {@link #isMetamodelProject(IProject)} but catches {@link CoreException}s, returning false.
+    * 
     * @param project
     * @return
     */
@@ -961,12 +980,12 @@ public class WorkspaceHelper
          BufferedInputStream origin = new BufferedInputStream(new FileInputStream(source));
          BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(target));
          int count;
-   
+
          while ((count = origin.read(buffer)) > 0)
          {
             out.write(buffer, 0, count);
          }
-   
+
          origin.close();
          out.close();
       } catch (FileNotFoundException e)
