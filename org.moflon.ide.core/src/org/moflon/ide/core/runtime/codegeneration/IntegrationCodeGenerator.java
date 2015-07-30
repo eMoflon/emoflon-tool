@@ -32,7 +32,6 @@ import org.moflon.moca.tggUserDefinedConstraint.unparser.TGGUserDefinedConstrain
 import org.moflon.moca.tie.RunIntegrationGeneratorBatch;
 import org.moflon.moca.tie.RunIntegrationGeneratorSync;
 import org.moflon.moca.tie.RunModelGenerationGenerator;
-import org.moflon.moca.tie.RunTrafoScalabilityTestGenerator;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
 
 import CSPCodeAdapter.CSPCodeAdapterFactory;
@@ -282,7 +281,6 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          new RunIntegrationGeneratorBatch(project).doFinish();
          new RunIntegrationGeneratorSync(project).doFinish();
          new RunModelGenerationGenerator(project).doFinish();
-         new RunTrafoScalabilityTestGenerator(project).doFinish();
          monitor.worked(5);
       } finally
       {
