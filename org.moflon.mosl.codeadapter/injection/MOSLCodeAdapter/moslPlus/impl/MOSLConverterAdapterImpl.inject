@@ -41,8 +41,11 @@ partial class MOSLConverterAdapterImpl {
 @model addPath(String path, String name, Node node) <--
 		try{
 			resolver.addPath(path, name, node);
-		} catch (MoslException e){
-			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
+		} catch (MoslException e) {
+			if(e instanceof CanNotResolvePathException)
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), CanNotResolvePathException.class.cast(e).getCategory());
+			else
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), null);
 		}
 	-->
 	
@@ -50,7 +53,10 @@ partial class MOSLConverterAdapterImpl {
 		try {
 			return resolver.getPath(currentPath, nameReference, category, element);
 		} catch (MoslException e) {
-			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
+			if(e instanceof CanNotResolvePathException)
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), CanNotResolvePathException.class.cast(e).getCategory());
+			else
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), null);
 			return "";
 		}
 	-->	
@@ -75,7 +81,10 @@ partial class MOSLConverterAdapterImpl {
 		try {
 			resolver.resolveAllPathes();
 		} catch (MoslException e) {
-			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
+			if(e instanceof CanNotResolvePathException)
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), CanNotResolvePathException.class.cast(e).getCategory());
+			else
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), null);
 		}
 	-->	
 
@@ -83,7 +92,10 @@ partial class MOSLConverterAdapterImpl {
 		try{
 			resolver.resolveCSPs();
 		} catch (MoslException e) {
-			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
+			if(e instanceof CanNotResolvePathException)
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), CanNotResolvePathException.class.cast(e).getCategory());
+			else
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), null);
 		}
 -->
 
@@ -91,8 +103,15 @@ partial class MOSLConverterAdapterImpl {
 		try{
 			resolver.resolveOpposites();
 		} catch (MoslException e) {
-			this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(),e.getPath(), e.getFileName());
+			if(e instanceof CanNotResolvePathException)
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), CanNotResolvePathException.class.cast(e).getCategory());
+			else
+				this.createMoslErrorMessage(e.getErrorNode(), e.getMessage(), e.getPath(), e.getFileName(), null);
 		}
+-->
+
+@model isNull(MoslCategory arg) <--
+		return arg == null;
 -->
 	
 }		
