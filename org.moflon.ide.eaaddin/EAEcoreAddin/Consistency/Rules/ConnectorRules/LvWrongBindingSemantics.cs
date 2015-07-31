@@ -18,7 +18,7 @@ namespace EAEcoreAddin.Consistency.Rules.ConnectorRules
             if (eaConnector.Stereotype == SDMModelingMain.LinkVariableStereotype || eaConnector.Stereotype == TGGModelingMain.TggLinkVariableStereotype)
             {
                 SQLConnectorTag tag = EAUtil.findTaggedValue(eaConnector, ObjectVariable.BindingSemanticsTaggedValueName);
-                if (tag.Value.ToLower() == "optional")
+                if (tag != null && tag.Value.ToLower() == "optional")
                 {
                     result.Add("Optional ist not supported anymore");
                 }
