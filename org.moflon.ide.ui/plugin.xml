@@ -939,7 +939,7 @@
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
-            name="Build (dirty projects only)">
+            name="Build selected dirty projects">
       </command>
       <category
             description="Collection of eMoflon commands"
@@ -1030,10 +1030,10 @@
          <command
                commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
                icon="resources/icons/rebuildClassesDirtyOnly.png"
-               label="Build (dirty projects)"
+               label="Build selected dirty projects"
                mnemonic="D"
                style="push"
-               tooltip="Build (dirty projects only)">
+               tooltip="Build selected dirty projects">
             <visibleWhen
                   checkEnabled="false">
             </visibleWhen>
