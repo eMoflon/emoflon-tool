@@ -156,7 +156,25 @@ correspondence: lBindingOperator source_ref LEFT_ARROW name=ID {correspondenceNa
                         	^(ATTRIBUTE T["searchCategory"] T["type"])
 		   				 	^(ATTRIBUTE T["search"] T["type"])
                             ^(ATTRIBUTE T["category"] T["tggObjectVariable"])
-         );
+         )
+  | lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference ASSIGN bindingExpression=lExpression
+    ->  ^(TGGObjectVariable  
+                        ^(ATTRIBUTE T["domain"] T[scope])
+                        ^(ATTRIBUTE T["name"] $name)
+                        ^(ATTRIBUTE T["scopeTyped"] T[scope + "/" + $type.text])
+                        ^(ATTRIBUTE T["type"] $type)
+                       	^(ATTRIBUTE T["searchCategory"] T["type"])
+		   				^(ATTRIBUTE T["search"] T["type"])
+                        ^(ATTRIBUTE T["category"] T["tggObjectVariable"])
+     					 lBindingState
+     					 lBindingOperator
+     					 lBindingSemantics
+     					 ^(T["constraints"])
+     					 ^(T["attributeAssignments"])
+     					 ^(T["outgoingLinks"])
+     					 ^(T["bindingExpression"] 
+     					   $bindingExpression)
+         )     ;
          
 source_ref: name=ID
       -> 			^(ATTRIBUTE T["category"] T["tggLink"])

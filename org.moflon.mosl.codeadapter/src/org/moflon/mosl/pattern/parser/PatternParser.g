@@ -76,7 +76,23 @@ lObjectVariable: lBindingSemantics lBindingOperator lBindingState name=ID COLON 
      					 lBindingOperator
      					 lBindingSemantics
      					 lBoxBlock    
-         ); 
+         )
+  | lBindingSemantics lBindingOperator lBindingState name=ID COLON type=lTypeReference ASSIGN bindingExpression=lExpression
+    ->  ^(ObjectVariable 
+     					 ^(ATTRIBUTE T["name"] $name)
+     					 ^(ATTRIBUTE T["type"] $type)
+     					 ^(ATTRIBUTE T["category"] T["objectVariable"])
+     					 ^(ATTRIBUTE T["searchCategory"] T["type"])
+						 ^(ATTRIBUTE T["search"] T["type"])
+     					 lBindingState
+     					 lBindingOperator
+     					 lBindingSemantics
+     					 ^(T["constraints"])
+     					 ^(T["attributeAssignments"])
+     					 ^(T["outgoingLinks"])
+     					 ^(T["bindingExpression"] 
+     					   $bindingExpression)
+         )     ; 
 
 
 lBoxBlock: -> ^(T["constraints"]) ^(T["attributeAssignments"]) ^(T["outgoingLinks"]) 
@@ -144,6 +160,8 @@ lLink: lBindingSemantics lBindingOperator MINUS target=ID RIGHT_ARROW target_obj
                 lBindingOperator
                 lBindingSemantics
           );
+
+
 
 lConstraintList: lConstraint+ -> ^(T["constraints"] lConstraint+);
 
