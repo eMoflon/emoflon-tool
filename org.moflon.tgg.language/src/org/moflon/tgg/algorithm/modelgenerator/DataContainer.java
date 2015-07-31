@@ -58,6 +58,11 @@ public class DataContainer
 
    }
 
+   public ResourceSet getResourceSet()
+   {
+      return resourceSet;
+   }
+
    public void extractGeneratedObjects(ModelgeneratorRuleResult result, long duration)
    {
 

@@ -22,37 +22,37 @@ public class Persist
 
       if (src.size() > 1)
       {
+         state.getCorrespondenceModel().setSource(state.getSrcTempOutputContainer());
          String fileName = folderName + state.getModelgenStats().getSrcElementCount() + "_" + state.getModelgenStats().getSrcConnectorCount()
                + "_SrcRootContainer.xmi";
-
-         eMoflonEMFUtil.saveModel(state.getSrcTempOutputContainer(), fileName);
+         eMoflonEMFUtil.saveModel(state.getResourceSet(), state.getSrcTempOutputContainer(), fileName);
       } else if (src.size() == 1)
       {
+         EObject sourceRoot = src.get(0);
+         state.getSrcTempOutputContainer().getPotentialRoots().remove(0);
+         
          String fileName = folderName + state.getModelgenStats().getSrcElementCount() + "_" + state.getModelgenStats().getSrcConnectorCount()
                + "_SourceModel.xmi";
-
-         eMoflonEMFUtil.saveModel(src.get(0), fileName);
-
+         state.getResourceSet().createResource(eMoflonEMFUtil.createFileURI(fileName, false)).getContents().add(sourceRoot);
+         eMoflonEMFUtil.saveModel(state.getResourceSet(), sourceRoot, fileName);     
       }
 
       if (trg.size() > 1)
       {
-
+         state.getCorrespondenceModel().setTarget(state.getTrgTempOutputContainer());
          String fileName = folderName + state.getModelgenStats().getTrgElementCount() + "_" + state.getModelgenStats().getTrgConnectorCount()
                + "_TrgRootContainer.xmi";
-         eMoflonEMFUtil.saveModel(state.getTrgTempOutputContainer(), fileName);
+         eMoflonEMFUtil.saveModel(state.getResourceSet(), state.getTrgTempOutputContainer(), fileName);
       } else if (trg.size() == 1)
       {
+         EObject targetRoot = trg.get(0);
+         state.getTrgTempOutputContainer().getPotentialRoots().remove(0);
          String fileName = folderName + state.getModelgenStats().getTrgElementCount() + "_" + state.getModelgenStats().getTrgConnectorCount()
                + "_TargetModel.xmi";
-         eMoflonEMFUtil.saveModel(trg.get(0), fileName);
-
+         state.getResourceSet().createResource(eMoflonEMFUtil.createFileURI(fileName, false)).getContents().add(targetRoot);
+         eMoflonEMFUtil.saveModel(state.getResourceSet(), targetRoot, fileName);
+         
       }
-
-      String fileName = folderName + state.getModelgenStats().getCorrElementCount() + "_" + state.getModelgenStats().getCorrConnectorCount()
-            + "_CorrespondenceModel.xmi";
-
-      eMoflonEMFUtil.saveModel(state.getCorrespondenceModel(), fileName);
    }
 
    private static String generateTimeStamp()
