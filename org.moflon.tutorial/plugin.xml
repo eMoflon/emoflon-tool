@@ -47,8 +47,6 @@
             name="Part II GUI Download"
             project="true">
       </wizard>
-      <!-- TODO@rkluge: re-enable-->
-      <!--
       <wizard
             canFinishEarly="true"
             category="org.eclipse.ui.Examples/org.moflon.examples.category"
@@ -60,7 +58,6 @@
             name="Part III Textual Download"
             project="true">
       </wizard>
-      -->
       <wizard
             canFinishEarly="true"
             category="org.eclipse.ui.Examples/org.moflon.examples.category"
@@ -83,7 +80,6 @@
             name="Part IV Fresh Start: Visual Download"
             project="true">
       </wizard>
-      <!--
       <wizard
             canFinishEarly="true"
             category="org.eclipse.ui.Examples/org.moflon.examples.category"
@@ -106,7 +102,6 @@
             name="Part IV Textual Dictionary Language"
             project="true">
       </wizard>
-      -->
       <wizard
             canFinishEarly="true"
             category="org.eclipse.ui.Examples/org.moflon.examples.category"
@@ -129,7 +124,6 @@
             name="Part V Visual Download"
             project="true">
       </wizard>
-      <!--
       <wizard
             canFinishEarly="true"
             category="org.eclipse.ui.Examples/org.moflon.examples.category"
@@ -141,7 +135,6 @@
             name="Part V Textual Download"
             project="true">
       </wizard>
-      -->
       <wizard
             canFinishEarly="true"
             category="org.eclipse.ui.Examples/org.moflon.examples.category"
@@ -153,7 +146,6 @@
             name="Final Solution : Visual"
             project="true">
       </wizard>
-      <!--
       <wizard
             canFinishEarly="true"
             category="org.eclipse.ui.Examples/org.moflon.examples.category"
@@ -165,7 +157,6 @@
             name="Final Solution : Textual"
             project="true">
       </wizard>
-      -->
    </extension>
 
 </plugin>
