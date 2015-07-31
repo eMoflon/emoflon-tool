@@ -50,6 +50,11 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             Close();
         }
 
+        private void textBoxCspDefinition_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }
