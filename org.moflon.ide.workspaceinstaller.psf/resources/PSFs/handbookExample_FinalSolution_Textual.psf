@@ -6,7 +6,6 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.dictionaryLanguage,DictionaryLanguage"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.learningBoxLanguage,LearningBoxLanguage"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.learningBoxToDictionaryIntegration,LearningBoxToDictionaryIntegration"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.leitnersBoxGui,LeitnersBoxGui"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.learningBoxSpecification,LeitnersLearningBox"/>
 </provider>
 </psf>
