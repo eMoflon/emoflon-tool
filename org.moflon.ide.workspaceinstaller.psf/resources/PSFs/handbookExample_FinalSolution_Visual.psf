@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
 <provider id="org.tigris.subversion.subclipse.core.svnnature">
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.dictionarySpecification,Dictionary"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.dictionaryCodeAdapter,DictionaryCodeAdapter"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.dictionaryLanguage,DictionaryLanguage"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.learningBoxLanguage,LearningBoxLanguage"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.learningBoxToDictionaryIntegration,LearningBoxToDictionaryIntegration"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visiual.dictionarySpecification,Dictionary"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visiual.dictionaryCodeAdapter,DictionaryCodeAdapter"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visiual.dictionaryLanguage,DictionaryLanguage"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visiual.learningBoxLanguage,LearningBoxLanguage"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visiual.learningBoxToDictionaryIntegration,LearningBoxToDictionaryIntegration"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.leitnersBoxGui,LeitnersBoxGui"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.textual.learningBoxSpecification,LeitnersLearningBox"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visiual.learningBoxSpecification,LeitnersLearningBox"/>
 </provider>
 </psf>
