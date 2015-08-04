@@ -41,8 +41,8 @@ $ECLIPSE_HOME = "[set Eclipse home]"
 # Time between two executions of Eclipse
 $sleepTimeBetweenStartsInSeconds = 120
 
-# Array of all test workspaces
-# (see EMoflonStandardWorkspaces)
+# Array of all test workspaces (see EMoflonStandardWorkspaces)
+# (N.B. The cast to [void] avoids that the current size is printed.)
 [System.Collections.ArrayList]$WORKSPACES = @()
 [void]$WORKSPACES.add("TestWorkspace_Democles_0")
 [void]$WORKSPACES.add("TestWorkspace_Misc")
@@ -107,8 +107,8 @@ foreach ($WORKSPACE in $WORKSPACES) {
     
     [System.Collections.ArrayList]$argumentList = '-data',$WORKSPACE,'-application','org.moflon.testapplication','-showLocation','-perspective','org.moflon.ide.ui.perspective'
     if($USE_CONSOLE) {
-        $argumentList.Add('-console')
-        $argumentList.Add('-consoleLog')
+        [void]$argumentList.Add('-console')
+        [void]$argumentList.Add('-consoleLog')
     }
     
   	$eclipse = Start-Process -WorkingDirectory $OUTPUT_DIRECTORY -FilePath $ECLIPSE_HOME\eclipse.exe -ArgumentList $argumentList   -PassThru
