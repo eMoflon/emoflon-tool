@@ -12,11 +12,8 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -237,28 +234,4 @@ public class UIActivator extends AbstractUIPlugin
       }, IResourceChangeEvent.POST_CHANGE);
    }
 
-   /**
-    * Iterates over all metamodel projects and marks them as dirty if necessary
-    * 
-    * @throws CoreException
-    */
-   private void labelDirtyMetamodelProjects() throws CoreException
-   {
-      ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
-
-         @Override
-         public void run(final IProgressMonitor monitor) throws CoreException
-         {
-            WorkspaceHelper.getProjectsByNatureID(WorkspaceHelper.METAMODEL_NATURE_ID).stream().forEach(p -> {
-               IFile eapFile = WorkspaceHelper.getEapFileFromMetamodelProject(p);
-               IFile mocaTreeFile = WorkspaceHelper.getExportedMocaTree(p);
-               if (eapFile.exists() && mocaTreeFile.exists() && mocaTreeFile.getLocalTimeStamp() < eapFile.getLocalTimeStamp())
-               {
-                  CoreActivator.getDefault().setDirty(eapFile.getProject(), true);
-                  logger.info("Setting dirty: " + eapFile.getProject());
-               }
-            });
-         }
-      }, new NullProgressMonitor());
-   }
 }

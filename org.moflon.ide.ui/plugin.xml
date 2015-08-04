@@ -305,39 +305,6 @@
          </menu>
       </menuContribution>
    </extension>
-   <!-- TODO[rkluge]: How to update? -->
-   <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            adaptable="true"
-            id="org.moflon.ide.ui.objectContribution"
-            objectClass="org.eclipse.core.resources.IResource">
-         <menu
-               icon="resources/icons/moflonSmall.png"
-               id="org.moflon.ide.ui.moflon"
-               label="eMoflon"
-               path="additions">
-            <separator
-                  name="moflonGroupBuilding">
-            </separator>
-            <separator
-                  name="moflonGroupAnalysis">
-            </separator>
-            <separator
-                  name="moflonGroupConversions">
-            </separator>
-            <separator
-                  name="moflonGroupMoca">
-            </separator>
-            <separator
-                  name="moflonGroupTie">
-            </separator>
-            <separator
-                  name="moflonGroupTesting">
-            </separator>
-         </menu>
-      </objectContribution>
-   </extension>
    <extension
          id="org.moflon.ide.ui.runtime.natures.MOSLNature"
          name="MOSL Nature"
@@ -997,9 +964,41 @@
             id="org.moflon.ide.ui.commands.build.ExportAndBuild"
             name="Export and Build">
       </command>
+      <command
+            id="org.moflon.ide.ui.moflon"
+            name="eMoflon popup">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
+      <menuContribution
+      		locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+               <command
+                     commandId="org.moflon.ide.ui.moflon"
+                     icon="resources/icons/moflonSmall.png"
+               		label="eMoflon"
+               		mnemonic="m"
+                     >
+               </command>
+            <separator
+                  name="moflonGroupBuilding">
+            </separator>
+            <separator
+                  name="moflonGroupAnalysis">
+            </separator>
+            <separator
+                  name="moflonGroupConversions">
+            </separator>
+            <separator
+                  name="moflonGroupMoca">
+            </separator>
+            <separator
+                  name="moflonGroupTie">
+            </separator>
+            <separator
+                  name="moflonGroupTesting">
+            </separator>
+      </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="popup:org.moflon.ide.ui.moflon?after=additions">
