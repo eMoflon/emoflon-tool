@@ -29,12 +29,6 @@ public class AutoTestActivator extends AbstractUIPlugin
 
    private static final Logger logger = Logger.getLogger(AutoTestActivator.class);
 
-   /**
-    * @deprecated Use {@link AutoTestActivator#getModuleID()} instead
-    */
-   @Deprecated
-   public static final String PLUGIN_ID = "org.moflon.MoflonAutoTestPlugin"; //$NON-NLS-1$
-
    // The shared instance
    private static AutoTestActivator plugin;
 
@@ -181,6 +175,6 @@ public class AutoTestActivator extends AbstractUIPlugin
     */
    public static ImageDescriptor getImageDescriptor(final String path)
    {
-      return imageDescriptorFromPlugin(PLUGIN_ID, path);
+      return imageDescriptorFromPlugin(getModuleID(), path);
    }
 }

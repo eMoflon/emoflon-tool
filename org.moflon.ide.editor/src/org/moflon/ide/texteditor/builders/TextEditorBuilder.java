@@ -20,7 +20,6 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.moflon.ide.texteditor.helpers.MarkerHelper;
 
 public class TextEditorBuilder extends IncrementalProjectBuilder
 {

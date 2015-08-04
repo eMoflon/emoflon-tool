@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: MoflonValidationPlugin
-Bundle-SymbolicName: org.moflon.validation;singleton:=true
+Bundle-Name: org.moflon.validation.validationplugin
+Bundle-SymbolicName: org.moflon.validation.validationplugin;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.moflon.validation,
  org.moflon.validation.info
@@ -17,9 +17,8 @@ Require-Bundle:
  org.moflon.core.utilities,
  ValidationResult,
  SDMLanguage,
- org.moflon.codegen.eclipse;bundle-version="1.0.0",
- org.moflon.compiler.sdm.democles;bundle-version="1.0.0"
-Bundle-Activator: org.moflon.validation.ValidationActivator
+ org.moflon.sdm.compiler.eclipse,
+ org.moflon.sdm.compiler.democles
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt

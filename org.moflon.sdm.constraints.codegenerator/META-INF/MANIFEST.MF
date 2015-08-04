@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ComplexAttributeDemoclesCodeGenerator
-Bundle-SymbolicName: org.moflon.compiler.sdm.democles.attributes;singleton:=true
+Bundle-Name: org.moflon.sdm.constraints.codegenerator
+Bundle-SymbolicName: org.moflon.sdm.constraints.codegenerator;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
@@ -10,17 +10,17 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="3.8.101",
  org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.emf.ecore;bundle-version="2.9.1",
  Moca;bundle-version="1.0.0",
- org.gervarro.democles.emoflon,
- org.moflon.compiler.sdm.democles,
+ org.moflon.sdm.democles.patternmatcher,
+ org.moflon.sdm.compiler.democles,
  org.eclipse.emf.ecore.xmi;bundle-version="2.9.1",
- org.moflon.codegen.eclipse;bundle-version="1.0.0",
+ org.moflon.sdm.compiler.eclipse,
  org.moflon.core.utilities,
- ControlFlow;bundle-version="1.0.0",
- SDMLanguageToDemocles;bundle-version="1.0.0",
- ScopeValidation;bundle-version="1.0.0",
+ ControlFlow,
+ SDMLanguageToDemocles,
+ ScopeValidation,
  LiteralExprResolver,
- AttributeConstraintScopeValidation;bundle-version="1.0.0",
- AttributeConstraintToDemocles;bundle-version="1.0.0",
+ AttributeConstraintScopeValidation,
+ AttributeConstraintToDemocles,
  org.eclipse.emf.codegen.ecore,
  ValidationResult,
  DemoclesAttributeConstraintSpecification;bundle-version="1.0.0"

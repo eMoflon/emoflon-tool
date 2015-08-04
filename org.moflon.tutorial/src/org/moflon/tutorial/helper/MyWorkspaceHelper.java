@@ -30,6 +30,8 @@ import org.osgi.framework.Bundle;
  * @author Matthias
  * 
  */
+//TODO aanjorin: We should integrate this class into the WorkspaceHelper (rkluge)
+@Deprecated
 public class MyWorkspaceHelper
 {
 

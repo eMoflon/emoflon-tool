@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.moflon.ide.feature"
-      label="eMoflon IDE"
+      label="eMoflon Core (required)"
       version="1.7.18.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt">
 
@@ -55,64 +55,11 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          unpack="false"/>
 
    <plugin
-         id="de.fhg.iao.Linkbrowser"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.moflon.ide.TextEditor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.moflon.testframework"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.moflon.CheatSheetTutorial"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.moflon.codegen.eclipse"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.moflon.compiler.sdm.democles"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.gervarro.democles.emoflon"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="LiteralExprResolver"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="org.moflon.MoflonAutoTestPlugin"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <plugin
          id="ScopeValidation"
@@ -218,7 +165,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          unpack="false"/>
 
    <plugin
-         id="org.moflon.validation"
+         id="org.moflon.validation.validationplugin"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -237,22 +184,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          version="0.0.0"/>
 
    <plugin
-         id="org.moflon.eclipse.pde.fragment"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="DepthFirstSearchGraph"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.moflon.compiler.sdm.democles.ReverseLinkNavigationDemoclesCodeGenerator"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -281,13 +213,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="DemoclesAttributeConstraints"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.moflon.compiler.sdm.democles.attributes"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -365,6 +290,83 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          id="org.moflon.ide.debug.annotation.processor"
          download-size="5148"
          install-size="5148"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.compiler.democles"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.constraints.codegenerator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.controlflow.reversenavigation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.linkbrowser"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.democles.patternmatcher"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.moflon.tutorial"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.compiler.eclipse"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.deployment.pdefragment"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.ide.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.testing.testframework"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.testing.autotester"
+         download-size="0"
+         install-size="0"
          version="0.0.0"
          unpack="false"/>
 

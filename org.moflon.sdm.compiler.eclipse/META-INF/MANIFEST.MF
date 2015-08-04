@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: EMoflonCodeGenerator
-Bundle-SymbolicName: org.moflon.codegen.eclipse;singleton:=true
+Bundle-Name: org.moflon.sdm.compiler.eclipse
+Bundle-SymbolicName: org.moflon.sdm.compiler.eclipse;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: 
  org.apache.log4j;bundle-version="1.2.15",

@@ -67,3 +67,4 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,lib/democles.jar,lib/javabdd-1.0b2.jar,lib/RTED_v1
  .1.jar
 Bundle-Localization: plugin
+Bundle-Activator: org.moflon.TGGLanguageActivator

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: eMoflon Text Editor
-Bundle-SymbolicName: org.moflon.ide.TextEditor;singleton:=true
+Bundle-Name: org.moflon.ide.editor
+Bundle-SymbolicName: org.moflon.ide.editor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.moflon.ide.texteditor.TextEditorActivator
 Require-Bundle: 

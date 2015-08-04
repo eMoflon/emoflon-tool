@@ -20,7 +20,7 @@ public class EAAddinDeployer extends AbstractDeployer
 
    private static final String EA_ARCHIVE = "ea-ecore-addin.zip";
 
-   private static final String EA_ADDIN_PROJECT_NAME = "MOFLON2EAEcoreAddin";
+   private static final String EA_ADDIN_PROJECT_NAME = "org.moflon.ide.eaaddin";
 
    private static final IFile PATH_TO_INSTALLER_ARCHIVE = WorkspaceHelper.getProjectByName(EA_ADDIN_PROJECT_NAME).getFolder(EA_INSTALLER_PROJECT_NAME)
          .getFolder("bin").getFile(EA_ARCHIVE);

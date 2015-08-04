@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>MoflonAutoTestPlugin</name>
+	<name>org.moflon.testing.autotester</name>
 	<comment></comment>
 	<projects>
 	</projects>

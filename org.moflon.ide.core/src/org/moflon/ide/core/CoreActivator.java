@@ -42,14 +42,9 @@ public class CoreActivator extends Plugin
    private static final String RESOURCES_DEFAULT_FILES_PATH = "resources/defaultFiles/";
 
    // The plug-in ID
-   /**
-    * @deprecated Use {@link CoreActivator#getModuleID()} instead
-    */
-   @Deprecated
-   public static final String PLUGIN_ID = "org.moflon.ide.core";
 
    // Nature and builder IDs
-   @Deprecated
+   @Deprecated // Use JavaCore.NATURE_ID directly
    public static final String JAVA_NATURE_ID = JavaCore.NATURE_ID;
 
    public static final String REPOSITORY_BUILDER_ID = "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
@@ -91,7 +86,7 @@ public class CoreActivator extends Plugin
    {
       return plugin;
    }
-   
+
    public static final String getModuleID()
    {
       if (bundleId == null)
@@ -114,7 +109,7 @@ public class CoreActivator extends Plugin
       super.start(context);
       plugin = this;
       bundleId = context.getBundle().getSymbolicName();
-      
+
       dirtyProjectListeners = new ArrayList<>();
 
       // Configure logging for eMoflon
@@ -161,7 +156,7 @@ public class CoreActivator extends Plugin
          try
          {
             // Copy default configuration to state location
-            URL defaultConfigFile = MoflonUtilitiesActivator.getPathRelToPlugIn(RESOURCES_DEFAULT_FILES_PATH + LOG4J_CONFIG_PROPERTIES, PLUGIN_ID);
+            URL defaultConfigFile = MoflonUtilitiesActivator.getPathRelToPlugIn(RESOURCES_DEFAULT_FILES_PATH + LOG4J_CONFIG_PROPERTIES, getModuleID());
 
             FileUtils.copyURLToFile(defaultConfigFile, configFile);
          } catch (Exception e)
@@ -249,8 +244,10 @@ public class CoreActivator extends Plugin
    /**
     * Sets the projects dirty state.
     * 
-    * A repository project is dirty if its corresponding metamodel project has been built recently so that new code needs to be generated for this project.
-    * A metamodel project is dirty if its EAP file is newer than the generated Moca tree (.temp/<project-name>.moca.xmi)
+    * A repository project is dirty if its corresponding metamodel project has been built recently so that new code
+    * needs to be generated for this project. A metamodel project is dirty if its EAP file is newer than the generated
+    * Moca tree (.temp/<project-name>.moca.xmi)
+    * 
     * @param project
     * @param isDirty
     */
@@ -264,7 +261,7 @@ public class CoreActivator extends Plugin
    {
       this.dirtyProjectListeners.add(listener);
    }
-   
+
    public static void addMappingForProject(final IProject project) throws CoreException
    {
       if (project.isAccessible())

@@ -70,7 +70,7 @@
       </debugModelPresentation>
    </extension>
 <!--TODO: This extension point should no longer be used, instead use 'org.eclipse.ui.menus' -->
-<!--For an example, see plugin.xml in MoflonIdeUi-->
+<!--For an example, see plugin.xml in org.moflon.ide.ui-->
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution

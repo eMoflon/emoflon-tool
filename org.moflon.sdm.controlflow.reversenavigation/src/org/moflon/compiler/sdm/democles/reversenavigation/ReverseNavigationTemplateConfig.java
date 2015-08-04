@@ -11,14 +11,14 @@ import org.stringtemplate.v4.STGroup;
 public class ReverseNavigationTemplateConfig extends DefaultTemplateConfiguration
 {
 
-   public ReverseNavigationTemplateConfig(GenModel genModel)
+   public ReverseNavigationTemplateConfig(final GenModel genModel)
    {
       super(genModel);
       
       operationSequenceCompilers.put(DefaultCodeGeneratorConfig.BLACK_PATTERN_MATCHER_GENERATOR, createBlackOperationSequenceCompiler());
       
       STGroup blackTemplateGroup = templates.get(DefaultCodeGeneratorConfig.BLACK_PATTERN_MATCHER_GENERATOR);
-      blackTemplateGroup.loadGroupFile("/reverseNavi/", "platform:/plugin/org.moflon.compiler.sdm.democles.ReverseLinkNavigationDemoclesCodeGenerator/templates/stringtemplate/EMFOperation.stg");
+      blackTemplateGroup.loadGroupFile("/reverseNavi/", "platform:/plugin/org.moflon.sdm.controlflow.reversenavigation/templates/stringtemplate/EMFOperation.stg");
    }
    
    @SuppressWarnings("unchecked")

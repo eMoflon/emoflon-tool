@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: CodeGen2
-Bundle-SymbolicName: de.uni_kassel.fujaba.codegen
+Bundle-Name: org.moflon.sdm.codegen2
+Bundle-SymbolicName: org.moflon.sdm.codegen2
 Bundle-Version: 5.5.0.qualifier
 Bundle-ClassPath: .,
  target/dependency/commons-beanutils.jar,
@@ -190,4 +190,4 @@ Export-Package: de.fujaba.codegen,
  de.upb.tools.pcs,
  de.upb.tools.sdm
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: Fujaba, Uni Kassel

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: IDE for MOFLON (core functionality)
+Bundle-Name: org.moflon.ide.core
 Bundle-SymbolicName: org.moflon.ide.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
@@ -23,7 +23,7 @@ Require-Bundle:
  org.eclipse.pde.core,
  org.apache.commons.lang3;bundle-version="3.1.0",
  org.moflon.core.utilities,
- org.moflon.codegen.eclipse,
+ org.moflon.sdm.compiler.eclipse;bundle-version="1.0.0",
  MoflonPropertyContainer,
  Moca,
  TGGLanguage,

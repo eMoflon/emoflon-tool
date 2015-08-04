@@ -40,8 +40,6 @@ public class DeploymentJob extends Job
    {
 
       final AbstractDeployer eclipsePluginDeployer = new EclipsePluginDeployer(deploymentRoot + "/update-site2", "MoflonIdeUpdateSite");
-      // final AbstractDeployer eaAddinDeployer = new EAAddinDeployer(deploymentRoot + "/ea-ecore-addin");
-      // final AbstractDeployer handbookDeployer = new HandbookDeployer(deploymentRoot + "/documents/release/handbook");
       try
       {
          monitor.beginTask("Deploying eMoflon", 200);
@@ -49,9 +47,7 @@ public class DeploymentJob extends Job
 
          ensureThatDirectoryIsWritable(new File(deploymentRoot));
 
-         // eaAddinDeployer.deploy(WorkspaceHelper.createSubMonitor(monitor, 100));
          eclipsePluginDeployer.deploy(WorkspaceHelper.createSubMonitor(monitor, 100));
-         // handbookDeployer.deploy(WorkspaceHelper.createSubMonitor(monitor, 100));
 
          return new Status(IStatus.OK, AutoTestActivator.getModuleID(), "Successfully deployed eMoflon ...");
 

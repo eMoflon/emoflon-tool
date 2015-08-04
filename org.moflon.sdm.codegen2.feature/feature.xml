@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.moflon.sdm.codegen2.feature"
-      label="eMoflon CodeGen2"
+      label="eMoflon CodeGen2 legacy support (optional)"
       version="1.0.0.qualifier">
 
    <description url="http://www.emoflon.org/">
@@ -26,14 +26,14 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          version="0.0.0"/>
 
    <plugin
-         id="de.uni_kassel.fujaba.codegen"
+         id="org.moflon.sdm.codegen2"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.moflon.backend.Ecore2FujabaTransformation"
+         id="org.moflon.sdm.codegen2.ecore2fujaba"
          download-size="0"
          install-size="0"
          version="0.0.0"

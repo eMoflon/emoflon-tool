@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Linkbrowser
-Bundle-SymbolicName: de.fhg.iao.Linkbrowser;singleton:=true
+Bundle-Name: org.moflon.ide.visualization.linkbrowser
+Bundle-SymbolicName: org.moflon.ide.visualization.linkbrowser;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
  extlib/dom4j-1.5.2.jar,

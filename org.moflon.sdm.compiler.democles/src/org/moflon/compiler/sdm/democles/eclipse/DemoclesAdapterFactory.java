@@ -8,8 +8,9 @@ import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 
 public class DemoclesAdapterFactory implements IAdapterFactory {
 
-	@Override
-	public Object getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType) {
+	@SuppressWarnings("unchecked")
+   @Override
+	public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
 		if (adaptableObject instanceof DemoclesValidationProcess && DefaultCodeGeneratorConfig.class == adapterType) {
 			final DemoclesValidationProcess process = (DemoclesValidationProcess) adaptableObject;
 			return new DefaultCodeGeneratorConfig(process.getResourceSet());

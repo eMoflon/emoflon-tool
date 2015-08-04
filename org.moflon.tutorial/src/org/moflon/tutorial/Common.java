@@ -3,7 +3,7 @@ package org.moflon.tutorial;
 
 public class Common {
 
-	public static final String MAIN_PLUGIN_ID = "org.moflon.CheatSheetTutorial";
+	public static final String MAIN_PLUGIN_ID = "org.moflon.tutorial";
 	
 	public static final String VALIDATION_PLUGIN_ID = "TutorialValidationRules";
 	public static final String VALIDATION_PLUGIN_Name = "TutorialValidationRules";

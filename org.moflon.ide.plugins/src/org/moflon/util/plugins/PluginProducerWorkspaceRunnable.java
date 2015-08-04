@@ -3,7 +3,9 @@ package org.moflon.util.plugins;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
@@ -124,12 +126,22 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
       }
    }
 
+   /**
+    * This method removes old dependencies and replaces old plugin ids with new ones.
+    * 
+    */
    private boolean migrateOldManifests(final Manifest manifest)
    {
       boolean changed = false;
       
       // Old ID of the "Moflon Utilities" plugin
       changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.dependencies");
+      
+      // Refactoring of plugin IDs in August 2015
+      Map<String, String> replacementMap = new HashMap<>();
+      replacementMap.put("org.moflon.testframework", "org.moflon.testing.testframework");
+      replacementMap.put("org.moflon.validation", "org.moflon.validation.validationplugin");
+      changed |= ManifestFileUpdater.replaceDependencies(manifest, replacementMap);
       
       return changed;
    }

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: MoflonAutoTestPlugin
-Bundle-SymbolicName: org.moflon.MoflonAutoTestPlugin;singleton:=true
+Bundle-Name: org.moflon.testing.autotester
+Bundle-SymbolicName: org.moflon.testing.autotester;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.moflon.autotest.AutoTestActivator
 Require-Bundle: 

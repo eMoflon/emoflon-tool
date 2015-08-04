@@ -1,22 +1,27 @@
 Manifest-Version: 1.0
-Ant-Version: Apache Ant 1.8.4
-Created-By: 1.7.0_45-b18 (Oracle Corporation)
 Bundle-ManifestVersion: 2
-Bundle-Name: EMoflon Democles Pattern Matcher Module
-Bundle-SymbolicName: org.gervarro.democles.emoflon
+Bundle-Name: org.moflon.sdm.democles.patternmatcher
+Bundle-SymbolicName: org.moflon.sdm.democles.patternmatcher
 Bundle-Version: 0.3.1.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf.codegen.ecore;bundle-version="2.9.1",
  org.eclipse.emf.ecore;bundle-version="2.9.1",
  org.eclipse.emf.ecore.xmi;bundle-version="2.9.1",
+ org.eclipse.core.runtime;bundle-version="3.11.0",
  org.moflon.core.utilities,
  ControlFlow;bundle-version="1.0.0"
-Export-Package: org.gervarro.democles.codegen,org.gervarro.democles.co
- degen.emf,org.gervarro.democles.codegen.stringtemplate,org.gervarro.d
- emocles.codegen.stringtemplate.emf,org.gervarro.democles.compiler,org
- .gervarro.democles.emf,org.gervarro.democles.emf.codegen,org.gervarro
- .democles.plan,org.gervarro.democles.plan.common,org.gervarro.democle
- s.relational
+Export-Package: org.gervarro.democles.codegen,
+ org.gervarro.democles.codegen.emf,
+ org.gervarro.democles.codegen.stringtemplate,
+ org.gervarro.democles.codegen.stringtemplate.emf,
+ org.gervarro.democles.compiler,
+ org.gervarro.democles.emf,
+ org.gervarro.democles.emf.codegen,
+ org.gervarro.democles.plan,
+ org.gervarro.democles.plan.common,
+ org.gervarro.democles.relational
 Bundle-ClassPath: lib/org.gervarro.democles.emoflon_0.3.1.qualifier.jar
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Activator: org.moflon.sdm.democles.patternmatcher.PatternMatcherPlugin
+Import-Package: org.eclipse.core.runtime
 

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry excluding="org/moflon/texteditor/CodeGen2TextEditorConfiguration.java" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/commons-lang.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/commons-collections.jar"/>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/commons-digester.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/velocity.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/jface-interface.jar"/>
@@ -18,7 +20,6 @@
 	<classpathentry exported="true" kind="lib" path="target/dependency/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/oro.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/velocity-tools.jar"/>
-	<classpathentry excluding="org/moflon/texteditor/CodeGen2TextEditorConfiguration.java" kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/RuntimeTools.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/servlet-api.jar"/>
 	<classpathentry kind="src" path="target/generated-sources/fujaba">
@@ -29,7 +30,6 @@
 	<classpathentry exported="true" kind="lib" path="target/dependency/xml-apis.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/asm.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/AppIndependent.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="target/dependency/ant.jar"/>
 	<classpathentry kind="output" path="target/bin"/>
 </classpath>

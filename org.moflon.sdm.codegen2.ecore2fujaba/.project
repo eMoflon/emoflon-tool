@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Ecore2FujabaTransformation</name>
+	<name>org.moflon.sdm.codegen2.ecore2fujaba</name>
 	<comment></comment>
 	<projects>
 	</projects>

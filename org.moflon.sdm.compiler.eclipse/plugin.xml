@@ -7,7 +7,7 @@
       <package
             class="org.gervarro.emoflon.EMoflonPackage"
             genModel="model/OrigMoflon.genmodel"
-            uri="platform:/plugin/org.gervarro.democles.emoflon/model/Moflon.ecore">
+            uri="platform:/plugin/org.moflon.sdm.democles.patternmatcher/model/Moflon.ecore">
       </package>
    </extension>
    <extension
