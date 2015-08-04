@@ -42,7 +42,8 @@ Require-Bundle:
  SDMLanguage,
  ValidationResult,
  TGGRuntime,
- org.moflon.ide.plugins
+ org.moflon.ide.plugins,
+ org.eclipse.ui.forms
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.ide.ui,
@@ -57,6 +58,7 @@ Export-Package: org.moflon.ide.ui,
  org.moflon.ide.ui.admin.wizards.moca,
  org.moflon.ide.ui.admin.wizards.mosl,
  org.moflon.ide.ui.admin.wizards.util,
+ org.moflon.ide.ui.preferences,
  org.moflon.ide.ui.propertytesters,
  org.moflon.ide.ui.runtime.natures
 Bundle-ClassPath: .

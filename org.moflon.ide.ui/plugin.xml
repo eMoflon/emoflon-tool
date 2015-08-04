@@ -1460,4 +1460,17 @@
             name="eMoflon Injections">
       </cleanUpConfigurationUI>
    </extension>
+   <extension
+      point = "org.eclipse.ui.preferencePages">
+       <page id="org.moflon.ide.ui.preferences.EMoflonPreferencesPage"
+	    class="org.moflon.ide.ui.preferences.EMoflonPreferencesPage"
+            name="eMoflon">
+       </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+         <initializer
+               class="org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer">
+         </initializer>
+   </extension>
 </plugin>

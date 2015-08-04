@@ -16,7 +16,7 @@
                id="org.moflon.ide.ui.toolbar"
                label="eMoflon Toolbar">
             <command
-                  commandId="org.moflon.devtools.ui.commands.MoflonDevtoolsMenuCommand"
+                  commandId="org.moflon.ide.ui.commands.MoflonDevtoolsMenuCommand"
                   icon="icons/junitmoflon.gif"
                   id="org.moflon.devtools.ui.commands.toolbar.MoflonDevtoolsMenuCommand"
                   label="Install, Configure and Deploy eMoflon"
@@ -138,7 +138,7 @@
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.DoNothingHandler"
-            id="org.moflon.devtools.ui.commands.MoflonDevtoolsMenuCommand"
+            id="org.moflon.ide.ui.commands.MoflonDevtoolsMenuCommand"
             name="Install, configure, and deploy Moflon">
       </command>
       <command
