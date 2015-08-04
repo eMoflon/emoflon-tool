@@ -62,8 +62,8 @@ public class ManifestFileUpdater
     * @throws CoreException
     * @throws IOException
     */
-   public void processManifest(final IProject project, final Function<Manifest, Boolean> consumer, final IProgressMonitor monitor) throws CoreException,
-         IOException
+   public void processManifest(final IProject project, final Function<Manifest, Boolean> consumer, final IProgressMonitor monitor)
+         throws CoreException, IOException
    {
       try
       {
@@ -115,7 +115,7 @@ public class ManifestFileUpdater
    {
       Attributes attributes = manifest.getMainAttributes();
       if ((!attributes.containsKey(attribute) || attributes.get(attribute) == null //
-      || attributes.get(attribute).equals("null")) //
+            || attributes.get(attribute).equals("null")) //
             || (attributes.containsKey(attribute) && updatePolicy == AttributeUpdatePolicy.FORCE))
       {
          Object previousValue = attributes.get(attributes);
@@ -171,7 +171,7 @@ public class ManifestFileUpdater
    {
       return removeDependencies(manifest, Arrays.asList(dependencyPluginIDToBeRemoved));
    }
-   
+
    /**
     * Removes the given plugin IDs from the dependencies of the given manifest
     * 
@@ -189,10 +189,43 @@ public class ManifestFileUpdater
       {
          setDependencies(manifest, newDependencies);
          return true;
+      } else
+      {
+         return false;
+      }
+   }
+
+   /**
+    * Removes the given plugin IDs from the dependencies of the given manifest
+    * 
+    * @return true if the manifest has been modified by this methood, false otherwise
+    */
+   public static boolean replaceDependencies(final Manifest manifest, final Map<String, String> dependencyReplacementMap)
+   {
+      final List<String> currentDependencies = extractDependencies(manifest);
+
+      final List<String> newDependencies = currentDependencies.stream()//
+            .map(dependency -> getReplacementCandidate(dependency, dependencyReplacementMap))//
+            .collect(Collectors.toList());
+
+      if (!currentDependencies.equals(newDependencies))
+      {
+         setDependencies(manifest, newDependencies);
+         return true;
       }
       else {
          return false;
       }
+   }
+
+   /**
+    * Looks up the dependency in the given map.
+    * If a key exists for the plugin ID of the dependency, the corresponding value is returned, otherwise the original dependency is returned
+    */
+   private static String getReplacementCandidate(final String dependency, final Map<String, String> dependencyReplacementMap)
+   {
+      String oldPluginId = extractPluginId(dependency);
+      return dependencyReplacementMap.containsKey(oldPluginId) ? (String) dependencyReplacementMap.get(oldPluginId) : dependency;
    }
 
    /**
@@ -336,8 +369,10 @@ public class ManifestFileUpdater
    /**
     * Sets the Require-Bundle property of the given manifest
     * 
-    * @param manifest the manifest to be manipulated
-    * @param dependencies the dependencies to be used for Require-Bundle
+    * @param manifest
+    *           the manifest to be manipulated
+    * @param dependencies
+    *           the dependencies to be used for Require-Bundle
     */
    private static void setDependencies(final Manifest manifest, final List<String> dependencies)
    {
@@ -351,8 +386,10 @@ public class ManifestFileUpdater
 
    /**
     * Joins the given list of dependencies using ","
-    * @param dependencies the dependencies
-    * @return the dependency string combining all dependencies 
+    * 
+    * @param dependencies
+    *           the dependencies
+    * @return the dependency string combining all dependencies
     */
    private static String createDependenciesString(final List<String> dependencies)
    {
