@@ -51,7 +51,7 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
       final Composite updateSiteComponent = toolkit.createComposite(parent);
       GridData gd2 = new GridData(GridData.FILL_HORIZONTAL);
       updateSiteComponent.setLayoutData(gd2);
-      
+
       updateSiteComponent.setLayout(new GridLayout(2, false));
       toolkit.createLabel(updateSiteComponent, "Update site project name: ");
 
@@ -69,7 +69,7 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
    {
       return EMoflonPreferenceInitializer.getPreferencesStore();
    }
-   
+
    @Override
    protected void performDefaults()
    {
@@ -82,6 +82,21 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
    protected void performApply()
    {
       super.performApply();
+      storeValues();
+   }
+
+   @Override
+   public boolean performOk()
+   {
+      storeValues();
+      return super.performOk();
+   }
+
+   /**
+    * Store current values shown on the page
+    */
+   private void storeValues()
+   {
       EMoflonPreferenceInitializer.setUpdateSiteProject(updateSiteProjectTextBox.getText());
    }
 

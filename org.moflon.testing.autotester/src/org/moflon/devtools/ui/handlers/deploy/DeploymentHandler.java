@@ -5,14 +5,13 @@ import java.io.File;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.moflon.autotest.AutoTestActivator;
 import org.moflon.autotest.core.DeploymentJob;
 import org.moflon.devtools.ui.handlers.AbstractCommandHandler;
 import org.moflon.ide.deployment.ui.DeploymentDialog;
+import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
 public class DeploymentHandler extends AbstractCommandHandler
 {
@@ -68,12 +67,12 @@ public class DeploymentHandler extends AbstractCommandHandler
     */
    private String getDefaultDeploymentPath()
    {
-      return InstanceScope.INSTANCE.getNode(AutoTestActivator.getModuleID()).get(LOCAL_DEPLOY_PATH_PROPERTY, DEFAULT_LOCAL_DEPLOY_PATH);
+      return EMoflonPreferenceInitializer.getLocalDeploymentPath(DEFAULT_LOCAL_DEPLOY_PATH);
    }
 
    private void setDefaultDeploymentPath(final String defaultPath)
    {
-      InstanceScope.INSTANCE.getNode(AutoTestActivator.getModuleID()).put(LOCAL_DEPLOY_PATH_PROPERTY, defaultPath);
+      EMoflonPreferenceInitializer.setLocalDeploymentPath(defaultPath);
    }
 
 }
