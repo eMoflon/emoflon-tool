@@ -16,8 +16,6 @@ import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 public class DeploymentHandler extends AbstractCommandHandler
 {
 
-   public static final String LOCAL_DEPLOY_PATH_PROPERTY = "org.moflon.ide.deployment.deploymentpath";
-
    private static final String DEFAULT_LOCAL_DEPLOY_PATH = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString();
 
    @Override
