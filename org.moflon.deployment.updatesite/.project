@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>MoflonIdeUpdateSite</name>
+	<name>org.moflon.deployment.updatesite</name>
 	<comment></comment>
 	<projects>
 	</projects>

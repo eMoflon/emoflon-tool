@@ -23,7 +23,7 @@ public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
    public static void restoreDefaults()
    {
       IPreferenceStore store = EMoflonPreferenceInitializer.getPreferencesStore();
-      store.setValue(UPDATE_SITE_PROJECT_KEY, "MoflonIdeUpdateSite");
+      store.setValue(UPDATE_SITE_PROJECT_KEY, "org.moflon.deployment.updatesite");
    }
 
    static IPreferenceStore getPreferencesStore()
