@@ -234,6 +234,14 @@ public class SynchronizationHelper
       changeTrg = (root -> {
       });
    }
+   
+   /**
+    * Use this constructor only if you prefer to prepare your own synchronization helper (e.g., via inheritance) and set the protected fields by yourself 
+    */
+   public SynchronizationHelper()
+   {
+      
+   }
 
    // Integration
    protected void establishTranslationProtocol()
