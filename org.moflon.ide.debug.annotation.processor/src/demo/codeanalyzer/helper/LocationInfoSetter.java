@@ -1,13 +1,16 @@
 package demo.codeanalyzer.helper;
 
-import com.sun.source.tree.CompilationUnitTree;
 import java.io.IOException;
 import java.nio.CharBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.tools.JavaFileObject;
+
+import com.sun.source.tree.CompilationUnitTree;
+
 import demo.codeanalyzer.common.model.Field;
 import demo.codeanalyzer.common.model.JavaClassInfo;
 import demo.codeanalyzer.common.model.LocationInfo;

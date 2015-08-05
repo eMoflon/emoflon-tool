@@ -20,8 +20,6 @@ import org.moflon.ide.debug.core.breakpoints.TranslationPhaseBreakpoint;
 import org.moflon.ide.debug.core.model.MoflonDebugTarget;
 import org.moflon.ide.debug.core.model.MoflonThread;
 
-import DebugLanguage.AbstractPhase;
-
 import com.ibm.icu.text.MessageFormat;
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.ClassNotLoadedException;
@@ -30,6 +28,8 @@ import com.sun.jdi.InvalidTypeException;
 import com.sun.jdi.InvocationException;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.VMDisconnectedException;
+
+import DebugLanguage.AbstractPhase;
 
 @SuppressWarnings("restriction")
 public class TranslationThread extends MoflonThread

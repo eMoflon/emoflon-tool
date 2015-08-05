@@ -15,9 +15,6 @@ import org.moflon.ide.debug.core.launcher.JDIUtil;
 import org.moflon.ide.debug.core.model.MoflonStackFrame;
 import org.moflon.ide.debug.core.model.MoflonVariable;
 
-import DebugLanguage.DebugModel;
-import DebugLanguage.InitializationPhase;
-
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.ClassNotLoadedException;
 import com.sun.jdi.IncompatibleThreadStateException;
@@ -26,6 +23,9 @@ import com.sun.jdi.InvocationException;
 import com.sun.jdi.NativeMethodException;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.VirtualMachine;
+
+import DebugLanguage.DebugModel;
+import DebugLanguage.InitializationPhase;
 
 @SuppressWarnings({ "restriction" })
 public class InitialStateStackFrame extends MoflonStackFrame

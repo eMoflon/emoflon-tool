@@ -12,14 +12,14 @@ import org.eclipse.jdt.internal.debug.core.model.JDIDebugTarget;
 import org.eclipse.jdt.internal.debug.core.model.JDIThread;
 import org.moflon.ide.debug.core.model.MoflonDebugTarget;
 
-import DebugLanguage.AbstractPhase;
-
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.event.Event;
 import com.sun.jdi.event.EventSet;
 import com.sun.jdi.event.LocatableEvent;
 import com.sun.jdi.event.ThreadStartEvent;
+
+import DebugLanguage.AbstractPhase;
 
 @SuppressWarnings("restriction")
 public class PhaseBreakpoint extends JavaLineBreakpoint

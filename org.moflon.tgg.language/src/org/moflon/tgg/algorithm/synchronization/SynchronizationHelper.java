@@ -26,7 +26,6 @@ import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 import org.moflon.tgg.algorithm.exceptions.LocalCompletenessException;
 import org.moflon.tgg.algorithm.synchronization.DebugBreakpoint.Phase;
 
-import TGGLanguage.TGGLanguagePackage;
 import TGGLanguage.algorithm.AlgorithmFactory;
 import TGGLanguage.algorithm.TempOutputContainer;
 import TGGLanguage.analysis.Rule;

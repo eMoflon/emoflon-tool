@@ -36,6 +36,9 @@ import org.moflon.tgg.algorithm.synchronization.DebugBreakpoint.Phase;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.tgg.algorithm.synchronization.Synchronizer;
 
+import com.sun.tools.javac.api.JavacTool;
+import com.sun.tools.javac.util.Pair;
+
 import DebugLanguage.AbstractPhase;
 import DebugLanguage.AdditionPhase;
 import DebugLanguage.Breakpoint;
@@ -46,9 +49,6 @@ import DebugLanguage.DeletionPhase;
 import DebugLanguage.InitializationPhase;
 import DebugLanguage.TranslationBreakpoint;
 import DebugLanguage.TranslationPhase;
-
-import com.sun.tools.javac.api.JavacTool;
-import com.sun.tools.javac.util.Pair;
 
 public class DebugAnnotation
 {

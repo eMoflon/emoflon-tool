@@ -16,11 +16,11 @@ import org.eclipse.jdt.internal.debug.core.model.JDIThread;
 import org.moflon.ide.debug.core.DebugCorePlugin;
 import org.xml.sax.InputSource;
 
+import com.sun.jdi.StackFrame;
+
 import DebugLanguage.DebugLanguagePackage;
 import DebugLanguage.DebugModel;
 import TGGRuntime.TGGRuntimePackage;
-
-import com.sun.jdi.StackFrame;
 
 @SuppressWarnings("restriction")
 public abstract class MoflonStackFrame extends JDIStackFrame implements IJavaStackFrame

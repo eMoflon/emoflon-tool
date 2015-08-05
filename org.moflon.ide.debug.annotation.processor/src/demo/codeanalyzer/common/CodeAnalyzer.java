@@ -1,6 +1,7 @@
 package demo.codeanalyzer.common;
 
 import java.util.Collection;
+
 import demo.codeanalyzer.common.model.ErrorDescription;
 import demo.codeanalyzer.common.model.Location;
 import demo.codeanalyzer.common.rule.RulesEngine;

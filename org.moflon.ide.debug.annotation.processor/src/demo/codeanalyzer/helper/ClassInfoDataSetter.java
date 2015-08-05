@@ -1,18 +1,22 @@
 package demo.codeanalyzer.helper;
 
+import static demo.codeanalyzer.common.util.CodeAnalyzerConstants.SERIALIZABLE_PKG;
+
+import java.util.List;
+
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
+
 import com.sun.source.tree.ClassTree;
 import com.sun.source.util.TreePath;
 import com.sun.source.util.Trees;
-import java.util.List;
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.Modifier;
-import javax.lang.model.type.TypeMirror;
+
 import demo.codeanalyzer.common.model.AnnotationInfo;
 import demo.codeanalyzer.common.model.JavaClassInfo;
 import demo.codeanalyzer.common.model.JavaSourceTreeInfo;
 import demo.codeanalyzer.common.model.LocationInfo;
-import static demo.codeanalyzer.common.util.CodeAnalyzerConstants.SERIALIZABLE_PKG;
 
 /**
  * Helper class to set the properties of a java class

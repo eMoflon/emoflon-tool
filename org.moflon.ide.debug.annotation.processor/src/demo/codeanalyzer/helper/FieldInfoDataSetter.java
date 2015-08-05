@@ -1,12 +1,15 @@
 package demo.codeanalyzer.helper;
 
-import com.sun.source.tree.VariableTree;
-import com.sun.source.util.TreePath;
-import com.sun.source.util.Trees;
 import java.util.List;
+
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
+
+import com.sun.source.tree.VariableTree;
+import com.sun.source.util.TreePath;
+import com.sun.source.util.Trees;
+
 import demo.codeanalyzer.common.model.AnnotationInfo;
 import demo.codeanalyzer.common.model.FieldInfo;
 import demo.codeanalyzer.common.model.JavaClassInfo;

@@ -1,7 +1,6 @@
 package demo.codeanalyzer.common.rule;
 
 import static demo.codeanalyzer.common.util.CodeAnalyzerConstants.RULE_CONFIG_FILE;
-import static demo.codeanalyzer.common.util.CodeAnalyzerConstants.DEFAULT_RULES;
 
 import java.io.InputStream;
 import java.util.HashSet;

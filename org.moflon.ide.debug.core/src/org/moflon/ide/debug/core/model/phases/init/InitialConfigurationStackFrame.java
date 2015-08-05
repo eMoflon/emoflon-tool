@@ -29,17 +29,17 @@ import org.moflon.ide.debug.core.launcher.JDIUtil;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 import org.xml.sax.InputSource;
 
-import DebugLanguage.DebugLanguagePackage;
-import DebugLanguage.DebugModel;
-import DebugLanguage.InitializationPhase;
-import TGGRuntime.TGGRuntimePackage;
-
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.Method;
 import com.sun.jdi.NativeMethodException;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.VirtualMachine;
+
+import DebugLanguage.DebugLanguagePackage;
+import DebugLanguage.DebugModel;
+import DebugLanguage.InitializationPhase;
+import TGGRuntime.TGGRuntimePackage;
 
 @SuppressWarnings({ "restriction" })
 public class InitialConfigurationStackFrame extends MoflonDebugElement implements IJavaStackFrame// IStackFrame //

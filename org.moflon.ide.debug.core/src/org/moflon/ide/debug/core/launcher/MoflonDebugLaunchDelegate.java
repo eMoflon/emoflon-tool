@@ -29,19 +29,19 @@ import org.eclipse.debug.core.model.ISourceLocator;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.debug.core.sourcelookup.AbstractSourceLookupDirector;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.debug.core.Activator;
 import org.moflon.ide.debug.core.breakpoints.BreakpointFactory;
 import org.moflon.ide.debug.core.breakpoints.PhaseBreakpoint;
 import org.moflon.ide.debug.core.model.MoflonDebugTarget;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
-import org.moflon.core.utilities.eMoflonEMFUtil;
+
+import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 
 import DebugLanguage.AbstractPhase;
 import DebugLanguage.Breakpoint;
 import DebugLanguage.DebugModel;
-
-import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 
 /**
  * Launches eMoflon - {@link SynchronizationHelper} program on a TGG engine written in Java

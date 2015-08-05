@@ -1,7 +1,8 @@
 package demo.codeanalyzer.common.rule;
 
-import demo.codeanalyzer.common.model.ClassFile;
 import java.util.Collection;
+
+import demo.codeanalyzer.common.model.ClassFile;
 
 /**
  * Interface to execute rule on a subject

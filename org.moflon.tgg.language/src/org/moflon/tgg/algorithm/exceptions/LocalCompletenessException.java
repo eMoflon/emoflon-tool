@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.moflon.core.utilities.eMoflonEMFUtil;
 
 @SuppressWarnings("serial")
 public abstract class LocalCompletenessException extends Exception {

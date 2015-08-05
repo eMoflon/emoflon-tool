@@ -3,11 +3,12 @@ package demo.codeanalyzer.common.rule;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
+
 import javax.lang.model.element.TypeElement;
 
-import demo.codeanalyzer.common.model.ErrorDescription;
 import demo.codeanalyzer.common.model.ClassFile;
 import demo.codeanalyzer.common.model.ClassModelMap;
+import demo.codeanalyzer.common.model.ErrorDescription;
 import demo.codeanalyzer.common.model.ErrorDescription;
 import demo.codeanalyzer.common.util.CodeAnalyzerUtil;
 

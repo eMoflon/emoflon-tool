@@ -17,12 +17,15 @@ import org.eclipse.debug.core.model.IThread;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaBreakpoint;
 import org.eclipse.jdt.internal.debug.core.model.JDIDebugTarget;
 import org.eclipse.jdt.internal.debug.core.model.JDIThread;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.debug.core.Activator;
 import org.moflon.ide.debug.core.model.phases.addition.AdditionThread;
 import org.moflon.ide.debug.core.model.phases.deletion.DeletionThread;
 import org.moflon.ide.debug.core.model.phases.init.InitPhaseThread;
 import org.moflon.ide.debug.core.model.phases.translation.TranslationThread;
-import org.moflon.core.utilities.eMoflonEMFUtil;
+
+import com.sun.jdi.ThreadReference;
+import com.sun.jdi.VirtualMachine;
 
 import DebugLanguage.AbstractPhase;
 import DebugLanguage.AdditionPhase;
@@ -30,9 +33,6 @@ import DebugLanguage.DebugModel;
 import DebugLanguage.DeletionPhase;
 import DebugLanguage.InitializationPhase;
 import DebugLanguage.TranslationPhase;
-
-import com.sun.jdi.ThreadReference;
-import com.sun.jdi.VirtualMachine;
 
 @SuppressWarnings("restriction")
 public class MoflonDebugTarget extends JDIDebugTarget // MoflonDebugElement implements IDebugTarget

@@ -1,13 +1,7 @@
 package org.moflon.tgg.algorithm.exceptions;
 
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.stream.Collectors;
-
-import org.eclipse.emf.ecore.EObject;
-import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.tgg.algorithm.datastructures.Graph;
 
 import TGGRuntime.IsApplicableRuleResult;
 

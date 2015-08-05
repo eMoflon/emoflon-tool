@@ -12,10 +12,10 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.internal.debug.ui.actions.OpenVariableConcreteTypeAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.widgets.Display;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.debug.core.model.phases.init.RuleVariable;
 import org.moflon.ide.debug.core.model.phases.init.TripleMatchVariable;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
-import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.validation.EnterpriseArchitectValidationHelper;
 
 import MoflonPropertyContainer.MoflonPropertiesContainer;

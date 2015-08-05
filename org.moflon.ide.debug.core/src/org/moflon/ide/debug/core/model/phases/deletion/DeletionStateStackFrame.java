@@ -17,10 +17,6 @@ import org.moflon.ide.debug.core.model.MoflonVariable;
 import org.moflon.ide.debug.core.model.phases.init.CorrespondenceVariable;
 import org.moflon.ide.debug.core.model.phases.init.SynchronizationVariable;
 
-import DebugLanguage.DebugModel;
-import DebugLanguage.DebugSynchronizationProtocol;
-import DebugLanguage.DeletionPhase;
-
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.ClassNotLoadedException;
 import com.sun.jdi.IncompatibleThreadStateException;
@@ -29,6 +25,10 @@ import com.sun.jdi.InvocationException;
 import com.sun.jdi.NativeMethodException;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.VirtualMachine;
+
+import DebugLanguage.DebugModel;
+import DebugLanguage.DebugSynchronizationProtocol;
+import DebugLanguage.DeletionPhase;
 
 @SuppressWarnings({ "restriction" })
 public class DeletionStateStackFrame extends MoflonStackFrame

@@ -11,9 +11,10 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.mosl.utils.exceptions.CanNotResolvePathException;
-import MOSLCodeAdapter.moslPlus.MoslCategory;
+
 import MOSLCodeAdapter.moslPlus.MOSLConverterAdapter;
 import MOSLCodeAdapter.moslPlus.MOSLToMOSLPlusConverter;
+import MOSLCodeAdapter.moslPlus.MoslCategory;
 import MocaTree.Attribute;
 import MocaTree.Node;
 import MocaTree.Text;

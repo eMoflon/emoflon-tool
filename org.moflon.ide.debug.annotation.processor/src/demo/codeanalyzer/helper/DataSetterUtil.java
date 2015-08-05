@@ -1,10 +1,11 @@
 package demo.codeanalyzer.helper;
 
+import javax.lang.model.element.Modifier;
+
 import com.sun.source.tree.Tree;
 import com.sun.source.util.SourcePositions;
 import com.sun.source.util.TreePath;
 import com.sun.source.util.Trees;
-import javax.lang.model.element.Modifier;
 
 import demo.codeanalyzer.common.model.BaseJavaClassModelInfo;
 import demo.codeanalyzer.common.model.LocationInfo;

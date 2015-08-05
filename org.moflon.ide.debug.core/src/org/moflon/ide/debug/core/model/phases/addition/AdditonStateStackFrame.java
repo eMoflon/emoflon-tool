@@ -17,9 +17,6 @@ import org.moflon.ide.debug.core.model.MoflonVariable;
 import org.moflon.ide.debug.core.model.phases.init.CorrespondenceVariable;
 import org.moflon.ide.debug.core.model.phases.init.SynchronizationVariable;
 
-import DebugLanguage.AdditionPhase;
-import DebugLanguage.DebugModel;
-
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.ClassNotLoadedException;
 import com.sun.jdi.IncompatibleThreadStateException;
@@ -28,6 +25,9 @@ import com.sun.jdi.InvocationException;
 import com.sun.jdi.NativeMethodException;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.VirtualMachine;
+
+import DebugLanguage.AdditionPhase;
+import DebugLanguage.DebugModel;
 
 @SuppressWarnings({ "restriction" })
 public class AdditonStateStackFrame extends MoflonStackFrame

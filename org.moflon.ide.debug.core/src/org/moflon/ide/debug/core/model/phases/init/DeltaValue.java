@@ -27,13 +27,13 @@ import org.moflon.ide.debug.core.model.MoflonDebugElement;
 import org.moflon.ide.debug.core.model.MoflonVariable;
 import org.xml.sax.InputSource;
 
-import DebugLanguage.DebugDelta;
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.TGGRuntimePackage;
-
 import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.Value;
 import com.sun.jdi.VirtualMachine;
+
+import DebugLanguage.DebugDelta;
+import TGGRuntime.CorrespondenceModel;
+import TGGRuntime.TGGRuntimePackage;
 
 @SuppressWarnings("restriction")
 public class DeltaValue extends MoflonDebugElement implements IValue
