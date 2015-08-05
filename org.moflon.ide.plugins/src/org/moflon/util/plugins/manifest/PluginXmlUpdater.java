@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -68,11 +67,7 @@ public class PluginXmlUpdater
       {
          monitor.beginTask("Create/update plugin.xml", 1);
 
-         IFile projectGenModelFile = currentProject.getFile(MoflonUtil.getDefaultPathToGenModelInProject(currentProject.getName()));
-         String pathToGenmodel = projectGenModelFile.getRawLocation().toOSString();
-         GenModel genmodel = (GenModel) eMoflonEMFUtil.loadAndInitModel(EcorePackage.eINSTANCE, pathToGenmodel);
-
-         updatePluginXml(currentProject, genmodel, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         updatePluginXml(currentProject, eMoflonEMFUtil.extractGenModelFromProject(currentProject), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
       } finally
       {
@@ -104,8 +99,8 @@ public class PluginXmlUpdater
 
       } catch (IOException | XPathExpressionException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.PLUGIN_ID, "Error reading/writing plugin.xml for project "
-               + project.getName() + ": " + e.getMessage(), e));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.PLUGIN_ID,
+               "Error reading/writing plugin.xml for project " + project.getName() + ": " + e.getMessage(), e));
       } finally
       {
          monitor.done();
