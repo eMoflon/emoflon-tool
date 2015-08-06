@@ -69,12 +69,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF exist "$(SolutionDir)..\MoflonIdeCore\resources\commandLineEAExport" (
+    <PostBuildEvent>set targetDir="$(SolutionDir)..\org.moflon.ide.core\resources\commandLineEAExport"
+
+IF exist %25targetDir%25 (
   echo "Copying eMoflon command-line utility"
-  for %25%25F in (Interop.EA.dll   CommandLineParser.dll  EAEcoreAddin.dll  EAEcoreAddin.pdb  eMoflonCommandLine.exe  eMoflonCommandLine.pdb) do copy "$(TargetDir)%25%25F" "$(SolutionDir)..\MoflonIdeCore\resources\commandLineEAExport"
+  for %25%25F in (Interop.EA.dll   CommandLineParser.dll  EAEcoreAddin.dll  EAEcoreAddin.pdb  eMoflonCommandLine.exe  eMoflonCommandLine.pdb) do copy "$(TargetDir)%25%25F" %25targetDir%25
 ) ELSE (
   echo "!!! WARNING !!! WARNING !!! WARNING !!!"
-  echo "!!! MoflonIdeCore does not exist. eMoflon command-line utility will not be copied"
+  echo "!!! %25targetDir%25 does not exist. eMoflon command-line utility will not be copied"
   echo "!!! WARNING !!! WARNING !!! WARNING !!!"
 )</PostBuildEvent>
   </PropertyGroup>
