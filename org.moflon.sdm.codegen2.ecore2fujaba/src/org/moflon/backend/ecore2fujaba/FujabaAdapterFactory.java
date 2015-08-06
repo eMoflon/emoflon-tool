@@ -5,8 +5,9 @@ import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 
 public final class FujabaAdapterFactory implements IAdapterFactory {
 
-	@Override
-	public final Object getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType) {
+	@SuppressWarnings("unchecked")
+   @Override
+	public final Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
 		if (adaptableObject instanceof MoflonCodeGenerator && FujabaMethodBodyHandler.class == adapterType) {
 			MoflonCodeGenerator process = (MoflonCodeGenerator) adaptableObject;
 			return new FujabaMethodBodyHandler(process.getResourceSet(), process.getAllResources(), process.getEcoreFile(), process.getMoflonProperties());

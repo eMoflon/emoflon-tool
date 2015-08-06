@@ -11,8 +11,9 @@ import org.moflon.compiler.sdm.democles.reversenavigation.ReverseNavigationCodeG
 public class ReverseNavigationAdapterFactory implements IAdapterFactory
 {
 
+   @SuppressWarnings("unchecked")
    @Override
-   public Object getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType) {
+   public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
       if (adaptableObject instanceof MoflonCodeGenerator && ReverseNavigationCodeGeneratorConfig.class == adapterType) {
          final GenericMoflonProcess process = (GenericMoflonProcess) adaptableObject;
          IProject project=process.getEcoreFile().getProject();

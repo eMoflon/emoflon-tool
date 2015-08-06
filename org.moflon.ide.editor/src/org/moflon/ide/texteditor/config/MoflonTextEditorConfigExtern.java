@@ -21,17 +21,20 @@ public abstract class MoflonTextEditorConfigExtern extends MoflonTextEditorConfi
       super();
    }
 
-   public Node getUnderlyingTree(String filepath)
+   @Override
+   public Node getUnderlyingTree(final String filepath)
    {
       return null;
    }
 
+   @Override
    public int[] getRefreshScope()
    {
       int[] scope = { 1, -1 };
       return scope;
    }
 
+   @Override
    public void getProblems()
    {
       MarkerHelper.removeMarkers(getResource());
@@ -47,12 +50,13 @@ public abstract class MoflonTextEditorConfigExtern extends MoflonTextEditorConfi
 
    }
 
-   public void addParser(Parser parser)
+   public void addParser(final Parser parser)
    {
       this.codeAdapter.getParser().add(parser);
    }
 
-   public void onSave(String textFilePath)
+   @Override
+   public void onSave(final String textFilePath)
    {
 
       String resourceFilePath = getResource().getLocation().toString();
@@ -67,36 +71,37 @@ public abstract class MoflonTextEditorConfigExtern extends MoflonTextEditorConfi
 
          if (mocaFile != null && getModelPath(textFilePath) != null)
          {
-            eMoflonEMFUtil.saveModel(mocaFile, getModelPath(textFilePath));
+            eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), mocaFile, getModelPath(textFilePath));
          }
       }
    }
 
    @Override
-   public boolean foldNode(Node node)
+   public boolean foldNode(final Node node)
    {
       return false;
    }
 
    @Override
-   public String getOutlineImagePath(Node node)
+   public String getOutlineImagePath(final Node node)
    {
       return "";
    }
 
    @Override
-   public String getOutlineLabel(Node node)
+   public String getOutlineLabel(final Node node)
    {
       String name = node.getName().replaceAll("\r", "").replaceAll("\t", "").replaceAll("\n", "").trim();
       return name;
    }
 
    @Override
-   public Boolean showInOutline(Node node)
+   public Boolean showInOutline(final Node node)
    {
       return true;
    }
 
+   @Override
    public HashMap<String, String> getModelPathsToTextPaths()
    {
       HashMap<String, String> m2tPathes = new HashMap<String, String>();
@@ -104,7 +109,7 @@ public abstract class MoflonTextEditorConfigExtern extends MoflonTextEditorConfi
    }
 
    @Override
-   public void syncText(String modelFilePath)
+   public void syncText(final String modelFilePath)
    {
 
    }
@@ -126,7 +131,7 @@ public abstract class MoflonTextEditorConfigExtern extends MoflonTextEditorConfi
    {
 
    }
-   
+
    @Override
    public char[] getDelimiters()
    {

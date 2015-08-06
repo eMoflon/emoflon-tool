@@ -19,7 +19,6 @@ Require-Bundle:
  MoflonPropertyContainer,
  Moca,
  SDMLanguage,
- org.moflon.ide.plugins,
  ValidationResult;bundle-version="1.0.0"
 Bundle-ClassPath: .
 Bundle-Activator: org.moflon.codegen.eclipse.CodeGeneratorPlugin

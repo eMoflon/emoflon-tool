@@ -1,35 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="org/moflon/texteditor/CodeGen2TextEditorConfiguration.java" kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/commons-lang.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/commons-collections.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/commons-digester.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/velocity.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/jface-interface.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/trove.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/coobra2.jar" sourcepath="srcForDependencies/coobraSrc"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/Fujaba.jar" sourcepath="srcForDependencies"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/xercesImpl.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/avalon-framework.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/features.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/util.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/commons-beanutils.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/logkit.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/commons-logging.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/oro.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/velocity-tools.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/RuntimeTools.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/servlet-api.jar"/>
+	<classpathentry
+		excluding="org/moflon/texteditor/CodeGen2TextEditorConfiguration.java"
+		kind="src" path="src" />
 	<classpathentry kind="src" path="target/generated-sources/fujaba">
 		<attributes>
-			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="ignore_optional_problems" value="true" />
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="target/dependency/xml-apis.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/asm.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/AppIndependent.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/dependency/ant.jar"/>
-	<classpathentry kind="output" path="target/bin"/>
+	<classpathentry kind="con"
+		path="org.eclipse.jdt.launching.JRE_CONTAINER" />
+	<classpathentry kind="con"
+		path="org.eclipse.pde.core.requiredPlugins" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/commons-lang.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/commons-collections.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/commons-digester.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/velocity.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/jface-interface.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/trove.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/coobra2.jar" sourcepath="srcForDependencies/coobraSrc" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/Fujaba.jar" sourcepath="srcForDependencies" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/xercesImpl.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/avalon-framework.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/features.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/util.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/commons-beanutils.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/logkit.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/commons-logging.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/oro.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/velocity-tools.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/RuntimeTools.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/servlet-api.jar" />
+
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/xml-apis.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/asm.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/AppIndependent.jar" />
+	<classpathentry exported="true" kind="lib"
+		path="target/dependency/ant.jar" />
+	<classpathentry kind="output" path="target/bin" />
 </classpath>

@@ -5,7 +5,8 @@ import org.eclipse.core.runtime.IAdapterFactory;
 
 public class EnterpriseArchitectAdapterFactory implements IAdapterFactory {
 
-	@Override
+	@SuppressWarnings("unchecked")
+   @Override
 	public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
 		if (adaptableObject instanceof IProject && EnterpriseArchitectValidationHelper.class == adapterType) {
 			return new EnterpriseArchitectValidationHelper((IProject) adaptableObject);

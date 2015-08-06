@@ -22,6 +22,5 @@ Export-Package: org.gervarro.democles.codegen,
  org.gervarro.democles.relational
 Bundle-ClassPath: lib/org.gervarro.democles.emoflon_0.3.1.qualifier.jar
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
-Bundle-Activator: org.moflon.sdm.democles.patternmatcher.PatternMatcherPlugin
 Import-Package: org.eclipse.core.runtime
 

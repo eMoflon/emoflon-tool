@@ -34,7 +34,7 @@ public class RulesEngine {
      * @param javaClass
      *            The element to process
      */
-    public void fireRules(String className) {
+    public void fireRules(final String className) {
 
         ClassFile clazzInfo = ClassModelMap.getInstance().getClassInfo(className);
         for (JavaCodeRule rule : getRules()) {

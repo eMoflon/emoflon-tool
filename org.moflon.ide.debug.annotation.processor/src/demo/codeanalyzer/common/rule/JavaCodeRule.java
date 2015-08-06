@@ -22,5 +22,5 @@ public interface JavaCodeRule<E> {
 	 *            the contexual information of the class being verified
 	 * @return Rule violations detected after applying the rule
 	 */
-	public Collection execute(ClassFile clazzInfo);
+	public Collection<?> execute(ClassFile clazzInfo);
 }

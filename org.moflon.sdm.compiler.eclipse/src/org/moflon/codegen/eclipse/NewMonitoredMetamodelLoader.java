@@ -21,12 +21,12 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.dependency.PackageRemappingDependency;
 import org.moflon.eclipse.job.IMonitoredJob;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResourceFactory;
-import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 import MoflonPropertyContainer.AdditionalDependencies;
 import MoflonPropertyContainer.Dependencies;
 import MoflonPropertyContainer.MoflonPropertiesContainer;
 
+@Deprecated //TODO gervarro: Decide what to do with this class (rkluge)
 public final class NewMonitoredMetamodelLoader implements IMonitoredJob
 {
    private static final String TASK_NAME = "Metamodel loading";
@@ -68,7 +68,7 @@ public final class NewMonitoredMetamodelLoader implements IMonitoredJob
          }
 
          // Prepare plugin to resource URI mapping
-         PluginURIToResourceURIRemapper.createPluginToResourceMap(resourceSet);
+         // PluginURIToResourceURIRemapper.createPluginToResourceMap(resourceSet);
 
          // Create (unloaded) resources for all possibly dependent metamodels in Moflon-specific workspace projects
          createResourcesForWorkspaceProjects(WorkspaceHelper.createSubMonitor(monitor, 10));

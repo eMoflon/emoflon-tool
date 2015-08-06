@@ -35,8 +35,8 @@ public class ClassInfoDataSetter {
      * @param path tree path
      * @param trees trees
      */
-    public static void populateClassInfo(JavaClassInfo clazzInfo,
-            ClassTree classTree, TreePath path, Trees trees) {
+    public static void populateClassInfo(final JavaClassInfo clazzInfo,
+            final ClassTree classTree, final TreePath path, final Trees trees) {
 
         TypeElement e = (TypeElement) trees.getElement(path);
         
@@ -64,8 +64,8 @@ public class ClassInfoDataSetter {
         }
         //Set serializable property
         try {
-            Class serializable = Class.forName(SERIALIZABLE_PKG);
-            Class thisClass = Class.forName(e.getQualifiedName().toString());
+            Class<?> serializable = Class.forName(SERIALIZABLE_PKG);
+            Class<?> thisClass = Class.forName(e.getQualifiedName().toString());
             if (serializable.isAssignableFrom(thisClass)) {
                 clazzInfo.setSerializable(true);
             } else {

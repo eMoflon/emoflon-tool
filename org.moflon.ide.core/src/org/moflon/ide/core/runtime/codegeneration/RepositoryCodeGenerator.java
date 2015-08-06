@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.osgi.service.resolver.BundleSpecification;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
@@ -33,6 +34,8 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.util.BuilderHelper;
+import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
+import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 
 @SuppressWarnings("restriction")
 public class RepositoryCodeGenerator
@@ -50,7 +53,7 @@ public class RepositoryCodeGenerator
    {
       try
       {
-         monitor.beginTask("Generating code for project " + this.project.getName(), 7);
+         monitor.beginTask("Generating code for project " + this.project.getName(), 9);
 
          if (!doesEcoreFileExist())
          {
@@ -78,6 +81,11 @@ public class RepositoryCodeGenerator
             handleInjectionWarningsAndErrors(status);
          }
          monitor.worked(3);
+
+         ExportedPackagesInManifestUpdater exportedPackagesUpdater = new ExportedPackagesInManifestUpdater(project, codeGenerationTask.getGenModel() );
+         exportedPackagesUpdater.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+
+         new PluginXmlUpdater().updatePluginXml(project, codeGenerationTask.getGenModel(), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          getEcoreFileAndHandleMissingFile().getProject().refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 

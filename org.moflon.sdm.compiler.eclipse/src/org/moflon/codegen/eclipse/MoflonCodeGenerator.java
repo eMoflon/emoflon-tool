@@ -26,8 +26,6 @@ import org.moflon.moca.inject.CodeInjectorImpl;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.extractors.CompilerInjectionExtractorImpl;
 import org.moflon.moca.inject.extractors.UserInjectionExtractorImpl;
-import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
-import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 
 import MoflonPropertyContainer.MoflonPropertiesContainer;
 
@@ -143,14 +141,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             return codeGenerationStatus;
          }
          monitor.worked(5);
-
-         // (7) Update Exported-Packages in MANIFEST.MF
-         ExportedPackagesInManifestUpdater exportedPackagesUpdater = new ExportedPackagesInManifestUpdater(project, genModel);
-         exportedPackagesUpdater.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-
-         // (8) Update plugin.xml with generated packages
-         new PluginXmlUpdater().updatePluginXml(project, genModel, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-
+         
          long tic = System.nanoTime();
 
          logger.info("Completed in " + (tic - toc) / 1000000000.0 + "s");

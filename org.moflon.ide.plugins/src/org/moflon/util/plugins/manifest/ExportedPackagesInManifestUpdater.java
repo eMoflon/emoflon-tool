@@ -14,7 +14,10 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.moflon.ide.plugins.MoflonPluginsActivator;
 
 public class ExportedPackagesInManifestUpdater
 {
@@ -33,13 +36,23 @@ public class ExportedPackagesInManifestUpdater
       this.genModel = genModel;
    }
 
-   public void run(final IProgressMonitor monitor) throws CoreException, IOException
+   public void run(final IProgressMonitor monitor) throws CoreException
    {
-      new ManifestFileUpdater().processManifest(project, manifest -> {
-         return updateExportedPackages(manifest);
-      });
+      try
+      {
+         monitor.beginTask("Update exported packages extension", 1);
+         new ManifestFileUpdater().processManifest(project, manifest -> {
+            return updateExportedPackages(manifest);
+         });
+         monitor.worked(1);
+      } catch (IOException e)
+      {
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Problem while updating exportedPackages extension", e));
+      } finally
+      {
+         monitor.done();
+      }
 
-      monitor.done();
    }
 
    private boolean updateExportedPackages(final Manifest manifest)
@@ -50,16 +63,22 @@ public class ExportedPackagesInManifestUpdater
       {
          exportedPackages.addAll(Arrays.asList(exportedPackageString.split(",")));
       }
-      Set<String> missingPackages = new HashSet<>(getExportPackage());
-      missingPackages.removeAll(exportedPackages);
-      exportedPackages.addAll(missingPackages);
+      Set<String> newPackages = new HashSet<>(getExportPackage());
+      newPackages.removeAll(exportedPackages);
+      if (newPackages.isEmpty())
+      {
+         // No update necessary
+         return false;
+      }
+
+      exportedPackages.addAll(newPackages);
 
       String exportedPackagesString = exportedPackages.stream().collect(Collectors.joining(","));
       if (!exportedPackagesString.isEmpty())
       {
          manifest.getMainAttributes().put(EXPORT_PACKAGE, exportedPackagesString);
-      }
-      else {
+      } else
+      {
          manifest.getMainAttributes().remove(EXPORT_PACKAGE);
       }
 
@@ -70,9 +89,17 @@ public class ExportedPackagesInManifestUpdater
    {
       final List<String> exportedPackages = new ArrayList<>();
       genModel.getAllGenPackagesWithClassifiers().forEach(genPackage -> {
-         exportedPackages.add(genPackage.getInterfacePackageName());
-         exportedPackages.add(genPackage.getUtilitiesPackageName());
-         exportedPackages.add(genPackage.getClassPackageName());
+         String interfacePackageName = genPackage.getInterfacePackageName();
+         String utilitiesPackageName = genPackage.getUtilitiesPackageName();
+         String classPackageName = genPackage.getClassPackageName();
+
+         // Fixes strange behavior that these names are sometimes null
+         if (interfacePackageName != null && !interfacePackageName.startsWith("null."))
+            exportedPackages.add(interfacePackageName);
+         if (utilitiesPackageName != null && !utilitiesPackageName.startsWith("null."))
+            exportedPackages.add(utilitiesPackageName);
+         if (classPackageName != null && !classPackageName.startsWith("null."))
+            exportedPackages.add(classPackageName);
       });
       return exportedPackages;
    }

@@ -10,8 +10,9 @@ import org.moflon.compiler.sdm.democles.eclipse.DemoclesValidationProcess;
 
 public class AttributeConstraintAdapterFactory implements IAdapterFactory {
 
-	@Override
-	public Object getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType) {
+	@SuppressWarnings("unchecked")
+   @Override
+	public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
 		if (adaptableObject instanceof MoflonCodeGenerator && AttributeConstraintCodeGeneratorConfig.class == adapterType) {
 			final MoflonCodeGenerator process = (MoflonCodeGenerator) adaptableObject;
 			IProject project=process.getEcoreFile().getProject();

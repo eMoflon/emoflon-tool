@@ -38,8 +38,9 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 	private static final String UPDATE_SITE_NATURE =
 			"org.eclipse.pde.UpdateSiteNature";
 
-	@Override
-	public Object getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType) {
+	@SuppressWarnings("unchecked")
+   @Override
+	public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
 		if (adaptableObject instanceof String && adapterType == FeatureExportOperation.class) {
 			FeatureModelManager featureModelManager = PDECore.getDefault().getFeatureModelManager();
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("org.moflon.deployer");
@@ -161,7 +162,7 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 		};
 	}
 	
-	private final ITargetDefinition createTargetDefinition(IFile file) {
+	private final ITargetDefinition createTargetDefinition(final IFile file) {
 		try {
 			final IContentDescription description = file.getContentDescription();
 			if (description != null) {
@@ -178,7 +179,7 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 	
-	private final ProvisioningUI createProvisioningUI(ITargetDefinition definition) throws CoreException {
+	private final ProvisioningUI createProvisioningUI(final ITargetDefinition definition) throws CoreException {
 		final ProvisioningSession session = new ProvisioningSession(P2TargetUtils.getAgent());
 		return new ProvisioningUI(session, P2TargetUtils.getProfileId(definition), new Policy());
 	}

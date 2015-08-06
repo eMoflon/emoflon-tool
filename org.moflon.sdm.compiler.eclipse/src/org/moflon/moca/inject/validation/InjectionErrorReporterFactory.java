@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.IAdapterFactory;
 public class InjectionErrorReporterFactory implements IAdapterFactory
 {
 
+   @SuppressWarnings("unchecked")
    @Override
    public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes")
    final Class adapterType)

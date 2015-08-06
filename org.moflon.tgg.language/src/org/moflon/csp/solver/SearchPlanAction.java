@@ -3,6 +3,7 @@ package org.moflon.csp.solver;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.plan.Algorithm;
 import org.gervarro.democles.plan.WeightedOperation;
@@ -18,7 +19,7 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
 
    // Unsorted list of our constraints => swap AttributeConstraint with our real Constraint class
    // Sorted list of variables referenced from constraints => swap AttributeVariable with our real Variable class
-   public SimpleCombiner sortConstraints(List<TGGConstraint> constraints, List<Variable> variables)
+   public SimpleCombiner sortConstraints(final List<TGGConstraint> constraints, final List<Variable> variables)
    {
 
       this.variables = variables;
@@ -41,11 +42,12 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
       boolean[] bits = new boolean[variables.size()];
       for (int i = 0; i < variables.size(); i++)
       {
-         if (variables.get(i).isBound()) {
-            bits[i] = Adornment.B;     // Bound <-> false !
-         }
-         else {
-            bits[i] = Adornment.F;     // Unbound <-> true !
+         if (variables.get(i).isBound())
+         {
+            bits[i] = Adornment.B; // Bound <-> false !
+         } else
+         {
+            bits[i] = Adornment.F; // Unbound <-> true !
          }
       }
       Adornment inputAdornment = new Adornment(bits);
@@ -53,71 +55,74 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
    }
 
    /**
-    * Create weighted operations from constraints 
+    * Create weighted operations from constraints
+    * 
     * @param constraints
     * @return
     */
-   private List<WeightedOperation<TGGConstraint>> createWeightedOperations(List<TGGConstraint> constraints)
+   private List<WeightedOperation<TGGConstraint>> createWeightedOperations(final List<TGGConstraint> constraints)
    {
-		List<WeightedOperation<TGGConstraint>> result = new ArrayList<WeightedOperation<TGGConstraint>>();
-		// for each constraint ...
-		for (TGGConstraint constraint : constraints) {
-			if (constraint.isNegated()) {
-				TGGLanguage.csp.Adornment adornmentForNegation = createBoundAdornment(constraint);
-				WeightedOperation<TGGConstraint> o = createWeightedOperationForConstraintWithAdornment(constraint, adornmentForNegation); 
-				result.add(o);
-				continue;
-			}
+      List<WeightedOperation<TGGConstraint>> result = new ArrayList<WeightedOperation<TGGConstraint>>();
+      // for each constraint ...
+      for (TGGConstraint constraint : constraints)
+      {
+         if (constraint.isNegated())
+         {
+            TGGLanguage.csp.Adornment adornmentForNegation = createBoundAdornment(constraint);
+            WeightedOperation<TGGConstraint> o = createWeightedOperationForConstraintWithAdornment(constraint, adornmentForNegation);
+            result.add(o);
+            continue;
+         }
 
-			// and each allowed adornment ...
-			for (TGGLanguage.csp.Adornment adornment : constraint.getAllowedAdornments()) {
-			      result.add(createWeightedOperationForConstraintWithAdornment(constraint, adornment));
-			}
-		}
-		return result;
+         // and each allowed adornment ...
+         for (TGGLanguage.csp.Adornment adornment : constraint.getAllowedAdornments())
+         {
+            result.add(createWeightedOperationForConstraintWithAdornment(constraint, adornment));
+         }
+      }
+      return result;
    }
 
-   private WeightedOperation<TGGConstraint> createWeightedOperationForConstraintWithAdornment(TGGConstraint constraint, TGGLanguage.csp.Adornment adornment)
-   { 
-      long frees  = adornment.getValue().chars().filter(c -> c == 'F').count();
+   private WeightedOperation<TGGConstraint> createWeightedOperationForConstraintWithAdornment(final TGGConstraint constraint, final TGGLanguage.csp.Adornment adornment)
+   {
+      long frees = adornment.getValue().chars().filter(c -> c == 'F').count();
       float weight = (float) Math.pow(frees, 3);
-      
+
       return createOperation(constraint, createBoundMask(constraint, adornment), createFreeMask(constraint, adornment), weight);
    }
 
-	private TGGLanguage.csp.Adornment createBoundAdornment(TGGConstraint constraint) {
-		String adornmentValue = "";
-		for (Variable var : constraint.getVariables()) {
-			adornmentValue += "B";
-		}
+   private TGGLanguage.csp.Adornment createBoundAdornment(final TGGConstraint constraint)
+   {
+      final String adornmentValue = StringUtils.repeat("B", constraint.getVariables().size());
 
-		TGGLanguage.csp.Adornment boundAdornment = CspFactory.eINSTANCE
-				.createAdornment();
-		boundAdornment.setValue(adornmentValue);
+      TGGLanguage.csp.Adornment boundAdornment = CspFactory.eINSTANCE.createAdornment();
+      boundAdornment.setValue(adornmentValue);
 
-		return boundAdornment;
-	}
+      return boundAdornment;
+   }
 
-	private Adornment createBoundMask(TGGConstraint constraint,
-			TGGLanguage.csp.Adornment adornment) {
+   private Adornment createBoundMask(final TGGConstraint constraint, final TGGLanguage.csp.Adornment adornment)
+   {
 
-		boolean[] bits = new boolean[variables.size()];
+      boolean[] bits = new boolean[variables.size()];
 
-		for (int i = 0; i < constraint.getVariables().size(); i++) {
-			Variable variable = constraint.getVariables().get(i);
-			int index = variables.indexOf(variable);
-			if (adornment.getValue().charAt(i) == 'B') {
-				bits[index] = true;
-			}
-		}
+      for (int i = 0; i < constraint.getVariables().size(); i++)
+      {
+         Variable variable = constraint.getVariables().get(i);
+         int index = variables.indexOf(variable);
+         if (adornment.getValue().charAt(i) == 'B')
+         {
+            bits[index] = true;
+         }
+      }
 
-		return new Adornment(bits);
-	}
+      return new Adornment(bits);
+   }
 
-   private Adornment createFreeMask(TGGConstraint constraint, TGGLanguage.csp.Adornment adornment)
+   private Adornment createFreeMask(final TGGConstraint constraint, final TGGLanguage.csp.Adornment adornment)
    {
       boolean[] bits = new boolean[variables.size()];
-      
+
       for (int i = 0; i < constraint.getVariables().size(); i++)
       {
          Variable variable = constraint.getVariables().get(i);
