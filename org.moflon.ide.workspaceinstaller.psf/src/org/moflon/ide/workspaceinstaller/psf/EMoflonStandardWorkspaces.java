@@ -6,8 +6,6 @@ import java.util.List;
 
 public class EMoflonStandardWorkspaces
 {
-   public static final String PLUGIN_CONTAINING_PSF_FILES = "org.moflon.ide.workspaceinstaller.psf";
-
    public static final String TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME = "TransformationZoo_1";
 
    public static final String TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME = "TransformationZoo_0";

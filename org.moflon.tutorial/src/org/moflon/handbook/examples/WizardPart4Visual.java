@@ -24,9 +24,9 @@ public class WizardPart4Visual extends AbstractExampleWizard
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
       return Arrays.asList(//
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE_OF_REPO_PROJECT, REPO_PROJECT_NAME), //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE_OF_METAMODEL, METAMODEL_PROJECT_NAME), //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE_OF_GUI, GUI_PROJECT_NAME));
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE_OF_REPO_PROJECT, REPO_PROJECT_NAME), //
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE_OF_METAMODEL, METAMODEL_PROJECT_NAME), //
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE_OF_GUI, GUI_PROJECT_NAME));
    }
 
 }

@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.TGGLanguageActivator;
+import org.moflon.core.moca.tree.MocaTreePlugin;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -26,6 +28,8 @@ import org.moflon.dependency.PackageRemappingDependency;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
+import org.moflon.sdm.language.SDMLanguagePlugin;
+import org.moflon.tgg.runtime.TGGRuntimePlugin;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.PluginProducerWorkspaceRunnable;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
@@ -365,10 +369,10 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       {
          resource.setURI(URI.createURI(resource.getURI().toString().replace(WorkspaceHelper.ECORE_FILE_EXTENSION, WorkspaceHelper.PRE_ECORE_FILE_EXTENSION)));
 
-         addMetamodelDependency(moflonProps, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.PLUGIN_ID_TGGRUNTIME));
-         addMetamodelDependency(moflonProps, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.PLUGIN_ID_SDMLANGUAGE));
-         addMetamodelDependency(moflonProps, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.PLUGIN_ID_TGGLANGUAGE));
-         addMetamodelDependency(moflonProps, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.PLUGIN_ID_MOCATREE));
+         addMetamodelDependency(moflonProps, MoflonUtil.getDefaultURIToEcoreFileInPlugin(TGGRuntimePlugin.getDefault().getPluginId()));
+         addMetamodelDependency(moflonProps, MoflonUtil.getDefaultURIToEcoreFileInPlugin(SDMLanguagePlugin.getDefault().getPluginId()));
+         addMetamodelDependency(moflonProps, MoflonUtil.getDefaultURIToEcoreFileInPlugin(TGGLanguageActivator.getDefault().getPluginId()));
+         addMetamodelDependency(moflonProps, MoflonUtil.getDefaultURIToEcoreFileInPlugin(MocaTreePlugin.getDefault().getPluginId()));
       }
 
       MoflonPropertiesContainerHelper.save(moflonProps, new NullProgressMonitor());

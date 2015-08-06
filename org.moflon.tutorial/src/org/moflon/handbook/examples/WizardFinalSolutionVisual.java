@@ -14,12 +14,12 @@ public class WizardFinalSolutionVisual extends AbstractExampleWizard
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
       return Arrays.asList(//
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/Dictionary.zip", "Dictionary"), //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/DictionaryCodeAdapter.zip", "DictionaryCodeAdapter"), //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/LearningBoxLanguage.zip", "LearningBoxLanguage"), //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/LearningBoxToDictionaryIntegration.zip", "LearningBoxToDictionaryIntegration"), //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/LeitnersBox.zip", "LeitnersBox"), //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/LeitnersLearningBox.zip", "LeitnersLearningBox"));
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/Dictionary.zip", "Dictionary"), //
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/DictionaryCodeAdapter.zip", "DictionaryCodeAdapter"), //
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/LearningBoxLanguage.zip", "LearningBoxLanguage"), //
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/LearningBoxToDictionaryIntegration.zip", "LearningBoxToDictionaryIntegration"), //
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/LeitnersBox.zip", "LeitnersBox"), //
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/LeitnersLearningBox.zip", "LeitnersLearningBox"));
    }
 
 }

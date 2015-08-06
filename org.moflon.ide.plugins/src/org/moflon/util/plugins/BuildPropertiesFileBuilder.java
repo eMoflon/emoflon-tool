@@ -52,7 +52,7 @@ public class BuildPropertiesFileBuilder
          }
       } catch (IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.PLUGIN_ID, "Error while creating build.properties: " + e.getMessage()));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.getDefault().getPluginId(), "Error while creating build.properties: " + e.getMessage()));
       } finally
       {
          monitor.done();

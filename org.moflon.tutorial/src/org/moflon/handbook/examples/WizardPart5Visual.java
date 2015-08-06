@@ -15,7 +15,7 @@ public class WizardPart5Visual extends AbstractExampleWizard
    @Override
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
-      return Arrays.asList(new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE, PROJECT_NAME));
+      return Arrays.asList(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE, PROJECT_NAME));
    }
 
 }

@@ -7,7 +7,8 @@ Export-Package: DotToSDMLanguageTGG,
  DotToSDMLanguageTGG.impl,
  DotToSDMLanguageTGG.util,
  csp.constraints,
- csp.constraints.common
+ csp.constraints.common,
+ org.moflon.ide.visualization.dot.sdm
 Bundle-Name: DotToSDMLanguageTGG
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
@@ -25,3 +26,4 @@ Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Activator: org.moflon.ide.visualization.dot.sdm.SDMVisualizationPlugin

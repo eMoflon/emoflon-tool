@@ -190,7 +190,7 @@ public class MetamodelProperties
          logger.warn("Unable to load properties file or file not existing: " + e);
 
          createMarkerForMissingExportedFiles(propertyFile);
-         throw new CoreException(new Status(IStatus.WARNING, MoflonPluginsActivator.PLUGIN_ID, "Unable to load properties file or file not existing: " + e));
+         throw new CoreException(new Status(IStatus.WARNING, MoflonPluginsActivator.getDefault().getPluginId(), "Unable to load properties file or file not existing: " + e));
       }
 
       Map<String, MetamodelProperties> projectMap = createPropertiesMap(properties);

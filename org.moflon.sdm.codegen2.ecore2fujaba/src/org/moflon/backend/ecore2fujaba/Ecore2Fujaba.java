@@ -333,7 +333,7 @@ public class Ecore2Fujaba
          return c;
       } catch (Exception e)
       {
-         MoflonUtil.throwCoreExceptionAsError("Unable to resolve " + superType + ".  Are all project dependencies fulfilled?", MoflonUtilitiesActivator.PLUGIN_ID, e);
+         MoflonUtil.throwCoreExceptionAsError("Unable to resolve " + superType + ".  Are all project dependencies fulfilled?", MoflonUtilitiesActivator.getDefault().getPluginId(), e);
       }
       return null;
    }

@@ -109,7 +109,7 @@ public class MoflonDebugLaunchDelegate extends LaunchConfigurationDelegate
       String path = null;
       try
       {
-         path = FileLocator.toFileURL(Platform.getBundle(Activator.PLUGIN_ID).getResource(MoflonDebugTarget.DEBUG_INIT_XMI)).getFile();
+         path = FileLocator.toFileURL(Platform.getBundle(Activator.getDefault().getPluginId()).getResource(MoflonDebugTarget.DEBUG_INIT_XMI)).getFile();
       } catch (IOException e)
       {
          e.printStackTrace();

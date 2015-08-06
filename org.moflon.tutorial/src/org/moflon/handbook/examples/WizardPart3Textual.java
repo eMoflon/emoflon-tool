@@ -13,9 +13,9 @@ public class WizardPart3Textual extends AbstractExampleWizard
    {
       return Arrays.asList(
             //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), "resources/handbook-examples/PartIII/LearningBoxLanguage.zip", "LearningBoxLanguage"), //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), "resources/handbook-examples/PartIII/textualLeitnersLearningBox.zip", "LeitnersLearningBox"), //
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), "resources/handbook-examples/LeitnersBoxGUI.zip", "LeitnersBox"));
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/PartIII/LearningBoxLanguage.zip", "LearningBoxLanguage"), //
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/PartIII/textualLeitnersLearningBox.zip", "LeitnersLearningBox"), //
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/LeitnersBoxGUI.zip", "LeitnersBox"));
    }
 
 }

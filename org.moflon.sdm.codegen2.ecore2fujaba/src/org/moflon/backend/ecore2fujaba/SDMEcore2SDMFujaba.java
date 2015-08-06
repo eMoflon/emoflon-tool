@@ -251,12 +251,6 @@ public class SDMEcore2SDMFujaba
 
          logger.debug("Activities in Fujaba: " + activityNodeToUMLActivity.values());
       }
-      // catch (Exception e)
-      // {
-      // throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Unable to process SDM: " +
-      // eOperation.getEContainingClass().getName() + "::"
-      // + eOperation.getName() + ": " + e.toString() + ", " + Arrays.toString(e.getStackTrace())));
-      // }
 
    }
 
@@ -850,7 +844,7 @@ public class SDMEcore2SDMFujaba
    {
       if (source == null || target == null || nameOfLink == null || nameOfLink.length() == 0)
          MoflonUtil.throwCoreExceptionAsError("The eReference: " + source + "-" + nameOfLink + "->" + target + " is not valid!",
-               MoflonUtilitiesActivator.PLUGIN_ID, null);
+               MoflonUtilitiesActivator.getDefault().getPluginId(), null);
 
       String fullyQualSource = source.getEPackage().getNsURI() + "_" + source.getName();
       String fullyQualTarget = target.getEPackage().getNsURI() + "_" + target.getName();

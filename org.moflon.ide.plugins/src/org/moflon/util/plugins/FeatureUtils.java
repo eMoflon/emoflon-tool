@@ -73,7 +73,7 @@ public class FeatureUtils
          }
       } catch (IOException | XPathExpressionException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Exception while processing feature file " + siteXml, e));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Exception while processing feature file " + siteXml, e));
       }
    }
 
@@ -96,7 +96,7 @@ public class FeatureUtils
          }
       } catch (IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Exception while processing feature file " + featureFile, e));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Exception while processing feature file " + featureFile, e));
       }
    }
 
@@ -132,7 +132,7 @@ public class FeatureUtils
          }
       } catch (IOException | XPathExpressionException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Exception while processing feature file " + featureFile, e));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Exception while processing feature file " + featureFile, e));
       }
    }
 
@@ -171,7 +171,7 @@ public class FeatureUtils
 
       } catch (final IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "", e));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "", e));
       } finally
       {
          monitor.done();
@@ -219,7 +219,7 @@ public class FeatureUtils
          }
       } catch (IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Exception while processing feature file " + featureFile, e));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Exception while processing feature file " + featureFile, e));
       } finally
       {
          monitor.done();
@@ -262,7 +262,7 @@ public class FeatureUtils
          }
       } catch (IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Exception while processing site file " + siteFile, e));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Exception while processing site file " + siteFile, e));
       } finally
       {
          monitor.done();

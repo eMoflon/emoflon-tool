@@ -24,9 +24,9 @@ public class WizardPart4Textual extends AbstractExampleWizard
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
       return Arrays.asList(//
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE_OF_GENERATED_CODE, PROJECT_NAME_OF_GENERATED_CODE),//
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE_OF_METAMODEL, PROJECT_NAME_OF_METAMODEL),//
-            new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE_OF_GUI, PROJECT_NAME_OF_GUI));
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE_OF_GENERATED_CODE, PROJECT_NAME_OF_GENERATED_CODE),//
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE_OF_METAMODEL, PROJECT_NAME_OF_METAMODEL),//
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE_OF_GUI, PROJECT_NAME_OF_GUI));
    }
 
 }

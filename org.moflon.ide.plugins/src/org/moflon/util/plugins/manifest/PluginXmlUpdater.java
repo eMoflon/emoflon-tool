@@ -99,7 +99,7 @@ public class PluginXmlUpdater
 
       } catch (IOException | XPathExpressionException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.PLUGIN_ID,
+         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.getDefault().getPluginId(),
                "Error reading/writing plugin.xml for project " + project.getName() + ": " + e.getMessage(), e));
       } finally
       {

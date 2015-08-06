@@ -284,7 +284,7 @@ public class MoflonDebugTarget extends JDIDebugTarget // MoflonDebugElement impl
       String path = null;
       try
       {
-         path = FileLocator.toFileURL(Platform.getBundle(Activator.PLUGIN_ID).getResource(DEBUG_INIT_XMI)).getFile();
+         path = FileLocator.toFileURL(Platform.getBundle(Activator.getDefault().getPluginId()).getResource(DEBUG_INIT_XMI)).getFile();
       } catch (IOException e)
       {
          e.printStackTrace();

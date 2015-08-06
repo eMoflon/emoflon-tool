@@ -362,7 +362,7 @@ public class ManifestFileUpdater
          manifestFileContents.close();
       } catch (IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Failed to read existing MANIFEST.MF: " + e.getMessage(), e));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Failed to read existing MANIFEST.MF: " + e.getMessage(), e));
       }
    }
 

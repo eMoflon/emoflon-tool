@@ -15,19 +15,19 @@ public class WizardFinalSolutionTextual extends AbstractExampleWizard
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
       List<ProjectDescriptor> projects = new ArrayList<ProjectDescriptor>(1);
-      projects.add(new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/Dictionary.zip", "Dictionary"));
+      projects.add(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/Dictionary.zip", "Dictionary"));
 
-      projects.add(new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/DictionaryCodeAdapter.zip", "DictionaryCodeAdapter"));
+      projects.add(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/DictionaryCodeAdapter.zip", "DictionaryCodeAdapter"));
 
-      projects.add(new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/DictionaryLanguage.zip", "DictionaryLanguage"));
+      projects.add(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/DictionaryLanguage.zip", "DictionaryLanguage"));
 
-      projects.add(new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/LearningBoxLanguage.zip", "LearningBoxLanguage"));
+      projects.add(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/LearningBoxLanguage.zip", "LearningBoxLanguage"));
 
-      projects.add(new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/LearningBoxToDictionaryIntegration.zip", "LearningBoxToDictionaryIntegration"));
+      projects.add(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/LearningBoxToDictionaryIntegration.zip", "LearningBoxToDictionaryIntegration"));
 
-      projects.add(new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/LeitnersBox.zip", "LeitnersBox"));
+      projects.add(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/LeitnersBox.zip", "LeitnersBox"));
 
-      projects.add(new ProjectDescriptor(TutorialPlugin.getPluginId(), ROOT + "/LeitnersLearningBox.zip", "LeitnersLearningBox"));
+      projects.add(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ROOT + "/LeitnersLearningBox.zip", "LeitnersLearningBox"));
 
       return projects;
    }

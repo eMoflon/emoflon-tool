@@ -44,7 +44,7 @@ public class MyWorkspaceHelper
    {
       if (bundle == null)
       {
-         bundle = Platform.getBundle(TutorialPlugin.getPluginId());
+         bundle = Platform.getBundle(TutorialPlugin.getDefault().getPluginId());
       }
    }
 
@@ -55,7 +55,7 @@ public class MyWorkspaceHelper
     */
    public static URL getResourceURL(final String resource)
    {
-      return MoflonUtilitiesActivator.getPathRelToPlugIn(resource, TutorialPlugin.getPluginId());
+      return MoflonUtilitiesActivator.getPathRelToPlugIn(resource, TutorialPlugin.getDefault().getPluginId());
    }
 
    /**

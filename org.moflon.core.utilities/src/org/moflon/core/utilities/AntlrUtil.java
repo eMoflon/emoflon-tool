@@ -11,11 +11,11 @@ public final class AntlrUtil
 
    public static URL getAntrlPathUrl()
    {
-      final URL url = MoflonUtilitiesActivator.getPathRelToPlugIn(WorkspaceHelper.ANTLR_3, MoflonUtilitiesActivator.PLUGIN_ID);
+      final URL url = MoflonUtilitiesActivator.getPathRelToPlugIn(WorkspaceHelper.ANTLR_3, MoflonUtilitiesActivator.getDefault().getPluginId());
       if (url == null)
       {
          throw new IllegalStateException(String.format("Could not find Antlr at expected location [path=%s, plugin=%s]", WorkspaceHelper.ANTLR_3,
-               MoflonUtilitiesActivator.PLUGIN_ID));
+               MoflonUtilitiesActivator.getDefault().getPluginId()));
       }
       return url;
    }

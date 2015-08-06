@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Central eMoflon update site" url="www.emoflon.org/fileadmin/download/moflon-ide/eclipse-plugin/update-site2/">
+      This is the central update site of eMoflon.
+   </description>
+   <feature url="features/org.moflon.ide.feature_1.7.18.qualifier.jar" id="org.moflon.ide.feature" version="1.7.18.qualifier">
+      <category name="org.moflon.ide"/>
+   </feature>
+   <feature url="features/org.moflon.sdm.codegen2.feature_1.0.0.qualifier.jar" id="org.moflon.sdm.codegen2.feature" version="1.0.0.qualifier">
+      <category name="org.moflon.ide"/>
+   </feature>
+   <category-def name="org.moflon.ide" label="eMoflon"/>
+</site>

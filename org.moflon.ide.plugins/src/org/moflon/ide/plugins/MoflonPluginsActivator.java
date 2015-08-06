@@ -1,22 +1,12 @@
 package org.moflon.ide.plugins;
 
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
+import org.moflon.core.utilities.EMoflonPlugin;
 
-public class MoflonPluginsActivator implements BundleActivator
-{
-   public static final String PLUGIN_ID = "org.moflon.ide.plugins";
-
-   @Override
-   public void start(final BundleContext context) throws Exception
-   {
-      // do nothing
-   }
-
-   @Override
-   public void stop(final BundleContext context) throws Exception
-   {
-      // do nothing
-   }
-
+public class MoflonPluginsActivator extends EMoflonPlugin {
+	public static MoflonPluginsActivator getDefault() {
+		MoflonPluginsActivator plugin = getPlugin(MoflonPluginsActivator.class);
+		if (plugin == null)
+			throw new IllegalStateException("Plugin has not yet been set!");
+		return plugin;
+	}
 }

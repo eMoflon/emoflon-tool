@@ -7,17 +7,17 @@ Bundle-Activator: org.example.processor.internal.Activator
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.apt.core,
- TGGLanguage;bundle-version="1.0.0",
+ TGGLanguage,
  org.junit,
  org.eclipse.jdt.core;bundle-version="3.10.0",
  org.eclipse.jdt.apt.pluggable.core;bundle-version="1.0.400",
  org.eclipse.core.resources,
- DebugLanguage;bundle-version="1.0.0",
+ DebugLanguage,
  org.eclipse.emf.common,
  org.eclipse.emf.ecore;bundle-version="2.10.0",
  org.eclipse.ui.workbench;bundle-version="3.106.0",
- org.moflon.ide.debug.core;bundle-version="1.0.0",
- org.moflon.core.utilities;bundle-version="1.0.0";visibility:=reexport,
+ org.moflon.ide.debug.core,
+ org.moflon.core.utilities;visibility:=reexport,
  org.moflon.ide.core
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -108,22 +108,6 @@ public class WorkspaceHelper
 
    public static final String PLUGIN_ID_ECLIPSE_RUNTIME = "org.eclipse.core.runtime";
 
-   public static final String PLUGIN_ID_TGGRUNTIME = "TGGRuntime";
-
-   public static final String PLUGIN_ID_SDMLANGUAGE = "SDMLanguage";
-
-   public static final String PLUGIN_ID_TGGLANGUAGE = "TGGLanguage";
-
-   public static final String PLUGIN_ID_MOCATREE = "MocaTree";
-
-   public static final String PLUGIN_ID_DOTTOTGGTGG = "DotToTGGTGG";
-
-   public static final String PLUGIN_ID_DotToSDMLanguageTGG = "DotToSDMLanguageTGG";
-
-   public static final String PLUGIN_ID_MOCA = "Moca";
-
-   public static final String PLUGIN_ID_DEBUGLANGUAGE = "DebugLanguage";
-
    public static final String PLUGIN_ID_LOG4J = "org.apache.log4j;bundle-version=\"1.2.15\"";
 
    public static final String PLUGIN_ID_APACHE_COMMONS_LANG3 = "org.apache.commons.lang3;bundle-version=\"3.1.0\"";
@@ -135,8 +119,6 @@ public class WorkspaceHelper
    public final static String MOSL_PROBLEM_MARKER_ID = "org.moflon.ide.marker.MOSLProblem";
 
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
-
-   public static final String PLUGIN_ID_DOTTGGRUNTIME = "org.moflon.ide.visualization.dot.tgg.runtime";
 
    /**
     * Checks if given name is a valid name for a new project in the current workspace.

@@ -6,3 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.moflon.ide.workspaceinstaller.psf
+Bundle-Activator: org.moflon.ide.workspaceinstaller.psf.PSFPlugin
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.11.0",
+ org.moflon.core.utilities

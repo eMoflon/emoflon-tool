@@ -6,13 +6,15 @@ Export-Package: DebugLanguage,
  DebugLanguage.DebugGenerics.util,
  DebugLanguage.impl,
  DebugLanguage.util,
- org.moflon.ide.debug
+ org.moflon.ide.debug,
+ org.moflon.tgg.debug.language
 Bundle-Name: DebugLanguage
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: TGGRuntime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
+ org.eclipse.core.runtime;bundle-version="3.11.0",
  TGGLanguage,
  SDMLanguage,
  MocaTree,
@@ -21,3 +23,4 @@ Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: TU Darmstadt
+Bundle-Activator: org.moflon.tgg.debug.language.DebugLanguagePlugin

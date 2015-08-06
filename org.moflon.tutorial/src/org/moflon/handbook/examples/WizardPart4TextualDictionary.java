@@ -12,7 +12,7 @@ public class WizardPart4TextualDictionary extends AbstractExampleWizard
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
 
-      return Arrays.asList(new ProjectDescriptor(TutorialPlugin.getPluginId(), "resources/handbook-examples/PartIV/textualDictionary.zip", "Dictionary"));
+      return Arrays.asList(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/PartIV/textualDictionary.zip", "Dictionary"));
    }
 
 }

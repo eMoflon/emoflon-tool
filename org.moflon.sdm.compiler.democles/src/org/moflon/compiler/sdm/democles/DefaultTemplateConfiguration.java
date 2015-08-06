@@ -40,6 +40,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
 
    protected final HashMap<String, OperationSequenceCompiler> operationSequenceCompilers = new HashMap<String, OperationSequenceCompiler>();
 
+   //TODO@rkluge: Reconfigure STErrorManager in this class to log to Moflon console
    public DefaultTemplateConfiguration(final GenModel genModel)
    {
       final EcoreToGenModelConverter ecoreToGenModelConverter = new EcoreToGenModelConverter(genModel);

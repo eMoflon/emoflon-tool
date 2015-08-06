@@ -44,7 +44,6 @@ public class UIActivator extends AbstractUIPlugin
    // The shared instance
    private static UIActivator plugin;
 
-   private static String bundleId;
 
    // IDs used in plugin (have to be synchronized with values in plugin.xml)
 
@@ -59,6 +58,8 @@ public class UIActivator extends AbstractUIPlugin
    public static final String ADD_PARSER_AND_UNPARSER_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard";
 
    public static final String NEW_TESTFRAMEWORK_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.testframework.NewTestframeworkWizard";
+   
+   private static String bundleId;
 
    public static String getModuleID()
    {

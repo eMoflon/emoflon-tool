@@ -11,7 +11,7 @@ public class WizardPart2GUI extends AbstractExampleWizard
    @Override
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
-      return Arrays.asList(new ProjectDescriptor(TutorialPlugin.getPluginId(), "resources/handbook-examples/LeitnersBoxGUI.zip", "LeitnersBox"));
+      return Arrays.asList(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/LeitnersBoxGUI.zip", "LeitnersBox"));
    }
 
 }

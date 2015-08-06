@@ -27,9 +27,11 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.ui.admin.handlers.AbstractCommandHandler;
+import org.moflon.ide.visualization.dot.sdm.SDMVisualizationPlugin;
+import org.moflon.ide.visualization.dot.tgg.VisualizationPlugin;
+import org.moflon.ide.visualization.dot.tgg.runtime.DotTggRuntimePlugin;
 import org.moflon.ide.visualization.dot.tgg.runtime.RuntimePackage;
 import org.moflon.moca.MocaTreeSorter;
 import org.moflon.moca.ModelToTreeConverter;
@@ -37,7 +39,6 @@ import org.moflon.moca.dot.unparser.DotUnparserAdapter;
 import org.moflon.moca.dot.unparser.SimpleDotUnparserAdapter;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.util.eMoflonSDMUtil;
-import org.moflon.visualization.VisualizationActivator;
 
 import DotToSDMLanguageTGG.DotToSDMLanguageTGGPackage;
 import DotToTGGTGG.DotToTGGTGGPackage;
@@ -115,7 +116,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 
    private String getAbsolutePathToDotExe()
    {
-      final URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(RELATIVE_PATH_TO_DOT, VisualizationActivator.PLUGIN_ID);
+      final URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(RELATIVE_PATH_TO_DOT, VisualizationPlugin.getDefault().getPluginId());
       final String absolutePathToDot = new java.io.File(pathToExe.getPath()).getAbsolutePath();
       return "\"" + absolutePathToDot + "\"";
    }
@@ -208,7 +209,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
    {
       Folder folder = null;
       
-      final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.PLUGIN_ID_DOTTGGRUNTIME);
+      final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", DotTggRuntimePlugin.getDefault().getPluginId());
       SynchronizationHelper helper = new SynchronizationHelper(RuntimePackage.eINSTANCE, pathToPlugin.getFile(), ps.eResource().getResourceSet());
       helper.setSrc(ps);
       helper.integrateForward();
@@ -229,7 +230,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
       Folder folder = null;
       try
       {
-         final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.PLUGIN_ID_DOTTOTGGTGG);
+         final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", VisualizationPlugin.getDefault().getPluginId());
          SynchronizationHelper helper = new SynchronizationHelper(DotToTGGTGGPackage.eINSTANCE, pathToPlugin.getFile(), tgg.eResource().getResourceSet());
          helper.setTrg(tgg);
          
@@ -316,7 +317,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
             try
             {
                // initialize tgg and integrate
-               final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.PLUGIN_ID_DotToSDMLanguageTGG);
+               final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", SDMVisualizationPlugin.getDefault().getPluginId());
                SynchronizationHelper helper = new SynchronizationHelper(DotToSDMLanguageTGGPackage.eINSTANCE, pathToPlugin.getFile(), eclass.eResource().getResourceSet());
                
 

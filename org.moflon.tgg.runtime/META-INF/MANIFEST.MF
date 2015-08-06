@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: TGGRuntime;singleton:=true
-Export-Package: TGGRuntime.impl,
- TGGRuntime,
- TGGRuntime.util
+Export-Package: TGGRuntime,
+ TGGRuntime.impl,
+ TGGRuntime.util,
+ org.moflon.tgg.runtime
 Bundle-Name: TGGRuntime (MOFLON)
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
@@ -17,3 +18,4 @@ Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Activator: org.moflon.tgg.runtime.TGGRuntimePlugin

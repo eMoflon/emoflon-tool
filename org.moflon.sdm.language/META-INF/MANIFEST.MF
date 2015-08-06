@@ -1,33 +1,34 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: SDMLanguage;singleton:=true
-Export-Package: SDMLanguage.patterns.AttributeConstraints.impl,
+Export-Package: SDMLanguage,
  SDMLanguage.activities,
- SDMLanguage.expressions.util,
- SDMLanguage.patterns.patternExpressions,
- SDMLanguage.calls.callExpressions.impl,
- SDMLanguage.calls.util,
- SDMLanguage.patterns.util,
- SDMLanguage.calls,
- SDMLanguage.activities.util,
- SDMLanguage.patterns.patternExpressions.impl,
- SDMLanguage.calls.callExpressions,
- SDMLanguage.expressions,
- SDMLanguage.calls.impl,
- SDMLanguage.patterns.impl,
- SDMLanguage.impl,
- SDMLanguage.calls.callExpressions.util,
- SDMLanguage.patterns,
- SDMLanguage.patterns.AttributeConstraints.util,
- SDMLanguage.expressions.impl,
- SDMLanguage.patterns.AttributeConstraints,
  SDMLanguage.activities.impl,
- org.moflon.util,
+ SDMLanguage.activities.util,
+ SDMLanguage.calls,
+ SDMLanguage.calls.callExpressions,
+ SDMLanguage.calls.callExpressions.impl,
+ SDMLanguage.calls.callExpressions.util,
+ SDMLanguage.calls.impl,
+ SDMLanguage.calls.util,
+ SDMLanguage.expressions,
+ SDMLanguage.expressions.impl,
+ SDMLanguage.expressions.util,
+ SDMLanguage.impl,
+ SDMLanguage.patterns,
+ SDMLanguage.patterns.AttributeConstraints,
+ SDMLanguage.patterns.AttributeConstraints.impl,
+ SDMLanguage.patterns.AttributeConstraints.util,
+ SDMLanguage.patterns.impl,
+ SDMLanguage.patterns.patternExpressions,
+ SDMLanguage.patterns.patternExpressions.impl,
  SDMLanguage.patterns.patternExpressions.util,
- SDMLanguage,
- SDMLanguage.util,
- SDMLanguage.sdmUtil.util,
+ SDMLanguage.patterns.util,
  SDMLanguage.sdmUtil,
- SDMLanguage.sdmUtil.impl
+ SDMLanguage.sdmUtil.impl,
+ SDMLanguage.sdmUtil.util,
+ SDMLanguage.util,
+ org.moflon.sdm.language,
+ org.moflon.util
 Bundle-Name: SDMLanguage (MOFLON)
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
@@ -42,3 +43,4 @@ Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Activator: org.moflon.sdm.language.SDMLanguagePlugin

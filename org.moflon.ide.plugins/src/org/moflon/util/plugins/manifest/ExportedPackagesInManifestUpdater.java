@@ -47,7 +47,7 @@ public class ExportedPackagesInManifestUpdater
          monitor.worked(1);
       } catch (IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Problem while updating exportedPackages extension", e));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Problem while updating exportedPackages extension", e));
       } finally
       {
          monitor.done();

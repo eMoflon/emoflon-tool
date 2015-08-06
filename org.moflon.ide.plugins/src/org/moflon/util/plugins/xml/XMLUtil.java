@@ -50,7 +50,7 @@ public class XMLUtil
          return output;
       } catch (TransformerFactoryConfigurationError | TransformerException ex)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Formatting XML failed", ex));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Formatting XML failed", ex));
       } finally {
          monitor.done();
       }
@@ -70,7 +70,7 @@ public class XMLUtil
          return doc;
       } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException ex)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.PLUGIN_ID, "Formatting XML failed", ex));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Formatting XML failed", ex));
       }
    }
 

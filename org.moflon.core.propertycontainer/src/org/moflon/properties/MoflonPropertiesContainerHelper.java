@@ -33,8 +33,6 @@ public class MoflonPropertiesContainerHelper
 {
    public static final String MOFLON_CONFIG_FILE = "moflon.properties.xmi";
 
-   public static final String PLUGIN_ID = "org.moflon.MoflonPropertyContainer";
-
    private static final Logger logger = Logger.getLogger(MoflonPropertiesContainerHelper.class);
 
    public static MoflonPropertiesContainer load(final IProject project, final IProgressMonitor monitor)
