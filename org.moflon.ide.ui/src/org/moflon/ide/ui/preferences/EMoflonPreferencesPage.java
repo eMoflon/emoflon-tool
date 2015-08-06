@@ -4,6 +4,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -17,6 +18,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class EMoflonPreferencesPage extends PreferencePage implements IWorkbenchPreferencePage
 {
 
+   private static final Color DEFAULT_COLOR = null;
    private Text updateSiteProjectTextBox;
 
    public EMoflonPreferencesPage()
@@ -45,10 +47,12 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
    {
       final FormToolkit toolkit = new FormToolkit(parent.getDisplay());
       final Label pageDescriptionLabel = toolkit.createLabel(parent, "eMoflon Preferences");
+      pageDescriptionLabel.setBackground(DEFAULT_COLOR);
       GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
       pageDescriptionLabel.setLayoutData(gd1);
 
       final Composite updateSiteComponent = toolkit.createComposite(parent);
+      updateSiteComponent.setBackground(DEFAULT_COLOR);
       GridData gd2 = new GridData(GridData.FILL_HORIZONTAL);
       updateSiteComponent.setLayoutData(gd2);
 
