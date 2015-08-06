@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.osgi.service.resolver.BundleSpecification;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
