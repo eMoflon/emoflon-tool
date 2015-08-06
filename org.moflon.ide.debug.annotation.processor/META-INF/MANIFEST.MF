@@ -19,7 +19,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.moflon.ide.debug.core;bundle-version="1.0.0",
  org.moflon.core.utilities;bundle-version="1.0.0";visibility:=reexport,
  org.moflon.ide.core
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: lib/tools.jar,
  .
