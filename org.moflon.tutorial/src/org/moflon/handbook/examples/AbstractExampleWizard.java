@@ -44,7 +44,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.tutorial.TutorialPlugin;
 
 /**
  * <p>
@@ -113,8 +112,6 @@ public abstract class AbstractExampleWizard extends Wizard implements INewWizard
          return zipLocation;
       }
    }
-
-   protected static final String BUNDLE_ID = TutorialPlugin.getBundleId();
 
    @Override
    public boolean performFinish()

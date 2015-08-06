@@ -3,13 +3,15 @@ package org.moflon.handbook.examples;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.moflon.tutorial.TutorialPlugin;
+
 public class WizardPart4VisualDictionary extends AbstractExampleWizard
 {
 
    @Override
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
-      return Arrays.asList(new ProjectDescriptor(BUNDLE_ID, "resources/handbook-examples/PartIV/visualDictionary.zip", "Dictionary"));
+      return Arrays.asList(new ProjectDescriptor(TutorialPlugin.getPluginId(), "resources/handbook-examples/PartIV/visualDictionary.zip", "Dictionary"));
    }
 
 }

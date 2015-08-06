@@ -20,7 +20,7 @@ import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
-import org.moflon.tutorial.Common;
+import org.moflon.tutorial.TutorialPlugin;
 import org.osgi.framework.Bundle;
 
 /**
@@ -44,7 +44,7 @@ public class MyWorkspaceHelper
    {
       if (bundle == null)
       {
-         bundle = Platform.getBundle(Common.MAIN_PLUGIN_ID);
+         bundle = Platform.getBundle(TutorialPlugin.getPluginId());
       }
    }
 
@@ -55,7 +55,7 @@ public class MyWorkspaceHelper
     */
    public static URL getResourceURL(final String resource)
    {
-      return MoflonUtilitiesActivator.getPathRelToPlugIn(resource, Common.MAIN_PLUGIN_ID);
+      return MoflonUtilitiesActivator.getPathRelToPlugIn(resource, TutorialPlugin.getPluginId());
    }
 
    /**

@@ -3,6 +3,8 @@ package org.moflon.handbook.examples;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.moflon.tutorial.TutorialPlugin;
+
 public class WizardPart4Visual extends AbstractExampleWizard
 {
 
@@ -22,9 +24,9 @@ public class WizardPart4Visual extends AbstractExampleWizard
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
       return Arrays.asList(//
-            new ProjectDescriptor(BUNDLE_ID, ARCHIVE_OF_REPO_PROJECT, REPO_PROJECT_NAME), //
-            new ProjectDescriptor(BUNDLE_ID, ARCHIVE_OF_METAMODEL, METAMODEL_PROJECT_NAME), //
-            new ProjectDescriptor(BUNDLE_ID, ARCHIVE_OF_GUI, GUI_PROJECT_NAME));
+            new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE_OF_REPO_PROJECT, REPO_PROJECT_NAME), //
+            new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE_OF_METAMODEL, METAMODEL_PROJECT_NAME), //
+            new ProjectDescriptor(TutorialPlugin.getPluginId(), ARCHIVE_OF_GUI, GUI_PROJECT_NAME));
    }
 
 }

@@ -3,6 +3,8 @@ package org.moflon.handbook.examples;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.moflon.tutorial.TutorialPlugin;
+
 public class WizardPart3Textual extends AbstractExampleWizard
 {
 
@@ -11,9 +13,9 @@ public class WizardPart3Textual extends AbstractExampleWizard
    {
       return Arrays.asList(
             //
-            new ProjectDescriptor(BUNDLE_ID, "resources/handbook-examples/PartIII/LearningBoxLanguage.zip", "LearningBoxLanguage"), //
-            new ProjectDescriptor(BUNDLE_ID, "resources/handbook-examples/PartIII/textualLeitnersLearningBox.zip", "LeitnersLearningBox"), //
-            new ProjectDescriptor(BUNDLE_ID, "resources/handbook-examples/LeitnersBoxGUI.zip", "LeitnersBox"));
+            new ProjectDescriptor(TutorialPlugin.getPluginId(), "resources/handbook-examples/PartIII/LearningBoxLanguage.zip", "LearningBoxLanguage"), //
+            new ProjectDescriptor(TutorialPlugin.getPluginId(), "resources/handbook-examples/PartIII/textualLeitnersLearningBox.zip", "LeitnersLearningBox"), //
+            new ProjectDescriptor(TutorialPlugin.getPluginId(), "resources/handbook-examples/LeitnersBoxGUI.zip", "LeitnersBox"));
    }
 
 }
