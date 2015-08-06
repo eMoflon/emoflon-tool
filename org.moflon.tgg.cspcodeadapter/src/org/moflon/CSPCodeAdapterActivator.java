@@ -6,8 +6,6 @@ import org.osgi.framework.BundleContext;
 public class CSPCodeAdapterActivator extends Plugin
 {
 
-   public static final String PLUGIN_ID = "CSPCodeAdapter";
-   
    // The shared instance
    private static CSPCodeAdapterActivator plugin;
    
