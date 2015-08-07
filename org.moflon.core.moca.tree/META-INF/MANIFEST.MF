@@ -1,13 +1,5 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: MocaTree;singleton:=true
-Export-Package: MocaTree,
- MocaTree.impl,
- MocaTree.util,
- org.moflon.core.moca.tree
-Bundle-Name: Moca Framework MocaTree
-Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: .
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.emf.ecore,
  org.moflon.core.utilities,
  org.eclipse.core.runtime;bundle-version="3.11.0",
@@ -17,4 +9,12 @@ Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Export-Package: MocaTree,
+ MocaTree.impl,
+ MocaTree.util,
+ org.moflon.core.moca.tree
+Bundle-Name: Moca Framework MocaTree
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Localization: plugin
 Bundle-Activator: org.moflon.core.moca.tree.MocaTreePlugin
