@@ -1,21 +1,17 @@
 
 import java.util.List;
 import java.util.ArrayList;
-
-import net.sf.javabdd.BDDException;
-
 import org.moflon.csp.CSPNotSolvableException;
 import org.moflon.csp.solver.CodeGeneratorChain;
 import org.moflon.csp.solver.SearchPlanAction;
 import org.moflon.csp.solver.SimpleCombiner;
-
 import TGGLanguage.csp.TGGConstraint;
 
 partial class CSPSearchPlanAdapterImpl {
 
 @members <--
 
-   private List<TGGConstraint> createConstraintList(SimpleCombiner combiner)
+   private List<TGGConstraint> createConstraintList(final SimpleCombiner combiner)
    {
       List<TGGConstraint> result = new ArrayList<TGGConstraint>();
 
@@ -29,7 +25,7 @@ partial class CSPSearchPlanAdapterImpl {
       return reverse(result);
    }
 
-   private List<TGGConstraint> reverse(List<TGGConstraint> list)
+   private List<TGGConstraint> reverse(final List<TGGConstraint> list)
    {
       List<TGGConstraint> result = new ArrayList<TGGConstraint>();
       for (int i = 0; i < list.size(); i++)
