@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.ide.visualization.linkbrowser
 Bundle-SymbolicName: org.moflon.ide.visualization.linkbrowser;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .,
  extlib/dom4j-1.5.2.jar,
  extlib/SWTUtilities.jar,
@@ -49,13 +49,13 @@ Require-Bundle:
  org.moflon.core.utilities,
  TGGRuntime,
  org.eclipse.debug.core,
- DebugLanguage;bundle-version="1.0.0",
+ DebugLanguage,
  org.eclipse.debug.ui,
  org.eclipse.draw2d,
  org.eclipse.emf.edit.ui,
  org.eclipse.emf.ecore.edit;bundle-version="2.9.0",
- MoflonPropertyContainer;bundle-version="1.0.0",
- org.moflon.ide.debug.ui;bundle-version="1.0.0"
+ MoflonPropertyContainer,
+ org.moflon.ide.debug.ui
 Bundle-Vendor: Fraunhofer Institute for Industrial Engineering (IAO).
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

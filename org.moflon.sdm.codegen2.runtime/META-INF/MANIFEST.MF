@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.sdm.codegen2.runtime
 Bundle-SymbolicName: org.moflon.sdm.codegen2.runtime
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Bundle-ClassPath: .,
  lib/RuntimeTools.jar

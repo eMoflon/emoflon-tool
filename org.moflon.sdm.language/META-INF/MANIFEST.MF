@@ -40,7 +40,7 @@ Export-Package: SDMLanguage,
  org.moflon.sdm.language,
  org.moflon.util
 Bundle-Name: SDMLanguage (MOFLON)
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.sdm.language.SDMLanguagePlugin

@@ -14,7 +14,7 @@ Export-Package: MocaTree,
  MocaTree.util,
  org.moflon.core.moca.tree
 Bundle-Name: Moca Framework MocaTree
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.core.moca.tree.MocaTreePlugin

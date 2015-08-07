@@ -8,7 +8,7 @@ Export-Package: org.moflon.ide.visualization.dot.tgg.runtime.util,
  org.moflon.ide.visualization.dot.tgg.runtime.Rules,
  org.moflon.ide.visualization.dot.tgg.runtime.Rules.util
 Bundle-Name: org.moflon.ide.visualization.dot.tgg.runtime
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,

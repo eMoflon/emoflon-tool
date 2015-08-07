@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.osgi.service.resolver.BundleSpecification;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
@@ -81,11 +82,15 @@ public class RepositoryCodeGenerator
          }
          monitor.worked(3);
 
-         ExportedPackagesInManifestUpdater exportedPackagesUpdater = new ExportedPackagesInManifestUpdater(project, codeGenerationTask.getGenModel() );
-         exportedPackagesUpdater.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         final GenModel genModel = codeGenerationTask.getGenModel();
+         if (genModel != null)
+         {
 
-         new PluginXmlUpdater().updatePluginXml(project, codeGenerationTask.getGenModel(), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+            ExportedPackagesInManifestUpdater exportedPackagesUpdater = new ExportedPackagesInManifestUpdater(project, genModel);
+            exportedPackagesUpdater.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
+            new PluginXmlUpdater().updatePluginXml(project, genModel, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         }
          getEcoreFileAndHandleMissingFile().getProject().refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          CoreActivator.addMappingForProject(project);
@@ -116,8 +121,7 @@ public class RepositoryCodeGenerator
    public void handleErrorsInEclipse(final IStatus status)
    {
       final String reporterClass = "org.moflon.compiler.sdm.democles.eclipse.EclipseErrorReporter";
-      final ErrorReporter eclipseErrorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(getEcoreFile(),
-            reporterClass);
+      final ErrorReporter eclipseErrorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(getEcoreFile(), reporterClass);
       if (eclipseErrorReporter != null)
       {
          eclipseErrorReporter.report(status);
@@ -153,8 +157,8 @@ public class RepositoryCodeGenerator
 
          if (model == null || model.getBundleDescription() == null)
          {
-            throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Code generation requires project " + project.getName()
-                  + " to be a plugin project."));
+            throw new CoreException(
+                  new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Code generation requires project " + project.getName() + " to be a plugin project."));
          }
 
          List<BundleSpecification> requirements = Arrays.asList(model.getBundleDescription().getRequiredBundles());

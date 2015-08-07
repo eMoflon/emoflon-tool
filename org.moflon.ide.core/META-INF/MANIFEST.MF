@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.ide.core
 Bundle-SymbolicName: org.moflon.ide.core;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: 
@@ -23,7 +23,7 @@ Require-Bundle:
  org.eclipse.pde.core,
  org.apache.commons.lang3;bundle-version="3.1.0",
  org.moflon.core.utilities,
- org.moflon.sdm.compiler.eclipse;bundle-version="1.0.0",
+ org.moflon.sdm.compiler.eclipse,
  MoflonPropertyContainer,
  Moca,
  TGGLanguage,
@@ -36,7 +36,7 @@ Require-Bundle:
  DotLanguage,
  org.apache.commons.io;bundle-version="2.2.0",
  org.moflon.ide.plugins,
- ValidationResult;bundle-version="1.0.0",
+ ValidationResult,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.text,
  org.eclipse.ui.workbench

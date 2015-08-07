@@ -2,15 +2,15 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SokobanGUI
 Bundle-SymbolicName: SokobanGUI
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: SokobanGUI.jar
 Export-Package: org.moflon.tutorial.sokobangamegui,
  org.moflon.tutorial.sokobangamegui.actions,
  org.moflon.tutorial.sokobangamegui.addon
 Require-Bundle: org.moflon.core.utilities,
- MocaTree;bundle-version="1.0.0",
- TGGLanguage;bundle-version="1.0.0",
- Moca;bundle-version="1.0.0",
+ MocaTree,
+ TGGLanguage,
+ Moca,
  org.eclipse.emf.ecore;bundle-version="2.10.2",
- SokobanLanguage;bundle-version="1.0.0"
+ SokobanLanguage
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

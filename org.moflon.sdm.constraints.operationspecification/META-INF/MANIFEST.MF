@@ -7,7 +7,7 @@ Export-Package: DemoclesAttributeConstraintSpecification,
  DemoclesAttributeConstraintSpecification.impl,
  DemoclesAttributeConstraintSpecification.util
 Bundle-Name: DemoclesAttributeConstraintSpecification
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.core.resources,
  org.eclipse.core.runtime;bundle-version="3.10.0",
  org.eclipse.emf.ecore,

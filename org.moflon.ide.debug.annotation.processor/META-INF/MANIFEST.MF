@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Java 6 Breakpoint Annotation Processor Plug-in
 Bundle-SymbolicName: org.moflon.ide.debug.annotation.processor;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.example.processor.internal.Activator
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Require-Bundle: org.eclipse.core.runtime,

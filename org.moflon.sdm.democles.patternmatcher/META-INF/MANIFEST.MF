@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.emf.codegen.ecore;bundle-version="2.9.1",
  org.eclipse.emf.ecore.xmi;bundle-version="2.9.1",
  org.eclipse.core.runtime;bundle-version="3.11.0",
  org.moflon.core.utilities,
- ControlFlow;bundle-version="1.0.0"
+ ControlFlow
 Export-Package: org.gervarro.democles.codegen,
  org.gervarro.democles.codegen.emf,
  org.gervarro.democles.codegen.stringtemplate,

@@ -3,7 +3,7 @@ Bundle-SymbolicName: DemoclesAttributeConstraints;singleton:=true
 Export-Package: DemoclesAttributeConstraints,
  DemoclesAttributeConstraints.util
 Bundle-Name: DemoclesAttributeConstraints
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,

@@ -11,7 +11,7 @@ public class WizardPart4VisualDictionary extends AbstractExampleWizard
    @Override
    protected Collection<ProjectDescriptor> getProjectDescriptors()
    {
-      return Arrays.asList(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/PartIV/visualDictionary.zip", "Dictionary"));
+      return Arrays.asList(new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/PartIV/visualDictionary.zip", "DictionaryVisual"));
    }
 
 }

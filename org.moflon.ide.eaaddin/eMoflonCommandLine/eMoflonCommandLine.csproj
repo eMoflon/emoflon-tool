@@ -69,7 +69,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>set targetDir="$(SolutionDir)..\org.moflon.ide.core\resources\commandLineEAExport"
+    <PostBuildEvent>@echo off
+set targetDir="$(SolutionDir)..\org.moflon.ide.core\resources\commandLineEAExport"
 
 IF exist %25targetDir%25 (
   echo "Copying eMoflon command-line utility"

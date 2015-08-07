@@ -9,7 +9,7 @@ Export-Package: DotToTGGTGG.impl,
  csp.constraints,
  DotToTGGTGG.Rules
 Bundle-Name: DotToTGGTGG
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.core.resources;bundle-version="3.8.101",
@@ -30,7 +30,7 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  DotLanguage,
  DebugLanguage,
  DotToSDMLanguageTGG,
- org.moflon.ide.visualization.dot.tgg.runtime;bundle-version="1.0.0"
+ org.moflon.ide.visualization.dot.tgg.runtime
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

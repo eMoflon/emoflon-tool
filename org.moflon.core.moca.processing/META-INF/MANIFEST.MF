@@ -28,7 +28,7 @@ Export-Package: Moca,
  org.moflon.moca,
  org.moflon.moca.xml
 Bundle-Name: Moca Framework
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .,lib/jdom.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.core.moca.processing.MocaPlugin

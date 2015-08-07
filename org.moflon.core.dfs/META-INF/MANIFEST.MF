@@ -4,7 +4,7 @@ Export-Package: DepthFirstSearchGraph,
  DepthFirstSearchGraph.impl,
  DepthFirstSearchGraph.util
 Bundle-Name: DepthFirstSearchGraph
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.moflon.core.utilities,
  org.eclipse.emf.ecore.xmi,

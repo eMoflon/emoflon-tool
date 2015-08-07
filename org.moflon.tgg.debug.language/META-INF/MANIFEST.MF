@@ -9,7 +9,7 @@ Export-Package: DebugLanguage,
  org.moflon.ide.debug,
  org.moflon.tgg.debug.language
 Bundle-Name: DebugLanguage
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Require-Bundle: TGGRuntime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,

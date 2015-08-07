@@ -5,7 +5,7 @@ Export-Package: MoflonPropertyContainer,
  MoflonPropertyContainer.util,
  org.moflon.properties
 Bundle-Name: MoflonPropertyContainer
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.core.runtime;bundle-version="3.8.0",
  org.eclipse.core.resources;bundle-version="3.8.1",

@@ -4,7 +4,7 @@ Export-Package: DotLanguage.util,
  DotLanguage,
  DotLanguage.impl
 Bundle-Name: DotLanguage
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Require-Bundle: MocaTree,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,

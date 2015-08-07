@@ -56,14 +56,6 @@
     <Folder Include="images" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
-  <PropertyGroup>
-    <PreBuildEvent>cd ..
-cd..
-cd..
-copy EAEcoreAddin\obj\Debug\EAEcoreAddin.dll eMoflonAddinInstaller\EAEcoreAddin.dll
-cd eMoflonAddinInstaller\
-heat.exe file EAEcoreAddin.dll -cg MyFilesGroup -dr INSTALLSUBFOLDER -gg -var var.SolutionDir -out EAEcoreAddin.wxs</PreBuildEvent>
-  </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
 	Other similar extension points exist, see Wix.targets.
@@ -91,7 +83,8 @@ heat.exe file EAEcoreAddin.dll -cg MyFilesGroup -dr INSTALLSUBFOLDER -gg -var va
     </CreateProperty>
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>set targetDir="$(SolutionDir)..\org.moflon.deployment.updatesite"
+    <PostBuildEvent>%40echo off
+set targetDir="$(SolutionDir)..\org.moflon.deployment.updatesite"
 set zipFileLocation="$(ProjectDir)bin\ea-ecore-addin.zip"
 
 del %25zipFileLocation%25
@@ -106,5 +99,14 @@ IF exist %25targetDir%25 (
   echo "!!! %25targetDir%25 does not exist. eMoflon installer will not be copied."
   echo "!!! WARNING !!! WARNING !!! WARNING !!!"
 )</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>%40echo off
+cd ..
+cd..
+cd..
+copy EAEcoreAddin\obj\Debug\EAEcoreAddin.dll eMoflonAddinInstaller\EAEcoreAddin.dll
+cd eMoflonAddinInstaller\
+heat.exe file EAEcoreAddin.dll -cg MyFilesGroup -dr INSTALLSUBFOLDER -gg -var var.SolutionDir -out EAEcoreAddin.wxs</PreBuildEvent>
   </PropertyGroup>
 </Project>

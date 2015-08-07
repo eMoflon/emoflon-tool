@@ -5,7 +5,7 @@ Export-Package: AttributeConstraintScopeValidation,
  AttributeConstraintScopeValidation.util,
  AttributeConstraintScopeValidation.impl
 Bundle-Name: AttributeConstraintScopeValidation
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Require-Bundle: ScopeValidation,
  ControlFlow,
  SDMLanguage,
