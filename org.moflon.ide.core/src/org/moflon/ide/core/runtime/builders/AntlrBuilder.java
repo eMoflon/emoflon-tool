@@ -233,7 +233,6 @@ public class AntlrBuilder extends AbstractBuilder
 
    private void deleteResource(final IContainer container, final String string, final IProgressMonitor monitor) throws CoreException
    {
-      System.err.println("Removing file '" + string + "'");
       logger.debug("Removing file '" + string + "'");
       IResource res = container.findMember(string);
       if (res != null && res.exists())
