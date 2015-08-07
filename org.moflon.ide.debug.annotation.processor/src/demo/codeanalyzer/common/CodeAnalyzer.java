@@ -17,7 +17,7 @@ public class CodeAnalyzer {
     private CodeAnalyzer() {
     }
 
-    public void process(String className) {
+    public void process(final String className) {
         RulesEngine ruleEngine = new RulesEngine();
         ruleEngine.fireRules(className);
         Collection<ErrorDescription> problems = ruleEngine.getProblemsFound();

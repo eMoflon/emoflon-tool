@@ -2,6 +2,7 @@ package org.moflon.compiler.sdm.democles;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.EClassifier;
@@ -34,13 +35,14 @@ import ControlFlow.VariableReference;
 
 public class DefaultTemplateConfiguration implements TemplateConfigurationProvider
 {
+   private static final Logger logger = Logger.getLogger(DefaultTemplateConfiguration.class);
+
    public static final String CONTROL_FLOW_GENERATOR = "ControlFlowGenerator";
 
    protected final HashMap<String, STGroup> templates = new HashMap<String, STGroup>();
 
    protected final HashMap<String, OperationSequenceCompiler> operationSequenceCompilers = new HashMap<String, OperationSequenceCompiler>();
 
-   //TODO@rkluge: Reconfigure STErrorManager in this class to log to Moflon console
    public DefaultTemplateConfiguration(final GenModel genModel)
    {
       final EcoreToGenModelConverter ecoreToGenModelConverter = new EcoreToGenModelConverter(genModel);
@@ -119,6 +121,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
       // "templates/stringtemplate/ControlFlow.stg"));
       // final STGroup controlFlowGenerator = new STGroupFile(groupFileURL, "ascii", '<', '>');
       final STGroup group = new STGroup();
+      group.setListener(new LoggingSTErrorListener(logger));
       group.loadGroupFile("/" + CONTROL_FLOW_GENERATOR + "/", getTemplateUriPrefix() + "stringtemplate/ControlFlow.stg");
 
       final ControlFlowModelAdaptor adaptor = new ControlFlowModelAdaptor();
@@ -141,6 +144,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    public static final STGroup createBindingAndBlackTemplates()
    {
       final STGroup group = new STGroup();
+      group.setListener(new LoggingSTErrorListener(logger));
       group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
       group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
       group.loadGroupFile("/priority/", getTemplateUriPrefix() + "stringtemplate/PrioritizedPatternCall.stg");
@@ -168,6 +172,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    public static final STGroup createBindingTemplates()
    {
       final STGroup group = new STGroup();
+      group.setListener(new LoggingSTErrorListener(logger));
       group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
       group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
       group.loadGroupFile("/assignment/", getTemplateUriPrefix() + "stringtemplate/Assignment.stg");
@@ -197,6 +202,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    public static final STGroup createBlackTemplates()
    {
       final STGroup group = new STGroup();
+      group.setListener(new LoggingSTErrorListener(logger));
       group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
       group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
       group.loadGroupFile("/core/", getDemoclesJarUri() + "!/templates/stringtemplate/RelationalOperation.stg");
@@ -227,6 +233,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    public static final STGroup createRedTemplates()
    {
       final STGroup group = new STGroup();
+      group.setListener(new LoggingSTErrorListener(logger));
       group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
       group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
       group.loadGroupFile("/emf-delete/", getTemplateUriPrefix() + "stringtemplate/EMFDeleteOperation.stg");
@@ -254,6 +261,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    public static final STGroup createGreenTemplates()
    {
       final STGroup group = new STGroup();
+      group.setListener(new LoggingSTErrorListener(logger));
       group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
       group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
       group.loadGroupFile("/assignment/", getTemplateUriPrefix() + "stringtemplate/Assignment.stg");
@@ -284,6 +292,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    public static final STGroup createExpressionTemplates()
    {
       final STGroup group = new STGroup();
+      group.setListener(new LoggingSTErrorListener(logger));
       group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
       group.loadGroupFile("/expression/", getTemplateUriPrefix() + "stringtemplate/ExpressionPatternMatcher.stg");
       group.loadGroupFile("/assignment/", getTemplateUriPrefix() + "stringtemplate/Assignment.stg");

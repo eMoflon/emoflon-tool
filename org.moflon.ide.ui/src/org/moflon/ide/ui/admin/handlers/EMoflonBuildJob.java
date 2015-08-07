@@ -62,8 +62,6 @@ public class EMoflonBuildJob extends Job
          BuilderHelper.generateCodeInOrder(WorkspaceHelper.createSubMonitor(monitor, projectsToBeBuilt.size()), projectsToBeBuilt);
       } catch (final CoreException e)
       {
-         System.err.println("Unable to Clean and Build: ");
-         e.printStackTrace(); // prints the full stack trace
          logger.error("Unable to Clean and Build: " + MoflonUtil.displayExceptionAsString(e));
          status = new Status(IStatus.ERROR, UIActivator.getModuleID(), IStatus.ERROR, "Error during clean and build", e);
 
