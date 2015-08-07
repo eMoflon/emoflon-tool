@@ -25,9 +25,7 @@ partial class HelperImpl {
 
 @model isConsistencyCheckGenerated (ApplicationTypes type) <--
 
-
-		// TODO: implement this method here but do not remove the injection marker 
-		return type.equals(ApplicationTypes.ALL);
+		return !type.equals(ApplicationTypes.FORWARD) && !type.equals(ApplicationTypes.BACKWARD);
 -->
 
 @model ALL () <--
