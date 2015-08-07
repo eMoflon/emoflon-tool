@@ -13,7 +13,7 @@ public class WizardPart3Visual extends AbstractExampleWizard
    {
       return Arrays.asList(//
             new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/PartIII/LearningBoxLanguage.zip", "LearningBoxLanguage"),//
-            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/PartIII/visualLeitnersLearningBox.zip", "LeitnersLearningBox"),//
+            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/PartIII/visualLeitnersLearningBox.zip", "LeitnersLearningBoxVisual"),//
             new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), "resources/handbook-examples/LeitnersBoxGUI.zip", "LeitnersBox"));
    }
 

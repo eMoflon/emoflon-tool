@@ -5,28 +5,17 @@ import java.util.Collection;
 
 import org.moflon.tutorial.TutorialPlugin;
 
-public class WizardPart4Visual extends AbstractExampleWizard
-{
+public class WizardPart4Visual extends AbstractExampleWizard {
 
-   private static final String GUI_PROJECT_NAME = "LeitnersBox";
-
-   private static final String ARCHIVE_OF_GUI = "resources/handbook-examples/LeitnersBoxGUI.zip";
-
-   private static final String METAMODEL_PROJECT_NAME = "LeitnersLearningBox";
-
-   private static final String ARCHIVE_OF_METAMODEL = "resources/handbook-examples/PartIV/visualLeitnersLearningBox.zip";
-
-   private static final String REPO_PROJECT_NAME = "LearningBoxLanguage";
-
-   private static final String ARCHIVE_OF_REPO_PROJECT = "resources/handbook-examples/PartIV/LearningBoxLanguage.zip";
-
-   @Override
-   protected Collection<ProjectDescriptor> getProjectDescriptors()
-   {
-      return Arrays.asList(//
-            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE_OF_REPO_PROJECT, REPO_PROJECT_NAME), //
-            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE_OF_METAMODEL, METAMODEL_PROJECT_NAME), //
-            new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(), ARCHIVE_OF_GUI, GUI_PROJECT_NAME));
-   }
+	@Override
+	protected Collection<ProjectDescriptor> getProjectDescriptors() {
+		return Arrays.asList(//
+				new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(),
+						"resources/handbook-examples/PartIV/LearningBoxLanguage.zip", "LearningBoxLanguage"), //
+				new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(),
+						"resources/handbook-examples/PartIV/visualLeitnersLearningBox.zip", "LeitnersLearningBoxVisual"), //
+				new ProjectDescriptor(TutorialPlugin.getDefault().getPluginId(),
+						"resources/handbook-examples/LeitnersBoxGUI.zip", "LeitnersBox"));
+	}
 
 }
