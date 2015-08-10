@@ -349,16 +349,26 @@ public class PathResolver extends AbstractPathResolver {
 			path = getPath(referencePath, name, cat, referenceAttribute);
 		}catch (Throwable e){
 			if(inheritTypesList.contains(cat)){
-				String myTypePath = findMyTypePath(referencePath, referenceAttribute);
-				Node myType = moslCache.get(myTypePath);
-				if(hasChild(myType, "BaseClasses")){
-					for(Text child : getChild(myType, "BaseClasses").getChildren()){
-						path = tryToGetPath(createNewReferencePath(referencePath, myTypePath, getAttribute(Node.class.cast(child), "baseClass").getValue()), name, cat, referenceAttribute);
-						if(path != null)
+				String objectPath = findObjectPath(referencePath); 
+				String myTypePath = null;
+						
+				if(objectPath.compareTo(referencePath)!=0)		
+					myTypePath=getPathTypePathFromObject(objectPath);
+				else
+					myTypePath=findMyTypePath(objectPath, referenceAttribute);
+				try{
+					path = getPath(myTypePath,name,cat,referenceAttribute);
+				}catch (Throwable t){
+					Node myType = moslCache.get(myTypePath);
+					if(hasChild(myType, "BaseClasses")){
+						for(Text child : getChild(myType, "BaseClasses").getChildren()){
+							path = tryToGetPath(createNewReferencePath(referencePath, myTypePath, getAttribute(Node.class.cast(child), "baseClass").getValue()), name, cat, referenceAttribute);
+							if(path != null)
 							return path;
 					}
 					if(path==null)
 						throw new CanNotResolvePathException(e.getMessage(), e, referencePath, referenceAttribute, name, cat);
+					}
 				}
 			}
 			if(path==null)
@@ -370,6 +380,30 @@ public class PathResolver extends AbstractPathResolver {
 		return path;
 	}
 	
+	private String getPathTypePathFromObject(String objectPath) {
+		Node object = moslCache.get(objectPath);
+		Attribute type=getAttribute(object, "type");
+		return type.getValue();
+	}
+
+	private String findObjectPath(String referencePath) {
+		Map<String, String> ovPathes = categorizedPathTable.get(MoslCategory.OBJECT_VARIABLE);
+		if(ovPathes != null){
+			for(String path : ovPathes.keySet()){
+				if(referencePath.contains(path))
+					return path;
+			}
+		}
+		ovPathes = categorizedPathTable.get(MoslCategory.TGG_OBJECT_VARIABLE);
+		if(ovPathes != null){
+			for(String path : ovPathes.keySet()){
+				if(referencePath.contains(path))
+					return path;
+			}
+		}
+		return referencePath;
+	}
+
 	private void getPattern(final Node destination, final String name, final String path, final TreeElement referenceElement){
 		String[] pathParts=path.split("/");
 		String relativeName=pathParts[pathParts.length-2]+"/"+pathParts[pathParts.length-1]+"/"+name+".pattern";
