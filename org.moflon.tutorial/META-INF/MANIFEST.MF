@@ -26,6 +26,5 @@ Require-Bundle:
  TutorialValidationRules
 Import-Package: org.eclipse.ui.actions
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
-Export-Package: org.moflon.handbook.examples
 Bundle-Activator: org.moflon.tutorial.TutorialPlugin
 Bundle-ActivationPolicy: lazy

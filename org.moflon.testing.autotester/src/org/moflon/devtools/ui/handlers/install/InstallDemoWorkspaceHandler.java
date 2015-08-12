@@ -4,13 +4,13 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 
-public class InstallDemoMOSLWorkspaceHandler extends AbstractInstallCommandHandler
+public class InstallDemoWorkspaceHandler extends AbstractInstallCommandHandler
 {
 
    @Override
    public Object execute(final ExecutionEvent event) throws ExecutionException
    {
-      this.getWorkspaceController(event).installWorkspaceByName(EMoflonStandardWorkspaces.DEMO_WORKSPACE_MOSL_NAME);
+      this.getWorkspaceController(event).installWorkspaceByName(EMoflonStandardWorkspaces.DEMO_WORKSPACE_NAME);
       return null;
    }
 

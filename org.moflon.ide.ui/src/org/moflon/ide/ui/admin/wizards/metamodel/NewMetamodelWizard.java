@@ -4,10 +4,7 @@ import static org.moflon.ide.ui.admin.wizards.util.WizardUtil.loadStringTemplate
 import static org.moflon.ide.ui.admin.wizards.util.WizardUtil.renderTemplate;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.antlr.stringtemplate.StringTemplateGroup;
@@ -19,11 +16,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IWorkbench;
+import org.eclipse.jface.wizard.Wizard;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.handbook.examples.AbstractExampleWizard;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.ui.UIActivator;
 
@@ -31,7 +26,7 @@ import org.moflon.ide.ui.UIActivator;
  * The new metamodel wizard creates a new metamodel project with default directory structure and default files.
  * 
  */
-public class NewMetamodelWizard extends AbstractExampleWizard
+public class NewMetamodelWizard extends Wizard
 {
    // Page containing controls for taking user input
    private NewMetamodelProjectInfoPage projectInfo;
@@ -43,11 +38,6 @@ public class NewMetamodelWizard extends AbstractExampleWizard
    public NewMetamodelWizard()
    {
       setNeedsProgressMonitor(true);
-   }
-
-   @Override
-   public void init(final IWorkbench workbench, final IStructuredSelection selection)
-   {
    }
 
    @Override
@@ -151,13 +141,4 @@ public class NewMetamodelWizard extends AbstractExampleWizard
          monitor.done();
       }
    }
-
-   @Override
-   protected Collection<ProjectDescriptor> getProjectDescriptors()
-   {
-      List<ProjectDescriptor> projects = new ArrayList<ProjectDescriptor>(1);
-      projects.add(new ProjectDescriptor(UIActivator.getModuleID(), "resources/defaultFiles/org.moflon.demo.doublelinkedlist.test.zip", "org.moflon.demo.doublelinkedlist.test"));
-      return projects;
-   }
-
 }

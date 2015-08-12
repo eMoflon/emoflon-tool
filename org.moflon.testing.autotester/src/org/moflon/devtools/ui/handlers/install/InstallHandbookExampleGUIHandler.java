@@ -4,13 +4,12 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 
-public class InstallDemoEAWorkspaceHandler extends AbstractInstallCommandHandler
+public class InstallHandbookExampleGUIHandler extends AbstractInstallCommandHandler
 {
-
    @Override
    public Object execute(final ExecutionEvent event) throws ExecutionException
    {
-      this.getWorkspaceController(event).installWorkspaceByName(EMoflonStandardWorkspaces.DEMO_WORKSPACE_EA_NAME);
+      this.getWorkspaceController(event).installWorkspaceByName(EMoflonStandardWorkspaces.HANDBOOK_EXAMPLE_GUI);
       return null;
    }
 

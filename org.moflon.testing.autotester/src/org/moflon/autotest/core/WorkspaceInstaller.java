@@ -62,18 +62,17 @@ public class WorkspaceInstaller {
 		installWorkspaceWithPluginRelativePsfPath(psfPaths, displayName);
 	}
 
-	public void installWorkspaceByName(final String workspaceName) {
-		if (workspaceName.equals(EMoflonStandardWorkspaces.TEST_WORKSPACE_TEXTUAL_NAME))
-			this.installTestWorkspaceTextual();
-		else {
-			final String path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
-			if (path != null) {
-				this.installWorkspaceWithPluginRelativePsfPath(Arrays.asList(path), workspaceName);
-			} else {
-				logger.debug("Not a recognized workspace: " + workspaceName);
-			}
-		}
-	}
+   public void installWorkspaceByName(final String workspaceName)
+   {
+      final String path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
+      if (path != null)
+      {
+         this.installWorkspaceWithPluginRelativePsfPath(Arrays.asList(path), workspaceName);
+      } else
+      {
+         logger.debug("Not a recognized workspace: " + workspaceName);
+      }
+   }
 
 	public void installTestWorkspaceTextual() {
 		try {
@@ -123,8 +122,7 @@ public class WorkspaceInstaller {
 	}
 
 	private void prepareWorkspace() {
-		// This is required to avoid NPEs when checking out plugin projects (a
-		// problem with JDT)
+		// This is required to avoid NPEs when checking out plugin projects (a problem with JDT)
 		try {
 			JavaModelManager.getExternalManager().createExternalFoldersProject(new NullProgressMonitor());
 		} catch (final CoreException ex) {

@@ -48,17 +48,41 @@
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureMenu">
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallDemoEAWorkspaceCommand"
-               label="Demo Workspace (EA)"
-               style="push">
-         </command>
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallDemoMOSLWorkspaceCommand"
-               label="Demo Workspace (MOSL)"
+               commandId="org.moflon.devtools.ui.commands.install.InstallDemoWorkspaceCommand"
+               label="Demo Workspace"
                style="push">
          </command>
          <separator
-               name="org.moflon.devtools.ui.menus.Separator0"
+               name="org.moflon.devtools.ui.menus.Separator1"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Command"
+               label="Handbook Example (Part 3)"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part4_Command"
+               label="Handbook Example (Part 4)"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part45_Command"
+               label="Handbook Example (Part 4, 5)"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_GUI_Command"
+               label="Handbook Example (GUI)"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Final_Command"
+               label="Handbook Example (Final)"
+               style="push">
+         </command>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator2"
                visible="true">
          </separator>
          <command
@@ -67,7 +91,7 @@
                style="push">
          </command>
          <separator
-               name="org.moflon.devtools.ui.menus.Separator1"
+               name="org.moflon.devtools.ui.menus.Separator3"
                visible="true">
          </separator>
          <command
@@ -85,19 +109,11 @@
                label="Test Workspace TGG 1"
                style="push">
          </command>
-         <separator
-               name="org.moflon.devtools.ui.menus.Separator2"
-               visible="true">
-         </separator>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceDemocles0Command"
                label="Test Workspace Democles 0"
                style="push">
          </command>
-         <separator
-               name="org.moflon.devtools.ui.menus.Separator3"
-               visible="true">
-         </separator>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallTransformationZoo0Command"
                label="Transformation Zoo 0"
@@ -109,21 +125,12 @@
                style="push">
          </command>
          <separator
-               name="org.moflon.devtools.ui.menus.Separator3"
-               visible="true">
-         </separator>
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallTextualSyntaxTestsCommand"
-               label="Run all tests for textual syntax"
-               style="push">
-         </command>
-         <separator
                name="org.moflon.devtools.ui.menus.Separator4"
                visible="true">
          </separator>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallHandbookCommand"
-               label="Install handbook"
+               label="Install handbook (latex source)"
                style="push">
          </command>
          <separator
@@ -214,12 +221,6 @@
       </command>
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallTestsForTextualSyntaxHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallTextualSyntaxTestsCommand"
-            name="Install: Run all tests for textual syntax">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.install.InstallPsfFileHandler"
             id="org.moflon.devtools.ui.commands.install.LoadPsfFileCommand"
             name="Install: Load PSF file">
@@ -238,15 +239,39 @@
       </command>
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDemoEAWorkspaceHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallDemoEAWorkspaceCommand"
-            name="Demo Workspace (EA)">
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDemoWorkspaceHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallDemoWorkspaceCommand"
+            name="Demo Workspace">
       </command>
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDemoMOSLWorkspaceHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallDemoMOSLWorkspaceCommand"
-            name="Demo Workspace (MOSL)">
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallHandbookExamplePart3Handler"
+            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Command"
+            name="Install handbook example (part 3)">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallHandbookExamplePart4Handler"
+            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part4_Command"
+            name="Install handbook example (part 4)">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallHandbookExampleGUIHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_GUI_Command"
+            name="Install handbook example (GUI)">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallHandbookExampleFinalHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Final_Command"
+            name="Install handbook example (final)">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallHandbookExamplePart45Handler"
+            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part45_Command"
+            name="Install handbook example (part 4, 5)">
       </command>
    </extension>
    <extension
