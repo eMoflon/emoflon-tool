@@ -69,10 +69,6 @@ public class GraphView extends ViewPart implements IZoomableWorkbenchPart
       viewer.setLayoutAlgorithm(layout, true);
       addDropSupport();
       viewer.applyLayout();
-      // NodeFilter filter = new NodeFilter();
-      // ViewerFilter[] filters = new ViewerFilter[1];
-      // filters[0] = filter;
-      // viewer.setFilters(filters);
       fillToolBar();
       Graph graph = viewer.getGraphControl();
       graph.setAnimationEnabled(true);
@@ -80,23 +76,7 @@ public class GraphView extends ViewPart implements IZoomableWorkbenchPart
       graph.addKeyListener(new KeyListener(viewer));
       viewer.addDoubleClickListener(new DoubleClickListener());
       viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
-      // graph.addSelectionListener(new SelectionListener() {
-      //
-      // @Override
-      // public void widgetSelected(SelectionEvent e)
-      // {
-      // System.out.println(((Graph) e.widget).getSelection());
-      // System.out.println(((Graph) e.widget).getSelection().getClass().getName());
-      // System.out.println((e.item != null ? e.item.getData() : ""));
-      // }
-      //
-      // @Override
-      // public void widgetDefaultSelected(SelectionEvent e)
-      // {
-      // // TODO Auto-generated method stub
-      //
-      // }
-      // });
+      
       getSite().getWorkbenchWindow().getSelectionService().addPostSelectionListener(IDebugUIConstants.ID_VARIABLE_VIEW, new ISelectionListener() {
 
          private GraphItem lastSelection;

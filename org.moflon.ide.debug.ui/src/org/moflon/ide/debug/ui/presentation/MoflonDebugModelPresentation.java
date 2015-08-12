@@ -68,7 +68,7 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
    @Override
    public void addListener(ILabelProviderListener listener)
    {
-      // TODO Auto-generated method stub
+
    }
 
    @Override
@@ -138,35 +138,31 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
    @Override
    public boolean isLabelProperty(Object element, String property)
    {
-      // TODO Auto-generated method stub
       return false;
    }
 
    @Override
    public void removeListener(ILabelProviderListener listener)
    {
-      // TODO Auto-generated method stub
 
    }
 
    @Override
    public IEditorInput getEditorInput(Object element)
    {
-      // TODO Auto-generated method stub
       return null;
    }
 
    @Override
    public String getEditorId(IEditorInput input, Object element)
    {
-      // TODO Auto-generated method stub
       return null;
    }
 
    @Override
    public void setAttribute(String attribute, Object value)
    {
-      // TODO Auto-generated method stub
+
    }
 
    Image arrow = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_FORWARD);
@@ -387,7 +383,6 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
          detail = value.getValueString();
       } catch (DebugException e)
       {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
       listener.detailComputed(value, detail);
