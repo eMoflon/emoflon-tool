@@ -1,6 +1,0 @@
-opposites 
-{
-	// creates a bi-directional simple reference between objects
-	previous : Node <-> next : Node
-	container : Node <-> elements : List
-}

@@ -2,6 +2,6 @@
 <psf version="2.0">
 <provider id="org.tigris.subversion.subclipse.core.svnnature">
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/demo/org.moflon.demo,org.moflon.demo"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/demo/org.moflon.demo.doublelinkedlist.test,org.moflon.demo.doublelinkedlist.test"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/demo/org.moflon.demo.testsuite,org.moflon.demo.testsuite"/>
 </provider>
 </psf>

@@ -48,6 +48,20 @@
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureMenu">
          <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallDemoEAWorkspaceCommand"
+               label="Demo Workspace (EA)"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallDemoMOSLWorkspaceCommand"
+               label="Demo Workspace (MOSL)"
+               style="push">
+         </command>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator0"
+               visible="true">
+         </separator>
+         <command
                commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommand"
                label="Developer Workspace"
                style="push">
@@ -221,6 +235,18 @@
             defaultHandler="org.moflon.devtools.ui.handlers.install.InstallPsfFilesOnlyHandler"
             id="org.moflon.devtools.ui.commands.install.InstallPsfFilesOnlyCommand"
             name="PSF files only">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDemoEAWorkspaceHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallDemoEAWorkspaceCommand"
+            name="Demo Workspace (EA)">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDemoMOSLWorkspaceHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallDemoMOSLWorkspaceCommand"
+            name="Demo Workspace (MOSL)">
       </command>
    </extension>
    <extension

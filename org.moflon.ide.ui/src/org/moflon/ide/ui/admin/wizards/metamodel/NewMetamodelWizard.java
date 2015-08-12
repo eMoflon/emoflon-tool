@@ -3,11 +3,7 @@ package org.moflon.ide.ui.admin.wizards.metamodel;
 import static org.moflon.ide.ui.admin.wizards.util.WizardUtil.loadStringTemplateGroup;
 import static org.moflon.ide.ui.admin.wizards.util.WizardUtil.renderTemplate;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,7 +21,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.handbook.examples.AbstractExampleWizard;
@@ -65,9 +60,6 @@ public class NewMetamodelWizard extends AbstractExampleWizard
    @Override
    public boolean performFinish()
    {
-      if (projectInfo.eMoflonDemo())
-         super.performFinish();
-
       IRunnableWithProgress op = new IRunnableWithProgress() {
          @Override
          public void run(final IProgressMonitor monitor) throws InvocationTargetException
@@ -118,43 +110,24 @@ public class NewMetamodelWizard extends AbstractExampleWizard
          {
             WorkspaceHelper.addFolder(newProjectHandle, "MOSL", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-            // if User opts to generate the demo: import demo, build demo, import JUnit, test demo
-            if (projectInfo.eMoflonDemo())
-            {
-               // Import MOSL files
-               String findURL = "resources/defaultFiles/MOSL/";
-               IPath destination = newProjectHandle.findMember("MOSL").getLocation();
-               copyResource(findURL, destination);
+            // No demo selected: create working set folder and load empty constraints
+            WorkspaceHelper.addFolder(newProjectHandle, "MOSL/MyWorkingSet", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-               monitor.worked(2);
-            } else
-            {
-               // No demo selected: create working set folder and load empty constraints
-               WorkspaceHelper.addFolder(newProjectHandle, "MOSL/MyWorkingSet", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+            StringTemplateGroup stg = loadStringTemplateGroup("/resources/mosl/templates/imports.stg");
 
-               StringTemplateGroup stg = loadStringTemplateGroup("/resources/mosl/templates/imports.stg");
+            Map<String, Object> attrs = new HashMap<String, Object>();
+            String content = renderTemplate(stg, "imports", attrs);
 
-               Map<String, Object> attrs = new HashMap<String, Object>();
-               String content = renderTemplate(stg, "imports", attrs);
+            WorkspaceHelper.addFile(newProjectHandle, "MOSL/_MOSLConfiguration.mconf", content, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-               WorkspaceHelper.addFile(newProjectHandle, "MOSL/_MOSLConfiguration.mconf", content, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            }
             monitor.worked(1);
          } else /* EA/visual metamodel project */
          {
-            if (projectInfo.eMoflonDemo())
-            {
-               // copy the pre-made demo .eap into user's .eap
-               WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap",
-                     MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/org.moflon.demo.specification.eap", UIActivator.getModuleID()), UIActivator.getModuleID(),
-                     WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            } else
-            {
-               // no demo: generate default files
-               WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap",
-                     MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", UIActivator.getModuleID()), UIActivator.getModuleID(),
-                     WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            }
+            // generate default files
+            WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap",
+                  MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", UIActivator.getModuleID()), UIActivator.getModuleID(),
+                  WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+
             WorkspaceHelper.addFile(newProjectHandle, ".gitignore", ".temp", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
          }
 
@@ -177,19 +150,6 @@ public class NewMetamodelWizard extends AbstractExampleWizard
       {
          monitor.done();
       }
-   }
-
-   private void copyResource(final String sourceURL, final IPath destination) throws IOException
-   {
-      URL url = MoflonUtilitiesActivator.getPathRelToPlugIn(sourceURL, UIActivator.getModuleID());
-
-      MoflonUtil.copyDirToDir(url, destination.toFile(), new FileFilter() {
-         @Override
-         public boolean accept(final File pathname)
-         {
-            return true;
-         }
-      });
    }
 
    @Override

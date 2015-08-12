@@ -66,7 +66,6 @@ public class WorkspaceInstaller {
 		if (workspaceName.equals(EMoflonStandardWorkspaces.TEST_WORKSPACE_TEXTUAL_NAME))
 			this.installTestWorkspaceTextual();
 		else {
-
 			final String path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
 			if (path != null) {
 				this.installWorkspaceWithPluginRelativePsfPath(Arrays.asList(path), workspaceName);
@@ -391,7 +390,7 @@ public class WorkspaceInstaller {
 
 	private static boolean isTestProjectAccordingToConvention(final IProject project) {
 		try {
-			return project.getName().contains("TestSuite") && project.getNature(JavaCore.NATURE_ID) != null;
+			return project.getName().toUpperCase().contains("TESTSUITE") && project.getNature(JavaCore.NATURE_ID) != null;
 		} catch (CoreException e) {
 			return false;
 		}

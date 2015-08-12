@@ -24,6 +24,10 @@ public class EMoflonStandardWorkspaces
 
    public static final String HANDBOOK_WORKSPACE_NAME = "eMoflonHandbook";
 
+   public static final String DEMO_WORKSPACE_EA_NAME = "eMoflonDemoWorkspaceEA";
+
+   public static final String DEMO_WORKSPACE_MOSL_NAME = "eMoflonDemoWorkspaceMOSL";
+
    public static final String PSFS_ONLY_NAME = "PSFs only";
    
    public static final String PATH_TO_PSFS_ONLY = "/resources/PSFs/psfsOnlyWorkspace.psf";
@@ -43,6 +47,10 @@ public class EMoflonStandardWorkspaces
    public static final String PATH_TO_DEMOCLES_0_PSF = "/resources/PSFs/democles0.psf";
 
    public static final String PATH_TO_HANDBOOK_PSF = "/resources/PSFs/eMoflonDocumentation.psf";
+
+   private static final String PATH_TO_DEMO_WORKSPACE_EA = "/resources/PSFs/eMoflonDemoEAWorkspace.psf";
+       
+   private static final String PATH_TO_DEMO_WORKSPACE_MOSL = "/resources/PSFs/eMoflonDemoMOSLWorkspace.psf";
 
 
    public static List<String> getAllTestWorkspaceNames()
@@ -100,6 +108,14 @@ public class EMoflonStandardWorkspaces
          path = PATH_TO_PSFS_ONLY;
          break;
          
+      case DEMO_WORKSPACE_EA_NAME: 
+         path = PATH_TO_DEMO_WORKSPACE_EA;
+         break;
+      
+      case DEMO_WORKSPACE_MOSL_NAME:
+         path = PATH_TO_DEMO_WORKSPACE_MOSL;
+         break;
+
       default:
          path = null;
          break;

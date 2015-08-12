@@ -33,8 +33,6 @@ import org.moflon.ide.ui.UIActivator;
  */
 public class NewMetamodelProjectInfoPage extends WizardPage
 {
-   private static final String BUTTON_DEMO_NAME = "Add Demo Specification";
-
    private static final String VISUAL_RADIO_BUTTON_TEXT = "Visual (Enterprise Architect)";
 
    private String projectName;
@@ -42,8 +40,6 @@ public class NewMetamodelProjectInfoPage extends WizardPage
    private boolean useDefaultLocation;
 
    private String projectLocation;
-
-   private boolean eMoflonDemo;
 
    private boolean textual;
 
@@ -120,27 +116,6 @@ public class NewMetamodelProjectInfoPage extends WizardPage
       };
 
       visualRadioButton.addSelectionListener(sl);
-      // textualRadioButton.addSelectionListener(sl);
-
-      // create check button to enable moca support
-      createDummyLabel(container);
-      createDummyLabel(container);
-
-      final Button eMoflonDemoButton = new Button(container, SWT.CHECK);
-      eMoflonDemoButton.setText(BUTTON_DEMO_NAME);
-      eMoflonDemoButton.addSelectionListener(new SelectionListener() {
-         @Override
-         public void widgetSelected(final SelectionEvent e)
-         {
-            eMoflonDemo = eMoflonDemoButton.getSelection();
-         }
-
-         @Override
-         public void widgetDefaultSelected(final SelectionEvent e)
-         {
-            eMoflonDemo = eMoflonDemoButton.getSelection();
-         }
-      });
 
       // Place cursor in textfield
       projectNameTextfield.setFocus();
@@ -284,11 +259,6 @@ public class NewMetamodelProjectInfoPage extends WizardPage
    public String getProjectName()
    {
       return projectName;
-   }
-
-   public boolean eMoflonDemo()
-   {
-      return eMoflonDemo;
    }
 
    /**
