@@ -36,7 +36,7 @@ public class MarkerHelper {
 	 */
 	public static void removeMarkers(IResource resource) {
 		try {
-			resource.deleteMarkers(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
+			resource.deleteMarkers(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}      
@@ -53,7 +53,7 @@ public class MarkerHelper {
 	public static void reportError(IResource resource, Exception exception) {
 		IMarker m;
 		try {
-			m = resource.createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID);
+			m = resource.createMarker(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID);
 			m.setAttribute(IMarker.MESSAGE, exception.getMessage());
 			m.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
 			m.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
@@ -93,7 +93,7 @@ public class MarkerHelper {
 			}
 			
 			try {
-			   IMarker m = resource.createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID);
+			   IMarker m = resource.createMarker(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID);
 				m.setAttribute(IMarker.LINE_NUMBER, line);
 				m.setAttribute(IMarker.CHAR_START, posStart);
 				m.setAttribute(IMarker.CHAR_END,   posEnd);

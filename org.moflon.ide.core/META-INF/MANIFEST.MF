@@ -30,16 +30,12 @@ Require-Bundle:
  SDMLanguage,
  CSPCodeAdapter,
  MocaTree,
- MOSLCodeAdapter,
  MocaToMoflonTransformation,
  TGGRuntime,
  DotLanguage,
  org.apache.commons.io;bundle-version="2.2.0",
  org.moflon.ide.plugins,
- ValidationResult,
- org.eclipse.ui.workbench.texteditor,
- org.eclipse.text,
- org.eclipse.ui.workbench
+ ValidationResult
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.console,
  org.moflon.ide.core.ea,

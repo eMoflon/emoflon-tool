@@ -39,9 +39,7 @@ import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
-import org.moflon.ide.core.runtime.builders.MOSLBuilder;
 import org.moflon.ide.core.util.BuilderHelper;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 import org.moflon.ide.workspaceinstaller.psf.PSFPlugin;
@@ -73,23 +71,6 @@ public class WorkspaceInstaller {
          logger.debug("Not a recognized workspace: " + workspaceName);
       }
    }
-
-	public void installTestWorkspaceTextual() {
-		try {
-			// get all newest moca.xmi files from EAP
-			exportModelsFromEAPFilesInWorkspace(new NullProgressMonitor());
-
-			// converting all EAP Projects
-			Collection<IProject> projects = WorkspaceHelper.getProjectsByNatureID(CoreActivator.METAMODEL_NATURE_ID);
-			convertProjectsToMOSLProjects(projects);
-
-			// Build new and test
-			refreshAndBuildWorkspace(new NullProgressMonitor());
-			runJUnitTests(new NullProgressMonitor());
-		} catch (CoreException | InterruptedException e) {
-			logger.error(MoflonUtil.displayExceptionAsString(e));
-		}
-	}
 
 	public void installWorkspaceWithPSF(final String absolutePathToPSF) {
 		installWorkspaceExternal(absolutePathToPSF, absolutePathToPSF);
@@ -342,48 +323,6 @@ public class WorkspaceInstaller {
 			monitor.done();
 		}
 
-	}
-
-	private boolean convertProjectsToMOSLProjects(final Collection<IProject> projects) {
-		ProgressMonitorDialog dialog = new ProgressMonitorDialog(window.getShell());
-		try {
-			dialog.run(true, true, new IRunnableWithProgress() {
-				@Override
-				public void run(final IProgressMonitor monitor) throws InterruptedException {
-					try {
-						if (projects != null) {
-							monitor.beginTask("Converting projects to MOSL", 4 * projects.size());
-							for (IProject project : projects) {
-								logger.info(
-										"Begin converting from exported EAP to MOSL Syntax for " + project.getName());
-
-								WorkspaceHelper.addNature(project, CoreActivator.MOSL_NATURE_ID,
-										WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-
-								MOSLBuilder.convertEAPProjectToMOSL(project);
-								monitor.worked(3);
-
-								logger.info("Converted EAP to MOSL Syntax for " + project.getName());
-							}
-						}
-					} catch (CoreException e) {
-						throw new InterruptedException(e.getMessage());
-					} finally {
-						monitor.done();
-					}
-
-				}
-			});
-		} catch (Exception e) {
-			logger.error("Sorry, I was unable to add the MOSL Nature to all projects.");
-			logger.error(MoflonUtil.displayExceptionAsString(e));
-
-			e.printStackTrace();
-
-			return false;
-		}
-
-		return true;
 	}
 
 	private static boolean isTestProjectAccordingToConvention(final IProject project) {

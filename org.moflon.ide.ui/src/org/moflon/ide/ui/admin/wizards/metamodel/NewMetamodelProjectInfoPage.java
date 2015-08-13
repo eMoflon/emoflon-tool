@@ -18,7 +18,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -33,15 +32,11 @@ import org.moflon.ide.ui.UIActivator;
  */
 public class NewMetamodelProjectInfoPage extends WizardPage
 {
-   private static final String VISUAL_RADIO_BUTTON_TEXT = "Visual (Enterprise Architect)";
-
    private String projectName;
 
    private boolean useDefaultLocation;
 
    private String projectLocation;
-
-   private boolean textual;
 
    private Button defaultLocationCheckbox;
 
@@ -78,44 +73,6 @@ public class NewMetamodelProjectInfoPage extends WizardPage
       createControlsForProjectName(container);
 
       createControlsForProjectLocation(container);
-
-      createDummyLabel(container); // radio buttons in column 2
-
-      // RadioButton Group - Concrete Syntax - textual or EA
-
-      Group rbsContainer = new Group(container, SWT.NONE);
-      rbsContainer.setText("Concrete Syntax");
-      rbsContainer.setLayout(new GridLayout());
-
-      final Button visualRadioButton = new Button(rbsContainer, SWT.RADIO);
-      visualRadioButton.setText(VISUAL_RADIO_BUTTON_TEXT);
-      visualRadioButton.setSelection(true);
-
-      final Button textualRadioButton = new Button(rbsContainer, SWT.RADIO);
-      textualRadioButton.setText("Textual (MOSL)");
-
-      SelectionListener sl = new SelectionListener() {
-
-         @Override
-         public void widgetSelected(final SelectionEvent e)
-         {
-            if (visualRadioButton.getSelection())
-               textual = false;
-            else
-               textual = true;
-         }
-
-         @Override
-         public void widgetDefaultSelected(final SelectionEvent e)
-         {
-            if (visualRadioButton.getSelection())
-               textual = false;
-            else
-               textual = true;
-         }
-      };
-
-      visualRadioButton.addSelectionListener(sl);
 
       // Place cursor in textfield
       projectNameTextfield.setFocus();
@@ -276,11 +233,6 @@ public class NewMetamodelProjectInfoPage extends WizardPage
    private void setProjectLocation(final String projectLocation)
    {
       this.projectLocation = projectLocation;
-   }
-
-   public boolean textual()
-   {
-      return textual;
    }
 
    private final void updateStatus(final String message)

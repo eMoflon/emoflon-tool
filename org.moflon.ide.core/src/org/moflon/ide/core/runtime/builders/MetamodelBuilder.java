@@ -129,7 +129,7 @@ public class MetamodelBuilder extends AbstractBuilder {
 					"org.moflon.compiler.sdm.democles.eclipse.EclipseErrorReporter");
 			if (eclipseErrorReporter != null) {
 				try {
-					eapFile.deleteMarkers(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
+					eapFile.deleteMarkers(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
 				} catch (CoreException e) {
 
 					e.printStackTrace();

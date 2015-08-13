@@ -36,79 +36,7 @@
             id="org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard"
             name="Add Parser/Unparser Wizard">
       </wizard>
-      <wizard
-            canFinishEarly="false"
-            category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.mosl.NewMOSLConfiguration"
-            finalPerspective="org.moflon.ide.ui.perspective"
-            hasPages="false"
-            icon="resources/icons/mconf.png"
-            id="org.moflon.ide.ui.admin.wizards.mosl.NewMOSLConfiguration"
-            name="MOSLConfiguration"
-            preferredPerspectives="org.moflon.ide.ui.perspective"
-            project="false">
-      </wizard>
-      <wizard
-            canFinishEarly="false"
-            category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard"
-            finalPerspective="org.moflon.ide.ui.perspective"
-            hasPages="true"
-            icon="resources/icons/folder_add.png"
-            id="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard"
-            name="EPackage"
-            preferredPerspectives="org.moflon.ide.ui.perspective"
-            project="false">
-      </wizard>
      
-      <wizard
-            canFinishEarly="false"
-            category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.mosl.NewEClassWizard"
-            finalPerspective="org.moflon.ide.ui.perspective"
-            hasPages="true"
-            icon="resources/icons/classes.gif"
-            id="org.moflon.ide.ui.admin.wizards.mosl.NewEClassWizard"
-            name="EClass"
-            preferredPerspectives="org.moflon.ide.ui.perspective"
-            project="false">
-      </wizard>
-      <wizard
-            canFinishEarly="false"
-            category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard"
-            finalPerspective="org.moflon.ide.ui.perspective"
-            hasPages="true"
-            icon="resources/icons/patterns.gif"
-            id="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard"
-            name="Pattern"
-            preferredPerspectives="org.moflon.ide.ui.perspective"
-            project="false">
-      </wizard>
-      <wizard
-            canFinishEarly="false"
-            category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.mosl.NewTGGWizard"
-            finalPerspective="org.moflon.ide.ui.perspective"
-            hasPages="true"
-            icon="resources/icons/plugin_add.png"
-            id="org.moflon.ide.ui.admin.wizards.mosl.NewTGGWizard"
-            name="TGG"
-            preferredPerspectives="org.moflon.ide.ui.perspective"
-            project="false">
-      </wizard>
-      <wizard
-            canFinishEarly="false"
-            category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.mosl.NewTGGRuleWizard"
-            finalPerspective="org.moflon.ide.ui.perspective"
-            hasPages="true"
-            icon="resources/icons/link_add.png"
-            id="org.moflon.ide.ui.admin.wizards.mosl.NewTGGRuleWizard"
-            name="TGG Rule"
-            preferredPerspectives="org.moflon.ide.ui.perspective"
-            project="false">
-      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.ide.projectNatureImages">
@@ -242,9 +170,6 @@
                               definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
                         </reference>
                         <reference
-                              definitionId="org.moflon.ide.ui.definitions.hasMOSLNature">
-                        </reference>
-                        <reference
                               definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
                         </reference>
                         <reference
@@ -269,9 +194,6 @@
                                  definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
                            </reference>
                            <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasMOSLNature">
-                           </reference>
-                           <reference
                                  definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
                            </reference>
                            <reference
@@ -288,9 +210,6 @@
                            definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
                      </reference>
                      <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasMOSLNature">
-                     </reference>
-                     <reference
                            definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
                      </reference>
                      <reference
@@ -304,26 +223,6 @@
             </separator>
          </menu>
       </menuContribution>
-   </extension>
-   <extension
-         id="org.moflon.ide.ui.runtime.natures.MOSLNature"
-         name="MOSL Nature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="org.moflon.ide.ui.runtime.natures.MOSLNature">
-         </run>
-      </runtime>
-   </extension>
-   <extension
-         id="org.moflon.ide.core.runtime.builders.MOSLBuilder"
-         name="MOSL Builder"
-         point="org.eclipse.core.resources.builders">
-      <builder>
-         <run
-               class="org.moflon.ide.core.runtime.builders.MOSLBuilder">
-         </run>
-      </builder>
    </extension>
    <extension
          id="org.moflon.ide.ui.runtime.natures.AntlrNature"
@@ -352,8 +251,8 @@
       </super>
    </extension>
    <extension
-         id="org.moflon.ide.marker.MOSLProblem"
-         name="MOSL Problem"
+         id="org.moflon.ide.marker.MOFLONProblem"
+         name="MOFLON Problem"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.core.resources.problemmarker">
@@ -368,30 +267,6 @@
       </super>
    </extension>
    <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="org.moflon.ide.ui.perspective">
-            <newWizardShortcut
-                  id="org.moflon.ide.ui.admin.wizards.mosl.NewEPackageWizard">
-            </newWizardShortcut>
-         <newWizardShortcut
-               id="org.moflon.ide.ui.admin.wizards.mosl.NewMOSLConfiguration">
-         </newWizardShortcut>
-            <newWizardShortcut id="org.moflon.ide.ui.admin.wizards.mosl.NewEClassWizard"/>
-            <newWizardShortcut
-                  id="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard">
-            </newWizardShortcut>
-            <newWizardShortcut id="org.moflon.ide.ui.admin.wizards.mosl.NewTGGWizard"/>
-            <newWizardShortcut id="org.moflon.ide.ui.admin.wizards.mosl.NewTGGRuleWizard"/>
-            <newWizardShortcut
-                  id="org.moflon.ide.ui.admin.wizards.mosl.NewMOSLConfiguration">
-            </newWizardShortcut>
-            <newWizardShortcut
-                  id="org.moflon.ide.ui.admin.wizards.mosl.NewPatternWizard">
-            </newWizardShortcut>
-      </perspectiveExtension>
-   </extension>
-   <extension
          id="org.moflon.textualEditor.contentTypes"
          name="MoflonContentTypes"
          point="org.eclipse.core.contenttype.contentTypes">
@@ -399,36 +274,6 @@
             file-extensions="inject"
             id="org.moflon.textualEditor.contentTypes.moflon.injection"
             name="eMoflon Injection File"
-            priority="high">
-      </content-type>
-      <content-type
-            file-extensions="eclass"
-            id="org.moflon.textualEditor.contentTypes.mosl.eclass"
-            name="MOSL eclass files"
-            priority="high">
-      </content-type>
-      <content-type
-            file-extensions="pattern"
-            id="org.moflon.textualEditor.contentTypes.mosl.pattern"
-            name="MOSL pattern files"
-            priority="high">
-      </content-type>
-      <content-type
-            file-extensions="mconf"
-            id="org.moflon.textualEditor.contentTypes.mosl.mconf"
-            name="MOSL config files"
-            priority="high">
-      </content-type>
-      <content-type
-            file-extensions="sch"
-            id="org.moflon.textualEditor.contentTypes.mosl.sch"
-            name="MOSL TGG schema files"
-            priority="high">
-      </content-type>
-      <content-type
-            file-extensions="tgg"
-            id="org.moflon.textualEditor.contentTypes.mosl.tgg"
-            name="MOSL TGG rule files"
             priority="high">
       </content-type>
             <content-type
@@ -470,61 +315,6 @@
          </contentTypeBinding>
       </editor>
       <editor
-            class="org.moflon.ide.ui.admin.editors.mosl.EClassTextEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="false"
-            icon="resources/icons/classes.gif"
-            id="org.moflon.ide.ui.admin.editors.mosl.EClassTextEditor"
-            name="eMoflon EClass Editor">
-         <contentTypeBinding
-               contentTypeId="org.moflon.textualEditor.contentTypes.mosl.eclass">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="org.moflon.ide.ui.admin.editors.mosl.MConfTextEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="false"
-            icon="resources/icons/mconf.png"
-            id="org.moflon.ide.ui.admin.editors.mosl.MConfTextEditor"
-            name="eMoflon MConf Editor">
-         <contentTypeBinding
-               contentTypeId="org.moflon.textualEditor.contentTypes.mosl.mconf">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="org.moflon.ide.ui.admin.editors.mosl.PatternTextEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="false"
-            icon="resources/icons/patterns.gif"
-            id="org.moflon.ide.ui.admin.editors.mosl.PatternTextEditor"
-            name="eMoflon Pattern Editor">
-         <contentTypeBinding
-               contentTypeId="org.moflon.textualEditor.contentTypes.mosl.pattern">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="org.moflon.ide.ui.admin.editors.mosl.SchTextEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="false"
-            icon="resources/icons/plugin.png"
-            id="org.moflon.ide.ui.admin.editors.mosl.SchTextEditor"
-            name="eMoflon Sch Editor">
-         <contentTypeBinding
-               contentTypeId="org.moflon.textualEditor.contentTypes.mosl.sch">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="org.moflon.ide.ui.admin.editors.mosl.TggTextEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="false"
-            icon="resources/icons/link.png"
-            id="org.moflon.ide.ui.admin.editors.mosl.TggTextEditor"
-            name="eMoflon TGG Editor">
-         <contentTypeBinding
-               contentTypeId="org.moflon.textualEditor.contentTypes.mosl.tgg">
-         </contentTypeBinding>
-      </editor>
-      <editor
             class="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="false"
@@ -561,13 +351,6 @@
          </contentTypeBinding>
       </editor>
    </extension>
-   <extension
-         point="org.eclipse.ui.ide.markerResolution">
-      <markerResolutionGenerator
-            class="org.moflon.ide.ui.admin.assist.mosl.MOSLMarkerResolutionGenerator"
-            markerType="org.moflon.ide.marker.MOSLProblem">
-      </markerResolutionGenerator>
-   </extension>
    
    <extension point="org.eclipse.ui.decorators">
       <decorator
@@ -584,10 +367,6 @@
                       name="org.eclipse.core.resources.IProject">
                 </objectClass>
                   <or>
-                     <objectState
-                           name="projectNature"
-                           value="org.moflon.ide.ui.runtime.natures.MOSLNature">
-                     </objectState>
                      <objectState
                            name="projectNature"
                            value="org.moflon.ide.ui.runtime.natures.RepositoryNature">
@@ -720,25 +499,6 @@
       <handler
             class="org.moflon.ide.ui.admin.handlers.NewMetamodelHandler"
             commandId="org.moflon.ide.ui.commands.build.NewMetamodelCommand">
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.ConvertToMOSLHandler"
-            commandId="org.moflon.ide.ui.commands.conversion.ConvertToMOSLCommand">
-         <enabledWhen>
-            <with
-                  variable="selection">
-               <iterate
-                     ifEmpty="false"
-                     operator="and">
-                  <reference
-                        definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-                  </reference>
-               </iterate>
-               <count
-                     value="1">
-               </count>
-            </with>
-         </enabledWhen>
       </handler>
       <handler
             class="org.moflon.ide.ui.admin.handlers.AddParserAndUnparserHandler"
@@ -875,25 +635,15 @@
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.isEapFile">
                      </reference>
-                     <and>
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-                        </reference>
-                        <not>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasMOSLNature">
-                           </reference>
-                        </not>
-                     </and>
+                     <reference
+                           definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
+                     </reference>
                   </or>
                </iterate>
-            </with>
-         </enabledWhen>
-      </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
+               </with>
+               </enabledWhen>
+               </handler>
+      <command>
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.validation.ValidateCommand"
             name="Validate">
@@ -913,11 +663,6 @@
             id="org.moflon.ide.ui.commands.MainCategory"
             name="eMoflon Commands">
       </category>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.conversion.ConvertToMOSLCommand"
-            name="Convert project to textual syntax (MOSL)">
-      </command>
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand"
@@ -1053,20 +798,6 @@
                mnemonic="I"
                style="push"
                tooltip="Creates or updates a corresponding injection file">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupConversions">
-         <command
-               commandId="org.moflon.ide.ui.commands.conversion.ConvertToMOSLCommand"
-               icon="resources/icons/patterns.gif"
-               label="Convert project to textual syntax (MOSL)"
-               style="push"
-               tooltip="Convert project to textual syntax (MOSL)">
             <visibleWhen
                   checkEnabled="false">
             </visibleWhen>
@@ -1216,12 +947,6 @@
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M2+M3+E D">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.conversion.ConvertToMOSLCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E M">
       </key>
       <key
             commandId="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand"
@@ -1374,16 +1099,6 @@
          </adapt>
       </definition>
       <definition
-            id="org.moflon.ide.ui.definitions.hasMOSLNature">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.projectNature"
-                  value="org.moflon.ide.ui.runtime.natures.MOSLNature">
-            </test>
-         </adapt>
-      </definition>
-      <definition
             id="org.moflon.ide.ui.definitions.isCompilationUnitEditor">
          <with
                variable="activeEditorId">
@@ -1400,9 +1115,6 @@
             </reference>
             <reference
                   definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-            </reference>
-            <reference
-                  definitionId="org.moflon.ide.ui.definitions.hasMOSLNature">
             </reference>
             <reference
                   definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">

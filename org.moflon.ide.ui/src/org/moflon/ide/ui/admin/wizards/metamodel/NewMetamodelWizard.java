@@ -1,13 +1,7 @@
 package org.moflon.ide.ui.admin.wizards.metamodel;
 
-import static org.moflon.ide.ui.admin.wizards.util.WizardUtil.loadStringTemplateGroup;
-import static org.moflon.ide.ui.admin.wizards.util.WizardUtil.renderTemplate;
-
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -95,38 +89,15 @@ public class NewMetamodelWizard extends Wizard
          // Create project
          IProject newProjectHandle = WorkspaceHelper.createProject(projectName, UIActivator.getModuleID(), location , WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-         // Add directory folders MOSL and imports file
-         if (projectInfo.textual())
-         {
-            WorkspaceHelper.addFolder(newProjectHandle, "MOSL", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         // generate default files
+         WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap",
+               MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", UIActivator.getModuleID()), UIActivator.getModuleID(),
+               WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-            // No demo selected: create working set folder and load empty constraints
-            WorkspaceHelper.addFolder(newProjectHandle, "MOSL/MyWorkingSet", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-
-            StringTemplateGroup stg = loadStringTemplateGroup("/resources/mosl/templates/imports.stg");
-
-            Map<String, Object> attrs = new HashMap<String, Object>();
-            String content = renderTemplate(stg, "imports", attrs);
-
-            WorkspaceHelper.addFile(newProjectHandle, "MOSL/_MOSLConfiguration.mconf", content, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-
-            monitor.worked(1);
-         } else /* EA/visual metamodel project */
-         {
-            // generate default files
-            WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap",
-                  MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", UIActivator.getModuleID()), UIActivator.getModuleID(),
-                  WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-
-            WorkspaceHelper.addFile(newProjectHandle, ".gitignore", ".temp", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-         }
+         WorkspaceHelper.addFile(newProjectHandle, ".gitignore", ".temp", WorkspaceHelper.createSubmonitorWith1Tick(monitor));         
 
          // Add Nature and Builders
          WorkspaceHelper.addNature(newProjectHandle, CoreActivator.METAMODEL_NATURE_ID, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-
-         // Add Nature and Builders for MOSL
-         if (projectInfo.textual())
-            WorkspaceHelper.addNature(newProjectHandle, CoreActivator.MOSL_NATURE_ID, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          WorkspaceHelper.moveProjectToWorkingSet(newProjectHandle, SPECIFICATION_WORKINGSET_NAME);
 

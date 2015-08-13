@@ -69,13 +69,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          unpack="false"/>
 
    <plugin
-         id="TutorialValidationRules"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="ValidationResult"
          download-size="0"
          install-size="0"
@@ -112,12 +105,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="SDMLanguageToDemocles"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="MOSLCodeAdapter"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
@@ -326,13 +313,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-
-   <plugin
-         id="org.moflon.tutorial"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="org.moflon.sdm.compiler.eclipse"

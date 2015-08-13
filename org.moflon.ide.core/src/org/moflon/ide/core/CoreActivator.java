@@ -55,10 +55,6 @@ public class CoreActivator extends Plugin
 
    public static final String INTEGRATION_BUILDER_ID = "org.moflon.ide.core.runtime.builders.IntegrationBuilder";
 
-   public static final String MOSL_NATURE_ID = "org.moflon.ide.ui.runtime.natures.MOSLNature";
-
-   public static final String MOSL_BUILDER_ID = "org.moflon.ide.core.runtime.builders.MOSLBuilder";
-
    public static final String ANTLR_NATURE_ID = "org.moflon.ide.ui.runtime.natures.AntlrNature";
 
    public static final String ANTLR_BUILDER_ID = "org.moflon.ide.core.runtime.builders.AntlrBuilder";
@@ -66,8 +62,6 @@ public class CoreActivator extends Plugin
    public static final String JAVA_WORKING_SET_ID = "org.eclipse.jdt.ui.JavaWorkingSetPage";
 
    public static final String MOFLON_CLASSPATH_CONTAINER_ID = "org.moflon.ide.MOFLON_CONTAINER";
-
-   public static final String MOSL_CLASSPATH_CONTAINER_ID = "org.moflon.ide.MOSL";
 
    // The shared instance
    private static CoreActivator plugin;
