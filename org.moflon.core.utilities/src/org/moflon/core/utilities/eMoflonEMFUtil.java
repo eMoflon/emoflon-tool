@@ -406,7 +406,7 @@ public class eMoflonEMFUtil
     */
 
    /**
-    * Use to save a model to the given XMI file path.
+    * Use to save a model to the given XMI file path, but only if it has changed.
     * 
     * @param resourceSet
     * @param rootElementOfModel
@@ -425,11 +425,16 @@ public class eMoflonEMFUtil
          resource.getContents().add(rootElementOfModel);
       }
 
+      Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+      saveOptions.put(
+        Resource.OPTION_SAVE_ONLY_IF_CHANGED,
+        Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+      
       if (fileURI.equals(resource.getURI()))
       {
          try
          {
-            resource.save(null);
+            resource.save(saveOptions);
          } catch (IOException e)
          {
             e.printStackTrace();
@@ -440,7 +445,7 @@ public class eMoflonEMFUtil
          uriMapping.put(resource.getURI(), fileURI);
          try
          {
-            resource.save(null);
+            resource.save(saveOptions);
          } catch (IOException e)
          {
             e.printStackTrace();
