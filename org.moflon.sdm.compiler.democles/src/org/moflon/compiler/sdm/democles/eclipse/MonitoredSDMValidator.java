@@ -41,7 +41,7 @@ public class MonitoredSDMValidator implements IMonitoredJob
          logger.info("Validating Ecore file '" + ecoreFile.getProjectRelativePath() + "'.");
 
          // Delete markers
-         ecoreFile.deleteMarkers(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
+         ecoreFile.deleteMarkers(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
          final IProject project = ecoreFile.getProject();
 
          ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();

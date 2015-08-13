@@ -47,7 +47,7 @@ public class EclipseErrorReporter implements ErrorReporter
             ErrorMessage errorMsg = ((ValidationStatus) valStatus).getErrorMessage();
             try
             {
-               createMarker(WorkspaceHelper.MOSL_PROBLEM_MARKER_ID, errorMsg);
+               createMarker(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, errorMsg);
             } catch (CoreException e)
             {
                e.printStackTrace();

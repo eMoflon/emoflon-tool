@@ -116,7 +116,7 @@ public class WorkspaceHelper
 
    public static final String ISSUE_TRACKER_URL = "https://github.com/eMoflon/emoflon-issue-tracking-system/issues";
 
-   public final static String MOSL_PROBLEM_MARKER_ID = "org.moflon.ide.marker.MOSLProblem";
+   public final static String MOFLON_PROBLEM_MARKER_ID = "org.moflon.ide.marker.MOFLONProblem";
 
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
 
