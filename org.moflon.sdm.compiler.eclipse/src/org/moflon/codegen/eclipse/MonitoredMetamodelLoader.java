@@ -150,6 +150,14 @@ public final class MonitoredMetamodelLoader implements IMonitoredJob
                   }
                }
             }
+            if (!crossReferenceResolutionStatus.isOK())
+            {
+               return crossReferenceResolutionStatus;
+            }
+            if (monitor.isCanceled())
+            {
+               return Status.CANCEL_STATUS;
+            }
 
             // Remove unloaded resources from resource set
             final List<Resource> resources = resourceSet.getResources();
@@ -165,7 +173,7 @@ public final class MonitoredMetamodelLoader implements IMonitoredJob
             IStatus status = CodeGeneratorPlugin.validateResourceSet(resourceSet, TASK_NAME, WorkspaceHelper.createSubMonitor(monitor, 5));
 
             monitor.done();
-            return status.isOK() ? crossReferenceResolutionStatus : status;
+            return status;
          } else
          {
             return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), "Project " + project.getName()
