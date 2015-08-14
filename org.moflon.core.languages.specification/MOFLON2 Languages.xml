@@ -10,7 +10,7 @@
 		<UML:Model name="EA Model" xmi.id="MX_EAID_02BAEABD_6A12_4489_BCA3_8D33C05B81DB">
 			<UML:Namespace.ownedElement>
 				<UML:Class name="EARootClass" xmi.id="EAID_11111111_5487_4080_A7F4_41526CB0AA00" isRoot="true" isLeaf="false" isAbstract="false"/>
-				<UML:Package name="eMoflon Languages" xmi.id="EAPK_02BAEABD_6A12_4489_BCA3_8D33C05B81DB" isRoot="true" isLeaf="false" isAbstract="false" visibility="public">
+				<UML:Package name="org.moflon.core" xmi.id="EAPK_02BAEABD_6A12_4489_BCA3_8D33C05B81DB" isRoot="true" isLeaf="false" isAbstract="false" visibility="public">
 					<UML:ModelElement.taggedValue>
 						<UML:TaggedValue tag="documentation" value="Moflon::VersionNumber=2.39"/>
 						<UML:TaggedValue tag="created" value="2013-01-25 13:33:33"/>
@@ -76,7 +76,7 @@
 										<UML:TaggedValue tag="isActive" value="false"/>
 										<UML:TaggedValue tag="package" value="EAPK_02BAEABD_6A12_4489_BCA3_8D33C05B81DB"/>
 										<UML:TaggedValue tag="date_created" value="2011-03-01 00:00:00"/>
-										<UML:TaggedValue tag="date_modified" value="2011-08-04 12:43:49"/>
+										<UML:TaggedValue tag="date_modified" value="2014-12-11 14:02:41"/>
 										<UML:TaggedValue tag="gentype" value="Java"/>
 										<UML:TaggedValue tag="tagged" value="0"/>
 										<UML:TaggedValue tag="package2" value="EAID_0DF49EF4_97FC_4f6d_88EB_B7514B07A8A7"/>
@@ -87,10 +87,10 @@
 										<UML:TaggedValue tag="status" value="Proposed"/>
 										<UML:TaggedValue tag="stereotype" value="EPackage"/>
 										<UML:TaggedValue tag="tpos" value="2"/>
-										<UML:TaggedValue tag="ea_localid" value="612"/>
+										<UML:TaggedValue tag="ea_localid" value="770"/>
 										<UML:TaggedValue tag="ea_eleType" value="package"/>
 										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
-										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={B885F7C9-F240-4481-8E7E-F5ADA709E391}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EPackage;FQName=ECORE_Elements::EPackage;@ENDSTEREO;$DES;$CLT={0DF49EF4-97FC-4f6d-88EB-B7514B07A8A7}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={70D2F02B-4717-4c83-BF4B-E8D3E46445BD}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EPackage;GUID={2E55B2FD-CE8D-4c6a-908C-D6191FF95158};FQName=ECORE_Elements::EPackage;@ENDSTEREO;$DES;$CLT={0DF49EF4-97FC-4f6d-88EB-B7514B07A8A7}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 									</UML:ModelElement.taggedValue>
 								</UML:ClassifierRole>
 								<UML:ClassifierRole name="SDMLanguage" xmi.id="EAID_5BB678F1_07CF_4905_91F1_C0478CDCEE23" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
@@ -158,7 +158,7 @@
 						</UML:Collaboration>
 						<UML:Package name="Ecore" xmi.id="EAPK_02826A0E_B721_409e_BE46_9F6B0C9AE335" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
 							<UML:ModelElement.stereotype>
-								<UML:Stereotype xmi.idref="EAID_DB7DA963_C6E7_4c2f_9430_D624A19816C2"/>
+								<UML:Stereotype xmi.idref="EAID_AECC1749_58EA_4428_BE7F_0878048F9CCE"/>
 							</UML:ModelElement.stereotype>
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="parent" value="EAPK_02BAEABD_6A12_4489_BCA3_8D33C05B81DB"/>
@@ -188,7 +188,7 @@
 						</UML:Package>
 						<UML:Package name="MocaTree" xmi.id="EAPK_0DF49EF4_97FC_4f6d_88EB_B7514B07A8A7" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
 							<UML:ModelElement.stereotype>
-								<UML:Stereotype xmi.idref="EAID_DB7DA963_C6E7_4c2f_9430_D624A19816C2"/>
+								<UML:Stereotype xmi.idref="EAID_AECC1749_58EA_4428_BE7F_0878048F9CCE"/>
 							</UML:ModelElement.stereotype>
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="parent" value="EAPK_02BAEABD_6A12_4489_BCA3_8D33C05B81DB"/>
@@ -196,7 +196,7 @@
 								<UML:TaggedValue tag="modified" value="2014-12-11 14:02:41"/>
 								<UML:TaggedValue tag="iscontrolled" value="TRUE"/>
 								<UML:TaggedValue tag="xmlpath" value="MocaTree.xml"/>
-								<UML:TaggedValue tag="lastloaddate" value="2014-07-03 16:54:08"/>
+								<UML:TaggedValue tag="lastloaddate" value="2015-08-14 23:14:39"/>
 								<UML:TaggedValue tag="lastsavedate" value="2013-12-12 15:32:22"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="isprotected" value="FALSE"/>
@@ -217,7 +217,7 @@
 						</UML:Package>
 						<UML:Package name="Moca" xmi.id="EAPK_BB94D4F8_7ED9_411e_8A5E_3FD94F851B2A" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
 							<UML:ModelElement.stereotype>
-								<UML:Stereotype xmi.idref="EAID_DB7DA963_C6E7_4c2f_9430_D624A19816C2"/>
+								<UML:Stereotype xmi.idref="EAID_AECC1749_58EA_4428_BE7F_0878048F9CCE"/>
 							</UML:ModelElement.stereotype>
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="parent" value="EAPK_02BAEABD_6A12_4489_BCA3_8D33C05B81DB"/>
@@ -247,7 +247,7 @@
 						</UML:Package>
 						<UML:Package name="SDMLanguage" xmi.id="EAPK_5BB678F1_07CF_4905_91F1_C0478CDCEE23" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
 							<UML:ModelElement.stereotype>
-								<UML:Stereotype xmi.idref="EAID_DB7DA963_C6E7_4c2f_9430_D624A19816C2"/>
+								<UML:Stereotype xmi.idref="EAID_AECC1749_58EA_4428_BE7F_0878048F9CCE"/>
 							</UML:ModelElement.stereotype>
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="parent" value="EAPK_02BAEABD_6A12_4489_BCA3_8D33C05B81DB"/>
@@ -277,7 +277,7 @@
 						</UML:Package>
 					</UML:Namespace.ownedElement>
 				</UML:Package>
-				<UML:Stereotype xmi.id="EAID_DB7DA963_C6E7_4c2f_9430_D624A19816C2" name="EPackage" isRoot="false" isLeaf="false" isAbstract="false">
+				<UML:Stereotype xmi.id="EAID_AECC1749_58EA_4428_BE7F_0878048F9CCE" name="EPackage" isRoot="false" isLeaf="false" isAbstract="false">
 					<UML:Stereotype.baseClass>Package</UML:Stereotype.baseClass>
 				</UML:Stereotype>
 			</UML:Namespace.ownedElement>
