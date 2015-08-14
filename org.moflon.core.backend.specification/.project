@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>MoflonBackend</name>
+	<name>org.moflon.core.backend.specification</name>
 	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
-	
 		<buildCommand>
 			<name>org.moflon.ide.core.runtime.builders.MetamodelBuilder</name>
 			<arguments>
