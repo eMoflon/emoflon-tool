@@ -103,10 +103,10 @@ public class CodeAnalyzerTreeVisitor extends TreePathScanner<Object, Trees>
                   String fullClassName = getCurrentPath().getCompilationUnit().getPackageName() + "." + classDeclaration.getSimpleName().toString();
                   phaseBreakpoints.put(DebugBreakpoint.Phase.valueOf(name), new Pair<String, Long>(fullClassName, linenumber));
                }
-               log.info(classDeclaration.getSimpleName() + "->" + annotationName + "#" + name + " : " + linenumber);
+               log.debug(classDeclaration.getSimpleName() + "->" + annotationName + "#" + name + " : " + linenumber);
             } else
             {
-               log.info(classDeclaration.getSimpleName() + "->" + annotationName + " : " + linenumber);
+               log.debug(classDeclaration.getSimpleName() + "->" + annotationName + " : " + linenumber);
             }
          }
       }
