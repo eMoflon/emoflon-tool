@@ -1,7 +1,6 @@
 package main;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,10 +16,7 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -53,18 +49,6 @@ import DebugLanguage.TranslationPhase;
 public class DebugAnnotation
 {
    public static final Logger log = Logger.getLogger(DebugAnnotation.class);
-   {
-      if (!log.getAllAppenders().hasMoreElements())
-      {
-         // Init Logging
-         ConsoleAppender appender = new ConsoleAppender();
-         appender.setName("Console");
-         appender.setWriter(new PrintWriter(System.out));
-         appender.setLayout(new SimpleLayout());
-         log.addAppender(appender);
-         log.setLevel(Level.DEBUG);
-      }
-   }
 
    private URL baseLocation;
 
