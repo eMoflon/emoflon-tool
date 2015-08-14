@@ -36,7 +36,6 @@
             id="org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard"
             name="Add Parser/Unparser Wizard">
       </wizard>
-     
    </extension>
    <extension
          point="org.eclipse.ui.ide.projectNatureImages">
@@ -169,6 +168,7 @@
                         <reference
                               definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
                         </reference>
+                        
                         <reference
                               definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
                         </reference>
@@ -193,6 +193,7 @@
                            <reference
                                  definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
                            </reference>
+                           
                            <reference
                                  definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
                            </reference>
@@ -209,6 +210,7 @@
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
                      </reference>
+                     
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
                      </reference>
@@ -224,6 +226,8 @@
          </menu>
       </menuContribution>
    </extension>
+   
+   
    <extension
          id="org.moflon.ide.ui.runtime.natures.AntlrNature"
          point="org.eclipse.core.resources.natures">
@@ -267,6 +271,15 @@
       </super>
    </extension>
    <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.moflon.ide.ui.perspective">
+            
+         
+         
+      </perspectiveExtension>
+   </extension>
+   <extension
          id="org.moflon.textualEditor.contentTypes"
          name="MoflonContentTypes"
          point="org.eclipse.core.contenttype.contentTypes">
@@ -276,6 +289,7 @@
             name="eMoflon Injection File"
             priority="high">
       </content-type>
+      
             <content-type
             file-extensions="vm"
             id="org.moflon.textualEditor.contentTypes.velocity"
@@ -314,6 +328,7 @@
                contentTypeId="org.moflon.textualEditor.contentTypes.moflon.injection">
          </contentTypeBinding>
       </editor>
+      
       <editor
             class="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
@@ -352,6 +367,7 @@
       </editor>
    </extension>
    
+   
    <extension point="org.eclipse.ui.decorators">
       <decorator
             lightweight="true"
@@ -367,6 +383,7 @@
                       name="org.eclipse.core.resources.IProject">
                 </objectClass>
                   <or>
+                     
                      <objectState
                            name="projectNature"
                            value="org.moflon.ide.ui.runtime.natures.RepositoryNature">
@@ -500,6 +517,7 @@
             class="org.moflon.ide.ui.admin.handlers.NewMetamodelHandler"
             commandId="org.moflon.ide.ui.commands.build.NewMetamodelCommand">
       </handler>
+      
       <handler
             class="org.moflon.ide.ui.admin.handlers.AddParserAndUnparserHandler"
             commandId="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand">
@@ -635,15 +653,20 @@
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.isEapFile">
                      </reference>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-                     </reference>
+                     
+                        <reference
+                              definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
+                        </reference>
+                     
                   </or>
                </iterate>
-               </with>
-               </enabledWhen>
-               </handler>
-      <command>
+            </with>
+         </enabledWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.validation.ValidateCommand"
             name="Validate">
@@ -663,6 +686,7 @@
             id="org.moflon.ide.ui.commands.MainCategory"
             name="eMoflon Commands">
       </category>
+      
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand"
@@ -803,6 +827,7 @@
             </visibleWhen>
          </command>
       </menuContribution>
+      
       <menuContribution
             allPopups="false"
             locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupMoca">
@@ -948,6 +973,7 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M2+M3+E D">
       </key>
+      
       <key
             commandId="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand"
             contextId="org.eclipse.ui.contexts.window"
@@ -1098,6 +1124,7 @@
             </test>
          </adapt>
       </definition>
+      
       <definition
             id="org.moflon.ide.ui.definitions.isCompilationUnitEditor">
          <with
@@ -1116,6 +1143,7 @@
             <reference
                   definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
             </reference>
+            
             <reference
                   definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
             </reference>
