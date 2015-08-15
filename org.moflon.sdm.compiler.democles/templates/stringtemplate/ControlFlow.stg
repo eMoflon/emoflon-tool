@@ -249,18 +249,23 @@ RegularPatternInvocationImplInForEachImpl(action, importManager) ::= <<
 >>
 
 NodeDeletionImplInIfStatementImpl(action, importManager) ::= <<
+<NodeDeletionImpl(action, importManager)>;
 >>
 
 NodeDeletionImplInCFNodeImpl(action, importManager) ::= <<
+<NodeDeletionImpl(action, importManager)>;
 >>
 
 NodeDeletionImplInHeadControlledLoopImpl(action, importManager) ::= <<
+<NodeDeletionImpl(action, importManager)>;
 >>
 
 NodeDeletionImplInTailControlledLoopImpl(action, importManager) ::= <<
+<NodeDeletionImpl(action, importManager)>;
 >>
 
 NodeDeletionImplInForEachImpl(action, importManager) ::= <<
+<NodeDeletionImpl(action, importManager)>;
 >>
 
 DefaultPerformAction(action, importManager) ::= <<
