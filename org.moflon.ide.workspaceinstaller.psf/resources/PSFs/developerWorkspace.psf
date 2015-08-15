@@ -4,7 +4,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.scopevalidation,AttributeConstraintScopeValidation"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.constraintstodemocles,AttributeConstraintToDemocles"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.runtime.democles,ControlFlow"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.cspcodeadapter,CSPCodeAdapter"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.cspcodeadapter,org.moflon.tgg.cspcodeadapter"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.debug.language,DebugLanguage"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.democles,DemoclesAttributeConstraints"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.operationspecification,DemoclesAttributeConstraintSpecification"/>
