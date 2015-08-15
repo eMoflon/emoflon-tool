@@ -254,6 +254,12 @@
         <ownedActivityEdge source="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2" target="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.0" guard="END"/>
       </activity>
     </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="stringAsBoolean">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="value">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eParameters>
+    </eOperations>
     <eOperations xsi:type="activities:MoflonEOperation" name="transformAdornments">
       <eParameters name="allowedAdornmentsForConstraint">
         <eType xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
@@ -928,12 +934,6 @@
         <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.9" target="//Transformer/transformVariables/@activity/@ownedActivityNode.8" guard="FAILURE"/>
         <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.9" target="//Transformer/transformVariables/@activity/@ownedActivityNode.5" guard="SUCCESS"/>
       </activity>
-    </eOperations>
-    <eOperations xsi:type="activities:MoflonEOperation" name="stringAsBoolean">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      <eParameters name="value">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      </eParameters>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tggrule" lowerBound="1">
       <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//TGGRule"/>

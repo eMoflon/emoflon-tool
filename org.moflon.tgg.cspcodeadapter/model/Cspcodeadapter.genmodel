@@ -27,6 +27,9 @@
       <genOperations ecoreOperation="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/filterUserDefinedConstraints">
         <genParameters ecoreParameter="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/filterUserDefinedConstraints/tree"/>
       </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/stringAsBoolean">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/stringAsBoolean/value"/>
+      </genOperations>
       <genOperations ecoreOperation="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/transformAdornments">
         <genParameters ecoreParameter="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/transformAdornments/allowedAdornmentsForConstraint"/>
         <genParameters ecoreParameter="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/transformAdornments/constraint"/>
@@ -42,9 +45,6 @@
         <genParameters ecoreParameter="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/transformVariables/constraint"/>
         <genParameters ecoreParameter="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/transformVariables/csp"/>
         <genParameters ecoreParameter="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/transformVariables/constraintNode"/>
-      </genOperations>
-      <genOperations ecoreOperation="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/stringAsBoolean">
-        <genParameters ecoreParameter="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore#//Transformer/stringAsBoolean/value"/>
       </genOperations>
     </genClasses>
   </genPackages>
