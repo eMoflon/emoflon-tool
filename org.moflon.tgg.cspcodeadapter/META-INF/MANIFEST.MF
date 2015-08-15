@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: CSPCodeAdapter;singleton:=true
+Bundle-SymbolicName: org.moflon.tgg.cspcodeadapter;singleton:=true
 Export-Package: org.moflon,
- CSPCodeAdapter,
- CSPCodeAdapter.util,
- CSPCodeAdapter.impl
+ org.moflon.tgg.cspcodeadapter,
+ org.moflon.tgg.cspcodeadapter.util,
+ org.moflon.tgg.cspcodeadapter.impl
 Bundle-Name: CSPCodeAdapter
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0",

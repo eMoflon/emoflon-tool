@@ -61,7 +61,7 @@ public class MoflonPropertiesContainerHelper
          moflonPropertiesCont.removeObsoleteProperties();
          if (!project.getName().equals(moflonPropertiesCont.getProjectName()))
          {
-            logger.warn("Project name in Moflon properties file not match Project. Setting correct project name.");
+            logger.warn("Project name in Moflon properties file does not match Project. Setting correct project name.");
             moflonPropertiesCont.setProjectName(project.getName());
          }
 

@@ -9,12 +9,6 @@
     <package class="SDMLanguage.SDMLanguagePackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="SDMLanguage.calls.CallsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls"/>
-  </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="SDMLanguage.calls.callExpressions.CallExpressionsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls/callExpressions"/>
-  </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="SDMLanguage.patterns.PatternsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
@@ -22,6 +16,12 @@
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="SDMLanguage.patterns.AttributeConstraints.AttributeConstraintsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/AttributeConstraints"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="SDMLanguage.calls.CallsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="SDMLanguage.calls.callExpressions.CallExpressionsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls/callExpressions"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="SDMLanguage.expressions.ExpressionsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions"/>

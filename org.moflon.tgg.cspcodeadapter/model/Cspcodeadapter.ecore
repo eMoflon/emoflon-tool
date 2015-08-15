@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activities="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities" xmlns:callExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls/callExpressions" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:expressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions" xmlns:patternExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions" name="org.moflon.tgg.cspcodeadapter" nsURI="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore" nsPrefix="org.moflon.tgg.cspcodeadapter">
+  <eClassifiers xsi:type="ecore:EClass" name="VariableTypeManager">
+    <eOperations xsi:type="activities:MoflonEOperation" name="deriveVariableTypes">
+      <eParameters name="csp">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+      </eParameters>
+      <activity owningOperation="//VariableTypeManager/deriveVariableTypes">
+        <ownedActivityNode xsi:type="activities:StartNode" outgoing="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.0"/>
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.3"/>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="match ov in rule" comment="match_ov_in_rule" outgoing="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.1" incoming="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.5">
+          <storyPattern comment="match_ov_in_rule">
+            <objectVariable name="attribute" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.4" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="patternExpressions:AttributeValueExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1">
+                    <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable/attribute"/>
+                  </rightExpression>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0">
+                    <attribute href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="rule" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.3" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//TGGRule"/>
+            </objectVariable>
+            <objectVariable name="ov" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.1" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.2">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/ObjectVariable"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="patternExpressions:AttributeValueExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1">
+                    <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable/objectVariable"/>
+                  </rightExpression>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2">
+                    <attribute href="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//NamedElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable type="//VariableTypeManager" name="this" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.3" bindingState="BOUND"/>
+            <objectVariable name="type" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.2" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.4">
+              <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+            </objectVariable>
+            <objectVariable name="attributeType" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+            </objectVariable>
+            <objectVariable name="attributeVariable" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable"/>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Variable/type"/>
+                <valueExpression xsi:type="callExpressions:MethodCallExpression" callee="//VariableTypeManager/eType2JavaType">
+                  <ownedParameterBindings parameter="//VariableTypeManager/eType2JavaType/eClassifier">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.5"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.3"/>
+                </valueExpression>
+              </attributeAssignment>
+            </objectVariable>
+            <linkVariable name="eType" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.5" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+            </linkVariable>
+            <linkVariable name="objectVariable" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/StoryPattern/objectVariable"/>
+            </linkVariable>
+            <linkVariable name="type" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.4" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2">
+              <type href="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//TypedElement/type"/>
+            </linkVariable>
+            <linkVariable name="tggrule" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.3" type="//VariableTypeManager/tggrule"/>
+            <linkVariable name="eAllAttributes" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.4">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eAllAttributes"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="for each eq constraint" comment="for_each_eq_constraint" outgoing="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.2 //VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.3" incoming="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.7 //VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.9" forEach="true">
+          <storyPattern comment="for_each_eq_constraint">
+            <objectVariable name="variable" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable"/>
+            </objectVariable>
+            <objectVariable name="constraint" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.1" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;eq&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1">
+                    <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="csp" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <linkVariable name="variables" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.0" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/variables"/>
+            </linkVariable>
+            <linkVariable name="constraints" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.2">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP/constraints"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="for each attribute variable" comment="for_each_attribute_variable" outgoing="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.4 //VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.5" incoming="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.0 //VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.1" forEach="true">
+          <storyPattern comment="for_each_attribute_variable">
+            <objectVariable name="csp" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <objectVariable name="attributeVariable" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable"/>
+            </objectVariable>
+            <linkVariable name="variables" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP/variables"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StatementNode" name="propagate signature" outgoing="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.6" incoming="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.8">
+          <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//VariableTypeManager/propagateSignature">
+            <ownedParameterBindings parameter="//VariableTypeManager/propagateSignature/constraint">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0"/>
+            </ownedParameterBindings>
+            <target xsi:type="patternExpressions:ObjectVariableExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.3"/>
+          </statementExpression>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="propagate type" comment="propagate_type" outgoing="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.7" incoming="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.2">
+          <storyPattern comment="propagate_type">
+            <objectVariable name="constraint" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0 //VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <objectVariable name="otherVariable" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Variable"/>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Variable/type"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.0">
+                  <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Variable/type"/>
+                </valueExpression>
+              </attributeAssignment>
+            </objectVariable>
+            <objectVariable name="variable" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable"/>
+            </objectVariable>
+            <linkVariable name="variables" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.2" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/variables"/>
+            </linkVariable>
+            <linkVariable name="variables" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/variables"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="for each constraint" comment="for_each_constraint" outgoing="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.8 //VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.9" incoming="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.4 //VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityEdge.6" forEach="true">
+          <storyPattern comment="for_each_constraint">
+            <objectVariable name="csp" outgoingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <objectVariable name="constraint" incomingLink="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <linkVariable name="constraints" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1" source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP/constraints"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.0" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4"/>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4"/>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6" guard="EACH_TIME"/>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.1" guard="END"/>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.7" guard="END"/>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.4" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.2" guard="EACH_TIME"/>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.5" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.7"/>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.6" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3"/>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.7" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.5" guard="EACH_TIME"/>
+        <ownedActivityEdge source="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.7" target="//VariableTypeManager/deriveVariableTypes/@activity/@ownedActivityNode.3" guard="END"/>
+      </activity>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="eType2JavaType">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="eClassifier">
+        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="propagateSignature">
+      <eParameters name="constraint">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tggrule" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//TGGRule"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transformer">
+    <eOperations xsi:type="activities:MoflonEOperation" name="allowedAdornmentsMissing">
+      <eParameters name="constraintNode">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="filterUserDefinedConstraints">
+      <eParameters name="tree">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+      </eParameters>
+      <activity owningOperation="//Transformer/filterUserDefinedConstraints">
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityEdge.1"/>
+        <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityEdge.0"/>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="For each user defined constraint node" comment="For_each_user_defined_constraint_node" outgoing="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityEdge.1" incoming="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityEdge.0" forEach="true">
+          <storyPattern comment="For_each_user_defined_constraint_node">
+            <objectVariable name="userDefinedConstraintNode" incomingLink="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.2" outgoingLink="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0 //Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.3">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="tree" incomingLink="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable type="//Transformer" name="this" outgoingLink="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.2" bindingState="BOUND"/>
+            <objectVariable name="declarationsNode" incomingLink="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0" outgoingLink="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;DECLARATIONS&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.3">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="userDefinedAttribute" incomingLink="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.3">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Attribute"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;USER_DEFINED&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.4">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;true&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.4">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Attribute/value"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.3" source="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+            <linkVariable name="parentNode" target="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1" source="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.3">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+            <linkVariable name="userDefinedConstraints" target="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0" source="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.2" type="//Transformer/userDefinedConstraints" bindingOperator="CREATE"/>
+            <linkVariable name="attribute" target="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.4" source="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node/attribute"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityEdge source="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.1" target="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2"/>
+        <ownedActivityEdge source="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.2" target="//Transformer/filterUserDefinedConstraints/@activity/@ownedActivityNode.0" guard="END"/>
+      </activity>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="transformAdornments">
+      <eParameters name="allowedAdornmentsForConstraint">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+      </eParameters>
+      <eParameters name="constraint">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+      </eParameters>
+      <activity owningOperation="//Transformer/transformAdornments">
+        <ownedActivityNode xsi:type="activities:StoryNode" name="create allowed adornment" comment="create_allowed_adornment" outgoing="//Transformer/transformAdornments/@activity/@ownedActivityEdge.0 //Transformer/transformAdornments/@activity/@ownedActivityEdge.1" incoming="//Transformer/transformAdornments/@activity/@ownedActivityEdge.4">
+          <storyPattern comment="create_allowed_adornment">
+            <objectVariable name="allowedAdornmentsForConstraint" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;ALLOWED_ADORNMENTS&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformAdornments/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="adornment" incomingLink="//Transformer/transformAdornments/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0" bindingOperator="CREATE">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Adornment"/>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Adornment/value"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformAdornments/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1">
+                  <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                </valueExpression>
+              </attributeAssignment>
+            </objectVariable>
+            <objectVariable name="constraint" outgoingLink="//Transformer/transformAdornments/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <linkVariable name="allowedAdornments" target="//Transformer/transformAdornments/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1" source="//Transformer/transformAdornments/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.2" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/allowedAdornments"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//Transformer/transformAdornments/@activity/@ownedActivityEdge.3"/>
+        <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Transformer/transformAdornments/@activity/@ownedActivityEdge.2"/>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="match allowed adornments" comment="match_allowed_adornments" outgoing="//Transformer/transformAdornments/@activity/@ownedActivityEdge.3 //Transformer/transformAdornments/@activity/@ownedActivityEdge.4" incoming="//Transformer/transformAdornments/@activity/@ownedActivityEdge.0 //Transformer/transformAdornments/@activity/@ownedActivityEdge.2 //Transformer/transformAdornments/@activity/@ownedActivityEdge.5" forEach="true">
+          <storyPattern comment="match_allowed_adornments">
+            <objectVariable name="allowedAdornmentsForConstraint" incomingLink="//Transformer/transformAdornments/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="adornmentNode" outgoingLink="//Transformer/transformAdornments/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformAdornments/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.0" source="//Transformer/transformAdornments/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="create allowed adornment" comment="create_allowed_adornment" outgoing="//Transformer/transformAdornments/@activity/@ownedActivityEdge.5" incoming="//Transformer/transformAdornments/@activity/@ownedActivityEdge.1">
+          <storyPattern comment="create_allowed_adornment">
+            <objectVariable name="allowedAdornmentsForConstraint" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;MODELGEN_ADORNMENTS&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformAdornments/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="constraint" outgoingLink="//Transformer/transformAdornments/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <objectVariable name="adornment" incomingLink="//Transformer/transformAdornments/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0" bindingOperator="CREATE">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Adornment"/>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Adornment/value"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformAdornments/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1">
+                  <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                </valueExpression>
+              </attributeAssignment>
+            </objectVariable>
+            <linkVariable name="modelgenAdornments" target="//Transformer/transformAdornments/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" source="//Transformer/transformAdornments/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/modelgenAdornments"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityEdge source="//Transformer/transformAdornments/@activity/@ownedActivityNode.0" target="//Transformer/transformAdornments/@activity/@ownedActivityNode.3" guard="SUCCESS"/>
+        <ownedActivityEdge source="//Transformer/transformAdornments/@activity/@ownedActivityNode.0" target="//Transformer/transformAdornments/@activity/@ownedActivityNode.4" guard="FAILURE"/>
+        <ownedActivityEdge source="//Transformer/transformAdornments/@activity/@ownedActivityNode.2" target="//Transformer/transformAdornments/@activity/@ownedActivityNode.3"/>
+        <ownedActivityEdge source="//Transformer/transformAdornments/@activity/@ownedActivityNode.3" target="//Transformer/transformAdornments/@activity/@ownedActivityNode.1" guard="END"/>
+        <ownedActivityEdge source="//Transformer/transformAdornments/@activity/@ownedActivityNode.3" target="//Transformer/transformAdornments/@activity/@ownedActivityNode.0" guard="EACH_TIME"/>
+        <ownedActivityEdge source="//Transformer/transformAdornments/@activity/@ownedActivityNode.4" target="//Transformer/transformAdornments/@activity/@ownedActivityNode.3"/>
+      </activity>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="transformNode">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+      <eParameters name="node">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+      </eParameters>
+      <activity owningOperation="//Transformer/transformNode">
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.3">
+          <returnValue xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2"/>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.0"/>
+        <ownedActivityNode xsi:type="activities:StatementNode" name="transform allowed adornments" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.1" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.9">
+          <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Transformer/transformAdornments">
+            <ownedParameterBindings parameter="//Transformer/transformAdornments/allowedAdornmentsForConstraint">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.1"/>
+            </ownedParameterBindings>
+            <ownedParameterBindings parameter="//Transformer/transformAdornments/constraint">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.8"/>
+            </ownedParameterBindings>
+            <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+          </statementExpression>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="for each constraint node" comment="for_each_constraint_node" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.2 //Transformer/transformNode/@activity/@ownedActivityEdge.3" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.6 //Transformer/transformNode/@activity/@ownedActivityEdge.11 //Transformer/transformNode/@activity/@ownedActivityEdge.12 //Transformer/transformNode/@activity/@ownedActivityEdge.14" forEach="true">
+          <storyPattern comment="for_each_constraint_node">
+            <objectVariable name="constraints" incomingLink="//Transformer/transformNode/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="constraintNode" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.0" source="//Transformer/transformNode/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="create CSP, match declaration and constraint instances subtrees" comment="create_CSP__match_declaration_and_constraint_instances_subtrees" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.4" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.0">
+          <storyPattern comment="create_CSP__match_declaration_and_constraint_instances_subtrees">
+            <objectVariable type="//Transformer" name="this" bindingState="BOUND"/>
+            <objectVariable name="node" incomingLink="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0 //Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="result" bindingOperator="CREATE">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <objectVariable name="constraints" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;CONSTRAINTS&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.3">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="declarationsNode" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;DECLARATIONS&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1" source="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1" source="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.3">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StatementNode" name="transform modelgen adornments" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.5" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.1">
+          <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Transformer/transformAdornments">
+            <ownedParameterBindings parameter="//Transformer/transformAdornments/allowedAdornmentsForConstraint">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.7"/>
+            </ownedParameterBindings>
+            <ownedParameterBindings parameter="//Transformer/transformAdornments/constraint">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.8"/>
+            </ownedParameterBindings>
+            <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+          </statementExpression>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.13">
+          <returnValue xsi:type="expressions:LiteralExpression" value="null"/>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StatementNode" name="report missing allowed adornment" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.6" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.8">
+          <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Transformer/allowedAdornmentsMissing">
+            <ownedParameterBindings parameter="//Transformer/allowedAdornmentsMissing/constraintNode">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1"/>
+            </ownedParameterBindings>
+            <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+          </statementExpression>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StatementNode" name="transform variables" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.7" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.5">
+          <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Transformer/transformVariables">
+            <ownedParameterBindings parameter="//Transformer/transformVariables/constraint">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.8"/>
+            </ownedParameterBindings>
+            <ownedParameterBindings parameter="//Transformer/transformVariables/csp">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2"/>
+            </ownedParameterBindings>
+            <ownedParameterBindings parameter="//Transformer/transformVariables/constraintNode">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1"/>
+            </ownedParameterBindings>
+            <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+          </statementExpression>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="create constraint and match allowed adornments and signature for this constraint" comment="create_constraint_and_match_allowed_adornments_and_signature_for_this_constraint" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.8 //Transformer/transformNode/@activity/@ownedActivityEdge.9" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.2">
+          <storyPattern comment="create_constraint_and_match_allowed_adornments_and_signature_for_this_constraint">
+            <objectVariable name="result" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <objectVariable name="allowedAdornments" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.3">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;ALLOWED_ADORNMENTS&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.1">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="constraintNode" incomingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="negatedNode" incomingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.2" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;NEGATED&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.3">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="constraintNodeDeclaration" incomingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.5 //Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.3" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.4">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </rightExpression>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.4">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="declarationsNode" incomingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.4" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="valueNode" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.2">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="modelgenAdornments" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.5">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;MODELGEN_ADORNMENTS&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.7">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="constraint" incomingLink="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.0" bindingOperator="CREATE">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/name"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1">
+                  <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                </valueExpression>
+              </attributeAssignment>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/negated"/>
+                <valueExpression xsi:type="callExpressions:MethodCallExpression" callee="//Transformer/stringAsBoolean">
+                  <ownedParameterBindings parameter="//Transformer/stringAsBoolean/value">
+                    <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.6">
+                      <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                    </valueExpression>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+                </valueExpression>
+              </attributeAssignment>
+            </objectVariable>
+            <linkVariable name="constraints" target="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.8" source="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.0" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP/constraints"/>
+            </linkVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.2" source="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.3">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.3" source="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.6">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.4" source="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.5" source="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.4">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.4" source="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.7">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="match signature" comment="match_signature" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.10 //Transformer/transformNode/@activity/@ownedActivityEdge.11" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.7">
+          <storyPattern comment="match_signature">
+            <objectVariable name="signature" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.10/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;SIGNATURE&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.10/@storyPattern/@objectVariable.0">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="constraintNodeDeclaration" incomingLink="//Transformer/transformNode/@activity/@ownedActivityNode.10/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.10/@storyPattern/@objectVariable.1" source="//Transformer/transformNode/@activity/@ownedActivityNode.10/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="ensure there is at least one constraint instance" comment="ensure_there_is_at_least_one_constraint_instance" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.12 //Transformer/transformNode/@activity/@ownedActivityEdge.13" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.4">
+          <storyPattern comment="ensure_there_is_at_least_one_constraint_instance">
+            <objectVariable name="constraints" incomingLink="//Transformer/transformNode/@activity/@ownedActivityNode.11/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="constraintInstance" outgoingLink="//Transformer/transformNode/@activity/@ownedActivityNode.11/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformNode/@activity/@ownedActivityNode.11/@storyPattern/@objectVariable.0" source="//Transformer/transformNode/@activity/@ownedActivityNode.11/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StatementNode" name="transform signature" outgoing="//Transformer/transformNode/@activity/@ownedActivityEdge.14" incoming="//Transformer/transformNode/@activity/@ownedActivityEdge.10">
+          <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//Transformer/transformSignature">
+            <ownedParameterBindings parameter="//Transformer/transformSignature/signature">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.10/@storyPattern/@objectVariable.0"/>
+            </ownedParameterBindings>
+            <ownedParameterBindings parameter="//Transformer/transformSignature/constraint">
+              <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.8"/>
+            </ownedParameterBindings>
+            <target xsi:type="patternExpressions:ObjectVariableExpression" object="//Transformer/transformNode/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0"/>
+          </statementExpression>
+        </ownedActivityNode>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.1" target="//Transformer/transformNode/@activity/@ownedActivityNode.4"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.2" target="//Transformer/transformNode/@activity/@ownedActivityNode.5"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.3" target="//Transformer/transformNode/@activity/@ownedActivityNode.9" guard="EACH_TIME"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.3" target="//Transformer/transformNode/@activity/@ownedActivityNode.0" guard="END"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.4" target="//Transformer/transformNode/@activity/@ownedActivityNode.11"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.5" target="//Transformer/transformNode/@activity/@ownedActivityNode.8"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.7" target="//Transformer/transformNode/@activity/@ownedActivityNode.3"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.8" target="//Transformer/transformNode/@activity/@ownedActivityNode.10"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.9" target="//Transformer/transformNode/@activity/@ownedActivityNode.7" guard="FAILURE"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.9" target="//Transformer/transformNode/@activity/@ownedActivityNode.2" guard="SUCCESS"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.10" target="//Transformer/transformNode/@activity/@ownedActivityNode.12" guard="SUCCESS"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.10" target="//Transformer/transformNode/@activity/@ownedActivityNode.3" guard="FAILURE"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.11" target="//Transformer/transformNode/@activity/@ownedActivityNode.3" guard="SUCCESS"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.11" target="//Transformer/transformNode/@activity/@ownedActivityNode.6" guard="FAILURE"/>
+        <ownedActivityEdge source="//Transformer/transformNode/@activity/@ownedActivityNode.12" target="//Transformer/transformNode/@activity/@ownedActivityNode.3"/>
+      </activity>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="transformSignature">
+      <eParameters name="signature">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+      </eParameters>
+      <eParameters name="constraint">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+      </eParameters>
+      <activity owningOperation="//Transformer/transformSignature">
+        <ownedActivityNode xsi:type="activities:StoryNode" name="for each signature element" comment="for_each_signature_element" outgoing="//Transformer/transformSignature/@activity/@ownedActivityEdge.0 //Transformer/transformSignature/@activity/@ownedActivityEdge.1" incoming="//Transformer/transformSignature/@activity/@ownedActivityEdge.2 //Transformer/transformSignature/@activity/@ownedActivityEdge.3" forEach="true">
+          <storyPattern comment="for_each_signature_element">
+            <objectVariable name="signature" incomingLink="//Transformer/transformSignature/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="signatureNode" outgoingLink="//Transformer/transformSignature/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformSignature/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0" source="//Transformer/transformSignature/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="create signature element" comment="create_signature_element" outgoing="//Transformer/transformSignature/@activity/@ownedActivityEdge.2" incoming="//Transformer/transformSignature/@activity/@ownedActivityEdge.0">
+          <storyPattern comment="create_signature_element">
+            <objectVariable name="signatureElement" incomingLink="//Transformer/transformSignature/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0" bindingOperator="CREATE">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/SignatureElement"/>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/SignatureElement/type"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformSignature/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1">
+                  <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                </valueExpression>
+              </attributeAssignment>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/SignatureElement/index"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformSignature/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1">
+                  <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/index"/>
+                </valueExpression>
+              </attributeAssignment>
+            </objectVariable>
+            <objectVariable name="constraint" outgoingLink="//Transformer/transformSignature/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <linkVariable name="signature" target="//Transformer/transformSignature/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0" source="//Transformer/transformSignature/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/signature"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Transformer/transformSignature/@activity/@ownedActivityEdge.3"/>
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//Transformer/transformSignature/@activity/@ownedActivityEdge.1"/>
+        <ownedActivityEdge source="//Transformer/transformSignature/@activity/@ownedActivityNode.0" target="//Transformer/transformSignature/@activity/@ownedActivityNode.1" guard="EACH_TIME"/>
+        <ownedActivityEdge source="//Transformer/transformSignature/@activity/@ownedActivityNode.0" target="//Transformer/transformSignature/@activity/@ownedActivityNode.3" guard="END"/>
+        <ownedActivityEdge source="//Transformer/transformSignature/@activity/@ownedActivityNode.1" target="//Transformer/transformSignature/@activity/@ownedActivityNode.0"/>
+        <ownedActivityEdge source="//Transformer/transformSignature/@activity/@ownedActivityNode.2" target="//Transformer/transformSignature/@activity/@ownedActivityNode.0"/>
+      </activity>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="transformVariables">
+      <eParameters name="constraint">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+      </eParameters>
+      <eParameters name="csp">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+      </eParameters>
+      <eParameters name="constraintNode">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+      </eParameters>
+      <activity owningOperation="//Transformer/transformVariables">
+        <ownedActivityNode xsi:type="activities:StoryNode" name="attribute variable?" comment="attribute_variable_" outgoing="//Transformer/transformVariables/@activity/@ownedActivityEdge.0 //Transformer/transformVariables/@activity/@ownedActivityEdge.1" incoming="//Transformer/transformVariables/@activity/@ownedActivityEdge.6">
+          <storyPattern comment="attribute_variable_">
+            <objectVariable name="attributeNode" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="1"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/index"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="variableNode" incomingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0 //Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <objectVariable name="objectVariableNode" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="0"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.2">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/index"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1" source="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1" source="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.2">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="create attribute variable" comment="create_attribute_variable" outgoing="//Transformer/transformVariables/@activity/@ownedActivityEdge.2" incoming="//Transformer/transformVariables/@activity/@ownedActivityEdge.9">
+          <storyPattern comment="create_attribute_variable">
+            <objectVariable name="constraint" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <objectVariable name="csp" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <objectVariable name="attributeVariable" incomingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0 //Transformer/transformVariables/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable"/>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable/attribute"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0">
+                  <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                </valueExpression>
+              </attributeAssignment>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable/objectVariable"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.2">
+                  <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                </valueExpression>
+              </attributeAssignment>
+            </objectVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.2" source="//Transformer/transformVariables/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/variables"/>
+            </linkVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.2" source="//Transformer/transformVariables/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP/variables"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//Transformer/transformVariables/@activity/@ownedActivityEdge.5"/>
+        <ownedActivityNode xsi:type="activities:StartNode" outgoing="//Transformer/transformVariables/@activity/@ownedActivityEdge.3"/>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="create literal" comment="create_literal" outgoing="//Transformer/transformVariables/@activity/@ownedActivityEdge.4" incoming="//Transformer/transformVariables/@activity/@ownedActivityEdge.8">
+          <storyPattern comment="create_literal">
+            <objectVariable name="constraint" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <objectVariable name="literal" incomingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0 //Transformer/transformVariables/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Literal"/>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Variable/value"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1">
+                  <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                </valueExpression>
+              </attributeAssignment>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/Variable/bound"/>
+                <valueExpression xsi:type="expressions:LiteralExpression" value="true"/>
+              </attributeAssignment>
+            </objectVariable>
+            <objectVariable name="csp" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1" source="//Transformer/transformVariables/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/variables"/>
+            </linkVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1" source="//Transformer/transformVariables/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP/variables"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="for each variable node" comment="for_each_variable_node" outgoing="//Transformer/transformVariables/@activity/@ownedActivityEdge.5 //Transformer/transformVariables/@activity/@ownedActivityEdge.6" incoming="//Transformer/transformVariables/@activity/@ownedActivityEdge.2 //Transformer/transformVariables/@activity/@ownedActivityEdge.3 //Transformer/transformVariables/@activity/@ownedActivityEdge.4 //Transformer/transformVariables/@activity/@ownedActivityEdge.10 //Transformer/transformVariables/@activity/@ownedActivityEdge.11 //Transformer/transformVariables/@activity/@ownedActivityEdge.13" forEach="true">
+          <storyPattern comment="for_each_variable_node">
+            <objectVariable name="variableNode" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="UNEQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="0"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/index"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="constraintNode" incomingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformVariables/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.1" source="//Transformer/transformVariables/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="literal?" comment="literal_" outgoing="//Transformer/transformVariables/@activity/@ownedActivityEdge.7 //Transformer/transformVariables/@activity/@ownedActivityEdge.8" incoming="//Transformer/transformVariables/@activity/@ownedActivityEdge.0">
+          <storyPattern comment="literal_">
+            <objectVariable name="variableNode" incomingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="expressions:LiteralExpression" value="&quot;LITERAL&quot;"/>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="literalValue" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+            </objectVariable>
+            <linkVariable name="parentNode" target="//Transformer/transformVariables/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0" source="//Transformer/transformVariables/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Text/parentNode"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="find attribute variable" comment="find_attribute_variable" outgoing="//Transformer/transformVariables/@activity/@ownedActivityEdge.9 //Transformer/transformVariables/@activity/@ownedActivityEdge.10" incoming="//Transformer/transformVariables/@activity/@ownedActivityEdge.1">
+          <storyPattern comment="find_attribute_variable">
+            <objectVariable name="csp" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <objectVariable name="attributeVariable" incomingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.0 //Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </rightExpression>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1">
+                    <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable/attribute"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.2">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </rightExpression>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1">
+                    <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/AttributeVariable/objectVariable"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="constraint" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1" source="//Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP/variables"/>
+            </linkVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.1" source="//Transformer/transformVariables/@activity/@ownedActivityNode.7/@storyPattern/@objectVariable.2" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/variables"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="create local variable " comment="create_local_variable_" outgoing="//Transformer/transformVariables/@activity/@ownedActivityEdge.11" incoming="//Transformer/transformVariables/@activity/@ownedActivityEdge.12">
+          <storyPattern comment="create_local_variable_">
+            <objectVariable name="constraint" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.8/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <objectVariable name="csp" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.8/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <objectVariable name="localVariable" incomingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.8/@storyPattern/@linkVariable.0 //Transformer/transformVariables/@activity/@ownedActivityNode.8/@storyPattern/@linkVariable.1" bindingOperator="CREATE">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/LocalVariable"/>
+              <attributeAssignment>
+                <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/LocalVariable/name"/>
+                <valueExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1">
+                  <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                </valueExpression>
+              </attributeAssignment>
+            </objectVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.2" source="//Transformer/transformVariables/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.0" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/variables"/>
+            </linkVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.2" source="//Transformer/transformVariables/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP/variables"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="find local variable" comment="find_local_variable" outgoing="//Transformer/transformVariables/@activity/@ownedActivityEdge.12 //Transformer/transformVariables/@activity/@ownedActivityEdge.13" incoming="//Transformer/transformVariables/@activity/@ownedActivityEdge.7">
+          <storyPattern comment="find_local_variable">
+            <objectVariable name="localVariable" incomingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.0 //Transformer/transformVariables/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/LocalVariable"/>
+              <constraint>
+                <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                  <rightExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1">
+                    <attribute href="platform:/plugin/MocaTree/model/MocaTree.ecore#//TreeElement/name"/>
+                  </rightExpression>
+                  <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//Transformer/transformVariables/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.0">
+                    <attribute href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/LocalVariable/name"/>
+                  </leftExpression>
+                </constraintExpression>
+              </constraint>
+            </objectVariable>
+            <objectVariable name="constraint" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.0" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint"/>
+            </objectVariable>
+            <objectVariable name="csp" outgoingLink="//Transformer/transformVariables/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP"/>
+            </objectVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.0" source="//Transformer/transformVariables/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.1" bindingOperator="CREATE">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/TGGConstraint/variables"/>
+            </linkVariable>
+            <linkVariable name="variables" target="//Transformer/transformVariables/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.0" source="//Transformer/transformVariables/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.2">
+              <type href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//csp/CSP/variables"/>
+            </linkVariable>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.0" target="//Transformer/transformVariables/@activity/@ownedActivityNode.6" guard="FAILURE"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.0" target="//Transformer/transformVariables/@activity/@ownedActivityNode.7" guard="SUCCESS"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.1" target="//Transformer/transformVariables/@activity/@ownedActivityNode.5"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.3" target="//Transformer/transformVariables/@activity/@ownedActivityNode.5"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.4" target="//Transformer/transformVariables/@activity/@ownedActivityNode.5"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.5" target="//Transformer/transformVariables/@activity/@ownedActivityNode.2" guard="END"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.5" target="//Transformer/transformVariables/@activity/@ownedActivityNode.0" guard="EACH_TIME"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.6" target="//Transformer/transformVariables/@activity/@ownedActivityNode.9" guard="FAILURE"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.6" target="//Transformer/transformVariables/@activity/@ownedActivityNode.4" guard="SUCCESS"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.7" target="//Transformer/transformVariables/@activity/@ownedActivityNode.1" guard="FAILURE"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.7" target="//Transformer/transformVariables/@activity/@ownedActivityNode.5" guard="SUCCESS"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.8" target="//Transformer/transformVariables/@activity/@ownedActivityNode.5"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.9" target="//Transformer/transformVariables/@activity/@ownedActivityNode.8" guard="FAILURE"/>
+        <ownedActivityEdge source="//Transformer/transformVariables/@activity/@ownedActivityNode.9" target="//Transformer/transformVariables/@activity/@ownedActivityNode.5" guard="SUCCESS"/>
+      </activity>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="stringAsBoolean">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="value">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tggrule" lowerBound="1">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/TGGLanguage/model/TGGLanguage.ecore#//TGGRule"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="userDefinedConstraints" upperBound="-1">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

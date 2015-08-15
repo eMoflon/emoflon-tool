@@ -28,7 +28,7 @@ Require-Bundle:
  Moca,
  TGGLanguage,
  SDMLanguage,
- CSPCodeAdapter,
+ org.moflon.tgg.cspcodeadapter,
  MocaTree,
  MocaToMoflonTransformation,
  TGGRuntime,

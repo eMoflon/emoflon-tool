@@ -33,9 +33,9 @@ import org.moflon.moca.tie.RunIntegrationGeneratorBatch;
 import org.moflon.moca.tie.RunIntegrationGeneratorSync;
 import org.moflon.moca.tie.RunModelGenerationGenerator;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
+import org.moflon.tgg.cspcodeadapter.CspcodeadapterFactory;
+import org.moflon.tgg.cspcodeadapter.VariableTypeManager;
 
-import CSPCodeAdapter.CSPCodeAdapterFactory;
-import CSPCodeAdapter.VariableTypeManager;
 import MocaTree.MocaTreePackage;
 import MoflonPropertyContainer.MoflonPropertiesContainer;
 import SDMLanguage.SDMLanguagePackage;
@@ -292,7 +292,7 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
    {
       for (TGGRule rule : tgg.getTggRule())
       {
-         VariableTypeManager varTypeManager = CSPCodeAdapterFactory.eINSTANCE.createVariableTypeManager();
+         VariableTypeManager varTypeManager = CspcodeadapterFactory.eINSTANCE.createVariableTypeManager();
          varTypeManager.setTggrule(rule);
          CSP csp = rule.getCsp();
          if (csp != null)
