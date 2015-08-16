@@ -10,14 +10,14 @@
 		<UML:Model name="EA Model" xmi.id="MX_EAID_A1ED3E51_C904_4567_B6E7_657A6C6DA749">
 			<UML:Namespace.ownedElement>
 				<UML:Class name="EARootClass" xmi.id="EAID_11111111_5487_4080_A7F4_41526CB0AA00" isRoot="true" isLeaf="false" isAbstract="false"/>
-				<UML:Package name="TGGRuntime" xmi.id="EAPK_A1ED3E51_C904_4567_B6E7_657A6C6DA749" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+				<UML:Package name="org.moflon.tgg.runtime" xmi.id="EAPK_A1ED3E51_C904_4567_B6E7_657A6C6DA749" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
 					<UML:ModelElement.stereotype>
-						<UML:Stereotype xmi.idref="EAID_575EBEF5_4750_437a_A4F3_8C430543F513"/>
+						<UML:Stereotype xmi.idref="EAID_080B10E9_826C_4340_AFA2_3CA78CDB7868"/>
 					</UML:ModelElement.stereotype>
 					<UML:ModelElement.taggedValue>
 						<UML:TaggedValue tag="parent" value="EAPK_3ABA6BC0_E55A_4efb_B75C_C1997C57362B"/>
 						<UML:TaggedValue tag="created" value="2011-06-02 00:00:00"/>
-						<UML:TaggedValue tag="modified" value="2014-12-11 14:03:08"/>
+						<UML:TaggedValue tag="modified" value="2015-08-16 14:20:39"/>
 						<UML:TaggedValue tag="iscontrolled" value="TRUE"/>
 						<UML:TaggedValue tag="xmlpath" value="TGGRuntime.xml"/>
 						<UML:TaggedValue tag="lastloaddate" value="2015-05-11 18:31:14"/>
@@ -55,7 +55,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-01-14 16:24:08"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="anjorin"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -68,31 +68,6 @@
 								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={C92D3FBE-2C59-4516-8A3A-0AB63D95ABA9}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={0AD8CA32-9A89-4cc4-94CC-CB228681B5E1}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
-								<UML:Attribute name="oldValue" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
-									<UML:Attribute.initialValue>
-										<UML:Expression/>
-									</UML:Attribute.initialValue>
-									<UML:StructuralFeature.type>
-										<UML:Classifier xmi.idref="eaxmiid0"/>
-									</UML:StructuralFeature.type>
-									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="type" value="EString"/>
-										<UML:TaggedValue tag="derived" value="0"/>
-										<UML:TaggedValue tag="containment" value="Not Specified"/>
-										<UML:TaggedValue tag="length" value="0"/>
-										<UML:TaggedValue tag="ordered" value="0"/>
-										<UML:TaggedValue tag="precision" value="0"/>
-										<UML:TaggedValue tag="scale" value="0"/>
-										<UML:TaggedValue tag="collection" value="false"/>
-										<UML:TaggedValue tag="position" value="0"/>
-										<UML:TaggedValue tag="lowerBound" value="1"/>
-										<UML:TaggedValue tag="upperBound" value="1"/>
-										<UML:TaggedValue tag="duplicates" value="0"/>
-										<UML:TaggedValue tag="ea_guid" value="{3C0320BF-9BDA-48a6-B0AB-4B38F226C9D6}"/>
-										<UML:TaggedValue tag="ea_localid" value="1736"/>
-										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
-									</UML:ModelElement.taggedValue>
-								</UML:Attribute>
 								<UML:Attribute name="newValue" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
 										<UML:Expression/>
@@ -118,14 +93,39 @@
 										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
 									</UML:ModelElement.taggedValue>
 								</UML:Attribute>
+								<UML:Attribute name="oldValue" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid0"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EString"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{3C0320BF-9BDA-48a6-B0AB-4B38F226C9D6}"/>
+										<UML:TaggedValue tag="ea_localid" value="1736"/>
+										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
 							</UML:Classifier.feature>
 						</UML:Class>
 						<UML:Association xmi.id="EAID_059F8217_FE14_4b88_9153_2241A68035AB" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Bi-Directional"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -138,7 +138,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49297"/>
 								<UML:TaggedValue tag="ea_targetID" value="49295"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=76;SY=5;EX=0;EY=0;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+delta"/>
@@ -169,10 +168,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_829D3CA3_F413_4117_BA17_9F6F45A02862" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -185,7 +184,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49295"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-3;SY=9;EX=101;EY=-71;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="1"/>
 								<UML:TaggedValue tag="rt" value="+affectedNode"/>
@@ -214,10 +212,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_B7D8C298_FF67_4025_A82F_572763BC447D" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -230,7 +228,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49295"/>
 								<UML:TaggedValue tag="ea_targetID" value="41362"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-3;SY=2;EX=-3;EY=-3;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="1"/>
 								<UML:TaggedValue tag="rt" value="+affectedAttribute"/>
@@ -271,7 +268,7 @@
 								<UML:TaggedValue tag="date_modified" value="2014-11-06 08:47:34"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="anjorin"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -284,31 +281,6 @@
 								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={78042AA2-C184-4706-B858-7EF3B6239B53}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={2F127C9E-B730-460e-B747-59EDC33080C9}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
-								<UML:Attribute name="ruleName" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
-									<UML:Attribute.initialValue>
-										<UML:Expression/>
-									</UML:Attribute.initialValue>
-									<UML:StructuralFeature.type>
-										<UML:Classifier xmi.idref="eaxmiid0"/>
-									</UML:StructuralFeature.type>
-									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="type" value="EString"/>
-										<UML:TaggedValue tag="derived" value="0"/>
-										<UML:TaggedValue tag="containment" value="Not Specified"/>
-										<UML:TaggedValue tag="length" value="0"/>
-										<UML:TaggedValue tag="ordered" value="0"/>
-										<UML:TaggedValue tag="precision" value="0"/>
-										<UML:TaggedValue tag="scale" value="0"/>
-										<UML:TaggedValue tag="collection" value="false"/>
-										<UML:TaggedValue tag="position" value="0"/>
-										<UML:TaggedValue tag="lowerBound" value="1"/>
-										<UML:TaggedValue tag="upperBound" value="1"/>
-										<UML:TaggedValue tag="duplicates" value="0"/>
-										<UML:TaggedValue tag="ea_guid" value="{5FE1D3B5-01DF-4f80-AC73-D1BF690B87FC}"/>
-										<UML:TaggedValue tag="ea_localid" value="1738"/>
-										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
-									</UML:ModelElement.taggedValue>
-								</UML:Attribute>
 								<UML:Attribute name="number" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
 										<UML:Expression/>
@@ -334,14 +306,39 @@
 										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
 									</UML:ModelElement.taggedValue>
 								</UML:Attribute>
+								<UML:Attribute name="ruleName" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid0"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EString"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{5FE1D3B5-01DF-4f80-AC73-D1BF690B87FC}"/>
+										<UML:TaggedValue tag="ea_localid" value="1738"/>
+										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
 							</UML:Classifier.feature>
 						</UML:Class>
 						<UML:Association xmi.id="EAID_1B144875_2AC0_4b47_A0BF_E87ADE6D9B75" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -354,7 +351,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49309"/>
 								<UML:TaggedValue tag="ea_targetID" value="49296"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-1;SY=0;EX=4;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+tripleMatches"/>
@@ -383,10 +379,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_2E94C175_10E4_4610_8C44_32CA125F90A2" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -399,7 +395,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49296"/>
 								<UML:TaggedValue tag="ea_targetID" value="49296"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;SCME=1;SCTR=1;EDGE=4;SCTR.LEFT=175;SCTR.TOP=-271;SCTR.RIGHT=420;SCTR.BOTTOM=-237;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+children"/>
@@ -428,10 +423,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_445D8D0A_992C_4212_9762_E5DF509C4AC4" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -444,7 +439,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49296"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=34;SY=-35;EX=41;EY=-37;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+createdElements"/>
@@ -473,10 +467,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_7E53786A_AE0D_4343_8500_9FF2BD627C05" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -489,7 +483,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49296"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-28;SY=-12;EX=-21;EY=-12;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+correspondenceElements"/>
@@ -518,10 +511,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_827414E9_4133_448b_8447_540BEF2C0B6B" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -534,7 +527,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49296"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-70;SY=-14;EX=-63;EY=-14;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+targetElements"/>
@@ -563,10 +555,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_84A81ACB_0AB0_4436_9C01_647A431510C6" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -579,7 +571,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49296"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=106;SY=-33;EX=113;EY=-33;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+containedEdges"/>
@@ -608,10 +599,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_BD4D4839_568D_4260_A9BF_070C2761CF5D" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -624,7 +615,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49296"/>
 								<UML:TaggedValue tag="ea_targetID" value="49299"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-6;SY=3;EX=-4;EY=3;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+nodeMappings"/>
@@ -653,10 +643,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_C73C4D52_A37B_4189_AB5D_E972E64011CD" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -669,7 +659,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49296"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=76;SY=-22;EX=83;EY=-22;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+contextElements"/>
@@ -698,10 +687,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_EC7A294F_8594_47a7_9CAF_45D29B809DCD" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -714,7 +703,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49296"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-116;SY=-14;EX=-109;EY=-14;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+sourceElements"/>
@@ -755,7 +743,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-01-13 09:03:55"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="anjorin"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -770,10 +758,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_3D724023_EC6A_4985_BDEA_4E17B4EB01ED" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -786,7 +774,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49297"/>
 								<UML:TaggedValue tag="ea_targetID" value="49304"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-77;SY=84;EX=-1;EY=-26;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+deletedEdges"/>
@@ -815,10 +802,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_4211DEDB_70D4_491a_9FAD_BCF560F72DD0" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -831,7 +818,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49297"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-77;SY=-115;EX=-1;EY=-5;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+addedNodes"/>
@@ -860,10 +846,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_4B7AA447_5923_4453_B985_A8DFA4970F73" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -876,7 +862,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49297"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-76;SY=-73;EX=0;EY=37;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+deletedNodes"/>
@@ -905,10 +890,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_6399B217_D46E_4e3c_BF06_F2390107F0C0" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -921,7 +906,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49297"/>
 								<UML:TaggedValue tag="ea_targetID" value="49304"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-77;SY=122;EX=-4;EY=12;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+addedEdges"/>
@@ -962,7 +946,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-01-13 09:01:19"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="leblebici"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -977,10 +961,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_03CBB651_A8B1_4655_98D9_D4BE1991C65C" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -993,7 +977,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49298"/>
 								<UML:TaggedValue tag="ea_targetID" value="49313"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-75;SY=-1;EX=94;EY=-75;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="1"/>
 								<UML:TaggedValue tag="rt" value="+coreMatch"/>
@@ -1022,10 +1005,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_3929B61F_F674_484d_B201_700336C2957E" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1038,7 +1021,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49298"/>
 								<UML:TaggedValue tag="ea_targetID" value="41399"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-1;SY=-11;EX=50;EY=-2;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="1"/>
 								<UML:TaggedValue tag="rt" value="+performOperation"/>
@@ -1067,10 +1049,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_3EB37164_E84D_49b4_A8CF_17B824043DBA" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Bi-Directional"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1083,7 +1065,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49298"/>
 								<UML:TaggedValue tag="ea_targetID" value="49300"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=48;SY=-13;EX=-2;EY=-44;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+isApplicableRuleResult"/>
@@ -1114,10 +1095,10 @@
 						</UML:Association>
 						<UML:Generalization subtype="EAID_44DCBE82_05B3_485d_8D2D_F4958A1B9D5B" supertype="EAID_C9A3F1E2_5C62_4ca8_85A3_1F0D7ED3A700" xmi.id="EAID_B786E7AF_B205_4539_A11B_B52CCF930FF2" visibility="public">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Generalization"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1146,7 +1127,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -1164,7 +1144,7 @@
 								<UML:TaggedValue tag="date_modified" value="2014-11-19 13:53:47"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="leblebici"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -1206,10 +1186,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_88C2C035_C9AE_4e9f_A48A_0351AE08698A" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1222,7 +1202,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49299"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..1"/>
 								<UML:TaggedValue tag="rt" value="+node"/>
@@ -1263,7 +1242,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-01-13 09:01:19"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="leblebici"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -1279,10 +1258,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_14451182_91BF_45e0_ABD4_5ABF46737B9A" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1295,7 +1274,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49300"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=77;SY=-34;EX=73;EY=-53;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+allContextElements"/>
@@ -1324,10 +1302,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_41E6B933_5657_4c01_B842_9FF9E5A9CD3A" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1340,7 +1318,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49300"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=49;SY=-44;EX=15;EY=-10;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+attributeInfo"/>
@@ -1369,10 +1346,10 @@
 						</UML:Association>
 						<UML:Generalization subtype="EAID_C0B1270E_E8AE_423f_BDE6_6F4C12222858" supertype="EAID_76B602DF_1B3C_41c0_92F6_F072241F6FDD" xmi.id="EAID_4755A660_821C_4948_8776_68F73D7576A2" visibility="public">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Generalization"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1401,16 +1378,15 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
 						<UML:Generalization subtype="EAID_76B602DF_1B3C_41c0_92F6_F072241F6FDD" supertype="EAID_D46622B3_DFA2_4225_8EA4_5BB979E00776" xmi.id="EAID_B6AC835C_265F_4e7b_8AA2_499C15BE4961" visibility="public">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Generalization"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1439,7 +1415,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-8;SY=43;EX=59;EY=-41;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -1456,7 +1431,7 @@
 								<UML:TaggedValue tag="date_modified" value="2011-11-12 14:29:25"/>
 								<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="anjorin"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -1481,7 +1456,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-01-13 09:01:19"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="anjorin"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -1496,10 +1471,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_0C2C82D8_5E54_4b51_B7A1_8BEE2FC3808B" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1512,7 +1487,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49302"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-43;SY=-34;EX=-43;EY=-36;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="1"/>
 								<UML:TaggedValue tag="rt" value="+target"/>
@@ -1544,10 +1518,10 @@
 								<UML:Stereotype name="ereference"/>
 							</UML:ModelElement.stereotype>
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Destination -&gt; Source"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1563,7 +1537,6 @@
 								<UML:TaggedValue tag="ea_sourceID" value="41398"/>
 								<UML:TaggedValue tag="ea_targetID" value="49302"/>
 								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={74A201B3-D56E-4234-82C4-CE2F34D1D891}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=ereference;FQName=Ecore Elements::ereference;@ENDSTEREO;$DES;$CLT={4B2C4A20-4D3F-42c3-8417-AA862A4D47A4}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=35;SY=-47;EX=36;EY=3;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="0..*"/>
 								<UML:TaggedValue tag="lt" value="+correspondences"/>
@@ -1594,10 +1567,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_D8C8A028_845D_427e_85D1_13E096D19C52" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1610,7 +1583,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49302"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-10;SY=39;EX=-10;EY=-65;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="1"/>
 								<UML:TaggedValue tag="rt" value="+source"/>
@@ -1650,7 +1622,7 @@
 								<UML:TaggedValue tag="date_modified" value="2011-11-12 14:26:41"/>
 								<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="anjorin"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -1675,7 +1647,7 @@
 								<UML:TaggedValue tag="date_modified" value="2014-10-24 14:31:13"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="anjorin"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -1718,10 +1690,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_2BD3FD8E_96BE_487c_92B6_02BEDAF49187" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Destination -&gt; Source"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1734,7 +1706,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="41398"/>
 								<UML:TaggedValue tag="ea_targetID" value="49304"/>
-								<UML:TaggedValue tag="privatedata5" value="EDGE=4;SX=-79;SY=24;EX=-11;EY=11;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+trg"/>
@@ -1763,10 +1734,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_6315AA41_CE30_41ec_B27C_A611FDE9AD81" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1779,7 +1750,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49310"/>
 								<UML:TaggedValue tag="ea_targetID" value="49304"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=14;SY=-22;EX=-35;EY=56;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+translatedEdges"/>
@@ -1808,10 +1778,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_7199D976_739C_4df6_9FF8_66FA61F99A70" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1824,7 +1794,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49310"/>
 								<UML:TaggedValue tag="ea_targetID" value="49304"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=66;SY=-3;EX=17;EY=50;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+createdEdges"/>
@@ -1853,10 +1822,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_8885DBED_FE54_4c3e_9E07_0A461F450646" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Destination -&gt; Source"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1869,7 +1838,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="41398"/>
 								<UML:TaggedValue tag="ea_targetID" value="49304"/>
-								<UML:TaggedValue tag="privatedata5" value="EDGE=1;SX=-22;SY=5;EX=-21;EY=5;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+src"/>
@@ -1898,10 +1866,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_96641C99_472D_4908_9183_B21281A56AD0" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1914,7 +1882,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49313"/>
 								<UML:TaggedValue tag="ea_targetID" value="49304"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-76;SY=-74;EX=19;EY=10;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+toBeTranslatedEdges"/>
@@ -1943,10 +1910,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_C2B9D31F_2D05_4bca_A6CC_176E0A7654FD" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -1959,7 +1926,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49313"/>
 								<UML:TaggedValue tag="ea_targetID" value="49304"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-49;SY=-74;EX=26;EY=-17;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+contextEdges"/>
@@ -2000,7 +1966,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-06-24 16:48:35"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="tony"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -2071,7 +2037,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=75;SY=1;EX=-33;EY=-2;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -2090,7 +2055,7 @@
 								<UML:TaggedValue tag="date_modified" value="2012-11-22 23:55:26"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="lauder"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -2117,7 +2082,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-06-22 10:27:38"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="EA"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -2132,10 +2097,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_925E73B1_DFC8_4940_B1A4_E4EB501ED444" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2149,7 +2114,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="55778"/>
 								<UML:TaggedValue tag="ea_targetID" value="49313"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-1;SY=13;EX=-1;EY=13;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="1"/>
 								<UML:TaggedValue tag="rt" value="+sourceMatch"/>
@@ -2178,10 +2142,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_FEB80FF2_9F02_45e3_AA54_6835623C1668" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2195,7 +2159,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="55778"/>
 								<UML:TaggedValue tag="ea_targetID" value="49313"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-3;SY=-24;EX=-3;EY=-24;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="1"/>
 								<UML:TaggedValue tag="rt" value="+targetMatch"/>
@@ -2236,7 +2199,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-02-27 11:25:46"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="Alexander"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -2307,10 +2270,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_00A331D9_4A6D_4467_87B0_22101E8C38EF" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2323,7 +2286,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49306"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-60;SY=-75;EX=-93;EY=119;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+corrObjects"/>
@@ -2352,10 +2314,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_6A3DD4BF_FC83_4697_9535_AD523BAAB6A7" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2368,7 +2330,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49306"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=6;SY=-75;EX=-27;EY=115;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+targetObjects"/>
@@ -2397,10 +2358,10 @@
 						</UML:Association>
 						<UML:Generalization subtype="EAID_C2FF4545_665B_49cc_9361_CFD5DEEF5877" supertype="EAID_C9A3F1E2_5C62_4ca8_85A3_1F0D7ED3A700" xmi.id="EAID_873A6421_9166_4411_A8F4_F3BBDB4CC156" visibility="public">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Generalization"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2429,16 +2390,15 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
 						<UML:Association xmi.id="EAID_B85D04A8_C9DE_4849_B6B9_9597E214D52B" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2451,7 +2411,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49306"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=95;SY=-75;EX=62;EY=113;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+sourceObjects"/>
@@ -2493,7 +2452,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-01-13 09:01:19"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="anjorin"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -2506,31 +2465,6 @@
 								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={EEBC974D-06CF-402a-9C91-01AC6E2E9E9F}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={C9A3F1E2-5C62-4ca8-85A3-1F0D7ED3A700}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
-								<UML:Attribute name="success" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
-									<UML:Attribute.initialValue>
-										<UML:Expression/>
-									</UML:Attribute.initialValue>
-									<UML:StructuralFeature.type>
-										<UML:Classifier xmi.idref="eaxmiid2"/>
-									</UML:StructuralFeature.type>
-									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="type" value="EBoolean"/>
-										<UML:TaggedValue tag="derived" value="0"/>
-										<UML:TaggedValue tag="containment" value="Not Specified"/>
-										<UML:TaggedValue tag="length" value="0"/>
-										<UML:TaggedValue tag="ordered" value="0"/>
-										<UML:TaggedValue tag="precision" value="0"/>
-										<UML:TaggedValue tag="scale" value="0"/>
-										<UML:TaggedValue tag="collection" value="false"/>
-										<UML:TaggedValue tag="position" value="0"/>
-										<UML:TaggedValue tag="lowerBound" value="1"/>
-										<UML:TaggedValue tag="upperBound" value="1"/>
-										<UML:TaggedValue tag="duplicates" value="0"/>
-										<UML:TaggedValue tag="ea_guid" value="{A051059E-C0D0-457a-83A9-BC1F90A1881F}"/>
-										<UML:TaggedValue tag="ea_localid" value="1743"/>
-										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
-									</UML:ModelElement.taggedValue>
-								</UML:Attribute>
 								<UML:Attribute name="rule" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
 										<UML:Expression/>
@@ -2556,6 +2490,31 @@
 										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
 									</UML:ModelElement.taggedValue>
 								</UML:Attribute>
+								<UML:Attribute name="success" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid2"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EBoolean"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{A051059E-C0D0-457a-83A9-BC1F90A1881F}"/>
+										<UML:TaggedValue tag="ea_localid" value="1743"/>
+										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
 							</UML:Classifier.feature>
 						</UML:Class>
 						<UML:Class name="EObjectContainer" xmi.id="EAID_CEB341C0_04C3_4621_A308_1208474DF46A" visibility="public" namespace="EAPK_A1ED3E51_C904_4567_B6E7_657A6C6DA749" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
@@ -2572,7 +2531,7 @@
 								<UML:TaggedValue tag="date_modified" value="2012-11-22 23:55:26"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="david"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -2582,17 +2541,17 @@
 								<UML:TaggedValue tag="ea_localid" value="49308"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
 								<UML:TaggedValue tag="$ea_oprsclassified" value="{598912E9-47B8-42c8-AA34-587A1127E0C7},{5FBC47F9-88E0-4935-8A3F-4C2603D76A22}"/>
-								<UML:TaggedValue tag="$ea_classified" value="{FE9DE441-6B48-471e-9F64-185479C00978},{71D43307-AB08-4415-95FC-3C235A2085C7},{75E4DB51-3039-43d9-89FF-EBEBACF16B69},{E73D5357-97CD-4d4c-B317-B77A7835D6B4},{283671C5-CC7B-47d5-9CEE-8C17D6CA4425},{150CB168-1392-47e9-9698-2BCFBE48821A},{BAC791C8-32F4-4fa2-B4FC-2E8E15AF4847},{361C66F4-1ACD-46a5-8679-D2A48A1008E9},{9C6F9F61-B036-475c-90F0-90EDEBC6A36A},{45206F42-CDC3-4986-8871-C7734DEAB655},{ECFA1E8A-7C7D-4dd0-B7CF-394AE45D9E45},{6C8BC5C4-A871-42c8-B040-CBE49894A938}"/>
+								<UML:TaggedValue tag="$ea_classified" value="{150CB168-1392-47e9-9698-2BCFBE48821A},{71D43307-AB08-4415-95FC-3C235A2085C7},{6C8BC5C4-A871-42c8-B040-CBE49894A938},{FE9DE441-6B48-471e-9F64-185479C00978},{361C66F4-1ACD-46a5-8679-D2A48A1008E9},{ECFA1E8A-7C7D-4dd0-B7CF-394AE45D9E45},{BAC791C8-32F4-4fa2-B4FC-2E8E15AF4847},{75E4DB51-3039-43d9-89FF-EBEBACF16B69},{45206F42-CDC3-4986-8871-C7734DEAB655},{E73D5357-97CD-4d4c-B317-B77A7835D6B4},{9C6F9F61-B036-475c-90F0-90EDEBC6A36A},{283671C5-CC7B-47d5-9CEE-8C17D6CA4425}"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={297F561B-70BF-41e6-904A-44C3D214E3F0}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={CEB341C0-04C3-4621-A308-1208474DF46A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Class>
 						<UML:Association xmi.id="EAID_2899D2B4_001A_46fe_9533_A278C9286810" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2605,7 +2564,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49308"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-6;SY=-28;EX=-64;EY=-69;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+contents"/>
@@ -2646,7 +2604,7 @@
 								<UML:TaggedValue tag="date_modified" value="2014-11-05 14:30:30"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="anjorin"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -2673,7 +2631,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-01-13 09:01:19"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="lauder"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -2688,10 +2646,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_1DEC3DAA_DB06_4f6d_B787_21B4AFFC82BC" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2704,7 +2662,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49310"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-46;SY=23;EX=1;EY=-40;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+createdLinkElements"/>
@@ -2733,10 +2690,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_25F4FA62_3F9D_4a94_9C22_555478D74194" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2749,7 +2706,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49310"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-61;SY=43;EX=-91;EY=-65;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+createdElements"/>
@@ -2778,10 +2734,10 @@
 						</UML:Association>
 						<UML:Generalization subtype="EAID_D2125BB5_985D_4393_8939_B2044B102FAC" supertype="EAID_D46622B3_DFA2_4225_8EA4_5BB979E00776" xmi.id="EAID_2E6F086D_9EC8_41f4_8201_82A9C11DE3D5" visibility="public">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Generalization"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2810,16 +2766,15 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=3;SY=49;EX=-30;EY=-12;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
 						<UML:Association xmi.id="EAID_E94D22B7_7C3E_4db8_8AA6_4A4B45B4EB04" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -2832,7 +2787,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49310"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-30;SY=0;EX=45;EY=-9;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="1..*"/>
 								<UML:TaggedValue tag="rt" value="+translatedElements"/>
@@ -2873,7 +2827,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-01-13 09:01:19"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="leblebici"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -3019,10 +2973,10 @@
 						</UML:Class>
 						<UML:Generalization subtype="EAID_EC1A5622_05AE_46c5_AC06_38D3DCDF3C12" supertype="EAID_D46622B3_DFA2_4225_8EA4_5BB979E00776" xmi.id="EAID_C5D7687D_C742_4144_8D95_FF73FADED683" visibility="public">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Generalization"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -3051,7 +3005,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=4;SY=0;EX=4;EY=-35;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -3070,7 +3023,7 @@
 								<UML:TaggedValue tag="date_modified" value="2012-11-22 23:55:27"/>
 								<UML:TaggedValue tag="gentype" value="Java"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="lauder"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -3098,7 +3051,7 @@
 										<UML:TaggedValue tag="date_modified" value="2011-11-12 14:22:02"/>
 										<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
 										<UML:TaggedValue tag="tagged" value="0"/>
-										<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+										<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 										<UML:TaggedValue tag="phase" value="1.0"/>
 										<UML:TaggedValue tag="author" value="anjorin"/>
 										<UML:TaggedValue tag="complexity" value="1"/>
@@ -3126,7 +3079,7 @@
 								<UML:TaggedValue tag="date_modified" value="2015-01-13 09:01:19"/>
 								<UML:TaggedValue tag="gentype" value="Ecore"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
-								<UML:TaggedValue tag="package_name" value="TGGRuntime"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.tgg.runtime"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="author" value="david"/>
 								<UML:TaggedValue tag="complexity" value="1"/>
@@ -3141,10 +3094,10 @@
 						</UML:Class>
 						<UML:Association xmi.id="EAID_1DA977EC_80B4_4860_8396_856B53FFA7CA" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -3157,7 +3110,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49313"/>
 								<UML:TaggedValue tag="ea_targetID" value="41399"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=40;SY=-1;EX=-30;EY=37;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..1"/>
 								<UML:TaggedValue tag="rt" value="+isApplicableOperation"/>
@@ -3186,10 +3138,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_60FA81BA_EEA7_434b_82B2_9EA8FD9CD4CA" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -3203,7 +3155,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49313"/>
 								<UML:TaggedValue tag="ea_targetID" value="41399"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=74;SY=-74;EX=4;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..1"/>
 								<UML:TaggedValue tag="rt" value="+isApplicableCCOperation"/>
@@ -3232,10 +3183,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_9DEDDC93_A418_49b7_BF75_3273CFE5D149" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -3248,7 +3199,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49313"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=3;SY=-75;EX=3;EY=6;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+contextNodes"/>
@@ -3277,10 +3227,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_A4250AA7_4B67_4dd9_9D3E_73C071C4080F" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -3293,7 +3243,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49313"/>
 								<UML:TaggedValue tag="ea_targetID" value="41398"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-32;SY=-75;EX=-32;EY=-38;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+toBeTranslatedNodes"/>
@@ -3322,10 +3271,10 @@
 						</UML:Association>
 						<UML:Association xmi.id="EAID_F5D16034_1A66_458d_8A8C_D2655C551DBF" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="style" value="2"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
 								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
 								<UML:TaggedValue tag="linecolor" value="-1"/>
 								<UML:TaggedValue tag="linewidth" value="0"/>
 								<UML:TaggedValue tag="seqno" value="0"/>
@@ -3338,7 +3287,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49313"/>
 								<UML:TaggedValue tag="ea_targetID" value="49313"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;SCME=1;SCTR=1;EDGE=2;SCTR.LEFT=656;SCTR.TOP=-480;SCTR.RIGHT=759;SCTR.BOTTOM=-383;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rb" value="0..*"/>
 								<UML:TaggedValue tag="rt" value="+succeeding"/>
@@ -3367,7 +3315,7 @@
 						</UML:Association>
 					</UML:Namespace.ownedElement>
 				</UML:Package>
-				<UML:Stereotype xmi.id="EAID_575EBEF5_4750_437a_A4F3_8C430543F513" name="EPackage" isRoot="false" isLeaf="false" isAbstract="false">
+				<UML:Stereotype xmi.id="EAID_080B10E9_826C_4340_AFA2_3CA78CDB7868" name="EPackage" isRoot="false" isLeaf="false" isAbstract="false">
 					<UML:Stereotype.baseClass>Package</UML:Stereotype.baseClass>
 				</UML:Stereotype>
 				<UML:DataType xmi.id="eaxmiid3" name="void" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
@@ -3377,7 +3325,7 @@
 			</UML:Namespace.ownedElement>
 		</UML:Model>
 		<UML:TaggedValue tag="Moflon::Export" xmi.id="EAID_16FFF263_591D_4905_81E8_714BB446E20F" value="true" modelElement="MX_EAID_A1ED3E51_C904_4567_B6E7_657A6C6DA749"/>
-		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_F0435698_C247_421a_A0F6_3CB13CAEBB1D" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore#/&quot;&gt;&#xA;  &lt;children name=&quot;EPackage&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;classes&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;packages&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;constraints&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FB&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;string&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;default&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;setDefaultString&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BB,FB &amp;#xD;&amp;#xA;Semantics: set string = default only if string is free&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;0&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FB&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;number&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;default&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;setDefaultNumber&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BB,FB &amp;#xD;&amp;#xA;Semantics: set number = default only if number is free&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;1&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BBBB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BBBF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BBFB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BFFB&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BFBB&quot; index=&quot;4&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;separator&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;c&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;concat&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BBBB,BBBF,BBFB,BFFB,BFBB &amp;#xD;&amp;#xA;Semantics: a separator b = c&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;2&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BBB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BBF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BFB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FBB&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;prefix&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;addPrefix&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BBB,BBF,BFB,FBB &amp;#xD;&amp;#xA;Semantics: prefix a = b&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;3&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;4&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BBB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BBF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BFB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FB&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;suffix&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;addSuffix&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BBB,BBF,BFB,FB &amp;#xD;&amp;#xA;Semantics: a suffix = b&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;4&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;5&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BBB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BBF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BFB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FBB&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;c&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;multiply&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BBB,BBF,BFB,FBB &amp;#xD;&amp;#xA;Semantics: a * b = c&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;5&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;6&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BBB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BBF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BFB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FBB&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;c&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;divide&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BBB,BBF,BFB,FBB &amp;#xD;&amp;#xA;Semantics: a / b = c&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;6&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;7&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BBB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BBF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BFB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FBB&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;c&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;add&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BBB,BBF,BFB,FBB &amp;#xD;&amp;#xA;Semantics: a + b = c&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;7&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;8&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BBB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BBF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BFB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FBB&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;c&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;sub&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BBB,BBF,BFB,FBB &amp;#xD;&amp;#xA;Semantics: a - b = c&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;8&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;9&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BBB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BBF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BFB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FBB&quot; index=&quot;3&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;c&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;max&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BBB,BBF,BFB,FBB &amp;#xD;&amp;#xA;Semantics: max(a,b) = c&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;9&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;10&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;EString&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;string&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;number&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;stringToNumber&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BB,BF,FB &amp;#xD;&amp;#xA;Semantics: string = number.toString()&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;10&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;11&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;Number&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;smallerOrEqual&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BB,BF,FB &amp;#xD;&amp;#xA;Semantics: a &amp;lt;= b&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;11&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;      &lt;children name=&quot;CSPConstraint&quot; index=&quot;12&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;children name=&quot;allowedAddornments&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;BB&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;BF&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;FB&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterTypes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;children name=&quot;parameterInformation&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;          &lt;children name=&quot;a&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;          &lt;children name=&quot;b&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;        &lt;/children&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;eq&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;constraintInformation&quot; value=&quot;Allowed Adornments: BB,BF,FB &amp;#xD;&amp;#xA;Semantics: a = b&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;userDefined&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;negative&quot; value=&quot;false&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;index&quot; value=&quot;12&quot; index=&quot;4&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{A1ED3E51-C904-4567-B6E7-657A6C6DA749}&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::Name&quot; value=&quot;TGGRuntime&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::NsPrefix&quot; value=&quot;TGGRuntime&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::NsUri&quot; value=&quot;platform:/plugin/TGGRuntime/model/TGGRuntime.ecore&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::PluginID&quot; value=&quot;TGGRuntime&quot; index=&quot;4&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::Export&quot; value=&quot;true&quot; index=&quot;5&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::Validated&quot; value=&quot;false&quot; index=&quot;6&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::WorkingSet&quot; value=&quot;eMoflon Languages&quot; index=&quot;7&quot; /&gt;&#xA;    &lt;attribute name=&quot;mocaFragmentVersion&quot; value=&quot;&quot; index=&quot;8&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="MX_EAID_A1ED3E51_C904_4567_B6E7_657A6C6DA749"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_F0435698_C247_421a_A0F6_3CB13CAEBB1D" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EPackage&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;classes&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;packages&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{A1ED3E51-C904-4567-B6E7-657A6C6DA749}&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::Name&quot; value=&quot;org.moflon.tgg.runtime&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::NsPrefix&quot; value=&quot;org.moflon.tgg.runtime&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::NsUri&quot; value=&quot;platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::PluginID&quot; value=&quot;org.moflon.tgg.runtime&quot; index=&quot;4&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::Export&quot; value=&quot;true&quot; index=&quot;5&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::Validated&quot; value=&quot;false&quot; index=&quot;6&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::WorkingSet&quot; value=&quot;org.moflon.tgg&quot; index=&quot;7&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="MX_EAID_A1ED3E51_C904_4567_B6E7_657A6C6DA749"/>
 		<UML:TaggedValue tag="Moflon::Name" xmi.id="EAID_DC62B4CC_E1F3_4d53_8773_622BFFE3E833" value="__default__" modelElement="MX_EAID_A1ED3E51_C904_4567_B6E7_657A6C6DA749"/>
 		<UML:TaggedValue tag="Moflon::NsPrefix" xmi.id="EAID_4C077083_B09E_41bf_98EC_512673796B9A" value="__default__" modelElement="MX_EAID_A1ED3E51_C904_4567_B6E7_657A6C6DA749"/>
 		<UML:TaggedValue tag="Moflon::NsUri" xmi.id="EAID_AB877D03_249C_44e2_B7FA_85B81B473C59" value="__default__" modelElement="MX_EAID_A1ED3E51_C904_4567_B6E7_657A6C6DA749"/>
