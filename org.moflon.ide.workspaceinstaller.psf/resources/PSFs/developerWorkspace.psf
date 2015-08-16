@@ -4,8 +4,6 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.scopevalidation,AttributeConstraintScopeValidation"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.constraintstodemocles,AttributeConstraintToDemocles"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.runtime.democles,ControlFlow"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.cspcodeadapter,org.moflon.tgg.cspcodeadapter"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.debug.language,DebugLanguage"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.democles,DemoclesAttributeConstraints"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.operationspecification,DemoclesAttributeConstraintSpecification"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.dfs,DepthFirstSearchGraph"/>
@@ -52,29 +50,31 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.runtime.democles.specification,org.moflon.sdm.runtime.democles.specification"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.testing.autotester,org.moflon.testing.autotester"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.testing.testframework,org.moflon.testing.testframework"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.cspcodeadapter,org.moflon.tgg.cspcodeadapter"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.debug.language,org.moflon.tgg.debug.language"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.language,org.moflon.tgg.language"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.runtime,org.moflon.tgg.runtime"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.specification,org.moflon.tgg.specification"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.validation.validationplugin,org.moflon.validation.validationplugin"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.validation.scope,ScopeValidation"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.language,SDMLanguage"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.pattern,SDMLanguageToDemocles"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.validation.controlflow,Sequencer"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.language,TGGLanguage"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.runtime,TGGRuntime"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.validation.result,ValidationResult"/>
 </provider>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1439495637713_21" label="org.moflon.core" name="org.moflon.core">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.languages.specification" type="4"/>
 <item elementID="=DepthFirstSearchGraph" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=MoflonPropertyContainer" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/MoflonPropertyContainer" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.languages.specification" type="4"/>
 <item elementID="=Moca" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.core.utilities" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Moca" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.backend.specification" type="4"/>
 <item elementID="=MocaToMoflonTransformation" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=MocaTree" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/MocaTree" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/MocaToMoflonTransformation" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.backend.specification" type="4"/>
 </workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1439495715901_22" label="org.moflon.deployment" name="org.moflon.deployment">
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.deployment.updatesite" type="4"/>
@@ -112,7 +112,6 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AttributeConstraintScopeValidation" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.codegen2.feature" type="4"/>
 <item elementID="=org.moflon.sdm.constraints.codegenerator" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.runtime.democles.specification" type="4"/>
 <item elementID="=LiteralExprResolver" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/LiteralExprResolver" type="4"/>
 <item elementID="=ValidationResult" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
@@ -123,9 +122,9 @@
 <item elementID="=org.moflon.sdm.controlflow.reversenavigation" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.sdm.codegen2.ecore2fujaba" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.compiler.democles.specification" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.constraints.validation" type="4"/>
 <item elementID="=ScopeValidation" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ScopeValidation" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.runtime.democles.specification" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DepthFirstSearchGraph" type="4"/>
 <item elementID="=ControlFlow" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ControlFlow" type="4"/>
@@ -134,6 +133,7 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AttributeConstraintToDemocles" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Sequencer" type="4"/>
 <item elementID="=org.moflon.sdm.codegen2" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.constraints.validation" type="4"/>
 <item elementID="=SDMLanguage" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/SDMLanguage" type="4"/>
 <item elementID="=org.moflon.sdm.codegen2.runtime" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
@@ -149,17 +149,14 @@
 <item elementID="=org.moflon.testing.autotester" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 </workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1439494162847_18" label="org.moflon.tgg" name="org.moflon.tgg">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.debug.language" type="4"/>
+<item elementID="=org.moflon.tgg.debug.language" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.moflon.tgg.language" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.language" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.specification" type="4"/>
-<item elementID="=CSPCodeAdapter" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item elementID="=DebugLanguage" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CSPCodeAdapter" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DebugLanguage" type="4"/>
-<item elementID="=TGGLanguage" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item elementID="=TGGRuntime" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/TGGRuntime" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/TGGLanguage" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/TGGRuntime" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/TGGLanguage" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CSPCodeAdapter" type="4"/>
+<item elementID="=org.moflon.tgg.runtime" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.runtime" type="4"/>
+<item elementID="=org.moflon.tgg.cspcodeadapter" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.cspcodeadapter" type="4"/>
 </workingSets>
 </psf>
