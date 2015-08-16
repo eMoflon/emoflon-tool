@@ -1,5 +1,5 @@
 
-import TGGLanguage.csp.SignatureElement;
+import org.moflon.tgg.language.csp.SignatureElement;
 
 import org.eclipse.emf.ecore.EEnum;
 import org.moflon.core.utilities.MoflonUtil;

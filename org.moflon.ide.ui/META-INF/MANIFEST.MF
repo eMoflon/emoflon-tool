@@ -39,7 +39,7 @@ Require-Bundle:
  Moca,
  SDMLanguage,
  ValidationResult,
- TGGRuntime,
+ org.moflon.tgg.runtime,
  org.moflon.ide.plugins,
  org.eclipse.ui.forms
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

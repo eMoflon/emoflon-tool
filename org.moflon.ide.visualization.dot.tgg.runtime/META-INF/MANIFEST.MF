@@ -14,11 +14,11 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.moflon.core.utilities,
  DotLanguage,
  MocaTree,
- TGGRuntime,
+ org.moflon.tgg.runtime,
  org.apache.log4j;bundle-version="1.2.15",
  SDMLanguage,
- TGGLanguage,
- DebugLanguage,
+ org.moflon.tgg.language,
+ org.moflon.tgg.debug.language,
  org.eclipse.core.runtime
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy

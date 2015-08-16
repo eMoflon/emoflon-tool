@@ -18,8 +18,8 @@ import MocaTree.Folder;
 import MocaTree.MocaTreePackage;
 import MocaTree.Node;
 import MocaTree.TreeElement;
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.TGGRuntimeFactory;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.RuntimeFactory;
 import convenience.RTED;
 
 public class OfflineTreeChangeDetector
@@ -141,7 +141,7 @@ public class OfflineTreeChangeDetector
    
    private EMoflonEdge createContainingEdge(final EObject elt)
    {
-      EMoflonEdge edge = TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+      EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
       edge.setName(((EReference)(elt.eContainingFeature())).getEOpposite().getName());
       edge.setSrc(elt);
       edge.setTrg(elt.eContainer());
@@ -151,7 +151,7 @@ public class OfflineTreeChangeDetector
 
    private EMoflonEdge createContainmentEdge(final EObject elt)
    {
-      EMoflonEdge edge = TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+      EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
       edge.setName(elt.eContainingFeature().getName());
       edge.setTrg(elt);
       edge.setSrc(elt.eContainer());

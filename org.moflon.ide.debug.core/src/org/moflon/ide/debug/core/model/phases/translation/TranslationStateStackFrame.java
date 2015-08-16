@@ -26,8 +26,8 @@ import com.sun.jdi.NativeMethodException;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.VirtualMachine;
 
-import DebugLanguage.DebugModel;
-import DebugLanguage.TranslationPhase;
+import org.moflon.tgg.debug.language.DebugModel;
+import org.moflon.tgg.debug.language.TranslationPhase;
 
 @SuppressWarnings({ "restriction" })
 public class TranslationStateStackFrame extends MoflonStackFrame

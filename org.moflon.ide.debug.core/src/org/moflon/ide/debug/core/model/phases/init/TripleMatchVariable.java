@@ -9,14 +9,14 @@ import org.eclipse.jdt.debug.core.IJavaModifiers;
 import org.eclipse.jdt.debug.core.IJavaVariable;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 
-import DebugLanguage.AbstractPhase;
-import DebugLanguage.ChangeMode;
-import DebugLanguage.DebugCorrespondence;
-import DebugLanguage.DebugEObjectProxy;
-import DebugLanguage.DebugTripleMatch;
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.TGGRuntimeFactory;
-import TGGRuntime.TripleMatch;
+import org.moflon.tgg.debug.language.AbstractPhase;
+import org.moflon.tgg.debug.language.ChangeMode;
+import org.moflon.tgg.debug.language.DebugCorrespondence;
+import org.moflon.tgg.debug.language.DebugEObjectProxy;
+import org.moflon.tgg.debug.language.DebugTripleMatch;
+import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.RuntimeFactory;
+import org.moflon.tgg.runtime.TripleMatch;
 
 public class TripleMatchVariable extends MoflonDebugElement implements IVariable
 {
@@ -116,7 +116,7 @@ public class TripleMatchVariable extends MoflonDebugElement implements IVariable
       {
          if (adapterCorr == null)
          {
-            adapterCorr = TGGRuntimeFactory.eINSTANCE.createCorrespondenceModel();
+            adapterCorr = RuntimeFactory.eINSTANCE.createCorrespondenceModel();
             adapterCorr.setSource(src);
             adapterCorr.setTarget(trg);
 

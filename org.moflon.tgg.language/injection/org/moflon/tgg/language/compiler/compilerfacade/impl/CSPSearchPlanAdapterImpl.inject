@@ -5,7 +5,7 @@ import org.moflon.csp.CSPNotSolvableException;
 import org.moflon.csp.solver.CodeGeneratorChain;
 import org.moflon.csp.solver.SearchPlanAction;
 import org.moflon.csp.solver.SimpleCombiner;
-import TGGLanguage.csp.TGGConstraint;
+import org.moflon.tgg.language.csp.TGGConstraint;
 
 partial class CSPSearchPlanAdapterImpl {
 

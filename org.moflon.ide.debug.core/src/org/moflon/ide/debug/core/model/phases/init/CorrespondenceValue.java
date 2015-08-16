@@ -7,8 +7,8 @@ import org.eclipse.debug.core.model.IVariable;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 import org.moflon.ide.debug.core.model.MoflonVariable;
 
-import DebugLanguage.DebugCorrespondenceModel;
-import TGGRuntime.CorrespondenceModel;
+import org.moflon.tgg.debug.language.DebugCorrespondenceModel;
+import org.moflon.tgg.runtime.CorrespondenceModel;
 
 public class CorrespondenceValue extends MoflonDebugElement implements IValue
 {

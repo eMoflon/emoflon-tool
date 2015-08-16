@@ -11,13 +11,13 @@ import org.moflon.ide.debug.core.model.phases.init.RuleVariable;
 import org.moflon.ide.debug.core.model.phases.init.RuleVariable.Mode;
 import org.moflon.ide.debug.core.model.phases.translation.MatchVariable;
 
-import DebugLanguage.AttributeProxy;
-import DebugLanguage.DebugAttributeDelta;
-import DebugLanguage.DebugCorrespondence;
-import DebugLanguage.DebugEObjectProxy;
-import DebugLanguage.DebugMatch;
-import TGGLanguage.analysis.Rule;
-import TGGRuntime.EMoflonEdge;
+import org.moflon.tgg.debug.language.AttributeProxy;
+import org.moflon.tgg.debug.language.DebugAttributeDelta;
+import org.moflon.tgg.debug.language.DebugCorrespondence;
+import org.moflon.tgg.debug.language.DebugEObjectProxy;
+import org.moflon.tgg.debug.language.DebugMatch;
+import org.moflon.tgg.language.analysis.Rule;
+import org.moflon.tgg.runtime.EMoflonEdge;
 
 public class MoflonVariable // extends MoflonDebugElement implements IValue
 {

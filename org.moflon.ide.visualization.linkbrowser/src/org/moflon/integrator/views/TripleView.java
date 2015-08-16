@@ -18,7 +18,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.moflon.integrator.IntegratorApp;
 import org.moflon.integrator.builder.IntegratorBuilder;
 
-import TGGRuntime.CorrespondenceModel;
+import org.moflon.tgg.runtime.CorrespondenceModel;
 import de.fhg.iao.matrixbrowser.model.transport.TransportException;
 
 public class TripleView extends ViewPart

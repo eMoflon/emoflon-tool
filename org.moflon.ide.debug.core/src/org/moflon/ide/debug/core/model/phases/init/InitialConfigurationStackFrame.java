@@ -36,10 +36,10 @@ import com.sun.jdi.NativeMethodException;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.VirtualMachine;
 
-import DebugLanguage.DebugLanguagePackage;
-import DebugLanguage.DebugModel;
-import DebugLanguage.InitializationPhase;
-import TGGRuntime.TGGRuntimePackage;
+import org.moflon.tgg.debug.language.LanguagePackage;
+import org.moflon.tgg.debug.language.DebugModel;
+import org.moflon.tgg.debug.language.InitializationPhase;
+import org.moflon.tgg.runtime.RuntimePackage;
 
 @SuppressWarnings({ "restriction" })
 public class InitialConfigurationStackFrame extends MoflonDebugElement implements IJavaStackFrame// IStackFrame //
@@ -87,8 +87,8 @@ public class InitialConfigurationStackFrame extends MoflonDebugElement implement
       XMIResourceImpl resource = (XMIResourceImpl) resourceA;
 
       resource.setEncoding("UTF-8");
-      resource.getResourceSet().getPackageRegistry().put(DebugLanguagePackage.eNS_URI, DebugLanguagePackage.eINSTANCE);
-      resource.getResourceSet().getPackageRegistry().put(TGGRuntimePackage.eNS_URI, TGGRuntimePackage.eINSTANCE);
+      resource.getResourceSet().getPackageRegistry().put(LanguagePackage.eNS_URI, LanguagePackage.eINSTANCE);
+      resource.getResourceSet().getPackageRegistry().put(RuntimePackage.eNS_URI, RuntimePackage.eINSTANCE);
       EcoreUtil.resolveAll(resource.getResourceSet());
       resource.load(new InputSource(new StringReader(xmlString)), null);
       EObject eobj = resource.getContents().stream().filter(c -> c instanceof DebugModel).findFirst().get();

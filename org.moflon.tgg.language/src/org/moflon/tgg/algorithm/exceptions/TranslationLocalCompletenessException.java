@@ -3,7 +3,7 @@ package org.moflon.tgg.algorithm.exceptions;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import TGGRuntime.IsApplicableRuleResult;
+import org.moflon.tgg.runtime.IsApplicableRuleResult;
 
 /**
  * Thrown when the synchronization algorithm is unable to extend the current ready set of source matches. See

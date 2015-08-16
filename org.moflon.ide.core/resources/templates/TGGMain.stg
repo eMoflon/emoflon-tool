@@ -98,7 +98,7 @@ TGGMainSync(projects, corrPackage, className) ::= <<
 <basicHeader()>
 
 import org.eclipse.emf.common.util.URI;
-import TGGRuntime.CorrespondenceModel;
+import org.moflon.tgg.runtime.CorrespondenceModel;
 
 <basic()>
 	

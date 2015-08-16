@@ -8,9 +8,9 @@ import org.moflon.ide.debug.core.model.MoflonDebugElement;
 import org.moflon.ide.debug.core.model.MoflonVariable;
 import org.moflon.ide.debug.core.model.phases.init.RuleVariable.Mode;
 
-import DebugLanguage.DebugMatch;
-import TGGLanguage.analysis.AnalysisFactory;
-import TGGLanguage.analysis.Rule;
+import org.moflon.tgg.debug.language.DebugMatch;
+import org.moflon.tgg.language.analysis.AnalysisFactory;
+import org.moflon.tgg.language.analysis.Rule;
 
 public class MatchValue extends MoflonDebugElement implements IValue
 {

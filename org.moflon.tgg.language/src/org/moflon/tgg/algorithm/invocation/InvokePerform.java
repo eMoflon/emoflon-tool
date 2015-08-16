@@ -4,8 +4,8 @@ import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EOperation;
 
-import TGGRuntime.IsApplicableMatch;
-import TGGRuntime.PerformRuleResult;
+import org.moflon.tgg.runtime.IsApplicableMatch;
+import org.moflon.tgg.runtime.PerformRuleResult;
 
 /**
  * Used to invoke "perform" methods. These methods are operationalized TGG rules that actually apply a rule to a given

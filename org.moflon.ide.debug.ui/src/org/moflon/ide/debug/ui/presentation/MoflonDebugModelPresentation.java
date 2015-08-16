@@ -43,7 +43,7 @@ import org.moflon.ide.debug.core.model.phases.translation.TranslationStateStackF
 import org.moflon.ide.debug.ui.Activator;
 import org.moflon.ide.ui.UIActivator;
 
-import DebugLanguage.ChangeMode;
+import org.moflon.tgg.debug.language.ChangeMode;
 
 @SuppressWarnings("restriction")
 public class MoflonDebugModelPresentation extends LabelProvider implements IDebugModelPresentation

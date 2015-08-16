@@ -10,8 +10,8 @@ import org.moflon.ide.debug.core.breakpoints.DeletionPhaseBreakpoint;
 import org.moflon.ide.debug.core.breakpoints.PhaseBreakpoint;
 import org.moflon.ide.debug.core.model.MoflonThread;
 
-import DebugLanguage.AbstractPhase;
-import DebugLanguage.DebugSynchronizationProtocol;
+import org.moflon.tgg.debug.language.AbstractPhase;
+import org.moflon.tgg.debug.language.DebugSynchronizationProtocol;
 
 @SuppressWarnings("restriction")
 public class DeletionThread extends MoflonThread// implements IJDIEventListener

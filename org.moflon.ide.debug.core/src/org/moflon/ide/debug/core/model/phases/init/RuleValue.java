@@ -8,7 +8,7 @@ import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.emf.common.util.EList;
 import org.moflon.ide.debug.core.model.phases.init.RuleVariable.Mode;
 
-import TGGLanguage.analysis.Rule;
+import org.moflon.tgg.language.analysis.Rule;
 
 public class RuleValue implements IValue
 {

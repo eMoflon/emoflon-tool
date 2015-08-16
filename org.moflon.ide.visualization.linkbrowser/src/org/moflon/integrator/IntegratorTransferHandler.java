@@ -11,7 +11,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.moflon.integrator.builder.IntegratorBuilder;
 
-import TGGRuntime.CorrespondenceModel;
+import org.moflon.tgg.runtime.CorrespondenceModel;
 
 public class IntegratorTransferHandler extends TransferHandler
 {

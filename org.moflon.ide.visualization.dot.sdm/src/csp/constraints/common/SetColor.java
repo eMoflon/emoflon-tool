@@ -3,8 +3,8 @@ package csp.constraints.common;
 import DotLanguage.DotColor;
 import SDMLanguage.patterns.BindingOperator;
 import SDMLanguage.patterns.BindingSemantics;
-import TGGLanguage.csp.Variable;
-import TGGLanguage.csp.impl.TGGConstraintImpl;
+import org.moflon.tgg.language.csp.Variable;
+import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
 
 public class SetColor extends TGGConstraintImpl {
 	public void solve(Variable var_0, Variable var_1, Variable var_2){

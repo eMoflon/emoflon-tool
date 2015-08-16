@@ -9,8 +9,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 import org.moflon.ide.debug.core.model.MoflonVariable;
 
-import TGGRuntime.TripleMatch;
-import TGGRuntime.TripleMatchNodeMapping;
+import org.moflon.tgg.runtime.TripleMatch;
+import org.moflon.tgg.runtime.TripleMatchNodeMapping;
 
 public class TripleMatchValue extends MoflonDebugElement implements IValue
 {

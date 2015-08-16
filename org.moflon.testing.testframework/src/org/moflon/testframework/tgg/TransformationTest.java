@@ -10,7 +10,7 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 
-import TGGLanguage.algorithm.ApplicationTypes;
+import org.moflon.tgg.language.algorithm.ApplicationTypes;
 
 /**
  * A common base class for integration tests.

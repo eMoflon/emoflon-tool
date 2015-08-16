@@ -4,8 +4,8 @@ import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EOperation;
 
-import TGGRuntime.IsApplicableRuleResult;
-import TGGRuntime.Match;
+import org.moflon.tgg.runtime.IsApplicableRuleResult;
+import org.moflon.tgg.runtime.Match;
 
 /**
  * Used to invoke "isApplicable" methods. These methods are operationalized TGG rules that check if a current

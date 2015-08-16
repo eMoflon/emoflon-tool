@@ -8,9 +8,7 @@ import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.plan.Algorithm;
 import org.gervarro.democles.plan.WeightedOperation;
 
-import TGGLanguage.csp.CspFactory;
-import TGGLanguage.csp.TGGConstraint;
-import TGGLanguage.csp.Variable;
+import org.moflon.tgg.language.csp.*;
 
 public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
 {
@@ -68,14 +66,14 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
       {
          if (constraint.isNegated())
          {
-            TGGLanguage.csp.Adornment adornmentForNegation = createBoundAdornment(constraint);
+            org.moflon.tgg.language.csp.Adornment adornmentForNegation = createBoundAdornment(constraint);
             WeightedOperation<TGGConstraint> o = createWeightedOperationForConstraintWithAdornment(constraint, adornmentForNegation);
             result.add(o);
             continue;
          }
 
          // and each allowed adornment ...
-         for (TGGLanguage.csp.Adornment adornment : constraint.getAllowedAdornments())
+         for (org.moflon.tgg.language.csp.Adornment adornment : constraint.getAllowedAdornments())
          {
             result.add(createWeightedOperationForConstraintWithAdornment(constraint, adornment));
          }
@@ -83,7 +81,7 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
       return result;
    }
 
-   private WeightedOperation<TGGConstraint> createWeightedOperationForConstraintWithAdornment(final TGGConstraint constraint, final TGGLanguage.csp.Adornment adornment)
+   private WeightedOperation<TGGConstraint> createWeightedOperationForConstraintWithAdornment(final TGGConstraint constraint, final org.moflon.tgg.language.csp.Adornment adornment)
    {
       long frees = adornment.getValue().chars().filter(c -> c == 'F').count();
       float weight = (float) Math.pow(frees, 3);
@@ -91,17 +89,17 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
       return createOperation(constraint, createBoundMask(constraint, adornment), createFreeMask(constraint, adornment), weight);
    }
 
-   private TGGLanguage.csp.Adornment createBoundAdornment(final TGGConstraint constraint)
+   private org.moflon.tgg.language.csp.Adornment createBoundAdornment(final TGGConstraint constraint)
    {
       final String adornmentValue = StringUtils.repeat("B", constraint.getVariables().size());
 
-      TGGLanguage.csp.Adornment boundAdornment = CspFactory.eINSTANCE.createAdornment();
+      org.moflon.tgg.language.csp.Adornment boundAdornment = CspFactory.eINSTANCE.createAdornment();
       boundAdornment.setValue(adornmentValue);
 
       return boundAdornment;
    }
 
-   private Adornment createBoundMask(final TGGConstraint constraint, final TGGLanguage.csp.Adornment adornment)
+   private Adornment createBoundMask(final TGGConstraint constraint, final org.moflon.tgg.language.csp.Adornment adornment)
    {
 
       boolean[] bits = new boolean[variables.size()];
@@ -119,7 +117,7 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
       return new Adornment(bits);
    }
 
-   private Adornment createFreeMask(final TGGConstraint constraint, final TGGLanguage.csp.Adornment adornment)
+   private Adornment createFreeMask(final TGGConstraint constraint, final org.moflon.tgg.language.csp.Adornment adornment)
    {
       boolean[] bits = new boolean[variables.size()];
 

@@ -6,7 +6,7 @@ import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 
-import DebugLanguage.DebugSynchronizationProtocol;
+import org.moflon.tgg.debug.language.DebugSynchronizationProtocol;
 
 public class SynchronizationValue extends MoflonDebugElement implements IValue
 {

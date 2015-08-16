@@ -1,8 +1,8 @@
 package csp.constraints;
 
 import SDMLanguage.expressions.ComparingOperator;
-import TGGLanguage.csp.Variable;
-import TGGLanguage.csp.impl.TGGConstraintImpl;
+import org.moflon.tgg.language.csp.Variable;
+import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
 
 public class RecordEntryFromConstraint extends TGGConstraintImpl {
 	public void solve(Variable var_0, Variable var_1, Variable var_2, Variable var_3){

@@ -26,12 +26,12 @@ import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 import org.xml.sax.InputSource;
 
-import DebugLanguage.DebugRules;
-import TGGLanguage.analysis.StaticAnalysis;
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.Delta;
-import TGGRuntime.TGGRuntimeFactory;
-import TGGRuntime.TGGRuntimePackage;
+import org.moflon.tgg.debug.language.DebugRules;
+import org.moflon.tgg.language.analysis.StaticAnalysis;
+import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.Delta;
+import org.moflon.tgg.runtime.RuntimeFactory;
+import org.moflon.tgg.runtime.RuntimePackage;
 
 @SuppressWarnings("restriction")
 public class RulesValue extends MoflonDebugElement implements IValue
@@ -102,13 +102,13 @@ public class RulesValue extends MoflonDebugElement implements IValue
       XMLResourceImpl resource = (XMLResourceImpl) resourceA;
       // XMLResourceImpl resource = new XMLResourceImpl();
 
-      metaResourceSet.getPackageRegistry().put(TGGRuntimePackage.eINSTANCE.getNsURI(), TGGRuntimePackage.eINSTANCE);
+      metaResourceSet.getPackageRegistry().put(RuntimePackage.eINSTANCE.getNsURI(), RuntimePackage.eINSTANCE);
       resource.setEncoding("UTF-8");
       registerEcore(ecore2, resource.getResourceSet());
       registerEcore(ecore, resource.getResourceSet());
       EcoreUtil.resolveAll(resource.getResourceSet());
-      // resource.getContents().add(TGGRuntimeFactory.eINSTANCE.createDelta());
-      Delta delta = TGGRuntimeFactory.eINSTANCE.createDelta();
+      // resource.getContents().add(RuntimeFactory.eINSTANCE.createDelta());
+      Delta delta = RuntimeFactory.eINSTANCE.createDelta();
       delta.getAddedNodes().add(delta);
       xmlString = convertToXml(delta);
       resource.load(new InputSource(new StringReader(xmlString)), null);
@@ -131,7 +131,7 @@ public class RulesValue extends MoflonDebugElement implements IValue
       // // delta = convertToEObject2(ecore, ecore2, value);
       // if (rules == null)
       // {
-      // rules = TGGRuntimeFactory.eINSTANCE.createDelta();
+      // rules = RuntimeFactory.eINSTANCE.createDelta();
       // }
       // Value oref = JDIUtil.getObjectReference(vm);
       //

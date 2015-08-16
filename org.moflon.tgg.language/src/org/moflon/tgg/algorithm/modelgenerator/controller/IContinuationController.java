@@ -2,7 +2,7 @@ package org.moflon.tgg.algorithm.modelgenerator.controller;
 
 import org.moflon.tgg.algorithm.modelgenerator.ModelgenStats;
 
-import TGGRuntime.RuleResult;
+import org.moflon.tgg.runtime.RuleResult;
 
 public interface IContinuationController
 {

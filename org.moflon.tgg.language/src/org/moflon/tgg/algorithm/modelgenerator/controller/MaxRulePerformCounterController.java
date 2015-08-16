@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.moflon.tgg.algorithm.modelgenerator.ModelGenerator;
 import org.moflon.tgg.algorithm.modelgenerator.ModelgenStats;
 
-import TGGRuntime.RuleResult;
+import org.moflon.tgg.runtime.RuleResult;
 
 public class MaxRulePerformCounterController implements IContinuationController
 {

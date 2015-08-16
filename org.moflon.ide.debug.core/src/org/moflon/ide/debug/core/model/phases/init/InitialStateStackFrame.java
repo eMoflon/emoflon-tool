@@ -24,8 +24,8 @@ import com.sun.jdi.NativeMethodException;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.VirtualMachine;
 
-import DebugLanguage.DebugModel;
-import DebugLanguage.InitializationPhase;
+import org.moflon.tgg.debug.language.DebugModel;
+import org.moflon.tgg.debug.language.InitializationPhase;
 
 @SuppressWarnings({ "restriction" })
 public class InitialStateStackFrame extends MoflonStackFrame

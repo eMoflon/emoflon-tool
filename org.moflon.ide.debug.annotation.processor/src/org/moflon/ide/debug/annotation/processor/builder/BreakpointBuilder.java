@@ -55,7 +55,7 @@ public class BreakpointBuilder extends AbstractBuilder
          return super.build(kind, args, monitor);
       } else
       {
-         logger.warn("The Breakpoint Builder was not executed due to " + count + " issues in the project " + getProject().getName()
+         logger.debug("The Breakpoint Builder was not executed due to " + count + " issues in the project " + getProject().getName()
                + ". Please build the project correctly and try again.");
       }
       return null;

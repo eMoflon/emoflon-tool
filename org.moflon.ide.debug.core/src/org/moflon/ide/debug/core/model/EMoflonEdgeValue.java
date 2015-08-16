@@ -6,8 +6,8 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 
-import DebugLanguage.DebugEObjectProxy;
-import TGGRuntime.EMoflonEdge;
+import org.moflon.tgg.debug.language.DebugEObjectProxy;
+import org.moflon.tgg.runtime.EMoflonEdge;
 
 public class EMoflonEdgeValue implements IValue
 {

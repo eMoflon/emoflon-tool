@@ -39,9 +39,9 @@ import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 
-import DebugLanguage.AbstractPhase;
-import DebugLanguage.Breakpoint;
-import DebugLanguage.DebugModel;
+import org.moflon.tgg.debug.language.AbstractPhase;
+import org.moflon.tgg.debug.language.Breakpoint;
+import org.moflon.tgg.debug.language.DebugModel;
 
 /**
  * Launches eMoflon - {@link SynchronizationHelper} program on a TGG engine written in Java

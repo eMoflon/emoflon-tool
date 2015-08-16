@@ -2,8 +2,8 @@ package csp.constraints;
 
 import java.io.File;
 
-import TGGLanguage.csp.Variable;
-import TGGLanguage.csp.impl.TGGConstraintImpl;
+import org.moflon.tgg.language.csp.Variable;
+import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
 
 public class SetPatternFileNameAndHRef extends TGGConstraintImpl {
    public void solve(Variable var_0, Variable var_1){

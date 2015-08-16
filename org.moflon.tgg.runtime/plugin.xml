@@ -6,6 +6,6 @@
  $Id$
 --><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="TGGRuntime.TGGRuntimePackage" genModel="model/TGGRuntime.genmodel" uri="platform:/plugin/TGGRuntime/model/TGGRuntime.ecore"/>
+    <package class="org.moflon.tgg.runtime.RuntimePackage" genModel="model/Runtime.genmodel" uri="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore"/>
   </extension>
 </plugin>

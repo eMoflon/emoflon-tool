@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: TGGRuntime;singleton:=true
+Bundle-SymbolicName: org.moflon.tgg.runtime;singleton:=true
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.core;bundle-version="3.5.0",
  org.moflon.core.utilities,
@@ -10,11 +10,10 @@ Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
-Export-Package: TGGRuntime,
- TGGRuntime.impl,
- TGGRuntime.util,
- org.moflon.tgg.runtime
-Bundle-Name: TGGRuntime (MOFLON)
+Export-Package: org.moflon.tgg.runtime,
+ org.moflon.tgg.runtime.impl,
+ org.moflon.tgg.runtime.util
+Bundle-Name: org.moflon.tgg.runtime (MOFLON)
 Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin

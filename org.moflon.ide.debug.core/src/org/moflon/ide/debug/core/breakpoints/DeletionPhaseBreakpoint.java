@@ -5,8 +5,8 @@ import java.util.Map;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.debug.core.DebugException;
 
-import DebugLanguage.AbstractPhase;
-import DebugLanguage.DeletionBreakpoint;
+import org.moflon.tgg.debug.language.AbstractPhase;
+import org.moflon.tgg.debug.language.DeletionBreakpoint;
 
 public class DeletionPhaseBreakpoint extends PhaseBreakpoint
 {

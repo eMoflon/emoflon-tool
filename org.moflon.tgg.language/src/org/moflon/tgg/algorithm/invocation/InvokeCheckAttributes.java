@@ -10,9 +10,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import TGGRuntime.AttributeConstraintsRuleResult;
-import TGGRuntime.RuleResult;
-import TGGRuntime.TripleMatch;
+import org.moflon.tgg.runtime.AttributeConstraintsRuleResult;
+import org.moflon.tgg.runtime.RuleResult;
+import org.moflon.tgg.runtime.TripleMatch;
 
 public class InvokeCheckAttributes implements
 		Function<TripleMatch, RuleResult> {

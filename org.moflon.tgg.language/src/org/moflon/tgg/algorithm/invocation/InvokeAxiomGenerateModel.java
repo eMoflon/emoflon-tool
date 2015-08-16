@@ -6,9 +6,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.tgg.algorithm.modelgenerator.RulePerformData;
 
-import TGGLanguage.modelgenerator.ModelgeneratorFactory;
-import TGGLanguage.modelgenerator.RuleEntryContainer;
-import TGGRuntime.ModelgeneratorRuleResult;
+import org.moflon.tgg.language.modelgenerator.ModelgeneratorFactory;
+import org.moflon.tgg.language.modelgenerator.RuleEntryContainer;
+import org.moflon.tgg.runtime.ModelgeneratorRuleResult;
 
 public class InvokeAxiomGenerateModel implements Function<RulePerformData, ModelgeneratorRuleResult>
 {

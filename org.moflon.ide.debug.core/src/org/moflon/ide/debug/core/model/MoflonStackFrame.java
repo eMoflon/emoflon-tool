@@ -18,9 +18,9 @@ import org.xml.sax.InputSource;
 
 import com.sun.jdi.StackFrame;
 
-import DebugLanguage.DebugLanguagePackage;
-import DebugLanguage.DebugModel;
-import TGGRuntime.TGGRuntimePackage;
+import org.moflon.tgg.debug.language.LanguagePackage;
+import org.moflon.tgg.debug.language.DebugModel;
+import org.moflon.tgg.runtime.RuntimePackage;
 
 @SuppressWarnings("restriction")
 public abstract class MoflonStackFrame extends JDIStackFrame implements IJavaStackFrame
@@ -57,8 +57,8 @@ public abstract class MoflonStackFrame extends JDIStackFrame implements IJavaSta
       XMIResourceImpl resource = (XMIResourceImpl) resourceA;
 
       resource.setEncoding("UTF-8");
-      resource.getResourceSet().getPackageRegistry().put(DebugLanguagePackage.eNS_URI, DebugLanguagePackage.eINSTANCE);
-      resource.getResourceSet().getPackageRegistry().put(TGGRuntimePackage.eNS_URI, TGGRuntimePackage.eINSTANCE);
+      resource.getResourceSet().getPackageRegistry().put(LanguagePackage.eNS_URI, LanguagePackage.eINSTANCE);
+      resource.getResourceSet().getPackageRegistry().put(RuntimePackage.eNS_URI, RuntimePackage.eINSTANCE);
       EcoreUtil.resolveAll(resource.getResourceSet());
       resource.load(new InputSource(new StringReader(xmlString)), null);
       EObject eobj = resource.getContents().stream().filter(c -> c instanceof DebugModel).findFirst().get();

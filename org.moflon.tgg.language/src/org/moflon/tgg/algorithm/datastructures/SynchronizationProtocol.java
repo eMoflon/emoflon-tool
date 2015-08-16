@@ -7,8 +7,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
-import TGGRuntime.TGGRuntimeFactory;
-import TGGRuntime.TripleMatchNodeMapping;
+import org.moflon.tgg.runtime.TripleMatchNodeMapping;
 
 /**
  * Used to represent the set of triple matches and their precedence dependencies used for a synchronization.
@@ -80,15 +79,15 @@ public class SynchronizationProtocol extends PrecedenceStructure<TripleMatch>
 
    // -------
    
-   public void load(TGGRuntime.PrecedenceStructure ps)
+   public void load(org.moflon.tgg.runtime.PrecedenceStructure ps)
    {
       ps.getTripleMatches().forEach(elt -> collectPrecedences(fromEMF(elt)));
    }
    
    @Override
-public TGGRuntime.TripleMatch toEMF(TripleMatch m)
+public org.moflon.tgg.runtime.TripleMatch toEMF(TripleMatch m)
    {
-      TGGRuntime.TripleMatch tripleMatch = TGGRuntimeFactory.eINSTANCE.createTripleMatch();
+      org.moflon.tgg.runtime.TripleMatch tripleMatch = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE.createTripleMatch();
 
       tripleMatch.getSourceElements().addAll(m.getSourceElements().getElements());
       tripleMatch.getTargetElements().addAll(m.getTargetElements().getElements());
@@ -103,7 +102,7 @@ public TGGRuntime.TripleMatch toEMF(TripleMatch m)
       tripleMatch.setNumber(m.getID());
 
       m.getNodeMappings().keySet().stream().forEach(nodeName ->{
-         TripleMatchNodeMapping nodeMapping = TGGRuntimeFactory.eINSTANCE.createTripleMatchNodeMapping();
+         TripleMatchNodeMapping nodeMapping = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE.createTripleMatchNodeMapping();
          nodeMapping.setNodeName(nodeName);
          nodeMapping.setNode(m.getNode(nodeName));
          tripleMatch.getNodeMappings().add(nodeMapping);});
@@ -112,7 +111,7 @@ public TGGRuntime.TripleMatch toEMF(TripleMatch m)
    }
 
    @Override
-   protected TripleMatch fromEMF(TGGRuntime.TripleMatch m)
+   protected TripleMatch fromEMF(org.moflon.tgg.runtime.TripleMatch m)
    {
       HashMap<String, EObject> nodeMappings = new HashMap<>();
       m.getNodeMappings().stream().forEach(nm -> nodeMappings.put(nm.getNodeName(), nm.getNode()));

@@ -2,8 +2,8 @@ package csp.constraints;
 
 import org.apache.log4j.Logger;
 
-import TGGLanguage.csp.Variable;
-import TGGLanguage.csp.impl.TGGConstraintImpl;
+import org.moflon.tgg.language.csp.Variable;
+import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
 import csp.constraints.generator.Generator;
 
 public class StringToDouble extends TGGConstraintImpl

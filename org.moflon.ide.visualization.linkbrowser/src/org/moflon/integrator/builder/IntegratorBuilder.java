@@ -15,10 +15,10 @@ import org.moflon.integrator.builder.emf_adapters.NodeEObjectAdapter;
 import org.moflon.integrator.listeners.NodeClickedEventListener;
 import org.moflon.integrator.listeners.RelationClickedEventListener;
 
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.EObjectContainer;
-import TGGRuntime.impl.TGGRuntimeFactoryImpl;
+import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.EObjectContainer;
+import org.moflon.tgg.runtime.impl.RuntimeFactoryImpl;
 import de.fhg.iao.matrixbrowser.MatrixBrowserPanel;
 import de.fhg.iao.matrixbrowser.context.TreeManager;
 import de.fhg.iao.matrixbrowser.model.DefaultMBModel;
@@ -217,8 +217,8 @@ public class IntegratorBuilder
    {
       if (feature.getUpperBound() != 1)
       {
-         final EMoflonEdge edge = TGGRuntimeFactoryImpl.eINSTANCE.createEMoflonEdge();
-         final EObjectContainer container = TGGRuntimeFactoryImpl.eINSTANCE.createEObjectContainer();
+         final EMoflonEdge edge = RuntimeFactoryImpl.eINSTANCE.createEMoflonEdge();
+         final EObjectContainer container = RuntimeFactoryImpl.eINSTANCE.createEObjectContainer();
 
          @SuppressWarnings("unchecked")
          final List<EObject> connectedObjects = (List<EObject>) source.eGet(feature, true);
@@ -236,7 +236,7 @@ public class IntegratorBuilder
             EMoflonEdge edge = getEdgeFromList(source, connectedObject, feature.getName(), allEdges);
             if (edge == null)
             {
-               edge = TGGRuntimeFactoryImpl.eINSTANCE.createEMoflonEdge();
+               edge = RuntimeFactoryImpl.eINSTANCE.createEMoflonEdge();
                edge.setName(feature.getName());
                edge.setSrc(source);
                edge.setTrg(connectedObject);

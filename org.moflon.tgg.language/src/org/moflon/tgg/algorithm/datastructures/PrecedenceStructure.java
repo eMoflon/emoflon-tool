@@ -10,8 +10,8 @@ import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
 
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.TGGRuntimeFactory;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.RuntimeFactory;
 
 /**
  * Represents a set of matches and precedence dependencies between matches.
@@ -146,11 +146,11 @@ public abstract class PrecedenceStructure<M>
 
    // ----------
    
-   public TGGRuntime.PrecedenceStructure save()
+   public org.moflon.tgg.runtime.PrecedenceStructure save()
    {
-      TGGRuntime.PrecedenceStructure ps = TGGRuntimeFactory.eINSTANCE.createPrecedenceStructure();
+      org.moflon.tgg.runtime.PrecedenceStructure ps = RuntimeFactory.eINSTANCE.createPrecedenceStructure();
 
-      HashMap<M, TGGRuntime.TripleMatch> conversionTable = convertToMatches();
+      HashMap<M, org.moflon.tgg.runtime.TripleMatch> conversionTable = convertToMatches();
       ps.getTripleMatches().addAll(conversionTable.values().stream()
             .sorted((a,b) -> a.getNumber() - b.getNumber())
             .collect(Collectors.toList())
@@ -164,15 +164,15 @@ public abstract class PrecedenceStructure<M>
       return ps;
    }
 
-   private HashMap<M, TGGRuntime.TripleMatch> convertToMatches()
+   private HashMap<M, org.moflon.tgg.runtime.TripleMatch> convertToMatches()
    {
-      HashMap<M, TGGRuntime.TripleMatch> conversionTable = new HashMap<>();
+      HashMap<M, org.moflon.tgg.runtime.TripleMatch> conversionTable = new HashMap<>();
       matches.forEach(m -> conversionTable.put(m, toEMF(m)));
       
       return conversionTable;
    }
 
-   protected void addEdges(TGGRuntime.TripleMatch tripleMatch)
+   protected void addEdges(org.moflon.tgg.runtime.TripleMatch tripleMatch)
    {
       tripleMatch.getContextElements().forEach(elt -> {
          addIfEdge(tripleMatch, elt);
@@ -195,7 +195,7 @@ public abstract class PrecedenceStructure<M>
       });
    }
 
-   private void addIfEdge(TGGRuntime.TripleMatch tripleMatch, EObject elt)
+   private void addIfEdge(org.moflon.tgg.runtime.TripleMatch tripleMatch, EObject elt)
    {
       if (elt instanceof EMoflonEdge)
          tripleMatch.getContainedEdges().add(elt);
@@ -210,7 +210,7 @@ public abstract class PrecedenceStructure<M>
       return createToMatch.get(elt);
    }
    
-   protected abstract TGGRuntime.TripleMatch toEMF(M m);
+   protected abstract org.moflon.tgg.runtime.TripleMatch toEMF(M m);
 
-   protected abstract M fromEMF(TGGRuntime.TripleMatch m);
+   protected abstract M fromEMF(org.moflon.tgg.runtime.TripleMatch m);
 }

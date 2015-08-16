@@ -1,21 +1,20 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: DebugLanguage;singleton:=true
-Export-Package: DebugLanguage,
- DebugLanguage.DebugGenerics,
- DebugLanguage.DebugGenerics.impl,
- DebugLanguage.DebugGenerics.util,
- DebugLanguage.impl,
- DebugLanguage.util,
- org.moflon.ide.debug,
- org.moflon.tgg.debug.language
+Bundle-SymbolicName: org.moflon.tgg.debug.language;singleton:=true
+Export-Package: org.moflon.ide.debug,
+ org.moflon.tgg.debug.language,
+ org.moflon.tgg.debug.language.DebugGenerics.util,
+ org.moflon.tgg.debug.language.util,
+ org.moflon.tgg.debug.language.DebugGenerics,
+ org.moflon.tgg.debug.language.DebugGenerics.impl,
+ org.moflon.tgg.debug.language.impl
 Bundle-Name: DebugLanguage
 Bundle-Version: 2.0.0.qualifier
-Require-Bundle: TGGRuntime,
+Require-Bundle: org.moflon.tgg.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
  org.eclipse.core.runtime;bundle-version="3.11.0",
- TGGLanguage,
+ org.moflon.tgg.language,
  SDMLanguage,
  MocaTree,
  org.apache.log4j;bundle-version="1.2.15"

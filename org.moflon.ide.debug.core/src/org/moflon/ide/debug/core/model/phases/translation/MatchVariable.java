@@ -8,7 +8,7 @@ import org.eclipse.jdt.debug.core.IJavaModifiers;
 import org.eclipse.jdt.debug.core.IJavaVariable;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 
-import DebugLanguage.DebugMatch;
+import org.moflon.tgg.debug.language.DebugMatch;
 
 public class MatchVariable extends MoflonDebugElement implements IVariable
 {

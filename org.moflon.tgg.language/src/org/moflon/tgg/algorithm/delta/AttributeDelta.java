@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 
-import TGGRuntime.TGGRuntimeFactory;
+import org.moflon.tgg.runtime.RuntimeFactory;
 
 public class AttributeDelta
 {
@@ -38,9 +38,9 @@ public class AttributeDelta
 	   return affectedNode;
    }
 
-   public TGGRuntime.AttributeDelta toEMF()
+   public org.moflon.tgg.runtime.AttributeDelta toEMF()
    {
-      TGGRuntime.AttributeDelta attDelta = TGGRuntimeFactory.eINSTANCE.createAttributeDelta();
+      org.moflon.tgg.runtime.AttributeDelta attDelta = RuntimeFactory.eINSTANCE.createAttributeDelta();
       
       attDelta.setOldValue(getStringValue(oldValue));
       attDelta.setNewValue(getStringValue(newValue));
@@ -55,7 +55,7 @@ public class AttributeDelta
       return EcoreFactory.eINSTANCE.convertToString(affectedAttribute.getEAttributeType(), value);
    }
 
-   public static AttributeDelta fromEMF(TGGRuntime.AttributeDelta attDeltaEMF){
+   public static AttributeDelta fromEMF(org.moflon.tgg.runtime.AttributeDelta attDeltaEMF){
       return new AttributeDelta(attDeltaEMF.getAffectedAttribute(), extractTypeFromString(attDeltaEMF.getOldValue(), attDeltaEMF.getAffectedAttribute()), 
             extractTypeFromString(attDeltaEMF.getNewValue(), attDeltaEMF.getAffectedAttribute()), attDeltaEMF.getAffectedNode());
    }

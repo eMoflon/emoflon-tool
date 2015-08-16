@@ -29,7 +29,7 @@ import com.sun.jdi.InvocationException;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.VMDisconnectedException;
 
-import DebugLanguage.AbstractPhase;
+import org.moflon.tgg.debug.language.AbstractPhase;
 
 @SuppressWarnings("restriction")
 public class TranslationThread extends MoflonThread

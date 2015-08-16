@@ -10,10 +10,10 @@ import org.moflon.tgg.algorithm.datastructures.SynchronizationProtocol;
 import org.moflon.tgg.algorithm.datastructures.TripleMatch;
 import org.moflon.tgg.algorithm.delta.Delta;
 
-import TGGLanguage.algorithm.TempOutputContainer;
-import TGGLanguage.analysis.StaticAnalysis;
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.Match;
+import org.moflon.tgg.language.algorithm.TempOutputContainer;
+import org.moflon.tgg.language.analysis.StaticAnalysis;
+import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.Match;
 
 /**
  * A specialization of {@link Synchronizer} for the backward direction. This includes deleting, finalizing the results,

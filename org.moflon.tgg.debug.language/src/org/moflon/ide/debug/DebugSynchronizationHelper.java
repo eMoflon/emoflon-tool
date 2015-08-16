@@ -30,37 +30,19 @@ import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.tgg.algorithm.synchronization.Synchronizer;
 
-import DebugLanguage.AdditionPhase;
-import DebugLanguage.AttributeProxy;
-import DebugLanguage.ChangeMode;
-import DebugLanguage.DebugAttributeDelta;
-import DebugLanguage.DebugCorrespondence;
-import DebugLanguage.DebugCorrespondenceModel;
-import DebugLanguage.DebugDelta;
-import DebugLanguage.DebugEObjectProxy;
-import DebugLanguage.DebugLanguageFactory;
-import DebugLanguage.DebugLanguagePackage;
-import DebugLanguage.DebugMatch;
-import DebugLanguage.DebugModel;
-import DebugLanguage.DebugPrecedenceGraph;
-import DebugLanguage.DebugRules;
-import DebugLanguage.DebugSynchronizationProtocol;
-import DebugLanguage.DebugTripleMatch;
-import DebugLanguage.DeletionPhase;
-import DebugLanguage.InitializationPhase;
-import DebugLanguage.TranslationPhase;
-import TGGLanguage.algorithm.TempOutputContainer;
-import TGGLanguage.analysis.AnalysisFactory;
-import TGGLanguage.analysis.Rule;
-import TGGLanguage.analysis.StaticAnalysis;
-import TGGRuntime.AbstractCorrespondence;
-import TGGRuntime.AttributeDelta;
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.Delta;
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.Match;
-import TGGRuntime.PrecedenceStructure;
-import TGGRuntime.TripleMatch;
+import org.moflon.tgg.debug.language.*;
+import org.moflon.tgg.language.algorithm.TempOutputContainer;
+import org.moflon.tgg.language.analysis.AnalysisFactory;
+import org.moflon.tgg.language.analysis.Rule;
+import org.moflon.tgg.language.analysis.StaticAnalysis;
+import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.moflon.tgg.runtime.AttributeDelta;
+import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.Delta;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.Match;
+import org.moflon.tgg.runtime.PrecedenceStructure;
+import org.moflon.tgg.runtime.TripleMatch;
 
 /**
  * This helper class provides debugging capabilities to the {@link SynchronizationHelper}.
@@ -113,7 +95,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
                   {
                      switch (eDataType.getClassifierID())
                      {
-                     case DebugLanguagePackage.CHANGE_MODE:
+                     case LanguagePackage.CHANGE_MODE:
                         return convertEnumToString(eDataType, instanceValue);
                      default:
                         return super.convertToString(eDataType, instanceValue);
@@ -206,7 +188,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
    {
       if (!visited.containsKey(eobj.hashCode()))
       {
-         DebugEObjectProxy proxy = DebugLanguageFactory.eINSTANCE.createDebugEObjectProxy();
+         DebugEObjectProxy proxy = LanguageFactory.eINSTANCE.createDebugEObjectProxy();
          if (parent != null)
          {
             // proxy.setParent(parent);
@@ -244,14 +226,14 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
             {
                EReference ref = (EReference) feature;
                Object value = eobj.eGet(ref);
-               DebugEObjectProxy refProxy = DebugLanguageFactory.eINSTANCE.createDebugEObjectProxy();
+               DebugEObjectProxy refProxy = LanguageFactory.eINSTANCE.createDebugEObjectProxy();
                refProxy.setPackageName(((EPackage) ref.eClass().eContainer()).getName());
                refProxy.setClassName(ref.eClass().getName());
                refProxy.setName(ref.getName());
                refProxy.setParent(proxy);
 
                // Pass element count to debugger
-               AttributeProxy upperBound = DebugLanguageFactory.eINSTANCE.createAttributeProxy();
+               AttributeProxy upperBound = LanguageFactory.eINSTANCE.createAttributeProxy();
                upperBound.setName("upperBound");
                upperBound.setValue(ref.getUpperBound());
                refProxy.getAttributeProxy().add(upperBound);
@@ -325,7 +307,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
          if (obj instanceof EMoflonEdge)
          {
             EMoflonEdge edge = (EMoflonEdge) obj;
-            // EMoflonEdge proxyEdge = TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+            // EMoflonEdge proxyEdge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
             // proxyEdge.setName(edge.getName());
             // proxyEdge.setSrc(traverseToProxy(edge.getSrc(), EObject.class));
             // proxyEdge.setTrg(traverseToProxy(edge.getTrg(), EObject.class));
@@ -336,7 +318,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
          } else if (obj instanceof Match)
          {
             Match match = (Match) obj;
-            DebugMatch newMatch = DebugLanguageFactory.eINSTANCE.createDebugMatch();
+            DebugMatch newMatch = LanguageFactory.eINSTANCE.createDebugMatch();
             newMatch.setRuleName(match.getRuleName());
 
             match.getContextNodes().forEach(e -> newMatch.getContext().add(traverseToProxy(e, DebugEObjectProxy.class)));
@@ -348,7 +330,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
          } else if (obj instanceof TripleMatch)
          {
             TripleMatch match = (TripleMatch) obj;
-            DebugTripleMatch newMatch = DebugLanguageFactory.eINSTANCE.createDebugTripleMatch();
+            DebugTripleMatch newMatch = LanguageFactory.eINSTANCE.createDebugTripleMatch();
             newMatch.setNumber(match.getNumber());
             newMatch.setRuleName(match.getRuleName());
             match.getContainedEdges().forEach(e -> newMatch.getContainedEdges().add(traverseToProxy(e, EObject.class)));
@@ -361,7 +343,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
          } else if (obj instanceof AbstractCorrespondence)
          {
             DebugEObjectProxy tempProxy = traverseToDebugProxy((AbstractCorrespondence) obj);
-            DebugCorrespondence dcorrespondence = DebugLanguageFactory.eINSTANCE.createDebugCorrespondence();
+            DebugCorrespondence dcorrespondence = LanguageFactory.eINSTANCE.createDebugCorrespondence();
 
             dcorrespondence.setClassName(tempProxy.getClassName());
             dcorrespondence.setName(tempProxy.getName());
@@ -385,13 +367,13 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
          } else if (obj instanceof EAttribute)
          {
             EAttribute eattr = (EAttribute) obj;
-            AttributeProxy aproxy = DebugLanguageFactory.eINSTANCE.createAttributeProxy();
+            AttributeProxy aproxy = LanguageFactory.eINSTANCE.createAttributeProxy();
             aproxy.setName(eattr.getName());
             proxy = aproxy;
          } else if (obj instanceof AttributeDelta)
          {
             AttributeDelta attributeDelta = (AttributeDelta) obj;
-            DebugAttributeDelta newAttributeDelta = DebugLanguageFactory.eINSTANCE.createDebugAttributeDelta();
+            DebugAttributeDelta newAttributeDelta = LanguageFactory.eINSTANCE.createDebugAttributeDelta();
             newAttributeDelta.setOldValue(attributeDelta.getOldValue());
             newAttributeDelta.setNewValue(attributeDelta.getNewValue());
 
@@ -463,22 +445,22 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       DebugEObjectProxy srcProxy = traverseToProxy(corr.getSource(), DebugEObjectProxy.class);
       DebugEObjectProxy trgProxy = traverseToProxy(corr.getTarget(), DebugEObjectProxy.class);
 
-      DebugModel dm = DebugLanguageFactory.eINSTANCE.createDebugModel();
-      InitializationPhase ip = DebugLanguageFactory.eINSTANCE.createInitializationPhase();
+      DebugModel dm = LanguageFactory.eINSTANCE.createDebugModel();
+      InitializationPhase ip = LanguageFactory.eINSTANCE.createInitializationPhase();
       dm.getPhases().add(ip);
 
       ip.setSourceProxy(srcProxy);
       ip.setTargetProxy(trgProxy);
 
       // Correspondence model
-      DebugCorrespondenceModel dcm = DebugLanguageFactory.eINSTANCE.createDebugCorrespondenceModel();
+      DebugCorrespondenceModel dcm = LanguageFactory.eINSTANCE.createDebugCorrespondenceModel();
       dcm.setSource(srcProxy);
       dcm.setTarget(trgProxy);
       corr.getCorrespondences().forEach(c -> dcm.getCorrespondences().add(traverseToProxy(c)));
       ip.setCorrespondenceModel(dcm);
 
       // Synchronization Protocol
-      DebugSynchronizationProtocol syncProtocol = DebugLanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
+      DebugSynchronizationProtocol syncProtocol = LanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
       for (TripleMatch m : protocol.getTripleMatches())
       {
          DebugTripleMatch newMatch = (DebugTripleMatch) traverseToProxy(m);
@@ -487,7 +469,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       ip.setSynchronizationProtocol(syncProtocol);
 
       // Delta
-      DebugDelta debugdelta = DebugLanguageFactory.eINSTANCE.createDebugDelta();
+      DebugDelta debugdelta = LanguageFactory.eINSTANCE.createDebugDelta();
 
       delta.getAddedNodes().forEach(an -> debugdelta.getAddedNodes().add(traverseToProxy(an, DebugEObjectProxy.class)));
       delta.getAddedEdges().forEach(ae -> debugdelta.getAddedEdges().add(traverseToProxy(ae, DebugEObjectProxy.class)));
@@ -498,7 +480,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       ip.setDelta(debugdelta);
 
       // Rules
-      DebugRules debugRules = DebugLanguageFactory.eINSTANCE.createDebugRules();
+      DebugRules debugRules = LanguageFactory.eINSTANCE.createDebugRules();
       for (Rule r : rules.getSourceRules().getRules())
       {
          Rule newRule = AnalysisFactory.eINSTANCE.createRule();
@@ -522,22 +504,22 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       visited.clear();
       DebugEObjectProxy srcProxy = traverseToProxy(corr.getSource(), DebugEObjectProxy.class);
       DebugEObjectProxy trgProxy = traverseToProxy(corr.getTarget(), DebugEObjectProxy.class);
-      DebugModel dm = DebugLanguageFactory.eINSTANCE.createDebugModel();
-      DeletionPhase dp = DebugLanguageFactory.eINSTANCE.createDeletionPhase();
+      DebugModel dm = LanguageFactory.eINSTANCE.createDebugModel();
+      DeletionPhase dp = LanguageFactory.eINSTANCE.createDeletionPhase();
       dm.getPhases().add(dp);
 
       dp.setSourceProxy(srcProxy);
       dp.setTargetProxy(trgProxy);
 
       // Correspondence model
-      DebugCorrespondenceModel dcm = DebugLanguageFactory.eINSTANCE.createDebugCorrespondenceModel();
+      DebugCorrespondenceModel dcm = LanguageFactory.eINSTANCE.createDebugCorrespondenceModel();
       dcm.setSource(srcProxy);
       dcm.setTarget(trgProxy);
       corr.getCorrespondences().forEach(c -> dcm.getCorrespondences().add(traverseToProxy(c)));
       dp.setCorrespondenceModel(dcm);
 
       // Synchronization Protocol
-      DebugSynchronizationProtocol syncProtocol = DebugLanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
+      DebugSynchronizationProtocol syncProtocol = LanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
       for (TripleMatch m : protocol.getTripleMatches())
       {
          DebugTripleMatch newMatch = (DebugTripleMatch) traverseToProxy(m);
@@ -570,22 +552,22 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       visited.clear();
       DebugEObjectProxy srcProxy = traverseToProxy(corr.getSource(), DebugEObjectProxy.class);
       DebugEObjectProxy trgProxy = traverseToProxy(corr.getTarget(), DebugEObjectProxy.class);
-      DebugModel dm = DebugLanguageFactory.eINSTANCE.createDebugModel();
-      AdditionPhase ap = DebugLanguageFactory.eINSTANCE.createAdditionPhase();
+      DebugModel dm = LanguageFactory.eINSTANCE.createDebugModel();
+      AdditionPhase ap = LanguageFactory.eINSTANCE.createAdditionPhase();
       dm.getPhases().add(ap);
 
       ap.setSourceProxy(srcProxy);
       ap.setTargetProxy(trgProxy);
 
       // Correspondence model
-      DebugCorrespondenceModel dcm = DebugLanguageFactory.eINSTANCE.createDebugCorrespondenceModel();
+      DebugCorrespondenceModel dcm = LanguageFactory.eINSTANCE.createDebugCorrespondenceModel();
       dcm.setSource(srcProxy);
       dcm.setTarget(trgProxy);
       corr.getCorrespondences().forEach(c -> dcm.getCorrespondences().add(traverseToProxy(c)));
       ap.setCorrespondenceModel(dcm);
 
       // Synchronization Protocol
-      DebugSynchronizationProtocol syncProtocol = DebugLanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
+      DebugSynchronizationProtocol syncProtocol = LanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
       for (TripleMatch m : protocol.getTripleMatches())
       {
          DebugTripleMatch newMatch = (DebugTripleMatch) traverseToProxy(m);
@@ -595,7 +577,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
 
       // Deleted Triple Matches
       // DebugSynchronizationProtocol deletedTripleMatches =
-      // DebugLanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
+      // LanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
       // Convert internal match to EMF structure
       for (org.moflon.tgg.algorithm.datastructures.TripleMatch internalMatch : allToBeRevokedTripleMatches)
       {
@@ -640,22 +622,22 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
       {
          trgProxy = traverseToProxy(corr.getTarget(), DebugEObjectProxy.class);
       }
-      DebugModel dm = DebugLanguageFactory.eINSTANCE.createDebugModel();
-      TranslationPhase tp = DebugLanguageFactory.eINSTANCE.createTranslationPhase();
+      DebugModel dm = LanguageFactory.eINSTANCE.createDebugModel();
+      TranslationPhase tp = LanguageFactory.eINSTANCE.createTranslationPhase();
       dm.getPhases().add(tp);
 
       tp.setSourceProxy(srcProxy);
       tp.setTargetProxy(trgProxy);
 
       // Correspondence model
-      DebugCorrespondenceModel dcm = DebugLanguageFactory.eINSTANCE.createDebugCorrespondenceModel();
+      DebugCorrespondenceModel dcm = LanguageFactory.eINSTANCE.createDebugCorrespondenceModel();
       dcm.setSource(srcProxy);
       dcm.setTarget(trgProxy);
       corr.getCorrespondences().forEach(c -> dcm.getCorrespondences().add(traverseToProxy(c)));
       tp.setCorrespondenceModel(dcm);
 
       // Synchronization Protocol
-      DebugSynchronizationProtocol syncProtocol = DebugLanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
+      DebugSynchronizationProtocol syncProtocol = LanguageFactory.eINSTANCE.createDebugSynchronizationProtocol();
       for (TripleMatch m : protocol.getTripleMatches())
       {
          DebugTripleMatch newMatch = (DebugTripleMatch) traverseToProxy(m);
@@ -683,7 +665,7 @@ public class DebugSynchronizationHelper extends SynchronizationHelper
          });
       }
       // precedenceGraph
-      DebugPrecedenceGraph dpg = DebugLanguageFactory.eINSTANCE.createDebugPrecedenceGraph();
+      DebugPrecedenceGraph dpg = LanguageFactory.eINSTANCE.createDebugPrecedenceGraph();
       precedenceGraph.forEach(e -> dpg.getMatches().add(traverseToProxy(e, DebugMatch.class)));
       tp.setPrecedenceGraph(dpg);
 

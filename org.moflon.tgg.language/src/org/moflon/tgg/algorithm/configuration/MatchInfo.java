@@ -2,7 +2,7 @@ package org.moflon.tgg.algorithm.configuration;
 
 import org.eclipse.emf.ecore.EObject;
 
-import TGGRuntime.IsApplicableMatch;
+import org.moflon.tgg.runtime.IsApplicableMatch;
 
 /**
  * Wrapper used to hide details of our internal match structure when allowing user access.

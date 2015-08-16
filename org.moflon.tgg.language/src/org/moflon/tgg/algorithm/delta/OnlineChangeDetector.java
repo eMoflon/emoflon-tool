@@ -13,8 +13,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.TGGRuntimeFactory;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.RuntimeFactory;
 
 /**
  * Maps EMF notifications to delta structure for the synchronization algorithm.
@@ -94,7 +94,7 @@ public class OnlineChangeDetector implements Adapter
       if (oldValue == null)
          return;
 
-      EMoflonEdge edge = TGGRuntime.TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+      EMoflonEdge edge = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE.createEMoflonEdge();
       edge.setName(reference.getName());
       edge.setSrc(notifier);
       edge.setTrg(oldValue);
@@ -115,7 +115,7 @@ public class OnlineChangeDetector implements Adapter
       if (addedEObject == null)
          return;
 
-      EMoflonEdge edge = TGGRuntime.TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+      EMoflonEdge edge = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE.createEMoflonEdge();
       edge.setName(reference.getName());
       edge.setSrc(notifier);
       edge.setTrg(addedEObject);
@@ -132,7 +132,7 @@ public class OnlineChangeDetector implements Adapter
             if (referenceOfAddedNode.getUpperBound() != 1)
                for (EObject containedObject : (EList<EObject>) addedEObject.eGet(referenceOfAddedNode, true))
                {
-                  EMoflonEdge edgeFromAddedNode = TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+                  EMoflonEdge edgeFromAddedNode = RuntimeFactory.eINSTANCE.createEMoflonEdge();
                   edgeFromAddedNode.setName(referenceOfAddedNode.getName());
                   edgeFromAddedNode.setSrc(addedEObject);
                   edgeFromAddedNode.setTrg(containedObject);
@@ -143,7 +143,7 @@ public class OnlineChangeDetector implements Adapter
                Object value = (EObject) addedEObject.eGet(referenceOfAddedNode, true);
                if (value != null)
                {
-                  EMoflonEdge edgeFromAddedNode2 = TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+                  EMoflonEdge edgeFromAddedNode2 = RuntimeFactory.eINSTANCE.createEMoflonEdge();
                   edgeFromAddedNode2.setName(referenceOfAddedNode.getName());
                   edgeFromAddedNode2.setSrc(addedEObject);
                   edgeFromAddedNode2.setTrg((EObject) value);

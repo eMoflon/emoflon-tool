@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef4.zest.core.viewers.IGraphEntityRelationshipContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import DebugLanguage.AttributeProxy;
+import org.moflon.tgg.debug.language.AttributeProxy;
 
 public class ModelContentProvider implements IGraphEntityRelationshipContentProvider
 {

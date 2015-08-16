@@ -22,7 +22,7 @@ package org.moflon.csp.solver;
 
 import org.gervarro.democles.common.Combiner;
 
-import TGGLanguage.csp.TGGConstraint;
+import org.moflon.tgg.language.csp.TGGConstraint;
 
 public class SimpleCombiner implements Combiner<SimpleCombiner, TGGConstraint> {
 	private final CodeGeneratorChain<TGGConstraint> last;

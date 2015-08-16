@@ -9,11 +9,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 
-import TGGLanguage.analysis.RulesTable;
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.EObjectContainer;
-import TGGRuntime.Match;
-import TGGRuntime.TGGRuntimePackage;
+import org.moflon.tgg.language.analysis.RulesTable;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.EObjectContainer;
+import org.moflon.tgg.runtime.Match;
+import org.moflon.tgg.runtime.RuntimePackage;
 
 /**
  * Used to invoke "isAppropriate" methods. These methods are operationalized TGG rules that check if a rule can be
@@ -54,7 +54,7 @@ public class InvokeIsAppropriate implements Function<EObject, Stream<Match>>
       EParameter isApprParam = isAppr.getEParameters().get(0);
       String typeName = null;
 
-      if (isApprParam.getEType() == TGGRuntimePackage.eINSTANCE.getEMoflonEdge())
+      if (isApprParam.getEType() == RuntimePackage.eINSTANCE.getEMoflonEdge())
          typeName = isApprParam.getName();
       else
          typeName = isApprParam.getEType().getName();

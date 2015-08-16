@@ -6,12 +6,12 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import TGGLanguage.analysis.Rule;
-import TGGLanguage.analysis.RulesTable;
-import TGGRuntime.IsApplicableMatch;
-import TGGRuntime.Match;
-import TGGRuntime.PerformRuleResult;
-import TGGRuntime.TGGRuleMorphism;
+import org.moflon.tgg.language.analysis.Rule;
+import org.moflon.tgg.language.analysis.RulesTable;
+import org.moflon.tgg.runtime.IsApplicableMatch;
+import org.moflon.tgg.runtime.Match;
+import org.moflon.tgg.runtime.PerformRuleResult;
+import org.moflon.tgg.runtime.TGGRuleMorphism;
 
 public class AmalgamationUtil
 {

@@ -2,7 +2,7 @@
 import org.moflon.csp.*;
 
 import csp.constraints.*;
-import TGGLanguage.csp.*;
+import org.moflon.tgg.language.csp.*;
 
 
 partial class LabelEntryToConstraintImpl {

@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 
-import TGGRuntime.EMoflonEdge;
+import org.moflon.tgg.runtime.EMoflonEdge;
 
 public class SingleDeltaVariable extends MoflonDebugElement implements IVariable
 {

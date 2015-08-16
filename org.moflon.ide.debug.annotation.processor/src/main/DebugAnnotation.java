@@ -35,16 +35,16 @@ import org.moflon.tgg.algorithm.synchronization.Synchronizer;
 import com.sun.tools.javac.api.JavacTool;
 import com.sun.tools.javac.util.Pair;
 
-import DebugLanguage.AbstractPhase;
-import DebugLanguage.AdditionPhase;
-import DebugLanguage.Breakpoint;
-import DebugLanguage.DebugLanguageFactory;
-import DebugLanguage.DebugLanguagePackage;
-import DebugLanguage.DebugModel;
-import DebugLanguage.DeletionPhase;
-import DebugLanguage.InitializationPhase;
-import DebugLanguage.TranslationBreakpoint;
-import DebugLanguage.TranslationPhase;
+import org.moflon.tgg.debug.language.AbstractPhase;
+import org.moflon.tgg.debug.language.AdditionPhase;
+import org.moflon.tgg.debug.language.Breakpoint;
+import org.moflon.tgg.debug.language.LanguageFactory;
+import org.moflon.tgg.debug.language.LanguagePackage;
+import org.moflon.tgg.debug.language.DebugModel;
+import org.moflon.tgg.debug.language.DeletionPhase;
+import org.moflon.tgg.debug.language.InitializationPhase;
+import org.moflon.tgg.debug.language.TranslationBreakpoint;
+import org.moflon.tgg.debug.language.TranslationPhase;
 
 public class DebugAnnotation
 {
@@ -114,8 +114,8 @@ public class DebugAnnotation
          dependencies.add(FileLocator.getBundleFile(Platform.getBundle("org.eclipse.emf.common")).toString());
          dependencies.add(FileLocator.getBundleFile(Platform.getBundle("org.eclipse.emf.ecore")).toString());
          dependencies.add(root.getProject("org.moflon.core.utilities").getLocation().toPortableString() + "/bin");
-         dependencies.add(root.getProject("TGGLanguage").getLocation().toPortableString() + "/bin");
-         dependencies.add(root.getProject("TGGRuntime").getLocation().toPortableString() + "/bin");
+         dependencies.add(root.getProject("org.moflon.tgg.language").getLocation().toPortableString() + "/bin");
+         dependencies.add(root.getProject("org.moflon.tgg.runtime").getLocation().toPortableString() + "/bin");
          optionList.addElement("-classpath");
          optionList.addElement(StringUtils.join(dependencies, ";"));
          System.err.println(optionList);
@@ -147,21 +147,21 @@ public class DebugAnnotation
       // Process the result
       Map<Phase, Pair<String, Long>> phaseBreakpoints = ((CodeAnalyzerProcessor) processors.get(0)).getPhaseBreakpoints();
 
-      DebugModel dm = DebugLanguageFactory.eINSTANCE.createDebugModel();
+      DebugModel dm = LanguageFactory.eINSTANCE.createDebugModel();
       phaseBreakpoints.forEach((phase, pair) -> {
          switch (phase)
          {
          case INIT:
-            InitializationPhase ip = DebugLanguageFactory.eINSTANCE.createInitializationPhase();
-            Breakpoint bp = DebugLanguageFactory.eINSTANCE.createBreakpoint();
+            InitializationPhase ip = LanguageFactory.eINSTANCE.createInitializationPhase();
+            Breakpoint bp = LanguageFactory.eINSTANCE.createBreakpoint();
             bp.setClassname(pair.fst);
             bp.setLine(pair.snd);
             ip.getBreakpoints().add(bp);
             dm.getPhases().add(ip);
             break;
          case ADD:
-            AdditionPhase ap = DebugLanguageFactory.eINSTANCE.createAdditionPhase();
-            bp = DebugLanguageFactory.eINSTANCE.createBreakpoint();
+            AdditionPhase ap = LanguageFactory.eINSTANCE.createAdditionPhase();
+            bp = LanguageFactory.eINSTANCE.createBreakpoint();
             bp.setClassname(pair.fst);
             bp.setLine(pair.snd);
             ap.getBreakpoints().add(bp);
@@ -176,14 +176,14 @@ public class DebugAnnotation
                dp = (DeletionPhase) findPhase.get();
             } else
             {
-               dp = DebugLanguageFactory.eINSTANCE.createDeletionPhase();
+               dp = LanguageFactory.eINSTANCE.createDeletionPhase();
             }
             if (phase.equals(DebugBreakpoint.Phase.DELETE))
             {
-               bp = DebugLanguageFactory.eINSTANCE.createBreakpoint();
+               bp = LanguageFactory.eINSTANCE.createBreakpoint();
             } else
             { // Phase.DELETE_BEFORE
-               bp = DebugLanguageFactory.eINSTANCE.createDeletionBreakpoint();
+               bp = LanguageFactory.eINSTANCE.createDeletionBreakpoint();
             }
             bp.setClassname(pair.fst);
             bp.setLine(pair.snd);
@@ -200,9 +200,9 @@ public class DebugAnnotation
                tp = (TranslationPhase) findPhase.get();
             } else
             {
-               tp = DebugLanguageFactory.eINSTANCE.createTranslationPhase();
+               tp = LanguageFactory.eINSTANCE.createTranslationPhase();
             }
-            bp = DebugLanguageFactory.eINSTANCE.createTranslationBreakpoint();
+            bp = LanguageFactory.eINSTANCE.createTranslationBreakpoint();
             bp.setClassname(pair.fst);
             bp.setLine(pair.snd);
             ((TranslationBreakpoint) bp).setSubPhase(phase.name());
@@ -235,7 +235,7 @@ public class DebugAnnotation
       Activator a = new Activator();
       String pluginpath = a.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin", "/");
 
-      DebugLanguagePackage.eINSTANCE.getClass();
+      LanguagePackage.eINSTANCE.getClass();
       EObject eobj = eMoflonEMFUtil.loadModel(pluginpath + MoflonDebugTarget.DEBUG_INIT_XMI);
       DebugModel dm = (DebugModel) eobj;
       System.out.println("Read Debug Model:");

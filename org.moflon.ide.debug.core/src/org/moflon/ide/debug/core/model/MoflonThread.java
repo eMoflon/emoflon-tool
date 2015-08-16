@@ -9,7 +9,7 @@ import org.eclipse.jdt.internal.debug.core.model.JDIThread;
 import org.moflon.ide.debug.core.DebugCorePlugin;
 import org.moflon.ide.debug.core.breakpoints.PhaseBreakpoint;
 
-import DebugLanguage.AbstractPhase;
+import org.moflon.tgg.debug.language.AbstractPhase;
 
 @SuppressWarnings("restriction")
 public abstract class MoflonThread extends JDIThread// MoflonDebugElement implements IThread

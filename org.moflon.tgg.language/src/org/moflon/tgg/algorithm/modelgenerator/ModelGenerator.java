@@ -13,13 +13,13 @@ import org.moflon.tgg.algorithm.invocation.InvokeAxiomGenerateModel;
 import org.moflon.tgg.algorithm.invocation.InvokeGenerateModel;
 import org.moflon.tgg.algorithm.modelgenerator.controller.AbstractModelGenerationController;
 
-import TGGLanguage.TGGLanguagePackage;
-import TGGLanguage.TGGRule;
-import TGGLanguage.TripleGraphGrammar;
-import TGGLanguage.modelgenerator.ModelgeneratorFactory;
-import TGGLanguage.modelgenerator.RuleEntryContainer;
-import TGGLanguage.modelgenerator.RuleEntryList;
-import TGGRuntime.ModelgeneratorRuleResult;
+import org.moflon.tgg.language.LanguagePackage;
+import org.moflon.tgg.language.TGGRule;
+import org.moflon.tgg.language.TripleGraphGrammar;
+import org.moflon.tgg.language.modelgenerator.ModelgeneratorFactory;
+import org.moflon.tgg.language.modelgenerator.RuleEntryContainer;
+import org.moflon.tgg.language.modelgenerator.RuleEntryList;
+import org.moflon.tgg.runtime.ModelgeneratorRuleResult;
 
 public class ModelGenerator
 {
@@ -68,7 +68,7 @@ public class ModelGenerator
 
       try
       {
-         TripleGraphGrammar tggXmi = (TripleGraphGrammar) eMoflonEMFUtil.loadAndInitModel(TGGLanguagePackage.eINSTANCE, "../" + tggPackage.getName()
+         TripleGraphGrammar tggXmi = (TripleGraphGrammar) eMoflonEMFUtil.loadAndInitModel(LanguagePackage.eINSTANCE, "../" + tggPackage.getName()
                + "/model/" + tggPackage.getName() + ".tgg.xmi");
 
          for (TGGRule rule : tggXmi.getTggRule())
@@ -148,7 +148,7 @@ public class ModelGenerator
 
    private RuleEntryContainer computeContainerForMethod(final EOperation genModelOperation)
    {
-      RuleEntryContainer container = TGGLanguage.modelgenerator.ModelgeneratorFactory.eINSTANCE.createRuleEntryContainer();
+      RuleEntryContainer container = org.moflon.tgg.language.modelgenerator.ModelgeneratorFactory.eINSTANCE.createRuleEntryContainer();
       for (int i = 1; i < genModelOperation.getEParameters().size(); i++)
       {
          List<EObject> typedEObjects = dataContainer.getTypedEObjects(genModelOperation.getEParameters().get(i).getEType());

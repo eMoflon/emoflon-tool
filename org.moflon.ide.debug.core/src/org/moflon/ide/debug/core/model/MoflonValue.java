@@ -6,11 +6,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 
-import DebugLanguage.AttributeProxy;
-import DebugLanguage.DebugAttributeDelta;
-import DebugLanguage.DebugCorrespondence;
-import DebugLanguage.DebugEObjectProxy;
-import TGGRuntime.EMoflonEdge;
+import org.moflon.tgg.debug.language.AttributeProxy;
+import org.moflon.tgg.debug.language.DebugAttributeDelta;
+import org.moflon.tgg.debug.language.DebugCorrespondence;
+import org.moflon.tgg.debug.language.DebugEObjectProxy;
+import org.moflon.tgg.runtime.EMoflonEdge;
 
 public class MoflonValue
 {

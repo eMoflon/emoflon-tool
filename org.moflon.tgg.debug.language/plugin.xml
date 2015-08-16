@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.0"?><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="DebugLanguage.DebugLanguagePackage" genModel="model/DebugLanguage.genmodel" uri="platform:/plugin/DebugLanguage/model/DebugLanguage.ecore"/>
+    <package class="org.moflon.tgg.debug.language.LanguagePackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.debug.language/model/Language.ecore"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="DebugLanguage.DebugGenerics.DebugGenericsPackage" genModel="model/DebugLanguage.genmodel" uri="platform:/plugin/DebugLanguage/model/DebugLanguage.ecore#//DebugGenerics"/>
+    <package class="org.moflon.tgg.debug.language.DebugGenerics.DebugGenericsPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.debug.language/model/Language.ecore#//DebugGenerics"/>
   </extension>
 </plugin>

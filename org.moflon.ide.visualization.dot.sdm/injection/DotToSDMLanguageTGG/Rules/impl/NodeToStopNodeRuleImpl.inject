@@ -3,7 +3,7 @@ import org.moflon.csp.*;
 import org.moflon.util.eMoflonSDMUtil;
 
 import csp.constraints.*;
-import TGGLanguage.csp.*;
+import org.moflon.tgg.language.csp.*;
 
 
 partial class NodeToStopNodeRuleImpl {

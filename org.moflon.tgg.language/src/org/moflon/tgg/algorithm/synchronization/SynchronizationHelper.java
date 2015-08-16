@@ -26,14 +26,14 @@ import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 import org.moflon.tgg.algorithm.exceptions.LocalCompletenessException;
 import org.moflon.tgg.algorithm.synchronization.DebugBreakpoint.Phase;
 
-import TGGLanguage.algorithm.AlgorithmFactory;
-import TGGLanguage.algorithm.TempOutputContainer;
-import TGGLanguage.analysis.Rule;
-import TGGLanguage.analysis.StaticAnalysis;
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.TGGRuntimeFactory;
-import TGGRuntime.impl.MatchImpl;
+import org.moflon.tgg.language.algorithm.AlgorithmFactory;
+import org.moflon.tgg.language.algorithm.TempOutputContainer;
+import org.moflon.tgg.language.analysis.Rule;
+import org.moflon.tgg.language.analysis.StaticAnalysis;
+import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.RuntimeFactory;
+import org.moflon.tgg.runtime.impl.MatchImpl;
 
 /**
  * Responsible for checking if input data makes sense, inducing default deltas for the batch case, and establishing all
@@ -255,7 +255,7 @@ public class SynchronizationHelper
    {
       if (corr == null)
       {
-         corr = TGGRuntimeFactory.eINSTANCE.createCorrespondenceModel();
+         corr = RuntimeFactory.eINSTANCE.createCorrespondenceModel();
          corr.setSource(src);
          corr.setTarget(trg);
          set.createResource(eMoflonEMFUtil.createFileURI(projectName + "/corr.xmi", false)).getContents().add(corr);
@@ -367,7 +367,7 @@ public class SynchronizationHelper
       // Retrieve the edge to the container if there is one
       if (node.eContainmentFeature() != null && node.eContainmentFeature().getEOpposite() != null)
       {
-         EMoflonEdge edge = TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+         EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
          edge.setName(node.eContainmentFeature().getEOpposite().getName());
          edge.setSrc(node);
          edge.setTrg(node.eContainer());
@@ -388,7 +388,7 @@ public class SynchronizationHelper
             for (EObject containedObject : (EList<EObject>) node.eGet(reference, true))
             {
                // Create the wrapper and set the appropriate values
-               EMoflonEdge edge = TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+               EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
                edge.setName(reference.getName());
                edge.setSrc(node);
                edge.setTrg(containedObject);
@@ -400,7 +400,7 @@ public class SynchronizationHelper
          else
          {
             // Create the wrapper and set the appropriate values
-            EMoflonEdge edge = TGGRuntimeFactory.eINSTANCE.createEMoflonEdge();
+            EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
             edge.setName(reference.getName());
             edge.setSrc(node);
             edge.setTrg((EObject) node.eGet(reference, true));
@@ -534,7 +534,7 @@ public class SynchronizationHelper
 
    public void loadSynchronizationProtocol(final String path)
    {
-      TGGRuntime.PrecedenceStructure ps = (TGGRuntime.PrecedenceStructure) loadModel(path);
+      org.moflon.tgg.runtime.PrecedenceStructure ps = (org.moflon.tgg.runtime.PrecedenceStructure) loadModel(path);
       protocol = new SynchronizationProtocol();
       protocol.load(ps);
    }
@@ -579,14 +579,14 @@ public class SynchronizationHelper
          return;
       }
       
-      TGGRuntime.PrecedenceStructure ps = protocol.save();
+      org.moflon.tgg.runtime.PrecedenceStructure ps = protocol.save();
       set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(ps);
       eMoflonEMFUtil.saveModel(ps.eResource().getResourceSet(), ps, path);
    }
    
    public void savePrecedenceGraph(final PrecedenceInputGraph pg, final String path)
    {
-      TGGRuntime.PrecedenceStructure pgAsPSs = pg.save();
+      org.moflon.tgg.runtime.PrecedenceStructure pgAsPSs = pg.save();
       for (int i = 0; i < pgAsPSs.getTripleMatches().size(); i++)
       {
          pgAsPSs.getTripleMatches().get(i).setNumber(i);

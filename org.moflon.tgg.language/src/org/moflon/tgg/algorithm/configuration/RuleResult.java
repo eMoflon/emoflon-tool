@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import TGGRuntime.IsApplicableMatch;
-import TGGRuntime.IsApplicableRuleResult;
+import org.moflon.tgg.runtime.IsApplicableMatch;
+import org.moflon.tgg.runtime.IsApplicableRuleResult;
 
 /**
  * Wrapper for internal rule result data structure used when providing user access.

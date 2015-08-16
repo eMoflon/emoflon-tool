@@ -56,25 +56,24 @@ import SDMLanguage.sdmUtil.CompilerInjection;
 import SDMLanguage.sdmUtil.CompilerInjectionEntry;
 import SDMLanguage.sdmUtil.ImportInjectionEntry;
 import SDMLanguage.sdmUtil.SdmUtilFactory;
-import TGGLanguage.Domain;
-import TGGLanguage.DomainType;
-import TGGLanguage.TGGObjectVariable;
-import TGGLanguage.TGGRule;
-import TGGLanguage.algorithm.ApplicationTypes;
-import TGGLanguage.compiler.CompilerPackage;
-import TGGLanguage.compiler.TGGCompiler;
-import TGGLanguage.compiler.compilerfacade.CompilerfacadePackage;
-import TGGLanguage.compiler.compilerfacade.Helper;
-import TGGLanguage.compiler.compilerfacade.InjectionHelper;
-import TGGLanguage.csp.AttributeVariable;
-import TGGLanguage.csp.CSP;
-import TGGLanguage.csp.CspFactory;
-import TGGLanguage.csp.Literal;
-import TGGLanguage.csp.LocalVariable;
-import TGGLanguage.csp.OperationalCSP;
-import TGGLanguage.csp.TGGConstraint;
-import TGGLanguage.csp.Variable;
-
+import org.moflon.tgg.language.Domain;
+import org.moflon.tgg.language.DomainType;
+import org.moflon.tgg.language.TGGObjectVariable;
+import org.moflon.tgg.language.TGGRule;
+import org.moflon.tgg.language.algorithm.ApplicationTypes;
+import org.moflon.tgg.language.compiler.CompilerPackage;
+import org.moflon.tgg.language.compiler.TGGCompiler;
+import org.moflon.tgg.language.compiler.compilerfacade.CompilerfacadePackage;
+import org.moflon.tgg.language.compiler.compilerfacade.Helper;
+import org.moflon.tgg.language.compiler.compilerfacade.InjectionHelper;
+import org.moflon.tgg.language.csp.AttributeVariable;
+import org.moflon.tgg.language.csp.CSP;
+import org.moflon.tgg.language.csp.CspFactory;
+import org.moflon.tgg.language.csp.Literal;
+import org.moflon.tgg.language.csp.LocalVariable;
+import org.moflon.tgg.language.csp.OperationalCSP;
+import org.moflon.tgg.language.csp.TGGConstraint;
+import org.moflon.tgg.language.csp.Variable;
 
 partial class InjectionHelperImpl {
 
@@ -83,7 +82,7 @@ partial class InjectionHelperImpl {
    private void handleImports(final EClass ruleClass)
    {
       ImportInjectionEntry entryForNodeMapping = SdmUtilFactory.eINSTANCE.createImportInjectionEntry();
-      entryForNodeMapping.setContent("TGGRuntime.TripleMatchNodeMapping");
+      entryForNodeMapping.setContent("org.moflon.tgg.runtime.TripleMatchNodeMapping");
       entryForNodeMapping.setEClass(ruleClass);
       this.getCompilerInjection().getImportInjectionEntries().add(entryForNodeMapping);
 
@@ -97,9 +96,8 @@ partial class InjectionHelperImpl {
 
 @model createInjectionForCheckAttributesMethod (String name, TGGRule rule, EClass ruleClass, TGGCompiler compiler) <--
 
-
       handleImports(ruleClass);
-      AttributeConstraintCodeGenerator codeGen = new AttributeConstraintCodeGenerator(rule, name,compiler);
+      AttributeConstraintCodeGenerator codeGen = new AttributeConstraintCodeGenerator(rule, name, compiler);
       return codeGen.getInjection();
 -->
 

@@ -26,8 +26,8 @@ import com.sun.jdi.NativeMethodException;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.VirtualMachine;
 
-import DebugLanguage.AdditionPhase;
-import DebugLanguage.DebugModel;
+import org.moflon.tgg.debug.language.AdditionPhase;
+import org.moflon.tgg.debug.language.DebugModel;
 
 @SuppressWarnings({ "restriction" })
 public class AdditonStateStackFrame extends MoflonStackFrame

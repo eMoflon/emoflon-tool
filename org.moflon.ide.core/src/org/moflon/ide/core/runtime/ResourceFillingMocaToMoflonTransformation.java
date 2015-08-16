@@ -209,7 +209,7 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
    public void postProcessing()
    {
       super.postProcessing();
-      for (TGGLanguage.TripleGraphGrammar tgg : getTggexporter().getTripleGraphGrammar())
+      for (org.moflon.tgg.language.TripleGraphGrammar tgg : getTggexporter().getTripleGraphGrammar())
       {
          IProject workspaceProject = ResourcesPlugin.getWorkspace().getRoot().getProject(tgg.getName());
          if (!workspaceProject.exists())

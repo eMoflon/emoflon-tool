@@ -4,7 +4,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
-import DebugLanguage.AttributeProxy;
+import org.moflon.tgg.debug.language.AttributeProxy;
 
 public class DebugEobjectProxyPropertyDescriptor extends ItemPropertyDescriptor
 {

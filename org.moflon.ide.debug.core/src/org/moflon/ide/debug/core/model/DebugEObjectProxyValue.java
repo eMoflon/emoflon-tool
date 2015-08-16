@@ -8,8 +8,8 @@ import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EReference;
 
-import DebugLanguage.AttributeProxy;
-import DebugLanguage.DebugEObjectProxy;
+import org.moflon.tgg.debug.language.AttributeProxy;
+import org.moflon.tgg.debug.language.DebugEObjectProxy;
 
 public class DebugEObjectProxyValue implements IValue
 {

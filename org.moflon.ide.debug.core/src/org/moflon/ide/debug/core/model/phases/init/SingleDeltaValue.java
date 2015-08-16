@@ -14,8 +14,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.moflon.ide.debug.core.model.phases.init.SingleDeltaVariable.Mode;
 
-import TGGRuntime.Delta;
-import TGGRuntime.EMoflonEdge;
+import org.moflon.tgg.runtime.Delta;
+import org.moflon.tgg.runtime.EMoflonEdge;
 
 public class SingleDeltaValue implements IValue
 {

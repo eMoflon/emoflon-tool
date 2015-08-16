@@ -7,8 +7,8 @@ import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.emf.ecore.EObject;
 
-import DebugLanguage.AttributeProxy;
-import DebugLanguage.ChangeMode;
+import org.moflon.tgg.debug.language.AttributeProxy;
+import org.moflon.tgg.debug.language.ChangeMode;
 
 public class AttributeProxyVariable extends MoflonDebugElement implements IVariable
 {

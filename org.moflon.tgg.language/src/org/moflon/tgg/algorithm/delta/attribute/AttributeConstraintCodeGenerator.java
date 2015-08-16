@@ -44,20 +44,20 @@ import SDMLanguage.patterns.BindingSemantics;
 import SDMLanguage.patterns.Constraint;
 import SDMLanguage.patterns.ObjectVariable;
 import SDMLanguage.patterns.patternExpressions.AttributeValueExpression;
-import TGGLanguage.DomainType;
-import TGGLanguage.TGGObjectVariable;
-import TGGLanguage.TGGRule;
-import TGGLanguage.compiler.TGGCompiler;
-import TGGLanguage.compiler.compilerfacade.CSPSearchPlanAdapter;
-import TGGLanguage.compiler.compilerfacade.CompilerfacadeFactory;
-import TGGLanguage.csp.AttributeVariable;
-import TGGLanguage.csp.CSP;
-import TGGLanguage.csp.CspFactory;
-import TGGLanguage.csp.Literal;
-import TGGLanguage.csp.LocalVariable;
-import TGGLanguage.csp.OperationalCSP;
-import TGGLanguage.csp.TGGConstraint;
-import TGGLanguage.csp.Variable;
+import org.moflon.tgg.language.DomainType;
+import org.moflon.tgg.language.TGGObjectVariable;
+import org.moflon.tgg.language.TGGRule;
+import org.moflon.tgg.language.compiler.TGGCompiler;
+import org.moflon.tgg.language.compiler.compilerfacade.CSPSearchPlanAdapter;
+import org.moflon.tgg.language.compiler.compilerfacade.CompilerfacadeFactory;
+import org.moflon.tgg.language.csp.AttributeVariable;
+import org.moflon.tgg.language.csp.CSP;
+import org.moflon.tgg.language.csp.CspFactory;
+import org.moflon.tgg.language.csp.Literal;
+import org.moflon.tgg.language.csp.LocalVariable;
+import org.moflon.tgg.language.csp.OperationalCSP;
+import org.moflon.tgg.language.csp.TGGConstraint;
+import org.moflon.tgg.language.csp.Variable;
 
 public class AttributeConstraintCodeGenerator
 {

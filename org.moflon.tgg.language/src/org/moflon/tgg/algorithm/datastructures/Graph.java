@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 
-import TGGRuntime.EMoflonEdge;
+import org.moflon.tgg.runtime.EMoflonEdge;
 
 /**
  * An immutable collection of nodes and edges.

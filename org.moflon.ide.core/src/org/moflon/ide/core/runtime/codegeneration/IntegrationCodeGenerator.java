@@ -41,25 +41,25 @@ import MoflonPropertyContainer.MoflonPropertiesContainer;
 import SDMLanguage.SDMLanguagePackage;
 import SDMLanguage.sdmUtil.CompilerInjection;
 import SDMLanguage.sdmUtil.SdmUtilFactory;
-import TGGLanguage.TGGLanguagePackage;
-import TGGLanguage.TGGRule;
-import TGGLanguage.TripleGraphGrammar;
-import TGGLanguage.algorithm.ApplicationTypes;
-import TGGLanguage.analysis.StaticAnalysis;
-import TGGLanguage.compiler.CompilerFactory;
-import TGGLanguage.compiler.TGGCompiler;
-import TGGLanguage.compiler.compilerfacade.CompilerfacadeFactory;
-import TGGLanguage.compiler.compilerfacade.InjectionHelper;
-import TGGLanguage.csp.CSP;
-import TGGLanguage.csp.TGGConstraint;
-import TGGLanguage.modelgenerator.RuleAnalyzerResult;
-import TGGLanguage.precompiler.CyclicContextMessage;
-import TGGLanguage.precompiler.PrecompileLog;
-import TGGLanguage.precompiler.PrecompileMessage;
-import TGGLanguage.precompiler.PrecompilerFactory;
-import TGGLanguage.precompiler.RuleProcessingMessage;
-import TGGLanguage.precompiler.TGGPrecompiler;
-import TGGRuntime.TGGRuntimePackage;
+import org.moflon.tgg.language.LanguagePackage;
+import org.moflon.tgg.language.TGGRule;
+import org.moflon.tgg.language.TripleGraphGrammar;
+import org.moflon.tgg.language.algorithm.ApplicationTypes;
+import org.moflon.tgg.language.analysis.StaticAnalysis;
+import org.moflon.tgg.language.compiler.CompilerFactory;
+import org.moflon.tgg.language.compiler.TGGCompiler;
+import org.moflon.tgg.language.compiler.compilerfacade.CompilerfacadeFactory;
+import org.moflon.tgg.language.compiler.compilerfacade.InjectionHelper;
+import org.moflon.tgg.language.csp.CSP;
+import org.moflon.tgg.language.csp.TGGConstraint;
+import org.moflon.tgg.language.modelgenerator.RuleAnalyzerResult;
+import org.moflon.tgg.language.precompiler.CyclicContextMessage;
+import org.moflon.tgg.language.precompiler.PrecompileLog;
+import org.moflon.tgg.language.precompiler.PrecompileMessage;
+import org.moflon.tgg.language.precompiler.PrecompilerFactory;
+import org.moflon.tgg.language.precompiler.RuleProcessingMessage;
+import org.moflon.tgg.language.precompiler.TGGPrecompiler;
+import org.moflon.tgg.runtime.RuntimePackage;
 
 public class IntegrationCodeGenerator extends RepositoryCodeGenerator
 {
@@ -234,7 +234,7 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
             {
                eMoflonEMFUtil.addToResourceSet(set, tgg);
 
-               TGGLanguage.modelgenerator.Compiler compiler = TGGLanguage.modelgenerator.ModelgeneratorFactory.eINSTANCE.createCompiler();
+               org.moflon.tgg.language.modelgenerator.Compiler compiler = org.moflon.tgg.language.modelgenerator.ModelgeneratorFactory.eINSTANCE.createCompiler();
                eMoflonEMFUtil.addToResourceSet(set, compiler);
                compiler.setProperties(moflonProperties);
                compiler.setInjectionHelper(injectionHelper);
@@ -320,8 +320,8 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
       ArrayList<String> metamodels = new ArrayList<>();
       metamodels.add(MocaTreePackage.eNS_URI);
       metamodels.add(SDMLanguagePackage.eNS_URI);
-      metamodels.add(TGGRuntimePackage.eNS_URI);
-      metamodels.add(TGGLanguagePackage.eNS_URI);
+      metamodels.add(RuntimePackage.eNS_URI);
+      metamodels.add(LanguagePackage.eNS_URI);
       metamodels.add(EcorePackage.eNS_URI);
 
       metamodels.forEach(mm -> {

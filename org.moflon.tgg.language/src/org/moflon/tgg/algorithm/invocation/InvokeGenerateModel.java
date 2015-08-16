@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.tgg.algorithm.modelgenerator.RulePerformData;
 
-import TGGRuntime.ModelgeneratorRuleResult;
+import org.moflon.tgg.runtime.ModelgeneratorRuleResult;
 
 public class InvokeGenerateModel implements Function<RulePerformData, ModelgeneratorRuleResult>
 {

@@ -6,10 +6,7 @@ import java.util.HashSet;
 
 import org.eclipse.emf.ecore.EObject;
 
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.Match;
-import TGGRuntime.TGGRuntimeFactory;
-import TGGRuntime.TripleMatchNodeMapping;
+import org.moflon.tgg.runtime.*;
 
 /**
  * An on-the-fly collection of source/target matches and their precedence dependencies created and used during
@@ -84,9 +81,9 @@ public class PrecedenceInputGraph extends PrecedenceStructure<Match>
    // ---------
    
    @Override
-   protected TGGRuntime.TripleMatch toEMF(Match m)
+   protected org.moflon.tgg.runtime.TripleMatch toEMF(Match m)
    {
-      TGGRuntime.TripleMatch tripleMatch = TGGRuntimeFactory.eINSTANCE.createTripleMatch();
+      org.moflon.tgg.runtime.TripleMatch tripleMatch = RuntimeFactory.eINSTANCE.createTripleMatch();
 
       tripleMatch.getSourceElements().addAll(m.getContextNodes());
       tripleMatch.getSourceElements().addAll(m.getContextEdges());
@@ -104,7 +101,7 @@ public class PrecedenceInputGraph extends PrecedenceStructure<Match>
       tripleMatch.setRuleName(m.getRuleName());
       
       m.getNodeMappings().keySet().stream().forEach(nodeName ->{
-         TripleMatchNodeMapping nodeMapping = TGGRuntimeFactory.eINSTANCE.createTripleMatchNodeMapping();
+         TripleMatchNodeMapping nodeMapping = RuntimeFactory.eINSTANCE.createTripleMatchNodeMapping();
          nodeMapping.setNodeName(nodeName);
          nodeMapping.setNode(m.getNodeMappings().get(nodeName));
          tripleMatch.getNodeMappings().add(nodeMapping);});
@@ -113,9 +110,9 @@ public class PrecedenceInputGraph extends PrecedenceStructure<Match>
    }
 
    @Override
-   protected Match fromEMF(TGGRuntime.TripleMatch tripleMatch)
+   protected Match fromEMF(org.moflon.tgg.runtime.TripleMatch tripleMatch)
    {
-      Match match = TGGRuntimeFactory.eINSTANCE.createMatch();
+      Match match = RuntimeFactory.eINSTANCE.createMatch();
 
       tripleMatch.getContextElements().forEach(elt -> {
          if (elt instanceof EMoflonEdge)

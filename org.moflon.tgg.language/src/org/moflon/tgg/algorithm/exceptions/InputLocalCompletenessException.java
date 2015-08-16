@@ -3,7 +3,7 @@ package org.moflon.tgg.algorithm.exceptions;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import TGGRuntime.Match;
+import org.moflon.tgg.runtime.Match;
 
 /**
  * Thrown when the synchronization algorithm is unable to parse the input graph. See

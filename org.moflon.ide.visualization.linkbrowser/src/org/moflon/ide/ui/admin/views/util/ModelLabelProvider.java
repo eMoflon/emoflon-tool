@@ -15,13 +15,8 @@ import org.eclipse.swt.widgets.Display;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.debug.ui.presentation.MoflonDebugModelPresentation;
 
-import DebugLanguage.DebugCorrespondence;
-import DebugLanguage.DebugCorrespondenceModel;
-import DebugLanguage.DebugEObjectProxy;
-import DebugLanguage.DebugMatch;
-import DebugLanguage.DebugSynchronizationProtocol;
-import DebugLanguage.DebugTripleMatch;
-import TGGRuntime.CorrespondenceModel;
+import org.moflon.tgg.debug.language.*;
+import org.moflon.tgg.runtime.CorrespondenceModel;
 
 public class ModelLabelProvider extends MoflonDebugModelPresentation implements IEntityStyleProvider, IEntityConnectionStyleProvider
 {

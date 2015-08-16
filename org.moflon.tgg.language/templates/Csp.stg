@@ -35,7 +35,7 @@ NegateConstraint(constraint) ::= <<
 >>
 
 createRuleResult(ruleName) ::=<<
-AttributeConstraintsRuleResult ruleResult = TGGRuntimeFactory.eINSTANCE.createAttributeConstraintsRuleResult();
+AttributeConstraintsRuleResult ruleResult = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE.createAttributeConstraintsRuleResult();
 ruleResult.setRule("<ruleName>");	
 ruleResult.setSuccess(true);
 

@@ -15,15 +15,15 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import SDMLanguage.patterns.BindingOperator;
 import SDMLanguage.patterns.LinkVariable;
 import SDMLanguage.patterns.ObjectVariable;
-import TGGLanguage.DomainType;
-import TGGLanguage.TGGLinkVariable;
-import TGGLanguage.TGGObjectVariable;
-import TGGLanguage.TGGRule;
-import TGGLanguage.algorithm.AlgorithmFactory;
-import TGGLanguage.algorithm.TempOutputContainer;
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.ModelgeneratorRuleResult;
-import TGGRuntime.TGGRuntimeFactory;
+import org.moflon.tgg.language.DomainType;
+import org.moflon.tgg.language.TGGLinkVariable;
+import org.moflon.tgg.language.TGGObjectVariable;
+import org.moflon.tgg.language.TGGRule;
+import org.moflon.tgg.language.algorithm.AlgorithmFactory;
+import org.moflon.tgg.language.algorithm.TempOutputContainer;
+import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.ModelgeneratorRuleResult;
+import org.moflon.tgg.runtime.RuntimeFactory;
 
 public class DataContainer
 {
@@ -51,7 +51,7 @@ public class DataContainer
       trgTempOutputContainer = AlgorithmFactory.eINSTANCE.createTempOutputContainer();
       resourceSet.createResource(eMoflonEMFUtil.createFileURI("trgTempOutputContainer", false)).getContents().add(trgTempOutputContainer);
       
-      correspondenceModel = TGGRuntimeFactory.eINSTANCE.createCorrespondenceModel();
+      correspondenceModel = RuntimeFactory.eINSTANCE.createCorrespondenceModel();
       resourceSet.createResource(eMoflonEMFUtil.createFileURI("correspondenceModel", false)).getContents().add(correspondenceModel);
 
       modelgenStats = new ModelgenStats();

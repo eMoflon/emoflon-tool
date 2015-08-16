@@ -3,7 +3,7 @@ package org.moflon.tgg.algorithm.delta.attribute;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import TGGLanguage.csp.Variable;
+import org.moflon.tgg.language.csp.Variable;
 
 public class AttributConstraintContainer {
 	String instanceName;

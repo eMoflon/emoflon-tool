@@ -2,8 +2,8 @@ package org.moflon.tgg.algorithm.modelgenerator.controller;
 
 import org.moflon.tgg.algorithm.modelgenerator.ModelgenStats;
 
-import TGGLanguage.DomainType;
-import TGGRuntime.RuleResult;
+import org.moflon.tgg.language.DomainType;
+import org.moflon.tgg.runtime.RuleResult;
 
 public class MaxModelSizeController implements IContinuationController
 {

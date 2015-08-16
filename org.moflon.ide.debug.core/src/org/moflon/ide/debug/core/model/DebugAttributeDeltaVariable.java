@@ -6,7 +6,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 
-import DebugLanguage.DebugAttributeDelta;
+import org.moflon.tgg.debug.language.DebugAttributeDelta;
 
 public class DebugAttributeDeltaVariable implements IVariable
 {

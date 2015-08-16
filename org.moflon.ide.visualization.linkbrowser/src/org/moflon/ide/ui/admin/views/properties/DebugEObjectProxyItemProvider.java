@@ -11,8 +11,8 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
 
-import DebugLanguage.DebugCorrespondence;
-import DebugLanguage.DebugEObjectProxy;
+import org.moflon.tgg.debug.language.DebugCorrespondence;
+import org.moflon.tgg.debug.language.DebugEObjectProxy;
 
 public class DebugEObjectProxyItemProvider extends EObjectItemProvider// ReflectiveItemProvider
 {

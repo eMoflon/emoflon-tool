@@ -26,9 +26,9 @@ import com.sun.jdi.NativeMethodException;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.VirtualMachine;
 
-import DebugLanguage.DebugModel;
-import DebugLanguage.DebugSynchronizationProtocol;
-import DebugLanguage.DeletionPhase;
+import org.moflon.tgg.debug.language.DebugModel;
+import org.moflon.tgg.debug.language.DebugSynchronizationProtocol;
+import org.moflon.tgg.debug.language.DeletionPhase;
 
 @SuppressWarnings({ "restriction" })
 public class DeletionStateStackFrame extends MoflonStackFrame

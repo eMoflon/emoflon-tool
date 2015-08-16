@@ -52,8 +52,8 @@ import MocaTree.impl.MocaTreeFactoryImpl;
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.ActivityNode;
 import SDMLanguage.activities.StartNode;
-import TGGLanguage.TripleGraphGrammar;
-import TGGRuntime.PrecedenceStructure;
+import org.moflon.tgg.language.TripleGraphGrammar;
+import org.moflon.tgg.runtime.PrecedenceStructure;
 
 public class ConvertToDotHandler extends AbstractCommandHandler
 {
@@ -164,8 +164,8 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 
             logger.debug("Visualizing meta-model '" + ePackage.getName() + "'...");
             treeToDot(new DotUnparserAdapter(), visualizationFolderPath, modelToTree_Ecore(ePackage, model));
-         } else if(root instanceof TGGRuntime.PrecedenceStructure){
-           final TGGRuntime.PrecedenceStructure ps = (TGGRuntime.PrecedenceStructure) root;
+         } else if(root instanceof org.moflon.tgg.runtime.PrecedenceStructure){
+           final org.moflon.tgg.runtime.PrecedenceStructure ps = (org.moflon.tgg.runtime.PrecedenceStructure) root;
            
            logger.debug("Visualizing precedence structure ...");
            treeToDot(new DotUnparserAdapter(), visualizationFolderPath, modelToTree_PS(ps, model));

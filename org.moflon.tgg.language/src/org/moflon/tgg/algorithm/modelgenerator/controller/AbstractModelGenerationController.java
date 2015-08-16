@@ -6,7 +6,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.tgg.algorithm.modelgenerator.ModelgenStats;
 
-import TGGRuntime.RuleResult;
+import org.moflon.tgg.runtime.RuleResult;
 
 public abstract class AbstractModelGenerationController
 {

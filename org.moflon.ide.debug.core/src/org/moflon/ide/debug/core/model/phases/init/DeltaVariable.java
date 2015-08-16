@@ -6,7 +6,7 @@ import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 
-import DebugLanguage.DebugDelta;
+import org.moflon.tgg.debug.language.DebugDelta;
 
 public class DeltaVariable extends MoflonDebugElement implements IVariable
 {

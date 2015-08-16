@@ -1,6 +1,6 @@
 package org.moflon.csp;
 
-import TGGLanguage.csp.OperationalCSP;
+import org.moflon.tgg.language.csp.OperationalCSP;
 
 public class CSPNotSolvableException extends RuntimeException
 {

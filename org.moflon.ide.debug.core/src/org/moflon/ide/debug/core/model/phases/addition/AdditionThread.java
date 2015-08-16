@@ -8,7 +8,7 @@ import org.eclipse.debug.core.model.IStackFrame;
 import org.moflon.ide.debug.core.breakpoints.PhaseBreakpoint;
 import org.moflon.ide.debug.core.model.MoflonThread;
 
-import DebugLanguage.AbstractPhase;
+import org.moflon.tgg.debug.language.AbstractPhase;
 
 @SuppressWarnings("restriction")
 public class AdditionThread extends MoflonThread

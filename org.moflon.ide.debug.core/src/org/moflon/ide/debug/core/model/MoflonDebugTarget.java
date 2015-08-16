@@ -27,12 +27,12 @@ import org.moflon.ide.debug.core.model.phases.translation.TranslationThread;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.VirtualMachine;
 
-import DebugLanguage.AbstractPhase;
-import DebugLanguage.AdditionPhase;
-import DebugLanguage.DebugModel;
-import DebugLanguage.DeletionPhase;
-import DebugLanguage.InitializationPhase;
-import DebugLanguage.TranslationPhase;
+import org.moflon.tgg.debug.language.AbstractPhase;
+import org.moflon.tgg.debug.language.AdditionPhase;
+import org.moflon.tgg.debug.language.DebugModel;
+import org.moflon.tgg.debug.language.DeletionPhase;
+import org.moflon.tgg.debug.language.InitializationPhase;
+import org.moflon.tgg.debug.language.TranslationPhase;
 
 @SuppressWarnings("restriction")
 public class MoflonDebugTarget extends JDIDebugTarget // MoflonDebugElement implements IDebugTarget

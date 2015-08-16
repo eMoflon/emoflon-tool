@@ -31,9 +31,9 @@ import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.Value;
 import com.sun.jdi.VirtualMachine;
 
-import DebugLanguage.DebugDelta;
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.TGGRuntimePackage;
+import org.moflon.tgg.debug.language.DebugDelta;
+import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.RuntimePackage;
 
 @SuppressWarnings("restriction")
 public class DeltaValue extends MoflonDebugElement implements IValue
@@ -123,7 +123,7 @@ public class DeltaValue extends MoflonDebugElement implements IValue
    public static <eObj extends EObject> eObj convertToEObject(String ecore, String ecore2, String xmlString) throws IOException
    {
       ResourceSet metaResourceSet = new ResourceSetImpl();
-      metaResourceSet.getPackageRegistry().put(TGGRuntimePackage.eNS_URI, TGGRuntimePackage.eINSTANCE);
+      metaResourceSet.getPackageRegistry().put(RuntimePackage.eNS_URI, RuntimePackage.eINSTANCE);
       registerEcore(ecore, metaResourceSet);
       registerEcore(ecore2, metaResourceSet);
       Resource resourceA = metaResourceSet.createResource(URI.createURI("test"));

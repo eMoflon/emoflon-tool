@@ -6,7 +6,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 
-import DebugLanguage.DebugCorrespondence;
+import org.moflon.tgg.debug.language.DebugCorrespondence;
 
 public class DebugCorrespondenceValue extends MoflonDebugElement implements IValue
 {

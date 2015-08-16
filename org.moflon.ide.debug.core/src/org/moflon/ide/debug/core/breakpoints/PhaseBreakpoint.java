@@ -19,7 +19,7 @@ import com.sun.jdi.event.EventSet;
 import com.sun.jdi.event.LocatableEvent;
 import com.sun.jdi.event.ThreadStartEvent;
 
-import DebugLanguage.AbstractPhase;
+import org.moflon.tgg.debug.language.AbstractPhase;
 
 @SuppressWarnings("restriction")
 public class PhaseBreakpoint extends JavaLineBreakpoint

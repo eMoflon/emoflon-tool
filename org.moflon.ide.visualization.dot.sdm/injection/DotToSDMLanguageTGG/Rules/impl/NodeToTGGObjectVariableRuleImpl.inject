@@ -14,26 +14,17 @@ import DotToSDMLanguageTGG.Rules.RulesPackage;
 import SDMLanguage.patterns.AttributeAssignment;
 import SDMLanguage.patterns.Constraint;
 import SDMLanguage.patterns.StoryPattern;
-import TGGLanguage.TGGObjectVariable;
-import TGGLanguage.csp.CSP;
-import TGGLanguage.csp.CspFactory;
-import TGGLanguage.csp.Variable;
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.EObjectContainer;
-import TGGRuntime.IsApplicableMatch;
-import TGGRuntime.IsApplicableRuleResult;
-import TGGRuntime.Match;
-import TGGRuntime.PerformRuleResult;
-import TGGRuntime.RuleResult;
-import TGGRuntime.TGGRuntimeFactory;
-import TGGRuntime.TripleMatch;
-import TGGRuntime.impl.AbstractRuleImpl;
+import org.moflon.tgg.language.TGGObjectVariable;
+import org.moflon.tgg.language.csp.CSP;
+import org.moflon.tgg.language.csp.CspFactory;
+import org.moflon.tgg.language.csp.Variable;
+import org.moflon.tgg.runtime.*;
 import csp.constraints.BoldToState;
 import csp.constraints.Concat;
 import csp.constraints.SetColor;
 import org.moflon.csp.*;
 import csp.constraints.*;
-import TGGLanguage.csp.*;
+import org.moflon.tgg.language.csp.*;
 
 
 partial class NodeToTGGObjectVariableRuleImpl {

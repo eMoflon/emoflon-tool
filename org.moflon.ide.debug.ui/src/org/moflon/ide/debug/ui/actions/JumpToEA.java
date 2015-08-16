@@ -19,7 +19,7 @@ import org.moflon.properties.MoflonPropertiesContainerHelper;
 import org.moflon.validation.EnterpriseArchitectValidationHelper;
 
 import MoflonPropertyContainer.MoflonPropertiesContainer;
-import TGGRuntime.TripleMatch;
+import org.moflon.tgg.runtime.TripleMatch;
 
 @SuppressWarnings("restriction")
 public class JumpToEA extends OpenVariableConcreteTypeAction

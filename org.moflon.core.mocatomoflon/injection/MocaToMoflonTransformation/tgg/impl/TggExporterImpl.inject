@@ -3,7 +3,6 @@ import java.io.StringReader;
 import java.util.Map;
 import java.util.HashMap;
 
-
 partial class TggExporterImpl {
 
 @members <--
@@ -61,12 +60,12 @@ partial class TggExporterImpl {
 
 @model getAbstractCorrespondenceEClass () <--
 
-      return TGGRuntime.TGGRuntimePackage.eINSTANCE.getAbstractCorrespondence();
+      return org.moflon.tgg.runtime.RuntimePackage.eINSTANCE.getAbstractCorrespondence();
 -->
 
 @model getAbstractRule () <--
 
-      return TGGRuntime.TGGRuntimePackage.eINSTANCE.getAbstractRule();
+      return org.moflon.tgg.runtime.RuntimePackage.eINSTANCE.getAbstractRule();
 -->
 
 @model registerDomain (Domain domain, Attribute metamodelGuid) <--

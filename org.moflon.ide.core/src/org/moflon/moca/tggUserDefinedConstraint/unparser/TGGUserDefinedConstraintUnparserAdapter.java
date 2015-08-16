@@ -13,9 +13,9 @@ import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.moca.MocaUtil;
 
-import TGGLanguage.csp.Adornment;
-import TGGLanguage.csp.TGGConstraint;
-import TGGLanguage.csp.Variable;
+import org.moflon.tgg.language.csp.Adornment;
+import org.moflon.tgg.language.csp.TGGConstraint;
+import org.moflon.tgg.language.csp.Variable;
 
 public class TGGUserDefinedConstraintUnparserAdapter
 {

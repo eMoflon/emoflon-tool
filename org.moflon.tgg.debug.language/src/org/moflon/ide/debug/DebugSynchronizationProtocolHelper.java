@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.moflon.tgg.algorithm.datastructures.SynchronizationProtocol;
 
-import TGGRuntime.TripleMatch;
+import org.moflon.tgg.runtime.TripleMatch;
 
 public class DebugSynchronizationProtocolHelper extends SynchronizationProtocol
 {

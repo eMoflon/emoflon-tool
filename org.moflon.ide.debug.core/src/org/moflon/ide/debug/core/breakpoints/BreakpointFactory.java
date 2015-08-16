@@ -8,12 +8,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.debug.ui.BreakpointUtils;
 
-import DebugLanguage.AbstractPhase;
-import DebugLanguage.Breakpoint;
-import DebugLanguage.DeletionBreakpoint;
-import DebugLanguage.DeletionPhase;
-import DebugLanguage.TranslationBreakpoint;
-import DebugLanguage.TranslationPhase;
+import org.moflon.tgg.debug.language.AbstractPhase;
+import org.moflon.tgg.debug.language.Breakpoint;
+import org.moflon.tgg.debug.language.DeletionBreakpoint;
+import org.moflon.tgg.debug.language.DeletionPhase;
+import org.moflon.tgg.debug.language.TranslationBreakpoint;
+import org.moflon.tgg.debug.language.TranslationPhase;
 
 @SuppressWarnings("restriction")
 public class BreakpointFactory

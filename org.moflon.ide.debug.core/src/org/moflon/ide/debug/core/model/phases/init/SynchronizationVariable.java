@@ -9,7 +9,7 @@ import org.eclipse.jdt.debug.core.IJavaModifiers;
 import org.eclipse.jdt.debug.core.IJavaVariable;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 
-import DebugLanguage.DebugSynchronizationProtocol;
+import org.moflon.tgg.debug.language.DebugSynchronizationProtocol;
 
 public class SynchronizationVariable extends MoflonDebugElement implements IVariable
 {

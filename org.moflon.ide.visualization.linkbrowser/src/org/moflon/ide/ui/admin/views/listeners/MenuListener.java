@@ -20,11 +20,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.moflon.ide.ui.admin.views.selection.adapters.RedrawGraphSelectionAdapter;
 
-import DebugLanguage.DebugCorrespondence;
-import DebugLanguage.DebugCorrespondenceModel;
-import DebugLanguage.DebugEObjectProxy;
-import DebugLanguage.DebugSynchronizationProtocol;
-import TGGRuntime.TripleMatch;
+import org.moflon.tgg.debug.language.*;
+import org.moflon.tgg.runtime.TripleMatch;
 
 public class MenuListener implements MenuDetectListener
 {

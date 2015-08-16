@@ -10,15 +10,13 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import DebugLanguage.DebugEObjectProxy;
+import org.moflon.tgg.debug.language.DebugEObjectProxy;
 
 public class PropertyAdapterFactory implements IAdapterFactory
 {
    
    public PropertyAdapterFactory()
    {
-      System.out.println(""); 
-      // TODO Auto-generated constructor stub
    }
 
    @SuppressWarnings("rawtypes")

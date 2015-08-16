@@ -7,7 +7,7 @@ import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.emf.common.util.EList;
 import org.moflon.ide.debug.core.model.MoflonDebugElement;
 
-import TGGLanguage.analysis.Rule;
+import org.moflon.tgg.language.analysis.Rule;
 
 public class RuleVariable extends MoflonDebugElement implements IVariable
 {

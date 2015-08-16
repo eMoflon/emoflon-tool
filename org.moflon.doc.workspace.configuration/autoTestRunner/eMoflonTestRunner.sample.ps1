@@ -51,7 +51,6 @@ $sleepTimeBetweenStartsInSeconds = 120
 # [void]$WORKSPACES.add("TransformationZoo_0")
 # [void]$WORKSPACES.add("TransformationZoo_1")
 # [void]$WORKSPACES.add("DeveloperWorkspace")
-# [void]$WORKSPACES.add("TextualSyntaxWorkspace")
 
 # Whether to spawn a new console for each Eclipse instance, showing standard output/standard error messages
 $USE_CONSOLE = $FALSE # either $TRUE or $FALSE

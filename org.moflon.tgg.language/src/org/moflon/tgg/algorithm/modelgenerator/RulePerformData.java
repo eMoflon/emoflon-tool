@@ -2,7 +2,7 @@ package org.moflon.tgg.algorithm.modelgenerator;
 
 import org.eclipse.emf.ecore.EOperation;
 
-import TGGLanguage.modelgenerator.RuleEntryContainer;
+import org.moflon.tgg.language.modelgenerator.RuleEntryContainer;
 
 public class RulePerformData
 {

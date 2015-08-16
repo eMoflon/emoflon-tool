@@ -1,8 +1,8 @@
 package csp.constraints;
 
 import SDMLanguage.activities.EdgeGuard;
-import TGGLanguage.csp.Variable;
-import TGGLanguage.csp.impl.TGGConstraintImpl;
+import org.moflon.tgg.language.csp.Variable;
+import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
 
 public class SetActivityEdgeLabel extends TGGConstraintImpl {
 	public void solve(Variable var_0, Variable var_1) {

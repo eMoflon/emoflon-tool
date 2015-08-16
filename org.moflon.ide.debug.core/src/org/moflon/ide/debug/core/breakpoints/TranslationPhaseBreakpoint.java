@@ -6,8 +6,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.debug.core.DebugException;
 import org.moflon.tgg.algorithm.synchronization.DebugBreakpoint.Phase;
 
-import DebugLanguage.AbstractPhase;
-import DebugLanguage.TranslationBreakpoint;
+import org.moflon.tgg.debug.language.AbstractPhase;
+import org.moflon.tgg.debug.language.TranslationBreakpoint;
 
 public class TranslationPhaseBreakpoint extends PhaseBreakpoint
 {

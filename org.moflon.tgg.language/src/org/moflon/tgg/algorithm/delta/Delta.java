@@ -9,8 +9,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.TGGRuntimeFactory;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.RuntimeFactory;
 
 /**
  * Represents a set of changes applied to a model that are to be propagated in the same synchronization step.
@@ -105,8 +105,8 @@ public class Delta
                   ": " + "[" + chg.getOldValue() + "]" + " -> " + "[" + chg.getNewValue() + "]").reduce("", Graph.combineElementReps("", ""));
    }
 
-   public TGGRuntime.Delta toEMF(){
-      TGGRuntime.Delta delta = TGGRuntimeFactory.eINSTANCE.createDelta();
+   public org.moflon.tgg.runtime.Delta toEMF(){
+      org.moflon.tgg.runtime.Delta delta = RuntimeFactory.eINSTANCE.createDelta();
       
       delta.getAddedNodes().addAll(getAddedNodes());
       delta.getDeletedNodes().addAll(getDeletedNodes());
@@ -119,7 +119,7 @@ public class Delta
       return delta;
    }
    
-   public static Delta fromEMF(TGGRuntime.Delta deltaEMF){
+   public static Delta fromEMF(org.moflon.tgg.runtime.Delta deltaEMF){
       Delta delta = new Delta();
       
       delta.addedNodes.addAll(deltaEMF.getAddedNodes());

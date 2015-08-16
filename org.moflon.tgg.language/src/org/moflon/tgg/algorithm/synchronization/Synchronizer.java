@@ -28,18 +28,9 @@ import org.moflon.tgg.algorithm.invocation.InvokeIsAppropriate;
 import org.moflon.tgg.algorithm.invocation.InvokePerform;
 import org.moflon.tgg.algorithm.synchronization.DebugBreakpoint.Phase;
 
-import TGGLanguage.algorithm.TempOutputContainer;
-import TGGLanguage.analysis.Rule;
-import TGGLanguage.analysis.RulesTable;
-import TGGLanguage.analysis.StaticAnalysis;
-import TGGRuntime.AbstractCorrespondence;
-import TGGRuntime.AttributeConstraintsRuleResult;
-import TGGRuntime.CorrespondenceModel;
-import TGGRuntime.EMoflonEdge;
-import TGGRuntime.IsApplicableMatch;
-import TGGRuntime.IsApplicableRuleResult;
-import TGGRuntime.Match;
-import TGGRuntime.PerformRuleResult;
+import org.moflon.tgg.language.algorithm.TempOutputContainer;
+import org.moflon.tgg.language.analysis.*;
+import org.moflon.tgg.runtime.*;
 
 /**
  *
@@ -230,7 +221,7 @@ public abstract class Synchronizer
       {
          if (("checkAttributes_" + getDirection()).equals(o.getName()))
          {
-            TGGRuntime.TripleMatch tmatch = protocol.toEMF(match);
+            org.moflon.tgg.runtime.TripleMatch tmatch = protocol.toEMF(match);
             return new InvokeCheckAttributes(ruleClass, o).apply(tmatch);
          }
       }
