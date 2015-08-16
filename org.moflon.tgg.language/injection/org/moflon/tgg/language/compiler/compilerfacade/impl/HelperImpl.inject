@@ -1,0 +1,269 @@
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.core.utilities.MoflonUtil;
+import TGGRuntime.TGGRuntimePackage;
+
+
+partial class HelperImpl {
+
+@members <--
+
+	private static Map<String, Integer> indexMap = new HashMap<String, Integer>();
+	
+-->
+
+@model isConsistencyCheckGenerated (ApplicationTypes type) <--
+
+		return !type.equals(ApplicationTypes.FORWARD) && !type.equals(ApplicationTypes.BACKWARD);
+-->
+
+@model ALL () <--
+
+
+		// TODO: implement this method here but do not remove the injection marker 
+		return ApplicationTypes.ALL;
+-->
+
+@model FORWARD () <--
+
+		return ApplicationTypes.FORWARD;
+-->
+
+@model BACKWARD () <--
+
+		return ApplicationTypes.BACKWARD;
+-->
+
+@model CONSISTENCY () <--
+
+		// TODO: implement this method here but do not remove the injection marker 
+		return ApplicationTypes.CONSISTENCY;
+-->
+
+@model SOURCE () <--
+
+		// TODO: implement this method here but do not remove the injection marker 
+		return DomainType.SOURCE;
+-->
+
+@model CORRESPONDENCE () <--
+
+		return DomainType.CORRESPONDENCE;
+-->
+
+@model TARGET () <--
+
+		// TODO: implement this method here but do not remove the injection marker 
+		return DomainType.TARGET;
+-->
+
+@model CHECK_ONLY () <--
+
+		return BindingOperator.CHECK_ONLY;
+-->
+
+@model CREATE () <--
+
+		return BindingOperator.CREATE;
+-->
+
+@model DESTROY () <--
+
+		return BindingOperator.DESTROY;
+-->
+
+@model MANDATORY () <--
+
+		return BindingSemantics.MANDATORY;
+-->
+
+@model NEGATIVE () <--
+
+		return BindingSemantics.NEGATIVE;
+-->
+
+@model OPTIONAL () <--
+
+		return BindingSemantics.OPTIONAL;
+-->
+
+@model BOUND () <--
+
+		return BindingState.BOUND;
+-->
+
+@model UNBOUND () <--
+
+		return BindingState.UNBOUND;
+-->
+
+@model NONE () <--
+
+		return EdgeGuard.NONE;
+-->
+
+@model SUCCESS () <--
+
+		return EdgeGuard.SUCCESS;
+-->
+
+@model FAILURE () <--
+
+		return EdgeGuard.FAILURE;
+-->
+
+@model EACH_TIME () <--
+
+		return EdgeGuard.EACH_TIME;
+-->
+
+@model END () <--
+
+		return EdgeGuard.END;
+-->
+
+@model EQUAL () <--
+
+		return ComparingOperator.EQUAL;
+-->
+
+@model copy (EObject eObject) <--
+
+		return EcoreUtil.copy(eObject);
+-->
+
+@model convertDirectionToInputDomain (ApplicationTypes direction) <--
+
+		if (direction == ApplicationTypes.FORWARD)
+			return DomainType.SOURCE;
+		else if (direction == ApplicationTypes.BACKWARD)
+			return DomainType.TARGET;
+		else
+			return null;
+-->
+
+@model determineOperationSignature (String prefix, ApplicationTypes direction, EClass variableType) <--
+
+		if (prefix.equals("postProcess"))
+			return prefix + direction.toString();
+
+		String shortDir = "BWD";
+		switch (direction) {
+		case FORWARD:
+			shortDir = "FWD";
+			break;
+		case BACKWARD:
+			shortDir = "BWD";
+			break;
+		case CONSISTENCY:
+			shortDir = "CC";
+			break;
+		}
+
+		if (variableType == null)
+			return prefix + "_" + shortDir;
+
+		String key = prefix + "_" + shortDir + "_" + variableType.getName();
+
+		if (indexMap.containsKey(key))
+			indexMap.put(key, indexMap.get(key) + 1);
+		else
+			indexMap.put(key, 0);
+
+		return key + "_" + indexMap.get(key);
+-->
+
+@model determineOutputDomain (ApplicationTypes direction) <--
+
+		if (direction == ApplicationTypes.FORWARD)
+			return DomainType.TARGET;
+		else if (direction == ApplicationTypes.BACKWARD)
+			return DomainType.SOURCE;
+		else
+			return null;
+-->
+
+@model determineTypeCheckStatement (ObjectVariable ov) <--
+
+		EClassifier clazz = ov.getType();
+		if (clazz.getInstanceClassName() != null) {
+			return "match.getObject(\"" + ov.getName()
+					+ "\").eClass().getInstanceClassName().equals(\""
+					+ clazz.getInstanceClassName() + "\")";
+		}
+
+		String fullyQualifiedEPackageName = MoflonUtil.getFQN(clazz
+				.getEPackage());
+		String packageName = clazz.getEPackage().getName();
+		packageName = MoflonUtil.determinePackageName(packageName);
+
+		// Correct fullyQualifiedEPackagename with import mapping
+		fullyQualifiedEPackageName = getCompiler().correctPathWithMappings(
+				fullyQualifiedEPackageName);
+
+		String suffix = ov.getType().getName().equals("Class") ? "_" : "";
+		return "match.getObject(\"" + ov.getName() + "\")"
+				+ ".eClass().equals(" + fullyQualifiedEPackageName + "."
+				+ packageName + ".eINSTANCE.get" + ov.getType().getName()
+				+ suffix + "())";
+-->
+
+@model getEClassFromTGGMetamodel (String className) <--
+
+		EClassifier result = (EClassifier) TGGRuntimePackage.eINSTANCE
+				.getEClassifier(className);
+
+		if (result == null)
+			result = (EClassifier) TGGLanguage.csp.CspPackage.eINSTANCE
+					.getEClassifier(className);
+
+		if (result == null)
+			result = (EClassifier) TGGLanguage.modelgenerator.ModelgeneratorPackage.eINSTANCE
+					.getEClassifier(className);
+
+		if (result == null)
+			result = (EClassifier) org.eclipse.emf.ecore.EcorePackage.eINSTANCE
+					.getEClassifier(className);
+
+		if (result == null)
+			try {
+				throw new Exception(
+						"EClass is unknown to TGG Compiler class finder");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		return result;
+-->
+
+@model getEdgeName (String edgeName) <--
+
+		return "_edge_" + edgeName;
+-->
+
+@model isContainedInGlobalApplicationType (ApplicationTypes globalAppType, ApplicationTypes appType) <--
+
+		switch (globalAppType) {
+		case ALL:
+			return true;
+		case BACKWARD:
+			return appType == globalAppType;
+		case FORWARD:
+			return appType == globalAppType;
+		default:
+			return true;
+		}
+-->
+
+}

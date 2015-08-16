@@ -1,0 +1,31 @@
+
+import java.util.Arrays;
+
+
+partial class TGGConstraintImpl {
+
+@members <--
+
+   public String getBindingStates(Variable... variables)
+   {
+      if (variables.length == 0)
+      {
+         throw new IllegalArgumentException("Cannot determine binding states from an empty list of variables!");
+      }
+      String result = "";
+      for (Variable variable : Arrays.asList(variables))
+      {
+         if (variable.isBound())
+         {
+            result += "B";
+         } else
+         {
+            result += "F";
+         }
+      }
+      return result;
+   }
+   
+-->
+
+}
