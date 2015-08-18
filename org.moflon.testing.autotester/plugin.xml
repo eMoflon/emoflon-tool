@@ -17,7 +17,7 @@
                label="eMoflon Toolbar">
             <command
                   commandId="org.moflon.ide.ui.commands.MoflonDevtoolsMenuCommand"
-                  icon="icons/junitmoflon.gif"
+                  icon="icons/junitmoflon.png"
                   id="org.moflon.devtools.ui.commands.toolbar.MoflonDevtoolsMenuCommand"
                   label="Install, Configure and Deploy eMoflon"
                   style="pulldown">
