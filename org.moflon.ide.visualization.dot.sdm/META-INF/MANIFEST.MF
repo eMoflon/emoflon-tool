@@ -1,14 +1,14 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: DotToSDMLanguageTGG;singleton:=true
-Export-Package: DotToSDMLanguageTGG,
- DotToSDMLanguageTGG.Rules,
- DotToSDMLanguageTGG.Rules.impl,
- DotToSDMLanguageTGG.Rules.util,
- DotToSDMLanguageTGG.impl,
- DotToSDMLanguageTGG.util,
- csp.constraints,
+Bundle-SymbolicName: org.moflon.ide.visualization.dot.sdm;singleton:=t
+ rue
+Export-Package: csp.constraints,
  csp.constraints.common,
- org.moflon.ide.visualization.dot.sdm
+ org.moflon.ide.visualization.dot.sdm,
+ org.moflon.ide.visualization.dot.sdm.Rules,
+ org.moflon.ide.visualization.dot.sdm.util,
+ org.moflon.ide.visualization.dot.sdm.impl,
+ org.moflon.ide.visualization.dot.sdm.Rules.impl,
+ org.moflon.ide.visualization.dot.sdm.Rules.util
 Bundle-Name: DotToSDMLanguageTGG
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
@@ -19,7 +19,7 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.moflon.tgg.language,
  org.moflon.tgg.runtime,
  org.moflon.tgg.debug.language,
- DotLanguage,
+ org.moflon.ide.visualization.dot.language,
  org.moflon.core.utilities,
  org.eclipse.core.runtime
 Bundle-ManifestVersion: 2

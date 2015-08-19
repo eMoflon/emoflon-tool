@@ -139,18 +139,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          unpack="false"/>
 
    <plugin
-         id="DotToSDMLanguageTGG"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="DotToTGGTGG"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
          id="DepthFirstSearchGraph"
          download-size="0"
          install-size="0"
@@ -194,13 +182,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.ide.debug.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="DotLanguage"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -346,6 +327,27 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.tgg.runtime"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.language"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.sdm"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.tgg"
          download-size="0"
          install-size="0"
          version="0.0.0"

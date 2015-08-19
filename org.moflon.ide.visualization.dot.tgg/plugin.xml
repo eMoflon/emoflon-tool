@@ -31,9 +31,9 @@
     <key commandId="org.moflon.ide.ui.commands.conversion.ConvertToDotCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E S"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="DotToTGGTGG.DotToTGGTGGPackage" genModel="model/DotToTGGTGG.genmodel" uri="platform:/plugin/DotToTGGTGG/model/DotToTGGTGG.ecore"/>
+    <package class="org.moflon.ide.visualization.dot.tgg.TggPackage" genModel="model/Tgg.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.tgg/model/Tgg.ecore"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="DotToTGGTGG.Rules.RulesPackage" genModel="model/DotToTGGTGG.genmodel" uri="platform:/plugin/DotToTGGTGG/model/DotToTGGTGG.ecore#//Rules"/>
+    <package class="org.moflon.ide.visualization.dot.tgg.Rules.RulesPackage" genModel="model/Tgg.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.tgg/model/Tgg.ecore#//Rules"/>
   </extension>
 </plugin>

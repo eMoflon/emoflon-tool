@@ -32,7 +32,7 @@ Require-Bundle:
  MocaTree,
  MocaToMoflonTransformation,
  org.moflon.tgg.runtime,
- DotLanguage,
+ org.moflon.ide.visualization.dot.language,
  org.apache.commons.io;bundle-version="2.2.0",
  org.moflon.ide.plugins,
  ValidationResult

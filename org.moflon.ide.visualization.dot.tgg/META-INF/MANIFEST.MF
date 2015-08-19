@@ -1,13 +1,14 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: DotToTGGTGG;singleton:=true
-Export-Package: DotToTGGTGG.impl,
- DotToTGGTGG.util,
- DotToTGGTGG,
- DotToTGGTGG.Rules.impl,
- org.moflon.visualization.ui,
- DotToTGGTGG.Rules.util,
+Bundle-SymbolicName: org.moflon.ide.visualization.dot.tgg;singleton:=t
+ rue
+Export-Package: org.moflon.visualization.ui,
  csp.constraints,
- DotToTGGTGG.Rules
+ org.moflon.ide.visualization.dot.tgg.util,
+ org.moflon.ide.visualization.dot.tgg,
+ org.moflon.ide.visualization.dot.tgg.Rules,
+ org.moflon.ide.visualization.dot.tgg.Rules.util,
+ org.moflon.ide.visualization.dot.tgg.impl,
+ org.moflon.ide.visualization.dot.tgg.Rules.impl
 Bundle-Name: DotToTGGTGG
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
@@ -27,9 +28,9 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  SDMLanguage,
  org.moflon.tgg.runtime,
  Moca,
- DotLanguage,
+ org.moflon.ide.visualization.dot.language,
  org.moflon.tgg.debug.language,
- DotToSDMLanguageTGG,
+ org.moflon.ide.visualization.dot.sdm,
  org.moflon.ide.visualization.dot.tgg.runtime
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy

@@ -30,6 +30,8 @@ import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.ui.admin.handlers.AbstractCommandHandler;
 import org.moflon.ide.visualization.dot.sdm.SDMVisualizationPlugin;
+import org.moflon.ide.visualization.dot.sdm.SdmPackage;
+import org.moflon.ide.visualization.dot.tgg.TggPackage;
 import org.moflon.ide.visualization.dot.tgg.VisualizationPlugin;
 import org.moflon.ide.visualization.dot.tgg.runtime.DotTggRuntimePlugin;
 import org.moflon.ide.visualization.dot.tgg.runtime.RuntimePackage;
@@ -40,8 +42,6 @@ import org.moflon.moca.dot.unparser.SimpleDotUnparserAdapter;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.util.eMoflonSDMUtil;
 
-import DotToSDMLanguageTGG.DotToSDMLanguageTGGPackage;
-import DotToTGGTGG.DotToTGGTGGPackage;
 import Moca.CodeAdapter;
 import Moca.MocaFactory;
 import Moca.unparser.Unparser;
@@ -231,7 +231,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
       try
       {
          final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", VisualizationPlugin.getDefault().getPluginId());
-         SynchronizationHelper helper = new SynchronizationHelper(DotToTGGTGGPackage.eINSTANCE, pathToPlugin.getFile(), tgg.eResource().getResourceSet());
+         SynchronizationHelper helper = new SynchronizationHelper(TggPackage.eINSTANCE, pathToPlugin.getFile(), tgg.eResource().getResourceSet());
          helper.setTrg(tgg);
          
          logger.debug("Loaded rules");
@@ -318,7 +318,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
             {
                // initialize tgg and integrate
                final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", SDMVisualizationPlugin.getDefault().getPluginId());
-               SynchronizationHelper helper = new SynchronizationHelper(DotToSDMLanguageTGGPackage.eINSTANCE, pathToPlugin.getFile(), eclass.eResource().getResourceSet());
+               SynchronizationHelper helper = new SynchronizationHelper(SdmPackage.eINSTANCE, pathToPlugin.getFile(), eclass.eResource().getResourceSet());
                
 
                logger.debug("Retrieved: " + pathToPlugin + ", " + pathToPlugin.getFile() + ", " + pathToPlugin.getPath());

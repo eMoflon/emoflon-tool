@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="ASCII"?>
 <org.moflon.tgg.debug.language:DebugModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.moflon.tgg.debug.language="platform:/plugin/org.moflon.tgg.debug.language/model/Language.ecore">
   <phases xsi:type="org.moflon.tgg.debug.language:TranslationPhase">
+    <breakpoints xsi:type="org.moflon.tgg.debug.language:TranslationBreakpoint" line="293" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer" subPhase="TRANSLATION_START"/>
     <breakpoints xsi:type="org.moflon.tgg.debug.language:TranslationBreakpoint" line="320" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer" subPhase="TRANSLATION_END"/>
     <breakpoints xsi:type="org.moflon.tgg.debug.language:TranslationBreakpoint" line="314" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer" subPhase="TRANSLATION_STEP"/>
-    <breakpoints xsi:type="org.moflon.tgg.debug.language:TranslationBreakpoint" line="293" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer" subPhase="TRANSLATION_START"/>
+  </phases>
+  <phases xsi:type="org.moflon.tgg.debug.language:InitializationPhase">
+    <breakpoints line="431" classname="org.moflon.tgg.algorithm.synchronization.SynchronizationHelper"/>
   </phases>
   <phases xsi:type="org.moflon.tgg.debug.language:DeletionPhase">
     <breakpoints line="119" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer"/>
     <breakpoints xsi:type="org.moflon.tgg.debug.language:DeletionBreakpoint" line="245" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer"/>
-  </phases>
-  <phases xsi:type="org.moflon.tgg.debug.language:InitializationPhase">
-    <breakpoints line="431" classname="org.moflon.tgg.algorithm.synchronization.SynchronizationHelper"/>
   </phases>
   <phases xsi:type="org.moflon.tgg.debug.language:AdditionPhase">
     <breakpoints line="135" classname="org.moflon.tgg.algorithm.synchronization.Synchronizer"/>

@@ -1,8 +1,9 @@
 package csp.constraints.common;
 
-import DotLanguage.DotColor;
 import SDMLanguage.patterns.BindingOperator;
 import SDMLanguage.patterns.BindingSemantics;
+
+import org.moflon.ide.visualization.dot.language.DotColor;
 import org.moflon.tgg.language.csp.Variable;
 import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
 

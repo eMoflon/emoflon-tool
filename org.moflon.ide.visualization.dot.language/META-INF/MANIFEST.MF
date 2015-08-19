@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: DotLanguage;singleton:=true
-Export-Package: DotLanguage.util,
- DotLanguage,
- DotLanguage.impl
+Bundle-SymbolicName: org.moflon.ide.visualization.dot.language;singlet
+ on:=true
+Export-Package: org.moflon.ide.visualization.dot.language.impl,
+ org.moflon.ide.visualization.dot.language,
+ org.moflon.ide.visualization.dot.language.util
 Bundle-Name: DotLanguage
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: MocaTree,

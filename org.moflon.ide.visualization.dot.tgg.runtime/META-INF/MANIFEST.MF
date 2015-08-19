@@ -12,7 +12,7 @@ Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
- DotLanguage,
+ org.moflon.ide.visualization.dot.language,
  MocaTree,
  org.moflon.tgg.runtime,
  org.apache.log4j;bundle-version="1.2.15",

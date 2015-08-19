@@ -12,9 +12,6 @@
     <package class="org.moflon.tgg.language.csp.CspPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="org.moflon.tgg.language.consistencycheck.ConsistencycheckPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//consistencycheck"/>
-  </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.tgg.language.modelgenerator.ModelgeneratorPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//modelgenerator"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
@@ -28,6 +25,9 @@
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.tgg.language.analysis.decNACs.DecNACsPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//analysis/decNACs"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.tgg.language.consistencycheck.ConsistencycheckPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//consistencycheck"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.tgg.language.compiler.CompilerPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//compiler"/>
