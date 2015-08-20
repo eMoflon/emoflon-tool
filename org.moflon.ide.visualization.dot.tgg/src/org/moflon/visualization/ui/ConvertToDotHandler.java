@@ -2,6 +2,7 @@ package org.moflon.visualization.ui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Collectors;
@@ -23,7 +24,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -41,6 +44,7 @@ import org.moflon.moca.dot.unparser.DotUnparserAdapter;
 import org.moflon.moca.dot.unparser.SimpleDotUnparserAdapter;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.util.eMoflonSDMUtil;
+import org.moflon.visualization.ui.dialog.RegexElementListSelectionDialog;
 
 import Moca.CodeAdapter;
 import Moca.MocaFactory;
@@ -264,10 +268,12 @@ public class ConvertToDotHandler extends AbstractCommandHandler
       final Folder rootFolder = MocaTreeFactoryImpl.eINSTANCE.createFolder();
       rootFolder.setName(getFileName(model));
 
-      return modelToTree_Ecore(epackage, rootFolder);
+      String filter = openFilterDialog(epackage);
+      
+      return modelToTree_Ecore(epackage, rootFolder, filter);
    }
 
-   private Folder modelToTree_Ecore(final EPackage epackage, final Folder folder)
+   private Folder modelToTree_Ecore(final EPackage epackage, final Folder folder, String filter)
    {
       // translate all supported content of a package
       final Iterator<EClassifier> classifierIterator = epackage.getEClassifiers().iterator();
@@ -277,7 +283,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
          if (eclassifier instanceof EClass)
          {
             Folder subFolder = MocaTreeFactoryImpl.eINSTANCE.createFolder();
-            subFolder = modelToTree_Ecore((EClass) eclassifier, subFolder);
+            subFolder = modelToTree_Ecore((EClass) eclassifier, subFolder, filter);
             if (!subFolder.getFile().isEmpty())
             {
                subFolder.setName(eclassifier.getName());
@@ -292,7 +298,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
       {
          final EPackage subpackage = folderIterator.next();
          Folder subFolder = MocaTreeFactoryImpl.eINSTANCE.createFolder();
-         subFolder = modelToTree_Ecore(subpackage, subFolder);
+         subFolder = modelToTree_Ecore(subpackage, subFolder, filter);
          if (!subFolder.getFile().isEmpty() || !subFolder.getSubFolder().isEmpty())
          {
             subFolder.setName(subpackage.getName());
@@ -303,13 +309,17 @@ public class ConvertToDotHandler extends AbstractCommandHandler
       return folder;
    }
 
-   private Folder modelToTree_Ecore(final EClass eclass, final Folder folder)
+   private Folder modelToTree_Ecore(final EClass eclass, final Folder folder, String filter)
    {
       final Iterator<EOperation> eOpIterator = eclass.getEOperations().iterator();
       Folder patternFolder = null;
       while (eOpIterator.hasNext())
       {
          final EOperation eOperation = eOpIterator.next();
+         
+         if(!eOperation.getName().matches(filter))
+        	 continue;
+         
          Activity activity = null;
          // if sdm has been found -> integrate and connect file to folder structure
          if ((activity = getActivity(eOperation)) != null)
@@ -432,4 +442,48 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 
       return activity;
    }
+   
+   private String openFilterDialog(final EPackage epackage) {
+		ArrayList<String> operations = findOperations(new ArrayList<String>(), epackage);
+		
+		RegexElementListSelectionDialog dialog = new RegexElementListSelectionDialog(Display.getCurrent().getActiveShell(),
+				new LabelProvider());
+		dialog.setElements(operations.toArray());
+		dialog.setTitle("Type in regex to filter SDMs");
+		// user pressed cancel
+		if (dialog.open() != Window.OK) {
+			return null;
+		}
+		String filter = dialog.getFilter();
+		
+		try {
+			"test".matches(filter);
+		}
+		catch(Exception e) {
+			return ".*";
+		}
+		
+		return filter;
+	}
+	
+	private ArrayList<String> findOperations(ArrayList<String> list, EPackage epackage) {
+		final Iterator<EClassifier> classifierIterator = epackage.getEClassifiers().iterator();
+		while (classifierIterator.hasNext()) {
+			final EClassifier eclassifier = classifierIterator.next();
+			if(eclassifier instanceof EClass) {
+				final Iterator<EOperation> eOpIterator = ((EClass) eclassifier).getEOperations().iterator();
+				while(eOpIterator.hasNext()) {
+					list.add(eOpIterator.next().getName());					
+				}
+			}
+		}
+		
+		final Iterator<EPackage> folderIterator = epackage.getESubpackages().iterator();
+		while (folderIterator.hasNext()) {
+			final EPackage subpackage = folderIterator.next();
+			findOperations(list, subpackage);
+		}
+		
+		return list;
+	}
 }
