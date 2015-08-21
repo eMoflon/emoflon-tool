@@ -495,6 +495,11 @@ public class ConvertToDotHandler extends AbstractCommandHandler
       return activity;
    }
    
+   /**
+    * Opens a dialog that shows all operations implemented via SDMs and allows to filter them by using regular expressions
+    * @param epackage
+    * @return
+    */
    private String openFilterDialog(final EPackage epackage) {
 		ArrayList<String> operations = findOperations(new ArrayList<String>(), epackage);
 		
@@ -509,8 +514,9 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 		}
 		String filter = dialog.getFilter();
 		
+		// check if pattern is valid and replace it with the global wildcard if not
 		try {
-			"test".matches(filter);
+			"sanitycheck".matches(filter);
 		}
 		catch(Exception e) {
 			return ".*";
@@ -519,6 +525,12 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 		return filter;
 	}
 	
+   	/**
+   	 * Collect all operations that are implemented via SDMs 
+   	 * @param list
+   	 * @param epackage
+   	 * @return
+   	 */
 	private ArrayList<String> findOperations(ArrayList<String> list, EPackage epackage) {
 		final Iterator<EClassifier> classifierIterator = epackage.getEClassifiers().iterator();
 		while (classifierIterator.hasNext()) {
