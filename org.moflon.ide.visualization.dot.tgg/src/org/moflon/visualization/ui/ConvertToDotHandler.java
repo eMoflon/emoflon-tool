@@ -61,9 +61,22 @@ import org.moflon.tgg.runtime.PrecedenceStructure;
 
 public class ConvertToDotHandler extends AbstractCommandHandler
 {
-
-   private static final String RELATIVE_PATH_TO_DOT = "/resources/bin/dot.exe";
-
+	private static final String RELATIVE_PATH_TO_DOT = "/resources/bin/dot.exe";
+	
+	//Dot Path Variable
+	private static final String GRAPHVIZ_DOT = "GRAPHVIZ_DOT";
+	
+	//Dot default paths
+	private static final String[] WIN_DOT = {
+			"C:\\Program Files",// \Graphviz*\bin\dot.exe
+			"C:\\Program Files (x86)"// \Graphviz*\bin\dot.exe
+	};
+	
+	private static final String[] LINUX_MAC_DOT = {
+			"/usr/local/bin/dot",
+			"/usr/bin/dot"
+	};
+	  
    @Override
    public Object execute(final ExecutionEvent event) throws ExecutionException
    {
@@ -101,10 +114,10 @@ public class ConvertToDotHandler extends AbstractCommandHandler
     */
    public boolean isDotInstalled()
    {
-      final String cmd = getAbsolutePathToDotExe() + " -h";
       boolean isDotInstalled = false;
       try
       {
+    	 final String[] cmd = {getAbsolutePathToDotExe(),"-h"};
          Runtime.getRuntime().exec(cmd);
          isDotInstalled = true;
       } catch (final IOException e)
@@ -118,11 +131,49 @@ public class ConvertToDotHandler extends AbstractCommandHandler
       return isDotInstalled;
    }
 
-   private String getAbsolutePathToDotExe()
+   private String getAbsolutePathToDotExe() throws IOException
    {
-      final URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(RELATIVE_PATH_TO_DOT, VisualizationPlugin.getDefault().getPluginId());
-      final String absolutePathToDot = new java.io.File(pathToExe.getPath()).getAbsolutePath();
-      return "\"" + absolutePathToDot + "\"";
+	  String path = System.getenv(GRAPHVIZ_DOT);
+	  if(path!=null && (new java.io.File(path)).exists()){
+		  //path variable points to dot installation 
+		  return path;
+	  }
+	  else {
+		  String OS = System.getProperty("os.name").toLowerCase();
+		  if(OS.indexOf("mac")>=0 //Is MAC ? 
+				  || OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 ) //Is some kind of Unix?
+		  {
+			  //Check Unix default installation paths
+			  for(String unix_path : LINUX_MAC_DOT){
+				  if(new java.io.File(unix_path).exists()){
+					  return unix_path;
+				  }
+			  }
+			  throw new IOException("Dot installation not found: Path variable (GRAPHVIZ_DOT) is not set and dot is not in a default location.");
+		  }
+		  else if(OS.indexOf("win") >= 0){
+			  //Check Windows default installation paths
+			  for(String windows_path : WIN_DOT){
+				  java.io.File programs = new java.io.File(windows_path);
+				  if(programs.exists()){
+					  for(java.io.File dot : programs.listFiles()) {
+						  if(dot.getName().startsWith("Graphviz")){
+							  java.io.File exe = new java.io.File(new java.io.File(dot,"bin"), "dot.exe");
+							  if(exe.exists()) {
+								  return exe.getPath();
+							  }
+						  }
+					  }
+				  }
+			  }
+			  final URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(RELATIVE_PATH_TO_DOT, VisualizationPlugin.getDefault().getPluginId());
+			  final String absolutePathToDot = new java.io.File(pathToExe.getPath()).getAbsolutePath();
+			  return "\"" + absolutePathToDot + "\""; 
+		  }
+		  else {
+			 throw new IOException("Dot installation not found: Unsupported OS \""+OS+"\".");
+		  }
+	  }
    }
 
    private IFile castToIFile(final Object element)
@@ -401,9 +452,9 @@ public class ConvertToDotHandler extends AbstractCommandHandler
       for (final File file : folder.getFile())
       {
          final String filePath = path + java.io.File.separator + folder.getName() + java.io.File.separator + file.getName();
-         final String cmd = getAbsolutePathToDotExe() + " -Tsvg \"" + filePath + "\" -o \"" + filePath.substring(0, filePath.lastIndexOf(".dot")) +  ".svg" + "\"";
          try
          {
+        	final String[] cmd = {getAbsolutePathToDotExe(), "-Tsvg", "\"" + filePath + "\"","-o", "\"" + filePath.substring(0, filePath.lastIndexOf(".dot")) +  ".svg" + "\""};
             logger.debug("Executing: " + cmd);
             Runtime.getRuntime().exec(cmd);
          } catch (final IOException e)
