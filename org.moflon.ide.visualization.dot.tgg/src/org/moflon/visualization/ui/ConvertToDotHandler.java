@@ -507,16 +507,15 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 				new LabelProvider());
 		dialog.setElements(operations.toArray());
 		dialog.setTitle("Type in regex to filter SDMs");
-		dialog.setFilter("Example:isAppli.*BWD|perform.*|.*");
+		dialog.setFilter("Example: isAppli.*BWD|perform.*|.*");
 		// user pressed cancel
 		if (dialog.open() != Window.OK) {
 			return null;
 		}
 		String filter = dialog.getFilter();
 		
-		// check if pattern is valid and replace it with the global wildcard if not
 		try {
-			"sanitycheck".matches(filter);
+			"this checks if filter is a valid regexp".matches(filter);
 		}
 		catch(Exception e) {
 			return ".*";
