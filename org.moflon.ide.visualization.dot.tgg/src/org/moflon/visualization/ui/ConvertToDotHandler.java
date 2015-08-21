@@ -55,6 +55,7 @@ import MocaTree.MocaTreeFactory;
 import MocaTree.impl.MocaTreeFactoryImpl;
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.ActivityNode;
+import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StartNode;
 import org.moflon.tgg.language.TripleGraphGrammar;
 import org.moflon.tgg.runtime.PrecedenceStructure;
@@ -501,6 +502,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 				new LabelProvider());
 		dialog.setElements(operations.toArray());
 		dialog.setTitle("Type in regex to filter SDMs");
+		dialog.setFilter("Example:isAppli.*BWD|perform.*|.*");
 		// user pressed cancel
 		if (dialog.open() != Window.OK) {
 			return null;
@@ -524,7 +526,12 @@ public class ConvertToDotHandler extends AbstractCommandHandler
 			if(eclassifier instanceof EClass) {
 				final Iterator<EOperation> eOpIterator = ((EClass) eclassifier).getEOperations().iterator();
 				while(eOpIterator.hasNext()) {
-					list.add(eOpIterator.next().getName());					
+					// add solely those operations that are implemented via SDMs
+					EOperation eOperation = eOpIterator.next();
+					if(eOperation instanceof MoflonEOperation) {
+						if(((MoflonEOperation) eOperation).getActivity() != null)
+							list.add(eOperation.getName());							
+					}
 				}
 			}
 		}
