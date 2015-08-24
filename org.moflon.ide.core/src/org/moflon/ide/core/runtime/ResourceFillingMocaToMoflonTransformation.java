@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.TGGLanguageActivator;
 import org.moflon.core.moca.tree.MocaTreePlugin;
+import org.moflon.core.mocatomoflon.impl.ExporterImpl;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -34,7 +35,6 @@ import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.PluginProducerWorkspaceRunnable;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
-import MocaToMoflonTransformation.impl.ExporterImpl;
 import MocaTree.Attribute;
 import MocaTree.Node;
 import MoflonPropertyContainer.Dependencies;

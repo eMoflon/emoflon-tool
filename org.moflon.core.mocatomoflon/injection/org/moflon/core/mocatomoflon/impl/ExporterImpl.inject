@@ -2,7 +2,7 @@
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.HashMap;
-import MocaToMoflonTransformation.tgg.KernelRuleMap;
+import org.moflon.core.mocatomoflon.tgg.KernelRuleMap;
 
 partial class ExporterImpl {
 
@@ -286,7 +286,7 @@ partial class ExporterImpl {
 
       }
 
-      for (MocaToMoflonTransformation.tgg.DomainMap map : this.getTggexporter().getDomainNodeMap())
+      for (org.moflon.core.mocatomoflon.tgg.DomainMap map : this.getTggexporter().getDomainNodeMap())
       {
          org.moflon.tgg.language.Domain domain = null;
          org.moflon.tgg.language.TripleGraphGrammar tgg = map.getTripleGraphGrammar();

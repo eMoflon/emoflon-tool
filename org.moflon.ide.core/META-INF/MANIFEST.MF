@@ -30,12 +30,12 @@ Require-Bundle:
  SDMLanguage,
  org.moflon.tgg.cspcodeadapter,
  MocaTree,
- MocaToMoflonTransformation,
  org.moflon.tgg.runtime,
  org.moflon.ide.visualization.dot.language,
  org.apache.commons.io;bundle-version="2.2.0",
  org.moflon.ide.plugins,
- ValidationResult
+ ValidationResult,
+ org.moflon.core.mocatomoflon;bundle-version="2.0.0"
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.console,
  org.moflon.ide.core.ea,

@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.moflon.codegen.ErrorReporter;
 import org.moflon.codegen.eclipse.ValidationStatus;
+import org.moflon.core.mocatomoflon.Exporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
@@ -28,7 +29,6 @@ import org.moflon.ide.core.runtime.ResourceFillingMocaToMoflonTransformation;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
-import MocaToMoflonTransformation.Exporter;
 import ValidationResult.ErrorMessage;
 
 /**

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.4"?><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="MocaToMoflonTransformation.MocaToMoflonTransformationPackage" genModel="model/MocaToMoflonTransformation.genmodel" uri="platform:/plugin/MocaToMoflonTransformation/model/MocaToMoflonTransformation.ecore"/>
+    <package class="org.moflon.core.mocatomoflon.MocatomoflonPackage" genModel="model/Mocatomoflon.genmodel" uri="platform:/plugin/org.moflon.core.mocatomoflon/model/Mocatomoflon.ecore"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="MocaToMoflonTransformation.sdm.SdmPackage" genModel="model/MocaToMoflonTransformation.genmodel" uri="platform:/plugin/MocaToMoflonTransformation/model/MocaToMoflonTransformation.ecore#//sdm"/>
+    <package class="org.moflon.core.mocatomoflon.sdm.SdmPackage" genModel="model/Mocatomoflon.genmodel" uri="platform:/plugin/org.moflon.core.mocatomoflon/model/Mocatomoflon.ecore#//sdm"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="MocaToMoflonTransformation.tgg.TggPackage" genModel="model/MocaToMoflonTransformation.genmodel" uri="platform:/plugin/MocaToMoflonTransformation/model/MocaToMoflonTransformation.ecore#//tgg"/>
+    <package class="org.moflon.core.mocatomoflon.tgg.TggPackage" genModel="model/Mocatomoflon.genmodel" uri="platform:/plugin/org.moflon.core.mocatomoflon/model/Mocatomoflon.ecore#//tgg"/>
   </extension>
 </plugin>
