@@ -5,7 +5,7 @@ lexer grammar AttributeConstraintLexer;
 
       public void displayRecognitionError(String[] tokenNames,
                                         RecognitionException e) {
-          Problem problem = MocaFactory.eINSTANCE.createProblem();
+          Problem problem = ProcessingFactory.eINSTANCE.createProblem();
           int line  = e.line;
           int charPos = e.charPositionInLine;
           int tokenLenght = 1;
@@ -28,9 +28,9 @@ lexer grammar AttributeConstraintLexer;
 @header {
 package org.moflon.moca.AttributeConstraint.parser;
 import java.util.Collection;
-import Moca.MocaFactory;
-import Moca.Problem;
-import Moca.ProblemType;
+import org.moflon.core.moca.processing.ProcessingFactory;
+import org.moflon.core.moca.processing.Problem;
+import org.moflon.core.moca.processing.ProblemType;
 }
 
 WS : (' '|'\n' | '\r')+ {skip();};
@@ -43,7 +43,7 @@ fragment
 QUOTE:'"';
 fragment
 UNDERSCORE:'_';
-fragment
+fragment 
 SMALL_LETTER: ('a'..'z');
 fragment
 CAPITAL_LETTER: ('A'..'Z');

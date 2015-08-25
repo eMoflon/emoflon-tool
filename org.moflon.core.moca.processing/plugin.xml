@@ -6,15 +6,15 @@
  $Id$
 --><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="Moca.MocaPackage" genModel="model/Moca.genmodel" uri="platform:/plugin/Moca/model/Moca.ecore"/>
+    <package class="org.moflon.core.moca.processing.ProcessingPackage" genModel="model/Processing.genmodel" uri="platform:/plugin/org.moflon.core.moca.processing/model/Processing.ecore"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="Moca.compare.ComparePackage" genModel="model/Moca.genmodel" uri="platform:/plugin/Moca/model/Moca.ecore#//compare"/>
+    <package class="org.moflon.core.moca.processing.compare.ComparePackage" genModel="model/Processing.genmodel" uri="platform:/plugin/org.moflon.core.moca.processing/model/Processing.ecore#//compare"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="Moca.parser.ParserPackage" genModel="model/Moca.genmodel" uri="platform:/plugin/Moca/model/Moca.ecore#//parser"/>
+    <package class="org.moflon.core.moca.processing.parser.ParserPackage" genModel="model/Processing.genmodel" uri="platform:/plugin/org.moflon.core.moca.processing/model/Processing.ecore#//parser"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="Moca.unparser.UnparserPackage" genModel="model/Moca.genmodel" uri="platform:/plugin/Moca/model/Moca.ecore#//unparser"/>
+    <package class="org.moflon.core.moca.processing.unparser.UnparserPackage" genModel="model/Processing.genmodel" uri="platform:/plugin/org.moflon.core.moca.processing/model/Processing.ecore#//unparser"/>
   </extension>
 </plugin>

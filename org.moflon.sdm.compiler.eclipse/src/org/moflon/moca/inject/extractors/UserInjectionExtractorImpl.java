@@ -17,6 +17,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.core.moca.processing.CodeAdapter;
+import org.moflon.core.moca.processing.ProcessingFactory;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.parser.InjectImplParserAdapter;
@@ -27,8 +29,6 @@ import org.moflon.moca.inject.validation.InjectionValidationMessage;
 import org.moflon.moca.inject.validation.MissingEClassValidationMessage;
 import org.moflon.moca.inject.validation.MissingEOperationValidationMessage;
 
-import Moca.CodeAdapter;
-import Moca.MocaFactory;
 import MocaTree.File;
 import MocaTree.Folder;
 import MocaTree.Node;
@@ -202,7 +202,7 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
     */
    private Folder parseInjectionFiles(final String rootPath)
    {
-      final CodeAdapter codeAdapter = MocaFactory.eINSTANCE.createCodeAdapter();
+      final CodeAdapter codeAdapter = ProcessingFactory.eINSTANCE.createCodeAdapter();
       codeAdapter.getParser().add(new InjectImplParserAdapter());
       codeAdapter.getParser().add(new InjectParserAdapter());
 

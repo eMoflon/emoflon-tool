@@ -21,6 +21,9 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.moflon.core.moca.processing.CodeAdapter;
+import org.moflon.core.moca.processing.Problem;
+import org.moflon.core.moca.processing.ProcessingFactory;
 import org.moflon.ide.texteditor.builders.TextEditorBuilderHelper;
 import org.moflon.ide.texteditor.editors.MoflonEditorTemplate;
 import org.moflon.ide.texteditor.editors.MoflonTextEditor;
@@ -37,9 +40,6 @@ import org.moflon.ide.texteditor.modules.rules.MoflonWordPatternRuleCreator;
 import org.moflon.ide.texteditor.modules.rules.WhitespaceDetector;
 import org.moflon.ide.texteditor.modules.rules.WordDetector;
 
-import Moca.CodeAdapter;
-import Moca.MocaFactory;
-import Moca.Problem;
 import MocaTree.Node;
 
 public abstract class MoflonTextEditorConfigIntern implements ITokenScanner, TextEditorBuilderHelper, IMoflonFoldingProvider, IMoflonOutlineProvider, IFormattingStrategy
@@ -83,7 +83,7 @@ public abstract class MoflonTextEditorConfigIntern implements ITokenScanner, Tex
    public MoflonTextEditorConfigIntern()
    {
       configureTextHighlighting();
-      this.codeAdapter = MocaFactory.eINSTANCE.createCodeAdapter();
+      this.codeAdapter = ProcessingFactory.eINSTANCE.createCodeAdapter();
       this.setContentAssisstProcessor(new MoflonContentAssistProcessor(this));
       addParserAdapters();
    }

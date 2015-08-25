@@ -17,7 +17,7 @@ Require-Bundle:
  org.eclipse.pde.core,
  MocaTree,
  MoflonPropertyContainer,
- Moca,
+ org.moflon.core.moca.processing,
  SDMLanguage,
  ValidationResult
 Bundle-ClassPath: .

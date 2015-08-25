@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 import org.apache.log4j.BasicConfigurator;
 import org.junit.Assert;
+import org.moflon.core.moca.processing.CodeAdapter;
+import org.moflon.core.moca.processing.ProcessingFactory;
+import org.moflon.core.moca.processing.impl.CodeAdapterImpl;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.moca.MocaTreeSorter;
 import org.moflon.testframework.tgg.xml.unparser.XmlUnparserAdapter;
 
-import Moca.CodeAdapter;
-import Moca.MocaFactory;
-import Moca.impl.CodeAdapterImpl;
 import MocaTree.Folder;
 import MocaTree.MocaTreePackage;
 
@@ -37,7 +37,7 @@ public class TreeComparator
       if (codeAdapter == null)
       {
          // Register parsers and unparsers
-         codeAdapter = MocaFactory.eINSTANCE.createCodeAdapter();
+         codeAdapter = ProcessingFactory.eINSTANCE.createCodeAdapter();
          codeAdapter.getUnparser().add(new XmlUnparserAdapter());
       }
 
@@ -88,7 +88,7 @@ public class TreeComparator
 
    private static String mocaFileToXMLString(final MocaTree.File eFile)
    {
-      Moca.impl.CodeAdapterImpl codeAdapterImpl = (CodeAdapterImpl) getCodeAdapter();
+      org.moflon.core.moca.processing.impl.CodeAdapterImpl codeAdapterImpl = (CodeAdapterImpl) getCodeAdapter();
 
       MocaTreeSorter.sort(eFile);
       StringWriter stringWriter = new StringWriter();

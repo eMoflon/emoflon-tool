@@ -5,12 +5,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
+import org.moflon.core.moca.processing.Problem;
+import org.moflon.core.moca.processing.parser.Parser;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.texteditor.editors.MoflonEditorTemplate;
 import org.moflon.ide.texteditor.helpers.MarkerHelper;
 
-import Moca.Problem;
-import Moca.parser.Parser;
+
 import MocaTree.Node;
 
 public abstract class MoflonTextEditorConfigExtern extends MoflonTextEditorConfigIntern

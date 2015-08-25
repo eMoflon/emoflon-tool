@@ -1,9 +1,12 @@
+
 import java.util.Comparator;
-import DepthFirstSearchGraph.Edge;
 
 partial class ValidatorImpl {
 
+
+
 @model lookupErrorMessage (Errors errorID) <--
+
 		if (Errors.EXACTLY_ONE_START_NODE == errorID) {
 			return "Exactly one start node";
 		} else if (Errors.AT_LEAST_ONE_STOP_NODE == errorID) {
@@ -50,7 +53,7 @@ partial class ValidatorImpl {
 			return "Two tail-controlled loops cannot begin at the same node";
 		} else if (Errors.FOREACH_END_EDGE_ERROR == errorID) {
 			return "The target of the End Edge is set invalid (probably is within the ForEach loop)";
-		} else if (Errors.EDGE_TARGET_UNKNOWN_TYPE == errorID) { 
+		} else if (Errors.EDGE_TARGET_UNKNOWN_TYPE == errorID) {
 			return "The target of the edge is of unknown type";
 		} else if (Errors.LOOP_EXTERN_EDGE == errorID) {
 			return "Erroneous loop closing edge";
@@ -61,6 +64,7 @@ partial class ValidatorImpl {
 -->
 
 @model sortIncomingEdges (Node node) <--
+
 		// Collections.sort(node.getIncoming(), EDGE_COMPARATOR);
 -->
 

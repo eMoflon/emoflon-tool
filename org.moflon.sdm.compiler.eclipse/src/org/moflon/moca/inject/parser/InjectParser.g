@@ -18,9 +18,9 @@ tokens {
 @header {
 package org.moflon.moca.inject.parser; 
 import java.util.Collection;
-import Moca.MocaFactory;
-import Moca.Problem;
-import Moca.ProblemType;
+import org.moflon.core.moca.processing.ProcessingFactory;
+import org.moflon.core.moca.processing.Problem;
+import org.moflon.core.moca.processing.ProblemType;
 }
 
 @members {
@@ -28,7 +28,7 @@ import Moca.ProblemType;
 
       public void displayRecognitionError(String[] tokenNames,
                                         RecognitionException e) {
-          Problem problem = MocaFactory.eINSTANCE.createProblem();
+          Problem problem = ProcessingFactory.eINSTANCE.createProblem();
           int line  = e.line;
           int charPos = e.charPositionInLine;
           int tokenLength = 1;

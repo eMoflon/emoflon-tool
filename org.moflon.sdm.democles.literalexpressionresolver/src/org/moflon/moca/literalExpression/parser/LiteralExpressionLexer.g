@@ -5,7 +5,7 @@ lexer grammar LiteralExpressionLexer;
 
       public void displayRecognitionError(String[] tokenNames,
                                         RecognitionException e) {
-          Problem problem = MocaFactory.eINSTANCE.createProblem();
+          Problem problem = ProcessingFactory.eINSTANCE.createProblem();
           int line  = e.line;
           int charPos = e.charPositionInLine;
           int tokenLenght = 1;
@@ -23,14 +23,14 @@ lexer grammar LiteralExpressionLexer;
           problems.add(problem);
           super.displayRecognitionError(tokenNames, e);
     }
-}
+} 
 
 @header {
 package org.moflon.moca.literalExpression.parser;
 import java.util.Collection;
-import Moca.MocaFactory;
-import Moca.Problem;
-import Moca.ProblemType;
+import org.moflon.core.moca.processing.ProcessingFactory;
+import org.moflon.core.moca.processing.Problem;
+import org.moflon.core.moca.processing.ProblemType;
 }
 
 // Common Token Definitions

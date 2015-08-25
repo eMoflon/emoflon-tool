@@ -17,11 +17,11 @@ Require-Bundle:
  ControlFlow,
  MoflonPropertyContainer,
  SDMLanguage,
- Moca,
+ org.moflon.core.moca.processing,
  SDMLanguageToDemocles,
  ScopeValidation,
  ValidationResult,
- DepthFirstSearchGraph,
+ org.moflon.core.dfs,
  Sequencer
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.compiler.sdm.democles,

@@ -7,9 +7,9 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.moflon.core.moca.processing.Problem;
 import org.moflon.core.utilities.WorkspaceHelper;
 
-import Moca.Problem;
 
 public class MarkerHelper {
 	IResource resource;

@@ -13,7 +13,7 @@ Require-Bundle:
  org.junit;bundle-version="4.11.0",
  org.moflon.ide.ui,
  org.moflon.tgg.language,
- Moca,
+ org.moflon.core.moca.processing,
  MocaTree
 Export-Package: org.moflon.testframework.tgg,
  org.moflon.testframework.tgg.xml.unparser

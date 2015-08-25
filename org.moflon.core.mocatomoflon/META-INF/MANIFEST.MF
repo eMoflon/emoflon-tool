@@ -19,7 +19,7 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.moflon.tgg.runtime,
  org.eclipse.emf.ecore,
  org.moflon.core.utilities,
- Moca,
+ org.moflon.core.moca.processing,
  org.eclipse.emf.ecore.xmi,
  org.moflon.tgg.cspcodeadapter,
  ValidationResult

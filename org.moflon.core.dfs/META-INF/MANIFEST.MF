@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: DepthFirstSearchGraph;singleton:=true
-Export-Package: DepthFirstSearchGraph,
- DepthFirstSearchGraph.impl,
- DepthFirstSearchGraph.util
+Bundle-SymbolicName: org.moflon.core.dfs;singleton:=true
+Export-Package: org.moflon.core.dfs,
+ org.moflon.core.dfs.impl,
+ org.moflon.core.dfs.util
 Bundle-Name: DepthFirstSearchGraph
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,

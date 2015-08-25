@@ -6,7 +6,7 @@ Export-Package: LiteralExprResolver,
  org.moflon.moca.literalExpression.parser
 Bundle-Name: LiteralExprResolver
 Bundle-Version: 2.0.0.qualifier
-Require-Bundle: Moca,
+Require-Bundle: org.moflon.core.moca.processing,
  ControlFlow,
  MocaTree,
  SDMLanguage,

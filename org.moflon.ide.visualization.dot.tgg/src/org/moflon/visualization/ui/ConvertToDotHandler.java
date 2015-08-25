@@ -29,6 +29,9 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.moca.processing.CodeAdapter;
+import org.moflon.core.moca.processing.ProcessingFactory;
+import org.moflon.core.moca.processing.unparser.Unparser;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.ui.admin.handlers.AbstractCommandHandler;
@@ -46,9 +49,6 @@ import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.util.eMoflonSDMUtil;
 import org.moflon.visualization.ui.dialog.RegexElementListSelectionDialog;
 
-import Moca.CodeAdapter;
-import Moca.MocaFactory;
-import Moca.unparser.Unparser;
 import MocaTree.File;
 import MocaTree.Folder;
 import MocaTree.MocaTreeFactory;
@@ -254,7 +254,7 @@ public class ConvertToDotHandler extends AbstractCommandHandler
     */
    private void treeToDot(final Unparser unparser, final String visualizationFolderPath, final Folder targetFolder)
    {
-      final CodeAdapter codeAdapter = MocaFactory.eINSTANCE.createCodeAdapter();
+      final CodeAdapter codeAdapter = ProcessingFactory.eINSTANCE.createCodeAdapter();
       codeAdapter.getUnparser().add(unparser);
       codeAdapter.unparse(visualizationFolderPath, targetFolder);
       createSVG(visualizationFolderPath, targetFolder);

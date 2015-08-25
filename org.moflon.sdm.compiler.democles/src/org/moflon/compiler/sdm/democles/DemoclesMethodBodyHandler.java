@@ -32,10 +32,10 @@ import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
 import org.moflon.compiler.sdm.democles.eclipse.DemoclesValidatorTask;
 import org.moflon.compiler.sdm.democles.eclipse.MethodBodyResourceFactory;
 import org.moflon.compiler.sdm.democles.eclipse.PatternResourceFactory;
+import org.moflon.core.dfs.DFSGraph;
+import org.moflon.core.dfs.DfsFactory;
 import org.moflon.eclipse.job.IMonitoredJob;
 
-import DepthFirstSearchGraph.DFSGraph;
-import DepthFirstSearchGraph.DepthFirstSearchGraphFactory;
 import SDMLanguage.activities.ActivitiesPackage;
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.MoflonEOperation;
@@ -165,7 +165,7 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 		validator.setStopNodeInForEachComponentSeverity(Severity.WARNING);
 		final InefficientBootstrappingBuilder inefficientBuilder = SequencerFactory.eINSTANCE.createInefficientBootstrappingBuilder();
 		final SDMActivityGraphBuilder builder = SequencerFactory.eINSTANCE.createSDMActivityGraphBuilder();
-		final DFSGraph graph = DepthFirstSearchGraphFactory.eINSTANCE.createDFSGraph();
+		final DFSGraph graph = DfsFactory.eINSTANCE.createDFSGraph();
 		validator.setGraph(graph);
 		inefficientBuilder.setGraph(graph);
 		builder.setGraph(graph);

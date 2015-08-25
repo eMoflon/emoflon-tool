@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.antlr.stringtemplate.language.DefaultTemplateLexer;
+import org.moflon.core.moca.processing.unparser.impl.XMLUnparserImpl;
 
-import Moca.unparser.impl.XMLUnparserImpl;
 
 public class XmlUnparserAdapter extends XMLUnparserImpl 
 {

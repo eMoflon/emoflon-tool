@@ -36,7 +36,7 @@ Require-Bundle:
  org.eclipse.ltk.core.refactoring;bundle-version="3.6.100",
  MoflonPropertyContainer,
  MocaTree,
- Moca,
+ org.moflon.core.moca.processing,
  SDMLanguage,
  ValidationResult,
  org.moflon.tgg.runtime,

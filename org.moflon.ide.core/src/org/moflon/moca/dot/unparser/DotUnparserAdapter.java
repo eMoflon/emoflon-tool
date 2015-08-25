@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 
 import org.eclipse.emf.common.util.ECollections;
+import org.moflon.core.moca.processing.unparser.impl.UnparserImpl;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.visualization.dot.language.DirectedGraph;
@@ -11,7 +12,6 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupFile;
 
-import Moca.unparser.impl.UnparserImpl;
 import MocaTree.Node;
 
 public class DotUnparserAdapter extends UnparserImpl

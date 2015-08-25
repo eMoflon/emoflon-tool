@@ -23,13 +23,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
+import org.moflon.core.dfs.DFSGraph;
+import org.moflon.core.dfs.DfsFactory;
 import org.moflon.eclipse.job.IMonitoredJob;
 
 import ControlFlow.CFVariable;
 import ControlFlow.ControlFlowFactory;
 import ControlFlow.Scope;
-import DepthFirstSearchGraph.DFSGraph;
-import DepthFirstSearchGraph.DepthFirstSearchGraphFactory;
 import SDMLanguage.activities.ActivitiesPackage;
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.MoflonEOperation;
@@ -197,7 +197,7 @@ public class DemoclesValidatorTask implements IMonitoredJob {
 		validator.setStopNodeInForEachComponentSeverity(Severity.WARNING);
 		final InefficientBootstrappingBuilder inefficientBuilder = SequencerFactory.eINSTANCE.createInefficientBootstrappingBuilder();
 		final SDMActivityGraphBuilder builder = SequencerFactory.eINSTANCE.createSDMActivityGraphBuilder();
-		final DFSGraph graph = DepthFirstSearchGraphFactory.eINSTANCE.createDFSGraph();
+		final DFSGraph graph = DfsFactory.eINSTANCE.createDFSGraph();
 		validator.setGraph(graph);
 		inefficientBuilder.setGraph(graph);
 		builder.setGraph(graph);

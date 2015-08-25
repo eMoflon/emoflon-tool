@@ -7,10 +7,10 @@ import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
+import org.moflon.core.moca.processing.Problem;
+import org.moflon.core.moca.processing.parser.impl.ParserImpl;
 import org.moflon.moca.MocaUtil;
 
-import Moca.Problem;
-import Moca.parser.impl.ParserImpl;
 import MocaTree.Node;
 
 public class InjectParserAdapter extends ParserImpl

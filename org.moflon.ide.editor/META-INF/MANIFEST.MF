@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.moflon.ide.editor;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.moflon.ide.texteditor.TextEditorActivator
 Require-Bundle: 
- org.apache.log4j;bundle-version="1.2.15",org.eclipse.ui,
+ org.apache.log4j;bundle-version="1.2.15",
+ org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.core.runtime,
  org.eclipse.jface.text;bundle-version="3.7.0",
@@ -20,7 +21,7 @@ Require-Bundle:
  org.eclipse.ui.views;bundle-version="3.6.100",
  org.eclipse.jdt.ui,
  MocaTree,
- Moca
+ org.moflon.core.moca.processing
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: 

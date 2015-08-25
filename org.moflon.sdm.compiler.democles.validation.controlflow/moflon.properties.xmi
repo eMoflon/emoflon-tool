@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ASCII"?>
 <MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="Sequencer">
   <dependencies value="platform:/plugin/ControlFlow/model/ControlFlow.ecore"/>
-  <dependencies value="platform:/plugin/DepthFirstSearchGraph/model/DepthFirstSearchGraph.ecore"/>
   <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
   <dependencies value="platform:/plugin/ValidationResult/model/ValidationResult.ecore"/>
   <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.core.dfs/model/Dfs.ecore"/>
   <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.ecore"/>
   <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/emf.ecore"/>
   <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.ecore"/>

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: Moca;singleton:=true
+Bundle-SymbolicName: org.moflon.core.moca.processing;singleton:=true
 Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.emf.ecore,
  org.eclipse.core.runtime;bundle-version="3.10.0",
@@ -12,21 +12,20 @@ Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
-Export-Package: Moca,
- Moca.compare,
- Moca.compare.impl,
- Moca.compare.util,
- Moca.impl,
- Moca.parser,
- Moca.parser.impl,
- Moca.parser.util,
- Moca.unparser,
- Moca.unparser.impl,
- Moca.unparser.util,
- Moca.util,
- org.moflon.core.moca.processing,
+Export-Package: org.moflon.core.moca.processing,
  org.moflon.moca,
- org.moflon.moca.xml
+ org.moflon.moca.xml,
+ org.moflon.core.moca.processing.compare.util,
+ org.moflon.core.moca.processing.unparser.impl,
+ org.moflon.core.moca.processing.compare.impl,
+ org.moflon.core.moca.processing.impl,
+ org.moflon.core.moca.processing.util,
+ org.moflon.core.moca.processing.parser.impl,
+ org.moflon.core.moca.processing.unparser,
+ org.moflon.core.moca.processing.unparser.util,
+ org.moflon.core.moca.processing.parser,
+ org.moflon.core.moca.processing.parser.util,
+ org.moflon.core.moca.processing.compare
 Bundle-Name: Moca Framework
 Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .,lib/jdom.jar
