@@ -23,6 +23,7 @@ public class NewMetamodelHandler extends AbstractCommandHandler
       } catch (final Exception e)
       {
          logger.error("Unable to open 'New meta-model' wizard", e);
+         e.printStackTrace();
       }
       
       return null;

@@ -10,7 +10,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWizard;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
@@ -20,7 +23,7 @@ import org.moflon.ide.ui.UIActivator;
  * The new metamodel wizard creates a new metamodel project with default directory structure and default files.
  * 
  */
-public class NewMetamodelWizard extends Wizard
+public class NewMetamodelWizard extends Wizard implements IWorkbenchWizard
 {
    // Page containing controls for taking user input
    private NewMetamodelProjectInfoPage projectInfo;
@@ -111,5 +114,10 @@ public class NewMetamodelWizard extends Wizard
       {
          monitor.done();
       }
-   }
+	}
+
+	@Override
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		
+	}
 }
