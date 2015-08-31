@@ -44,6 +44,8 @@ import com.sun.jdi.request.ClassPrepareRequest;
 public class JDIUtil
 {
    private final static String SYNCHRONIZATION_HELPER = "org.moflon.tgg.algorithm.synchronization.SynchronizationHelper";
+   
+   private final static String SYNCHRONIZER = "org.moflon.tgg.algorithm.synchronization.Synchronizer";
 
    public final static String DEBUG_SYNCHRONIZATION_HELPER = "org.moflon.ide.debug.DebugSynchronizationHelper";
 
@@ -312,7 +314,7 @@ public class JDIUtil
       if (list.get(0) instanceof StringReference)
       {
          StringReference sref = (StringReference) list.get(0);
-         System.out.println(sref.value());
+         // System.out.println(sref.value());
          return sref.value();
 
       } else

@@ -22,7 +22,7 @@ import org.moflon.tgg.runtime.Match;
  * @author anjorin
  *
  */
-public class BackwardSynchronizer extends Synchronizer
+public class BackwardSynchronizer extends DebugableSynchronizer
 {
 
    public BackwardSynchronizer(CorrespondenceModel graphTriple, Delta delta, SynchronizationProtocol protocol, Configurator configurator, StaticAnalysis rules, TempOutputContainer tempOutputContainer)

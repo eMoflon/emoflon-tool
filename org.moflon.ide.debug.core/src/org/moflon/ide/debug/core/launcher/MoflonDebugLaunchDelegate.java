@@ -51,8 +51,6 @@ public class MoflonDebugLaunchDelegate extends LaunchConfigurationDelegate
 {
    protected static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
-   protected static final String ATTR_PORT = "port";
-
    protected static final String LOCALHOST = "127.0.0.1";
 
    /*
@@ -77,7 +75,7 @@ public class MoflonDebugLaunchDelegate extends LaunchConfigurationDelegate
       workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, mainTypeName);
 
       // In addition add "-verbose:class" for more detailed class loading related information
-      workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=" + aFreePort);
+      workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, "-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=dumponexit=true,defaultrecording=true,disk=true,maxage=2d,settings=profile,dumponexitpath=synchronizer.jfr,repository=jfr_temp_synchronizer -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=" + aFreePort);
 
       // If you like, create arguments for call to main
       // workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, "test");
@@ -85,7 +83,6 @@ public class MoflonDebugLaunchDelegate extends LaunchConfigurationDelegate
 
       // DebugUITools.launch(workingCopy, ILaunchManager.RUN_MODE);
       workingCopy.launch(ILaunchManager.RUN_MODE, monitor);
-      launch.setAttribute(ATTR_PORT, Integer.toString(aFreePort));
       VirtualMachine vm = null;
       try
       {
@@ -135,52 +132,6 @@ public class MoflonDebugLaunchDelegate extends LaunchConfigurationDelegate
             }
          }
       }
-
-      // // InitPhase
-      // for (Breakpoint bp : config.getPhases().stream().filter(p -> p instanceof
-      // InitializationPhase).findFirst().get().getBreakpoints())
-      // {
-      // Map<String, Object> attributes = new HashMap<String, Object>(4);
-      // BreakpointUtils.addRunToLineAttributes(attributes);
-      // try
-      // {
-      // DebugPlugin.getDefault().getBreakpointManager().addBreakpointListener(target);
-      // IJavaLineBreakpoint jbp = new PhaseBreakpoint(ResourcesPlugin.getWorkspace().getRoot(), bp.getClassname(),
-      // (int) bp.getLine(), -1, -1, 1, false,
-      // attributes, InitializationPhase.class);
-      // jbp.addBreakpointListener("org.moflon.ide.debug.core.MoflonBreakpointListener");
-      //
-      // DebugPlugin.getDefault().getBreakpointManager().addBreakpoint(jbp);
-      //
-      // } catch (CoreException e)
-      // {
-      // // TODO Auto-generated catch block
-      // e.printStackTrace();
-      // }
-      // }
-      //
-      // // DeletionPhase
-      // for (Breakpoint bp : config.getPhases().stream().filter(p -> p instanceof
-      // DeletionPhase).findFirst().get().getBreakpoints())
-      // {
-      // Map<String, Object> attributes = new HashMap<String, Object>(4);
-      // BreakpointUtils.addRunToLineAttributes(attributes);
-      // try
-      // {
-      // DebugPlugin.getDefault().getBreakpointManager().addBreakpointListener(target);
-      // IJavaLineBreakpoint jbp = new PhaseBreakpoint(ResourcesPlugin.getWorkspace().getRoot(), bp.getClassname(),
-      // (int) bp.getLine(), -1, -1, 1, false,
-      // attributes, DeletionPhase.class);
-      // jbp.addBreakpointListener("org.moflon.ide.debug.core.MoflonBreakpointListener");
-      //
-      // DebugPlugin.getDefault().getBreakpointManager().addBreakpoint(jbp);
-      //
-      // } catch (CoreException e)
-      // {
-      // // TODO Auto-generated catch block
-      // e.printStackTrace();
-      // }
-      // }
 
    }
 

@@ -428,9 +428,9 @@ public class SynchronizationHelper
 
    protected void performSynchronization(final Synchronizer synchronizer)
    {
-      new @DebugBreakpoint(phase = Phase.INIT) String();
       try
       {
+         new @DebugBreakpoint(phase = Phase.INIT) String();
          synchronizer.synchronize();
       } catch (LocalCompletenessException e)
       {

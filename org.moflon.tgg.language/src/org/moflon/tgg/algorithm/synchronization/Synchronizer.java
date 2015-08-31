@@ -116,11 +116,10 @@ public abstract class Synchronizer
       allRevokedElts = revoke(toBeDeleted);
       toBeTranslated.addConstructive(allRevokedElts);
       toBeTranslated.removeDestructive(toBeDeleted);
-      new @DebugBreakpoint(phase = Phase.DELETE) String();
+      suspendDeletionPhase();
       allRevokedElts = null;
    }
 
-   // @DebugBreakpoint(phase = Phase.DELETE)
    private void handleAdditions()
    {
       Collection<Match> collectedMatches = collectDerivations(toBeTranslated, lookupMethods);
@@ -132,7 +131,7 @@ public abstract class Synchronizer
 
       collectedMatches.addAll(collectDerivations(allRevokedElts, lookupMethods));
       inputMatches = collectedMatches;
-      new @DebugBreakpoint(phase = Phase.ADD) String();
+      suspendAdditionPhase();
       allRevokedElts = null;
    }
 
@@ -241,8 +240,7 @@ public abstract class Synchronizer
 
       allToBeRevokedTripleMatches = Stream.concat(toBeRevokedTripleMatches, dependencies).collect(Collectors.toSet());
       protocol.revoke(allToBeRevokedTripleMatches);
-      // TempWorkaround
-      new @DebugBreakpoint(phase = Phase.DELETE_BEFORE) String();
+      suspendDeletionPhaseBefore();
       return delete(allToBeRevokedTripleMatches);
    }
 
@@ -290,7 +288,7 @@ public abstract class Synchronizer
       inputMatches = pg.getMatches();
 
       extendReady(inputMatches);
-      new @DebugBreakpoint(phase = Phase.TRANSLATION_START) String();
+      suspendTranslationPhaseStart();
 
       while (!inputMatches.isEmpty())
       {
@@ -311,13 +309,13 @@ public abstract class Synchronizer
 
          if (amalgamationUtil.isAmalgamatedTGG(lookupMethods))
             processAmalgamationComplements(inputMatches, chosen, chosenRR);
-         new @DebugBreakpoint(phase = Phase.TRANSLATION_STEP) String();
+         suspendTranslationPhaseStep();
          translated = null;
          createdTripleMatchesInLastStep = new ArrayList<>();
       }
 
       finalizeGraphTriple(graphTriple);
-      new @DebugBreakpoint(phase = Phase.TRANSLATION_END) String();
+      suspendTranslationPhaseEnd();
    }
 
    protected abstract void finalizeGraphTriple(CorrespondenceModel graphTriple);
@@ -583,5 +581,18 @@ public abstract class Synchronizer
    {
       return tempOutputContainer;
    }
+   
+   protected abstract void suspendInitializationPhase();
 
+   protected abstract void suspendDeletionPhaseBefore();
+   
+   protected abstract void suspendDeletionPhase();
+
+   protected abstract void suspendAdditionPhase();
+   
+   protected abstract void suspendTranslationPhaseStart();
+   
+   protected abstract void suspendTranslationPhaseEnd();
+   
+   protected abstract void suspendTranslationPhaseStep();
 }

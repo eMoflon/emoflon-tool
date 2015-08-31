@@ -16,8 +16,7 @@ import org.eclipse.core.runtime.Status;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.builders.AbstractBuilder;
-
-import main.DebugAnnotation;
+import org.moflon.ide.debug.annotation.processor.DebugAnnotation;
 
 /**
  * A breakpoint builder that updates breakpoints

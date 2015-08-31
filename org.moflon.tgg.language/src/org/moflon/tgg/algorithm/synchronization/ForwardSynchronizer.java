@@ -22,7 +22,7 @@ import org.moflon.tgg.runtime.Match;
  * @author anjorin
  *
  */
-public class ForwardSynchronizer extends Synchronizer
+public class ForwardSynchronizer extends DebugableSynchronizer
 {
 
    public ForwardSynchronizer(CorrespondenceModel graphTriple, Delta delta, SynchronizationProtocol protocol, Configurator configurator, StaticAnalysis rules, TempOutputContainer tempOutputContainer)

@@ -6,13 +6,12 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaBreakpoint;
 import org.eclipse.jdt.internal.debug.core.model.JDIDebugTarget;
 import org.eclipse.jdt.internal.debug.core.model.JDIThread;
-import org.moflon.ide.debug.core.DebugCorePlugin;
+import org.moflon.ide.debug.core.Activator;
 import org.moflon.ide.debug.core.breakpoints.PhaseBreakpoint;
-
 import org.moflon.tgg.debug.language.AbstractPhase;
 
 @SuppressWarnings("restriction")
-public abstract class MoflonThread extends JDIThread// MoflonDebugElement implements IThread
+public abstract class MoflonThread extends JDIThread
 {
    public static final String ORG_MOFLON_IDE_DEBUG_CORE_MOFLON_BREAKPOINT_LISTENER = "org.moflon.ide.debug.core.MoflonBreakpointListener";
 
@@ -23,7 +22,6 @@ public abstract class MoflonThread extends JDIThread// MoflonDebugElement implem
    public MoflonThread(IDebugTarget target, String name, AbstractPhase phase)
    {
       super((JDIDebugTarget) target, ((JDIDebugTarget) target).getVM().allThreads().stream().filter(t -> t.name().equals("main")).findFirst().get());
-      // super(target);
       this.name = name;
       this.phase = phase;
    }
@@ -37,7 +35,7 @@ public abstract class MoflonThread extends JDIThread// MoflonDebugElement implem
    @Override
    public String getModelIdentifier()
    {
-      return DebugCorePlugin.ID_MOFLON_DEBUG_MODEL;
+      return Activator.ID_MOFLON_DEBUG_MODEL;
    }
 
    public AbstractPhase getPhase()

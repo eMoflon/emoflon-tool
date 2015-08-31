@@ -25,7 +25,6 @@ public class ConfiguratorValue extends MoflonDebugElement implements IValue
       super(debugTarget);
       Value val = JDIUtil.getField(((MoflonDebugTarget) debugTarget).getVM(), "configurator");
       configuratorJdiValue = JDIValue.createValue((JDIDebugTarget) debugTarget, val);
-      System.out.println();
    }
 
    @Override

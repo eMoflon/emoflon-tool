@@ -13,14 +13,13 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.jdt.debug.core.IJavaStackFrame;
 import org.eclipse.jdt.internal.debug.core.model.JDIStackFrame;
 import org.eclipse.jdt.internal.debug.core.model.JDIThread;
-import org.moflon.ide.debug.core.DebugCorePlugin;
+import org.moflon.ide.debug.core.Activator;
+import org.moflon.tgg.debug.language.DebugModel;
+import org.moflon.tgg.debug.language.LanguagePackage;
+import org.moflon.tgg.runtime.RuntimePackage;
 import org.xml.sax.InputSource;
 
 import com.sun.jdi.StackFrame;
-
-import org.moflon.tgg.debug.language.LanguagePackage;
-import org.moflon.tgg.debug.language.DebugModel;
-import org.moflon.tgg.runtime.RuntimePackage;
 
 @SuppressWarnings("restriction")
 public abstract class MoflonStackFrame extends JDIStackFrame implements IJavaStackFrame
@@ -34,7 +33,7 @@ public abstract class MoflonStackFrame extends JDIStackFrame implements IJavaSta
    @Override
    public String getModelIdentifier()
    {
-      return DebugCorePlugin.ID_MOFLON_DEBUG_MODEL;
+      return Activator.ID_MOFLON_DEBUG_MODEL;
    }
 
    public MoflonStackFrame(JDIThread thread, StackFrame frame, int depth)
@@ -61,6 +60,34 @@ public abstract class MoflonStackFrame extends JDIStackFrame implements IJavaSta
       resource.getResourceSet().getPackageRegistry().put(RuntimePackage.eNS_URI, RuntimePackage.eINSTANCE);
       EcoreUtil.resolveAll(resource.getResourceSet());
       resource.load(new InputSource(new StringReader(xmlString)), null);
+      //
+      // Resource.Factory binary = new Resource.Factory(){
+      // public Resource createResource(URI uri) {
+      // return new BinaryResourceImpl(uri);
+      // };
+      // };
+      // ResourceSet metaResourceSet = new ResourceSetImpl();
+      // metaResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,
+      // binary);
+      //
+      // Resource resourceA = metaResourceSet.createResource(URI.createURI("test"));
+      //// Resource resourceA = binary.createResource(URI.createURI("test"));
+      //// XMIResourceImpl resource = (XMIResourceImpl) resourceA;
+      // BinaryResourceImpl resource = (BinaryResourceImpl) resourceA;
+      //
+      //// resource.setEncoding("UTF-8");
+      // resource.getResourceSet().getPackageRegistry().put(LanguagePackage.eNS_URI, LanguagePackage.eINSTANCE);
+      // resource.getResourceSet().getPackageRegistry().put(RuntimePackage.eNS_URI, RuntimePackage.eINSTANCE);
+      // EcoreUtil.resolveAll(resource.getResourceSet());
+      //// HashMap<String, String> options = new HashMap<String, String>();
+      //// options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, Boolean.FALSE.toString());
+      //// options.put(XMLResource.OPTION_BINARY, Boolean.TRUE.toString());
+      //// options.put(XMLResource.OPTION_ENCODING, "UTF-8");
+      //
+      // resource.load(new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(xmlString)),null);
+      //// resource.load(new ByteArrayInputStream(xmlString.getBytes()),options);
+      //// resource.load(new InputSource(new StringReader(xmlString)), null);
+
       EObject eobj = resource.getContents().stream().filter(c -> c instanceof DebugModel).findFirst().get();
 
       if (returnType.isInstance(eobj))

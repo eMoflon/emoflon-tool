@@ -8,8 +8,8 @@
             id="org.moflon.ide.debug.core.launchType"
             modes="debug"
             name="eMoflon Application"
-            sourceLocatorId="org.moflon.ide.debug.core.sourceLocator1"
-            sourcePathComputerId="org.moflon.ide.debug.core.sourcePathComputer1"/>
+            sourceLocatorId="org.moflon.ide.debug.core.javaSourceLocator"
+            sourcePathComputerId="org.moflon.ide.debug.core.javaSourcePathComputer"/>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
@@ -22,7 +22,7 @@
          point="org.eclipse.debug.core.sourceLocators">
       <sourceLocator
             class="org.eclipse.jdt.internal.launching.JavaSourceLookupDirector"
-            id="org.moflon.ide.debug.core.sourceLocator1"
+            id="org.moflon.ide.debug.core.javaSourceLocator"
             name="name">
       </sourceLocator>
    </extension>
@@ -30,7 +30,7 @@
          point="org.eclipse.debug.core.sourcePathComputers">
       <sourcePathComputer
             class="org.eclipse.jdt.launching.sourcelookup.containers.JavaSourcePathComputer"
-            id="org.moflon.ide.debug.core.sourcePathComputer1">
+            id="org.moflon.ide.debug.core.javaSourcePathComputer">
       </sourcePathComputer>
    </extension>
 </plugin>

@@ -41,7 +41,6 @@ public class RulesValue extends MoflonDebugElement implements IValue
 
    String value;
 
-   // EObject rules;
    DebugRules rules;
 
    JDIValue jdiDelta;
@@ -198,14 +197,12 @@ public class RulesValue extends MoflonDebugElement implements IValue
    @Override
    public IVariable[] getVariables() throws DebugException
    {
-      // return jdiDelta.getVariables();
       return ruleVariables;
    }
 
    @Override
    public boolean hasVariables() throws DebugException
    {
-      // return jdiDelta.hasVariables();
       return ruleVariables.length > 0;
    }
 
@@ -218,7 +215,6 @@ public class RulesValue extends MoflonDebugElement implements IValue
          // return delta;
       }
       return jdiDelta.getAdapter(adapter);
-      // return super.getAdapter(adapter);
    }
 
 }

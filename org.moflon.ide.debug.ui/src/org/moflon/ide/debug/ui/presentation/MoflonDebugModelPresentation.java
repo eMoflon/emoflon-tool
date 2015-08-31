@@ -74,14 +74,20 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
    @Override
    public void dispose()
    {
-      arrow.dispose();
-      arrow = null;
+      if (arrow != null)
+      {
+         arrow.dispose();
+         arrow = null;
+      }
       rule.dispose();
       rule = null;
       configurator.dispose();
       configurator = null;
-      sync.dispose();
-      sync = null;
+      if (sync != null)
+      {
+         sync.dispose();
+         sync = null;
+      }
       delta.dispose();
       delta = null;
       corr.dispose();
@@ -165,13 +171,13 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
 
    }
 
-   Image arrow = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_FORWARD);
+   Image arrow;
 
    Image rule = UIActivator.getImage("resources/icons/link.png").createImage();
 
    Image configurator = Activator.getImage("icons/full/obj16/configurator.png").createImage();
 
-   Image sync = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_SYNCED);
+   Image sync;
 
    Image delta = Activator.getImage("icons/full/obj16/delta.png").createImage();
 
@@ -226,11 +232,20 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
       case DELETED:
          return tripleMatchDeleted;
       case NONE:
-         return arrow;
+         return getArrow();
       default:
          break;
       }
       return null;
+   }
+
+   private Image getArrow()
+   {
+      if (arrow == null)
+      {
+         arrow = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_FORWARD);
+      }
+      return arrow;
    }
 
    protected Image getCorrespondenceImage()
@@ -240,6 +255,10 @@ public class MoflonDebugModelPresentation extends LabelProvider implements IDebu
 
    protected Image getSynchronizationImage()
    {
+      if (sync == null)
+      {
+         sync = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_SYNCED);
+      }
       return sync;
    }
 

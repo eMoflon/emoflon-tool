@@ -7,7 +7,7 @@ import org.eclipse.debug.core.model.DebugElement;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.moflon.ide.debug.core.DebugCorePlugin;
+import org.moflon.ide.debug.core.Activator;
 import org.xml.sax.InputSource;
 
 abstract public class MoflonDebugElement extends DebugElement
@@ -20,7 +20,7 @@ abstract public class MoflonDebugElement extends DebugElement
    @Override
    public String getModelIdentifier()
    {
-      return DebugCorePlugin.ID_MOFLON_DEBUG_MODEL;
+      return Activator.ID_MOFLON_DEBUG_MODEL;
    }
 
    public static EObject convertToEObject(String xmlString) throws IOException
