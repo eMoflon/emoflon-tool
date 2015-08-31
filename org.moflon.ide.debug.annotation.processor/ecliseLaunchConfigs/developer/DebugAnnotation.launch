@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.junit.launchconfig">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/org.moflon.ide.debug.annotation.processor/src/main/DebugAnnotation.java"/>
+<listEntry value="/org.moflon.ide.debug.annotation.processor/src/org/moflon/ide/debug/annotation/processor/DebugAnnotation.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -11,6 +11,6 @@
 <stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_45"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="main.DebugAnnotation"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.moflon.ide.debug.annotation.processor.DebugAnnotation"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.moflon.ide.debug.annotation.processor"/>
 </launchConfiguration>
