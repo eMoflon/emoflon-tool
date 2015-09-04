@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.moflon.core.ecore2mocaxmi;singleton:=true
+Export-Package: org.moflon.core.ecore2mocaxmi.util,
+ org.moflon.core.ecore2mocaxmi,
+ org.moflon.core.ecore2mocaxmi.impl
+Bundle-Name: org.moflon.core.ecore2mocaxmi
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities,
+ MocaTree
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt

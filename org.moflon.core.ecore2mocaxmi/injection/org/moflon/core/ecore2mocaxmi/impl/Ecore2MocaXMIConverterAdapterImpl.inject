@@ -1,0 +1,45 @@
+import org.moflon.core.ecore2mocaxmi.utils.GuidManager;
+
+partial class Ecore2MocaXMIConverterAdapterImpl {
+ 	@members <--
+ 	 	private GuidManager manager = new GuidManager();
+ 	 	
+ 	 -->
+ 	 
+ 	@model getChildrenSize(Node node) <--
+		return node.getChildren().size();
+	-->
+	
+	@model init(String projectName, Node targetNode) <--
+		manager.init(projectName);
+	-->
+	
+	@model getGuid(EModelElement ecoreElement) <--
+		return manager.getGuid(ecoreElement);
+	-->
+	
+	@model booleanToString(boolean eBoolean) <--
+		return "" + eBoolean;
+	-->
+
+	@model intToString(int eInt) <--
+		return ""+ eInt;
+	-->
+	
+	@model addSearchElement(EModelElement ecoreElement, Attribute searchAttribute) <--
+		manager.addSearchElement(ecoreElement, searchAttribute);
+	-->
+	
+	@model resolve() <--
+		manager.resolve();
+	-->
+	
+	@model instanceofEEnum(EDataType eDataType) <--
+		return eDataType instanceof EEnum;
+	-->
+	
+	@model castEEnum(EDataType eDataType) <--
+		return EEnum.class.cast(eDataType);
+	-->
+	
+}
