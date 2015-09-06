@@ -414,10 +414,13 @@
                <with
                      variable="selection">
                   <iterate
-                        operator="and">
+                        operator="or">
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.isProject">
                      </reference>
+                     <!--<reference
+                           definitionId="org.moflon.ide.ui.definitions.isWorkingSet">
+                     </reference>-->
                   </iterate>
                </with>
                <with
@@ -445,10 +448,13 @@
                <with
                      variable="selection">
                   <iterate
-                        operator="and">
+                        operator="or">
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.isProject">
                      </reference>
+                     <!--<reference
+                           definitionId="org.moflon.ide.ui.definitions.isWorkingSet">
+                     </reference>-->
                   </iterate>
                </with>
                <with
@@ -1166,6 +1172,12 @@
             id="org.moflon.ide.ui.definitions.isProject">
          <adapt
                type="org.eclipse.core.resources.IProject">
+         </adapt>
+      </definition>
+      <definition
+            id="org.moflon.ide.ui.definitions.isWorkingSet">
+         <adapt
+               type="org.eclipse.ui.IWorkingSet">
          </adapt>
       </definition>
       <definition
