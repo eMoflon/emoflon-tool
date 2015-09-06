@@ -206,8 +206,7 @@ public class CoreActivator extends Plugin
          Logger.getRootLogger().addAppender(new MoflonConsole(configFile));
 
          // Indicate success
-         root.info(configurationStatus);
-         root.info("Logging to eMoflon console");
+         root.info("Logging to eMoflon console. Configuration: " + configurationStatus);
          return true;
       } catch (Exception e)
       {

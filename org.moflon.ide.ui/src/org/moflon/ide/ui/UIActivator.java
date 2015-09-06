@@ -44,7 +44,6 @@ public class UIActivator extends AbstractUIPlugin
    // The shared instance
    private static UIActivator plugin;
 
-
    // IDs used in plugin (have to be synchronized with values in plugin.xml)
 
    public static final String JAVA_PACKAGE_EXPLORER_ID = "org.eclipse.jdt.ui.PackageExplorer";
@@ -58,7 +57,7 @@ public class UIActivator extends AbstractUIPlugin
    public static final String ADD_PARSER_AND_UNPARSER_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard";
 
    public static final String NEW_TESTFRAMEWORK_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.testframework.NewTestframeworkWizard";
-   
+
    private static String bundleId;
 
    public static String getModuleID()
@@ -76,7 +75,7 @@ public class UIActivator extends AbstractUIPlugin
       plugin = this;
       bundleId = context.getBundle().getSymbolicName();
 
-      CoreActivator.getDefault().reconfigureLogging();
+      // CoreActivator.getDefault().reconfigureLogging();
 
       registerDirtyStateChangedListener();
       // labelDirtyMetamodelProjects();
