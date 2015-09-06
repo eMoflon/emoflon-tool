@@ -3,3 +3,4 @@
 
 2015-09-04	Add Ecore to Moca importer to dev workspace
 2015-09-06	Issue #565 solved: https://github.com/eMoflon/emoflon/issues/565
+2015-09-06	eMoflon 2.2.0 released
