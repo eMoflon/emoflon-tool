@@ -1,0 +1,5 @@
+2015-08-??	Fix Stringtemplate bugs
+2015-08-31	eMoflon 2.1.0 released
+
+2015-09-04	Add Ecore to Moca importer to dev workspace
+2015-09-06	Issue #565 solved: https://github.com/eMoflon/emoflon/issues/565
