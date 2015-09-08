@@ -44,7 +44,7 @@ Require-Bundle:
  org.eclipse.core.resources;bundle-version="3.5.1",
  org.eclipse.jdt.core;bundle-version="3.5.2",
  org.eclipse.jface;bundle-version="3.5.1",
- org.eclipse.ui;bundle-version="3.106.0",
+ org.eclipse.ui;bundle-version="3.105.0",
  org.eclipse.emf.ecore;bundle-version="2.5.0",
  org.moflon.core.utilities,
  org.moflon.tgg.runtime,
@@ -53,7 +53,7 @@ Require-Bundle:
  org.eclipse.debug.ui,
  org.eclipse.draw2d,
  org.eclipse.emf.edit.ui,
- org.eclipse.emf.ecore.edit;bundle-version="2.9.0",
+ org.eclipse.emf.ecore.edit;bundle-version="2.8.0",
  MoflonPropertyContainer,
  org.moflon.ide.debug.ui
 Bundle-Vendor: Fraunhofer Institute for Industrial Engineering (IAO).
