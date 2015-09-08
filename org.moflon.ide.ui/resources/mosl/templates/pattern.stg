@@ -1,9 +1,0 @@
-group pattern;
-
-pattern(name) ::= <<
-pattern <name> 
-{
-
-
-}
->>

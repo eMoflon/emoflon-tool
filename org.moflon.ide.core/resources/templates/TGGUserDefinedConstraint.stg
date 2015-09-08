@@ -4,8 +4,8 @@ group TGGUserDefinedConstraint;
 main(constraintName, adornments, parameters) ::= <<
 package csp.constraints;
 
-import TGGLanguage.csp.Variable;
-import TGGLanguage.csp.impl.TGGConstraintImpl;
+import org.moflon.tgg.language.csp.Variable;
+import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
 
 public class <constraintName> extends TGGConstraintImpl {
 	public void solve(<parameters: parameterType(parameter=it); separator=", ">){

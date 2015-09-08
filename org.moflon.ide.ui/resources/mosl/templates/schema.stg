@@ -1,8 +1,0 @@
-group schema;
-
-schema(source, target) ::= <<
-source <source>
-target <target>
-
-// Add your classes here (template available)
->>

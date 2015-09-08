@@ -1,8 +1,0 @@
-group constraints;
-
-constraints() ::= <<
-opposites 
-{
-
-}
->>

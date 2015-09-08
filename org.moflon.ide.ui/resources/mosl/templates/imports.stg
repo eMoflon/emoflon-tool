@@ -1,8 +1,0 @@
-group imports;
-
-imports() ::= <<
-user_defined_constraints
-{ 
-	
-}
->>
