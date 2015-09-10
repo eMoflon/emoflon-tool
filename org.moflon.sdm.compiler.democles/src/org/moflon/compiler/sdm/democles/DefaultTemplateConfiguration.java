@@ -178,6 +178,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
       group.loadGroupFile("/assignment/", getTemplateUriPrefix() + "stringtemplate/Assignment.stg");
       group.loadGroupFile("/emf/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFOperation.stg");
       group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFConstant.stg");
+      group.loadGroupFile("/democles/", getTemplateUriPrefix() + "stringtemplate/Number.stg");
       final ImportHandler importRenderer = new ImportHandler();
       group.registerModelAdaptor(ImportManager.class, importRenderer);
       group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
@@ -298,6 +299,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
       group.loadGroupFile("/assignment/", getTemplateUriPrefix() + "stringtemplate/Assignment.stg");
       group.loadGroupFile("/emf/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFOperation.stg");
       group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFConstant.stg");
+      group.loadGroupFile("/democles/", getTemplateUriPrefix() + "stringtemplate/Number.stg");
       final ImportHandler importRenderer = new ImportHandler();
       group.registerModelAdaptor(ImportManager.class, importRenderer);
       group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
