@@ -144,7 +144,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          
          long tic = System.nanoTime();
 
-         logger.info("Completed in " + (tic - toc) / 1000000000.0 + "s");
+         logger.info("Completed in " + (tic - toc) / 1e9 + "s");
 
          return validatorStatus.isOK() && injectionStatus.isOK() ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Code generation succeeded")
                : new MultiStatus(CodeGeneratorPlugin.getModuleID(), validatorStatus.getCode(), new IStatus[] { validatorStatus, injectionStatus }, "Code generation warnings/errors", null);

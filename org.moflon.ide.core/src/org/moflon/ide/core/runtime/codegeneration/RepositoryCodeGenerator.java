@@ -55,7 +55,8 @@ public class RepositoryCodeGenerator
       {
          monitor.beginTask("Generating code for project " + this.project.getName(), 9);
 
-         if (!doesEcoreFileExist())
+         final IFile ecoreFile = getEcoreFileAndHandleMissingFile();
+         if (!ecoreFile.exists())
          {
             logger.warn("Unable to generate code for " + project.getName()
                   + ",  as no Ecore file according to naming convention (capitalizeFirstLetter.lastSegmentOf.projectName) was found!");
@@ -66,20 +67,12 @@ public class RepositoryCodeGenerator
          eMoflonEMFUtil.installCrossReferencers(resourceSet);
          monitor.worked(1);
 
-         final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(getEcoreFileAndHandleMissingFile(), resourceSet);
+         final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet);
 
          generateDependenciesIfNecessary(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          final IStatus status = codeGenerationTask.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-         if (status.matches(IStatus.ERROR))
-         {
-            handleErrorsInEA(status);
-            handleErrorsInEclipse(status);
-         }
-         if (status.matches(IStatus.WARNING))
-         {
-            handleInjectionWarningsAndErrors(status);
-         }
+         handleErrorsAndWarnings(status);
          monitor.worked(3);
 
          final GenModel genModel = codeGenerationTask.getGenModel();
@@ -91,7 +84,7 @@ public class RepositoryCodeGenerator
 
             new PluginXmlUpdater().updatePluginXml(project, genModel, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
          }
-         getEcoreFileAndHandleMissingFile().getProject().refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         ecoreFile.getProject().refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          CoreActivator.addMappingForProject(project);
 
@@ -103,6 +96,23 @@ public class RepositoryCodeGenerator
       }
 
       return true;
+   }
+
+   /**
+    * Handles errors and warning produced by the code generation task
+    * @param status
+    */
+   private void handleErrorsAndWarnings(final IStatus status)
+   {
+      if (status.matches(IStatus.ERROR))
+      {
+         handleErrorsInEA(status);
+         handleErrorsInEclipse(status);
+      }
+      if (status.matches(IStatus.WARNING))
+      {
+         handleInjectionWarningsAndErrors(status);
+      }
    }
 
    private void handleInjectionWarningsAndErrors(final IStatus status)

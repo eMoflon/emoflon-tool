@@ -118,6 +118,9 @@ public class CodeGeneratorPlugin implements BundleActivator
       }
    }
 
+   /**
+    * Returns the code generator configured in moflon.properties.xmi
+    */
    public static final String getMethodBodyHandler(final MoflonPropertiesContainer moflonProperties)
    {
       SDMCodeGeneratorIds handlerId = moflonProperties.getSdmCodegeneratorHandlerId().getValue();
