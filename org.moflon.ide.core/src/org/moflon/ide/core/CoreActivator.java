@@ -12,7 +12,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.jobs.Job;
@@ -255,11 +254,20 @@ public class CoreActivator extends Plugin
       this.dirtyProjectListeners.add(listener);
    }
 
-   public static void addMappingForProject(final IProject project) throws CoreException
+   /**
+    * Adds a plugin-to-resource mapping to the global {@link URIConverter#URI_MAP}.
+    * 
+    * More precisely: If the given project is a plugin project, the following mapping is added to the map
+    * 
+    * platform:/plugin/[project-plugin-ID]/ to platform:/resource/[project-name]
+    *  
+    * @param project the project to be added
+    */
+   public static void addMappingForProject(final IProject project) 
    {
       if (project.isAccessible())
       {
-         IPluginModelBase pluginModel = PluginRegistry.findModel(project);
+         final IPluginModelBase pluginModel = PluginRegistry.findModel(project);
          if (pluginModel != null)
          {
             String pluginID = project.getName();
@@ -267,9 +275,11 @@ public class CoreActivator extends Plugin
             if (pluginModel.getBundleDescription() != null)
                pluginID = pluginModel.getBundleDescription().getSymbolicName();
 
-            URI pluginURI = URI.createPlatformPluginURI(pluginID + "/", true);
-            URI resourceURI = URI.createPlatformResourceURI(project.getName() + "/", true);
+            final URI pluginURI = URI.createPlatformPluginURI(pluginID + "/", true);
+            final URI resourceURI = URI.createPlatformResourceURI(project.getName() + "/", true);
+            
             URIConverter.URI_MAP.put(pluginURI, resourceURI);
+            
             logger.debug("Add mapping for project " + project.getName() + ": " + pluginURI + " -> " + resourceURI);
          }
       }
