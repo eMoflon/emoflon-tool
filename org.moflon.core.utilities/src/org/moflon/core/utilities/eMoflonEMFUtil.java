@@ -79,6 +79,10 @@ public class eMoflonEMFUtil
       m.put("*", new XMIResourceFactoryImpl());
    }
 
+   /**
+    * Adds an {@link ECrossReferenceAdapter} to the adapters of the given {@link ResourceSet} if no adapter exists, yet.
+    * @param resourceSet the resource set to be adapted.
+    */
    public static final void installCrossReferencers(final ResourceSet resourceSet)
    {
       // Add adapter for reverse navigation along unidirectional links
