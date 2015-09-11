@@ -129,7 +129,7 @@
             // buttonAnchor
             // 
             this.buttonAnchor.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonAnchor.BackgroundImage = global::EAEcoreAddin.Properties.Resources.anchor_small_;
+            this.buttonAnchor.BackgroundImage = global::EAEcoreAddin.Properties.Resources.anchor_small;
             this.buttonAnchor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonAnchor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonAnchor.Location = new System.Drawing.Point(6, 20);

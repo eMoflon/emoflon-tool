@@ -88,7 +88,7 @@ namespace EAEcoreAddin.Serialization.MocaTree
         }
 
 
-        private MocaAttribute getAttribute(String attributeName)
+        public MocaAttribute getAttribute(String attributeName)
         {
             MocaAttribute attribute = null;
             foreach (MocaAttribute mocaAttribute in this.Attributes)

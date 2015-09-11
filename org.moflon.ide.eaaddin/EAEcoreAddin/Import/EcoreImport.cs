@@ -275,7 +275,17 @@ namespace EAEcoreAddin.Import
             
 
             EA.Element eclassElem = getOrCreateElement(parentPackage, eClassNode, "Class");
-            
+            MocaAttribute isAbstract = eClassNode.getAttributeOrCreate("isAbstract");
+            if(isAbstract.Value == "true")
+            {
+                eclassElem.Abstract = "1";
+            }
+            else
+            {
+                eclassElem.Abstract = "0";
+            }
+            eclassElem.Update();
+
             return importEClassFeatures(eClassNode, sqlRep.GetElementByID(eclassElem.ElementID));
         }
 
@@ -286,7 +296,6 @@ namespace EAEcoreAddin.Import
             MocaNode operationsNode = eClassNode.getChildNodeWithName(EClass.OperationsChildNodeName);
             MocaNode attributesNode = eClassNode.getChildNodeWithName(EClass.AttributesChildNodeName);
             MocaNode refsNode = eClassNode.getChildNodeWithName(EClass.ReferencesChildNodeName);
-
             foreach (MocaNode eOpNode in operationsNode.Children)
             {
                 EA.Method eaMethod = getOrCreateMethod(eclassElem, eOpNode);
@@ -321,7 +330,6 @@ namespace EAEcoreAddin.Import
 
             EClass eclass = new EClass(sqlRep.GetElementByID(eclassElem.ElementID), sqlRep);
             eclass.deserializeFromMocaTree(eClassNode);
-
             foreach (EAttribute eattr in eclass.EAttributes)
             {
                 if (eattr.typeGuid != "")
@@ -401,7 +409,7 @@ namespace EAEcoreAddin.Import
             if (modelPackage == null)
             {
                 EA.Package rootPackageOriginal = rootPackage.getRealPackage();
-                String packageName = packageNode.getAttributeOrCreate("Moflon::Name").Value;
+                String packageName = packageNode.getAttributeOrCreate(MetamodelHelper.MoflonCustomNameTaggedValueName).Value;
                 if(packageName == "") {
                     packageName = packageNode.getAttributeOrCreate("name").Value;
                 }
@@ -410,11 +418,45 @@ namespace EAEcoreAddin.Import
                 if(rootPackageOriginal.ParentID == 0)
                     modelPackage.Flags = "isModel=1;VICON=3;";
                 modelPackage.Update();
+
+                // import nsUri
+                setTagValueIfPossibleForPackage(MetamodelHelper.MoflonCustomNsUriTaggedValueName, packageNode, modelPackage);
+
+                // import export
+                setTagValueIfPossibleForPackage(MetamodelHelper.MoflonExportTaggedValueName, packageNode, modelPackage);
+
+                // import pluginID
+                setTagValueIfPossibleForPackage(MetamodelHelper.MoflonCustomPluginIDTaggedValueName, packageNode, modelPackage);
+
+                // import prefix
+                setTagValueIfPossibleForPackage(MetamodelHelper.MoflonCustomNsPrefixTaggedValueName, packageNode, modelPackage);
+
+                // import validated
+                setTagValueIfPossibleForPackage(MetamodelHelper.MoflonValidatedTaggedValueName, packageNode, modelPackage);
+
+                // import name
+                setTagValueIfPossibleForPackage(MetamodelHelper.MoflonCustomNameTaggedValueName, packageNode, modelPackage);
+
                 repository.Execute("update t_package set ea_guid = '" + oldGuid + "' where ea_guid = '" + modelPackage.PackageGUID + "'");
                 repository.Execute("update t_object set ea_guid = '" + oldGuid + "' where ea_guid = '" + modelPackage.PackageGUID + "'");
                 modelPackage = repository.GetPackageByGuid(oldGuid);
             }
             return modelPackage;
+        }
+
+        private void setTagValueIfPossibleForPackage(String tagNameInNode, MocaNode node, EA.Package eaPack)
+        {
+            MocaAttribute attribute = node.getAttribute(tagNameInNode); 
+            
+            if(attribute != null)
+            {
+                EAEcoreAddin.Util.EAUtil.setTaggedValue(sqlRep, eaPack, tagNameInNode, attribute.Value);
+            }
+            else
+            {
+                EAEcoreAddin.Util.EAUtil.deleteTaggedValue(eaPack.Element, tagNameInNode);
+            }
+            eaPack.Update();
         }
 
 
@@ -554,7 +596,7 @@ namespace EAEcoreAddin.Import
         public EA.Package findOrCreateRoot(MocaNode ePackageNode)
         {
             EA.Package rootPackage = null;
-             String workingSetName = ePackageNode.getAttributeOrCreate("workingSet").Value;
+            String workingSetName = ePackageNode.getAttributeOrCreate(MetamodelHelper.MoflonWorkingSetTaggedValueName).Value;
              if (workingSetName == "")
              {
                  if (repository.Models.Count > 0)
@@ -570,6 +612,7 @@ namespace EAEcoreAddin.Import
                          rootPackage = root;
                  }
              }
+            
             if (rootPackage == null)
             {
                 String rootName = ePackageNode.getAttributeOrCreate("workingSet").Value;
@@ -579,9 +622,12 @@ namespace EAEcoreAddin.Import
                 rootPackage.Update();
                 repository.Models.Refresh();
             }
+
+
             return rootPackage;
         }
 
+       // private static void appendTaggedValue()
 
         #endregion
 

@@ -92,8 +92,8 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         protected EPackage package;
 
         public static readonly String MoflonCustomNameTaggedValueName = "Moflon::Name";
-        protected static readonly String MoflonCustomNsUriTaggedValueName = "Moflon::NsUri";
-        private static readonly String MoflonCustomNsPrefixTaggedValueName = "Moflon::NsPrefix";
+        public static readonly String MoflonCustomNsUriTaggedValueName = "Moflon::NsUri";
+        public static readonly String MoflonCustomNsPrefixTaggedValueName = "Moflon::NsPrefix";
 
         public static readonly String defaultValue = "__default__";
 
