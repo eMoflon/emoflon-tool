@@ -5,8 +5,9 @@
 2015-09-06	Issue #565 solved: https://github.com/eMoflon/emoflon/issues/565
 2015-09-06	Issue #564 solved: https://github.com/eMoflon/emoflon/issues/564
 2015-09-06	eMoflon 2.2.0 released
-
+---
 2015-09-08	Reduce required EMF plugin version
 2015-09-08	Issue #569 solved (imports in TGG CSP constraints)
 2015-09-11	Constants of primitive types double, float, long, and short are now supported in expressions and bindings.
 2015-09-11	eMoflon 2.2.1 released
+---
