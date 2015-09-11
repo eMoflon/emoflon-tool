@@ -47,7 +47,7 @@ public class MoflonPropertiesContainerHelper
 
          if (propertyFile.exists())
          {
-            eMoflonEMFUtil.init(MoflonPropertyContainerPackage.eINSTANCE);
+            MoflonPropertyContainerPackage.eINSTANCE.getClass();
             moflonPropertiesCont = (MoflonPropertiesContainer) eMoflonEMFUtil.loadModel(propertyFile.getLocation().toString());
 
          } else
