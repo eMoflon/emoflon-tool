@@ -1,31 +1,41 @@
 
+import org.moflon.core.utilities.eMoflonEMFUtil;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 partial class RuleRefinementPrecompilerImpl {
 
 
 
 @model refineRules (TripleGraphGrammar tgg) <--
 
-
 		EList<TGGRule> rules = tgg.getTggRule();
-		
+
 		// get all rules that do not refine any other rule
-		List<TGGRule> baseRules = rules.stream().filter(rule -> rule.getRefines().isEmpty()).collect(Collectors.toList());
+		List<TGGRule> baseRules = rules.stream().filter(rule -> rule.getRefines().isEmpty())
+				.collect(Collectors.toList());
 		Set<TGGRule> toBeProcessedRules = new HashSet<TGGRule>();
-		baseRules.stream().map(baseRule -> toBeProcessedRules.addAll(baseRule.getRefines().stream().collect(Collectors.toSet())));
-		
+		baseRules.stream()
+				.map(baseRule -> toBeProcessedRules.addAll(baseRule.getRefines().stream().collect(Collectors.toSet())));
+
 		// take one rule that has already been resolved
-		while(!toBeProcessedRules.isEmpty()) {
+		while (!toBeProcessedRules.isEmpty()) {
 			TGGRule rule = toBeProcessedRules.iterator().next();
-			
+
 			refineRule(rule);
 			rule.getRefines().clear();
-			
+
 			// delete refines-links and reverse them
 			// add 'source' rule (of this link) to baseRules-list if it does not refines other unresolved rules
-			List<TGGRule> oppositeRules = (List<TGGRule>) eMoflonEMFUtil.getOppositeReference(rule, TGGRule.class, "refines");
-			for(TGGRule oppositeRule : oppositeRules) {
-				boolean toBeRefined = oppositeRule.getRefines().stream().map(refines -> !refines.getRefines().isEmpty()).filter(bool -> bool.booleanValue()).count() == 0;
-				if(toBeRefined) {
+			List<TGGRule> oppositeRules = (List<TGGRule>) eMoflonEMFUtil.getOppositeReference(rule, TGGRule.class,
+					"refines");
+			for (TGGRule oppositeRule : oppositeRules) {
+				boolean toBeRefined = oppositeRule.getRefines().stream().map(refines -> !refines.getRefines().isEmpty())
+						.filter(bool -> bool.booleanValue()).count() == 0;
+				if (toBeRefined) {
 					toBeProcessedRules.add(oppositeRule);
 				}
 			}
