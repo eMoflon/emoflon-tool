@@ -1,5 +1,6 @@
 package org.moflon.tgg.algorithm.synchronization;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -76,6 +77,8 @@ public class SynchronizationHelper
    protected TempOutputContainer tempOutputContainer;
 
    protected boolean batchOptimization = false;
+   
+   protected boolean loadedFileDelta = false;
 
    protected boolean verbose = false;
 
@@ -295,6 +298,8 @@ public class SynchronizationHelper
 
    protected void establishDelta(final EObject input, final Consumer<EObject> change)
    {
+	  delta = new Delta();
+	   
       if (input == null)
          throw new IllegalStateException("Why are you trying to backward synchronize an empty input graph?");
 
@@ -324,8 +329,6 @@ public class SynchronizationHelper
 
       if (rules == null)
          throw new IllegalArgumentException("Rules must be set.");
-
-      delta = new Delta();
    }
 
    protected void induceCreateDeltaForBatchTrafo(final EObject inputRoot)
@@ -454,7 +457,11 @@ public class SynchronizationHelper
          throw new IllegalArgumentException("Target model must be set");
 
       init();
-      establishBackwardDelta();
+      
+      // check if delta has already been loaded, e.g. by using deltas created with delta editor
+      if(!loadedFileDelta)
+    	  establishBackwardDelta();
+      
       establishTranslationProtocol();
 
       performSynchronization(new BackwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(), tempOutputContainer));
@@ -467,7 +474,8 @@ public class SynchronizationHelper
 
    private EObject loadModel(final String path)
    {
-      return set.getResource(eMoflonEMFUtil.createFileURI(path, true), true).getContents().get(0);
+	  Resource r = set.getResource(eMoflonEMFUtil.createFileURI(path, true), true);
+      return r.getContents().get(0);
    }
    
    private EObject loadModelFromJar(final String pathToJar, final String pathToResource)
@@ -483,6 +491,12 @@ public class SynchronizationHelper
    public void loadSrc(final String path)
    {
       setSrc(loadModel(path));
+   }
+   
+   public void loadDelta(final String path) 
+   {
+	   loadedFileDelta = true;
+	   setDelta(Delta.fromEMF((org.moflon.tgg.runtime.Delta) loadModel(path)));
    }
 
    public void loadCorr(final String path)

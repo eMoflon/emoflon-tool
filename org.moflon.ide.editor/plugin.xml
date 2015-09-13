@@ -12,6 +12,14 @@
             id="org.moflon.ide.texteditor.editors.MoflonTextEditor"
             name="eMoflon Text Editor">
       </editor>
+      <editor
+      		class="org.moflon.ide.deltaeditor.DeltaEditor"
+      		contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor"
+      		extensions="xmi"
+      		icon="icons/deltaSmall-refit.png"
+      		id="org.moflon.ide.deltaeditor.DeltaEditor"
+      		name="Delta Editor">
+   </editor>
    </extension>
    <extension
          id="org.moflon.ide.texteditor.editors.TextEditorBuilder"

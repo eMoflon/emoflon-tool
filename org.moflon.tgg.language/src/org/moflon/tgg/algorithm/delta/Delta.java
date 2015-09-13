@@ -132,4 +132,8 @@ public class Delta
       
       return delta;
    }
+   
+   public boolean isChangeDetected() {
+	   return !(addedNodes.isEmpty() && addedEdges.isEmpty() && deletedNodes.isEmpty() && deletedEdges.isEmpty() && attributeChanges.isEmpty());
+   }
 }
