@@ -1,16 +1,11 @@
 package org.moflon.ide.core;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Plugin;
@@ -20,8 +15,6 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
-import org.moflon.ide.core.console.MoflonConsole;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -33,12 +26,6 @@ import org.osgi.framework.BundleContext;
 public class CoreActivator extends Plugin
 {
    private static final Logger logger = Logger.getLogger(CoreActivator.class);
-
-   // Log4J file
-   private static final String LOG4J_CONFIG_PROPERTIES = "log4jConfig.properties";
-
-   // Default resources path
-   private static final String RESOURCES_DEFAULT_FILES_PATH = "resources/defaultFiles/";
 
    // The plug-in ID
 
@@ -66,9 +53,6 @@ public class CoreActivator extends Plugin
    private static CoreActivator plugin;
 
    private static String bundleId;
-
-   // The config file used for logging in plugin
-   private File configFile;
 
    private Map<String, Boolean> isDirty = new HashMap<>();
 
@@ -105,9 +89,6 @@ public class CoreActivator extends Plugin
 
       dirtyProjectListeners = new ArrayList<>();
 
-      // Configure logging for eMoflon
-      setUpLogging();
-
       // Add mappings of all projects in Workspace for Ecore modelbrowser
       Job registrationJob = new RegisterUrlMappingsForAllProjectsJob();
       registrationJob.schedule();
@@ -133,94 +114,6 @@ public class CoreActivator extends Plugin
    public IPath getPathInStateLocation(final String filename)
    {
       return getStateLocation().append(filename);
-   }
-
-   /**
-    * Initialize log and configuration file. Configuration file is created with default contents if necessary. Log4J is
-    * setup properly and configured with a console and logfile appender.
-    */
-   private void setUpLogging()
-   {
-      // Create configFile if necessary also in plugin storage space
-      configFile = getPathInStateLocation(LOG4J_CONFIG_PROPERTIES).toFile();
-
-      if (!configFile.exists())
-      {
-         try
-         {
-            // Copy default configuration to state location
-            URL defaultConfigFile = MoflonUtilitiesActivator.getPathRelToPlugIn(RESOURCES_DEFAULT_FILES_PATH + LOG4J_CONFIG_PROPERTIES, getModuleID());
-
-            FileUtils.copyURLToFile(defaultConfigFile, configFile);
-         } catch (Exception e)
-         {
-            logger.error("Unable to open default config file.");
-            e.printStackTrace();
-         }
-      }
-
-      // Configure Log4J
-      reconfigureLogging();
-   }
-
-   /**
-    * Call to ensure that log4j is setup properly and configured. Can be called multiple times. Forces Plugin to be
-    * loaded and started, ensuring that log file and config file exist.
-    */
-   public void reconfigureLogging()
-   {
-      try
-      {
-         configureLogging(configFile.toURI().toURL());
-      } catch (MalformedURLException e)
-      {
-         logger.error("URL to configFile is malformed: " + configFile);
-         e.printStackTrace();
-      }
-   }
-
-   /**
-    * Set up logging globally
-    * 
-    * @param configFile
-    *           URL to log4j property configuration file
-    */
-   public static boolean configureLogging(final URL configFile)
-   {
-      try
-      {
-         Logger root = Logger.getRootLogger();
-         String configurationStatus = "";
-         if (configFile != null)
-         {
-            // Configure system using config
-            PropertyConfigurator.configure(configFile);
-            configurationStatus = "Log4j successfully configured using " + configFile;
-         } else
-         {
-            configurationStatus = "Set up logging without config file!";
-         }
-
-         // Set format and scheme for output
-         Logger.getRootLogger().addAppender(new MoflonConsole(configFile));
-
-         // Indicate success
-         root.info("Logging to eMoflon console. Configuration: " + configurationStatus);
-         return true;
-      } catch (Exception e)
-      {
-         e.printStackTrace();
-         return false;
-      }
-   }
-
-   /**
-    * @return Logging configuration file in state location of client (usually
-    *         $workspace/.metadata/.plugins/org.moflon.ide.core/log4jConfig.properties)
-    */
-   public File getConfigFile()
-   {
-      return configFile;
    }
 
    public boolean isDirty(final IProject project)
