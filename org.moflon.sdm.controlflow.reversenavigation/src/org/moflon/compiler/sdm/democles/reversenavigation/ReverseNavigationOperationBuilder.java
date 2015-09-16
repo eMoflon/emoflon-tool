@@ -15,7 +15,8 @@ import org.gervarro.democles.specification.impl.Constraint;
 
 public class ReverseNavigationOperationBuilder extends BasicEMFOperationBuilder
 {
-   public List<GeneratorOperation> getConstraintOperations(Constraint constraint, List<GeneratorVariable> parameters) {
+   @Override
+   public List<GeneratorOperation> getConstraintOperations(final Constraint constraint, final List<GeneratorVariable> parameters) {
       if (constraint.getType() instanceof EMFConstraint<?>) {
          List<GeneratorOperation> result = new LinkedList<GeneratorOperation>();
          EMFConstraint<?> cType = (EMFConstraint<?>) constraint.getType();
