@@ -36,6 +36,8 @@ public class EnterpriseArchitectHelper
    
    private static final String XMI_EXTENSIONS = "--xmi ";
    
+   private static EnterpriseArchitectCommandLineParser clParser = new EnterpriseArchitectCommandLineParser(logger);
+   
    public static void delegateToEnterpriseArchitect(final IProject project) throws IOException, InterruptedException
    {
       delegateToEnterpriseArchitect(project, new NullProgressMonitor());
@@ -48,7 +50,7 @@ public class EnterpriseArchitectHelper
 
    private static String generateExportCommand(IFile eapFile){
 	   URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, CoreActivator.getModuleID());
-       return  "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + EXPORT_OPTION + EAP_EXTENSIONS + "\"" + eapFile.getLocation() + "\"";
+       return  "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + EXPORT_OPTION + EAP_EXTENSIONS + "\"" + eapFile.getLocation().toOSString() + "\"";
 
    }
    
@@ -77,7 +79,7 @@ public class EnterpriseArchitectHelper
                stdout.append(new String(buffer, 0, readBytes));
             }
          } while (readBytes > 0);
-         logger.debug("Process output: " + stdout.toString());
+          clParser.parse(stdout.toString());
 
          Job refreshProject = new RefreshProjectJob(project);
          refreshProject.schedule();
@@ -90,7 +92,7 @@ public class EnterpriseArchitectHelper
    
    private static String generateImportCommand(IFile eapFile, IFile xmiFile){
 	   URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, CoreActivator.getModuleID());
-	   return "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + IMPORT_OPTION + XMI_EXTENSIONS + "\"" + xmiFile.getLocation() + "\" "+  EAP_EXTENSIONS + "\"" + eapFile.getLocation() + "\"";
+	   return "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + IMPORT_OPTION + XMI_EXTENSIONS + "\"" + xmiFile.getLocation().toOSString() + "\" "+  EAP_EXTENSIONS + "\"" + eapFile.getLocation().toOSString() + "\"";
    }
    
    public static void exportEcoreFilesFromEAP(final IProject project)
