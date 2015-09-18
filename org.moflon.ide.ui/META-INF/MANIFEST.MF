@@ -40,7 +40,8 @@ Require-Bundle:
  org.eclipse.e4.ui.model.workbench;bundle-version="[1.0.1,2.0.0)",
  org.eclipse.jdt.launching;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.jdt.ui;bundle-version="[3.5.0,4.0.0)",
- org.moflon.ide.editor
+ org.moflon.ide.editor,
+ org.moflon.core.ecore2mocaxmi;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.ide.ui,
