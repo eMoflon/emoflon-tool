@@ -8,9 +8,7 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
- MocaTree,
- org.eclipse.jface.text,
- org.eclipse.jface
+ MocaTree
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
