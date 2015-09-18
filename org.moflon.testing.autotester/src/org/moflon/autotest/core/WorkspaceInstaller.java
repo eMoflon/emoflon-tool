@@ -197,7 +197,7 @@ public class WorkspaceInstaller
       for (final IProject testProject : testProjects)
       {
          List<IFile> selectedLaunchConfigurations = Arrays.asList(testProject.members()).stream().filter(m -> m instanceof IFile)
-               .map(m -> m.getAdapter(IFile.class)).filter(f -> f.getName().matches("^.*[Test|TestSuite].*[.]launch$")).collect(Collectors.toList());
+               .map(m -> (IFile)m.getAdapter(IFile.class)).filter(f -> f.getName().matches("^.*[Test|TestSuite].*[.]launch$")).collect(Collectors.toList());
          logger.info(
                "Launching the following launch configurations: " + selectedLaunchConfigurations.stream().map(f -> f.getName()).collect(Collectors.toList()));
          selectedLaunchConfigurations.forEach(file -> {
