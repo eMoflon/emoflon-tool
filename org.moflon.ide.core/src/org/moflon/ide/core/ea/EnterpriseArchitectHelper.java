@@ -26,8 +26,16 @@ public class EnterpriseArchitectHelper
 
    private static final String ERROR_MESSAGE_PROBLEMS_EA_EXPORT = "I'm having problems executing the EA export for ";
 
-   private static final String COMMAND_LINE_EA_EXPORT = "/resources/commandLineEAExport/eMoflonCommandLine.exe";
+   private static final String COMMAND_LINE_EA_EXECUTABLE = "/resources/commandLineEAExport/eMoflonCommandLine.exe";
 
+   private static final String EXPORT_OPTION = "-e ";
+   
+   private static final String IMPORT_OPTION = "-i ";
+   
+   private static final String EAP_EXTENSIONS = "--eap ";
+   
+   private static final String XMI_EXTENSIONS = "--xmi ";
+   
    public static void delegateToEnterpriseArchitect(final IProject project) throws IOException, InterruptedException
    {
       delegateToEnterpriseArchitect(project, new NullProgressMonitor());
@@ -35,14 +43,22 @@ public class EnterpriseArchitectHelper
 
    public static void delegateToEnterpriseArchitect(final IProject project, final IProgressMonitor monitor) throws IOException, InterruptedException
    {
+     delegateToEnterpriseArchitect(project, monitor, generateExportCommand(WorkspaceHelper.getEapFileFromMetamodelProject(project)), "Exporting");
+   }
+
+   private static String generateExportCommand(IFile eapFile){
+	   URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, CoreActivator.getModuleID());
+       return  "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + EXPORT_OPTION + EAP_EXTENSIONS + "\"" + eapFile.getLocation() + "\"";
+
+   }
+   
+   public static void delegateToEnterpriseArchitect(final IProject project, final IProgressMonitor monitor,final String command, final String importExport) throws IOException, InterruptedException
+   {
       try
       {
-         monitor.beginTask("Exporting project " + project.getName(), 2);
-
-         URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXPORT, CoreActivator.getModuleID());
-         IFile eap = WorkspaceHelper.getEapFileFromMetamodelProject(project);
+         monitor.beginTask(importExport +" project " + project.getName(), 2);
          Runtime rt = Runtime.getRuntime();
-         String command = "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\"" + " -e --eap " + "\"" + eap.getLocation() + "\"";
+         
          logger.debug("Executing '" + command + "'");
 
          Process pr = rt.exec(command);
@@ -71,7 +87,12 @@ public class EnterpriseArchitectHelper
          monitor.done();
       }
    }
-
+   
+   private static String generateImportCommand(IFile eapFile, IFile xmiFile){
+	   URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, CoreActivator.getModuleID());
+	   return "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + IMPORT_OPTION + XMI_EXTENSIONS + "\"" + xmiFile.getLocation() + "\" "+  EAP_EXTENSIONS + "\"" + eapFile.getLocation() + "\"";
+   }
+   
    public static void exportEcoreFilesFromEAP(final IProject project)
    {
       try
@@ -83,6 +104,17 @@ public class EnterpriseArchitectHelper
          logger.info(ERROR_MESSAGE_LATEST_VERSIONS);
          logger.error(MoflonUtil.displayExceptionAsString(e));
       }
+   }
+   
+   public static void importXMIFilesToEAP(final IProject project, final IFile xmiFile){
+	   try{
+		   delegateToEnterpriseArchitect(project, new NullProgressMonitor(), generateImportCommand(WorkspaceHelper.getEapFileFromMetamodelProject(project), xmiFile), "Importing");
+	   }catch (IOException | InterruptedException e)
+	      {
+	         logger.error(ERROR_MESSAGE_PROBLEMS_EA_EXPORT + project.getName());
+	         logger.info(ERROR_MESSAGE_LATEST_VERSIONS);
+	         logger.error(MoflonUtil.displayExceptionAsString(e));
+	      }
    }
 
 }
