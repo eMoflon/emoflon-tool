@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using CommandLineParser.Arguments;
 using System.IO;
+using System.Xml;
 using CommandLineParser.Exceptions;
 using EAEcoreAddin.SQLWrapperClasses;
 using EAEcoreAddin.Persistency;
 using EAEcoreAddin;
+using EAEcoreAddin.Import;
 using EAEcoreAddin.Modeling.Util;
+using EAEcoreAddin.Serialization.MocaTree;
+using EAEcoreAddin.Serialization.MocaTree.Util;
 using System.Windows.Forms;
 using EAEcoreAddin.Consistency;
 
@@ -26,6 +30,7 @@ namespace MOFLON2EAExportImportTest
         SwitchArgument import;
         SwitchArgument codegen2compatibility;
         SwitchArgument validate;
+        List<String> checkedMetamodelsToImport;
 
         private const int EXPORT_EAP = 0;
         private const int IMPORT_EAP = 1;
@@ -111,15 +116,31 @@ namespace MOFLON2EAExportImportTest
                 EA.Repository repository = null;
                 try
                 {
+                    Console.Out.WriteLine("start import");
                     String xmiFilename = xmiFile.Value;
                     String eapFilename = eapFile.Value;
                     EAEcoreAddin.Main main = new EAEcoreAddin.Main();
                     repository = new EA.Repository();
 
-                    if(File.Exists(eapFilename))
-                        File.Delete(eapFilename);
-                    repository.CreateModel(EA.CreateModelType.cmEAPFromBase, eapFilename, 0);
+
                     
+
+                    Console.Out.WriteLine("initialize importer");
+                    SQLRepository sqlRepository = new SQLRepository(repository, false);
+                    MainImport importer = MainImport.getInstance(sqlRepository, null);
+
+                    if(!File.Exists(eapFilename))
+                        repository.CreateModel(EA.CreateModelType.cmEAPFromBase, eapFilename, 0);
+
+                    Console.Out.WriteLine("getMocaTree Node");
+                    MocaNode mocaTree = new MocaNode();
+                    String readText = File.ReadAllText(xmiFilename);
+                    XmlDocument mocaXmlDocument = XmlUtil.stringToXmlDocument(readText);
+                    mocaTree.deserializeFromXmlTree(mocaXmlDocument.DocumentElement.FirstChild as XmlElement);
+
+                    Console.Out.WriteLine("do import");
+                    checkedMetamodelsToImport = new List<string>();
+                    importer.startImport(mocaTree, checkedMetamodelsToImport);
                     ////open the empty eap
                     repository.OpenFile(eapFilename);
 
