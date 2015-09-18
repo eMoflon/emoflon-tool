@@ -39,7 +39,7 @@ public class TransformationTester {
 			if (eObject instanceof EPackage) {
 			    EPackage p = (EPackage)eObject;
 			    rs.getPackageRegistry().put(p.getNsURI(), p);
-			    tree = converter.convert(p, "WorkingSet");
+			    tree = converter.convert(p, "MoDisco");
 			    eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), tree, "instances/out/java.moca.xmi");
 			}
 	}
