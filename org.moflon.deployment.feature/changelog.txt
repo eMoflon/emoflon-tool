@@ -11,3 +11,5 @@
 2015-09-11	Constants of primitive types double, float, long, and short are now supported in expressions and bindings.
 2015-09-11	eMoflon 2.2.1 released
 ---
+2015-09-18  New Feature Ecore import to EAP added
+2015-09-18  Add A Parser for better error handling between EA-Addin and Eclipse
