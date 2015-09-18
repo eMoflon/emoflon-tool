@@ -22,9 +22,9 @@ Require-Bundle:
  org.eclipse.jdt.ui,
  MocaTree,
  org.moflon.core.moca.processing,
- org.eclipse.emf.edit;bundle-version="2.11.0",
- org.eclipse.emf.common.ui;bundle-version="2.10.0",
- org.eclipse.emf.edit.ui;bundle-version="2.11.0",
+ org.eclipse.emf.edit,
+ org.eclipse.emf.common.ui,
+ org.eclipse.emf.edit.ui,
  org.moflon.tgg.runtime;bundle-version="2.0.0",
  org.moflon.tgg.language;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
