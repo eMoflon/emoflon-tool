@@ -80,7 +80,7 @@ namespace EAEcoreAddin.Import.Gui
             BackgroundWorker worker = sender as BackgroundWorker;
 
             MainImport import = MainImport.getInstance(repository, worker);
-            import.startImport(mocaTree, checkedMetamodelsToImport);
+            import.startImport(mocaTree, checkedMetamodelsToImport, true);
         }
 
         int oldPercentage = -1;

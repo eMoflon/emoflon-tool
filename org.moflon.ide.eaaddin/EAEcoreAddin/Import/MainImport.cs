@@ -22,6 +22,7 @@ namespace EAEcoreAddin.Import
 {
     public class MainImport
     {
+        public static Boolean hasGui = true;
 
         public static Boolean ImportBusy = false;
 
@@ -112,9 +113,10 @@ namespace EAEcoreAddin.Import
         
 
 
-        public void startImport(MocaNode importNode, List<String> mmsToImport)
+        public void startImport(MocaNode importNode, List<String> mmsToImport, Boolean gui)
         {
             this.MocaTree = importNode;
+            hasGui = gui;
             checkedMetamodelsToImport = mmsToImport;
             try
             {
@@ -123,8 +125,11 @@ namespace EAEcoreAddin.Import
             catch
             {
                 int modelroot = 0;
-                MessageBox.Show("Import was not successfull. The Moca XMI file seems to be invalid");
 
+                if (hasGui)
+                    MessageBox.Show("Import was not successfull. The Moca XMI file seems to be invalid");
+                else
+                    Console.Out.WriteLine("ERROR:Import was not successfull. The Moca XMI file seems to be invalid");
                 repository.RefreshModelView(modelroot);
             }
             finally
@@ -140,26 +145,32 @@ namespace EAEcoreAddin.Import
             ImportBusy = true;
             repository.BatchAppend = true;
 
-
-            ImportWorker.ReportProgress(0, new ProgressObject(ProgressBarType.Complete, "Import raw Objects", 6));
+            if(hasGui)
+                ImportWorker.ReportProgress(0, new ProgressObject(ProgressBarType.Complete, "Import raw Objects", 6));
             importMetamodelNodes();
 
-            ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Complete, "Import raw Connectors"));
+            if (hasGui)
+                ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Complete, "Import raw Connectors"));
             importConnectors();
 
-            ImportWorker.ReportProgress(2, new ProgressObject(ProgressBarType.Complete, "Import Inheritances"));
+            if (hasGui)
+                ImportWorker.ReportProgress(2, new ProgressObject(ProgressBarType.Complete, "Import Inheritances"));
             EcoreImport.setInheritances();
 
-            ImportWorker.ReportProgress(3, new ProgressObject(ProgressBarType.Complete, "Set Classifiers"));
+            if (hasGui)
+                ImportWorker.ReportProgress(3, new ProgressObject(ProgressBarType.Complete, "Set Classifiers"));
             setClassifierAttributes();
 
-            ImportWorker.ReportProgress(4, new ProgressObject(ProgressBarType.Complete, "Save Moca Fragment and refresh EA Gui"));
+            if (hasGui)
+                ImportWorker.ReportProgress(4, new ProgressObject(ProgressBarType.Complete, "Save Moca Fragment and refresh EA Gui"));
             saveMocaTagElements();
 
-            ImportWorker.ReportProgress(5, new ProgressObject(ProgressBarType.Complete, "Set Directions"));
+            if (hasGui)
+                ImportWorker.ReportProgress(5, new ProgressObject(ProgressBarType.Complete, "Set Directions"));
             EcoreImport.setDirections();
 
-            ImportWorker.ReportProgress(6, new ProgressObject(ProgressBarType.Complete, "Fill Diagrams"));
+            if (hasGui)
+                ImportWorker.ReportProgress(6, new ProgressObject(ProgressBarType.Complete, "Fill Diagrams"));
             fillDiagrams();
 
 
@@ -176,7 +187,8 @@ namespace EAEcoreAddin.Import
         {
             foreach(EA.Diagram diagram in DiagramsToBeFilled) 
             {
-                ImportWorker.ReportProgress(7, new ProgressObject(ProgressBarType.Current, "Fill Diagram", DiagramsToBeFilled.Count));
+                if (hasGui)
+                    ImportWorker.ReportProgress(7, new ProgressObject(ProgressBarType.Current, "Fill Diagram", DiagramsToBeFilled.Count));
                 if (ECOREModelingMain.EcoreDiagramMetatype.Contains(diagram.MetaType))
                 {
                     EcoreImport.fillEcoreDiagram(diagram);
@@ -205,7 +217,8 @@ namespace EAEcoreAddin.Import
         {
             foreach (MocaTaggableElement taggableElement in this.MocaTaggableElements)
             {
-                ImportWorker.ReportProgress(5, new ProgressObject(ProgressBarType.Current, "Save: " + taggableElement.GetType().Name, MocaTaggableElements.Count));
+                if (hasGui)
+                    ImportWorker.ReportProgress(5, new ProgressObject(ProgressBarType.Current, "Save: " + taggableElement.GetType().Name, MocaTaggableElements.Count));
                 if (!(taggableElement is EReference))
                 {
                     taggableElement.saveTreeToEATaggedValue(true);
@@ -226,26 +239,30 @@ namespace EAEcoreAddin.Import
 
                 if (refNode.Name == EClass.ReferencesChildNodeName)
                 {
-                    ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import EReference", ConnectorNodeToParent.Count));               
+                    if (hasGui)
+                        ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import EReference", ConnectorNodeToParent.Count));               
                 
                     EcoreImport.importERef(sqlRep.GetElementByID(parent.ElementID), refNode);
                 }
                 else if (refNode.Name == "ActivityEdge")
                 {
-                    ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import ActivityEdge", ConnectorNodeToParent.Count));               
+                    if (hasGui)
+                        ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import ActivityEdge", ConnectorNodeToParent.Count));               
                 
                     SdmImport.importActivityEdge(sqlRep.GetElementByID(parent.ElementID), refNode);
                 }
 
                 if (refNode.Name == SDMModelingMain.LinkVariableStereotype)
                 {
-                    ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import LinkVariable", ReferenceGuidToClientTarget.Count));
+                    if (hasGui)
+                        ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import LinkVariable", ReferenceGuidToClientTarget.Count));
 
                     SdmImport.importLinkVariable(sqlRep.GetElementByID(parent.ElementID), refNode);
                 }
                 else if (refNode.Name == TGGModelingMain.TggLinkVariableStereotype)
                 {
-                    ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import TGGLinkVariable", ReferenceGuidToClientTarget.Count));
+                    if (hasGui)    
+                        ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import TGGLinkVariable", ReferenceGuidToClientTarget.Count));
 
                     TggImport.importTGGLinkVariable(refNode, sqlRep.GetElementByID(parent.ElementID));
                 }
@@ -254,7 +271,8 @@ namespace EAEcoreAddin.Import
 
             foreach (String refGuid in ReferenceGuidToClientTarget.Keys)
             {
-                ImportWorker.ReportProgress(2, new ProgressObject(ProgressBarType.Current, "Save EReference and refresh Gui", ReferenceGuidToClientTarget.Count));
+                if (hasGui)
+                    ImportWorker.ReportProgress(2, new ProgressObject(ProgressBarType.Current, "Save EReference and refresh Gui", ReferenceGuidToClientTarget.Count));
 
                 if (ReferenceGuidToClientTarget.ContainsKey(refGuid) && ReferenceGuidToReference.ContainsKey(refGuid))
                 {
@@ -281,7 +299,8 @@ namespace EAEcoreAddin.Import
         {
             foreach (Object objectToBeTyped in this.ObjectToTypeGuid.Keys)
             {
-                ImportWorker.ReportProgress(4, new ProgressObject(ProgressBarType.Current, "Set Classifiers", ObjectToTypeGuid.Count));
+                if (hasGui)
+                    ImportWorker.ReportProgress(4, new ProgressObject(ProgressBarType.Current, "Set Classifiers", ObjectToTypeGuid.Count));
 
                 
                 String typeElementGuid = this.ObjectToTypeGuid[objectToBeTyped];
@@ -354,16 +373,18 @@ namespace EAEcoreAddin.Import
         {
             foreach (MocaNode modelPackageNode in this.MocaTree.Children)
             {
-                if (checkedMetamodelsToImport.Contains(modelPackageNode.getAttributeOrCreate("Moflon::Name").Value))
+                if (!hasGui || checkedMetamodelsToImport.Contains(modelPackageNode.getAttributeOrCreate("Moflon::Name").Value))
                 {
                     if (modelPackageNode.Name == ECOREModelingMain.EPackageStereotype)
                     {
-                        ImportWorker.ReportProgress(0, new ProgressObject(ProgressBarType.Current, modelPackageNode.getAttributeOrCreate("Moflon::Name").Value, checkedMetamodelsToImport.Count));
+                        if(hasGui)
+                            ImportWorker.ReportProgress(0, new ProgressObject(ProgressBarType.Current, modelPackageNode.getAttributeOrCreate("Moflon::Name").Value, checkedMetamodelsToImport.Count));
                         EcoreImport.importEPackageModel(modelPackageNode);
                     }
                     else if (modelPackageNode.Name == "TGG")
                     {
-                        ImportWorker.ReportProgress(0, new ProgressObject(ProgressBarType.Current, modelPackageNode.getAttributeOrCreate("Moflon::Name").Value, checkedMetamodelsToImport.Count));
+                        if (hasGui)
+                            ImportWorker.ReportProgress(0, new ProgressObject(ProgressBarType.Current, modelPackageNode.getAttributeOrCreate("Moflon::Name").Value, checkedMetamodelsToImport.Count));
                         TggImport.importTGGPackageModel(modelPackageNode);
 
                     }

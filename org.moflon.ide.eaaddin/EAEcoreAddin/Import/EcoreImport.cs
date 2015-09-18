@@ -205,7 +205,8 @@ namespace EAEcoreAddin.Import
         {
             foreach (EA.Element element in MainImport.getInstance().ElementToBaseClassGuids.Keys)
             {
-                MainImport.getInstance().ImportWorker.ReportProgress(3, new ProgressObject(ProgressBarType.Current, "Create Inheritance", MainImport.getInstance().ElementToBaseClassGuids.Count));
+                if(MainImport.hasGui)
+                    MainImport.getInstance().ImportWorker.ReportProgress(3, new ProgressObject(ProgressBarType.Current, "Create Inheritance", MainImport.getInstance().ElementToBaseClassGuids.Count));
 
                 String[] guids = MainImport.getInstance().ElementToBaseClassGuids[element].Split(" ".ToCharArray());
                 foreach (String baseClassGuid in guids)
@@ -235,6 +236,7 @@ namespace EAEcoreAddin.Import
         /// </summary>
         public void setDirections()
         {
+           if(MainImport.hasGui) 
             MainImport.getInstance().ImportWorker.ReportProgress(6, new ProgressObject(ProgressBarType.Current, "Update Direction Fields in Database", 1));
 
             String sql0 = "update t_connector set Direction = 'Bi-Directional' where SourceRole IS NOT NULL AND DestRole IS NOT NULL AND Stereotype IS NULL AND Connector_Type = 'Association'";

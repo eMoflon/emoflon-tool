@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using CommandLineParser.Arguments;
@@ -56,7 +57,7 @@ namespace MOFLON2EAExportImportTest
             }
             catch (UnknownArgumentException e)
             {
-                Console.Out.WriteLine(e.Message);  
+                Console.Out.WriteLine("EXCEPTION:"+e.Message);  
             }
             doImport();
             doExport();
@@ -96,7 +97,7 @@ namespace MOFLON2EAExportImportTest
                     Export exporter = new Export(sqlRepository, true, false);
                     exporter.doExport();
 
-                    Console.Out.WriteLine("Export was successfull");
+                    Console.Out.WriteLine("INFO:Export was successfull");
 
                     repository.Exit();
 
@@ -104,7 +105,7 @@ namespace MOFLON2EAExportImportTest
                 catch(Exception e)
                 {
                     repository.Exit();
-                    Console.Out.WriteLine("Export was not successfull " + "\n" + e.Message + "\n" + e.ToString() + "\n" + e.StackTrace);
+                    Console.Out.WriteLine("ERROR:Export was not successfull " + "\n" + e.Message + "\n" + e.ToString() + "\n" + e.StackTrace);
                 }   
             } 
         }
@@ -116,37 +117,43 @@ namespace MOFLON2EAExportImportTest
                 EA.Repository repository = null;
                 try
                 {
-                    Console.Out.WriteLine("start import");
+                    Console.Out.WriteLine("DEBUG:start import");
                     String xmiFilename = xmiFile.Value;
                     String eapFilename = eapFile.Value;
                     EAEcoreAddin.Main main = new EAEcoreAddin.Main();
                     repository = new EA.Repository();
-
+                    repository.OpenFile(eapFilename);
 
                     
 
-                    Console.Out.WriteLine("initialize importer");
+                    Console.Out.WriteLine("DEBUG:initialize importer");
                     SQLRepository sqlRepository = new SQLRepository(repository, false);
-                    MainImport importer = MainImport.getInstance(sqlRepository, null);
+                    MainImport importer = MainImport.getInstance(sqlRepository, new BackgroundWorker());
 
-                    if(!File.Exists(eapFilename))
-                        repository.CreateModel(EA.CreateModelType.cmEAPFromBase, eapFilename, 0);
 
-                    Console.Out.WriteLine("getMocaTree Node");
-                    MocaNode mocaTree = new MocaNode();
-                    String readText = File.ReadAllText(xmiFilename);
-                    XmlDocument mocaXmlDocument = XmlUtil.stringToXmlDocument(readText);
-                    mocaTree.deserializeFromXmlTree(mocaXmlDocument.DocumentElement.FirstChild as XmlElement);
+                        Console.Out.WriteLine("DEBUG:getMocaTree Node");
+                        MocaNode exportedTree = new MocaNode();
+                        String readText = File.ReadAllText(xmiFilename);
+                        XmlDocument mocaXmlDocument = XmlUtil.stringToXmlDocument(readText);
+                        exportedTree.deserializeFromXmlTree(mocaXmlDocument.DocumentElement.FirstChild as XmlElement);
 
-                    Console.Out.WriteLine("do import");
-                    checkedMetamodelsToImport = new List<string>();
-                    importer.startImport(mocaTree, checkedMetamodelsToImport);
-                    ////open the empty eap
-                    repository.OpenFile(eapFilename);
+                        Console.Out.WriteLine("DEBUG:do import");
+                        checkedMetamodelsToImport = new List<string>();
+                        
+                        MocaNode mocaTree = new MocaNode();
+                        mocaTree.appendChildNode(exportedTree);
+                        importer.startImport(exportedTree, checkedMetamodelsToImport, false);
+                        ////open the empty eap
+                        
 
-                    Console.Out.WriteLine("Import was successfull");
+                        Console.Out.WriteLine("INFO:Import was successfull");
+
                 }
                 catch (Exception e)
+                {
+                    Console.Out.Write("ERROR:Import was not successfull. Reason: " + e.Message);
+                }
+                finally
                 {
                     try
                     {
@@ -155,8 +162,7 @@ namespace MOFLON2EAExportImportTest
                     catch
                     {
                     }
-                    Console.Out.Write("Import was not successfull. Reason: " + e.Message);
-                }  
+                }
             }
         }
 
