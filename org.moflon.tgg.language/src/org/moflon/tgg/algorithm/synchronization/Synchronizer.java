@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.configuration.RuleResult;
+import org.moflon.tgg.algorithm.datastructures.CollectionProvider;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
 import org.moflon.tgg.algorithm.datastructures.SynchronizationProtocol;
@@ -97,7 +98,7 @@ public abstract class Synchronizer
       this.readySet = new HashSet<>();
       this.readyWithSiblings = new HashSet<>();
       this.readyButUnreadySiblings = new HashSet<>();
-      this.createdTripleMatchesInLastStep = new ArrayList<>();
+      this.createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch>getCollection();
    }
 
    public void synchronize() throws InputLocalCompletenessException, TranslationLocalCompletenessException
@@ -311,7 +312,7 @@ public abstract class Synchronizer
             processAmalgamationComplements(inputMatches, chosen, chosenRR);
          suspendTranslationPhaseStep();
          translated = null;
-         createdTripleMatchesInLastStep = new ArrayList<>();
+         createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch>getCollection();
       }
 
       finalizeGraphTriple(graphTriple);
@@ -378,7 +379,7 @@ public abstract class Synchronizer
 
    private void extendReady(Collection<Match> candidates)
    {
-      Collection<Match> newReady = new ArrayList<>(candidates.size());
+      Collection<Match> newReady = CollectionProvider.<Match>getCollection(candidates.size());
       for (Match cand : candidates)
       {
          boolean parentNotProcessed = false;

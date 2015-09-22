@@ -21,7 +21,7 @@ import org.moflon.tgg.runtime.RuntimeFactory;
  */
 public abstract class PrecedenceStructure<M>
 {
-   protected Collection<M> matches =  new ArrayList<M>();
+   protected Collection<M> matches =  CollectionProvider.<M>getCollection();
 
    protected HashMap<EObject, Collection<M>> contextToMatch = new HashMap<>();
    protected HashMap<EObject, Collection<M>> createToMatch = new HashMap<>();
@@ -59,7 +59,7 @@ public abstract class PrecedenceStructure<M>
    private void addMatchToTable(HashMap<EObject, Collection<M>> table, EObject element, M match)
    {
       if (!table.containsKey(element))
-         table.put(element, new ArrayList<>());
+         table.put(element, CollectionProvider.<M>getCollection());
 
       table.get(element).add(match);
    }
