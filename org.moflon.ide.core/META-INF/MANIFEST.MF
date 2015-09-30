@@ -30,6 +30,7 @@ Require-Bundle:
  org.moflon.ide.visualization.dot.language
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.ea,
+ org.moflon.ide.core.injection,
  org.moflon.ide.core.properties,
  org.moflon.ide.core.runtime,
  org.moflon.ide.core.runtime.builders,
