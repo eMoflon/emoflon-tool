@@ -1,7 +1,14 @@
 package org.moflon.sdm.compiler.democles;
 
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Status;
+import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.osgi.framework.BundleContext;
+
+import ValidationResult.Severity;
 
 public class DemoclesSdmCompilerPlugin extends Plugin
 {
@@ -29,4 +36,30 @@ public class DemoclesSdmCompilerPlugin extends Plugin
       super.stop(context);
    }
 
+   public static final int convertStatusSeverityToEclipseMarkerSeverity(final int value) throws CoreException {
+      if (value >= IStatus.ERROR) {
+         return IMarker.SEVERITY_ERROR;
+      } else if (value >= IStatus.WARNING) {
+         return IMarker.SEVERITY_WARNING;
+      } else if (value >= IStatus.INFO) {
+         return IMarker.SEVERITY_INFO;
+      }
+      IStatus invalidSeverityConversion = new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), "Cannot convert status severity value " + value
+            + " to a marker");
+      throw new CoreException(invalidSeverityConversion);
+   }
+   
+   public static final int convertValidationResultSeverityToEclipseMarkerSeverity(final Severity severity) throws CoreException {
+	   int value = severity.getValue();
+	   if (value >= Severity.ERROR_VALUE) {
+		   return IMarker.SEVERITY_ERROR;
+	   } else if (value >= Severity.WARNING_VALUE) {
+		   return IMarker.SEVERITY_WARNING;
+	   } else if (value >= Severity.INFO_VALUE) {
+		   return IMarker.SEVERITY_INFO;
+	   }
+	   IStatus invalidSeverityConversion = new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), "Cannot convert " + severity.getLiteral()
+	   + " severity to a marker");
+	   throw new CoreException(invalidSeverityConversion);
+   }
 }

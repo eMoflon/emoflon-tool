@@ -4,15 +4,14 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.codegen.ErrorReporter;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin;
 import org.moflon.util.eMoflonSDMUtil;
 
 import SDMLanguage.activities.Activity;
@@ -22,7 +21,6 @@ import SDMLanguage.activities.StopNode;
 import SDMLanguage.calls.callExpressions.MethodCallExpression;
 import SDMLanguage.expressions.LiteralExpression;
 import ValidationResult.ErrorMessage;
-import ValidationResult.Severity;
 
 public class EclipseErrorReporter implements ErrorReporter
 {
@@ -34,34 +32,30 @@ public class EclipseErrorReporter implements ErrorReporter
    }
 
    @Override
-   public void report(final IStatus status)
-   {
-      if (status == null)
-         return;
-
-      for (IStatus valStatus : status.getChildren())
-      {
-
-         if (!valStatus.isOK() && valStatus.getClass().equals(ValidationStatus.class))
-         {
-            ErrorMessage errorMsg = ((ValidationStatus) valStatus).getErrorMessage();
-            try
-            {
-               createMarker(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, errorMsg);
-            } catch (CoreException e)
-            {
-               e.printStackTrace();
-            }
-
-         }
-
-         if (valStatus.isMultiStatus())
-         {
-            report(valStatus);
-         }
-
+   public void report(final IStatus status) {
+      if (status != null && !status.isOK()) {
+    	  if (status.isMultiStatus()) {
+              for (final IStatus childStatus : status.getChildren()) {
+            	  report(childStatus);
+              }
+    	  } else {
+        	  try {
+        		  if (status instanceof ValidationStatus) {
+        			  final ErrorMessage errorMsg = ((ValidationStatus) status).getErrorMessage();
+        			  createMarker(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, errorMsg);
+        		  } else {
+        			  final IMarker validationMarker = file.createMarker(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID);
+        			  validationMarker.setAttribute(IMarker.MESSAGE, status.getMessage());
+        			  // validationMarker.setAttribute(IMarker.LOCATION, getLocationDescription(message));
+        			  validationMarker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+        			  validationMarker.setAttribute(IMarker.SEVERITY,
+        					  DemoclesSdmCompilerPlugin.convertStatusSeverityToEclipseMarkerSeverity(status.getSeverity()));
+        		  }
+        	  } catch (final CoreException e) {
+        		  e.printStackTrace();
+        	  }
+    	  }
       }
-
    }
 
    private String getLocationDescription(final ErrorMessage message)
@@ -111,26 +105,9 @@ public class EclipseErrorReporter implements ErrorReporter
       validationMarker.setAttribute(IMarker.MESSAGE, message.getId());
       validationMarker.setAttribute(IMarker.LOCATION, getLocationDescription(message));
       validationMarker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-      validationMarker.setAttribute(IMarker.SEVERITY, convertToEclipseMarkerSeverity(message.getSeverity()));
+      validationMarker.setAttribute(IMarker.SEVERITY,
+    		  DemoclesSdmCompilerPlugin.convertValidationResultSeverityToEclipseMarkerSeverity(message.getSeverity()));
       return validationMarker;
-   }
-
-   private int convertToEclipseMarkerSeverity(final Severity severity) throws CoreException
-   {
-      int value = severity.getValue();
-      if (value >= Severity.ERROR_VALUE)
-      {
-         return IMarker.SEVERITY_ERROR;
-      } else if (value >= Severity.WARNING_VALUE)
-      {
-         return IMarker.SEVERITY_WARNING;
-      } else if (value >= Severity.INFO_VALUE)
-      {
-         return IMarker.SEVERITY_INFO;
-      }
-      IStatus invalidSeverityConversion = new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), "Cannot convert " + severity.getLiteral()
-            + " severity to a marker");
-      throw new CoreException(invalidSeverityConversion);
    }
 
    private String getReportableEOperationName(final EOperation eOperation)
