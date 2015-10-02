@@ -3,7 +3,6 @@
  */
 package org.moflon.ide.ui.admin.handlers;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -13,8 +12,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -25,7 +22,6 @@ import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
@@ -61,7 +57,8 @@ public class ExportToEAPHandler extends AbstractCommandHandler {
 	
 	private Object execute(ISelection selection, ExecutionEvent event) throws ExecutionException {
 		final IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		String filePath = getEAPFilePath(window.getShell()).replace('\\', '/');
+		String filePath = null;
+		IFile ecoreFile = null;
 		String ecoreFileName = null;
 		IFile eaTreeFile = null;
 		IProject eapProject = null;
@@ -71,12 +68,18 @@ public class ExportToEAPHandler extends AbstractCommandHandler {
 			for (final Iterator<?> selectionIterator = treeSelection.iterator(); selectionIterator.hasNext();) {
 				final Object element = selectionIterator.next();
 				if (element != null && element instanceof IFile	&& IFile.class.cast(element).getName().endsWith("." + ECORE_FILE_EXSTENSION)){
-					eaTree = getEATree(IFile.class.cast(element));
-					ecoreFileName = IFile.class.cast(element).getName();
+					ecoreFile = IFile.class.cast(element);
+					eaTree = getEATree(ecoreFile);
+					ecoreFileName = ecoreFile.getName();
+					break;
 				}
 			}
-		}	  
-		
+		}	
+		try {
+		filePath = getEAPFilePath(window.getShell(), ecoreFile.getParent().getLocation().toString()).replace('\\', '/');
+		} catch (NullPointerException npe){
+			return null;
+		}
 		if(filePath != null && eaTree != null){
 			List<String> parts = Arrays.asList(filePath.split("/"));
 			eapProject = getProject(parts);
@@ -93,11 +96,12 @@ public class ExportToEAPHandler extends AbstractCommandHandler {
 	}
 
 
-	private String getEAPFilePath(final Shell shell){
+	private String getEAPFilePath(final Shell shell, final String ecorePath){
 		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
 		dialog.setText("Select EAP File");
 		String [] extensions = {"*.eap"};
 		dialog.setFilterExtensions(extensions);
+		dialog.setFilterPath(ecorePath);
 		return dialog.open();
 	}
 	
