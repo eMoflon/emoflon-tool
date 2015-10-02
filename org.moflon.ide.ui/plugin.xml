@@ -1060,6 +1060,12 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M2+M3+E X">
       </key>
+      <key
+            commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+E M">
+      </key>
    </extension>
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
