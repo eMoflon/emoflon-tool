@@ -6,9 +6,7 @@ import java.util.Iterator;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -67,7 +65,7 @@ public class ValidateHandler extends AbstractCommandHandler
    {
       if (WorkspaceHelper.isMoflonProject(project))
       {
-         final IFile ecoreFile = findMetaModel(project);
+         final IFile ecoreFile = WorkspaceHelper.getDefaultEcoreFile(project);
          validateFile(ecoreFile, monitor);
       }
    }
@@ -117,19 +115,5 @@ public class ValidateHandler extends AbstractCommandHandler
       {
          monitor.done();
       }
-   }
-
-   // TODO@rkluge: Move this
-   public static IFile findMetaModel(final IProject project) throws CoreException
-   {
-      final IFolder modelFolder = project.getFolder(WorkspaceHelper.MODEL_FOLDER);
-      for (final IResource resource : modelFolder.members())
-      {
-         if (resource instanceof IFile && resource.getName().endsWith(".ecore"))
-         {
-            return (IFile) resource;
-         }
-      }
-      return null;
    }
 }

@@ -10,7 +10,6 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
@@ -67,26 +66,20 @@ public class EMoflonBuildJob extends Job
 
          if (this.validateAutomaticallyIfCodeGenerationFailed)
          {
-            try
+            for (final IProject project : projectsToBeBuilt)
             {
-               for (final IProject project : projectsToBeBuilt)
+               final IFile ecoreFile = WorkspaceHelper.getDefaultEcoreFile(project);
+
+               final IMonitoredJob validationTask = (IMonitoredJob) Platform.getAdapterManager().loadAdapter(ecoreFile,
+                     "org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator");
+
+               if (validationTask != null)
                {
-                  final IFile ecoreFile = ValidateHandler.findMetaModel(project);
-
-                  final IMonitoredJob validationTask = (IMonitoredJob) Platform.getAdapterManager().loadAdapter(ecoreFile,
-                        "org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator");
-
-                  if (validationTask != null)
-                  {
-                     final ProgressMonitoringJob job = new ProgressMonitoringJob(CodeGeneratorPlugin.getModuleID(), validationTask);
-                     job.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-                  }
+                  final ProgressMonitoringJob job = new ProgressMonitoringJob(CodeGeneratorPlugin.getModuleID(), validationTask);
+                  job.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
                }
-
-            } catch (CoreException e1)
-            {
-               status = new MultiStatus(UIActivator.getModuleID(), IStatus.ERROR, new IStatus[] { status }, "Validation and code generation failed", e1);
             }
+
          } else
          {
             monitor.worked(projectsToBeBuilt.size());
@@ -114,7 +107,7 @@ public class EMoflonBuildJob extends Job
 
             project.build(IncrementalProjectBuilder.CLEAN_BUILD, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             project.build(IncrementalProjectBuilder.FULL_BUILD, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            
+
             // TODO@rkluge: Test this later
             // if (WorkspaceHelper.isRepositoryProject(project))
             // {
