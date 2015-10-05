@@ -50,7 +50,8 @@ public class StandardCodeGenerationTest
    // No nested GenPackages
    // No existing genmodel file
 
-   public static final void main(String[] args)
+   @SuppressWarnings("unused")
+   public static final void main(final String[] args)
    {
       ResourceSet resourceSet = new ResourceSetImpl();
 

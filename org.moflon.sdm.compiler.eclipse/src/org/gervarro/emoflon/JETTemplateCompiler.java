@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Collections;
@@ -44,7 +43,7 @@ public class JETTemplateCompiler extends JETCompiler
 
    private final List<URIHandler> uriHandlers;
 
-   public JETTemplateCompiler(String[] templateURIPath, String relativeTemplateURI) throws JETException
+   public JETTemplateCompiler(final String[] templateURIPath, final String relativeTemplateURI) throws JETException
    {
       super(templateURIPath, relativeTemplateURI);
       this.uriHandlers = URIHandler.DEFAULT_HANDLERS;
@@ -59,14 +58,14 @@ public class JETTemplateCompiler extends JETCompiler
 
       boolean skip;
 
-      protected SkipSection(int depth, boolean skip)
+      protected SkipSection(final int depth, final boolean skip)
       {
          this.depth = depth;
          this.skip = skip;
       }
    }
 
-   protected void handleIncludeFailure(String failType, String uriString, JETMark start, Exception exception) throws JETException
+   protected void handleIncludeFailure(final String failType, final String uriString, final JETMark start, final Exception exception) throws JETException
    {
       // The include failed, so if there is an alternative, we don't skip it.
       if ("alternative".equals(failType))
@@ -79,7 +78,8 @@ public class JETTemplateCompiler extends JETCompiler
       }
    }
 
-   public void handleDirective(String directive, JETMark start, JETMark stop, Map<String, String> attributes) throws JETException
+   @Override
+   public void handleDirective(final String directive, final JETMark start, final JETMark stop, final Map<String, String> attributes) throws JETException
    {
       if (directive.equals("include"))
       {
@@ -259,7 +259,7 @@ public class JETTemplateCompiler extends JETCompiler
             {
                try
                {
-                  InputStream is = handler.createInputStream(ecore, Collections.EMPTY_MAP);
+                  handler.createInputStream(ecore, Collections.EMPTY_MAP);
                   System.out.println("OK");
                } catch (IOException e)
                {
@@ -269,15 +269,15 @@ public class JETTemplateCompiler extends JETCompiler
          }
       }
       // Development and runtime versions of
-      Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
-      Object[] result = ePackageNsURItoGenModelLocationMap.keySet().toArray(new Object[ePackageNsURItoGenModelLocationMap.size()]);
-      Object[] result2 = EPackage.Registry.INSTANCE.keySet().toArray(new Object[EPackage.Registry.INSTANCE.size()]);
+      Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false);
+      ePackageNsURItoGenModelLocationMap.keySet().toArray(new Object[ePackageNsURItoGenModelLocationMap.size()]);
+      EPackage.Registry.INSTANCE.keySet().toArray(new Object[EPackage.Registry.INSTANCE.size()]);
    }
 
    /**
     * @param args
     */
-   public static void main(String[] args) throws JETException, FileNotFoundException
+   public static void main(final String[] args) throws JETException, FileNotFoundException
    {
       // The original program started here
       if (args != null && args.length == 2)

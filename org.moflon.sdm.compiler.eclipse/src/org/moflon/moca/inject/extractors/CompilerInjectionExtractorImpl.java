@@ -13,11 +13,14 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.moca.inject.validation.InjectionValidationMessage;
 
@@ -30,7 +33,6 @@ public class CompilerInjectionExtractorImpl implements InjectionExtractor
    final private IProject project;
 
    final private ResourceSet resourceSet;
-
 
    private CompilerInjection compilerInjection;
 
@@ -52,12 +54,18 @@ public class CompilerInjectionExtractorImpl implements InjectionExtractor
    @Override
    public void extractInjections()
    {
-      IFile compilerInjectionFile = project.getFolder("model").getFile(MoflonUtil.lastCapitalizedSegmentOf(project.getName()) + ".injection.xmi");
+      IFile compilerInjectionFile = project.getFolder(WorkspaceHelper.MODEL_FOLDER)
+            .getFile(MoflonUtil.lastCapitalizedSegmentOf(project.getName()) + ".injection.xmi");
       if (compilerInjectionFile.exists())
-         compilerInjection = (CompilerInjection) eMoflonEMFUtil.loadModelWithDependencies(compilerInjectionFile.getLocation().toString(), resourceSet);
-      else
+      {
+         URI fileUri = eMoflonEMFUtil.createFileURI(compilerInjectionFile.getLocation().toString(), true);
+         Resource resource = resourceSet.getResource(fileUri, true);
+         eMoflonEMFUtil.installCrossReferencers(resourceSet);
+         compilerInjection = (CompilerInjection) resource.getContents().get(0);
+      } else
+      {
          compilerInjection = SdmUtilFactory.eINSTANCE.createCompilerInjection();
-
+      }
       for (GenPackage genPackage : genModel.getGenPackages())
       {
          handleGenPackage(genPackage);
@@ -82,7 +90,7 @@ public class CompilerInjectionExtractorImpl implements InjectionExtractor
       {
          handleGenPackage(subPackage);
       }
-      
+
    }
 
    private void extractGenModelClasses(final GenPackage genPackage)
