@@ -1,6 +1,8 @@
 package org.moflon.ide.metamodelevolution.core;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -37,16 +39,23 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator {
 	protected IProject project;
 	protected ResourceSet resourceSetMMold; //TODO@settl: work with packages instead of resourcesets
 	protected ResourceSet resourceSetMMnew;
+	public Map<String, String> delta;
 	
 	public EMFCompareMetamodelComparator(IProject project) {
 		this.project = project;
+		this.delta = new HashMap<String, String>();
 	}
 	
-	public EMFCompareMetamodelDelta compare() {
-		//TODO@settl: make fail-safe, return delta
+	public Map<String, String> compare() {
+		//TODO@settl: make fail-safe, return proper delta
 		loadMetamodels();
 		compare(resourceSetMMold, resourceSetMMnew);
-		return null;
+		if (delta != null) {
+			return delta;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	@Override
@@ -71,6 +80,7 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator {
 		EMFCompare metamodelComparator = EMFCompare.builder().build();
 		Comparison comparison = metamodelComparator.compare(scope);
 		
+		createDeltaMap(comparison.getDifferences());
 		printDiffs(comparison);
 		return null;
 	}
@@ -96,6 +106,7 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator {
 		EMFCompare metamodelComparator = EMFCompare.builder().build();
 		Comparison comparison = metamodelComparator.compare(scope);
 		
+		createDeltaMap(comparison.getDifferences());
 		printDiffs(comparison);
 		return null;
 	}
@@ -127,33 +138,58 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator {
  		//EPackage newMetamodelPackage = (EPackage)newMMResource.getContents().get(0);
 	}
 	
+	protected void createDeltaMap(List<Diff> differences) {
+		for(Diff diffElement: differences)
+	    {
+	        if (diffElement.getKind() == DifferenceKind.CHANGE && diffElement instanceof AttributeChange) {
+	        	
+	            final EAttribute attribute = ((AttributeChange)diffElement).getAttribute();	            
+	            final String attributeChangevalue = ((AttributeChange)diffElement).getValue().toString();
+	            
+	            DifferenceSource source = diffElement.getSource();
+	            if (source == DifferenceSource.LEFT) {
+		            final EObject containerRight = diffElement.getMatch().getRight();
+		            final String rightValue = (String)ReferenceUtil.safeEGet(containerRight, attribute); 
+		            delta.put(attributeChangevalue, rightValue);
+		            delta.put("changedValue", attributeChangevalue);
+	            }	
+	        }
+	    }
+	}
+	
+	// for debugging
 	protected void printDiffs(Comparison comparison) {
 	    
 	    List<Diff> differences = comparison.getDifferences();
 
 	    for(Diff diffElement: differences)
 	    {
-	    	Match match = diffElement.getMatch();
 	        System.out.println("diffElement.getKind(): " + diffElement.getKind());
 	        System.out.println("diffElement.getMatch(): " + diffElement.getMatch());
 	        
 	        if (diffElement.getKind() == DifferenceKind.CHANGE && diffElement instanceof AttributeChange) {
+	        	// TODO@settl: sometimes renaming a class is recognized as a MOVE, why?
 	            final EAttribute attribute = ((AttributeChange)diffElement).getAttribute();
-	            final String newValue = ((AttributeChange)diffElement).getValue().toString();
+	            
 	            final EObject containerLeft = diffElement.getMatch().getLeft();
-	            final Object value = ReferenceUtil.safeEGet(containerLeft, attribute);
+	            final EObject containerRight = diffElement.getMatch().getRight();
 	            
-	            System.out.println("newValue: " + newValue);
+	            final String attributeChangevalue = ((AttributeChange)diffElement).getValue().toString();
+	            final Object leftValue = ReferenceUtil.safeEGet(containerLeft, attribute);	            
+	            final Object rightValue = ReferenceUtil.safeEGet(containerRight, attribute);  
 	            
-	            final EObject containerRight;
-	            if (diffElement.getSource() == DifferenceSource.LEFT) {
-	              containerRight = (EClass)diffElement.getMatch().getRight();
-	              	              
-	              System.out.println("containerLeft: " + containerLeft);
-	              System.out.println("containerRight: " + containerRight);
-	            }
+	            System.out.println("leftValue: " + leftValue); //old
+	            System.out.println("rightValue: " + rightValue); // new
+	            System.out.println("attributeChangevalue: " + attributeChangevalue); //old
+	            
+	            final EObject containerRightClass = (EClass)diffElement.getMatch().getRight();
+	            DifferenceSource source = diffElement.getSource();
+	            if (source == DifferenceSource.LEFT) {
+	            	System.out.println("source is LEFT");
+	            	System.out.println("containerLeft: " + containerLeft);
+	            	System.out.println("containerRight: " + containerRight);
+	            }	
 	        }
-	        //System.out.println("State: " + diffElement.getState());
 	    }
 
 	}
