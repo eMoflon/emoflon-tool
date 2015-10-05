@@ -24,8 +24,8 @@ public class TreeComparator
    {
       BasicConfigurator.configure();
 
-      // load tree from file
-      eMoflonEMFUtil.init(MocaTreePackage.eINSTANCE);
+      // Load tree from file
+      MocaTreePackage.eINSTANCE.eClass();
       Folder tree = (Folder) eMoflonEMFUtil.loadModel("instances/tree.xmi");
 
       // Perform tree-to-text

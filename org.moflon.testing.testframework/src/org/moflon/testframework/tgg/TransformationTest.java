@@ -40,10 +40,9 @@ public abstract class TransformationTest
 
    protected EPackage targetPackage;
 
-
    protected SynchronizationHelper helper;
 
-   public TransformationTest(EPackage sourcePackage, EPackage corrPackage, EPackage targetPackage)
+   public TransformationTest(final EPackage sourcePackage, final EPackage corrPackage, final EPackage targetPackage)
    {
       this.integrationName = corrPackage.getName();
       this.sourcePackage = sourcePackage;
@@ -52,7 +51,7 @@ public abstract class TransformationTest
       helper = new SynchronizationHelper(corrPackage, "../" + corrPackage.getName());
    }
 
-   public void setConfigurator(Configurator configurator)
+   public void setConfigurator(final Configurator configurator)
    {
       helper.setConfigurator(configurator);
    }
@@ -77,7 +76,7 @@ public abstract class TransformationTest
       return outPath + integrationName + "/";
    }
 
-   public void integrate(String testCaseName)
+   public void integrate(final String testCaseName)
    {
       ApplicationTypes direction = determineDirection(testCaseName);
       integrate(testCaseName, direction);
@@ -86,7 +85,7 @@ public abstract class TransformationTest
    /**
     * Transforms the model corresponding to the given test case in the given direction.
     */
-   public void integrate(String testCaseName, ApplicationTypes direction)
+   public void integrate(final String testCaseName, final ApplicationTypes direction)
    {
       try
       {
@@ -127,7 +126,7 @@ public abstract class TransformationTest
     * 
     * @param created
     */
-   public void postProcessing(EObject created)
+   public void postProcessing(final EObject created)
    {
 
    }
@@ -138,7 +137,7 @@ public abstract class TransformationTest
     * For FWD, this is the source root package; for BWD, this is the target root package.
     * 
     */
-   public EPackage getInputPackage(ApplicationTypes direction)
+   public EPackage getInputPackage(final ApplicationTypes direction)
    {
       return direction == ApplicationTypes.FORWARD ? sourcePackage : targetPackage;
    }
@@ -149,7 +148,7 @@ public abstract class TransformationTest
     * For FWD, this is the target root package; for BWD, this is the source root package.
     * 
     */
-   public EPackage getOutputPackage(ApplicationTypes direction)
+   public EPackage getOutputPackage(final ApplicationTypes direction)
    {
       return direction == ApplicationTypes.FORWARD ? targetPackage : sourcePackage;
    }
@@ -194,7 +193,7 @@ public abstract class TransformationTest
       return helper;
    }
 
-   public void setHelper(SynchronizationHelper helper)
+   public void setHelper(final SynchronizationHelper helper)
    {
       this.helper = helper;
    }
@@ -216,7 +215,7 @@ public abstract class TransformationTest
     * The expected model is loaded from the conventional folder for expected models based on the test case name (see
     * {@link #loadExpected(String, ApplicationTypes)}).
     */
-   protected void compareWithExpected(String testCaseName, ApplicationTypes direction, EObject created) throws InterruptedException
+   protected void compareWithExpected(final String testCaseName, final ApplicationTypes direction, final EObject created) throws InterruptedException
    {
 
       // Test with expected model
@@ -255,12 +254,12 @@ public abstract class TransformationTest
 
    }
 
-   protected void saveOutput(String testCaseName, EObject created)
+   protected void saveOutput(final String testCaseName, final EObject created)
    {
-      eMoflonEMFUtil.saveModel(created, getFullOutpath() + testCaseName + ".xmi");
+      eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), created, getFullOutpath() + testCaseName + ".xmi");
    }
 
-   protected void setInputModel(ApplicationTypes direction, String testCaseName)
+   protected void setInputModel(final ApplicationTypes direction, final String testCaseName)
    {
       if (direction == ApplicationTypes.FORWARD)
       {
@@ -271,7 +270,7 @@ public abstract class TransformationTest
       }
    }
 
-   protected void performIntegration(ApplicationTypes direction)
+   protected void performIntegration(final ApplicationTypes direction)
    {
       if (direction == ApplicationTypes.FORWARD)
       {
@@ -287,7 +286,7 @@ public abstract class TransformationTest
     * 
     * If the test case name contains 'FWD' ('BWD') the direction is assumed to be forward (backward).
     */
-   protected ApplicationTypes determineDirection(String testCaseName)
+   protected ApplicationTypes determineDirection(final String testCaseName)
    {
       if (testCaseName.contains("FWD"))
       {
@@ -306,7 +305,7 @@ public abstract class TransformationTest
     * 
     * The given direction determines the meta-model to be used for loading.
     */
-   protected EObject loadExpected(String testCaseName, ApplicationTypes direction)
+   protected EObject loadExpected(final String testCaseName, final ApplicationTypes direction)
    {
       try
       {

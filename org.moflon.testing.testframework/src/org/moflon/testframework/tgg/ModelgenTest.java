@@ -5,7 +5,6 @@ import java.io.File;
 import org.apache.log4j.BasicConfigurator;
 import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
-import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.modelgenerator.ModelGenerator;
 import org.moflon.tgg.algorithm.modelgenerator.controller.AbstractModelGenerationController;
 import org.moflon.tgg.algorithm.modelgenerator.controller.DefaultModelGenController;
@@ -18,16 +17,15 @@ public class ModelgenTest
 
    private EPackage tggPackage;
 
-   public ModelgenTest(EPackage tggPackage)
+   public ModelgenTest(final EPackage tggPackage)
    {
-
-      eMoflonEMFUtil.init(tggPackage);
+      tggPackage.eClass(); // Make sure that the package is initialized
       BasicConfigurator.configure();
 
       this.tggPackage = tggPackage;
    }
 
-   public ModelGenerator createDefaultModelgenerator(String rootContextRuleName, int maxRulePerformCounter, int timeout)
+   public ModelGenerator createDefaultModelgenerator(final String rootContextRuleName, final int maxRulePerformCounter, final int timeout)
    {
 
       AbstractModelGenerationController controller = new DefaultModelGenController();
@@ -40,7 +38,7 @@ public class ModelgenTest
       return gen;
    }
 
-   public void runDefaultModelgeneratorTest(String rootContextRuleName, int maxRulePerformCounter, int timeout)
+   public void runDefaultModelgeneratorTest(final String rootContextRuleName, final int maxRulePerformCounter, final int timeout)
    {
       File dir = new File("instances");
       if (dir.isDirectory())
@@ -57,7 +55,7 @@ public class ModelgenTest
 
    }
 
-   public void runDefaultModelgeneratorTest(String rootContextRuleName, int maxRulePerformCounter)
+   public void runDefaultModelgeneratorTest(final String rootContextRuleName, final int maxRulePerformCounter)
    {
       runDefaultModelgeneratorTest(rootContextRuleName, maxRulePerformCounter, 5000);
    }
