@@ -81,7 +81,9 @@ public class eMoflonEMFUtil
 
    /**
     * Adds an {@link ECrossReferenceAdapter} to the adapters of the given {@link ResourceSet} if no adapter exists, yet.
-    * @param resourceSet the resource set to be adapted.
+    * 
+    * @param resourceSet
+    *           the resource set to be adapted.
     */
    public static final void installCrossReferencers(final ResourceSet resourceSet)
    {
@@ -114,6 +116,41 @@ public class eMoflonEMFUtil
    }
 
    /* Methods for loading models */
+   
+   /**
+    * Utility method to get a resource from a file.
+    * 
+    * This method delegates to {@link #getResourceFromFileIntoDefaultResourceSet(String)} using {@link IFile#getLocation()}.
+    * 
+    * @see #getResourceFromFileIntoDefaultResourceSet(String)
+    */
+   public static Resource getResourceFromFileIntoDefaultResourceSet(final IFile modelFile) {
+      return getResourceFromFileIntoDefaultResourceSet(modelFile.getLocation().toString());
+   }
+
+   /**
+    * Utility method to get a resource from a file.
+    * 
+    * The method returns a resource, which results from the following initialization sequence:
+    * 
+    * <pre>
+    * ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
+    * installCrossReferencers(rs);
+    * Resource res = rs.getResource(eMoflonEMFUtil.createFileURI(pathToModelFile, true), true);
+    * </pre>
+    * 
+    * @param pathToModelFile
+    * @return
+    */
+   public static Resource getResourceFromFileIntoDefaultResourceSet(final String pathToModelFile)
+   {
+      ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
+      installCrossReferencers(rs);
+
+      Resource res = rs.getResource(eMoflonEMFUtil.createFileURI(pathToModelFile, true), true);
+
+      return res;
+   }
 
    /**
     * Use to load a model if its metamodel has been initialized already and there are no dependencies to other models.
@@ -140,6 +177,10 @@ public class eMoflonEMFUtil
     *             </pre>
     * 
     *             </blockquote>
+    * 
+    *             NOTE: You might consider to use {@link #getResourceFromFileIntoDefaultResourceSet(String)}.
+    * 
+    * @see #getResourceFromFileIntoDefaultResourceSet(String)
     */
    @Deprecated
    public static EObject loadModel(final String pathToXMIFile)
@@ -430,10 +471,8 @@ public class eMoflonEMFUtil
       }
 
       Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-      saveOptions.put(
-        Resource.OPTION_SAVE_ONLY_IF_CHANGED,
-        Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-      
+      saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+
       if (fileURI.equals(resource.getURI()))
       {
          try
