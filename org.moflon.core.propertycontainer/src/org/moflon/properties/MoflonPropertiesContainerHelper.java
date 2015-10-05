@@ -41,28 +41,15 @@ public class MoflonPropertiesContainerHelper
       {
          monitor.beginTask("Load properties.", 1);
 
-         MoflonPropertiesContainer moflonPropertiesCont;
-
-         IFile propertyFile = project.getFile(MOFLON_CONFIG_FILE);
-
-         if (propertyFile.exists())
-         {
-            MoflonPropertyContainerPackage.eINSTANCE.getClass();
-            moflonPropertiesCont = (MoflonPropertiesContainer) eMoflonEMFUtil.loadModel(propertyFile.getLocation().toString());
-
-         } else
-         {
-            logger.error("Moflon property file '" + MOFLON_CONFIG_FILE + "' not found in project '" + project.getName()
-                  + "'. Generating default properties file. Unable to set MetamodelProject. Has to be fixed manually");
-            moflonPropertiesCont = MoflonPropertyContainerFactory.eINSTANCE.createMoflonPropertiesContainer();
-
-         }
+         final MoflonPropertiesContainer moflonPropertiesCont = loadOrCreatePropertiesContainer(project, project.getFile(MOFLON_CONFIG_FILE));
          moflonPropertiesCont.checkForMissingDefaults();
          moflonPropertiesCont.removeObsoleteProperties();
-         if (!project.getName().equals(moflonPropertiesCont.getProjectName()))
+         final String projectName = project.getName();
+         if (!projectName.equals(moflonPropertiesCont.getProjectName()))
          {
-            logger.warn("Project name in Moflon properties file does not match Project. Setting correct project name.");
-            moflonPropertiesCont.setProjectName(project.getName());
+            logger.warn("Project name in Moflon properties file ('" + moflonPropertiesCont.getProjectName()
+                  + "') does not match Project. Setting correct project name to '" + projectName + "'.");
+            moflonPropertiesCont.setProjectName(projectName);
          }
 
          MoflonPropertiesContainerHelper.save(moflonPropertiesCont, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
@@ -71,6 +58,24 @@ public class MoflonPropertiesContainerHelper
       {
          monitor.done();
       }
+   }
+
+   private static MoflonPropertiesContainer loadOrCreatePropertiesContainer(final IProject project, final IFile propertyFile)
+   {
+      MoflonPropertiesContainer moflonPropertiesCont;
+      if (propertyFile.exists())
+      {
+         MoflonPropertyContainerPackage.eINSTANCE.getClass();
+         moflonPropertiesCont = (MoflonPropertiesContainer) eMoflonEMFUtil.getResourceFromFileIntoDefaultResourceSet(propertyFile).getContents().get(0);
+
+      } else
+      {
+         logger.error("Moflon property file '" + propertyFile + "' not found in project '" + project.getName()
+               + "'. Generating default properties file. Unable to set MetamodelProject. Has to be fixed manually");
+         moflonPropertiesCont = MoflonPropertyContainerFactory.eINSTANCE.createMoflonPropertiesContainer();
+
+      }
+      return moflonPropertiesCont;
    }
 
    public static MoflonPropertiesContainer createDefaultPropertiesContainer(final IProject project, final IProject metamodelProject)
