@@ -134,7 +134,7 @@ public class MetamodelBuilder extends AbstractBuilder {
 
 					e.printStackTrace();
 				}
-				if (validationStatus.isOK() == false) {
+				if (!validationStatus.isOK()) {
 
 					eclipseErrorReporter.report(validationStatus);
 				}

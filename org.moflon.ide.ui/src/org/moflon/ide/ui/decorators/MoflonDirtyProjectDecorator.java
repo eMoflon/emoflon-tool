@@ -19,10 +19,7 @@ public class MoflonDirtyProjectDecorator extends LabelProvider implements ILight
    @Override
    public void decorate(final Object element, final IDecoration decoration)
    {
-      if (!(element instanceof IProject))
-         return;
-      
-      if (CoreActivator.getDefault().isDirty(((IProject) element).getName()))
+      if (element instanceof IProject && CoreActivator.getDefault().isDirty(((IProject) element)))
          decoration.addPrefix(IS_DIRTY_PREFIX);
    }
 

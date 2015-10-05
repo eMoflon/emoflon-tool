@@ -376,7 +376,7 @@
             class="org.moflon.ide.ui.decorators.MoflonDirtyProjectDecorator"
             state="true"
             location="BOTTOM_RIGHT"
-            id="org.moflon.ide.ui.decorators.MoflonLightweightDecorator">
+            id="org.moflon.ide.ui.decorators.MoflonDirtyProjectDecorator">
             <enablement>
             	<and>
                 <objectClass

@@ -52,6 +52,11 @@ public class ExportAndBuildHandler extends AbstractCommandHandler
                      {
                         status = new Status(IStatus.ERROR, UIActivator.getModuleID(), e.getMessage());
                      }
+                     finally {
+                        if (status.isOK()) {
+                           CoreActivator.getDefault().setDirty(project, true);
+                        }
+                     }
                   }
                   return status;
                } finally

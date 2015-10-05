@@ -378,6 +378,8 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       MoflonPropertiesContainerHelper.save(moflonProps, new NullProgressMonitor());
 
       WorkspaceHelper.moveProjectToWorkingSet(project, properties.get(MetamodelProperties.WORKING_SET_KEY));
+      
+      CoreActivator.getDefault().setDirty(project, true);
 
    }
 
