@@ -31,220 +31,260 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
 
-public class EMFCompareMetamodelDeltaProcessor implements MetamodelDeltaProcessor  {
+public class EMFCompareMetamodelDeltaProcessor implements MetamodelDeltaProcessor
+{
 
-	private static final String JAVA_NATURE = "org.eclipse.jdt.core.javanature";	
-	private String changedValue = null;
-	private String newValue = null;
-	
-	public void processDelta(IProject project, Map<String, String> delta) {	
-		
-		try {
-			if (project.isOpen() && project.hasNature(JAVA_NATURE))
-			{ 							
-				//TODO@settl: adapt for multiple changes
-				if (delta.containsKey("changedValue")) {
-					changedValue = delta.get("changedValue");
-					newValue = delta.get(changedValue);
-				}
-				else 
-					return;
-				
-				Set<ICompilationUnit> compilationUnits = new HashSet<ICompilationUnit>();
-				try {
-					// find all markers in project
-					IMarker[] markers = project.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
-					for (IMarker marker: markers) {	
-						// find all CompilationUnits with markers
-						ICompilationUnit cu = getICompilationUnitFromMarker(marker);											
-						if (cu != null) {
-							compilationUnits.add(cu);
-						}						
-					}
-				}
-				catch (CoreException e) {
-					e.printStackTrace();
-					return;
-				}
-				// process errors for each CompilationUnit
-				for (ICompilationUnit cu: compilationUnits) {
-					processCompilationUnit(cu);
-				}
-			}
-						
-		} catch (CoreException e1) {
-			e1.printStackTrace();
-		}
-	}
-		
-	private void processCompilationUnit(ICompilationUnit cu) throws CoreException {
-		
-		boolean hasChanges = false;	
-		
-		CompilationUnit compilationUnit = getAstRoot(cu);
-		AST ast = compilationUnit.getAST();
-		ASTRewrite rewriter = ASTRewrite.create(ast);
-		
-		// find markers for each CompilationUnit
-		IMarker[] markers = findProblemMarkers(cu);
-			
-		for (IMarker marker: markers) {
-			ASTNode node = getASTNodeFromMarkerForCompilationUnit(marker, compilationUnit);
-			if (node == null) 
-				break;
-			String nodeValue = node.toString();
-			int nodeType = node.getNodeType();	
-				
-			switch (nodeType) {
-				case ASTNode.SIMPLE_NAME:
-					if (nodeValue.equals(changedValue)) {
-						//System.out.println("Refactoring SimpleName of type: " + ASTNode.nodeClassForType(node.getParent().getNodeType()).toString());
-						SimpleName newName = ast.newSimpleName(newValue);
-						rewriter.replace(node, newName, null);
-						hasChanges = true;
-					}
-					else if (node.getParent().getNodeType() == ASTNode.METHOD_INVOCATION) {
-						SimpleName simpleName = (SimpleName)node;
-						if (simpleName.getIdentifier().contains(changedValue)) {
-							String newString = simpleName.getIdentifier().replace(changedValue, newValue);
-							SimpleName newName = ast.newSimpleName(newString);
-							rewriter.replace(node, newName, null);
-							hasChanges = true;
-						}								
-					}
-					
-					break;
-				case ASTNode.QUALIFIED_NAME:
-					ASTNode parentNode = node.getParent();
-					// handle imports
-					if (parentNode.getNodeType() == ASTNode.IMPORT_DECLARATION) {
-						
-						QualifiedName importName = (QualifiedName)node;									
-						String importClassName = importName.getName().getIdentifier();								
-						if (changedValue.equals(importClassName)) {	
-							//System.out.println("packages: " + importName.getQualifier().getFullyQualifiedName());
-							String[] identifiers = resolveImportStatement(importName.getQualifier(), newValue);
-							ImportDeclaration id = ast.newImportDeclaration();
-							id.setName(ast.newName(identifiers));
-							rewriter.replace(parentNode, id, null);
+   private static final String JAVA_NATURE = "org.eclipse.jdt.core.javanature";  //TODO@settl : Use JavaCore.NATURE_ID
 
-							hasChanges = true;
-						}
-						
-						break;
-					}
-					break;
-				}
-			}
-			if (hasChanges) {
-				Document document = new Document(cu.getSource());
-				TextEdit edits = rewriter.rewriteAST(document, null);
-				try {
-					edits.apply(document);
-				} catch (MalformedTreeException | BadLocationException e) {
-					e.printStackTrace();
-				}
-				// update the compilation unit/code
-		        cu.getBuffer().setContents(document.get());		
-		        cu.commitWorkingCopy(false, null);
-		        
-		        if(cu.getPath().toString().contains("/gen/")) {
-		        	
-		        	JavaFileInjectionExtractor injectionExtractor = new JavaFileInjectionExtractor();
-					injectionExtractor.extractInjectionNonInteractively((IFile)cu.getUnderlyingResource());
-		        }	        
-			}	
-	}
-	
-	private String[] resolveImportStatement(Name name, String newClassName) {
-		ArrayList<String> packages = new ArrayList<String>();
-		// case import QualifiedName.SimpleName: parse QualifiedName recursively
-		if (name instanceof QualifiedName) {
-			packages = resolvePackages((QualifiedName)name, packages);
-		}
-		// case import SimpleName.SimpleName
-		else {
-			packages.add(((SimpleName) name).getIdentifier());			
-		}
-		packages.add(newClassName);
-		
-		String[] identifiers = new String[packages.size()];
-		identifiers = packages.toArray(identifiers);
-		return identifiers;
-	}
-	
-	private ArrayList<String> resolvePackages(QualifiedName name, ArrayList<String> identifiers) {
-		if (name.getQualifier() instanceof SimpleName) {
-			identifiers.add(0, name.getName().getIdentifier());
-			identifiers.add(0, ((SimpleName)name.getQualifier()).getIdentifier());
-			return identifiers;
-		}
-		else {
-		 	identifiers.add(0, name.getName().getIdentifier());
-			return resolvePackages((QualifiedName)name.getQualifier(), identifiers);
-		}
-	}
-	
-	private ICompilationUnit getICompilationUnitFromMarker(IMarker marker) {
-	    IResource res = marker.getResource();
-	    if (res.getType() == IResource.FILE) {
-	        IFile f = (IFile)res;
-	        ICompilationUnit cu = JavaCore.createCompilationUnitFrom(f);
-	        return cu;
-	    }
-	    return null;
-	}
-	
-	public IMarker[] findProblemMarkers(ICompilationUnit cu) throws CoreException  {
-		IResource javaSourceFile = cu.getUnderlyingResource();
-		IMarker[] markers = javaSourceFile.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
-		return markers;
-	}
-	
-	public ASTNode getASTNodeFromMarkerForICompilationUnit(IMarker marker, ICompilationUnit cu) {
-	        CompilationUnit astRoot = getAstRoot(cu);
-	        int start = marker.getAttribute(IMarker.CHAR_START, 0);
-	        int end = marker.getAttribute(IMarker.CHAR_END, 0);
-	        if (! (end == 0)) {
-	        	NodeFinder nf = new NodeFinder(astRoot, start, end-start);
-		        //System.out.println("covering node: " + nf.getCoveringNode() + ";  type: " + nf.getCoveringNode().getNodeType());
-		        return nf.getCoveringNode();
-	        }
-	        else {
-	        	return null;
-	        }
-	}
-	
-	public ASTNode getASTNodeFromMarkerForCompilationUnit(IMarker marker, CompilationUnit cu) {
+   private String changedValue = null;
 
-        int start = marker.getAttribute(IMarker.CHAR_START, 0);
-        int end = marker.getAttribute(IMarker.CHAR_END, 0);
-        if (! (end == 0)) {
-        	NodeFinder nf = new NodeFinder(cu, start, end-start);
-	        //System.out.println("covering node: " + nf.getCoveringNode() + ";  type: " + nf.getCoveringNode().getNodeType());
-	        return nf.getCoveringNode();
-        }
-        else {
-        	return null;
-        }
-}
-	
-	private CompilationUnit getAstRoot(ITypeRoot typeRoot) {
-	    CompilationUnit root = SharedASTProvider.getAST(typeRoot, SharedASTProvider.WAIT_YES, null);
-	    if (root == null) {
-	        ASTParser astParser = ASTParser.newParser(AST.JLS8);
-	        astParser.setSource(typeRoot);
-	        astParser.setResolveBindings(true);
-	        astParser.setStatementsRecovery(true);
-	        astParser.setBindingsRecovery(true);
-	        root = (CompilationUnit)astParser.createAST(null);
-	    }
-	    return root;
-	}
+   private String newValue = null;
 
-	@Override
-	public void processDelta(IProject project, MetamodelDelta delta) {
-		// TODO Auto-generated method stub
-		
-	}
+   public void processDelta(final IProject project, final Map<String, String> delta)
+   { // TODO@settl: document the format of the delta as soon as possible Map<String,String> is relatively generic
+     // (rkluge)
+      ;
+      try
+      {
+         if (project.isOpen() && project.hasNature(JAVA_NATURE))
+         {
+            // TODO@settl: adapt for multiple changes
+            if (delta.containsKey("changedValue"))
+            {
+               changedValue = delta.get("changedValue");
+               newValue = delta.get(changedValue);
+            } else
+               return;
+
+            Set<ICompilationUnit> compilationUnits = new HashSet<ICompilationUnit>();
+            try
+            {
+               // find all markers in project
+               IMarker[] markers = project.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
+               for (IMarker marker : markers)
+               {
+                  // find all CompilationUnits with markers
+                  ICompilationUnit cu = getICompilationUnitFromMarker(marker);
+                  if (cu != null)
+                  {
+                     compilationUnits.add(cu);
+                  }
+               }
+            } catch (CoreException e)
+            {
+               e.printStackTrace();
+               return;
+            }
+            // process errors for each CompilationUnit
+            for (ICompilationUnit cu : compilationUnits)
+            {
+               processCompilationUnit(cu);
+            }
+         }
+
+      } catch (CoreException e1)
+      {
+         e1.printStackTrace();
+      }
+   }
+
+   private void processCompilationUnit(final ICompilationUnit cu) throws CoreException
+   {
+
+      boolean hasChanges = false;
+
+      CompilationUnit compilationUnit = getAstRoot(cu);
+      AST ast = compilationUnit.getAST();
+      ASTRewrite rewriter = ASTRewrite.create(ast);
+
+      // find markers for each CompilationUnit
+      IMarker[] markers = findProblemMarkers(cu);
+
+      for (IMarker marker : markers)
+      {
+         ASTNode node = getASTNodeFromMarkerForCompilationUnit(marker, compilationUnit);
+         if (node == null)
+            break;
+         String nodeValue = node.toString();
+         int nodeType = node.getNodeType();
+
+         switch (nodeType)
+         {
+         case ASTNode.SIMPLE_NAME:
+            if (nodeValue.equals(changedValue))
+            {
+               // System.out.println("Refactoring SimpleName of type: " +
+               // ASTNode.nodeClassForType(node.getParent().getNodeType()).toString());
+               SimpleName newName = ast.newSimpleName(newValue);
+               rewriter.replace(node, newName, null);
+               hasChanges = true;
+            } else if (node.getParent().getNodeType() == ASTNode.METHOD_INVOCATION)
+            {
+               SimpleName simpleName = (SimpleName) node;
+               if (simpleName.getIdentifier().contains(changedValue))
+               {
+                  String newString = simpleName.getIdentifier().replace(changedValue, newValue);
+                  SimpleName newName = ast.newSimpleName(newString);
+                  rewriter.replace(node, newName, null);
+                  hasChanges = true;
+               }
+            }
+
+            break;
+         case ASTNode.QUALIFIED_NAME:
+            ASTNode parentNode = node.getParent();
+            // handle imports
+            if (parentNode.getNodeType() == ASTNode.IMPORT_DECLARATION)
+            {
+
+               QualifiedName importName = (QualifiedName) node;
+               String importClassName = importName.getName().getIdentifier();
+               if (changedValue.equals(importClassName))
+               {
+                  // System.out.println("packages: " + importName.getQualifier().getFullyQualifiedName());
+                  String[] identifiers = resolveImportStatement(importName.getQualifier(), newValue);
+                  ImportDeclaration id = ast.newImportDeclaration();
+                  id.setName(ast.newName(identifiers));
+                  rewriter.replace(parentNode, id, null);
+
+                  hasChanges = true;
+               }
+
+               break;
+            }
+            break;
+         }
+      }
+      if (hasChanges)
+      {
+         Document document = new Document(cu.getSource());
+         TextEdit edits = rewriter.rewriteAST(document, null);
+         try
+         {
+            edits.apply(document);
+         } catch (MalformedTreeException | BadLocationException e)
+         {
+            e.printStackTrace();
+         }
+         // update the compilation unit/code
+         cu.getBuffer().setContents(document.get());
+         cu.commitWorkingCopy(false, null);
+
+         if (cu.getPath().toString().contains("/gen/"))
+         {
+
+            JavaFileInjectionExtractor injectionExtractor = new JavaFileInjectionExtractor();
+            injectionExtractor.extractInjectionNonInteractively((IFile) cu.getUnderlyingResource());
+         }
+      }
+   }
+
+   private String[] resolveImportStatement(final Name name, final String newClassName)
+   {
+      ArrayList<String> packages = new ArrayList<String>();
+      // case import QualifiedName.SimpleName: parse QualifiedName recursively
+      if (name instanceof QualifiedName)
+      {
+         packages = resolvePackages((QualifiedName) name, packages);
+      }
+      // case import SimpleName.SimpleName
+      else
+      {
+         packages.add(((SimpleName) name).getIdentifier());
+      }
+      packages.add(newClassName);
+
+      String[] identifiers = new String[packages.size()];
+      identifiers = packages.toArray(identifiers);
+      return identifiers;
+   }
+
+   private ArrayList<String> resolvePackages(final QualifiedName name, final ArrayList<String> identifiers)
+   {
+      if (name.getQualifier() instanceof SimpleName)
+      {
+         identifiers.add(0, name.getName().getIdentifier());
+         identifiers.add(0, ((SimpleName) name.getQualifier()).getIdentifier());
+         return identifiers;
+      } else
+      {
+         identifiers.add(0, name.getName().getIdentifier());
+         return resolvePackages((QualifiedName) name.getQualifier(), identifiers);
+      }
+   }
+
+   private ICompilationUnit getICompilationUnitFromMarker(final IMarker marker)
+   {
+      IResource res = marker.getResource();
+      if (res.getType() == IResource.FILE)
+      {
+         IFile f = (IFile) res;
+         ICompilationUnit cu = JavaCore.createCompilationUnitFrom(f);
+         return cu;
+      }
+      return null;
+   }
+
+   public IMarker[] findProblemMarkers(final ICompilationUnit cu) throws CoreException
+   {
+      IResource javaSourceFile = cu.getUnderlyingResource();
+      IMarker[] markers = javaSourceFile.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
+      return markers;
+   }
+
+   public ASTNode getASTNodeFromMarkerForICompilationUnit(final IMarker marker, final ICompilationUnit cu)
+   {
+      CompilationUnit astRoot = getAstRoot(cu);
+      int start = marker.getAttribute(IMarker.CHAR_START, 0);
+      int end = marker.getAttribute(IMarker.CHAR_END, 0);
+      if (!(end == 0))
+      {
+         NodeFinder nf = new NodeFinder(astRoot, start, end - start);
+         // System.out.println("covering node: " + nf.getCoveringNode() + "; type: " +
+         // nf.getCoveringNode().getNodeType());
+         return nf.getCoveringNode();
+      } else
+      {
+         return null;
+      }
+   }
+
+   public ASTNode getASTNodeFromMarkerForCompilationUnit(final IMarker marker, final CompilationUnit cu)
+   {
+
+      int start = marker.getAttribute(IMarker.CHAR_START, 0);
+      int end = marker.getAttribute(IMarker.CHAR_END, 0);
+      if (!(end == 0))
+      {
+         NodeFinder nf = new NodeFinder(cu, start, end - start);
+         // System.out.println("covering node: " + nf.getCoveringNode() + "; type: " +
+         // nf.getCoveringNode().getNodeType());
+         return nf.getCoveringNode();
+      } else
+      {
+         return null;
+      }
+   }
+
+   private CompilationUnit getAstRoot(final ITypeRoot typeRoot)
+   {
+      CompilationUnit root = SharedASTProvider.getAST(typeRoot, SharedASTProvider.WAIT_YES, null);
+      if (root == null)
+      {
+         ASTParser astParser = ASTParser.newParser(AST.JLS8);
+         astParser.setSource(typeRoot);
+         astParser.setResolveBindings(true);
+         astParser.setStatementsRecovery(true);
+         astParser.setBindingsRecovery(true);
+         root = (CompilationUnit) astParser.createAST(null);
+      }
+      return root;
+   }
+
+   @Override
+   public void processDelta(final IProject project, final MetamodelDelta delta)
+   {
+      // TODO Auto-generated method stub
+
+   }
 }

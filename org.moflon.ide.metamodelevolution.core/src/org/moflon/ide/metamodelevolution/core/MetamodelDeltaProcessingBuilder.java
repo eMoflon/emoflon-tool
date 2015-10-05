@@ -21,23 +21,23 @@ public class MetamodelDeltaProcessingBuilder extends AbstractBuilder {
 
 	// Is invoked for each modified/new/deleted resource in incremental model
 	@Override
-	public boolean visit(IResource resource) throws CoreException {
+	public boolean visit(final IResource resource) throws CoreException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean visit(IResourceDelta delta) throws CoreException {
+	public boolean visit(final IResourceDelta delta) throws CoreException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	// Is invoked if a FULL_BUILD is triggered
 	@Override
-	protected boolean processResource(IProgressMonitor monitor) throws CoreException {
+	protected boolean processResource(final IProgressMonitor monitor) throws CoreException {
 		//ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		
-		Collection<IProject> allProjects =  WorkspaceHelper.getProjectsByNatureID("org.eclipse.jdt.core.javanature");
+		Collection<IProject> allProjects =  WorkspaceHelper.getProjectsByNatureID("org.eclipse.jdt.core.javanature"); //TODO@settl : Use JavaCore.NATURE_ID
 		for (IProject p : allProjects) {
 			// get compiler errors of javaProject
 		/*javaProject.get
@@ -48,7 +48,7 @@ public class MetamodelDeltaProcessingBuilder extends AbstractBuilder {
 		ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
 			
 			@Override
-			public void run(IProgressMonitor monitor) throws CoreException {
+			public void run(final IProgressMonitor monitor) throws CoreException {
 				// TODO Auto-generated method stub
 				
 			}
@@ -58,7 +58,7 @@ public class MetamodelDeltaProcessingBuilder extends AbstractBuilder {
 
 	// Is invoked if a CLEAN_BUILD is triggered
 	@Override
-	protected void cleanResource(IProgressMonitor monitor) throws CoreException {
+	protected void cleanResource(final IProgressMonitor monitor) throws CoreException {
 		// TODO Auto-generated method stub
 		
 	}

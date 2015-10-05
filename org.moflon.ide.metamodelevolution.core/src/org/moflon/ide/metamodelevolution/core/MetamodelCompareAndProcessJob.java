@@ -28,14 +28,14 @@ public class MetamodelCompareAndProcessJob extends Job {
 	protected IProject project;
 	//private final IStatus OK_STATUS = new Status(IStatus.OK, UIActivator.getModuleID(), IStatus.OK, "", null);
  
-	public MetamodelCompareAndProcessJob(String name, List <IProject> projects) {
+	public MetamodelCompareAndProcessJob(final String name, final List <IProject> projects) {
 		super(name);
 		this.logger = Logger.getLogger(this.getClass());
 		this.projects = projects;
 	}
 
 	@Override
-	protected IStatus run(IProgressMonitor monitor) {
+	protected IStatus run(final IProgressMonitor monitor) {
 
         for (final IProject project : projects) {
          	try {
@@ -84,6 +84,7 @@ public class MetamodelCompareAndProcessJob extends Job {
 	   logger.error("Unable to generate code: " + ecoreFile + " does not exist in project!");
 	}
 	
+	//TODO@settl : use WorkspaceHelper.getDefaultEcoreFile(project) [you need to update before!!!]
 	public static IFile getEcoreFile(final IProject p) {
 		String ecoreFileName = MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(p.getName());
 		return p.getFolder(WorkspaceHelper.MODEL_FOLDER).getFile(ecoreFileName + WorkspaceHelper.ECORE_FILE_EXTENSION);
