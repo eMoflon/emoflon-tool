@@ -3,7 +3,6 @@ package org.moflon.codegen.eclipse;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -161,12 +160,6 @@ public class CodeGeneratorPlugin implements BundleActivator
    public static final URI getDefaultEcoreFileURI(final IProject project)
    {
       return getDefaultProjectRelativeEcoreFileURI(project).resolve(URI.createPlatformResourceURI(project.getName() + "/", true));
-   }
-
-   public static IFile getDefaultEcoreFile(final IProject project)
-   {
-      String ecoreFileName = MoflonUtil.lastCapitalizedSegmentOf(project.getName());
-      return project.getFolder(WorkspaceHelper.MODEL_FOLDER).getFile(ecoreFileName + WorkspaceHelper.ECORE_FILE_EXTENSION);
    }
 
    public static final void createPluginToResourceMapping(final ResourceSet set, final IProject project) throws CoreException

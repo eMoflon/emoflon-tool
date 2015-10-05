@@ -162,7 +162,7 @@ public class WorkspaceHelper
     * @param monitor
     *           a progress monitor, or null if progress reporting is not desired
     * @param location
-    *          the file system location where the project should be placed
+    *           the file system location where the project should be placed
     * @return handle to newly created project
     * @throws CoreException
     */
@@ -1013,6 +1013,18 @@ public class WorkspaceHelper
          mocaTreeFile = loadMocaTree.apply(metamodelProject.getName().toLowerCase());
 
       return mocaTreeFile;
+   }
+
+   /**
+    * Returns a handle to the default location of a metamodel file ("ecore file") of a repository or integration
+    * project.
+    * 
+    * @param project the project of which to extract the ecore file
+    */
+   public static IFile getDefaultEcoreFile(final IProject project)
+   {
+      String ecoreFileName = MoflonUtil.lastCapitalizedSegmentOf(project.getName());
+      return project.getFolder(MODEL_FOLDER).getFile(ecoreFileName + ECORE_FILE_EXTENSION);
    }
 
 }
