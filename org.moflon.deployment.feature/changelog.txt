@@ -13,3 +13,4 @@
 ---
 2015-09-18  New Feature Ecore import to EAP added
 2015-09-18  Add A Parser for better error handling between EA-Addin and Eclipse
+2015-10-05	More robust dirty markers #589
