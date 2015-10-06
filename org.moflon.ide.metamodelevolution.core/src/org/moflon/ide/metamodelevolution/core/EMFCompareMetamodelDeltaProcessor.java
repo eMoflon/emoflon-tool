@@ -43,7 +43,6 @@ public class EMFCompareMetamodelDeltaProcessor implements MetamodelDeltaProcesso
    public void processDelta(final IProject project, final Map<String, String> delta)
    { // TODO@settl: document the format of the delta as soon as possible Map<String,String> is relatively generic
      // (rkluge)
-      ;
       try
       {
          if (project.isOpen() && project.hasNature(JAVA_NATURE))
@@ -61,6 +60,9 @@ public class EMFCompareMetamodelDeltaProcessor implements MetamodelDeltaProcesso
             {
                // find all markers in project
                IMarker[] markers = project.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
+               if (markers.length <= 0) 
+                  return;
+               
                for (IMarker marker : markers)
                {
                   // find all CompilationUnits with markers

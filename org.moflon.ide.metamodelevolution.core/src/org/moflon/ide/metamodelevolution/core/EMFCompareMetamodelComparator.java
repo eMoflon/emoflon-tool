@@ -4,18 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.pde.core.plugin.PluginRegistry;
-import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
@@ -33,16 +21,23 @@ import org.eclipse.emf.compare.diff.IDiffProcessor;
 import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.compare.utils.ReferenceUtil;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.plugin.PluginRegistry;
+import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public class EMFCompareMetamodelComparator implements MetamodelComparator
 {
 
    protected IProject project;
-
    protected ResourceSet resourceSetMMold; // TODO@settl: work with packages instead of resourcesets
-
    protected ResourceSet resourceSetMMnew;
-
    public Map<String, String> delta;
 
    public EMFCompareMetamodelComparator(final IProject project)
@@ -53,16 +48,14 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator
 
    public Map<String, String> compare()
    {
-      // TODO@settl: make fail-safe, return proper delta
-      loadMetamodels();
-      compare(resourceSetMMold, resourceSetMMnew);
-      if (delta != null)
+      // TODO@settl: return proper delta
+      if (loadMetamodels()) 
       {
-         return delta;
-      } else
-      {
-         return null;
-      }
+    	  compare(resourceSetMMold, resourceSetMMnew);
+    	  if (!delta.isEmpty()) 
+    		  return delta;
+      }     
+      return null;
    }
 
    @Override
@@ -124,7 +117,7 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator
       return null;
    }
 
-   protected void loadMetamodels()
+   protected boolean loadMetamodels()
    {
 
       URI projectURI = lookupProjectURI(project);
@@ -137,16 +130,18 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator
       resourceSetMMold = new ResourceSetImpl();
       resourceSetMMnew = new ResourceSetImpl();
 
-      Resource oldMMResource = null;
-      Resource newMMResource = null;
+      /*Resource oldMMResource = null;
+      Resource newMMResource = null;*/
       try
       {
-         oldMMResource = resourceSetMMold.getResource(previousMMURI, true);
-         newMMResource = resourceSetMMnew.getResource(metamodelURI, true);
+         resourceSetMMold.getResource(previousMMURI, true);
+         resourceSetMMnew.getResource(metamodelURI, true);
+         return true;
 
       } catch (final Exception e)
       {
          e.printStackTrace();
+         return false;
       }
       // TODO@settl: this returns always the same package, not the previous one, why?
 
