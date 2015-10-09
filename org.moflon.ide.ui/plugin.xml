@@ -678,21 +678,8 @@
                <iterate
                      ifEmpty="false">
                   <or>
-                     <and>
-                        <or>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                           </reference>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                           </reference>
-                        </or>
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.isEcoreFile">
-                        </reference>
-                     </and>
                      <reference
-                           definitionId="org.moflon.ide.ui.definitions.isProject">
+                           definitionId="org.moflon.ide.ui.definitions.isEcoreFile">
                      </reference>
                   </or>
                </iterate>
