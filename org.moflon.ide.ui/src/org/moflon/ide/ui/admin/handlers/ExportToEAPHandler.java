@@ -12,16 +12,11 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.emf.common.util.URI;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
@@ -29,6 +24,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.codegen.eclipse.MonitoredMetamodelLoader;
 import org.moflon.core.ecore2mocaxmi.Ecore2MocaXMIConverter;
 import org.moflon.core.ecore2mocaxmi.Ecore2mocaxmiFactory;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -36,6 +32,7 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
 
 import MocaTree.Node;
+import MoflonPropertyContainer.MoflonPropertyContainerFactory;
 
 /**
  * @author ah70bafa
@@ -108,17 +105,14 @@ public class ExportToEAPHandler extends AbstractCommandHandler {
 	private Node getEATree(IFile file){
 		Ecore2MocaXMIConverter converter = Ecore2mocaxmiFactory.eINSTANCE.createEcore2MocaXMIConverter();
 		Node tree = null;
-		ResourceSet rs = new ResourceSetImpl();
+		MonitoredMetamodelLoader mmLoader = new MonitoredMetamodelLoader(new ResourceSetImpl(), file, MoflonPropertyContainerFactory.eINSTANCE.createMoflonPropertiesContainer());
 		try{
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(ECORE_FILE_EXSTENSION, new EcoreResourceFactoryImpl());
-		final ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(rs.getPackageRegistry());
-		rs.getLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-		Resource res = rs.getResource(URI.createFileURI(file.getFullPath().toOSString()), true);
-		EObject eObject = res.getContents().get(0);
-		if (eObject instanceof EPackage) {
-		    EPackage p = (EPackage)eObject;
-		    rs.getPackageRegistry().put(p.getNsURI(), p);
-		    tree = converter.convert(p, file.getProject().getName());
+			mmLoader.run(new NullProgressMonitor());
+			Resource res = mmLoader.getEcoreResource();
+			EObject eObject = res.getContents().get(0);
+			if (eObject instanceof EPackage) {
+			    EPackage p = (EPackage)eObject;
+			    tree = converter.convert(p, file.getProject().getName());
 		}
 		}catch (Exception e){
 			logger.error("A Problem has been caused", e);
