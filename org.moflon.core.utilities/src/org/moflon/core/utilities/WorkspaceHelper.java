@@ -1027,4 +1027,63 @@ public class WorkspaceHelper
       return project.getFolder(MODEL_FOLDER).getFile(ecoreFileName + ECORE_FILE_EXTENSION);
    }
 
+   /**
+    * Returns a handle to the gen folder of the project
+    * 
+    * @see WorkspaceHelper#GEN_FOLDER
+    */
+   public static IFolder getGenFolder(final IProject project)
+   {
+      return project.getFolder(GEN_FOLDER);
+   }
+
+   /**
+    * Returns a handle to the model folder of the project
+    * 
+    * @see WorkspaceHelper#MODEL_FOLDER
+    */
+   public static IFolder getModelFolder(final IProject workspaceProject)
+   {
+      return workspaceProject.getFolder(MODEL_FOLDER);
+   }
+
+   /**
+    * Returns a handle to the instances folder of the project
+    * 
+    * @see WorkspaceHelper#INSTANCES_FOLDER
+    */
+   public static IFolder getInstancesFolder(final IProject workspaceProject)
+   {
+      return workspaceProject.getFolder(INSTANCES_FOLDER);
+   }
+
+   /**
+    * Returns a handle to the lib folder of the project
+    * 
+    * @see WorkspaceHelper#LIB_FOLDER
+    */
+   public static IFolder getLibFolder(final IProject workspaceProject)
+   {
+      return workspaceProject.getFolder(LIB_FOLDER);
+   }
+
+   /**
+    * Creates the given folder if it does not exist yet.
+    * @param folder
+    * @param monitor
+    * @throws CoreException
+    */
+   public static void createFolderIfNotExists(final IFolder folder, final IProgressMonitor monitor) throws CoreException
+   {
+      try
+      {
+         monitor.beginTask("Creating " + folder, 1);
+         if (!folder.exists())
+            folder.create(true, true, createSubmonitorWith1Tick(monitor));
+      } finally
+      {
+         monitor.done();
+      }
+   }
+
 }

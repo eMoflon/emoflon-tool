@@ -346,6 +346,13 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       }
       WorkspaceHelper.addContainerToBuildPath(project, "org.eclipse.pde.core.requiredPlugins");
 
+      try {
+         MoflonProjectCreator.createFoldersIfNecessary(project, new NullProgressMonitor());
+      }
+      catch (final CoreException e) {
+         logger.warn("Failed to create folders: " + e.getMessage());
+      }
+      
       MoflonPropertiesContainer moflonProps;
 
       try

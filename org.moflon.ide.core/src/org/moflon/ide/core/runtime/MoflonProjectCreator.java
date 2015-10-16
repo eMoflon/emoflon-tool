@@ -60,18 +60,13 @@ public class MoflonProjectCreator implements IWorkspaceRunnable
          workspaceProject.create(description, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
          workspaceProject.open(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-         IFolder gen = workspaceProject.getFolder(WorkspaceHelper.GEN_FOLDER);
-         gen.create(true, true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-
-         workspaceProject.getFolder(WorkspaceHelper.LIB_FOLDER).create(true, true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-         workspaceProject.getFolder(WorkspaceHelper.MODEL_FOLDER).create(true, true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-         workspaceProject.getFolder(WorkspaceHelper.INSTANCES_FOLDER).create(true, true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         createFoldersIfNecessary(workspaceProject, WorkspaceHelper.createSubMonitor(monitor, 4));
 
          addNatureAndBuilders(monitor, this.type, workspaceProject);
 
          IJavaProject javaProject = WorkspaceHelper.setUpAsJavaProject(workspaceProject, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-         WorkspaceHelper.setAsSourceFolderInBuildpath(javaProject, new IFolder[] { gen },
+         WorkspaceHelper.setAsSourceFolderInBuildpath(javaProject, new IFolder[] { WorkspaceHelper.getGenFolder(workspaceProject) },
                new IClasspathAttribute[] { JavaCore.newClasspathAttribute("ignore_optional_problems", "true") },
                WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
@@ -84,6 +79,25 @@ public class MoflonProjectCreator implements IWorkspaceRunnable
 
       } finally
       {
+         monitor.done();
+      }
+   }
+
+   public static void createFoldersIfNecessary(final IProject project, final IProgressMonitor monitor) throws CoreException
+   {
+      try
+      {
+         monitor.beginTask("Creating folders within project", 4);
+         IFolder gen = WorkspaceHelper.getGenFolder(project);
+         WorkspaceHelper.createFolderIfNotExists(gen, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         IFolder libFolder = WorkspaceHelper.getLibFolder(project);
+         WorkspaceHelper.createFolderIfNotExists(libFolder, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         IFolder modelFolder = WorkspaceHelper.getModelFolder(project);
+         WorkspaceHelper.createFolderIfNotExists(modelFolder, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         IFolder instancesFolder = WorkspaceHelper.getInstancesFolder(project);
+         WorkspaceHelper.createFolderIfNotExists(instancesFolder, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+      } 
+      finally {
          monitor.done();
       }
    }
