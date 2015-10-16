@@ -1019,7 +1019,8 @@ public class WorkspaceHelper
     * Returns a handle to the default location of a metamodel file ("ecore file") of a repository or integration
     * project.
     * 
-    * @param project the project of which to extract the ecore file
+    * @param project
+    *           the project of which to extract the ecore file
     */
    public static IFile getDefaultEcoreFile(final IProject project)
    {
@@ -1068,7 +1069,18 @@ public class WorkspaceHelper
    }
 
    /**
+    * Returns a handle to the injection folder of the project
+    * 
+    * @see WorkspaceHelper#INJECTION_FOLDER
+    */
+   public static IFolder getInjectionFolder(final IProject project)
+   {
+      return project.getFolder(INJECTION_FOLDER);
+   }
+
+   /**
     * Creates the given folder if it does not exist yet.
+    * 
     * @param folder
     * @param monitor
     * @throws CoreException
