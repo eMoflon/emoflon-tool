@@ -8,7 +8,7 @@ lexer grammar <name;format="firstToUpper">Lexer;
 
       public void displayRecognitionError(String[] tokenNames,
                                         RecognitionException e) {
-          Problem problem = MocaFactory.eINSTANCE.createProblem();
+          Problem problem = ProcessingFactory.eINSTANCE.createProblem();
           int line  = e.line;
           int charPos = e.charPositionInLine;
           int tokenLenght = 1;
@@ -31,9 +31,9 @@ lexer grammar <name;format="firstToUpper">Lexer;
 @header {
 package <package>;
 import java.util.Collection;
-import Moca.MocaFactory;
-import Moca.Problem;
-import Moca.ProblemType;
+import org.moflon.core.moca.processing.ProcessingFactory;
+import org.moflon.core.moca.processing.Problem;
+import org.moflon.core.moca.processing.ProblemType;
 }
 
 // Lexer Rules:
@@ -66,7 +66,7 @@ options {
 
       public void displayRecognitionError(String[] tokenNames,
                                         RecognitionException e) {
-          Problem problem = MocaFactory.eINSTANCE.createProblem();
+          Problem problem = ProcessingFactory.eINSTANCE.createProblem();
           int line  = e.line;
           int charPos = e.charPositionInLine;
           int tokenLenght = 1;
@@ -89,9 +89,9 @@ options {
 @header {
 package <package>; 
 import java.util.Collection;
-import Moca.MocaFactory;
-import Moca.Problem;
-import Moca.ProblemType;
+import org.moflon.core.moca.processing.Problem;
+import org.moflon.core.moca.processing.ProblemType;
+import org.moflon.core.moca.processing.ProcessingFactory;
 }
 
 // Parser Rules:
@@ -144,9 +144,9 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.moflon.moca.MocaUtil;
-import Moca.parser.impl.ParserImpl;
+import org.moflon.core.moca.processing.parser.impl.XMLParserImpl;
 import MocaTree.Node;
-import Moca.Problem;
+import org.moflon.core.moca.processing.Problem;
 
 public class <name;format="firstToUpper">ParserAdapter extends ParserImpl 
 {
@@ -208,7 +208,7 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 
-import Moca.unparser.impl.TemplateUnparserImpl;
+import org.moflon.core.moca.processing.unparser.impl.TemplateUnparserImpl;
 
 public class <name;format="firstToUpper">UnparserAdapter extends TemplateUnparserImpl 
 {

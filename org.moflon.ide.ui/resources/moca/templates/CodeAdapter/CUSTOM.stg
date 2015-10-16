@@ -3,7 +3,7 @@ group Custom;
 ParserAdapter(name, package) ::= <<
 package <package>;
 import java.io.Reader;
-import Moca.parser.impl.ParserImpl;
+import org.moflon.core.moca.processing.parser.impl.XMLParserImpl;
 import MocaTree.Node;
 
 public class <name;format="firstToUpper">ParserAdapter extends ParserImpl 
@@ -26,7 +26,7 @@ public class <name;format="firstToUpper">ParserAdapter extends ParserImpl
 
 UnparserAdapter(name, package) ::= <<
 package org.moflon.moca.<name>.unparser;
-import Moca.unparser.impl.UnparserImpl;
+import org.moflon.core.moca.processing.unparser.impl.XMLUnparserImpl;
 import MocaTree.Node;
 
 public class <name;format="firstToUpper">UnparserAdapter extends UnparserImpl 

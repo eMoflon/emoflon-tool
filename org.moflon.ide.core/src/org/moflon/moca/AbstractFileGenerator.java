@@ -16,7 +16,7 @@ public abstract class AbstractFileGenerator
 
    protected IProject project;
 
-   //TODO: The handling of progress monitors in this class and in its subclasses is creepy (RK)
+   //TODO@rkluge: The handling of progress monitors in this class and in its subclasses is creepy
    protected IProgressMonitor monitor;
 
    public AbstractFileGenerator(final IProject project)

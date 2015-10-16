@@ -110,6 +110,7 @@ public class ParserUnparserGenerator extends AbstractFileGenerator {
 		Map<String, String> parserFileNamesToContents = new HashMap<String, String>();
 		switch (parserTechnology) {
 		case ANTLR:
+		   parserFileNamesToContents.put(".gitignore", fileNamePrefix + "[Parser|Lexer].*");
 			parserFileNamesToContents.put(fileNamePrefix + "Parser.g", renderTemplate("Parser", attributes));
 			parserFileNamesToContents.put(fileNamePrefix + "Lexer.g", renderTemplate("Lexer", attributes));
 			parserFileNamesToContents.put(fileNamePrefix + "ParserAdapter.java",
