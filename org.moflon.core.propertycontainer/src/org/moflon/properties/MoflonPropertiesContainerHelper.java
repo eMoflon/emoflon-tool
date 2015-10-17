@@ -43,7 +43,6 @@ public class MoflonPropertiesContainerHelper
 
          final MoflonPropertiesContainer moflonPropertiesCont = loadOrCreatePropertiesContainer(project, project.getFile(MOFLON_CONFIG_FILE));
          moflonPropertiesCont.checkForMissingDefaults();
-         moflonPropertiesCont.removeObsoleteProperties();
          final String projectName = project.getName();
          if (!projectName.equals(moflonPropertiesCont.getProjectName()))
          {
