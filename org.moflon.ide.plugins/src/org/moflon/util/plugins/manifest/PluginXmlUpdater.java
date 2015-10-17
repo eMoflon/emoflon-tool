@@ -23,7 +23,7 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.util.plugins.xml.XMLUtil;
+import org.moflon.util.plugins.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -84,7 +84,7 @@ public class PluginXmlUpdater
       {
          monitor.beginTask("Updating plugin.xml from Genmodel", 3);
          final String content = readOrGetDefaultPluginXmlContent(project);
-         final Document doc = XMLUtil.parseXmlModel(content);
+         final Document doc = XMLUtils.parseXmlDocument(content);
          monitor.worked(1);
 
          removeExtensionPointsForGeneratedPackages(doc);
@@ -93,7 +93,7 @@ public class PluginXmlUpdater
          final Node pluginRootElement = getRootNode(doc);
          extensionElements.forEach(element -> pluginRootElement.appendChild(element));
 
-         String output = XMLUtil.formatXmlString(doc, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         String output = XMLUtils.formatXmlString(doc, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          MoflonUtil.writeContentToFile(output, getPluginXml(project), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 

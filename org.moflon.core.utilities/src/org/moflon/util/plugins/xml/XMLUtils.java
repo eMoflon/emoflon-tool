@@ -23,13 +23,16 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.moflon.ide.plugins.MoflonPluginsActivator;
+import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class XMLUtil
+/**
+ * Several high-level utility methods for processing XML files
+ */
+public class XMLUtils
 {
 
    public static String formatXmlString(final Document doc, final IProgressMonitor monitor) throws CoreException
@@ -50,13 +53,14 @@ public class XMLUtil
          return output;
       } catch (TransformerFactoryConfigurationError | TransformerException ex)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Formatting XML failed", ex));
-      } finally {
+         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.getDefault().getPluginId(), "Formatting XML failed", ex));
+      } finally
+      {
          monitor.done();
       }
    }
 
-   public static Document parseXmlModel(final String content) throws CoreException
+   public static Document parseXmlDocument(final String content) throws CoreException
    {
       try
       {
@@ -65,12 +69,12 @@ public class XMLUtil
          DocumentBuilder builder = factory.newDocumentBuilder();
          Document doc = builder.parse(new ByteArrayInputStream(content.getBytes()));
 
-         XMLUtil.dropWhitespaceNodesFromTree(doc);
+         XMLUtils.dropWhitespaceNodesFromTree(doc);
 
          return doc;
       } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException ex)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Formatting XML failed", ex));
+         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.getDefault().getPluginId(), "Formatting XML failed", ex));
       }
    }
 

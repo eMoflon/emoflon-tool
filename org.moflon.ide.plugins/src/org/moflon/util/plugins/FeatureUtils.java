@@ -25,7 +25,7 @@ import org.moflon.ide.plugins.MoflonPluginsActivator;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater.AttributeUpdatePolicy;
 import org.moflon.util.plugins.manifest.PluginManifestConstants;
-import org.moflon.util.plugins.xml.XMLUtil;
+import org.moflon.util.plugins.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -51,7 +51,7 @@ public class FeatureUtils
 
          if (content != null)
          {
-            final Document doc = XMLUtil.parseXmlModel(content);
+            final Document doc = XMLUtils.parseXmlDocument(content);
             XPathFactory xPathfactory = XPathFactory.newInstance();
             XPath xpath = xPathfactory.newXPath();
             XPathExpression expr = xpath.compile("/site/feature");
@@ -86,7 +86,7 @@ public class FeatureUtils
 
          if (content != null)
          {
-            final Document doc = XMLUtil.parseXmlModel(content);
+            final Document doc = XMLUtils.parseXmlDocument(content);
             final Element rootElement = (Element) doc.getChildNodes().item(0);
             final String id = rootElement.getAttribute("id");
             return id;
@@ -110,7 +110,7 @@ public class FeatureUtils
 
          if (content != null)
          {
-            final Document doc = XMLUtil.parseXmlModel(content);
+            final Document doc = XMLUtils.parseXmlDocument(content);
             XPathFactory xPathfactory = XPathFactory.newInstance();
             XPath xpath = xPathfactory.newXPath();
             XPathExpression expr = xpath.compile("/feature/plugin");
@@ -203,13 +203,13 @@ public class FeatureUtils
 
          if (content != null)
          {
-            final Document doc = XMLUtil.parseXmlModel(content);
+            final Document doc = XMLUtils.parseXmlDocument(content);
             final Element rootElement = (Element) doc.getElementsByTagName("feature").item(0);
             if (!versionNumber.equals(rootElement.getAttribute(VERSION_ATTRIBUTE_NAME)))
             {
                rootElement.setAttribute(VERSION_ATTRIBUTE_NAME, versionNumber);
 
-               String output = XMLUtil.formatXmlString(doc, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+               String output = XMLUtils.formatXmlString(doc, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
                MoflonUtil.writeContentToFile(output, featureFile, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
@@ -237,7 +237,7 @@ public class FeatureUtils
 
          if (content != null)
          {
-            final Document doc = XMLUtil.parseXmlModel(content);
+            final Document doc = XMLUtils.parseXmlDocument(content);
             final Element rootElement = (Element) doc.getElementsByTagName("site").item(0);
             final NodeList featureElements = rootElement.getElementsByTagName("feature");
             boolean changed = false;
@@ -255,7 +255,7 @@ public class FeatureUtils
 
             if (changed)
             {
-               String output = XMLUtil.formatXmlString(doc, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+               String output = XMLUtils.formatXmlString(doc, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
                MoflonUtil.writeContentToFile(output, siteFile, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             }
 

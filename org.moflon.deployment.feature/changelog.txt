@@ -14,3 +14,5 @@
 2015-09-18  New Feature Ecore import to EAP added
 2015-09-18  Add A Parser for better error handling between EA-Addin and Eclipse
 2015-10-05	More robust dirty markers #589
+2015-10-17	Remove Codegen2 from developerWorkspace.psf
+2015-10-17	When loading moflon.properties.xmi, all obsolete elements are now automatically removed.
