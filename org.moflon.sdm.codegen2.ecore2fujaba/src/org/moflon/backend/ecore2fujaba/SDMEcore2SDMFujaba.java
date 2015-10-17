@@ -227,7 +227,8 @@ public class SDMEcore2SDMFujaba
       // Process SDM model (ecore) and transform to SDM model (fujaba)
       if (activity != null)
       {
-         if (properties.getStrictSDMConditionalBranching().isBool())
+         boolean strictBranchingEnabled = false;
+         if (strictBranchingEnabled)
          {
             SDMPrecompiler sdmPrecompiler = SdmUtilFactory.eINSTANCE.createSDMPrecompiler();
             sdmPrecompiler.processActivity(activity);

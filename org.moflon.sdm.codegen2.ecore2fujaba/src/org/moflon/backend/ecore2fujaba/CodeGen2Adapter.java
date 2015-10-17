@@ -108,8 +108,8 @@ public class CodeGen2Adapter {
 	public CodeGen2Adapter(final IResource ecoreFile, final List<Resource> resources,
 			final Resource ecoreResource, final MoflonPropertiesContainer properties) {
 		// set data members
-		debugMode = properties.getDebugMode().isBool();
-		genTraceInformation = properties.getGenTracingInstrumentation().isBool();
+		debugMode = false;
+		genTraceInformation = false;
 		
 		ecoreProject = ecoreFile.getProject();
 		debugFolder = ecoreFile.getProject().getFolder("/debug");
@@ -259,11 +259,8 @@ public class CodeGen2Adapter {
 		/* 0. Retrieve user settings for util */
 		MoflonPropertiesContainer userProperties = MoflonPropertiesContainerHelper
 				.load(ecoreProject, new NullProgressMonitor());
-		Map<String, String> mappings = MoflonPropertiesContainerHelper
-				.mappingsToMap(userProperties.getFactoryMappings());
 		Map<String, String> importMappings = MoflonPropertiesContainerHelper
 				.mappingsToMap(userProperties.getImportMappings());
-		Utility.get().addPackageToFactoryMappings(mappings);
 		Utility.get().addImportMappings(importMappings);
 
 		/* 1. Build up fujaba project afresh */
