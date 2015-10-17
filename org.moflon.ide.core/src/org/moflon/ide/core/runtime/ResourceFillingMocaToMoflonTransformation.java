@@ -190,21 +190,6 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       }
    }
 
-   public void disableStrictSDMConditionalBranching(final IProject workspaceProject)
-   {
-      final URI projectURI = MoflonUtil.lookupProjectURI(workspaceProject);
-      final URI moflonPropertiesURI = MOFLON_PROPERTIES_URI.resolve(projectURI);
-      final Resource moflonPropertiesResource = set.getResource(moflonPropertiesURI, false);
-      if (moflonPropertiesResource != null)
-      {
-         final MoflonPropertiesContainer properties = (MoflonPropertiesContainer) moflonPropertiesResource.getContents().get(0);
-         properties.getStrictSDMConditionalBranching().setBool(false);
-      } else
-      {
-         reportError(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE + " is invalid or missing in project " + workspaceProject.getName());
-      }
-   }
-
    @Override
    public void postProcessing()
    {
