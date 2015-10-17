@@ -118,6 +118,13 @@ foreach ($WORKSPACE in $WORKSPACES) {
     }
     
   	$eclipse = Start-Process -WorkingDirectory $OUTPUT_DIRECTORY -FilePath $ECLIPSE_HOME\eclipse.exe -ArgumentList $argumentList   -PassThru
-  	echo "    [$($eclipse.Id)] Workspace '$WORKSPACE'"
-  	$eclipse.Id >> "$OUTPUT_DIRECTORY\pids.txt"
+    $eclipsePid = $eclipse.Id
+  	echo "    [$($eclipsePid)] Workspace '$WORKSPACE'"
+  	$eclipsePid >> "$OUTPUT_DIRECTORY\pids.txt"
+    
+    # The following lines may be enabled to reduce the process priority of the launched Eclipse instance (64=Idle, 16384=Low, 32=Normal, 32768=High, 128=Higher, 256=Real-time)
+    # For more information see: http://blogs.technet.com/b/heyscriptingguy/archive/2010/04/12/hey-scripting-guy-april-12-2010.aspx
+    #[void]([wmi]"win32_process.handle='$eclipsePid'").setPriority(16384)
+    #echo "    [$($eclipsePid)] Priority: $(([wmi]"win32_process.handle='$eclipsePid'").Priority)"
+  	
 }
