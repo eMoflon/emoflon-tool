@@ -17,6 +17,7 @@ import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
 
+import MoflonPropertyContainer.MetaModelProject;
 import MoflonPropertyContainer.MoflonPropertiesContainer;
 
 public class MonitoredSDMValidator implements IMonitoredJob
@@ -53,9 +54,9 @@ public class MonitoredSDMValidator implements IMonitoredJob
 
          if (!validationStatus.isOK())
          {
-            handlePropertiesInEnterpriseArchitect(validationStatus, validationProcess.getMoflonProperties());
+            handleErrorsInEnterpriseArchitect(validationStatus, validationProcess.getMoflonProperties());
             monitor.worked(25);
-            
+
             handleErrorsInEclipse(validationStatus);
             monitor.worked(25);
          }
@@ -67,7 +68,8 @@ public class MonitoredSDMValidator implements IMonitoredJob
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR,
                "Internal exception occured (probably caused by a bug in the validation module): " + e.getMessage() + " Please report the bug on "
-                     + WorkspaceHelper.ISSUE_TRACKER_URL, e);
+                     + WorkspaceHelper.ISSUE_TRACKER_URL,
+               e);
       } catch (CoreException e)
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
@@ -77,9 +79,15 @@ public class MonitoredSDMValidator implements IMonitoredJob
       }
    }
 
-   public void handlePropertiesInEnterpriseArchitect(final IStatus validationStatus, final MoflonPropertiesContainer moflonProperties)
+   public void handleErrorsInEnterpriseArchitect(final IStatus validationStatus, final MoflonPropertiesContainer moflonProperties)
    {
-      IProject metamodelProject = ResourcesPlugin.getWorkspace().getRoot().getProject(moflonProperties.getMetaModelProject().getMetaModelProjectName());
+      final MetaModelProject metaModelProjectProperty = moflonProperties.getMetaModelProject();
+      if (metaModelProjectProperty == null || metaModelProjectProperty.getMetaModelProjectName() == null)
+      {
+         logger.warn("Cannot send validation messages to EA because 'MetaModelProjectName' property is missing.");
+      }
+      
+      IProject metamodelProject = ResourcesPlugin.getWorkspace().getRoot().getProject(metaModelProjectProperty.getMetaModelProjectName());
       ErrorReporter errorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(metamodelProject,
             "org.moflon.validation.EnterpriseArchitectValidationHelper");
       if (errorReporter != null)
@@ -103,7 +111,5 @@ public class MonitoredSDMValidator implements IMonitoredJob
    {
       return TASK_NAME + " on project " + ecoreFile.getProject().getName();
    }
-
-   
 
 }
