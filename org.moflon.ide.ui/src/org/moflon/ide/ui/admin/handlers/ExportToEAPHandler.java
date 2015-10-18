@@ -30,9 +30,9 @@ import org.moflon.core.ecore2mocaxmi.Ecore2mocaxmiFactory;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
+import org.moflon.properties.MoflonPropertiesContainerHelper;
 
 import MocaTree.Node;
-import MoflonPropertyContainer.MoflonPropertyContainerFactory;
 
 /**
  * @author ah70bafa
@@ -47,12 +47,12 @@ public class ExportToEAPHandler extends AbstractCommandHandler {
 	 * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		return execute(HandlerUtil.getCurrentSelectionChecked(event), event);
 	}
 	
 	
-	private Object execute(ISelection selection, ExecutionEvent event) throws ExecutionException {
+	private Object execute(final ISelection selection, final ExecutionEvent event) throws ExecutionException {
 		final IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		String filePath = null;
 		IFile ecoreFile = null;
@@ -102,10 +102,10 @@ public class ExportToEAPHandler extends AbstractCommandHandler {
 		return dialog.open();
 	}
 	
-	private Node getEATree(IFile file){
+	private Node getEATree(final IFile file){
 		Ecore2MocaXMIConverter converter = Ecore2mocaxmiFactory.eINSTANCE.createEcore2MocaXMIConverter();
 		Node tree = null;
-		MonitoredMetamodelLoader mmLoader = new MonitoredMetamodelLoader(new ResourceSetImpl(), file, MoflonPropertyContainerFactory.eINSTANCE.createMoflonPropertiesContainer());
+		MonitoredMetamodelLoader mmLoader = new MonitoredMetamodelLoader(new ResourceSetImpl(), file, MoflonPropertiesContainerHelper.createEmptyContainer());
 		try{
 			mmLoader.run(new NullProgressMonitor());
 			Resource res = mmLoader.getEcoreResource();
@@ -121,7 +121,8 @@ public class ExportToEAPHandler extends AbstractCommandHandler {
 		return tree;
 	}
 
-	private IProject getProject(List<String> parts){		
+
+   private IProject getProject(final List<String> parts){		
 		List<IProject> projects = WorkspaceHelper.getAllProjectsInWorkspace();
 		for(IProject project : projects){
 			if(parts.contains(project.getName()))

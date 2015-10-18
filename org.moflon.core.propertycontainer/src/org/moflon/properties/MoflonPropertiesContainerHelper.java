@@ -209,4 +209,9 @@ public class MoflonPropertiesContainerHelper
       return list;
    }
 
+   public static MoflonPropertiesContainer createEmptyContainer()
+   {
+      return MoflonPropertyContainerFactory.eINSTANCE.createMoflonPropertiesContainer();
+   }
+
 }

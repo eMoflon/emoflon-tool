@@ -8,9 +8,10 @@ import MoflonPropertyContainer.impl.MoflonPropertyContainerFactoryImpl;
 public class MoflonPropertyContainerCustomizedFactory extends
 		MoflonPropertyContainerFactoryImpl {
 	
+   @Override
 	public SDMCodeGeneratorIds createSDMCodeGeneratorIdsFromString(
-			EDataType eDataType, String initialValue) {
-		SDMCodeGeneratorIds result = SDMCodeGeneratorIds.getByName(initialValue);
+			final EDataType eDataType, final String initialValue) {
+		final SDMCodeGeneratorIds result = SDMCodeGeneratorIds.getByName(initialValue);
 		if (result == null)
 			throw new IllegalArgumentException("The value '" + initialValue
 					+ "' is not a valid enumerator of '" + eDataType.getName()
@@ -18,8 +19,9 @@ public class MoflonPropertyContainerCustomizedFactory extends
 		return result;
 	}
 
-	public String convertSDMCodeGeneratorIdsToString(EDataType eDataType,
-			Object instanceValue) {
+	@Override
+   public String convertSDMCodeGeneratorIdsToString(final EDataType eDataType,
+			final Object instanceValue) {
 		return instanceValue == null ? null : ((SDMCodeGeneratorIds) instanceValue).getName();
 	}
 }
