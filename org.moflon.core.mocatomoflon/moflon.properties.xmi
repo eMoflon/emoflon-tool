@@ -10,10 +10,7 @@
   <additionalDependencies value="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore"/>
   <metaModelProject MetaModelProjectName="MoflonBackend"/>
   <replaceGenModel/>
-  <genTracingInstrumentation/>
-  <sdmCodegeneratorHandlerId value="DEMOCLES"/>
+  <sdmCodegeneratorHandlerId/>
   <tGGBuildMode/>
   <additionalUsedGenPackages value="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.genmodel"/>
-  <debugMode/>
-  <strictSDMConditionalBranching bool="false"/>
 </MoflonPropertyContainer:MoflonPropertiesContainer>

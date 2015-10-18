@@ -8,13 +8,10 @@
   <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.ecore"/>
   <metaModelProject MetaModelProjectName="Validation"/>
   <replaceGenModel/>
-  <genTracingInstrumentation/>
-  <sdmCodegeneratorHandlerId value="DEMOCLES"/>
+  <sdmCodegeneratorHandlerId/>
   <tGGBuildMode/>
   <importMappings key="specification" value="org.gervarro.democles.specification.emf"/>
   <additionalUsedGenPackages value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel"/>
   <additionalUsedGenPackages value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel"/>
   <additionalUsedGenPackages value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel"/>
-  <debugMode/>
-  <strictSDMConditionalBranching bool="false"/>
 </MoflonPropertyContainer:MoflonPropertiesContainer>

@@ -7,15 +7,14 @@
   <dependencies value="platform:/plugin/SDMLanguageToDemocles/model/SDMLanguageToDemocles.ecore"/>
   <dependencies value="platform:/plugin/ValidationResult/model/ValidationResult.ecore"/>
   <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
+  <factoryMappings key="relational" value="RelationalConstraintFactory"/>
+  <factoryMappings key="emf" value="EMFTypeFactory"/>
   <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.ecore"/>
   <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/emf.ecore"/>
   <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.ecore"/>
   <metaModelProject MetaModelProjectName="Validation"/>
   <replaceGenModel/>
-  <factoryMappings key="relational" value="RelationalConstraintFactory"/>
-  <factoryMappings key="emf" value="EMFTypeFactory"/>
-  <genTracingInstrumentation/>
-  <sdmCodegeneratorHandlerId value="DEMOCLES"/>
+  <sdmCodegeneratorHandlerId/>
   <tGGBuildMode/>
   <importMappings key="specification" value="org.gervarro.democles.specification.emf"/>
   <importMappings key="emf" value="org.gervarro.democles.specification.emf.constraint.emf.emf"/>
@@ -26,6 +25,4 @@
   <additionalUsedGenPackages value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel"/>
   <additionalUsedGenPackages value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel"/>
   <additionalUsedGenPackages value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel"/>
-  <debugMode/>
-  <strictSDMConditionalBranching bool="false"/>
 </MoflonPropertyContainer:MoflonPropertiesContainer>
