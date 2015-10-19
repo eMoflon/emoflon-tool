@@ -14,7 +14,7 @@ import org.moflon.dependency.PackageRemappingDependency;
 public class MetamodelLoader {
    private final ResourceSet resourceSet;
 
-   public MetamodelLoader(ResourceSet resourceSet) {
+   public MetamodelLoader(final ResourceSet resourceSet) {
       this.resourceSet = resourceSet;
       this.resourceSet.setPackageRegistry(new EPackageRegistryImpl(EPackage.Registry.INSTANCE));
       this.resourceSet.setResourceFactoryRegistry(new ResourceFactoryRegistryImpl());
@@ -24,42 +24,18 @@ public class MetamodelLoader {
       return Collections.emptyList();
    }
    
-   public void initializeRegistry() {
-//	   resourceSet.setPackageRegistry(new EPackageRegistryImpl(EPackage.Registry.INSTANCE));
-//	   resourceSet.getPackageRegistry().put("http://www.eclipse.org/emf/2002/Ecore",
-//			   new PluginPackageDescriptor("org.eclipse.emf.ecore", "org.eclipse.emf.ecore.EcorePackage"));
-//	   resourceSet.getPackageRegistry().put("http://www.moflon.org.SDMLanguage",
-//			   new PluginPackageDescriptor("org.moflon.SDMLanguage", "SDMLanguage.SDMLanguagePackage"));
-//	   resourceSet.getPackageRegistry().put("http://www.moflon.org.SDMLanguage.activities",
-//			   new PluginPackageDescriptor("org.moflon.SDMLanguage", "SDMLanguage.activities.ActivitiesPackage"));
-//	   resourceSet.getPackageRegistry().put("http://www.moflon.org.SDMLanguage.calls",
-//			   new PluginPackageDescriptor("org.moflon.SDMLanguage", "SDMLanguage.calls.CallsPackage"));
-//	   resourceSet.getPackageRegistry().put("http://www.moflon.org.SDMLanguage.calls.callExpressions",
-//			   new PluginPackageDescriptor("org.moflon.SDMLanguage", "SDMLanguage.calls.callExpressions.CallExpressionsPackage"));
-//	   resourceSet.getPackageRegistry().put("http://www.moflon.org.SDMLanguage.expressions",
-//			   new PluginPackageDescriptor("org.moflon.SDMLanguage", "SDMLanguage.expressions.ExpressionsPackage"));
-//	   resourceSet.getPackageRegistry().put("http://www.moflon.org.SDMLanguage.patterns",
-//			   new PluginPackageDescriptor("org.moflon.SDMLanguage", "SDMLanguage.patterns.PatternsPackage"));
-//	   resourceSet.getPackageRegistry().put("http://www.moflon.org.SDMLanguage.patterns.AttributeConstraints",
-//			   new PluginPackageDescriptor("org.moflon.SDMLanguage", "SDMLanguage.patterns.AttributeConstraints.AttributeConstraintsPackage"));
-//	   resourceSet.getPackageRegistry().put("http://www.moflon.org.SDMLanguage.patterns.patternExpressions",
-//			   new PluginPackageDescriptor("org.moflon.SDMLanguage", "SDMLanguage.patterns.patternExpressions.PatternExpressionsPackage"));
-//	   resourceSet.getPackageRegistry().put("http://www.moflon.org.SDMLanguage.precompiler",
-//			   new PluginPackageDescriptor("org.moflon.SDMLanguage", "SDMLanguage.precompiler.PrecompilerPackage"));
-   }
-   
-   public void loadDependencies(Iterable<Dependency> resourcesToLoad) {
+   public void loadDependencies(final Iterable<Dependency> resourcesToLoad) {
       // Handle Ecore dependencies
       for (Dependency dependency : resourcesToLoad) {
          dependency.getResource(resourceSet, false);
       }
    }
 
-   public final Resource loadResource(Dependency resourceLoader, boolean loadContent) {
+   public final Resource loadResource(final Dependency resourceLoader, final boolean loadContent) {
       return resourceLoader.getResource(resourceSet, loadContent);
    }
    
-   public Resource loadMetamodel(URI ecoreURI) {
+   public Resource loadMetamodel(final URI ecoreURI) {
       // Load Ecore model (i.e., the metamodel)
       PackageRemappingDependency resourceHandler =
             new PackageRemappingDependency(ecoreURI, true, false);
