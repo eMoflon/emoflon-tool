@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EOperation;
+import org.gervarro.democles.emoflon.templates.JavaClassGenerator;
 import org.moflon.codegen.InjectionHandlingImportManager;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.moca.inject.InjectionManager;
@@ -30,6 +31,10 @@ import org.moflon.moca.inject.util.InjectionRegions;
 abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter {
 	private JETEmitterDescriptor[] emitterDescriptors;
 	
+	/**
+	 * Registers {@link JavaClassGenerator} as code-generating class for EMF classes. 
+	 * @param generatorAdapterFactory
+	 */
 	public MoflonClassGeneratorAdapter(final GeneratorAdapterFactory generatorAdapterFactory) {
 		super(generatorAdapterFactory);
 		emitterDescriptors = new JETEmitterDescriptor[] { new JETEmitterDescriptor("model/Class.javajet",

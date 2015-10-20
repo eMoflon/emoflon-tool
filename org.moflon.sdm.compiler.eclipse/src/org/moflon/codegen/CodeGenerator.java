@@ -41,15 +41,6 @@ public class CodeGenerator
 	   return eOperation != null && EcoreUtil.getExistingAdapter(eOperation, "cf") != null;
    }
 
-//   public void generateCode(final URI genModelURI)
-//   {
-//      final ResourceSet resourceSet = new ResourceSetImpl();
-//      final Resource genModelResource = resourceSet.getResource(genModelURI, true);
-//      final GenModel genModel = (GenModel) genModelResource.getContents().get(0);
-//      methodBodyHandler.processGenModel(genModel);
-//      generateCode(genModel);
-//   }
-
    public final IStatus generateCode(final GenModel genModel)
    {
       return generateCode(genModel, new BasicMonitor());
@@ -96,6 +87,9 @@ public class CodeGenerator
       return signature;
    }
 
+   /**
+    * Returns the name of the associated Java class of the given type.
+    */
    private static final String getNameOfClassifier(final EClassifier type)
    {
       return type.getInstanceTypeName() != null ? type.getInstanceTypeName() : type.getName();

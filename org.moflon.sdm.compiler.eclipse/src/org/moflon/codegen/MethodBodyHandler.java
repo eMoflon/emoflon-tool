@@ -17,7 +17,18 @@ import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.eclipse.job.IMonitoredJob;
 
 public interface MethodBodyHandler {
+   /**
+    * Creates a validator job for the given package
+    */
 	public IMonitoredJob createValidator(EPackage ePackage);
+	
+	/**
+	 * Creates a job for processing the associated gen model of the given resource.
+	 */
 	public IMonitoredJob createGenModelProcessor(MoflonCodeGenerator codeGenerator, Resource resource);
+	
+	/**
+	 * Creates a descriptor for code generator of the method bodies.
+	 */
 	public Descriptor createCodeGenerationEngine(MoflonCodeGenerator codeGenerator, Resource resource);
 }

@@ -25,19 +25,22 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 	private ImportManager democlesImportManager = ImportManager.EMPTY_IMPORT_MANAGER;
 
 	public DemoclesClassGeneratorAdapter(
-			DemoclesGeneratorAdapterFactory generatorAdapterFactory) {
+			final DemoclesGeneratorAdapterFactory generatorAdapterFactory) {
 		super(generatorAdapterFactory);
 	}
 
-	public DemoclesGeneratorAdapterFactory getAdapterFactory() {
+	@Override
+   public DemoclesGeneratorAdapterFactory getAdapterFactory() {
 		return (DemoclesGeneratorAdapterFactory) adapterFactory;
 	}
 	
-	public boolean isAdapterForType(Object type) {
+	@Override
+   public boolean isAdapterForType(final Object type) {
 		return type instanceof Class && ((Class<?>) type).isAssignableFrom(getClass());
 	}
 	
-	protected void generateClass(GenClass genClass, Monitor monitor) {
+	@Override
+   protected void generateClass(final GenClass genClass, final Monitor monitor) {
 		if (!genClass.isInterface()) {
 			// Resolve imports in a code generation dry-run
 			democlesImportManager = new DemoclesToGenModelImportManager(genClass.getGenModel());
@@ -52,11 +55,13 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 		super.generateClass(genClass, monitor);
 	}
 
+   @Override
 	public boolean hasGeneratedMethodBody(final EOperation eOperation) {
 		return super.hasGeneratedMethodBody(eOperation) || 
 				eOperation != null && EcoreUtil.getExistingAdapter(eOperation, "cf") != null;
 	}
-	   
+
+   @Override
 	public String getGeneratedMethodBody(final EOperation eOperation) {
 		String generatedMethodBody = null;
 
@@ -88,6 +93,7 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 		return generatedMethodBody;
 	}
 
+	@Override
 	public String getInjectedCode(final boolean isImplementation) {
 		// Produces pattern matching code
 		final StringBuilder code = new StringBuilder();

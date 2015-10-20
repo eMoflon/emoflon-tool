@@ -21,13 +21,14 @@ public class PatternMatcherCompiler extends PatternMatcherImpl {
 	final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder;
 	final CompilerPatternBuilder compilablePatternBuilder;
 
-	public PatternMatcherCompiler(EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder,
-			CompilerPatternBuilder compilerPatternBuilder) {
+	public PatternMatcherCompiler(final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder,
+			final CompilerPatternBuilder compilerPatternBuilder) {
 		this.patternBuilder = patternBuilder;
 		this.compilablePatternBuilder = compilerPatternBuilder;
 	}
 
-	public ValidationReport generateSearchPlan(Pattern pattern, Adornment adornment, boolean isMultipleMatch) {
+	@Override
+   public ValidationReport generateSearchPlan(final Pattern pattern, final Adornment adornment, final boolean isMultipleMatch) {
 		ValidationReport report = ValidationResultFactory.eINSTANCE.createValidationReport();
 		try {
 			generateSearchPlan(compilePattern(pattern, adornment), adornment);
@@ -40,18 +41,18 @@ public class PatternMatcherCompiler extends PatternMatcherImpl {
 		return report;
 	}
 	
-	protected CompilerPattern compilePattern(Pattern pattern, Adornment adornment) {
+	protected CompilerPattern compilePattern(final Pattern pattern, final Adornment adornment) {
 		org.gervarro.democles.specification.impl.DefaultPattern patternRuntime = 
 				patternBuilder.build(pattern);
 		return compilablePatternBuilder.build(patternRuntime);
 	}
 	
-	static Chain<GeneratorOperation> generateSearchPlan(CompilerPattern pattern, Adornment adornment) {
+	static Chain<GeneratorOperation> generateSearchPlan(final CompilerPattern pattern, final Adornment adornment) {
 		CompilerPatternBody body = pattern.getBodies().get(0);
 		return generateSearchPlan(body, adornment);
 	}
 	
-	static Chain<GeneratorOperation> generateSearchPlan(CompilerPatternBody body, Adornment adornment) {
+	static Chain<GeneratorOperation> generateSearchPlan(final CompilerPatternBody body, final Adornment adornment) {
 		return body.getHeader().getBuilder().generateReverseSearchPlan(body.getOperations(), body.calculateAdornment(adornment));
 	}
 }

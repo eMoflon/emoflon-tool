@@ -157,6 +157,9 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       }
    }
 
+   /**
+    * Loads the injections from the /injection folder 
+    */
    private IStatus createInjections(final IProject project, final GenModel genModel) throws CoreException
    {
       IFolder injectionFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());

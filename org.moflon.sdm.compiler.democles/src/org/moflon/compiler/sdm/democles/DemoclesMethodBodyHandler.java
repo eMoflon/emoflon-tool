@@ -111,15 +111,22 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 		extensionToFactoryMap.put(EXPRESSION_FILE_EXTENSION, expressionFactory);
 	}
 
-	public IMonitoredJob createValidator(final EPackage ePackage) {
+	@Override
+   public IMonitoredJob createValidator(final EPackage ePackage) {
 		return new DemoclesValidatorTask(scopeValidatorConfiguration.createScopeValidator(), ePackage);
 	}
 	
+	/**
+	 * Default null implementation 
+	 */
 	@Override
 	public IMonitoredJob createGenModelProcessor(final MoflonCodeGenerator codeGenerator, final Resource resource) {
 		return new NoOperationTask("GenModel processing");
 	}
 
+	/**
+	 * Creates, configures and returns a {@link DemoclesGeneratorAdapterFactory}
+	 */
 	@Override
 	public Descriptor createCodeGenerationEngine(final MoflonCodeGenerator codeGenerator, final Resource resource) {
 		final TemplateConfigurationProvider templateConfig =

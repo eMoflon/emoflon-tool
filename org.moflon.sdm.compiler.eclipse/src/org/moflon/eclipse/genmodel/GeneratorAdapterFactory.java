@@ -15,13 +15,20 @@ import org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapter
 import org.eclipse.emf.common.notify.Adapter;
 import org.moflon.moca.inject.InjectionManager;
 
+/**
+ * This class provides the {@link InjectionManager}, which handles the code to be placed inside a method body.
+ * 
+ * It is embedded in the EMF code generation process inside the files 'insert.javajetinc' and 'Header.javajetinc'.
+ */
 public class GeneratorAdapterFactory extends GenModelGeneratorAdapterFactory {
 	protected InjectionManager injectionManager;
 
-	public Adapter createGenModelAdapter() {
+	@Override
+   public Adapter createGenModelAdapter() {
 		if (genModelGeneratorAdapter == null) {
 			genModelGeneratorAdapter = new GenModelGeneratorAdapter(this) {
-				public boolean canGenerateModel(Object object) {
+				@Override
+            public boolean canGenerateModel(final Object object) {
 					return false;
 				}
 			};
@@ -29,7 +36,8 @@ public class GeneratorAdapterFactory extends GenModelGeneratorAdapterFactory {
 		return genModelGeneratorAdapter;
 	}
 
-	public Adapter createGenPackageAdapter() {
+	@Override
+   public Adapter createGenPackageAdapter() {
 		if (genPackageGeneratorAdapter == null) {
 			genPackageGeneratorAdapter = new GenPackageGeneratorAdapter(this);
 		}
