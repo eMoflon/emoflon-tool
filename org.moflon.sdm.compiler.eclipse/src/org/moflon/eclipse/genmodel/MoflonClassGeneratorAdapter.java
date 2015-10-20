@@ -30,7 +30,7 @@ import org.moflon.moca.inject.util.InjectionRegions;
 abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter {
 	private JETEmitterDescriptor[] emitterDescriptors;
 	
-	public MoflonClassGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory) {
+	public MoflonClassGeneratorAdapter(final GeneratorAdapterFactory generatorAdapterFactory) {
 		super(generatorAdapterFactory);
 		emitterDescriptors = new JETEmitterDescriptor[] { new JETEmitterDescriptor("model/Class.javajet",
 				"org.gervarro.democles.emoflon.templates.JavaClassGenerator") };
@@ -82,11 +82,13 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
 		}
 	}
 
-	public GeneratorAdapterFactory getAdapterFactory() {
+	@Override
+   public GeneratorAdapterFactory getAdapterFactory() {
 		return (GeneratorAdapterFactory) adapterFactory;
 	}
 
-	protected void ensureContainerExists(URI workspacePath, Monitor monitor) {
+	@Override
+   protected void ensureContainerExists(final URI workspacePath, final Monitor monitor) {
 		try {
 			if (EMFPlugin.IS_ECLIPSE_RUNNING) {
 				super.ensureContainerExists(workspacePath, monitor);
@@ -105,7 +107,8 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
 		}
 	}
 
-	protected JETEmitter getJETEmitter(JETEmitterDescriptor[] jetEmitterDescriptors, int id) {
+	@Override
+   protected JETEmitter getJETEmitter(final JETEmitterDescriptor[] jetEmitterDescriptors, final int id) {
 		JETEmitter jetEmitter = super.getJETEmitter(jetEmitterDescriptors, id);
 		if (!EMFPlugin.IS_ECLIPSE_RUNNING) {
 			try {
@@ -123,21 +126,24 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
 		return jetEmitter;
 	}
 
-	protected JETEmitterDescriptor[] getJETEmitterDescriptors() {
+	@Override
+   protected JETEmitterDescriptor[] getJETEmitterDescriptors() {
 		return emitterDescriptors;
 	}
 
 	@Override
-	protected void ensureProjectExists(String workspacePath, Object object, Object projectType, boolean force, Monitor monitor) {
+	protected void ensureProjectExists(final String workspacePath, final Object object, final Object projectType, final boolean force, final Monitor monitor) {
 		monitor.done();
 	}
 
-	protected void createImportManager(String packageName, String className) {
+   @Override
+	protected void createImportManager(final String packageName, final String className) {
 		importManager = new InjectionHandlingImportManager(packageName, true);
 		importManager.addMasterImport(packageName, className);
 		updateImportManager();
 	}
 
+   @Override
 	protected void clearImportManager() {
 		importManager = null;
 		updateImportManager();
@@ -149,7 +155,8 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
 		}
 	}
 
-	protected Diagnostic doPreGenerate(Object object, Object projectType) {
+   @Override
+	protected Diagnostic doPreGenerate(final Object object, final Object projectType) {
 //		if (object instanceof MoflonGenClass && projectType == GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE) {
 //			MoflonGenClass genClass = (MoflonGenClass) object;
 //			genClass.setCodeGenerator(getAdapterFactory().getCodeGenerator());
@@ -157,7 +164,8 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
 		return Diagnostic.OK_INSTANCE;
 	}
 
-	protected Diagnostic doPostGenerate(Object object, Object projectType) {
+   @Override
+	protected Diagnostic doPostGenerate(final Object object, final Object projectType) {
 //		if (object instanceof MoflonGenClass && projectType == GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE) {
 //			MoflonGenClass genClass = (MoflonGenClass) object;
 //			genClass.setCodeGenerator(null);
@@ -165,7 +173,8 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
 		return Diagnostic.OK_INSTANCE;
 	}
 
-	protected void generateJava(String targetPath, String packageName, String className, JETEmitter jetEmitter, Object[] arguments, Monitor monitor) {
+   @Override
+	protected void generateJava(final String targetPath, final String packageName, final String className, final JETEmitter jetEmitter, final Object[] arguments, final Monitor monitor) {
 		Object argument = arguments[0];
 		if (argument instanceof Object[]) {
 			Object[] argumentArray = (Object[]) argument;
