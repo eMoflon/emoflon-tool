@@ -9,17 +9,25 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.moflno.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.core.utilities.UtilityClassNotInstantiableException;
 
 import DemoclesAttributeConstraintSpecification.AttributeConstraintLibrary;
 import DemoclesAttributeConstraintSpecification.DemoclesAttributeConstraintSpecificationFactory;
 import DemoclesAttributeConstraintSpecification.DemoclesAttributeConstraintSpecificationPackage;
 
-public class AttributeConstraintLibUtil
+/**
+ * Utility class for loading and storing the built-in and user-defined attribute constraint libraries.
+ */
+public final class AttributeConstraintLibUtil
 {
+   private AttributeConstraintLibUtil(){
+      throw new UtilityClassNotInstantiableException();
+   }
+   
    public static AttributeConstraintLibrary getBuildInAttributeConstraintLibrary()
    {
 
-      Resource res = loadAttributeConstraintLibraryResource(getUriOfBuiltInLibrary(), false);
+      Resource res = loadAttributeConstraintLibraryResource(getURIOfBuiltInLibrary(), false);
       if (res == null)
       {
          return null;
@@ -28,7 +36,7 @@ public class AttributeConstraintLibUtil
 
    }
 
-   public static URI getUriOfBuiltInLibrary()
+   public static URI getURIOfBuiltInLibrary()
    {
       return URI.createPlatformPluginURI(
             "/" + AttributeConstraintsOperationActivator.getBundleId() + "/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi", true);
@@ -50,8 +58,7 @@ public class AttributeConstraintLibUtil
    public static AttributeConstraintLibrary getUserDefinedAttributeConstraintLibrary(final IProject project)
    {
       String fileName = project.getName() + "AttributeConstraintsLib";
-      String filePath = "/" + project.getName() + "/lib/" + fileName + ".xmi";
-      URI libFileURI = URI.createPlatformResourceURI(filePath, true);
+      URI libFileURI = URI.createPlatformResourceURI("/" + project.getName() + "/lib/" + fileName + ".xmi", true);
       Resource res = loadAttributeConstraintLibraryResource(libFileURI, true);
       AttributeConstraintLibrary attributeConstraintLibrary = null;
       if (res.getContents().size() > 0)
