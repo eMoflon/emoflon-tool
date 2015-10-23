@@ -30,7 +30,10 @@ public class CoreActivator extends Plugin
    // The plug-in ID
 
    // Nature and builder IDs
-   @Deprecated // Use JavaCore.NATURE_ID directly
+   /**
+    * @deprecated Use JavaCore.NATURE_ID directly (since eMoflon 2.2.1)
+    */
+   @Deprecated 
    public static final String JAVA_NATURE_ID = JavaCore.NATURE_ID;
 
    public static final String REPOSITORY_BUILDER_ID = "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
@@ -46,8 +49,6 @@ public class CoreActivator extends Plugin
    public static final String ANTLR_BUILDER_ID = "org.moflon.ide.core.runtime.builders.AntlrBuilder";
 
    public static final String JAVA_WORKING_SET_ID = "org.eclipse.jdt.ui.JavaWorkingSetPage";
-
-   public static final String MOFLON_CLASSPATH_CONTAINER_ID = "org.moflon.ide.MOFLON_CONTAINER";
 
    // The shared instance
    private static CoreActivator plugin;
