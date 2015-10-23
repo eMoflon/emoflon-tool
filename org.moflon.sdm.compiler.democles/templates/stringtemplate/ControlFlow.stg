@@ -1,3 +1,6 @@
+// All 'scope' parameters in this template are instances of ControlFlow.Scope
+// All 'node' parameters in this template are instances of ControlFlow.CFNode
+
 group ControlFlow;
 
 ScopeImpl(scope, importManager) ::= <<

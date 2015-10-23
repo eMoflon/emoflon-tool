@@ -16,8 +16,9 @@ import org.gervarro.democles.specification.impl.Variable;
 
 public class AttributeAssignmentTemplateProvider implements CodeGeneratorProvider<Chain<TemplateController>> {
 
-	public final Chain<TemplateController> getTemplateController(
-			GeneratorOperation operation, Chain<TemplateController> tail) {
+	@Override
+   public final Chain<TemplateController> getTemplateController(
+			final GeneratorOperation operation, final Chain<TemplateController> tail) {
 		Adornment adornment = operation.getPrecondition();
 		if (adornment.get(0) == Adornment.FREE && adornment.get(1) == Adornment.BOUND) {
 			ConstraintType type = (ConstraintType) operation.getType();
@@ -40,7 +41,7 @@ public class AttributeAssignmentTemplateProvider implements CodeGeneratorProvide
 	}
 
 	@Override
-	public final boolean isResponsibleFor(GeneratorOperation operation) {
+	public final boolean isResponsibleFor(final GeneratorOperation operation) {
 		return operation != null && operation.getType() instanceof CoreConstraintType;
 	}
 	

@@ -37,6 +37,7 @@ import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 
 import SDMLanguage.activities.Activity;
 
+//TODO@gervarro: What is this application for? Is it for testing the code generator in separation? (rkluge)
 public class EMoflonCodeGenerationApp extends GenModelBuilder
 {
    static final String TAG_PACKAGE = "package";
