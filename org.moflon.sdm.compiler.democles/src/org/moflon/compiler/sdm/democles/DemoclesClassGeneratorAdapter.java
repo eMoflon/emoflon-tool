@@ -58,7 +58,7 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
    @Override
 	public boolean hasGeneratedMethodBody(final EOperation eOperation) {
 		return super.hasGeneratedMethodBody(eOperation) || 
-				eOperation != null && EcoreUtil.getExistingAdapter(eOperation, "cf") != null;
+				eOperation != null && EcoreUtil.getExistingAdapter(eOperation, DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION) != null;
 	}
 
    @Override
