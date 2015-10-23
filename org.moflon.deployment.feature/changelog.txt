@@ -18,3 +18,4 @@
 2015-10-17	When loading moflon.properties.xmi, all obsolete elements are now automatically removed.
 2015-10-18	eMoflon 2.3.0 released
 ---
+2015-10-23	Add project org.moflon.core.injection
