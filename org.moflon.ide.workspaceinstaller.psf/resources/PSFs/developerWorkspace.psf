@@ -59,12 +59,6 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.pattern,SDMLanguageToDemocles"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.validation.controlflow,Sequencer"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.validation.result,ValidationResult"/>
-
-<!--<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.codegen2,org.moflon.sdm.codegen2"/>-->
-<!--<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.codegen2.ecore2fujaba,org.moflon.sdm.codegen2.ecore2fujaba"/>-->
-<!--<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.codegen2.feature,org.moflon.sdm.codegen2.feature"/>-->
-<!--<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.codegen2.runtime,org.moflon.sdm.codegen2.runtime"/>-->
-
 </provider>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1439495637713_21" label="org.moflon.core" name="org.moflon.core">
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.languages.specification" type="4"/>
