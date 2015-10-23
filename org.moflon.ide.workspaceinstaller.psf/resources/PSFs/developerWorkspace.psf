@@ -12,6 +12,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.mocatomoflon,org.moflon.core.mocatomoflon"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.ecore2mocaxmi.specification,org.moflon.core.ecore2mocaxmi.specification"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.ecore2mocaxmi,org.moflon.core.ecore2mocaxmi"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.injection,org.moflon.core.injection"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.moca.tree,MocaTree"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.propertycontainer,MoflonPropertyContainer"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles,org.moflon.compiler.sdm.democles"/>
