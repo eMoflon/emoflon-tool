@@ -59,7 +59,10 @@ partial class RuleRefinementPrecompilerImpl {
 		////////////////////////////////
 		for (List<TGGObjectVariable> ovList : ovCollection.values()) {
 			for (int i = 1; i < ovList.size(); i++) {
+				// refine type and accumulate constraints and assignments
 				this.unifyType(ovList.get(i), ovList.get(0));
+				ovList.get(0).getAttributeAssignment().addAll(ovList.get(i).getAttributeAssignment());
+				ovList.get(0).getConstraint().addAll(ovList.get(i).getConstraint());
 			}
 
 			boolean setContext = ovList.stream()
@@ -70,7 +73,6 @@ partial class RuleRefinementPrecompilerImpl {
 			boolean setNegative = ovList.stream().filter(ov -> ov.getBindingSemantics().equals(BindingSemantics.NEGATIVE)).count() != 0;
 			if (setNegative) 
 				ovList.get(0).setBindingSemantics(BindingSemantics.NEGATIVE);
-			
 			
 			unifyTargetRule.getObjectVariable().add(ovList.get(0));
 		}
