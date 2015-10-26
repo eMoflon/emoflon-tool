@@ -40,7 +40,7 @@ public class CreateInjectionHandler extends AbstractCommandHandler
       } else if (selection instanceof ITextSelection)
       {
          final IEditorPart editor = HandlerUtil.getActiveEditor(event);
-         javaFile = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+         javaFile = editor.getEditorInput().getAdapter(IFile.class);
       }
 
       if (javaFile != null)
@@ -112,17 +112,17 @@ public class CreateInjectionHandler extends AbstractCommandHandler
                // insert the contents
                final IProject project = javaFile.getProject();
                project.getFile(fullInjectionPath).delete(true, new NullProgressMonitor());
-               logger.info("Created injection file for '" + fullyQualifiedClassname + "'.");
+               logger.info(String.format("Created injection file for class %s (FQN='%s').", className, fullyQualifiedClassname));
 
                WorkspaceHelper.addAllFoldersAndFile(project, fullInjectionPath, injContent, new NullProgressMonitor());
             } else
             {
-               logger.debug("Not creating injection file for  " + javaFile.getFullPath() + " because no model code were found.");
+               logger.debug("Not creating injection file for  " + javaFile.getFullPath() + " because no model code was found.");
             }
          }
       } catch (final CoreException ex)
       {
-         logger.error("Unable to create injection code for " + javaFile + " due to " + ex);
+         logger.error("Unable to create injection code for file " + javaFile + ". Reason: " + ex);
       }
    }
 
