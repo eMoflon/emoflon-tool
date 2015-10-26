@@ -45,7 +45,7 @@ public class MoflonPropertiesContainerHelper
 
    // This is the list of XML element tagnames that are no longer supported
    private static final List<String> OBSOLETE_TAGNAMES = Arrays.asList("buildFilter", "core", "debugMode", "genSdmRpCoverageInstrumentation",
-         "genTracingInstrumentation", "injectionErrorHandling", "listShuffling", "strictSDMConditionalBranching");
+         "genTracingInstrumentation", "injectionErrorHandling", "listShuffling", "skipValidation", "strictSDMConditionalBranching");
 
    public static MoflonPropertiesContainer load(final IProject project, final IProgressMonitor monitor)
    {
