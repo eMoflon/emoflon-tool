@@ -37,7 +37,7 @@ public class BreakpointBuilder extends AbstractBuilder
     * reported the builder runs.
     */
    @Override
-   protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException
+   protected IProject[] build(final int kind, final Map<String, String> args, final IProgressMonitor monitor) throws CoreException
    {
       IMarker[] findMarkers = getProject().findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
       long count = Arrays.asList(findMarkers).stream().filter(m -> {
