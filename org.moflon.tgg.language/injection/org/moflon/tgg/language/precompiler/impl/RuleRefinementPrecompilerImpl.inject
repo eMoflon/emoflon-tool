@@ -1,10 +1,16 @@
 
+import java.util.HashMap;
+import org.moflon.tgg.language.TGGLinkVariable;
+import java.util.List;
+import java.util.ArrayList;
+import SDMLanguage.patterns.BindingOperator;
+import SDMLanguage.patterns.BindingSemantics;
+
 partial class RuleRefinementPrecompilerImpl {
 
 
 
 @model unifyLinkVariables (TGGRule unitedRule, TGGRule unifyTargetRule) <--
-
 
 		HashMap<String, List<TGGLinkVariable>> lvCollection = new HashMap();
 		for (LinkVariable lv : unifyTargetRule.getLinkVariable()) {
@@ -24,19 +30,20 @@ partial class RuleRefinementPrecompilerImpl {
 			if (setContext)
 				lvList.get(0).setBindingOperator(BindingOperator.CHECK_ONLY);
 
-			boolean setNegative = lvList.stream().filter(lv -> lv.getBindingSemantics().equals(BindingSemantics.NEGATIVE)).count() != 0;
-			if (setNegative) 
+			boolean setNegative = lvList.stream()
+					.filter(lv -> lv.getBindingSemantics().equals(BindingSemantics.NEGATIVE)).count() != 0;
+			if (setNegative)
 				lvList.get(0).setBindingSemantics(BindingSemantics.NEGATIVE);
-			
+
 			unifyTargetRule.getLinkVariable().add(lvList.get(0));
 		}
-		
+
 		// repair lvs to point to ovs that lie in the newly unified rule
 		HashMap<String, ObjectVariable> ovMapping = new HashMap();
-		for(ObjectVariable ov : unifyTargetRule.getObjectVariable())
+		for (ObjectVariable ov : unifyTargetRule.getObjectVariable())
 			ovMapping.put(ov.getName(), ov);
-		
-		for(LinkVariable lv : unifyTargetRule.getLinkVariable()) {
+
+		for (LinkVariable lv : unifyTargetRule.getLinkVariable()) {
 			lv.setSource(ovMapping.get(lv.getSource().getName()));
 			lv.setTarget(ovMapping.get(lv.getTarget().getName()));
 		}
@@ -70,10 +77,11 @@ partial class RuleRefinementPrecompilerImpl {
 			if (setContext)
 				ovList.get(0).setBindingOperator(BindingOperator.CHECK_ONLY);
 
-			boolean setNegative = ovList.stream().filter(ov -> ov.getBindingSemantics().equals(BindingSemantics.NEGATIVE)).count() != 0;
-			if (setNegative) 
+			boolean setNegative = ovList.stream()
+					.filter(ov -> ov.getBindingSemantics().equals(BindingSemantics.NEGATIVE)).count() != 0;
+			if (setNegative)
 				ovList.get(0).setBindingSemantics(BindingSemantics.NEGATIVE);
-			
+
 			unifyTargetRule.getObjectVariable().add(ovList.get(0));
 		}
 -->
