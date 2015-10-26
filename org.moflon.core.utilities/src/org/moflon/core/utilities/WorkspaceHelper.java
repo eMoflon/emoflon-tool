@@ -104,11 +104,15 @@ public class WorkspaceHelper
 
    public static final String PLUGIN_ID_ECORE = "org.eclipse.emf.ecore";
 
+   public static final String PLUGIN_ID_EMF_COMMON = "org.eclipse.emf.common";
+
    public static final String PLUGIN_ID_ECORE_XMI = "org.eclipse.emf.ecore.xmi";
 
    public static final String PLUGIN_ID_ECLIPSE_RUNTIME = "org.eclipse.core.runtime";
 
-   public static final String PLUGIN_ID_LOG4J = "org.apache.log4j;bundle-version=\"1.2.15\"";
+   public static final String PLUGIN_ID_LOG4J = "org.apache.log4j";
+
+   public static final String DEFAULT_LOG4J_DEPENDENCY = PLUGIN_ID_LOG4J + ";bundle-version=\"1.2.15\"";
 
    public static final String PLUGIN_ID_APACHE_COMMONS_LANG3 = "org.apache.commons.lang3;bundle-version=\"3.1.0\"";
 

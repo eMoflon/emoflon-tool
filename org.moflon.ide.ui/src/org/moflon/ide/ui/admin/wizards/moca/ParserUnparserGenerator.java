@@ -86,7 +86,7 @@ public class ParserUnparserGenerator extends AbstractFileGenerator {
 		try {
 			new ManifestFileUpdater().processManifest(project,
 					manifest -> ManifestFileUpdater.updateDependencies(manifest,
-							Arrays.asList(new String[] { WorkspaceHelper.PLUGIN_ID_LOG4J, MocaTreePlugin.getDefault().getPluginId(),
+							Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, MocaTreePlugin.getDefault().getPluginId(),
 									MocaPlugin.getDefault().getPluginId() })));
 		} catch (Exception e) {
 			logger.error("Unable to add MOCA as dependency to project: " + e.getMessage());

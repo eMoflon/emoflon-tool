@@ -101,7 +101,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable {
 				try {
 					if (currentProject.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
 						changed |= ManifestFileUpdater.updateDependencies(manifest,
-								Arrays.asList(new String[] { WorkspaceHelper.PLUGIN_ID_LOG4J,
+								Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY,
 										MocaTreePlugin.getDefault().getPluginId(), WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME,
 										SDMLanguagePlugin.getDefault().getPluginId(), TGGLanguageActivator.getDefault().getPluginId(),
 										TGGRuntimePlugin.getDefault().getPluginId(), DebugLanguagePlugin.getDefault().getPluginId() }));
