@@ -19,3 +19,6 @@
 2015-10-18	eMoflon 2.3.0 released
 ---
 2015-10-23	Add project org.moflon.core.injection
+2015-10-26	Issue #574: NPEs during TGG build.
+2015-10-26	eMoflon 2.4.0 released
+---
