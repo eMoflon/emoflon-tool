@@ -9,7 +9,6 @@ import javax.lang.model.element.TypeElement;
 import demo.codeanalyzer.common.model.ClassFile;
 import demo.codeanalyzer.common.model.ClassModelMap;
 import demo.codeanalyzer.common.model.ErrorDescription;
-import demo.codeanalyzer.common.model.ErrorDescription;
 import demo.codeanalyzer.common.util.CodeAnalyzerUtil;
 
 /**
@@ -38,10 +37,11 @@ public class RulesEngine
    {
 
       ClassFile clazzInfo = ClassModelMap.getInstance().getClassInfo(className);
-      for (JavaCodeRule rule : getRules())
+      for (JavaCodeRule<TypeElement> rule : getRules())
       {
          // apply class-level rules
-         Collection<ErrorDescription> problems = rule.execute(clazzInfo);
+         @SuppressWarnings("unchecked")
+         Collection<ErrorDescription> problems = (Collection<ErrorDescription>)rule.execute(clazzInfo);
          if (problems != null)
          {
             problemsFound.addAll(problems);

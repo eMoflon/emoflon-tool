@@ -24,10 +24,10 @@ import org.apache.log4j.SimpleLayout;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EObject;
 import org.example.processor.internal.CodeAnalyzerProcessor;
-import org.junit.Assert;
-import org.junit.Test;
+import org.moflon.TGGLanguageActivator;
+import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.debug.core.Activator;
 import org.moflon.ide.debug.core.model.MoflonDebugTarget;
@@ -43,9 +43,9 @@ import org.moflon.tgg.debug.language.DebugModel;
 import org.moflon.tgg.debug.language.DeletionPhase;
 import org.moflon.tgg.debug.language.InitializationPhase;
 import org.moflon.tgg.debug.language.LanguageFactory;
-import org.moflon.tgg.debug.language.LanguagePackage;
 import org.moflon.tgg.debug.language.TranslationBreakpoint;
 import org.moflon.tgg.debug.language.TranslationPhase;
+import org.moflon.tgg.runtime.TGGRuntimePlugin;
 
 import com.sun.tools.javac.api.JavacTool;
 import com.sun.tools.javac.util.Pair;
@@ -71,17 +71,17 @@ public class DebugAnnotation
 
    private IWorkspaceRoot root;
 
-   public void setBaseLocation(URL baseLocation)
+   public void setBaseLocation(final URL baseLocation)
    {
       this.baseLocation = baseLocation;
    }
 
-   public void setWorkspaceRoot(IWorkspaceRoot root)
+   public void setWorkspaceRoot(final IWorkspaceRoot root)
    {
       this.root = root;
    }
 
-   private File computeSourceFile(Class<?> clazz)
+   private File computeSourceFile(final Class<?> clazz)
    {
       if (baseLocation == null)
       {
@@ -104,7 +104,6 @@ public class DebugAnnotation
     * 
     * @throws Exception
     */
-   @Test
    public void computeDebugAnnotations() throws Exception
    {
       // http://stackoverflow.com/questions/15513330/toolprovider-getsystemjavacompiler-returns-null-usable-with-only-jre-install
@@ -115,9 +114,10 @@ public class DebugAnnotation
       JavaCompiler compiler = JavacTool.create();
 
       log.info("compiler: " + compiler);
-      Assert.assertNotNull("No Java Compiler was found. Please ensure that you are using a JDK. "
-            + "Actions: Run this class with a JDK. Therefore, e.g. configure the JDK in your"
-            + " Eclipse and check the Launch Configuration (see JRE tab) to be configured with a valid JDK.", compiler);
+      if (compiler == null)
+         throw new IllegalArgumentException("No Java Compiler was found. Please ensure that you are using a JDK. "
+               + "Actions: Run this class with a JDK. Therefore, e.g. configure the JDK in your"
+               + " Eclipse and check the Launch Configuration (see JRE tab) to be configured with a valid JDK.");
 
       // Get a new instance of the standard file manager implementation
       StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
@@ -127,15 +127,15 @@ public class DebugAnnotation
       if (Platform.isRunning())
       {
          ArrayList<String> dependencies = new ArrayList<String>();
-         dependencies.add(FileLocator.getBundleFile(Platform.getBundle("org.apache.log4j")).toString());
-         dependencies.add(FileLocator.getBundleFile(Platform.getBundle("org.eclipse.emf.common")).toString());
-         dependencies.add(FileLocator.getBundleFile(Platform.getBundle("org.eclipse.emf.ecore")).toString());
-         dependencies.add(root.getProject("org.moflon.core.utilities").getLocation().toPortableString() + "/bin");
-         dependencies.add(root.getProject("TGGLanguage").getLocation().toPortableString() + "/bin");
-         dependencies.add(root.getProject("TGGRuntime").getLocation().toPortableString() + "/bin");
+         dependencies.add(FileLocator.getBundleFile(Platform.getBundle(WorkspaceHelper.PLUGIN_ID_LOG4J)).toString());
+         dependencies.add(FileLocator.getBundleFile(Platform.getBundle(WorkspaceHelper.PLUGIN_ID_EMF_COMMON)).toString());
+         dependencies.add(FileLocator.getBundleFile(Platform.getBundle(WorkspaceHelper.PLUGIN_ID_ECORE)).toString());
+         dependencies.add(root.getProject(MoflonUtilitiesActivator.getDefault().getPluginId()).getLocation().toPortableString() + "/bin");
+         dependencies.add(root.getProject(TGGLanguageActivator.getDefault().getPluginId()).getLocation().toPortableString() + "/bin");
+         dependencies.add(root.getProject(TGGRuntimePlugin.getDefault().getPluginId()).getLocation().toPortableString() + "/bin");
          optionList.addElement("-classpath");
          optionList.addElement(StringUtils.join(dependencies, ";"));
-         System.err.println(optionList);
+         log.error("Option list: " + optionList);
       }
 
       Iterable<? extends JavaFileObject> compilationUnits1 = fileManager.getJavaFileObjects(computeSourceFile(SynchronizationHelper.class),
@@ -157,9 +157,8 @@ public class DebugAnnotation
       boolean result = task.call();
       if (!result)
       {
-         log.error(out.toString());
+         throw new IllegalStateException("Compilation failed for reason: " + out.toString());
       }
-      Assert.assertTrue("Compilation failed for some reason.", result);
 
       // Process the result
       Map<Phase, Pair<String, Long>> phaseBreakpoints = ((CodeAnalyzerProcessor) processors.get(0)).getPhaseBreakpoints();
@@ -246,23 +245,23 @@ public class DebugAnnotation
       eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), dm, pluginpath + MoflonDebugTarget.DEBUG_INIT_XMI);
    }
 
-   @Test
-   public void readDebugAnnotation()
-   {
-      Activator a = new Activator();
-      String pluginpath = a.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin", "/");
-
-      LanguagePackage.eINSTANCE.getClass();
-      EObject eobj = eMoflonEMFUtil.loadModel(pluginpath + MoflonDebugTarget.DEBUG_INIT_XMI);
-      DebugModel dm = (DebugModel) eobj;
-      System.out.println("Read Debug Model:");
-      dm.getPhases().forEach(p -> {
-         System.out.print(p.getClass().getSimpleName());
-         p.getBreakpoints().forEach(b -> {
-            System.out.print("-> " + b.getLine() + "\n");
-         });
-      });
-      System.out.println("End Read Debug Model.");
-   }
+   // public void readDebugAnnotation()
+   // {
+   // Activator a = new Activator();
+   // String pluginpath = a.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().replace("/bin",
+   // "/");
+   //
+   // LanguagePackage.eINSTANCE.getClass();
+   // EObject eobj = eMoflonEMFUtil.loadModel(pluginpath + MoflonDebugTarget.DEBUG_INIT_XMI);
+   // DebugModel dm = (DebugModel) eobj;
+   // System.out.println("Read Debug Model:");
+   // dm.getPhases().forEach(p -> {
+   // System.out.print(p.getClass().getSimpleName());
+   // p.getBreakpoints().forEach(b -> {
+   // System.out.print("-> " + b.getLine() + "\n");
+   // });
+   // });
+   // System.out.println("End Read Debug Model.");
+   // }
 
 }
