@@ -31,6 +31,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.eaaddin,org.moflon.ide.eaaddin"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.editor,org.moflon.ide.editor"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.metamodelevolution.core,org.moflon.ide.metamodelevolution.core"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.metamodelevolution.feature,org.moflon.ide.metamodelevolution.feature"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.metamodelevolution.specification,org.moflon.ide.metamodelevolution.specification"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.plugins,org.moflon.ide.plugins"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.ui,org.moflon.ide.ui"/>
