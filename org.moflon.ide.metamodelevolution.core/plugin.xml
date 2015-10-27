@@ -17,4 +17,10 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.ide.metamodelevolution.core.CorePackage" genModel="model/Core.genmodel" uri="platform:/plugin/org.moflon.ide.metamodelevolution.core/model/Core.ecore"/>
   </extension>
+  <extension
+        point="org.moflon.extensionpoints.postmetamodelbuilderhook">
+     <hook
+           class="org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPostMetamodelBuilderHook">
+     </hook>
+  </extension>
 </plugin>
