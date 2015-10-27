@@ -13,7 +13,7 @@ partial class RuleRefinementPrecompilerImpl {
 @model unifyLinkVariables (TGGRule unitedRule, TGGRule unifyTargetRule) <--
 
 		HashMap<String, List<TGGLinkVariable>> lvCollection = new HashMap();
-		for (LinkVariable lv : unifyTargetRule.getLinkVariable()) {
+		for (LinkVariable lv : unitedRule.getLinkVariable()) {
 			String entryName = lv.getSource().getName() + lv.getTarget().getName();
 			if (!lvCollection.containsKey(entryName))
 				lvCollection.put(entryName, new ArrayList());
@@ -54,7 +54,7 @@ partial class RuleRefinementPrecompilerImpl {
 		HashMap<String, List<TGGObjectVariable>> ovCollection = new HashMap();
 
 		// first collect all equally named ovs
-		for (ObjectVariable ov : unifyTargetRule.getObjectVariable()) {
+		for (ObjectVariable ov : unitedRule.getObjectVariable()) {
 			if (!ovCollection.containsKey(ov.getName()))
 				ovCollection.put(ov.getName(), new ArrayList());
 

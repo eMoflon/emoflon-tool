@@ -1,0 +1,21 @@
+
+partial class PrecompileLogImpl {
+
+@members <--
+
+	private class PatternShouldBeEmptyException extends RuntimeException {
+		public PatternShouldBeEmptyException(String message) {
+			super(message);
+		}
+	}
+	
+-->
+
+@model throwPatternShouldBeEmptyException (TGGRule rule) <--
+
+
+		// TODO: implement this method here but do not remove the injection marker 
+		throw new PatternShouldBeEmptyException("The pattern of your rule: " + rule.getName() + " should not contain any elements. (" + rule.getTripleGraphGrammar().getName() + ")");
+-->
+
+}
