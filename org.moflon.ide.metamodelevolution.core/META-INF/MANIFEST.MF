@@ -26,6 +26,7 @@ Require-Bundle: org.eclipse.emf.ecore,
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: TU Darmstadt
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Import-Package: org.eclipse.team.core.diff.provider,
  org.eclipse.ui.handlers
+Bundle-Activator: org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin
