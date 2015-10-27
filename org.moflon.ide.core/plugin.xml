@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.moflon.extensionpoints.postmetamodelbuilderhook" name="Post-Metamodel Builder Hook" schema="schema/org.moflon.extensionpoints.postmetamodelbuilderhook.exsd"/>
+
+</plugin>
