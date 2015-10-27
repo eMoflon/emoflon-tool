@@ -11,6 +11,10 @@
       This feature aggregates plugins that support the automatic co-evolution of meta-models and the code generated from them.
    </description>
 
+   <requires>
+      <import feature="org.moflon.ide.feature" version="2.4.0.qualifier" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="org.moflon.ide.metamodelevolution.core"
          download-size="0"
