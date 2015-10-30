@@ -22,3 +22,4 @@
 2015-10-26	Issue #574: NPEs during TGG build.
 2015-10-26	eMoflon 2.4.0 released
 ---
+2015-10-30  Issue #603: Allow to ignore StoryNodes in SDMs using the tagged value "Moflon::Ignored"
