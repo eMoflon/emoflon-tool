@@ -52,6 +52,9 @@ namespace EAEcoreAddin.Persistency
 
         public void processActivityNode(SQLElement activityNodeEAElement)
         {
+            if (Serialization.MocaTaggableElement.isIgnored(activityNodeEAElement))
+                return;
+
             ActivityNode actNode = null;
             if (activityNodeEAElement.Stereotype == "StoryNode" || activityNodeEAElement.Elements.Count > 0 || (activityNodeEAElement.Elements.Count == 0 && activityNodeEAElement.Notes == "" && activityNodeEAElement.Subtype != 100 && activityNodeEAElement.Subtype != 101))
                 actNode = new StoryNode(repository, activityNodeEAElement);

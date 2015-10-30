@@ -5,6 +5,7 @@ using System.Text;
 using EAEcoreAddin.Modeling.SDMModeling;
 using EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.activities;
 using EAEcoreAddin.SQLWrapperClasses;
+using EAEcoreAddin.Serialization;
 
 namespace EAEcoreAddin.Consistency.Rules.ElementRules.ActivityNodeRules
 {
@@ -13,7 +14,9 @@ namespace EAEcoreAddin.Consistency.Rules.ElementRules.ActivityNodeRules
         public override List<String> doRule(SQLElement eaElement, SQLWrapperClasses.SQLRepository repository)
         {
             List<String> results = new List<string>();
-            
+            if (Serialization.MocaTaggableElement.isIgnored(eaElement))
+                return results;
+
             if (eaElement.Stereotype == SDMModelingMain.StoryNodeStereotype)
             {
                 StoryNode storyNode = new StoryNode(repository, eaElement);

@@ -11,6 +11,7 @@ using EAEcoreAddin.Modeling.ECOREModeling;
 using EAEcoreAddin.Serialization.MocaTree;
 using System.Threading;
 using EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper;
+using EAEcoreAddin.Util;
 
 namespace EAEcoreAddin.Persistency
 {
@@ -147,10 +148,10 @@ namespace EAEcoreAddin.Persistency
 
                 exporter.finalize();
             }
-            catch
+            catch(Exception e)
             {
                 worker.ReportProgress(0, "Error");
-                MessageBox.Show("Something has gone wrong. Try the validation tool and contact the eMoflon team if necessary");
+                MessageBox.Show(EAUtil.formatErrorMessage(e));
             }
         }
 

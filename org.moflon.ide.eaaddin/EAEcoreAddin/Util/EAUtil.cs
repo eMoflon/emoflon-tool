@@ -1076,5 +1076,10 @@ namespace EAEcoreAddin.Util
             return getXMLNodeContentFromSQLQueryString(sqlResult, "ea_guid").Select(id => repository.GetConnectorByGuid(id)).Where(elt => elt != null);
         }
 
+
+        internal static string formatErrorMessage(Exception e)
+        {
+            return "Something has gone wrong. Please check the validation messages and contact the eMoflon team if necessary (contact@emoflon.org).\n\nException: " + e.ToString();
+        }
     }
 }

@@ -144,9 +144,9 @@ namespace EAEcoreAddin.Persistency
                     MessageBox.Show("Due to changes in the eMoflon plugin some projects have to be updated. Please retrieve the SCM locks for the following projects (and all subpackages) and retry the export: \n\n" + pkgStrings );
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                MessageBox.Show("Something has gone wrong. Try the validation tool and contact the eMoflon team if necessary");
+                MessageBox.Show(EAUtil.formatErrorMessage(e));
                 ExportRunning = false;
             }
         }

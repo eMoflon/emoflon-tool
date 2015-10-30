@@ -40,14 +40,6 @@ namespace EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.activities
         }
 
 
-        public override MocaNode serializeToMocaTree()
-        {
-            MocaNode node = new MocaNode("ActivityNode");
-            node.appendChildAttribute("name", this.Name);
-            node.appendChildAttribute(Main.GuidStringName, this.ActivityNodeEAElement.ElementGUID);
-            node.appendChildNode(ActivityNode.OutgoingTransitionsNodeName);
-            return node;
-        }
 
         public override object getObjectToBeTagged()
         {
@@ -59,6 +51,15 @@ namespace EAEcoreAddin.Modeling.SDMModeling.SDMExportWrapper.activities
             EA.Element realElement = ActivityNodeEAElement.getRealElement();
             realElement.Name = this.Name;
             realElement.Update();
+        }
+
+        public override MocaNode serializeToMocaTree()
+        {
+            MocaNode node = new MocaNode("ActivityNode");
+            node.appendChildAttribute("name", this.Name);
+            node.appendChildAttribute(Main.GuidStringName, this.ActivityNodeEAElement.ElementGUID);
+            node.appendChildNode(ActivityNode.OutgoingTransitionsNodeName);
+            return node;
         }
 
         public override void deserializeFromMocaTree(Serialization.MocaTree.MocaNode actNode)

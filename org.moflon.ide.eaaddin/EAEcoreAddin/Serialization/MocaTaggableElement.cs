@@ -15,6 +15,7 @@ namespace EAEcoreAddin.Serialization
     public abstract class MocaTaggableElement : MocaSerializableElement
     {
 
+        private const String IGNORED_TAG_NAME = "Moflon::Ignored";
 
         /// <summary>
         /// The EA Object the TaggedValue should be saved to
@@ -22,8 +23,8 @@ namespace EAEcoreAddin.Serialization
         /// <returns></returns>
         public abstract Object getObjectToBeTagged();
 
-        public abstract  void refreshSQLObject();
-        
+        public abstract void refreshSQLObject();
+
 
         /// <summary>
         /// Serializes the current Object 1. to MocaTree and 2. to XmlDocument and saves the XmlDocument 
@@ -32,18 +33,23 @@ namespace EAEcoreAddin.Serialization
         /// </summary>
         public void saveTreeToEATaggedValue(Boolean updateEaGui)
         {
-            //create xml stub with a single root node
-            XmlDocument xmlDocStub = MocaTreeUtil.createMocaXMLDoc();
-            //parse this object to moca element tree
-            MocaNode treeElement = this.serializeToMocaTree();
+            String documentString = "";
+            if (!this.isIgnored())
+            {
 
-            //parse moca element to xmlElement tree
-            XmlElement serializedMocaRoot = treeElement.serializeToXmlTree(xmlDocStub);
+                //create xml stub with a single root node
+                XmlDocument xmlDocStub = MocaTreeUtil.createMocaXMLDoc();
+                //parse this object to moca element tree
+                MocaNode treeElement = this.serializeToMocaTree();
 
-            //append new xmlElement to xmlDocument
-            xmlDocStub.FirstChild.AppendChild(serializedMocaRoot);
+                //parse moca element to xmlElement tree
+                XmlElement serializedMocaRoot = treeElement.serializeToXmlTree(xmlDocStub);
 
-            String documentString = MocaTreeUtil.xmlDocumentToString(xmlDocStub);
+                //append new xmlElement to xmlDocument
+                xmlDocStub.FirstChild.AppendChild(serializedMocaRoot);
+
+                documentString = MocaTreeUtil.xmlDocumentToString(xmlDocStub);
+            }
 
             if (Import.MainImport.ImportBusy)
             {
@@ -55,12 +61,40 @@ namespace EAEcoreAddin.Serialization
             if (!isLocked())
             {
                 EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(Repository, getObjectToBeTagged(), Main.MoflonExportTreeTaggedValueName, documentString);
-                if(updateEaGui)
-                    doEaGuiStuff();  
+                if (updateEaGui)
+                    doEaGuiStuff();
             }
 
             refreshSQLObject();
 
+        }
+
+        public Boolean isIgnored()
+        {
+            Object taggedObject = getObjectToBeTagged();
+            if (taggedObject is EA.Element)
+            {
+                EA.TaggedValue taggedValue = EAUtil.findTaggedValue(taggedObject as EA.Element, IGNORED_TAG_NAME);
+                if (taggedValue != null && "true".Equals(taggedValue.Value))
+                {
+                    return true;
+                }
+            }
+            else if (taggedObject is SQLElement)
+            {
+                return isIgnored(taggedObject as SQLElement);
+            }
+            return false;
+        }
+
+        public static bool isIgnored(SQLElement taggedObject)
+        {
+            SQLTaggedValue taggedValue = EAUtil.findTaggedValue(taggedObject, IGNORED_TAG_NAME);
+            if (taggedValue != null && "true".Equals(taggedValue.Value))
+            {
+                return true;
+            }
+            return false;
         }
 
         private Boolean isLocked()
@@ -106,7 +140,7 @@ namespace EAEcoreAddin.Serialization
         public Boolean loadTreeFromTaggedValue()
         {
 
-            
+
 
             String tagNotes = "";
 
@@ -142,7 +176,7 @@ namespace EAEcoreAddin.Serialization
 
                 //fill mocanode from xmlElement
                 emptyMocaNode.deserializeFromXmlTree(xmlDocument.FirstChild.FirstChild as XmlElement);
-                
+
                 //fill this from mocanode
 
                 try
