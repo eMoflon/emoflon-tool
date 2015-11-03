@@ -178,6 +178,7 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          eMoflonEMFUtil.addToResourceSet(set, precompiler);
 
          // Precompile rules
+         precompiler.setUseNewImpl(true);
          precompiler.precompileTGG(tgg);
 
          // print refinement precompiling log

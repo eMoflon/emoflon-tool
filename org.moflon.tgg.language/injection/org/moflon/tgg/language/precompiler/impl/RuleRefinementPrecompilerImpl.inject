@@ -14,7 +14,7 @@ partial class RuleRefinementPrecompilerImpl {
 
 		HashMap<String, List<TGGLinkVariable>> lvCollection = new HashMap();
 		for (LinkVariable lv : unitedRule.getLinkVariable()) {
-			String entryName = lv.getSource().getName() + lv.getTarget().getName();
+			String entryName = lv.getSource().getName() + lv.getName() + lv.getTarget().getName();
 			if (!lvCollection.containsKey(entryName))
 				lvCollection.put(entryName, new ArrayList());
 
