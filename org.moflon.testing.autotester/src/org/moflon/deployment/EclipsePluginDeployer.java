@@ -2,6 +2,7 @@ package org.moflon.deployment;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -16,6 +17,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.autotest.AutoTestActivator;
+import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 
 public class EclipsePluginDeployer extends AbstractDeployer
@@ -103,11 +105,6 @@ public class EclipsePluginDeployer extends AbstractDeployer
             IProject sourceProject = (IProject) source;
             IFolder features = sourceProject.getFolder("features");
             IFolder plugins = sourceProject.getFolder("plugins");
-            IFile site = getSiteXmlFile(sourceProject);
-            // IFile associatedSites = sourceProject.getFile("associateSites.xml");
-            IFile indexHtml = sourceProject.getFile("index.html");
-            IFile eaAddinArchive = sourceProject.getFile("ea-ecore-addin.zip");
-
             File featuresFolder = createFeaturesFolderInTarget(target);
 
             for (IResource file : features.members())
@@ -122,13 +119,12 @@ public class EclipsePluginDeployer extends AbstractDeployer
                copyAndReportMissingFile(file.getLocation().toFile(), new File(pluginsFolder.getCanonicalPath().toString() + File.separator + file.getName()));
             }
 
-            copyAndReportMissingFile(site.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + site.getName()));
-            // copyAndReportMissingFile(associatedSites.getLocation().toFile(),
-            // new File(target.getCanonicalPath().toString() + File.separator + associatedSites.getName()));
-            copyAndReportMissingFile(indexHtml.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + indexHtml.getName()));
-            copyAndReportMissingFile(eaAddinArchive.getLocation().toFile(),
-                  new File(target.getCanonicalPath().toString() + File.separator + eaAddinArchive.getName()));
-
+            for (IFile file : Arrays.asList(getSiteXmlFile(sourceProject), sourceProject.getFile("index.html"), sourceProject.getFile("ea-ecore-addin.zip"),
+                  sourceProject.getFile("changelog.txt")))
+            {
+               copyAndReportMissingFile(file.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + file.getName()));
+            }
+            
          } else if (source instanceof IFolder)
          {
             for (IResource file : ((IFolder) source).members())
@@ -139,12 +135,9 @@ public class EclipsePluginDeployer extends AbstractDeployer
          {
             copyAndReportMissingFile(source.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + source.getName()));
          }
-      } catch (CoreException e)
+      } catch (CoreException | IOException e)
       {
-         e.printStackTrace();
-      } catch (IOException e)
-      {
-         e.printStackTrace();
+         logger.error(MoflonUtil.displayExceptionAsString(e));
       }
 
    }
