@@ -34,9 +34,12 @@ public class MocaTreeEAPropertiesReader
 
    private Node mocaTree;
 
-   public Map<String, MetamodelProperties> getProperties(final IProject project) throws CoreException
+   /**
+    * Extracts the specification metadata from the MOCA tree in the .temp folder
+    */
+   public Map<String, MetamodelProperties> getProperties(final IProject metamodelProject) throws CoreException
    {
-      IFile mocaFile = WorkspaceHelper.getExportedMocaTree(project);
+      IFile mocaFile = WorkspaceHelper.getExportedMocaTree(metamodelProject);
 
       if (mocaFile.exists())
       {
@@ -49,7 +52,7 @@ public class MocaTreeEAPropertiesReader
          Resource mocaTreeResource = set.getResource(mocaFileURI, true);
          mocaTree = (Node) mocaTreeResource.getContents().get(0);
          Map<String, MetamodelProperties> properties = getProperties(mocaTree);
-         properties.keySet().forEach(p->properties.get(p).setMetamodelProjectName(project.getName()));
+         properties.keySet().forEach(p->properties.get(p).setMetamodelProjectName(metamodelProject.getName()));
          return properties;
       } else
       {
