@@ -1,5 +1,6 @@
 package org.moflon.ide.core.runtime.builders.hooks;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.moflon.core.mocatomoflon.Exporter;
 import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
@@ -18,7 +19,9 @@ public interface PostMetamodelBuilderHook
     *           the Moca tree reader with the stored Moca tree
     * @param exporter
     *           the Moca-to-Moflon transformer instance that has been used by the {@link MetamodelBuilder}
+    * @param project
+    *           the current project
     * @return the execution status of this hook
     */
-   IStatus run(final IStatus mocaToMoflonStatus, final MocaTreeEAPropertiesReader mocaTreeReader, final Exporter exporter);
+   IStatus run(final IStatus mocaToMoflonStatus, final MocaTreeEAPropertiesReader mocaTreeReader, final Exporter exporter, final IProject project);
 }

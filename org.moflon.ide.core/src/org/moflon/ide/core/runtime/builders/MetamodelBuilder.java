@@ -116,7 +116,7 @@ public class MetamodelBuilder extends AbstractBuilder
          try
          {
             PostMetamodelBuilderHook metamodelBuilderHook = (PostMetamodelBuilderHook) extension.createExecutableExtension("class");
-            metamodelBuilderHook.run(mocaToMoflonStatus, mocaTreeReader, exporter);
+            metamodelBuilderHook.run(mocaToMoflonStatus, mocaTreeReader, exporter, getProject());
          } catch (final CoreException e)
          {
             logger.error("Problem during post-build hook: " + e.getMessage());
