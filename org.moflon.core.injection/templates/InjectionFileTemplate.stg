@@ -1,0 +1,34 @@
+group InjectionFileTemplate;
+
+class(className, imports, members, models) ::=<<
+
+$imports:{import | $importTemplate(import)$}; separator="\n"$
+
+partial class $className$ {
+$membersTemplate(members)$			
+$models:{method | $modelTemplate(method)$}; separator="\n"$
+		
+}
+>>
+
+importTemplate(import) ::=<<
+import $import$;
+>>
+
+membersTemplate(members) ::=<<
+
+@members <--
+
+	$members$
+
+-->
+>>
+
+modelTemplate(method) ::=<<
+
+@model $method.name$ ($method.parameters$) <--
+
+	$method.body$
+	
+-->
+>>
