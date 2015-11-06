@@ -28,6 +28,7 @@ import org.moflon.ide.core.properties.MetamodelProjectUtil;
 import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.ResourceFillingMocaToMoflonTransformation;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
+import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
@@ -63,9 +64,10 @@ public class MetamodelBuilder extends AbstractBuilder
          {
             final SubProgressMonitor exporterSubMonitor = WorkspaceHelper.createSubMonitor(monitor, 100);
             Exporter exporter = null;
+            Map<String, MetamodelProperties> properties = null;
             try
             {
-               final Map<String, MetamodelProperties> properties = readProjectProperties();
+               properties = readProjectProperties();
                exporterSubMonitor.beginTask("Running MOCA-to-eMoflon transformation", properties.keySet().size());
 
                exporter = new ResourceFillingMocaToMoflonTransformation(mocaTreeReader.getResourceSet(), properties, exporterSubMonitor);
@@ -116,7 +118,7 @@ public class MetamodelBuilder extends AbstractBuilder
          try
          {
             PostMetamodelBuilderHook metamodelBuilderHook = (PostMetamodelBuilderHook) extension.createExecutableExtension("class");
-            metamodelBuilderHook.run(mocaToMoflonStatus, mocaTreeReader, exporter, getProject());
+            metamodelBuilderHook.run(new PostMetamodelBuilderHookDTO(mocaToMoflonStatus, mocaTreeReader, exporter, getProject()));
          } catch (final CoreException e)
          {
             logger.error("Problem during post-build hook: " + e.getMessage());

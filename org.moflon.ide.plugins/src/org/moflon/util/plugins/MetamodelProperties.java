@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -24,6 +25,7 @@ import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 /**
  * Data transfer object for properties generated together with the metamodel
  *
+ * Instances of this class store the metadata of one repository project.
  */
 public class MetamodelProperties
 {
@@ -58,9 +60,12 @@ public class MetamodelProperties
 
    private Map<String, String> data = new HashMap<>();
 
+   private IProject repositoryProject;
+
    public MetamodelProperties()
    {
       this.data = new HashMap<String, String>();
+      this.repositoryProject = null;
    }
 
    public MetamodelProperties(final Map<String, String> data)
@@ -83,6 +88,24 @@ public class MetamodelProperties
       this.data.put(key, value);
    }
 
+
+   /**
+    * Sets the corresponding repository project (if exists).
+    */
+   public void setRepositoryProject(final IProject project)
+   {
+      this.repositoryProject = project;
+   }
+   
+   /**
+    * Returns the corresponding repository project (if exists).
+    * 
+    * May return null.
+    */
+   public IProject getRepositoryProject() {
+      return this.repositoryProject;
+   }
+   
    public void setMetamodelProjectName(final String metamodelProjectName)
    {
       this.put(METAMODEL_PROJECT_NAME_KEY, metamodelProjectName);

@@ -388,6 +388,8 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
          createMoflonProject.setMetaModelProjectName(properties.getMetamodelProjectName());
 
          ResourcesPlugin.getWorkspace().run(createMoflonProject, new NullProgressMonitor());
+         
+         properties.setRepositoryProject(project);
       } catch (final CoreException e)
       {
          this.reportError(e);
