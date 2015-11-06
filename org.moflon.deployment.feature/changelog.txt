@@ -1,3 +1,40 @@
+    Most eMoflon actions are now accessible through shortcuts (Default: Shift + Alt + E, ?)
+    Detailed error messages for invalid SDM specifications
+    Improved TGG engine: incremental algorithm, added build filters for TGGs, improved domain recognition of TGGs in Enterprise Architect
+    Several bugfixes in Enterprise Architect add-In
+    Several bugfixes/improvements in the textual syntax
+    Changed textual link variable syntax(MOSL): old notation: -> [ReferenceName] : [ObjectVariableName] ---   new notation: -[ReferenceName]-> [ObjectVariableName]
+    Improved Dot visualization (especially for the precedence graph (TGGs))
+
+2014-09-16	eMoflon 1.6.0 released
+---
+
+    New versioning scheme for eMoflon: To simplify distinguishing different versions of eMoflon, we use the following versioning scheme in the future: Version numbers are of the form X.Y.Z. Numbers X and Y denote major and minor releases, while the final number Z denotes beta releases.
+    Plugin-based dependency handling: Since this version, eMoflon uses the Eclipse plugin infrastructure for dependency handling.
+    This also means that you can choose freely whether to use installed plugins or whether to override them with plugin projects in the workspace.
+    Arbitrary project names: Project names may now be any valid package identifier, e.g., org.moflon.utility_functions.
+    New tagged values (EA): The set of possible tagged values in Enterprise Architect has been extended. All tagged values now bear the prefix Moflon::.    
+    Integration of Democles pattern matcher: Improved loop detection; Introduce 'continue' statement in loops; improved validation messages
+    Handbook: Visual syntax completely tested for release; textual syntax: best effort; update of all 'cheat  wizards'
+2015-02-05	eMoflon 1.7.0 released
+---
+
+    Support for Eclipse Mars
+    eMoflon builds and runs on Eclipse Mars.
+    Improved handling of injections:
+        Problems in injection files are now shown as error markers and will not stop the build process
+        eMoflon now has a save action that automatically extracs an injection from a Java file being saved.
+        To enable this feature, select Window -> Preferences -> Java/Editor/SaveActions and enable "Create Injections" under Additional Actions.
+    Solved depency conflict for Apache Log4j, Commons IO, and Commons Lang
+    The previous treatment of these dependencies resulted in conflicts for users that require a different version than the exported one (Opens external link in new windowIssue #374). This issue is now fixed by shipping these libraries as separate bundles.
+    Improved validation error messages
+    Last release with CodeGen2
+    Since the previous release, eMoflon is fully bootstrapped with the Democles code generator. CodeGen2 is provided as a separate feature and support for it is not guaranteed beyond this release.
+
+2015-08-07	eMoflon 2.0.0 released (non-functional release)
+---    
+    
+
 2015-08-??	Fix Stringtemplate bugs
 2015-08-31	eMoflon 2.1.0 released
 
