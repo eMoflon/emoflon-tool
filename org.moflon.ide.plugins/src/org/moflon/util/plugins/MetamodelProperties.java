@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.plugins.MoflonPluginsActivator;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 
@@ -60,12 +61,10 @@ public class MetamodelProperties
 
    private Map<String, String> data = new HashMap<>();
 
-   private IProject repositoryProject;
 
    public MetamodelProperties()
    {
       this.data = new HashMap<String, String>();
-      this.repositoryProject = null;
    }
 
    public MetamodelProperties(final Map<String, String> data)
@@ -90,20 +89,12 @@ public class MetamodelProperties
 
 
    /**
-    * Sets the corresponding repository project (if exists).
-    */
-   public void setRepositoryProject(final IProject project)
-   {
-      this.repositoryProject = project;
-   }
-   
-   /**
     * Returns the corresponding repository project (if exists).
     * 
-    * May return null.
+    * Never returns null, but the resulting project handle may not point to an existing project.
     */
    public IProject getRepositoryProject() {
-      return this.repositoryProject;
+      return WorkspaceHelper.getProjectByName(this.getProjectName());
    }
    
    public void setMetamodelProjectName(final String metamodelProjectName)
