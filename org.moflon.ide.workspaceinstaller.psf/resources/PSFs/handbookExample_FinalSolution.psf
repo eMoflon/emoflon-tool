@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
-<provider id="org.tigris.subversion.subclipse.core.svnnature">
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visual.dictionarySpecification,Dictionary"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visual.dictionaryCodeAdapter,DictionaryCodeAdapter"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visual.dictionaryLanguage,DictionaryLanguage"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visual.learningBoxLanguage,LearningBoxLanguage"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visual.learningBoxToDictionaryIntegration,LearningBoxToDictionaryIntegration"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.leitnersBoxGui,LeitnersBoxGui"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/handbook_examples/org.moflon.doc.handbook.examples.final.visual.learningBoxSpecification,LeitnersLearningBox"/>
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.dictionarySpecification"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.dictionaryCodeAdapter"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.dictionaryLanguage"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.learningBoxLanguage"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.learningBoxToDictionaryIntegration"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.leitnersBoxGui"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.learningBoxSpecification"/>
 </provider>
 </psf>
