@@ -93,7 +93,7 @@ public class DebugAnnotation
          basePath = basePath + "/";
       }
       File file = new File(basePath.replace("%20", " ").replace("/bin/", "/src/") + clazz.getCanonicalName().replace(".", "/") + ".java");
-      log.info("Add source file to list of inspected files: " + file);
+      log.debug("Add source file to list of inspected files: " + file);
       return file;
    }
 
@@ -107,13 +107,13 @@ public class DebugAnnotation
    public void computeDebugAnnotations() throws Exception
    {
       // http://stackoverflow.com/questions/15513330/toolprovider-getsystemjavacompiler-returns-null-usable-with-only-jre-install
-      log.info("JAVA_HOME:" + System.getenv("JAVA_HOME"));
-      log.info("java.home:" + System.getProperty("java.home"));
+      log.debug("JAVA_HOME:" + System.getenv("JAVA_HOME"));
+      log.debug("java.home:" + System.getProperty("java.home"));
 
       // Get an instance of java compiler
       JavaCompiler compiler = JavacTool.create();
 
-      log.info("compiler: " + compiler);
+      log.debug("compiler: " + compiler);
       if (compiler == null)
          throw new IllegalArgumentException("No Java Compiler was found. Please ensure that you are using a JDK. "
                + "Actions: Run this class with a JDK. Therefore, e.g. configure the JDK in your"
@@ -135,7 +135,7 @@ public class DebugAnnotation
          dependencies.add(root.getProject(TGGRuntimePlugin.getDefault().getPluginId()).getLocation().toPortableString() + "/bin");
          optionList.addElement("-classpath");
          optionList.addElement(StringUtils.join(dependencies, ";"));
-         log.error("Option list: " + optionList);
+         log.debug("Option list: " + optionList);
       }
 
       Iterable<? extends JavaFileObject> compilationUnits1 = fileManager.getJavaFileObjects(computeSourceFile(SynchronizationHelper.class),
@@ -241,7 +241,7 @@ public class DebugAnnotation
          pluginpath = root.findMember(a.getClass().getPackage().getName()).getLocation().toPortableString() + "/";
       }
 
-      log.info("Save breakpoints to: " + pluginpath + MoflonDebugTarget.DEBUG_INIT_XMI);
+      log.debug("Save breakpoints to: " + pluginpath + MoflonDebugTarget.DEBUG_INIT_XMI);
       eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), dm, pluginpath + MoflonDebugTarget.DEBUG_INIT_XMI);
    }
 
