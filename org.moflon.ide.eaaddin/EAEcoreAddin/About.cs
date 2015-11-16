@@ -49,7 +49,7 @@ namespace EAEcoreAddin
             get
             {
                 // Change when increasing version
-                return "1.7.0";
+                return "2.5.0";
             }
 
         }
