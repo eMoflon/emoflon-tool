@@ -59,5 +59,9 @@
 2015-10-26	Issue #574: NPEs during TGG build.
 2015-10-26	eMoflon 2.4.0 released
 ---
+2015-10-30	Meta-model-Model Co-Evolution is available as a separate feature
 2015-10-30  Issue #603: Allow to ignore StoryNodes in SDMs using the tagged value "Moflon::Ignored"
 2015-11-06	TGGRule refinements simplified. Note: Results of old refinements may have become malformed.
+2015-11-10	Minor bugfix in import mappings for TGG attribute constraints
+2015-11-16	eMoflon 2.5.0 released
+---
