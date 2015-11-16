@@ -63,5 +63,6 @@
 2015-10-30  Issue #603: Allow to ignore StoryNodes in SDMs using the tagged value "Moflon::Ignored"
 2015-11-06	TGGRule refinements simplified. Note: Results of old refinements may have become malformed.
 2015-11-10	Minor bugfix in import mappings for TGG attribute constraints
+2015-11-13	Issue #607: [Handbook] Make examples accessible without passwort or username 
 2015-11-16	eMoflon 2.5.0 released
 ---
