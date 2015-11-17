@@ -92,6 +92,8 @@ public class CodeGenerator
     */
    private static final String getNameOfClassifier(final EClassifier type)
    {
+      if (type == null)
+         throw new IllegalArgumentException("type may not be null");
       return type.getInstanceTypeName() != null ? type.getInstanceTypeName() : type.getName();
    }
 }
