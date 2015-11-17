@@ -214,7 +214,7 @@
     <Compile Include="Refactoring\CachedClass.cs" />
     <Compile Include="Refactoring\CachedElement.cs" />
     <Compile Include="Refactoring\CachedPackage.cs" />
-    <Compile Include="Refactoring\Refactor.cs" />
+    <Compile Include="Refactoring\Changes.cs" />
     <Compile Include="Server\DataReceiveStrategy.cs" />
     <Compile Include="Server\DataStrategies\AbstractDataReceiveStrategy.cs" />
     <Compile Include="Server\DataStrategies\HighlightObjectReceiveStrategy.cs" />

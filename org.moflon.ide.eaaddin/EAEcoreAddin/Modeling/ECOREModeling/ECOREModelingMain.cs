@@ -179,15 +179,21 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
             if (ot == EA.ObjectType.otElement)
             {
                 SQLElement eaElement = sqlRepository.GetElementByGuid(GUID);
+                
 
                 if (eaElement.Stereotype.ToLower() == EClassStereotype.ToLower() && eaElement.Type == Main.EAClassType)
                 {
                     EClass eClass = new EClass(eaElement, sqlRepository);
                     eClass.saveTreeToEATaggedValue(false);
 
-                    // for Refactoring
+                    SQLPackage package = sqlRepository.GetPackageByID(eaElement.PackageID);
+                    EPackage epackage = new EPackage(package, sqlRepository);
+
+                    String packages = addPackageName(epackage, "", sqlRepository);
+                    // for Change Tracking
                     CachedClass temp = (CachedClass)this.currentElement;
                     temp.name = eaElement.Name;
+                    temp.packageName = packages;
                     temp.saveElementToEATaggedValue();
                 }
                 else if (eaElement.Stereotype.ToLower() == EDatatypeStereotype.ToLower())
@@ -222,6 +228,25 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
             }
             
 
+        }
+        private String addPackageName(EPackage epackage, String path, SQLRepository repository)
+        {
+            if (path.Equals(""))
+            {
+                path = epackage.Name;
+            }
+            else {
+                path = epackage.Name + "." + path;
+            }
+            int parentID = epackage.EaPackage.ParentID;
+            SQLPackage parent = repository.GetPackageByID(parentID);  
+         
+            if (parent.IsModel)
+            {
+                EPackage parentEPackage = new EPackage(parent, repository);
+                return addPackageName(parentEPackage, path, repository);
+            }
+            return path;
         }
 
 

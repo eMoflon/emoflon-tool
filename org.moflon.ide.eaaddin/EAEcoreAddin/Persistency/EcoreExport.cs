@@ -120,7 +120,7 @@ namespace EAEcoreAddin.Persistency
         {
             //this.exportProgressBar.invokePerformNext("exporting EClass: " + eaClass.Name);
 
-            SQLTaggedValue refactorTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaClass, Main.MoflonRefactorTreeTaggedValueName);
+            SQLTaggedValue refactorTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaClass, Main.MoflonChangesTreeTaggedValueName);
 
 
             SQLTaggedValue mocaTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaClass, Main.MoflonExportTreeTaggedValueName);

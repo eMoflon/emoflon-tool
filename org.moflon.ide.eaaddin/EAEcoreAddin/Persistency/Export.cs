@@ -31,7 +31,7 @@ namespace EAEcoreAddin.Persistency
         String tempDirectoryPath;
 
         public MocaNode MocaTree { get; set; }
-        public MocaNode RefactorTree { get; set; }
+        public MocaNode ChangesTree { get; set; }
 
         public Boolean FullExport { get; set; }
         private Dictionary<String, EPackage> packageNameToEPackage = new Dictionary<string, EPackage>();
@@ -44,7 +44,7 @@ namespace EAEcoreAddin.Persistency
 
         public EcoreExport ecoreExport { get; set; }
         public TggExport tggExport { get; set; }
-        public Refactor refactor { get; set; }
+        public Changes changes { get; set; }
 
         public static Boolean ExportRunning = false;
 
@@ -59,10 +59,10 @@ namespace EAEcoreAddin.Persistency
             this.FullExport = fullExport;
             this.ecoreExport = new EcoreExport(sqlrepository, this);
             this.tggExport = new TggExport(sqlrepository, this);
-            this.refactor = new Refactor(sqlrepository, this);
+            this.changes = new Changes(sqlrepository, this);
 
             this.MocaTree = new MocaNode("exportedTree");
-            this.RefactorTree = new MocaNode("refactorTree");
+            this.ChangesTree = new MocaNode("changesTree");
 
             String rootDirectoryPath = Path.GetDirectoryName(sqlrepository.ConnectionString);
             this.tempDirectoryPath = Path.Combine(rootDirectoryPath, ".temp");
@@ -97,12 +97,12 @@ namespace EAEcoreAddin.Persistency
         {
         }
 
-        private void writeDocumentToFile(XmlDocument docToWrite, String refactorExtension)
+        private void writeDocumentToFile(XmlDocument docToWrite, String changesExtension)
         {
             String filePath = null;
             String currentValue = MocaTreeUtil.xmlDocumentToString(docToWrite);
-            if (refactorExtension != null)       
-                filePath = Path.Combine(tempDirectoryPath, fileName + "." + refactorExtension + ".moca.xmi");
+            if (changesExtension != null)       
+                filePath = Path.Combine(tempDirectoryPath, fileName + "." + changesExtension + ".moca.xmi");
             
             else
                 filePath = Path.Combine(tempDirectoryPath, fileName + ".moca.xmi");
@@ -171,7 +171,7 @@ namespace EAEcoreAddin.Persistency
         internal void exportPackage(SQLPackage projectPackage)
         {
             MocaNode outermostPackageNode = null;
-            MocaNode outerMostPackageNodeRefactorTree = null;
+            MocaNode outerMostPackageNodeChangesTree = null;
 
             foreach (SQLDiagram diagram in projectPackage.Diagrams)
             {
@@ -188,7 +188,10 @@ namespace EAEcoreAddin.Persistency
                         EPackage ePackage = new EPackage(projectPackage, Repository);
                         packageNameToEPackage.Add(projectPackage.Name, ePackage);
 
-                        outerMostPackageNodeRefactorTree = refactor.processOutermostPackage(projectPackage);
+                        if (!(projectPackage.Name.Equals("Ecore")) && !(projectPackage.Name.Equals("MocaTree"))) // we don't need the Ecore/MocaTree package in our changes tree
+                        {
+                            outerMostPackageNodeChangesTree = changes.processOutermostPackage(projectPackage);
+                        }
                     
                         break;
                     }
@@ -226,27 +229,27 @@ namespace EAEcoreAddin.Persistency
                     outermostPackageNode.appendChildAttribute(MetamodelHelper.MoflonExportTaggedValueName, "false");
                 }
             }
-            //refactor
-            if (outerMostPackageNodeRefactorTree != null)
+            //track changes
+            if (outerMostPackageNodeChangesTree != null)
             {
-                this.RefactorTree.appendChildNode(outerMostPackageNodeRefactorTree);
-                SQLTaggedValue moflonExportTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(projectPackage, MetamodelHelper.MoflonRefactorTaggedValueName);
+                this.ChangesTree.appendChildNode(outerMostPackageNodeChangesTree);
+                SQLTaggedValue moflonExportTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(projectPackage, MetamodelHelper.MoflonChangesTaggedValueName);
 
-                Boolean createProperyFile = true;
+                Boolean createPropertyFile = true;
 
                 if (moflonExportTag != null && moflonExportTag.Value == "false")
-                    createProperyFile = false;
+                    createPropertyFile = false;
 
                 if (!this.FullExport && !this.packageGuidsToExport.Contains(projectPackage.PackageGUID))
-                    createProperyFile = false;
+                    createPropertyFile = false;
 
-                if (createProperyFile)
+                if (createPropertyFile)
                 {
-                    outerMostPackageNodeRefactorTree.appendChildAttribute(MetamodelHelper.MoflonRefactorTaggedValueName, "true");
+                    outerMostPackageNodeChangesTree.appendChildAttribute(MetamodelHelper.MoflonChangesTaggedValueName, "true");
                 }
                 else
                 {
-                    outerMostPackageNodeRefactorTree.appendChildAttribute(MetamodelHelper.MoflonRefactorTaggedValueName, "false");
+                    outerMostPackageNodeChangesTree.appendChildAttribute(MetamodelHelper.MoflonChangesTaggedValueName, "false");
                 }
             }
         }
@@ -257,10 +260,10 @@ namespace EAEcoreAddin.Persistency
             xmlDoc.DocumentElement.AppendChild(this.MocaTree.serializeToXmlTree(xmlDoc));
             writeDocumentToFile(xmlDoc, null);
 
-            //refactor
+            //track changes
             XmlDocument xmlRefactorDoc = MocaTreeUtil.createMocaXMLDoc();
-            xmlRefactorDoc.DocumentElement.AppendChild(this.RefactorTree.serializeToXmlTree(xmlRefactorDoc));
-            writeDocumentToFile(xmlRefactorDoc, "Refactored");
+            xmlRefactorDoc.DocumentElement.AppendChild(this.ChangesTree.serializeToXmlTree(xmlRefactorDoc));
+            writeDocumentToFile(xmlRefactorDoc, "changes");
 
             ExportRunning = false;
 
@@ -270,7 +273,7 @@ namespace EAEcoreAddin.Persistency
         internal void setWorker(System.ComponentModel.BackgroundWorker worker)
         {
             this.ecoreExport.backgroundWorker = worker;
-            this.refactor.backgroundWorker = worker;
+            this.changes.backgroundWorker = worker;
             this.tggExport.backgroundWorker = worker;
         }
 

@@ -290,7 +290,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
     {
         public static readonly String MoflonCustomPluginIDTaggedValueName = "Moflon::PluginID";
         public static readonly String MoflonExportTaggedValueName = "Moflon::Export";
-        public static readonly String MoflonRefactorTaggedValueName = "Moflon::Refactor";
+        public static readonly String MoflonChangesTaggedValueName = "Moflon::Changes";
         public static readonly String MoflonValidatedTaggedValueName = "Moflon::Validated";
         public static readonly String MoflonWorkingSetTaggedValueName = "Moflon::WorkingSet";
 

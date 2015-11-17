@@ -82,7 +82,7 @@ namespace EAEcoreAddin
         public static readonly String MoflonVerboseTaggedValueName = "Moflon::Verbose";
         public static readonly String MoflonExtractedStoryPatternTaggedValueName = "Moflon::ExtractedStoryPattern";
         public static readonly String MoflonExportTreeTaggedValueName = "Moflon::ExportTree";
-        public static readonly String MoflonRefactorTreeTaggedValueName = "Moflon::RefactorTree";
+        public static readonly String MoflonChangesTreeTaggedValueName = "Moflon::ChangesTree";
 
         public static readonly String MoflonValidationFilterTaggedValueName = "Moflon::ValidationFilter";
         #endregion

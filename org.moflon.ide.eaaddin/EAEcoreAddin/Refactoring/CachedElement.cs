@@ -38,7 +38,7 @@ namespace EAEcoreAddin.Refactoring
 
             String documentString = MocaTreeUtil.xmlDocumentToString(xmlDocStub);
 
-            EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(this.repository, this.element, Main.MoflonRefactorTreeTaggedValueName, documentString);
+            EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(this.repository, this.element, Main.MoflonChangesTreeTaggedValueName, documentString);
 
         }
     }

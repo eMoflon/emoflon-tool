@@ -8,23 +8,25 @@ namespace EAEcoreAddin.Refactoring
 {
     class CachedClass : CachedElement
     {
-        public string oldName;
+        public string previousName;
         public string name;
+        public string packageName;
 
         public override void cache()
         {
             if (this.element != null)
             {
-                this.oldName = this.element.Name;
+                this.previousName = this.element.Name;
             }
         }
 
         public override Serialization.MocaTree.MocaNode serializeToMocaTree()
         {
             //TODO: "Übernehmen"
-            MocaNode eclassNode = new MocaNode("EClassRefactored");     
+            MocaNode eclassNode = new MocaNode("EClass");     
             eclassNode.appendChildAttribute("name", this.name);
-            eclassNode.appendChildAttribute("oldName", this.oldName);
+            eclassNode.appendChildAttribute("previousName", this.previousName);
+            eclassNode.appendChildAttribute("packageName", this.packageName);
             return eclassNode;
         }
     }
