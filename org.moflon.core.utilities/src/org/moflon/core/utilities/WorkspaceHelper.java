@@ -1018,6 +1018,29 @@ public class WorkspaceHelper
 
       return mocaTreeFile;
    }
+   
+   /**
+    * Returns the file handle of the changes MOCA tree of a metamodel project.
+    * 
+    * The MOCA tree may not exist and has to be checked using {@link IFile#exists()}.
+    * 
+    * @param metamodelProject
+    * @return the file handle. Never null.
+    */
+   public static IFile getChangesMocaTree(final IProject metamodelProject)
+   {
+      Function<String, IFile> loadMocaTree = name -> metamodelProject.getFolder(TEMP_FOLDER).getFile(name + ".changes" + MOCA_XMI_FILE_EXTENSION);
+
+      IFile mocaTreeFile = loadMocaTree.apply(metamodelProject.getName());
+
+      if (!mocaTreeFile.exists())
+         mocaTreeFile = loadMocaTree.apply(metamodelProject.getName().toUpperCase());
+
+      if (!mocaTreeFile.exists())
+         mocaTreeFile = loadMocaTree.apply(metamodelProject.getName().toLowerCase());
+
+      return mocaTreeFile;
+   }
 
    /**
     * Returns a handle to the default location of a metamodel file ("ecore file") of a repository or integration

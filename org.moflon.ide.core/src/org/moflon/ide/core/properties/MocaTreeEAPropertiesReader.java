@@ -130,7 +130,7 @@ public class MocaTreeEAPropertiesReader
       return dependencies;
    }
 
-   private String getValueForProperty(final String property, final Node rootPackage) throws CoreException
+   public String getValueForProperty(final String property, final Node rootPackage) throws CoreException
    {
       String value;
       Collection<Attribute> attributes = rootPackage.getAttribute(property);

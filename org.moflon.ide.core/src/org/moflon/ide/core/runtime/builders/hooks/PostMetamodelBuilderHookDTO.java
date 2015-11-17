@@ -34,7 +34,7 @@ public class PostMetamodelBuilderHookDTO
    /**
     * Returns the mapping of project name to project metadata from the MOCA tree of the specification
     */
-   public Map<String, MetamodelProperties> extracRepositoryProjectProperties() throws CoreException {
+   public Map<String, MetamodelProperties> extractRepositoryProjectProperties() throws CoreException {
       return this.mocaTreeReader.getProperties(this.metamodelproject);
    }
 }

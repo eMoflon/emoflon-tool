@@ -23,6 +23,14 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.jface,
  org.eclipse.jface.text;bundle-version="3.10.0",
  org.eclipse.ui,
+ org.moflon.sdm.compiler.eclipse,
+ org.eclipse.emf.codegen.ecore,
+ MoflonPropertyContainer,
+ org.moflon.core.injection,
+ MocaTree,
+ org.eclipse.ltk.core.refactoring,
+ org.eclipse.jdt.core.manipulation,
+  org.moflon.ide.plugins,
  org.moflon.core.mocatomoflon
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
