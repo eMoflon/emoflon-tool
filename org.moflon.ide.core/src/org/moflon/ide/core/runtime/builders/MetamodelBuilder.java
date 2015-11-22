@@ -1,6 +1,9 @@
 package org.moflon.ide.core.runtime.builders;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +17,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
@@ -32,6 +36,7 @@ import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
+import MocaTree.Node;
 import ValidationResult.ErrorMessage;
 
 /**
@@ -68,6 +73,7 @@ public class MetamodelBuilder extends AbstractBuilder
             try
             {
                properties = readProjectProperties();
+               createInfoFile(properties, mocaTreeReader.getMocaTree());
                exporterSubMonitor.beginTask("Running MOCA-to-eMoflon transformation", properties.keySet().size());
 
                exporter = new ResourceFillingMocaToMoflonTransformation(mocaTreeReader.getResourceSet(), properties, exporterSubMonitor);
@@ -105,6 +111,40 @@ public class MetamodelBuilder extends AbstractBuilder
       CoreActivator.getDefault().setDirty(this.getProject(), false);
 
       return mocaToMoflonStatus.isOK();
+   }
+
+   /**
+    * Creates the file projectInformation.txt in the .temp folder.
+    */
+   private void createInfoFile(final Map<String, MetamodelProperties> properties, final Node mocaTree)
+   {
+      IProject metamodelProject = getProject();
+      IFile file = metamodelProject.getFile(WorkspaceHelper.TEMP_FOLDER + "/projectInformation.txt");
+      StringBuilder sb = new StringBuilder();
+      ArrayList<String> projectNames = new ArrayList<>(properties.keySet());
+      Collections.sort(projectNames);
+      for (final String projectName : projectNames)
+      {
+         final MetamodelProperties metamodelProperties = properties.get(projectName);
+         final String projectType = metamodelProperties.getType().substring(0, 1);
+         final String isExported = Boolean.toString(metamodelProperties.isExported());
+         sb.append(String.format("%s/%s [exported=%s, nsUri=%s]\n", projectType, projectName, isExported, metamodelProperties.getNsUri()));
+      }
+
+      try
+      {
+         final ByteArrayInputStream source = new ByteArrayInputStream(sb.toString().getBytes());
+         if (!file.exists())
+         {
+            file.create(source, true, new NullProgressMonitor());
+         }
+         else {
+            file.setContents(source, true, false, new NullProgressMonitor());
+         }
+      } catch (final CoreException e)
+      {
+         logger.warn("Failed to create project info file", e);
+      }
    }
 
    /**
