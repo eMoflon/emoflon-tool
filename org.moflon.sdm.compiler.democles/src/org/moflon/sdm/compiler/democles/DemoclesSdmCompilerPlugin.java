@@ -6,9 +6,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
 import org.osgi.framework.BundleContext;
-
-import ValidationResult.Severity;
 
 public class DemoclesSdmCompilerPlugin extends Plugin
 {
@@ -26,7 +25,7 @@ public class DemoclesSdmCompilerPlugin extends Plugin
    public void start(final BundleContext context) throws Exception
    {
       super.start(context);
-      bundleId = context.getBundle().getSymbolicName();// TODO Auto-generated method stub
+      bundleId = context.getBundle().getSymbolicName();
 
    }
 

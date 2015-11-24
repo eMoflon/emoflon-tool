@@ -10,13 +10,13 @@ import org.antlr.runtime.tree.CommonTree;
 import org.moflon.core.moca.processing.Problem;
 import org.moflon.core.moca.processing.parser.impl.ParserImpl;
 import org.moflon.moca.MocaUtil;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
+import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 
 import MocaTree.Node;
 import SDMLanguage.patterns.StoryPattern;
-import ValidationResult.ErrorMessage;
-import ValidationResult.Severity;
-import ValidationResult.ValidationReport;
-import ValidationResult.ValidationResultFactory;
 
 public class AttributeConstraintParserAdapter extends ParserImpl 
 {
@@ -35,7 +35,7 @@ public class AttributeConstraintParserAdapter extends ParserImpl
       
       inputString=input;
       sourceStoryPattern=storyPattern;
-      parseReport=ValidationResultFactory.eINSTANCE.createValidationReport();
+      parseReport=ResultFactory.eINSTANCE.createValidationReport();
       parseReport.setResult(parse(new StringReader(input)));
       return parseReport;
    }
@@ -80,7 +80,7 @@ public class AttributeConstraintParserAdapter extends ParserImpl
       msg.append(problem.getLine() + ":" + problem.getCharacterPositionStart());
       msg.append(" " + problem.getMessage());
       
-      ErrorMessage errMsg= ValidationResultFactory.eINSTANCE.createErrorMessage();
+      ErrorMessage errMsg= ResultFactory.eINSTANCE.createErrorMessage();
       errMsg.setId(msg.toString());
       errMsg.setSeverity(Severity.ERROR);
       errMsg.getLocation().add(sourceStoryPattern);

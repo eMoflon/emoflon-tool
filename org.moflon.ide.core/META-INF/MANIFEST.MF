@@ -22,7 +22,7 @@ Require-Bundle:
  org.moflon.core.mocatomoflon;bundle-version="2.0.0",
  SDMLanguage,
  org.moflon.sdm.compiler.eclipse,
- ValidationResult,
+ org.moflon.sdm.compiler.democles.validation.result,
  org.moflon.tgg.cspcodeadapter,
  org.moflon.tgg.runtime,
  org.moflon.tgg.language,

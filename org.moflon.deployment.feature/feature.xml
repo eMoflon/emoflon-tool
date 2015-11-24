@@ -70,13 +70,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          unpack="false"/>
 
    <plugin
-         id="ValidationResult"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="Sequencer"
          download-size="0"
          install-size="0"
@@ -119,34 +112,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.validation.validationplugin"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="AttributeConstraintScopeValidation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="AttributeConstraintToDemocles"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="DemoclesAttributeConstraintSpecification"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="DemoclesAttributeConstraints"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -360,6 +325,41 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.core.injection"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.compiler.democles.validation.result"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.constraints.constraintstodemocles"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.constraints.democles"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.constraints.operationspecification"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.constraints.scopevalidation"
          download-size="0"
          install-size="0"
          version="0.0.0"

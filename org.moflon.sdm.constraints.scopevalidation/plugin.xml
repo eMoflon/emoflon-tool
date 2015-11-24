@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.0"?><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="AttributeConstraintScopeValidation.AttributeConstraintScopeValidationPackage" genModel="model/AttributeConstraintScopeValidation.genmodel" uri="platform:/plugin/AttributeConstraintScopeValidation/model/AttributeConstraintScopeValidation.ecore"/>
+    <package class="org.moflon.sdm.constraints.scopevalidation.ScopevalidationPackage" genModel="model/Scopevalidation.genmodel" uri="platform:/plugin/org.moflon.sdm.constraints.scopevalidation/model/Scopevalidation.ecore"/>
   </extension>
 </plugin>

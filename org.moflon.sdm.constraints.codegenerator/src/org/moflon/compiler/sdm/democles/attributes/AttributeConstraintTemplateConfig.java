@@ -7,12 +7,11 @@ import org.gervarro.democles.codegen.emf.EMFTemplateProvider;
 import org.gervarro.democles.relational.RelationalConstraintTemplateProvider;
 import org.moflon.compiler.sdm.democles.DefaultCodeGeneratorConfig;
 import org.moflon.compiler.sdm.democles.DefaultTemplateConfiguration;
+import org.moflon.sdm.constraints.operationspecification.AttributeConstraintLibrary;
+import org.moflon.sdm.constraints.operationspecification.OperationSpecificationGroup;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupString;
-
-import DemoclesAttributeConstraintSpecification.AttributeConstraintLibrary;
-import DemoclesAttributeConstraintSpecification.OperationSpecificationGroup;
 
 public class AttributeConstraintTemplateConfig extends DefaultTemplateConfiguration
 {

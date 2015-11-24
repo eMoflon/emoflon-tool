@@ -19,8 +19,8 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="3.8.101",
  SDMLanguageToDemocles,
  ScopeValidation,
  LiteralExprResolver,
- AttributeConstraintScopeValidation,
- AttributeConstraintToDemocles,
+ org.moflon.sdm.constraints.scopevalidation,
+ org.moflon.sdm.constraints.constraintstodemocles,
  org.eclipse.emf.codegen.ecore,
- ValidationResult,
- DemoclesAttributeConstraintSpecification
+ org.moflon.sdm.compiler.democles.validation.result,
+ org.moflon.sdm.constraints.operationspecification

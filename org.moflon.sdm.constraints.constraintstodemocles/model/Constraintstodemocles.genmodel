@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/org.moflon.sdm.constraints.constraintstodemocles/gen"
+    modelPluginID="org.moflon.sdm.constraints.constraintstodemocles" modelName="Constraintstodemocles"
+    updateClasspath="false" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" usedGenPackages="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel#//specification archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel#//emf archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel#//relational platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.genmodel#//org.moflon.sdm.constraints.operationspecification.0 platform:/plugin/SDMLanguageToDemocles/model/SDMLanguageToDemocles.genmodel#//SDMLanguageToDemocles platform:/plugin/SDMLanguage/model/SDMLanguage.genmodel#//SDMLanguage platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.genmodel#//org.moflon.sdm.constraints.democles.0 platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.genmodel#//org.moflon.sdm.compiler.democles.validation.result.0 platform:/plugin/LiteralExprResolver/model/LiteralExprResolver.genmodel#//LiteralExprResolver platform:/plugin/MocaTree/model/MocaTree.genmodel#//MocaTree"
+    operationReflection="true">
+  <foreignModel>Constraintstodemocles.ecore</foreignModel>
+  <genPackages prefix="Constraintstodemocles" disposableProviderFactory="true" ecorePackage="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//Errors">
+      <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//Errors/UNKNOWN_ATTRIBUTE_CONSTRAINT"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//Errors/MALFORMED_ATTRIBUTE_CONSTRAINT"/>
+    </genEnums>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/postprocess">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/postprocess/storyPattern"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/postprocess/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/processPrimitiveVariable">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/processPrimitiveVariable/primitiveVariable"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/processPrimitiveVariable/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/processLookupConstraint">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/processLookupConstraint/lookupConstraint"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/processLookupConstraint/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/processCspConstraint">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/processCspConstraint/cspConstraint"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/processCspConstraint/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/lookupVariableByName">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/lookupVariableByName/name"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/lookupVariableByName/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/callSuperPostprocess">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/callSuperPostprocess/storyPattern"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/callSuperPostprocess/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/validateCspConstraints">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/validateCspConstraints/attributeConstraint"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/validateCspConstraints/cspConstraint"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/updateUserDefinedConstraintLib">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/updateUserDefinedConstraintLib/attributeConstraint"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/updateUserDefinedConstraintLib/userDefinedLib"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/validateConstraintLibrary">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/validateConstraintLibrary/attributeConstraintLibrary"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/validateConstraintLibrary/projectName"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/createErrorMessage">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintBlackAndNacPatternTransformer/createErrorMessage/location"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/postprocess">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/postprocess/storyPattern"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/postprocess/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/callSuperPostprocess">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/callSuperPostprocess/storyPattern"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/callSuperPostprocess/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/processAssignmentConstraint">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/processAssignmentConstraint/assignmentConstraint"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/processAssignmentConstraint/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/lookupVariableByName">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/lookupVariableByName/variableName"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/lookupVariableByName/pattern"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/isVariableToAdd">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/isVariableToAdd/objectVariable"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/callSuperIsVariableToAdd">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//AttributeConstraintGreenPatternTransformer/callSuperIsVariableToAdd/objectVariable"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//IdentifyerHelper">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore#//IdentifyerHelper/getNextIdentifyer"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

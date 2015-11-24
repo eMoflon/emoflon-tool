@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import ValidationResult.Severity;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
 
 partial class ControlFlowBuilderImpl {
 
@@ -42,7 +42,7 @@ partial class ControlFlowBuilderImpl {
 				edge = edgeCandidate;
 				if (prevEdge != null && (edge.getSource().getPreTraversal() <= prevEdge.getSource().getPreTraversal()
 						|| edge.getSource().getPostTraversal() >= prevEdge.getSource().getPostTraversal())) {
-					final ErrorMessage reportEmbeddedStructure = ValidationResultFactory.eINSTANCE.createErrorMessage();
+					final ErrorMessage reportEmbeddedStructure = ResultFactory.eINSTANCE.createErrorMessage();
 					report.getErrorMessages().add(reportEmbeddedStructure);
 					reportEmbeddedStructure.setSeverity(Severity.ERROR);
 					reportEmbeddedStructure.setId(validator.lookupErrorMessage(Errors.EMBEDDED_LOOP_FOUND));
@@ -52,7 +52,7 @@ partial class ControlFlowBuilderImpl {
 			}
 		}
 		if (edge == null) {
-			final ErrorMessage internalError = ValidationResultFactory.eINSTANCE.createErrorMessage();
+			final ErrorMessage internalError = ResultFactory.eINSTANCE.createErrorMessage();
 			report.getErrorMessages().add(internalError);
 			internalError.setSeverity(Severity.FATAL);
 			internalError.setId(validator.lookupErrorMessage(Errors.LOOP_EXTERN_EDGE));

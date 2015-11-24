@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activities="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="org.moflon.sdm.constraints.operationspecification" nsURI="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore" nsPrefix="org.moflon.sdm.constraints.operationspecification">
+  <eClassifiers xsi:type="ecore:EClass" name="OperationSpecification">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="specification" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="adornmentString" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alwaysSuccessful" ordered="false" lowerBound="1" defaultValueLiteral="true">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstraintType" instanceClassName="org.gervarro.democles.specification.ConstraintType" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeConstraintLibrary">
+    <eOperations xsi:type="activities:MoflonEOperation" name="lookupConstraintType" eType="//ConstraintSpecification">
+      <eParameters name="constraint">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore#//AttributeVariableConstraint"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operationSpecifications" upperBound="-1" eType="//OperationSpecificationGroup" containment="true" eOpposite="//OperationSpecificationGroup/attributeConstraintLibrary"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraintSpecifications" upperBound="-1" eType="//ConstraintSpecification" containment="true" eOpposite="//ConstraintSpecification/attributeConstraintLibrary"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperationSpecificationGroup">
+    <eOperations xsi:type="activities:MoflonEOperation" name="gernerateTemplate">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ErrorMessage"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributeConstraintLibrary" lowerBound="1" eType="//AttributeConstraintLibrary" eOpposite="//AttributeConstraintLibrary/operationSpecifications"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraintSpecifications" upperBound="-1" eType="//ConstraintSpecification" eOpposite="//ConstraintSpecification/operationSpecificationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operationSpecifications" upperBound="-1" eType="//OperationSpecification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterIDs" upperBound="-1" eType="//ParamIdentifier" containment="true" eOpposite="//ParamIdentifier/operationSpecificationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operationIdentifier" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="templateGroupGenerated" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="templateGroupString" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParamIdentifier">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operationSpecificationGroup" lowerBound="1" eType="//OperationSpecificationGroup" eOpposite="//OperationSpecificationGroup/parameterIDs"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstraintSpecification" eSuperTypes="//ConstraintType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributeConstraintLibrary" lowerBound="1" eType="//AttributeConstraintLibrary" eOpposite="//AttributeConstraintLibrary/constraintSpecifications"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterTypes" upperBound="-1" eType="//ParameterType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operationSpecificationGroup" lowerBound="1" eType="//OperationSpecificationGroup" eOpposite="//OperationSpecificationGroup/constraintSpecifications"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="symbol" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type">
+      <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

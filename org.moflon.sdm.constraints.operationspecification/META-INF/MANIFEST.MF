@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: DemoclesAttributeConstraintSpecification;singleto
- n:=true
-Export-Package: DemoclesAttributeConstraintSpecification,
- DemoclesAttributeConstraintSpecification.constraint,
+Bundle-SymbolicName: org.moflon.sdm.constraints.operationspecification
+ ;singleton:=true
+Export-Package: DemoclesAttributeConstraintSpecification.constraint,
  DemoclesAttributeConstraintSpecification.constraint.util,
- DemoclesAttributeConstraintSpecification.impl,
- DemoclesAttributeConstraintSpecification.util
+ org.moflon.sdm.constraints.operationspecification,
+ org.moflon.sdm.constraints.operationspecification.impl,
+ org.moflon.sdm.constraints.operationspecification.util
 Bundle-Name: DemoclesAttributeConstraintSpecification
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.core.resources,
@@ -15,12 +15,13 @@ Require-Bundle: org.eclipse.core.resources,
  SDMLanguage,
  org.moflon.core.utilities,
  ControlFlow,
- DemoclesAttributeConstraints,
+ org.moflon.sdm.constraints.democles,
  org.moflon.sdm.compiler.eclipse,
- ValidationResult,
+ org.moflon.sdm.compiler.democles.validation.result,
  org.apache.log4j;bundle-version="1.2.15"
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Activator: org.moflno.sdm.constraints.operationspecification.At
+ tributeConstraintsOperationActivator
 Bundle-Vendor: TU Darmstadt
-Bundle-Activator: org.moflno.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator

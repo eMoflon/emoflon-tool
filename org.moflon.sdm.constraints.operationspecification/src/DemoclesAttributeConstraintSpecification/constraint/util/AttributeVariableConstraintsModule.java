@@ -4,10 +4,10 @@ import org.eclipse.emf.ecore.util.Switch;
 import org.gervarro.democles.specification.ConstraintType;
 import org.gervarro.democles.specification.VariableType;
 import org.gervarro.democles.specification.emf.util.EMFTypeModule;
+import org.moflon.sdm.constraints.democles.AttributeVariableConstraint;
+import org.moflon.sdm.constraints.democles.util.DemoclesSwitch;
 
 import DemoclesAttributeConstraintSpecification.constraint.AttributeVariableConstraintsTypeModule;
-import DemoclesAttributeConstraints.AttributeVariableConstraint;
-import DemoclesAttributeConstraints.util.DemoclesAttributeConstraintsSwitch;
 
 public class AttributeVariableConstraintsModule extends EMFTypeModule
 {
@@ -29,7 +29,7 @@ public class AttributeVariableConstraintsModule extends EMFTypeModule
       return new AttributeVariableConstraintsTypeSwitch();
    }
 
-   private class AttributeVariableConstraintsTypeSwitch extends DemoclesAttributeConstraintsSwitch<ConstraintType>
+   private class AttributeVariableConstraintsTypeSwitch extends DemoclesSwitch<ConstraintType>
    {
 
       @Override

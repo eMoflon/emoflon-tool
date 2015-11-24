@@ -9,10 +9,9 @@ import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.runtime.OperationBuilder;
 import org.gervarro.democles.specification.impl.Constraint;
 import org.gervarro.democles.specification.impl.Variable;
-
-import DemoclesAttributeConstraintSpecification.ConstraintSpecification;
-import DemoclesAttributeConstraintSpecification.OperationSpecification;
-import DemoclesAttributeConstraintSpecification.OperationSpecificationGroup;
+import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
+import org.moflon.sdm.constraints.operationspecification.OperationSpecification;
+import org.moflon.sdm.constraints.operationspecification.OperationSpecificationGroup;
 
 
 public class AttributeConstraintsOperationBuilder implements OperationBuilder<GeneratorOperation,GeneratorVariable>{
@@ -48,7 +47,6 @@ public class AttributeConstraintsOperationBuilder implements OperationBuilder<Ge
 	@Override
 	public GeneratorOperation getVariableOperation(Variable variable,
 			GeneratorVariable runtimeVariable) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

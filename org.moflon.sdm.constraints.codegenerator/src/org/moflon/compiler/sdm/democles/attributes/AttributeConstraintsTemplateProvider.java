@@ -4,8 +4,7 @@ import org.gervarro.democles.codegen.Chain;
 import org.gervarro.democles.codegen.CodeGeneratorProvider;
 import org.gervarro.democles.codegen.GeneratorOperation;
 import org.gervarro.democles.codegen.TemplateController;
-
-import DemoclesAttributeConstraintSpecification.ConstraintSpecification;
+import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
 
 public class AttributeConstraintsTemplateProvider implements CodeGeneratorProvider<Chain<TemplateController>>
 {

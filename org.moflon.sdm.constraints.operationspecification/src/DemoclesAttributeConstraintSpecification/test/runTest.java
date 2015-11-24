@@ -8,10 +8,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.moflon.sdm.constraints.operationspecification.AttributeConstraintLibrary;
+import org.moflon.sdm.constraints.operationspecification.OperationSpecificationGroup;
+import org.moflon.sdm.constraints.operationspecification.OperationspecificationPackage;
 
-import DemoclesAttributeConstraintSpecification.AttributeConstraintLibrary;
-import DemoclesAttributeConstraintSpecification.DemoclesAttributeConstraintSpecificationPackage;
-import DemoclesAttributeConstraintSpecification.OperationSpecificationGroup;
 import SDMLanguage.SDMLanguagePackage;
 
 
@@ -48,7 +48,7 @@ public class runTest {
 		SDMLanguagePackage.eINSTANCE.eResource();
 
 //This is for loading using generate metamodel		
-		DemoclesAttributeConstraintSpecificationPackage.eINSTANCE.getClass();
+		OperationspecificationPackage.eINSTANCE.getClass();
 
 //This is for loading using file base metamodel		
 //		URI mmuri =URI.createPlatformPluginURI("DemoclesAttributeConstraintSpecification/model/DemoclesAttributeConstraintSpecification.ecore",true);

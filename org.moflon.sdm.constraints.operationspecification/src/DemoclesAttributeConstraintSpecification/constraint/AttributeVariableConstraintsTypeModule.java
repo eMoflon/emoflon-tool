@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.gervarro.democles.common.TypeModule;
 import org.gervarro.democles.specification.ConstraintType;
-
-import DemoclesAttributeConstraintSpecification.AttributeConstraintLibrary;
-import DemoclesAttributeConstraintSpecification.ConstraintSpecification;
-import DemoclesAttributeConstraints.AttributeVariableConstraint;
+import org.moflon.sdm.constraints.democles.AttributeVariableConstraint;
+import org.moflon.sdm.constraints.operationspecification.AttributeConstraintLibrary;
+import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
 
 public class AttributeVariableConstraintsTypeModule implements TypeModule
 {

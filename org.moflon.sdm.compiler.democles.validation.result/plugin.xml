@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.4"?><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="ValidationResult.ValidationResultPackage" genModel="model/ValidationResult.genmodel" uri="platform:/plugin/ValidationResult/model/ValidationResult.ecore"/>
+    <package class="org.moflon.sdm.compiler.democles.validation.result.ResultPackage" genModel="model/Result.genmodel" uri="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore"/>
   </extension>
 </plugin>

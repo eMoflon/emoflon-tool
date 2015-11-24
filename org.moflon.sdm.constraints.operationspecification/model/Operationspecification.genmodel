@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.moflon.sdm.constraints.operationspecification/gen"
+    modelPluginID="org.moflon.sdm.constraints.operationspecification" modelName="Operationspecification"
+    updateClasspath="false" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" usedGenPackages="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel#//specification archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel#//emf archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel#//relational platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.genmodel#//org.moflon.sdm.constraints.democles.0 platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.genmodel#//org.moflon.sdm.compiler.democles.validation.result.0"
+    operationReflection="true">
+  <foreignModel>Operationspecification.ecore</foreignModel>
+  <genPackages prefix="Operationspecification" disposableProviderFactory="true" ecorePackage="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#/">
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecification">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecification/specification"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecification/adornmentString"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecification/alwaysSuccessful"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ConstraintType"/>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//AttributeConstraintLibrary">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//AttributeConstraintLibrary/operationSpecifications"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//AttributeConstraintLibrary/constraintSpecifications"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//AttributeConstraintLibrary/prefix"/>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//AttributeConstraintLibrary/lookupConstraintType">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//AttributeConstraintLibrary/lookupConstraintType/constraint"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecificationGroup">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecificationGroup/attributeConstraintLibrary"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecificationGroup/constraintSpecifications"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecificationGroup/operationSpecifications"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecificationGroup/parameterIDs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecificationGroup/operationIdentifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecificationGroup/templateGroupGenerated"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecificationGroup/templateGroupString"/>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//OperationSpecificationGroup/gernerateTemplate"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ParamIdentifier">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ParamIdentifier/operationSpecificationGroup"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ParamIdentifier/identifier"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ConstraintSpecification">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ConstraintSpecification/attributeConstraintLibrary"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ConstraintSpecification/parameterTypes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ConstraintSpecification/operationSpecificationGroup"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ConstraintSpecification/symbol"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ParameterType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore#//ParameterType/type"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

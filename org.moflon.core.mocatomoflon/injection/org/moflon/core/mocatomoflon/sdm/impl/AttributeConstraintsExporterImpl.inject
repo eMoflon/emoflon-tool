@@ -1,8 +1,8 @@
 
-import ValidationResult.ErrorMessage;
-import ValidationResult.Severity;
-import ValidationResult.ValidationReport;
-import ValidationResult.ValidationResultFactory;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
+import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 import org.moflon.moca.AttributeConstraint.parser.AttributeConstraintLexer;
 import org.moflon.moca.AttributeConstraint.parser.AttributeConstraintParser;
 import org.moflon.moca.AttributeConstraint.parser.AttributeConstraintParserAdapter;
@@ -33,7 +33,7 @@ partial class AttributeConstraintsExporterImpl {
 
 @model createUnknownVariableError (StoryPattern storyPattern, Attribute ovNameNode, Attribute attrVarNode) <--
 
-		ErrorMessage errMessage = ValidationResultFactory.eINSTANCE.createErrorMessage();
+		ErrorMessage errMessage = ResultFactory.eINSTANCE.createErrorMessage();
 		errMessage.setSeverity(Severity.ERROR);
 		errMessage.setId("Attribute Constraint Error: Variable " + ovNameNode.getValue() + "." + attrVarNode.getValue()
 				+ " is unknown");

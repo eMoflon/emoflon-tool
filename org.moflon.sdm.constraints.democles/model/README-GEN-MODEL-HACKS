@@ -1,0 +1,5 @@
+As we do not yet have any possibility to configure the genmodel in Moflon, 
+the following settings must be made manually whenever the genmodel has to be updated:
+
+- operation reflection: false
+- supress interfaces: true

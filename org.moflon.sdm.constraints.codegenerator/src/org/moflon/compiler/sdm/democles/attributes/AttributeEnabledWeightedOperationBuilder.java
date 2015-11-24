@@ -14,8 +14,7 @@ import org.gervarro.democles.plan.WeightedOperationBuilder;
 import org.gervarro.democles.specification.ConstraintType;
 import org.gervarro.democles.specification.impl.Constraint;
 import org.gervarro.democles.specification.impl.Variable;
-
-import DemoclesAttributeConstraintSpecification.ConstraintSpecification;
+import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
 
 public class AttributeEnabledWeightedOperationBuilder<T extends OperationRuntime> extends WeightedOperationBuilder<T>
 {

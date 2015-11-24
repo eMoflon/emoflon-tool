@@ -33,11 +33,11 @@ import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.ResourceFillingMocaToMoflonTransformation;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 import MocaTree.Node;
-import ValidationResult.ErrorMessage;
 
 /**
  * A metamodel builder that produces plugin projects

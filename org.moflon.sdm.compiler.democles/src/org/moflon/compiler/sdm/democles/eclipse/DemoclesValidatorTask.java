@@ -39,10 +39,10 @@ import Sequencer.SDMActivityGraphBuilder;
 import Sequencer.SequencerFactory;
 import Sequencer.SequencerPackage;
 import Sequencer.Validator;
-import ValidationResult.ErrorMessage;
-import ValidationResult.Severity;
-import ValidationResult.ValidationReport;
-import ValidationResult.ValidationResultFactory;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
+import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 
 /**
  * This job calls during its {@link #run(IProgressMonitor)} the stored validator method for all EClasses contained in its stored EPackage (see {@link #DemoclesValidatorTask(ScopeValidator, EPackage)}. 
@@ -147,7 +147,7 @@ public class DemoclesValidatorTask implements IMonitoredJob
                scope.accept(SequencerPackage.eINSTANCE.getSequencerFactory().createIdentifierAllocator());
 
                // Perform scope validation
-               final ValidationReport scopeValidationReport = ValidationResultFactory.eINSTANCE.createValidationReport();
+               final ValidationReport scopeValidationReport = ResultFactory.eINSTANCE.createValidationReport();
                scopeValidator.setValidationReport(scopeValidationReport);
                performScopeValidation(scopeValidator, eOperation, scope);
 

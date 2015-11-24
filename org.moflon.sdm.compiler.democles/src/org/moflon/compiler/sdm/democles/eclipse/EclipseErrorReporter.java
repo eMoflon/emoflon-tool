@@ -20,7 +20,7 @@ import SDMLanguage.activities.ActivityNode;
 import SDMLanguage.activities.StopNode;
 import SDMLanguage.calls.callExpressions.MethodCallExpression;
 import SDMLanguage.expressions.LiteralExpression;
-import ValidationResult.ErrorMessage;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 
 public class EclipseErrorReporter implements ErrorReporter
 {

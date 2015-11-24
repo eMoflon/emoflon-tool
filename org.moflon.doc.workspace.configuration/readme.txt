@@ -1,2 +1,0 @@
-- eclipseConfig contains code-formatter, code templates, toolchain for setting up a fresh eclipse instance 
-- eclipsePSF contains eclipse PSF files (Project Setup Files) that can be used to automatically import a set of projects that constitute a certain workspace (=collection of working sets for a certain task)

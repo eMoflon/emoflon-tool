@@ -4,8 +4,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
-import ValidationResult.ErrorMessage;
-import ValidationResult.Severity;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
 
 public class ValidationStatus implements IStatus {
 	private final ErrorMessage errorMessage;

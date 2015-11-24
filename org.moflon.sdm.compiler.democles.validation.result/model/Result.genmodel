@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.moflon.sdm.compiler.democles.validation.result/gen"
+    modelPluginID="org.moflon.sdm.compiler.democles.validation.result" modelName="Result"
+    updateClasspath="false" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" operationReflection="true">
+  <foreignModel>Result.ecore</foreignModel>
+  <genPackages prefix="Result" disposableProviderFactory="true" ecorePackage="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//Severity">
+      <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//Severity/OK"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//Severity/INFO"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//Severity/WARNING"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//Severity/ERROR"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//Severity/FATAL"/>
+    </genEnums>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ErrorMessage">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ErrorMessage/validationReport"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ErrorMessage/location"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ErrorMessage/context"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ErrorMessage/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ErrorMessage/id"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ValidationReport">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ValidationReport/errorMessages"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ValidationReport/result"/>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ValidationReport/merge">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore#//ValidationReport/merge/otherReport"/>
+      </genOperations>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

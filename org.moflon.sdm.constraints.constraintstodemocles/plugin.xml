@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.0"?><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="AttributeConstraintToDemocles.AttributeConstraintToDemoclesPackage" genModel="model/AttributeConstraintToDemocles.genmodel" uri="platform:/plugin/AttributeConstraintToDemocles/model/AttributeConstraintToDemocles.ecore"/>
+    <package class="org.moflon.sdm.constraints.constraintstodemocles.ConstraintstodemoclesPackage" genModel="model/Constraintstodemocles.genmodel" uri="platform:/plugin/org.moflon.sdm.constraints.constraintstodemocles/model/Constraintstodemocles.ecore"/>
   </extension>
 </plugin>

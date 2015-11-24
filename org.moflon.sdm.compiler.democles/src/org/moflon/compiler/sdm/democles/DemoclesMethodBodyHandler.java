@@ -35,6 +35,8 @@ import org.moflon.compiler.sdm.democles.eclipse.PatternResourceFactory;
 import org.moflon.core.dfs.DFSGraph;
 import org.moflon.core.dfs.DfsFactory;
 import org.moflon.eclipse.job.IMonitoredJob;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 
 import SDMLanguage.activities.ActivitiesPackage;
 import SDMLanguage.activities.Activity;
@@ -43,8 +45,6 @@ import Sequencer.InefficientBootstrappingBuilder;
 import Sequencer.SDMActivityGraphBuilder;
 import Sequencer.SequencerFactory;
 import Sequencer.Validator;
-import ValidationResult.Severity;
-import ValidationResult.ValidationReport;
 
 public class DemoclesMethodBodyHandler implements MethodBodyHandler {
    

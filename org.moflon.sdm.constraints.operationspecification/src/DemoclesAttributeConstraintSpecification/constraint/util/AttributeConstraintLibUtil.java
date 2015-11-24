@@ -10,10 +10,9 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.moflno.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
-
-import DemoclesAttributeConstraintSpecification.AttributeConstraintLibrary;
-import DemoclesAttributeConstraintSpecification.DemoclesAttributeConstraintSpecificationFactory;
-import DemoclesAttributeConstraintSpecification.DemoclesAttributeConstraintSpecificationPackage;
+import org.moflon.sdm.constraints.operationspecification.AttributeConstraintLibrary;
+import org.moflon.sdm.constraints.operationspecification.OperationspecificationFactory;
+import org.moflon.sdm.constraints.operationspecification.OperationspecificationPackage;
 
 /**
  * Utility class for loading and storing the built-in and user-defined attribute constraint libraries.
@@ -67,7 +66,7 @@ public final class AttributeConstraintLibUtil
       }
       if (attributeConstraintLibrary == null)
       {
-         attributeConstraintLibrary = DemoclesAttributeConstraintSpecificationFactory.eINSTANCE.createAttributeConstraintLibrary();
+         attributeConstraintLibrary = OperationspecificationFactory.eINSTANCE.createAttributeConstraintLibrary();
          attributeConstraintLibrary.setPrefix(fileName);
          res.getContents().add(attributeConstraintLibrary);
       }
@@ -79,7 +78,7 @@ public final class AttributeConstraintLibUtil
    {
       ResourceSet rset = CodeGeneratorPlugin.createDefaultResourceSet();
       rset.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-      rset.getPackageRegistry().put(DemoclesAttributeConstraintSpecificationPackage.eNS_URI, DemoclesAttributeConstraintSpecificationPackage.eINSTANCE);
+      rset.getPackageRegistry().put(OperationspecificationPackage.eNS_URI, OperationspecificationPackage.eINSTANCE);
       Resource res = null;
       if (rset.getURIConverter().exists(uri, null))
       {

@@ -19,10 +19,10 @@ import org.moflon.compiler.sdm.democles.DefaultCodeGeneratorConfig;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.compiler.sdm.democles.PatternMatcherCompiler;
 import org.moflon.compiler.sdm.democles.TemplateConfigurationProvider;
+import org.moflon.sdm.constraints.constraintstodemocles.ConstraintstodemoclesFactory;
+import org.moflon.sdm.constraints.operationspecification.AttributeConstraintLibrary;
+import org.moflon.sdm.constraints.scopevalidation.ScopevalidationFactory;
 
-import AttributeConstraintScopeValidation.AttributeConstraintScopeValidationFactory;
-import AttributeConstraintToDemocles.AttributeConstraintToDemoclesFactory;
-import DemoclesAttributeConstraintSpecification.AttributeConstraintLibrary;
 import DemoclesAttributeConstraintSpecification.constraint.AttributeVariableConstraintsTypeModule;
 import DemoclesAttributeConstraintSpecification.constraint.util.AttributeConstraintLibUtil;
 import DemoclesAttributeConstraintSpecification.constraint.util.AttributeVariableConstraintsModule;
@@ -150,10 +150,10 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 				regularBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
 				regularBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-				final BlackPatternBuilder regularBlackInvocationBuilder = AttributeConstraintScopeValidationFactory.eINSTANCE.createAttributeConstraintBlackPatternInvocationBuilder();
+				final BlackPatternBuilder regularBlackInvocationBuilder = ScopevalidationFactory.eINSTANCE.createAttributeConstraintBlackPatternInvocationBuilder();
 				regularBindingAndBlackInvocationBuilder.getChildBuilders().add(regularBlackInvocationBuilder);
 				regularBindingAndBlackInvocationBuilder.setBlackPatternBuilder(regularBlackInvocationBuilder);
-				final BlackAndNacPatternTransformer regularBlackPatternTransformer = AttributeConstraintToDemoclesFactory.eINSTANCE.createAttributeConstraintBlackAndNacPatternTransformer();
+				final BlackAndNacPatternTransformer regularBlackPatternTransformer = ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintBlackAndNacPatternTransformer();
 				regularBlackInvocationBuilder.setPatternTransformer(regularBlackPatternTransformer);
 				regularBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 				regularBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
@@ -180,9 +180,9 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 				regularRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
 				regularRedPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-				final RegularPatternInvocationBuilder regularGreenInvocationBuilder = AttributeConstraintScopeValidationFactory.eINSTANCE.createAttributeConstraintGreenPatternInvocationBuilder();
+				final RegularPatternInvocationBuilder regularGreenInvocationBuilder = ScopevalidationFactory.eINSTANCE.createAttributeConstraintGreenPatternInvocationBuilder();
 				regularStoryNodeActionBuilder.getChildren().add(regularGreenInvocationBuilder);
-				final GreenPatternTransformer regularGreenPatternTransformer = AttributeConstraintToDemoclesFactory.eINSTANCE.createAttributeConstraintGreenPatternTransformer();
+				final GreenPatternTransformer regularGreenPatternTransformer = ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintGreenPatternTransformer();
 				regularGreenInvocationBuilder.setPatternTransformer(regularGreenPatternTransformer);
 				regularGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
 				regularGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
@@ -208,9 +208,9 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 				forEachBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
 				forEachBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-				final BlackPatternBuilder forEachBlackInvocationBuilder = AttributeConstraintScopeValidationFactory.eINSTANCE.createAttributeConstraintBlackPatternInvocationBuilder();
+				final BlackPatternBuilder forEachBlackInvocationBuilder = ScopevalidationFactory.eINSTANCE.createAttributeConstraintBlackPatternInvocationBuilder();
 				forEachStoryNodeActionBuilder.getChildren().add(forEachBlackInvocationBuilder);
-				final BlackAndNacPatternTransformer forEachBlackPatternTransformer = AttributeConstraintToDemoclesFactory.eINSTANCE.createAttributeConstraintBlackAndNacPatternTransformer();
+				final BlackAndNacPatternTransformer forEachBlackPatternTransformer = ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintBlackAndNacPatternTransformer();
 				forEachBlackInvocationBuilder.setPatternTransformer(forEachBlackPatternTransformer);
 				forEachBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 				forEachBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
@@ -237,9 +237,9 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 				forEachRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
 				forEachRedPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-				final RegularPatternInvocationBuilder forEachGreenInvocationBuilder = AttributeConstraintScopeValidationFactory.eINSTANCE.createAttributeConstraintGreenPatternInvocationBuilder();
+				final RegularPatternInvocationBuilder forEachGreenInvocationBuilder = ScopevalidationFactory.eINSTANCE.createAttributeConstraintGreenPatternInvocationBuilder();
 				forEachStoryNodeActionBuilder.getChildren().add(forEachGreenInvocationBuilder);
-				final GreenPatternTransformer forEachGreenPatternTransformer = AttributeConstraintToDemoclesFactory.eINSTANCE.createAttributeConstraintGreenPatternTransformer();
+				final GreenPatternTransformer forEachGreenPatternTransformer = ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintGreenPatternTransformer();
 				forEachGreenInvocationBuilder.setPatternTransformer(forEachGreenPatternTransformer);
 				forEachGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
 				forEachGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);

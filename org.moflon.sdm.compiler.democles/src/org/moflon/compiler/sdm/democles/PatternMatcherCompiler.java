@@ -10,12 +10,12 @@ import org.gervarro.democles.specification.emf.EMFPatternBuilder;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.impl.DefaultPattern;
 import org.gervarro.democles.specification.impl.DefaultPatternBody;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
+import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 
 import ScopeValidation.impl.PatternMatcherImpl;
-import ValidationResult.ErrorMessage;
-import ValidationResult.Severity;
-import ValidationResult.ValidationReport;
-import ValidationResult.ValidationResultFactory;
 
 public class PatternMatcherCompiler extends PatternMatcherImpl {
 	final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder;
@@ -29,11 +29,11 @@ public class PatternMatcherCompiler extends PatternMatcherImpl {
 
 	@Override
    public ValidationReport generateSearchPlan(final Pattern pattern, final Adornment adornment, final boolean isMultipleMatch) {
-		ValidationReport report = ValidationResultFactory.eINSTANCE.createValidationReport();
+		ValidationReport report = ResultFactory.eINSTANCE.createValidationReport();
 		try {
 			generateSearchPlan(compilePattern(pattern, adornment), adornment);
 		} catch (RuntimeException e) {
-			ErrorMessage error = ValidationResultFactory.eINSTANCE.createErrorMessage();
+			ErrorMessage error = ResultFactory.eINSTANCE.createErrorMessage();
 			report.getErrorMessages().add(error);
          error.setId("No search plan found for pattern"); 
 			error.setSeverity(Severity.ERROR);

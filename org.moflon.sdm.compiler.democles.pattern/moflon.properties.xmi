@@ -3,8 +3,8 @@
   <dependencies value="platform:/plugin/LiteralExprResolver/model/LiteralExprResolver.ecore"/>
   <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
   <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
-  <dependencies value="platform:/plugin/ValidationResult/model/ValidationResult.ecore"/>
   <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore"/>
   <factoryMappings key="relational" value="RelationalConstraintFactory"/>
   <factoryMappings key="emf" value="EMFTypeFactory"/>
   <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.ecore"/>

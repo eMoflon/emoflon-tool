@@ -16,6 +16,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.moflon.codegen.ErrorReporter;
 import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.core.utilities.EAInterfaceUriHelper;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.validation.info.ValidationChannel;
 
 //import MoflonPropertyContainer.MoflonPropertiesContainer;
@@ -26,9 +29,6 @@ import SDMLanguage.activities.StopNode;
 import SDMLanguage.activities.StoryNode;
 import SDMLanguage.patterns.LinkVariable;
 import SDMLanguage.patterns.ObjectVariable;
-import ValidationResult.ErrorMessage;
-import ValidationResult.Severity;
-import ValidationResult.ValidationReport;
 
 public final class EnterpriseArchitectValidationHelper implements ErrorReporter
 {

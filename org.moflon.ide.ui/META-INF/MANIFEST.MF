@@ -23,7 +23,7 @@ Require-Bundle:
  org.moflon.core.moca.processing,
  SDMLanguage,
  org.moflon.tgg.runtime,
- ValidationResult,
+ org.moflon.sdm.compiler.democles.validation.result,
  org.moflon.sdm.compiler.eclipse,
  org.moflon.ide.core,
  org.moflon.ide.plugins,
