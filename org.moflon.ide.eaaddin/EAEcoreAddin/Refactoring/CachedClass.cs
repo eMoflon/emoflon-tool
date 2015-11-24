@@ -16,7 +16,10 @@ namespace EAEcoreAddin.Refactoring
         {
             if (this.element != null)
             {
-                this.previousName = this.element.Name;
+                if (previousName == null || !(this.element.Name.Equals(this.previousName)))
+                {
+                    this.previousName = this.element.Name;
+                }
             }
         }
 
