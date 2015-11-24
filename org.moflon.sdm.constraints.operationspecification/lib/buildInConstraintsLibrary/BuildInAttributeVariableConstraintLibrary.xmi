@@ -3,7 +3,7 @@
     xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:DemoclesAttributeConstraintSpecification="platform:/plugin/DemoclesAttributeConstraintSpecification/model/DemoclesAttributeConstraintSpecification.ecore"
+    xmlns:DemoclesAttributeConstraintSpecification="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     prefix="buildInAttributeConstraints">
   <operationSpecifications
