@@ -594,7 +594,6 @@ public class OperationSpecificationGroupImpl extends EObjectImpl implements Oper
 	}
 
 	// <-- [user code injected with eMoflon]
-	private final static String TEMPLATE_LOC = "platform:/plugin/DemoclesAttributeConstraintSpecification/lib/stringtemplates/basicStringtemplateDef.stg";
-	//private final static String TEMPLATE_LOC="file:/F:/Workspaces/Eclipse/2015_01_22_DevWs_ComplexAttributeValidation/DemoclesAttributeConstraintSpecification/lib/stringtemplates/basicStringtemplateDef.stg";
+	private final static String TEMPLATE_LOC = "platform:/plugin/org.moflon.sdm.constraints.operationspecification/lib/stringtemplates/basicStringtemplateDef.stg";
 	// [user code injected with eMoflon] -->
 } //OperationSpecificationGroupImpl

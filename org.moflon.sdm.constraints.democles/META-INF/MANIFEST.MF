@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.sdm.constraints.democles;singleton:=true
 Export-Package: org.moflon.sdm.constraints.democles,
  org.moflon.sdm.constraints.democles.util
-Bundle-Name: DemoclesAttributeConstraints
+Bundle-Name: org.moflon.sdm.constraints.democles
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,

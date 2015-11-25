@@ -75,7 +75,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 		//Constraint type module
 		private final AttributeVariableConstraintsTypeModule attributeVariableConstraintsTypeModule;
 		
-		protected static final URI BUILDIN_ATTRIBUTE_CONSTRAINT_LIB=URI.createPlatformPluginURI("/DemoclesAttributeConstraintSpecification/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi",true); 
+		protected static final URI BUILDIN_ATTRIBUTE_CONSTRAINT_LIB=URI.createPlatformPluginURI("/org.moflon.sdm.constraints.operationspecification/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi",true); 
 		
 		public AttributeConstraintCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project){
 			super(resourceSet);
