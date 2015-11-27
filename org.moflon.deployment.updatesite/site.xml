@@ -6,8 +6,8 @@
    <feature url="features/org.moflon.ide.feature_2.6.0.qualifier.jar" id="org.moflon.ide.feature" version="2.6.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
-   <feature url="features/org.moflon.ide.metamodelevolution.feature_2.0.0.qualifier.jar" id="org.moflon.ide.metamodelevolution.feature" version="2.0.0.qualifier">
+   <!--<feature url="features/org.moflon.ide.metamodelevolution.feature_2.0.0.qualifier.jar" id="org.moflon.ide.metamodelevolution.feature" version="2.0.0.qualifier">
       <category name="org.moflon.ide"/>
-   </feature>
+   </feature>-->
    <category-def name="org.moflon.ide" label="eMoflon"/>
 </site>
