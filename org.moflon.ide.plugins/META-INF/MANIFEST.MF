@@ -18,6 +18,5 @@ Require-Bundle: org.eclipse.core.resources,
  SDMLanguage,
  org.moflon.tgg.language,
  org.moflon.tgg.runtime,
- org.moflon.tgg.debug.language,
  org.junit;bundle-version="4.11.0"
 Bundle-Activator: org.moflon.ide.plugins.MoflonPluginsActivator

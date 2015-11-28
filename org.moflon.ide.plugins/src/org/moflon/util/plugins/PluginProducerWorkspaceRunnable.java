@@ -18,7 +18,6 @@ import org.moflon.core.moca.tree.MocaTreePlugin;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.sdm.language.SDMLanguagePlugin;
-import org.moflon.tgg.debug.language.DebugLanguagePlugin;
 import org.moflon.tgg.runtime.TGGRuntimePlugin;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater.AttributeUpdatePolicy;
@@ -104,7 +103,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable {
 								Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY,
 										MocaTreePlugin.getDefault().getPluginId(), WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME,
 										SDMLanguagePlugin.getDefault().getPluginId(), TGGLanguageActivator.getDefault().getPluginId(),
-										TGGRuntimePlugin.getDefault().getPluginId(), DebugLanguagePlugin.getDefault().getPluginId() }));
+										TGGRuntimePlugin.getDefault().getPluginId() }));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
