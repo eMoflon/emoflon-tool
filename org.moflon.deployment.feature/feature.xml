@@ -245,8 +245,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          id="org.moflon.ide.visualization.dot.language"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.moflon.ide.visualization.dot.sdm"
@@ -336,5 +335,17 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.sdmpatterns"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.tgg.runtimepatterns"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
 </feature>

@@ -3,9 +3,6 @@
   <extension point="net.sourceforge.plantuml.eclipse.diagramTextProvider">
     <diagramTextProvider providerClass="org.moflon.ide.visualization.dot.sdm.SDMDiagramTextProvider"/>
   </extension>
-  <extension point="net.sourceforge.plantuml.eclipse.diagramTextProvider">
-    <diagramTextProvider providerClass="org.moflon.ide.visualization.dot.sdm.DiagramTextProvider3"/>
-  </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.ide.visualization.dot.sdm.SdmPackage" genModel="model/Sdm.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.sdm/model/Sdm.ecore"/>
   </extension>
