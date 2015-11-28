@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Abstract Syntax Viewer
+Bundle-SymbolicName: org.moflon.ide.visualization.abstractsyntaxviewer;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: lib/org.eclipse.gef4.zest.core_0.1.0.201311060306.jar,
+ lib/org.eclipse.gef4.zest.jface_0.1.0.201311060306.jar,
+ lib/org.eclipse.gef4.zest.layouts_0.1.0.201311060306.jar,
+ .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.swt,
+ org.eclipse.ui.workbench,
+ org.eclipse.jface;bundle-version="3.11.0",
+ org.eclipse.emf.ecore;bundle-version="2.11.1",
+ org.eclipse.emf.edit.ui;bundle-version="2.11.0",
+ org.eclipse.draw2d;bundle-version="3.10.1",
+ org.eclipse.emf.ecore.edit,
+ org.eclipse.core.runtime;bundle-version="3.11.1",
+ org.moflon.core.utilities;bundle-version="1.1.0"
+Bundle-Activator: org.moflon.ide.ui.admin.views.AbstractSyntaxViewerPlugin
+Bundle-ActivationPolicy: lazy

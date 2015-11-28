@@ -38,7 +38,6 @@ Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.runtime.codegeneration,
  org.moflon.ide.core.util,
  org.moflon.moca,
- org.moflon.moca.dot.unparser,
  org.moflon.moca.tggUserDefinedConstraint.unparser,
  org.moflon.moca.tie
 Bundle-ActivationPolicy: lazy

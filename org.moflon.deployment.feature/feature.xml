@@ -118,20 +118,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          unpack="false"/>
 
    <plugin
-         id="org.moflon.ide.debug.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.moflon.ide.debug.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.apache.log4j"
          download-size="0"
          install-size="0"
@@ -172,13 +158,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          version="0.0.0"/>
 
    <plugin
-         id="org.moflon.ide.debug.annotation.processor"
-         download-size="5148"
-         install-size="5148"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.moflon.sdm.compiler.democles"
          download-size="0"
          install-size="0"
@@ -194,13 +173,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.sdm.controlflow.reversenavigation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.moflon.ide.visualization.linkbrowser"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -250,13 +222,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.tgg.cspcodeadapter"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.moflon.tgg.debug.language"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -360,6 +325,13 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.sdm.constraints.scopevalidation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.abstractsyntaxviewer"
          download-size="0"
          install-size="0"
          version="0.0.0"

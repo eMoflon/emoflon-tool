@@ -18,8 +18,11 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.apache.log4j;bundle-version="1.2.15",
  SDMLanguage,
  org.moflon.tgg.language,
- org.moflon.tgg.debug.language,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ net.sourceforge.plantuml.eclipse,
+ org.eclipse.ui.workbench,
+ org.eclipse.jface,
+ org.eclipse.emf.ecore.editor
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

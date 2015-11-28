@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 
 import SDMLanguage.NamedElement;
 import SDMLanguage.activities.Activity;
@@ -188,7 +189,7 @@ public class eMoflonSDMUtil
       else if (eObject instanceof ENamedElement)
          return getFQN(eObject.eContainer()) + ((ENamedElement) eObject).getName() + ".";
       else
-         return getFQN(eObject.eContainer()) + eObject.getClass().getSimpleName() + ".";
+         return getFQN(eObject.eContainer()) + eMoflonEMFUtil.getIdentifier(eObject) + ".";
    }
 
    public static String extractExpression(Expression exp, String projectName)

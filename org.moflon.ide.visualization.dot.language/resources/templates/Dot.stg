@@ -1,0 +1,62 @@
+group dot;
+
+DirectedGraph(directGraph) ::= <<
+@startuml
+digraph root {
+	fontname=Monospace
+	fontsize=10
+	label="<if(directGraph.entries)>_____________________________\n <endif><directGraph.entries: Entry(); separator=" \\n ">";
+	<Pattern(directGraph.nodes, directGraph.edges)>
+	<directGraph.subGraphs: SubGraph(); separator="\n">
+}
+@enduml
+>>
+
+SubGraph(subGraph) ::= <<
+subgraph "<if(subGraph.cluster)>cluster_<endif>subroot" {
+	 label="";
+	 pencolor="invis";
+     <Pattern(subGraph.nodes, subGraph.edges)>
+}
+>>
+
+Pattern(nodes, edges) ::= <<
+<nodes: Node(); separator="\n">
+<edges: Edge(); separator="\n">
+>>
+
+Node(n) ::= <<
+<(n.Class.simpleName)(n)>
+>>
+
+Edge(e) ::= <<
+<(e.Class.simpleName)(e)>
+>>
+
+TaperImpl(e) ::= <<
+"<e.source.label>" ->  "<e.target.label>" [penwidth=7, dir="both", style="tapered", arrowtail="none", arrowhead="none", color=<e.color.literal>, constraint=true];
+>>
+
+EdgeCommandImpl(e) ::= <<
+"<e.source.label>" -> "<e.target.label>" [fontname=Monospace, penwidth=1, color=<e.color.literal>, label="<e.label>", fontsize=8, constraint=<e.constrained>];
+>>
+
+RecordImpl(n) ::= <<
+"<n.label>" [fontsize=10, fontname=Monospace, penwidth=1, shape=record, color=<n.color>, fillcolor=<n.fillcolor>, label="{<n.label> | <n.entries: Entry(); separator="|">}"<if(n.bold)>,penwidth=2<endif><if(n.rounded)>,style=rounded<endif>,style=filled];
+>>
+
+Entry(entry) ::= <<
+<entry.value>
+>>
+
+BoxImpl(n) ::= <<
+"<n.label>" [fontsize=10, fontname=Monospace, shape=box, color=<n.color>, style=rounded, href="<n.href>"];
+>>
+
+PointImpl(n) ::= <<
+"<n.label>" [fontsize=10, fontname=Monospace, shape=point, color=<n.color>, width=0.3];
+>>
+
+DoubleCircleImpl(n) ::= <<
+"<n.label>" [fontsize=10, fontname=Monospace, shape=doublecircle, color=<n.color>, xlabel=" <n.label>", label="", width=0.2,fixedsize=true];
+>>

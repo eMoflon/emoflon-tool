@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><plugin>
+  <extension point="net.sourceforge.plantuml.eclipse.diagramTextProvider">
+    <diagramTextProvider providerClass="org.moflon.ide.visualization.dot.sdmpatterns.StoryPatternDiagramTextProvider"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.ide.visualization.dot.sdmpatterns.SdmpatternsPackage" genModel="model/Sdmpatterns.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.sdmpatterns/model/Sdmpatterns.ecore"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.ide.visualization.dot.sdmpatterns.Rules.RulesPackage" genModel="model/Sdmpatterns.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.sdmpatterns/model/Sdmpatterns.ecore#//Rules"/>
+  </extension>
+</plugin>

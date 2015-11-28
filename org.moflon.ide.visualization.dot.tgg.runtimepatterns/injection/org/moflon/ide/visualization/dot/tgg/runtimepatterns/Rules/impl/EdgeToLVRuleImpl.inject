@@ -1,0 +1,19 @@
+
+import org.moflon.ide.visualization.dot.language.DotColor;
+import org.moflon.csp.*;
+import csp.constraints.*;
+import org.moflon.tgg.language.csp.*;
+import org.moflon.tgg.runtime.TripleMatchNodeMapping;
+import java.util.Optional;
+
+partial class EdgeToLVRuleImpl {
+
+
+
+@model postProcessFORWARD (TripleMatch tripleMatch, EMoflonEdge edge, EdgeCommand lv) <--
+
+      if (tripleMatch.getCreatedElements().contains(edge))
+         lv.setColor(DotColor.GREEN);
+-->
+
+}

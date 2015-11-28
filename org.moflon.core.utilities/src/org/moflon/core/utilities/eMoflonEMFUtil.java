@@ -600,6 +600,30 @@ public class eMoflonEMFUtil
 
       return returnList;
    }
+   
+   public static List<EStructuralFeature> getAllOppositeReferences(final EObject target)
+   {
+      Collection<Setting> settings = getInverseReferences(target);
+
+      List<EStructuralFeature> returnList = new ArrayList<>();
+      for (Setting setting : settings)
+      {
+         EStructuralFeature candidate = setting.getEStructuralFeature();
+         if (candidate != null)
+            returnList.add(candidate);
+      }
+
+      EObject eContainer = target.eContainer();
+      if (eContainer != null)
+      {
+         Setting setting = (((InternalEObject) eContainer).eSetting(target.eContainmentFeature()));
+         EStructuralFeature candidate = setting.getEStructuralFeature();
+         if (candidate != null)
+            returnList.add(candidate);
+      }
+
+      return returnList;
+   }
 
    private static EObject getCandidateObject(final Class<?> sourceType, final String targetRoleName, final Setting setting)
    {

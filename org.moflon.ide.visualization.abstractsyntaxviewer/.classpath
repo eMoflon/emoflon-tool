@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.gef4.zest.core_0.1.0.201311060306.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.gef4.zest.jface_0.1.0.201311060306.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.gef4.zest.layouts_0.1.0.201311060306.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><plugin>
+  <extension point="net.sourceforge.plantuml.eclipse.diagramTextProvider">
+    <diagramTextProvider providerClass="org.moflon.ide.visualization.dot.tgg.runtimepatterns.DotTGGRuntimePatternsDiagramTextProvider"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.ide.visualization.dot.tgg.runtimepatterns.RuntimepatternsPackage" genModel="model/Runtimepatterns.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.tgg.runtimepatterns/model/Runtimepatterns.ecore"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.ide.visualization.dot.tgg.runtimepatterns.Rules.RulesPackage" genModel="model/Runtimepatterns.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.tgg.runtimepatterns/model/Runtimepatterns.ecore#//Rules"/>
+  </extension>
+</plugin>
