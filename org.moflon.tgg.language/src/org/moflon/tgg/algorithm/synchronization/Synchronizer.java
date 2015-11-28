@@ -1,6 +1,5 @@
 package org.moflon.tgg.algorithm.synchronization;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -27,11 +26,18 @@ import org.moflon.tgg.algorithm.invocation.InvokeCheckAttributes;
 import org.moflon.tgg.algorithm.invocation.InvokeIsApplicable;
 import org.moflon.tgg.algorithm.invocation.InvokeIsAppropriate;
 import org.moflon.tgg.algorithm.invocation.InvokePerform;
-import org.moflon.tgg.algorithm.synchronization.DebugBreakpoint.Phase;
-
 import org.moflon.tgg.language.algorithm.TempOutputContainer;
-import org.moflon.tgg.language.analysis.*;
-import org.moflon.tgg.runtime.*;
+import org.moflon.tgg.language.analysis.Rule;
+import org.moflon.tgg.language.analysis.RulesTable;
+import org.moflon.tgg.language.analysis.StaticAnalysis;
+import org.moflon.tgg.runtime.AbstractCorrespondence;
+import org.moflon.tgg.runtime.AttributeConstraintsRuleResult;
+import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.IsApplicableMatch;
+import org.moflon.tgg.runtime.IsApplicableRuleResult;
+import org.moflon.tgg.runtime.Match;
+import org.moflon.tgg.runtime.PerformRuleResult;
 
 /**
  *

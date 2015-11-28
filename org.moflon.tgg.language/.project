@@ -6,16 +6,6 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>org.moflon.ide.texteditor.editors.TextEditorBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.dltk.core.scriptbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
@@ -36,13 +26,13 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.moflon.ide.core.plugins.PluginUpdater</name>
+			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
+			<triggers>full,incremental,</triggers>
 			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.moflon.ide.debug.annotation.processor.builder.BreakpointBuilder</name>
-			<arguments>
+				<dictionary>
+					<key>LaunchConfigHandle</key>
+					<value>&lt;project&gt;/.externalToolBuilders/org.moflon.ide.debug.annotation.processor.builder.BreakpointBuilder.launch</value>
+				</dictionary>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
@@ -50,6 +40,5 @@
 		<nature>org.moflon.ide.ui.runtime.natures.RepositoryNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
-		<nature>org.deved.antlride.core.nature</nature>
 	</natures>
 </projectDescription>

@@ -1,6 +1,5 @@
 package org.moflon.tgg.algorithm.synchronization;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +25,6 @@ import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 import org.moflon.tgg.algorithm.exceptions.LocalCompletenessException;
 import org.moflon.tgg.algorithm.synchronization.DebugBreakpoint.Phase;
-
 import org.moflon.tgg.language.algorithm.AlgorithmFactory;
 import org.moflon.tgg.language.algorithm.TempOutputContainer;
 import org.moflon.tgg.language.analysis.Rule;
@@ -224,7 +222,6 @@ public class SynchronizationHelper
 
    public SynchronizationHelper(final EPackage corrPackage, final String pathToProject, final ResourceSet resourceSet)
    {
-
       this.set = resourceSet;
       setCorrPackage(corrPackage);
       loadRulesFromProject(pathToProject);
