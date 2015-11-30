@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
 <MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.sdm.constraints.constraintstodemocles">
-  <dependencies value="platform:/plugin/LiteralExprResolver/model/LiteralExprResolver.ecore"/>
   <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
   <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
   <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
@@ -8,6 +7,7 @@
   <dependencies value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.sdm.democles.literalexpressionsolver/model/Literalexpressionsolver.ecore"/>
   <factoryMappings key="relational" value="RelationalConstraintFactory"/>
   <factoryMappings key="emf" value="EMFTypeFactory"/>
   <additionalDependencies value="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.ecore"/>
