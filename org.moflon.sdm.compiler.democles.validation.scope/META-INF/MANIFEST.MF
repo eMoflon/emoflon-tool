@@ -1,19 +1,20 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: ScopeValidation;singleton:=true
-Export-Package: ScopeValidation.impl,
- ScopeValidation,
- ScopeValidation.util
+Bundle-SymbolicName: org.moflon.sdm.compiler.democles.validation.scope
+ ;singleton:=true
+Export-Package: org.moflon.sdm.compiler.democles.validation.scope,
+ org.moflon.sdm.compiler.democles.validation.scope.impl,
+ org.moflon.sdm.compiler.democles.validation.scope.util
 Bundle-Name: ScopeValidation
 Bundle-Version: 2.0.0.qualifier
-Require-Bundle: SDMLanguageToDemocles,
- ControlFlow,
- org.moflon.sdm.compiler.democles.validation.result,
+Require-Bundle: ControlFlow,
  SDMLanguage,
+ MocaTree,
+ org.moflon.sdm.compiler.democles.pattern,
+ org.moflon.sdm.compiler.democles.validation.result,
  org.eclipse.emf.ecore,
  org.moflon.core.utilities,
  org.eclipse.emf.ecore.xmi,
- LiteralExprResolver,
- MocaTree,
+ org.moflon.sdm.democles.literalexpressionsolver,
  org.apache.log4j;bundle-version="1.2.15"
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy

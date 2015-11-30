@@ -14,8 +14,7 @@ import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 import org.moflon.sdm.compiler.democles.validation.result.Severity;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
-
-import ScopeValidation.impl.PatternMatcherImpl;
+import org.moflon.sdm.compiler.democles.validation.scope.impl.PatternMatcherImpl;
 
 public class PatternMatcherCompiler extends PatternMatcherImpl {
 	final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder;

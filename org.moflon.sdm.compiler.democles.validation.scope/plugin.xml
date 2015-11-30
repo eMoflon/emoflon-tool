@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.4"?><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="ScopeValidation.ScopeValidationPackage" genModel="model/ScopeValidation.genmodel" uri="platform:/plugin/ScopeValidation/model/ScopeValidation.ecore"/>
+    <package class="org.moflon.sdm.compiler.democles.validation.scope.ScopePackage" genModel="model/Scope.genmodel" uri="platform:/plugin/org.moflon.sdm.compiler.democles.validation.scope/model/Scope.ecore"/>
   </extension>
 </plugin>

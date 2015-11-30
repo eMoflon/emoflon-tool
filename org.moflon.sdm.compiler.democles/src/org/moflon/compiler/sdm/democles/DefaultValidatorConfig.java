@@ -26,31 +26,30 @@ import org.gervarro.democles.specification.impl.DefaultPattern;
 import org.gervarro.democles.specification.impl.DefaultPatternBody;
 import org.gervarro.democles.specification.impl.DefaultPatternFactory;
 import org.gervarro.democles.specification.impl.PatternInvocationConstraintModule;
-
-import LiteralExprResolver.ConstantTransformer;
-import LiteralExprResolver.LiteralExprResolverFactory;
-import SDMLanguageToDemocles.BindingPatternTransformer;
-import SDMLanguageToDemocles.BlackAndNacPatternTransformer;
-import SDMLanguageToDemocles.DefaultExpressionTransformer;
-import SDMLanguageToDemocles.GreenPatternTransformer;
-import SDMLanguageToDemocles.LiteralExpressionTransformer;
-import SDMLanguageToDemocles.NacPatternTransformer;
-import SDMLanguageToDemocles.PatternTransformer;
-import SDMLanguageToDemocles.RedPatternTransformer;
-import SDMLanguageToDemocles.SDMLanguageToDemoclesFactory;
-import ScopeValidation.BindingAndBlackPatternBuilder;
-import ScopeValidation.BindingExpressionBuilder;
-import ScopeValidation.BlackPatternBuilder;
-import ScopeValidation.ExpressionExplorer;
-import ScopeValidation.GreenPatternBuilder;
-import ScopeValidation.NacPatternBuilder;
-import ScopeValidation.PatternMatcher;
-import ScopeValidation.RedNodeDeletionBuilder;
-import ScopeValidation.RedPatternBuilder;
-import ScopeValidation.ScopeValidationFactory;
-import ScopeValidation.ScopeValidator;
-import ScopeValidation.SingleResultPatternInvocationBuilder;
-import ScopeValidation.StoryNodeActionBuilder;
+import org.moflon.sdm.compiler.democles.pattern.BindingPatternTransformer;
+import org.moflon.sdm.compiler.democles.pattern.BlackAndNacPatternTransformer;
+import org.moflon.sdm.compiler.democles.pattern.DefaultExpressionTransformer;
+import org.moflon.sdm.compiler.democles.pattern.GreenPatternTransformer;
+import org.moflon.sdm.compiler.democles.pattern.LiteralExpressionTransformer;
+import org.moflon.sdm.compiler.democles.pattern.NacPatternTransformer;
+import org.moflon.sdm.compiler.democles.pattern.PatternFactory;
+import org.moflon.sdm.compiler.democles.pattern.PatternTransformer;
+import org.moflon.sdm.compiler.democles.pattern.RedPatternTransformer;
+import org.moflon.sdm.compiler.democles.validation.scope.BindingAndBlackPatternBuilder;
+import org.moflon.sdm.compiler.democles.validation.scope.BindingExpressionBuilder;
+import org.moflon.sdm.compiler.democles.validation.scope.BlackPatternBuilder;
+import org.moflon.sdm.compiler.democles.validation.scope.ExpressionExplorer;
+import org.moflon.sdm.compiler.democles.validation.scope.GreenPatternBuilder;
+import org.moflon.sdm.compiler.democles.validation.scope.NacPatternBuilder;
+import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
+import org.moflon.sdm.compiler.democles.validation.scope.RedNodeDeletionBuilder;
+import org.moflon.sdm.compiler.democles.validation.scope.RedPatternBuilder;
+import org.moflon.sdm.compiler.democles.validation.scope.ScopeFactory;
+import org.moflon.sdm.compiler.democles.validation.scope.ScopeValidator;
+import org.moflon.sdm.compiler.democles.validation.scope.SingleResultPatternInvocationBuilder;
+import org.moflon.sdm.compiler.democles.validation.scope.StoryNodeActionBuilder;
+import org.moflon.sdm.democles.literalexpressionsolver.ConstantTransformer;
+import org.moflon.sdm.democles.literalexpressionsolver.LiteralexpressionsolverFactory;
 
 public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 	protected final ResourceSet resourceSet;
@@ -98,21 +97,21 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 	public ScopeValidator createScopeValidator() {
 		final Resource resource = new ResourceImpl(URI.createURI("ScopeValidator"));
 		resourceSet.getResources().add(resource);
-		final ScopeValidator scopeValidator = ScopeValidationFactory.eINSTANCE.createScopeValidator();
+		final ScopeValidator scopeValidator = ScopeFactory.eINSTANCE.createScopeValidator();
 		resource.getContents().add(scopeValidator);
 
 		try {
 			final Resource expressionTransformerResource = new ResourceImpl(URI.createURI("ExpressionHandler"));
 			resourceSet.getResources().add(expressionTransformerResource);
-			final ConstantTransformer constantTransformer = LiteralExprResolverFactory.eINSTANCE.createConstantTransformer();
+			final ConstantTransformer constantTransformer = LiteralexpressionsolverFactory.eINSTANCE.createConstantTransformer();
 			expressionTransformerResource.getContents().add(constantTransformer);
-			final LiteralExpressionTransformer literalExpressionTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createLiteralExpressionTransformer();
+			final LiteralExpressionTransformer literalExpressionTransformer = PatternFactory.eINSTANCE.createLiteralExpressionTransformer();
 			expressionTransformerResource.getContents().add(literalExpressionTransformer);
 			literalExpressionTransformer.setConstantTransformer(constantTransformer);
-			final DefaultExpressionTransformer expressionTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createDefaultExpressionTransformer();
+			final DefaultExpressionTransformer expressionTransformer = PatternFactory.eINSTANCE.createDefaultExpressionTransformer();
 			expressionTransformerResource.getContents().add(expressionTransformer);
 			expressionTransformer.setDelegate(literalExpressionTransformer);
-			final ExpressionExplorer expressionExplorer = ScopeValidationFactory.eINSTANCE.createExpressionExplorer();
+			final ExpressionExplorer expressionExplorer = ScopeFactory.eINSTANCE.createExpressionExplorer();
 			expressionTransformerResource.getContents().add(expressionExplorer);
 			expressionExplorer.setExpressionTransformer(expressionTransformer);
 
@@ -123,19 +122,19 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			final PatternMatcher greenPatternMatcher = configureGreenPatternMatcher(resource);
 			
 			// (1) Handler for regular story nodes
-			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeValidationFactory.eINSTANCE.createStoryNodeActionBuilder();
+			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeFactory.eINSTANCE.createStoryNodeActionBuilder();
 			scopeValidator.getActionBuilders().add(regularStoryNodeActionBuilder);
 			regularStoryNodeActionBuilder.setRequiresForEach(false);
 
-			final BindingAndBlackPatternBuilder regularBindingAndBlackInvocationBuilder = ScopeValidationFactory.eINSTANCE.createBindingAndBlackPatternBuilder();
+			final BindingAndBlackPatternBuilder regularBindingAndBlackInvocationBuilder = ScopeFactory.eINSTANCE.createBindingAndBlackPatternBuilder();
 			regularStoryNodeActionBuilder.getChildren().add(regularBindingAndBlackInvocationBuilder);
 			regularBindingAndBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION);
 			regularBindingAndBlackInvocationBuilder.setMainActionBuilder(true);
 			regularBindingAndBlackInvocationBuilder.setPatternMatcher(bindingAndBlackPatternMatcher);
 
-			final BindingExpressionBuilder regularBindingExpressionBuilder = ScopeValidationFactory.eINSTANCE.createBindingExpressionBuilder();
+			final BindingExpressionBuilder regularBindingExpressionBuilder = ScopeFactory.eINSTANCE.createBindingExpressionBuilder();
 			regularBindingAndBlackInvocationBuilder.getChildBuilders().add(regularBindingExpressionBuilder);
-			final BindingPatternTransformer regularBindingPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createBindingPatternTransformer();
+			final BindingPatternTransformer regularBindingPatternTransformer = PatternFactory.eINSTANCE.createBindingPatternTransformer();
 			regularBindingExpressionBuilder.setPatternTransformer(regularBindingPatternTransformer);
 			regularBindingExpressionBuilder.setExpressionExplorer(expressionExplorer);
 			regularBindingExpressionBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION);
@@ -143,10 +142,10 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
 			regularBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final BlackPatternBuilder regularBlackInvocationBuilder = ScopeValidationFactory.eINSTANCE.createBlackPatternBuilder();
+			final BlackPatternBuilder regularBlackInvocationBuilder = ScopeFactory.eINSTANCE.createBlackPatternBuilder();
 			regularBindingAndBlackInvocationBuilder.getChildBuilders().add(regularBlackInvocationBuilder);
 			regularBindingAndBlackInvocationBuilder.setBlackPatternBuilder(regularBlackInvocationBuilder);
-			final BlackAndNacPatternTransformer regularBlackPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createBlackAndNacPatternTransformer();
+			final BlackAndNacPatternTransformer regularBlackPatternTransformer = PatternFactory.eINSTANCE.createBlackAndNacPatternTransformer();
 			regularBlackInvocationBuilder.setPatternTransformer(regularBlackPatternTransformer);
 			regularBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			regularBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
@@ -154,18 +153,18 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularBlackInvocationBuilder.setPatternMatcher(blackPatternMatcher);
 			regularBlackPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final NacPatternBuilder regularNacPatternBuilder = ScopeValidationFactory.eINSTANCE.createNacPatternBuilder();
+			final NacPatternBuilder regularNacPatternBuilder = ScopeFactory.eINSTANCE.createNacPatternBuilder();
 			regularBlackInvocationBuilder.getChildBuilders().add(regularNacPatternBuilder);
-			final NacPatternTransformer regularNacPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createNacPatternTransformer();
+			final NacPatternTransformer regularNacPatternTransformer = PatternFactory.eINSTANCE.createNacPatternTransformer();
 			regularNacPatternBuilder.setPatternTransformer(regularNacPatternTransformer);
 			regularNacPatternBuilder.setExpressionExplorer(expressionExplorer);
 			regularNacPatternBuilder.setMainActionBuilder(false);
 			regularNacPatternBuilder.setPatternMatcher(blackPatternMatcher);
 			regularNacPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final RedPatternBuilder regularRedInvocationBuilder = ScopeValidationFactory.eINSTANCE.createRedPatternBuilder();
+			final RedPatternBuilder regularRedInvocationBuilder = ScopeFactory.eINSTANCE.createRedPatternBuilder();
 			regularStoryNodeActionBuilder.getChildren().add(regularRedInvocationBuilder);
-			final RedPatternTransformer regularRedPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createRedPatternTransformer();
+			final RedPatternTransformer regularRedPatternTransformer = PatternFactory.eINSTANCE.createRedPatternTransformer();
 			regularRedInvocationBuilder.setPatternTransformer(regularRedPatternTransformer);
 			regularRedInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			regularRedInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.RED_FILE_EXTENSION);
@@ -173,9 +172,9 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
 			regularRedPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final GreenPatternBuilder regularGreenInvocationBuilder = ScopeValidationFactory.eINSTANCE.createGreenPatternBuilder();
+			final GreenPatternBuilder regularGreenInvocationBuilder = ScopeFactory.eINSTANCE.createGreenPatternBuilder();
 			regularStoryNodeActionBuilder.getChildren().add(regularGreenInvocationBuilder);
-			final GreenPatternTransformer regularGreenPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createGreenPatternTransformer();
+			final GreenPatternTransformer regularGreenPatternTransformer = PatternFactory.eINSTANCE.createGreenPatternTransformer();
 			regularGreenInvocationBuilder.setPatternTransformer(regularGreenPatternTransformer);
 			regularGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			regularGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
@@ -183,17 +182,17 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularGreenInvocationBuilder.setPatternMatcher(greenPatternMatcher);
 			regularGreenPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final RedNodeDeletionBuilder regularRedNodeDeletionBuilder = ScopeValidationFactory.eINSTANCE.createRedNodeDeletionBuilder();
+			final RedNodeDeletionBuilder regularRedNodeDeletionBuilder = ScopeFactory.eINSTANCE.createRedNodeDeletionBuilder();
 			regularStoryNodeActionBuilder.getChildren().add(regularRedNodeDeletionBuilder);
 
 			// (2) Handler for ForEach story nodes
-			final StoryNodeActionBuilder forEachStoryNodeActionBuilder = ScopeValidationFactory.eINSTANCE.createStoryNodeActionBuilder();
+			final StoryNodeActionBuilder forEachStoryNodeActionBuilder = ScopeFactory.eINSTANCE.createStoryNodeActionBuilder();
 			scopeValidator.getActionBuilders().add(forEachStoryNodeActionBuilder);
 			forEachStoryNodeActionBuilder.setRequiresForEach(true);
 
-			final BindingExpressionBuilder forEachBindingExpressionBuilder = ScopeValidationFactory.eINSTANCE.createBindingExpressionBuilder();
+			final BindingExpressionBuilder forEachBindingExpressionBuilder = ScopeFactory.eINSTANCE.createBindingExpressionBuilder();
 			forEachStoryNodeActionBuilder.getChildren().add(forEachBindingExpressionBuilder);
-			final BindingPatternTransformer forEachBindingPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createBindingPatternTransformer();
+			final BindingPatternTransformer forEachBindingPatternTransformer = PatternFactory.eINSTANCE.createBindingPatternTransformer();
 			forEachBindingExpressionBuilder.setPatternTransformer(forEachBindingPatternTransformer);
 			forEachBindingExpressionBuilder.setExpressionExplorer(expressionExplorer);
 			forEachBindingExpressionBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION);
@@ -201,9 +200,9 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			forEachBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
 			forEachBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final BlackPatternBuilder forEachBlackInvocationBuilder = ScopeValidationFactory.eINSTANCE.createBlackPatternBuilder();
+			final BlackPatternBuilder forEachBlackInvocationBuilder = ScopeFactory.eINSTANCE.createBlackPatternBuilder();
 			forEachStoryNodeActionBuilder.getChildren().add(forEachBlackInvocationBuilder);
-			final BlackAndNacPatternTransformer forEachBlackPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createBlackAndNacPatternTransformer();
+			final BlackAndNacPatternTransformer forEachBlackPatternTransformer = PatternFactory.eINSTANCE.createBlackAndNacPatternTransformer();
 			forEachBlackInvocationBuilder.setPatternTransformer(forEachBlackPatternTransformer);
 			forEachBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			forEachBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
@@ -211,18 +210,18 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			forEachBlackInvocationBuilder.setPatternMatcher(blackPatternMatcher);
 			forEachBlackPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final NacPatternBuilder forEachNacPatternBuilder = ScopeValidationFactory.eINSTANCE.createNacPatternBuilder();
+			final NacPatternBuilder forEachNacPatternBuilder = ScopeFactory.eINSTANCE.createNacPatternBuilder();
 			forEachBlackInvocationBuilder.getChildBuilders().add(forEachNacPatternBuilder);
-			final NacPatternTransformer forEachNacPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createNacPatternTransformer();
+			final NacPatternTransformer forEachNacPatternTransformer = PatternFactory.eINSTANCE.createNacPatternTransformer();
 			forEachNacPatternBuilder.setPatternTransformer(forEachNacPatternTransformer);
 			forEachNacPatternBuilder.setExpressionExplorer(expressionExplorer);
 			forEachNacPatternBuilder.setMainActionBuilder(false);
 			forEachNacPatternBuilder.setPatternMatcher(blackPatternMatcher);
 			forEachNacPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final RedPatternBuilder forEachRedInvocationBuilder = ScopeValidationFactory.eINSTANCE.createRedPatternBuilder();
+			final RedPatternBuilder forEachRedInvocationBuilder = ScopeFactory.eINSTANCE.createRedPatternBuilder();
 			forEachStoryNodeActionBuilder.getChildren().add(forEachRedInvocationBuilder);
-			final RedPatternTransformer forEachRedPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createRedPatternTransformer();
+			final RedPatternTransformer forEachRedPatternTransformer = PatternFactory.eINSTANCE.createRedPatternTransformer();
 			forEachRedInvocationBuilder.setPatternTransformer(forEachRedPatternTransformer);
 			forEachRedInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			forEachRedInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.RED_FILE_EXTENSION);
@@ -230,9 +229,9 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			forEachRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
 			forEachRedPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final GreenPatternBuilder forEachGreenInvocationBuilder = ScopeValidationFactory.eINSTANCE.createGreenPatternBuilder();
+			final GreenPatternBuilder forEachGreenInvocationBuilder = ScopeFactory.eINSTANCE.createGreenPatternBuilder();
 			forEachStoryNodeActionBuilder.getChildren().add(forEachGreenInvocationBuilder);
-			final GreenPatternTransformer forEachGreenPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createGreenPatternTransformer();
+			final GreenPatternTransformer forEachGreenPatternTransformer = PatternFactory.eINSTANCE.createGreenPatternTransformer();
 			forEachGreenInvocationBuilder.setPatternTransformer(forEachGreenPatternTransformer);
 			forEachGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			forEachGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
@@ -240,13 +239,13 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			forEachGreenInvocationBuilder.setPatternMatcher(greenPatternMatcher);
 			forEachGreenPatternTransformer.setExpressionTransformer(expressionTransformer);
 
-			final RedNodeDeletionBuilder forEachRedNodeDeletionBuilder = ScopeValidationFactory.eINSTANCE.createRedNodeDeletionBuilder();
+			final RedNodeDeletionBuilder forEachRedNodeDeletionBuilder = ScopeFactory.eINSTANCE.createRedNodeDeletionBuilder();
 			forEachStoryNodeActionBuilder.getChildren().add(forEachRedNodeDeletionBuilder);
 
 			// (3) Handler for statement and stop nodes
-			final SingleResultPatternInvocationBuilder expressionActionBuilder = ScopeValidationFactory.eINSTANCE.createSingleResultPatternInvocationBuilder();
+			final SingleResultPatternInvocationBuilder expressionActionBuilder = ScopeFactory.eINSTANCE.createSingleResultPatternInvocationBuilder();
 			scopeValidator.getActionBuilders().add(expressionActionBuilder);
-			final PatternTransformer expressionPatternTransformer = SDMLanguageToDemoclesFactory.eINSTANCE.createPatternTransformer();
+			final PatternTransformer expressionPatternTransformer = PatternFactory.eINSTANCE.createPatternTransformer();
 			expressionActionBuilder.setPatternVariableHandler(expressionPatternTransformer);
 			expressionActionBuilder.setExpressionExplorer(expressionExplorer);
 			expressionActionBuilder.setSuffix(DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION);

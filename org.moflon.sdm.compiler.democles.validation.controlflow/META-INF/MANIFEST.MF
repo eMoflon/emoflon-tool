@@ -1,8 +1,10 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: Sequencer;singleton:=true
-Export-Package: Sequencer,
- Sequencer.util,
- Sequencer.impl
+Bundle-SymbolicName: org.moflon.sdm.compiler.democles.validation.contr
+ olflow;singleton:=true
+Export-Package: 
+ org.moflon.sdm.compiler.democles.validation.controlflow.impl,
+ org.moflon.sdm.compiler.democles.validation.controlflow,
+ org.moflon.sdm.compiler.democles.validation.controlflow.util
 Bundle-Name: Sequencer
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.8.0",

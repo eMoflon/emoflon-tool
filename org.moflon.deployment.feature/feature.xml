@@ -56,38 +56,11 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          unpack="false"/>
 
    <plugin
-         id="LiteralExprResolver"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ScopeValidation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="Sequencer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="SDMLanguage"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="SDMLanguageToDemocles"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <plugin
          id="MoflonPropertyContainer"
@@ -347,5 +320,32 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+
+   <plugin
+         id="org.moflon.sdm.compiler.democles.pattern"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.moflon.sdm.compiler.democles.validation.controlflow"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.compiler.democles.validation.scope"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.democles.literalexpressionsolver"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

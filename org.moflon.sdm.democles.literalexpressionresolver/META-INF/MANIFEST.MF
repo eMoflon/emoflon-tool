@@ -1,9 +1,10 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: LiteralExprResolver;singleton:=true
-Export-Package: LiteralExprResolver,
- LiteralExprResolver.impl,
- LiteralExprResolver.util,
- org.moflon.moca.literalExpression.parser
+Bundle-SymbolicName: org.moflon.sdm.democles.literalexpressionsolver;s
+ ingleton:=true
+Export-Package: org.moflon.moca.literalExpression.parser,
+ org.moflon.sdm.democles.literalexpressionsolver,
+ org.moflon.sdm.democles.literalexpressionsolver.impl,
+ org.moflon.sdm.democles.literalexpressionsolver.util
 Bundle-Name: LiteralExprResolver
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.moflon.core.moca.processing,

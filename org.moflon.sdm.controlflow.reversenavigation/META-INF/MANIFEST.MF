@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="3.8.101",
  org.moflon.sdm.compiler.eclipse,
  org.moflon.sdm.compiler.democles,
  org.moflon.sdm.democles.patternmatcher;bundle-version="0.3.1",
- ScopeValidation,
+ org.moflon.sdm.compiler.democles.validation.scope,
  org.eclipse.emf.codegen.ecore;bundle-version="2.10.0",
  org.moflon.core.utilities,
  ControlFlow

@@ -11,18 +11,18 @@ Require-Bundle:
  org.eclipse.emf.ecore.xmi;bundle-version="2.9.1",
  org.eclipse.emf.codegen.ecore;bundle-version="2.9.1",
  org.moflon.core.utilities,
- LiteralExprResolver,
+ org.moflon.sdm.democles.literalexpressionsolver,
  org.moflon.sdm.compiler.eclipse,
  org.moflon.sdm.democles.patternmatcher;bundle-version="[0.3.0,0.4.0)",
  ControlFlow,
  MoflonPropertyContainer,
  SDMLanguage,
  org.moflon.core.moca.processing,
- SDMLanguageToDemocles,
- ScopeValidation,
+ org.moflon.sdm.compiler.democles.pattern,
+ org.moflon.sdm.compiler.democles.validation.scope,
  org.moflon.sdm.compiler.democles.validation.result,
  org.moflon.core.dfs,
- Sequencer
+ org.moflon.sdm.compiler.democles.validation.controlflow
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.compiler.sdm.democles,
  org.moflon.compiler.sdm.democles.eclipse

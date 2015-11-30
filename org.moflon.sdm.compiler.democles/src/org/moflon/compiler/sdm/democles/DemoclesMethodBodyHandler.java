@@ -35,16 +35,16 @@ import org.moflon.compiler.sdm.democles.eclipse.PatternResourceFactory;
 import org.moflon.core.dfs.DFSGraph;
 import org.moflon.core.dfs.DfsFactory;
 import org.moflon.eclipse.job.IMonitoredJob;
+import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
+import org.moflon.sdm.compiler.democles.validation.controlflow.InefficientBootstrappingBuilder;
+import org.moflon.sdm.compiler.democles.validation.controlflow.SDMActivityGraphBuilder;
+import org.moflon.sdm.compiler.democles.validation.controlflow.Validator;
 import org.moflon.sdm.compiler.democles.validation.result.Severity;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 
 import SDMLanguage.activities.ActivitiesPackage;
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.MoflonEOperation;
-import Sequencer.InefficientBootstrappingBuilder;
-import Sequencer.SDMActivityGraphBuilder;
-import Sequencer.SequencerFactory;
-import Sequencer.Validator;
 
 public class DemoclesMethodBodyHandler implements MethodBodyHandler {
    
@@ -168,10 +168,10 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 	public static final ValidationReport performControlFlowValidation(final ResourceSet resourceSet,
 			final EOperation eOperation, final Activity activity) {
 		// Initialize control flow validator
-		final Validator validator = SequencerFactory.eINSTANCE.createValidator();
+		final Validator validator = ControlflowFactory.eINSTANCE.createValidator();
 		validator.setStopNodeInForEachComponentSeverity(Severity.WARNING);
-		final InefficientBootstrappingBuilder inefficientBuilder = SequencerFactory.eINSTANCE.createInefficientBootstrappingBuilder();
-		final SDMActivityGraphBuilder builder = SequencerFactory.eINSTANCE.createSDMActivityGraphBuilder();
+		final InefficientBootstrappingBuilder inefficientBuilder = ControlflowFactory.eINSTANCE.createInefficientBootstrappingBuilder();
+		final SDMActivityGraphBuilder builder = ControlflowFactory.eINSTANCE.createSDMActivityGraphBuilder();
 		final DFSGraph graph = DfsFactory.eINSTANCE.createDFSGraph();
 		validator.setGraph(graph);
 		inefficientBuilder.setGraph(graph);

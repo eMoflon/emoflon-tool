@@ -3,8 +3,8 @@
   <dependencies value="platform:/plugin/LiteralExprResolver/model/LiteralExprResolver.ecore"/>
   <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
   <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
-  <dependencies value="platform:/plugin/SDMLanguageToDemocles/model/SDMLanguageToDemocles.ecore"/>
   <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.sdm.compiler.democles.pattern/model/Pattern.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore"/>

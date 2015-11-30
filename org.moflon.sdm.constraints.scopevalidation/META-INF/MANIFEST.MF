@@ -6,16 +6,16 @@ Export-Package: org.moflon.sdm.constraints.scopevalidation,
  org.moflon.sdm.constraints.scopevalidation.util
 Bundle-Name: org.moflon.sdm.constraints.scopevalidation
 Bundle-Version: 2.0.0.qualifier
-Require-Bundle: ScopeValidation,
+Require-Bundle: MocaTree,
  ControlFlow,
  SDMLanguage,
+ org.moflon.sdm.compiler.democles.validation.scope,
  org.moflon.sdm.compiler.democles.validation.result,
- SDMLanguageToDemocles,
+ org.moflon.sdm.compiler.democles.pattern,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
- LiteralExprResolver,
- MocaTree,
+ org.moflon.sdm.democles.literalexpressionsolver,
  org.apache.log4j;bundle-version="1.2.15"
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy

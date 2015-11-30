@@ -26,6 +26,16 @@ import org.moflon.core.dfs.DFSGraph;
 import org.moflon.core.dfs.DfsFactory;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
+import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
+import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowPackage;
+import org.moflon.sdm.compiler.democles.validation.controlflow.InefficientBootstrappingBuilder;
+import org.moflon.sdm.compiler.democles.validation.controlflow.SDMActivityGraphBuilder;
+import org.moflon.sdm.compiler.democles.validation.controlflow.Validator;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
+import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
+import org.moflon.sdm.compiler.democles.validation.result.Severity;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
+import org.moflon.sdm.compiler.democles.validation.scope.ScopeValidator;
 
 import ControlFlow.CFVariable;
 import ControlFlow.ControlFlowFactory;
@@ -33,16 +43,6 @@ import ControlFlow.Scope;
 import SDMLanguage.activities.ActivitiesPackage;
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.MoflonEOperation;
-import ScopeValidation.ScopeValidator;
-import Sequencer.InefficientBootstrappingBuilder;
-import Sequencer.SDMActivityGraphBuilder;
-import Sequencer.SequencerFactory;
-import Sequencer.SequencerPackage;
-import Sequencer.Validator;
-import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
-import org.moflon.sdm.compiler.democles.validation.result.Severity;
-import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
-import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 
 /**
  * This job calls during its {@link #run(IProgressMonitor)} the stored validator method for all EClasses contained in its stored EPackage (see {@link #DemoclesValidatorTask(ScopeValidator, EPackage)}. 
@@ -144,7 +144,7 @@ public class DemoclesValidatorTask implements IMonitoredJob
             {
                final Scope scope = (Scope) scopeCandidate;
                // Assign unique identifiers to control flow nodes
-               scope.accept(SequencerPackage.eINSTANCE.getSequencerFactory().createIdentifierAllocator());
+               scope.accept(ControlflowPackage.eINSTANCE.getControlflowFactory().createIdentifierAllocator());
 
                // Perform scope validation
                final ValidationReport scopeValidationReport = ResultFactory.eINSTANCE.createValidationReport();
@@ -254,10 +254,10 @@ public class DemoclesValidatorTask implements IMonitoredJob
    public static final ValidationReport performControlFlowValidation(final ResourceSet resourceSet, final EOperation eOperation, final Activity activity)
    {
       // Initialize control flow validator
-      final Validator validator = SequencerFactory.eINSTANCE.createValidator();
+      final Validator validator = ControlflowFactory.eINSTANCE.createValidator();
       validator.setStopNodeInForEachComponentSeverity(Severity.WARNING);
-      final InefficientBootstrappingBuilder inefficientBuilder = SequencerFactory.eINSTANCE.createInefficientBootstrappingBuilder();
-      final SDMActivityGraphBuilder builder = SequencerFactory.eINSTANCE.createSDMActivityGraphBuilder();
+      final InefficientBootstrappingBuilder inefficientBuilder = ControlflowFactory.eINSTANCE.createInefficientBootstrappingBuilder();
+      final SDMActivityGraphBuilder builder = ControlflowFactory.eINSTANCE.createSDMActivityGraphBuilder();
       final DFSGraph graph = DfsFactory.eINSTANCE.createDFSGraph();
       validator.setGraph(graph);
       inefficientBuilder.setGraph(graph);

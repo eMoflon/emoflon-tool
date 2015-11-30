@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.4"?><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="LiteralExprResolver.LiteralExprResolverPackage" genModel="model/LiteralExprResolver.genmodel" uri="platform:/plugin/LiteralExprResolver/model/LiteralExprResolver.ecore"/>
+    <package class="org.moflon.sdm.democles.literalexpressionsolver.LiteralexpressionsolverPackage" genModel="model/Literalexpressionsolver.genmodel" uri="platform:/plugin/org.moflon.sdm.democles.literalexpressionsolver/model/Literalexpressionsolver.ecore"/>
   </extension>
 </plugin>

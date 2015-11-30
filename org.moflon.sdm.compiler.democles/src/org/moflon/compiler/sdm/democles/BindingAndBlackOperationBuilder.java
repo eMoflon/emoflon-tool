@@ -16,8 +16,7 @@ import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.PatternInvocationConstraint;
 import org.gervarro.democles.specification.impl.Constraint;
 import org.gervarro.democles.specification.impl.Variable;
-
-import ScopeValidation.impl.PatternMatcherImpl;
+import org.moflon.sdm.compiler.democles.validation.scope.impl.PatternMatcherImpl;
 
 public class BindingAndBlackOperationBuilder implements OperationBuilder<GeneratorOperation, GeneratorVariable>
 {

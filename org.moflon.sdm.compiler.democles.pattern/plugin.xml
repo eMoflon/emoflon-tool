@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.4"?><plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="SDMLanguageToDemocles.SDMLanguageToDemoclesPackage" genModel="model/SDMLanguageToDemocles.genmodel" uri="platform:/plugin/SDMLanguageToDemocles/model/SDMLanguageToDemocles.ecore"/>
+    <package class="org.moflon.sdm.compiler.democles.pattern.PatternPackage" genModel="model/Pattern.genmodel" uri="platform:/plugin/org.moflon.sdm.compiler.democles.pattern/model/Pattern.ecore"/>
   </extension>
 </plugin>
