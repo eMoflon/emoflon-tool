@@ -28,4 +28,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.moflon.ide.visualization.dot.tgg.runtime.DotTggR
  untimePlugin
-Bundle-Vendor: TU Darmstadt
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
