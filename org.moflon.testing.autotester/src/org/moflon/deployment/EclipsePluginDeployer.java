@@ -120,7 +120,7 @@ public class EclipsePluginDeployer extends AbstractDeployer
             }
 
             for (IFile file : Arrays.asList(getSiteXmlFile(sourceProject), sourceProject.getFile("index.html"), sourceProject.getFile("ea-ecore-addin.zip"),
-                  sourceProject.getFile("changelog.txt")))
+                  sourceProject.getFile("changelog.txt"), sourceProject.getFile("associateSites.xml")))
             {
                copyAndReportMissingFile(file.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + file.getName()));
             }
