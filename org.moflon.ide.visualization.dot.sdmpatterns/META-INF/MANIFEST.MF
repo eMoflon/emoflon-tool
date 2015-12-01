@@ -25,5 +25,6 @@ Require-Bundle: org.eclipse.emf.ecore,
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: TU Darmstadt
-Bundle-Activator: org.moflon.ide.visualization.dot.sdmpatterns.StoryPatternVisualizationPlugin
+Bundle-Activator: org.moflon.ide.visualization.dot.sdmpatterns.StoryPa
+ tternVisualizationPlugin
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
