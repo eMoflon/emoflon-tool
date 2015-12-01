@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.moflon.ide.visualization.feature"
-      label="eMoflon Visualization Feature (optional)"
+      label="eMoflon Visualization Feature (optional, requires PlantUML)"
       version="2.7.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt"
       license-feature="org.moflon.ide.feature"
       license-feature-version="2.7.0.qualifier">
 
    <description url="http://www.emoflon.org/">
-      This feature provides visualization support for meta-models and TGGs.
+      This feature provides visualization support for meta-models and
+TGGs.
+
+This feature requires PlantUML to be installed, which can be installed from the following update site:
+http://basar.idi.ntnu.no/svn/tdt4100/anonymous/trunk/updatesite/
    </description>
 
    <copyright>
