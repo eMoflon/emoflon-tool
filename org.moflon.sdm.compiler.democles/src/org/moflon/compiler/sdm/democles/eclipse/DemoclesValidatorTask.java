@@ -36,10 +36,10 @@ import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 import org.moflon.sdm.compiler.democles.validation.result.Severity;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.compiler.democles.validation.scope.ScopeValidator;
+import org.moflon.sdm.runtime.democles.CFVariable;
+import org.moflon.sdm.runtime.democles.DemoclesFactory;
+import org.moflon.sdm.runtime.democles.Scope;
 
-import ControlFlow.CFVariable;
-import ControlFlow.ControlFlowFactory;
-import ControlFlow.Scope;
 import SDMLanguage.activities.ActivitiesPackage;
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.MoflonEOperation;
@@ -288,14 +288,14 @@ public class DemoclesValidatorTask implements IMonitoredJob
       controlFlowResource.getContents().add(scope);
 
       // Add this object and method parameters to the (root) scope
-      final CFVariable thisObject = ControlFlowFactory.eINSTANCE.createCFVariable();
+      final CFVariable thisObject = DemoclesFactory.eINSTANCE.createCFVariable();
       scope.getVariables().add(thisObject);
       thisObject.setName("this");
       thisObject.setType(eOperation.getEContainingClass());
       thisObject.setLocal(false);
       for (final EParameter eParameter : eOperation.getEParameters())
       {
-         final CFVariable parameter = ControlFlowFactory.eINSTANCE.createCFVariable();
+         final CFVariable parameter = DemoclesFactory.eINSTANCE.createCFVariable();
          scope.getVariables().add(parameter);
          parameter.setName(eParameter.getName());
          parameter.setType(eParameter.getEType());

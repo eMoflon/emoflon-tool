@@ -6,7 +6,7 @@ Export-Package: org.moflon.sdm.compiler.democles.validation.scope,
  org.moflon.sdm.compiler.democles.validation.scope.util
 Bundle-Name: ScopeValidation
 Bundle-Version: 2.0.0.qualifier
-Require-Bundle: ControlFlow,
+Require-Bundle: org.moflon.sdm.runtime.democles,
  SDMLanguage,
  MocaTree,
  org.moflon.sdm.compiler.democles.pattern,

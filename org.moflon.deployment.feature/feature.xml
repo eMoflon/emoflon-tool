@@ -77,13 +77,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          unpack="false"/>
 
    <plugin
-         id="ControlFlow"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.moflon.validation.validationplugin"
          download-size="0"
          install-size="0"
@@ -300,6 +293,13 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.sdm.democles.literalexpressionsolver"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.runtime.democles"
          download-size="0"
          install-size="0"
          version="0.0.0"

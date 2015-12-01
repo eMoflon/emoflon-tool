@@ -10,7 +10,7 @@ Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.8.0",
  org.moflon.sdm.compiler.democles.validation.result,
  SDMLanguage,
- ControlFlow,
+ org.moflon.sdm.runtime.democles,
  org.eclipse.emf.ecore,
  org.moflon.core.utilities,
  org.moflon.core.dfs,

@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: org.moflon.sdm.constraints.democles;singleton:=true
+Bundle-SymbolicName: org.moflon.sdm.constraints.democles;singleton:=tr
+ ue
 Export-Package: org.moflon.sdm.constraints.democles,
  org.moflon.sdm.constraints.democles.util
 Bundle-Name: org.moflon.sdm.constraints.democles
@@ -7,7 +8,7 @@ Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
- ControlFlow,
+ org.moflon.sdm.runtime.democles,
  org.apache.log4j;bundle-version="1.2.15"
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy

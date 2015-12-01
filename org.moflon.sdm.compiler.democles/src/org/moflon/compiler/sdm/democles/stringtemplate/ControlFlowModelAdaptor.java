@@ -3,18 +3,17 @@ package org.moflon.compiler.sdm.democles.stringtemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.moflon.sdm.runtime.democles.Action;
+import org.moflon.sdm.runtime.democles.CFNode;
+import org.moflon.sdm.runtime.democles.CFVariable;
+import org.moflon.sdm.runtime.democles.ContinueStatement;
+import org.moflon.sdm.runtime.democles.PatternInvocation;
+import org.moflon.sdm.runtime.democles.RepetitionNode;
+import org.moflon.sdm.runtime.democles.VariableReference;
 import org.stringtemplate.v4.Interpreter;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.misc.ObjectModelAdaptor;
 import org.stringtemplate.v4.misc.STNoSuchPropertyException;
-
-import ControlFlow.Action;
-import ControlFlow.CFNode;
-import ControlFlow.CFVariable;
-import ControlFlow.ContinueStatement;
-import ControlFlow.PatternInvocation;
-import ControlFlow.RepetitionNode;
-import ControlFlow.VariableReference;
 
 public class ControlFlowModelAdaptor extends ObjectModelAdaptor {
 	public static final ControlFlowModelAdaptor INSTANCE =

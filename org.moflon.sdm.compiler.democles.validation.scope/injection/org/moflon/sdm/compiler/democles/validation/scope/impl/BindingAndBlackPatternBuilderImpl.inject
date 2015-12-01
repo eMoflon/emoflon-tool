@@ -1,7 +1,7 @@
 
 import java.util.List;
 import org.gervarro.democles.common.Adornment;
-import ControlFlow.VariableReference;
+import org.moflon.sdm.runtime.democles.VariableReference;
 import org.moflon.sdm.compiler.democles.validation.scope.impl.PatternMatcherImpl;
 
 partial class BindingAndBlackPatternBuilderImpl {

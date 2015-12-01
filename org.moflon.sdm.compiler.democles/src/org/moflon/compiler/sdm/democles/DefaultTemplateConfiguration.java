@@ -26,12 +26,11 @@ import org.gervarro.democles.specification.ConstraintVariable;
 import org.moflon.compiler.sdm.democles.stringtemplate.ControlFlowModelAdaptor;
 import org.moflon.compiler.sdm.democles.stringtemplate.PatternMatcherModelAdaptor;
 import org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin;
+import org.moflon.sdm.runtime.democles.CFNode;
+import org.moflon.sdm.runtime.democles.CFVariable;
+import org.moflon.sdm.runtime.democles.PatternInvocation;
+import org.moflon.sdm.runtime.democles.VariableReference;
 import org.stringtemplate.v4.STGroup;
-
-import ControlFlow.CFNode;
-import ControlFlow.CFVariable;
-import ControlFlow.PatternInvocation;
-import ControlFlow.VariableReference;
 
 public class DefaultTemplateConfiguration implements TemplateConfigurationProvider
 {

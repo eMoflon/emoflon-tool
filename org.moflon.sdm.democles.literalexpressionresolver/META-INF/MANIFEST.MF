@@ -8,7 +8,7 @@ Export-Package: org.moflon.moca.literalExpression.parser,
 Bundle-Name: LiteralExprResolver
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.moflon.core.moca.processing,
- ControlFlow,
+ org.moflon.sdm.runtime.democles,
  MocaTree,
  SDMLanguage,
  org.eclipse.emf.ecore,

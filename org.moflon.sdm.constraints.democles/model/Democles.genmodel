@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.moflon.sdm.constraints.democles/gen" modelPluginID="org.moflon.sdm.constraints.democles"
     modelName="Democles" updateClasspath="false" suppressInterfaces="true" codeFormatting="true"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
-    usedGenPackages="archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel#//specification archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel#//emf archive:platform:/resource/ControlFlow/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel#//relational">
+    usedGenPackages="archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel#//specification archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel#//emf archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel#//relational">
   <foreignModel>Democles.ecore</foreignModel>
   <genPackages prefix="Democles" disposableProviderFactory="true" ecorePackage="platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore#/">
     <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore#//AttributeVariableConstraint">
