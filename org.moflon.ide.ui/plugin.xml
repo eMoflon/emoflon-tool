@@ -217,6 +217,10 @@
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
                      </reference>
+                     <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
+                     </reference>
+                     <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
+                     </reference>
                   </or>
                </or>
             </visibleWhen>
@@ -418,9 +422,6 @@
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.isProject">
                      </reference>
-                     <!--<reference
-                           definitionId="org.moflon.ide.ui.definitions.isWorkingSet">
-                     </reference>-->
                   </iterate>
                </with>
                <with
@@ -437,6 +438,12 @@
                      </reference>
                   </or>
                </with>
+               <reference
+                   definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
+        		</reference>
+        		<reference
+                   definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
+        		</reference>
             </or>
          </enabledWhen>
       </handler>
@@ -452,9 +459,6 @@
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.isProject">
                      </reference>
-                     <!--<reference
-                           definitionId="org.moflon.ide.ui.definitions.isWorkingSet">
-                     </reference>-->
                   </iterate>
                </with>
                <with
@@ -471,6 +475,12 @@
                      </reference>
                   </or>
                </with>
+               <reference
+                   definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
+        		</reference>
+        		<reference
+                   definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
+        		</reference>
             </or>
          </enabledWhen>
       </handler>
@@ -578,6 +588,10 @@
                      <reference
                            definitionId="org.moflon.ide.ui.definitions.isProject">
                      </reference>
+                     <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
+                     </reference>
+                     <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
+                     </reference>
                   </or>
                </iterate>
             </with>
@@ -652,6 +666,7 @@
          <enabledWhen>
             <with
                   variable="selection">
+                  <or>
                <iterate
                      ifEmpty="false"
                      operator="or">
@@ -666,6 +681,13 @@
                      
                   </or>
                </iterate>
+               <reference
+                   definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
+        		</reference>
+        		<reference
+                   definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
+        		</reference>
+               </or>
             </with>
          </enabledWhen>
       </handler>
@@ -759,7 +781,7 @@
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.build.ExportAndBuild"
-            name="Export and Build">
+            name="Export">
       </command>
       <command
             id="org.moflon.ide.ui.moflon"
@@ -1213,9 +1235,7 @@
       </definition>
       <definition
             id="org.moflon.ide.ui.definitions.isWorkingSet">
-         <adapt
-               type="org.eclipse.ui.IWorkingSet">
-         </adapt>
+         <instanceof value="org.eclipse.ui.IWorkingSet"/>
       </definition>
       <definition
             id="org.moflon.ide.ui.definitions.hasJavaEditor">
@@ -1230,6 +1250,18 @@
                   definitionId="org.moflon.ide.ui.definitions.isCompilationUnitEditor">
             </reference>
          </and>
+      </definition>
+      <definition
+            id="org.moflon.ide.ui.definitions.isInProjectExplorer">
+        <with variable="activePartId">
+        	<equals value="org.eclipse.ui.navigator.ProjectExplorer"/>
+    	</with>
+      </definition>
+      <definition
+            id="org.moflon.ide.ui.definitions.isInPackageExplorer">
+        <with variable="activePartId">
+        	<equals value="org.eclipse.jdt.ui.PackageExplorer"/>
+    	</with>
       </definition>
    </extension>
    <extension

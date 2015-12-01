@@ -19,46 +19,39 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * 
  * May be called on several projects.
  * 
- * The command performs a clean prior to building, which is especially necessary due to the Democles code generation
- * process.
+ * The command performs a clean prior to building, which is especially necessary
+ * due to the Democles code generation process.
  */
-public class BuildHandler extends AbstractCommandHandler
-{
+public class BuildHandler extends AbstractCommandHandler {
 
-   @Override
-   public Object execute(final ExecutionEvent event) throws ExecutionException
-   {
+	@Override
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
 
-      final ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
-      final List<IProject> projects = new ArrayList<>();
-      if (selection instanceof StructuredSelection)
-      {
-         final StructuredSelection structuredSelection = (StructuredSelection) selection;
-         for (final Iterator<?> selectionIterator = structuredSelection.iterator(); selectionIterator.hasNext();)
-         {
-            projects.addAll(getProjects(selectionIterator.next()));
-         }
-      } else if (selection instanceof ITextSelection)
-      {
-         final IFile file = getEditedFile(event);
-         final IProject project = file.getProject();
-         projects.add(project);
-      }
+		final ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
+		final List<IProject> projects = new ArrayList<>();
+		if (selection instanceof StructuredSelection) {
+			final StructuredSelection structuredSelection = (StructuredSelection) selection;
+			for (final Iterator<?> selectionIterator = structuredSelection.iterator(); selectionIterator.hasNext();) {
+				projects.addAll(getProjects(selectionIterator.next()));
+			}
+		} else if (selection instanceof ITextSelection) {
+			final IFile file = getEditedFile(event);
+			final IProject project = file.getProject();
+			projects.add(project);
+		}
 
-      cleanAndBuild(projects);
+		cleanAndBuild(projects);
 
-      return null;
-   }
+		return null;
+	}
 
-   private void cleanAndBuild(final List<IProject> projects)
-   {
-      if (!projects.isEmpty())
-      {
+	private void cleanAndBuild(final List<IProject> projects) {
+		if (!projects.isEmpty()) {
 
-         final Job job = new EMoflonBuildJob("eMoflon Building", projects);
+			final Job job = new EMoflonBuildJob("eMoflon Building", projects);
 
-         job.setUser(true);
-         job.schedule();
-      }
-   }
+			job.setUser(true);
+			job.schedule();
+		}
+	}
 }
