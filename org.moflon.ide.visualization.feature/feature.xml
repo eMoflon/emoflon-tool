@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.moflon.ide.visualization.feature"
+      label="eMoflon Visualization Feature"
+      version="2.7.0.qualifier"
+      provider-name="Real-Time Systems Lab, TU Darmstadt"
+      license-feature="org.moflon.ide.feature"
+      license-feature-version="2.7.0.qualifier">
+
+   <description url="http://www.emoflon.org/">
+      This feature provides visualization support for meta-models and TGGs.
+   </description>
+
+   <copyright>
+      Most of our icons are from The Noun Project (http://thenounproject.com/):
+Emmanuel Mangatia - Les Lunettes Bleues, from The Noun Project
+Wrench CC-by Josh Dean, from The Noun Project
+Hammer by Wes Breazell from the Noun Project
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+</feature>
