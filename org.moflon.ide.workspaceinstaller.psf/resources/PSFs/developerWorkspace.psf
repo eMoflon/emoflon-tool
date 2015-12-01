@@ -32,6 +32,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg,org.moflon.ide.visualization.dot.tgg"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.runtime,org.moflon.ide.visualization.dot.tgg.runtime"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.runtimepatterns,org.moflon.ide.visualization.dot.tgg.runtimepatterns"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.feature,org.moflon.ide.visualization.feature"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.workspaceinstaller.psf,org.moflon.ide.workspaceinstaller.psf"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles,org.moflon.sdm.compiler.democles"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.pattern,org.moflon.sdm.compiler.democles.pattern"/>
@@ -166,6 +167,8 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.visualization.dot.sdmpatterns" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.visualization.dot.tgg.runtimepatterns" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.metamodelevolution.core" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.metamodelevolution.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.visualization.feature" type="4"/>
 </workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1439494307998_19" label="org.moflon.sdm" name="org.moflon.sdm">
 <item elementID="=org.moflon.sdm.constraints.scopevalidation" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
