@@ -13,5 +13,9 @@
    <feature url="features/org.moflon.ide.metamodelevolution.feature_2.0.0.qualifier.jar" id="org.moflon.ide.metamodelevolution.feature" version="2.0.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
-   <category-def name="org.moflon.ide" label="eMoflon"/>
+   <category-def name="org.moflon.ide" label="eMoflon">
+      <description>
+         eMoflon is a tool environment the model-based software development. The structure of systems is described using Ecore-compliant meta-models in Enterprise Architect. A code generator translates the system meta-model into EMF-compliant Java code. Afterwards, instances of the meta-model may be transformed undirectionally (using Story Driven Modeling (SDM)) or bidirectionally (using Triple Graph Grammars (TGGs)).
+      </description>
+   </category-def>
 </site>
