@@ -69,3 +69,7 @@
 2015-11-24	Rename projects: org.moflon.doc.{WorkspaceConfiguration -> workspace.configuration}, org.moflon.sdm.compiler.democles.{ValidationResult -> validation.result}, AttributeConstraintScopeValidation -> org.moflon.sdm.constraints.scopevalidation, AttributeConstraintToDemocles -> org.moflon.sdm.constraints.constraintstodemocles, DemoclesAttributeConstraintSpecification -> org.moflon.sdm.constraints.operationspecification, DemoclesAttributeConstraints -> org.moflon.sdm.constraints.democles
 2015-11-27	eMoflon 2.6.0 released
 ---
+2015-12-01	New visualization based on PlantUML; available as separate feature
+2015-12-01	Build, export, and validate are now available on working sets (#559)
+2015-12-01	eMoflon 2.7.0 released
+---
