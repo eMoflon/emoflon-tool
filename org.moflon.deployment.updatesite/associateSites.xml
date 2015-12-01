@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<associateSites>
+	<associateSite url="http://basar.idi.ntnu.no/svn/tdt4100/anonymous/trunk/updatesite"
+		label="PlantUML update site" />
+</associateSites>
