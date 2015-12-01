@@ -1,7 +1,5 @@
 package org.moflon.ide.metamodelevolution.core;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -70,6 +68,8 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
 			   RenameChange renaming = (RenameChange)change;
 			   if(!(renaming.getCurrentValue().equals(renaming.getPreviousValue())))
 			   {
+			      logger.debug("Change detected for old value: " + renaming.getPreviousValue() + ". New value is: " + renaming.getCurrentValue());
+			      //todo@settl: Impl und factory method infos aus dem genmodel laden
 				   // adapt java code
 				   // rename class and "Impl" class
 				   RenameRefactoring processor = new RenameClassRefactoring();
@@ -182,23 +182,29 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
 	   try {
 		   
 		   JavaFileInjectionExtractor extractor = new JavaFileInjectionExtractor();
-
-		   WorkspaceHelper.clearFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
+		   IFolder genFolder = project.getFolder(WorkspaceHelper.GEN_FOLDER);
 		   
-		   IFolder genFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.GEN_FOLDER, new NullProgressMonitor());
-		   genFolder.accept(new IResourceVisitor()
-			{
-				@Override
-				public boolean visit(IResource resource) throws CoreException {
-					if (resource.getType() == (IResource.FILE))
-						extractor.extractInjectionNonInteractively((IFile) resource);
-					return true;
-				}				
-			}
-			);
+		   if (genFolder.members().length != 0) {
+		      
+		       WorkspaceHelper.clearFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
+
+		       genFolder.accept(new IResourceVisitor()
+		         {
+		            @Override
+		            public boolean visit(IResource resource) throws CoreException {
+		               if (resource.getType() == (IResource.FILE))
+		                  extractor.extractInjectionNonInteractively((IFile) resource);
+		               return true;
+		            }           
+		         }
+		         );
+		   }
+		   
+		   //IFolder genFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.GEN_FOLDER, new NullProgressMonitor());
+
 			
-		   } catch (CoreException | URISyntaxException | IOException e) {
-			e.printStackTrace();
+		   } catch (Exception e) {
+		      e.printStackTrace();
 		}
    }
 }
