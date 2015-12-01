@@ -27,7 +27,7 @@ Hammer by Wes Breazell from the Noun Project
    </license>
 
    <requires>
-      <import feature="org.moflon.ide.feature" version="2.7.0.qualifier" match="greaterOrEqual"/>
+      <import feature="org.moflon.ide.feature" version="2.6.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
