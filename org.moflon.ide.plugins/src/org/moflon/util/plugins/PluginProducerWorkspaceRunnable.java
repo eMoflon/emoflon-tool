@@ -131,6 +131,9 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable {
 
 		// Old ID of the "Moflon Utilities" plugin
 		changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.dependencies");
+		
+		// [Dec 2015] Remove TGG debugger
+		changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.tgg.debug.language");
 
 		// Refactoring of plugin IDs in August 2015
 		// Map<String, String> replacementMap = new HashMap<>();
