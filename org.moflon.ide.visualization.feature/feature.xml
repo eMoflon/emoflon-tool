@@ -22,4 +22,47 @@ Hammer by Wes Breazell from the Noun Project
       [Enter License Description here.]
    </license>
 
+   <plugin
+         id="org.moflon.ide.visualization.abstractsyntaxviewer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.language"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.sdm"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.sdmpatterns"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.tgg"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.tgg.runtime"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.moflon.ide.visualization.dot.tgg.runtimepatterns"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
 </feature>
