@@ -12,7 +12,7 @@
    </description>
 
    <requires>
-      <import feature="org.moflon.ide.feature" version="2.4.0.qualifier" match="greaterOrEqual"/>
+      <import feature="org.moflon.ide.feature" version="2.4.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
