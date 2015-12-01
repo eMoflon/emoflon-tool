@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.moflon.ide.metamodelevolution.feature"
-      label="eMoflon Metamodel-Code Co-Evolution Support"
+      label="eMoflon Metamodel-Code Co-Evolution Support (optional)"
       version="2.0.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt"
       license-feature="org.moflon.ide.feature"
