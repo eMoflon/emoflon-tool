@@ -14,7 +14,6 @@ import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TransferData;
 
-@SuppressWarnings("restriction")
 public class ModelDropListener extends ViewerDropAdapter
 {
    private static final Logger logger = Logger.getLogger(ModelDropListener.class);
