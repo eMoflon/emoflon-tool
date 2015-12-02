@@ -71,5 +71,5 @@
 ---
 2015-12-01	New visualization based on PlantUML; available as separate feature
 2015-12-01	Build, export, and validate are now available on working sets (#559)
-2015-12-01	eMoflon 2.7.0 released
+2015-12-02	eMoflon 2.7.0 released
 ---
