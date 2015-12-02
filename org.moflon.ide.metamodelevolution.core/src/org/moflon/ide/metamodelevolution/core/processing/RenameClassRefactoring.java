@@ -5,8 +5,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.refactoring.IJavaRefactorings;
@@ -25,21 +27,26 @@ public class RenameClassRefactoring implements RenameRefactoring {
 
 	@Override
 	public void refactor(IProject project, RenameChange renameChange) {
+		refactorInterfaceClass(project, renameChange);
+		refactorImplClass(project, renameChange);
+	}
+
+	private void refactorInterfaceClass(IProject project, RenameChange renameChange) {
+
+		IFile file = project.getFile(new Path(GEN_FOLDER + getPackagePath(renameChange.getPackageName())
+				+ renameChange.getPreviousValue() + JAVA_EXTENSION));
+		ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
+
+		if (!cu.exists())
+			return;
+
 		RefactoringContribution contribution = RefactoringCore
 				.getRefactoringContribution(IJavaRefactorings.RENAME_COMPILATION_UNIT);
 		RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
 		descriptor.setUpdateReferences(true);
 		descriptor.setProject(project.getName());
 		descriptor.setNewName(renameChange.getCurrentValue());
-
-		IFile file = project.getFile(new Path(GEN_FOLDER + getPackagePath(renameChange.getPackageName())
-				+ renameChange.getPreviousValue() + JAVA_EXTENSION));
-		ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
-
-		if (cu.exists())
-			descriptor.setJavaElement(cu);
-		else
-			return;
+		descriptor.setJavaElement(cu);
 
 		RefactoringStatus status = new RefactoringStatus();
 		try {
@@ -52,46 +59,34 @@ public class RenameClassRefactoring implements RenameRefactoring {
 			Change change = refactoring.createChange(monitor);
 			change.perform(monitor);
 
-			refactorImplClass(project, renameChange);
-
-//			processInjections(project, file, renameChange);
+			processInjections(project, file, renameChange);
 		} catch (CoreException e) {
 			// TODO@settl: Return an appropriate status and/or log if
 			// status.severity() == IStatus.ERROR
 			e.printStackTrace();
+			new Status(IStatus.ERROR, "", "Problem during refactoring", e);
 		}
-	}
-
-	//TODO@rkluge: Go on here
-	private void processInjections(IProject project, IFile javaFile, RenameChange renameChange) throws CoreException {
-		IPath previousInjectionFilePath = WorkspaceHelper.getPathToInjection(javaFile);
-		IPath newInjectionFilePath = WorkspaceHelper.getPathToInjection(javaFile);
-		IFile injectionFile = project.getFile(previousInjectionFilePath);
-
-		assert previousInjectionFilePath.lastSegment() == renameChange.getPreviousValue() + IMPL_File + ".java";
-
-		injectionFile.move(newInjectionFilePath, true, new NullProgressMonitor());
 	}
 
 	/**
 	 * This method renames the corresponding "Impl" files of the renamed class
 	 */
 	private void refactorImplClass(IProject project, RenameChange renameChange) {
+
+		IFile file = project.getFile(new Path(GEN_FOLDER + getPackagePath(renameChange.getPackageName()) + "/impl/"
+				+ renameChange.getPreviousValue() + IMPL_File + JAVA_EXTENSION));
+		ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
+
+		if (!cu.exists())
+			return;
+
 		RefactoringContribution contribution = RefactoringCore
 				.getRefactoringContribution(IJavaRefactorings.RENAME_COMPILATION_UNIT);
 		RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
 		descriptor.setUpdateReferences(true);
 		descriptor.setProject(project.getName());
 		descriptor.setNewName(renameChange.getCurrentValue() + IMPL_File);
-
-		IFile file = project.getFile(new Path(GEN_FOLDER + getPackagePath(renameChange.getPackageName()) + "/impl/"
-				+ renameChange.getPreviousValue() + IMPL_File + JAVA_EXTENSION));
-		ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
-
-		if (cu.exists())
-			descriptor.setJavaElement(cu);
-		else
-			return;
+		descriptor.setJavaElement(cu);
 
 		RefactoringStatus status = new RefactoringStatus();
 		try {
@@ -103,12 +98,25 @@ public class RenameClassRefactoring implements RenameRefactoring {
 
 			Change change = refactoring.createChange(monitor);
 			change.perform(monitor);
+
+			processInjections(project, file, renameChange);
 		}
 
 		catch (CoreException e) {
 			// TODO@settl: Return an appropriate status and/or log if
 			// status.severity() == IStatus.ERROR
 			e.printStackTrace();
+		}
+	}
+
+	private void processInjections(IProject project, IFile javaFile, RenameChange renameChange) throws CoreException {
+		IPath previousInjectionFilePath = WorkspaceHelper.getPathToInjection(javaFile);
+		IFile injectionFile = project.getFile(previousInjectionFilePath);
+		if (injectionFile.exists()) {
+			final String newLastSegment = previousInjectionFilePath.lastSegment()
+					.replace(renameChange.getPreviousValue(), renameChange.getCurrentValue());
+
+			injectionFile.move(Path.fromPortableString(newLastSegment), true, new NullProgressMonitor());
 		}
 	}
 
