@@ -110,8 +110,16 @@ public class RenameClassRefactoring implements RenameRefactoring {
 		}
 	}
 
-	private void processInjections(IProject project, IFile javaFile, RenameChange renameChange) throws CoreException {
-		IFile previousInjectionFile = project.getFile(WorkspaceHelper.getPathToInjection(javaFile));
+	//TODO@settl: I believe this is correct now, but this method may only handle renamings WITHIN one package! -> lastSegment
+	/*
+	 * Updates the injections for the given original JavaFile.
+	 * 
+	 * The original injection file is first renamed to give version control a chance to record that this is NOT a deletion of a versioned file and an addition of an unversioned file but rather a movement of a versioned file.
+	 */
+	private void processInjections(IProject project, IFile previousJavaFile, RenameChange renameChange) throws CoreException {
+		
+		// Rename injection
+		IFile previousInjectionFile = project.getFile(WorkspaceHelper.getPathToInjection(previousJavaFile));
 		if (previousInjectionFile.exists())
 		{
 			final String newLastSegmentOfInjectionFile = previousInjectionFile.getProjectRelativePath().lastSegment()
@@ -119,10 +127,19 @@ public class RenameClassRefactoring implements RenameRefactoring {
 			previousInjectionFile.move(Path.fromPortableString(newLastSegmentOfInjectionFile), true, new NullProgressMonitor());
 		}
 		
-		final IPath newJavaFilePath = javaFile.getProjectRelativePath().removeLastSegments(1).append(javaFile.getProjectRelativePath().lastSegment().replace(renameChange.getPreviousValue(), renameChange.getCurrentValue()));
-		IFile newJavaFile = project.getFile(newJavaFilePath);
+		// Overwrite injection with freshly extracted injections of the new Java file
+		IFile newJavaFile = getCurrentJavaFile(project, previousJavaFile, renameChange);
 		JavaFileInjectionExtractor extractor = new JavaFileInjectionExtractor();
 		extractor.extractInjection(newJavaFile, false);
+	}
+
+	/*
+	 * Determines the path of a Java file after performing the given RenameChange.
+	 */
+	private IFile getCurrentJavaFile(IProject project, IFile previousJavaFile, RenameChange renameChange) {
+		final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(renameChange.getPreviousValue(), renameChange.getCurrentValue());
+		final IPath newJavaFilePath = previousJavaFile.getProjectRelativePath().removeLastSegments(1).append(newLastSegment);
+		return project.getFile(newJavaFilePath);
 	}
 
 	// TODO@settl this is a nice candidate for the WorkspaceHelper
