@@ -36,8 +36,11 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator
 {
 
    protected IProject project;
+
    protected ResourceSet resourceSetMMold; // TODO@settl: work with packages instead of resourcesets
+
    protected ResourceSet resourceSetMMnew;
+
    public Map<String, String> delta;
 
    public EMFCompareMetamodelComparator(final IProject project)
@@ -49,12 +52,12 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator
    public Map<String, String> compare()
    {
       // TODO@settl: return proper delta
-      if (loadMetamodels()) 
+      if (loadMetamodels())
       {
-    	  compare(resourceSetMMold, resourceSetMMnew);
-    	  if (!delta.isEmpty()) 
-    		  return delta;
-      }     
+         compare(resourceSetMMold, resourceSetMMnew);
+         if (!delta.isEmpty())
+            return delta;
+      }
       return null;
    }
 
@@ -67,7 +70,8 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator
       // custom diffprocessor that ignores renaming - for testing purposes
       IDiffProcessor ignoreNameDiffProcessor = new DiffBuilder() {
          @Override
-         public void attributeChange(final Match match, final EAttribute attribute, final Object value, final DifferenceKind kind, final DifferenceSource source)
+         public void attributeChange(final Match match, final EAttribute attribute, final Object value, final DifferenceKind kind,
+               final DifferenceSource source)
          {
             if (attribute != EcorePackage.Literals.ENAMED_ELEMENT__NAME)
             {
@@ -96,7 +100,8 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator
       // custom diffprocessor that ignores renaming - for testing purposes
       IDiffProcessor ignoreNameDiffProcessor = new DiffBuilder() {
          @Override
-         public void attributeChange(final Match match, final EAttribute attribute, final Object value, final DifferenceKind kind, final DifferenceSource source)
+         public void attributeChange(final Match match, final EAttribute attribute, final Object value, final DifferenceKind kind,
+               final DifferenceSource source)
          {
             if (attribute != EcorePackage.Literals.ENAMED_ELEMENT__NAME)
             {
@@ -130,8 +135,9 @@ public class EMFCompareMetamodelComparator implements MetamodelComparator
       resourceSetMMold = new ResourceSetImpl();
       resourceSetMMnew = new ResourceSetImpl();
 
-      /*Resource oldMMResource = null;
-      Resource newMMResource = null;*/
+      /*
+       * Resource oldMMResource = null; Resource newMMResource = null;
+       */
       try
       {
          resourceSetMMold.getResource(previousMMURI, true);

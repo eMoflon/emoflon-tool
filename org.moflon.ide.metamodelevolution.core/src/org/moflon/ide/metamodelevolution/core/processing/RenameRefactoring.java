@@ -4,7 +4,8 @@ import org.eclipse.core.resources.IProject;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 
-public interface RenameRefactoring {
+public interface RenameRefactoring
+{
 
 	public static final String GEN_FOLDER ="/" + WorkspaceHelper.GEN_FOLDER;
 	

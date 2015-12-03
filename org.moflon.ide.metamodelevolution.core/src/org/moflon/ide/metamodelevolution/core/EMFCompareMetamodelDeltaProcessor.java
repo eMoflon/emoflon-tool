@@ -35,7 +35,7 @@ import org.moflon.ide.metamodelevolution.core.processing.MetamodelDeltaProcessor
 public class EMFCompareMetamodelDeltaProcessor implements MetamodelDeltaProcessor
 {
 
-   private static final String JAVA_NATURE = "org.eclipse.jdt.core.javanature";  //TODO@settl : Use JavaCore.NATURE_ID
+   private static final String JAVA_NATURE = "org.eclipse.jdt.core.javanature"; // TODO@settl : Use JavaCore.NATURE_ID
 
    private String changedValue = null;
 
@@ -61,9 +61,9 @@ public class EMFCompareMetamodelDeltaProcessor implements MetamodelDeltaProcesso
             {
                // find all markers in project
                IMarker[] markers = project.findMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, true, IResource.DEPTH_INFINITE);
-               if (markers.length <= 0) 
+               if (markers.length <= 0)
                   return;
-               
+
                for (IMarker marker : markers)
                {
                   // find all CompilationUnits with markers
