@@ -19,6 +19,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenameClassRefactoring implements RenameRefactoring {
@@ -110,14 +111,18 @@ public class RenameClassRefactoring implements RenameRefactoring {
 	}
 
 	private void processInjections(IProject project, IFile javaFile, RenameChange renameChange) throws CoreException {
-		IPath previousInjectionFilePath = WorkspaceHelper.getPathToInjection(javaFile);
-		IFile injectionFile = project.getFile(previousInjectionFilePath);
-		if (injectionFile.exists()) {
-			final String newLastSegment = previousInjectionFilePath.lastSegment()
+		IFile previousInjectionFile = project.getFile(WorkspaceHelper.getPathToInjection(javaFile));
+		if (previousInjectionFile.exists())
+		{
+			final String newLastSegmentOfInjectionFile = previousInjectionFile.getProjectRelativePath().lastSegment()
 					.replace(renameChange.getPreviousValue(), renameChange.getCurrentValue());
-
-			injectionFile.move(Path.fromPortableString(newLastSegment), true, new NullProgressMonitor());
+			previousInjectionFile.move(Path.fromPortableString(newLastSegmentOfInjectionFile), true, new NullProgressMonitor());
 		}
+		
+		final IPath newJavaFilePath = javaFile.getProjectRelativePath().removeLastSegments(1).append(javaFile.getProjectRelativePath().lastSegment().replace(renameChange.getPreviousValue(), renameChange.getCurrentValue()));
+		IFile newJavaFile = project.getFile(newJavaFilePath);
+		JavaFileInjectionExtractor extractor = new JavaFileInjectionExtractor();
+		extractor.extractInjection(newJavaFile, false);
 	}
 
 	// TODO@settl this is a nice candidate for the WorkspaceHelper
