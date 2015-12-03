@@ -116,15 +116,17 @@ public class eMoflonEMFUtil
    }
 
    /* Methods for loading models */
-   
+
    /**
     * Utility method to get a resource from a file.
     * 
-    * This method delegates to {@link #getResourceFromFileIntoDefaultResourceSet(String)} using {@link IFile#getLocation()}.
+    * This method delegates to {@link #getResourceFromFileIntoDefaultResourceSet(String)} using
+    * {@link IFile#getLocation()}.
     * 
     * @see #getResourceFromFileIntoDefaultResourceSet(String)
     */
-   public static Resource getResourceFromFileIntoDefaultResourceSet(final IFile modelFile) {
+   public static Resource getResourceFromFileIntoDefaultResourceSet(final IFile modelFile)
+   {
       return getResourceFromFileIntoDefaultResourceSet(modelFile.getLocation().toString());
    }
 
@@ -396,7 +398,8 @@ public class eMoflonEMFUtil
 
       try
       {
-         // Retrieve package URI from XMI file (this must be done before loading!)
+         // Retrieve package URI from XMI file (this must be done before
+         // loading!)
          DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
          DocumentBuilder docBuilder = dbf.newDocumentBuilder();
          Document doc = docBuilder.parse(file);
@@ -600,7 +603,7 @@ public class eMoflonEMFUtil
 
       return returnList;
    }
-   
+
    public static List<EStructuralFeature> getAllOppositeReferences(final EObject target)
    {
       Collection<Setting> settings = getInverseReferences(target);
@@ -938,7 +941,8 @@ public class eMoflonEMFUtil
    }
 
    /**
-    * @deprecated The semantics of this method is absolutely unclear!
+    * @deprecated The semantics of this method is absolutely unclear! You may use the following method instead:
+    *             createParentResourceAndInsertIntoResourceSet
     */
    @Deprecated
    public static Resource addToResourceSet(final ResourceSet set, final EObject object)
@@ -954,6 +958,28 @@ public class eMoflonEMFUtil
       set.getResources().add(resource);
 
       return resource;
+   }
+
+   /**
+    * Creates a new resource for the given {@link EObject}. The URI of the new resource is the NS URI of its containing
+    * {@link EPackage}. The resource is added to the given {@link ResourceSet} afterwards.
+    * 
+    * @param object
+    * @param set
+    * 
+    * @throws IllegalArgumentException if the object is already inside a {@link Resource}
+    */
+   public static void createParentResourceAndInsertIntoResourceSet(final EObject object, final ResourceSet set)
+   {
+      if (object.eResource() != null)
+      {
+         throw new IllegalStateException("The given object must not be inside a resource yet");
+      }
+
+      final Resource resource = new ResourceImpl();
+      resource.setURI(URI.createURI(object.eClass().getEPackage().getNsURI()));
+      resource.getContents().add(object);
+      set.getResources().add(resource);
    }
 
    public static int getNodeCount(final EObject model)
