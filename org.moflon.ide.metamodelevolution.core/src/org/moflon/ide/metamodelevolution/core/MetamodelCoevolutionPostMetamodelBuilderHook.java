@@ -17,7 +17,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
@@ -89,6 +88,8 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
 					genModel.getAllGenPackagesWithClassifiers().get(0).getFactoryInterfaceName();
 					genModel.getAllGenPackagesWithClassifiers().get(0).getPackageInterfaceName();
 					genModel.getAllGenPackagesWithClassifiers().get(0).getSwitchClassName();
+					genModel.getAllGenPackagesWithClassifiers().get(0).getUtilitiesPackageName();
+					genModel.getAllGenPackagesWithClassifiers().get(0).getClassPackageName();
 					EClass cls = EcoreFactory.eINSTANCE.createEClass(); // If
 																		// possible,
 																		// use
