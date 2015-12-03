@@ -35,7 +35,7 @@ import MocaTree.Node;
 import MocaTree.Text;
 
 public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamodelBuilderHook {
-	private static final Logger logger = Logger.getLogger(MetamodelBuilder.class);
+	private static final Logger logger = Logger.getLogger(MetamodelCoevolutionPostMetamodelBuilderHook.class);
 
 	@Override
 	public IStatus run(final PostMetamodelBuilderHookDTO postMetamodelBuilderHookDTO) {
@@ -163,7 +163,7 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
 	 * project
 	 */
 	@SuppressWarnings("unused")
-	@Deprecated // TODO@settl: Remove if code is no longer needed
+	@Deprecated // TODO@settl: Remove if code is no longer needed (RK)
 	private void processInjections(IProject project) {
 		try {
 
