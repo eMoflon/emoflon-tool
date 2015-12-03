@@ -36,7 +36,8 @@ public class MarkerHelper {
 	 */
 	public static void removeMarkers(IResource resource) {
 		try {
-			resource.deleteMarkers(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
+			if (resource.exists())
+				resource.deleteMarkers(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}      
