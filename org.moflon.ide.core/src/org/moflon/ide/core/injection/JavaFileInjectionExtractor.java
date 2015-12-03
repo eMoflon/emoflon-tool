@@ -14,79 +14,72 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.InjectionFile;
 
 public class JavaFileInjectionExtractor {
-		private	static Logger logger = Logger.getLogger(JavaFileInjectionExtractor.class);
+	private static Logger logger = Logger.getLogger(JavaFileInjectionExtractor.class);
 
-	   public void extractInjectionNonInteractively(final IFile javaFile)
-	   {
-	      this.extractInjection(javaFile, false);
-	   }
+	public void extractInjectionNonInteractively(final IFile javaFile) {
+		this.extractInjection(javaFile, false);
+	}
 
-	   public void extractInjectionInteractively(final IFile javaFile)
-	   {
-	      this.extractInjection(javaFile, true);
-	   }
+	public void extractInjectionInteractively(final IFile javaFile) {
+		this.extractInjection(javaFile, true);
+	}
 
-	   public void extractInjection(final IFile javaFile, final boolean runsInteractive)
-	   {
-	      try
-	      {
-	         // Stream needs to be re-opened for each check!
-	         if (isEmfUtilityClass(javaFile.getContents()) || isEmfUtilityInterface(javaFile.getContents()))
-	         {
-	            final String message = "It is not possible to create injections from EMF utility classes/interfaces.";
-	            if (runsInteractive)
-	            {
-	               logger.info(message + ". File: '" + javaFile.getFullPath() + "'.");
-	            } else
-	            {
-	               logger.debug(message + ". File: '" + javaFile.getFullPath() + "'.");
-	            }
-	         } else
-	         {
-	            final IPath fullInjectionPath = WorkspaceHelper.getPathToInjection(javaFile);
-	            final String fullyQualifiedClassname = WorkspaceHelper.getFullyQualifiedClassName(javaFile);
+	public void extractInjection(final IFile javaFile, final boolean runsInteractive) {
+		try {
+			if (!javaFile.exists())
+				return;
 
-	            // Determine contents of file
-	            final InputStream javaContentStream = javaFile.getContents();
-	            final String className = javaFile.getName().replace(".java", "");
-	            final InjectionFile injectionFile = new InjectionFile(javaContentStream, className);
-	            if (injectionFile.hasModelsOrImportsOrMembersCode())
-	            {
-	               final String injContent = injectionFile.getFileContent();
+			// Stream needs to be re-opened for each check!
+			if (isEmfUtilityClass(javaFile.getContents()) || isEmfUtilityInterface(javaFile.getContents())) {
+				final String message = "It is not possible to create injections from EMF utility classes/interfaces.";
+				if (runsInteractive) {
+					logger.info(message + ". File: '" + javaFile.getFullPath() + "'.");
+				} else {
+					logger.debug(message + ". File: '" + javaFile.getFullPath() + "'.");
+				}
+			} else {
+				final IPath fullInjectionPath = WorkspaceHelper.getPathToInjection(javaFile);
+				final String fullyQualifiedClassname = WorkspaceHelper.getFullyQualifiedClassName(javaFile);
 
-	               // insert the contents
-	               final IProject project = javaFile.getProject();
-	               project.getFile(fullInjectionPath).delete(true, new NullProgressMonitor());
-	               logger.info("Created injection file for '" + fullyQualifiedClassname + "'.");
+				// Determine contents of file
+				final InputStream javaContentStream = javaFile.getContents();
+				final String className = javaFile.getName().replace(".java", "");
+				final InjectionFile injectionFile = new InjectionFile(javaContentStream, className);
+				if (injectionFile.hasModelsOrImportsOrMembersCode()) {
+					final String injContent = injectionFile.getFileContent();
 
-	               WorkspaceHelper.addAllFoldersAndFile(project, fullInjectionPath, injContent, new NullProgressMonitor());
-	            } else
-	            {
-	               logger.debug("Not creating injection file for  " + javaFile.getFullPath() + " because no model code were found.");
-	            }
-	         }
-	      } catch (final CoreException ex)
-	      {
-	         logger.error("Unable to create injection code for " + javaFile + " due to " + ex);
-	      }
-	   }
+					// insert the contents
+					final IProject project = javaFile.getProject();
+					project.getFile(fullInjectionPath).delete(true, new NullProgressMonitor());
+					logger.info("Created injection file for '" + fullyQualifiedClassname + "'.");
 
-	   private boolean isEmfUtilityClass(final InputStream javaContentStream)
-	   {
-	      final Pattern isEmfUtilClassPattern = Pattern
-	            .compile(".*public\\s+class\\s+[a-zA-Z1-9<>]+\\s+extends\\s+(AdapterFactoryImpl|Switch<T>|EPackageImpl|EFactoryImpl)[^a-zA-Z].*");
-	      final Scanner s = new Scanner(javaContentStream);
-	      String match = s.findWithinHorizon(isEmfUtilClassPattern, 0);
-	      s.close();
-	      return match != null;
-	   }
+					WorkspaceHelper.addAllFoldersAndFile(project, fullInjectionPath, injContent,
+							new NullProgressMonitor());
+				} else {
+					logger.debug("Not creating injection file for  " + javaFile.getFullPath()
+							+ " because no model code were found.");
+				}
+			}
+		} catch (final CoreException ex) {
+			logger.error("Unable to create injection code for " + javaFile + " due to " + ex);
+		}
+	}
 
-	   private boolean isEmfUtilityInterface(final InputStream javaContentStream)
-	   {
-	      final Pattern isEmfUtilInterfacePattern = Pattern.compile(".*public\\s+interface\\s+[a-zA-Z1-9]+\\s+extends\\s+(EPackage|EFactory)[^a-zA-Z].*");
-	      final Scanner s = new Scanner(javaContentStream);
-	      String match = s.findWithinHorizon(isEmfUtilInterfacePattern, 0);
-	      s.close();
-	      return match != null;
-	   }
+	private boolean isEmfUtilityClass(final InputStream javaContentStream) {
+		final Pattern isEmfUtilClassPattern = Pattern.compile(
+				".*public\\s+class\\s+[a-zA-Z1-9<>]+\\s+extends\\s+(AdapterFactoryImpl|Switch<T>|EPackageImpl|EFactoryImpl)[^a-zA-Z].*");
+		final Scanner s = new Scanner(javaContentStream);
+		String match = s.findWithinHorizon(isEmfUtilClassPattern, 0);
+		s.close();
+		return match != null;
+	}
+
+	private boolean isEmfUtilityInterface(final InputStream javaContentStream) {
+		final Pattern isEmfUtilInterfacePattern = Pattern
+				.compile(".*public\\s+interface\\s+[a-zA-Z1-9]+\\s+extends\\s+(EPackage|EFactory)[^a-zA-Z].*");
+		final Scanner s = new Scanner(javaContentStream);
+		String match = s.findWithinHorizon(isEmfUtilInterfacePattern, 0);
+		s.close();
+		return match != null;
+	}
 }

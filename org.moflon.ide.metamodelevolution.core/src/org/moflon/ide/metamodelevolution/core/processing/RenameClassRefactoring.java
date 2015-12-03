@@ -63,7 +63,7 @@ public class RenameClassRefactoring implements RenameRefactoring {
 			processInjections(project, file, renameChange);
 		} catch (CoreException e) {
 			// TODO@settl: Return an appropriate status and/or log if
-			// status.severity() == IStatus.ERROR
+			// status.severity() == IStatus.ERROR (RK)
 			e.printStackTrace();
 			new Status(IStatus.ERROR, "", "Problem during refactoring", e);
 		}
@@ -105,12 +105,12 @@ public class RenameClassRefactoring implements RenameRefactoring {
 
 		catch (CoreException e) {
 			// TODO@settl: Return an appropriate status and/or log if
-			// status.severity() == IStatus.ERROR
+			// status.severity() == IStatus.ERROR (RK)
 			e.printStackTrace();
 		}
 	}
 
-	//TODO@settl: I believe this is correct now, but this method may only handle renamings WITHIN one package! -> lastSegment
+	//TODO@settl: I believe this is correct now, but this method may only handle renamings WITHIN one package! -> lastSegment (RK)
 	/*
 	 * Updates the injections for the given original JavaFile.
 	 * 

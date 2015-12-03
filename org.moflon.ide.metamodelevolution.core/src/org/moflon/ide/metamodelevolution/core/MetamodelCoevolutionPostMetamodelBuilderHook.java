@@ -12,15 +12,18 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
-import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
 import org.moflon.ide.metamodelevolution.core.impl.CoreFactoryImpl;
@@ -60,17 +63,40 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
 		for (EModelElementChange change : delta.getEModelElementChange()) {
 			if (change instanceof RenameChangeImpl) {
 				RenameChange renaming = (RenameChange) change;
-				if (!(renaming.getCurrentValue().equals(renaming.getPreviousValue()))) {
+				if (renaming.arePreviousAndCurrentValueDifferent()) {
 					logger.debug("Change detected for old value: " + renaming.getPreviousValue() + ". New value is: "
 							+ renaming.getCurrentValue());
 					// todo@settl: Impl und factory method infos aus dem
 					// genmodel laden
 					// adapt java code
 					// rename class and "Impl" class
+					// TODO@settl: If possible, leave RenameClassRefactoring as
+					// dumb as possible -> invoke it twice for both classes (I
+					// guess this is what you already planned to do) (RK)
 					RenameRefactoring processor = new RenameClassRefactoring();
 					processor.refactor(project, renaming);
 
 					// rename factory method
+					// TODO@settl: Create a new MethodRenamingChange here:
+					// "createOldClass -> createNewClass in class XYZFactory"
+					GenModel genModel = eMoflonEMFUtil.extractGenModelFromProject(project);
+					// TODO@settl: This is how you can get the implementation
+					// class name
+					genModel.getAllGenPackagesWithClassifiers().get(0).getGenClasses().get(0).getClassName();
+					// TODO@settl: This is how you can get the interface name
+					genModel.getAllGenPackagesWithClassifiers().get(0).getGenClasses().get(0).getInterfaceName();
+					genModel.getModelDirectory(); // path to gen folder
+					genModel.getAllGenPackagesWithClassifiers().get(0).getFactoryInterfaceName();
+					genModel.getAllGenPackagesWithClassifiers().get(0).getPackageInterfaceName();
+					genModel.getAllGenPackagesWithClassifiers().get(0).getSwitchClassName();
+					EClass cls = EcoreFactory.eINSTANCE.createEClass(); // If
+																		// possible,
+																		// use
+																		// the
+																		// EClasses...
+					cls.setName("Topology");
+					// genModel.findGenClassifier(cls);
+
 					RenameRefactoring methodRenaming = new RenameMethodRefactoring();
 					methodRenaming.refactor(project, renaming);
 
