@@ -175,7 +175,7 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
 
          // Create and add precompiler to resourceSet so reverse navigation of links works
          TGGPrecompiler precompiler = PrecompilerFactory.eINSTANCE.createTGGPrecompiler();
-         eMoflonEMFUtil.addToResourceSet(set, precompiler);
+         eMoflonEMFUtil.createParentResourceAndInsertIntoResourceSet(precompiler, set);
 
          // Precompile rules
          precompiler.setUseNewImpl(true);
@@ -217,7 +217,7 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          if (isSynchronizationMode(moflonProperties))
          {
             TGGCompiler compiler = CompilerFactory.eINSTANCE.createTGGCompiler();
-            eMoflonEMFUtil.addToResourceSet(set, compiler);
+            eMoflonEMFUtil.createParentResourceAndInsertIntoResourceSet(compiler, set);
 
             compiler.setProperties(moflonProperties);
             compiler.setInjectionHelper(injectionHelper);
@@ -233,10 +233,8 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          {
             try
             {
-               eMoflonEMFUtil.addToResourceSet(set, tgg);
-
                org.moflon.tgg.language.modelgenerator.Compiler compiler = org.moflon.tgg.language.modelgenerator.ModelgeneratorFactory.eINSTANCE.createCompiler();
-               eMoflonEMFUtil.addToResourceSet(set, compiler);
+               eMoflonEMFUtil.createParentResourceAndInsertIntoResourceSet(compiler, set);
                compiler.setProperties(moflonProperties);
                compiler.setInjectionHelper(injectionHelper);
                compiler.compileModelgenerationSdms(tgg);
