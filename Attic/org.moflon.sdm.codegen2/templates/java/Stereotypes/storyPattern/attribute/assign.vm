@@ -1,3 +1,0 @@
-#**##parse("$lang/default:storyPattern/attribute/import.vm" )
-#**#// assign statement
-#**#${name}.eSet(${name}.eClass().getEStructuralFeature("$attrName"), $attrExpr );

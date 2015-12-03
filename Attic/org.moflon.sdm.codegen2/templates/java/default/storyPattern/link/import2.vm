@@ -1,9 +1,0 @@
-#**##if( !$linkImport2 )
-#*   *##set( $linkImport2 = true )
-#*   *##parse("$lang/default:storyPattern/link/import.vm" )
-#*   *##if( $range && !$role.PartnerRole.Qualifier && !($ordered && $role.Card.UpperBound>1))
-#*      *##set($range="")
-#*   *##else
-#*      *##set( $toOne = $toOne || ($range && ($ordered || $role.Card.UpperBound==1)) )
-#*   *##end
-#**##end

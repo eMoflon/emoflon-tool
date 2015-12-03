@@ -1,5 +1,0 @@
-   // copy parameters to attributes
-#**##foreach ( $param in $method.iteratorOfParam() )
-   this.$param.name = $param.name;
-#**##end 
-   start();

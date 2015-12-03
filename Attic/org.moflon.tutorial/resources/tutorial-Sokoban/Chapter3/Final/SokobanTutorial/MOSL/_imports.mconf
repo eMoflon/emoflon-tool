@@ -1,4 +1,0 @@
-// Permits access to other projects and models
-import MocaTree
-import Ecore
-import SDMLanguage

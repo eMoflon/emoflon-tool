@@ -1,5 +1,0 @@
-#**##parse("java/default:storyPattern/link/import2.vm" )
-#**##if( $range || $mparam )
-#*   *##parse("java/emf:storyPattern/link/indexCheck.vm" )
-#**##end
-#**##parse("java/default:storyPattern/link/search.vm" )

@@ -1,9 +1,0 @@
-#**##parse("java/breaks:storyPattern/attribute/import.vm" )
-#**##set($owner = $name)
-#**##set($value = $attrExpr)
-#**##parse("java/breaks:classDiag/attribute/accessors.vm" )
-#**##if($useMethods)
-#*   *#$setter; // assign statement
-#**##else
-#*   *#${name}.$attrName = $attrExpr; // assign statement
-#**##end

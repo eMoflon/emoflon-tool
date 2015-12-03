@@ -1,4 +1,0 @@
-#**##if(!$static)
-#*   *##set( $preHook_set="$!preHook_set#parse( 'jmi/default:classDiag/assoc/hook/propertyChange/prehook-set.vm' )" )
-#*   *##set( $postHook_set="$!postHook_set#parse( 'jmi/default:classDiag/assoc/hook/propertyChange/posthook-set.vm' )" )
-#**##end

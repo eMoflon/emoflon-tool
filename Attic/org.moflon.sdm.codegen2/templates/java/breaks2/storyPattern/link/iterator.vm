@@ -1,5 +1,0 @@
-#**##if ( $reflective )
-#*   *#de.uni_kassel.features.util.FeaturesUtil.getIterator ( ${sourceName}, ${link.name});
-#**##else
-#**#${sourceName}.iterator#if($targetRoleName)Of$!targetRoleName#end ($!mparam$!range);
-#**##end

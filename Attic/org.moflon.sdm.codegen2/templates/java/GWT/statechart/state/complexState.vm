@@ -1,4 +1,0 @@
-#**#### TypeOf[ ${utility} ] := de.uni_kassel.fujaba.codegen.Utility
-#**#### TypeOf[ ${children} ] := java.lang.String
-#**##parse("$lang/GWT:statechart/state/import.vm" )
-#**#$downName = new $name ();

@@ -1,6 +1,0 @@
-#* *##foreach ( $gwtClass in $cobjectclass.iteratorOfSubClasses() )
-#*   *#
-#*   *##parse("$lang/GWT/classDiag/class/classcreateobject.vm")
-#*   *##set ( $cobjectclass = $gwtClass )
-#*   *##parse("$lang/GWT/classDiag/class/createObject.vm")
-#* *##end ## for

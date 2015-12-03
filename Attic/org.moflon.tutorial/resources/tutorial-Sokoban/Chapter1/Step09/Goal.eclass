@@ -1,4 +1,0 @@
-class Goal extends Figure {
-	
-	
-}

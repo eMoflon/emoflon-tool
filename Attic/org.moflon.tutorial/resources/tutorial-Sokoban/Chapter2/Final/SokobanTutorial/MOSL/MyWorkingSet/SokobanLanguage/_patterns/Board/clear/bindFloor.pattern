@@ -1,8 +1,0 @@
-pattern bindFloor {
-
-	@this : Board { 
-		-floors-> floor
-	}
-	
-	floor : Floor
-}

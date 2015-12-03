@@ -1,9 +1,0 @@
-#**##parse("java/default:classDiag/class/fileImport.vm" )
-#**##if( $package )
-#*   *##set( $fileName = "${fileName}Impl" )
-#*   *##set( $path = "${path}/impl" )
-#*   *##set( $package = "${package.toLowerCase()}.impl" )
-#*   *##parse("java/default:classDiag/class/file.vm" )
-#**##else
-#*   *##set( $return = $engine.error("EMF CodeGen does not support classes in the default package.", $elem) )
-#**##end

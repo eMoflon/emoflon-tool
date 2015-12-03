@@ -1,9 +1,0 @@
-<tools>
-	<toolbox scope="application">
-		<tool key="field" class="org.apache.velocity.tools.generic.FieldTool"
-			include="org.apache.velocity.runtime.RuntimeConstants" />
-		<tool key="esc" class="org.apache.velocity.tools.generic.EscapeTool"/>
-		<!-- <tool key="util" class="de.uni_kassel.fujaba.codegen.Utility"/> -->
-	</toolbox>
-	<!-- <data type="boolean" key="debug" value="false"/> -->
-</tools>

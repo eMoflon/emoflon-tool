@@ -1,5 +1,0 @@
-#**### Input:
-#**### $object UMLObject this variable is created for
-#**### $name name of the variable (might be != $object.objectName)
-#**##set( $localVars = $engine.getFromInformation("localVars") )
-#**##set( $return = $localVars.addLocalVariable($name, $object.InstanceOf, $object) )

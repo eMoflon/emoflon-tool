@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?eclipse version="3.4"?><plugin>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="TutorialValidationRules.TutorialValidationRulesPackage" genModel="model/TutorialValidationRules.genmodel" uri="platform:/plugin/TutorialValidationRules/model/TutorialValidationRules.ecore"/>
-  </extension>
-</plugin>

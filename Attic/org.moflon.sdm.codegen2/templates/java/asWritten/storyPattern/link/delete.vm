@@ -1,8 +1,0 @@
-#**##parse("java/default:storyPattern/link/import.vm" )
-#**#// destroy link
-#**##set( $linkName = $link.getName() )
-#**##set( $methodName = $utility.extendMethodName($linkName,"remove") )
-#**##set( $methodName = $utility.getMethodName($methodName) )
-#**##set( $params = $utility.getParams($linkName) )
-#**#${methodName}($source.getObjectName(), $target.getObjectName()$params);
-#**#

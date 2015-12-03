@@ -1,2 +1,0 @@
-#**##parse( "jmi/default:classDiag/assoc/import.vm" )
-#**##parse( "$!{style}classDiag/assoc/removeAll.vm" )

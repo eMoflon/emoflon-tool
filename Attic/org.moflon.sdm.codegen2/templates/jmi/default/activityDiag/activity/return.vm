@@ -1,5 +1,0 @@
-#**##set( $stop = $elem )
-#**##set( $return = $stop.ReturnValue )
-#**##if( $stop.isGenerateCode() )
-#**#return #if( $return )$return#end;
-#**##end

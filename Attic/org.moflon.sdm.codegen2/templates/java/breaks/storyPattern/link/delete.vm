@@ -1,7 +1,0 @@
-#**##parse("java/breaks:storyPattern/link/import.vm" )
-#**##parse("java/breaks:classDiag/assoc/accessors.vm")
-#**##if ( $toOneSetter )
-#*   *#$nullSetter; // destroy link
-#**##else
-#*   *#$remover; // destroy link
-#**##end

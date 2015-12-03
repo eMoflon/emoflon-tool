@@ -1,7 +1,0 @@
-#**##set( $qualified = $role.PartnerRole.Qualifier )
-#**##set( $internalQualified = ( $qualified && !$qualified.isExternalQualifier() ) )
-#**##set( $toMany = ( $role.Card.UpperBound > 1 ) )
-#**##if ( $toMany || $qualified )
-#*   *##set( $ordered = $utility.isOrdered($role) )
-#*   *##set( $sorted = $utility.isSorted($role) )
-#**##end

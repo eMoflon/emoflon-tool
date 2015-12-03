@@ -1,6 +1,0 @@
-#**##if ( $toOne )
-#*   *#${targetName}.equals (${sourceName}.eGet(${sourceName}.eClass().getEStructuralFeature("${role.attrName}")))##
-#**##else
-#*   *#((Collection)${sourceName}.eGet(${sourceName}.eClass().getEStructuralFeature("${role.attrName}"))).##
-#*   *#contains(${targetName})##
-#**##end

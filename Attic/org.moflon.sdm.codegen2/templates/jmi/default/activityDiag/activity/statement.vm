@@ -1,3 +1,0 @@
-#**##set( $statement = $elem )
-#**##set( $text = $statement.getState().getStatement() )
-#**#$!text

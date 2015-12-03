@@ -1,5 +1,0 @@
-#**### Input:
-#**### $object UMLObject this variable is created for
-#**##set( $localVars = $engine.getFromInformation("localVars") )
-#**##set( $return = $imports.addToImports("org.eclipse.emf.ecore.EObject") )
-#**##set( $return = $localVars.addLocalVariable($object.ObjectName, "EObject", $object) )

@@ -1,3 +1,0 @@
-<!ELEMENT PluginServer (URL+)>
-
-<!ELEMENT URL (#PCDATA)>

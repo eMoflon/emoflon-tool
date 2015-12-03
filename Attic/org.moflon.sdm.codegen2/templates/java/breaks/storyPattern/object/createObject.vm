@@ -1,8 +1,0 @@
-#**##set( $createCode = "new $type ( )"  )
-#**##if ( $utility.nullIfEmpty($object.typeCastSource) )
-#*   *##set ( $createCode = $object.typeCastSource )
-#**##end
-#**##if ( $utility.nullIfEmpty($object.constructionExpression) )
-#*   *##set ( $createCode = $object.constructionExpression )
-#**##end
-#**#$name = $createCode; // create object

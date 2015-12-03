@@ -1,6 +1,0 @@
-#**##parse("$lang/default:storyPattern/object/import.vm" )
-#**##if ( ! $object.noNotNullCheck && ! $object.hasKeyInStereotypes("static"))
-#*   *##set( $opComment = "check object $name is really bound" )
-#*   *#// $opComment
-#*   *#JavaSDM.ensure ( $name != null#parse("$lang/default:storyPattern/sdmComment.vm") );
-#**##end

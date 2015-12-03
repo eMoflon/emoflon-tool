@@ -1,6 +1,0 @@
-#**##parse( "jmi/default:storyPattern/object/import.vm" )
-#**##if ( ! $object.noNotNullCheck )
-#*   *#// check object $name is really bound: $object.noNotNullCheck
-#*   *#JavaSDM.ensure ( $name != null );
-#**##end
-#**# 

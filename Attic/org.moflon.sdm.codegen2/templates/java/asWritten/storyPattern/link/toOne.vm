@@ -1,5 +1,0 @@
-#**#// bind object
-#**##set( $typeCast = (!$role.getTarget().equals($target.getInstanceOf())) )
-#**##set( $source = "$utility.getMethodName($link.getName())($source.getObjectName()$utility.getParams($link.getName()))" )
-#**##parse("java/default:storyPattern/object/assign.vm" )
-#**#$!children

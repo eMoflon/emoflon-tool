@@ -1,9 +1,0 @@
-#**###if($flowUtil.needsNegativeBlock($token))
-#*   *###set( $children = $utility.indent("   ",$!children) )
-#*   *###$flowUtil.getNegativeBlockLabel($token):
-#*   *###{
-#*   *###$children
-#*   *###}
-#**####else
-#*   *#$!children
-#**####end

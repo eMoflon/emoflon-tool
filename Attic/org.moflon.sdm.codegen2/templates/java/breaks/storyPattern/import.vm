@@ -1,1 +1,0 @@
-#**##set( $flowUtil = $utility.newInstance("de.uni_kassel.fujaba.codegen.SequenceUtility") )

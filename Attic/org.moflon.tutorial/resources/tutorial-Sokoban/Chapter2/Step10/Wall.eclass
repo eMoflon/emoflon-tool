@@ -1,3 +1,0 @@
-class Wall extends Goal {
-
-}

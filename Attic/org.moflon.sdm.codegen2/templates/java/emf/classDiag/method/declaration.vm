@@ -1,6 +1,0 @@
-#**##parse("java/default:classDiag/method/import.vm" )
-#**##if ($method.ResultType.Name == "constructor")
-#*   *##set( $name = "${name}Impl" )
-#**##end
-#**##parse("java/default:classDiag/method/declaration.vm" )
-#**##$utility.registerImportsForMethod($imports, $method);

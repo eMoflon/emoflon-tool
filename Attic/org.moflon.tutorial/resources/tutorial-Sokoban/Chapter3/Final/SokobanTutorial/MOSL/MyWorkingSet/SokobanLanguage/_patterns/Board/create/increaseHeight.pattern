@@ -1,6 +1,0 @@
-pattern increaseHeight {
-
-	@this : Board { 
-		this.height := 'this.height + 1'
-	}
-}

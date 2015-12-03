@@ -1,9 +1,0 @@
-#**#// bind object direct access
-#**##set( $typeCast = (!$role.getTarget().equals($target.getInstanceOf())) )
-#**##set( $source = "${sourceName}.get$!multi#if($utility.nullIfEmpty($range))From#end$!targetRoleName ($!mparam$!range)" )
-#**#$!dlrTool.createStartTag($target)##
-#**##parse("$lang/default:storyPattern/object/assign.vm" )##
-#**#$!dlrTool.createEndTag($target)
-#**#$!dlrTool.createEndTag($link)##
-#**#$!children##
-#**#$!dlrTool.createStartTag($link)
