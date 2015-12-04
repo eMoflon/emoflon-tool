@@ -20,6 +20,7 @@ public class TreeComparator
 
    private static CodeAdapter codeAdapter;
 
+   @Deprecated //TODO@rkluge: Remove if no longer needed
    public static void main(final String[] args)
    {
       BasicConfigurator.configure();
