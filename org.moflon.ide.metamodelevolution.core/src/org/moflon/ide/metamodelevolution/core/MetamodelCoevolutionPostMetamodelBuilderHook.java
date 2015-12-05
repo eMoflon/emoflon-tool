@@ -48,7 +48,7 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
       Node mocaTree = getMocaTree(postMetamodelBuilderHookDTO.metamodelproject);
       Node changesTree = (Node) mocaTree.getChildren().get(0);
       IProject repositoryProject = getRepositoryProject(changesTree, postMetamodelBuilderHookDTO);
-
+      //TODO@settl: als generische Schnittstelle mit einem MetamodelDeltaCalculator auslagern
       ChangeSequence delta = parseTree(mocaTree);
       if (repositoryProject != null)
       {
@@ -57,7 +57,7 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
 
       return Status.OK_STATUS;
    }
-
+   //TODO@settl: als generische Schnittstelle mit einem Changeprocessor implementieren
    /**
     * This method processes changes according to the change metamodel
     */
