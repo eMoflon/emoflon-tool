@@ -45,7 +45,8 @@ import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.MoflonEOperation;
 
 /**
- * This job calls during its {@link #run(IProgressMonitor)} the stored validator method for all EClasses contained in its stored EPackage (see {@link #DemoclesValidatorTask(ScopeValidator, EPackage)}. 
+ * This job calls during its {@link #run(IProgressMonitor)} the stored validator method for all EClasses contained in
+ * its stored EPackage (see {@link #DemoclesValidatorTask(ScopeValidator, EPackage)}.
  */
 public class DemoclesValidatorTask implements IMonitoredJob
 {
@@ -163,6 +164,11 @@ public class DemoclesValidatorTask implements IMonitoredJob
             }
          }
          monitor.worked(1);
+      } catch (RuntimeException e)
+      {
+         return new Status(IStatus.ERROR,
+               "Validation of EOpration " + eOperation.getName() + " in EClass " + eOperation.getEContainingClass().getName() + " crashed",
+               CodeGeneratorPlugin.getModuleID(), e);
       } finally
       {
          monitor.done();
