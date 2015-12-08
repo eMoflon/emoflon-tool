@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site
-      associateSitesURL="./associateSites.xml">
+      associateSitesURL="http://www.moflon.org/fileadmin/download/moflon-ide/eclipse-plugin/beta/update-site2/associateSites.xml">
    <description name="eMoflon central update site" url="http://www.emoflon.org/emoflon/installation/">
       This is the central update site of eMoflon.
    </description>
