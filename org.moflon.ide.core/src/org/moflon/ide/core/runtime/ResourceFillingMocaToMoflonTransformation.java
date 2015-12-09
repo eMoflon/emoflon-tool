@@ -348,7 +348,7 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
          moflonProps = createOrLoadMoflonProperties(project, properties.getMetamodelProjectName());
       } catch (Exception e)
       {
-         logger.fatal("Unable to handle " + project.getName() + ": " + e.getMessage());
+         logger.fatal("Unable to load moflon.properties.xmi from " + project.getName() + ". Reason: " + e.getMessage());
          e.printStackTrace();
          return;
       }

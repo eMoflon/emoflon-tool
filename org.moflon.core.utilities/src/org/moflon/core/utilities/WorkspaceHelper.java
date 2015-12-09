@@ -696,6 +696,20 @@ public class WorkspaceHelper
    {
       return project.hasNature(INTEGRATION_NATURE_ID);
    }
+   
+   /**
+    * A wrapper around {@link #isIntegrationProject(IProject)}, which returns false if the original method throws an exception
+    */
+   public static boolean isIntegrationProjectNoThrow(IProject project)
+   {
+      try
+      {
+         return isIntegrationProject(project);
+      } catch (CoreException e)
+      {
+         return false;
+      }
+   }
 
    /**
     * Returns whether the project is a a repository project, that is, if it contains generated code.

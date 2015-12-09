@@ -55,8 +55,15 @@ public class MoflonPropertiesContainerHelper
          removeObsoleteTags(project);
          
          final MoflonPropertiesContainer moflonPropertiesCont = loadOrCreatePropertiesContainer(project, project.getFile(MOFLON_CONFIG_FILE));
-         moflonPropertiesCont.checkForMissingDefaults();
          final String projectName = project.getName();
+         moflonPropertiesCont.checkForMissingDefaults();
+         
+         // The TGG build mode is currently set during checkForMissingDefaults, where we cannot distinguish between TGG and SDM projects
+         if (!WorkspaceHelper.isIntegrationProjectNoThrow(project))
+         {
+            moflonPropertiesCont.setTGGBuildMode(null);
+         }
+         
          if (!projectName.equals(moflonPropertiesCont.getProjectName()))
          {
             logger.warn("Project name in Moflon properties file ('" + moflonPropertiesCont.getProjectName()
