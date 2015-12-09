@@ -74,3 +74,8 @@
 2015-12-01	Rename projects: ControlFlow -> org.moflon.sdm.runtime.democles
 2015-12-02	eMoflon 2.7.0 released
 ---
+2015-12-08	Allow to automatically install PlantUML
+2015-12-09	Remove TGGBuildMode if it is empty (so it is only created on demand by the user) #614
+2015-12-09	Separate specification project for org.moflon.ide.visualization (was in org.moflon.core.backend.specification before)
+2015-12-09	eMoflon 2.8.0 released 
+---
