@@ -53,7 +53,11 @@ public class GoToMetamodelProjectHandler extends AbstractCommandHandler
       if (project != null && project.exists())
       {
          final MoflonPropertiesContainer properties = MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
-         if (properties != null)
+         if (properties.getMetaModelProject() == null)
+         {
+            logger.error("Meta-model property of project " + project.getName() + " is not set.");
+         }
+         else 
          {
 
             final String metaModelProjectName = properties.getMetaModelProject().getMetaModelProjectName();
