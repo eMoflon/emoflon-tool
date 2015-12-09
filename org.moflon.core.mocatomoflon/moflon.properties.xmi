@@ -11,6 +11,5 @@
   <metaModelProject MetaModelProjectName="org.moflon.core.backend.specification"/>
   <replaceGenModel/>
   <sdmCodegeneratorHandlerId/>
-  <tGGBuildMode/>
   <additionalUsedGenPackages value="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.genmodel"/>
 </MoflonPropertyContainer:MoflonPropertiesContainer>

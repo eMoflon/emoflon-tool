@@ -13,7 +13,6 @@
   <metaModelProject MetaModelProjectName="org.moflon.sdm.compiler.democles.specification"/>
   <replaceGenModel/>
   <sdmCodegeneratorHandlerId/>
-  <tGGBuildMode/>
   <importMappings key="specification" value="org.gervarro.democles.specification.emf"/>
   <importMappings key="emf" value="org.gervarro.democles.specification.emf.constraint.emf.emf"/>
   <importMappings key="relational" value="org.gervarro.democles.specification.emf.constraint.relational"/>
