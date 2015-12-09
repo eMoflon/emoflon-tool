@@ -66,7 +66,9 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
 
    /**
     * 
-    * @param monitor the monitor to be used during project construction. Every project to be generated should advance the monitor 1 tick
+    * @param monitor
+    *           the monitor to be used during project construction. Every project to be generated should advance the
+    *           monitor 1 tick
     */
    public ResourceFillingMocaToMoflonTransformation(final ResourceSet resourceSet, final Map<String, MetamodelProperties> propertiesMap,
          final IProgressMonitor monitor)
@@ -103,14 +105,14 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
                }
                assert workspaceProject != null && workspaceProject.exists();
                subMonitor.worked(10);
-               
+
                if (!workspaceProject.isAccessible())
                {
                   handleOrReportClosedProject(node, workspaceProject);
                }
                assert workspaceProject.isAccessible();
                subMonitor.worked(10);
-               
+
                PackageRemappingDependency dependency = new PackageRemappingDependency(namespaceURI, false, false);
                Resource resource = dependency.getResource(set, false, true);
                resource.getContents().add(outermostPackage);
@@ -207,8 +209,8 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
          }
 
          final URI projectURI = MoflonUtil.lookupProjectURI(workspaceProject);
-         final URI tggURI = URI.createURI("model/" + MoflonUtil.lastCapitalizedSegmentOf(tgg.getName()) + WorkspaceHelper.PRE_TGG_FILE_EXTENSION).resolve(
-               projectURI);
+         final URI tggURI = URI.createURI("model/" + MoflonUtil.lastCapitalizedSegmentOf(tgg.getName()) + WorkspaceHelper.PRE_TGG_FILE_EXTENSION)
+               .resolve(projectURI);
 
          final PackageRemappingDependency resourceLoader = new PackageRemappingDependency(tggURI, false, false);
          Resource tggResource = resourceLoader.getResource(set, false);
@@ -331,13 +333,14 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       }
       WorkspaceHelper.addContainerToBuildPath(project, "org.eclipse.pde.core.requiredPlugins");
 
-      try {
+      try
+      {
          MoflonProjectCreator.createFoldersIfNecessary(project, new NullProgressMonitor());
-      }
-      catch (final CoreException e) {
+      } catch (final CoreException e)
+      {
          logger.warn("Failed to create folders: " + e.getMessage());
       }
-      
+
       MoflonPropertiesContainer moflonProps;
 
       try
@@ -370,7 +373,7 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       MoflonPropertiesContainerHelper.save(moflonProps, new NullProgressMonitor());
 
       WorkspaceHelper.moveProjectToWorkingSet(project, properties.get(MetamodelProperties.WORKING_SET_KEY));
-      
+
       CoreActivator.getDefault().setDirty(project, true);
 
    }
@@ -399,9 +402,16 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       IFile moflonProps = project.getFile(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE);
 
       if (moflonProps.exists())
-         return MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
+      {
+         MoflonPropertiesContainer container = MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
+         
+         container.updateMetamodelProjectName(metamodelProject);
+         return container;
 
-      return MoflonPropertiesContainerHelper.createDefaultPropertiesContainer(project.getName(), metamodelProject);
+      } else
+      {
+         return MoflonPropertiesContainerHelper.createDefaultPropertiesContainer(project.getName(), metamodelProject);
+      }
    }
 
    public void addMetamodelDependency(final MoflonPropertiesContainer moflonProperties, final URI metamodelUri)

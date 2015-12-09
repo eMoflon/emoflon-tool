@@ -30,7 +30,6 @@ import org.moflon.util.plugins.xml.XMLUtils;
 import org.w3c.dom.Document;
 
 import MoflonPropertyContainer.Dependencies;
-import MoflonPropertyContainer.MetaModelProject;
 import MoflonPropertyContainer.MoflonPropertiesContainer;
 import MoflonPropertyContainer.MoflonPropertyContainerFactory;
 import MoflonPropertyContainer.MoflonPropertyContainerPackage;
@@ -139,10 +138,7 @@ public class MoflonPropertiesContainerHelper
       MoflonPropertiesContainer container = MoflonPropertyContainerFactory.eINSTANCE.createMoflonPropertiesContainer();
       container.setProjectName(projectName);
 
-      MetaModelProject metaModelProjectProperty = MoflonPropertyContainerFactory.eINSTANCE.createMetaModelProject();
-      metaModelProjectProperty.setMetaModelProjectName(metaModelProjectName);
-      container.setMetaModelProject(metaModelProjectProperty);
-
+      container.updateMetamodelProjectName(metaModelProjectName);
       container.checkForMissingDefaults();
 
       return container;
@@ -213,5 +209,6 @@ public class MoflonPropertiesContainerHelper
    {
       return MoflonPropertyContainerFactory.eINSTANCE.createMoflonPropertiesContainer();
    }
+   
 
 }
