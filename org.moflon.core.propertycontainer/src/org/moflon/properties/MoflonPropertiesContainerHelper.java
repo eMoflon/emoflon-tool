@@ -46,6 +46,13 @@ public class MoflonPropertiesContainerHelper
    private static final List<String> OBSOLETE_TAGNAMES = Arrays.asList("buildFilter", "core", "debugMode", "genSdmRpCoverageInstrumentation",
          "genTracingInstrumentation", "injectionErrorHandling", "listShuffling", "skipValidation", "strictSDMConditionalBranching");
 
+   /**
+    * Loads the eMoflon properties of the given project.
+    * 
+    * @param project
+    * @param monitor
+    * @return the properties. Is never null.
+    */
    public static MoflonPropertiesContainer load(final IProject project, final IProgressMonitor monitor)
    {
       try
