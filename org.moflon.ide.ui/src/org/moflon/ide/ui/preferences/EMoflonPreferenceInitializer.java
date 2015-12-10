@@ -7,6 +7,8 @@ import org.moflon.ide.ui.UIActivator;
 public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
 {
 
+   public static final String INSTALL_DEVELOPER_WORKSPACE_KEY = "org.moflon.ide.ui.preferences.InstallDevWorkspaceUsingCurrentPSFs";
+   
    public static final String UPDATE_SITE_PROJECT_KEY = "org.moflon.ide.ui.preferences.UpdateSiteProject";
 
    public static final String LOCAL_DEPLOYMENT_PATH = "org.moflon.ide.ui.preferences.LocalDeploymentPath";
@@ -28,7 +30,7 @@ public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
       store.setValue(UPDATE_SITE_PROJECT_KEY, "org.moflon.deployment.updatesite");
    }
 
-   static IPreferenceStore getPreferencesStore()
+   public static IPreferenceStore getPreferencesStore()
    {
       return UIActivator.getDefault().getPreferenceStore();
    }
