@@ -32,6 +32,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.runtime,org.moflon.ide.visualization.dot.tgg.runtime"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.runtimepatterns,org.moflon.ide.visualization.dot.tgg.runtimepatterns"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.feature,org.moflon.ide.visualization.feature"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.specification,org.moflon.ide.visualization.specification"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.workspaceinstaller.psf,org.moflon.ide.workspaceinstaller.psf"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles,org.moflon.sdm.compiler.democles"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.pattern,org.moflon.sdm.compiler.democles.pattern"/>
@@ -110,6 +111,7 @@
 <item elementID="=org.moflon.ide.visualization.dot.language" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.visualization.dot.language" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.visualization.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.visualization.specification" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.visualization.dot.sdm" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.visualization.dot.tgg" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.visualization.dot.language" type="4"/>
