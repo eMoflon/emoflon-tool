@@ -1,13 +1,16 @@
 package org.moflon.autotest.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -33,6 +36,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.team.internal.ui.wizards.ImportProjectSetOperation;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkingSet;
+import org.eclipse.ui.IWorkingSetManager;
+import org.eclipse.ui.PlatformUI;
 import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -141,7 +146,7 @@ public class WorkspaceInstaller
                   {
                      logger.info("Ok - I was able to switch off auto build ...");
 
-                     checkOutProjectsWithPsfFile(absolutePathsToPSF, WorkspaceHelper.createSubMonitor(monitor, 100));
+                     checkOutProjectsWithPsfFiles(absolutePathsToPSF, WorkspaceHelper.createSubMonitor(monitor, 100));
 
                      logger.info("All projects have now been checked out ...");
 
@@ -197,7 +202,7 @@ public class WorkspaceInstaller
       for (final IProject testProject : testProjects)
       {
          List<IFile> selectedLaunchConfigurations = Arrays.asList(testProject.members()).stream().filter(m -> m instanceof IFile)
-               .map(m -> (IFile)m.getAdapter(IFile.class)).filter(f -> f.getName().matches("^.*[Test|TestSuite].*[.]launch$")).collect(Collectors.toList());
+               .map(m -> (IFile) m.getAdapter(IFile.class)).filter(f -> f.getName().matches("^.*[Test|TestSuite].*[.]launch$")).collect(Collectors.toList());
          logger.info(
                "Launching the following launch configurations: " + selectedLaunchConfigurations.stream().map(f -> f.getName()).collect(Collectors.toList()));
          selectedLaunchConfigurations.forEach(file -> {
@@ -224,14 +229,38 @@ public class WorkspaceInstaller
             .collect(Collectors.toList());
    }
 
-   private void checkOutProjectsWithPsfFile(final List<String> absolutePathToPSF, final IProgressMonitor monitor) throws CoreException, InterruptedException
+   private void checkOutProjectsWithPsfFiles(final List<String> absolutePathsToPSF, final IProgressMonitor monitor) throws CoreException, InterruptedException
    {
-      monitor.beginTask("Checking out projects", 2);
-      removeProjectsIfDesired(WorkspaceHelper.createSubMonitor(monitor, 1));
-      WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
-      importProjectSet(WorkspaceHelper.createSubMonitor(monitor, 1), absolutePathToPSF);
-      monitor.done();
+      try
+      {
+         monitor.beginTask("Checking out projects", 20 * absolutePathsToPSF.size() + 1);
 
+         // We extract the contents beforehand because the following action may delete them if we load PSF files directly from the workspace 
+         final List<String> psfContents = extractPsfFileContents(absolutePathsToPSF);
+         
+         removeProjectsIfDesired(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         
+         WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
+         
+         importProjectSets(WorkspaceHelper.createSubMonitor(monitor, 20 * absolutePathsToPSF.size()), absolutePathsToPSF, psfContents);
+      } catch (IOException e)
+      {
+         throw new CoreException(new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Importing projects failed", e));
+      } finally
+      {
+         monitor.done();
+      }
+
+   }
+
+   private List<String> extractPsfFileContents(final List<String> absolutePathsToPSF) throws IOException
+   {
+      final List<String> psfContents = new ArrayList<>();
+      for (final String absolutePathToPSF : absolutePathsToPSF)
+      {
+            psfContents.add(FileUtils.readFileToString(new File(absolutePathToPSF)));
+      }
+      return psfContents;
    }
 
    public void removeProjectsIfDesired(final IProgressMonitor monitor)
@@ -267,15 +296,19 @@ public class WorkspaceInstaller
       monitor.done();
    }
 
-   private void importProjectSet(final IProgressMonitor monitor, final List<String> absolutePathsToPSF) throws CoreException, InterruptedException
+   private void importProjectSets(final IProgressMonitor monitor, final List<String> absolutePathsToPSF, List<String> psfContents)
+         throws CoreException, InterruptedException
    {
-      monitor.beginTask("Importing projects", absolutePathsToPSF.size());
       try
       {
-         for (final String absolutePathToPSF : absolutePathsToPSF)
+         monitor.beginTask("Importing projects", absolutePathsToPSF.size());
+
+         for (int i = 0; i < psfContents.size(); ++i)
          {
-            logger.info("Checking out projects using PSF file: " + absolutePathToPSF);
-            final ImportProjectSetOperation op = new ImportProjectSetOperation(null, absolutePathToPSF, new IWorkingSet[0]);
+            final String absolutePathToPSFFile = absolutePathsToPSF.get(i);
+            final String psfContent = psfContents.get(i);
+            logger.info("Checking out projects using PSF file: " + absolutePathToPSFFile);
+            final ImportProjectSetOperation op = new ImportProjectSetOperation(null, psfContent, absolutePathToPSFFile, new IWorkingSet[0]);
             op.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
          }
@@ -361,6 +394,21 @@ public class WorkspaceInstaller
       } catch (CoreException e)
       {
          return false;
+      }
+   }
+
+   /**
+    * This method removes all working sets containing no elements whose name starts with "org.moflon"
+    */
+   public static void removeEmptyMoflonWorkingSets()
+   {
+      IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
+      for (IWorkingSet ws : workingSetManager.getAllWorkingSets())
+      {
+         if (ws.getName().startsWith("org.moflon") && ws.getElements().length == 0)
+         {
+            workingSetManager.removeWorkingSet(ws);
+         }
       }
    }
 

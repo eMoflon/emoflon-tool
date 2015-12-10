@@ -86,8 +86,13 @@
                visible="true">
          </separator>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommand"
-               label="Developer Workspace"
+               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingInstalledPSF"
+               label="Developer Workspace (using installed PSF)"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingCurrentPSF"
+               label="Developer Workspace (using current PSF)"
                style="push">
          </command>
          <separator
@@ -164,9 +169,15 @@
       </command>
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDeveloperWorkspaceHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommand"
-            name="Install developer workspace">
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDeveloperWorkspaceHandlerUsingInstalledPSFs"
+            id="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingInstalledPSF"
+            name="Install developer workspace (installed PSF)">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDeveloperWorkspaceHandlerUsingCurrentPSFs"
+            id="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingCurrentPSF"
+            name="Install developer workspace (current PSF)">
       </command>
       <category
             id="org.moflon.ide.ui.commands.DevelopmentCategory"
@@ -174,6 +185,7 @@
       </category>
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.deploy.DeploymentHandler"
             id="org.moflon.devtools.ui.commands.deploy.DeployCommand"
             name="Deploy local">
       </command>
@@ -273,13 +285,6 @@
             id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part45_Command"
             name="Install handbook example (part 4, 5)">
       </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            class="org.moflon.devtools.ui.handlers.deploy.DeploymentHandler"
-            commandId="org.moflon.devtools.ui.commands.deploy.DeployCommand">
-      </handler>
    </extension>
    <extension
          id="org.moflon.testapplication"
