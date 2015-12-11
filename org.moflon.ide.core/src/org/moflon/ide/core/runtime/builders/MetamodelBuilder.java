@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -128,7 +129,15 @@ public class MetamodelBuilder extends AbstractBuilder
          final MetamodelProperties metamodelProperties = properties.get(projectName);
          final String projectType = metamodelProperties.getType().substring(0, 1);
          final String isExported = Boolean.toString(metamodelProperties.isExported());
-         sb.append(String.format("%s/%s [exported=%s, nsUri=%s]\n", projectType, projectName, isExported, metamodelProperties.getNsUri()));
+         sb.append(String.format("%s [type=%s, exported=%s, nsUri=%s]\n", projectName, projectType, isExported, metamodelProperties.getNsUri()));
+         List<String> dependencies = new ArrayList<>(metamodelProperties.getDependencies());
+         Collections.sort(dependencies);
+         int d = 0;
+         for (final String dependency : dependencies)
+         {
+            sb.append(String.format("\t\tdependency%d=%s\n", d, dependency));
+            d++;
+         }
       }
 
       try
@@ -143,7 +152,7 @@ public class MetamodelBuilder extends AbstractBuilder
          }
       } catch (final CoreException e)
       {
-         logger.warn("Failed to create project info file", e);
+         logger.warn("Failed to create project info file " + file, e);
       }
    }
 
