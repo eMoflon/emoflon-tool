@@ -22,6 +22,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         String upperBound = "1";
         String lowerBound = "0";
         String isId = "false";
+        String isDerived = "false";
         String attributeType = "";
 
         public EAttribute(SQLAttribute eaAttribute, SQLRepository repository)
@@ -55,7 +56,15 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                 upperBound = "1";
 
             if (this.EaAttribute.IsOrdered)
+            { 
                 this.ordered = "true";
+            }
+
+            if (this.EaAttribute.IsDerived)
+            {
+                this.isDerived = "true";
+            }
+
             if (this.EaAttribute.getRealAttribute().IsID)
             {
                 this.isId = "true";
@@ -74,6 +83,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             actNode.appendChildAttribute("lowerBound", this.lowerBound);
             actNode.appendChildAttribute("upperBound", this.upperBound);
             actNode.appendChildAttribute("isId", this.isId);
+            actNode.appendChildAttribute("isDerived", this.isDerived);
 
             return actNode;
         }
@@ -88,6 +98,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             this.upperBound = actNode.getAttributeOrCreate("upperBound").Value;
             this.ordered = actNode.getAttributeOrCreate("ordered").Value;
             this.isId = actNode.getAttributeOrCreate("isId").Value != "" ? actNode.getAttributeOrCreate("isId").Value : "false";
+            this.isDerived = actNode.getAttributeOrCreate("isDerived").Value != "" ? actNode.getAttributeOrCreate("isDerived").Value : "false";
             MocaAttribute defAttr = actNode.getAttributeOrCreate("defaultLiteralValue");
             if (defAttr != null)
                 this.defaultString = defAttr.Value;
