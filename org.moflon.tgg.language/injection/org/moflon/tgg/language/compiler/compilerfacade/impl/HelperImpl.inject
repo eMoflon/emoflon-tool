@@ -195,22 +195,8 @@ partial class HelperImpl {
 
 @model determineTypeCheckStatement (ObjectVariable ov) <--
 
-		EClassifier clazz = ov.getType();
-		if (clazz.getInstanceClassName() != null) {
-			return "match.getObject(\"" + ov.getName() + "\").eClass().getInstanceClassName().equals(\""
-					+ clazz.getInstanceClassName() + "\")";
-		}
-
-		String fullyQualifiedEPackageName = MoflonUtil.getFQN(clazz.getEPackage());
-		String packageName = clazz.getEPackage().getName();
-		packageName = MoflonUtil.determinePackageName(MoflonUtil.lastSegmentOf(packageName));
-
-		// Correct fullyQualifiedEPackagename with import mapping
-		fullyQualifiedEPackageName = getCompiler().correctPathWithMappings(fullyQualifiedEPackageName);
-
-		String suffix = ov.getType().getName().equals("Class") ? "_" : "";
-		return "match.getObject(\"" + ov.getName() + "\")" + ".eClass().equals(" + fullyQualifiedEPackageName + "."
-				+ packageName + ".eINSTANCE.get" + ov.getType().getName() + suffix + "())";
+		String ovClassFQN = eMoflonSDMUtil.getFQN(ov.getType());
+		return "org.moflon.util.eMoflonSDMUtil.getFQN(match.getObject(\"" + ov.getName() + "\")" + ".eClass()).equals(\"" + ovClassFQN + "\")";
 -->
 
 @model getEClassFromTGGMetamodel (String className) <--
