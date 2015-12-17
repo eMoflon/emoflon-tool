@@ -254,6 +254,15 @@ public class MoflonUtil
 
       return name.substring(startOfLastSegment);
    }
+   
+   public static String allSegmentsButLast(final String name){
+	   int startOfLastSegment = name.lastIndexOf(".");
+	   
+	   if(startOfLastSegment == -1)
+		   startOfLastSegment = name.length();
+	   
+	   return name.substring(0, startOfLastSegment);
+   }
 
    public static String lastCapitalizedSegmentOf(final String name)
    {
