@@ -123,7 +123,6 @@ public abstract class Synchronizer
       allRevokedElts = revoke(toBeDeleted);
       toBeTranslated.addConstructive(allRevokedElts);
       toBeTranslated.removeDestructive(toBeDeleted);
-      suspendDeletionPhase();
       allRevokedElts = null;
    }
 
@@ -138,7 +137,6 @@ public abstract class Synchronizer
 
       collectedMatches.addAll(collectDerivations(allRevokedElts, lookupMethods));
       inputMatches = collectedMatches;
-      suspendAdditionPhase();
       allRevokedElts = null;
    }
 
@@ -247,7 +245,6 @@ public abstract class Synchronizer
 
       allToBeRevokedTripleMatches = Stream.concat(toBeRevokedTripleMatches, dependencies).collect(Collectors.toSet());
       protocol.revoke(allToBeRevokedTripleMatches);
-      suspendDeletionPhaseBefore();
       return delete(allToBeRevokedTripleMatches);
    }
 
@@ -295,7 +292,6 @@ public abstract class Synchronizer
       inputMatches = pg.getMatches();
 
       extendReady(inputMatches);
-      suspendTranslationPhaseStart();
 
       while (!inputMatches.isEmpty())
       {
@@ -316,13 +312,12 @@ public abstract class Synchronizer
 
          if (amalgamationUtil.isAmalgamatedTGG(lookupMethods))
             processAmalgamationComplements(inputMatches, chosen, chosenRR);
-         suspendTranslationPhaseStep();
+
          translated = null;
          createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch>getCollection();
       }
 
       finalizeGraphTriple(graphTriple);
-      suspendTranslationPhaseEnd();
    }
 
    protected abstract void finalizeGraphTriple(CorrespondenceModel graphTriple);
@@ -588,18 +583,4 @@ public abstract class Synchronizer
    {
       return tempOutputContainer;
    }
-   
-   protected abstract void suspendInitializationPhase();
-
-   protected abstract void suspendDeletionPhaseBefore();
-   
-   protected abstract void suspendDeletionPhase();
-
-   protected abstract void suspendAdditionPhase();
-   
-   protected abstract void suspendTranslationPhaseStart();
-   
-   protected abstract void suspendTranslationPhaseEnd();
-   
-   protected abstract void suspendTranslationPhaseStep();
 }
