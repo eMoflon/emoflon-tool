@@ -58,6 +58,18 @@ namespace EAEcoreAddin.Util
             return returnVal;
         }
 
+        public static String setValueInXMLNodeContentFromSQLQueryString(string queryString, String rowName, string replaycement)
+        {
+            String startTag = "<" + rowName + ">";
+            String endTag = "</" + rowName + ">";
+            int startTagIndex = queryString.IndexOf(startTag);
+            int endTagIndex = queryString.IndexOf(endTag);
+            String origin = queryString.Substring(startTagIndex, endTagIndex - startTagIndex + endTag.Length);
+            String replaycementString = startTag + replaycement + endTag;
+            String returnValue = queryString.Replace(origin, replaycementString);
+            return returnValue; 
+        }
+
 
         private static Boolean stringEndsWith(string toCheck, string endsWith)
         {

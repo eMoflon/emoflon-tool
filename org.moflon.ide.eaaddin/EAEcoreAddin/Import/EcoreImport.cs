@@ -95,6 +95,8 @@ namespace EAEcoreAddin.Import
 
                 String oppositeGuid = refNode.getAttributeOrCreate("oppositeGuid").Value;
 
+                bool containment = refNode.getAttributeOrCreate("containment").Value == "true";
+
                 SQLElement client = parent;
                 String supGuid = refNode.getAttributeOrCreate("typeGuid").Value;
                 
@@ -116,18 +118,42 @@ namespace EAEcoreAddin.Import
                         }
                         else
                         {
-                            con = getOrCreateConnector(client, sqlRep.GetElementByID(supplier.ElementID), refGuid, Main.EAAssociationType);
+                            int supplierAggregation = 0;
+                            int clientAggregation = 0;
+                            if (containment)
+                            {
+                                if (oppositeGuid.EndsWith("Supplier"))
+                                    clientAggregation = 2;
+                                else
+                                    supplierAggregation = 2;
+                            }
+
+                            con = createConnector(client, sqlRep.GetElementByID(supplier.ElementID), refGuid, Main.EAAssociationType, supplierAggregation, clientAggregation);
                             refNode.getAttributeOrCreate(Main.GuidStringName).Value = "Supplier";
                         }
                     }
                     else
                     {
-                        con = getOrCreateConnector(sqlRep.GetElementByID(client.ElementID), sqlRep.GetElementByID(supplier.ElementID), refGuid, Main.EAAssociationType);
+                        con = createConnector(sqlRep.GetElementByID(client.ElementID), sqlRep.GetElementByID(supplier.ElementID), refGuid, Main.EAAssociationType,0,0);
                         refNode.getAttributeOrCreate(Main.GuidStringName).Value = "Supplier";
                     }
                 }
-                if (con != null)
+               if (con != null)
                 {
+                     if (containment)
+                     {
+                         if (refGuid.Contains("Client"))
+                         {
+                             con.SupplierEnd.Aggregation = 2;
+                         }
+                         if (refGuid.Contains("Supplier"))
+                         {
+                             con.ClientEnd.Aggregation = 2;
+                         }
+                         con.Update();
+
+                     }
+
                     if (!MainImport.getInstance().ReferenceGuidToReference.ContainsKey(refGuid))
                     {
                         MainImport.getInstance().ReferenceGuidToReference.Add(refGuid, con);
@@ -158,6 +184,8 @@ namespace EAEcoreAddin.Import
                     {
                         MainImport.getInstance().ReferenceGuidToClientTarget.Add(con.ConnectorGUID, referencesNodeSet);
                     }
+
+
 
                     referencesNodeSet.appendChildNode(refNode);
                 }
@@ -390,7 +418,7 @@ namespace EAEcoreAddin.Import
             foreach (MocaNode literalNode in eEnumNode.getChildNodeWithName("literals").Children)
             {
                 EA.Attribute literalAtt = eenumElement.Attributes.AddNew(literalNode.getAttributeOrCreate("name").Value, "") as EA.Attribute;
-                //literalAtt.Update();
+                literalAtt.Update();
             }
             eenumElement.Attributes.Refresh();
             EEnum eenum = new EEnum(sqlRep.GetElementByID(eenumElement.ElementID), sqlRep);
@@ -507,10 +535,10 @@ namespace EAEcoreAddin.Import
             return eclassElem;
         }
 
-        public EA.Connector getOrCreateConnector(SQLElement client, SQLElement supplier, String oldGuid, String connectorType)
+        public EA.Connector getOrCreateConnector(SQLElement client, SQLElement supplier, String guid, String connectorType)
         {
-            oldGuid = oldGuid.Replace("Client", "").Replace("Supplier", "");
-            EA.Connector connector = repository.GetConnectorByGuid(oldGuid);
+            String oldGuid = guid.Replace("Client", "").Replace("Supplier", "");
+            EA.Connector connector = getConnector(oldGuid);
             if (connector == null)
             {
                 connector = client.getRealElement().Connectors.AddNew("", connectorType) as EA.Connector;
@@ -527,6 +555,26 @@ namespace EAEcoreAddin.Import
 
             connector.Update();
 
+            return connector;
+        }
+
+        public EA.Connector getConnector(String guid)
+        {
+            String oldGuid = guid.Replace("Client", "").Replace("Supplier", "");
+            return repository.GetConnectorByGuid(oldGuid); 
+        }
+
+        public EA.Connector createConnector(SQLElement client, SQLElement supplier, String guid, String connectorType, int supplierAggregation, int clientAggregation)
+        {
+            EA.Connector connector = client.getRealElement().Connectors.AddNew("", connectorType) as EA.Connector;
+            connector.SupplierID = supplier.ElementID;
+            connector.Update();
+            connector.SupplierEnd.Aggregation = supplierAggregation;
+            connector.SupplierEnd.Update();
+            connector.ClientEnd.Aggregation = clientAggregation;
+            connector.ClientEnd.Update();
+            client.Connectors.Refresh();
+            supplier.Connectors.Refresh();
             return connector;
         }
 

@@ -21,12 +21,25 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         public EReferenceEnd ClientEnd;
         public EReferenceEnd SupplierEnd;
 
+        private EClass sourceClass;
+        private EClass targetClass;
+
         public EReference(SQLConnector eaConnector, SQLRepository repository)
         {
             this.Repository = repository;
             this.EaConnector = eaConnector;
             this.ClientEnd = new EReferenceEnd(eaConnector.ClientEnd, eaConnector, repository);
             this.SupplierEnd = new EReferenceEnd(eaConnector.SupplierEnd, eaConnector, repository);
+        }
+
+        public EReference(SQLConnector eaConnector, SQLRepository repository, EClass source, EClass target)
+        {
+            this.Repository = repository;
+            this.EaConnector = eaConnector;
+            this.ClientEnd = new EReferenceEnd(eaConnector.ClientEnd, eaConnector, repository);
+            this.SupplierEnd = new EReferenceEnd(eaConnector.SupplierEnd, eaConnector, repository);
+            this.sourceClass = source;
+            this.targetClass = target;
         }
 
 
@@ -60,7 +73,8 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             setConnectorEnd(ClientEnd);
             setConnectorEnd(SupplierEnd);
 
-            EaConnector.getRealConnector().Update();
+            Update();
+            
         }
 
         public override void refreshSQLObject()
@@ -70,34 +84,60 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
 
         private void setConnectorEnd(EReferenceEnd end)
         {
+            
             EReferenceEnd opposite = null;
-            if (ClientEnd == end)
+            int oldAggregation;
+            bool isEnd = ClientEnd == end;
+            bool containment = false;
+            string name = end.Name;
+            
+            if (isEnd)
                 opposite = SupplierEnd;
             else
                 opposite = ClientEnd;
 
+            if(opposite!=null && !end.aggregationSet)
+                containment = opposite.containment;
             if (end.Navigable)
             {
-                if (end.containment == "true")
+                                
+               if (containment)
                 {
-                    opposite.ConnectorEnd.getRealConnectorEnd().Aggregation = 2;
+                    oldAggregation = end.ConnectorEnd.getAggregation();
+                    end.ConnectorEnd.setAggregation(2);
+                  //  end.aggregationSet = true;
+                    end.ConnectorEnd.Update();
+                   // Update();
+                    oldAggregation = end.ConnectorEnd.getAggregation(); 
                 }
                 if (end.lowerBound != ClientEnd.upperBound)
                 {
                     end.ConnectorEnd.getRealConnectorEnd().Cardinality = end.lowerBound.Replace("-1", "*") + ".." + end.upperBound.Replace("-1", "*");
+                   // Update();
                 }
                 else
                 {
                     end.ConnectorEnd.getRealConnectorEnd().Cardinality = end.lowerBound.Replace("-1", "*");
+                   // Update();
                 }
-                if (end.Name != "" && end.Name != null)
+                if (name != "" && name != null)
                 {
                     end.ConnectorEnd.getRealConnectorEnd().Role = end.Name;
+                    end.ConnectorEnd.Update();
                     end.ConnectorEnd.getRealConnectorEnd().Update();
                 }
 
                
             }
+        }
+        public void Update()
+        {
+            //this.ClientEnd.Update();
+            //this.SupplierEnd.Update();
+            EaConnector.
+                //getRealConnector().
+                Update();
+            Repository.Resources.Refresh();
         }
     }
 }

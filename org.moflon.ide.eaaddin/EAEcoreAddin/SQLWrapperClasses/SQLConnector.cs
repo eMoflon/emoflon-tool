@@ -282,6 +282,11 @@ namespace EAEcoreAddin.SQLWrapperClasses
             }
         }
 
-
+        public void Update()
+        {
+            this.clientEnd.Update();
+            this.supplierEnd.Update();
+            this.repository.Resources.Refresh();
+        }
     }
 }

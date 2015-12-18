@@ -26,7 +26,7 @@ namespace EAEcoreAddin.Consistency.Rules.ConnectorRules
 
                     if (eaConnector.ClientEnd.Navigable == "Navigable")
                     {
-                        if (eaConnector.ClientEnd.Aggregation == 2 && (eaConnector.ClientEnd.Cardinality != "1" && eaConnector.ClientEnd.Cardinality != "0..1"))
+                        if (eaConnector.ClientEnd.getAggregation() == 2 && (eaConnector.ClientEnd.Cardinality != "1" && eaConnector.ClientEnd.Cardinality != "0..1"))
                         {
                             results.Add( "Containment end must have multiplicity 1 or 0..1");
                         }
@@ -37,7 +37,7 @@ namespace EAEcoreAddin.Consistency.Rules.ConnectorRules
                     }
                     else if (eaConnector.SupplierEnd.Navigable == "Navigable")
                     {
-                        if (eaConnector.SupplierEnd.Aggregation == 2 && (eaConnector.SupplierEnd.Cardinality != "1" && eaConnector.SupplierEnd.Cardinality != "0..1"))
+                        if (eaConnector.SupplierEnd.getAggregation() == 2 && (eaConnector.SupplierEnd.Cardinality != "1" && eaConnector.SupplierEnd.Cardinality != "0..1"))
                         {
                             results.Add("Containment end must have multiplicity 1 or 0..1");
                         }

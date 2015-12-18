@@ -25,20 +25,55 @@ namespace EAEcoreAddin.SQLWrapperClasses
             this.clientOrTarget = clientOrTarget;
         }
 
-        public int Aggregation
-        {
-            get
+      // private int Aggregation = -1;
+        
+       public int getAggregation()
             {
-                if (clientOrTarget == "client")
-                    return int.Parse(EAEcoreAddin.Util.EAUtil.getXMLNodeContentFromSQLQueryString(xmlConnectorString, "SourceIsAggregate")[0]);
-                
-                else if (clientOrTarget == "target")
-                    return int.Parse(EAEcoreAddin.Util.EAUtil.getXMLNodeContentFromSQLQueryString(xmlConnectorString, "DestIsAggregate")[0]);
-                return 0;
-                
-            }
-        }
+        /*        if (Aggregation == -1)
+                {
+                    if (clientOrTarget == "client")
+                        Aggregation = int.Parse(EAEcoreAddin.Util.EAUtil.getXMLNodeContentFromSQLQueryString(xmlConnectorString, "SourceIsAggregate")[0]);
 
+                    else if (clientOrTarget == "target")
+                        Aggregation = int.Parse(EAEcoreAddin.Util.EAUtil.getXMLNodeContentFromSQLQueryString(xmlConnectorString, "DestIsAggregate")[0]);
+                }
+                return Aggregation;*/
+                return getRealConnectorEnd().Aggregation;
+            }
+
+       public void setAggregation(int value)
+            {
+               // Aggregation = value;
+                getRealConnectorEnd().Aggregation = value;
+                if (clientOrTarget == "client")
+                    repository.Execute("update t_connector set SourceIsAggregate = '" + value + "' where ea_guid = '" + getGuid() + "'");
+                else
+                    repository.Execute("update t_connector set DestIsAggregate = '" + value + "' where ea_guid = '" + getGuid() + "'");
+           // repository.Execute("update t_connector set ea_guid = '" + oldGuid + "' where ea_guid = '" + connector.ConnectorGUID + "'");
+                realConnectorEnd.Update();
+               /* if (clientOrTarget == "client")
+                  xmlConnectorString = EAEcoreAddin.Util.EAUtil.setValueInXMLNodeContentFromSQLQueryString(xmlConnectorString, "SourceIsAggregate", value+"");
+
+                else if (clientOrTarget == "target")
+                    xmlConnectorString = EAEcoreAddin.Util.EAUtil.setValueInXMLNodeContentFromSQLQueryString(xmlConnectorString, "DestIsAggregate", value + "");*/
+            }
+
+
+       private String getGuid()
+       { 
+                    return EAEcoreAddin.Util.EAUtil.getXMLNodeContentFromSQLQueryString(xmlConnectorString, "ea_guid")[0];
+       }
+
+        public void setOppositeAggregation(int value)
+        {
+            getOppositeConnectorEnd().Aggregation = value;
+            oppositeConnectorEnd.Update();
+            if (clientOrTarget == "target")
+                xmlConnectorString = EAEcoreAddin.Util.EAUtil.setValueInXMLNodeContentFromSQLQueryString(xmlConnectorString, "SourceIsAggregate", value + "");
+
+            else if (clientOrTarget == "client")
+                xmlConnectorString = EAEcoreAddin.Util.EAUtil.setValueInXMLNodeContentFromSQLQueryString(xmlConnectorString, "DestIsAggregate", value + "");
+        }
 
 
         public string Cardinality
@@ -58,7 +93,7 @@ namespace EAEcoreAddin.SQLWrapperClasses
         }
 
 
-        public EA.ConnectorEnd realConnectorEnd;
+        private EA.ConnectorEnd realConnectorEnd;
 
         public EA.ConnectorEnd getRealConnectorEnd()
         {
@@ -76,6 +111,23 @@ namespace EAEcoreAddin.SQLWrapperClasses
             return realConnectorEnd;
         }
 
+        private EA.ConnectorEnd oppositeConnectorEnd;
+
+        public EA.ConnectorEnd getOppositeConnectorEnd()
+        {
+            if (oppositeConnectorEnd == null)
+            {
+                if (clientOrTarget == "client")
+                {
+                    oppositeConnectorEnd = OwningConnector.getRealConnector().SupplierEnd;
+                }
+                else if (clientOrTarget == "target")
+                {
+                    oppositeConnectorEnd = OwningConnector.getRealConnector().ClientEnd;
+                }
+            }
+            return oppositeConnectorEnd;
+        }
 
 
 
@@ -179,6 +231,11 @@ namespace EAEcoreAddin.SQLWrapperClasses
                 }
                 return "";
             }
+        }
+
+        public bool Update()
+        {
+            return getRealConnectorEnd().Update() && getOppositeConnectorEnd().Update();
         }
 
 

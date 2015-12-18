@@ -193,7 +193,7 @@ namespace EAEcoreAddin.Import
                 {
                     EcoreImport.fillEcoreDiagram(diagram);
                 }
-                else if (SDMModelingMain.SdmDiagramMetatype.Contains(diagram.MetaType))
+        /*        else if (SDMModelingMain.SdmDiagramMetatype.Contains(diagram.MetaType))
                 {
                     SdmImport.fillSDMDiagram(diagram);
                 }
@@ -208,7 +208,7 @@ namespace EAEcoreAddin.Import
                 else if (TGGModelingMain.TggRuleDiagramMetatype.Contains(diagram.MetaType))
                 {
                     TggImport.fillRuleDiagram(diagram);
-                }
+                }*/
             }
 
         }
@@ -232,6 +232,7 @@ namespace EAEcoreAddin.Import
 
         private void importConnectors()
         {
+
             //first eReferences and ActivityEdges
             foreach (MocaNode refNode in ConnectorNodeToParent.Keys)
             {
@@ -240,15 +241,15 @@ namespace EAEcoreAddin.Import
                 if (refNode.Name == EClass.ReferencesChildNodeName)
                 {
                     if (hasGui)
-                        ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import EReference", ConnectorNodeToParent.Count));               
-                
+                        ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import EReference", ConnectorNodeToParent.Count));
+
                     EcoreImport.importERef(sqlRep.GetElementByID(parent.ElementID), refNode);
                 }
                 else if (refNode.Name == "ActivityEdge")
                 {
                     if (hasGui)
-                        ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import ActivityEdge", ConnectorNodeToParent.Count));               
-                
+                        ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import ActivityEdge", ConnectorNodeToParent.Count));
+
                     SdmImport.importActivityEdge(sqlRep.GetElementByID(parent.ElementID), refNode);
                 }
 
@@ -261,13 +262,12 @@ namespace EAEcoreAddin.Import
                 }
                 else if (refNode.Name == TGGModelingMain.TggLinkVariableStereotype)
                 {
-                    if (hasGui)    
+                    if (hasGui)
                         ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Current, "Import TGGLinkVariable", ReferenceGuidToClientTarget.Count));
 
                     TggImport.importTGGLinkVariable(refNode, sqlRep.GetElementByID(parent.ElementID));
                 }
             }
-
 
             foreach (String refGuid in ReferenceGuidToClientTarget.Keys)
             {
@@ -278,18 +278,26 @@ namespace EAEcoreAddin.Import
                 {
 
                     EA.Connector con = ReferenceGuidToReference[refGuid];
+                    con.Update();
                     MocaNode refsNode = ReferenceGuidToClientTarget[refGuid];
 
                     EReference eRef = new EReference(sqlRep.GetConnectorByID(con.ConnectorID), sqlRep);
                     eRef.deserializeFromMocaTree(refsNode);
-
+               //     con.Update();
                     eRef.doEaGuiStuff();
 
                     MocaTaggableElements.Add(eRef);
+                   
+            //        EA.Element supElement = repository.GetElementByID(con.SupplierID);
+            //        EA.Element cliElement = repository.GetElementByID(con.ClientID);
+
+                    
+                //    con.Update();
+              //     supElement.Connectors.Refresh();
+              //     cliElement.Connectors.Refresh();
+                    
                 }
             }
-
-            
         }
 
         

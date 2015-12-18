@@ -17,11 +17,12 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         public String typeGUID = "";
         public String refGUID = "";
         public String oppositeGUID = "";
-        public String containment = "false";
+        public bool containment = false;
         public String lowerBound = "0";
         public String upperBound = "1";
 
         public Boolean Navigable = false;
+        public Boolean aggregationSet = false;
 
         public SQLConnectorEnd ConnectorEnd;
         SQLConnector EaConnector;
@@ -78,9 +79,11 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                 MocaAttribute ubAttr = ereferenceNode.getAttributeOrCreate("upperBound");
                 if (ubAttr != null)
                     this.upperBound = ubAttr.Value;
-                MocaAttribute cont = ereferenceNode.getAttributeOrCreate("containment");
+               MocaAttribute cont = ereferenceNode.getAttribute("containment");
                 if (cont != null)
-                    this.containment = cont.Value;
+                {
+                    this.containment = cont.Value == "true";
+                }
                 MocaAttribute oppo = ereferenceNode.getAttributeOrCreate("oppositeGuid");
                 if (oppo != null)
                     this.oppositeGUID = oppo.Value;
@@ -134,8 +137,8 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                     oppositeGUID = this.EaConnector.ConnectorGUID + "Supplier";
                 }
 
-                if (this.EaConnector.SupplierEnd.Aggregation == 2)
-                    containment = "true";
+
+                containment = this.EaConnector.SupplierEnd.getAggregation() == 2;
 
             }
 
@@ -150,8 +153,8 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                     oppositeGUID = this.EaConnector.ConnectorGUID + "Client";
                 }
 
-                if (this.EaConnector.ClientEnd.Aggregation == 2)
-                    containment = "true";
+
+                containment = this.EaConnector.ClientEnd.getAggregation() == 2;
             }
 
             if (Navigable)
@@ -162,7 +165,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                 ereferenceNode.appendChildAttribute(Main.GuidStringName, refGUID);
                 ereferenceNode.appendChildAttribute("lowerBound", lowerBound);
                 ereferenceNode.appendChildAttribute("upperBound", upperBound);
-                ereferenceNode.appendChildAttribute("containment", containment);
+                ereferenceNode.appendChildAttribute("containment", containment+"");
                 if (oppositeGUID != "")
                 {
                     ereferenceNode.appendChildAttribute("oppositeGuid", oppositeGUID);
@@ -170,6 +173,10 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
 
             }
             return dummyNode;
+        }
+        public void Update()
+        {
+            this.ConnectorEnd.Update();
         }
     }
 }

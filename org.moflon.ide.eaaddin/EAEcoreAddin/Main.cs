@@ -67,6 +67,7 @@ namespace EAEcoreAddin
         public static readonly String EADependencyType = "Dependency";
         public static readonly String EAGeneralizationConType = "Generalization";
         public static readonly String EAAssociationType = "Association";
+        public static readonly String EAAssociationType_composite = "Aggregation";
         public static readonly String TrueValue = "true";
         public static readonly String FalseValue = "false";
         #endregion
