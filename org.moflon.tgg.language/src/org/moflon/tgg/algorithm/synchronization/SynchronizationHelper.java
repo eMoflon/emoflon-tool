@@ -294,7 +294,8 @@ public class SynchronizationHelper
 
    protected void establishDelta(final EObject input, final Consumer<EObject> change)
    {
-	  if(delta != null){
+	  // check if delta has already been loaded, e.g. by using deltas created with delta editor
+	  if(loadedFileDelta){
 		  logger.info("Using loaded delta for synchronization...");
 		  return;
 	  }
@@ -457,11 +458,7 @@ public class SynchronizationHelper
          throw new IllegalArgumentException("Target model must be set");
 
       init();
-      
-      // check if delta has already been loaded, e.g. by using deltas created with delta editor
-      if(!loadedFileDelta)
-    	  establishBackwardDelta();
-      
+      establishBackwardDelta();
       establishTranslationProtocol();
 
       performSynchronization(new BackwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(), tempOutputContainer));
