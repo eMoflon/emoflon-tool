@@ -6,6 +6,18 @@ Variable <var_name> = CSPFactoryHelper.eINSTANCE.createVariable("<name>", true, 
 <var_name>.setType("<type>");
 >>
 
+BoundAttributeVariableGeneric(var_name, name, value, type) ::= <<
+Variable <var_name> = CSPFactoryHelper.eINSTANCE.createVariable("<name>", true, csp);
+<if(value)><var_name>.setValue(__helper.getValue("<name>", "<value>"));<endif>
+<var_name>.setType("<type>");
+>>
+
+BoundLiteralGeneric(var_name, name, value, type) ::= <<
+Variable <var_name> = CSPFactoryHelper.eINSTANCE.createVariable("<name>", true, csp);
+<if(value)><var_name>.setValue(<value>);<endif>
+<var_name>.setType("<type>");
+>>
+
 UnboundVariable(var_name, name, type) ::= <<
 Variable <var_name> = CSPFactoryHelper.eINSTANCE.createVariable("<name>", csp);
 <var_name>.setType("<type>");
@@ -39,29 +51,17 @@ AttributeConstraintsRuleResult ruleResult = org.moflon.tgg.runtime.RuntimeFactor
 ruleResult.setRule("<ruleName>");	
 ruleResult.setSuccess(true);
 
-
 CSP csp = CspFactory.eINSTANCE.createCSP();
+
+CheckAttributeHelper __helper = new CheckAttributeHelper(__tripleMatch);
 >>
 
-
-locate_node(var_name, type) ::= <<
-Optional\<TripleMatchNodeMapping> matchFor<var_name; format="firstToUpper"> = __tripleMatch.getNodeMappings().stream().filter(nm -> nm.getNodeName().equals("<var_name>")).findAny();
-<type> <var_name> = (<type>) matchFor<var_name; format="firstToUpper">.get().getNode();
->>
-
-check_constraints(op1, op2, comp) ::= <<
-if(!(<op1> <comp> <op2>)){ 
-	ruleResult.setSuccess(false);
-	return ruleResult;
-}	
->> 
-
-check_constraints_eq(op1, op2, not) ::=<<
-if(<not><op1>.equals(<op2>)){ 
-	ruleResult.setSuccess(false);
+check_constraints(ovName, attrName, expectedValue, comp) ::= <<
+if(!__helper.hasExpectedValue("<ovName>", "<attrName>", <expectedValue>, ComparingOperator.<comp>)) {
+	ruleResult.setSuccess(false); 
 	return ruleResult;
 }
->>
+>> 
 
 check_csp(target, constraints) ::= <<
 if(csp.check()){ 
@@ -72,7 +72,7 @@ if(csp.check()){
 	if(csp.check()){ 
 		ruleResult.setSuccess(true);
 		ruleResult.setRequiredChange(true);
-		<target:{t | <t.objectVariable>.set<t.attribute; format="firstToUpper">((<t.type>) var_<t.objectVariable>_<t.attribute>.getValue());}; separator="\n">
+		<target:{t | __helper.setValue("<t.objectVariable>", "<t.attribute>", var_<t.objectVariable>_<t.attribute>.getValue());}; separator="\n">
 	} else {
 		ruleResult.setSuccess(false);
 		return ruleResult;

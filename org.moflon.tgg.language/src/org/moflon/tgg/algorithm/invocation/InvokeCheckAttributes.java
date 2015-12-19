@@ -37,7 +37,6 @@ public class InvokeCheckAttributes implements
 	     try {
 			return (AttributeConstraintsRuleResult) object.eInvoke(op, parameterValues);
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace(); 
 		}
 		return null;

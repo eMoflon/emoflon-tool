@@ -1,49 +1,16 @@
 package org.moflon.tgg.algorithm.delta.attribute;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EGenericType;
-import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.ENamedElement;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EParameter;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.csp.codegenerator.MyBasicFormatRenderer;
-import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.STGroupFile;
-
-import SDMLanguage.expressions.ComparingOperator;
-import SDMLanguage.expressions.ComparisonExpression;
-import SDMLanguage.expressions.Expression;
-import SDMLanguage.expressions.LiteralExpression;
-import SDMLanguage.patterns.AttributeAssignment;
-import SDMLanguage.patterns.BindingOperator;
-import SDMLanguage.patterns.BindingSemantics;
-import SDMLanguage.patterns.Constraint;
-import SDMLanguage.patterns.ObjectVariable;
-import SDMLanguage.patterns.patternExpressions.AttributeValueExpression;
 import org.moflon.tgg.language.DomainType;
 import org.moflon.tgg.language.TGGObjectVariable;
 import org.moflon.tgg.language.TGGRule;
@@ -58,6 +25,19 @@ import org.moflon.tgg.language.csp.LocalVariable;
 import org.moflon.tgg.language.csp.OperationalCSP;
 import org.moflon.tgg.language.csp.TGGConstraint;
 import org.moflon.tgg.language.csp.Variable;
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroupFile;
+
+import SDMLanguage.expressions.ComparingOperator;
+import SDMLanguage.expressions.ComparisonExpression;
+import SDMLanguage.expressions.Expression;
+import SDMLanguage.expressions.LiteralExpression;
+import SDMLanguage.patterns.AttributeAssignment;
+import SDMLanguage.patterns.BindingOperator;
+import SDMLanguage.patterns.BindingSemantics;
+import SDMLanguage.patterns.Constraint;
+import SDMLanguage.patterns.ObjectVariable;
+import SDMLanguage.patterns.patternExpressions.AttributeValueExpression;
 
 public class AttributeConstraintCodeGenerator
 {
@@ -79,15 +59,12 @@ public class AttributeConstraintCodeGenerator
 
    private OperationalCSP ocsp;
 
-   private TGGCompiler compiler;
-
    public AttributeConstraintCodeGenerator(final TGGRule rule, final String name, final TGGCompiler compiler)
    {
       this.separator = "\n\n";
       this.stg = new STGroupFile(this.getClass().getClassLoader().getResource("/templates/Csp.stg"), "UTF-8", '<', '>');
       this.stg.registerRenderer(String.class, new MyBasicFormatRenderer());
       this.code = new StringBuilder();
-      this.compiler = compiler;
 
       this.rule = rule;
       this.name = name;
@@ -192,59 +169,6 @@ public class AttributeConstraintCodeGenerator
       return "null";
    }
 
-   private String handleType(final EClassifier type)
-   {
-      // Some Java dependent adjustments
-      String typeName = type.getName();
-      if ("boolean".equals(typeName))
-         return "Boolean";
-
-      if (CORE_ECORE_CLASS_NAMES.contains(typeName))
-         return "org.eclipse.emf.ecore." + typeName;
-
-      String fqn = MoflonUtil.getFQN(type);
-      
-      // Return immediately if the type is only contained in the default package
-      if(fqn.lastIndexOf('.') == -1){
-         return fqn;
-      }
-      
-      String fullyQualifiedPackageName = fqn.substring(0, fqn.lastIndexOf('.'));
-
-      String remappedPackage = this.compiler.correctPathWithMappings(fullyQualifiedPackageName);
-      String remappedType = remappedPackage + "." + typeName;
-      return remappedType;
-   }
-
-   private String getComparisonOp(final ComparingOperator comparingOperator)
-   {
-      String result = "*";
-      switch (comparingOperator)
-      {
-      case LESS:
-         result = "<";
-         break;
-      case LESS_OR_EQUAL:
-         result = "<=";
-         break;
-      case EQUAL:
-         result = "==";
-         break;
-      case GREATER_OR_EQUAL:
-         result = ">=";
-         break;
-      case GREATER:
-         result = ">";
-         break;
-      case UNEQUAL:
-         result = "!=";
-         break;
-      default:
-         break;
-      }
-      return result;
-   }
-
    private Collection<Variable> getDestVariables(final Collection<Variable> variables, final Collection<String> relevantOVs)
    {
       return variables.stream().filter(v -> {
@@ -261,8 +185,6 @@ public class AttributeConstraintCodeGenerator
 
    private void handleAttributeAssignmentsAndConstraints()
    {
-      HashMap<String, String> variables = new HashMap<String, String>();
-
       StringBuilder locateObjects = new StringBuilder();
       StringBuilder attrConsResult = new StringBuilder();
 
@@ -274,19 +196,13 @@ public class AttributeConstraintCodeGenerator
          if (ov.getBindingSemantics().equals(BindingSemantics.NEGATIVE))
             continue;
 
-         ST oVT = stg.getInstanceOf("locate_node");
-         oVT.add("var_name", ov.getName());
-         oVT.add("type", handleType(ov.getType()));
-         variables.put(ov.getName(), ov.getType().getName());
-         locateObjects.append(oVT.render());
-         locateObjects.append(separator);
-
          // handle AttributeAssignments
          for (AttributeAssignment a : ov.getAttributeAssignment())
          {
-            String op1 = buildMethodCall(a.getAttribute().getName(), a.getAttribute().getEAttributeType().getName(), a.getObjectVariable().getName());
-            String op2 = getOperand(a.getValueExpression());
-            attrConsResult.append(buildAssignmentsAndConstraints(op1, op2, "==", a.getAttribute().getEType().getName()));
+        	String ovName = a.getObjectVariable().getName();
+        	String attrName = a.getAttribute().getName();
+            String expectedValue = getOperand(a.getValueExpression());
+            attrConsResult.append(buildAssignmentsAndConstraints(ovName, attrName, expectedValue, ComparingOperator.EQUAL));
             attrConsResult.append(separator);
          }
 
@@ -296,10 +212,10 @@ public class AttributeConstraintCodeGenerator
             Expression exp = c.getConstraintExpression();
             if (exp instanceof ComparisonExpression)
             {
-               String op1 = getOperand(((ComparisonExpression) exp).getLeftExpression());
-               String op2 = getOperand(((ComparisonExpression) exp).getRightExpression());
-               String comp = getComparisonOp(((ComparisonExpression) exp).getOperator());
-               attrConsResult.append(buildAssignmentsAndConstraints(op1, op2, comp, isOperandOfTypeString(((ComparisonExpression) exp).getLeftExpression())));
+               String attrName = getOperand(((ComparisonExpression) exp).getLeftExpression());
+               String expectedValue = getOperand(((ComparisonExpression) exp).getRightExpression());
+               ComparingOperator comp = ((ComparisonExpression) exp).getOperator();
+               attrConsResult.append(buildAssignmentsAndConstraints(ov.getName(), attrName, expectedValue, comp));
                attrConsResult.append(separator);
             }
          }
@@ -308,43 +224,12 @@ public class AttributeConstraintCodeGenerator
       code.append(locateObjects.toString() + attrConsResult + separator);
    }
 
-   private String isOperandOfTypeString(final Expression exp)
+   private String buildAssignmentsAndConstraints(final String ovName, final String attrName, final String expectedValue, final ComparingOperator comp)
    {
-      if (exp instanceof AttributeValueExpression)
-      {
-         AttributeValueExpression attrValueExp = (AttributeValueExpression) exp;
-         return attrValueExp.getAttribute().getEType().getName();
-      }
-
-      return "notString";
-   }
-
-   private String buildAssignmentsAndConstraints(final String op1, final String op2, final String comp, final String type)
-   {
-
-      if (type.equals("EString"))
-      {
-         if (comp.equals("=="))
-         {
-            ST equalConstraint = stg.getInstanceOf("check_constraints_eq");
-            equalConstraint.add("op1", op1);
-            equalConstraint.add("op2", op2);
-            equalConstraint.add("not", "!");
-            return equalConstraint.render();
-         }
-
-         if (comp.equals("!="))
-         {
-            ST equalConstraint = stg.getInstanceOf("check_constraints_eq");
-            equalConstraint.add("op1", op1);
-            equalConstraint.add("op2", op2);
-            equalConstraint.add("not", "");
-            return equalConstraint.render();
-         }
-      }
-      ST assignmentsAndConstraints = stg.getInstanceOf("check_constraints");
-      assignmentsAndConstraints.add("op1", op1);
-      assignmentsAndConstraints.add("op2", op2);
+	  ST assignmentsAndConstraints = stg.getInstanceOf("check_constraints");
+      assignmentsAndConstraints.add("ovName", ovName);
+      assignmentsAndConstraints.add("attrName", attrName); 
+      assignmentsAndConstraints.add("expectedValue", expectedValue);
       assignmentsAndConstraints.add("comp", comp);
 
       return assignmentsAndConstraints.render();
@@ -363,10 +248,10 @@ public class AttributeConstraintCodeGenerator
             AttributeVariable aV = (AttributeVariable) v;
             String label = "var_" + aV.getObjectVariable() + "_" + aV.getAttribute();
 
-            ST bV = stg.getInstanceOf("BoundVariable");
+            ST bV = stg.getInstanceOf("BoundAttributeVariableGeneric");
             bV.add("var_name", label);
             bV.add("name", aV.getObjectVariable());
-            bV.add("value", buildMethodCall(aV.getAttribute(), aV.getType(), aV.getObjectVariable()));
+            bV.add("value", aV.getAttribute());
             bV.add("type", aV.getType());
             code.append(bV.render() + separator);
 
@@ -375,7 +260,7 @@ public class AttributeConstraintCodeGenerator
          {
             String label = "var_literal" + j;
 
-            ST bV = stg.getInstanceOf("BoundVariable");
+            ST bV = stg.getInstanceOf("BoundLiteralGeneric");
             bV.add("var_name", label);
             bV.add("name", "literal");
             bV.add("value", v.getValue());
@@ -489,9 +374,4 @@ public class AttributeConstraintCodeGenerator
       template.add("constraints", csp_solver);
       code.append(template.render() + separator + "return ruleResult;");
    }
-
-   private static List<String> CORE_ECORE_CLASS_NAMES = Arrays
-         .asList(EAnnotation.class, EAttribute.class, EClass.class, EClassifier.class, EDataType.class, EEnum.class, EEnumLiteral.class, EGenericType.class,
-               EModelElement.class, ENamedElement.class, EObject.class, EOperation.class, EPackage.class, EParameter.class, EReference.class,
-               EStructuralFeature.class, ETypedElement.class, ETypeParameter.class).stream().map(clazz -> clazz.getSimpleName()).collect(Collectors.toList());
 }

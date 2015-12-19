@@ -79,49 +79,51 @@ partial class InjectionHelperImpl {
 
 @members <--
 
-   private void handleImports(final EClass ruleClass)
-   {
-      ImportInjectionEntry entryForNodeMapping = SdmUtilFactory.eINSTANCE.createImportInjectionEntry();
-      entryForNodeMapping.setContent("org.moflon.tgg.runtime.TripleMatchNodeMapping");
-      entryForNodeMapping.setEClass(ruleClass);
-      this.getCompilerInjection().getImportInjectionEntries().add(entryForNodeMapping);
-
-      ImportInjectionEntry entryForOptional = SdmUtilFactory.eINSTANCE.createImportInjectionEntry();
-      entryForOptional.setContent("java.util.Optional");
-      entryForOptional.setEClass(ruleClass);
-      this.getCompilerInjection().getImportInjectionEntries().add(entryForOptional);
-   }
-   
+	private void handleImports(final EClass ruleClass) {
+		addImport("org.moflon.tgg.runtime.TripleMatchNodeMapping", ruleClass);
+		addImport("java.util.Optional", ruleClass);
+		addImport("org.moflon.tgg.algorithm.delta.attribute.CheckAttributeHelper", ruleClass);
+		addImport("SDMLanguage.expressions.ComparingOperator", ruleClass);
+	}
+	
+	private void addImport(final String importString, final EClass ruleClass){
+		ImportInjectionEntry entry = SdmUtilFactory.eINSTANCE.createImportInjectionEntry();
+		entry.setContent(importString);
+		entry.setEClass(ruleClass);
+		this.getCompilerInjection().getImportInjectionEntries().add(entry);
+	}
+	
 -->
 
 @model createInjectionForCheckAttributesMethod (String name, TGGRule rule, EClass ruleClass, TGGCompiler compiler) <--
 
-      handleImports(ruleClass);
-      AttributeConstraintCodeGenerator codeGen = new AttributeConstraintCodeGenerator(rule, name, compiler);
-      return codeGen.getInjection();
+		handleImports(ruleClass);
+		AttributeConstraintCodeGenerator codeGen = new AttributeConstraintCodeGenerator(rule, name, compiler);
+		return codeGen.getInjection();
 -->
 
 @model createInjectionForCheckTypesMethod (TGGRule rule, EOperation eOperation, Helper compilerHelper, ApplicationTypes direction) <--
 
-      boolean forward = direction.equals(ApplicationTypes.FORWARD);
-      Domain sourceDomain = rule.getSource();
-      Domain targetDomain = rule.getTarget();
+		boolean forward = direction.equals(ApplicationTypes.FORWARD);
+		Domain sourceDomain = rule.getSource();
+		Domain targetDomain = rule.getTarget();
 
-      String injectionContent = "return " + rule.getObjectVariable().stream().filter(ov -> {
-         Domain domain = ((TGGObjectVariable) ov).getDomain();
-         boolean hasCorrectDomain = (forward && domain.equals(sourceDomain)) || (!forward && domain.equals(targetDomain));
-         boolean isGreenInRule = ov.getBindingOperator().equals(BindingOperator.CREATE);
-         return hasCorrectDomain && isGreenInRule;
-      }).map(compilerHelper::determineTypeCheckStatement).reduce("true", (acc, str) -> acc + " && " + str) + ";";
+		String injectionContent = "return " + rule.getObjectVariable().stream().filter(ov -> {
+			Domain domain = ((TGGObjectVariable) ov).getDomain();
+			boolean hasCorrectDomain = (forward && domain.equals(sourceDomain))
+					|| (!forward && domain.equals(targetDomain));
+			boolean isGreenInRule = ov.getBindingOperator().equals(BindingOperator.CREATE);
+			return hasCorrectDomain && isGreenInRule;
+		}).map(compilerHelper::determineTypeCheckStatement).reduce("true", (acc, str) -> acc + " && " + str) + ";";
 
-      if (compilerInjection == null)
-         setCompilerInjection(SdmUtilFactory.eINSTANCE.createCompilerInjection());
+		if (compilerInjection == null)
+			setCompilerInjection(SdmUtilFactory.eINSTANCE.createCompilerInjection());
 
-      CompilerInjectionEntry entry = SdmUtilFactory.eINSTANCE.createCompilerInjectionEntry();
-      entry.setContent(injectionContent);
-      entry.setEOperation(eOperation);
+		CompilerInjectionEntry entry = SdmUtilFactory.eINSTANCE.createCompilerInjectionEntry();
+		entry.setContent(injectionContent);
+		entry.setEOperation(eOperation);
 
-      getCompilerInjection().getCompilerInjectionEntries().add(entry);
+		getCompilerInjection().getCompilerInjectionEntries().add(entry);
 -->
 
 }
