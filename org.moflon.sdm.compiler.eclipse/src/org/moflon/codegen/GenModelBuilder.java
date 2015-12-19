@@ -106,7 +106,7 @@ public class GenModelBuilder {
 		   genModel.initialize(ePackages);
 		   
 		   for (GenPackage genPackage : genModel.getGenPackages()) {
-			   setDefaultPackagePrefixes(genPackage);
+			   setDefaultPackagePrefixesAndBasePackages(genPackage);
 		   }
 	   } else {
 		   // Handle GenModel dependencies
@@ -122,12 +122,14 @@ public class GenModelBuilder {
 	   return genModel;
    }
    
-   private void setDefaultPackagePrefixes(final GenPackage genPackage)
+   private void setDefaultPackagePrefixesAndBasePackages(final GenPackage genPackage)
    {
       genPackage.setPrefix(MoflonUtil.lastCapitalizedSegmentOf(genPackage.getPrefix()));
       for (GenPackage subPackage : genPackage.getSubGenPackages()) {
-    	  setDefaultPackagePrefixes(subPackage);
+    	  setDefaultPackagePrefixesAndBasePackages(subPackage);
       }
+      
+      genPackage.setBasePackage(MoflonUtil.allSegmentsButLast(genPackage.getNSName()));
    }
 
    protected void adjustRegistry(final GenModel genModel)

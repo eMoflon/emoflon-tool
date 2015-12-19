@@ -279,6 +279,12 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       {
          setEPackageURI(subPackage);
       }
+      
+      setDefaultName(ePackage);
+   }
+
+   private void setDefaultName(final EPackage ePackage) {
+	  ePackage.setName(MoflonUtil.lastSegmentOf(ePackage.getName()));
    }
 
    private final void copyEPackageURI(final EPackage source, final EPackage target)
