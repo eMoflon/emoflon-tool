@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.csp.codegenerator.MyBasicFormatRenderer;
 import org.moflon.tgg.language.DomainType;
 import org.moflon.tgg.language.TGGObjectVariable;
@@ -142,16 +140,6 @@ public class AttributeConstraintCodeGenerator
       code.append(rR.render() + separator);
    }
 
-   private String buildMethodCall(final String attribute, final String type, final String ov)
-   {
-      String prefix = ".get" + StringUtils.capitalize(attribute);
-      if ("boolean".equals(type) || "Boolean".equals(type) || "EBoolean".equals(type))
-      {
-         prefix = MoflonUtil.handlePrefixForBooleanAttributes("", attribute);
-      }
-      return ov + prefix + "()";
-   }
-
    private String getOperand(final Expression expression)
    {
       if (expression instanceof LiteralExpression)
@@ -161,9 +149,7 @@ public class AttributeConstraintCodeGenerator
       if (expression instanceof AttributeValueExpression)
       {
          attrValueExp = (AttributeValueExpression) expression;
-         return buildMethodCall(attrValueExp.getAttribute().getName(), attrValueExp.getAttribute().getEAttributeType().getName(), attrValueExp.getObject()
-               .getName());
-
+         return attrValueExp.getAttribute().getName();
       }
 
       return "null";
