@@ -79,4 +79,7 @@
 2015-12-09	Separate specification project for org.moflon.ide.visualization (was in org.moflon.core.backend.specification before)
 2015-12-09	eMoflon 2.8.0 released 
 ---
-2015-12-10  Improved handling of new projects in eMoflon #602 
+2015-12-10  Improved handling of new projects in eMoflon #602
+2015-12-19	Correct handling of project names: "." is disallowed inside projects names. 
+2015-12-22	eMoflon 2.9.0 released
+---

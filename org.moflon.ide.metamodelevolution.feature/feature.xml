@@ -5,7 +5,7 @@
       version="2.0.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt"
       license-feature="org.moflon.ide.feature"
-      license-feature-version="2.8.0.qualifier">
+      license-feature-version="2.9.0.qualifier">
 
    <description url="http://www.emoflon.org/">
       This feature aggregates plugins that support the automatic co-evolution of meta-models and the code generated from them.
