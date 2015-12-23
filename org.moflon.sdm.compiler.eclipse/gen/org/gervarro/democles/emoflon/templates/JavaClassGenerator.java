@@ -4656,10 +4656,10 @@ public class JavaClassGenerator
                      // TODO@rkluge This code has been inserted manually and MUST be moved to the template file
                      // 'Class/getGenFeature.pre.insert.javajetinc' (l 759 in Class.javajet) before regenerating this
                      // class
-                     final String attributeAccessorPrelude = generatorAdapter.getAttributeAccessorPrelude(genFeature);
-                     if (attributeAccessorPrelude != null)
+                     final String preGetGenFeatureCode = generatorAdapter.getPreGetGenFeatureCode(genFeature);
+                     if (preGetGenFeatureCode != null)
                      {
-                        stringBuffer.append(attributeAccessorPrelude);
+                        stringBuffer.append(preGetGenFeatureCode);
                      }
                      // Class/getGenFeature.pre.insert.javajetinc
                      // TODO@rkluge: End of inserted code
@@ -5508,6 +5508,19 @@ public class JavaClassGenerator
                      stringBuffer
                            .append(setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName());
                      stringBuffer.append(TEXT_650);
+                     
+                     // TODO@rkluge This code has been inserted manually and MUST be moved to the template file
+                     // 'Class/setGenFeature.pre.insert.javajetinc' (l 759 in Class.javajet) before regenerating this
+                     // class
+                     final String preSetGenFeatureCode = generatorAdapter.getPreSetGenFeatureCode(genFeature);
+                     if (preSetGenFeatureCode != null)
+                     {
+                        stringBuffer.append(preSetGenFeatureCode);
+                     }
+                     // Class/setGenFeature.pre.insert.javajetinc
+                     // TODO@rkluge: End of inserted code
+
+                     
                      if (genModel.isDynamicDelegation())
                      {
                         stringBuffer.append(TEXT_651);
