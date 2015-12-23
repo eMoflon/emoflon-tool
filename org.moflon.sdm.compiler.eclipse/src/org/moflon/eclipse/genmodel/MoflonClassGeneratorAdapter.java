@@ -13,6 +13,7 @@ package org.moflon.eclipse.genmodel;
 import java.io.File;
 import java.lang.reflect.Method;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -26,12 +27,21 @@ import org.eclipse.emf.ecore.EOperation;
 import org.gervarro.democles.emoflon.templates.JavaClassGenerator;
 import org.moflon.codegen.InjectionHandlingImportManager;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.codegen.eclipse.ui.LoggingSTErrorListener;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.util.InjectionRegions;
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroup;
 
 abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter
 {
+   private static final String DERIVED_ATTRIBUTES_TEMPLATE_GROUP = "derivedAttributes";
+
+   private Logger logger = Logger.getLogger(MoflonClassGeneratorAdapter.class);
+
    private JETEmitterDescriptor[] emitterDescriptors;
+
+   private STGroup derivedAttributesGroup;
 
    /**
     * Registers {@link JavaClassGenerator} as code-generating class for EMF classes.
@@ -67,26 +77,32 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
    {
       if (genFeature.isDerived())
       {
-         final String derivedAttributeType = genFeature.getImportedType(genFeature.getGenClass());
-         final String temporaryVariable = String.format("derived%s", genFeature.getCapName());
-         final String derivedAttributeCalcuationMethodName = String.format("_get%s", genFeature.getAccessorName());
-         final String derivedAttributeSetter = String.format("set%s", genFeature.getAccessorName());
-         final String derivedAttributeValue = String.format("this.%s", genFeature.getSafeName());
-         return String.format(
-               "\n\t " //
-                     + "// %s is a derived feature \n\t" //
-                     + "%s %s = %s();\n\t" //
-                     + "if (%s != %s) {\n\t" //
-                     + "\t this.%s(%s);"
-                     + "}",
-               genFeature.getName(), //
-               derivedAttributeType, temporaryVariable, derivedAttributeCalcuationMethodName, //
-               derivedAttributeValue, temporaryVariable, //
-               derivedAttributeSetter, temporaryVariable
-         );
+         // TODO@aaltenkirch: != only works well for primitive types.
+         // Use the following method to find out whether this feature has a primitive type:
+         // 'genFeature.isPrimitiveType();'
+
+         // TODO@aaltenkirch: Implement correct handling of null values
+         initializeStringTemplatesForDerivedAttributesLazily();
+         ST preGetGenFeaturePrimitiveTypeTemplate = derivedAttributesGroup
+               .getInstanceOf("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + "/preGetGenFeaturePrimitiveType");
+         preGetGenFeaturePrimitiveTypeTemplate.add("genFeature", genFeature);
+         preGetGenFeaturePrimitiveTypeTemplate.add("genFeatureType", genFeature.getImportedType(genFeature.getGenClass()));
+         String preGetGenFeaturePrimitiveTypeCode = preGetGenFeaturePrimitiveTypeTemplate.render();
+         return preGetGenFeaturePrimitiveTypeCode;
       } else
       {
          return null;
+      }
+   }
+
+   private void initializeStringTemplatesForDerivedAttributesLazily()
+   {
+      if (this.derivedAttributesGroup == null)
+      {
+         derivedAttributesGroup = new STGroup();
+         derivedAttributesGroup.setListener(new LoggingSTErrorListener(logger));
+         derivedAttributesGroup.loadGroupFile("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + "/",
+               "platform:/plugin/" + CodeGeneratorPlugin.getModuleID() + "/templates/stringtemplate/derivedAttributes.stg");
       }
    }
 

@@ -23,6 +23,7 @@ import org.gervarro.democles.common.runtime.VariableRuntime;
 import org.gervarro.democles.constraint.emf.EMFVariable;
 import org.gervarro.democles.relational.RelationalConstraintTemplateProvider;
 import org.gervarro.democles.specification.ConstraintVariable;
+import org.moflon.codegen.eclipse.ui.LoggingSTErrorListener;
 import org.moflon.compiler.sdm.democles.stringtemplate.ControlFlowModelAdaptor;
 import org.moflon.compiler.sdm.democles.stringtemplate.PatternMatcherModelAdaptor;
 import org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin;

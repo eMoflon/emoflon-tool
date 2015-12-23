@@ -1,9 +1,15 @@
-package org.moflon.compiler.sdm.democles;
+package org.moflon.codegen.eclipse.ui;
 
 import org.apache.log4j.Logger;
 import org.stringtemplate.v4.STErrorListener;
+import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.misc.STMessage;
 
+/**
+ * An error listener to be used during the construction of {@link STGroup}s.
+ * 
+ * The error listener forwards error messages to a {@link Logger} instance that is configured by the constructor.
+ */
 public class LoggingSTErrorListener implements STErrorListener
 {
    private Logger logger;

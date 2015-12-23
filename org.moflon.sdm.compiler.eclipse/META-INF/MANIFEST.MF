@@ -26,6 +26,7 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.gervarro.democles.emoflon.templates,
  org.moflon.codegen,
  org.moflon.codegen.eclipse,
+ org.moflon.codegen.eclipse.ui,
  org.moflon.compiler.sdm,
  org.moflon.dependency,
  org.moflon.eclipse.genmodel,
