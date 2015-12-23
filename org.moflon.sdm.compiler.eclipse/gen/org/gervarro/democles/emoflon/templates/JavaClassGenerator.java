@@ -2604,8 +2604,8 @@ public class JavaClassGenerator
 
    protected final String TEXT_1259 = "(ite);" + NL + "\t\t}";
 
-   protected final String TEXT_1260 = NL + "\t\t// TODO: implement this method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT"
-         + NL + "\t\tthrow new UnsupportedOperationException();";
+   protected final String TEXT_1260 = NL + "\t\t// TODO: implement this method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL
+         + "\t\tthrow new UnsupportedOperationException();";
 
    protected final String TEXT_1261 = NL + "\t}" + NL;
 
@@ -3667,8 +3667,8 @@ public class JavaClassGenerator
       MoflonClassGeneratorAdapter generatorAdapter = (MoflonClassGeneratorAdapter) ((Object[]) argument)[((Object[]) argument).length - 1];
       stringBuffer.append(TEXT_1);
       {
-         GenBase copyrightHolder = argument instanceof GenBase ? (GenBase) argument : argument instanceof Object[]
-               && ((Object[]) argument)[0] instanceof GenBase ? (GenBase) ((Object[]) argument)[0] : null;
+         GenBase copyrightHolder = argument instanceof GenBase ? (GenBase) argument
+               : argument instanceof Object[] && ((Object[]) argument)[0] instanceof GenBase ? (GenBase) ((Object[]) argument)[0] : null;
          if (copyrightHolder != null && copyrightHolder.hasCopyright())
          {
             stringBuffer.append(TEXT_2);
@@ -4253,10 +4253,10 @@ public class JavaClassGenerator
          stringBuffer.append(genClass.getQualifiedClassifierAccessor());
          stringBuffer.append(TEXT_201);
       }
-      if (isImplementation
-            && (genModel.getFeatureDelegation() == GenDelegationKind.REFLECTIVE_LITERAL || genModel.isDynamicDelegation())
-            && (genClass.getClassExtendsGenClass() == null || (genClass.getClassExtendsGenClass().getGenModel().getFeatureDelegation() != GenDelegationKind.REFLECTIVE_LITERAL && !genClass
-                  .getClassExtendsGenClass().getGenModel().isDynamicDelegation())))
+      if (isImplementation && (genModel.getFeatureDelegation() == GenDelegationKind.REFLECTIVE_LITERAL || genModel.isDynamicDelegation())
+            && (genClass.getClassExtendsGenClass() == null
+                  || (genClass.getClassExtendsGenClass().getGenModel().getFeatureDelegation() != GenDelegationKind.REFLECTIVE_LITERAL
+                        && !genClass.getClassExtendsGenClass().getGenModel().isDynamicDelegation())))
       {
          stringBuffer.append(TEXT_202);
          if (genModel.useClassOverrideAnnotation())
@@ -4635,13 +4635,11 @@ public class JavaClassGenerator
                      stringBuffer.append(TEXT_328);
                   } else
                   {
-                     if (genModel.useGenerics()
-                           && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType()
-                                 && !(genModel.isReflectiveDelegation() && genModel.isDynamicDelegation()) && genFeature.isUncheckedCast(genClass)
-                                 || genFeature.isListType() && !genFeature.isFeatureMapType()
+                     if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType()
+                           && !(genModel.isReflectiveDelegation() && genModel.isDynamicDelegation()) && genFeature.isUncheckedCast(genClass)
+                           || genFeature.isListType() && !genFeature.isFeatureMapType()
                                  && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation() || genModel.isDynamicDelegation())
-                                 || genFeature.isListDataType() && genFeature.hasDelegateFeature() || genFeature.isListType()
-                                 && genFeature.hasSettingDelegate()))
+                           || genFeature.isListDataType() && genFeature.hasDelegateFeature() || genFeature.isListType() && genFeature.hasSettingDelegate()))
                      {
                         stringBuffer.append(TEXT_329);
                      }
@@ -4654,6 +4652,18 @@ public class JavaClassGenerator
                         stringBuffer.append(TEXT_332);
                      }
                      stringBuffer.append(TEXT_333);
+
+                     // TODO@rkluge This code has been inserted manually and MUST be moved to the template file
+                     // 'Class/getGenFeature.pre.insert.javajetinc' (l 759 in Class.javajet) before regenerating this
+                     // class
+                     final String attributeAccessorPrelude = generatorAdapter.getAttributeAccessorPrelude(genFeature);
+                     if (attributeAccessorPrelude != null)
+                     {
+                        stringBuffer.append(attributeAccessorPrelude);
+                     }
+                     // Class/getGenFeature.pre.insert.javajetinc
+                     // TODO@rkluge: End of inserted code
+
                      if (genModel.isDynamicDelegation())
                      {
                         stringBuffer.append(TEXT_334);
@@ -4970,8 +4980,8 @@ public class JavaClassGenerator
                            GenFeature delegateFeature = genFeature.getDelegateFeature();
                            if (genFeature.isFeatureMapType())
                            {
-                              String featureMapEntryTemplateArgument = isJDK50 ? "<" + genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")
-                                    + ".Entry>" : "";
+                              String featureMapEntryTemplateArgument = isJDK50
+                                    ? "<" + genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap") + ".Entry>" : "";
                               if (delegateFeature.isWrappedFeatureMapType())
                               {
                                  stringBuffer.append(TEXT_455);
@@ -5495,8 +5505,8 @@ public class JavaClassGenerator
                      stringBuffer.append(TEXT_648);
                      stringBuffer.append(genFeature.getImportedType(genClass));
                      stringBuffer.append(TEXT_649);
-                     stringBuffer.append(setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0)
-                           .getName());
+                     stringBuffer
+                           .append(setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName());
                      stringBuffer.append(TEXT_650);
                      if (genModel.isDynamicDelegation())
                      {
@@ -6882,7 +6892,7 @@ public class JavaClassGenerator
                   // Class/isSetGenFeature.override.javajetinc
                }
                // Class/genFeature.override.javajetinc
-            }// for
+            } // for
          }
       }.run();
       for (GenOperation genOperation : (isImplementation ? genClass.getImplementedGenOperations() : genClass.getDeclaredGenOperations()))
@@ -7150,8 +7160,8 @@ public class JavaClassGenerator
                   stringBuffer.append(TEXT_1256);
                }
                stringBuffer.append(TEXT_1257);
-               stringBuffer.append(genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException"
-                     : "java.lang.reflect.InvocationTargetException"));
+               stringBuffer.append(
+                     genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException"));
                stringBuffer.append(TEXT_1258);
                stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.WrappedException"));
                stringBuffer.append(TEXT_1259);
@@ -7171,7 +7181,7 @@ public class JavaClassGenerator
             stringBuffer.append(TEXT_1261);
          }
          // Class/implementedGenOperation.override.javajetinc
-      }// for
+      } // for
       if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseAddGenFeatures()))
       {
          stringBuffer.append(TEXT_1262);
@@ -7206,10 +7216,10 @@ public class JavaClassGenerator
             stringBuffer.append(TEXT_1271);
             if (genFeature.isListType())
             {
-               String cast = "("
-                     + genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")
-                     + (!genModel.useGenerics() ? ")" : "<" + genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject") + ">)("
-                           + genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList") + "<?>)");
+               String cast = "(" + genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")
+                     + (!genModel.useGenerics() ? ")"
+                           : "<" + genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject") + ">)("
+                                 + genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList") + "<?>)");
                if (genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes())
                {
                   stringBuffer.append(TEXT_1272);
@@ -8059,11 +8069,10 @@ public class JavaClassGenerator
          }
          stringBuffer.append(TEXT_1576);
       }
-      if (genModel.isOperationReflection()
-            && isImplementation
+      if (genModel.isOperationReflection() && isImplementation
             && (!genClass.getMixinGenOperations().isEmpty()
-                  || !genClass.getOverrideGenOperations(genClass.getExtendedGenOperations(), genClass.getImplementedGenOperations()).isEmpty() || genClass
-                  .hasOffsetCorrection() && !genClass.getGenOperations().isEmpty()))
+                  || !genClass.getOverrideGenOperations(genClass.getExtendedGenOperations(), genClass.getImplementedGenOperations()).isEmpty()
+                  || genClass.hasOffsetCorrection() && !genClass.getGenOperations().isEmpty()))
       {
          stringBuffer.append(TEXT_1577);
          if (genModel.useClassOverrideAnnotation())
@@ -8204,8 +8213,8 @@ public class JavaClassGenerator
          {
             boolean isUnchecked = false;
             boolean isRaw = false;
-            LOOP: for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass
-                  .getAllGenOperations()))
+            LOOP: for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations()
+                  : genClass.getAllGenOperations()))
             {
                for (GenParameter genParameter : genOperation.getGenParameters())
                {
@@ -8240,8 +8249,8 @@ public class JavaClassGenerator
          stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EList"));
          stringBuffer.append(singleWildcard);
          stringBuffer.append(TEXT_1628);
-         stringBuffer.append(genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException"
-               : "java.lang.reflect.InvocationTargetException"));
+         stringBuffer.append(
+               genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException"));
          stringBuffer.append(TEXT_1629);
          stringBuffer.append(negativeOperationOffsetCorrection);
          stringBuffer.append(TEXT_1630);

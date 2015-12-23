@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.EMFPlugin;
@@ -50,6 +51,17 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
 	 */
 	abstract public String getGeneratedMethodBody(EOperation eOperation);
 
+
+	/**
+	 * Returns the prelude of the attribute getter of the given {@link GenFeature}
+	 * @param genFeature the affected {@link GenFeature}
+	 * @return the code to be inserted, terminated with {@link JavaClassGenerator#NL}, or <code>null</code> if no code should be added.
+	 */
+   public String getAttributeAccessorPrelude(final GenFeature genFeature)
+   {
+      return null;
+   }
+	
 	/**
 	 * Returns the members code for the given EClass, depending on whether we currently generate the interface or the
 	 * implementation of the EClass.
@@ -191,4 +203,5 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
 			super.generateJava(targetPath, packageName, className, jetEmitter, arguments, monitor);
 		}
 	}
+
 }
