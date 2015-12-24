@@ -71,7 +71,8 @@ public class DeploymentDialog extends Dialog
 
       addRowForDeploymentPath(shell);
 
-      addRowForBetaAndRelease(shell);
+      // Most of the time, we do not deploy directly but re-use the locally deployed eMoflon.
+      // addRowForBetaAndRelease(shell);
 
       addRowWithButtons(shell);
 
@@ -132,6 +133,7 @@ public class DeploymentDialog extends Dialog
       });
    }
 
+   @SuppressWarnings("unused")
    private void addRowForBetaAndRelease(final Shell shell)
    {
       // Show the message
