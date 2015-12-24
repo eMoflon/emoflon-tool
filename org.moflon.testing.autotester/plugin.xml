@@ -56,7 +56,28 @@
                name="org.moflon.devtools.ui.menus.Separator1"
                visible="true">
          </separator>
+         <menu
+               id="org.moflon.devtools.ui.menus.InstallAndConfigureHandbookExamples"
+               label="Handbook Examples...">
+         </menu>
+         <menu
+               id="org.moflon.devtools.ui.menus.InstallAndConfigureDeveloper"
+               label="Developer workspaces...">
+         </menu>
+         <menu
+               id="org.moflon.devtools.ui.menus.InstallAndConfigureTestingWorkspace"
+               label="Test Workspaces...">
+         </menu>
          <command
+               commandId="org.moflon.devtools.ui.commands.install.LoadPsfFileCommand"
+               label="Load custom PSF file"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureHandbookExamples">
+             <command
                commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Command"
                label="Handbook Example (Part 3)"
                style="push">
@@ -81,25 +102,11 @@
                label="Handbook Example (Final)"
                style="push">
          </command>
-         <separator
-               name="org.moflon.devtools.ui.menus.Separator2"
-               visible="true">
-         </separator>
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingInstalledPSF"
-               label="Developer Workspace (using installed PSF)"
-               style="push">
-         </command>
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingCurrentPSF"
-               label="Developer Workspace (using current PSF)"
-               style="push">
-         </command>
-         <separator
-               name="org.moflon.devtools.ui.menus.Separator3"
-               visible="true">
-         </separator>
-         <command
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureTestingWorkspace">
+            <command
                commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceMiscCommand"
                label="Test Workspace Misc."
                style="push">
@@ -129,32 +136,33 @@
                label="Transformation Zoo 1"
                style="push">
          </command>
-         <separator
-               name="org.moflon.devtools.ui.menus.Separator4"
-               visible="true">
-         </separator>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureDeveloper">
+            <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingInstalledPSF"
+               label="Developer Workspace (using installed PSF)"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingCurrentPSF"
+               label="Developer Workspace (using current PSF)"
+               style="push">
+         </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallHandbookCommand"
                label="Install handbook (latex source)"
                style="push">
          </command>
-         <separator
-               name="org.moflon.devtools.ui.menus.Separator5"
-               visible="true">
-         </separator>
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallPsfFilesOnlyCommand"
-               label="PSF files only"
-               style="push">
-         </command>
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.LoadPsfFileCommand"
-               label="Load PSF file"
-               style="push">
-         </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallDevAndTestWorkspacesCommand"
-               label="Load Dev + all Test Workspaces"
+               label="Developer and all Test Workspaces"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallPsfFilesOnlyCommand"
+               label="org.moflon.ide.workspaceinstaller.psf"
                style="push">
          </command>
       </menuContribution>
