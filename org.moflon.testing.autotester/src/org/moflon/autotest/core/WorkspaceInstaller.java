@@ -82,6 +82,11 @@ public class WorkspaceInstaller
       installWorkspaceExternal(absolutePathToPSF, absolutePathToPSF);
    }
 
+   public void installWorkspacesWithPSF(List<File> absolutePaths, final String displayName)
+   {
+      this.installWorkspacesExternal(absolutePaths.stream().map(File::getAbsolutePath).collect(Collectors.toList()), displayName);
+   }
+
    private void installWorkspaceWithPluginRelativePsfPath(final List<String> pluginRelativePathToPSF, final String displayName)
    {
       prepareWorkspace();
@@ -235,13 +240,14 @@ public class WorkspaceInstaller
       {
          monitor.beginTask("Checking out projects", 20 * absolutePathsToPSF.size() + 1);
 
-         // We extract the contents beforehand because the following action may delete them if we load PSF files directly from the workspace 
+         // We extract the contents beforehand because the following action may delete them if we load PSF files
+         // directly from the workspace
          final List<String> psfContents = extractPsfFileContents(absolutePathsToPSF);
-         
+
          removeProjectsIfDesired(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-         
+
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
-         
+
          importProjectSets(WorkspaceHelper.createSubMonitor(monitor, 20 * absolutePathsToPSF.size()), absolutePathsToPSF, psfContents);
       } catch (IOException e)
       {
@@ -258,7 +264,7 @@ public class WorkspaceInstaller
       final List<String> psfContents = new ArrayList<>();
       for (final String absolutePathToPSF : absolutePathsToPSF)
       {
-            psfContents.add(FileUtils.readFileToString(new File(absolutePathToPSF)));
+         psfContents.add(FileUtils.readFileToString(new File(absolutePathToPSF)));
       }
       return psfContents;
    }
@@ -324,7 +330,7 @@ public class WorkspaceInstaller
    private void exportModelsFromEAPFilesInWorkspace(final IProgressMonitor monitor) throws CoreException, InterruptedException
    {
       final List<IProject> metamodelProjects = Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects()).stream().filter(p -> p.isOpen())
-            .filter(WorkspaceInstaller::isMetamodelProjectSafe).collect(Collectors.toList());
+            .filter(WorkspaceHelper::isMetamodelProjectNoThrow).collect(Collectors.toList());
       monitor.beginTask("Exporting models from EAP files", metamodelProjects.size());
 
       for (IProject project : metamodelProjects)
@@ -336,19 +342,6 @@ public class WorkspaceInstaller
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
       }
       monitor.done();
-   }
-
-   // This method ignores the checked CoreException to make it usable inside
-   // streams
-   private static boolean isMetamodelProjectSafe(final IProject project)
-   {
-      try
-      {
-         return WorkspaceHelper.isMetamodelProject(project);
-      } catch (CoreException e)
-      {
-         return false;
-      }
    }
 
    private void refreshAndBuildWorkspace(final IProgressMonitor monitor) throws InterruptedException

@@ -696,9 +696,10 @@ public class WorkspaceHelper
    {
       return project.hasNature(INTEGRATION_NATURE_ID);
    }
-   
+
    /**
-    * A wrapper around {@link #isIntegrationProject(IProject)}, which returns false if the original method throws an exception
+    * A wrapper around {@link #isIntegrationProject(IProject)}, which returns false if the original method throws an
+    * exception
     */
    public static boolean isIntegrationProjectNoThrow(IProject project)
    {
@@ -734,7 +735,7 @@ public class WorkspaceHelper
    }
 
    /**
-    * Same as {@link #isMetamodelProject(IProject)} but catches {@link CoreException}s, returning false.
+    * Same as {@link #isMetamodelProject(IProject)} but catches {@link Exception}s, returning false.
     * 
     * @param project
     * @return
@@ -744,7 +745,7 @@ public class WorkspaceHelper
       try
       {
          return isMetamodelProject(project);
-      } catch (CoreException e)
+      } catch (Exception e)
       {
          return false;
       }
@@ -1032,7 +1033,7 @@ public class WorkspaceHelper
 
       return mocaTreeFile;
    }
-   
+
    /**
     * Returns the file handle of the changes MOCA tree of a metamodel project.
     * 
