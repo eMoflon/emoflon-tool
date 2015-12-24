@@ -68,9 +68,18 @@
                id="org.moflon.devtools.ui.menus.InstallAndConfigureTestingWorkspace"
                label="Test Workspaces...">
          </menu>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator2"
+               visible="true">
+         </separator>
          <command
                commandId="org.moflon.devtools.ui.commands.install.LoadPsfFileCommand"
                label="Load custom PSF file"
+               style="push">
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.OpenPsfSelectionDialog"
+               label="Open PSF selection dialog..."
                style="push">
          </command>
       </menuContribution>
@@ -292,6 +301,25 @@
             defaultHandler="org.moflon.devtools.ui.handlers.install.InstallHandbookExamplePart45Handler"
             id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part45_Command"
             name="Install handbook example (part 4, 5)">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.install.OpenPsfSelectionDialogHandler"
+            id="org.moflon.devtools.ui.commands.install.OpenPsfSelectionDialog"
+            name="Open PSF file selection dialog...">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            id="org.moflon.devtools.ui.commands.install.OpenPsfSelectionDialog"
+            name="Open PSF file selection dialog...">
+      </command>
+      <command
+            id="org.moflon.devtools.ui.commands.install.OpenPsfSelectionDialog"
+            name="Open PSF file selection dialog...">
+      </command>
+      <command
+            id="org.moflon.devtools.ui.commands.install.OpenPsfSelectionDialog"
+            name="Open PSF file selection dialog">
       </command>
    </extension>
    <extension
