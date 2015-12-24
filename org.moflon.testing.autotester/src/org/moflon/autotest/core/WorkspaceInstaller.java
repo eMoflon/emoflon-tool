@@ -30,7 +30,6 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.team.internal.ui.wizards.ImportProjectSetOperation;
@@ -42,6 +41,8 @@ import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.eclipse.job.IMonitoredJob;
+import org.moflon.eclipse.job.ProgressMonitoringJob;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
 import org.moflon.ide.core.util.BuilderHelper;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
@@ -135,68 +136,89 @@ public class WorkspaceInstaller
 
    private void installWorkspacesExternal(final List<String> absolutePathsToPSF, final String displayName)
    {
-      ProgressMonitorDialog dialog = new ProgressMonitorDialog(window.getShell());
-      try
-      {
-         dialog.run(true, true, new IRunnableWithProgress() {
 
-            @Override
-            public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
+      IRunnableWithProgress runnable = new IRunnableWithProgress() {
+
+         @Override
+         public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
+         {
+            logger.info("Installing " + displayName + "...");
+            try
             {
-               logger.info("Installing " + displayName + "...");
-               try
+               monitor.beginTask("Installing " + displayName, 400);
+               if (BuilderHelper.turnOffAutoBuild())
                {
-                  monitor.beginTask("Installing " + displayName, 400);
-                  if (BuilderHelper.turnOffAutoBuild())
-                  {
-                     logger.info("Ok - I was able to switch off auto build ...");
+                  logger.info("Ok - I was able to switch off auto build ...");
 
-                     checkOutProjectsWithPsfFiles(absolutePathsToPSF, WorkspaceHelper.createSubMonitor(monitor, 100));
+                  checkOutProjectsWithPsfFiles(absolutePathsToPSF, WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                     logger.info("All projects have now been checked out ...");
+                  logger.info("All projects have now been checked out ...");
 
-                     exportModelsFromEAPFilesInWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
+                  exportModelsFromEAPFilesInWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                     logger.info("Great!  All model (.ecore) files have been exported ...");
+                  logger.info("Great!  All model (.ecore) files have been exported ...");
 
-                     logger.info("Now refreshing and turning auto build back on to invoke normal code generation (build) process ...");
+                  logger.info("Now refreshing and turning auto build back on to invoke normal code generation (build) process ...");
 
-                     refreshAndBuildWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
+                  refreshAndBuildWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                     logger.info("Finished building workspace...  Running tests if any test projects according to our naming convention exist (*TestSuite*)");
+                  logger.info("Finished building workspace...  Running tests if any test projects according to our naming convention exist (*TestSuite*)");
 
-                     // Without this time of waiting, a NPE is thrown
-                     // when launching JUnit.
-                     Thread.sleep(5000);
+                  // Without this time of waiting, a NPE is thrown
+                  // when launching JUnit.
+                  Thread.sleep(5000);
 
-                     runJUnitTests(WorkspaceHelper.createSubMonitor(monitor, 100));
+                  runJUnitTests(WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                     logger.info("Finished auto-test process - Good bye!");
-                  }
-               } catch (CoreException e)
-               {
-                  logger.error("Sorry, I was unable to check out the projects in the PSF file.\n"//
-                        + "  If you did not explicitly cancel then please check the following (most probable first):\n"//
-                        + "      (1) Ensure you have switched to SVNKit (Window/Preferences/Team/SVN) or make sure JavaHL is working.\n"//
-                        + "      (2) If possible, start with a clean Workspace without any projects. Although the PSF import offers to delete the projects this does not always work, especially on Windows.\n"//
-                        + "      (3) Are you sure you have acess to all the projects (if they do not support anonymous access)?\n"//
-                        + "      (4) The PSF file might be outdated - please check for an update of the test plugin\n"//
-                        + "      (5) If it's quite late in the night, our server might be down performing a back-up - try again in a few hours.\n"//
-                        + "      (6) What nothing helped?!  Please send us an email at contact@emoflon.org :)\n" //
-                        + "\n" //
-                        + "Exception of type " + e.getClass().getName() + ", Message: " + MoflonUtil.displayExceptionAsString(e));
-               } finally
-               {
-                  monitor.done();
+                  logger.info("Finished auto-test process - Good bye!");
                }
-
+            } catch (CoreException e)
+            {
+               logger.error("Sorry, I was unable to check out the projects in the PSF file.\n"//
+                     + "  If you did not explicitly cancel then please check the following (most probable first):\n"//
+                     + "      (1) Ensure you have switched to SVNKit (Window/Preferences/Team/SVN) or make sure JavaHL is working.\n"//
+                     + "      (2) If possible, start with a clean Workspace without any projects. Although the PSF import offers to delete the projects this does not always work, especially on Windows.\n"//
+                     + "      (3) Are you sure you have acess to all the projects (if they do not support anonymous access)?\n"//
+                     + "      (4) The PSF file might be outdated - please check for an update of the test plugin\n"//
+                     + "      (5) If it's quite late in the night, our server might be down performing a back-up - try again in a few hours.\n"//
+                     + "      (6) What nothing helped?!  Please send us an email at contact@emoflon.org :)\n" //
+                     + "\n" //
+                     + "Exception of type " + e.getClass().getName() + ", Message: " + MoflonUtil.displayExceptionAsString(e));
+            } finally
+            {
+               monitor.done();
             }
-         });
-      } catch (InvocationTargetException | InterruptedException e)
-      {
-         logger.error("Install workspace operation aborted. Reason: " + e.getMessage());
-      }
 
+         }
+      };
+      
+      // This code blocks the UI!
+      // ProgressMonitorDialog dialog = new ProgressMonitorDialog(window.getShell());
+      // dialog.run(true, true, runnable);
+
+      final IMonitoredJob job = new IMonitoredJob() {
+
+         @Override
+         public IStatus run(IProgressMonitor monitor)
+         {
+            try
+            {
+               runnable.run(monitor);
+               return Status.OK_STATUS;
+            } catch (InvocationTargetException | InterruptedException e)
+            {
+               return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Failed to install workspace", e);
+            }
+         }
+
+         @Override
+         public String getTaskName()
+         {
+            return "Installing " + displayName + "...";
+         }
+      };
+      ProgressMonitoringJob monitoringJob = new ProgressMonitoringJob(AutoTestActivator.getModuleID(), job);
+      monitoringJob.schedule();
    }
 
    private void runJUnitTests(final IProgressMonitor monitor) throws InterruptedException, CoreException
