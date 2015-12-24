@@ -570,9 +570,19 @@ namespace EAEcoreAddin.Import
             connector.SupplierID = supplier.ElementID;
             connector.Update();
             connector.SupplierEnd.Aggregation = supplierAggregation;
+            if (connectorType == "Association")
+            {
+                connector.SupplierEnd.Containment = "Unspecified";
+            }
             connector.SupplierEnd.Update();
+
             connector.ClientEnd.Aggregation = clientAggregation;
+            if (connectorType == "Association")
+            {
+                connector.ClientEnd.Containment = "Unspecified";
+            }
             connector.ClientEnd.Update();
+
             client.Connectors.Refresh();
             supplier.Connectors.Refresh();
             return connector;

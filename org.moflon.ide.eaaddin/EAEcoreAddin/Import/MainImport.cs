@@ -274,7 +274,8 @@ namespace EAEcoreAddin.Import
                 if (hasGui)
                     ImportWorker.ReportProgress(2, new ProgressObject(ProgressBarType.Current, "Save EReference and refresh Gui", ReferenceGuidToClientTarget.Count));
 
-                if (ReferenceGuidToClientTarget.ContainsKey(refGuid) && ReferenceGuidToReference.ContainsKey(refGuid))
+                if (ReferenceGuidToClientTarget.ContainsKey(refGuid) 
+                    && ReferenceGuidToReference.ContainsKey(refGuid))
                 {
 
                     EA.Connector con = ReferenceGuidToReference[refGuid];
