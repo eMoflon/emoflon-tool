@@ -192,15 +192,22 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui
 
             setInformationLossBoolean();
 
+            object previouslySelectedSecondItem = this.cmbSecondObjects.SelectedItem;
             this.cmbSecondObjects.Items.Clear();
             this.cmbSecondObjects.Items.AddRange(expressionProvider.getSecondStringList(cmbFirstObjects.SelectedIndex).ToArray());
 
-            if (cmbSecondObjects.Items.Count > 0)
+            if (this.cmbSecondObjects.Items.Count > 0)
             {
-                cmbSecondObjects.SelectedIndex = 0;
+                if (previouslySelectedSecondItem != null && this.cmbSecondObjects.Items.Contains(previouslySelectedSecondItem)){
+                    this.cmbSecondObjects.SelectedItem = previouslySelectedSecondItem;
+                }
+                else
+                { 
+                    this.cmbSecondObjects.SelectedIndex = 0;
+                }
             }
 
-            cmbSecondObjects.DropDownWidth = EAUtil.computeDropDownWidth(cmbSecondObjects);
+            this.cmbSecondObjects.DropDownWidth = EAUtil.computeDropDownWidth(this.cmbSecondObjects);
 
             updateTreeView();
         }
