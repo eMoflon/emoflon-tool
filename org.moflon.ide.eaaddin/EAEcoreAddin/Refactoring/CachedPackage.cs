@@ -2,29 +2,51 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EAEcoreAddin.SQLWrapperClasses;
 using EAEcoreAddin.Serialization.MocaTree;
 
 namespace EAEcoreAddin.Refactoring
 {
     class CachedPackage : CachedElement
     {
-        public string oldName;
+        public SQLPackage package;
+        public string previousName;
         public string name;
+        public string isTLP;
 
-        public override void cache()
+        public void getPackage(String GUID, SQLRepository repository)
+        {
+            this.sqlRepository = repository;
+            this.package = this.sqlRepository.GetPackageByGuid(GUID);
+        }
+        /*public override void cache()
         {
             if (this.element != null)
             {
-                this.oldName = this.element.Name;
+                if (!(this.element.Name.Equals(this.oldName)))
+                {
+                    this.oldName = this.element.Name;
+                }
             }
+
+        }*/
+
+        public void savePackageToEATaggedValue(Boolean updateEaGui)
+        {
+            EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(this.sqlRepository, this.package, Main.MoflonChangesTreeTaggedValueName, getXMLDocumentString());
+
+            if (updateEaGui)
+                doEaGuiStuff();
+
+            //refreshSQLObject();
         }
 
         public override Serialization.MocaTree.MocaNode serializeToMocaTree()
         {
-            //TODO: "Übernehmen"
-            MocaNode eclassNode = new MocaNode("EPackageRefactored");
+            MocaNode eclassNode = new MocaNode("EPackage");
             eclassNode.appendChildAttribute("name", this.name);
-            eclassNode.appendChildAttribute("oldName", this.oldName);
+            eclassNode.appendChildAttribute("previousName", this.previousName);
+            eclassNode.appendChildAttribute("isTLP", this.isTLP);
             return eclassNode;
         }
     }

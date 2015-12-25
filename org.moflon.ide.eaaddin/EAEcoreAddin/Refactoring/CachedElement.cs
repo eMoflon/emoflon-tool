@@ -12,18 +12,18 @@ namespace EAEcoreAddin.Refactoring
     public abstract class CachedElement
     {
         public SQLElement element;
-        public SQLRepository repository;
+        public SQLRepository sqlRepository;
 
         public abstract MocaNode serializeToMocaTree();
-        public abstract void cache();
+        //public abstract void cache();
 
-        public void getElement(String GUID, EA.Repository Repository)
+        public void getElement(String GUID, SQLRepository repository)
         {
-            this.repository = new SQLRepository(Repository, false);
-            this.element = this.repository.GetElementByGuid(GUID);
+            this.sqlRepository = repository;
+            this.element = this.sqlRepository.GetElementByGuid(GUID);
         }
 
-        public void saveElementToEATaggedValue()
+        public String getXMLDocumentString()
         {
             //create xml stub with a single root node
             XmlDocument xmlDocStub = MocaTreeUtil.createMocaXMLDoc();
@@ -38,8 +38,30 @@ namespace EAEcoreAddin.Refactoring
 
             String documentString = MocaTreeUtil.xmlDocumentToString(xmlDocStub);
 
-            EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(this.repository, this.element, Main.MoflonChangesTreeTaggedValueName, documentString);
+            return documentString;
+        }
 
+        public void saveElementToEATaggedValue(Boolean updateEaGui)
+        {
+            EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(this.sqlRepository, this.element, Main.MoflonChangesTreeTaggedValueName, getXMLDocumentString());
+
+            if (updateEaGui)
+                doEaGuiStuff();
+
+            refreshSQLObject();
+        }
+
+        public void refreshSQLObject()
+        {
+            this.element = this.sqlRepository.GetElementByID(this.element.ElementID);
+        }
+
+        /// <summary>
+        /// necessary for the visual output in EA. 
+        /// TaggedValues for shapescripts etc.
+        /// </summary>
+        public virtual void doEaGuiStuff()
+        {
         }
     }
 }

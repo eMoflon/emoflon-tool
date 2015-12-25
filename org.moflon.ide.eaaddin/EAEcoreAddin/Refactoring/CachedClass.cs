@@ -12,25 +12,25 @@ namespace EAEcoreAddin.Refactoring
         public string name;
         public string packageName;
 
-        public override void cache()
+        /*public override void cache()
         {
             if (this.element != null)
             {
-                if (previousName == null || !(this.element.Name.Equals(this.previousName)))
+                if (!(this.element.Name.Equals(this.previousName)))
                 {
                     this.previousName = this.element.Name;
                 }
             }
-        }
+        }*/
 
         public override Serialization.MocaTree.MocaNode serializeToMocaTree()
         {
-            //TODO: "Übernehmen"
             MocaNode eclassNode = new MocaNode("EClass");     
             eclassNode.appendChildAttribute("name", this.name);
             eclassNode.appendChildAttribute("previousName", this.previousName);
             eclassNode.appendChildAttribute("packageName", this.packageName);
             return eclassNode;
         }
+
     }
 }

@@ -6,6 +6,8 @@ using EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper;
 using EAEcoreAddin.SQLWrapperClasses;
 using EAEcoreAddin.Modeling.SDMModeling;
 using EAEcoreAddin.Util;
+using EAEcoreAddin.Serialization.MocaTree.Util;
+using EAEcoreAddin.Serialization.MocaTree;
 using EAEcoreAddin.Modeling.TGGModeling;
 using EAEcoreAddin.Refactoring;
 
@@ -26,8 +28,6 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
         public static readonly String EReferenceConnectorType = "Association";
         public static readonly String[] EcoreDiagramMetatype = { "eMoflon Ecore Diagrams::Ecore Diagram",
                                                                  "Ecore Diagram::Ecore Diagram" };
-
-        private CachedElement currentElement;
 
         public Boolean EA_OnPostNewConnector(SQLRepository sqlRepository, EA.Connector actCon, EA.Diagram currentDiagram)
         {
@@ -144,18 +144,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
 
         public void EA_OnContextItemChanged(EA.Repository Repository, String GUID, EA.ObjectType ot)
         {
-            if (ot == EA.ObjectType.otElement)
-            {
-                this.currentElement = new CachedClass();
-                currentElement.getElement(GUID, Repository);
-                currentElement.cache();
-            }
-            else if (ot == EA.ObjectType.otPackage)
-            {
-                this.currentElement = new CachedPackage();
-                currentElement.getElement(GUID, Repository);
-                currentElement.cache();
-            }
+
         }
 
         public void EA_OnNotifyContextItemModified(EA.Repository Repository, String GUID, EA.ObjectType ot)
@@ -171,30 +160,20 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
                     Main.addToTreeQueue(GUID, ePackage);
                 }
 
-                // for Refactoring
-                CachedPackage temp = (CachedPackage)this.currentElement;
-                temp.name = eaPackage.Name;
-                temp.saveElementToEATaggedValue();
+                // track changes for metamodelevolution
+                savePackageChangesToEATaggedValue(sqlRepository, GUID);
             }
             if (ot == EA.ObjectType.otElement)
             {
                 SQLElement eaElement = sqlRepository.GetElementByGuid(GUID);
                 
-
                 if (eaElement.Stereotype.ToLower() == EClassStereotype.ToLower() && eaElement.Type == Main.EAClassType)
                 {
                     EClass eClass = new EClass(eaElement, sqlRepository);
                     eClass.saveTreeToEATaggedValue(false);
 
-                    SQLPackage package = sqlRepository.GetPackageByID(eaElement.PackageID);
-                    EPackage epackage = new EPackage(package, sqlRepository);
-
-                    String packages = addPackageName(epackage, "", sqlRepository);
-                    // for Change Tracking
-                    CachedClass temp = (CachedClass)this.currentElement;
-                    temp.name = eaElement.Name;
-                    temp.packageName = packages;
-                    temp.saveElementToEATaggedValue();
+                    // track changes for metamodelevolution
+                    saveElementChangesToEATaggedValue(eaElement, GUID, sqlRepository);
                 }
                 else if (eaElement.Stereotype.ToLower() == EDatatypeStereotype.ToLower())
                 {
@@ -249,6 +228,69 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
             return path;
         }
 
+        private void saveElementChangesToEATaggedValue(SQLElement eaElement,  String GUID, SQLRepository sqlRepository)
+        {
+            SQLPackage package = sqlRepository.GetPackageByID(eaElement.PackageID);
+            EPackage epackage = new EPackage(package, sqlRepository);
+            String packages = addPackageName(epackage, "", sqlRepository);
 
+            String previousName = eaElement.Name;
+
+            SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaElement, Main.MoflonChangesTreeTaggedValueName);
+            if (changesTreeTag != null)
+            {
+                MocaNode eClassMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
+                previousName = eClassMocaNode.getAttribute("previousName").Value;
+            }
+            CachedClass temp = new CachedClass();
+            temp.getElement(GUID, sqlRepository);
+            temp.name = eaElement.Name;
+            temp.previousName = previousName;
+            temp.packageName = packages;
+            temp.saveElementToEATaggedValue(true);
+        }
+        private void savePackageChangesToEATaggedValue(SQLRepository sqlRepository, String GUID) 
+        {
+            /*SQLPackage sqlPackage = sqlRepository.GetPackageByGuid(GUID);
+            SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(sqlPackage, Main.MoflonChangesTreeTaggedValueName);
+            MocaNode eClassMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
+
+            String previousName;
+            if (eClassMocaNode.getAttribute("previousName") == null)
+            {
+                previousName = eaPackage.Name;
+            }
+            else
+            {
+                previousName = eClassMocaNode.getAttribute("previousName").Value;
+            }
+
+            CachedPackage temp = new CachedPackage();
+            temp.getPackage(GUID, sqlRepository);
+            temp.name = eaPackage.Name;
+            temp.previousName = previousName;
+            if (isTopLevelPackage(eaPackage, sqlRepository))
+            {
+                temp.isTLP = "true";
+            }
+            else
+            {
+                temp.isTLP = "false";
+            }
+            temp.savePackageToEATaggedValue(true);*/
+        }
+
+        private Boolean isTopLevelPackage(EA.Package epackage, SQLRepository repository)
+        {
+            Boolean isTLP = false;
+            int parentID = epackage.ParentID;
+            SQLPackage parent = repository.GetPackageByID(parentID);
+
+            if (!parent.IsModel)
+            {
+                return true;
+            }
+            return isTLP;
+        }
     }
 }

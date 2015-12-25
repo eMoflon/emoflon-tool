@@ -37,16 +37,21 @@ namespace EAEcoreAddin.Refactoring
         private MocaNode processEPackage(SQLPackage eaPackage)
         {
             //backgroundWorker.ReportProgress(0, PersistencyUtil.computePackageUri(eaPackage, repository));
-            //SQLTaggedValue mocaTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaPackage, Main.MoflonRefactorTreeTaggedValueName);
 
-            //if (mocaTreeTag == null) 
             SQLTaggedValue mocaTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaPackage, Main.MoflonExportTreeTaggedValueName);
-
             if (mocaTreeTag != null)
             {
+
                 EPackage ePackage = new EPackage(eaPackage, repository);
                 MocaNode ePackageMocaNode = MocaTreeUtil.mocaNodeFromXmlString(mocaTreeTag.Notes);
                 ePackage.addAttributesDuringExport(ePackageMocaNode);
+
+                /*SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaPackage, Main.MoflonChangesTreeTaggedValueName);
+                if (changesTreeTag == null)
+                {
+                    MocaNode ePackageChangesMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
+                    ePackage.addAttributesDuringExport(ePackageChangesMocaNode);
+                }*/
 
                 this.currentNode.appendChildNode(ePackageMocaNode);
 
@@ -65,6 +70,12 @@ namespace EAEcoreAddin.Refactoring
                     processEPackage(childPackage);
                 }
 
+                /*CachedPackage temp = new CachedPackage();
+                temp.getPackage(eaPackage.PackageGUID, repository);
+                temp.name = eaPackage.Name;
+                temp.previousName = eaPackage.Name;
+                temp.savePackageToEATaggedValue(true);*/
+
                 return ePackageMocaNode;
             }
             return null;
@@ -82,18 +93,14 @@ namespace EAEcoreAddin.Refactoring
 
                 eClass.addMocaAttributesDuringExport(eClassMocaNode);
 
-                //add baseclass dependencies
-                /*foreach (var baseClass in eClassMocaNode.getAttributeOrCreate("baseClasses").Value.Split(" ".ToArray()))
-                {
-                    if (baseClass != "")
-                    {
-                        SQLElement baseclass = repository.GetElementByGuid(baseClass);
-                        Export.computeAndAddToDependencies(repository, baseclass);
-                    }
-                }*/
-
                 this.currentNode.appendChildNode(eClassMocaNode);
 
+                CachedClass temp = new CachedClass();
+                temp.getElement(eaClass.ElementGUID, repository);
+                temp.name = eClass.Name;
+                temp.previousName = eClass.Name;
+                temp.saveElementToEATaggedValue(true);
+                
                 return eClassMocaNode;
             }
             return null;
