@@ -670,6 +670,20 @@ public class WorkspaceHelper
    }
 
    /**
+    * Checks whether the given project has the {@link #PLUGIN_NATURE_ID}.
+    * If the check throws an exception, <code>false</code> is returned gracefully.
+    */
+   public static boolean isPluginProjectNoThrow(final IProject project) {
+      try
+      {
+         return project.hasNature(PLUGIN_NATURE_ID);
+      } catch (CoreException e)
+      {
+         return false;
+      }
+   }
+   
+   /**
     * Returns whether the given project is (1) a repository project or (2) an integration project
     */
    public static boolean isMoflonProject(final IProject project) throws CoreException

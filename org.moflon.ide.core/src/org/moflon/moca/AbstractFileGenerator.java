@@ -5,7 +5,6 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.moflon.core.utilities.WorkspaceHelper;
 
@@ -16,13 +15,9 @@ public abstract class AbstractFileGenerator
 
    protected IProject project;
 
-   //TODO@rkluge: The handling of progress monitors in this class and in its subclasses is creepy
-   protected IProgressMonitor monitor;
-
    public AbstractFileGenerator(final IProject project)
    {
       this.project = project;
-      this.monitor = new NullProgressMonitor();
    }
 
    public String doFinish() throws CoreException
@@ -56,7 +51,7 @@ public abstract class AbstractFileGenerator
       IFile file = project.getFile(fileName);
       if (!file.exists())
       {
-         WorkspaceHelper.addFile(project, fileName, content, monitor);
+         WorkspaceHelper.addFile(project, fileName, content, new NullProgressMonitor());
          return true;
       } else
       {

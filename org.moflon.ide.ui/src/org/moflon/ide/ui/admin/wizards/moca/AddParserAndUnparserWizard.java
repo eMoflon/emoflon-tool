@@ -61,7 +61,7 @@ public class AddParserAndUnparserWizard extends Wizard implements INewWizard
    @Override
    public void addPages()
    {
-      page = new AddParserAndUnparserWizardPage();
+      page = new AddParserAndUnparserWizardPage(project);
       addPage(page);
    }
 

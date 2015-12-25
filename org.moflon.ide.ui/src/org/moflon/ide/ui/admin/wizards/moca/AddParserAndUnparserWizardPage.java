@@ -1,5 +1,6 @@
 package org.moflon.ide.ui.admin.wizards.moca;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.Separator;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -13,6 +14,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 @SuppressWarnings("restriction")
 public class AddParserAndUnparserWizardPage extends WizardPage
@@ -27,9 +29,12 @@ public class AddParserAndUnparserWizardPage extends WizardPage
 
    private Button createUnparserButton;
 
-   public AddParserAndUnparserWizardPage()
+   private IProject selectedProject;
+
+   public AddParserAndUnparserWizardPage(IProject selectedProject)
    {
       super("AddParserWizardPage");
+      this.selectedProject = selectedProject;
       setTitle("Add Parser to Project.");
       setDescription("This wizard adds a parser to the project, using the specified technology.");
    }
@@ -46,16 +51,17 @@ public class AddParserAndUnparserWizardPage extends WizardPage
       layout.horizontalSpacing = 20;
       container.setLayout(layout);
 
+      new Separator(SWT.SEPARATOR | SWT.HORIZONTAL).doFillIntoGrid(container, numColumns);
       fileExtensionRow(container);
       new Separator(SWT.SEPARATOR | SWT.HORIZONTAL).doFillIntoGrid(container, numColumns);
       parserRow(container);
       new Separator(SWT.SEPARATOR | SWT.HORIZONTAL).doFillIntoGrid(container, numColumns);
       unparserRow(container);
-      new Separator(SWT.SEPARATOR | SWT.HORIZONTAL).doFillIntoGrid(container, numColumns);
 
       // Set controls and update
       setControl(container);
       setPageComplete(false);
+      updateStatus();
    }
 
    private void parserRow(Composite container)
@@ -117,10 +123,13 @@ public class AddParserAndUnparserWizardPage extends WizardPage
 
    private void updateStatus()
    {
-
-      if (fileExtension.length() == 0)
+      if (!WorkspaceHelper.isPluginProjectNoThrow(this.selectedProject))
       {
-         updateStatus("file extension must be given!");
+         updateStatus("The selected project must be a plug-in project!");
+      }
+      else if (fileExtension.length() == 0)
+      {
+         updateStatus("File extension must be given!");
       } else if (!shallCreateParser() && !shallCreateUnparser())
       {
          updateStatus("Either \"Create Parser\" or \"Create Unparser\" must be checked!");
@@ -129,7 +138,7 @@ public class AddParserAndUnparserWizardPage extends WizardPage
          updateStatus(null);
       }
    }
-
+   
    private void fileExtensionRow(Composite container)
    {
       Label fileExtensionLabel = new Label(container, SWT.NULL);

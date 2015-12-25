@@ -1,5 +1,6 @@
 package org.moflon.ide.ui.admin.wizards.moca;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,261 +31,323 @@ import org.moflon.moca.AbstractFileGenerator;
 import org.moflon.moca.BasicFormatRenderer;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 
-public class ParserUnparserGenerator extends AbstractFileGenerator {
-	private static Logger logger = Logger.getLogger(UIActivator.class);
+public class ParserUnparserGenerator extends AbstractFileGenerator
+{
+   private static Logger logger = Logger.getLogger(UIActivator.class);
 
-	private AddParserAndUnparserWizardPage page;
+   private AddParserAndUnparserWizardPage page;
 
-	private String packagePrefix;
+   private String packagePrefix;
 
-	private StringTemplateGroup stg;
+   private StringTemplateGroup stg;
 
-	private IFolder parserFolder;
+   private IFolder parserFolder;
 
-	private IFolder unparserFolder;
+   private IFolder unparserFolder;
 
-	public ParserUnparserGenerator(final AddParserAndUnparserWizardPage page, final IProject project) {
-		super(project);
-		this.page = page;
-		this.packagePrefix = "org.moflon.moca." + page.getFileExtension();
-	}
+   public ParserUnparserGenerator(final AddParserAndUnparserWizardPage page, final IProject project)
+   {
+      super(project);
+      this.page = page;
+      this.packagePrefix = "org.moflon.moca." + page.getFileExtension();
+   }
 
-	@Override
-	protected void prepareCodegen() {
-		addDependencies();
-		ensureThatFoldersExist();
-		addAntlrNature();
-	}
+   @Override
+   protected void prepareCodegen()
+   {
+      addDependencies();
+      ensureThatFoldersExist();
+      addAntlrNature();
+   }
 
-	public void addAntlrNature() {
-		try {
-			WorkspaceHelper.addNature(project, CoreActivator.ANTLR_NATURE_ID, monitor);
-		} catch (CoreException e) {
-			logger.error(e);
-		}
-	}
+   public void addAntlrNature()
+   {
+      try
+      {
+         WorkspaceHelper.addNature(project, CoreActivator.ANTLR_NATURE_ID, new NullProgressMonitor());
+      } catch (CoreException e)
+      {
+         logger.error(e);
+      }
+   }
 
-	public void ensureThatFoldersExist() {
-		List<String> packageFolders = Arrays.asList(packagePrefix.split("\\."));
-		String currentFolder = "src/";
-		for (String folder : packageFolders) {
-			currentFolder += folder + "/";
-			createFolder(currentFolder);
-		}
-		if (page.shallCreateParser()) {
-			parserFolder = createFolder(currentFolder + "/parser");
-		}
-		if (page.shallCreateUnparser()) {
-			unparserFolder = createFolder(currentFolder + "/unparser");
-		}
+   public void ensureThatFoldersExist()
+   {
+      List<String> packageFolders = Arrays.asList(packagePrefix.split("\\."));
+      String currentFolder = "src/";
+      for (String folder : packageFolders)
+      {
+         currentFolder += folder + "/";
+         createFolder(currentFolder);
+      }
+      if (page.shallCreateParser())
+      {
+         parserFolder = createFolder(currentFolder + "/parser");
+      }
+      if (page.shallCreateUnparser())
+      {
+         unparserFolder = createFolder(currentFolder + "/unparser");
+      }
 
-		createFolder("instances");
-		createFolder("instances/in");
-	}
+      createFolder("instances");
+      createFolder("instances/in");
+   }
 
-	public void addDependencies() {
-		try {
-			new ManifestFileUpdater().processManifest(project,
-					manifest -> ManifestFileUpdater.updateDependencies(manifest,
-							Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, MocaTreePlugin.getDefault().getPluginId(),
-									MocaPlugin.getDefault().getPluginId() })));
-		} catch (Exception e) {
-			logger.error("Unable to add MOCA as dependency to project: " + e.getMessage());
-		}
-	}
+   public void addDependencies()
+   {
+      try
+      {
+         new ManifestFileUpdater().processManifest(project,
+               manifest -> ManifestFileUpdater.updateDependencies(manifest,
+                     Arrays.asList(new String[] { //
+                           WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, //
+                           WorkspaceHelper.PLUGIN_ID_ECORE, //
+                           WorkspaceHelper.PLUGIN_ID_EMF_COMMON, //
+                           MoflonUtilitiesActivator.getDefault().getPluginId(), //
+                           MocaTreePlugin.getDefault().getPluginId(), //
+                           MocaPlugin.getDefault().getPluginId() })));
+      } catch (Exception e)
+      {
+         logger.error("Unable to add MOCA as dependency to project: " + e.getMessage());
+      }
+   }
 
-	private Map<String, String> createParser(final Technology parserTechnology) throws FileNotFoundException {
-		// load template group and set attributes
-		loadStringTemplateGroup(parserTechnology);
+   private Map<String, String> createParser(final Technology parserTechnology) throws FileNotFoundException
+   {
+      // load template group and set attributes
+      loadStringTemplateGroup(parserTechnology);
 
-		// prepare attribute map (same for all technologies):
-		Map<String, Object> attributes = new HashMap<String, Object>();
-		attributes.put("name", page.getFileExtension());
-		attributes.put("package", packagePrefix + ".parser");
+      // prepare attribute map (same for all technologies):
+      Map<String, Object> attributes = new HashMap<String, Object>();
+      attributes.put("name", page.getFileExtension());
+      attributes.put("package", packagePrefix + ".parser");
 
-		// create file name prefix for the Parser
-		String fileNamePrefix = parserFolder.getProjectRelativePath() + "/"
-				+ BasicFormatRenderer.firstToUpper(page.getFileExtension());
+      // create file name prefix for the Parser
+      String fileNamePrefix = parserFolder.getProjectRelativePath() + "/" + BasicFormatRenderer.firstToUpper(page.getFileExtension());
 
-		// generate code for the given parser technology
-		Map<String, String> parserFileNamesToContents = new HashMap<String, String>();
-		switch (parserTechnology) {
-		case ANTLR:
-		   parserFileNamesToContents.put(".gitignore", fileNamePrefix + "[Parser|Lexer].*");
-			parserFileNamesToContents.put(fileNamePrefix + "Parser.g", renderTemplate("Parser", attributes));
-			parserFileNamesToContents.put(fileNamePrefix + "Lexer.g", renderTemplate("Lexer", attributes));
-			parserFileNamesToContents.put(fileNamePrefix + "ParserAdapter.java",
-					renderTemplate("ParserAdapter", attributes));
-			createTemplateFolder();
-			break;
-		case XML:
-			parserFileNamesToContents.put(fileNamePrefix + "ParserAdapter.java",
-					renderTemplate("ParserAdapter", attributes));
-			break;
-		case CUSTOM:
-			parserFileNamesToContents.put(fileNamePrefix + "ParserAdapter.java",
-					renderTemplate("ParserAdapter", attributes));
-			break;
-		}
+      // generate code for the given parser technology
+      Map<String, String> parserFileNamesToContents = new HashMap<String, String>();
+      switch (parserTechnology)
+      {
+      case ANTLR:
+         parserFileNamesToContents.put(fileNamePrefix + "Parser.g", renderTemplate("Parser", attributes));
+         parserFileNamesToContents.put(fileNamePrefix + "Lexer.g", renderTemplate("Lexer", attributes));
+         parserFileNamesToContents.put(fileNamePrefix + "ParserAdapter.java", renderTemplate("ParserAdapter", attributes));
+         createTemplateFolder();
+         updateGitignoreFile();
+         break;
+      case XML:
+         parserFileNamesToContents.put(fileNamePrefix + "ParserAdapter.java", renderTemplate("ParserAdapter", attributes));
+         break;
+      case CUSTOM:
+         parserFileNamesToContents.put(fileNamePrefix + "ParserAdapter.java", renderTemplate("ParserAdapter", attributes));
+         break;
+      }
 
-		return parserFileNamesToContents;
-	}
+      return parserFileNamesToContents;
+   }
 
-	private Map<String, String> createUnparser(final Technology unparserTechnology)
-			throws FileNotFoundException, CoreException {
-		// load template group and set attributes
-		loadStringTemplateGroup(unparserTechnology);
+   private void updateGitignoreFile()
+   {
+      try
+      {
+         final StringBuilder content = new StringBuilder();
+         for (final String ext : Arrays.asList("g", "tokens", "java"))
+            content.append(parserFolder.getProjectRelativePath() + "/*[Parser|Lexer]." + ext + "\n");
+         IFile gitignoreFile = project.getFile(".gitignore");
+         String contentString = content.toString();
+         if (gitignoreFile.exists())
+         {
+            gitignoreFile.appendContents(new ByteArrayInputStream(("\n" + contentString).getBytes()), true, true, new NullProgressMonitor());
+         } else
+         {
+            gitignoreFile.create(new ByteArrayInputStream(contentString.getBytes()), true, new NullProgressMonitor());
+         }
+      } catch (final CoreException e)
+      {
+         logger.error("Failed to update/create .gitignore file", e);
+      }
+   }
 
-		// prepare attribute map (same for all technologies):
-		Map<String, Object> attributes = new HashMap<String, Object>();
-		attributes.put("name", page.getFileExtension());
-		attributes.put("package", packagePrefix + ".unparser");
+   private Map<String, String> createUnparser(final Technology unparserTechnology) throws FileNotFoundException, CoreException
+   {
+      // load template group and set attributes
+      loadStringTemplateGroup(unparserTechnology);
 
-		// create file name prefix
-		String fileNamePrefix = unparserFolder.getProjectRelativePath() + "/"
-				+ BasicFormatRenderer.firstToUpper(page.getFileExtension());
+      // prepare attribute map (same for all technologies):
+      Map<String, Object> attributes = new HashMap<String, Object>();
+      attributes.put("name", page.getFileExtension());
+      attributes.put("package", packagePrefix + ".unparser");
 
-		Map<String, String> unparserFileNamesToContents = new HashMap<String, String>();
-		// generate code for the given parser technology
-		switch (unparserTechnology) {
-		case ANTLR:
-			unparserFileNamesToContents.put(fileNamePrefix + "TreeGrammar.g",
-					renderTemplate("TreeGrammar", attributes));
-			unparserFileNamesToContents.put(fileNamePrefix + "UnparserAdapter.java",
-					renderTemplate("UnparserAdapter", attributes));
-			break;
-		case XML:
-			unparserFileNamesToContents.put(fileNamePrefix + "UnparserAdapter.java",
-					renderTemplate("UnparserAdapter", attributes));
-			addDefaultXMLTemplate();
-			break;
-		case CUSTOM:
-			unparserFileNamesToContents.put(fileNamePrefix + "UnparserAdapter.java",
-					renderTemplate("UnparserAdapter", attributes));
-			break;
-		}
-		return unparserFileNamesToContents;
-	}
+      // create file name prefix
+      String fileNamePrefix = unparserFolder.getProjectRelativePath() + "/" + BasicFormatRenderer.firstToUpper(page.getFileExtension());
 
-	private void createTemplateFolder() {
-		// create folder "templates" if it does not exist
-		IFolder templateFolder = project.getFolder(new Path("templates/"));
-		if (!templateFolder.exists()) {
-			try {
-				templateFolder.create(true, true, new NullProgressMonitor());
-			} catch (CoreException e) {
-				logger.debug("unable to create templates directory.");
-				e.printStackTrace();
-			}
-		}
-	}
+      Map<String, String> unparserFileNamesToContents = new HashMap<String, String>();
+      // generate code for the given parser technology
+      switch (unparserTechnology)
+      {
+      case ANTLR:
+         unparserFileNamesToContents.put(fileNamePrefix + "TreeGrammar.g", renderTemplate("TreeGrammar", attributes));
+         unparserFileNamesToContents.put(fileNamePrefix + "UnparserAdapter.java", renderTemplate("UnparserAdapter", attributes));
+         break;
+      case XML:
+         unparserFileNamesToContents.put(fileNamePrefix + "UnparserAdapter.java", renderTemplate("UnparserAdapter", attributes));
+         addDefaultXMLTemplate();
+         break;
+      case CUSTOM:
+         unparserFileNamesToContents.put(fileNamePrefix + "UnparserAdapter.java", renderTemplate("UnparserAdapter", attributes));
+         break;
+      }
+      return unparserFileNamesToContents;
+   }
 
-	private void addDefaultXMLTemplate() {
-		// copy the default XML template to the project
-		createTemplateFolder();
-		IFile templateFile = project.getFile("templates/XML.stg");
-		if (!templateFile.exists()) {
-			try {
-				URL url = MoflonUtilitiesActivator.getPathRelToPlugIn(
-						"resources/moca/templates/defaultTemplates/XML.stg", UIActivator.getModuleID());
-				WorkspaceHelper.addFile(project, "templates/XML.stg", url, UIActivator.getModuleID(), monitor);
-			} catch (CoreException e) {
-				e.printStackTrace();
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+   private void createTemplateFolder()
+   {
+      // create folder "templates" if it does not exist
+      IFolder templateFolder = project.getFolder(new Path("templates/"));
+      if (!templateFolder.exists())
+      {
+         try
+         {
+            templateFolder.create(true, true, new NullProgressMonitor());
+         } catch (CoreException e)
+         {
+            logger.debug("unable to create templates directory.");
+            e.printStackTrace();
+         }
+      }
+   }
 
-	private Map<String, String> createMocaMain() throws FileNotFoundException, CoreException {
-		loadStringTemplateGroup("/resources/moca/templates/CodeAdapter/MocaMain.stg");
+   private void addDefaultXMLTemplate()
+   {
+      // copy the default XML template to the project
+      createTemplateFolder();
+      IFile templateFile = project.getFile("templates/XML.stg");
+      if (!templateFile.exists())
+      {
+         try
+         {
+            URL url = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/moca/templates/defaultTemplates/XML.stg", UIActivator.getModuleID());
+            WorkspaceHelper.addFile(project, "templates/XML.stg", url, UIActivator.getModuleID(), new NullProgressMonitor());
+         } catch (CoreException e)
+         {
+            e.printStackTrace();
+         } catch (URISyntaxException e)
+         {
+            e.printStackTrace();
+         } catch (IOException e)
+         {
+            e.printStackTrace();
+         }
+      }
+   }
 
-		Map<String, Object> attributes = new HashMap<String, Object>();
-		attributes.put("name", page.getFileExtension().toLowerCase());
-		String fileNamePrefix = project.getProjectRelativePath() + "/src/org/moflon/moca/";
+   private Map<String, String> createMocaMain() throws FileNotFoundException, CoreException
+   {
+      loadStringTemplateGroup("/resources/moca/templates/CodeAdapter/MocaMain.stg");
 
-		// determine template for MocaMain (parser, unparser or both)
-		String templateName = "MocaMain";
-		if (page.shallCreateParser() && page.shallCreateUnparser()) {
-			templateName += "ParserUnparser";
-		} else if (page.shallCreateParser()) {
-			templateName += "Parser";
-		} else {
-			templateName += "Unparser";
-		}
+      Map<String, Object> attributes = new HashMap<String, Object>();
+      attributes.put("name", page.getFileExtension().toLowerCase());
+      String fileNamePrefix = project.getProjectRelativePath() + "/src/org/moflon/moca/";
 
-		Map<String, String> mocaMainFileNameToContent = new HashMap<String, String>();
-		mocaMainFileNameToContent.put(fileNamePrefix + "MocaMain.java", renderTemplate(templateName, attributes));
+      // determine template for MocaMain (parser, unparser or both)
+      String templateName = "MocaMain";
+      if (page.shallCreateParser() && page.shallCreateUnparser())
+      {
+         templateName += "ParserUnparser";
+      } else if (page.shallCreateParser())
+      {
+         templateName += "Parser";
+      } else
+      {
+         templateName += "Unparser";
+      }
 
-		return mocaMainFileNameToContent;
+      Map<String, String> mocaMainFileNameToContent = new HashMap<String, String>();
+      mocaMainFileNameToContent.put(fileNamePrefix + "MocaMain.java", renderTemplate(templateName, attributes));
 
-	}
+      return mocaMainFileNameToContent;
 
-	private URL getTemplateFileURL(final String path) {
-		return MoflonUtilitiesActivator.getPathRelToPlugIn(path, UIActivator.getModuleID());
-	}
+   }
 
-	private void loadStringTemplateGroup(final String path) {
-		try {
-			InputStreamReader reader = new InputStreamReader(getTemplateFileURL(path).openStream());
-			stg = new StringTemplateGroup(reader);
-		} catch (IOException e) {
-			logger.debug("unable to load template file: " + getTemplateFileURL(path));
-		}
-	}
+   private URL getTemplateFileURL(final String path)
+   {
+      return MoflonUtilitiesActivator.getPathRelToPlugIn(path, UIActivator.getModuleID());
+   }
 
-	private void loadStringTemplateGroup(final Technology technology) {
-		loadStringTemplateGroup("/resources/moca/templates/CodeAdapter/" + technology.toString() + ".stg");
-	}
+   private void loadStringTemplateGroup(final String path)
+   {
+      try
+      {
+         InputStreamReader reader = new InputStreamReader(getTemplateFileURL(path).openStream());
+         stg = new StringTemplateGroup(reader);
+      } catch (IOException e)
+      {
+         logger.debug("unable to load template file: " + getTemplateFileURL(path));
+      }
+   }
 
-	private String renderTemplate(final String templateName, final Map<String, Object> attributes)
-			throws FileNotFoundException {
-		StringTemplate st = stg.getInstanceOf(templateName);
-		st.registerRenderer(String.class, new BasicFormatRenderer());
-		st.setAttributes(attributes);
-		return st.toString();
-	}
+   private void loadStringTemplateGroup(final Technology technology)
+   {
+      loadStringTemplateGroup("/resources/moca/templates/CodeAdapter/" + technology.toString() + ".stg");
+   }
 
-	private IFolder createFolder(final String path) {
-		IFolder folder = project.getFolder(path);
-		if (!folder.exists()) {
-			try {
-				return WorkspaceHelper.addFolder(project, path, monitor);
-			} catch (CoreException e) {
-				logger.debug("error while creating folder: " + path);
-				e.printStackTrace();
-				return null;
-			}
-		} else {
-			return folder;
-		}
-	}
+   private String renderTemplate(final String templateName, final Map<String, Object> attributes) throws FileNotFoundException
+   {
+      StringTemplate st = stg.getInstanceOf(templateName);
+      st.registerRenderer(String.class, new BasicFormatRenderer());
+      st.setAttributes(attributes);
+      return st.toString();
+   }
 
-	@Override
-	protected Map<String, String> extractFileNamesToContents() throws CoreException {
-		HashMap<String, String> fileNamesToContents = new HashMap<String, String>();
+   private IFolder createFolder(final String path)
+   {
+      IFolder folder = project.getFolder(path);
+      if (!folder.exists())
+      {
+         try
+         {
+            return WorkspaceHelper.addFolder(project, path, new NullProgressMonitor());
+         } catch (CoreException e)
+         {
+            logger.debug("error while creating folder: " + path);
+            e.printStackTrace();
+            return null;
+         }
+      } else
+      {
+         return folder;
+      }
+   }
 
-		try {
-			if (page.shallCreateParser()) {
-				Map<String, String> parserFileNamesToContents = createParser(page.getParserTechnology());
-				fileNamesToContents.putAll(parserFileNamesToContents);
+   @Override
+   protected Map<String, String> extractFileNamesToContents() throws CoreException
+   {
+      HashMap<String, String> fileNamesToContents = new HashMap<String, String>();
 
-			}
-			if (page.shallCreateUnparser()) {
-				Map<String, String> unparserFileNamesToContents = createUnparser(page.getUnparserTechnology());
-				fileNamesToContents.putAll(unparserFileNamesToContents);
-				createUnparser(page.getUnparserTechnology());
-			}
+      try
+      {
+         if (page.shallCreateParser())
+         {
+            Map<String, String> parserFileNamesToContents = createParser(page.getParserTechnology());
+            fileNamesToContents.putAll(parserFileNamesToContents);
 
-			Map<String, String> mocaMainFileNameToContent = createMocaMain();
-			fileNamesToContents.putAll(mocaMainFileNameToContent);
-		} catch (FileNotFoundException e) {
-			MoflonUtil.throwCoreExceptionAsError(e.getMessage(), UIActivator.getModuleID(), e);
-		}
+         }
+         if (page.shallCreateUnparser())
+         {
+            Map<String, String> unparserFileNamesToContents = createUnparser(page.getUnparserTechnology());
+            fileNamesToContents.putAll(unparserFileNamesToContents);
+            createUnparser(page.getUnparserTechnology());
+         }
 
-		return fileNamesToContents;
-	}
+         Map<String, String> mocaMainFileNameToContent = createMocaMain();
+         fileNamesToContents.putAll(mocaMainFileNameToContent);
+      } catch (FileNotFoundException e)
+      {
+         MoflonUtil.throwCoreExceptionAsError(e.getMessage(), UIActivator.getModuleID(), e);
+      }
+
+      return fileNamesToContents;
+   }
 
 }

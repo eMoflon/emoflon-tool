@@ -100,7 +100,7 @@ public class MocaMain
     Folder tree = getCodeAdapter().parse(new File("instances/in/"));
 
     // Save tree to file
-    eMoflonEMFUtil.saveModel(tree, "instances/tree.xmi");
+    eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), tree, "instances/tree.xmi");
 
     // Perform tree-to-model
     //TODO
@@ -118,7 +118,7 @@ public class MocaMain
   public static CodeAdapter getCodeAdapter(){
     if(codeAdapter == null){
 	    // Register parsers and unparsers
-		codeAdapter = MocaFactory.eINSTANCE.createCodeAdapter();
+		codeAdapter = ProcessingFactory.eINSTANCE.createCodeAdapter();
         codeAdapter.getParser().add(new <name; format="firstToUpper">ParserAdapter());
         codeAdapter.getUnparser().add(new <name; format="firstToUpper">UnparserAdapter());	  
      }

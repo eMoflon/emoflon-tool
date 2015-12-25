@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -93,11 +94,10 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
       {
          try
          {
-            return WorkspaceHelper.addFolder(project, path, monitor);
+            return WorkspaceHelper.addFolder(project, path, new NullProgressMonitor());
          } catch (CoreException e)
          {
-            logger.debug("error while creating folder: " + path);
-            e.printStackTrace();
+            logger.error("error while creating folder: " + path, e);
             return null;
          }
       } else
