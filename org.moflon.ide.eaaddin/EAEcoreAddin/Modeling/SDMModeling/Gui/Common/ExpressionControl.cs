@@ -111,16 +111,25 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui
 
             setInformationLossBoolean();
 
+            object previousFirstObject = this.cmbFirstObjects.SelectedItem;
+            object previousSecondObject = this.cmbSecondObjects.SelectedItem;
+
             this.cmbFirstObjects.Items.Clear();
-            this.cmbSecondObjects.Items.Clear();
+            //this.cmbSecondObjects.Items.Clear();
             this.cmbFirstObjects.Items.AddRange(expressionProvider.getFirstStringList(cmbExpressions.Text).ToArray());
             cmbFirstObjects.DropDownWidth = EAUtil.computeDropDownWidth(cmbFirstObjects);
 
             if (cmbFirstObjects.Items.Count > 0)
             {
-                cmbFirstObjects.SelectedIndex = 0;
+                if (previousFirstObject != null && this.cmbFirstObjects.Items.Contains(previousFirstObject))
+                {
+                    this.cmbFirstObjects.SelectedItem = previousFirstObject;
+                }
+                else
+                {
+                    this.cmbFirstObjects.SelectedIndex = 0;
+                }                
             }
-
 
             if (cmbExpressions.Text == "MethodCallExpression")
             {
