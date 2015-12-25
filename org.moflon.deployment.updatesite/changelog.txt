@@ -83,4 +83,6 @@
 2015-12-19	Correct handling of project names: "." is disallowed inside projects names. 
 2015-12-22	eMoflon 2.9.0 released
 ---
-2015-12-25	 Renaming metamodel project should trigger a renaming of the contained EAP file #457 
+2015-12-25	Renaming metamodel project should trigger a renaming of the contained EAP file #457 
+2015-12-25	Create .gitignore files when generating parsers/unparsers #466
+ 
