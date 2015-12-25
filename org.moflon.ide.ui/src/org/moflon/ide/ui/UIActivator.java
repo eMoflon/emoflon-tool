@@ -17,8 +17,13 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -99,6 +104,71 @@ public class UIActivator extends AbstractUIPlugin
       registerDirtyStateChangedListener();
       // labelDirtyMetamodelProjects();
       registerListenerForDirtyMetamodelProjects();
+      registerListenerForMetaModelProjectRenaming();
+   }
+
+   /**
+    * Registers a {@link IResourceChangeListener} for detecting renamings of meta-model projects.
+    * According to our convention, the name of the EAP file of a meta-model project equals the project name plus the suffix ".eap".
+    */
+   private void registerListenerForMetaModelProjectRenaming()
+   {
+      ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
+
+         @Override
+         public void resourceChanged(IResourceChangeEvent event)
+         {
+
+            IResourceDelta[] children = event.getDelta().getAffectedChildren();
+            if (children.length == 2)
+            {
+               final IResource firstResource = children[0].getResource();
+               final IResource secondResource = children[1].getResource();
+               if (firstResource instanceof IProject && secondResource instanceof IProject)
+               {
+                  final IProject oldProject;
+                  final IProject newProject;
+                  if((children[0].getFlags() & IResourceDelta.MOVED_TO) != 0)
+                  {
+                     oldProject = (IProject) firstResource;
+                     newProject = (IProject) secondResource;
+                  }
+                  else if((children[1].getFlags() & IResourceDelta.MOVED_TO) != 0) {
+                     oldProject = (IProject) secondResource;
+                     newProject = (IProject) firstResource;
+                  }
+                  else {
+                     oldProject = null;
+                     newProject = null;
+                  }
+                  if (oldProject != null && WorkspaceHelper.isMetamodelProjectNoThrow(newProject))
+                  {
+                     IFile eapFile = newProject.getFile(oldProject.getName() + ".eap");
+                     if (eapFile.exists())
+                     {
+                        WorkspaceJob job = new WorkspaceJob("Renaming EAP file") {
+
+                           @Override
+                           public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
+                           {
+                              try
+                              {
+                                 eapFile.move(new Path(newProject.getName() + ".eap"), true, null);
+                                 return Status.OK_STATUS;
+                              } catch (final CoreException e)
+                              {
+                                 return new Status(IStatus.ERROR, UIActivator.getModuleID(), "Failed to move EAP file " + eapFile, e);
+                              }
+                           }
+                        };
+                        job.schedule();
+
+                     }
+                  }
+               }
+            }
+         }
+      }, IResourceChangeEvent.POST_CHANGE);
    }
 
    @Override
@@ -253,7 +323,6 @@ public class UIActivator extends AbstractUIPlugin
       }, IResourceChangeEvent.POST_CHANGE);
    }
 
-
    /**
     * Initialize log and configuration file. Configuration file is created with default contents if necessary. Log4J is
     * setup properly and configured with a console and logfile appender.
@@ -341,7 +410,7 @@ public class UIActivator extends AbstractUIPlugin
    {
       return configFile;
    }
-   
+
    /**
     * Used when the plugin has to store resources on the client machine and eclipse installation + current workspace.
     * This location reserved for the plugin is called the "state location" and is usually in
