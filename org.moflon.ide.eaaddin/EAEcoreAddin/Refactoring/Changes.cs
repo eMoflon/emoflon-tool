@@ -95,10 +95,13 @@ namespace EAEcoreAddin.Refactoring
 
                 this.currentNode.appendChildNode(eClassMocaNode);
 
+                String packageName = eClassMocaNode.getAttribute("packageName").Value;
+
                 CachedClass temp = new CachedClass();
                 temp.getElement(eaClass.ElementGUID, repository);
                 temp.name = eClass.Name;
                 temp.previousName = eClass.Name;
+                temp.packageName = packageName;
                 temp.saveElementToEATaggedValue(true);
                 
                 return eClassMocaNode;
