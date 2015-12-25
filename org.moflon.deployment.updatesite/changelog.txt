@@ -85,4 +85,4 @@
 ---
 2015-12-25	Renaming metamodel project should trigger a renaming of the contained EAP file #457 
 2015-12-25	Create .gitignore files when generating parsers/unparsers #466
- 
+2015-12-25	[SDM] Use activity node name as method name for patterns #515 
