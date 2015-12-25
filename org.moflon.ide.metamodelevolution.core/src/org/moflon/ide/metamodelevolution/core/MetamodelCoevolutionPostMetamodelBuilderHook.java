@@ -12,11 +12,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
@@ -25,14 +22,12 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
-import org.moflon.ide.metamodelevolution.core.impl.CoreFactoryImpl;
-import org.moflon.ide.metamodelevolution.core.impl.RenameChangeImpl;
-import org.moflon.ide.metamodelevolution.core.processing.RenameClassRefactoring;
-import org.moflon.ide.metamodelevolution.core.processing.RenameMethodRefactoring;
-import org.moflon.ide.metamodelevolution.core.processing.RenameRefactoring;
+import org.moflon.ide.metamodelevolution.core.changes.ChangesTreeCalculator;
+import org.moflon.ide.metamodelevolution.core.changes.MetamodelChangeCalculator;
+import org.moflon.ide.metamodelevolution.core.processing.JavaRefactorProcessor;
+import org.moflon.ide.metamodelevolution.core.processing.MetamodelDeltaProcessor;
 import org.moflon.util.plugins.MetamodelProperties;
 
-import MocaTree.Attribute;
 import MocaTree.Node;
 import MocaTree.Text;
 
@@ -47,70 +42,18 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
 
       Node mocaTree = getMocaTree(postMetamodelBuilderHookDTO.metamodelproject);
       Node changesTree = (Node) mocaTree.getChildren().get(0);
-      IProject repositoryProject = getRepositoryProject(changesTree, postMetamodelBuilderHookDTO);
-      //TODO@settl: als generische Schnittstelle mit einem MetamodelDeltaCalculator auslagern
-      ChangeSequence delta = parseTree(mocaTree);
+      IProject repositoryProject = getRepositoryProject(changesTree, postMetamodelBuilderHookDTO);     
+           
       if (repositoryProject != null)
       {
-         processDelta(delta, repositoryProject);
+         MetamodelChangeCalculator changeCalculator = new ChangesTreeCalculator();
+         ChangeSequence delta = changeCalculator.parseTree(mocaTree);
+         
+         MetamodelDeltaProcessor processor = new JavaRefactorProcessor();
+         processor.processDelta(repositoryProject, delta);
       }
 
       return Status.OK_STATUS;
-   }
-   //TODO@settl: als generische Schnittstelle mit einem Changeprocessor implementieren
-   /**
-    * This method processes changes according to the change metamodel
-    */
-   private void processDelta(ChangeSequence delta, IProject project)
-   {
-      for (EModelElementChange change : delta.getEModelElementChange())
-      {
-         if (change instanceof RenameChangeImpl)
-         {
-            RenameChange renaming = (RenameChange) change;
-            if (renaming.arePreviousAndCurrentValueDifferent())
-            {
-               logger.debug("Change detected for old value: " + renaming.getPreviousValue() + ". New value is: " + renaming.getCurrentValue());
-               // todo@settl: Impl und factory method infos aus dem
-               // genmodel laden
-               // adapt java code
-               // rename class and "Impl" class
-               // TODO@settl: If possible, leave RenameClassRefactoring as
-               // dumb as possible -> invoke it twice for both classes (I
-               // guess this is what you already planned to do) (RK)
-               RenameRefactoring processor = new RenameClassRefactoring();
-               processor.refactor(project, renaming);
-
-               // rename factory method
-               // TODO@settl: Create a new MethodRenamingChange here:
-               // "createOldClass -> createNewClass in class XYZFactory"
-               GenModel genModel = eMoflonEMFUtil.extractGenModelFromProject(project);
-               // TODO@settl: This is how you can get the implementation
-               // class name
-               genModel.getAllGenPackagesWithClassifiers().get(0).getGenClasses().get(0).getClassName();
-               // TODO@settl: This is how you can get the interface name
-               genModel.getAllGenPackagesWithClassifiers().get(0).getGenClasses().get(0).getInterfaceName();
-               genModel.getModelDirectory(); // path to gen folder
-               genModel.getAllGenPackagesWithClassifiers().get(0).getFactoryInterfaceName();
-               genModel.getAllGenPackagesWithClassifiers().get(0).getPackageInterfaceName();
-               genModel.getAllGenPackagesWithClassifiers().get(0).getSwitchClassName();
-               genModel.getAllGenPackagesWithClassifiers().get(0).getUtilitiesPackageName();
-               genModel.getAllGenPackagesWithClassifiers().get(0).getClassPackageName();
-               EClass cls = EcoreFactory.eINSTANCE.createEClass(); // If
-               // possible,
-               // use
-               // the
-               // EClasses...
-               cls.setName("Topology");
-               // genModel.findGenClassifier(cls);
-
-               RenameRefactoring methodRenaming = new RenameMethodRefactoring();
-               methodRenaming.refactor(project, renaming);
-
-            }
-         }
-      }
-      // processInjections(project);
    }
 
    private Node getMocaTree(IProject metamodelProject)
@@ -157,48 +100,6 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
          e.printStackTrace();
       }
       return null;
-   }
-
-   private ChangeSequence parseTree(final Node tree)
-   {
-      ChangeSequence delta = CoreFactoryImpl.eINSTANCE.createChangeSequence();
-
-      parseChangesTree(tree, delta);
-
-      return delta;
-   }
-
-   /**
-    * This method recursively extracts the Metamodel changes from the MocaChangesTree and maps it to the ChangeMetamodel
-    */
-   private ChangeSequence parseChangesTree(final Node tree, ChangeSequence delta)
-   {
-      if (tree.getName() != null && tree.getName().equals("EClass"))
-      {
-         RenameChange renaming = CoreFactoryImpl.eINSTANCE.createRenameChange();
-
-         EList<Attribute> attributes2 = tree.getAttribute();
-         for (Attribute attr : attributes2)
-         {
-            if (attr.getName().equals("name"))
-               renaming.setCurrentValue(attr.getValue());
-            if (attr.getName().equals("previousName"))
-               renaming.setPreviousValue(attr.getValue());
-            if (attr.getName().equals("packageName"))
-               renaming.setPackageName(attr.getValue());
-         }
-         delta.getEModelElementChange().add(renaming);
-         return delta;
-      } else
-      {
-         final EList<Text> children = tree.getChildren();
-         for (Text text : children)
-         {
-            Node node = (Node) text;
-            parseChangesTree(node, delta);
-         }
-         return delta;
-      }
    }
 
    /**

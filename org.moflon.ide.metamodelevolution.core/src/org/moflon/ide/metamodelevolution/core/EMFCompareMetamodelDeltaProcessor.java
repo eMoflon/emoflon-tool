@@ -284,10 +284,10 @@ public class EMFCompareMetamodelDeltaProcessor implements MetamodelDeltaProcesso
       return root;
    }
 
-   @Override
-   public void processDelta(final IProject project, final MetamodelDelta delta)
-   {
-      // TODO Auto-generated method stub
 
-   }
+@Override
+public void processDelta(IProject project, ChangeSequence delta) {
+	// TODO Auto-generated method stub
+	
+}
 }
