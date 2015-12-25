@@ -894,6 +894,19 @@ public class WorkspaceHelper
       return fullyQualifiedClassName;
    }
 
+   /**
+    * Replaces all "." in a package path by "/".
+    * 
+    * @param packageName
+    *           the name of the package in xyz.xyz.xyz format
+    * @return the name of the package in xyz/xyz/xyz format
+    */
+   public static String formatPackagePath(String packageName)
+   {
+      String packagePath = "/" + packageName.replaceAll("\\.", "/") + "/";
+      return packagePath;
+   }
+   
    public static void moveProjectToWorkingSet(final IProject project, final String workingSetName)
    {
       // Move project to appropriate working set

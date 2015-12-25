@@ -37,8 +37,8 @@ public class RenameClassRefactoring implements RenameRefactoring
    private void refactorInterfaceClass(IProject project, RenameChange renameChange)
    {
 
-      IFile file = project.getFile(new Path(GEN_FOLDER + getPackagePath(renameChange.getPackageName()) + renameChange.getPreviousValue() + JAVA_EXTENSION));
-      ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
+	  IFile file = project.getFile(new Path(GEN_FOLDER + WorkspaceHelper.formatPackagePath(renameChange.getPackageName()) + renameChange.getPreviousValue() + JAVA_EXTENSION));
+	  ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
 
       if (!cu.exists())
          return;
@@ -78,9 +78,8 @@ public class RenameClassRefactoring implements RenameRefactoring
    private void refactorImplClass(IProject project, RenameChange renameChange)
    {
 
-      IFile file = project.getFile(
-            new Path(GEN_FOLDER + getPackagePath(renameChange.getPackageName()) + "/impl/" + renameChange.getPreviousValue() + IMPL_File + JAVA_EXTENSION));
-      ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
+	  IFile file = project.getFile(new Path(GEN_FOLDER + WorkspaceHelper.formatPackagePath(renameChange.getPackageName()) + renameChange.getPreviousValue() + JAVA_EXTENSION));
+	  ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
 
       if (!cu.exists())
          return;
@@ -150,12 +149,5 @@ public class RenameClassRefactoring implements RenameRefactoring
             renameChange.getCurrentValue());
       final IPath newJavaFilePath = previousJavaFile.getProjectRelativePath().removeLastSegments(1).append(newLastSegment);
       return project.getFile(newJavaFilePath);
-   }
-
-   // TODO@settl this is a nice candidate for the WorkspaceHelper
-   private String getPackagePath(String packageName)
-   {
-      String packagePath = "/" + packageName.replaceAll("\\.", "/") + "/";
-      return packagePath;
    }
 }
