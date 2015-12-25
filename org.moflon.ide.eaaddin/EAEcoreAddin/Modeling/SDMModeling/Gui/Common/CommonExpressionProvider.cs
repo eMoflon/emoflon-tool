@@ -87,6 +87,8 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui.StopNodeDialog
             }
             this.expression = computeExpression();
 
+            objectStringList.Sort();
+
             return objectStringList;
         }
 
@@ -208,6 +210,8 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui.StopNodeDialog
             }
 
             this.expression = computeExpression();
+
+            sourceStringList.Sort();
 
             return sourceStringList;
         }
