@@ -51,6 +51,14 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
                         configureBx(actCon);
                         toComposite(actCon);
                     }
+                    else if (actCon.Stereotype == "biCompositeSingle")
+                    {
+                        EAUtil.configureConnectorEnd(sqlRepository, actCon.ClientEnd, actCon.ClientID, "0..1");
+                        EAUtil.configureConnectorEnd(sqlRepository, actCon.SupplierEnd, actCon.SupplierID, "0..1");
+
+                        configureBx(actCon);
+                        toComposite(actCon);
+                    }
                     else if (actCon.Stereotype == "uniSingle")
                     {
                         EAUtil.configureConnectorEnd(sqlRepository, actCon.SupplierEnd, actCon.SupplierID, "0..1");
@@ -69,6 +77,13 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
 
                         configureUni(actCon);
                         toComposite(actCon); 
+                    }
+                    else if (actCon.Stereotype == "uniCompositeSingle")
+                    {
+                        EAUtil.configureConnectorEnd(sqlRepository, actCon.SupplierEnd, actCon.SupplierID, "0..1");
+
+                        configureUni(actCon);
+                        toComposite(actCon);
                     }
                 }
             }

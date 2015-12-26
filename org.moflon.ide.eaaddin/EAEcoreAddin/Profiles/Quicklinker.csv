@@ -2,9 +2,11 @@ Class,CorrespondenceType,Class,EClass,,,,Association,,directed,Create EReference
 Class,EClass,Class,CorrespondenceType,,,,Association,,directed,Not allowed,,FALSE,FALSE,,TRUE,,0
 Class,EClass,Class,EClass,,,,Association,uniSingle,directed,Create Unidirectional EReference 0..1,,TRUE,FALSE,,TRUE,,0
 Class,EClass,Class,EClass,,,,Association,uniMultiple,directed,Create Unidirectional EReference 0..*,,TRUE,FALSE,,TRUE,,0
-Class,EClass,Class,EClass,,,,Association,uniComposite,directed,Create Unidirectional Composite EReference,,TRUE,FALSE,,TRUE,,0
+Class,EClass,Class,EClass,,,,Association,uniComposite,directed,Create Unidirectional Composite EReference 0..*,,TRUE,FALSE,,TRUE,,0
+Class,EClass,Class,EClass,,,,Association,uniCompositeSingle,directed,Create Unidirectional Composite EReference 0..1,,TRUE,FALSE,,TRUE,,0
 Class,EClass,Class,EClass,,,,Association,bi,bidirectional,Create Bidirectional EReference,,TRUE,FALSE,,TRUE,,0
-Class,EClass,Class,EClass,,,,Association,biComposite,bidirectional,Create Bidirectional Composite EReference,,TRUE,FALSE,,TRUE,,0
+Class,EClass,Class,EClass,,,,Association,biComposite,bidirectional,Create Bidirectional Composite EReference 0..*,,TRUE,FALSE,,TRUE,,0
+Class,EClass,Class,EClass,,,,Association,biCompositeSingle,bidirectional,Create Bidirectional Composite EReference 0..1,,TRUE,FALSE,,TRUE,,0
 Class,TGGPattern,Class,EClass,,,,Association,,directed,Create EReference,,TRUE,FALSE,,TRUE,,0
 Class,Rule,Class,Rule,,,,Association,Kernel Morphism,directed,Create Kernel Morphism,,TRUE,FALSE,,TRUE,,0
 Class,Rule,Class,Rule,,,,Association,TGGCustomGeneralization,directed,Create Refinement Link,,TRUE,FALSE,,TRUE,,0
