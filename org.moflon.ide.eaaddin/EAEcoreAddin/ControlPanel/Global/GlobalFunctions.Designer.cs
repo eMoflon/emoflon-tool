@@ -55,9 +55,10 @@
             // buttonExportAll
             // 
             this.buttonExportAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonExportAll.Location = new System.Drawing.Point(7, 77);
+            this.buttonExportAll.Location = new System.Drawing.Point(225, 23);
+            this.buttonExportAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonExportAll.Name = "buttonExportAll";
-            this.buttonExportAll.Size = new System.Drawing.Size(75, 23);
+            this.buttonExportAll.Size = new System.Drawing.Size(100, 28);
             this.buttonExportAll.TabIndex = 3;
             this.buttonExportAll.Text = "All";
             this.toolTip.SetToolTip(this.buttonExportAll, "Export all metamodels to Workspace");
@@ -67,9 +68,10 @@
             // buttonExportMetamodel
             // 
             this.buttonExportMetamodel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonExportMetamodel.Location = new System.Drawing.Point(7, 48);
+            this.buttonExportMetamodel.Location = new System.Drawing.Point(117, 23);
+            this.buttonExportMetamodel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonExportMetamodel.Name = "buttonExportMetamodel";
-            this.buttonExportMetamodel.Size = new System.Drawing.Size(75, 23);
+            this.buttonExportMetamodel.Size = new System.Drawing.Size(100, 28);
             this.buttonExportMetamodel.TabIndex = 2;
             this.buttonExportMetamodel.Text = "Metamodel";
             this.toolTip.SetToolTip(this.buttonExportMetamodel, "Export current Metamodel to Workspace");
@@ -79,9 +81,10 @@
             // buttonValidateAll
             // 
             this.buttonValidateAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonValidateAll.Location = new System.Drawing.Point(3, 77);
+            this.buttonValidateAll.Location = new System.Drawing.Point(225, 23);
+            this.buttonValidateAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonValidateAll.Name = "buttonValidateAll";
-            this.buttonValidateAll.Size = new System.Drawing.Size(75, 23);
+            this.buttonValidateAll.Size = new System.Drawing.Size(100, 28);
             this.buttonValidateAll.TabIndex = 3;
             this.buttonValidateAll.Text = "All";
             this.toolTip.SetToolTip(this.buttonValidateAll, "Validate and export all metamodels");
@@ -91,9 +94,10 @@
             // buttonValidateSelection
             // 
             this.buttonValidateSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonValidateSelection.Location = new System.Drawing.Point(4, 19);
+            this.buttonValidateSelection.Location = new System.Drawing.Point(9, 23);
+            this.buttonValidateSelection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonValidateSelection.Name = "buttonValidateSelection";
-            this.buttonValidateSelection.Size = new System.Drawing.Size(75, 23);
+            this.buttonValidateSelection.Size = new System.Drawing.Size(100, 28);
             this.buttonValidateSelection.TabIndex = 2;
             this.buttonValidateSelection.Text = "Selection";
             this.toolTip.SetToolTip(this.buttonValidateSelection, "Validate current Selection ");
@@ -103,9 +107,10 @@
             // buttonImportFromMoca
             // 
             this.buttonImportFromMoca.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonImportFromMoca.Location = new System.Drawing.Point(4, 19);
+            this.buttonImportFromMoca.Location = new System.Drawing.Point(9, 24);
+            this.buttonImportFromMoca.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonImportFromMoca.Name = "buttonImportFromMoca";
-            this.buttonImportFromMoca.Size = new System.Drawing.Size(75, 23);
+            this.buttonImportFromMoca.Size = new System.Drawing.Size(100, 28);
             this.buttonImportFromMoca.TabIndex = 2;
             this.buttonImportFromMoca.Text = "Import";
             this.toolTip.SetToolTip(this.buttonImportFromMoca, "Import from Moca Tree");
@@ -118,9 +123,10 @@
             this.buttonJump.BackgroundImage = global::EAEcoreAddin.Properties.Resources.arrowInside1;
             this.buttonJump.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonJump.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonJump.Location = new System.Drawing.Point(35, 20);
+            this.buttonJump.Location = new System.Drawing.Point(47, 25);
+            this.buttonJump.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonJump.Name = "buttonJump";
-            this.buttonJump.Size = new System.Drawing.Size(23, 23);
+            this.buttonJump.Size = new System.Drawing.Size(31, 28);
             this.buttonJump.TabIndex = 3;
             this.toolTip.SetToolTip(this.buttonJump, "Jump to Called SDM");
             this.buttonJump.UseVisualStyleBackColor = false;
@@ -132,9 +138,10 @@
             this.buttonAnchor.BackgroundImage = global::EAEcoreAddin.Properties.Resources.anchor_small;
             this.buttonAnchor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonAnchor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAnchor.Location = new System.Drawing.Point(6, 20);
+            this.buttonAnchor.Location = new System.Drawing.Point(8, 25);
+            this.buttonAnchor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonAnchor.Name = "buttonAnchor";
-            this.buttonAnchor.Size = new System.Drawing.Size(23, 23);
+            this.buttonAnchor.Size = new System.Drawing.Size(31, 28);
             this.buttonAnchor.TabIndex = 2;
             this.toolTip.SetToolTip(this.buttonAnchor, "Use Anchor on Diagram");
             this.buttonAnchor.UseVisualStyleBackColor = false;
@@ -143,9 +150,10 @@
             // buttonValidatePackage
             // 
             this.buttonValidatePackage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonValidatePackage.Location = new System.Drawing.Point(3, 48);
+            this.buttonValidatePackage.Location = new System.Drawing.Point(117, 23);
+            this.buttonValidatePackage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonValidatePackage.Name = "buttonValidatePackage";
-            this.buttonValidatePackage.Size = new System.Drawing.Size(75, 23);
+            this.buttonValidatePackage.Size = new System.Drawing.Size(100, 28);
             this.buttonValidatePackage.TabIndex = 4;
             this.buttonValidatePackage.Text = "Metamodel";
             this.toolTip.SetToolTip(this.buttonValidatePackage, " Validate and export current metamodel");
@@ -161,7 +169,8 @@
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(85, 109);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Size = new System.Drawing.Size(338, 60);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Export";
@@ -170,9 +179,10 @@
             // 
             this.button1.Enabled = false;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.button1.Location = new System.Drawing.Point(7, 19);
+            this.button1.Location = new System.Drawing.Point(9, 23);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 8;
             this.button1.Text = "Selection";
             this.button1.UseVisualStyleBackColor = true;
@@ -183,10 +193,11 @@
             this.groupBox4.Controls.Add(this.buttonValidateAll);
             this.groupBox4.Controls.Add(this.buttonValidateSelection);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(95, 0);
+            this.groupBox4.Location = new System.Drawing.Point(0, 65);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(99, 109);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Size = new System.Drawing.Size(338, 66);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Validate";
@@ -195,10 +206,11 @@
             // 
             this.groupBox1.Controls.Add(this.buttonImportFromMoca);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 118);
+            this.groupBox1.Location = new System.Drawing.Point(0, 141);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(84, 49);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(196, 60);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Import";
@@ -208,10 +220,11 @@
             this.groupBox3.Controls.Add(this.buttonJump);
             this.groupBox3.Controls.Add(this.buttonAnchor);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(95, 118);
+            this.groupBox3.Location = new System.Drawing.Point(206, 141);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(99, 49);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Size = new System.Drawing.Size(132, 60);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Navigation";
@@ -223,10 +236,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxValidation.Controls.Add(this.newErrorOutput1);
             this.groupBoxValidation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxValidation.Location = new System.Drawing.Point(205, 0);
+            this.groupBoxValidation.Location = new System.Drawing.Point(338, 0);
             this.groupBoxValidation.Margin = new System.Windows.Forms.Padding(0);
             this.groupBoxValidation.Name = "groupBoxValidation";
-            this.groupBoxValidation.Size = new System.Drawing.Size(597, 399);
+            this.groupBoxValidation.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxValidation.Size = new System.Drawing.Size(731, 214);
             this.groupBoxValidation.TabIndex = 0;
             this.groupBoxValidation.TabStop = false;
             this.groupBoxValidation.Text = "Validation Results";
@@ -237,16 +251,16 @@
             this.newErrorOutput1.ErrorsExisting = false;
             this.newErrorOutput1.ErrorSummary = null;
             this.newErrorOutput1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.newErrorOutput1.Location = new System.Drawing.Point(3, 17);
+            this.newErrorOutput1.Location = new System.Drawing.Point(4, 21);
             this.newErrorOutput1.Margin = new System.Windows.Forms.Padding(0);
             this.newErrorOutput1.Name = "newErrorOutput1";
-            this.newErrorOutput1.Size = new System.Drawing.Size(591, 379);
+            this.newErrorOutput1.Size = new System.Drawing.Size(723, 189);
             this.newErrorOutput1.TabIndex = 0;
             // 
             // GlobalFunctions
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -255,8 +269,9 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBoxValidation);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "GlobalFunctions";
-            this.Size = new System.Drawing.Size(802, 399);
+            this.Size = new System.Drawing.Size(1069, 214);
             this.groupBox2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
