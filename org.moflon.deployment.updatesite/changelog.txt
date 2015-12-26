@@ -87,3 +87,5 @@
 2015-12-25	Create .gitignore files when generating parsers/unparsers #466
 2015-12-25	[SDM] Use activity node name as method name for patterns #515 
 2015-12-25	[EA] Improve update behavior of OV dialog #582 
+2015-12-25	[EA] SDM: Add option to create 0..1 unidirectional composite EReference #463
+ 
