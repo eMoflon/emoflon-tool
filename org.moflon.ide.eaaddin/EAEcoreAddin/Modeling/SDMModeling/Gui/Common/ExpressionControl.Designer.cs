@@ -68,7 +68,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui
             this.cmbExpressions.Location = new System.Drawing.Point(6, 16);
             this.cmbExpressions.Name = "cmbExpressions";
             this.cmbExpressions.Size = new System.Drawing.Size(156, 21);
-            this.cmbExpressions.TabIndex = 0;
+            this.cmbExpressions.TabIndex = 4;
             this.cmbExpressions.SelectedIndexChanged += new System.EventHandler(this.cmbExpressions_SelectedIndexChanged);
             // 
             // groupBox1
@@ -87,8 +87,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui
             this.buttonToMethodCallExpression.Location = new System.Drawing.Point(3, 16);
             this.buttonToMethodCallExpression.Name = "buttonToMethodCallExpression";
             this.buttonToMethodCallExpression.Size = new System.Drawing.Size(58, 21);
-            this.buttonToMethodCallExpression.TabIndex = 500;
-            this.buttonToMethodCallExpression.TabStop = false;
+            this.buttonToMethodCallExpression.TabIndex = 5;
             this.buttonToMethodCallExpression.Text = "to SDM";
             this.buttonToMethodCallExpression.UseVisualStyleBackColor = true;
             this.buttonToMethodCallExpression.Click += new System.EventHandler(this.buttonToMethodCallExpression_Click);
@@ -115,7 +114,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui
             this.cmbSecondObjects.Location = new System.Drawing.Point(6, 16);
             this.cmbSecondObjects.Name = "cmbSecondObjects";
             this.cmbSecondObjects.Size = new System.Drawing.Size(226, 21);
-            this.cmbSecondObjects.TabIndex = 0;
+            this.cmbSecondObjects.TabIndex = 7;
             this.cmbSecondObjects.SelectedIndexChanged += new System.EventHandler(this.cmbSecondObjects_SelectedIndexChanged);
             // 
             // grpFirst
@@ -140,7 +139,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui
             this.cmbFirstObjects.Location = new System.Drawing.Point(6, 16);
             this.cmbFirstObjects.Name = "cmbFirstObjects";
             this.cmbFirstObjects.Size = new System.Drawing.Size(226, 21);
-            this.cmbFirstObjects.TabIndex = 0;
+            this.cmbFirstObjects.TabIndex = 6;
             this.cmbFirstObjects.SelectedIndexChanged += new System.EventHandler(this.cmbFirstObjects_SelectedIndexChanged);
             // 
             // grpCustomDataGridView
@@ -164,7 +163,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui
             this.treeView1.Location = new System.Drawing.Point(6, 19);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(226, 118);
-            this.treeView1.TabIndex = 0;
+            this.treeView1.TabIndex = 3;
             this.treeView1.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeCollapse);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
             // 

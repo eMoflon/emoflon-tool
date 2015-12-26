@@ -7,7 +7,7 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="MyFilesGroup">
-            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{899CDE25-7982-4062-8A94-C9B7E1119241}">
+            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{D0F57B3B-68DA-40C0-BC4C-E32E04D42F2A}">
                 <Class Id="{03DDD83C-B2C4-34AA-86E4-148A7B4E488E}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodeTypeComboBox" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodeTypeComboBox" Description="EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodeTypeComboBox" />
                 </Class>
