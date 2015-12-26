@@ -432,6 +432,16 @@ namespace EAEcoreAddin
         {
             if (!preventCascade)
             {
+                try
+                {
+                    Repository.GetDiagramByID(int.Parse(Info.Get(0).Value.ToString()));
+                }
+                catch (System.Exception)
+                {
+                    // Sometimes, the ID is not valid. Since it is not easily possible to check 
+                    // whether a diagram ID is valid, we use try-catch here.
+                    return;
+                }
                 preventCascade = true;
                 tggModeling.EA_OnPostNewDiagram(Repository, Info);
                 ecoreModeling.EA_OnPostNewDiagram(Repository, Info);
