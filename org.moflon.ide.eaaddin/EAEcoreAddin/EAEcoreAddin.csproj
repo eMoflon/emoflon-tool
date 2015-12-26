@@ -119,6 +119,7 @@
     <Compile Include="Consistency\Rules\ElementRules\CSPInvalid.cs" />
     <Compile Include="Consistency\Rules\ElementRules\TGGRuleSetInvalid.cs" />
     <Compile Include="Consistency\Rules\ElementRules\WrongBindingSemantics.cs" />
+    <Compile Include="Consistency\Rules\PackageRules\JavaReservedKeywordsNotAllowed.cs" />
     <Compile Include="Consistency\Rules\PackageRules\ObsoleteTaggedValues.cs" />
     <Compile Include="Consistency\Rules\PackageRules\PackageWithoutDiagram.cs" />
     <Compile Include="ControlPanel\Global\GlobalFunctions.cs">
