@@ -88,6 +88,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui.StopNodeDialog
             this.expression = computeExpression();
 
             objectStringList.Sort();
+            objectStringList = objectStringList.Distinct().ToList();
 
             return objectStringList;
         }
@@ -212,6 +213,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.Gui.StopNodeDialog
             this.expression = computeExpression();
 
             sourceStringList.Sort();
+            sourceStringList = sourceStringList.Distinct().ToList();
 
             return sourceStringList;
         }

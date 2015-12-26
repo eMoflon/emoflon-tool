@@ -91,3 +91,5 @@
 2015-12-26	[EA] Exception when dismissing the New Diagram dialog #545 
 2015-12-26	[EA] Validation rule for keywords in project names #447 
 2015-12-26	[EA] Addin window too large #586 
+2015-12-26	[EA] EA shows object variables double #536
+ 
