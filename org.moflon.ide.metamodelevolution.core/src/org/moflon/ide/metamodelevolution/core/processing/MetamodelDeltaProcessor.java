@@ -10,6 +10,8 @@ public interface MetamodelDeltaProcessor
 	   
 	   public final static String E_PACKAGE ="EPackage";
 	   
+	   public final static String TL_PACKAGE ="TLPackage";
+	   
 	   // TODO@settl Document all public API (rkluge)
 	   void processDelta(IProject project, ChangeSequence delta);
 	   

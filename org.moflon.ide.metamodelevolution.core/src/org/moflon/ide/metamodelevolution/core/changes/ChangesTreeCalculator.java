@@ -23,35 +23,51 @@ public class ChangesTreeCalculator implements MetamodelChangeCalculator
 
    /**
     * This method recursively extracts the Metamodel changes from the MocaChangesTree and maps it to the ChangeMetamodel
-    * Classification
+    * 
     */
    private ChangeSequence parseChangesTree(final Node tree, ChangeSequence delta)
    {
       if (tree.getName() != null && (tree.getName().equals("EClass")))
       {
-         delta.getEModelElementChange().add(createClassRenameChange(tree));
-         return delta;
+    	  RenameChange change = createClassRenameChange(tree);
+    	  if (change != null)
+    	  {
+        	  delta.getEModelElementChange().add(change);
+    	  }
+    	  return delta;
          
-      } /*else if (tree.getName() != null && (tree.getName().equals("EPackage")))
+      } else if (tree.getName() != null && (tree.getName().equals("EPackage")))
       {
-       
-      }*/else
+    	  RenameChange change = createPackageRenameChange(tree);
+    	  if (change != null)
+    	  {
+        	  delta.getEModelElementChange().add(change);
+    	  }
+    	  
+    	  return parseChildren(tree, delta);
+    	  
+      } else
       {
-         final EList<Text> children = tree.getChildren();
-         for (Text text : children)
-         {
-            Node node = (Node) text;
-            parseChangesTree(node, delta);
-         }
-         return delta;
+    	  return parseChildren(tree, delta);
       }
+   }
+   
+   private ChangeSequence parseChildren(Node tree, ChangeSequence delta)
+   {
+       final EList<Text> children = tree.getChildren();
+       for (Text text : children)
+       {
+          Node node = (Node) text;
+          parseChangesTree(node, delta);
+       }
+       return delta;   
    }
    
    private RenameChange createClassRenameChange(Node tree)
    {
-       RenameChange renaming = CoreFactoryImpl.eINSTANCE.createRenameChange();
+	   RenameChange renaming = CoreFactoryImpl.eINSTANCE.createRenameChange();
        renaming.setElement("EClass");
-
+       
        EList<Attribute> attributes = tree.getAttribute();
        for (Attribute attr : attributes)
        {
@@ -62,48 +78,36 @@ public class ChangesTreeCalculator implements MetamodelChangeCalculator
           if (attr.getName().equals("packageName"))
              renaming.setPackageName(attr.getValue());
        }
+       if (renaming.getCurrentValue() == null || renaming.getPreviousValue() == null 
+    		   || renaming.getCurrentValue().equals(renaming.getPreviousValue()))
+       {
+    	   return null;   
+       }      
        return renaming;
    }
    
    private RenameChange createPackageRenameChange(Node tree)
    {
-       /*boolean isTLP = false;
+       RenameChange renaming = CoreFactoryImpl.eINSTANCE.createRenameChange();
+       renaming.setElement("EPackage");
+        
        EList<Attribute> attributes = tree.getAttribute();
-       for (Attribute attr : attributes) 
+       for (Attribute attr : attributes)
        {
-          if (attr.getName().equals("isTLP"))
-          {
-             attr.getName().equals("true");
-             // TLP
-             isTLP = true;
-          }
-       }
-       if (isTLP)
-       {
-          {
-             final EList<Text> children = tree.getChildren();
-             for (Text text : children)
-             {
-                Node node = (Node) text;
-                parseChangesTree(node, delta);
-             }
-             return delta;
-          }
-       }
-       else 
-       {
-          RenameChange renaming = CoreFactoryImpl.eINSTANCE.createRenameChange();
-          renaming.setElement("EPackage");
-          
-          for (Attribute attr : attributes)
-          {
-             if (attr.getName().equals("name"))
+    	   if (attr.getName().equals("Changes::Name"))
                 renaming.setCurrentValue(attr.getValue());
-             if (attr.getName().equals("previousName"))
+           if (attr.getName().equals("Changes::PreviousName"))
                 renaming.setPreviousValue(attr.getValue());
-          }
-          return renaming;
-       }*/   
-       return null;
+           if (attr.getName().equals("Changes::PackageName"))
+               renaming.setPackageName(attr.getValue());
+           if (attr.getName().equals("Changes::IsTLP"))
+        	   renaming.setElement("TLPackage");           
+       }
+       if (renaming.getCurrentValue() == null || renaming.getPreviousValue() == null 
+    		   || renaming.getCurrentValue().equals(renaming.getPreviousValue()))
+       {
+    	   return null;   
+       }     
+        return renaming;
    }
 }

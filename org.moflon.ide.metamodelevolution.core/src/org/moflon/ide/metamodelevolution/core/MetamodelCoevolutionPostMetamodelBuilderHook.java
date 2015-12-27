@@ -4,13 +4,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -19,7 +15,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
 import org.moflon.ide.metamodelevolution.core.changes.ChangesTreeCalculator;
@@ -49,8 +44,11 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
          MetamodelChangeCalculator changeCalculator = new ChangesTreeCalculator();
          ChangeSequence delta = changeCalculator.parseTree(mocaTree);
          
-         MetamodelDeltaProcessor processor = new JavaRefactorProcessor();
-         processor.processDelta(repositoryProject, delta);
+         if (delta.getEModelElementChange().size() > 0) 
+         {
+             MetamodelDeltaProcessor processor = new JavaRefactorProcessor();
+             processor.processDelta(repositoryProject, delta);
+         }
       }
 
       return Status.OK_STATUS;
@@ -84,7 +82,12 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
          for (final Text rootText : rootPackages)
          {
             final Node rootPackage = (Node) rootText;
+            //String previousProjectName = postMetamodelBuilderHookDTO.mocaTreeReader.getValueForProperty("Changes::PreviousName", rootPackage);
             repositoryProjectName = postMetamodelBuilderHookDTO.mocaTreeReader.getValueForProperty("Moflon::PluginID", rootPackage);
+            /*if (previousProjectName != null && !previousProjectName.equals(repositoryProjectName))
+            {
+            	repositoryProjectName = previousProjectName;	
+            }*/
          }
 
          if (repositoryProjectName != null)
@@ -100,43 +103,5 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
          e.printStackTrace();
       }
       return null;
-   }
-
-   /**
-    * This method deletes and reextracts all injection files for a given project
-    */
-   @SuppressWarnings("unused")
-   @Deprecated // TODO@settl: Remove if code is no longer needed (RK)
-   private void processInjections(IProject project)
-   {
-      try
-      {
-
-         JavaFileInjectionExtractor extractor = new JavaFileInjectionExtractor();
-         IFolder genFolder = project.getFolder(WorkspaceHelper.GEN_FOLDER);
-
-         if (genFolder.members().length != 0)
-         {
-
-            WorkspaceHelper.clearFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
-
-            genFolder.accept(new IResourceVisitor() {
-               @Override
-               public boolean visit(IResource resource) throws CoreException
-               {
-                  if (resource.getType() == (IResource.FILE))
-                     extractor.extractInjectionNonInteractively((IFile) resource);
-                  return true;
-               }
-            });
-         }
-
-         // IFolder genFolder = WorkspaceHelper.addFolder(project,
-         // WorkspaceHelper.GEN_FOLDER, new NullProgressMonitor());
-
-      } catch (Exception e)
-      {
-         e.printStackTrace();
-      }
    }
 }
