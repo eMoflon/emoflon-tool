@@ -1,5 +1,6 @@
 package org.moflon.ide.metamodelevolution.core.processing;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -17,7 +18,6 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenameMethodRefactoring implements RenameRefactoring
@@ -38,7 +38,7 @@ public class RenameMethodRefactoring implements RenameRefactoring
       descriptor.setProject(project.getName());
       descriptor.setNewName("create" + renameChange.getCurrentValue());
 
-      IFile file = project.getFile(new Path(GEN_FOLDER + packagePath + getFactoryClassName(renameChange.getPackageName()) + JAVA_EXTENSION));
+      IFile file = project.getFile(new Path(GEN_FOLDER + packagePath + StringUtils.capitalize(getFactoryClassName(renameChange.getPackageName())) + JAVA_EXTENSION));
       ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
 
       if (cu.exists())
@@ -70,7 +70,7 @@ public class RenameMethodRefactoring implements RenameRefactoring
          Change change = refactoring.createChange(monitor);
          change.perform(monitor);
 
-         processInjections(project, file, renameChange);
+         //processInjections(project, file, renameChange);
       }
 
       catch (CoreException e)
@@ -83,11 +83,11 @@ public class RenameMethodRefactoring implements RenameRefactoring
    }
 
    // TODO@settl: I have only added this without testing it becuase we currently only rename the factory methods
-   private void processInjections(IProject project, IFile javaFile, RenameChange renameChange)
+   /*private void processInjections(IProject project, IFile javaFile, RenameChange renameChange)
    {
       JavaFileInjectionExtractor extractor = new JavaFileInjectionExtractor();
       extractor.extractInjection(javaFile, false);
-   }
+   }*/
 
    // TODO@settl: How to handle methods with identical name but different parameters?? (RK)
    private static IMethod findMethod(ICompilationUnit cu, String methodName) throws JavaModelException
