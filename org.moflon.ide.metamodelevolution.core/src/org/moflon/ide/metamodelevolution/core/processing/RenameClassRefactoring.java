@@ -19,25 +19,39 @@ import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenameClassRefactoring implements RenameRefactoring
 {
 
    private static final String IMPL_File = "Impl";
-
+   
+   private boolean processInjections;
+   
+   private String oldName;
+   
+   private String newName;
+   
+   private String packagePath;
+   
+   public RenameClassRefactoring(String oldName, String newName, String packagePath, boolean processInjections)
+   {
+	   this.oldName = oldName;
+	   this.newName = newName;
+	   this.packagePath = packagePath;
+	   this.processInjections = processInjections;
+   }
+   
    @Override
    public void refactor(IProject project, RenameChange renameChange)
    {
-      refactorInterfaceClass(project, renameChange);
-      refactorImplClass(project, renameChange);
+      refactorClass(project, renameChange);
    }
 
-   private void refactorInterfaceClass(IProject project, RenameChange renameChange)
+   private void refactorClass(IProject project, RenameChange renameChange)
    {
 
-	  IFile file = project.getFile(new Path(GEN_FOLDER + WorkspaceHelper.formatPackagePath(renameChange.getPackageName()) + renameChange.getPreviousValue() + JAVA_EXTENSION));
+	  IFile file = project.getFile(new Path(GEN_FOLDER + WorkspaceHelper.formatPackagePath(packagePath) + oldName + JAVA_EXTENSION));
 	  ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
 
       if (!cu.exists())
@@ -47,7 +61,7 @@ public class RenameClassRefactoring implements RenameRefactoring
       RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
       descriptor.setUpdateReferences(true);
       descriptor.setProject(project.getName());
-      descriptor.setNewName(renameChange.getCurrentValue());
+      descriptor.setNewName(newName);
       descriptor.setJavaElement(cu);
 
       RefactoringStatus status = new RefactoringStatus();
@@ -61,56 +75,17 @@ public class RenameClassRefactoring implements RenameRefactoring
 
          Change change = refactoring.createChange(monitor);
          change.perform(monitor);
-
-         processInjections(project, file, renameChange);
+         
+         if (processInjections)
+         {
+             processInjections(project, file); 
+         }
       } catch (CoreException e)
       {
          // TODO@settl: Return an appropriate status and/or log if
          // status.severity() == IStatus.ERROR (RK)
          e.printStackTrace();
          new Status(IStatus.ERROR, "", "Problem during refactoring", e);
-      }
-   }
-
-   /**
-    * This method renames the corresponding "Impl" files of the renamed class
-    */
-   private void refactorImplClass(IProject project, RenameChange renameChange)
-   {
-
-	  IFile file = project.getFile(new Path(GEN_FOLDER + WorkspaceHelper.formatPackagePath(renameChange.getPackageName()) + renameChange.getPreviousValue() + JAVA_EXTENSION));
-	  ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
-
-      if (!cu.exists())
-         return;
-
-      RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(IJavaRefactorings.RENAME_COMPILATION_UNIT);
-      RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
-      descriptor.setUpdateReferences(true);
-      descriptor.setProject(project.getName());
-      descriptor.setNewName(renameChange.getCurrentValue() + IMPL_File);
-      descriptor.setJavaElement(cu);
-
-      RefactoringStatus status = new RefactoringStatus();
-      try
-      {
-         Refactoring refactoring = descriptor.createRefactoring(status);
-
-         IProgressMonitor monitor = new NullProgressMonitor();
-         refactoring.checkInitialConditions(monitor);
-         refactoring.checkFinalConditions(monitor);
-
-         Change change = refactoring.createChange(monitor);
-         change.perform(monitor);
-
-         processInjections(project, file, renameChange);
-      }
-
-      catch (CoreException e)
-      {
-         // TODO@settl: Return an appropriate status and/or log if
-         // status.severity() == IStatus.ERROR (RK)
-         e.printStackTrace();
       }
    }
 
@@ -122,31 +97,25 @@ public class RenameClassRefactoring implements RenameRefactoring
     * The original injection file is first renamed to give version control a chance to record that this is NOT a
     * deletion of a versioned file and an addition of an unversioned file but rather a movement of a versioned file.
     */
-   private void processInjections(IProject project, IFile previousJavaFile, RenameChange renameChange) throws CoreException
+   private void processInjections(IProject project, IFile previousJavaFile) throws CoreException
    {
-
       // Rename injection
       IFile previousInjectionFile = project.getFile(WorkspaceHelper.getPathToInjection(previousJavaFile));
       if (previousInjectionFile.exists())
       {
-         final String newLastSegmentOfInjectionFile = previousInjectionFile.getProjectRelativePath().lastSegment().replace(renameChange.getPreviousValue(),
-               renameChange.getCurrentValue());
+         final String newLastSegmentOfInjectionFile = previousInjectionFile.getProjectRelativePath().lastSegment().replace(oldName,
+               newName);
          previousInjectionFile.move(Path.fromPortableString(newLastSegmentOfInjectionFile), true, new NullProgressMonitor());
       }
-
-      // Overwrite injection with freshly extracted injections of the new Java file
-      IFile newJavaFile = getCurrentJavaFile(project, previousJavaFile, renameChange);
-      JavaFileInjectionExtractor extractor = new JavaFileInjectionExtractor();
-      extractor.extractInjection(newJavaFile, false);
    }
 
    /*
     * Determines the path of a Java file after performing the given RenameChange.
     */
-   private IFile getCurrentJavaFile(IProject project, IFile previousJavaFile, RenameChange renameChange)
+   private IFile getCurrentJavaFile(IProject project, IFile previousJavaFile)
    {
-      final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(renameChange.getPreviousValue(),
-            renameChange.getCurrentValue());
+      final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(oldName,
+            newName);
       final IPath newJavaFilePath = previousJavaFile.getProjectRelativePath().removeLastSegments(1).append(newLastSegment);
       return project.getFile(newJavaFilePath);
    }
