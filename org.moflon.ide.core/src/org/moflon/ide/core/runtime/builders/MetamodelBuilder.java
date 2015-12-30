@@ -34,6 +34,8 @@ import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.ResourceFillingMocaToMoflonTransformation;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
+import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHook;
+import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHookDTO;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
@@ -75,6 +77,7 @@ public class MetamodelBuilder extends AbstractBuilder
             {
                properties = readProjectProperties();
                createInfoFile(properties, mocaTreeReader.getMocaTree());
+               callPreBuildHooks(properties, mocaTreeReader);
                exporterSubMonitor.beginTask("Running MOCA-to-eMoflon transformation", properties.keySet().size());
 
                exporter = new ResourceFillingMocaToMoflonTransformation(mocaTreeReader.getResourceSet(), properties, exporterSubMonitor);
@@ -156,6 +159,26 @@ public class MetamodelBuilder extends AbstractBuilder
       }
    }
 
+
+   /**
+    * This method delegates to the registered extensions of the "Pre-MetamodelBuilder" extension points
+    */
+   private void callPreBuildHooks(final Map<String, MetamodelProperties> properties, final MocaTreeEAPropertiesReader mocaTreeReader)
+   {
+      final IConfigurationElement[] extensions = Platform.getExtensionRegistry().getConfigurationElementsFor(PreMetamodelBuilderHook.PRE_BUILD_EXTENSION_ID);
+      for (final IConfigurationElement extension : extensions)
+      {
+         try
+         {
+            PreMetamodelBuilderHook metamodelBuilderHook = (PreMetamodelBuilderHook) extension.createExecutableExtension("class");
+            metamodelBuilderHook.run(new PreMetamodelBuilderHookDTO(mocaTreeReader, getProject()));
+         } catch (final CoreException e)
+         {
+            logger.error("Problem during pre-build hook: " + e.getMessage());
+         }
+      }
+   }
+   
    /**
     * This method delegates to the registered extensions of the "Post-MetamodelBuilder" extension points
     */

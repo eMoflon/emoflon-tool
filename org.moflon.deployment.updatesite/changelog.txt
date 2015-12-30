@@ -92,4 +92,6 @@
 2015-12-26	[EA] Validation rule for keywords in project names #447 
 2015-12-26	[EA] Addin window too large #586 
 2015-12-26	[EA] EA shows object variables double #536
+2015-12-30	Introduce a hook that is executed prior to MOCA-to-Ecore export: org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHook
+
  
