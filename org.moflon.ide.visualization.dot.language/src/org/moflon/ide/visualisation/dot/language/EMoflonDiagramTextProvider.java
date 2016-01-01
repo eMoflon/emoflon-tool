@@ -2,7 +2,9 @@ package org.moflon.ide.visualisation.dot.language;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -12,6 +14,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.IWorkbenchPartConstants;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.visualization.dot.language.DirectedGraph;
@@ -22,6 +26,12 @@ import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider;
 
 public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 {
+   private Map<ISelection, String> cache = new HashMap<>();
+   private IPropertyListener listener = (obj, propId) -> {
+      if (propId == IWorkbenchPartConstants.PROP_DIRTY)
+         cache.clear();
+   };
+	
    protected abstract String getPluginId();
    protected abstract boolean directionIsForward();
    protected abstract EPackage getPackage();
@@ -41,14 +51,24 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    @Override
    public String getDiagramText(IEditorPart arg0, ISelection selection)
    {
-      StructuredSelection structuredSelection = (StructuredSelection) selection;
+      if (!cache.containsKey(selection))
+      {
+         StructuredSelection structuredSelection = (StructuredSelection) selection;
 
-      if (null == selection || selection.isEmpty())
-         return "";
+         if (null == selection || selection.isEmpty())
+            return "";
 
-      EObject element = (EObject) structuredSelection.getFirstElement();
+         EObject element = (EObject) structuredSelection.getFirstElement();
 
-      return new DotUnparserAdapter().unparse(modelToDot(element));
+         String dotDiagram = new DotUnparserAdapter().unparse(modelToDot(element));
+         
+         if(dotDiagram == null)
+            return "";
+         
+         cache.put(selection, dotDiagram);
+      }
+
+      return cache.get(selection);
    }
 
    private DirectedGraph modelToDot(final EObject selectedElement)
@@ -87,8 +107,13 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
    @Override
    public boolean supportsEditor(IEditorPart arg0)
-   {
-      return arg0 instanceof EcoreEditor;
+   { 
+      if(arg0 instanceof EcoreEditor){
+         arg0.addPropertyListener(listener);
+         return true;
+      }
+      
+      return false;
    }
 
    @Override
@@ -98,7 +123,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
       if (null == selection || selection.isEmpty())
          return false;
-      else
+      else 
          return isElementValidInput(structuredSelection.getFirstElement());
    }
 
