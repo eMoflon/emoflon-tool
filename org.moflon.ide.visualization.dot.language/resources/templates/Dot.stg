@@ -4,7 +4,7 @@ DirectedGraph(directGraph) ::= <<
 @startuml
 digraph root {
 	fontname=Monospace
-	fontsize=10
+	fontsize=9
 	label="<if(directGraph.entries)>_____________________________\n <endif><directGraph.entries: Entry(); separator=" \\n ">";
 	<Pattern(directGraph.nodes, directGraph.edges)>
 	<directGraph.subGraphs: SubGraph(); separator="\n">
@@ -42,7 +42,7 @@ EdgeCommandImpl(e) ::= <<
 >>
 
 RecordImpl(n) ::= <<
-"<n.label>" [fontsize=10, fontname=Monospace, penwidth=1, shape=record, color=<n.color>, fillcolor=<n.fillcolor>, label="{<n.label> | <n.entries: Entry(); separator="|">}"<if(n.bold)>,penwidth=2<endif><if(n.rounded)>,style=rounded<endif>,style=filled];
+"<n.label>" [fontsize=9, fontname=Monospace, penwidth=1, shape=record, color=<n.color>, fillcolor=<n.fillcolor>, label="{<n.label> | <n.entries: Entry(); separator="|">}"<if(n.bold)>,penwidth=2<endif><if(n.rounded)>,style=rounded<endif>,style=filled];
 >>
 
 Entry(entry) ::= <<
@@ -50,13 +50,13 @@ Entry(entry) ::= <<
 >>
 
 BoxImpl(n) ::= <<
-"<n.label>" [fontsize=10, fontname=Monospace, shape=box, color=<n.color>, style=rounded, href="<n.href>"];
+"<n.label>" [fontsize=9, fontname=Monospace, shape=box, color=<n.color>, style=rounded, href="<n.href>"];
 >>
 
 PointImpl(n) ::= <<
-"<n.label>" [fontsize=10, fontname=Monospace, shape=point, color=<n.color>, width=0.3];
+"<n.label>" [fontsize=9, fontname=Monospace, shape=point, color=<n.color>, width=0.3];
 >>
 
 DoubleCircleImpl(n) ::= <<
-"<n.label>" [fontsize=10, fontname=Monospace, shape=doublecircle, color=<n.color>, xlabel=" <n.label>", label="", width=0.2,fixedsize=true];
+"<n.label>" [fontsize=9, fontname=Monospace, shape=doublecircle, color=<n.color>, xlabel=" <n.label>", label="", width=0.2,fixedsize=true];
 >>
