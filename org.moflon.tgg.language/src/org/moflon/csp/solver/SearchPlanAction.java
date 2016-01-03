@@ -1,5 +1,8 @@
 package org.moflon.csp.solver;
 
+import java.io.PrintStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +22,6 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
    // Sorted list of variables referenced from constraints => swap AttributeVariable with our real Variable class
    public SimpleCombiner sortConstraints(final List<TGGConstraint> constraints, final List<Variable> variables)
    {
-
       this.variables = variables;
 
       // Create Combiner
@@ -32,7 +34,18 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
       List<WeightedOperation<TGGConstraint>> weightedOperations = createWeightedOperations(constraints);
 
       // 3. Call search plan algorithm to sort weighted operations
-      return generatePlan(combiner, weightedOperations, inputAdornment);
+      SimpleCombiner sc;
+      PrintStream out = System.out;
+      System.setOut(new PrintStream(new OutputStream() {
+          @Override public void write(int b) throws IOException {}
+      }));
+      try {
+          sc = generatePlan(combiner, weightedOperations, inputAdornment);
+      } finally {
+          System.setOut(out);
+      }
+      
+      return sc;
    }
 
    private Adornment determineInputAdornment()
