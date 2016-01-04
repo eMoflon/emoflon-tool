@@ -36,10 +36,10 @@ partial class PatternInvocationBuilderImpl {
 
       final EOperation eOperation = node.getOrigin().getOwningActivity().getOwningOperation();
       String storyNodeName = node.getOrigin().getName() != null ? node.getOrigin().getName().trim() : "";
-      storyNodeName = storyNodeName.replaceAll("\\s+", "-");
+      storyNodeName = storyNodeName.replaceAll("\\s+", "");
       final EClass eClass = eOperation.getEContainingClass();
       final int operationIndex = eClass.getEOperations().indexOf(eOperation);
-      if (storyNodeName.matches("[-_a-zA-Z\\d]+"))
+      if (storyNodeName.matches("[_a-zA-Z\\d]+"))
          return "pattern_" + eClass.getName() + "_" + operationIndex + "_" + node.getId() + "_" + storyNodeName + "_" + getSuffix();
       else
       {
