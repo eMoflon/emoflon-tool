@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.moflon.core.mocatomoflon.Exporter;
 import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.util.plugins.MetamodelProperties;
