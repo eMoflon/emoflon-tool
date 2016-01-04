@@ -36,13 +36,18 @@ public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
       // 3. Call search plan algorithm to sort weighted operations
       SimpleCombiner sc;
       PrintStream out = System.out;
+      PrintStream err = System.err;
       System.setOut(new PrintStream(new OutputStream() {
           @Override public void write(int b) throws IOException {}
       }));
+      System.setErr(new PrintStream(new OutputStream() {
+         @Override public void write(int b) throws IOException {}
+     }));
       try {
           sc = generatePlan(combiner, weightedOperations, inputAdornment);
       } finally {
           System.setOut(out);
+          System.setErr(err);
       }
       
       return sc;
