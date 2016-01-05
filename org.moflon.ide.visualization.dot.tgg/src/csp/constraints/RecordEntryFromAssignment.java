@@ -12,16 +12,31 @@ public class RecordEntryFromAssignment extends TGGConstraintImpl
       switch (bindingStates)
       {
       case "FBB":
+      {
          String attrName = (String) var_1.getValue();
          String literal = (String) var_2.getValue();
 
-         var_0.bindToValue(attrName + " := " + literal.replace("\"", "\\\""));
+         var_0.bindToValue(expectedAssignment(attrName, literal));
          setSatisfied(true);
          break;
-
+      }
+      case "BBB":
+      {
+         String attrName = (String) var_1.getValue();
+         String literal = (String) var_2.getValue();
+         String assgn = (String) var_0.getValue();
+         
+         setSatisfied(assgn.equals(expectedAssignment(attrName, literal)));
+         break;         
+      }  
       default:
          throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
       }
 
+   }
+
+   private String expectedAssignment(String attrName, String literal)
+   {
+      return attrName + " := " + literal.replace("\"", "\\\"");
    }
 }

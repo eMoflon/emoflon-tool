@@ -10,18 +10,36 @@ public class RecordEntryFromConstraint extends TGGConstraintImpl {
     	
     	switch(bindingStates){
     	case "FBBB":
+    	{
     	   ComparingOperator op = (ComparingOperator) var_1.getValue();
     	   String literal = (String) var_2.getValue();
     	   String attrName = (String) var_3.getValue();
     	   
-    	   var_0.bindToValue(attrName + " " + getLiteral(op) + " " + literal.replace("\"", "\\\"")); 
+    	   var_0.bindToValue(expectedConstraint(op, literal, attrName)); 
     	   setSatisfied(true);
     	   break;
+    	}
+    	case "BBBB":
+      {
+         ComparingOperator op = (ComparingOperator) var_1.getValue();
+         String literal = (String) var_2.getValue();
+         String attrName = (String) var_3.getValue();
+         String constr = (String) var_0.getValue();
+          
+         setSatisfied(constr.equals(expectedConstraint(op, literal, attrName)));
+         break;
+      }
+      
     	default: 
     		throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
     	}
     	
   	}
+
+   private String expectedConstraint(ComparingOperator op, String literal, String attrName)
+   {
+      return attrName + " " + getLiteral(op) + " " + literal.replace("\"", "\\\"");
+   }
 
    private String getLiteral(ComparingOperator op)
    {

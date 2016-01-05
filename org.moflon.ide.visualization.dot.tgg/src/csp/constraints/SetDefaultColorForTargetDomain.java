@@ -13,6 +13,9 @@ public class SetDefaultColorForTargetDomain extends TGGConstraintImpl {
     	   var_0.bindToValue(DotColor.MISTY_ROSE);
     	   setSatisfied(true);
     	   break;
+    	case "B":
+    	   setSatisfied(var_0.getValue().equals(DotColor.MISTY_ROSE));
+    	   break;
     	default: 
     		throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
     	}

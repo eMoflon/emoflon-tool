@@ -40,7 +40,29 @@ public class SetColor extends TGGConstraintImpl {
            
         default:
            break;
-        }	
+        }
+    	case "BBB":
+    	  if(negative.equals(BindingSemantics.NEGATIVE)){
+           setSatisfied(var_0.getValue().equals(DotColor.BLUE));
+           return;
+        }
+         
+        switch (op) {
+        case CHECK_ONLY:
+           setSatisfied(var_0.getValue().equals(DotColor.BLACK));
+           return;
+        
+        case CREATE:
+           setSatisfied(var_0.getValue().equals(DotColor.GREEN));
+           return;
+           
+        case DESTROY:
+           setSatisfied(var_0.getValue().equals(DotColor.RED));
+           return;
+           
+        default:
+           break;
+        }
     	default: 
     		throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
     	}
