@@ -75,9 +75,10 @@ public class SynchronizationHelper
 
    protected boolean batchOptimization = false;
    
-   protected boolean loadedFileDelta = false;
+   protected boolean loadedDelta = false;
 
    protected boolean verbose = false;
+   protected boolean mute = false;
 
    // Setters
 
@@ -137,6 +138,7 @@ public class SynchronizationHelper
 
    public void setDelta(final Delta delta)
    {
+      loadedDelta = true;
       this.delta = delta;
    }
 
@@ -158,6 +160,11 @@ public class SynchronizationHelper
    public void setVerbose(final boolean state)
    {
       verbose = state;
+   }
+   
+   public void setMute(final boolean state)
+   {
+      mute = state;
    }
 
    // Getters
@@ -295,8 +302,8 @@ public class SynchronizationHelper
    protected void establishDelta(final EObject input, final Consumer<EObject> change)
    {
 	  // check if delta has already been loaded, e.g. by using deltas created with delta editor
-	  if(loadedFileDelta){
-		  logger.info("Using loaded delta for synchronization...");
+	  if(loadedDelta){
+		  logger.debug("Using loaded delta for synchronization...");
 		  return;
 	  }
 		  
@@ -438,10 +445,12 @@ public class SynchronizationHelper
          synchronizer.synchronize();
       } catch (LocalCompletenessException e)
       {
-         logger.error(e.getMessage(projectName, verbose));
+         if(!mute)
+            logger.error(e.getMessage(projectName, verbose));
       } finally
       {
-         synchronizer.handleElementsNotTranslatedWarning(verbose);
+         if(!mute)
+            synchronizer.handleElementsNotTranslatedWarning(verbose);
       }
    }
 
@@ -492,7 +501,6 @@ public class SynchronizationHelper
    
    public void loadDelta(final String path) 
    {
-	   loadedFileDelta = true;
 	   setDelta(Delta.fromEMF((org.moflon.tgg.runtime.Delta) loadModel(path)));
    }
 
