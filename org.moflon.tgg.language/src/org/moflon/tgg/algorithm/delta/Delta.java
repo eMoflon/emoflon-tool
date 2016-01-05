@@ -136,4 +136,13 @@ public class Delta
    public boolean isChangeDetected() {
 	   return !(addedNodes.isEmpty() && addedEdges.isEmpty() && deletedNodes.isEmpty() && deletedEdges.isEmpty() && attributeChanges.isEmpty());
    }
+
+   public void clear()
+   {
+      addedEdges.clear();
+      addedNodes.clear();
+      attributeChanges.clear();
+      deletedEdges.clear();
+      deletedNodes.clear();
+   }
 }
