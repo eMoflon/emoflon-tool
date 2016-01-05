@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
@@ -22,12 +21,13 @@ import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 public class DeltaEditor extends EcoreEditor {
 	private boolean deltaAlreadyCreated = false;
 
-	protected List<Delta> deltas;
 	private Delta delta;
 	private EObject content;
 	private Resource deltaResource;
 	private Resource contentResource;
 
+	private static final Logger logger = Logger.getLogger(DeltaEditor.class);
+	
 	public DeltaEditor() {
 		super();
 	}
@@ -67,7 +67,6 @@ public class DeltaEditor extends EcoreEditor {
 	 */
 	public void createModel() {
 		super.createModel();
-		System.out.println("create model");
 		convertToFileURI();
 		findExistingDeltaResource();
 
@@ -96,14 +95,12 @@ public class DeltaEditor extends EcoreEditor {
 	public void doSave(IProgressMonitor progressMonitor) {
 		updateDeltaResource();
 		super.doSave(progressMonitor);
-		System.out.println("doSave");
 	}
 
 	@Override
 	protected void doSaveAs(URI uri, IEditorInput editorInput) {
 		updateDeltaResource();
 		super.doSaveAs(uri, editorInput);
-		System.out.println("doSaveUri");
 	}
 
 	public void processDeltas() {
@@ -112,12 +109,11 @@ public class DeltaEditor extends EcoreEditor {
 
 	public void findExistingDeltaResource() {
 		String filePath = null;
-		URI currURI = editingDomain.getResourceSet().getResources().get(0).getURI();
 		filePath = editingDomain.getResourceSet().getResources().get(0).getURI().toFileString();
 		try {
 			editingDomain.getResourceSet().getResources().add(editingDomain.getResourceSet().getResource(URI.createFileURI(filePath.replace(".xmi", "_delta.xmi")), true));
 		} catch (Exception e) {
-			Logger.getLogger("DeltaEditor").log(Level.INFO, "No file containing existing deltas were found. Please verify that the name of the delta file has not been changed if this is unintentional.");
+			logger.info("No file containing existing deltas were found. Please verify that the name of the delta file has not been changed if this is unintentional.");
 			editingDomain.getResourceSet().getResources().remove(editingDomain.getResourceSet().getResources().size() - 1);
 		}
 
