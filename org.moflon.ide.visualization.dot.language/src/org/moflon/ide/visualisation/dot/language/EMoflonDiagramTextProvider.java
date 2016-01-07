@@ -142,7 +142,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       return deltaCache.containsKey(input) && deltaCache.get(input).isChangeDetected();
    }
 
-   private DirectedGraph modelToDot(final EObject input)
+   public DirectedGraph modelToDot(final EObject input)
    {
       final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", getPluginId());
       ResourceSet rs = input.eResource().getResourceSet();
