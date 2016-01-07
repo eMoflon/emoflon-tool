@@ -677,7 +677,7 @@ public class WorkspaceHelper
       try
       {
          return project.hasNature(PLUGIN_NATURE_ID);
-      } catch (CoreException e)
+      } catch (Exception e)
       {
          return false;
       }
@@ -720,14 +720,14 @@ public class WorkspaceHelper
       try
       {
          return isIntegrationProject(project);
-      } catch (CoreException e)
+      } catch (Exception e)
       {
          return false;
       }
    }
 
    /**
-    * Returns whether the project is a a repository project, that is, if it contains generated code.
+    * Returns whether the project is a a repository project.
     * 
     * @param project
     *           the project. May be null.
@@ -735,6 +735,23 @@ public class WorkspaceHelper
    public static boolean isRepositoryProject(final IProject project) throws CoreException
    {
       return project != null && project.hasNature(REPOSITORY_NATURE_ID);
+   }
+   
+   /**
+    * Returns whether the project is a a repository project, if an exception is thrown, the method return false.
+    * 
+    * @param project
+    *           the project. May be null.
+    */
+   public static boolean isRepositoryProjectNoThrow(IProject project)
+   {
+      try
+      {
+         return isRepositoryProject(project);
+      } catch (Exception e)
+      {
+         return false;
+      }
    }
 
    /**
@@ -1166,5 +1183,7 @@ public class WorkspaceHelper
          monitor.done();
       }
    }
+
+   
 
 }
