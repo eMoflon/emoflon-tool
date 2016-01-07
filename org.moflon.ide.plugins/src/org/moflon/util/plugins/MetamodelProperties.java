@@ -105,7 +105,7 @@ public class MetamodelProperties
     * 
     * Never returns null, but the resulting project handle may not point to an existing project.
     */
-   private IProject getProject()
+   public IProject getProject()
    {
       return WorkspaceHelper.getProjectByName(this.getProjectName());
    }
