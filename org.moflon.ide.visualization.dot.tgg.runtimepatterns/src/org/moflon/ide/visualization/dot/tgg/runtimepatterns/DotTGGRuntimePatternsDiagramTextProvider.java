@@ -25,7 +25,7 @@ public class DotTGGRuntimePatternsDiagramTextProvider extends EMoflonDiagramText
    }
 
    @Override
-   protected boolean isElementValidInput(Object selectedElement)
+   public boolean isElementValidInput(Object selectedElement)
    {
       return selectedElement instanceof TripleMatch;
    }

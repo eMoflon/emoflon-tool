@@ -40,6 +40,11 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    private Statistics statisticsOfLastRun = new Statistics(-1, -1, -1.0);
 
    /**
+    * Returns whether the given element can be translated by this particular class.
+    */
+   public abstract boolean isElementValidInput(Object selectedElement);
+   
+   /**
     * Returns the plugin ID of the plugin that provides the rules for visualizing the supported elements
     * 
     * @return
@@ -57,10 +62,6 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
     */
    protected abstract EPackage getPackage();
 
-   /**
-    * Returns whether the given element can be translated by this particular class.
-    */
-   protected abstract boolean isElementValidInput(Object selectedElement);
 
    /**
     * Returns the DOT visualization for the given selection

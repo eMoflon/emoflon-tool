@@ -25,7 +25,7 @@ public class DotTGGRuntimeDiagramTextProvider extends EMoflonDiagramTextProvider
    }
 
    @Override
-   protected boolean isElementValidInput(Object selectedElement)
+   public boolean isElementValidInput(Object selectedElement)
    {
       return selectedElement instanceof PrecedenceStructure;
    }

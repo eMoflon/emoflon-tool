@@ -38,7 +38,7 @@ public class StoryPatternDiagramTextProvider extends EMoflonDiagramTextProvider
 
 
    @Override
-   protected boolean isElementValidInput(Object selectedElement)
+   public boolean isElementValidInput(Object selectedElement)
    {
       return selectedElement instanceof StoryPattern && notATGGRule(selectedElement);
    }
