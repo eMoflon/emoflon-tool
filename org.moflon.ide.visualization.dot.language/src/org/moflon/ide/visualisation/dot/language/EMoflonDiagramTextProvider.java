@@ -69,12 +69,12 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    public String getDiagramText(IEditorPart editorPart, ISelection selection)
    {
       StructuredSelection structuredSelection = (StructuredSelection) selection;
-   
+
       if (null == selection || selection.isEmpty())
          return "";
-   
+
       EObject selectedElement = (EObject) structuredSelection.getFirstElement();
-   
+
       // Extract input object
       EObject input = determineInputObjectFromResource(selectedElement.eResource(), selectedElement);
       if (!diagramTextCache.containsKey(input) || selectionHasBeenChanged(input))
@@ -84,7 +84,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
             return "";
          diagramTextCache.put(input, dotDiagram);
       }
-   
+
       return diagramTextCache.get(input);
    }
 
@@ -93,17 +93,15 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    {
       if (editorPart.equals(currentEditor))
          return true;
-   
+
       if (editorPart instanceof EcoreEditor)
       {
          currentEditor = (EcoreEditor) editorPart;
-         diagramTextCache.clear();
-         deltaCache.clear();
-         incrCache.clear();
-   
+         clearCache();
+
          return true;
       }
-   
+
       return false;
    }
 
@@ -111,11 +109,21 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    public boolean supportsSelection(ISelection selection)
    {
       StructuredSelection structuredSelection = (StructuredSelection) selection;
-   
+
       if (null == selection || selection.isEmpty())
          return false;
       else
          return isElementValidInput(structuredSelection.getFirstElement());
+   }
+
+   /**
+    * Removes all elements from the internal cache
+    */
+   public void clearCache()
+   {
+      diagramTextCache.clear();
+      deltaCache.clear();
+      incrCache.clear();
    }
 
    private EObject determineInputObjectFromResource(Resource resourceForTrafo, EObject selectedElement)
