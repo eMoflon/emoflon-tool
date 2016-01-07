@@ -61,7 +61,6 @@ public class MetamodelProperties
 
    private Map<String, String> data = new HashMap<>();
 
-
    public MetamodelProperties()
    {
       this.data = new HashMap<String, String>();
@@ -87,16 +86,30 @@ public class MetamodelProperties
       this.data.put(key, value);
    }
 
-
    /**
     * Returns the corresponding repository project (if exists).
     * 
     * Never returns null, but the resulting project handle may not point to an existing project.
+    * 
+    * @deprecated The name is misleading - actually, the returned project may also be an integration project. Use
+    *             {@link #getProject()} instead
     */
-   public IProject getRepositoryProject() {
+   @Deprecated
+   public IProject getRepositoryProject()
+   {
+      return getProject();
+   }
+
+   /**
+    * Returns the {@link IProject} with the name returned from {@link #getProjectName()} (if exists).
+    * 
+    * Never returns null, but the resulting project handle may not point to an existing project.
+    */
+   private IProject getProject()
+   {
       return WorkspaceHelper.getProjectByName(this.getProjectName());
    }
-   
+
    public void setMetamodelProjectName(final String metamodelProjectName)
    {
       this.put(METAMODEL_PROJECT_NAME_KEY, metamodelProjectName);
@@ -145,11 +158,10 @@ public class MetamodelProperties
       return this.get(DEPENDENCIES_KEY).isEmpty() ? Collections.<String> emptyList() : Arrays.asList(this.get(DEPENDENCIES_KEY).split(","));
    }
 
-   public Collection<URI> getDependenciesAsURIs()  
+   public Collection<URI> getDependenciesAsURIs()
    {
       return getDependencies().stream().filter(dep -> !dep.equals(ManifestFileUpdater.IGNORE_PLUGIN_ID))
-                              .map(dep -> MoflonUtil.getDefaultURIToEcoreFileInPlugin(dep))
-                              .collect(Collectors.toSet());
+            .map(dep -> MoflonUtil.getDefaultURIToEcoreFileInPlugin(dep)).collect(Collectors.toSet());
    }
 
    public void setDefaultValues()
@@ -204,7 +216,8 @@ public class MetamodelProperties
          logger.warn("Unable to load properties file or file not existing: " + e);
 
          createMarkerForMissingExportedFiles(propertyFile);
-         throw new CoreException(new Status(IStatus.WARNING, MoflonPluginsActivator.getDefault().getPluginId(), "Unable to load properties file or file not existing: " + e));
+         throw new CoreException(
+               new Status(IStatus.WARNING, MoflonPluginsActivator.getDefault().getPluginId(), "Unable to load properties file or file not existing: " + e));
       }
 
       Map<String, MetamodelProperties> projectMap = createPropertiesMap(properties);
