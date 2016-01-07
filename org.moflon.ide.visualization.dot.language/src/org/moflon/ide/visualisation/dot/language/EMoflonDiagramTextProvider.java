@@ -37,6 +37,8 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
    private EcoreEditor currentEditor;
 
+   private Statistics statisticsOfLastRun = new Statistics(-1, -1, -1.0);
+
    /**
     * Returns the plugin ID of the plugin that provides the rules for visualizing the supported elements
     * 
@@ -116,6 +118,11 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
          return isElementValidInput(structuredSelection.getFirstElement());
    }
 
+   public Statistics getStatisticsOfLastRun()
+   {
+      return this.statisticsOfLastRun;
+   }
+
    /**
     * Removes all elements from the internal cache
     */
@@ -175,11 +182,16 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
    private String outputStatistics(final EObject input, long tic, long toc)
    {
-      int edges = eMoflonEMFUtil.getEdgeCount(input);
-      int nodes = eMoflonEMFUtil.getNodeCount(input);
+      final int edges = eMoflonEMFUtil.getEdgeCount(input);
+      final int nodes = eMoflonEMFUtil.getNodeCount(input);
+      final double durationInSeconds = (toc - tic) / 1000000000.0;
 
-      return "Visualisation of [" + eMoflonEMFUtil.getIdentifier(input) + "(E:" + edges + "+ V:" + nodes + " = " + (edges + nodes) + ")] in: "
-            + (toc - tic) / 1000000000.0 + "s";
+      this.statisticsOfLastRun.edgeCount = edges;
+      this.statisticsOfLastRun.nodeCount = nodes;
+      this.statisticsOfLastRun.durationInSeconds = durationInSeconds;
+
+      return String.format("Visualisation of [%s (E:%d + V:%d = %d] in: %.6fs", eMoflonEMFUtil.getIdentifier(input), edges, nodes, edges + nodes,
+            durationInSeconds);
    }
 
    private DirectedGraph runSync(EObject input)
@@ -227,4 +239,20 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       return result;
    }
 
+   public class Statistics
+   {
+      public int nodeCount;
+
+      public int edgeCount;
+
+      public double durationInSeconds;
+
+      private Statistics(int nodeCount, int edgeCount, double durationInSeconds)
+      {
+         this.nodeCount = nodeCount;
+         this.edgeCount = edgeCount;
+         this.durationInSeconds = durationInSeconds;
+      }
+
+   }
 }
