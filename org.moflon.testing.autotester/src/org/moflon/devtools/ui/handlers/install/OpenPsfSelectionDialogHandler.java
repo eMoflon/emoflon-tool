@@ -170,7 +170,7 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
       @Override
       public boolean visit(IResource resource) throws CoreException
       {
-         IFile file = resource.getAdapter(IFile.class);
+         IFile file = (IFile) resource.getAdapter(IFile.class);
          if (file != null && file.getName().endsWith(".psf"))
          {
             psfFiles.add(file.getFullPath().toFile());

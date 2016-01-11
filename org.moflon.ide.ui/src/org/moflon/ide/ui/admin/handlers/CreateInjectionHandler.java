@@ -40,7 +40,7 @@ public class CreateInjectionHandler extends AbstractCommandHandler
       } else if (selection instanceof ITextSelection)
       {
          final IEditorPart editor = HandlerUtil.getActiveEditor(event);
-         javaFile = editor.getEditorInput().getAdapter(IFile.class);
+         javaFile = (IFile) editor.getEditorInput().getAdapter(IFile.class);
       }
 
       if (javaFile != null)
