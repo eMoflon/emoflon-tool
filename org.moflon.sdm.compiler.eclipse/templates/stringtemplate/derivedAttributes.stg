@@ -9,3 +9,15 @@ preGetGenFeaturePrimitiveType(genFeature, genFeatureType) ::= <<<\n>
     	this.set<genFeature.accessorName>(derived<genFeature.capName>);
     } 
 >>
+
+preGetGenFeatureReferenceType(genFeature, genFeatureType) ::= <<<\n>
+    final <genFeatureType> derived<genFeature.capName> = _get<genFeature.capName>();
+    if (derived<genFeature.capName> != null) {
+	    if (!derived<genFeature.capName>.equals(<genFeature.safeName>))
+	    {
+	    	this.set<genFeature.accessorName>(derived<genFeature.capName>);
+	    }
+    } else {
+    	this.set<genFeature.accessorName>(null);
+    }
+>>

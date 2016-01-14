@@ -75,24 +75,31 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
     */
    public String getPreGetGenFeatureCode(final GenFeature genFeature)
    {
-      if (genFeature.isDerived())
-      {
-         // TODO@aaltenkirch: != only works well for primitive types.
-         // Use the following method to find out whether this feature has a primitive type:
-         // 'genFeature.isPrimitiveType();'
+      // TODO@aaltenkirch: Implement correct handling of null values
 
-         // TODO@aaltenkirch: Implement correct handling of null values
-         initializeStringTemplatesForDerivedAttributesLazily();
-         ST preGetGenFeaturePrimitiveTypeTemplate = derivedAttributesGroup
-               .getInstanceOf("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + "/preGetGenFeaturePrimitiveType");
-         preGetGenFeaturePrimitiveTypeTemplate.add("genFeature", genFeature);
-         preGetGenFeaturePrimitiveTypeTemplate.add("genFeatureType", genFeature.getImportedType(genFeature.getGenClass()));
-         String preGetGenFeaturePrimitiveTypeCode = preGetGenFeaturePrimitiveTypeTemplate.render();
-         return preGetGenFeaturePrimitiveTypeCode;
-      } else
-      {
-         return null;
-      }
+        if (genFeature.isDerived()) {
+            initializeStringTemplatesForDerivedAttributesLazily();
+
+            String genFeatureTemplateName = "";
+            // TODO why is String not a reference type? 
+            if (genFeature.isReferenceType() || genFeature.isStringType()) {
+                genFeatureTemplateName = "/preGetGenFeatureReferenceType";
+            } else if (genFeature.isPrimitiveType()) {
+                genFeatureTemplateName = "/preGetGenFeaturePrimitiveType";
+            } else {
+                // TODO@aaltenkirch: handle unknown type
+            }
+
+            ST preGetGenFeatureTemplate = derivedAttributesGroup
+                    .getInstanceOf("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + genFeatureTemplateName);
+            preGetGenFeatureTemplate.add("genFeature", genFeature);
+            preGetGenFeatureTemplate.add("genFeatureType", genFeature.getImportedType(genFeature.getGenClass()));
+            String preGetGenFeatureTypeCode = preGetGenFeatureTemplate.render();
+
+            return preGetGenFeatureTypeCode;
+        } else {
+            return null;
+        }
    }
 
    private void initializeStringTemplatesForDerivedAttributesLazily()
