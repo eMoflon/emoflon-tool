@@ -75,19 +75,16 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
     */
    public String getPreGetGenFeatureCode(final GenFeature genFeature)
    {
-      // TODO@aaltenkirch: Implement correct handling of null values
-
         if (genFeature.isDerived()) {
             initializeStringTemplatesForDerivedAttributesLazily();
 
             String genFeatureTemplateName = "";
-            // TODO why is String not a reference type? 
             if (genFeature.isReferenceType() || genFeature.isStringType()) {
                 genFeatureTemplateName = "/preGetGenFeatureReferenceType";
             } else if (genFeature.isPrimitiveType()) {
                 genFeatureTemplateName = "/preGetGenFeaturePrimitiveType";
             } else {
-                // TODO@aaltenkirch: handle unknown type
+                // TODO@aaltenkirch: handle unknown type -> create custom StringTemplate that generates an appropriate TODO               
             }
 
             ST preGetGenFeatureTemplate = derivedAttributesGroup
