@@ -670,10 +670,11 @@ public class WorkspaceHelper
    }
 
    /**
-    * Checks whether the given project has the {@link #PLUGIN_NATURE_ID}.
-    * If the check throws an exception, <code>false</code> is returned gracefully.
+    * Checks whether the given project has the {@link #PLUGIN_NATURE_ID}. If the check throws an exception,
+    * <code>false</code> is returned gracefully.
     */
-   public static boolean isPluginProjectNoThrow(final IProject project) {
+   public static boolean isPluginProjectNoThrow(final IProject project)
+   {
       try
       {
          return project.hasNature(PLUGIN_NATURE_ID);
@@ -682,13 +683,23 @@ public class WorkspaceHelper
          return false;
       }
    }
-   
+
    /**
     * Returns whether the given project is (1) a repository project or (2) an integration project
     */
    public static boolean isMoflonProject(final IProject project) throws CoreException
    {
       return isRepositoryProject(project) || isIntegrationProject(project);
+   }
+
+   /**
+    * Returns whether the given project is (1) a repository project or (2) an integration project.
+    * 
+    * Returns also false if an exception would be thrown.
+    */
+   public static boolean isMoflonProjectNoThrow(final IProject project)
+   {
+      return isRepositoryProjectNoThrow(project) || isIntegrationProjectNoThrow(project);
    }
 
    /**
@@ -736,7 +747,7 @@ public class WorkspaceHelper
    {
       return project != null && project.hasNature(REPOSITORY_NATURE_ID);
    }
-   
+
    /**
     * Returns whether the project is a a repository project, if an exception is thrown, the method return false.
     * 
@@ -937,7 +948,7 @@ public class WorkspaceHelper
       String packagePath = "/" + packageName.replaceAll("\\.", "/") + "/";
       return packagePath;
    }
-   
+
    public static void moveProjectToWorkingSet(final IProject project, final String workingSetName)
    {
       // Move project to appropriate working set
@@ -1183,7 +1194,5 @@ public class WorkspaceHelper
          monitor.done();
       }
    }
-
-   
 
 }
