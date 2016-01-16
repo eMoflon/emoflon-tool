@@ -173,7 +173,7 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
          IFile file = (IFile) resource.getAdapter(IFile.class);
          if (file != null && file.getName().endsWith(".psf"))
          {
-            psfFiles.add(file.getFullPath().toFile());
+            psfFiles.add(file.getLocation().toFile());
          }
          return true;
       }
