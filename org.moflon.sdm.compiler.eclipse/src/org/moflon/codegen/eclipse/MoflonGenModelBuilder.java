@@ -53,8 +53,6 @@ public class MoflonGenModelBuilder extends GenModelBuilder {
 		final IProject project = ecoreFile.getProject();
 		final URI projectURI = CodeGeneratorPlugin.lookupProjectURI(project);
 		this.ecoreURI = CodeGeneratorPlugin.getDefaultProjectRelativeEcoreFileURI(project).resolve(projectURI);
-//		final URI projectURI = URI.createPlatformResourceURI(ecoreFile.getProject().getName() + "/", true);
-//		this.ecoreURI = URI.createURI(ecoreFile.getProjectRelativePath().toString()).resolve(projectURI);
 	}
 
 	@Override
@@ -85,7 +83,6 @@ public class MoflonGenModelBuilder extends GenModelBuilder {
 	public List<Dependency> getGenModelResourceDependencies() {
 		BasicEList<Dependency> result = new BasicEList<Dependency>();
 
-		// result.add(new SimpleDependency(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel")));
 		// User-defined GenPackages
 		for (final AdditionalUsedGenPackages usedDefinedGenPackage : moflonProperties.getAdditionalUsedGenPackages()) {
 			result.add(new SimpleDependency(URI.createURI(usedDefinedGenPackage.getValue())));
@@ -100,9 +97,6 @@ public class MoflonGenModelBuilder extends GenModelBuilder {
 				} else if (kind == CodeGeneratorPlugin.WORKSPACE_PLUGIN_PROJECT || kind == CodeGeneratorPlugin.WORKSPACE_PROJECT) {
 					result.add(new SimpleDependency(calculateGenModelURI(uri)));
 				}
-//				if (kind == CodeGeneratorPlugin.UNKNOWN) {
-//					throw new RuntimeException("Dependency type cannot be determined for " + uri.toString());
-//				}
 			}
 		}
 		return result;
