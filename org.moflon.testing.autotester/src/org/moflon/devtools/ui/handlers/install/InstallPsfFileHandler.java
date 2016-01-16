@@ -12,10 +12,14 @@ public class InstallPsfFileHandler extends AbstractInstallCommandHandler
    public Object execute(final ExecutionEvent event) throws ExecutionException
    {
       final FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell());
-      dialog.setFilterExtensions(new String[] {"*.psf", "*.PSF"});
+      dialog.setFilterExtensions(new String[] { "*.psf", "*.PSF" });
       dialog.setText("Choose your PSF file");
-      
-      this.getWorkspaceController(event).installWorkspaceWithPSF(dialog.open());
+
+      String open = dialog.open();
+      if (open != null)
+      {
+         this.getWorkspaceController(event).installWorkspaceWithPSF(open);
+      }
       return null;
    }
 
