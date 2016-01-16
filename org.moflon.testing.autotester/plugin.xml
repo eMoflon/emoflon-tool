@@ -58,15 +58,15 @@
          </separator>
          <menu
                id="org.moflon.devtools.ui.menus.InstallAndConfigureHandbookExamples"
-               label="Handbook Examples...">
+               label="Handbook Examples">
          </menu>
          <menu
                id="org.moflon.devtools.ui.menus.InstallAndConfigureDeveloper"
-               label="Developer workspaces...">
+               label="Developer Workspaces">
          </menu>
          <menu
                id="org.moflon.devtools.ui.menus.InstallAndConfigureTestingWorkspace"
-               label="Test Workspaces...">
+               label="Test Workspaces">
          </menu>
          <separator
                name="org.moflon.devtools.ui.menus.Separator2"
