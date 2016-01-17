@@ -84,7 +84,7 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
             } else if (genFeature.isPrimitiveType()) {
                 genFeatureTemplateName = "/preGetGenFeaturePrimitiveType";
             } else {
-                // TODO@aaltenkirch: handle unknown type -> create custom StringTemplate that generates an appropriate TODO               
+                genFeatureTemplateName = "/preGetGenFeatureUnknownType";
             }
 
             ST preGetGenFeatureTemplate = derivedAttributesGroup
