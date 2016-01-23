@@ -7,6 +7,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.dfs,org.moflon.core.dfs"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.ecore2mocaxmi,org.moflon.core.ecore2mocaxmi"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.ecore2mocaxmi.specification,org.moflon.core.ecore2mocaxmi.specification"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.ecoreutils,org.moflon.core.ecoreutils"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.injection,org.moflon.core.injection"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.languages.specification,org.moflon.core.languages.specification"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.moca.processing,org.moflon.core.moca.processing"/>
@@ -80,6 +81,8 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.constraints.constraintstodemocles" type="4"/>
 <item elementID="=org.moflon.core.ecore2mocaxmi" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.ecore2mocaxmi" type="4"/>
+<item elementID="=org.moflon.core.ecoreutils" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.ecoreutils" type="4"/>
 <item elementID="=org.moflon.sdm.democles.patternmatcher" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.sdm.compiler.democles.validation.scope" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.compiler.democles.validation.scope" type="4"/>
