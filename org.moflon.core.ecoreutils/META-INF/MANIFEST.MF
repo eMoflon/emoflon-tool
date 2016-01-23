@@ -1,5 +1,8 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.core.ecoreutils;singleton:=true
+Export-Package: org.moflon.core.ecoreutils.util,
+ org.moflon.core.ecoreutils.impl,
+ org.moflon.core.ecoreutils
 Bundle-Name: org.moflon.core.ecoreutils
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
