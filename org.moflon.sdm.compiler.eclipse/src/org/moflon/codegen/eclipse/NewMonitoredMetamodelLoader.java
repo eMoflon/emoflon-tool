@@ -26,7 +26,7 @@ import MoflonPropertyContainer.AdditionalDependencies;
 import MoflonPropertyContainer.Dependencies;
 import MoflonPropertyContainer.MoflonPropertiesContainer;
 
-@Deprecated //TODO gervarro: Decide what to do with this class (rkluge)
+// This class is the new metamodel loading process that would handle all kinds of projects correctly
 public final class NewMonitoredMetamodelLoader implements IMonitoredJob
 {
    private static final String TASK_NAME = "Metamodel loading";
