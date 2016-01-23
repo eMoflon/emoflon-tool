@@ -93,5 +93,8 @@
 2015-12-26	[EA] Addin window too large #586 
 2015-12-26	[EA] EA shows object variables double #536
 2015-12-30	Introduce a hook that is executed prior to MOCA-to-Ecore export: org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHook
-
- 
+2016-01-23  Basic support for derived features #652 
+2016-01-23  Introduce org.moflon.core.ecoreutils
+2016-01-23  Initial version of eMoflon data type library #653 
+2016-01-23  eMoflon 2.10.0 released
+---
