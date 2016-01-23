@@ -5,7 +5,7 @@
       version="2.7.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt"
       license-feature="org.moflon.ide.feature"
-      license-feature-version="2.10.0.qualifier">
+      license-feature-version="2.11.0.qualifier">
 
    <description url="http://www.emoflon.org/">
       This feature provides visualization support for meta-models and
