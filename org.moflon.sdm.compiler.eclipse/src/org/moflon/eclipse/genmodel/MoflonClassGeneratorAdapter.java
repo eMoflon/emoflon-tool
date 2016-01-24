@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.EMFPlugin;
@@ -24,6 +25,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.gervarro.democles.emoflon.templates.JavaClassGenerator;
 import org.moflon.codegen.InjectionHandlingImportManager;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
@@ -77,12 +79,12 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
    {
         if (genFeature.isDerived()) {
             initializeStringTemplatesForDerivedAttributesLazily();
-
+            
             String genFeatureTemplateName = "";
-            if (genFeature.isReferenceType() || genFeature.isStringType()) {
-                genFeatureTemplateName = "/preGetGenFeatureReferenceType";
-            } else if (genFeature.isPrimitiveType()) {
+            if (genFeature.isPrimitiveType()) {
                 genFeatureTemplateName = "/preGetGenFeaturePrimitiveType";
+            } else if (genFeature.isReferenceType() || genFeature.isStringType() || isUserDefinedType(genFeature)) {
+                genFeatureTemplateName = "/preGetGenFeatureReferenceType";
             } else {
                 genFeatureTemplateName = "/preGetGenFeatureUnknownType";
             }
@@ -98,6 +100,42 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
             return null;
         }
    }
+
+    /**
+     * Checks if the type of the genFeature is defined in the model created by the user. 
+     * @param genFeature
+     *      The GenFeature to check. 
+     * @return
+     *      True, if the type is defined by the user, otherwise false.
+     */
+    private boolean isUserDefinedType(final GenFeature genFeature) {
+        boolean isUserDefinedType = false;
+        
+        if (genFeature.eContainer() instanceof GenClass) {
+            GenClass featureGenClass = (GenClass)genFeature.eContainer();
+            
+            if (featureGenClass.eContainer() instanceof GenPackage) {
+                GenPackage genPackage = (GenPackage)featureGenClass.eContainer();
+                
+                for (GenClass genClass : genPackage.getAllSwitchGenClasses()) {
+                    if (genClass instanceof MoflonGenClass
+                            && genClass.getEcoreModelElement() instanceof EClassImpl) {
+                        
+                        EClassImpl eClassImpl = (EClassImpl)genClass.getEcoreModelElement();
+                        String userDefinedClass = eClassImpl.getName();
+                        String genFeatureClass = genFeature.getObjectType(featureGenClass);
+                        
+                        if (genFeatureClass.equals(userDefinedClass)) {
+                            isUserDefinedType = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return isUserDefinedType;
+    }
 
    private void initializeStringTemplatesForDerivedAttributesLazily()
    {
