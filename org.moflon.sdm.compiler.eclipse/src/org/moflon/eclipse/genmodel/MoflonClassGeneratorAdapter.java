@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.util.ImportManager;
@@ -34,6 +35,9 @@ import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.util.InjectionRegions;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
+
+import SDMLanguage.activities.Activity;
+import SDMLanguage.activities.impl.MoflonEOperationImpl;
 
 abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter
 {
@@ -79,6 +83,8 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
    {
         if (genFeature.isDerived()) {
             initializeStringTemplatesForDerivedAttributesLazily();
+            
+            analyzeSDM(genFeature);
             
             String genFeatureTemplateName = "";
             if (genFeature.isPrimitiveType()) {
@@ -135,6 +141,29 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
         }
         
         return isUserDefinedType;
+    }
+    
+    private void analyzeSDM(final GenFeature genFeature) {
+        String operationName = "_get" + genFeature.getCapName();
+        Activity activity = getActivity(genFeature, operationName);
+    }
+
+    private Activity getActivity(final GenFeature genFeature, String name) {
+        Activity activity = null;
+        if (genFeature.eContainer() instanceof GenClass) {
+            GenClass genClass = (GenClass) genFeature.eContainer();
+            for (GenOperation genOperation : genClass.getGenOperations()) {
+                if (genOperation.getName().equals(name)) {
+                    EOperation eOperation = genOperation.getEcoreOperation();
+                    if (eOperation instanceof MoflonEOperationImpl) {
+                        MoflonEOperationImpl eOperationImpl = (MoflonEOperationImpl) eOperation;
+                        activity = eOperationImpl.getActivity();
+                    }
+                }
+            }
+        }
+
+        return activity;
     }
 
    private void initializeStringTemplatesForDerivedAttributesLazily()
