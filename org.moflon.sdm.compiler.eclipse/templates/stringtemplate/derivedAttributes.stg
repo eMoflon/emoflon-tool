@@ -2,7 +2,7 @@
 // derived attributes.
 
 preGetGenFeaturePrimitiveType(genFeature, genFeatureType) ::= <<<\n>
-    // Feature '<genFeature.name>' is a derived attribute.
+    // Attribute '<genFeature.name>' is derived.
     final <genFeatureType> derived<genFeature.capName> = _get<genFeature.capName>();
     if (derived<genFeature.capName> != <genFeature.safeName>)
     {
@@ -11,7 +11,7 @@ preGetGenFeaturePrimitiveType(genFeature, genFeatureType) ::= <<<\n>
 >>
 
 preGetGenFeatureReferenceType(genFeature, genFeatureType) ::= <<<\n>
-	// Feature '<genFeature.name>' is a derived attribute.
+	// Attribute '<genFeature.name>' is derived.
     final <genFeatureType> derived<genFeature.capName> = _get<genFeature.capName>();
     if (derived<genFeature.capName> != null) {
 	    if (!derived<genFeature.capName>.equals(<genFeature.safeName>))
@@ -24,6 +24,11 @@ preGetGenFeatureReferenceType(genFeature, genFeatureType) ::= <<<\n>
 >>
 
 preGetGenFeatureUnknownType(genFeature, genFeatureType) ::= <<<\n>
-    // Feature '<genFeature.name>' is a derived attribute,
-    // but no code has been generated, because its type is unknown.
+    // Attribute '<genFeature.name>' is derived, but no code
+    // has been generated, because its type is unknown.
+>>
+
+preGetGenFeatureNoOperation(genFeature, genFeatureType) ::= <<<\n>
+    // Attribute '<genFeature.name>' is derived, but expected calculation
+    // method '_get<genFeature.capName>(): <genFeature.typeGenDataType.name>' does not exist.
 >>

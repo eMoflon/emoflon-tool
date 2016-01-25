@@ -84,10 +84,10 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
         if (genFeature.isDerived()) {
             initializeStringTemplatesForDerivedAttributesLazily();
             
-            analyzeSDM(genFeature);
-            
             String genFeatureTemplateName = "";
-            if (genFeature.isPrimitiveType()) {
+            if (!operationExists(genFeature)) {
+                genFeatureTemplateName = "/preGetGenFeatureNoOperation";
+            } else if (genFeature.isPrimitiveType()) {
                 genFeatureTemplateName = "/preGetGenFeaturePrimitiveType";
             } else if (genFeature.isReferenceType() || genFeature.isStringType() || isUserDefinedType(genFeature)) {
                 genFeatureTemplateName = "/preGetGenFeatureReferenceType";
@@ -147,23 +147,51 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
         String operationName = "_get" + genFeature.getCapName();
         Activity activity = getActivity(genFeature, operationName);
     }
-
-    private Activity getActivity(final GenFeature genFeature, String name) {
-        Activity activity = null;
+    
+    private EOperation getEOperation(final GenFeature genFeature, String name, String returnType) {
+        EOperation eOperation = null;
+        
         if (genFeature.eContainer() instanceof GenClass) {
             GenClass genClass = (GenClass) genFeature.eContainer();
             for (GenOperation genOperation : genClass.getGenOperations()) {
-                if (genOperation.getName().equals(name)) {
-                    EOperation eOperation = genOperation.getEcoreOperation();
-                    if (eOperation instanceof MoflonEOperationImpl) {
-                        MoflonEOperationImpl eOperationImpl = (MoflonEOperationImpl) eOperation;
-                        activity = eOperationImpl.getActivity();
-                    }
+                if (genOperation.getName().equals(name)
+                    && genOperation.getTypeGenDataType().getName().equals(returnType)) {
+                    eOperation = genOperation.getEcoreOperation();
+                    break;
                 }
             }
         }
 
+        return eOperation;
+    }
+
+    private Activity getActivity(final GenFeature genFeature, String name) {
+        Activity activity = null;
+        String returnType = genFeature.getTypeGenDataType().getName();
+        EOperation eOperation = getEOperation(genFeature, name, returnType);
+        
+        if (eOperation != null && eOperation instanceof MoflonEOperationImpl) {
+            MoflonEOperationImpl eOperationImpl = (MoflonEOperationImpl) eOperation;
+            activity = eOperationImpl.getActivity();
+        }
+
         return activity;
+    }
+    
+    private boolean operationExists(final GenFeature genFeature) {
+        boolean operationExists = false;
+        String operationName = "_get" + genFeature.getCapName();
+        
+        //TODO@aaltenkirch: null if type is user defined
+        String returnType = genFeature.getTypeGenDataType().getName();
+        
+        EOperation eOperation = getEOperation(genFeature, operationName, returnType);
+
+        if (eOperation != null) {
+            operationExists = true;
+        }
+        
+        return operationExists;
     }
 
    private void initializeStringTemplatesForDerivedAttributesLazily()
