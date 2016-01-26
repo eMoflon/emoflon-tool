@@ -75,7 +75,7 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
     * Returns the code that should be inserted at the beginning of the getter of the given {@link GenFeature}
     * 
     * @param genFeature
-    *           the affected {@link GenFeature}
+    *         the affected {@link GenFeature}
     * @return the code to be inserted, starting and ending with a new-line, or <code>null</code> if no code should be
     *         added.
     */
@@ -83,9 +83,11 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
    {
         if (genFeature.isDerived()) {
             initializeStringTemplatesForDerivedAttributesLazily();
+
+            analyzeSDM(genFeature);
             
             String genFeatureTemplateName = "";
-            if (!operationExists(genFeature)) {
+            if (!calculationMethodExists(genFeature)) {
                 genFeatureTemplateName = "/preGetGenFeatureNoOperation";
             } else if (genFeature.isPrimitiveType()) {
                 genFeatureTemplateName = "/preGetGenFeaturePrimitiveType";
@@ -105,6 +107,37 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
         } else {
             return null;
         }
+   }
+   
+   /**
+    * Analyzes the {@link Activity} that corresponds to a derived attribute.
+    * @param genFeature
+    */
+   private void analyzeSDM(final GenFeature genFeature) {
+       Activity activity = getActivity(genFeature);
+   }
+
+   /**
+    * Extracts the {@link Activity} from a calculation method that corresponds
+    * to the {@link GenFeature} that represents a derived attribute.
+    * @param genFeature
+    *       {@link GenFeature} that represents a derived attribute.
+    * @return
+    *       The corresponding {@link Activity}.
+    */
+   private Activity getActivity(final GenFeature genFeature) {
+       Activity activity = null;
+
+       String methodName = "_get" + genFeature.getCapName();
+       String returnType = getReturnType(genFeature);
+       EOperation eOperation = getEOperation(genFeature, methodName, returnType);
+       
+       if (eOperation != null && eOperation instanceof MoflonEOperationImpl) {
+           MoflonEOperationImpl eOperationImpl = (MoflonEOperationImpl) eOperation;
+           activity = eOperationImpl.getActivity();
+       }
+
+       return activity;
    }
 
     /**
@@ -143,20 +176,51 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
         return isUserDefinedType;
     }
     
-    private void analyzeSDM(final GenFeature genFeature) {
-        String operationName = "_get" + genFeature.getCapName();
-        Activity activity = getActivity(genFeature, operationName);
+    /**
+     * Checks if there is a corresponding calculation method
+     * to a {@link GenFeature} representing a derived attribute.
+     * @param genFeature
+     *      Representation of a derived attribute.
+     * @return
+     *      True, if a calculation method exists, otherwise false.
+     */
+    private boolean calculationMethodExists(final GenFeature genFeature) {
+        boolean methodExists = false;
+        String methodName = "_get" + genFeature.getCapName();
+        String returnType = getReturnType(genFeature);
+        
+        EOperation eOperation = getEOperation(genFeature, methodName, returnType);
+
+        if (eOperation != null) {
+            methodExists = true;
+        }
+        
+        return methodExists;
     }
     
+    /**
+     * Extracts the {@link EOperation} with a specific
+     * name and return type from a {@link GenFeature}.
+     * @param genFeature
+     *      The GenFeature that contains the EOperation to extract. 
+     * @param name
+     *      The name of the EOperation to extract.
+     * @param returnType
+     *      The return type of the EOperation to extract.
+     * @return
+     *      The matching EOperation or null of there is no matching method. 
+     */
     private EOperation getEOperation(final GenFeature genFeature, String name, String returnType) {
         EOperation eOperation = null;
         
         if (genFeature.eContainer() instanceof GenClass) {
             GenClass genClass = (GenClass) genFeature.eContainer();
             for (GenOperation genOperation : genClass.getGenOperations()) {
-                if (genOperation.getName().equals(name)
-                    && genOperation.getTypeGenDataType().getName().equals(returnType)) {
-                    eOperation = genOperation.getEcoreOperation();
+                EOperation currentEOperation = genOperation.getEcoreOperation();
+                
+                if (currentEOperation.getName().equals(name) 
+                        && currentEOperation.getEType().getName().equals(returnType)) {
+                    eOperation = currentEOperation;
                     break;
                 }
             }
@@ -164,34 +228,20 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
 
         return eOperation;
     }
-
-    private Activity getActivity(final GenFeature genFeature, String name) {
-        Activity activity = null;
-        String returnType = genFeature.getTypeGenDataType().getName();
-        EOperation eOperation = getEOperation(genFeature, name, returnType);
-        
-        if (eOperation != null && eOperation instanceof MoflonEOperationImpl) {
-            MoflonEOperationImpl eOperationImpl = (MoflonEOperationImpl) eOperation;
-            activity = eOperationImpl.getActivity();
-        }
-
-        return activity;
-    }
     
-    private boolean operationExists(final GenFeature genFeature) {
-        boolean operationExists = false;
-        String operationName = "_get" + genFeature.getCapName();
-        
-        //TODO@aaltenkirch: null if type is user defined
-        String returnType = genFeature.getTypeGenDataType().getName();
-        
-        EOperation eOperation = getEOperation(genFeature, operationName, returnType);
-
-        if (eOperation != null) {
-            operationExists = true;
+    /**
+     * Finds the return type of a derived attribute represented by a {@link GenFeature}.
+     * @param genFeature A derived attribute representation.
+     * @return The return type of the derived attribute. 
+     */
+    private String getReturnType(final GenFeature genFeature) {
+        String returnType = null;
+        if (genFeature.getTypeGenDataType() != null) {
+            returnType = genFeature.getTypeGenDataType().getName();
+        } else {
+            returnType = genFeature.getImportedType(genFeature.getGenClass());
         }
-        
-        return operationExists;
+        return returnType;
     }
 
    private void initializeStringTemplatesForDerivedAttributesLazily()
