@@ -12,6 +12,8 @@ package org.moflon.eclipse.genmodel;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
@@ -23,6 +25,7 @@ import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EOperation;
@@ -37,7 +40,24 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
 import SDMLanguage.activities.Activity;
+import SDMLanguage.activities.ActivityNode;
+import SDMLanguage.activities.StopNode;
+import SDMLanguage.activities.StoryNode;
 import SDMLanguage.activities.impl.MoflonEOperationImpl;
+import SDMLanguage.calls.callExpressions.MethodCallExpression;
+import SDMLanguage.calls.callExpressions.ParameterExpression;
+import SDMLanguage.expressions.Expression;
+import SDMLanguage.patterns.ObjectVariable;
+import SDMLanguage.patterns.StoryPattern;
+import SDMLanguage.patterns.AttributeConstraints.AssignmentConstraint;
+import SDMLanguage.patterns.AttributeConstraints.AttributeConstraintExpression;
+import SDMLanguage.patterns.AttributeConstraints.AttributeConstraintVariable;
+import SDMLanguage.patterns.AttributeConstraints.AttributeLookupConstraint;
+import SDMLanguage.patterns.AttributeConstraints.AttributeValueConstraint;
+import SDMLanguage.patterns.AttributeConstraints.CspConstraint;
+import SDMLanguage.patterns.AttributeConstraints.PrimitiveVariable;
+import SDMLanguage.patterns.patternExpressions.AttributeValueExpression;
+import SDMLanguage.patterns.patternExpressions.ObjectVariableExpression;
 
 abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter
 {
@@ -84,7 +104,7 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
         if (genFeature.isDerived()) {
             initializeStringTemplatesForDerivedAttributesLazily();
 
-            analyzeSDM(genFeature);
+            Set<String> dependentVariables = analyzeSDM(genFeature);
             
             String genFeatureTemplateName = "";
             if (!calculationMethodExists(genFeature)) {
@@ -109,13 +129,132 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
         }
    }
    
-   /**
-    * Analyzes the {@link Activity} that corresponds to a derived attribute.
-    * @param genFeature
-    */
-   private void analyzeSDM(final GenFeature genFeature) {
-       Activity activity = getActivity(genFeature);
-   }
+    /**
+     * Creates a set of variables on which the derived attribute depends.
+     * @param genFeature
+     *      The derived attribute that should be analyzed.
+     * @return 
+     *      A set of variables on which the derived attribute depends.
+     */
+    private Set<String> analyzeSDM(final GenFeature genFeature) {
+
+        Set<String> dependentVariables = new HashSet<String>();
+
+        Activity activity = getActivity(genFeature);
+
+        if (activity != null) {
+            EList<ActivityNode> nodes = activity.getOwnedActivityNode();
+
+            for (ActivityNode node : nodes) {
+                if (node instanceof StoryNode) {
+                    Set<String> storyNodeVariables = analyzeStoryNode((StoryNode)node);
+                    dependentVariables.addAll(storyNodeVariables);
+                } else if (node instanceof StopNode) {
+                    Set<String> stooNodeVariables = analyzeStopNode((StopNode)node);
+                    dependentVariables.addAll(stooNodeVariables);
+                }
+            }
+        }
+        
+        return dependentVariables;
+    }
+    
+    /**
+     * Creates a set of variables contained in a {@link StoryNode}}
+     * on which the derived attribute depends.
+     * @param node
+     *      The story node that should be analyzed.
+     * @return
+     *      A set of variables on which the derived attribute depends.
+     */
+    private Set<String> analyzeStoryNode(StoryNode node) {
+        return analyzeStoryPattern(node.getStoryPattern());
+    }
+    
+    /**
+     * Creates a set of variables contained in a {@link StopNode}}
+     * on which the derived attribute depends.
+     * @param node
+     *      The stop node that should be analyzed.
+     * @return
+     *      A set of variables on which the derived attribute depends.
+     */
+    private Set<String> analyzeStopNode(StopNode node) {
+        return analyzeExpression(node.getReturnValue());
+    }
+    
+    /**
+     * Creates a set of variables contained in a {@link StoryPattern}}
+     * on which the derived attribute depends.
+     * @param storyPattern
+     *      The story pattern that should be analyzed.
+     * @return
+     *      A set of variables on which the derived attribute depends.
+     */
+    private Set<String> analyzeStoryPattern(StoryPattern storyPattern) {
+
+        Set<String> dependentVariables = new HashSet<String>();
+        
+        for (AttributeConstraintVariable variable : storyPattern.getVariables()) {
+            if (variable instanceof AttributeConstraintExpression) {
+                //AttributeConstraintExpression attributeConstraintExpression = (AttributeConstraintExpression)variable;
+            } else if (variable instanceof CspConstraint) {
+                //CspConstraint cspConstraint = (CspConstraint)variable;
+            } else if (variable instanceof PrimitiveVariable) {
+                PrimitiveVariable primitiveVariable = (PrimitiveVariable)variable;
+                for (AttributeValueConstraint attributeValueConstraint : primitiveVariable.getAttributeValueConstraints()) {
+                    if (attributeValueConstraint != null) {
+                        if (attributeValueConstraint instanceof AssignmentConstraint) {
+                            AssignmentConstraint assignmentConstraint = (AssignmentConstraint)attributeValueConstraint;
+                            dependentVariables.add(assignmentConstraint.getObjectVariable().getName());
+                        } else if (attributeValueConstraint instanceof AttributeLookupConstraint) {
+                            AttributeLookupConstraint assignmentLookupConstraint = (AttributeLookupConstraint)attributeValueConstraint;
+                            if (!assignmentLookupConstraint.getObjectVariable().getName().equals("this")) {
+                                dependentVariables.add(assignmentLookupConstraint.getObjectVariable().getName());
+                            } else {
+                                dependentVariables.add(assignmentLookupConstraint.getType().getName());
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+        
+        for (ObjectVariable variable : storyPattern.getObjectVariable()) {
+            if (!variable.getName().equals("this")) {
+                dependentVariables.add(variable.getName());
+            }
+        }
+        
+        return dependentVariables;
+    }
+    
+    /**
+     * Creates a set of variables contained in an {@link Expression}}
+     * on which the derived attribute depends.
+     * @param expression
+     *      The expression that should be analyzed.
+     * @return
+     *      A set of variables on which the expression depends.
+     */
+    private Set<String> analyzeExpression(Expression expression) {
+
+        Set<String> dependentVariables = new HashSet<String>();
+        
+        if (expression instanceof AttributeValueExpression) {
+            AttributeValueExpression attributeValueExpression = (AttributeValueExpression)expression;
+            dependentVariables.add(attributeValueExpression.getObject().getName());
+        } else if (expression instanceof ObjectVariableExpression) {
+            //ObjectVariableExpression objectVariableExpression = (ObjectVariableExpression)expression;
+        } else if (expression instanceof MethodCallExpression) {
+            //MethodCallExpression methodCallExpression = (MethodCallExpression)expression;
+        } else if (expression instanceof ParameterExpression) {
+            //ParameterExpression parameterExpression = (ParameterExpression)expression;
+        }
+        
+        return dependentVariables;
+    }
 
    /**
     * Extracts the {@link Activity} from a calculation method that corresponds
@@ -129,7 +268,7 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
        Activity activity = null;
 
        String methodName = "_get" + genFeature.getCapName();
-       String returnType = getReturnType(genFeature);
+       String returnType = getAttributeType(genFeature);
        EOperation eOperation = getEOperation(genFeature, methodName, returnType);
        
        if (eOperation != null && eOperation instanceof MoflonEOperationImpl) {
@@ -187,7 +326,7 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
     private boolean calculationMethodExists(final GenFeature genFeature) {
         boolean methodExists = false;
         String methodName = "_get" + genFeature.getCapName();
-        String returnType = getReturnType(genFeature);
+        String returnType = getAttributeType(genFeature);
         
         EOperation eOperation = getEOperation(genFeature, methodName, returnType);
 
@@ -230,11 +369,11 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
     }
     
     /**
-     * Finds the return type of a derived attribute represented by a {@link GenFeature}.
+     * Identifies the type of a derived attribute represented by a {@link GenFeature}.
      * @param genFeature A derived attribute representation.
      * @return The return type of the derived attribute. 
      */
-    private String getReturnType(final GenFeature genFeature) {
+    private String getAttributeType(final GenFeature genFeature) {
         String returnType = null;
         if (genFeature.getTypeGenDataType() != null) {
             returnType = genFeature.getTypeGenDataType().getName();
