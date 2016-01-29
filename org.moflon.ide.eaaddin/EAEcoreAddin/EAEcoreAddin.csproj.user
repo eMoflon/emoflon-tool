@@ -19,5 +19,6 @@
     </StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
 </Project>
