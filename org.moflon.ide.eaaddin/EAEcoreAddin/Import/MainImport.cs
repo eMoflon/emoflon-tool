@@ -189,7 +189,7 @@ namespace EAEcoreAddin.Import
             {
                 if (hasGui)
                     ImportWorker.ReportProgress(7, new ProgressObject(ProgressBarType.Current, "Fill Diagram", DiagramsToBeFilled.Count));
-                if (ECOREModelingMain.EcoreDiagramMetatype.Contains(diagram.MetaType))
+                if (diagram.MetaType == "eMoflon Ecore Diagrams::Ecore Diagram")
                 {
                     EcoreImport.fillEcoreDiagram(diagram);
                 }

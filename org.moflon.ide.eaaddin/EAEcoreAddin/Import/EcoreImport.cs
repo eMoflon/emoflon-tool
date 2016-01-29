@@ -35,7 +35,7 @@ namespace EAEcoreAddin.Import
             MainImport.getInstance().OldGuidToNewGuid.Add(ePkg.Guid, modelPackage.PackageGUID);
             MainImport.getInstance().importedPackages.Add(modelPackage);
 
-            appendDiagram(modelPackage, ECOREModelingMain.EcoreDiagramMetatype[0]);
+            appendDiagram(modelPackage, "eMoflon Ecore Diagrams::Ecore Diagram", repository);//ECOREModelingMain.EcoreDiagramMetatype[0]);
 
             importEPackageFeatures(ePackageNode, sqlRep.GetPackageByID(modelPackage.PackageID));
         }
@@ -79,7 +79,7 @@ namespace EAEcoreAddin.Import
             MainImport.getInstance().MocaTaggableElements.Add(ePkg);
             MainImport.getInstance().OldGuidToNewGuid.Add(ePkg.Guid, modelPackage.PackageGUID);
 
-            appendDiagram(modelPackage, ECOREModelingMain.EcoreDiagramMetatype[0]);
+            appendDiagram(modelPackage, "eMoflon Ecore Diagrams::Ecore Diagram", repository);// ECOREModelingMain.EcoreDiagramMetatype[0]);
 
             importEPackageFeatures(ePackageNode, sqlRep.GetPackageByID(modelPackage.PackageID));
 
@@ -675,7 +675,7 @@ namespace EAEcoreAddin.Import
             
             if (rootPackage == null)
             {
-                String rootName = ePackageNode.getAttributeOrCreate("workingSet").Value;
+                String rootName = workingSetName;
                 if(rootName == "")
                     rootName = "My Working Set";
                 rootPackage = repository.Models.AddNew(rootName, "") as EA.Package;
@@ -693,13 +693,15 @@ namespace EAEcoreAddin.Import
 
         #region addDiagram methods
 
-        private static void appendDiagram(EA.Package parentPackage, String diagramMetaType)
+        private static void appendDiagram(EA.Package parentPackage, String diagramMetaType, EA.Repository repository)
         {
             if (parentPackage.Diagrams.Count == 0)
             {
-                EA.Diagram diag = parentPackage.Diagrams.AddNew(parentPackage.Name, diagramMetaType) as EA.Diagram;
+                EA.Diagram diag = parentPackage.Diagrams.AddNew(parentPackage.Name, "") as EA.Diagram;
                 diag.Update();
-
+                diag.StyleEx = "MDGDgm=" + "eMoflon Ecore Diagrams::Ecore Diagram" + ";";
+                diag.Update();
+                repository.Execute("UPDATE t_diagram SET Diagram_Type='" + diagramMetaType + "' WHERE Diagram_ID=" + diag.DiagramID);
                 MainImport.getInstance().DiagramsToBeFilled.Add(diag);
             }
         }
@@ -713,7 +715,23 @@ namespace EAEcoreAddin.Import
                 MainImport.getInstance().DiagramsToBeFilled.Add(diag);
             }
         }
-        
+
+        private static EA.Diagram createDiagramm(EA.Package parentPackage, String diagramMetaType, int count, int max)
+        {
+            EA.Diagram diag = parentPackage.Diagrams.AddNew(parentPackage.Name, diagramMetaType) as EA.Diagram;
+            diag.Update();
+            diag.StyleEx =  "MDGDgm=" + diagramMetaType + ";";
+
+            if (count >= max)
+                return diag;
+            else if (diag.MetaType != diagramMetaType)
+            {
+                return createDiagramm(parentPackage, diagramMetaType, count + 1, max);
+            }
+            else
+                return diag;
+
+        }
 
         #endregion
 
