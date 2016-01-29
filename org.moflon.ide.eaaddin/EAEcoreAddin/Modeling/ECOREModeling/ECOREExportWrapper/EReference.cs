@@ -101,13 +101,13 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             if (end.Navigable)
             {
                                 
-               if (containment)
+              if (containment)
                 {
                     oldAggregation = end.ConnectorEnd.getAggregation();
                     end.ConnectorEnd.setAggregation(2);
-                  //  end.aggregationSet = true;
+                   end.aggregationSet = true;
                     end.ConnectorEnd.Update();
-                   // Update();
+                    Update();
                     oldAggregation = end.ConnectorEnd.getAggregation(); 
                 }
                 if (end.lowerBound != ClientEnd.upperBound)

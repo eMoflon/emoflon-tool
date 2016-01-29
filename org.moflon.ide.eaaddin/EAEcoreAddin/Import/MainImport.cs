@@ -284,24 +284,35 @@ namespace EAEcoreAddin.Import
 
                     EReference eRef = new EReference(sqlRep.GetConnectorByID(con.ConnectorID), sqlRep);
                     eRef.deserializeFromMocaTree(refsNode);
-               //     con.Update();
-                    eRef.doEaGuiStuff();
+
+                    if (con.Notes == "Switched")
+                    {
+                        cleanUpEA(con.ClientEnd, con.SupplierEnd, eRef);
+                        con.Notes = "";
+                        con.Update();
+                    }
+                    else cleanUpEA(con.SupplierEnd, con.ClientEnd, eRef);
 
                     MocaTaggableElements.Add(eRef);
                    
-            //        EA.Element supElement = repository.GetElementByID(con.SupplierID);
-            //        EA.Element cliElement = repository.GetElementByID(con.ClientID);
-
-                    
-                //    con.Update();
-              //     supElement.Connectors.Refresh();
-              //     cliElement.Connectors.Refresh();
                     
                 }
             }
         }
 
-        
+        private void cleanUpEA(EA.ConnectorEnd eaSupEnd, EA.ConnectorEnd eaCliEnd, EReference eRef)
+        {
+            eaSupEnd.Role = eRef.SupplierEnd.Name;
+            eaSupEnd.Update();
+            eaCliEnd.Role = eRef.ClientEnd.Name;
+            eaCliEnd.Update();
+
+            eaSupEnd.Cardinality = eRef.SupplierEnd.lowerBound.Replace("-1", "*") + ".." + eRef.SupplierEnd.upperBound.Replace("-1", "*");
+            eaSupEnd.Update();
+            eaCliEnd.Cardinality = eRef.ClientEnd.lowerBound.Replace("-1", "*") + ".." + eRef.ClientEnd.upperBound.Replace("-1", "*");
+            eaCliEnd.Update();
+
+        }
 
 
         private void setClassifierAttributes()

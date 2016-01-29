@@ -96,6 +96,7 @@ namespace EAEcoreAddin.Import
                 String oppositeGuid = refNode.getAttributeOrCreate("oppositeGuid").Value;
 
                 bool containment = refNode.getAttributeOrCreate("containment").Value == "true";
+                bool hasOpposite = oppositeGuid != "";
 
                 SQLElement client = parent;
                 String supGuid = refNode.getAttributeOrCreate("typeGuid").Value;
@@ -104,7 +105,7 @@ namespace EAEcoreAddin.Import
                 if (MainImport.getInstance().ElementGuidToElement.ContainsKey(supGuid))
                 {
                     EA.Element supplier = MainImport.getInstance().ElementGuidToElement[supGuid];
-                    if (oppositeGuid != "")
+                    if (hasOpposite)
                     {
                         
                         if (!oppositeGuid.EndsWith("Client") && !oppositeGuid.EndsWith("Supplier"))
@@ -122,37 +123,37 @@ namespace EAEcoreAddin.Import
                             int clientAggregation = 0;
                             if (containment)
                             {
-                                if (oppositeGuid.EndsWith("Supplier"))
+                                if (oppositeGuid.EndsWith("Client"))
                                     clientAggregation = 2;
                                 else
                                     supplierAggregation = 2;
                             }
 
-                            con = createConnector(client, sqlRep.GetElementByID(supplier.ElementID), refGuid, Main.EAAssociationType, supplierAggregation, clientAggregation);
+                            con = createConnector(client, sqlRep.GetElementByID(supplier.ElementID), refGuid, Main.EAAssociationType, supplierAggregation, clientAggregation, hasOpposite);
                             refNode.getAttributeOrCreate(Main.GuidStringName).Value = "Supplier";
                         }
                     }
                     else
                     {
-                        con = createConnector(sqlRep.GetElementByID(client.ElementID), sqlRep.GetElementByID(supplier.ElementID), refGuid, Main.EAAssociationType,0,0);
+                        con = createConnector(sqlRep.GetElementByID(client.ElementID), sqlRep.GetElementByID(supplier.ElementID), refGuid, Main.EAAssociationType,0,0, hasOpposite);
                         refNode.getAttributeOrCreate(Main.GuidStringName).Value = "Supplier";
                     }
                 }
                if (con != null)
                 {
-                     if (containment)
-                     {
-                         if (refGuid.Contains("Client"))
-                         {
-                             con.SupplierEnd.Aggregation = 2;
-                         }
-                         if (refGuid.Contains("Supplier"))
-                         {
-                             con.ClientEnd.Aggregation = 2;
-                         }
-                         con.Update();
+                    // if (containment)
+                     //{
+                       //  if (refGuid.Contains("Client"))
+                         //{
+                         //    con.SupplierEnd.Aggregation = 2;
+                        // }
+                         //if (refGuid.Contains("Supplier"))
+                         //{
+                           //  con.ClientEnd.Aggregation = 2;
+                         //}
+                         //con.Update();
 
-                     }
+                     //}
 
                     if (!MainImport.getInstance().ReferenceGuidToReference.ContainsKey(refGuid))
                     {
@@ -271,11 +272,11 @@ namespace EAEcoreAddin.Import
             String sql1 = "update t_connector set Direction = 'Source -> Destination' where SourceRole IS NULL AND DestRole IS NOT NULL AND Stereotype IS NULL AND Connector_Type = 'Association'";
             String sql2 = "update t_connector set Direction = 'Destination -> Source' where SourceRole IS NOT NULL AND DestRole IS NULL AND Stereotype IS NULL AND Connector_Type = 'Association'";
 
-            repository.Execute(sql0);
-            repository.Execute(sql1);
-            repository.Execute(sql2);
+     //       repository.Execute(sql0);
+   //         repository.Execute(sql1);
+ //           repository.Execute(sql2);
             
-            String result = repository.SQLQuery("select Direction from t_connector where Connector_Type = 'Association'");
+       //     String result = repository.SQLQuery("select Direction from t_connector where Connector_Type = 'Association'");
             /*
 
             foreach(String guid in MainImport.getInstance().ReferenceGuidToReference.Keys)
@@ -564,24 +565,56 @@ namespace EAEcoreAddin.Import
             return repository.GetConnectorByGuid(oldGuid); 
         }
 
-        public EA.Connector createConnector(SQLElement client, SQLElement supplier, String guid, String connectorType, int supplierAggregation, int clientAggregation)
+        public EA.Connector createConnector(SQLElement client, SQLElement supplier, String guid, String connectorType, int supplierAggregation, int clientAggregation, bool hasOpposite)
         {
+            int locSupAgg = supplierAggregation;
+            int locCliAgg = clientAggregation;
+
             EA.Connector connector = client.getRealElement().Connectors.AddNew("", connectorType) as EA.Connector;
             connector.SupplierID = supplier.ElementID;
             connector.Update();
-            connector.SupplierEnd.Aggregation = supplierAggregation;
-            if (connectorType == "Association")
-            {
-                connector.SupplierEnd.Containment = "Unspecified";
-            }
-            connector.SupplierEnd.Update();
 
-            connector.ClientEnd.Aggregation = clientAggregation;
-            if (connectorType == "Association")
+            /*              
+             * ClientEnds cannot be the Composite so switch Sides
+             */
+            if (clientAggregation == 2)
             {
-                connector.ClientEnd.Containment = "Unspecified";
+                connector.ClientID = supplier.ElementID;
+                connector.SupplierID = client.ElementID;
+                connector.Update();
+                locSupAgg = clientAggregation;
+                locCliAgg = supplierAggregation;
+                connector.Notes = "Switched";
             }
+
+            if (hasOpposite)
+            {
+                connector.SupplierEnd.Navigable = "Navigable";
+                connector.SupplierEnd.Update();
+                connector.Update();
+                connector.ClientEnd.Navigable = "Navigable";
+                connector.ClientEnd.Update();
+                connector.Update();
+                connector.Direction = "Bi-Directional";
+                connector.Update();
+            }
+            else
+            {
+                connector.ClientEnd.Navigable = "Navigable";
+                connector.ClientEnd.Update();
+                connector.Direction = "Source -> Destination";
+                connector.Update();
+            }
+
+            connector.SupplierEnd.Aggregation = locSupAgg;
+            connector.SupplierEnd.Update();
+            connector.Update();
+
+            connector.ClientEnd.Aggregation = locCliAgg;
             connector.ClientEnd.Update();
+            connector.Update();
+
+
 
             client.Connectors.Refresh();
             supplier.Connectors.Refresh();
@@ -704,33 +737,6 @@ namespace EAEcoreAddin.Import
                 repository.Execute("UPDATE t_diagram SET Diagram_Type='" + diagramMetaType + "' WHERE Diagram_ID=" + diag.DiagramID);
                 MainImport.getInstance().DiagramsToBeFilled.Add(diag);
             }
-        }
-
-        private static void appendDiagram(EA.Element parentElement, String diagramMetaType)
-        {
-            if (parentElement.Diagrams.Count == 0)
-            {
-                EA.Diagram diag = parentElement.Diagrams.AddNew(parentElement.Name, diagramMetaType) as EA.Diagram;
-                diag.Update();
-                MainImport.getInstance().DiagramsToBeFilled.Add(diag);
-            }
-        }
-
-        private static EA.Diagram createDiagramm(EA.Package parentPackage, String diagramMetaType, int count, int max)
-        {
-            EA.Diagram diag = parentPackage.Diagrams.AddNew(parentPackage.Name, diagramMetaType) as EA.Diagram;
-            diag.Update();
-            diag.StyleEx =  "MDGDgm=" + diagramMetaType + ";";
-
-            if (count >= max)
-                return diag;
-            else if (diag.MetaType != diagramMetaType)
-            {
-                return createDiagramm(parentPackage, diagramMetaType, count + 1, max);
-            }
-            else
-                return diag;
-
         }
 
         #endregion
