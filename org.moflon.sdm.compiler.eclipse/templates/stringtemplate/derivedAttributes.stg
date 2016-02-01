@@ -1,18 +1,18 @@
 // This template group contains rules for generating code that updates 
 // derived attributes.
 
-preGetGenFeaturePrimitiveType(genFeature, genFeatureType) ::= <<<\n>
-    // Attribute '<genFeature.name>' is derived.
-    final <genFeatureType> derived<genFeature.capName> = _get<genFeature.capName>();
+preGetGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+    // Feature '<genFeature.name>' is derived.
+    final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();;
     if (derived<genFeature.capName> != <genFeature.safeName>)
     {
     	this.set<genFeature.accessorName>(derived<genFeature.capName>);
     } 
 >>
 
-preGetGenFeatureReferenceType(genFeature, genFeatureType) ::= <<<\n>
-	// Attribute '<genFeature.name>' is derived.
-    final <genFeatureType> derived<genFeature.capName> = _get<genFeature.capName>();
+preGetGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+	// Feature '<genFeature.name>' is derived.
+    final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();
     if (derived<genFeature.capName> != null) {
 	    if (!derived<genFeature.capName>.equals(<genFeature.safeName>))
 	    {
@@ -23,12 +23,12 @@ preGetGenFeatureReferenceType(genFeature, genFeatureType) ::= <<<\n>
     }
 >>
 
-preGetGenFeatureUnknownType(genFeature, genFeatureType) ::= <<<\n>
-    // Attribute '<genFeature.name>' is derived, but no code
+preGetGenFeatureUnknownType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+    // Feature '<genFeature.name>' is derived, but no code
     // has been generated, because its type is unknown.
 >>
 
-preGetGenFeatureNoOperation(genFeature, genFeatureType) ::= <<<\n>
-    // Attribute '<genFeature.name>' is derived, but expected calculation
+preGetGenFeatureNoOperation(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+    // Feature '<genFeature.name>' is derived, but expected calculation
     // method '_get<genFeature.capName>(): <genFeature.typeGenDataType.name>' does not exist.
 >>
