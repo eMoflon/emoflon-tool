@@ -169,7 +169,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       } finally
       {
          long toc = System.nanoTime();
-         logger.info(outputStatistics(input, tic, toc));
+         logger.debug(formatStatistics(input, tic, toc));
          rs.getResources().removeIf(this::unwantedResource);
       }
 
@@ -181,7 +181,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       return r.getURI() != null && r.getURI().toString().endsWith("tempOutputContainer.xmi");
    }
 
-   private String outputStatistics(final EObject input, long tic, long toc)
+   private String formatStatistics(final EObject input, long tic, long toc)
    {
       final int edges = eMoflonEMFUtil.getEdgeCount(input);
       final int nodes = eMoflonEMFUtil.getNodeCount(input);
@@ -197,7 +197,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
    private DirectedGraph runSync(EObject input)
    {
-      logger.info("Running synchronization...");
+      logger.debug("Running synchronization...");
       SynchronizationHelper helper = incrCache.get(input);
       helper.setDelta(deltaCache.get(input));
       DirectedGraph result = runTrafo(helper);
@@ -220,7 +220,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
    private DirectedGraph runBatch(URL pathToPlugin, EObject input, ResourceSet rs)
    {
-      logger.info("Running batch...");
+      logger.debug("Running batch...");
 
       SynchronizationHelper helper = new SynchronizationHelper(getPackage(), pathToPlugin.getFile(), rs);
       helper.setMute(true);
