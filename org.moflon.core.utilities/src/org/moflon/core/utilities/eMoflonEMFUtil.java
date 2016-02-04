@@ -758,6 +758,9 @@ public class eMoflonEMFUtil
       }
    }
 
+   /**
+    * Returns the cross reference (not containment reference) in the containment tree below 'obj' whose name attribute equals 'name'.
+    */
    public static EStructuralFeature getReference(final EObject obj, final String name)
    {
       for (EContentsEList.FeatureIterator<?> featureIterator = (EContentsEList.FeatureIterator<?>) obj.eCrossReferences().iterator(); featureIterator
@@ -772,6 +775,9 @@ public class eMoflonEMFUtil
       return null;
    }
 
+   /**
+    * Returns the containment reference in the containment tree below 'container' whose name attribute equals 'name'.
+    */
    public static EStructuralFeature getContainment(final EObject container, final String name)
    {
       for (EContentsEList.FeatureIterator<?> featureIterator = (EContentsEList.FeatureIterator<?>) container.eContents().iterator(); featureIterator.hasNext();)
@@ -793,13 +799,17 @@ public class eMoflonEMFUtil
     */
    public static Set<EStructuralFeature> getAllReferences(final EObject object)
    {
-      EList<EStructuralFeature> references = new BasicEList<EStructuralFeature>();
+      final EList<EStructuralFeature> references = new BasicEList<>();
+
+      // Collect outgoing cross references - excluding containment edges
       for (EContentsEList.FeatureIterator<?> featureIterator = (EContentsEList.FeatureIterator<?>) object.eCrossReferences().iterator(); featureIterator
             .hasNext();)
       {
          featureIterator.next();
          references.add(featureIterator.feature());
       }
+      
+      // Collect outgoing containment edges
       for (EContentsEList.FeatureIterator<?> featureIterator = (EContentsEList.FeatureIterator<?>) object.eContents().iterator(); featureIterator.hasNext();)
       {
          featureIterator.next();
@@ -808,19 +818,29 @@ public class eMoflonEMFUtil
       return new HashSet<EStructuralFeature>(references);
    }
 
+   /**
+    * Extracts a name from the given {@code child}.
+    * 
+    * If {@code child} is <code>null</code>, the result is empty.
+    * 
+    * @param child
+    * @return
+    */
    public static String getName(final EObject child)
    {
       if (child == null)
          return "null";
 
+      final EStructuralFeature nameFeature = child.eClass().getEStructuralFeature("name");
+
       Object name = "";
-
-      EStructuralFeature nameFeature = child.eClass().getEStructuralFeature("name");
-
       if (nameFeature != null)
          name = child.eGet(nameFeature);
 
-      return (String) (name instanceof String && !((String) name).equals("") ? name : child.toString());
+      if (name instanceof String && !name.equals(""))
+         return (String) name;
+      else 
+         return child.toString();
    }
 
    /**
@@ -967,7 +987,8 @@ public class eMoflonEMFUtil
     * @param object
     * @param set
     * 
-    * @throws IllegalArgumentException if the object is already inside a {@link Resource}
+    * @throws IllegalArgumentException
+    *            if the object is already inside a {@link Resource}
     */
    public static void createParentResourceAndInsertIntoResourceSet(final EObject object, final ResourceSet set)
    {
@@ -982,6 +1003,12 @@ public class eMoflonEMFUtil
       set.getResources().add(resource);
    }
 
+   /**
+    * Returns the number of elements in the containment tree routed at 'model'.
+    * 
+    * @param model
+    * @return
+    */
    public static int getNodeCount(final EObject model)
    {
       int i = 0;
@@ -995,6 +1022,12 @@ public class eMoflonEMFUtil
       return i;
    }
 
+   /**
+    * Returns the number of {@link EReference}s in the given {@code model}.
+    * 
+    * @param model
+    * @return
+    */
    public static int getEdgeCount(final EObject model)
    {
 
