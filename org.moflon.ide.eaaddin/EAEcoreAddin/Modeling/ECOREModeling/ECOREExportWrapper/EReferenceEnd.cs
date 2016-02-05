@@ -161,7 +161,10 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             {
                 MocaNode ereferenceNode = dummyNode.appendChildNode("EReference");
                 ereferenceNode.appendChildAttribute("typeGuid", typeGUID);
-                ereferenceNode.appendChildAttribute("name", ConnectorEnd.Role);
+                if(this.Name != ConnectorEnd.Role && (ConnectorEnd.Role == "" || ConnectorEnd.Role == null))
+                    ereferenceNode.appendChildAttribute("name", this.Name);
+                else
+                    ereferenceNode.appendChildAttribute("name", ConnectorEnd.Role);
                 ereferenceNode.appendChildAttribute(Main.GuidStringName, refGUID);
                 ereferenceNode.appendChildAttribute("lowerBound", lowerBound);
                 ereferenceNode.appendChildAttribute("upperBound", upperBound);

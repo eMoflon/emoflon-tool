@@ -141,19 +141,6 @@ namespace EAEcoreAddin.Import
                 }
                if (con != null)
                 {
-                    // if (containment)
-                     //{
-                       //  if (refGuid.Contains("Client"))
-                         //{
-                         //    con.SupplierEnd.Aggregation = 2;
-                        // }
-                         //if (refGuid.Contains("Supplier"))
-                         //{
-                           //  con.ClientEnd.Aggregation = 2;
-                         //}
-                         //con.Update();
-
-                     //}
 
                     if (!MainImport.getInstance().ReferenceGuidToReference.ContainsKey(refGuid))
                     {
@@ -258,47 +245,6 @@ namespace EAEcoreAddin.Import
                 }
 
             }
-        }
-
-        /// <summary>
-        /// set correct direction attributes of EReference connectors if necessary
-        /// </summary>
-        public void setDirections()
-        {
-           if(MainImport.hasGui) 
-            MainImport.getInstance().ImportWorker.ReportProgress(6, new ProgressObject(ProgressBarType.Current, "Update Direction Fields in Database", 1));
-
-            String sql0 = "update t_connector set Direction = 'Bi-Directional' where SourceRole IS NOT NULL AND DestRole IS NOT NULL AND Stereotype IS NULL AND Connector_Type = 'Association'";
-            String sql1 = "update t_connector set Direction = 'Source -> Destination' where SourceRole IS NULL AND DestRole IS NOT NULL AND Stereotype IS NULL AND Connector_Type = 'Association'";
-            String sql2 = "update t_connector set Direction = 'Destination -> Source' where SourceRole IS NOT NULL AND DestRole IS NULL AND Stereotype IS NULL AND Connector_Type = 'Association'";
-
-     //       repository.Execute(sql0);
-   //         repository.Execute(sql1);
- //           repository.Execute(sql2);
-            
-       //     String result = repository.SQLQuery("select Direction from t_connector where Connector_Type = 'Association'");
-            /*
-
-            foreach(String guid in MainImport.getInstance().ReferenceGuidToReference.Keys)
-            {
-                EA.Connector reff = MainImport.getInstance().ReferenceGuidToReference[guid];
-                if (reff.ClientEnd.Role != "" && reff.SupplierEnd.Role != "" && reff.Direction != "Bi-Directional")
-                {
-                    reff.Direction = "Bi-Directional";
-                    reff.Update();
-                }
-                else if (reff.ClientEnd.Role != "" && reff.SupplierEnd.Role == "" && reff.Direction != Main.EATargetSourceDirection)
-                {   
-                    reff.Direction = Main.EATargetSourceDirection;
-                    reff.Update();
-                }
-                else if (reff.ClientEnd.Role == "" && reff.SupplierEnd.Role != "" && reff.Direction != "Source -> Destination")
-                {    
-                    reff.Direction = "Source -> Destination";
-                    reff.Update();               
-                }
-            }
-             * */
         }
 
         public EClass importEClass(SQLPackage parentPackage, MocaNode eClassNode)

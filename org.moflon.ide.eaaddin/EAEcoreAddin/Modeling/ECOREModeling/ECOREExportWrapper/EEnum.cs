@@ -56,6 +56,21 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             return eEnumNode;
         }
 
+        private void removeExisting(string literalAttr)
+        {
+            int max=this.Literals.Count;
+            for (int i = 0; i < max; i++)
+            {
+                EEnumLiteral literal = this.Literals.ElementAt(i);
+                if (literal.Literal == literalAttr)
+                {
+                    this.Literals.RemoveAt(i);
+                    return;
+                }
+                    
+            }            
+        }
+
         public override void deserializeFromMocaTree(Serialization.MocaTree.MocaNode actNode)
         {
             this.Name = actNode.getAttributeOrCreate("name").Value;
@@ -69,6 +84,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                     {
                         EEnumLiteral eenumLit = new EEnumLiteral(litAttr, Repository);
                         eenumLit.deserializeFromMocaTree(literalNode);
+                        removeExisting(litAttr.Name);
                         this.Literals.Add(eenumLit);
                     }
                 }

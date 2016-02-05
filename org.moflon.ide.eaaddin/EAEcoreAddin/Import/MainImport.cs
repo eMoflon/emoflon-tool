@@ -165,9 +165,9 @@ namespace EAEcoreAddin.Import
                 ImportWorker.ReportProgress(4, new ProgressObject(ProgressBarType.Complete, "Save Moca Fragment and refresh EA Gui"));
             saveMocaTagElements();
 
-            if (hasGui)
-                ImportWorker.ReportProgress(5, new ProgressObject(ProgressBarType.Complete, "Set Directions"));
-            EcoreImport.setDirections();
+       //     if (hasGui)
+        //        ImportWorker.ReportProgress(5, new ProgressObject(ProgressBarType.Complete, "Set Directions"));
+         //   EcoreImport.setDirections();
 
             if (hasGui)
                 ImportWorker.ReportProgress(6, new ProgressObject(ProgressBarType.Complete, "Fill Diagrams"));

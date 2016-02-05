@@ -137,7 +137,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             EaConnector.
                 //getRealConnector().
                 Update();
-            Repository.Resources.Refresh();
+            //Repository.Resources.Refresh();
         }
     }
 }
