@@ -69,14 +69,15 @@ public class EnterpriseArchitectHelper
          
          InputStream inputStream = new BufferedInputStream(pr.getInputStream());
          StringBuilder stdout = new StringBuilder();
-         byte[] buffer = new byte[1024];
+         byte[] buffer = new byte[1024]; 
          int readBytes = -1;
          do
          {
             readBytes = inputStream.read(buffer);
             if (readBytes > 0)
             {
-               stdout.append(new String(buffer, 0, readBytes));
+            	String input = new String(buffer, 0, readBytes);
+               stdout.append(input);
             }
          } while (readBytes > 0);
           clParser.parse(stdout.toString());
@@ -108,9 +109,10 @@ public class EnterpriseArchitectHelper
       }
    }
    
-   public static void importXMIFilesToEAP(final IProject project, final IFile xmiFile){
+   public static void importXMIFilesToEAP(final String eapFileName, final IProject project, final IFile xmiFile){
 	   try{
-		   delegateToEnterpriseArchitect(project, new NullProgressMonitor(), generateImportCommand(WorkspaceHelper.getEapFileFromMetamodelProject(project), xmiFile), "Importing");
+		   IFile eapFile = project.getFile(eapFileName);
+		   delegateToEnterpriseArchitect(project, new NullProgressMonitor(), generateImportCommand(eapFile, xmiFile), "Importing");
 	   }catch (IOException | InterruptedException e)
 	      {
 	         logger.error(ERROR_MESSAGE_PROBLEMS_EA_EXPORT + project.getName());
