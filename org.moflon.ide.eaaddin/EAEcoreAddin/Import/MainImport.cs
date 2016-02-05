@@ -147,30 +147,38 @@ namespace EAEcoreAddin.Import
 
             if(hasGui)
                 ImportWorker.ReportProgress(0, new ProgressObject(ProgressBarType.Complete, "Import raw Objects", 6));
+            else
+                Console.Out.WriteLine("INFO:Import raw Objects");
             importMetamodelNodes();
 
             if (hasGui)
                 ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Complete, "Import raw Connectors"));
+            else
+                Console.Out.WriteLine("INFO:Import raw Connectors");
             importConnectors();
 
             if (hasGui)
                 ImportWorker.ReportProgress(2, new ProgressObject(ProgressBarType.Complete, "Import Inheritances"));
+            else
+                Console.Out.WriteLine("INFO:Import Inheritances");
             EcoreImport.setInheritances();
 
             if (hasGui)
                 ImportWorker.ReportProgress(3, new ProgressObject(ProgressBarType.Complete, "Set Classifiers"));
+            else
+                Console.Out.WriteLine("INFO:Import Set Classifiers");
             setClassifierAttributes();
 
             if (hasGui)
                 ImportWorker.ReportProgress(4, new ProgressObject(ProgressBarType.Complete, "Save Moca Fragment and refresh EA Gui"));
+            else
+                Console.Out.WriteLine("INFO:Save Moca Fragment and refresh EA Gui");
             saveMocaTagElements();
-
-       //     if (hasGui)
-        //        ImportWorker.ReportProgress(5, new ProgressObject(ProgressBarType.Complete, "Set Directions"));
-         //   EcoreImport.setDirections();
 
             if (hasGui)
                 ImportWorker.ReportProgress(6, new ProgressObject(ProgressBarType.Complete, "Fill Diagrams"));
+            else
+                Console.Out.WriteLine("INFO:Fill Diagrams");
             fillDiagrams();
 
 
@@ -189,26 +197,12 @@ namespace EAEcoreAddin.Import
             {
                 if (hasGui)
                     ImportWorker.ReportProgress(7, new ProgressObject(ProgressBarType.Current, "Fill Diagram", DiagramsToBeFilled.Count));
-                if (diagram.MetaType == "eMoflon Ecore Diagrams::Ecore Diagram")
+                else
+                    Console.Out.WriteLine("INFO:Fill Diagram '" + diagram.Name + "'");
+                if (diagram.StyleEx == "MDGDgm=eMoflon Ecore Diagrams::Ecore Diagram;")
                 {
                     EcoreImport.fillEcoreDiagram(diagram);
                 }
-        /*        else if (SDMModelingMain.SdmDiagramMetatype.Contains(diagram.MetaType))
-                {
-                    SdmImport.fillSDMDiagram(diagram);
-                }
-                else if (TGGModelingMain.TggSchemaDiagramMetatype.Contains(diagram.MetaType))
-                {
-                    TggImport.fillSchemaDiagram(diagram);
-                }
-                else if (TGGModelingMain.TggRulesDiagramMetatype.Contains(diagram.MetaType))
-                {
-                    TggImport.fillRulesDiagram(diagram);
-                }
-                else if (TGGModelingMain.TggRuleDiagramMetatype.Contains(diagram.MetaType))
-                {
-                    TggImport.fillRuleDiagram(diagram);
-                }*/
             }
 
         }
@@ -219,6 +213,8 @@ namespace EAEcoreAddin.Import
             {
                 if (hasGui)
                     ImportWorker.ReportProgress(5, new ProgressObject(ProgressBarType.Current, "Save: " + taggableElement.GetType().Name, MocaTaggableElements.Count));
+                else
+                    Console.Out.WriteLine("INFO:Save '" + taggableElement.Name + "'");
                 if (!(taggableElement is EReference))
                 {
                     taggableElement.saveTreeToEATaggedValue(true);

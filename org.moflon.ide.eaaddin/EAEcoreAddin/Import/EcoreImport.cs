@@ -705,7 +705,7 @@ namespace EAEcoreAddin.Import
 
             MainImport.fillDiagramFromCollections(diagram, elementCollection, packageCollection);
 
-            repository.GetProjectInterface().LayoutDiagramEx(diagram.DiagramGUID, EA.ConstLayoutStyles.lsDiagramDefault, 4, 20, 20, false);
+            repository.GetProjectInterface().LayoutDiagramEx(diagram.DiagramGUID, EA.ConstLayoutStyles.lsDiagramDefault, 4, 20, 20, true);
 
             
         }

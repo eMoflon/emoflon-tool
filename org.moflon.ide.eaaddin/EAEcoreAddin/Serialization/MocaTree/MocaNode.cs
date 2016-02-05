@@ -35,7 +35,7 @@ namespace EAEcoreAddin.Serialization.MocaTree
             this.Name = "";
         }
 
-        [DebuggerHidden]
+      //  [DebuggerHidden]
         public override XmlElement serializeToXmlTree(XmlDocument xmlDocument)
         {
             XmlElement nodeElement = xmlDocument.CreateElement(ChildNodeDefaultName);
