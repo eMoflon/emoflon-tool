@@ -55,6 +55,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable {
 	public void run(final IProgressMonitor monitor) throws CoreException {
 		try {
 			addPluginFeatures(project, projectProperties, monitor);
+         WorkspaceHelper.addContainerToBuildPath(project, "org.eclipse.pde.core.requiredPlugins");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -337,7 +337,6 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       {
          this.reportError(e);
       }
-      WorkspaceHelper.addContainerToBuildPath(project, "org.eclipse.pde.core.requiredPlugins");
 
       try
       {
