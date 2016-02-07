@@ -36,8 +36,7 @@ partial class MorphismFinderFactoryImpl {
 
 @model createInjectiveEGraphMorphismFinder (SymbolicGraph symbolicGraph) <--
 
-		FOTransformationResult foResult = MatchingFactory.eINSTANCE
-				.createFOTransformationResult();
+		FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();
 		foResult.init(symbolicGraph);
 
 		SpecificationPackage.eINSTANCE.getSpecificationFactory();
@@ -86,8 +85,7 @@ partial class MorphismFinderFactoryImpl {
 
 @model createInjectiveSymbolicGraphMorphismFinder (SymbolicGraph symbolicGraph) <--
 
-		FOTransformationResult foResult = MatchingFactory.eINSTANCE
-				.createFOTransformationResult();
+		FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();
 		foResult.init(symbolicGraph);
 
 		SpecificationPackage.eINSTANCE.getSpecificationFactory();
@@ -131,6 +129,58 @@ partial class MorphismFinderFactoryImpl {
 				.createSInjectiveSymbolicGraphMorphismFinder();
 		morphismFinder.setFOTransformationResult(foResult);
 		((CInjectiveEGraphMorphismFinderImpl) morphismFinder).patternRuntime = patternRuntime;
+		return morphismFinder;
+-->
+
+@model createMorphismFinder (SymbolicGraph pattern, ConfigurableMorphismClass morphismClass) <--
+
+
+		FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();
+		foResult.init(pattern);
+
+		SpecificationPackage.eINSTANCE.getSpecificationFactory();
+		EMFTypePackage.eINSTANCE.getEMFTypeFactory();
+		SymbolicGraphsPackage.eINSTANCE.getClass();
+
+		// 2) Prepares an internal representation for the pattern
+		EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder = new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(
+				new DefaultPatternFactory());
+		EMFConstraintModule emfTypeModule = new EMFConstraintModule((Registry) null);
+		EMFTypeModule internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
+		patternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+		patternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+
+		SymbolicGraphConstraintModule symbolicGraphConstraintModule = new SymbolicGraphConstraintModule(
+				(Registry) null);
+		SymbolicGraphTypeModule symbolicGraphTypeModule = new SymbolicGraphTypeModule(symbolicGraphConstraintModule);
+		patternBuilder.addVariableTypeSwitch(symbolicGraphTypeModule.getVariableTypeSwitch());
+
+		// 3) Initializes the pattern matcher module
+		WeightedOperationBuilder<RemappingOperation> builder = new EGraphGraphWeightedOperationBuilder<RemappingOperation>();
+		DefaultAlgorithm<InterpreterCombiner, RemappingOperation> searchPlanAlgorithm = new DefaultAlgorithm<InterpreterCombiner, RemappingOperation>(
+				builder);
+		PatternMatcherModule patternMatcherModule = new PatternMatcherModule();
+		patternMatcherModule.setAlgorithm(searchPlanAlgorithm);
+		patternMatcherModule.setScheduler(new Scheduler());
+
+		ReflectiveInterpreterOperationBuilder emfReflectiveOperationBuilder = new ReflectiveInterpreterOperationBuilder(
+				emfTypeModule);
+		patternMatcherModule.addOperationBuilder(emfReflectiveOperationBuilder);
+
+		EGraphInterpreterOperationBuilder eGraphInterpreterOperationBuilder = new EGraphInterpreterOperationBuilder(
+				symbolicGraphConstraintModule);
+		patternMatcherModule.addOperationBuilder(eGraphInterpreterOperationBuilder);
+		// TODO revert engine.addOperationBuilder(new SpecificationPackageOperationBuilder());
+		// 4) Creates the interpretable pattern matcher
+		DefaultPattern internalPatternSpecification = patternBuilder.build(foResult.getFirstOrderPattern());
+		org.gervarro.democles.interpreter.Pattern patternRuntime = patternMatcherModule
+				.build(internalPatternSpecification);
+		
+		ConfigurableMorphismFinder morphismFinder = MatchingFactory.eINSTANCE
+				.createConfigurableMorphismFinder();
+		morphismFinder.setPatternSpec(foResult);
+		morphismFinder.setMorphismClass(morphismClass);
+		((ConfigurableMorphismFinderImpl) morphismFinder).patternRuntime = patternRuntime;
 		return morphismFinder;
 -->
 

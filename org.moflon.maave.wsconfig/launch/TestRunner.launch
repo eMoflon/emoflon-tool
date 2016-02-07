@@ -8,7 +8,7 @@
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="CurrentWSLoc" value="${workspace_loc}"/>
-<mapEntry key="MoflonAaVDebugMode" value="false"/>
+<mapEntry key="MAaVeVerboseLevel" value="0"/>
 <mapEntry key="PATH" value="${workspace_loc}/org.moflon.maave.tool.smt.z3/lib/z3-4.3.2-x64-win/bin;${env_var:PATH}"/>
 <mapEntry key="java.library.path" value="${workspace_loc}/org.moflon.maave.tool.smt.z3/lib/z3-4.3.2-x64-win/bin"/>
 </mapAttribute>

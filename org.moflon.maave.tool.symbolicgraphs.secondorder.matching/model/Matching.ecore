@@ -94,6 +94,15 @@
       </eParameters>
     </eOperations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfigurableMorphismFinder">
+    <eOperations xsi:type="activities:MoflonEOperation" name="getAllMorphisms" eType="//MorphismsSet">
+      <eParameters name="partialMatch">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="morphismClass" eType="//CategoryUtils/ConfigurableMorphismClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patternSpec" eType="//FOTransformationResult"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MorphismFinderFactory">
     <eOperations xsi:type="activities:MoflonEOperation" name="createInjectiveEGraphMorphismFinder" eType="//CInjectiveEGraphMorphismFinder">
       <eParameters name="symbolicGraph">
@@ -105,10 +114,22 @@
         <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
       </eParameters>
     </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="createMorphismFinder" eType="//ConfigurableMorphismFinder">
+      <eParameters name="pattern">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+      <eParameters name="morphismClass" eType="//CategoryUtils/ConfigurableMorphismClass"/>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CInjectiveEGraphMorphismFinder" eSuperTypes="//SinglePatternMorphismFinder">
     <eOperations xsi:type="activities:MoflonEOperation" name="getAllMorphisms" eType="//MorphismsSet">
       <eParameters name="partialMatch">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="checkMorphismValidity">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="morphism">
         <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
       </eParameters>
     </eOperations>
@@ -595,6 +616,29 @@
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </eStructuralFeatures>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConfigurableMorphismClass">
+      <eOperations xsi:type="activities:MoflonEOperation" name="isMember" eType="//CategoryUtils/Status">
+        <eParameters name="morphism">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="graphNodeMode" ordered="false" lowerBound="1" eType="//CategoryUtils/MorMappingMode"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelNodeMode" ordered="false" lowerBound="1" eType="//CategoryUtils/MorMappingMode"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="graphEdgeMode" ordered="false" lowerBound="1" eType="//CategoryUtils/MorMappingMode"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelEdgeMode" ordered="false" lowerBound="1" eType="//CategoryUtils/MorMappingMode"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="formulaMode" ordered="false" lowerBound="1" eType="//CategoryUtils/FormulaMode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="MorMappingMode">
+      <eLiterals name="INJ" value="1" literal="INJ"/>
+      <eLiterals name="BIJ" value="2" literal="BIJ"/>
+      <eLiterals name="SURJ" value="3" literal="SURJ"/>
+      <eLiterals name="ARBIT" value="4" literal="ARBIT"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="FormulaMode">
+      <eLiterals name="IMPL" value="1" literal="IMPL"/>
+      <eLiterals name="BIIMPL" value="2" literal="BIIMPL"/>
+      <eLiterals name="ARBIT" value="3" literal="ARBIT"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CommutingPaths">
       <eOperations xsi:type="activities:MoflonEOperation" name="areCommuting" eType="//CategoryUtils/Status"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pathA" upperBound="-1">
@@ -609,6 +653,25 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="end">
         <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
       </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConfigurableMorphismClassFactory">
+      <eOperations xsi:type="activities:MoflonEOperation" name="createMorphismClass" eType="//CategoryUtils/ConfigurableMorphismClass">
+        <eParameters name="graphNodeMode">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eParameters>
+        <eParameters name="labelNodeMode">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eParameters>
+        <eParameters name="graphEdgeMode">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eParameters>
+        <eParameters name="labelEdgeMode">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eParameters>
+        <eParameters name="formulaMode">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eParameters>
+      </eOperations>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

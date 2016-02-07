@@ -13,5 +13,7 @@ public interface IAttribSolver {
 	public boolean hasNonEmptySemantic(SymbolicGraph symbGraph);
 	
 	public boolean hasEquivalentFormulas(SymbolicGraphMorphism morphism);
+	
+
 
 }
