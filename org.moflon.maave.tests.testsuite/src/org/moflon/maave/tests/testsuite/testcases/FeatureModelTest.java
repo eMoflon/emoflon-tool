@@ -40,7 +40,7 @@ public class FeatureModelTest {
 		FeaturemodelPackage.eINSTANCE.getClass();
 		SDMLanguagePackage.eINSTANCE.getClass();
 		EPackage pack = (EPackage) eMoflonEMFUtil
-				.loadModel("../FeatureModelLangTestGen/model/FeatureModelLangTestGen.ecore");
+				.loadModel("../org.moflon.maave.tests.testgen.genfeaturemodel/model/Genfeaturemodel.ecore");
 		EClass clazz = (EClass) pack.getEClassifier(className);
 		MoflonEOperation eop = (MoflonEOperation) clazz.getEAllOperations()
 				.stream().filter(x -> x.getName().equals(name)).findFirst()

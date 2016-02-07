@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="featuremodel" nsURI="platform:/plugin/org.moflon.maave.tests.lang.featuremodel/model/Featuremodel.ecore" nsPrefix="org.moflon.maave.tests.lang.featuremodel">
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rootFeature" lowerBound="1" eType="//Feature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Feature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="groups" upperBound="-1" eType="//Group" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="real" upperBound="-1" eType="//RealFeatureAttribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nat" upperBound="-1" eType="//NatFeatureAttribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="req" upperBound="-1" eType="//Feature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sel" ordered="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RealFeatureAttribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="val" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NatFeatureAttribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="val" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Group">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1" eType="//Feature" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

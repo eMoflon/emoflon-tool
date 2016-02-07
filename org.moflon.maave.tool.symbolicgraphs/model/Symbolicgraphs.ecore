@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AttributeConstraints="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/AttributeConstraints" xmlns:activities="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities" xmlns:callExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls/callExpressions" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:patternExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions" name="symbolicgraphs" nsURI="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore" nsPrefix="org.moflon.maave.tool.symbolicgraphs">
+  <eClassifiers xsi:type="ecore:EClass" name="EClass1"/>
+  <eSubpackages name="SymbolicGraphMorphisms" nsURI="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms" nsPrefix="SymbolicGraphMorphisms">
+    <eClassifiers xsi:type="ecore:EClass" name="SymbolicGraphMorphism">
+      <eOperations xsi:type="activities:MoflonEOperation" name="imageOf" eType="//SymbolicGraphs/EGraphElement">
+        <eParameters name="element" eType="//SymbolicGraphs/EGraphElement"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="addMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/EGraphElement"/>
+        <eParameters name="image" eType="//SymbolicGraphs/EGraphElement"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="imageOf" eType="//SymbolicGraphs/GraphEdge">
+        <eParameters name="of" eType="//SymbolicGraphs/GraphEdge"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isInImage">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="graphEdge" eType="//SymbolicGraphs/GraphEdge"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="addMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/LabelEdge"/>
+        <eParameters name="image" eType="//SymbolicGraphs/LabelEdge"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="imageOf" eType="//SymbolicGraphs/LabelEdge">
+        <eParameters name="of" eType="//SymbolicGraphs/LabelEdge"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isInImage">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="labelEdge" eType="//SymbolicGraphs/LabelEdge"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="composeWith" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism">
+        <eParameters name="after" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="addMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/LabelNode"/>
+        <eParameters name="image" eType="//SymbolicGraphs/LabelNode"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="imageOf" eType="//SymbolicGraphs/LabelNode">
+        <eParameters name="of" eType="//SymbolicGraphs/LabelNode"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isInImage">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="labelNode" eType="//SymbolicGraphs/LabelNode"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="addMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/GraphNode"/>
+        <eParameters name="image" eType="//SymbolicGraphs/GraphNode"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="imageOf" eType="//SymbolicGraphs/GraphNode">
+        <eParameters name="of" eType="//SymbolicGraphs/GraphNode"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isInImage">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="graphNode" eType="//SymbolicGraphs/GraphNode"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="toString">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isInImage">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="element" eType="//SymbolicGraphs/EGraphElement"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="addMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/GraphEdge"/>
+        <eParameters name="image" eType="//SymbolicGraphs/GraphEdge"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="removeMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/EGraphElement"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="removeMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/GraphEdge"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="removeMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/LabelEdge"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="removeMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/LabelNode"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="removeMapping">
+        <eParameters name="preimage" eType="//SymbolicGraphs/GraphNode"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dom" eType="//SymbolicGraphs/SymbolicGraph"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="codom" eType="//SymbolicGraphs/SymbolicGraph"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="SymbolicGraphs" nsURI="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs" nsPrefix="SymbolicGraphs">
+    <eClassifiers xsi:type="ecore:EClass" name="SymbolicGraph">
+      <eOperations xsi:type="activities:MoflonEOperation" name="add">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="element" eType="//SymbolicGraphs/EGraphElement"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="getAllElements" eType="//SymbolicGraphs/EGraphElementList"/>
+      <eOperations xsi:type="activities:MoflonEOperation" name="addCopy" eType="//SymbolicGraphs/EGraphElement">
+        <eParameters name="element" eType="//SymbolicGraphs/EGraphElement"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="toString">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graphNodes" upperBound="-1" eType="//SymbolicGraphs/GraphNode" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graphEdges" upperBound="-1" eType="//SymbolicGraphs/GraphEdge" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="labelEdges" upperBound="-1" eType="//SymbolicGraphs/LabelEdge" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="labelNodes" upperBound="-1" eType="//SymbolicGraphs/LabelNode" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="formula" eType="//SymbolicGraphs/Disjunction" containment="true" eOpposite="//SymbolicGraphs/Disjunction/inSymbGraph"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GraphNode" eSuperTypes="//SymbolicGraphs/EGraphElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outGraphEdge" upperBound="-1" eType="//SymbolicGraphs/GraphEdge" eOpposite="//SymbolicGraphs/GraphEdge/source"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inGraphEdge" upperBound="-1" eType="//SymbolicGraphs/GraphEdge" eOpposite="//SymbolicGraphs/GraphEdge/target"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type">
+        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="labelEdge" upperBound="-1" eType="//SymbolicGraphs/LabelEdge" eOpposite="//SymbolicGraphs/LabelEdge/source"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="debugId" ordered="false">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GraphEdge" eSuperTypes="//SymbolicGraphs/EGraphElement">
+      <eOperations xsi:type="activities:MoflonEOperation" name="getDebugId">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type">
+        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="//SymbolicGraphs/GraphNode" eOpposite="//SymbolicGraphs/GraphNode/outGraphEdge"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="//SymbolicGraphs/GraphNode" eOpposite="//SymbolicGraphs/GraphNode/inGraphEdge"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LabelEdge" eSuperTypes="//SymbolicGraphs/EGraphElement">
+      <eOperations xsi:type="activities:MoflonEOperation" name="getDebugId">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="//SymbolicGraphs/GraphNode" eOpposite="//SymbolicGraphs/GraphNode/labelEdge"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type">
+        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="//SymbolicGraphs/LabelNode" eOpposite="//SymbolicGraphs/LabelNode/labelEdge"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LabelNode" eSuperTypes="//SymbolicGraphs/EGraphElement //SymbolicGraphs/Parameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="labelEdge" upperBound="-1" eType="//SymbolicGraphs/LabelEdge" eOpposite="//SymbolicGraphs/LabelEdge/target"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" ordered="false">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Subgraph">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graphNodes" upperBound="-1" eType="//SymbolicGraphs/GraphNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graphEdges" upperBound="-1" eType="//SymbolicGraphs/GraphEdge"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="labelEdges" upperBound="-1" eType="//SymbolicGraphs/LabelEdge"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="labelNodes" upperBound="-1" eType="//SymbolicGraphs/LabelNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Conjunction">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inDisj" eType="//SymbolicGraphs/Disjunction" eOpposite="//SymbolicGraphs/Disjunction/of"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="of" upperBound="-1" eType="//SymbolicGraphs/Predicate" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Disjunction">
+      <eOperations xsi:type="activities:MoflonEOperation" name="getConstant" eType="//SymbolicGraphs/Constant">
+        <eParameters name="value">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eParameters>
+        <eParameters name="type">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="toString">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inSymbGraph" eType="//SymbolicGraphs/SymbolicGraph" eOpposite="//SymbolicGraphs/SymbolicGraph/formula"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="of" upperBound="-1" eType="//SymbolicGraphs/Conjunction" containment="true" eOpposite="//SymbolicGraphs/Conjunction/inDisj"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constants" upperBound="-1" eType="//SymbolicGraphs/Constant" containment="true" eOpposite="//SymbolicGraphs/Constant/formula"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="quantifier" eType="//SymbolicGraphs/Quantifier" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Predicate">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1" eType="//SymbolicGraphs/Parameter" eOpposite="//SymbolicGraphs/Parameter/predicates"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Symbol" ordered="false">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EDataType" name="EGraphElementList" instanceTypeName="java.util.List&lt;EGraphElement>"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Parameter" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="predicates" upperBound="-1" eType="//SymbolicGraphs/Predicate" eOpposite="//SymbolicGraphs/Predicate/parameters"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type">
+        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Constant" eSuperTypes="//SymbolicGraphs/Parameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="formula" eType="//SymbolicGraphs/Disjunction" eOpposite="//SymbolicGraphs/Disjunction/constants"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="interpretation" ordered="false">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EGraphElement" abstract="true" interface="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Quantifier" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="labelNodes" lowerBound="1" upperBound="-1" eType="//SymbolicGraphs/LabelNode" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Exists" eSuperTypes="//SymbolicGraphs/Quantifier"/>
+  </eSubpackages>
+  <eSubpackages name="ApplicationConditions" nsURI="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//ApplicationConditions" nsPrefix="ApplicationConditions">
+    <eClassifiers xsi:type="ecore:EClass" name="Condition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="x" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="c_i" upperBound="-1" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="SymbolicGTRule" nsURI="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGTRule" nsPrefix="SymbolicGTRule">
+    <eClassifiers xsi:type="ecore:EClass" name="SymbGTRule">
+      <eOperations xsi:type="activities:MoflonEOperation" name="toString">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="makeRuleLazy">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="createMissingLabelNodes">
+        <activity owningOperation="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes">
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.0"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode2" comment="ActivityNode2" outgoing="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.1 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.2" incoming="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.3 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.4" forEach="true">
+            <storyPattern comment="ActivityNode2">
+              <objectVariable type="//SymbolicGTRule/SymbGTRule" name="this" outgoingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0" bindingState="BOUND"/>
+              <objectVariable type="//SymbolicGraphs/SymbolicGraph" name="graph" incomingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0"/>
+              <linkVariable name="containedSymbolicGraphs" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0" type="//SymbolicGTRule/SymbGTRule/containedSymbolicGraphs"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="This is a hack to prevent this trafo for GT-Rules with application conditions" comment="This_is_a_hack_to_prevent_this_trafo_for_GT_Rules_with_application_conditions" outgoing="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.3" incoming="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.0">
+            <storyPattern comment="This_is_a_hack_to_prevent_this_trafo_for_GT_Rules_with_application_conditions">
+              <objectVariable type="//SymbolicGTRule/SymbGTRule" name="this" outgoingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0" bindingState="BOUND"/>
+              <objectVariable type="//ApplicationConditions/Condition" name="applicationCondition" incomingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.2/@storyPattern/@linkVariable.0" bindingSemantics="NEGATIVE"/>
+              <linkVariable name="applicationConditions" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.1" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0" type="//SymbolicGTRule/SymbGTRule/applicationConditions" bindingSemantics="NEGATIVE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="ActivityNode3" outgoing="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.4" incoming="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.1">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1">
+              <ownedParameterBindings parameter="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/symbolicGraph">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.2/@storyPattern/@objectVariable.0"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityEdge.2"/>
+          <ownedActivityEdge source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.0" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.1" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.3" guard="EACH_TIME"/>
+          <ownedActivityEdge source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.1" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.4" guard="END"/>
+          <ownedActivityEdge source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.2" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.1"/>
+          <ownedActivityEdge source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.3" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes/@activity/@ownedActivityNode.1"/>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="createMissingLabelNodes">
+        <eParameters name="symbolicGraph" eType="//SymbolicGraphs/SymbolicGraph"/>
+        <activity owningOperation="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1">
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityEdge.0"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode1" comment="ActivityNode1" outgoing="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityEdge.1" incoming="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityEdge.0" forEach="true">
+            <storyPattern comment="ActivityNode1">
+              <objectVariable type="//SymbolicGraphs/GraphNode" name="graphNode" incomingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.4 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.10 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.1" outgoingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0"/>
+              <objectVariable type="//SymbolicGraphs/SymbolicGraph" name="symbolicGraph" outgoingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.2 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.3 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.4" bindingState="BOUND"/>
+              <objectVariable type="//SymbolicGraphs/LabelNode" name="newLabelNode" incomingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.3" outgoingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.5 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.11" bindingOperator="CREATE"/>
+              <objectVariable name="graphNodeType" incomingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0" outgoingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.6">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+              </objectVariable>
+              <objectVariable name="attribute" incomingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.6 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.8 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.9" outgoingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.7">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+              </objectVariable>
+              <objectVariable type="//SymbolicGraphs/LabelEdge" name="labelEdge" outgoingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.8 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.1" bindingSemantics="NEGATIVE"/>
+              <objectVariable type="//SymbolicGraphs/LabelEdge" name="newLabelEdge" incomingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.2 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.11" outgoingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.9 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.10" bindingOperator="CREATE"/>
+              <objectVariable name="eDatatype" incomingLink="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.5 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.7">
+                <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+              </objectVariable>
+              <linkVariable name="type" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.3" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0" type="//SymbolicGraphs/GraphNode/type"/>
+              <linkVariable name="source" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.5" type="//SymbolicGraphs/LabelEdge/source" bindingSemantics="NEGATIVE"/>
+              <linkVariable name="labelEdges" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.6" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1" type="//SymbolicGraphs/SymbolicGraph/labelEdges" bindingOperator="CREATE"/>
+              <linkVariable name="labelNodes" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.2" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1" type="//SymbolicGraphs/SymbolicGraph/labelNodes" bindingOperator="CREATE"/>
+              <linkVariable name="graphNodes" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1" type="//SymbolicGraphs/SymbolicGraph/graphNodes"/>
+              <linkVariable name="type" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.7" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.2" type="//SymbolicGraphs/Parameter/type" bindingOperator="CREATE"/>
+              <linkVariable name="eAllAttributes" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.4" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.3">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eAllAttributes"/>
+              </linkVariable>
+              <linkVariable name="eAttributeType" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.7" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.4">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute/eAttributeType"/>
+              </linkVariable>
+              <linkVariable name="type" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.4" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.5" type="//SymbolicGraphs/LabelEdge/type" bindingSemantics="NEGATIVE"/>
+              <linkVariable name="type" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.4" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.6" type="//SymbolicGraphs/LabelEdge/type" bindingOperator="CREATE"/>
+              <linkVariable name="source" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.6" type="//SymbolicGraphs/LabelEdge/source" bindingOperator="CREATE"/>
+              <linkVariable name="labelEdge" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.6" source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.2" type="//SymbolicGraphs/LabelNode/labelEdge" bindingOperator="CREATE"/>
+              <constraints xsi:type="AttributeConstraints:CspConstraint" parameters="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@variables.0 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@variables.1 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@variables.2" name="+"/>
+              <constraints xsi:type="AttributeConstraints:AttributeLookupConstraint" parameter="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@variables.2" objectVariable="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.4">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+              </constraints>
+              <constraints xsi:type="AttributeConstraints:CspConstraint" parameters="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@variables.3 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@variables.4 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@variables.0" name="+"/>
+              <constraints xsi:type="AttributeConstraints:AssignmentConstraint" parameter="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@variables.3" type="//SymbolicGraphs/LabelNode/label" objectVariable="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.2"/>
+              <constraints xsi:type="AttributeConstraints:AttributeLookupConstraint" parameter="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@variables.4" type="//SymbolicGraphs/GraphNode/debugId" objectVariable="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0"/>
+              <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@constraints.0 //SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@constraints.2" name="suffix">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+              </variables>
+              <variables xsi:type="AttributeConstraints:LiteralVariable" cspConstraints="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@constraints.0" name="_">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+              </variables>
+              <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@constraints.0" attributeValueConstraints="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@constraints.1" name="attribute_name">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+              </variables>
+              <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@constraints.2" attributeValueConstraints="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@constraints.3" name="newLabelNode_label_prime">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+              </variables>
+              <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@constraints.2" attributeValueConstraints="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1/@storyPattern/@constraints.4" name="graphNode_debugId">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+              </variables>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityEdge.1"/>
+          <ownedActivityEdge source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.0" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1"/>
+          <ownedActivityEdge source="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.1" target="//SymbolicGTRule/SymbGTRule/createMissingLabelNodes.1/@activity/@ownedActivityNode.2" guard="END"/>
+        </activity>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="applicationConditions" upperBound="-1" eType="//ApplicationConditions/Condition"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="containedSymbolicGraphs" upperBound="-1" eType="//SymbolicGraphs/SymbolicGraph" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="containedGraphMorphism" upperBound="-1" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="Datastructures" nsURI="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures" nsPrefix="Datastructures">
+    <eClassifiers xsi:type="ecore:EClass" name="MorphismPair">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="first" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="second" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MorphismPairSet">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="morphismPairs" upperBound="-1" eType="//Datastructures/MorphismPair" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DirectDerivationPair">
+      <eOperations xsi:type="activities:MoflonEOperation" name="toString">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="der1" eType="//Datastructures/DirectDerivation"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="der2" eType="//Datastructures/DirectDerivation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DirectDerivationPairSet">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pairsOfDirectDerivations" upperBound="-1" eType="//Datastructures/DirectDerivationPair" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DirectDerivationSet">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="directDerivations" upperBound="-1" eType="//Datastructures/DirectDerivation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Span">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="h" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="g" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DirectDerivation">
+      <eOperations xsi:type="activities:MoflonEOperation" name="toString">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="match" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="comatch" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="span" eType="//Datastructures/Span"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="//SymbolicGTRule/SymbGTRule"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SemanticPreservingMorphism">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="first" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="second" eType="//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="symbIsoMorphisms" eType="//Datastructures/MorphismPair"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

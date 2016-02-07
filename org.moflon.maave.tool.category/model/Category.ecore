@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activities="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="category" nsURI="platform:/plugin/org.moflon.maave.tool.category/model/Category.ecore" nsPrefix="org.moflon.maave.tool.category">
+  <eClassifiers xsi:type="ecore:EClass" name="SymbolicGraphCat">
+    <eOperations xsi:type="activities:MoflonEOperation" name="pushout" eType="//SymbolicPushout">
+      <eParameters name="a_b">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+      <eParameters name="a_c">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="pushoutComplement" eType="//SymbolicPushoutComplement">
+      <eParameters name="l">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+      <eParameters name="m">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="pullback" eType="//SymbolicPullback">
+      <eParameters name="b_d">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+      <eParameters name="c_d">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="boundary" eType="//SymbolicBoundary">
+      <eParameters name="f">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="symbolicGraphMorpism" upperBound="-1">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SymbolicPushout">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pushoutObject">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="morphism" upperBound="2">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SymbolicPushoutComplement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="morphism" upperBound="2">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contextObject">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SymbolicPullback">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="morphisms" upperBound="2">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pullbackObject">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SymbolicBoundary">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boundary">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activities="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities" xmlns:callExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls/callExpressions" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:expressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions" xmlns:patternExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions" name="matching" nsURI="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore" nsPrefix="org.moflon.maave.tool.symbolicgraphs.secondorder.matching">
+  <eClassifiers xsi:type="ecore:EClass" name="PatternMatcherHelper">
+    <eOperations xsi:type="activities:MoflonEOperation" name="findAllMatches" eType="//DataFrameList">
+      <eParameters name="foResult" eType="//FOTransformationResult"/>
+      <eParameters name="partialMatch">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialized" ordered="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataFrameWrapper"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataFrameList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataFrames" upperBound="-1" eType="//DataFrameWrapper"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FOTransformationResult">
+    <eOperations xsi:type="activities:MoflonEOperation" name="init">
+      <eParameters name="source">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="getFirstOrderPattern">
+      <eType xsi:type="ecore:EClass" href="http://gervarro.org/democles/specification.ecore#//Pattern"/>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="getIndexOf">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="eGraphElem">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/EGraphElement"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialized" ordered="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractMorphismFinder" abstract="true" eSuperTypes="//GenericMorphismFinder //SinglePatternMorphismFinder">
+    <eOperations xsi:type="activities:MoflonEOperation" name="checkMorphismValidity">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="morphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="createFirstOrderPattern" eType="//FOTransformationResult">
+      <eParameters name="symbolicGraph">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="getAllMorphisms" eType="//MorphismsSet">
+      <eParameters name="from">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+      <eParameters name="to">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="getAllMorphisms" eType="//MorphismsSet">
+      <eParameters name="partialMatch">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MorphismFinder" abstract="true" interface="true">
+    <eOperations xsi:type="activities:MoflonEOperation" name="checkMorphismValidity">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="morphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MorphismsSet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="morphisms" upperBound="-1">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InjectiveEGraphMorphismFinder" eSuperTypes="//AbstractMorphismFinder">
+    <eOperations xsi:type="activities:MoflonEOperation" name="createFirstOrderPattern" eType="//FOTransformationResult">
+      <eParameters name="symbolicGraph">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="checkMorphismValidity">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="morphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InjectiveSymbolicGraphMorphismFinder" eSuperTypes="//InjectiveEGraphMorphismFinder">
+    <eOperations xsi:type="activities:MoflonEOperation" name="checkMorphismValidity">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="morphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MorphismFinderFactory">
+    <eOperations xsi:type="activities:MoflonEOperation" name="createInjectiveEGraphMorphismFinder" eType="//CInjectiveEGraphMorphismFinder">
+      <eParameters name="symbolicGraph">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="createInjectiveSymbolicGraphMorphismFinder" eType="//SInjectiveSymbolicGraphMorphismFinder">
+      <eParameters name="symbolicGraph">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CInjectiveEGraphMorphismFinder" eSuperTypes="//SinglePatternMorphismFinder">
+    <eOperations xsi:type="activities:MoflonEOperation" name="getAllMorphisms" eType="//MorphismsSet">
+      <eParameters name="partialMatch">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fOTransformationResult" eType="//FOTransformationResult"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SinglePatternMorphismFinder" abstract="true" interface="true" eSuperTypes="//MorphismFinder">
+    <eOperations xsi:type="activities:MoflonEOperation" name="getAllMorphisms" eType="//MorphismsSet">
+      <eParameters name="partialMatch">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericMorphismFinder" abstract="true" interface="true" eSuperTypes="//MorphismFinder">
+    <eOperations xsi:type="activities:MoflonEOperation" name="getAllMorphisms" eType="//MorphismsSet">
+      <eParameters name="from">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+      <eParameters name="to">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SInjectiveSymbolicGraphMorphismFinder" eSuperTypes="//CInjectiveEGraphMorphismFinder">
+    <eOperations xsi:type="activities:MoflonEOperation" name="checkMorphismValidity">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="morphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eSubpackages name="CategoryUtils" nsURI="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils" nsPrefix="CategoryUtils">
+    <eClassifiers xsi:type="ecore:EClass" name="CategoryUtil">
+      <eOperations xsi:type="activities:MoflonEOperation" name="isValidEGraphMorphism">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="morphism">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isInjectiveMorphism">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="morphism">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="areSimilarEGraphMorphisms">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="morA">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        </eParameters>
+        <eParameters name="morB">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isValidSymbGraphMorphism">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="morphism">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="isOfClassM">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="morphism">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="areCommuting">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="pathA" eType="//CategoryUtils/Path"/>
+        <eParameters name="pathB" eType="//CategoryUtils/Path"/>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="getInverseMorphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        <eParameters name="mor">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="areIsomorphicSymbGraphs">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        <eParameters name="graphB">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+        <eParameters name="graphA">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+        <activity owningOperation="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs">
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.0"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode1" comment="ActivityNode1" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.1" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.0">
+            <storyPattern comment="ActivityNode1">
+              <objectVariable type="//InjectiveEGraphMorphismFinder" name="matchFinder" bindingOperator="CREATE"/>
+              <objectVariable type="//CategoryUtils/CategoryUtil" name="util" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode2" comment="ActivityNode2" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.2" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.1">
+            <storyPattern comment="ActivityNode2">
+              <objectVariable type="//MorphismsSet" name="morsAB" bindingState="BOUND">
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//GenericMorphismFinder/getAllMorphisms">
+                  <ownedParameterBindings parameter="//GenericMorphismFinder/getAllMorphisms/from">
+                    <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/graphA"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//GenericMorphismFinder/getAllMorphisms/to">
+                    <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/graphB"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0"/>
+                </bindingExpression>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.11">
+            <returnValue xsi:type="expressions:LiteralExpression" value="false"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="ActivityNode4" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.3 //CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.4" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.12">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//CategoryUtils/CategoryUtil/isValidSymbGraphMorphism">
+              <ownedParameterBindings parameter="//CategoryUtils/CategoryUtil/isValidSymbGraphMorphism/morphism">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.11/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StatementNode" name="ActivityNode5" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.5 //CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.6" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.7">
+            <statementExpression xsi:type="callExpressions:MethodCallExpression" callee="//CategoryUtils/CategoryUtil/isValidSymbGraphMorphism">
+              <ownedParameterBindings parameter="//CategoryUtils/CategoryUtil/isValidSymbGraphMorphism/morphism">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1"/>
+            </statementExpression>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.8">
+            <returnValue xsi:type="expressions:LiteralExpression" value="false"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.6">
+            <returnValue xsi:type="expressions:LiteralExpression" value="true"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode6" comment="ActivityNode6" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.7 //CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.8" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.9 //CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.13">
+            <storyPattern comment="ActivityNode6">
+              <objectVariable type="//MorphismsSet" name="morsBA" outgoingLink="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.8/@storyPattern/@linkVariable.0" bindingState="BOUND"/>
+              <objectVariable name="morBA" incomingLink="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.8/@storyPattern/@linkVariable.0">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <linkVariable name="morphisms" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.1" source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.8/@storyPattern/@objectVariable.0" type="//MorphismsSet/morphisms"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode8" comment="ActivityNode8" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.9" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.3">
+            <storyPattern comment="ActivityNode8">
+              <objectVariable type="//MorphismsSet" name="morsBA" bindingState="BOUND">
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//GenericMorphismFinder/getAllMorphisms">
+                  <ownedParameterBindings parameter="//GenericMorphismFinder/getAllMorphisms/from">
+                    <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/graphB"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//GenericMorphismFinder/getAllMorphisms/to">
+                    <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/graphA"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0"/>
+                </bindingExpression>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode9" comment="ActivityNode9" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.10" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.4">
+            <storyPattern comment="ActivityNode9">
+              <objectVariable type="//MorphismsSet" name="morsAB" outgoingLink="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.10/@storyPattern/@linkVariable.0" bindingState="BOUND"/>
+              <objectVariable name="morAB" incomingLink="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.10/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <linkVariable name="morphisms" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.10/@storyPattern/@objectVariable.1" source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.10/@storyPattern/@objectVariable.0" type="//MorphismsSet/morphisms" bindingOperator="DESTROY"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode7" comment="ActivityNode7" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.11 //CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.12" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.2 //CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.10">
+            <storyPattern comment="ActivityNode7">
+              <objectVariable type="//MorphismsSet" name="morsAB" outgoingLink="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.11/@storyPattern/@linkVariable.0" bindingState="BOUND"/>
+              <objectVariable name="morAB" incomingLink="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.11/@storyPattern/@linkVariable.0">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <linkVariable name="morphisms" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.11/@storyPattern/@objectVariable.1" source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.11/@storyPattern/@objectVariable.0" type="//MorphismsSet/morphisms"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode6" comment="ActivityNode6" outgoing="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.13" incoming="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityEdge.5">
+            <storyPattern comment="ActivityNode6">
+              <objectVariable type="//MorphismsSet" name="morsBA" outgoingLink="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.12/@storyPattern/@linkVariable.0" bindingState="BOUND"/>
+              <objectVariable name="morBA" incomingLink="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.12/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <linkVariable name="morphisms" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.12/@storyPattern/@objectVariable.1" source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.12/@storyPattern/@objectVariable.0" type="//MorphismsSet/morphisms" bindingOperator="DESTROY"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.0" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.1"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.1" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.2" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.11"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.4" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.9" guard="SUCCESS"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.4" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.10" guard="FAILURE"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.5" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.12" guard="FAILURE"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.5" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.7" guard="SUCCESS"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.8" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.5" guard="SUCCESS"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.8" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.6" guard="FAILURE"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.9" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.8"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.10" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.11"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.11" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.3" guard="FAILURE"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.11" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.4" guard="SUCCESS"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.12" target="//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/@activity/@ownedActivityNode.8"/>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="hasNonEmptySemantic" eType="//CategoryUtils/Status">
+        <eParameters name="symbolicGraph">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="internalGetGraphIsomorphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair"/>
+        <eParameters name="graphA">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+        <eParameters name="graphB">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+        <eParameters name="matchFinder" eType="//GenericMorphismFinder"/>
+        <activity owningOperation="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism">
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.0"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="init" comment="init" outgoing="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.1" incoming="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.0">
+            <storyPattern comment="init">
+              <objectVariable type="//GenericMorphismFinder" name="matchFinder" bindingState="BOUND"/>
+              <objectVariable type="//CategoryUtils/CategoryUtil" name="this" bindingState="BOUND"/>
+              <objectVariable name="morphismPair" bindingOperator="CREATE">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair"/>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode10" comment="ActivityNode10" outgoing="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.2" incoming="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.1">
+            <storyPattern comment="ActivityNode10">
+              <objectVariable type="//MorphismsSet" name="morsAB" bindingState="BOUND">
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//GenericMorphismFinder/getAllMorphisms">
+                  <ownedParameterBindings parameter="//GenericMorphismFinder/getAllMorphisms/from">
+                    <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphA"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//GenericMorphismFinder/getAllMorphisms/to">
+                    <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphB"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0"/>
+                </bindingExpression>
+              </objectVariable>
+              <objectVariable type="//MorphismsSet" name="morsBA" bindingState="BOUND">
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//GenericMorphismFinder/getAllMorphisms">
+                  <ownedParameterBindings parameter="//GenericMorphismFinder/getAllMorphisms/from">
+                    <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphB"/>
+                  </ownedParameterBindings>
+                  <ownedParameterBindings parameter="//GenericMorphismFinder/getAllMorphisms/to">
+                    <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphA"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0"/>
+                </bindingExpression>
+              </objectVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="whileThereIsAMorphism" comment="whileThereIsAMorphism" outgoing="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.3 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.4" incoming="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.2 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.6 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.10 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.11" forEach="true">
+            <storyPattern comment="whileThereIsAMorphism">
+              <objectVariable name="morAB" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <objectVariable type="//MorphismsSet" name="morsAB" outgoingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.0" bindingState="BOUND"/>
+              <objectVariable name="morBA" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.1">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <objectVariable type="//MorphismsSet" name="morsBA" outgoingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3/@storyPattern/@linkVariable.1" bindingState="BOUND"/>
+              <linkVariable name="morphisms" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.0" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.1" type="//MorphismsSet/morphisms"/>
+              <linkVariable name="morphisms" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.2" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3/@storyPattern/@objectVariable.3" type="//MorphismsSet/morphisms"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="createCommutingStuff" comment="createCommutingStuff" outgoing="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.5" incoming="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.7">
+            <storyPattern comment="createCommutingStuff">
+              <objectVariable name="morAB" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.6" outgoingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <objectVariable name="morBA" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.7" outgoingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.2 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.3" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <objectVariable name="graphA" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.0 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.3 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.4 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.5" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+              </objectVariable>
+              <objectVariable name="graphB" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.1 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.2" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+              </objectVariable>
+              <objectVariable type="//CategoryUtils/CommutingPaths" name="commutingPaths" outgoingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.4 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.5 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.6 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.7 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.8" bindingOperator="CREATE"/>
+              <objectVariable name="idMor" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@linkVariable.8" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//CategoryUtils/CategoryUtil/createIdentityMorphism">
+                  <ownedParameterBindings parameter="//CategoryUtils/CategoryUtil/createIdentityMorphism/graphG">
+                    <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2"/>
+                  </ownedParameterBindings>
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1"/>
+                </bindingExpression>
+              </objectVariable>
+              <linkVariable name="dom" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0">
+                <type href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism/dom"/>
+              </linkVariable>
+              <linkVariable name="codom" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.3" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0">
+                <type href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism/codom"/>
+              </linkVariable>
+              <linkVariable name="dom" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.3" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1">
+                <type href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism/dom"/>
+              </linkVariable>
+              <linkVariable name="codom" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1">
+                <type href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism/codom"/>
+              </linkVariable>
+              <linkVariable name="begin" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" type="//CategoryUtils/CommutingPaths/begin" bindingOperator="CREATE"/>
+              <linkVariable name="end" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.2" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" type="//CategoryUtils/CommutingPaths/end" bindingOperator="CREATE"/>
+              <linkVariable name="pathA" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.0" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" type="//CategoryUtils/CommutingPaths/pathA" bindingOperator="CREATE"/>
+              <linkVariable name="pathA" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.1" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" type="//CategoryUtils/CommutingPaths/pathA" bindingOperator="CREATE"/>
+              <linkVariable name="pathB" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.5" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4" type="//CategoryUtils/CommutingPaths/pathB" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode14" comment="ActivityNode14" outgoing="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.6 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.7" incoming="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.4">
+            <storyPattern comment="ActivityNode14">
+              <objectVariable name="aMorphism" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <objectVariable name="morphismPair" outgoingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.5/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair"/>
+              </objectVariable>
+              <linkVariable name="first" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.0" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.5/@storyPattern/@objectVariable.1">
+                <type href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair/first"/>
+              </linkVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode15" comment="ActivityNode15" outgoing="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.8 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.9" incoming="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.3">
+            <storyPattern comment="ActivityNode15">
+              <objectVariable name="morphismPair" outgoingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair"/>
+              </objectVariable>
+              <objectVariable name="aMorphism" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.6/@storyPattern/@linkVariable.0">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <linkVariable name="first" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.1" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.6/@storyPattern/@objectVariable.0">
+                <type href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair/first"/>
+              </linkVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.9">
+            <returnValue xsi:type="expressions:LiteralExpression" value="null"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.8">
+            <returnValue xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.2"/>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ifCommutingCreateAndReturnPair" comment="ifCommutingCreateAndReturnPair" outgoing="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.10 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.11" incoming="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityEdge.5">
+            <storyPattern comment="ifCommutingCreateAndReturnPair">
+              <objectVariable type="//CategoryUtils/Status" name="commuting" bindingState="BOUND">
+                <constraint>
+                  <constraintExpression xsi:type="expressions:ComparisonExpression" operator="EQUAL">
+                    <rightExpression xsi:type="expressions:LiteralExpression" value="true"/>
+                    <leftExpression xsi:type="patternExpressions:AttributeValueExpression" object="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.0" attribute="//CategoryUtils/Status/valid"/>
+                  </constraintExpression>
+                </constraint>
+                <bindingExpression xsi:type="callExpressions:MethodCallExpression" callee="//CategoryUtils/CommutingPaths/areCommuting">
+                  <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4/@storyPattern/@objectVariable.4"/>
+                </bindingExpression>
+              </objectVariable>
+              <objectVariable name="morBA" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <objectVariable name="morphismPair" outgoingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.0 //CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.1" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair"/>
+              </objectVariable>
+              <objectVariable name="morAB" incomingLink="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9/@storyPattern/@linkVariable.0" bindingState="BOUND">
+                <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+              </objectVariable>
+              <linkVariable name="first" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.3" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.2" bindingOperator="CREATE">
+                <type href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair/first"/>
+              </linkVariable>
+              <linkVariable name="second" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.1" source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9/@storyPattern/@objectVariable.2" bindingOperator="CREATE">
+                <type href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair/second"/>
+              </linkVariable>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.0" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.1"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.1" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.2"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.2" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.6" guard="END"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.5" guard="EACH_TIME"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.5" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3" guard="SUCCESS"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.5" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.4" guard="FAILURE"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.6" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.8" guard="SUCCESS"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.6" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.7" guard="FAILURE"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3" guard="FAILURE"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.9" target="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/@activity/@ownedActivityNode.3" guard="SUCCESS"/>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="createIdentityMorphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        <eParameters name="graphG">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="getSymbolicGraphIsomorphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair"/>
+        <eParameters name="graphA">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+        <eParameters name="graphB">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+        <activity owningOperation="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism">
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityEdge.0"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode11" comment="ActivityNode11" outgoing="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityEdge.1" incoming="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityEdge.0">
+            <storyPattern comment="ActivityNode11">
+              <objectVariable type="//InjectiveSymbolicGraphMorphismFinder" name="matchFinder" bindingOperator="CREATE"/>
+              <objectVariable type="//CategoryUtils/CategoryUtil" name="this" bindingState="BOUND"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityEdge.1">
+            <returnValue xsi:type="callExpressions:MethodCallExpression" callee="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism">
+              <ownedParameterBindings parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphA">
+                <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/graphA"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphB">
+                <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/graphB"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/matchFinder">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1"/>
+            </returnValue>
+          </ownedActivityNode>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityNode.0" target="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityNode.1"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityNode.1" target="//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/@activity/@ownedActivityNode.2"/>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="getEGraphIsomorphism">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures/MorphismPair"/>
+        <eParameters name="graphA">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+        <eParameters name="graphB">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+        <activity owningOperation="//CategoryUtils/CategoryUtil/getEGraphIsomorphism">
+          <ownedActivityNode xsi:type="activities:StartNode" outgoing="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityEdge.0"/>
+          <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode12" comment="ActivityNode12" outgoing="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityEdge.1" incoming="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityEdge.0">
+            <storyPattern comment="ActivityNode12">
+              <objectVariable type="//CategoryUtils/CategoryUtil" name="this" bindingState="BOUND"/>
+              <objectVariable type="//InjectiveEGraphMorphismFinder" name="matchFinder" bindingOperator="CREATE"/>
+            </storyPattern>
+          </ownedActivityNode>
+          <ownedActivityNode xsi:type="activities:StopNode" incoming="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityEdge.1">
+            <returnValue xsi:type="callExpressions:MethodCallExpression" callee="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism">
+              <ownedParameterBindings parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphA">
+                <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/graphA"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphB">
+                <valueExpression xsi:type="callExpressions:ParameterExpression" parameter="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/graphB"/>
+              </ownedParameterBindings>
+              <ownedParameterBindings parameter="//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/matchFinder">
+                <valueExpression xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1"/>
+              </ownedParameterBindings>
+              <target xsi:type="patternExpressions:ObjectVariableExpression" object="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0"/>
+            </returnValue>
+          </ownedActivityNode>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityNode.0" target="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityNode.1"/>
+          <ownedActivityEdge source="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityNode.1" target="//CategoryUtils/CategoryUtil/getEGraphIsomorphism/@activity/@ownedActivityNode.2"/>
+        </activity>
+      </eOperations>
+      <eOperations xsi:type="activities:MoflonEOperation" name="copyGraph">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+        <eParameters name="graphG">
+          <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="verbose" ordered="false" defaultValueLiteral="false">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Path">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="end">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="beginn">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="over" upperBound="-1">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Status">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="valid" ordered="false" lowerBound="1">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" ordered="false" lowerBound="1">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CommutingPaths">
+      <eOperations xsi:type="activities:MoflonEOperation" name="areCommuting" eType="//CategoryUtils/Status"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pathA" upperBound="-1">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pathB" upperBound="-1">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphMorphisms/SymbolicGraphMorphism"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="begin">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="end">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

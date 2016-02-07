@@ -34,7 +34,7 @@ public class SemanticAnalyserTest {
 		SDMLanguagePackage.eINSTANCE.getClass();
 		DiachaseFactory.eINSTANCE.getClass();
 		EPackage pack = (EPackage) eMoflonEMFUtil
-				.loadModel("../DiagramChasingTestGen/model/DiagramChasingTestGen.ecore");
+				.loadModel("../org.moflon.maave.tests.testgen.diachase/model/Diachase.ecore");
 		EClass clazz = (EClass) pack.getEClassifier(className);
 		MoflonEOperation eop = (MoflonEOperation) clazz.getEAllOperations()
 				.stream().filter(x -> x.getName().equals(name)).findFirst()

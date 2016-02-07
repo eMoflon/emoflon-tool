@@ -31,7 +31,7 @@ public class MorphismFinderTest {
    public void setUp() throws Exception {
 	   DiachasePackage.eINSTANCE.getClass();
       AbcPackage.eINSTANCE.getClass();
-      pack=TestRunner.loadTestMM("DiagramChasingTestGen", "DiagramChasingTestGen");
+      pack=TestRunner.loadTestMM("org.moflon.maave.tests.testgen.diachase", "Diachase");
    }
 
    @Test

@@ -30,7 +30,7 @@ public class TestForSymbGraph2HODemoclesPattern_DiaChasing {
 	public void init(){
 		MnoqPackage.eINSTANCE.getClass();
 		DiachasePackage.eINSTANCE.getClass();
-		pack=TestRunner.loadTestMM("DiagramChasingTestGen", "DiagramChasingTestGen");
+		pack=TestRunner.loadTestMM("org.moflon.maave.tests.testgen.diachase", "Diachase");
 
 	}
 	

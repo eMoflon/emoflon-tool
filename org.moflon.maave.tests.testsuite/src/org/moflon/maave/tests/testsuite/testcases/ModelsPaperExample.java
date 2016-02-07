@@ -40,7 +40,7 @@ public class ModelsPaperExample {
       SDMLanguagePackage.eINSTANCE.getClass();
       GenfeaturemodelPackage.eINSTANCE.getClass();
       EPackage pack = (EPackage) eMoflonEMFUtil
-            .loadModel("../FeatureModelTestGen/model/FeatureModelTestGen.ecore");
+            .loadModel("../org.moflon.maave.tests.testgen.genfeaturemodel/model/Genfeaturemodel.ecore");
       EClass clazz = (EClass) pack.getEClassifier(className);
       MoflonEOperation eop = (MoflonEOperation) clazz.getEAllOperations()
             .stream().filter(x -> x.getName().equals(name)).findFirst()
