@@ -124,6 +124,9 @@ public class DemoclesValidatorTask implements IMonitoredJob
          final Activity activity = lookupRootActivity(eOperation);
          if (activity != null)
          {
+            /*
+             * (1) Perform control flow validation
+             */
             final ValidationReport controlFlowValidationReport = performControlFlowValidation(eOperation, activity);
 
             final EObject scopeCandidate = controlFlowValidationReport.getResult();
@@ -141,6 +144,9 @@ public class DemoclesValidatorTask implements IMonitoredJob
                return Status.CANCEL_STATUS;
             }
 
+            /*
+             * (2) Perform scope validation
+             */
             if (isSuccessful(controlFlowValidationReport, Severity.ERROR) && scopeCandidate instanceof Scope)
             {
                final Scope scope = (Scope) scopeCandidate;
