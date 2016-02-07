@@ -16,7 +16,7 @@ partial class InitialPushoutTestImpl {
 		SDMLanguagePackage.eINSTANCE.getClass();
 		MnoqPackage.eINSTANCE.getClass();
 		EPackage pack = (EPackage) eMoflonEMFUtil
-				.loadModel("../DiagramChasingTestGen/model/DiagramChasingTestGen.ecore");
+				 .loadModel("../org.moflon.maave.tests.testgen.diachase/model/Diachase.ecore");
 
 		EClass clazz = (EClass) pack.getEClassifier("InitialPushoutTest");
 		MoflonEOperation eop = (MoflonEOperation) clazz.getEAllOperations().stream()
