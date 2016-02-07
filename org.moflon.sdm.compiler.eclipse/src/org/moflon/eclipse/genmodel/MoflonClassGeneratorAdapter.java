@@ -29,7 +29,6 @@ import org.gervarro.democles.emoflon.templates.JavaClassGenerator;
 import org.moflon.codegen.InjectionHandlingImportManager;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.util.InjectionRegions;
 
