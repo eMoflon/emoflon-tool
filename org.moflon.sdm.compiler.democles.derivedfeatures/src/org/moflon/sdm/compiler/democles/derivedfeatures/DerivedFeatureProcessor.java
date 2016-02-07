@@ -1,4 +1,4 @@
-package org.moflon.eclipse.genmodel;
+package org.moflon.sdm.compiler.democles.derivedfeatures;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.ui.LoggingSTErrorListener;
+import org.moflon.eclipse.genmodel.MoflonGenClass;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 

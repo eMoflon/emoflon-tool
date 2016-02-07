@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.emf.codegen.ecore.genmodel.GenFeature"
+            class="org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributorFactory">
+         <adapter
+               type="org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributor">
+         </adapter>
+      </factory>
+   </extension>
+</plugin>

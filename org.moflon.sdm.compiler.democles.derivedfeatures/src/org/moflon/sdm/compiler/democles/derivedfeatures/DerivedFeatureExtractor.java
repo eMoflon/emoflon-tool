@@ -1,4 +1,4 @@
-package org.moflon.eclipse.genmodel;
+package org.moflon.sdm.compiler.democles.derivedfeatures;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;

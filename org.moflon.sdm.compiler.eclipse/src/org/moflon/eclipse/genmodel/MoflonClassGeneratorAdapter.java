@@ -12,8 +12,9 @@ package org.moflon.eclipse.genmodel;
 
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -24,17 +25,28 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.gervarro.democles.emoflon.templates.JavaClassGenerator;
 import org.moflon.codegen.InjectionHandlingImportManager;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.util.InjectionRegions;
 
+/**
+ * This implementation base class is invoked during the code generation of a Java class
+ *  
+ * @author Gergely Varró
+ * @author Roland Kluge
+ * 
+ * @see JavaClassGenerator
+ */
 abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter
 {
+   private static final String DERIVED_FEATURES_CODE_CONTRIBUTOR = "org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributor";
+   private static final Logger logger = Logger.getLogger(MoflonClassGeneratorAdapter.class);
+   
    private JETEmitterDescriptor[] emitterDescriptors;
-   private DerivedFeatureProcessor derivedFeatureProcessor;
 
    /**
     * Registers {@link JavaClassGenerator} as code-generating class for EMF classes.
@@ -44,7 +56,6 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
    public MoflonClassGeneratorAdapter(final GeneratorAdapterFactory generatorAdapterFactory)
    {
       super(generatorAdapterFactory);
-      derivedFeatureProcessor = new DerivedFeatureProcessor();
       emitterDescriptors = new JETEmitterDescriptor[] {
             new JETEmitterDescriptor("model/Class.javajet", "org.gervarro.democles.emoflon.templates.JavaClassGenerator") };
    }
@@ -63,23 +74,28 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
     * Returns the code that should be inserted at the beginning of the getter of the given {@link GenFeature}
     * 
     * @param genFeature
-    *         the affected {@link GenFeature}
+    *           the affected {@link GenFeature}
     * @return the code to be inserted, starting and ending with a new-line, or <code>null</code> if no code should be
     *         added.
     */
    public String getPreGetGenFeatureCode(final GenFeature genFeature)
    {
-        if (genFeature.isDerived()) {
-            String calcMethodName = "_get" + genFeature.getCapName();
-            
-            if (genFeature.getName().equals("fullName")) {
-                Set<EStructuralFeature> dependentVariables = DerivedFeatureSdmAnalyzer.analyzeSDM(genFeature, calcMethodName);
-            }
-            
-            return derivedFeatureProcessor.generateDerivatedFeatureCode(genFeature, calcMethodName);
-        } else {
+
+      MoflonClassGeneratorCodeContributor codeContributor = (MoflonClassGeneratorCodeContributor) Platform.getAdapterManager().loadAdapter(genFeature,
+            DERIVED_FEATURES_CODE_CONTRIBUTOR);
+      if (codeContributor != null)
+      {
+         try
+         {
+            return codeContributor.getPreGetGenFeatureCode(genFeature);
+         } catch (final Exception e)
+         {
+            logger.error(String.format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
             return null;
-        }
+         }
+      }
+      
+      return null;
    }
 
    /**
@@ -92,13 +108,21 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
     */
    public String getPreSetGenFeatureCode(final GenFeature genFeature)
    {
-      if (genFeature.isDerived())
+      MoflonClassGeneratorCodeContributor codeContributor = (MoflonClassGeneratorCodeContributor) Platform.getAdapterManager().loadAdapter(genFeature,
+            DERIVED_FEATURES_CODE_CONTRIBUTOR);
+      if (codeContributor != null)
       {
-         return null;
-      } else
-      {
-         return null;
+         try
+         {
+            return codeContributor.getPreSetGenFeatureCode(genFeature);
+         } catch (final Exception e)
+         {
+            logger.error(String.format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
+            return null;
+         }
       }
+      
+      return null;
    }
 
    /**
