@@ -33,7 +33,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.team.internal.ui.wizards.ImportProjectSetOperation;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
@@ -52,13 +51,6 @@ import org.moflon.ide.workspaceinstaller.psf.PSFPlugin;
 public class WorkspaceInstaller
 {
    private static final Logger logger = Logger.getLogger(WorkspaceInstaller.class);
-
-   private IWorkbenchWindow window;
-
-   public WorkspaceInstaller(final IWorkbenchWindow window)
-   {
-      this.window = window;
-   }
 
    public void installWorkspacesByName(final List<String> workspaceNames, final String displayName)
    {

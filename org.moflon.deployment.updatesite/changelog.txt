@@ -98,3 +98,5 @@
 2016-01-23  Initial version of eMoflon data type library #653 
 2016-01-23  eMoflon 2.10.0 released
 ---
+2016-02-07	Add org.moflon.sdm.compiler.democles.derivedfeatures
+2016-02-06	Beta version of Ecore-to-EAP importer ready

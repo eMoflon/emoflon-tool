@@ -25,6 +25,7 @@ public class DerivedFeaturesCodeContributor implements MoflonClassGeneratorCodeC
 
          if (genFeature.getName().equals("fullName"))
          {
+            @SuppressWarnings("unused")
             Set<EStructuralFeature> dependentVariables = DerivedFeatureSdmAnalyzer.analyzeSDM(genFeature, calcMethodName);
          }
 

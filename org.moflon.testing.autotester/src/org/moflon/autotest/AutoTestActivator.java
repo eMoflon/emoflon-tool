@@ -78,7 +78,7 @@ public class AutoTestActivator extends AbstractUIPlugin
 
                   logger.debug("Autorunning workspace '" + workspaceName + "'");
 
-                  new WorkspaceInstaller(window).installWorkspaceByName(workspaceName);
+                  new WorkspaceInstaller().installWorkspaceByName(workspaceName);
 
                }
 

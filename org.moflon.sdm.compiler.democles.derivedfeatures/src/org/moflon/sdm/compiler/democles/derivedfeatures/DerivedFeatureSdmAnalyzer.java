@@ -6,12 +6,7 @@ import java.util.Set;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
-import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
-import org.moflon.sdm.runtime.democles.Scope;
 
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.ActivityNode;
