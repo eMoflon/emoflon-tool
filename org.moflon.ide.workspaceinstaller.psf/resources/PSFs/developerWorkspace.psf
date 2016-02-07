@@ -42,6 +42,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.validation.result,org.moflon.sdm.compiler.democles.validation.result"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.validation.scope,org.moflon.sdm.compiler.democles.validation.scope"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.eclipse,org.moflon.sdm.compiler.eclipse"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.compiler.democles.derivedfeatures,org.moflon.sdm.compiler.democles.derivedfeatures"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.codegenerator,org.moflon.sdm.constraints.codegenerator"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.constraintstodemocles,org.moflon.sdm.constraints.constraintstodemocles"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.democles,org.moflon.sdm.constraints.democles"/>
@@ -130,6 +131,7 @@
 <item elementID="=org.moflon.sdm.democles.literalexpressionsolver" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.democles.literalexpressionsolver" type="4"/>
 <item elementID="=org.moflon.sdm.compiler.eclipse" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.moflon.sdm.compiler.democles.derivedfeatures" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.sdm.constraints.operationspecification" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.constraints.operationspecification" type="4"/>
 <item elementID="=org.moflon.sdm.compiler.democles.validation.controlflow" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
