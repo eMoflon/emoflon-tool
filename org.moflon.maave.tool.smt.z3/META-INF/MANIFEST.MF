@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Z3_Solver
+Bundle-SymbolicName: org.moflon.maave.tool.smt.z3
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: lib/z3-4.3.2-x64-win/bin/com.microsoft.z3.jar
+Export-Package: com.microsoft.z3,
+ com.microsoft.z3.enumerations
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

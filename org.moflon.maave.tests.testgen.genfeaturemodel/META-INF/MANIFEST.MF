@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.moflon.maave.tests.testgen.genfeaturemodel;si
+ ngleton:=true
+Export-Package: org.moflon.maave.tests.testgen.genfeaturemodel,
+ org.moflon.maave.tests.testgen.genfeaturemodel.impl,
+ org.moflon.maave.tests.testgen.genfeaturemodel.util
+Bundle-Name: org.moflon.maave.tests.testgen.genfeaturemodel
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities,
+ org.moflon.maave.tests.lang.featuremodel
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt

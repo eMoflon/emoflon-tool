@@ -1,0 +1,72 @@
+
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.PatternMatcherHelper;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.DataFrameList;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.DataFrameWrapper;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingPackage;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
+
+partial class AbstractMorphismFinderImpl {
+
+
+
+@model getAllMorphisms (SymbolicGraph from, SymbolicGraph to) <--
+
+		SymbolicGraphMorphism partialmatch = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+		partialmatch.setCodom(to);
+		partialmatch.setDom(from);
+		return getAllMorphisms(partialmatch);
+-->
+
+@model getAllMorphisms (SymbolicGraphMorphism partialMatch) <--
+
+		MorphismsSet morList = MatchingFactory.eINSTANCE.createMorphismsSet();
+		SymbolicGraph from = partialMatch.getDom();
+		SymbolicGraph to = partialMatch.getCodom();
+		//      if(from.getGraphNodes().size()>to.getGraphNodes().size()||
+		//            from.getGraphEdges().size()>to.getGraphEdges().size()||
+		//            from.getLabelEdges().size()>to.getLabelEdges().size()||
+		//            from.getLabelNodes().size()>to.getLabelNodes().size()){
+		//         return morList;
+		//      }
+
+		FOTransformationResult fOTresult = createFirstOrderPattern(from);
+		PatternMatcherHelper pHelper = MatchingFactory.eINSTANCE.createPatternMatcherHelper();
+		DataFrameList matchings = pHelper.findAllMatches(fOTresult, partialMatch);
+
+		for (DataFrameWrapper match : matchings.getDataFrames()) {
+			SymbolicGraphMorphism newMor = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+			newMor.setDom(from);
+			newMor.setCodom(to);
+			for (GraphNode gn : from.getGraphNodes()) {
+				newMor.addMapping(gn,
+						(GraphNode) ((DataFrameWrapperImpl) match).dataFrame.getValue(fOTresult.getIndexOf(gn)));
+			}
+			for (GraphEdge ge : from.getGraphEdges()) {
+				newMor.addMapping(ge,
+						(GraphEdge) ((DataFrameWrapperImpl) match).dataFrame.getValue(fOTresult.getIndexOf(ge)));
+			}
+			for (LabelNode ln : from.getLabelNodes()) {
+				newMor.addMapping(ln,
+						(LabelNode) ((DataFrameWrapperImpl) match).dataFrame.getValue(fOTresult.getIndexOf(ln)));
+			}
+			for (LabelEdge le : from.getLabelEdges()) {
+				newMor.addMapping(le,
+						(LabelEdge) ((DataFrameWrapperImpl) match).dataFrame.getValue(fOTresult.getIndexOf(le)));
+			}
+			if (checkMorphismValidity(newMor)) {
+				morList.getMorphisms().add(newMor);
+
+			}
+
+		}
+		return morList;
+-->
+
+}

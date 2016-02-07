@@ -1,0 +1,103 @@
+
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.emf.constraint.SymbolicGraphConstraintModule;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.emf.constraint.SymbolicGraphTypeModule;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.operations.EGraphGraphWeightedOperationBuilder;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.operations.EGraphInterpreterOperationBuilder;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
+import org.eclipse.emf.ecore.EPackage.Registry;
+import org.gervarro.democles.common.DataFrame;
+import org.gervarro.democles.constraint.emf.EMFConstraintModule;
+import org.gervarro.democles.emf.EMFWeightedOperationBuilder;
+import org.gervarro.democles.interpreter.PatternMatcherModule;
+import org.gervarro.democles.operation.emf.ReflectiveInterpreterOperationBuilder;
+import org.gervarro.democles.plan.WeightedOperationBuilder;
+import org.gervarro.democles.plan.combiner.InterpreterCombiner;
+import org.gervarro.democles.plan.common.DefaultAlgorithm;
+import org.gervarro.democles.runtime.InterpretedDataFrame;
+import org.gervarro.democles.runtime.RemappingOperation;
+import org.gervarro.democles.runtime.Scheduler;
+import org.gervarro.democles.specification.emf.EMFPatternBuilder;
+import org.gervarro.democles.specification.emf.Pattern;
+import org.gervarro.democles.specification.emf.SpecificationPackage;
+import org.gervarro.democles.specification.emf.constraint.EMFTypeModule;
+import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypePackage;
+import org.gervarro.democles.specification.impl.DefaultPattern;
+import org.gervarro.democles.specification.impl.DefaultPatternBody;
+import org.gervarro.democles.specification.impl.DefaultPatternFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.DataFrameList;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.DataFrameWrapper;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsPackage;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsPackage;
+import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
+
+partial class PatternMatcherHelperImpl {
+
+
+
+@model findAllMatches (FOTransformationResult foResult, SymbolicGraphMorphism partialMatch) <--
+
+		SpecificationPackage.eINSTANCE.getSpecificationFactory();
+		EMFTypePackage.eINSTANCE.getEMFTypeFactory();
+		SymbolicGraphsPackage.eINSTANCE.getClass();
+
+		// 2) Prepares an internal representation for the pattern
+		EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder = new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(
+				new DefaultPatternFactory());
+		EMFConstraintModule emfTypeModule = new EMFConstraintModule((Registry) null);
+		EMFTypeModule internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
+		patternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+		patternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+
+		SymbolicGraphConstraintModule symbolicGraphConstraintModule = new SymbolicGraphConstraintModule(
+				(Registry) null);
+		SymbolicGraphTypeModule symbolicGraphTypeModule = new SymbolicGraphTypeModule(symbolicGraphConstraintModule);
+		patternBuilder.addVariableTypeSwitch(symbolicGraphTypeModule.getVariableTypeSwitch());
+
+		// 3) Initializes the pattern matcher module
+		WeightedOperationBuilder<RemappingOperation> builder = new EGraphGraphWeightedOperationBuilder<RemappingOperation>();
+		DefaultAlgorithm<InterpreterCombiner, RemappingOperation> searchPlanAlgorithm = new DefaultAlgorithm<InterpreterCombiner, RemappingOperation>(
+				builder);
+		PatternMatcherModule patternMatcherModule = new PatternMatcherModule();
+		patternMatcherModule.setAlgorithm(searchPlanAlgorithm);
+		patternMatcherModule.setScheduler(new Scheduler());
+
+		ReflectiveInterpreterOperationBuilder emfReflectiveOperationBuilder = new ReflectiveInterpreterOperationBuilder(
+				emfTypeModule);
+		patternMatcherModule.addOperationBuilder(emfReflectiveOperationBuilder);
+
+		EGraphInterpreterOperationBuilder eGraphInterpreterOperationBuilder = new EGraphInterpreterOperationBuilder(
+				symbolicGraphConstraintModule);
+		patternMatcherModule.addOperationBuilder(eGraphInterpreterOperationBuilder);
+		// TODO revert engine.addOperationBuilder(new SpecificationPackageOperationBuilder());
+		// 4) Creates the interpretable pattern matcher
+		DefaultPattern internalPatternSpecification = patternBuilder.build(foResult.getFirstOrderPattern());
+		org.gervarro.democles.interpreter.Pattern patternRuntime = patternMatcherModule
+				.build(internalPatternSpecification);
+
+		// 5) Invokes pattern matching (runtime step)
+		InterpretedDataFrame frame = patternRuntime.createDataFrame();
+		SymbolicGraphMorphismImpl m = (SymbolicGraphMorphismImpl) partialMatch;
+		Mapping<EGraphElement> elemMapping = new Mapping<EGraphElement>(
+				m.graphEdgeMap.size() + m.graphNodeMap.size() + m.labelEdgeMap.size() + m.labelNodeMap.size());
+		elemMapping.addAll(m.graphEdgeMap);
+		elemMapping.addAll(m.graphNodeMap);
+		elemMapping.addAll(m.labelEdgeMap);
+		elemMapping.addAll(m.labelNodeMap);
+
+		frame.setValue(0, m.getCodom());
+		for (EGraphElement elem : elemMapping.getPreimage()) {
+			frame.setValue(foResult.getIndexOf(elem), elemMapping.imageOf(elem));
+		}
+		DataFrameList matchings = MatchingFactory.eINSTANCE.createDataFrameList();
+		for (DataFrame matching : patternRuntime.matchAll(frame)) {
+			DataFrameWrapper dfw = MatchingFactory.eINSTANCE.createDataFrameWrapper();
+			((DataFrameWrapperImpl) dfw).dataFrame = matching;
+			matchings.getDataFrames().add(dfw);
+
+		}
+		return matchings;
+-->
+
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.maave.tests.testgen.diachase">
+  <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
+  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tests.lang.abc/model/Abc.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tests.lang.tggcpa/model/Tggcpa.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tool.analysis/model/Analysis.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tool.category/model/Category.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tool.sdm.stptransformation/model/Stptransformation.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.constraints/model/Constraints.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore"/>
+  <additionalDependencies value="platform:/resource/org.gervarro.democles.specification.emf/model/relational.ecore"/>
+  <additionalDependencies value="platform:/resource/org.gervarro.democles.specification.emf/model/specification.ecore"/>
+  <additionalDependencies value="platform:/resource/org.gervarro.democles.specification.emf/model/emf.ecore"/>
+  <metaModelProject MetaModelProjectName="org.moflon.maave.tests"/>
+  <replaceGenModel/>
+  <sdmCodegeneratorHandlerId/>
+  <additionalUsedGenPackages value="platform:/resource/org.gervarro.democles.specification.emf/model/specification.genmodel"/>
+  <additionalUsedGenPackages value="platform:/resource/org.gervarro.democles.specification.emf/model/emf.genmodel"/>
+  <additionalUsedGenPackages value="platform:/resource/org.gervarro.democles.specification.emf/model/relational.genmodel"/>
+</MoflonPropertyContainer:MoflonPropertiesContainer>

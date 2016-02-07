@@ -1,0 +1,12 @@
+
+import org.gervarro.democles.common.DataFrame;
+
+partial class DataFrameWrapperImpl {
+
+@members <--
+
+	public DataFrame dataFrame;
+	
+-->
+
+}

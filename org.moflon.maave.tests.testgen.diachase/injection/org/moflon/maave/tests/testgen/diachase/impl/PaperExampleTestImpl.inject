@@ -1,0 +1,37 @@
+
+import SDMLanguage.SDMLanguagePackage;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import SDMLanguage.activities.MoflonEOperation;
+import SDMLanguage.activities.StoryNode;
+import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
+import org.eclipse.emf.ecore.EPackage;
+import org.moflon.core.utilities.eMoflonEMFUtil;
+
+partial class PaperExampleTestImpl {
+
+
+
+@model getTestPattern (String name) <--
+
+		// [user code injected with eMoflon]
+		ResourceSet rs = new ResourceSetImpl();
+		//    rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+		//    rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true), URI.createFileURI(args[0] + "\\"));
+		//    rs.getURIConverter().getURIMap().put(URI.createPlatformPluginURI("/DiagramChasingTestGen/", true), URI.createPlatformResourceURI("/DiagramChasingTestGen/", true));
+
+		//URI testGeneratorURI =URI.createURI("DiagramChasingTestGen/model/DiagramChasingTestGen.ecore",true);
+		SDMLanguagePackage.eINSTANCE.getClass();
+		MnoqPackage.eINSTANCE.getClass();
+		EPackage pack = (EPackage) eMoflonEMFUtil
+				.loadModel("../DiagramChasingTestGen/model/DiagramChasingTestGen.ecore");
+
+		EClass clazz = (EClass) pack.getEClassifier("PaperExampleTest");
+		MoflonEOperation eop = (MoflonEOperation) clazz.getEAllOperations().stream()
+				.filter(x -> x.getName().equals(name)).findFirst().get();
+		StoryNode stn = (StoryNode) eop.getActivity().getOwnedActivityNode().stream()
+				.filter(x -> x instanceof StoryNode).findFirst().get();
+		return stn.getStoryPattern();
+-->
+
+}

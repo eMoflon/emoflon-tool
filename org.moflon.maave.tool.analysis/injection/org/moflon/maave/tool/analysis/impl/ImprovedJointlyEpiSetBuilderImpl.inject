@@ -1,0 +1,17 @@
+
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.impl.MatchingFactoryImpl;
+
+partial class ImprovedJointlyEpiSetBuilderImpl {
+
+
+
+@model getAllMorphismsHashed (MorphismPair from, MorphismPair to) <--
+
+		SymbolicGraph gFrom = from.getFirst().getDom();
+		SymbolicGraph gTo = to.getFirst().getDom();
+		InjectiveEGraphMorphismFinder matcher = new MatchingFactoryImpl()
+				.createInjectiveEGraphMorphismFinder();
+		return matcher.getAllMorphisms(gFrom, gTo);
+-->
+
+}

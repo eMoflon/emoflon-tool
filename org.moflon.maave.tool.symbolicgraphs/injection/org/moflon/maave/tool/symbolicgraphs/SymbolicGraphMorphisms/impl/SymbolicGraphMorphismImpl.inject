@@ -1,0 +1,306 @@
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.Datastructures.EGraphElementSwitch;
+import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.printing.GraphAndMorphismPrinter;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsPackage;
+
+partial class SymbolicGraphMorphismImpl {
+
+@members <--
+
+	public Mapping<GraphNode> graphNodeMap = new Mapping();
+
+	public Mapping<GraphEdge> graphEdgeMap = new Mapping();
+
+	public Mapping<LabelEdge> labelEdgeMap = new Mapping();
+
+	public Mapping<LabelNode> labelNodeMap = new Mapping();
+
+	private class MyImageOfEGraphElementSwitch extends EGraphElementSwitch<EGraphElement> {
+
+		@Override
+		public EGraphElement defaultCase(EGraphElement element) {
+			throw new RuntimeException("invalid type of parameter: " + element.toString());
+		}
+
+		@Override
+		public EGraphElement caseLabelNode(LabelNode labelNode) {
+			return imageOf(labelNode);
+
+		}
+
+		@Override
+		public EGraphElement caseLabelEdge(LabelEdge labelEdge) {
+			return imageOf(labelEdge);
+		}
+
+		@Override
+		public EGraphElement caseGraphEdge(GraphEdge graphEdge) {
+			return imageOf(graphEdge);
+
+		}
+
+		@Override
+		public EGraphElement caseGraphNode(GraphNode graphNode) {
+			return imageOf(graphNode);
+
+		}
+
+	}
+
+	private class MyIsInImageEGraphElementSwitch extends EGraphElementSwitch<Boolean> {
+
+		@Override
+		public Boolean defaultCase(EGraphElement element) {
+			throw new RuntimeException("invalid type of parameter: " + element.toString());
+		}
+
+		@Override
+		public Boolean caseLabelNode(LabelNode labelNode) {
+			return isInImage(labelNode);
+
+		}
+
+		@Override
+		public Boolean caseLabelEdge(LabelEdge labelEdge) {
+			return isInImage(labelEdge);
+		}
+
+		@Override
+		public Boolean caseGraphEdge(GraphEdge graphEdge) {
+			return isInImage(graphEdge);
+
+		}
+
+		@Override
+		public Boolean caseGraphNode(GraphNode graphNode) {
+			return isInImage(graphNode);
+
+		}
+
+	}
+
+	private MyIsInImageEGraphElementSwitch myIsInImageEGraphElementSwitch;
+
+	private MyIsInImageEGraphElementSwitch getMyIsInImageEGraphElementSwitch() {
+		if (myIsInImageEGraphElementSwitch == null) {
+			myIsInImageEGraphElementSwitch = new MyIsInImageEGraphElementSwitch();
+		}
+		return myIsInImageEGraphElementSwitch;
+	}
+
+	private MyImageOfEGraphElementSwitch myImageOfEGraphElementSwitch;
+
+	private MyImageOfEGraphElementSwitch getMyImageOfEGraphElementSwitch() {
+		if (myImageOfEGraphElementSwitch == null) {
+			myImageOfEGraphElementSwitch = new MyImageOfEGraphElementSwitch();
+		}
+		return myImageOfEGraphElementSwitch;
+	}
+	
+-->
+
+@model imageOf (EGraphElement element) <--
+
+		return getMyImageOfEGraphElementSwitch().doSwitch(element);
+-->
+
+@model addMapping (EGraphElement preimage, EGraphElement image) <--
+
+		if (!(preimage.eClass().getClassifierID() == image.eClass().getClassifierID())) {
+			throw new RuntimeException("Type of arguments must be the same");
+		}
+
+		switch (preimage.eClass().getClassifierID()) {
+
+		case SymbolicGraphsPackage.GRAPH_NODE: {
+
+			addMapping((GraphNode) preimage, (GraphNode) image);
+			break;
+		}
+		case SymbolicGraphsPackage.GRAPH_EDGE: {
+			addMapping((GraphEdge) preimage, (GraphEdge) image);
+			break;
+		}
+		case SymbolicGraphsPackage.LABEL_EDGE: {
+			addMapping((LabelEdge) preimage, (LabelEdge) image);
+			break;
+		}
+		case SymbolicGraphsPackage.LABEL_NODE: {
+
+			addMapping((LabelNode) preimage, (LabelNode) image);
+			break;
+		}
+
+		}
+-->
+
+@model imageOf (GraphEdge of) <--
+
+		return graphEdgeMap.imageOf(of);
+-->
+
+@model isInImage (GraphEdge graphEdge) <--
+
+		return graphEdgeMap.isInImage(graphEdge);
+-->
+
+@model addMapping (LabelEdge preimage, LabelEdge image) <--
+
+		labelEdgeMap.addMapping(preimage, image);
+-->
+
+@model imageOf (LabelEdge of) <--
+
+		return labelEdgeMap.imageOf(of);
+-->
+
+@model isInImage (LabelEdge labelEdge) <--
+
+		return labelEdgeMap.isInImage(labelEdge);
+-->
+
+@model composeWith (SymbolicGraphMorphism after) <--
+
+		SymbolicGraphMorphismImpl composedMorphism = (SymbolicGraphMorphismImpl) SymbolicGraphMorphismsFactory.eINSTANCE
+				.createSymbolicGraphMorphism();
+		composedMorphism.graphNodeMap = graphNodeMap.compose(((SymbolicGraphMorphismImpl) after).graphNodeMap);
+		composedMorphism.graphEdgeMap = graphEdgeMap.compose(((SymbolicGraphMorphismImpl) after).graphEdgeMap);
+		composedMorphism.labelNodeMap = labelNodeMap.compose(((SymbolicGraphMorphismImpl) after).labelNodeMap);
+		composedMorphism.labelEdgeMap = labelEdgeMap.compose(((SymbolicGraphMorphismImpl) after).labelEdgeMap);
+		composedMorphism.setDom(this.getDom());
+		composedMorphism.setCodom(after.getCodom());
+		return composedMorphism;
+-->
+
+@model addMapping (LabelNode preimage, LabelNode image) <--
+
+		labelNodeMap.addMapping(preimage, image);
+-->
+
+@model imageOf (LabelNode of) <--
+
+		return labelNodeMap.imageOf(of);
+-->
+
+@model isInImage (LabelNode labelNode) <--
+
+		return labelNodeMap.isInImage(labelNode);
+-->
+
+@model addMapping (GraphNode preimage, GraphNode image) <--
+
+		graphNodeMap.addMapping(preimage, image);
+-->
+
+@model imageOf (GraphNode of) <--
+
+		return graphNodeMap.imageOf(of);
+-->
+
+@model isInImage (GraphNode graphNode) <--
+
+		return graphNodeMap.isInImage(graphNode);
+-->
+
+@model toString () <--
+
+		//		StringBuilder builder = new StringBuilder();
+		//		builder.append("graphMapping:");
+		//		builder.append(this.getDom().getName() + "\t\t\t -----=> \t "
+		//				+ this.getCodom().getName() + "\n");
+		//
+		//		builder.append("graphNodeMapping:" + "\n");
+		//		for (GraphNode gn : graphNodeMap.getPreimage()) {
+		//			GraphNode image = this.imageOf(gn);
+		//			builder.append(gn.getDebugId() + ":" + gn.getType().getName()
+		//					+ "\t\t\t -----=> \t " + image.getDebugId() + ":"
+		//					+ image.getType().getName() + "\n");
+		//
+		//		}
+		//		builder.append("graphEdgesMapping:" + "\n");
+		//		for (GraphEdge ge : graphEdgeMap.getPreimage()) {
+		//			GraphEdge image = this.imageOf(ge);
+		//			builder.append(ge.getDebugId() + ":" + ge.getType().getName()
+		//					+ "\t\t\t -----=> \t " + image.getDebugId() + ":"
+		//					+ image.getType().getName() + "\n");
+		//		}
+		//		builder.append("labelNodeMapping:" + "\n");
+		//		for (LabelNode ln : labelNodeMap.getPreimage()) {
+		//			LabelNode image = this.imageOf(ln);
+		//			builder.append(ln.getLabel() + ":" + ln.getType().getName()
+		//					+ "\t\t\t -----=> \t " + image.getLabel() + ":"
+		//					+ image.getType().getName() + "\n");
+		//		}
+		//		builder.append("labelEdgesMapping:" + "\n");
+		//		for (LabelEdge le : labelEdgeMap.getPreimage()) {
+		//			LabelEdge image = this.imageOf(le);
+		//			builder.append(le.getDebugId() + ":" + le.getType().getName()
+		//					+ "\t\t\t -----=> \t " + image.getDebugId() + ":"
+		//					+ image.getType().getName() + "\n");
+		//		}
+		//
+		//		return builder.toString();
+		return GraphAndMorphismPrinter.print(this);
+-->
+
+@model isInImage (EGraphElement element) <--
+
+		return getMyIsInImageEGraphElementSwitch().doSwitch(element);
+-->
+
+@model addMapping (GraphEdge preimage, GraphEdge image) <--
+
+		graphEdgeMap.addMapping(preimage, image);
+-->
+
+@model removeMapping (EGraphElement preimage) <--
+
+		switch (preimage.eClass().getClassifierID()) {
+
+		case SymbolicGraphsPackage.GRAPH_NODE: {
+
+			removeMapping((GraphNode) preimage);
+			break;
+		}
+		case SymbolicGraphsPackage.GRAPH_EDGE: {
+			removeMapping((GraphEdge) preimage);
+			break;
+		}
+		case SymbolicGraphsPackage.LABEL_EDGE: {
+			removeMapping((LabelEdge) preimage);
+			break;
+		}
+		case SymbolicGraphsPackage.LABEL_NODE: {
+
+			removeMapping((LabelNode) preimage);
+			break;
+		}
+
+		}
+-->
+
+@model removeMapping (GraphEdge preimage) <--
+
+		graphEdgeMap.removeMapping(preimage);
+-->
+
+@model removeMapping (LabelEdge preimage) <--
+
+		labelEdgeMap.removeMapping(preimage);
+-->
+
+@model removeMapping (LabelNode preimage) <--
+
+		labelNodeMap.removeMapping(preimage);
+-->
+
+@model removeMapping (GraphNode preimage) <--
+
+		graphNodeMap.removeMapping(preimage);
+-->
+
+}

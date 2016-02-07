@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.maave.tool.sdm.stptransformation.StptransformationPackage" genModel="model/Stptransformation.genmodel" uri="platform:/plugin/org.moflon.maave.tool.sdm.stptransformation/model/Stptransformation.ecore"/>
+  </extension>
+</plugin>

@@ -1,0 +1,74 @@
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
+import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
+import org.gervarro.democles.common.DataFrame;
+import org.gervarro.democles.runtime.InterpretedDataFrame;
+
+partial class CInjectiveEGraphMorphismFinderImpl {
+
+@members <--
+
+	org.gervarro.democles.interpreter.Pattern patternRuntime;
+	
+-->
+
+@model getAllMorphisms (SymbolicGraphMorphism partialMatch) <--
+
+		InterpretedDataFrame frame = patternRuntime.createDataFrame();
+		SymbolicGraph from = partialMatch.getDom();
+		SymbolicGraph to = partialMatch.getCodom();
+		SymbolicGraphMorphismImpl m = (SymbolicGraphMorphismImpl) partialMatch;
+		Mapping<EGraphElement> elemMapping = new Mapping<EGraphElement>(
+				m.graphEdgeMap.size() + m.graphNodeMap.size() + m.labelEdgeMap.size() + m.labelNodeMap.size());
+		elemMapping.addAll(m.graphEdgeMap);
+		elemMapping.addAll(m.graphNodeMap);
+		elemMapping.addAll(m.labelEdgeMap);
+		elemMapping.addAll(m.labelNodeMap);
+
+		frame.setValue(0, m.getCodom());
+		for (EGraphElement elem : elemMapping.getPreimage()) {
+			frame.setValue(getFOTransformationResult().getIndexOf(elem), elemMapping.imageOf(elem));
+		}
+		MorphismsSet morList = MatchingFactory.eINSTANCE.createMorphismsSet();
+		for (DataFrame matching : patternRuntime.matchAll(frame)) {
+			SymbolicGraphMorphism newMor = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+			newMor.setDom(from);
+			newMor.setCodom(to);
+			for (GraphNode gn : from.getGraphNodes()) {
+				newMor.addMapping(gn, (GraphNode) matching.getValue(getFOTransformationResult().getIndexOf(gn)));
+			}
+			for (GraphEdge ge : from.getGraphEdges()) {
+				newMor.addMapping(ge, (GraphEdge) matching.getValue(getFOTransformationResult().getIndexOf(ge)));
+			}
+			for (LabelNode ln : from.getLabelNodes()) {
+				newMor.addMapping(ln, (LabelNode) matching.getValue(getFOTransformationResult().getIndexOf(ln)));
+			}
+			for (LabelEdge le : from.getLabelEdges()) {
+				newMor.addMapping(le, (LabelEdge) matching.getValue(getFOTransformationResult().getIndexOf(le)));
+			}
+			if (checkMorphismValidity(newMor)) {
+				morList.getMorphisms().add(newMor);
+
+			}
+
+		}
+		return morList;
+
+-->
+
+@model checkMorphismValidity (SymbolicGraphMorphism morphism) <--
+
+      CategoryUtil catUtil = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+      return catUtil.isValidEGraphMorphism(morphism)&& catUtil.isInjectiveMorphism(morphism);
+-->
+}

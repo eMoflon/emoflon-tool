@@ -1,0 +1,278 @@
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import javax.swing.event.ListSelectionEvent;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+
+partial class BasicJointlyEpiSetBuilderImpl {
+
+@members <--
+
+	private HashMap<GraphNode, GraphNode> addGraphNodesFromVec(SymbolicGraph symbGraph, BigInteger graphNodesVec,
+			SymbolicGraphMorphism monoMorphism) {
+		List<GraphNode> graphNodes = symbGraph.getGraphNodes();
+		HashMap<GraphNode, GraphNode> reverseNodeMap = new HashMap<GraphNode, GraphNode>(graphNodes.size() + 2, 1);
+		for (int i = 0; i < graphNodes.size(); i++) {
+			String gnvs = graphNodesVec.toString(2);
+			if (graphNodesVec.testBit(graphNodes.size() - 1 - i)) {
+				GraphNode imageNode = graphNodes.get(i);
+				GraphNode preimageNode = EcoreUtil.copy(imageNode);
+				monoMorphism.getDom().getGraphNodes().add(preimageNode);
+				monoMorphism.addMapping(preimageNode, imageNode);
+				reverseNodeMap.put(imageNode, preimageNode);
+
+			}
+		}
+		return reverseNodeMap;
+	}
+
+	private HashMap<GraphNode, GraphNode> addGraphFromVec(SymbolicGraph symbGraph, BigInteger graphNodesVec,
+			SymbolicGraphMorphism monoMorphism) {
+		List<GraphNode> graphNodes = symbGraph.getGraphNodes();
+		HashMap<GraphNode, GraphNode> reverseNodeMap = new HashMap<GraphNode, GraphNode>(graphNodes.size() + 2, 1);
+		for (int i = 0; i < graphNodes.size(); i++) {
+			String gnvs = graphNodesVec.toString(2);
+			if (graphNodesVec.testBit(graphNodes.size() - 1 - i)) {
+				GraphNode imageNode = graphNodes.get(i);
+				GraphNode preimageNode = EcoreUtil.copy(imageNode);
+				monoMorphism.getDom().getGraphNodes().add(preimageNode);
+				monoMorphism.addMapping(preimageNode, imageNode);
+				reverseNodeMap.put(imageNode, preimageNode);
+
+			}
+		}
+		return reverseNodeMap;
+	}
+
+	private class SubgraphBuilder {
+		MorphismsSet morphisms = MatchingFactory.eINSTANCE.createMorphismsSet();
+
+		SymbolicGraph inputGraph;
+
+		public SubgraphBuilder(SymbolicGraph inputGraph) {
+			this.inputGraph = inputGraph;
+		}
+
+		public MorphismsSet getAllSubgraphs() {
+			BigInteger graphNodesVec = inputGraph.getGraphNodes().size() > 0
+					? new BigInteger(new String(new char[inputGraph.getGraphNodes().size()]).replace("\0", "1"), 2)
+					: new BigInteger("0");
+			System.out.println(inputGraph.getGraphNodes().size());
+			BigInteger graphEdgesVec = inputGraph.getGraphEdges().size() > 0
+					? new BigInteger(new String(new char[inputGraph.getGraphEdges().size()]).replace("\0", "1"), 2)
+					: new BigInteger("0");
+
+			graphNodesVec = graphNodesVec.add(BigInteger.ONE);
+			graphEdgesVec = graphEdgesVec.add(BigInteger.ONE);
+
+			BigInteger graphsEdgeVecSave = graphEdgesVec;
+
+			List<GraphEdge> graphEdges = inputGraph.getGraphEdges();
+			List<LabelNode> labelNodes = inputGraph.getLabelNodes();
+			List<GraphNode> graphNodes = inputGraph.getGraphNodes();
+			List<LabelEdge> labelEdges = inputGraph.getLabelEdges();
+
+			//         addToElementToIndexMap(graphEdges);
+			//         addToElementToIndexMap(labelNodes);
+			addToElementToIndexMap(graphNodes);
+			//         addToElementToIndexMap(labelEdges);
+
+			List<SymbolicGraphMorphism> mList = new LinkedList<SymbolicGraphMorphism>();
+			while (graphNodesVec.compareTo(BigInteger.ONE) > 0) {
+				graphNodesVec = graphNodesVec.subtract(BigInteger.ONE);
+
+				graphEdgesVec = graphsEdgeVecSave;
+				ge: while (graphEdgesVec.compareTo(BigInteger.ZERO) > 0) {
+					graphEdgesVec = graphEdgesVec.subtract(BigInteger.ONE);
+
+					List<GraphEdge> subGraphGraphEdges = new LinkedList<GraphEdge>();
+					for (int i = 0; i < graphEdges.size(); i++) {
+						if (graphEdgesVec.testBit(graphEdges.size() - 1 - i)) {
+							GraphEdge imageEdge = graphEdges.get(i);
+							//check if edge is dangeling
+							if (graphNodesVec.testBit(graphNodes.size() - 1 - elemToIndexMap.get(imageEdge.getSource()))
+									&& graphNodesVec.testBit(
+											graphNodes.size() - 1 - elemToIndexMap.get(imageEdge.getTarget()))) {
+								subGraphGraphEdges.add(imageEdge);
+							} else {
+								continue ge;//discard morphism if edge is dangling
+							}
+
+						}
+					}
+
+					SymbolicGraph subgraph = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
+					SymbolicGraphMorphism monoMorphism = SymbolicGraphMorphismsFactory.eINSTANCE
+							.createSymbolicGraphMorphism();
+					HashMap<GraphNode, GraphNode> reverseGraphNodeMap = new HashMap<GraphNode, GraphNode>(
+							labelNodes.size() + 2, 1);
+					for (int i = 0; i < graphNodes.size(); i++) {
+
+						if (graphNodesVec.testBit(graphNodes.size() - 1 - i)) {
+							GraphNode imageNode = graphNodes.get(i);
+							GraphNode preimageNode = EcoreUtil.copy(imageNode);
+							subgraph.getGraphNodes().add(preimageNode);
+							monoMorphism.addMapping(preimageNode, imageNode);
+							reverseGraphNodeMap.put(imageNode, preimageNode);
+
+						}
+					}
+
+					//////////////////////
+					for (GraphEdge imageEdge : subGraphGraphEdges) {
+						GraphEdge preImageEdge = EcoreUtil.copy(imageEdge);
+						subgraph.add(preImageEdge);
+						preImageEdge.setSource(reverseGraphNodeMap.get(imageEdge.getSource()));
+						preImageEdge.setTarget(reverseGraphNodeMap.get(imageEdge.getTarget()));
+						monoMorphism.addMapping(preImageEdge, imageEdge);
+					}
+
+					for (LabelEdge imageEdge : labelEdges) {
+
+						if (graphNodesVec.testBit(graphNodes.size() - 1 - elemToIndexMap.get(imageEdge.getSource()))) {
+							LabelNode imageTargetNode = imageEdge.getTarget();
+
+							LabelEdge preImageLabelEdge = EcoreUtil.copy(imageEdge);
+							LabelNode preImageLabelNode = EcoreUtil.copy(imageTargetNode);
+							subgraph.getLabelEdges().add(preImageLabelEdge);
+							subgraph.getLabelNodes().add(preImageLabelNode);
+							preImageLabelEdge.setSource(reverseGraphNodeMap.get(imageEdge.getSource()));
+							preImageLabelEdge.setTarget(preImageLabelNode);
+							monoMorphism.addMapping(preImageLabelEdge, imageEdge);
+							monoMorphism.addMapping(preImageLabelNode, imageTargetNode);
+						}
+					}
+
+					monoMorphism.setCodom(inputGraph);
+					monoMorphism.setDom(subgraph);
+
+					String graphNodesString = graphNodes.size() > 0
+							? String.format("%" + Integer.toString(graphNodes.size()) + "s", graphNodesVec.toString(2))
+									.replace(" ", "0")
+							: "";
+
+					String graphEdgesString = graphEdges.size() > 0
+							? String.format("%" + Integer.toString(graphEdges.size()) + "s", graphEdgesVec.toString(2))
+									.replace(" ", "0")
+							: "";
+
+					subgraph.setName(graphNodesString + "|" + graphEdgesString + "|");
+
+					mList.add(monoMorphism);
+					if (System.currentTimeMillis() - time > 1000) {
+						System.out.println(mList.size());
+						time = System.currentTimeMillis();
+					}
+
+				}
+			}
+			morphisms.getMorphisms().addAll(mList);
+			return morphisms;
+
+		}
+
+		private long time = 0;
+
+		private void addToElementToIndexMap(List<? extends Object> eList) {
+			for (int i = 0; i < eList.size(); i++) {
+				elemToIndexMap.put(eList.get(i), i);
+			}
+
+		}
+
+		private HashMap<Object, Integer> elemToIndexMap = new HashMap<Object, Integer>();
+	}
+	
+-->
+
+@model getAllSubgraphs (SymbolicGraph symbGraph) <--
+
+		//      /* Init */
+		//
+		//      //    ArrayList<HighOrderPatternNode> nodeList = new ArrayList<HighOrderPatternNode>();
+		//
+		//      /* determine binary representation */
+		//      int numOfGraphNodes = symbGraph.getGraphNodes().size();
+		//      int numOfGraphEdges = symbGraph.getGraphEdges().size();
+		//      int numOfLabelNodes = symbGraph.getLabelNodes().size();
+		//      int numOflabelEdges = symbGraph.getLabelEdges().size();
+		//      BigInteger graphNodesVec = new BigInteger(new String(new char[numOfGraphNodes]).replace("\0", "1"), 2);
+		//      BigInteger graphEdgesVec = new BigInteger(new String(new char[numOfGraphEdges]).replace("\0", "1"), 2);
+		//      //      BigInteger labelNodesVec = new BigInteger(new String(new char[numOfLabelNodes]).replace("\0", "1"), 2);
+		//      //      BigInteger labelEdgesVec = new BigInteger(new String(new char[numOflabelEdges]).replace("\0", "1"), 2);
+		//      List<GraphNode> graphNodes = symbGraph.getGraphNodes();
+		//      List<GraphEdge> graphEdges = symbGraph.getGraphEdges();
+		//      MorphismsSet morphisms = FirstOrderSymbolicGraphsMatchingFactory.eINSTANCE.createMorphismsSet();
+		//
+		//      // create ID for root
+		//
+		//      // decrement
+		//      graphNodesVec = graphNodesVec.add(BigInteger.ONE);
+		//      graphEdgesVec = graphEdgesVec.add(BigInteger.ONE);
+		//      //      labelNodesVec = labelNodesVec.add(BigInteger.ONE);
+		//      //      labelEdgesVec = labelEdgesVec.add(BigInteger.ONE);
+		//      BigInteger graphsEdgeVecSave = graphEdgesVec;
+		//      //      BigInteger labelEdgeVecSave = labelEdgesVec;
+		//
+		//      /* create Nodes */
+		//      while (graphNodesVec.compareTo(BigInteger.ONE) > 0)
+		//      {
+		//         graphNodesVec = graphNodesVec.subtract(BigInteger.ONE);
+		//         // restore
+		//         graphEdgesVec = graphsEdgeVecSave;
+		//         search: while (graphEdgesVec.compareTo(BigInteger.ZERO) > 0)
+		//         {
+		//            // new Node
+		//
+		//            // determine ID
+		//            graphEdgesVec = graphEdgesVec.subtract(BigInteger.ONE);
+		//            SymbolicGraph subgraph = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
+		//            SymbolicGraphMorphism monoMorphism = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+		//            monoMorphism.setDom(subgraph);
+		//            HashMap<GraphNode, GraphNode> reverseNodeMap = addGraphNodesFromVec(symbGraph, graphNodesVec, monoMorphism);
+		//            for (int i = 0; i < numOfGraphEdges; i++)
+		//            {
+		//               if (graphEdgesVec.testBit(numOfGraphEdges - 1 - i))
+		//               {
+		//                  GraphEdge imageEdge = graphEdges.get(i);
+		//                  //check if edge is dangeling
+		//                  if (reverseNodeMap.get(imageEdge.getSource()) != null && reverseNodeMap.get(imageEdge.getTarget()) != null)
+		//                  {
+		//                     GraphEdge preImageEdge = EcoreUtil.copy(imageEdge);
+		//                     preImageEdge.setSource(reverseNodeMap.get(imageEdge.getSource()));
+		//                     preImageEdge.setTarget(reverseNodeMap.get(imageEdge.getTarget()));
+		//                     monoMorphism.addMapping(preImageEdge, imageEdge);
+		//                     subgraph.getGraphEdges().add(preImageEdge);
+		//                  } else
+		//                  {
+		//                     continue search;//discard morphism if edge is dangling
+		//                  }
+		//
+		//               }
+		//
+		//            }
+		//
+		//            monoMorphism.setCodom(symbGraph);
+		//            subgraph.setName(graphNodesVec.toString(2) + "|" + graphEdgesVec.toString(2));
+		//            morphisms.getMorphisms().add(monoMorphism);
+		//
+		//         }
+		//
+		//      }
+		SubgraphBuilder sb = new SubgraphBuilder(symbGraph);
+		return sb.getAllSubgraphs();
+-->
+
+}

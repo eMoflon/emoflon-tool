@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DemoclesAttributeConstraintSpecification:AttributeConstraintLibrary
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:DemoclesAttributeConstraintSpecification="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    prefix="StoryPatternToSymbGraTraRulesAttributeConstraintsLib">
+  <operationSpecifications
+      constraintSpecifications="//@constraintSpecifications.0"
+      operationIdentifier="lastChar">
+    <operationSpecifications
+        specification="$a$=$b$.substring($b$.length()-1);"
+        adornmentString="FB"/>
+    <parameterIDs
+        identifier="a"/>
+    <parameterIDs
+        identifier="b"/>
+  </operationSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.0"
+      symbol="lastChar">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameterTypes>
+  </constraintSpecifications>
+</DemoclesAttributeConstraintSpecification:AttributeConstraintLibrary>

@@ -1,0 +1,472 @@
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import java.util.HashSet;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismsFactoryImpl;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
+import org.moflon.maave.tool.category.CategoryFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Constant;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Predicate;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Conjunction;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Disjunction;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Parameter;
+import org.moflon.maave.tool.category.SymbolicPullback;
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
+partial class SymbolicGraphCatImpl {
+
+@members <--
+
+	private void copyFormulaFromCodomToDom(SymbolicGraphMorphism mor) {
+		SymbolicGraph from = mor.getCodom();
+		SymbolicGraph to = mor.getDom();
+		Disjunction phi_To = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
+		to.setFormula(phi_To);
+		for (Conjunction conj_From : from.getFormula().getOf()) {
+			Conjunction conj_To = SymbolicGraphsFactory.eINSTANCE.createConjunction();
+			phi_To.getOf().add(conj_To);
+			for (Predicate pred_From : conj_From.getOf()) {
+				Predicate pred_To = SymbolicGraphsFactory.eINSTANCE.createPredicate();
+				conj_To.getOf().add(pred_To);
+				pred_To.setSymbol(pred_From.getSymbol());
+				for (Parameter param_From : pred_From.getParameters()) {
+					if (param_From instanceof LabelNode) {
+						LabelNode target = to.getLabelNodes().stream().filter(ln -> mor.imageOf(ln) == param_From)
+								.findAny().get();
+						pred_To.getParameters().add(target);
+					} else {
+						Constant const_d = phi_To.getConstant(((Constant) param_From).getInterpretation(),
+								param_From.getType());
+						pred_To.getParameters().add(const_d);
+					}
+				}
+			}
+		}
+	}
+
+	private void copyFormula(SymbolicGraph from, SymbolicGraph to) {
+		Disjunction phi_D = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
+		to.setFormula(phi_D);
+		for (Conjunction conj_G : from.getFormula().getOf()) {
+			Conjunction conj_D = SymbolicGraphsFactory.eINSTANCE.createConjunction();
+			phi_D.getOf().add(conj_D);
+			for (Predicate pred_G : conj_G.getOf()) {
+				Predicate pred_D = SymbolicGraphsFactory.eINSTANCE.createPredicate();
+				conj_D.getOf().add(pred_D);
+				pred_D.setSymbol(pred_G.getSymbol());
+				for (Parameter param_G : pred_G.getParameters()) {
+					if (param_G instanceof LabelNode) {
+						LabelNode target = to.getLabelNodes().stream()
+								.filter(ln -> ln.getLabel().equals(((LabelNode) param_G).getLabel())).findAny().get();
+						pred_D.getParameters().add(target);
+					} else {
+						Constant const_d = phi_D.getConstant(((Constant) param_G).getInterpretation(),
+								param_G.getType());
+						pred_D.getParameters().add(const_d);
+					}
+				}
+			}
+		}
+	}
+	
+-->
+
+@model pushout (SymbolicGraphMorphism a_b, SymbolicGraphMorphism a_c) <--
+
+		/*
+								       * a===a_b===>b 
+								       * |          |
+								       * a_c       b_d 
+								       * |          |
+								       * c===c_d===>d
+								       */
+
+		assert a_b.getDom() == a_c.getDom();
+		SymbolicGraph a = a_b.getDom();
+		SymbolicGraph b = a_b.getCodom();
+		SymbolicGraph c = a_c.getCodom();
+		SymbolicGraph d = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
+		d.setName("(" + b.getName() + "+" + c.getName() + "#" + a.getName() + ")");
+
+		SymbolicGraphMorphism b_d = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+		SymbolicGraphMorphism c_d = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+
+		// /////
+		for (GraphNode node : a.getGraphNodes()) {
+			GraphNode newNode = EcoreUtil.copy(node);
+			d.getGraphNodes().add(newNode);
+			b_d.addMapping(a_b.imageOf(node), newNode);
+			c_d.addMapping(a_c.imageOf(node), newNode);
+			String id1 = a_b.imageOf(node).getDebugId();
+			String id2 = a_c.imageOf(node).getDebugId();
+			//			newNode.setDebugId(a_b.imageOf(node).getDebugId()+"+"+a_c.imageOf(node).getDebugId());
+		}
+		for (LabelNode labelNode : a.getLabelNodes()) {
+			LabelNode newLabelNode = EcoreUtil.copy(labelNode);
+			//         newLabelNode.setLabel(newLabelNode.getLabel()+newLabelNode.hashCode());
+			d.getLabelNodes().add(newLabelNode);
+			b_d.addMapping(a_b.imageOf(labelNode), newLabelNode);
+			c_d.addMapping(a_c.imageOf(labelNode), newLabelNode);
+
+		}
+		for (GraphEdge edge : a.getGraphEdges()) {
+			GraphEdge newEdge = EcoreUtil.copy(edge);
+			d.getGraphEdges().add(newEdge);
+			newEdge.setSource(b_d.imageOf(a_b.imageOf(edge.getSource())));
+			newEdge.setTarget(b_d.imageOf(a_b.imageOf(edge.getTarget())));
+			b_d.addMapping(a_b.imageOf(edge), newEdge);
+			c_d.addMapping(a_c.imageOf(edge), newEdge);
+		}
+		for (LabelEdge labelEdge : a.getLabelEdges()) {
+			LabelEdge newLabelEdge = EcoreUtil.copy(labelEdge);
+			d.getLabelEdges().add(newLabelEdge);
+			newLabelEdge.setSource(b_d.imageOf(a_b.imageOf(labelEdge.getSource())));
+			newLabelEdge.setTarget(b_d.imageOf(a_b.imageOf(labelEdge.getTarget())));
+			b_d.addMapping(a_b.imageOf(labelEdge), newLabelEdge);
+			c_d.addMapping(a_c.imageOf(labelEdge), newLabelEdge);
+		}
+
+		// /////
+
+		for (GraphNode node : b.getGraphNodes()) {
+			if (!a_b.isInImage(node)) {
+				GraphNode newNode = EcoreUtil.copy(node);
+				d.getGraphNodes().add(newNode);
+				b_d.addMapping(node, newNode);
+			}
+		}
+		for (LabelNode labelNode : b.getLabelNodes()) {
+			if (!a_b.isInImage(labelNode)) {
+				LabelNode newLabelNode = EcoreUtil.copy(labelNode);
+				//            newLabelNode.setLabel(newLabelNode.getLabel()+newLabelNode.hashCode());
+				d.getLabelNodes().add(newLabelNode);
+				b_d.addMapping(labelNode, newLabelNode);
+			}
+
+		}
+		for (GraphEdge edge : b.getGraphEdges()) {
+			if (!a_b.isInImage(edge)) {
+				GraphEdge newEdge = EcoreUtil.copy(edge);
+				d.getGraphEdges().add(newEdge);
+				newEdge.setSource(b_d.imageOf(edge.getSource()));
+				newEdge.setTarget(b_d.imageOf(edge.getTarget()));
+				b_d.addMapping(edge, newEdge);
+			}
+		}
+		for (LabelEdge labelEdge : b.getLabelEdges()) {
+			if (!a_b.isInImage(labelEdge)) {
+				LabelEdge newLabelEdge = EcoreUtil.copy(labelEdge);
+				d.getLabelEdges().add(newLabelEdge);
+				newLabelEdge.setSource(b_d.imageOf(labelEdge.getSource()));
+				newLabelEdge.setTarget(b_d.imageOf(labelEdge.getTarget()));
+				b_d.addMapping(labelEdge, newLabelEdge);
+			}
+		}
+
+		Disjunction phi_d = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
+		d.setFormula(phi_d);
+		for (Conjunction conj_b : b.getFormula().getOf()) {
+			Conjunction conj_d = SymbolicGraphsFactory.eINSTANCE.createConjunction();
+			phi_d.getOf().add(conj_d);
+			for (Predicate pred_b : conj_b.getOf()) {
+				Predicate pred_d = SymbolicGraphsFactory.eINSTANCE.createPredicate();
+				conj_d.getOf().add(pred_d);
+				pred_d.setSymbol(pred_b.getSymbol());
+				for (Parameter param_b : pred_b.getParameters()) {
+					if (param_b instanceof LabelNode) {
+						pred_d.getParameters().add(b_d.imageOf((LabelNode) param_b));
+					} else {
+						Constant const_d = phi_d.getConstant(((Constant) param_b).getInterpretation(),
+								param_b.getType());
+						pred_d.getParameters().add(const_d);
+					}
+				}
+			}
+		}
+
+		b_d.setDom(b);
+		b_d.setCodom(d);
+
+		// /////
+		for (GraphNode node : c.getGraphNodes()) {
+			if (!a_c.isInImage(node)) {
+				GraphNode newNode = EcoreUtil.copy(node);
+				d.getGraphNodes().add(newNode);
+				c_d.addMapping(node, newNode);
+			}
+
+		}
+		for (LabelNode labelNode : c.getLabelNodes()) {
+			if (!a_c.isInImage(labelNode)) {
+				LabelNode newLabelNode = EcoreUtil.copy(labelNode);
+				//            newLabelNode.setLabel(newLabelNode.getLabel()+newLabelNode.hashCode());
+				d.getLabelNodes().add(newLabelNode);
+				c_d.addMapping(labelNode, newLabelNode);
+			}
+
+		}
+		for (GraphEdge edge : c.getGraphEdges()) {
+			if (!a_c.isInImage(edge)) {
+				GraphEdge newEdge = EcoreUtil.copy(edge);
+				d.getGraphEdges().add(newEdge);
+				newEdge.setSource(c_d.imageOf(edge.getSource()));
+				newEdge.setTarget(c_d.imageOf(edge.getTarget()));
+				c_d.addMapping(edge, newEdge);
+			}
+
+		}
+		for (LabelEdge labelEdge : c.getLabelEdges()) {
+			if (!a_c.isInImage(labelEdge)) {
+				LabelEdge newLabelEdge = EcoreUtil.copy(labelEdge);
+				d.getLabelEdges().add(newLabelEdge);
+				newLabelEdge.setSource(c_d.imageOf(labelEdge.getSource()));
+				newLabelEdge.setTarget(c_d.imageOf(labelEdge.getTarget()));
+				c_d.addMapping(labelEdge, newLabelEdge);
+			}
+
+		}
+		for (Conjunction conj_c : c.getFormula().getOf()) {
+			if (phi_d.getOf().isEmpty()) {
+				phi_d.getOf().add(SymbolicGraphsFactory.eINSTANCE.createConjunction());
+			}
+			for (Predicate pred_c : conj_c.getOf()) {
+				for (Conjunction conj_d : phi_d.getOf()) {
+					Predicate pred_d = SymbolicGraphsFactory.eINSTANCE.createPredicate();
+					conj_d.getOf().add(pred_d);
+					pred_d.setSymbol(pred_c.getSymbol());
+					for (Parameter param_c : pred_c.getParameters()) {
+						if (param_c instanceof LabelNode) {
+							pred_d.getParameters().add(c_d.imageOf((LabelNode) param_c));
+						} else {
+							Constant const_d = phi_d.getConstant(((Constant) param_c).getInterpretation(),
+									param_c.getType());
+							pred_d.getParameters().add(const_d);
+						}
+
+					}
+				}
+
+			}
+		}
+		c_d.setDom(c);
+		c_d.setCodom(d);
+
+		SymbolicPushout pushout = CategoryFactory.eINSTANCE.createSymbolicPushout();
+		pushout.setPushoutObject(d);
+		pushout.getMorphism().add(b_d);
+		pushout.getMorphism().add(c_d);
+		return pushout;
+-->
+
+@model pushoutComplement (SymbolicGraphMorphism l, SymbolicGraphMorphism m) <--
+
+		/*
+								       * gL<===l===gK
+								       *  |        | 
+								       *  m        k
+								       *  |        |
+								       *  gG<===f===gD
+								       */
+
+		SymbolicGraph gG = m.getCodom();
+		SymbolicGraph gL = l.getCodom();
+		SymbolicGraph gK = l.getDom();
+		SymbolicGraph gD = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
+		assert m.getDom() == gL;
+		CategoryUtil util = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+		if (!util.isOfClassM(l)) {
+			throw new RuntimeException("Pushout complement is not unique as morphism: " + m.toString()
+					+ "is not of Class M of morphisms.");
+		}
+		SymbolicGraphMorphism l_m = l.composeWith(m);
+
+		SymbolicGraphMorphism f = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+		f.setDom(gD);
+		f.setCodom(gG);
+
+		SymbolicGraphMorphism k = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+		k.setDom(gK);
+		k.setCodom(gD);
+		for (Object obj : gG.getAllElements()) {
+			EGraphElement elem = (EGraphElement) obj;
+			if (!m.isInImage(elem)) {
+
+				f.addMapping(gD.addCopy(elem), elem);
+
+			}
+
+		}
+		for (Object obj : gK.getAllElements()) {
+			EGraphElement elem = (EGraphElement) obj;
+			EGraphElement elemD = gD.addCopy(l_m.imageOf(elem));
+			k.addMapping(elem, elemD);
+			f.addMapping(elemD, l_m.imageOf(elem));
+		}
+
+		for (GraphEdge graphEdge : gD.getGraphEdges()) {
+			GraphEdge imageOfGraphEdge = f.imageOf(graphEdge);
+			GraphNode source = gD.getGraphNodes().stream()
+					.filter(gn -> f.imageOf(graphEdge).getSource() == f.imageOf(gn)).findAny().get();
+			GraphNode target = gD.getGraphNodes().stream()
+					.filter(gn -> f.imageOf(graphEdge).getTarget() == f.imageOf(gn)).findAny().get();
+
+			graphEdge.setSource(source);
+			graphEdge.setTarget(target);
+		}
+		for (LabelEdge labelEdge : gD.getLabelEdges()) {
+			LabelEdge imageOfLabelEdge = f.imageOf(labelEdge);
+			GraphNode source = gD.getGraphNodes().stream()
+					.filter(gn -> f.imageOf(labelEdge).getSource() == f.imageOf(gn)).findAny().get();
+			LabelNode target = gD.getLabelNodes().stream()
+					.filter(gn -> f.imageOf(labelEdge).getTarget() == f.imageOf(gn)).findAny().get();
+			labelEdge.setSource(source);
+			labelEdge.setTarget(target);
+		}
+
+		copyFormulaFromCodomToDom(f);
+		SymbolicPushoutComplement pushoutCompl = CategoryFactory.eINSTANCE.createSymbolicPushoutComplement();
+		pushoutCompl.setContextObject(gD);
+		pushoutCompl.getMorphism().add(f);
+		pushoutCompl.getMorphism().add(k);
+
+		return pushoutCompl;
+-->
+
+@model pullback (SymbolicGraphMorphism b_d, SymbolicGraphMorphism c_d) <--
+
+		/*
+								       * a===a_b===>b 
+								       * |          |
+								       * a_c       b_d 
+								       * |          |
+								       * c===c_d===>d
+								       */
+		assert c_d.getCodom() == b_d.getCodom();
+		CategoryUtil util = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+		if (!util.isOfClassM(b_d) || !util.isOfClassM(c_d)) {
+			throw new RuntimeException("Pullbacks for morphisms not of class M are not supported");
+		}
+		SymbolicGraphMorphismImpl d_b = (SymbolicGraphMorphismImpl) util.getInverseMorphism(b_d);
+		SymbolicGraphMorphismImpl d_c = (SymbolicGraphMorphismImpl) util.getInverseMorphism(c_d);
+		if (d_b == null || d_c == null) {
+			throw new RuntimeException("Pullbacks for non-injective morphisms are currently not supported");
+		}
+
+		SymbolicGraph a = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
+		a.setName(b_d.getDom().getName() + "__" + c_d.getDom().getName());
+
+		SymbolicGraphMorphism a_b = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+		a_b.setDom(a);
+		a_b.setCodom(b_d.getDom());
+
+		SymbolicGraphMorphism a_c = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+		a_c.setDom(a);
+		a_c.setCodom(c_d.getDom());
+
+		HashMap<GraphNode, GraphNode> revGNMap_b_a = new HashMap<GraphNode, GraphNode>();
+		d_b.graphNodeMap.getPreimage().retainAll(d_c.graphNodeMap.getPreimage());
+		for (GraphNode n : d_b.graphNodeMap.getPreimage()) {
+			GraphNode nNew = EcoreUtil.copy(n);
+			a.getGraphNodes().add(nNew);
+			a_b.addMapping(nNew, d_b.imageOf(n));
+			a_c.addMapping(nNew, d_c.imageOf(n));
+			revGNMap_b_a.put(d_b.imageOf(n), nNew);
+		}
+
+		HashMap<LabelNode, LabelNode> revLNMap_b_a = new HashMap<LabelNode, LabelNode>();
+		d_b.labelNodeMap.getPreimage().retainAll(d_c.labelNodeMap.getPreimage());
+		for (LabelNode n : d_b.labelNodeMap.getPreimage()) {
+			LabelNode nNew = EcoreUtil.copy(n);
+			a.getLabelNodes().add(nNew);
+			a_b.addMapping(nNew, d_b.imageOf(n));
+			a_c.addMapping(nNew, d_c.imageOf(n));
+			revLNMap_b_a.put(d_b.imageOf(n), nNew);
+		}
+
+		d_b.graphEdgeMap.getPreimage().retainAll(d_c.graphEdgeMap.getPreimage());
+		for (GraphEdge n : d_b.graphEdgeMap.getPreimage()) {
+			GraphEdge nNew = EcoreUtil.copy(n);
+			nNew.setSource(revGNMap_b_a.get(d_b.imageOf(n.getSource())));
+			nNew.setTarget(revGNMap_b_a.get(d_b.imageOf(n.getTarget())));
+			a.getGraphEdges().add(nNew);
+			a_b.addMapping(nNew, d_b.imageOf(n));
+			a_c.addMapping(nNew, d_c.imageOf(n));
+		}
+
+		d_b.labelEdgeMap.getPreimage().retainAll(d_c.labelEdgeMap.getPreimage());
+		for (LabelEdge n : d_b.labelEdgeMap.getPreimage()) {
+			LabelEdge nNew = EcoreUtil.copy(n);
+			nNew.setSource(revGNMap_b_a.get(d_b.imageOf(n.getSource())));
+			nNew.setTarget(revLNMap_b_a.get(d_b.imageOf(n.getTarget())));
+			a.getLabelEdges().add(nNew);
+			a_b.addMapping(nNew, d_b.imageOf(n));
+			a_c.addMapping(nNew, d_c.imageOf(n));
+		}
+
+		copyFormula(b_d.getCodom(), a);
+
+		SymbolicPullback pullback = CategoryFactory.eINSTANCE.createSymbolicPullback();
+		pullback.setPullbackObject(a);
+		pullback.getMorphisms().add(a_b);
+		pullback.getMorphisms().add(a_c);
+		return pullback;
+-->
+
+@model boundary (SymbolicGraphMorphism f) <--
+
+		//B====b====>A
+		//           |
+		//           f
+		//           |
+		//           A_p
+		SymbolicGraph graphA = f.getDom();
+		SymbolicGraph graphA_p = f.getCodom();
+		SymbolicGraphMorphismImpl fImpl = (SymbolicGraphMorphismImpl) f;
+
+		SymbolicGraph graphB = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
+		graphB.setName("B");
+
+		SymbolicGraphMorphismImpl b = (SymbolicGraphMorphismImpl) SymbolicGraphMorphismsFactory.eINSTANCE
+				.createSymbolicGraphMorphism();
+		b.setDom(graphB);
+		b.setCodom(graphA);
+
+		//potentialDanglingGraphEdges: all graph edges ge in A_p\f(A)
+		HashSet<GraphEdge> potentialDanglingGraphEdges = graphA_p.getGraphEdges().stream()
+				.filter(e -> !(f.isInImage(e))).collect(Collectors.toCollection(HashSet::new));
+
+		//potentialDanglingLabelEdges: all label edges le in A_p\f(A)
+		HashSet<LabelEdge> potentialDanglingLabelEdges = graphA_p.getLabelEdges().stream()
+				.filter(e -> !(f.isInImage(e))).collect(Collectors.toCollection(HashSet::new));
+		for (GraphNode n : graphA.getGraphNodes()) {
+			//if is source or target of an potentially dangling graph edge or source of a potentially dangling label edge
+			if (f.imageOf(n).getInGraphEdge().stream().anyMatch(e -> potentialDanglingGraphEdges.contains(e))
+					|| f.imageOf(n).getOutGraphEdge().stream().anyMatch(e -> potentialDanglingGraphEdges.contains(e))
+					|| f.imageOf(n).getLabelEdge().stream().anyMatch(e -> potentialDanglingLabelEdges.contains(e))) {
+				GraphNode newGn = EcoreUtil.copy(n);
+				graphB.getGraphNodes().add(newGn);
+				b.addMapping(newGn, n);
+			}
+
+		}
+		for (LabelNode ln : graphA.getLabelNodes()) {
+			LabelNode newLn = EcoreUtil.copy(ln);
+			graphB.getLabelNodes().add(newLn);
+			b.addMapping(newLn, ln);
+		}
+		copyFormula(graphA, graphB);
+		SymbolicBoundary boundary = CategoryFactory.eINSTANCE.createSymbolicBoundary();
+		boundary.setBoundary(b);
+		return boundary;
+-->
+
+}

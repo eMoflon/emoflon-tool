@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.tigris.subversion.subclipse.core.svnnature">
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Projects/Category,Category"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tests/CathegoryLanguageTestSuite,CategoryLanguageTestSuite"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Specifications/ComputationalCategory,ComputationalCategory"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tests/DiagramChasingTestGen,DiagramChasingTestGen"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tests/DiagramChasingTestLang,DiagramChasingTestLang"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Projects/eMoflonVerification,eMoflonVerification"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tests/FeatureModelLang,FeatureModelLang"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tests/FeatureModelLangTestGen,FeatureModelLangTestGen"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Projects/FirstOrderSymbolicGraphsMatching,FirstOrderSymbolicGraphsMatching"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Projects/HoPatternConstraintsSpecification,HoPatternConstraintsSpecification"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tests/Specifications/MoflonAnalysisAndVerificationTests,MoflonAnalysisAndVerificationTests"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tests/RBACLanguage,RBACLanguage"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Projects/SMTConstraintLib,SMTConstraintLib"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Projects/SMTSolverUtils,SMTSolverUtils"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Projects/StoryPatternToSymbGraTraRules,StoryPatternToSymbGraTraRules"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Projects/SymbolicGraphsAndMorphisms,SymbolicGraphsAndMorphisms"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/SymbolicGraphToHoPatternSpec,SymbolicGraphToHoPatternSpec"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tests/TestLangForStoryPatternToSymbGTRules,TestLangForStoryPatternToSymbGTRules"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tests/TGGCPALang,TGGCPALang"/>
+<project reference="0.9.3,svn+ssh://scm.gforge.echtzeitsysteme.org/svnroot/moflon2backend/branches/MoflonAnalysisAndVerification/Tool/Projects/Z3_Solver,Z3_Solver"/>
+</provider>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1425053453515_4" label="CategoryLanguage" name="CategoryLanguage">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Category" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/SymbolicGraphsAndMorphisms" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/eMoflonVerification" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/StoryPatternToSymbGraTraRules" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/SMTConstraintLib" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/SymbolicGraphToHoPatternSpec" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FirstOrderSymbolicGraphsMatching" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/HoPatternConstraintsSpecification" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1425053465674_5" label="MoflonAaVTestLanguages" name="MoflonAaVTestLanguages">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FeatureModelLang" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DiagramChasingTestLang" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/TestLangForStoryPatternToSymbGTRules" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/TGGCPALang" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/RBACLanguage" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/RBACLanguage" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DiagramChasingTestLang" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/TestLangForStoryPatternToSymbGTRules" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FeatureModelLang" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/TGGCPALang" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1425053693082_7" label="SMTSolver" name="SMTSolver">
+<item elementID="=SMTSolverUtils" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=Z3_Solver" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1425053419857_3" label="Specifications" name="Specifications">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ComputationalCategory" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/MoflonAnalysisAndVerificationTests" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1425053465841_6" label="TestGenerators" name="TestGenerators">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DiagramChasingTestGen" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FeatureModelLangTestGen" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DiagramChasingTestGen" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FeatureModelLangTestGen" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1425054663708_8" label="TestSuite" name="TestSuite">
+<item elementID="=CategoryLanguageTestSuite" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+</workingSets>
+</psf>

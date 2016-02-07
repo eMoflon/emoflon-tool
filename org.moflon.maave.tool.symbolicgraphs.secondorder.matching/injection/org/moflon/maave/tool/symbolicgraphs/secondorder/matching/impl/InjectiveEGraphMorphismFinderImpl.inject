@@ -1,0 +1,37 @@
+
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
+import org.gervarro.democles.common.DataFrame;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.DataFrameList;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.DataFrameWrapper;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.FOTransformationResult;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingPackage;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.PatternMatcherHelper;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
+
+partial class InjectiveEGraphMorphismFinderImpl {
+
+
+
+@model createFirstOrderPattern (SymbolicGraph symbolicGraph) <--
+
+		FOTransformationResult result = MatchingFactory.eINSTANCE.createFOTransformationResult();
+		result.init(symbolicGraph);
+		return result;
+-->
+
+@model checkMorphismValidity (SymbolicGraphMorphism morphism) <--
+
+		CategoryUtil catUtil = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+		return catUtil.isValidEGraphMorphism(morphism) && catUtil.isInjectiveMorphism(morphism);
+-->
+
+}

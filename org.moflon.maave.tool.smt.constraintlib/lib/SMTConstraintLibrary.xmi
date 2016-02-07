@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="ASCII"?>
+<SMTConstraintLib:SMTConstraintLibrary
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:SMTConstraintLib="platform:/plugin/org.moflon.maave.tool.smt.constraintlib/model/Constraintlib.ecore"
+    xsi:schemaLocation="platform:/plugin/org.moflon.maave.tool.smt.constraintlib/model/Constraintlib.ecore ../model/Constraintlib.ecore">
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.0"
+      symbol="+">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.1"
+      symbol=">">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.2"
+      symbol="&lt;">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.3"
+      symbol="#T"/>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.4"
+      symbol="#F"/>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.5"
+      symbol="=">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.6"
+      symbol="IMPL?">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.7"
+      symbol="XOR?">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.8"
+      symbol=">=?">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.9"
+      symbol="=">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.10"
+      symbol="*">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.11"
+      symbol="=?">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.12"
+      symbol="*">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.13"
+      symbol="=?">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.14"
+      symbol="+">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.0"
+      smtLibString="(define-fun add((x!0 Int)(x!1 Int)(x!2 Int)) Bool (= x!0 (+ x!1 x!2)) )"
+      identifier="(add $x0$ $x1$ $x2$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.1"
+      smtLibString="(define-fun larger((x!0 Int)(x!1 Int)) Bool (> x!0 x!1) )"
+      identifier="(larger $x0$ $x1$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.2"
+      smtLibString="(define-fun smaller((x!0 Int)(x!1 Int)) Bool (&lt; x!0 x!1) )"
+      identifier="(smaller $x0$ $x1$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.3"
+      identifier="true"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.4"
+      identifier="false"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.5"
+      smtLibString="(define-fun equalB((x!0 Bool)(x!1 Bool)) Bool (= x!0 x!1) )"
+      identifier="(equalB $x0$ $x1$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.6"
+      smtLibString="(define-fun isImpl((x!0 Bool)(x!1 Bool)(x!2 Bool)) Bool (= (=> x!0 x!1) x!2) )"
+      identifier="(isImpl $x0$ $x1$ $x2$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.7"
+      smtLibString="(define-fun isXor((x!0 Bool)(x!1 Bool)(x!2 Bool)) Bool (= (xor x!0 x!1) x!2) )"
+      identifier="(isXor $x0$ $x1$ $x2$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.8"
+      smtLibString="(define-fun isLarger((x!0 Int)(x!1 Int)(x!2 Bool)) Bool (= (>= x!0 x!1) x!2) )"
+      identifier="(isLarger $x0$ $x1$ $x2$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.9"
+      smtLibString="(define-fun equalInt((x!0 Int)(x!1 Int)) Bool (= x!0 x!1) )"
+      identifier="(equalInt $x0$ $x1$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.10"
+      smtLibString="(define-fun multInt((x!0 Int)(x!1 Int)(x!2 Int)) Bool (= x!0 (* x!1 x!2)) )"
+      identifier="(multInt $x0$ $x1$ $x2$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.11"
+      smtLibString="(define-fun isEqualInt((x!0 Int)(x!1 Int)(x!2 Bool)) Bool (= (= x!0 x!1) x!2) )"
+      identifier="(isEqualInt $x0$ $x1$ $x2$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.12"
+      smtLibString="(define-fun multReal((x!0 Real)(x!1 Real)(x!2 Real)) Bool (= x!0 (* x!1 x!2)) )"
+      identifier="(multReal $x0$ $x1$ $x2$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.13"
+      smtLibString="(define-fun isEqualReal((x!0 Real)(x!1 Real)(x!2 Bool)) Bool (= (= x!0 x!1) x!2) )"
+      identifier="(isEqualReal $x0$ $x1$ $x2$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.14"
+      smtLibString="(define-fun addReal((x!0 Real)(x!1 Real)(x!2 Real)) Bool (= x!0 (+ x!1 x!2)) )"
+      identifier="(addReal $x0$ $x1$ $x2$)"/>
+</SMTConstraintLib:SMTConstraintLibrary>

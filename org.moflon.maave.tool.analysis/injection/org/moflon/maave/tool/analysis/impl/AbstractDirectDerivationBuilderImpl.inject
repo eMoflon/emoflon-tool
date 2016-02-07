@@ -1,0 +1,25 @@
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
+import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
+
+partial class AbstractDirectDerivationBuilderImpl {
+
+
+
+@model constructPartialMorphismForLabelNodes (SymbolicGraphMorphism left, SymbolicGraphMorphism b) <--
+
+		Mapping<LabelNode> leftLabelNodeMapping = ((SymbolicGraphMorphismImpl) left).labelNodeMap;
+		Mapping<LabelNode> reverseLeftLabelNodeMapping = leftLabelNodeMapping.getInverseMapping();
+
+		SymbolicGraphMorphismImpl reverseLeft = (SymbolicGraphMorphismImpl) SymbolicGraphMorphismsFactory.eINSTANCE
+				.createSymbolicGraphMorphism();
+		reverseLeft.setDom(left.getCodom());
+		reverseLeft.setCodom(left.getDom());
+		reverseLeft.labelNodeMap = reverseLeftLabelNodeMapping;
+		return b.composeWith(reverseLeft);
+-->
+
+}

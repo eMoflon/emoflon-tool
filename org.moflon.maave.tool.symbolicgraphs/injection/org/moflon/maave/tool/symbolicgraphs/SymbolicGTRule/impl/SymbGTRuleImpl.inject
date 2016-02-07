@@ -1,0 +1,152 @@
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Conjunction;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Predicate;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
+import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
+import org.moflon.maave.tool.symbolicgraphs.printing.GraphAndMorphismPrinter;
+import java.util.stream.Collectors;
+
+partial class SymbGTRuleImpl {
+
+@members <--
+
+	private void removeFomula(SymbolicGraph graph) {
+		graph.getFormula().getOf().clear();
+		graph.getFormula().getConstants().clear();
+		Conjunction newconj = SymbolicGraphsFactory.eINSTANCE.createConjunction();
+		Predicate newpred = SymbolicGraphsFactory.eINSTANCE.createPredicate();
+		newpred.setSymbol("#T");
+		newconj.getOf().add(newpred);
+		graph.getFormula().getOf().add(newconj);
+
+		for (LabelNode labelNode : graph.getLabelNodes()) {
+			labelNode.getPredicates().clear();
+		}
+	}
+	
+-->
+
+@model toString () <--
+
+		//		SymbolicGraphMorphism left = this.getLeft();
+		//		SymbolicGraphMorphism right = this.getRight();
+		//		SymbolicGraph K = left.getDom();
+		//		SymbolicGraph L = left.getCodom();
+		//		SymbolicGraph R = right.getCodom();
+		//		StringBuilder builder = new StringBuilder();
+		//		builder.append("GraphNodes:\n");
+		//		for (GraphNode gn : K.getGraphNodes()) {
+		//			builder.append(left.imageOf(gn).getDebugId() + ":"
+		//					+ left.imageOf(gn).getType().getName() + " <===== "
+		//					+ gn.getDebugId() + "=====>"
+		//					+ right.imageOf(gn).getDebugId() + ":"
+		//					+ right.imageOf(gn).getType().getName() + "\n");
+		//		}
+		//		for (GraphNode n : L.getGraphNodes()) {
+		//			if (!left.isInImage(n)) {
+		//				builder.append(n.getDebugId() + ":" + n.getType().getName()
+		//						+ " ------------------ \n");
+		//			}
+		//		}
+		//		for (GraphNode n : R.getGraphNodes()) {
+		//			if (!right.isInImage(n)) {
+		//				builder.append("             ------------------- "
+		//						+ n.getDebugId() + ":" + n.getType().getName() + "\n");
+		//			}
+		//		}
+		//		builder.append("GraphEdges:\n");
+		//		for (GraphEdge ge : K.getGraphEdges()) {
+		//			builder.append(left.imageOf(ge).getDebugId() + ":"
+		//					+ left.imageOf(ge).getType().getName() + " <===== "
+		//					+ ge.getDebugId() + "=====> "
+		//					+ right.imageOf(ge).getDebugId() + ":"
+		//					+ right.imageOf(ge).getType().getName() + "\n");
+		//		}
+		//		for (GraphEdge n : L.getGraphEdges()) {
+		//			if (!left.isInImage(n)) {
+		//				builder.append("             ------------------- "
+		//						+ n.getDebugId() + ":" + n.getType().getName() + "\n");
+		//			}
+		//		}
+		//		for (GraphEdge n : R.getGraphEdges()) {
+		//			if (!right.isInImage(n)) {
+		//				builder.append("             ------------------- "
+		//						+ n.getDebugId() + ":" + n.getType().getName() + "\n");
+		//			}
+		//		}
+		//		builder.append("LabelNodes:\n");
+		//		for (LabelNode ln : K.getLabelNodes()) {
+		//			builder.append(left.imageOf(ln).getLabel() + ":"
+		//					+ left.imageOf(ln).getType().getName() + " <===== "
+		//					+ ln.getLabel() + "=====> " + right.imageOf(ln).getLabel()
+		//					+ ":" + right.imageOf(ln).getType().getName() + "\n");
+		//		}
+		//		for (LabelNode n : L.getLabelNodes()) {
+		//			if (!left.isInImage(n)) {
+		//				builder.append(n.getLabel() + ":" + n.getType().getName()
+		//						+ " ------------------ \n");
+		//			}
+		//		}
+		//		for (LabelNode n : R.getLabelNodes()) {
+		//			if (!right.isInImage(n)) {
+		//				builder.append("             ------------------- "
+		//						+ n.getLabel() + ":" + n.getType().getName() + "\n");
+		//			}
+		//		}
+		//		builder.append("LabelEdges:\n");
+		//		for (LabelEdge le : K.getLabelEdges()) {
+		//			builder.append(left.imageOf(le).getDebugId() + ":"
+		//					+ left.imageOf(le).getType().getName() + " <===== "
+		//					+ le.getDebugId() + "=====> "
+		//					+ right.imageOf(le).getDebugId() + ":"
+		//					+ right.imageOf(le).getType().getName() + "\n");
+		//		}
+		//		for (LabelEdge n : L.getLabelEdges()) {
+		//			if (!left.isInImage(n)) {
+		//				builder.append(n.getDebugId() + ":" + n.getType().getName()
+		//						+ " ------------------ \n");
+		//			}
+		//		}
+		//		for (LabelEdge n : R.getLabelEdges()) {
+		//			if (!right.isInImage(n)) {
+		//				builder.append("             ------------------- "
+		//						+ n.getDebugId() + ":" + n.getType().getName() + "\n");
+		//			}
+		//		}
+		//		return builder.toString();
+		return GraphAndMorphismPrinter.print(this);
+-->
+
+@model makeRuleLazy () <--
+
+		//First remove label nodes not assigned to a predicate (and corresponding label edges)
+		Mapping leftLabelNodeMap = ((SymbolicGraphMorphismImpl) this.getLeft()).labelNodeMap;
+		Mapping rightLabelNodeMap = ((SymbolicGraphMorphismImpl) this.getRight()).labelNodeMap;
+		//      left.getCodom().getLabelNodes().stream().filter(ln -> ln.getPredicates().isEmpty()).forEach(ln -> {
+		//         left.getCodom().getLabelEdges().stream().filter(le -> le.getTarget() == ln).collect(Collectors.toList()).forEach(le -> {
+		//            le.setSource(null);
+		//            le.setTarget(null);
+		//            left.getCodom().getLabelEdges().remove(le);
+		//         });
+		//      });
+
+		//Idea Remove those label nodes from L and K that are not connected via an label edge in L
+		left.getDom().getLabelNodes().stream().filter(ln -> left.imageOf(ln).getLabelEdge().isEmpty())
+				.collect(Collectors.toList()).forEach(ln -> {
+					left.getDom().getLabelNodes().remove(ln);
+					left.getCodom().getLabelNodes().remove(left.imageOf(ln));
+					leftLabelNodeMap.removeMapping(ln);
+					rightLabelNodeMap.removeMapping(ln);
+				});
+		//remove Fromulas from L and K
+		removeFomula(left.getDom());
+		removeFomula(left.getCodom());
+		return true;
+-->
+
+}

@@ -1,0 +1,29 @@
+
+import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
+import SDMLanguage.SDMLanguagePackage;
+import SDMLanguage.activities.MoflonEOperation;
+import SDMLanguage.activities.StoryNode;
+import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+
+partial class InitialPushoutTestImpl {
+
+
+
+@model getTestPattern (String name) <--
+
+		SDMLanguagePackage.eINSTANCE.getClass();
+		MnoqPackage.eINSTANCE.getClass();
+		EPackage pack = (EPackage) eMoflonEMFUtil
+				.loadModel("../DiagramChasingTestGen/model/DiagramChasingTestGen.ecore");
+
+		EClass clazz = (EClass) pack.getEClassifier("InitialPushoutTest");
+		MoflonEOperation eop = (MoflonEOperation) clazz.getEAllOperations().stream()
+				.filter(x -> x.getName().equals(name)).findFirst().get();
+		StoryNode stn = (StoryNode) eop.getActivity().getOwnedActivityNode().stream()
+				.filter(x -> x instanceof StoryNode).findFirst().get();
+		return stn.getStoryPattern();
+-->
+
+}

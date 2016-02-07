@@ -1,0 +1,19 @@
+
+partial class LabelEdgeImpl {
+
+@members <--
+
+	public String toString(){
+		return this.getDebugId();
+		
+	}
+	
+-->
+
+@model getDebugId () <--
+
+		return this.getSource().getDebugId() + "->"
+				+ this.getTarget().getLabel();
+-->
+
+}

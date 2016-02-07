@@ -1,0 +1,47 @@
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsPackage;
+
+partial class EGraphToHoPatternSpecTransformerImpl {
+
+@members <--
+
+	SymbolicGraphsPackage symbolicGraphsPackage = SymbolicGraphsPackage.eINSTANCE;
+	
+-->
+
+@model getEClass_SymbolicGraph () <--
+
+		return symbolicGraphsPackage.getSymbolicGraph();
+-->
+
+@model getEReference_GraphNodes () <--
+
+		return symbolicGraphsPackage.getSymbolicGraph_GraphNodes();
+-->
+
+@model getEReference_LabelNodes () <--
+
+		return symbolicGraphsPackage.getSymbolicGraph_LabelNodes();
+-->
+
+@model getEReference_GeTarget () <--
+
+		return symbolicGraphsPackage.getGraphEdge_Target();
+-->
+
+@model getEReference_GeSource () <--
+
+		return symbolicGraphsPackage.getGraphEdge_Source();
+-->
+
+@model getEReference_LeSource () <--
+
+		return symbolicGraphsPackage.getLabelEdge_Source();
+-->
+
+@model getEReference_LeTarget () <--
+
+		return symbolicGraphsPackage.getLabelEdge_Target();
+-->
+
+}

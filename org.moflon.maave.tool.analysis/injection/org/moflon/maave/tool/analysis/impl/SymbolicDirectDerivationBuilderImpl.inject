@@ -1,0 +1,18 @@
+
+partial class SymbolicDirectDerivationBuilderImpl {
+
+
+
+@model checkPreConditions (SymbolicGraphMorphism match, SymbGTRule rule) <--
+
+
+      return true;
+-->
+
+@model checkPostConditions (SymbolicGraphMorphism comatch, SymbGTRule rule) <--
+
+
+      return true;
+-->
+
+}

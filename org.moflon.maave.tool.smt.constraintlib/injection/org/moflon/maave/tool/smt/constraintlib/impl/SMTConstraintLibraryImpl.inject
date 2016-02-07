@@ -1,0 +1,43 @@
+
+import org.eclipse.emf.ecore.EDataType;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Parameter;
+
+partial class SMTConstraintLibraryImpl {
+
+
+
+@model lookupPredicateSpecification (Predicate predicate) <--
+
+		for (PredicateSpecification constSpec : this.getPredicateSpecifications()) {
+			if (constSpec.getSymbol().equals(predicate.getSymbol())) {
+				if (predicate.getParameters().size() == constSpec.getParameterTypes().size()) {
+					boolean successful = true;
+					for (int i = 0; i < predicate.getParameters().size(); i++) {
+						Parameter parameter = predicate.getParameters().get(i);
+
+						EDataType parameterType = parameter.getType();
+
+						if (parameterType != null) {
+
+							EDataType specificationType = constSpec.getParameterTypes().get(i).getEDataType();
+							if (parameterType != specificationType) {
+								successful = false;
+								break;
+							}
+						} else {
+							throw new RuntimeException(
+									"SMTConstraintLibrary: unknown variable type: " + parameter.getClass().getName());
+						}
+					}
+					if (successful) {
+						return constSpec;
+					}
+				}
+
+			}
+
+		}
+		return null;
+-->
+
+}

@@ -1,0 +1,21 @@
+
+partial class LabelNodeNameHelperImpl {
+
+
+
+@model calcNameForLeft (ObjectVariable objectVariable, EAttribute eAttribute) <--
+
+		return objectVariable.getName() + "_" + eAttribute.getName();
+-->
+
+@model calcNameForRight (ObjectVariable objectVariable, EAttribute eAttribute) <--
+
+		return objectVariable.getName() + "_" + eAttribute.getName() + "_prime";
+-->
+
+@model calcLiteralName (LiteralVariable literalVar) <--
+
+		return "#"+literalVar.getName();
+-->
+
+}

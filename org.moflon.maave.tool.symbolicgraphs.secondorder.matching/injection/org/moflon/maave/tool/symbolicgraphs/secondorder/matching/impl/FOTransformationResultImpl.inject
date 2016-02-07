@@ -1,0 +1,90 @@
+
+import org.gervarro.democles.specification.emf.Variable;
+import java.io.IOException;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.eclipse.emf.common.util.URI;
+import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
+import java.util.HashMap;
+import org.eclipse.emf.ecore.EObject;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.transformation.EGraphToHoPatternSpecTransformer;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.transformation.GraphEdge2GraphEdgeVariable;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.transformation.GraphNode2GraphNodeVariable;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.transformation.LabelEdge2LabelEdgeVariable;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.transformation.LabelNode2LabelNodeVariable;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.transformation.TransformationFactory;
+
+partial class FOTransformationResultImpl {
+
+@members <--
+
+	private EGraphToHoPatternSpecTransformer transformer;
+
+	private HashMap<EGraphElement, Integer> elemToIndexMap = new HashMap<EGraphElement, Integer>();
+	
+-->
+
+@model init (SymbolicGraph source) <--
+
+		transformer = TransformationFactory.eINSTANCE.createEGraphToHoPatternSpecTransformer();
+		transformer.SymbolicGraphToPatternSpec(source);
+		Pattern pattern = transformer.getPattern();
+		for (LabelNode2LabelNodeVariable corr : transformer.getLabelNode2LabelNodeVariable()) {
+			EGraphElement srcObj = corr.getLabelNode();
+			Variable trgObj = corr.getLabelNodeVariable();
+			elemToIndexMap.put((EGraphElement) srcObj, pattern.getSymbolicParameters().indexOf(trgObj));
+		}
+		for (GraphNode2GraphNodeVariable corr : transformer.getGraphNode2GraphNodeVariable()) {
+			EGraphElement srcObj = corr.getGraphNode();
+			Variable trgObj = corr.getGraphNodeVariable();
+			elemToIndexMap.put((EGraphElement) srcObj, pattern.getSymbolicParameters().indexOf(trgObj));
+		}
+		for (GraphEdge2GraphEdgeVariable corr : transformer.getGraphEdge2GraphEdgeVariable()) {
+			EGraphElement srcObj = corr.getGraphEdge();
+			Variable trgObj = corr.getGraphEdgeVariable();
+			elemToIndexMap.put((EGraphElement) srcObj, pattern.getSymbolicParameters().indexOf(trgObj));
+		}
+		for (LabelEdge2LabelEdgeVariable corr : transformer.getLabelEdge2LabelEdgeVariable()) {
+			EGraphElement srcObj = corr.getLabelEdge();
+			Variable trgObj = corr.getLabelEdgeVariable();
+			elemToIndexMap.put((EGraphElement) srcObj, pattern.getSymbolicParameters().indexOf(trgObj));
+		}
+		//		CorrespondenceModel corrModel = (CorrespondenceModel) trafo.getCorr();
+		//
+		//		for (EObject corrEObject : corrModel.getCorrespondences()) {
+		//			Object srcObj = corrEObject.eGet(
+		//					eMoflonEMFUtil.getReference(corrEObject, "source"), true);
+		//			Object trgObj = corrEObject.eGet(
+		//					eMoflonEMFUtil.getReference(corrEObject, "target"), true);
+		//			if (srcObj instanceof EGraphElement
+		//					&& trgObj instanceof org.gervarro.democles.specification.emf.Variable) {
+		//
+		//				elemToIndexMap.put((EGraphElement) srcObj, target
+		//						.getSymbolicParameters().indexOf(trgObj));
+		//			}
+		//		}
+		setInitialized(true);
+-->
+
+@model getFirstOrderPattern () <--
+
+		if (isInitialized()) {
+			return transformer.getPattern();
+		} else {
+
+			throw new RuntimeException("FOTransformationResult not initialized");
+
+		}
+-->
+
+@model getIndexOf (EGraphElement eGraphElem) <--
+
+		if (isInitialized()) {
+			return elemToIndexMap.get(eGraphElem);
+		} else {
+			throw new RuntimeException("FOTransformationResult not initialized");
+		}
+-->
+
+}

@@ -1,0 +1,51 @@
+group logic;
+
+conjunction(predicates)::=<<<if(rest(predicates))>(and <predicates:{pred|<pred> }>)<else><predicates:{pred|<pred> }><endif>
+>>
+
+disjunction(conjunctions)::=<<<if(rest(conjunctions))>(or <conjunctions:{conj|<conj> }>)<else><conjunctions:{conj|<conj> }><endif> 
+>>
+disjunctionExists(varDefs,conjunctions)::=<<(exists(<varDefs:{varDef|<varDef> }>) <disjunction(conjunctions)>) 
+>>
+
+
+implication(premise, conclusion)::=<<
+		(=> 
+			<premise> 
+			<conclusion>
+		)
+>>
+biImplication(term1, term2)::=<<
+		(= 
+			<term1> 
+			<term2>
+		)
+>>
+dis(premise, conclusion)::=<<(assert	
+	(not 
+		(=> 
+			<premise> 
+			<conclusion>
+		)
+	)
+)
+>>
+checkUnsat(varDecls,funcDefs,term)::=<<
+<varDecls;separator="\n">
+<funcDefs;separator="\n">
+(assert	
+	(not 
+	<term>
+	)
+)
+(check-sat)
+>>
+
+checkSat(varDecls,funcDefs,term)::=<<
+<varDecls;separator="\n">
+<funcDefs;separator="\n">
+(assert	
+<term>
+)
+(check-sat)
+>>

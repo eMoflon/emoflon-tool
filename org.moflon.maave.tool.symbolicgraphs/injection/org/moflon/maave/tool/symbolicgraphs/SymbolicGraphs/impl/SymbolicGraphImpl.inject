@@ -1,0 +1,134 @@
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
+import org.moflon.maave.tool.symbolicgraphs.Datastructures.EGraphElementSwitch;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
+import org.moflon.maave.tool.symbolicgraphs.printing.GraphAndMorphismPrinter;
+import java.util.ArrayList;
+
+partial class SymbolicGraphImpl {
+
+@members <--
+
+	private class MyEGraphElementSwitch extends EGraphElementSwitch<Boolean> {
+
+		@Override
+		public Boolean defaultCase(EGraphElement element) {
+			throw new RuntimeException("invalid type of parameter: " + element.toString());
+		}
+
+		@Override
+		public Boolean caseLabelNode(LabelNode labelNode) {
+			return getLabelNodes().add(labelNode);
+
+		}
+
+		@Override
+		public Boolean caseLabelEdge(LabelEdge labelEdge) {
+			return getLabelEdges().add(labelEdge);
+
+		}
+
+		@Override
+		public Boolean caseGraphEdge(GraphEdge graphEdge) {
+			return getGraphEdges().add(graphEdge);
+
+		}
+
+		@Override
+		public Boolean caseGraphNode(GraphNode graphNode) {
+			return getGraphNodes().add(graphNode);
+
+		}
+
+	}
+
+	private MyEGraphElementSwitch myEGraphElementSwitch;
+
+	private MyEGraphElementSwitch getMyEGraphElementSwitch() {
+		if (myEGraphElementSwitch == null) {
+			myEGraphElementSwitch = new MyEGraphElementSwitch();
+		}
+		return myEGraphElementSwitch;
+	}
+
+	private class MyAddCopyEGraphElementSwitch extends EGraphElementSwitch<EGraphElement> {
+
+		@Override
+		public EGraphElement defaultCase(EGraphElement element) {
+			throw new RuntimeException("invalid type of parameter: " + element.toString());
+		}
+
+		@Override
+		public EGraphElement caseLabelNode(LabelNode labelNode) {
+			LabelNode copiedLabelNode = SymbolicGraphsFactory.eINSTANCE.createLabelNode();
+			copiedLabelNode.setLabel(labelNode.getLabel());
+			copiedLabelNode.setType(labelNode.getType());
+			getLabelNodes().add(copiedLabelNode);
+			return copiedLabelNode;
+
+		}
+
+		@Override
+		public EGraphElement caseLabelEdge(LabelEdge labelEdge) {
+			LabelEdge copiedLabelEdge = SymbolicGraphsFactory.eINSTANCE.createLabelEdge();
+			copiedLabelEdge.setType(labelEdge.getType());
+			getLabelEdges().add(copiedLabelEdge);
+			return copiedLabelEdge;
+
+		}
+
+		@Override
+		public EGraphElement caseGraphEdge(GraphEdge graphEdge) {
+			GraphEdge copiedGraphEdge = SymbolicGraphsFactory.eINSTANCE.createGraphEdge();
+			copiedGraphEdge.setType(graphEdge.getType());
+			getGraphEdges().add(copiedGraphEdge);
+			return copiedGraphEdge;
+		}
+
+		@Override
+		public EGraphElement caseGraphNode(GraphNode graphNode) {
+			GraphNode copiedGraphNode = SymbolicGraphsFactory.eINSTANCE.createGraphNode();
+			copiedGraphNode.setDebugId(graphNode.getDebugId());
+			copiedGraphNode.setType(graphNode.getType());
+			getGraphNodes().add(copiedGraphNode);
+			return copiedGraphNode;
+		}
+
+	}
+
+	private MyAddCopyEGraphElementSwitch myAddCopyEGraphElementSwitch;
+
+	private MyAddCopyEGraphElementSwitch getMyAddCopyEGraphElementSwitch() {
+		if (myAddCopyEGraphElementSwitch == null) {
+			myAddCopyEGraphElementSwitch = new MyAddCopyEGraphElementSwitch();
+		}
+		return myAddCopyEGraphElementSwitch;
+	}
+	
+-->
+
+@model add (EGraphElement element) <--
+
+		return getMyEGraphElementSwitch().doSwitch(element);
+-->
+
+@model getAllElements () <--
+
+		List<Object> elements = new ArrayList<Object>(this.getGraphNodes());
+		elements.addAll(this.getGraphEdges());
+		elements.addAll(this.getLabelNodes());
+		elements.addAll(this.getLabelEdges());
+		return elements;
+-->
+
+@model addCopy (EGraphElement element) <--
+
+		return getMyAddCopyEGraphElementSwitch().doSwitch(element);
+-->
+
+@model toString () <--
+
+		return GraphAndMorphismPrinter.print(this);
+-->
+
+}

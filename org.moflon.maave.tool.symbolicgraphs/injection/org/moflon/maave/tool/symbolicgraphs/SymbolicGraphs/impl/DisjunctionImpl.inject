@@ -1,0 +1,51 @@
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Parameter;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Predicate;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import java.util.Optional;
+
+partial class DisjunctionImpl {
+
+
+
+@model getConstant (String value, EDataType type) <--
+
+		Optional<Constant> optConst = this.getConstants().stream()
+				.filter(c -> c.getInterpretation().equals(value) && c.getType().equals(type)).findFirst();
+		if (optConst.isPresent()) {
+			return optConst.get();
+		}
+		Constant newConstant = SymbolicGraphsFactory.eINSTANCE.createConstant();
+		newConstant.setInterpretation(value);
+		newConstant.setType(type);
+		newConstant.setFormula(this);
+		return newConstant;
+-->
+
+@model toString () <--
+
+		StringBuilder sb = new StringBuilder("Formula: ");
+		for (Conjunction conjunction : this.getOf()) {
+			for (Predicate predicate : conjunction.getOf()) {
+				sb.append(predicate.getSymbol() + "(");
+				for (Parameter parameter : predicate.getParameters()) {
+					if (parameter instanceof Constant) {
+						sb.append(((Constant) parameter).getInterpretation() + ":" + parameter.getType().getName()
+								+ ", ");
+					} else if (parameter instanceof LabelNode) {
+						sb.append(((LabelNode) parameter).getLabel() + ":" + parameter.getType().getName() + ", ");
+					}
+				}
+				sb.deleteCharAt(sb.length() - 1);
+				sb.append(") AND ");
+			}
+			sb.delete(sb.length() - 5, sb.length() - 1);
+			sb.append(" OR ");
+		}
+		sb.delete(sb.length() - 4, sb.length() - 1);
+		return sb.toString();
+-->
+
+}

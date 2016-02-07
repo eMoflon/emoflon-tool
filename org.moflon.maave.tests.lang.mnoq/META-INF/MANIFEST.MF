@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.moflon.maave.tests.lang.mnoq;singleton:=true
+Export-Package: org.moflon.maave.tests.lang.mnoq.impl,
+ org.moflon.maave.tests.lang.mnoq.util,
+ org.moflon.maave.tests.lang.mnoq
+Bundle-Name: org.moflon.maave.tests.lang.mnoq
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt

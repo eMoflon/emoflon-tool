@@ -1,0 +1,10 @@
+
+partial class LabelEdge {
+
+@members <--
+
+	public String toString();
+	
+-->
+
+}

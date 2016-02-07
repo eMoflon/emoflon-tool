@@ -1,0 +1,36 @@
+group functionDef;
+
+
+twoValPred(symbol,operator,paramTypes,params)::=<<
+(define-fun <symbol>(<paramDecl(params,paramTypes)>) Bool
+	(<operator> <first(params)> <last(params)>) 
+)
+>>
+
+
+multiValPred(symbol,operator,paramTypes,params)::=<<
+(define-fun <symbol>(<paramDecl(params,paramTypes)>) Bool
+	(= <first(params)> <defRest(operator,rest(params))>)
+)
+>>
+
+funcInvoc(functionName,parameterNames)::=<<<if(parameterNames)>(<functionName> <parameterNames; separator="\ ">)<else> <functionName> <endif>
+>>
+
+
+
+varDecl(varName,varType)::=<<
+(declare-const <varName> <varType>)
+>>
+
+paramDecl(params,paramTypes)::=<<
+<if(paramTypes)>(<first(params)> <first(paramTypes)>)<paramDecl(rest(params),rest(paramTypes))><endif>
+>>
+
+
+
+
+defRest(operator,params)::=<<
+<if(rest(params))>(<operator> <first(params)> <defRest(operator,rest(params))>)<else><first(params)><endif>
+>>
+

@@ -1,0 +1,16 @@
+
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
+
+partial class InjectiveSymbolicGraphMorphismFinderImpl {
+
+
+
+@model checkMorphismValidity (SymbolicGraphMorphism morphism) <--
+
+		CategoryUtil catUtil = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+		return catUtil.isValidEGraphMorphism(morphism) && catUtil.isInjectiveMorphism(morphism)
+				&& catUtil.isValidSymbGraphMorphism(morphism);
+-->
+
+}

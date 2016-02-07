@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.moflon.maave.tool.sdm.stptransformation;singl
+ eton:=true
+Export-Package: org.moflon.maave.tool.sdm.stptransformation,
+ org.moflon.maave.tool.sdm.stptransformation.util,
+ org.moflon.maave.tool.sdm.stptransformation.impl
+Bundle-Name: org.moflon.maave.tool.sdm.stptransformation
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities,
+ org.moflon.maave.tool.symbolicgraphs,
+ SDMLanguage
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt

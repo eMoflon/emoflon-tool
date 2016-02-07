@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.maave.tool.category">
+  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore"/>
+  <metaModelProject MetaModelProjectName="org.moflon.maave.tool"/>
+  <replaceGenModel/>
+  <sdmCodegeneratorHandlerId/>
+</MoflonPropertyContainer:MoflonPropertiesContainer>

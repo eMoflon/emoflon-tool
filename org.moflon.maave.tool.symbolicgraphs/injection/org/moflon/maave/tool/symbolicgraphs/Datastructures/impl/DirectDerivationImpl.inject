@@ -1,0 +1,13 @@
+
+import org.moflon.maave.tool.symbolicgraphs.printing.DatastructuresPrinter;
+
+partial class DirectDerivationImpl {
+
+
+
+@model toString () <--
+
+		return DatastructuresPrinter.print(this);
+-->
+
+}

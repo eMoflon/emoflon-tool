@@ -1,0 +1,8 @@
+group operations;
+
+
+curriedFnType(arity) ::= <<
+<if(arity)>Fn\<P<first(arity)>, <curriedFnType(arity=rest(arity))>\><else>R<endif>
+>>
+	
+

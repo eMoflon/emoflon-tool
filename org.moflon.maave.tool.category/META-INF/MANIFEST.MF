@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.moflon.maave.tool.category;singleton:=true
+Export-Package: org.moflon.maave.tool.category.impl,
+ org.moflon.maave.tool.category.util,
+ org.moflon.maave.tool.category
+Bundle-Name: org.moflon.maave.tool.category
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities,
+ org.moflon.maave.tool.symbolicgraphs,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt
