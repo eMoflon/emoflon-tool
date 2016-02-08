@@ -14,6 +14,8 @@ import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.ConfigurableMorphismFinder;
@@ -66,25 +68,11 @@ public class MorphismFinderTest {
          assertTrue("Failed testModel"+i+" assert 2", containsMorphism(right, morListRight));
          
          
-         
-         ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-         MorphismFinderFactory mofFindFac=MatchingFactory.eINSTANCE.createMorphismFinderFactory();
-         
-         ConfigurableMorphismClass morclass=morClassFac.createMorphismClass("I", "I", "I", "I", "*");
-         ConfigurableMorphismFinder confMorFinder = mofFindFac.createMorphismFinder(K, morclass);
-        
-         SymbolicGraphMorphism emptyLeft =SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-         emptyLeft.setDom(K);
-         emptyLeft.setCodom(L);
-         SymbolicGraphMorphism emptyRight =SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-         emptyRight.setDom(K);
-         emptyRight.setCodom(R);
+            
          
          
-         MorphismsSet morListLeft2=confMorFinder.getAllMorphisms(emptyLeft);
-         MorphismsSet morListRight2=confMorFinder.getAllMorphisms(emptyRight);
-         assertTrue("Failed testModel"+i+" assert 1", containsMorphism(left, morListLeft2));
-         assertTrue("Failed testModel"+i+" assert 2", containsMorphism(right, morListRight2));
+         
+         
       }
 
 
@@ -128,5 +116,7 @@ public class MorphismFinderTest {
       }
       return false;
    }
-
+   
+   
+   
 }

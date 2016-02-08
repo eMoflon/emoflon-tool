@@ -30,6 +30,9 @@
         <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/EGraphElement"/>
       </eParameters>
     </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceSymbolicGraph">
+      <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs/SymbolicGraph"/>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialized" ordered="false">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eStructuralFeatures>

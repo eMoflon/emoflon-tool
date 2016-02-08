@@ -1,5 +1,155 @@
 <?xml version="1.0" encoding="ASCII"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AttributeConstraints="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/AttributeConstraints" xmlns:activities="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities" xmlns:callExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls/callExpressions" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:expressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions" xmlns:patternExpressions="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions" name="diachase" nsURI="platform:/plugin/org.moflon.maave.tests.testgen.diachase/model/Diachase.ecore" nsPrefix="org.moflon.maave.tests.testgen.diachase">
+  <eClassifiers xsi:type="ecore:EClass" name="PullbackTest">
+    <eOperations xsi:type="activities:MoflonEOperation" name="testPatternD">
+      <eParameters name="n">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N"/>
+      </eParameters>
+      <activity owningOperation="//PullbackTest/testPatternD">
+        <ownedActivityNode xsi:type="activities:StartNode" outgoing="//PullbackTest/testPatternD/@activity/@ownedActivityEdge.0"/>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode52" comment="ActivityNode52" outgoing="//PullbackTest/testPatternD/@activity/@ownedActivityEdge.1" incoming="//PullbackTest/testPatternD/@activity/@ownedActivityEdge.0">
+          <storyPattern comment="ActivityNode52">
+            <objectVariable name="n" incomingLink="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0" outgoingLink="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.1 //PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.2" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N"/>
+            </objectVariable>
+            <objectVariable name="mB" incomingLink="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//M"/>
+            </objectVariable>
+            <objectVariable name="q" outgoingLink="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//Q"/>
+            </objectVariable>
+            <objectVariable name="mC" incomingLink="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.2">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//M"/>
+            </objectVariable>
+            <linkVariable name="ns" target="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0" source="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.2">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//Q/ns"/>
+            </linkVariable>
+            <linkVariable name="mms" target="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1" source="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N/mms"/>
+            </linkVariable>
+            <linkVariable name="mms" target="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.3" source="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N/mms"/>
+            </linkVariable>
+            <constraints xsi:type="AttributeConstraints:CspConstraint" parameters="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@variables.0 //PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@variables.1 //PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@variables.2" name="-"/>
+            <constraints xsi:type="AttributeConstraints:AttributeLookupConstraint" parameter="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@variables.0" objectVariable="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.3">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//M/x"/>
+            </constraints>
+            <constraints xsi:type="AttributeConstraints:AttributeLookupConstraint" parameter="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@variables.1" objectVariable="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N/x"/>
+            </constraints>
+            <constraints xsi:type="AttributeConstraints:CspConstraint" parameters="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@variables.3 //PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@variables.1 //PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@variables.4" name="+"/>
+            <constraints xsi:type="AttributeConstraints:AttributeLookupConstraint" parameter="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@variables.3" objectVariable="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//M/x"/>
+            </constraints>
+            <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@constraints.0" attributeValueConstraints="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@constraints.1" name="mC_x">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+            </variables>
+            <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@constraints.0 //PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@constraints.3" attributeValueConstraints="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@constraints.2" name="n_x">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+            </variables>
+            <variables xsi:type="AttributeConstraints:LiteralVariable" cspConstraints="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@constraints.0" name="1">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+            </variables>
+            <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@constraints.3" attributeValueConstraints="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@constraints.4" name="mB_x">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+            </variables>
+            <variables xsi:type="AttributeConstraints:LiteralVariable" cspConstraints="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1/@storyPattern/@constraints.3" name="1">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+            </variables>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//PullbackTest/testPatternD/@activity/@ownedActivityEdge.1"/>
+        <ownedActivityEdge source="//PullbackTest/testPatternD/@activity/@ownedActivityNode.0" target="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1"/>
+        <ownedActivityEdge source="//PullbackTest/testPatternD/@activity/@ownedActivityNode.1" target="//PullbackTest/testPatternD/@activity/@ownedActivityNode.2"/>
+      </activity>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="testPatternC">
+      <eParameters name="n">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N"/>
+      </eParameters>
+      <activity owningOperation="//PullbackTest/testPatternC">
+        <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode52" comment="ActivityNode52" outgoing="//PullbackTest/testPatternC/@activity/@ownedActivityEdge.0" incoming="//PullbackTest/testPatternC/@activity/@ownedActivityEdge.1">
+          <storyPattern comment="ActivityNode52">
+            <objectVariable name="n" incomingLink="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0" outgoingLink="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N"/>
+            </objectVariable>
+            <objectVariable name="mC" incomingLink="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//M"/>
+            </objectVariable>
+            <objectVariable name="q" outgoingLink="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//Q"/>
+            </objectVariable>
+            <linkVariable name="ns" target="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0" source="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.2">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//Q/ns"/>
+            </linkVariable>
+            <linkVariable name="mms" target="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1" source="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N/mms"/>
+            </linkVariable>
+            <constraints xsi:type="AttributeConstraints:CspConstraint" parameters="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@variables.0 //PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@variables.1" name=">"/>
+            <constraints xsi:type="AttributeConstraints:AttributeLookupConstraint" parameter="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@variables.0" objectVariable="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N/x"/>
+            </constraints>
+            <constraints xsi:type="AttributeConstraints:AttributeLookupConstraint" parameter="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@variables.1" objectVariable="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//M/x"/>
+            </constraints>
+            <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@constraints.0" attributeValueConstraints="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@constraints.1" name="n_x">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+            </variables>
+            <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@constraints.0" attributeValueConstraints="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0/@storyPattern/@constraints.2" name="mC_x">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+            </variables>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//PullbackTest/testPatternC/@activity/@ownedActivityEdge.0"/>
+        <ownedActivityNode xsi:type="activities:StartNode" outgoing="//PullbackTest/testPatternC/@activity/@ownedActivityEdge.1"/>
+        <ownedActivityEdge source="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0" target="//PullbackTest/testPatternC/@activity/@ownedActivityNode.1"/>
+        <ownedActivityEdge source="//PullbackTest/testPatternC/@activity/@ownedActivityNode.2" target="//PullbackTest/testPatternC/@activity/@ownedActivityNode.0"/>
+      </activity>
+    </eOperations>
+    <eOperations xsi:type="activities:MoflonEOperation" name="testPatternB">
+      <eParameters name="n">
+        <eType xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N"/>
+      </eParameters>
+      <activity owningOperation="//PullbackTest/testPatternB">
+        <ownedActivityNode xsi:type="activities:StartNode" outgoing="//PullbackTest/testPatternB/@activity/@ownedActivityEdge.0"/>
+        <ownedActivityNode xsi:type="activities:StoryNode" name="ActivityNode52" comment="ActivityNode52" outgoing="//PullbackTest/testPatternB/@activity/@ownedActivityEdge.1" incoming="//PullbackTest/testPatternB/@activity/@ownedActivityEdge.0">
+          <storyPattern comment="ActivityNode52">
+            <objectVariable name="n" incomingLink="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0" outgoingLink="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.1" bindingState="BOUND">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N"/>
+            </objectVariable>
+            <objectVariable name="mB" incomingLink="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.1">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//M"/>
+            </objectVariable>
+            <objectVariable name="q" outgoingLink="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@linkVariable.0">
+              <type xsi:type="ecore:EClass" href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//Q"/>
+            </objectVariable>
+            <linkVariable name="ns" target="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0" source="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.2">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//Q/ns"/>
+            </linkVariable>
+            <linkVariable name="mms" target="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1" source="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N/mms"/>
+            </linkVariable>
+            <constraints xsi:type="AttributeConstraints:CspConstraint" parameters="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@variables.0 //PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@variables.1" name="&lt;"/>
+            <constraints xsi:type="AttributeConstraints:AttributeLookupConstraint" parameter="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@variables.0" objectVariable="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.0">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//N/x"/>
+            </constraints>
+            <constraints xsi:type="AttributeConstraints:AttributeLookupConstraint" parameter="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@variables.1" objectVariable="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@objectVariable.1">
+              <type href="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore#//M/x"/>
+            </constraints>
+            <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@constraints.0" attributeValueConstraints="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@constraints.1" name="n_x">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+            </variables>
+            <variables xsi:type="AttributeConstraints:PrimitiveVariable" cspConstraints="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@constraints.0" attributeValueConstraints="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1/@storyPattern/@constraints.2" name="mB_x">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+            </variables>
+          </storyPattern>
+        </ownedActivityNode>
+        <ownedActivityNode xsi:type="activities:StopNode" incoming="//PullbackTest/testPatternB/@activity/@ownedActivityEdge.1"/>
+        <ownedActivityEdge source="//PullbackTest/testPatternB/@activity/@ownedActivityNode.0" target="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1"/>
+        <ownedActivityEdge source="//PullbackTest/testPatternB/@activity/@ownedActivityNode.1" target="//PullbackTest/testPatternB/@activity/@ownedActivityNode.2"/>
+      </activity>
+    </eOperations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NacPatternGenerator">
     <eOperations xsi:type="activities:MoflonEOperation" name="nacTestPattern1">
       <eParameters name="a">

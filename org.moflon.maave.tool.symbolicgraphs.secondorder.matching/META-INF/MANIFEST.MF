@@ -1,15 +1,13 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.maave.tool.symbolicgraphs.secondorder.
  matching;singleton:=true
-Export-Package: org.moflon.maave.tool.symbolicgraphs.secondorder.match
- ing.CategoryUtils,
- org.moflon.maave.tool.symbolicgraphs.secondorder.matching,
- org.moflon.maave.tool.symbolicgraphs.secondorder.matching.util,
- org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUti
- ls.impl,
+Export-Package: org.moflon.maave.tool.symbolicgraphs.secondorder.matching,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.impl,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.util,
  org.moflon.maave.tool.symbolicgraphs.secondorder.matching.impl,
- org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUti
- ls.util
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching.util,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.util
 Bundle-Name: org.moflon.maave.tool.symbolicgraphs.secondorder.matching
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,

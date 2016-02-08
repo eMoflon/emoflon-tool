@@ -1,0 +1,49 @@
+ControlFlow [type=r, exported=false, nsUri=platform:/plugin/ControlFlow/model/ControlFlow.ecore]
+		dependency0=SDMLanguage
+		dependency1=__ignore__
+Ecore [type=r, exported=false, nsUri=platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore]
+Moca [type=r, exported=false, nsUri=platform:/plugin/Moca/model/Moca.ecore]
+		dependency0=MocaTree
+MocaTree [type=r, exported=false, nsUri=platform:/plugin/MocaTree/model/MocaTree.ecore]
+SDMLanguage [type=r, exported=false, nsUri=platform:/plugin/SDMLanguage/model/SDMLanguage.ecore]
+__ignore__ [type=r, exported=false, nsUri=platform:/resource/org.gervarro.democles.specification.emf/model/emf.ecore]
+		dependency0=__ignore__
+org.moflon.maave.tests.lang.abc [type=r, exported=true, nsUri=platform:/plugin/org.moflon.maave.tests.lang.abc/model/Abc.ecore]
+org.moflon.maave.tests.lang.featuremodel [type=r, exported=true, nsUri=platform:/plugin/org.moflon.maave.tests.lang.featuremodel/model/Featuremodel.ecore]
+org.moflon.maave.tests.lang.mnoq [type=r, exported=true, nsUri=platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore]
+org.moflon.maave.tests.lang.rbac [type=r, exported=true, nsUri=platform:/plugin/org.moflon.maave.tests.lang.rbac/model/Rbac.ecore]
+org.moflon.maave.tests.lang.tggcpa [type=r, exported=true, nsUri=platform:/plugin/org.moflon.maave.tests.lang.tggcpa/model/Tggcpa.ecore]
+org.moflon.maave.tests.testgen.diachase [type=r, exported=true, nsUri=platform:/plugin/org.moflon.maave.tests.testgen.diachase/model/Diachase.ecore]
+		dependency0=SDMLanguage
+		dependency1=__ignore__
+		dependency2=org.moflon.maave.tests.lang.abc
+		dependency3=org.moflon.maave.tests.lang.mnoq
+		dependency4=org.moflon.maave.tests.lang.tggcpa
+		dependency5=org.moflon.maave.tool.analysis
+		dependency6=org.moflon.maave.tool.category
+		dependency7=org.moflon.maave.tool.sdm.stptransformation
+		dependency8=org.moflon.maave.tool.symbolicgraphs
+		dependency9=org.moflon.maave.tool.symbolicgraphs.secondorder.constraints
+		dependency10=org.moflon.maave.tool.symbolicgraphs.secondorder.matching
+org.moflon.maave.tests.testgen.genfeaturemodel [type=r, exported=true, nsUri=platform:/plugin/org.moflon.maave.tests.testgen.genfeaturemodel/model/Genfeaturemodel.ecore]
+		dependency0=org.moflon.maave.tests.lang.featuremodel
+org.moflon.maave.tool.analysis [type=r, exported=false, nsUri=platform:/plugin/org.moflon.maave.tool.analysis/model/Analysis.ecore]
+		dependency0=org.moflon.maave.tool.category
+		dependency1=org.moflon.maave.tool.symbolicgraphs
+		dependency2=org.moflon.maave.tool.symbolicgraphs.secondorder.matching
+org.moflon.maave.tool.category [type=r, exported=false, nsUri=platform:/plugin/org.moflon.maave.tool.category/model/Category.ecore]
+		dependency0=org.moflon.maave.tool.symbolicgraphs
+org.moflon.maave.tool.sdm.stptransformation [type=r, exported=false, nsUri=platform:/plugin/org.moflon.maave.tool.sdm.stptransformation/model/Stptransformation.ecore]
+		dependency0=SDMLanguage
+		dependency1=org.moflon.maave.tool.symbolicgraphs
+org.moflon.maave.tool.smt.constraintlib [type=r, exported=false, nsUri=platform:/plugin/org.moflon.maave.tool.smt.constraintlib/model/Constraintlib.ecore]
+org.moflon.maave.tool.symbolicgraphs [type=r, exported=false, nsUri=platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore]
+org.moflon.maave.tool.symbolicgraphs.secondorder.constraints [type=r, exported=false, nsUri=platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.constraints/model/Constraints.ecore]
+		dependency0=__ignore__
+org.moflon.maave.tool.symbolicgraphs.secondorder.matching [type=r, exported=false, nsUri=platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore]
+		dependency0=org.moflon.maave.tool.symbolicgraphs
+org.moflon.maave.tool.symbolicgraphs.secondorder.transformation [type=r, exported=false, nsUri=platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.transformation/model/Transformation.ecore]
+		dependency0=__ignore__
+		dependency1=__ignore__
+		dependency2=org.moflon.maave.tool.symbolicgraphs
+		dependency3=org.moflon.maave.tool.symbolicgraphs.secondorder.constraints

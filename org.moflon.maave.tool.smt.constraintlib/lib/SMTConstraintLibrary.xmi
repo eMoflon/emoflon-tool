@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ASCII"?>
-<SMTConstraintLib:SMTConstraintLibrary
+<org.moflon.maave.tool.smt.constraintlib:SMTConstraintLibrary
     xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:SMTConstraintLib="platform:/plugin/org.moflon.maave.tool.smt.constraintlib/model/Constraintlib.ecore"
+    xmlns:org.moflon.maave.tool.smt.constraintlib="platform:/plugin/org.moflon.maave.tool.smt.constraintlib/model/Constraintlib.ecore"
     xsi:schemaLocation="platform:/plugin/org.moflon.maave.tool.smt.constraintlib/model/Constraintlib.ecore ../model/Constraintlib.ecore">
   <predicateSpecifications
       smtLibPredicateSpecification="//@smtLibPredicateSpecifications.0"
@@ -203,6 +203,22 @@
           href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </parameterTypes>
   </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.15"
+      symbol="-">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+  </predicateSpecifications>
   <smtLibPredicateSpecifications
       predicateSpecifications="//@predicateSpecifications.0"
       smtLibString="(define-fun add((x!0 Int)(x!1 Int)(x!2 Int)) Bool (= x!0 (+ x!1 x!2)) )"
@@ -261,4 +277,8 @@
       predicateSpecifications="//@predicateSpecifications.14"
       smtLibString="(define-fun addReal((x!0 Real)(x!1 Real)(x!2 Real)) Bool (= x!0 (+ x!1 x!2)) )"
       identifier="(addReal $x0$ $x1$ $x2$)"/>
-</SMTConstraintLib:SMTConstraintLibrary>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.15"
+      smtLibString="(define-fun subInt((x!0 Int)(x!1 Int)(x!2 Int)) Bool (= x!0 (- x!1 x!2)) )"
+      identifier="(subInt $x0$ $x1$ $x2$)"/>
+</org.moflon.maave.tool.smt.constraintlib:SMTConstraintLibrary>
