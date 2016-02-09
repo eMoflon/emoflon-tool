@@ -55,6 +55,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper
                     }
                 }
             }
+            
             return targetObjectVariables;
         }
 
@@ -95,6 +96,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.SDMExpressionHelper
                 }
                 sourceMethods.Sort(new EAObjectIComparer());
             }
+            
             return sourceMethods;    
         }
 
