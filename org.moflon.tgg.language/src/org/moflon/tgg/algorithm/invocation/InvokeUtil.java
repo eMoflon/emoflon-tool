@@ -33,7 +33,7 @@ public class InvokeUtil
       return null;
    }
 
-   public static EObject invokeOperationWithNArguments(EObject target, EOperation operation, EList<?> arguments)
+   public static Object invokeOperationWithNArguments(EObject target, EOperation operation, EList<?> arguments)
    {
       EClass targetClass = (EClass) target;
 
@@ -41,7 +41,7 @@ public class InvokeUtil
       EObject object = EcoreUtil.create(targetClass);
       try
       {
-         return (EObject) object.eInvoke(operation, arguments);
+         return object.eInvoke(operation, arguments);
       } catch (InvocationTargetException e)
       {
          e.printStackTrace();
