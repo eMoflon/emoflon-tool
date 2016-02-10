@@ -9,12 +9,12 @@ import org.junit.runners.Suite.SuiteClasses;
   TestForStoryPatternToSymbGraTraRules_Basic.class 
 //  ,TestForStoryPatternToSymbGraTraRules_NAC.class
 //   ,MorphismFinderTest.class
- //  ,ConfigurableMorphismFinderTestEGraph.class
-  //   ,PullbackTest.class
-  //   ,PushoutUMPTest.class
-   //  ,InitialPushoutTestsNewImpl.class
+   ,ConfigurableMorphismFinderTestEGraph.class
+     ,PullbackTest.class
+     ,PushoutUMPTest.class
+     ,InitialPushoutTestsNewImpl.class
     , IsomorphicCopyTester.class
-    ,ProjectionTester.class
+    //,ProjectionTester.class
 //     ,ConfigurableMorphismFinderTestSymbGraph.class
 //   ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
 // ,SymbMorphismFinderTest.class

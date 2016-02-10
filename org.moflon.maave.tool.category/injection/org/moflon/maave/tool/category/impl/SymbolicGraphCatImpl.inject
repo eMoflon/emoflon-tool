@@ -1,4 +1,5 @@
 
+import java.security.InvalidParameterException;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import java.util.HashSet;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
@@ -649,35 +650,32 @@ partial class SymbolicGraphCatImpl {
       //      |                  |
       //      !                  !
       //     (P)=====morP_B====>(B)
-      ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-      ConfigurableMorphismClass morClass=morClassFac.createMorphismClass("I", "I", "I", "I", "*");
-      if(morClass.isMember(mor).isValid()==false)
+      ConfigurableMorphismClassFactory morClassFac = CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClass morClass = morClassFac.createMorphismClass("I", "I", "I", "I", "*");
+      if (morClass.isMember(mor).isValid() == false)
       {
          throw new InvalidParameterException("Projection can only be calculated if input is  monomorphism");
       }
-      CategoryUtil catUtil=CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
-      SymbolicGraphMorphism morBf_B=catUtil.getInverseIfIsomorphism(catUtil.copyGraph(mor.getCodom()));
-      SymbolicGraphMorphism morPf_Bf=mor;
-      SymbolicGraph Bf=morPf_Bf.getCodom();
+      CategoryUtil catUtil = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+      SymbolicGraphMorphism morBf_B = catUtil.getInverseIfIsomorphism(catUtil.copyGraph(mor.getCodom()));
+      SymbolicGraphMorphism morPf_Bf = mor;
+      SymbolicGraph Bf = morPf_Bf.getCodom();
       Bf.getFormula().getOf().clear();
       Bf.getFormula().getOf().add(SymbolicGraphsFactory.eINSTANCE.createConjunction());
       Bf.getFormula().getOf().get(0).getOf().add(SymbolicGraphsFactory.eINSTANCE.createPredicate());
       Bf.getFormula().getOf().get(0).getOf().get(0).setSymbol("#F");
       Bf.getFormula().getOf().clear();
       Bf.getFormula().getConstants().clear();
-      SymbolicGraph Pf=morPf_Bf.getDom();
+      SymbolicGraph Pf = morPf_Bf.getDom();
       Pf.getFormula().getOf().clear();
       Pf.getFormula().getOf().add(SymbolicGraphsFactory.eINSTANCE.createConjunction());
       Pf.getFormula().getOf().get(0).getOf().add(SymbolicGraphsFactory.eINSTANCE.createPredicate());
       Pf.getFormula().getOf().get(0).getOf().get(0).setSymbol("#F");
       Pf.getFormula().getOf().clear();
       Pf.getFormula().getConstants().clear();
-      if((morPf_Bf.getCodom()!=morBf_B.getDom()))
-      throw new RuntimeException("Uaaaag");
-      
-      
-      
-      
+      if ((morPf_Bf.getCodom() != morBf_B.getDom()))
+         throw new RuntimeException("Uaaaag");
+
       return null;
 -->
 

@@ -48,12 +48,7 @@ public class Mapping<T> {
       HashMap<T, T> reverseMap=new HashMap<T,T>(map.size());
       for (Entry<T,T> entry : map.entrySet())
       {
-         if(!reverseMap.containsKey(entry.getValue()))
-         {
-            reverseMap.put(entry.getValue(), entry.getKey());
-         }else{
-            return null;
-         }
+         reverseMap.put(entry.getValue(), entry.getKey());
       }
       return new Mapping<T>(reverseMap);
    }

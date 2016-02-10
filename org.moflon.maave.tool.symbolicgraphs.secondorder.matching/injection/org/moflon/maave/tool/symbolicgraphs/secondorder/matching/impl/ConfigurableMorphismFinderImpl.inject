@@ -1,4 +1,5 @@
 
+import java.security.InvalidParameterException;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
@@ -25,7 +26,7 @@ partial class ConfigurableMorphismFinderImpl {
 
 @model getAllMorphisms (SymbolicGraphMorphism partialMatch) <--
 
-      if(partialMatch.getDom()!=this.getPatternSpec().getSourceSymbolicGraph())
+      if (partialMatch.getDom() != this.getPatternSpec().getSourceSymbolicGraph())
       {
          throw new InvalidParameterException("Matcher source pattern does not match domain of partial match.");
       }
