@@ -12,50 +12,37 @@ partial class DisjunctionImpl {
 
 @model getConstant (String value, EDataType type) <--
 
-		Optional<Constant> optConst = this.getConstants().stream()
-				.filter(c -> c.getInterpretation().equals(value) && c.getType().equals(type)).findFirst();
-		if (optConst.isPresent()) {
-			return optConst.get();
-		}
-		Constant newConstant = SymbolicGraphsFactory.eINSTANCE.createConstant();
-		newConstant.setInterpretation(value);
-		newConstant.setType(type);
-		newConstant.setFormula(this);
-		return newConstant;
+      Optional<Constant> optConst = this.getConstants().stream().filter(c -> c.getInterpretation().equals(value) && c.getType().equals(type)).findFirst();
+      if (optConst.isPresent())
+      {
+         return optConst.get();
+      }
+      Constant newConstant = SymbolicGraphsFactory.eINSTANCE.createConstant();
+      newConstant.setInterpretation(value);
+      newConstant.setType(type);
+      newConstant.setFormula(this);
+      return newConstant;
 -->
 
 @model toString () <--
 
-		StringBuilder sb = new StringBuilder("Formula: ");
-		for (LabelNode boundVar : this.getQuantifier().getLabelNodes())
+      StringBuilder sb = new StringBuilder();
+
+      if (this.getQuantifier() != null)
       {
-         sb.append("EX:"+boundVar.getLabel()+".");
+         sb.append(this.getQuantifier().toString());
       }
-		for (Conjunction conjunction : this.getOf()) {
-		   sb.append("[");
-			for (Predicate predicate : conjunction.getOf()) {
-				sb.append(predicate.getSymbol());
-				if(predicate.getParameters().size()>0)
-				{
-				   sb.append("(");
-				   for (Parameter parameter : predicate.getParameters()) {
-				      if (parameter instanceof Constant) {
-				         sb.append(((Constant) parameter).getInterpretation() + ":" + parameter.getType().getName()
-				               + ", ");
-				      } else if (parameter instanceof LabelNode) {
-				         sb.append(((LabelNode) parameter).getLabel() + ":" + parameter.getType().getName() + ", ");
-				      }
-				   }
-				   sb.deleteCharAt(sb.length() - 1);
-				   sb.append(")");
-				}
-				sb.append(" AND ");
-			}
-			sb.delete(sb.length() - 5, sb.length() - 0);
-			sb.append("] OR ");
-		}
-		sb.delete(sb.length() - 4, sb.length() - 1);
-		return sb.toString();
+      if (this.getOf().size() > 0)
+      {
+         for (Conjunction conj : this.getOf())
+         {
+            sb.append(conj.toString());
+            sb.append(" OR ");
+         }
+         sb.delete(sb.length() - 4, sb.length() - 1);
+      }
+
+      return sb.toString();
 -->
 
 }

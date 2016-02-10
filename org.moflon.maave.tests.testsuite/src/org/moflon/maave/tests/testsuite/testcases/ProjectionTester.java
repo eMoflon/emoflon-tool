@@ -57,7 +57,7 @@ public class ProjectionTester {
       System.out.println("Starting ProjectionTester/Test1" );
 
       EClass cls=(EClass) pack.getEClassifier("InitialPushoutTest");
-      MoflonEOperation opL=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("testModel5")).findFirst().get();
+      MoflonEOperation opL=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("testModel6")).findFirst().get();
       MoflonEOperation opG=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("testModel4")).findFirst().get();
       Assert.assertTrue("FailedAssert: 0",opL!=null && opG!=null);
       StoryNode stnL=(StoryNode) opL.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
@@ -83,7 +83,13 @@ public class ProjectionTester {
       MorphismsSet morListL_G=morFinderForL.getAllMorphisms(emptyL_G);
       assertTrue(morListL_G.getMorphisms().size()==1);
       SymbolicGraphMorphism morL_G=morListL_G.getMorphisms().get(0);
-      assertTrue(true);
+      SymbolicGraphCat cat=CategoryFactory.eINSTANCE.createSymbolicGraphCat();
+      SymbolicGraphMorphism projMorL_G=cat.Project(morL_G);
+      SymbolicGraph Lp=projMorL_G.getDom();
+      assertTrue(Lp.getGraphNodes().size()==4);
+      assertTrue(Lp.getLabelNodes().size()==G.getLabelNodes().size()-1);
+      assertTrue(Lp.getFormula().getQuantifier().getLabelNodes().size()==1);
+      assertTrue(Lp.getFormula().getQuantifier().getLabelNodes().get(0).getLabel().equals("mmm_x"));
 
 
    }

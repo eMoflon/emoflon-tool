@@ -20,8 +20,13 @@ import org.moflon.maave.wsconfig.WsInfo;
 public class MorphismClassUtil {
 	
 	
-	public static <T> boolean checkMappingMode(Mapping<T> mapping,Collection<T>coDom,MorMappingMode mode) {
+	public static <T> boolean checkMappingMode(Mapping<T> mapping,Collection<T>dom,Collection<T>coDom,MorMappingMode mode) {
 		
+	   if(MappingUtil.isTotal(mapping, dom)==false)
+	   {
+	      return false;
+	   }
+	   
 		switch (mode) {
 		case INJ: return MappingUtil.isInjective(mapping);	
 		case BIJ: return MappingUtil.isBijective(mapping, coDom); 
@@ -31,7 +36,7 @@ public class MorphismClassUtil {
 			
 		}
 	}
-	
+
 	public static boolean checkFormulaMode(SymbolicGraphMorphism morphism, FormulaMode formulaMode) {
 		switch (formulaMode) {
 		case IMPL: return checkImplication(morphism);	
@@ -41,7 +46,6 @@ public class MorphismClassUtil {
 			
 		}
 	}
-	
 	
 	private static boolean checkBiImplication(SymbolicGraphMorphism morphism) {
 		IAttribSolver solver = new Z3AttribSolver();

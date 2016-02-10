@@ -1,0 +1,19 @@
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
+
+partial class LabelNodeImpl {
+
+
+
+@model toString () <--
+
+      EObject container= this.eContainer();
+      if(container instanceof SymbolicGraph){
+      return this.getLabel() + "!" + ((SymbolicGraph) this.eContainer()).getLabelNodes().indexOf(this);
+      }
+      else{
+         return this.getLabel() + "!" + ((Quantifier) this.eContainer()).getLabelNodes().indexOf(this);
+      }
+-->
+
+}

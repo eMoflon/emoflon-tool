@@ -11,31 +11,32 @@ partial class ConfigurableMorphismClassImpl {
 
 @model isMember (SymbolicGraphMorphism morphism) <--
 
-		SymbolicGraphMorphismImpl morphismImpl = (SymbolicGraphMorphismImpl) morphism;
-		Status status = CategoryUtilsFactory.eINSTANCE.createStatus();
-		status.setValid(false);
-		if (MorphismClassUtil.checkMappingMode(morphismImpl.graphNodeMap, morphismImpl.getCodom().getGraphNodes(),
-				this.graphNodeMode) == false) {
-			return status;
-		}
-		if (MorphismClassUtil.checkMappingMode(morphismImpl.labelNodeMap, morphismImpl.getCodom().getLabelNodes(),
-				this.labelNodeMode) == false) {
-			return status;
-		}
-		if (MorphismClassUtil.checkMappingMode(morphismImpl.graphEdgeMap, morphismImpl.getCodom().getGraphEdges(),
-				this.graphEdgeMode) == false) {
-			return status;
-		}
-		if (MorphismClassUtil.checkMappingMode(morphismImpl.labelEdgeMap, morphismImpl.getCodom().getLabelEdges(),
-				this.labelEdgeMode) == false) {
-			return status;
-		}
-		if (MorphismClassUtil.checkFormulaMode(morphism, this.formulaMode)==false){
-				
-			return status;
-		}
-		status.setValid(true);
-		return status;
+      SymbolicGraphMorphismImpl morphismImpl = (SymbolicGraphMorphismImpl) morphism;
+      Status status = CategoryUtilsFactory.eINSTANCE.createStatus();
+      status.setValid(false);
+      if (MorphismClassUtil.checkMappingMode(morphismImpl.graphNodeMap,morphismImpl.getDom().getGraphNodes(), morphismImpl.getCodom().getGraphNodes(), this.graphNodeMode) == false)
+      {
+         return status;
+      }
+      if (MorphismClassUtil.checkMappingMode(morphismImpl.labelNodeMap, morphismImpl.getDom().getLabelNodes(),morphismImpl.getCodom().getLabelNodes(), this.labelNodeMode) == false)
+      {
+         return status;
+      }
+      if (MorphismClassUtil.checkMappingMode(morphismImpl.graphEdgeMap, morphismImpl.getDom().getGraphEdges(),morphismImpl.getCodom().getGraphEdges(), this.graphEdgeMode) == false)
+      {
+         return status;
+      }
+      if (MorphismClassUtil.checkMappingMode(morphismImpl.labelEdgeMap, morphismImpl.getDom().getLabelEdges(),morphismImpl.getCodom().getLabelEdges(), this.labelEdgeMode) == false)
+      {
+         return status;
+      }
+      if (MorphismClassUtil.checkFormulaMode(morphism, this.formulaMode) == false)
+      {
+
+         return status;
+      }
+      status.setValid(true);
+      return status;
 -->
 
 }

@@ -1,0 +1,12 @@
+
+partial class ConstantImpl {
+
+
+
+@model toString () <--
+
+
+      return this.getInterpretation()+":"+this.getType().getName();
+-->
+
+}

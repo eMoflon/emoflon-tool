@@ -140,6 +140,61 @@ partial class SymbolicGraphCatImpl {
          }
       }
    }
+
+   private SymbolicPushoutComplement uncheckedPushoutComplement(SymbolicGraphMorphism morK_L, SymbolicGraphMorphism morL_G)
+   {
+      // [user code injected with eMoflon]
+      //      L <===morK_L====== K
+      //      |                  |
+      //      |                  |
+      //    morL_G            morK_D
+      //      |                  |
+      //      !                  !
+      //      G <=====morD_G==== D
+
+      SymbolicGraph G = morL_G.getCodom();
+      SymbolicGraph L = morK_L.getCodom();
+      SymbolicGraph K = morK_L.getDom();
+
+      CategoryUtil util = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+      ConfigurableMorphismClassFactory morClasFac = CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClass morclass = morClasFac.createMorphismClass("I", "I", "I", "I", "*");
+      if (!morclass.isMember(morK_L).isValid() || !morclass.isMember(morL_G).isValid())
+      {
+         throw new RuntimeException("Pushout complements for non-injective symbolic graph morphsism are not supported");
+      }
+      SymbolicGraphMorphism morD_G = util.copyGraph(G);
+      SymbolicGraph D = morD_G.getDom();
+      D.setName("D");
+      SymbolicGraphMorphism morG_D = util.getInverseIfIsomorphism(morD_G);
+      SymbolicGraphMorphism morK_G = morK_L.composeWith(morL_G);//needed later for image
+      SymbolicGraphMorphism morK_D = morK_G.composeWith(morG_D);
+      if (D.getFormula().getQuantifier() == null)
+      {
+         D.getFormula().setQuantifier(SymbolicGraphsFactory.eINSTANCE.createExists());
+      }
+      for (Object obj : D.getAllElements())
+      {
+         EGraphElement elem = (EGraphElement) obj;
+         if (morL_G.isInImage(morD_G.imageOf(elem)) && !morK_G.isInImage(morD_G.imageOf(elem)))// if element has to be removed
+            if (elem instanceof LabelNode)
+            {//if label node are not removed but existentially quantified
+               LabelNode ln = (LabelNode) elem;
+               D.getFormula().getQuantifier().getLabelNodes().add(ln);
+               morD_G.removeMapping(ln);
+            } else
+            {
+               morD_G.removeMapping(elem);
+               EcoreUtil.delete(elem);
+            }
+      }
+
+      SymbolicPushoutComplement pushoutComplement = CategoryFactory.eINSTANCE.createSymbolicPushoutComplement();
+      pushoutComplement.getMorphism().add(morD_G);
+      pushoutComplement.getMorphism().add(morK_D);
+      pushoutComplement.setContextObject(D);
+      return pushoutComplement;
+   }
    
 -->
 
@@ -363,76 +418,14 @@ partial class SymbolicGraphCatImpl {
 @model pushoutComplement (SymbolicGraphMorphism l, SymbolicGraphMorphism m) <--
 
       /*
-       * gL<===l===gK
-       *  |        | 
-       *  m        k
-       *  |        |
+       *  gL<===l===gK
+       *  |         | 
+       *  m         k
+       *  !         !
        *  gG<===f===gD
        */
 
-      SymbolicGraph gG = m.getCodom();
-      SymbolicGraph gL = l.getCodom();
-      SymbolicGraph gK = l.getDom();
-      SymbolicGraph gD = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
-      assert m.getDom() == gL;
-      CategoryUtil util = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
-      if (!util.isOfClassM(l))
-      {
-         throw new RuntimeException("Pushout complement is not unique as morphism: " + m.toString() + "is not of Class M of morphisms.");
-      }
-      SymbolicGraphMorphism l_m = l.composeWith(m);
-
-      SymbolicGraphMorphism f = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      f.setDom(gD);
-      f.setCodom(gG);
-
-      SymbolicGraphMorphism k = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      k.setDom(gK);
-      k.setCodom(gD);
-      for (Object obj : gG.getAllElements())
-      {
-         EGraphElement elem = (EGraphElement) obj;
-         if (!m.isInImage(elem))
-         {
-
-            f.addMapping(gD.addCopy(elem), elem);
-
-         }
-
-      }
-      for (Object obj : gK.getAllElements())
-      {
-         EGraphElement elem = (EGraphElement) obj;
-         EGraphElement elemD = gD.addCopy(l_m.imageOf(elem));
-         k.addMapping(elem, elemD);
-         f.addMapping(elemD, l_m.imageOf(elem));
-      }
-
-      for (GraphEdge graphEdge : gD.getGraphEdges())
-      {
-         GraphEdge imageOfGraphEdge = f.imageOf(graphEdge);
-         GraphNode source = gD.getGraphNodes().stream().filter(gn -> f.imageOf(graphEdge).getSource() == f.imageOf(gn)).findAny().get();
-         GraphNode target = gD.getGraphNodes().stream().filter(gn -> f.imageOf(graphEdge).getTarget() == f.imageOf(gn)).findAny().get();
-
-         graphEdge.setSource(source);
-         graphEdge.setTarget(target);
-      }
-      for (LabelEdge labelEdge : gD.getLabelEdges())
-      {
-         LabelEdge imageOfLabelEdge = f.imageOf(labelEdge);
-         GraphNode source = gD.getGraphNodes().stream().filter(gn -> f.imageOf(labelEdge).getSource() == f.imageOf(gn)).findAny().get();
-         LabelNode target = gD.getLabelNodes().stream().filter(gn -> f.imageOf(labelEdge).getTarget() == f.imageOf(gn)).findAny().get();
-         labelEdge.setSource(source);
-         labelEdge.setTarget(target);
-      }
-
-      copyFormulaFromCodomToDom(f);
-      SymbolicPushoutComplement pushoutCompl = CategoryFactory.eINSTANCE.createSymbolicPushoutComplement();
-      pushoutCompl.setContextObject(gD);
-      pushoutCompl.getMorphism().add(f);
-      pushoutCompl.getMorphism().add(k);
-
-      return pushoutCompl;
+      return uncheckedPushoutComplement(l, m);
 -->
 
 @model pullback (SymbolicGraphMorphism b_d, SymbolicGraphMorphism c_d) <--
@@ -520,53 +513,62 @@ partial class SymbolicGraphCatImpl {
       return pullback;
 -->
 
-@model boundary (SymbolicGraphMorphism f) <--
+@model boundary (SymbolicGraphMorphism morL_G) <--
 
-      //B====b====>A
-      //           |
-      //           f
-      //           |
-      //           A_p
-      SymbolicGraph graphA = f.getDom();
-      SymbolicGraph graphA_p = f.getCodom();
-      SymbolicGraphMorphismImpl fImpl = (SymbolicGraphMorphismImpl) f;
 
-      SymbolicGraph graphB = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
-      graphB.setName("B");
+   // [user code injected with eMoflon]
+      //   B===morB_L==>L
+      //   |            |
+      // morB_C       morL_G
+      //   !            !
+      //   C===morC_G==>G
+      SymbolicGraph L = morL_G.getDom();
+      SymbolicGraph G = morL_G.getCodom();
+      SymbolicGraph B = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
+      B.setName("B");
+      SymbolicGraph C = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
+      C.setName("C");
+      SymbolicGraphMorphism morB_L = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      morB_L.setDom(B);
+      morB_L.setCodom(L);
+      SymbolicGraphMorphism morB_C = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      morB_C.setDom(B);
+      morB_C.setCodom(C);
+      SymbolicGraphMorphism morC_G = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      morC_G.setDom(C);
+      morC_G.setCodom(G);
 
-      SymbolicGraphMorphismImpl b = (SymbolicGraphMorphismImpl) SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      b.setDom(graphB);
-      b.setCodom(graphA);
-
-      //potentialDanglingGraphEdges: all graph edges ge in A_p\f(A)
-      HashSet<GraphEdge> potentialDanglingGraphEdges = graphA_p.getGraphEdges().stream().filter(e -> !(f.isInImage(e)))
-            .collect(Collectors.toCollection(HashSet::new));
-
-      //potentialDanglingLabelEdges: all label edges le in A_p\f(A)
-      HashSet<LabelEdge> potentialDanglingLabelEdges = graphA_p.getLabelEdges().stream().filter(e -> !(f.isInImage(e)))
-            .collect(Collectors.toCollection(HashSet::new));
-      for (GraphNode n : graphA.getGraphNodes())
+      //Add all graph nodes n of L to B where morL_G(n) are are adjacent to an graph edge in EG_G_p=EG_G\morL_G(EG_L) or label edge EL_G_p=EL_G\morL_G(EL_L)
+      //Add all graph nodes 
+      HashSet<GraphEdge> EG_G_p = new HashSet<GraphEdge>(G.getGraphEdges());
+      EG_G_p.removeAll(((SymbolicGraphMorphismImpl) morL_G).graphEdgeMap.getImage());
+      HashSet<LabelEdge> EL_G_p = new HashSet<LabelEdge>(G.getLabelEdges());
+      EL_G_p.removeAll(((SymbolicGraphMorphismImpl) morL_G).labelEdgeMap.getImage());
+      for (GraphNode n : L.getGraphNodes())
       {
-         //if is source or target of an potentially dangling graph edge or source of a potentially dangling label edge
-         if (f.imageOf(n).getInGraphEdge().stream().anyMatch(e -> potentialDanglingGraphEdges.contains(e))
-               || f.imageOf(n).getOutGraphEdge().stream().anyMatch(e -> potentialDanglingGraphEdges.contains(e))
-               || f.imageOf(n).getLabelEdge().stream().anyMatch(e -> potentialDanglingLabelEdges.contains(e)))
+
+         if (morL_G.imageOf(n).getInGraphEdge().stream().anyMatch(e -> EG_G_p.contains(e))
+               || morL_G.imageOf(n).getOutGraphEdge().stream().anyMatch(e -> EG_G_p.contains(e))
+               || morL_G.imageOf(n).getLabelEdge().stream().anyMatch(e -> EL_G_p.contains(e)))
          {
-            GraphNode newGn = EcoreUtil.copy(n);
-            graphB.getGraphNodes().add(newGn);
-            b.addMapping(newGn, n);
+            GraphNode nNew = EcoreUtil.copy(n);
+            B.add(nNew);
+            morB_L.addMapping(nNew, n);
          }
-
       }
-      for (LabelNode ln : graphA.getLabelNodes())
+      for (LabelNode n : L.getLabelNodes())
       {
-         LabelNode newLn = EcoreUtil.copy(ln);
-         graphB.getLabelNodes().add(newLn);
-         b.addMapping(newLn, ln);
+
+         if (morL_G.imageOf(n).getLabelEdge().stream().anyMatch(e -> EL_G_p.contains(e)))
+         {
+            LabelNode nNew = EcoreUtil.copy(n);
+            B.add(nNew);
+            morB_L.addMapping(nNew, n);
+         }
       }
-      copyFormula(graphA, graphB);
-      SymbolicBoundary boundary = CategoryFactory.eINSTANCE.createSymbolicBoundary();
-      boundary.setBoundary(b);
+      morB_L = Project(morB_L);
+      SymbolicBoundary boundary=CategoryFactory.eINSTANCE.createSymbolicBoundary();
+      boundary.setBoundary(morB_L);
       return boundary;
 -->
 
@@ -621,6 +623,9 @@ partial class SymbolicGraphCatImpl {
             morB_L.addMapping(nNew, n);
          }
       }
+      morB_L = Project(morB_L);
+      SymbolicPushoutComplement pushoutComplement = uncheckedPushoutComplement(morB_L, morL_G);
+
       InitialPushout initialPushout = CategoryFactory.eINSTANCE.createInitialPushout();
       initialPushout.setMorB_L(morB_L);
       return initialPushout;
@@ -634,21 +639,21 @@ partial class SymbolicGraphCatImpl {
       //
       // Meaning
       //  (P,False)==morPf_Bf==>(B,False)
-      //      |                    |
+      //      1                    1
       //      |                    |
       //      |         PB         |
       //      |                    |
-      //      !                    !
+      //      |                    |
       //  (P,Phi_P)===morP_B===>(B,Phi_B)
       //
       //
       // With names in Concrete sytax
       //    (Pf)===morPf_Bf===>(Bf)
+      //      1                  1
+      //      |                  |
+      //     morP_Pf   PB       morB_Bf
       //      |                  |
       //      |                  |
-      //     morPf_P   PB       morBf_B
-      //      |                  |
-      //      !                  !
       //     (P)=====morP_B====>(B)
       ConfigurableMorphismClassFactory morClassFac = CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       ConfigurableMorphismClass morClass = morClassFac.createMorphismClass("I", "I", "I", "I", "*");
@@ -657,26 +662,88 @@ partial class SymbolicGraphCatImpl {
          throw new InvalidParameterException("Projection can only be calculated if input is  monomorphism");
       }
       CategoryUtil catUtil = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
-      SymbolicGraphMorphism morBf_B = catUtil.getInverseIfIsomorphism(catUtil.copyGraph(mor.getCodom()));
+      SymbolicGraphMorphism morB_Bf = catUtil.copyGraph(mor.getCodom());
       SymbolicGraphMorphism morPf_Bf = mor;
       SymbolicGraph Bf = morPf_Bf.getCodom();
-      Bf.getFormula().getOf().clear();
+      if (Bf.getFormula() != null)
+      {
+         EcoreUtil.delete(Bf.getFormula());
+      }
+      Bf.setFormula(SymbolicGraphsFactory.eINSTANCE.createDisjunction());
       Bf.getFormula().getOf().add(SymbolicGraphsFactory.eINSTANCE.createConjunction());
       Bf.getFormula().getOf().get(0).getOf().add(SymbolicGraphsFactory.eINSTANCE.createPredicate());
       Bf.getFormula().getOf().get(0).getOf().get(0).setSymbol("#F");
-      Bf.getFormula().getOf().clear();
-      Bf.getFormula().getConstants().clear();
+
       SymbolicGraph Pf = morPf_Bf.getDom();
-      Pf.getFormula().getOf().clear();
+      if (Pf.getFormula() != null)
+      {
+         EcoreUtil.delete(Pf.getFormula());
+      }
+      Pf.setFormula(SymbolicGraphsFactory.eINSTANCE.createDisjunction());
       Pf.getFormula().getOf().add(SymbolicGraphsFactory.eINSTANCE.createConjunction());
       Pf.getFormula().getOf().get(0).getOf().add(SymbolicGraphsFactory.eINSTANCE.createPredicate());
       Pf.getFormula().getOf().get(0).getOf().get(0).setSymbol("#F");
-      Pf.getFormula().getOf().clear();
-      Pf.getFormula().getConstants().clear();
-      if ((morPf_Bf.getCodom() != morBf_B.getDom()))
-         throw new RuntimeException("Uaaaag");
 
-      return null;
+      Pf.getFormula().getConstants().clear();
+
+      SymbolicPullback pullback = pullback(morB_Bf, morPf_Bf);
+      SymbolicGraphMorphism morP_B = pullback.getMorphisms().stream().filter(m -> m.getCodom() == morB_Bf.getDom()).findAny().get();
+
+      return morP_B;
+-->
+
+@model uncheckedPushoutComplement (SymbolicGraphMorphism morK_L, SymbolicGraphMorphism morL_G) <--
+
+      //      L <===morK_L====== K
+      //      |                  |
+      //      |                  |
+      //    morL_G            morK_D
+      //      |                  |
+      //      !                  !
+      //      G <=====morD_G==== D
+
+      SymbolicGraph G = morL_G.getCodom();
+      SymbolicGraph L = morK_L.getCodom();
+      SymbolicGraph K = morK_L.getDom();
+
+      CategoryUtil util = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+      ConfigurableMorphismClassFactory morClasFac = CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClass morclass = morClasFac.createMorphismClass("I", "I", "I", "I", "*");
+      if (!morclass.isMember(morK_L).isValid() || !morclass.isMember(morL_G).isValid())
+      {
+         throw new RuntimeException("Pushout complements for non-injective symbolic graph morphsism are not supported");
+      }
+      SymbolicGraphMorphism morD_G = util.copyGraph(G);
+      SymbolicGraph D = morD_G.getDom();
+      D.setName("D");
+      SymbolicGraphMorphism morG_D = util.getInverseIfIsomorphism(morD_G);
+      SymbolicGraphMorphism morK_G = morK_L.composeWith(morL_G);//needed later for image
+      SymbolicGraphMorphism morK_D = morK_G.composeWith(morG_D);
+      if (D.getFormula().getQuantifier() == null)
+      {
+         D.getFormula().setQuantifier(SymbolicGraphsFactory.eINSTANCE.createExists());
+      }
+      for (Object obj : D.getAllElements())
+      {
+         EGraphElement elem = (EGraphElement) obj;
+         if (morL_G.isInImage(morD_G.imageOf(elem)) && !morK_G.isInImage(morD_G.imageOf(elem)))// if element has to be removed
+            if (elem instanceof LabelNode)
+            {//if label node are not removed but existentially quantified
+               LabelNode ln = (LabelNode) elem;
+               D.getFormula().getQuantifier().getLabelNodes().add(ln);
+               morD_G.removeMapping(ln);
+            } else
+            {
+               morD_G.removeMapping(elem);
+               EcoreUtil.delete(elem);
+            }
+      }
+
+      SymbolicPushoutComplement pushoutComplement = CategoryFactory.eINSTANCE.createSymbolicPushoutComplement();
+      pushoutComplement.getMorphism().add(morD_G);
+      pushoutComplement.getMorphism().add(morK_D);
+      pushoutComplement.setContextObject(D);
+      return pushoutComplement;
 -->
 
 }

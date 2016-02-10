@@ -24,4 +24,8 @@ public class MappingUtil {
 		}
 		return false;
 	}
+	public static <T> boolean isTotal(Mapping<T> mapping, Collection<T> dom)
+   {
+      return mapping.map.keySet().containsAll(dom);
+   }
 }

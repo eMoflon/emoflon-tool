@@ -1,0 +1,20 @@
+
+partial class ExistsImpl {
+
+
+
+@model toString () <--
+
+      StringBuilder sb = new StringBuilder();
+      if(this.getLabelNodes().size()>0)
+      {
+         for (LabelNode ln : this.getLabelNodes())
+         {
+            sb.append(ln.toString());
+            sb.append(".");
+         }
+      }
+      return sb.toString();
+-->
+
+}

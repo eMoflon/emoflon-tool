@@ -43,7 +43,7 @@ public class TestForStoryPatternToSymbGraTraRules_Basic {
 	
 	@Test
 	public  void test7(){
-		System.out.println("Starting TestForSymbGraph2HODemoclesPattern_Basic/Test7" );
+		System.out.println("Starting TestForStoryPatternToSymbGraTraRules_Basic/Test7" );
 		EClass cls=(EClass) pack.getEClassifier("PatternGenerator");
 		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(6);
 		Assert.assertTrue("FailedAssert: 0",operation.getName().equals("testPattern7"));
@@ -136,7 +136,7 @@ public class TestForStoryPatternToSymbGraTraRules_Basic {
 	}
 	@Test
 	public  void test6(){
-		System.out.println("Starting TestForSymbGraph2HODemoclesPattern_Basic/Test6" );
+		System.out.println("Starting TestForStoryPatternToSymbGraTraRules_Basic/Test6" );
 		EClass cls=(EClass) pack.getEClassifier("PatternGenerator");
 		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(5);
 		Assert.assertTrue("FailedAssert: 43",operation.getName().equals("testPattern6"));
@@ -228,7 +228,7 @@ public class TestForStoryPatternToSymbGraTraRules_Basic {
 	}
 	@Test
 	public  void test5(){
-		System.out.println("Starting TestForSymbGraph2HODemoclesPattern_Basic/Test5" );
+		System.out.println("Starting TestForStoryPatternToSymbGraTraRules_Basic/Test5" );
 		EClass cls=(EClass) pack.getEClassifier("PatternGenerator");
 		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(4);
 		Assert.assertTrue("FailedAssert: 85",operation.getName().equals("testPattern5"));
@@ -324,7 +324,7 @@ public class TestForStoryPatternToSymbGraTraRules_Basic {
 
 	@Test
 	public  void test4(){
-		System.out.println("Starting TestForSymbGraph2HODemoclesPattern_Basic/Test4" );
+		System.out.println("Starting TestForStoryPatternToSymbGraTraRules_Basic/Test4" );
 		EClass cls=(EClass) pack.getEClassifier("PatternGenerator");
 		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(3);
 		Assert.assertTrue("FailedAssert: 136",operation.getName().equals("testPattern4"));
@@ -420,7 +420,7 @@ public class TestForStoryPatternToSymbGraTraRules_Basic {
 	}
 	@Test
 	public  void test3(){
-		System.out.println("Starting TestForSymbGraph2HODemoclesPattern_Basic/Test3" );
+		System.out.println("Starting TestForStoryPatternToSymbGraTraRules_Basic/Test3" );
 		EClass cls=(EClass) pack.getEClassifier("PatternGenerator");
 		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(2);
 		StoryNode stn=(StoryNode) operation.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
@@ -516,7 +516,7 @@ public class TestForStoryPatternToSymbGraTraRules_Basic {
 	}
 	@Test
 	public  void test2(){
-		System.out.println("Starting TestForSymbGraph2HODemoclesPattern_Basic/Test2" );
+		System.out.println("Starting TestForStoryPatternToSymbGraTraRules_Basic/Test2" );
 		EClass cls=(EClass) pack.getEClassifier("PatternGenerator");
 		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(1);
 		StoryNode stn=(StoryNode) operation.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
@@ -601,7 +601,7 @@ public class TestForStoryPatternToSymbGraTraRules_Basic {
 
 	@Test
 	public void test1(){
-		System.out.println("Starting TestForSymbGraph2HODemoclesPattern_Basic/Test1" );
+		System.out.println("Starting TestForStoryPatternToSymbGraTraRules_Basic/Test1" );
 
 		EClass cls=(EClass) pack.getEClassifier("PatternGenerator");
 		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(0);

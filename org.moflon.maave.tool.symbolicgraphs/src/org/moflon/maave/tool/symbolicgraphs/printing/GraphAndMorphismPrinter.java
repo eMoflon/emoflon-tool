@@ -35,13 +35,9 @@ public class GraphAndMorphismPrinter
    
       
    }
-   public static List<List<String>> getDisjString(Disjunction  disjunction){
-      List<List<String>>disStrList=new LinkedList<>();
-      for (Conjunction conj : disjunction.getOf())
-      {
-         disStrList.add(getConjString(conj));
-      }
-      return disStrList;
+   public static String getDisjString(SymbolicGraph  graph){
+      Disjunction disjunction=graph.getFormula();
+      return disjunction!=null?disjunction.toString():"";
    }
    public static List<String> getConjString(Conjunction  conjunction){
       List<String>conStrList=new LinkedList<>();
@@ -137,24 +133,15 @@ public class GraphAndMorphismPrinter
       return "null";
    }
    public static String print(LabelNode  n){
-      if(n!=null){
-         if(n.eContainer() instanceof SymbolicGraph){
-            return print(n,((SymbolicGraph)n.eContainer()).getLabelNodes().indexOf(n));
-         }
-         if(n.eContainer() instanceof Quantifier){
-            return print(n,((Quantifier)n.eContainer()).getLabelNodes().indexOf(n));
-         }
-         
-      }
-      return "null";
-
-   }
-   public static String print(LabelNode n,int index){
-      if(n!=null){
-         return n.getLabel()==null?"":n.getLabel()+index+":"+n.getType().getName();
+      if(n!=null)
+      {
+         return n.toString();
+     
       }
       return "";
+
    }
+   
    
    public static String print (SymbolicGraph graph){
       StringBuilder sb = new StringBuilder();
@@ -171,9 +158,9 @@ public class GraphAndMorphismPrinter
       sb.append("LabelEdges:\n");
       graph.getLabelEdges().forEach(
             x -> sb.append(print(x)+"\n"));
-      sb.append("Forumula:" + "\n");
+      sb.append("Formula:" + "\n");
       
-      sb.append(GraphAndMorphismPrinter.getDisjString(graph.getFormula()).toString()+"\n");
+      sb.append(GraphAndMorphismPrinter.getDisjString(graph)+"\n");
       return sb.toString();
       
    }
@@ -232,9 +219,9 @@ public class GraphAndMorphismPrinter
       });;
       builder.append("Forumulas:" + "\n");
       builder.append(printName(morphism.getDom())+"\n");
-      builder.append(GraphAndMorphismPrinter.getDisjString(morphism.getDom().getFormula()).toString()+"\n");
+      builder.append(GraphAndMorphismPrinter.getDisjString(morphism.getDom())+"\n");
       builder.append(printName(morphism.getCodom())+"\n");
-      builder.append(GraphAndMorphismPrinter.getDisjString(morphism.getCodom().getFormula()).toString()+"\n");
+      builder.append(GraphAndMorphismPrinter.getDisjString(morphism.getCodom())+"\n");
       return builder.toString();
    }
 
@@ -417,11 +404,11 @@ public class GraphAndMorphismPrinter
       
       builder.append("Forumulas:" + "\n");
       builder.append("L:" + "\n");
-      builder.append(getDisjString(graphL.getFormula()).toString()+"\n");
+      builder.append(getDisjString(graphL)+"\n");
       builder.append("K:" + "\n");
-      builder.append(getDisjString(graphK.getFormula()).toString()+"\n");
+      builder.append(getDisjString(graphK)+"\n");
       builder.append("R:" + "\n");
-      builder.append(getDisjString(graphR.getFormula()).toString()+"\n");
+      builder.append(getDisjString(graphR)+"\n");
    
    
    
