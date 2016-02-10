@@ -1,5 +1,6 @@
 package org.moflon.ide.metamodelevolution.core.processing;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -73,6 +74,7 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
  
                if(renaming.getElement().equals(E_CLASS))
                {
+            	   
             	  /*for (GenClass genClass : genModel.getAllGenPackagesWithClassifiers().get(0).getGenClasses())
             	  {
             		  if (genClass.getInterfaceName().equals(renaming.getPreviousValue()))
@@ -88,6 +90,7 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
                           classProcessor.refactor(project, renaming);            			             			  
             		  }
             	  }*/
+            	  long startTime = System.nanoTime();
                   RenameRefactoring processor = new RenameClassRefactoring(renaming.getPreviousValue(), renaming.getCurrentValue(), renaming.getPackageName(), true);
                   processor.refactor(project, renaming);   
                   
@@ -98,7 +101,11 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
                   RenameRefactoring methodRenaming = new RenameMethodRefactoring();
                   methodRenaming.refactor(project, renaming);
                   
+                  long elapsedTime = System.nanoTime() - startTime;
+                  System.out.println("Elapsed time for coevolution: refactorings: " + elapsedTime/1000000000.0);
+                  
                   processInjections(project);
+
                }
                else if(renaming.getElement().equals(TL_PACKAGE))
                { 
@@ -107,7 +114,7 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
                }
                else if(renaming.getElement().equals(E_PACKAGE))
                {                
-            	  /*String oldValue = renaming.getPackageName().substring(0, renaming.getPackageName().lastIndexOf(".")) + "." + renaming.getPreviousValue();
+            	  String oldValue = renaming.getPackageName().substring(0, renaming.getPackageName().lastIndexOf(".")) + "." + renaming.getPreviousValue();
             	  String newValue = renaming.getPackageName().substring(0, renaming.getPackageName().lastIndexOf(".")) + "." + renaming.getCurrentValue();
            	      
             	  // package
@@ -144,7 +151,7 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
                    
                   RenameRefactoring switchProcessor = new RenameClassRefactoring(StringUtils.capitalize(renaming.getPreviousValue()) + "Package" + IMPL_FILE, 
                 		  StringUtils.capitalize(renaming.getCurrentValue()) + "Switch", renaming.getPackageName() + UTIL_EXTENSION, false);
-                  switchProcessor.refactor(project, renaming);*/                  
+                  switchProcessor.refactor(project, renaming);                 
 
                }
 
@@ -157,9 +164,17 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
     */
    private void processInjections(IProject project)
    {
+      long startTime = System.nanoTime();
       try
       {
-
+    	 IFolder injFolder = project.getFolder(WorkspaceHelper.INJECTION_FOLDER);
+    	 if (injFolder.members().length == 0) {
+    		 System.out.println("No Injections found");
+    	     long elapsedTime = System.nanoTime() - startTime;
+    	     System.out.println("Elapsed time for coevolution: processInjections: " + elapsedTime/1000000000.0);
+    		 return;
+    	 }
+    	 
          JavaFileInjectionExtractor extractor = new JavaFileInjectionExtractor();
          IFolder genFolder = project.getFolder(WorkspaceHelper.GEN_FOLDER);
 
@@ -180,5 +195,7 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
       {
          e.printStackTrace();
       }
+      long elapsedTime = System.nanoTime() - startTime;
+      System.out.println("Elapsed time for coevolution: processInjections: " + elapsedTime/1000000000.0);
    }
 }

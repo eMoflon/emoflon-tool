@@ -1,4 +1,4 @@
-package org.moflon.ide.metamodelevolution.core;
+package org.moflon.ide.metamodelevolution.core.util;
 
 import java.util.Collection;
 

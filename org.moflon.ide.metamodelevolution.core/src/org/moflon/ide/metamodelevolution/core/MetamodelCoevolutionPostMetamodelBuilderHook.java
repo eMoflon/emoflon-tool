@@ -3,22 +3,16 @@ package org.moflon.ide.metamodelevolution.core;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
-import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
 import org.moflon.ide.metamodelevolution.core.changes.ChangesTreeCalculator;
 import org.moflon.ide.metamodelevolution.core.changes.MetamodelChangeCalculator;
+import org.moflon.ide.metamodelevolution.core.impl.RenameChangeImpl;
 import org.moflon.ide.metamodelevolution.core.processing.JavaRefactorProcessor;
 import org.moflon.ide.metamodelevolution.core.processing.MetamodelDeltaProcessor;
 import org.moflon.util.plugins.MetamodelProperties;
@@ -35,7 +29,9 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
    {
       logger.debug("Performing post-build step for meta-model co-evolution support");
 
-      Node mocaTree = getMocaTree(postMetamodelBuilderHookDTO.metamodelproject);
+      long startTime = System.nanoTime();
+
+      Node mocaTree = MetamodelCoevolutionHelper.getMocaTree(postMetamodelBuilderHookDTO.metamodelproject);
       Node changesTree = (Node) mocaTree.getChildren().get(0);
       IProject repositoryProject = getRepositoryProject(changesTree, postMetamodelBuilderHookDTO);     
            
@@ -49,12 +45,16 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
              MetamodelDeltaProcessor processor = new JavaRefactorProcessor();
              processor.processDelta(repositoryProject, delta);
          }
+         
+         RenameChangeImpl change = (RenameChangeImpl) delta.getEModelElementChange().get(0);
+         
+         long elapsedTime = System.nanoTime() - startTime;
       }
-
+     
       return Status.OK_STATUS;
    }
 
-   private Node getMocaTree(IProject metamodelProject)
+   /*private Node getMocaTree(IProject metamodelProject)
    {
       IFile mocaFile = WorkspaceHelper.getChangesMocaTree(metamodelProject);
       if (mocaFile.exists())
@@ -68,7 +68,7 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
          return mocaTree;
       }
       return null;
-   }
+   }*/
 
    /**
     * This method returns the corresponding repository project

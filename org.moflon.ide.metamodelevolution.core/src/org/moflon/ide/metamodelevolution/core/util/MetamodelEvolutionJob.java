@@ -9,8 +9,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.moflon.ide.metamodelevolution.core.EMFCompareMetamodelComparator;
-import org.moflon.ide.metamodelevolution.core.EMFCompareMetamodelDeltaProcessor;
 import org.moflon.ide.ui.UIActivator;
 
 public class MetamodelEvolutionJob extends Job

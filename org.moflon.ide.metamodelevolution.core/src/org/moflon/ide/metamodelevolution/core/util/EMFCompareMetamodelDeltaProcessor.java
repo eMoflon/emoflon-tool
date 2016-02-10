@@ -1,4 +1,4 @@
-package org.moflon.ide.metamodelevolution.core;
+package org.moflon.ide.metamodelevolution.core.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,6 +30,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
+import org.moflon.ide.metamodelevolution.core.ChangeSequence;
 import org.moflon.ide.metamodelevolution.core.processing.MetamodelDeltaProcessor;
 
 public class EMFCompareMetamodelDeltaProcessor implements MetamodelDeltaProcessor

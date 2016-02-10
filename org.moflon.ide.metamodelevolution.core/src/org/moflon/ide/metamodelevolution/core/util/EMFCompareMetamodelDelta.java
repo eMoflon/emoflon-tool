@@ -1,4 +1,4 @@
-package org.moflon.ide.metamodelevolution.core;
+package org.moflon.ide.metamodelevolution.core.util;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.moflon.ide.metamodelevolution.core.MetamodelDelta;
 
 public class EMFCompareMetamodelDelta implements Comparison, MetamodelDelta
 {
