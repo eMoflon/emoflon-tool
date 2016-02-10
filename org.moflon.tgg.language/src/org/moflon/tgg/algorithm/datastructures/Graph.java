@@ -45,8 +45,9 @@ public class Graph
       nodes = new HashSet<>();
       edges = new HashSet<>();
    }
-   
-   public static Graph getEmptyGraph(){
+
+   public static Graph getEmptyGraph()
+   {
       return new Graph();
    }
 
@@ -147,12 +148,11 @@ public class Graph
 
       nodes.forEach(node -> eMoflonEMFUtil.remove(node));
    }
-   
+
    @Override
    public String toString()
    {
-      return "Nodes       (" + nodes.size() + "):" + displayNodes(nodes) + "\n" + 
-             "Edges       (" + edges.size() + "):" + displayEdges(edges);
+      return "Nodes       (" + nodes.size() + "):" + displayNodes(nodes) + "\n" + "Edges       (" + edges.size() + "):" + displayEdges(edges);
    }
 
    public static BinaryOperator<String> combineElementReps(String open, String close)
@@ -167,7 +167,17 @@ public class Graph
 
    public static String displayEdges(Collection<EMoflonEdge> edges)
    {
-      return edges.stream().map(e -> eMoflonEMFUtil.getName(e.getSrc()) + "] -" + e.getName() + "-> [" + eMoflonEMFUtil.getName(e.getTrg()))
-            .reduce("", Graph.combineElementReps("[", "]"));
+      return edges.stream().map(e -> eMoflonEMFUtil.getName(e.getSrc()) + "] -" + e.getName() + "-> [" + eMoflonEMFUtil.getName(e.getTrg())).reduce("",
+            Graph.combineElementReps("[", "]"));
+   }
+   
+   public Collection<EObject> getNodes()
+   {
+      return nodes;
+   }
+
+   public Collection<EMoflonEdge> getEdges()
+   {
+      return edges;
    }
 }

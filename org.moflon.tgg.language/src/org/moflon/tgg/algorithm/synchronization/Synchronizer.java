@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,6 +24,7 @@ import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.exceptions.InputLocalCompletenessException;
 import org.moflon.tgg.algorithm.exceptions.TranslationLocalCompletenessException;
 import org.moflon.tgg.algorithm.invocation.InvokeCheckAttributes;
+import org.moflon.tgg.algorithm.invocation.InvokeCheckDEC;
 import org.moflon.tgg.algorithm.invocation.InvokeIsApplicable;
 import org.moflon.tgg.algorithm.invocation.InvokeIsAppropriate;
 import org.moflon.tgg.algorithm.invocation.InvokePerform;
@@ -81,8 +83,6 @@ public abstract class Synchronizer
    // Debugger relevant fields
    private Graph allRevokedElts;
 
-   private Collection<TripleMatch> allToBeRevokedTripleMatches;
-
    private Graph addedElts;
 
    private Collection<EObject> translated;
@@ -104,7 +104,7 @@ public abstract class Synchronizer
       this.readySet = new HashSet<>();
       this.readyWithSiblings = new HashSet<>();
       this.readyButUnreadySiblings = new HashSet<>();
-      this.createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch>getCollection();
+      this.createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch> getCollection();
    }
 
    public void synchronize() throws InputLocalCompletenessException, TranslationLocalCompletenessException
@@ -128,16 +128,22 @@ public abstract class Synchronizer
 
    private void handleAdditions()
    {
-      Collection<Match> collectedMatches = collectDerivations(toBeTranslated, lookupMethods);
-
-      addedElts = getAddedElementsFromMatches(collectedMatches);
-
-      allRevokedElts = revoke(addedElts);
+      Stream<TripleMatch> tripleMatchesWithDECviolation = getTripleMatchesWithDECviolation(toBeTranslated);
+      allRevokedElts = revokeTripleMatches(tripleMatchesWithDECviolation);
       toBeTranslated.addConstructive(allRevokedElts);
 
-      collectedMatches.addAll(collectDerivations(allRevokedElts, lookupMethods));
-      inputMatches = collectedMatches;
+      inputMatches = collectDerivations(toBeTranslated, lookupMethods);
       allRevokedElts = null;
+   }
+
+   private Stream<TripleMatch> getTripleMatchesWithDECviolation(Graph graph)
+   {
+      Stream<TripleMatch> tripleMatchesOfTouchedNodes = graph.getEdges().stream()
+            .flatMap(e -> Stream.concat(protocol.creates(e.getTrg()), protocol.creates(e.getSrc())));
+
+      InvokeCheckDEC invokeCheckDEC = new InvokeCheckDEC(lookupMethods);
+
+      return tripleMatchesOfTouchedNodes.filter(invokeCheckDEC.negate());
    }
 
    private void handleAttributeChanges()
@@ -200,12 +206,6 @@ public abstract class Synchronizer
       return Stream.concat(creatingMatches, contextMatches).collect(Collectors.toList());
    }
 
-   private Graph getAddedElementsFromMatches(Collection<Match> sourceMatches)
-   {
-      return sourceMatches.stream().map(m -> new Graph(m.getToBeTranslatedNodes(), m.getToBeTranslatedEdges()))
-            .reduce(Graph.getEmptyGraph(), Graph::addConstructive);
-   }
-
    private Rule findRule(String ruleName)
    {
       for (Rule rule : this.lookupMethods.getRules())
@@ -241,11 +241,18 @@ public abstract class Synchronizer
    private Graph revoke(Graph elts)
    {
       Stream<TripleMatch> toBeRevokedTripleMatches = protocol.creates(elts);
-      Stream<TripleMatch> dependencies = protocol.creates(elts).flatMap(tripleMatch -> protocol.descendants(tripleMatch).stream());
+      return revokeTripleMatches(toBeRevokedTripleMatches);
+   }
 
-      allToBeRevokedTripleMatches = Stream.concat(toBeRevokedTripleMatches, dependencies).collect(Collectors.toSet());
-      protocol.revoke(allToBeRevokedTripleMatches);
-      return delete(allToBeRevokedTripleMatches);
+   private Graph revokeTripleMatches(Stream<TripleMatch> tripleMatches)
+   {
+      Collection<TripleMatch> toBeRevokedTripleMatches = new HashSet<>();
+      tripleMatches.forEach(m -> {
+         toBeRevokedTripleMatches.addAll(protocol.descendants(m));
+         toBeRevokedTripleMatches.add(m);
+      });
+      protocol.revoke(toBeRevokedTripleMatches);
+      return delete(toBeRevokedTripleMatches);
    }
 
    protected abstract Graph delete(Collection<TripleMatch> allToBeRevokedTripleMatches);
@@ -314,7 +321,7 @@ public abstract class Synchronizer
             processAmalgamationComplements(inputMatches, chosen, chosenRR);
 
          translated = null;
-         createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch>getCollection();
+         createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch> getCollection();
       }
 
       finalizeGraphTriple(graphTriple);
@@ -327,8 +334,8 @@ public abstract class Synchronizer
       PerformRuleResult performRR = apply(isApplMatch);
 
       graphTriple.getCorrespondences().addAll(performRR.getCreatedLinkElements());
-      tempOutputContainer.getPotentialRoots().addAll(
-            performRR.getCreatedElements().stream().filter(elt -> elt.eContainer() == null).collect(Collectors.toSet()));
+      tempOutputContainer.getPotentialRoots()
+            .addAll(performRR.getCreatedElements().stream().filter(elt -> elt.eContainer() == null).collect(Collectors.toSet()));
 
       TripleMatch newTripleMatch = createTripleMatch(performRR, isApplMatch);
       protocol.collectPrecedences(newTripleMatch);
@@ -380,7 +387,7 @@ public abstract class Synchronizer
 
    private void extendReady(Collection<Match> candidates)
    {
-      Collection<Match> newReady = CollectionProvider.<Match>getCollection(candidates.size());
+      Collection<Match> newReady = CollectionProvider.<Match> getCollection(candidates.size());
       for (Match cand : candidates)
       {
          boolean parentNotProcessed = false;
@@ -409,8 +416,8 @@ public abstract class Synchronizer
 
    protected Graph determineInputElements(Match coreMatch)
    {
-      return new Graph(coreMatch.getContextNodes(), coreMatch.getContextEdges()).addConstructive(coreMatch.getToBeTranslatedNodes()).addConstructive(
-            coreMatch.getToBeTranslatedEdges());
+      return new Graph(coreMatch.getContextNodes(), coreMatch.getContextEdges()).addConstructive(coreMatch.getToBeTranslatedNodes())
+            .addConstructive(coreMatch.getToBeTranslatedEdges());
    }
 
    private void updateProcessedSets(IsApplicableMatch chosen)
@@ -493,8 +500,8 @@ public abstract class Synchronizer
       if (toBeTranslated.getElements().isEmpty())
          return;
 
-      Graph warningGraph = Graph.getEmptyGraph().addConstructive(
-            toBeTranslated.stream().filter(a -> !getCreatingMatchesFrom(inputMatches, a).iterator().hasNext()).collect(Collectors.toList()));
+      Graph warningGraph = Graph.getEmptyGraph()
+            .addConstructive(toBeTranslated.stream().filter(a -> !getCreatingMatchesFrom(inputMatches, a).iterator().hasNext()).collect(Collectors.toList()));
 
       if (warningGraph.getElements().isEmpty())
          return;
@@ -505,9 +512,7 @@ public abstract class Synchronizer
          warning += " the following elements:\n" + warningGraph.toString() + "\n";
       else
       {
-         warning += warningGraph.getElements().size()
-               + " elements."
-               + "\n"
+         warning += warningGraph.getElements().size() + " elements." + "\n"
                + "Set verbose to true in your synchronization helper and re-run to get the exact list of ignored elements (this can slow down the transformation considerably!).\n";
       }
 
@@ -537,11 +542,6 @@ public abstract class Synchronizer
    public Graph getToBeDeleted()
    {
       return toBeDeleted;
-   }
-
-   public Collection<TripleMatch> getAllToBeRevokedTripleMatches()
-   {
-      return allToBeRevokedTripleMatches;
    }
 
    public Graph getAddedElts()
