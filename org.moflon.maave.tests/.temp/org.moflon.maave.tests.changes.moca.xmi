@@ -345,6 +345,12 @@
           <attribute name="packageName" value="org.moflon.maave.tests.testgen.diachase" index="2" />
           <attribute name="baseClasses" value="" index="3" />
         </children>
+        <children name="EClass" index="1" xsi:type="MocaTree:Node">
+          <attribute name="name" value="InitialPushoutTest" index="0" />
+          <attribute name="previousName" value="InitialPushoutTest" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.testgen.diachase" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
       </children>
       <children name="packages" index="1" xsi:type="MocaTree:Node" />
       <attribute name="guid" value="{72A99605-8A00-4638-B92B-61D463D2E2ED}" index="0" />
