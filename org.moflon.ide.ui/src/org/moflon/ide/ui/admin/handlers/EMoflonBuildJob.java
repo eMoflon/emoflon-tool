@@ -7,13 +7,13 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -22,7 +22,7 @@ import org.moflon.eclipse.job.ProgressMonitoringJob;
 import org.moflon.ide.core.util.BuilderHelper;
 import org.moflon.ide.ui.UIActivator;
 
-public class EMoflonBuildJob extends Job
+public class EMoflonBuildJob extends WorkspaceJob
 {
    private final Logger logger;
 
@@ -40,7 +40,7 @@ public class EMoflonBuildJob extends Job
    }
 
    @Override
-   protected IStatus run(final IProgressMonitor monitor)
+   public IStatus runInWorkspace(final IProgressMonitor monitor)
    {
       IStatus status = OK_STATUS;
       final List<IProject> projectsToBeBuilt = this.projects.stream().filter(project -> shallBuildProject(project)).collect(Collectors.toList());
