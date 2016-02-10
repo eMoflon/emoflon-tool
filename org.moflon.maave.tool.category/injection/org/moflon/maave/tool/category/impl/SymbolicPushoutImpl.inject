@@ -1,0 +1,50 @@
+
+import java.security.InvalidParameterException;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
+
+partial class SymbolicPushoutImpl {
+
+
+
+@model uMP (SymbolicGraphMorphism morC_X, SymbolicGraphMorphism morB_X) <--
+
+      if (morC_X.getCodom() != morB_X.getCodom())
+      {
+         throw new InvalidParameterException("morC_X and mor morB_X need same codomain");
+      }
+      SymbolicGraphMorphism morB_D = null;
+      SymbolicGraphMorphism morC_D = null;
+      for (SymbolicGraphMorphism mor : this.getMorphism())
+      {
+         if (mor.getDom() == morB_X.getDom())
+         {
+            morB_D = mor;
+         }
+         if (mor.getDom() == morC_X.getDom())
+         {
+            morC_D = mor;
+         }
+      }
+      if (morB_D == null || morC_D == null)
+      {
+         throw new InvalidParameterException("morC_X and mor morB_X need same domain as morC_D and morB_D");
+      }
+      
+      SymbolicGraphMorphism morX = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      morX.setDom(morB_D.getCodom());
+      morX.setCodom(morB_X.getCodom());
+      for (Object obj : morC_X.getDom().getAllElements())
+      {
+         EGraphElement elem = (EGraphElement) obj;
+         morX.addMapping(morC_D.imageOf(elem), morC_X.imageOf(elem));
+      }
+      for (Object obj : morB_X.getDom().getAllElements())
+      {
+         EGraphElement elem = (EGraphElement) obj;
+         morX.addMapping(morB_D.imageOf(elem), morB_X.imageOf(elem));
+      }
+      return morX;
+-->
+
+}
