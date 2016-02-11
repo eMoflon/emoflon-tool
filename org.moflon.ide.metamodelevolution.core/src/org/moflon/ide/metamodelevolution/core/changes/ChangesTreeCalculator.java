@@ -1,6 +1,7 @@
 package org.moflon.ide.metamodelevolution.core.changes;
 
 import org.eclipse.emf.common.util.EList;
+import org.moflon.core.mocatomoflon.MocaToMoflonUtils;
 import org.moflon.ide.metamodelevolution.core.ChangeSequence;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 import org.moflon.ide.metamodelevolution.core.impl.CoreFactoryImpl;
@@ -27,7 +28,8 @@ public class ChangesTreeCalculator implements MetamodelChangeCalculator
     */
    private ChangeSequence parseChangesTree(final Node tree, ChangeSequence delta)
    {
-      if (tree.getName() != null && (tree.getName().equals("EClass")))
+      //TODO@settl: Proceed analogously for all other types
+      if (MocaToMoflonUtils.isEClassNode(tree))
       {
     	  RenameChange change = createClassRenameChange(tree);
     	  if (change != null)
@@ -45,7 +47,6 @@ public class ChangesTreeCalculator implements MetamodelChangeCalculator
     	  }
     	  
     	  return parseChildren(tree, delta);
-    	  
       } else
       {
     	  return parseChildren(tree, delta);
@@ -66,24 +67,37 @@ public class ChangesTreeCalculator implements MetamodelChangeCalculator
    private RenameChange createClassRenameChange(Node tree)
    {
 	   RenameChange renaming = CoreFactoryImpl.eINSTANCE.createRenameChange();
-       renaming.setElement("EClass");
+       renaming.setElement(MocaToMoflonUtils.ECLASS_NODE_NAME);
        
        EList<Attribute> attributes = tree.getAttribute();
        for (Attribute attr : attributes)
        {
-          if (attr.getName().equals("name"))
+          switch(attr.getName())
+          {
+          case "name":
              renaming.setCurrentValue(attr.getValue());
-          if (attr.getName().equals("previousName"))
+             break;
+          case "previousName":
              renaming.setPreviousValue(attr.getValue());
-          if (attr.getName().equals("packageName"))
+             break;
+          case "packageName":
              renaming.setPackageName(attr.getValue());
+             break;
+          }
        }
-       if (renaming.getCurrentValue() == null || renaming.getPreviousValue() == null 
-    		   || renaming.getCurrentValue().equals(renaming.getPreviousValue()))
+       
+       if (hasMissingAttribute(renaming))
        {
     	   return null;   
-       }      
+       }
+       
        return renaming;
+   }
+
+   private boolean hasMissingAttribute(RenameChange renaming)
+   {
+      return renaming.getCurrentValue() == null || renaming.getPreviousValue() == null 
+    		   || renaming.getCurrentValue().equals(renaming.getPreviousValue());
    }
    
    private RenameChange createPackageRenameChange(Node tree)
@@ -103,8 +117,7 @@ public class ChangesTreeCalculator implements MetamodelChangeCalculator
            if (attr.getName().equals("Changes::IsTLP"))
         	   renaming.setElement("TLPackage");           
        }
-       if (renaming.getCurrentValue() == null || renaming.getPreviousValue() == null 
-    		   || renaming.getCurrentValue().equals(renaming.getPreviousValue()))
+       if (hasMissingAttribute(renaming))
        {
     	   return null;   
        }     

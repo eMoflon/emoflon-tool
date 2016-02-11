@@ -23,6 +23,8 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
       logger.debug("Performing post-build step for meta-model co-evolution support");
 
       Node mocaTree = MetamodelCoevolutionHelper.getMocaTree(postMetamodelBuilderHookDTO.metamodelproject);
+
+      //TODO@settl: Check whether tree is there - do nothing if not
       Node changesTree = (Node) mocaTree.getChildren().get(0);
       IProject repositoryProject = MetamodelCoevolutionHelper.getRepositoryProject(changesTree, postMetamodelBuilderHookDTO);     
            
@@ -37,6 +39,7 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
              processor.processDelta(repositoryProject, delta);
          }        
       }
+      //TODO@settl: Remove tree if everything in the changes tree has been successfully processed
      
       return Status.OK_STATUS;
    }

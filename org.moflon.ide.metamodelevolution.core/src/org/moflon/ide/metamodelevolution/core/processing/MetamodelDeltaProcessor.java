@@ -13,6 +13,7 @@ public interface MetamodelDeltaProcessor
 	   public final static String TL_PACKAGE ="TLPackage";
 	   
 	   // TODO@settl Document all public API (rkluge)
+	   // TODO@settl: return an IStatus (if in doubt: Status.STATUS_OK)
 	   void processDelta(IProject project, ChangeSequence delta);
 	   
 }

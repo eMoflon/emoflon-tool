@@ -34,11 +34,6 @@ namespace EAEcoreAddin.Refactoring
         public void savePackageToEATaggedValue(Boolean updateEaGui)
         {
             EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(this.sqlRepository, this.package, Main.MoflonChangesTreeTaggedValueName, getXMLDocumentString());
-
-            if (updateEaGui)
-                doEaGuiStuff();
-
-            //refreshSQLObject();
         }
 
         public override Serialization.MocaTree.MocaNode serializeToMocaTree()

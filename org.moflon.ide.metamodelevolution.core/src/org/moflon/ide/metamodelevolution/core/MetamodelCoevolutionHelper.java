@@ -41,7 +41,10 @@ public class MetamodelCoevolutionHelper {
 
 	   /**
 	    * This method returns the corresponding repository project
+	    * 
+	    * @deprecated Use preMetamodelBuilderHookDTO.extractRepositoryProjectProperties()
 	    */
+	   @Deprecated
 	   public static IProject getRepositoryProject(Node rootNode, MetamodelBuilderHookDTO postMetamodelBuilderHookDTO)
 	   {
 	      try

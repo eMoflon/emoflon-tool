@@ -6,6 +6,7 @@ using EAEcoreAddin.Serialization.MocaTree;
 
 namespace EAEcoreAddin.Refactoring
 {
+    //TODO@settl: --> CachedNamedElement
     class CachedClass : CachedElement
     {
         public string previousName;

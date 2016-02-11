@@ -44,24 +44,14 @@ namespace EAEcoreAddin.Refactoring
         public void saveElementToEATaggedValue(Boolean updateEaGui)
         {
             EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(this.sqlRepository, this.element, Main.MoflonChangesTreeTaggedValueName, getXMLDocumentString());
-
-            if (updateEaGui)
-                doEaGuiStuff();
-
+            
             refreshSQLObject();
         }
 
+        //TODO@settl: Remove
         public void refreshSQLObject()
         {
             this.element = this.sqlRepository.GetElementByID(this.element.ElementID);
-        }
-
-        /// <summary>
-        /// necessary for the visual output in EA. 
-        /// TaggedValues for shapescripts etc.
-        /// </summary>
-        public virtual void doEaGuiStuff()
-        {
         }
     }
 }
