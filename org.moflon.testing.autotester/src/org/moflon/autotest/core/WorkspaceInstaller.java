@@ -147,7 +147,7 @@ public class WorkspaceInstaller
 
                   exportModelsFromEAPFilesInWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                  logger.info("Great!  All model (.ecore) files have been exported ...");
+                  logger.info("Great! All model (.ecore) files have been exported ...");
 
                   logger.info("Now refreshing and turning auto build back on to invoke normal code generation (build) process ...");
 
@@ -202,6 +202,7 @@ public class WorkspaceInstaller
             return Status.OK_STATUS;
          }
       };
+      job.setUser(true);
       job.schedule();
       
       // final IMonitoredJob job = new IMonitoredJob() {
