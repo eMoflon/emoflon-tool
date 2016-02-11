@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/gen"
+    modelPluginID="org.moflon.maave.tool.symbolicgraphs.secondorder.matching" modelName="Matching"
+    updateClasspath="false" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../org.gervarro.democles.specification.emf/model/specification.genmodel#//specification ../../org.gervarro.democles.specification.emf/model/emf.genmodel#//emf ../../org.gervarro.democles.specification.emf/model/relational.genmodel#//relational platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.genmodel#//symbolicgraphs"
+    operationReflection="true">
+  <foreignModel>Matching.ecore</foreignModel>
+  <genPackages prefix="Matching" basePackage="org.moflon.maave.tool.symbolicgraphs.secondorder"
+      disposableProviderFactory="true" ecorePackage="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#/">
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//PatternMatcherHelper">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//PatternMatcherHelper/initialized"/>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//PatternMatcherHelper/findAllMatches">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//PatternMatcherHelper/findAllMatches/foResult"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//PatternMatcherHelper/findAllMatches/partialMatch"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//DataFrameWrapper"/>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//DataFrameList">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//DataFrameList/dataFrames"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//FOTransformationResult">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//FOTransformationResult/sourceSymbolicGraph"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//FOTransformationResult/initialized"/>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//FOTransformationResult/init">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//FOTransformationResult/init/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//FOTransformationResult/getFirstOrderPattern"/>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//FOTransformationResult/getIndexOf">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//FOTransformationResult/getIndexOf/eGraphElem"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder/checkMorphismValidity">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder/checkMorphismValidity/morphism"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder/createFirstOrderPattern">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder/createFirstOrderPattern/symbolicGraph"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder/getAllMorphisms">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder/getAllMorphisms/from"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder/getAllMorphisms/to"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder/getAllMorphisms.1">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//AbstractMorphismFinder/getAllMorphisms.1/partialMatch"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinder">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinder/checkMorphismValidity">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinder/checkMorphismValidity/morphism"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismsSet">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismsSet/morphisms"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//InjectiveEGraphMorphismFinder">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//InjectiveEGraphMorphismFinder/createFirstOrderPattern">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//InjectiveEGraphMorphismFinder/createFirstOrderPattern/symbolicGraph"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//InjectiveEGraphMorphismFinder/checkMorphismValidity">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//InjectiveEGraphMorphismFinder/checkMorphismValidity/morphism"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//InjectiveSymbolicGraphMorphismFinder">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//InjectiveSymbolicGraphMorphismFinder/checkMorphismValidity">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//InjectiveSymbolicGraphMorphismFinder/checkMorphismValidity/morphism"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//ConfigurableMorphismFinder">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//ConfigurableMorphismFinder/morphismClass"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//ConfigurableMorphismFinder/patternSpec"/>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//ConfigurableMorphismFinder/getAllMorphisms">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//ConfigurableMorphismFinder/getAllMorphisms/partialMatch"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinderFactory">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinderFactory/createInjectiveEGraphMorphismFinder">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinderFactory/createInjectiveEGraphMorphismFinder/symbolicGraph"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinderFactory/createInjectiveSymbolicGraphMorphismFinder">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinderFactory/createInjectiveSymbolicGraphMorphismFinder/symbolicGraph"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinderFactory/createMorphismFinder">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinderFactory/createMorphismFinder/pattern"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MorphismFinderFactory/createMorphismFinder/morphismClass"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CInjectiveEGraphMorphismFinder">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CInjectiveEGraphMorphismFinder/fOTransformationResult"/>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CInjectiveEGraphMorphismFinder/getAllMorphisms">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CInjectiveEGraphMorphismFinder/getAllMorphisms/partialMatch"/>
+      </genOperations>
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CInjectiveEGraphMorphismFinder/checkMorphismValidity">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CInjectiveEGraphMorphismFinder/checkMorphismValidity/morphism"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//SinglePatternMorphismFinder">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//SinglePatternMorphismFinder/getAllMorphisms">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//SinglePatternMorphismFinder/getAllMorphisms/partialMatch"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//GenericMorphismFinder">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//GenericMorphismFinder/getAllMorphisms">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//GenericMorphismFinder/getAllMorphisms/from"/>
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//GenericMorphismFinder/getAllMorphisms/to"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//SInjectiveSymbolicGraphMorphismFinder">
+      <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//SInjectiveSymbolicGraphMorphismFinder/checkMorphismValidity">
+        <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//SInjectiveSymbolicGraphMorphismFinder/checkMorphismValidity/morphism"/>
+      </genOperations>
+    </genClasses>
+    <nestedGenPackages prefix="CategoryUtils" basePackage="org.moflon.maave.tool.symbolicgraphs.secondorder.matching"
+        disposableProviderFactory="true" ecorePackage="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/MorMappingMode">
+        <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/MorMappingMode/INJ"/>
+        <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/MorMappingMode/BIJ"/>
+        <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/MorMappingMode/SURJ"/>
+        <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/MorMappingMode/ARBIT"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/FormulaMode">
+        <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/FormulaMode/IMPL"/>
+        <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/FormulaMode/BIIMPL"/>
+        <genEnumLiterals ecoreEnumLiteral="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/FormulaMode/ARBIT"/>
+      </genEnums>
+      <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/verbose"/>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/isValidEGraphMorphism">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/isValidEGraphMorphism/morphism"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/isInjectiveMorphism">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/isInjectiveMorphism/morphism"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/areSimilarEGraphMorphisms">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/areSimilarEGraphMorphisms/morA"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/areSimilarEGraphMorphisms/morB"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/isValidSymbGraphMorphism">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/isValidSymbGraphMorphism/morphism"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/isOfClassM">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/isOfClassM/morphism"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/areCommuting">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/areCommuting/pathA"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/areCommuting/pathB"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getInverseMorphism">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getInverseMorphism/mor"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/graphB"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/areIsomorphicSymbGraphs/graphA"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/hasNonEmptySemantic">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/hasNonEmptySemantic/symbolicGraph"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphA"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/graphB"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/internalGetGraphIsomorphism/matchFinder"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/createIdentityMorphism">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/createIdentityMorphism/graphG"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/graphA"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getSymbolicGraphIsomorphism/graphB"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getEGraphIsomorphism">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getEGraphIsomorphism/graphA"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getEGraphIsomorphism/graphB"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/copyGraph">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/copyGraph/graphG"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/createIsomorpicCopy">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/createIsomorpicCopy/graphA"/>
+        </genOperations>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getInverseIfIsomorphism">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getInverseIfIsomorphism/isoMor"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/Path">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/Path/end"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/Path/beginn"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/Path/over"/>
+      </genClasses>
+      <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/Status">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/Status/valid"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/Status/message"/>
+      </genClasses>
+      <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClass">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClass/graphNodeMode"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClass/labelNodeMode"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClass/graphEdgeMode"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClass/labelEdgeMode"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClass/formulaMode"/>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClass/isMember">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClass/isMember/morphism"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CommutingPaths">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CommutingPaths/pathA"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CommutingPaths/pathB"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CommutingPaths/begin"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CommutingPaths/end"/>
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CommutingPaths/areCommuting"/>
+      </genClasses>
+      <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClassFactory">
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClassFactory/createMorphismClass">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClassFactory/createMorphismClass/graphNodeMode"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClassFactory/createMorphismClass/labelNodeMode"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClassFactory/createMorphismClass/graphEdgeMode"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClassFactory/createMorphismClass/labelEdgeMode"/>
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/ConfigurableMorphismClassFactory/createMorphismClass/formulaMode"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/MorphismClass">
+        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/MorphismClass/isMember">
+          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/MorphismClass/isMember/morphism"/>
+        </genOperations>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>
