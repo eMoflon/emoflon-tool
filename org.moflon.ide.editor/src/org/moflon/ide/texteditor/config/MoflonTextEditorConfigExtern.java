@@ -11,7 +11,6 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.texteditor.editors.MoflonEditorTemplate;
 import org.moflon.ide.texteditor.helpers.MarkerHelper;
 
-
 import MocaTree.Node;
 
 public abstract class MoflonTextEditorConfigExtern extends MoflonTextEditorConfigIntern

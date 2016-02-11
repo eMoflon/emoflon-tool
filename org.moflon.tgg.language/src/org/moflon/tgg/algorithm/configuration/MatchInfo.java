@@ -1,7 +1,6 @@
 package org.moflon.tgg.algorithm.configuration;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.moflon.tgg.runtime.IsApplicableMatch;
 
 /**

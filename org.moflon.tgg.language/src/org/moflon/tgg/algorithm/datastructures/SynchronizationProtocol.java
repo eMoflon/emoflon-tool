@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.moflon.tgg.runtime.TripleMatchNodeMapping;
 
 /**

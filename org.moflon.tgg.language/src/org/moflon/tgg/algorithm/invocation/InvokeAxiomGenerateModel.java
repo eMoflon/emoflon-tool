@@ -5,7 +5,6 @@ import java.util.function.Function;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.tgg.algorithm.modelgenerator.RulePerformData;
-
 import org.moflon.tgg.language.modelgenerator.ModelgeneratorFactory;
 import org.moflon.tgg.language.modelgenerator.RuleEntryContainer;
 import org.moflon.tgg.runtime.ModelgeneratorRuleResult;

@@ -1,8 +1,9 @@
 package csp.constraints;
 
-import SDMLanguage.patterns.BindingState;
 import org.moflon.tgg.language.csp.Variable;
 import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
+
+import SDMLanguage.patterns.BindingState;
 
 public class BoldToState extends TGGConstraintImpl {
 	public void solve(Variable var_0, Variable var_1){

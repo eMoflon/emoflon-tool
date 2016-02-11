@@ -1,7 +1,6 @@
 package org.moflon.tgg.algorithm.modelgenerator;
 
 import org.eclipse.emf.ecore.EOperation;
-
 import org.moflon.tgg.language.modelgenerator.RuleEntryContainer;
 
 public class RulePerformData

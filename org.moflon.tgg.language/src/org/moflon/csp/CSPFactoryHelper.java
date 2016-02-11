@@ -2,7 +2,10 @@ package org.moflon.csp;
 
 import java.util.HashMap;
 
-import org.moflon.tgg.language.csp.*;
+import org.moflon.tgg.language.csp.AttributeVariable;
+import org.moflon.tgg.language.csp.CSP;
+import org.moflon.tgg.language.csp.CspFactory;
+import org.moflon.tgg.language.csp.Variable;
 
 public class CSPFactoryHelper
 {

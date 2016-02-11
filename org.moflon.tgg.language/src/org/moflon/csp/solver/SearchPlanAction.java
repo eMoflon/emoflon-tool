@@ -1,8 +1,8 @@
 package org.moflon.csp.solver;
 
-import java.io.PrintStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.plan.Algorithm;
 import org.gervarro.democles.plan.WeightedOperation;
-
-import org.moflon.tgg.language.csp.*;
+import org.moflon.tgg.language.csp.CspFactory;
+import org.moflon.tgg.language.csp.TGGConstraint;
+import org.moflon.tgg.language.csp.Variable;
 
 public class SearchPlanAction extends Algorithm<SimpleCombiner, TGGConstraint>
 {

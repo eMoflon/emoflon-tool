@@ -3,7 +3,6 @@ package org.moflon.tgg.algorithm.invocation;
 import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EOperation;
-
 import org.moflon.tgg.runtime.IsApplicableRuleResult;
 import org.moflon.tgg.runtime.Match;
 

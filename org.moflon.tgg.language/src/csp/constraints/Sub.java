@@ -2,6 +2,7 @@ package csp.constraints;
 
 import org.moflon.tgg.language.csp.Variable;
 import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
+
 import csp.constraints.generator.Generator;
 
 public class Sub extends TGGConstraintImpl

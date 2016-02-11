@@ -1,9 +1,9 @@
 package csp.constraints;
 
 import org.apache.log4j.Logger;
-
 import org.moflon.tgg.language.csp.Variable;
 import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
+
 import csp.constraints.generator.Generator;
 
 public class StringToInt extends TGGConstraintImpl

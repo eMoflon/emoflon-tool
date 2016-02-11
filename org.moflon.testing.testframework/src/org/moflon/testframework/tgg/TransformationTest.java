@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
-
 import org.moflon.tgg.language.algorithm.ApplicationTypes;
 
 /**

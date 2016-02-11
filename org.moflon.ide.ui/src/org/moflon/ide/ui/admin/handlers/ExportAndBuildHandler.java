@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -31,13 +31,14 @@ public class ExportAndBuildHandler extends AbstractCommandHandler {
 		final Collection<IProject> projects = getMetamodelProjectsFromSelection(selection);
 
 		try {
-			Job job = new Job("eMoflon Export") {
+			WorkspaceJob job = new WorkspaceJob("eMoflon Export") {
 				@Override
-				public IStatus run(final IProgressMonitor pm) {
+				public IStatus runInWorkspace(final IProgressMonitor pm) {
 					try {
 						Status status = new Status(IStatus.OK, UIActivator.getModuleID(), IStatus.OK, "", null);
 						int numProjects = projects.size();
-						pm.beginTask(String.format("Exporting %d metamodel projects...", numProjects), 2 * numProjects);
+						String name = String.format("Exporting %d metamodel %s...", numProjects, numProjects == 1 ? "project" : "projects");
+                  pm.beginTask(name, 2 * numProjects);
 						for (final IProject project : projects) {
 							pm.worked(1);
 							try {
@@ -61,7 +62,7 @@ public class ExportAndBuildHandler extends AbstractCommandHandler {
 			job.setUser(true);
 			job.schedule();
 		} catch (Exception e) {
-			throw new ExecutionException("Could not export metamodel to Eclipe", e);
+			throw new ExecutionException("Could not export metamodel to Eclipse", e);
 		}
 
 		return null;

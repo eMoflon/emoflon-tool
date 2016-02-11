@@ -12,6 +12,7 @@ import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin;
+import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.util.eMoflonSDMUtil;
 
 import SDMLanguage.activities.Activity;
@@ -20,7 +21,6 @@ import SDMLanguage.activities.ActivityNode;
 import SDMLanguage.activities.StopNode;
 import SDMLanguage.calls.callExpressions.MethodCallExpression;
 import SDMLanguage.expressions.LiteralExpression;
-import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 
 public class EclipseErrorReporter implements ErrorReporter
 {

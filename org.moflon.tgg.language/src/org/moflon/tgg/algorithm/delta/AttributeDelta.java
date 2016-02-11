@@ -3,7 +3,6 @@ package org.moflon.tgg.algorithm.delta;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
-
 import org.moflon.tgg.runtime.RuntimeFactory;
 
 public class AttributeDelta

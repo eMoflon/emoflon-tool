@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
 import org.moflon.core.utilities.EmfCompareUtil;
-
 import org.moflon.tgg.language.algorithm.ApplicationTypes;
 
 public class IntegratorTest extends TransformationTest

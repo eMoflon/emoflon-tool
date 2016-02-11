@@ -3,7 +3,6 @@ package org.moflon.tgg.algorithm.modelgenerator.controller;
 import org.apache.log4j.Logger;
 import org.moflon.tgg.algorithm.modelgenerator.ModelGenerator;
 import org.moflon.tgg.algorithm.modelgenerator.ModelgenStats;
-
 import org.moflon.tgg.runtime.RuleResult;
 
 public class MaxRulePerformCounterController implements IContinuationController

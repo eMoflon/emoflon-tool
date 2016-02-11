@@ -12,7 +12,6 @@ import org.antlr.stringtemplate.StringTemplateGroup;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.moca.MocaUtil;
-
 import org.moflon.tgg.language.csp.Adornment;
 import org.moflon.tgg.language.csp.TGGConstraint;
 import org.moflon.tgg.language.csp.Variable;

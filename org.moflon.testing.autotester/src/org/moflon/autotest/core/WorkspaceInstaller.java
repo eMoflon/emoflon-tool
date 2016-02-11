@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -40,8 +41,6 @@ import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.eclipse.job.IMonitoredJob;
-import org.moflon.eclipse.job.ProgressMonitoringJob;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
 import org.moflon.ide.core.util.BuilderHelper;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
@@ -188,29 +187,46 @@ public class WorkspaceInstaller
       // ProgressMonitorDialog dialog = new ProgressMonitorDialog(window.getShell());
       // dialog.run(true, true, runnable);
 
-      final IMonitoredJob job = new IMonitoredJob() {
-
+      final WorkspaceJob job = new WorkspaceJob("Installing " + displayName + "...") {
+         
          @Override
-         public IStatus run(IProgressMonitor monitor)
+         public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
          {
             try
             {
                runnable.run(monitor);
-               return Status.OK_STATUS;
             } catch (InvocationTargetException | InterruptedException e)
             {
                return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Failed to install workspace", e);
             }
-         }
-
-         @Override
-         public String getTaskName()
-         {
-            return "Installing " + displayName + "...";
+            return Status.OK_STATUS;
          }
       };
-      ProgressMonitoringJob monitoringJob = new ProgressMonitoringJob(AutoTestActivator.getModuleID(), job);
-      monitoringJob.schedule();
+      job.schedule();
+      
+      // final IMonitoredJob job = new IMonitoredJob() {
+      //
+      // @Override
+      // public IStatus run(IProgressMonitor monitor)
+      // {
+      // try
+      // {
+      // runnable.run(monitor);
+      // return Status.OK_STATUS;
+      // } catch (InvocationTargetException | InterruptedException e)
+      // {
+      // return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Failed to install workspace", e);
+      // }
+      // }
+      //
+      // @Override
+      // public String getTaskName()
+      // {
+      // return "Installing " + displayName + "...";
+      // }
+      // };
+      // ProgressMonitoringJob monitoringJob = new ProgressMonitoringJob(AutoTestActivator.getModuleID(), job);
+      // monitoringJob.schedule();
    }
 
    private void runJUnitTests(final IProgressMonitor monitor) throws InterruptedException, CoreException

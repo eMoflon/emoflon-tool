@@ -12,7 +12,6 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.invocation.InvokeAxiomGenerateModel;
 import org.moflon.tgg.algorithm.invocation.InvokeGenerateModel;
 import org.moflon.tgg.algorithm.modelgenerator.controller.AbstractModelGenerationController;
-
 import org.moflon.tgg.language.LanguagePackage;
 import org.moflon.tgg.language.TGGRule;
 import org.moflon.tgg.language.TripleGraphGrammar;

@@ -11,6 +11,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.RuntimeFactory;
 
 import MocaTree.Attribute;
 import MocaTree.File;
@@ -18,8 +20,6 @@ import MocaTree.Folder;
 import MocaTree.MocaTreePackage;
 import MocaTree.Node;
 import MocaTree.TreeElement;
-import org.moflon.tgg.runtime.EMoflonEdge;
-import org.moflon.tgg.runtime.RuntimeFactory;
 import convenience.RTED;
 
 public class OfflineTreeChangeDetector

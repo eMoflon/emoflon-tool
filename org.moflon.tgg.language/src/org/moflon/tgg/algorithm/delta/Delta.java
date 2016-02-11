@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.algorithm.datastructures.Graph;
-
 import org.moflon.tgg.runtime.EMoflonEdge;
 import org.moflon.tgg.runtime.RuntimeFactory;
 

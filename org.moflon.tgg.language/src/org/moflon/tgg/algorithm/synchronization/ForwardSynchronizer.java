@@ -9,7 +9,6 @@ import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.SynchronizationProtocol;
 import org.moflon.tgg.algorithm.datastructures.TripleMatch;
 import org.moflon.tgg.algorithm.delta.Delta;
-
 import org.moflon.tgg.language.algorithm.TempOutputContainer;
 import org.moflon.tgg.language.analysis.StaticAnalysis;
 import org.moflon.tgg.runtime.CorrespondenceModel;

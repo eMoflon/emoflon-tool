@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.eclipse.emf.ecore.EObject;
-
-import org.moflon.tgg.runtime.*;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.Match;
+import org.moflon.tgg.runtime.RuntimeFactory;
+import org.moflon.tgg.runtime.TripleMatchNodeMapping;
 
 /**
  * An on-the-fly collection of source/target matches and their precedence dependencies created and used during

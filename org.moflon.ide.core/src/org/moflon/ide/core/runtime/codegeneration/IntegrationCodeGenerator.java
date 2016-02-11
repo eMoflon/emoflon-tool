@@ -35,12 +35,6 @@ import org.moflon.moca.tie.RunModelGenerationGenerator;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
 import org.moflon.tgg.cspcodeadapter.CspcodeadapterFactory;
 import org.moflon.tgg.cspcodeadapter.VariableTypeManager;
-
-import MocaTree.MocaTreePackage;
-import MoflonPropertyContainer.MoflonPropertiesContainer;
-import SDMLanguage.SDMLanguagePackage;
-import SDMLanguage.sdmUtil.CompilerInjection;
-import SDMLanguage.sdmUtil.SdmUtilFactory;
 import org.moflon.tgg.language.LanguagePackage;
 import org.moflon.tgg.language.TGGRule;
 import org.moflon.tgg.language.TripleGraphGrammar;
@@ -60,6 +54,12 @@ import org.moflon.tgg.language.precompiler.PrecompilerFactory;
 import org.moflon.tgg.language.precompiler.RuleProcessingMessage;
 import org.moflon.tgg.language.precompiler.TGGPrecompiler;
 import org.moflon.tgg.runtime.RuntimePackage;
+
+import MocaTree.MocaTreePackage;
+import MoflonPropertyContainer.MoflonPropertiesContainer;
+import SDMLanguage.SDMLanguagePackage;
+import SDMLanguage.sdmUtil.CompilerInjection;
+import SDMLanguage.sdmUtil.SdmUtilFactory;
 
 public class IntegrationCodeGenerator extends RepositoryCodeGenerator
 {

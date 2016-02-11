@@ -11,10 +11,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-
-import SDMLanguage.patterns.BindingOperator;
-import SDMLanguage.patterns.LinkVariable;
-import SDMLanguage.patterns.ObjectVariable;
 import org.moflon.tgg.language.DomainType;
 import org.moflon.tgg.language.TGGLinkVariable;
 import org.moflon.tgg.language.TGGObjectVariable;
@@ -24,6 +20,10 @@ import org.moflon.tgg.language.algorithm.TempOutputContainer;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.runtime.ModelgeneratorRuleResult;
 import org.moflon.tgg.runtime.RuntimeFactory;
+
+import SDMLanguage.patterns.BindingOperator;
+import SDMLanguage.patterns.LinkVariable;
+import SDMLanguage.patterns.ObjectVariable;
 
 public class DataContainer
 {
