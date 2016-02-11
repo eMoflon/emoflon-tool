@@ -10,6 +10,7 @@ import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.C
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClass;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClassFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.util.FormulaUtil;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.util.MorphismClassUtil;
 import org.moflon.maave.tool.category.CategoryFactory;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Constant;
@@ -32,114 +33,9 @@ partial class SymbolicGraphCatImpl {
 
 @members <--
 
-   private void disjunctCodomFormulawithDomFormula(SymbolicGraphMorphism mor)
-   {
-      SymbolicGraph from = mor.getCodom();
-      SymbolicGraph to = mor.getDom();
-      Disjunction phi_To = to.getFormula();
-      if (phi_To == null)
-      {
-         phi_To = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
-         to.setFormula(phi_To);
-      }
-      Quantifier quantifier = (Exists) phi_To.getQuantifier();
-      if (quantifier == null)
-      {
-         quantifier = SymbolicGraphsFactory.eINSTANCE.createExists();
-         phi_To.setQuantifier(quantifier);
-      }
+   
 
-      for (Conjunction conj_From : from.getFormula().getOf())
-      {
-         Conjunction conj_To = SymbolicGraphsFactory.eINSTANCE.createConjunction();
-         phi_To.getOf().add(conj_To);
-         for (Predicate pred_From : conj_From.getOf())
-         {
-            Predicate pred_To = SymbolicGraphsFactory.eINSTANCE.createPredicate();
-            conj_To.getOf().add(pred_To);
-            pred_To.setSymbol(pred_From.getSymbol());
-            for (Parameter param_From : pred_From.getParameters())
-            {
-               if (param_From instanceof LabelNode)
-               {
-                  LabelNode target = to.getLabelNodes().stream().filter(ln -> mor.imageOf(ln) == param_From).findAny().orElse(null);
-                  if (target == null)
-                  {
-                     target = SymbolicGraphsFactory.eINSTANCE.createLabelNode();
-                     target.setType(param_From.getType());
-                     target.setLabel(((LabelNode) param_From).getLabel());
-                     quantifier.getLabelNodes().add(target);
-                  }
-                  pred_To.getParameters().add(target);
-               } else
-               {
-                  Constant const_d = phi_To.getConstant(((Constant) param_From).getInterpretation(), param_From.getType());
-                  pred_To.getParameters().add(const_d);
-               }
-            }
-         }
-      }
-   }
-
-   private void copyFormulaFromCodomToDom(SymbolicGraphMorphism mor)
-   {
-      SymbolicGraph from = mor.getCodom();
-      SymbolicGraph to = mor.getDom();
-      Disjunction phi_To = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
-      to.setFormula(phi_To);
-      for (Conjunction conj_From : from.getFormula().getOf())
-      {
-         Conjunction conj_To = SymbolicGraphsFactory.eINSTANCE.createConjunction();
-         phi_To.getOf().add(conj_To);
-         for (Predicate pred_From : conj_From.getOf())
-         {
-            Predicate pred_To = SymbolicGraphsFactory.eINSTANCE.createPredicate();
-            conj_To.getOf().add(pred_To);
-            pred_To.setSymbol(pred_From.getSymbol());
-            for (Parameter param_From : pred_From.getParameters())
-            {
-               if (param_From instanceof LabelNode)
-               {
-                  LabelNode target = to.getLabelNodes().stream().filter(ln -> mor.imageOf(ln) == param_From).findAny().get();
-                  pred_To.getParameters().add(target);
-               } else
-               {
-                  Constant const_d = phi_To.getConstant(((Constant) param_From).getInterpretation(), param_From.getType());
-                  pred_To.getParameters().add(const_d);
-               }
-            }
-         }
-      }
-   }
-
-   private void copyFormula(SymbolicGraph from, SymbolicGraph to)
-   {
-      Disjunction phi_D = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
-      to.setFormula(phi_D);
-      for (Conjunction conj_G : from.getFormula().getOf())
-      {
-         Conjunction conj_D = SymbolicGraphsFactory.eINSTANCE.createConjunction();
-         phi_D.getOf().add(conj_D);
-         for (Predicate pred_G : conj_G.getOf())
-         {
-            Predicate pred_D = SymbolicGraphsFactory.eINSTANCE.createPredicate();
-            conj_D.getOf().add(pred_D);
-            pred_D.setSymbol(pred_G.getSymbol());
-            for (Parameter param_G : pred_G.getParameters())
-            {
-               if (param_G instanceof LabelNode)
-               {
-                  LabelNode target = to.getLabelNodes().stream().filter(ln -> ln.getLabel().equals(((LabelNode) param_G).getLabel())).findAny().get();
-                  pred_D.getParameters().add(target);
-               } else
-               {
-                  Constant const_d = phi_D.getConstant(((Constant) param_G).getInterpretation(), param_G.getType());
-                  pred_D.getParameters().add(const_d);
-               }
-            }
-         }
-      }
-   }
+   
 
    private SymbolicPushoutComplement uncheckedPushoutComplement(SymbolicGraphMorphism morK_L, SymbolicGraphMorphism morL_G)
    {
@@ -169,9 +65,11 @@ partial class SymbolicGraphCatImpl {
       SymbolicGraphMorphism morG_D = util.getInverseIfIsomorphism(morD_G);
       SymbolicGraphMorphism morK_G = morK_L.composeWith(morL_G);//needed later for image
       SymbolicGraphMorphism morK_D = morK_G.composeWith(morG_D);
-      if (D.getFormula().getQuantifier() == null)
+      Quantifier quantifier=D.getFormula().getQuantifier();
+      
+      if (quantifier == null)
       {
-         D.getFormula().setQuantifier(SymbolicGraphsFactory.eINSTANCE.createExists());
+         quantifier=SymbolicGraphsFactory.eINSTANCE.createExists();
       }
       for (Object obj : D.getAllElements())
       {
@@ -180,13 +78,17 @@ partial class SymbolicGraphCatImpl {
             if (elem instanceof LabelNode)
             {//if label node are not removed but existentially quantified
                LabelNode ln = (LabelNode) elem;
-               D.getFormula().getQuantifier().getLabelNodes().add(ln);
+               quantifier.getLabelNodes().add(ln);
                morD_G.removeMapping(ln);
             } else
             {
                morD_G.removeMapping(elem);
                EcoreUtil.delete(elem);
             }
+         if(quantifier.getLabelNodes().isEmpty()==false)
+         {
+            D.getFormula().setQuantifier(quantifier);
+         }
       }
 
       SymbolicPushoutComplement pushoutComplement = CategoryFactory.eINSTANCE.createSymbolicPushoutComplement();
@@ -303,33 +205,15 @@ partial class SymbolicGraphCatImpl {
       }
 
       Disjunction phi_d = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
+      Conjunction conj_d=SymbolicGraphsFactory.eINSTANCE.createConjunction();
+      Predicate pred_d=SymbolicGraphsFactory.eINSTANCE.createPredicate();
+      pred_d.setSymbol("#T");
+      phi_d.getOf().add(conj_d);
+      conj_d.getOf().add(pred_d);
       d.setFormula(phi_d);
-      for (Conjunction conj_b : b.getFormula().getOf())
-      {
-         Conjunction conj_d = SymbolicGraphsFactory.eINSTANCE.createConjunction();
-         phi_d.getOf().add(conj_d);
-         for (Predicate pred_b : conj_b.getOf())
-         {
-            Predicate pred_d = SymbolicGraphsFactory.eINSTANCE.createPredicate();
-            conj_d.getOf().add(pred_d);
-            pred_d.setSymbol(pred_b.getSymbol());
-            for (Parameter param_b : pred_b.getParameters())
-            {
-               if (param_b instanceof LabelNode)
-               {
-                  pred_d.getParameters().add(b_d.imageOf((LabelNode) param_b));
-               } else
-               {
-                  Constant const_d = phi_d.getConstant(((Constant) param_b).getInterpretation(), param_b.getType());
-                  pred_d.getParameters().add(const_d);
-               }
-            }
-         }
-      }
-
       b_d.setDom(b);
       b_d.setCodom(d);
-
+      FormulaUtil.conjunctCodomFormulawithDomFormula(b_d);
       // /////
       for (GraphNode node : c.getGraphNodes())
       {
@@ -376,37 +260,10 @@ partial class SymbolicGraphCatImpl {
          }
 
       }
-      for (Conjunction conj_c : c.getFormula().getOf())
-      {
-         if (phi_d.getOf().isEmpty())
-         {
-            phi_d.getOf().add(SymbolicGraphsFactory.eINSTANCE.createConjunction());
-         }
-         for (Predicate pred_c : conj_c.getOf())
-         {
-            for (Conjunction conj_d : phi_d.getOf())
-            {
-               Predicate pred_d = SymbolicGraphsFactory.eINSTANCE.createPredicate();
-               conj_d.getOf().add(pred_d);
-               pred_d.setSymbol(pred_c.getSymbol());
-               for (Parameter param_c : pred_c.getParameters())
-               {
-                  if (param_c instanceof LabelNode)
-                  {
-                     pred_d.getParameters().add(c_d.imageOf((LabelNode) param_c));
-                  } else
-                  {
-                     Constant const_d = phi_d.getConstant(((Constant) param_c).getInterpretation(), param_c.getType());
-                     pred_d.getParameters().add(const_d);
-                  }
 
-               }
-            }
-
-         }
-      }
       c_d.setDom(c);
       c_d.setCodom(d);
+      FormulaUtil.conjunctCodomFormulawithDomFormula(c_d);
 
       SymbolicPushout pushout = CategoryFactory.eINSTANCE.createSymbolicPushout();
       pushout.setPushoutObject(d);
@@ -503,9 +360,15 @@ partial class SymbolicGraphCatImpl {
          a_b.addMapping(nNew, d_b.imageOf(n));
          a_c.addMapping(nNew, d_c.imageOf(n));
       }
-
-      disjunctCodomFormulawithDomFormula(a_b);
-      disjunctCodomFormulawithDomFormula(a_c);
+      Disjunction phi_A = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
+      Conjunction conj_A=SymbolicGraphsFactory.eINSTANCE.createConjunction();
+      Predicate pred_A=SymbolicGraphsFactory.eINSTANCE.createPredicate();
+      pred_A.setSymbol("#T");
+      phi_A.getOf().add(conj_A);
+      conj_A.getOf().add(pred_A);
+      a_b.getDom().setFormula(phi_A);
+      FormulaUtil.disjunctDomFormulawithCodomFormula(a_b);
+      FormulaUtil.disjunctDomFormulawithCodomFormula(a_c);
       SymbolicPullback pullback = CategoryFactory.eINSTANCE.createSymbolicPullback();
       pullback.setPullbackObject(a);
       pullback.getMorphisms().add(a_b);
@@ -515,8 +378,7 @@ partial class SymbolicGraphCatImpl {
 
 @model boundary (SymbolicGraphMorphism morL_G) <--
 
-
-   // [user code injected with eMoflon]
+      // [user code injected with eMoflon]
       //   B===morB_L==>L
       //   |            |
       // morB_C       morL_G
@@ -567,7 +429,7 @@ partial class SymbolicGraphCatImpl {
          }
       }
       morB_L = Project(morB_L);
-      SymbolicBoundary boundary=CategoryFactory.eINSTANCE.createSymbolicBoundary();
+      SymbolicBoundary boundary = CategoryFactory.eINSTANCE.createSymbolicBoundary();
       boundary.setBoundary(morB_L);
       return boundary;
 -->
@@ -661,9 +523,11 @@ partial class SymbolicGraphCatImpl {
       {
          throw new InvalidParameterException("Projection can only be calculated if input is  monomorphism");
       }
+      SymbolicGraphMorphism morPf_B=mor;
+      SymbolicGraph B=morPf_B.getCodom();
       CategoryUtil catUtil = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
-      SymbolicGraphMorphism morB_Bf = catUtil.copyGraph(mor.getCodom());
-      SymbolicGraphMorphism morPf_Bf = mor;
+      SymbolicGraphMorphism morB_Bf = catUtil.getInverseIfIsomorphism(catUtil.copyGraph(B));
+      SymbolicGraphMorphism morPf_Bf = morPf_B.composeWith(morB_Bf);
       SymbolicGraph Bf = morPf_Bf.getCodom();
       if (Bf.getFormula() != null)
       {
@@ -719,9 +583,11 @@ partial class SymbolicGraphCatImpl {
       SymbolicGraphMorphism morG_D = util.getInverseIfIsomorphism(morD_G);
       SymbolicGraphMorphism morK_G = morK_L.composeWith(morL_G);//needed later for image
       SymbolicGraphMorphism morK_D = morK_G.composeWith(morG_D);
-      if (D.getFormula().getQuantifier() == null)
+      Quantifier quantifier=D.getFormula().getQuantifier();
+      
+      if (quantifier == null)
       {
-         D.getFormula().setQuantifier(SymbolicGraphsFactory.eINSTANCE.createExists());
+         quantifier=SymbolicGraphsFactory.eINSTANCE.createExists();
       }
       for (Object obj : D.getAllElements())
       {
@@ -730,13 +596,17 @@ partial class SymbolicGraphCatImpl {
             if (elem instanceof LabelNode)
             {//if label node are not removed but existentially quantified
                LabelNode ln = (LabelNode) elem;
-               D.getFormula().getQuantifier().getLabelNodes().add(ln);
+               quantifier.getLabelNodes().add(ln);
                morD_G.removeMapping(ln);
             } else
             {
                morD_G.removeMapping(elem);
                EcoreUtil.delete(elem);
             }
+         if(quantifier.getLabelNodes().isEmpty()==false)
+         {
+            D.getFormula().setQuantifier(quantifier);
+         }
       }
 
       SymbolicPushoutComplement pushoutComplement = CategoryFactory.eINSTANCE.createSymbolicPushoutComplement();

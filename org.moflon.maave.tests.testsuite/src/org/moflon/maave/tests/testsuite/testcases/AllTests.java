@@ -8,19 +8,17 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
    TestForStoryPatternToSymbGraTraRules_Basic.class 
    ,TestForStoryPatternToProjGraTraRules_Basic.class
-//   ,TestForStoryPatternToSymbGraTraRules_NAC.class
-//   ,MorphismFinderTest.class
-//   ,ConfigurableMorphismFinderTestEGraph.class
-//   ,PullbackTest.class
-//   ,PushoutUMPTest.class
-//   ,InitialPushoutTestsNewImpl.class
-//   ,IsomorphicCopyTester.class
-//   ,ProjectionTester.class
-//   ,ConfigurableMorphismFinderTestSymbGraph.class
-//   ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
+   ,TestForStoryPatternToSymbGraTraRules_NAC.class
+   ,MorphismFinderTest.class
+   ,PullbackTest.class
+   ,PushoutUMPTest.class
+   ,IsomorphicCopyTester.class
+   ,DirectDerivationTest.class
+   ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
+   ,SubgraphBuilderTest.class
 //   ,SymbMorphismFinderTest.class
 //   ,TempVarSymbMorphismFinderTest.class
-//   ,PushoutComplement_DiaChasing.class
+   ,PushoutComplement_DiaChasing.class
 //   ,DPO_RuleApllication_DiaChasing.class
 //   ,SubGraphBuilder_DiaChasing.class
 //   ,RbacMinimalContextTest.class

@@ -23,6 +23,7 @@ import org.moflon.maave.tool.symbolicgraphs.Datastructures.MorphismPair;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.ConfigurableMorphismFinder;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
@@ -72,14 +73,28 @@ public class IsomorphicCopyTester {
          CategoryUtil util=CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
          
          SymbolicGraphMorphism isoMorH_G=util.copyGraph(G);
-         MorphismPair isoMorPair=util.createIsomorpicCopy(G);
+         SymbolicGraph H=isoMorH_G.getDom();
+         H.setName("H");
          
          ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
          ConfigurableMorphismClass morclass=morClassFac.createMorphismClass("B", "B", "B", "B", "<=>");
          assertTrue(morclass.isMember(isoMorH_G).isValid());
-         assertTrue(morclass.isMember(isoMorPair.getFirst()).isValid());
-         assertTrue(morclass.isMember(isoMorPair.getSecond()).isValid());
-     
+         SymbolicGraphMorphism isoMorG_H=util.getInverseIfIsomorphism(isoMorH_G);
+         assertTrue(morclass.isMember(isoMorG_H).isValid());
+         SymbolicGraphMorphism id_H=util.createIdentityMorphism(H);
+         SymbolicGraphMorphism id_G=util.createIdentityMorphism(G);
+         
+         for (Object  ob : H.getAllElements())
+         {
+            EGraphElement elem=(EGraphElement) ob;
+            assertTrue(isoMorG_H.imageOf(isoMorH_G.imageOf(elem))==id_H.imageOf(elem));
+         }
+         
+         for (Object  ob : G.getAllElements())
+         {
+            EGraphElement elem=(EGraphElement) ob;
+            assertTrue(isoMorH_G.imageOf(isoMorG_H.imageOf(elem))==id_G.imageOf(elem));
+         }
 
    }
 

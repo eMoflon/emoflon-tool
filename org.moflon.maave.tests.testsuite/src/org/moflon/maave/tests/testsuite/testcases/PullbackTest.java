@@ -58,9 +58,9 @@ public class PullbackTest {
          StoryNode stnC=(StoryNode) opC.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
          StoryNode stnD=(StoryNode) opD.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
          Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-         SymbGTRule ruleB=transformer.transformStpToSymbGTRule(stnB.getStoryPattern());
-         SymbGTRule ruleC=transformer.transformStpToSymbGTRule(stnC.getStoryPattern());
-         SymbGTRule ruleD=transformer.transformStpToSymbGTRule(stnD.getStoryPattern());
+         SymbGTRule ruleB=transformer.transformStpToProjGTRule(stnB.getStoryPattern());
+         SymbGTRule ruleC=transformer.transformStpToProjGTRule(stnC.getStoryPattern());
+         SymbGTRule ruleD=transformer.transformStpToProjGTRule(stnD.getStoryPattern());
          SymbolicGraph B=ruleB.getLeft().getCodom();
          SymbolicGraph C=ruleC.getLeft().getCodom();
          SymbolicGraph D=ruleD.getLeft().getCodom();

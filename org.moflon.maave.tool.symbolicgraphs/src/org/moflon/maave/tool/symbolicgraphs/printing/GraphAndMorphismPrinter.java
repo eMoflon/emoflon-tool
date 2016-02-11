@@ -403,11 +403,11 @@ public class GraphAndMorphismPrinter
       });
       
       builder.append("Forumulas:" + "\n");
-      builder.append("L:" + "\n");
+      builder.append( l.getCodom().getName()+ "\n");
       builder.append(getDisjString(graphL)+"\n");
-      builder.append("K:" + "\n");
+      builder.append(l.getDom().getName() + "\n");
       builder.append(getDisjString(graphK)+"\n");
-      builder.append("R:" + "\n");
+      builder.append(r.getCodom().getName() + "\n");
       builder.append(getDisjString(graphR)+"\n");
    
    

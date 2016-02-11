@@ -1,29 +1,4 @@
 
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClass;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClassFactory;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.maave.tool.smt.solverutil.IAttribSolver;
-import org.moflon.maave.tool.smt.solverutil.Z3AttribSolver;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
-import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
-import org.moflon.maave.tool.symbolicgraphs.util.MorphismUtil;
-
 partial class CategoryUtilImpl {
 
 @members <--
@@ -389,61 +364,14 @@ partial class CategoryUtilImpl {
          eCopy.setTarget(reverseLabelNodeMapping.imageOf(e.getTarget()));
          isoMor.addMapping(eCopy, e);
       }
-      MorphismUtil.copyFormula(graphG, copyG, reverseLabelNodeMapping);
+      FormulaUtil.copyFormulaFromCodomToDom(isoMor);
       return isoMor;
 -->
 
 @model createIsomorpicCopy (SymbolicGraph graphA) <--
 
-      SymbolicGraph graphB = SymbolicGraphsFactory.eINSTANCE.createSymbolicGraph();
-      graphB.setName("copyOf" + graphA.getName());
-      SymbolicGraphMorphism morB_A = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      SymbolicGraphMorphism morA_B = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      morB_A.setCodom(graphA);
-      morB_A.setDom(graphB);
-      morA_B.setCodom(graphB);
-      morA_B.setDom(graphA);
-
-      for (GraphNode n : graphA.getGraphNodes())
-      {
-         GraphNode nCopy = EcoreUtil.copy(n);
-         graphB.add(nCopy);
-         morB_A.addMapping(nCopy, n);
-         morA_B.addMapping(n, nCopy);
-
-      }
-
-      for (LabelNode n : graphA.getLabelNodes())
-      {
-         LabelNode nCopy = EcoreUtil.copy(n);
-         graphB.add(nCopy);
-         morB_A.addMapping(nCopy, n);
-         morA_B.addMapping(n, nCopy);
-
-      }
-      for (GraphEdge e : graphA.getGraphEdges())
-      {
-         GraphEdge eCopy = EcoreUtil.copy(e);
-         graphB.add(eCopy);
-         eCopy.setSource(morA_B.imageOf(e.getSource()));
-         eCopy.setTarget(morA_B.imageOf(e.getTarget()));
-         morB_A.addMapping(eCopy, e);
-         morA_B.addMapping(e, eCopy);
-      }
-      for (LabelEdge e : graphA.getLabelEdges())
-      {
-         LabelEdge eCopy = EcoreUtil.copy(e);
-         graphB.add(eCopy);
-         eCopy.setSource(morA_B.imageOf(e.getSource()));
-         eCopy.setTarget(morA_B.imageOf(e.getTarget()));
-         morB_A.addMapping(eCopy, e);
-         morA_B.addMapping(e, eCopy);
-      }
-      MorphismUtil.copyFormula(graphA, graphB, ((SymbolicGraphMorphismImpl) morA_B).labelNodeMap);
-      MorphismPair isoMorPair = DatastructuresFactory.eINSTANCE.createMorphismPair();
-      isoMorPair.setFirst(morA_B);
-      isoMorPair.setSecond(morB_A);
-      return isoMorPair;
+      
+      return null;
 -->
 
 @model getInverseIfIsomorphism (SymbolicGraphMorphism isoMor) <--
