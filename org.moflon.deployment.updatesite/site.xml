@@ -4,9 +4,9 @@
    <description name="eMoflon central update site" url="http://www.emoflon.org/emoflon/installation/">
       This is the central update site of eMoflon.
    </description>
-   <feature url="features/org.moflon.ide.feature_2.11.0.qualifier.jar" 
+   <feature url="features/org.moflon.ide.feature_2.12.0.qualifier.jar" 
    		id="org.moflon.ide.feature" 
-   		version="2.11.0.qualifier">
+   		version="2.12.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
    <feature url="features/org.moflon.ide.visualization.feature_2.7.0.qualifier.jar" 
