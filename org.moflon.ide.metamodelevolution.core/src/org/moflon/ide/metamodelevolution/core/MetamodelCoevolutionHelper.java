@@ -12,14 +12,17 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
+import org.moflon.ide.core.runtime.builders.hooks.MetamodelBuilderHookDTO;
 import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Node;
 import MocaTree.Text;
 
 public class MetamodelCoevolutionHelper {
-
+	
+	   /**
+	    * 
+	    */
 	   public static Node getMocaTree(IProject metamodelProject)
 	   {
 	      IFile mocaFile = WorkspaceHelper.getChangesMocaTree(metamodelProject);
@@ -39,7 +42,7 @@ public class MetamodelCoevolutionHelper {
 	   /**
 	    * This method returns the corresponding repository project
 	    */
-	   public static IProject getRepositoryProject(Node rootNode, PostMetamodelBuilderHookDTO postMetamodelBuilderHookDTO)
+	   public static IProject getRepositoryProject(Node rootNode, MetamodelBuilderHookDTO postMetamodelBuilderHookDTO)
 	   {
 	      try
 	      {
