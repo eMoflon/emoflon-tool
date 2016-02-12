@@ -46,7 +46,7 @@ public class GuidManager {
 			guids.put(element, guid);
 		}
 		else{
-			guid=GuidGenerator.generateGuid(element.getClass().getName(), element.getName());
+			guid=GuidGenerator.generateGuid(element);
 			guids.put(element, guid);
 		}
 		
@@ -99,9 +99,9 @@ public class GuidManager {
 			opposites.put(eReference, eOpposite);
 		}else{
 			if(eOpposite==null || !eOpposite.isContainment())
-				guid=GuidGenerator.generateGuid(eReference.getClass().getName(), eReference.getName()) + "Supplier"; 			
+				guid=GuidGenerator.generateGuid(eReference) + "Supplier"; 			
 			else
-				guid=GuidGenerator.generateGuid(eReference.getClass().getName(), eReference.getName()) + "Client";
+				guid=GuidGenerator.generateGuid(eReference) + "Client";
 			if(eOpposite != null)
 				opposites.put(eReference, eOpposite);
 		}
