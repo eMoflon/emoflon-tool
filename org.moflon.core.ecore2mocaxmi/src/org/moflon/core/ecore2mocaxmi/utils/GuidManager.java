@@ -33,8 +33,10 @@ public class GuidManager {
 		searchMap.clear();
 		opposites.clear();
 	}
-	
-	public String getGuid(ENamedElement element){
+	private String getGuid(ENamedElement element){
+		return getGuid(element, null);
+	}
+	public String getGuid(ENamedElement element, String path){
 		String guid = null;
 		if(element == null)
 			throw new RuntimeException("The given element is Null");
@@ -42,11 +44,11 @@ public class GuidManager {
 		if(guids.containsKey(element))
 			guid=guids.get(element);
 		else if(element instanceof EReference){
-			guid=handleEReference(EReference.class.cast(element));
+			guid=handleEReference(EReference.class.cast(element), path);
 			guids.put(element, guid);
 		}
 		else{
-			guid=GuidGenerator.generateGuid(element);
+			guid=GuidGenerator.generateGuid(element, path);
 			guids.put(element, guid);
 		}
 		
@@ -91,7 +93,7 @@ public class GuidManager {
 		}
 	}
 
-	private String handleEReference(EReference eReference) {
+	private String handleEReference(EReference eReference, String path) {
 		EReference eOpposite = eReference.getEOpposite();
 		String guid=null;
 		if(opposites.containsKey(eOpposite)){
@@ -99,9 +101,9 @@ public class GuidManager {
 			opposites.put(eReference, eOpposite);
 		}else{
 			if(eOpposite==null || !eOpposite.isContainment())
-				guid=GuidGenerator.generateGuid(eReference) + "Supplier"; 			
+				guid=GuidGenerator.generateGuid(eReference, path) + "Supplier"; 			
 			else
-				guid=GuidGenerator.generateGuid(eReference) + "Client";
+				guid=GuidGenerator.generateGuid(eReference, path) + "Client";
 			if(eOpposite != null)
 				opposites.put(eReference, eOpposite);
 		}
