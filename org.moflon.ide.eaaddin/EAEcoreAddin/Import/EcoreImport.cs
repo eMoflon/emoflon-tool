@@ -364,8 +364,12 @@ namespace EAEcoreAddin.Import
 
             foreach (MocaNode literalNode in eEnumNode.getChildNodeWithName("literals").Children)
             {
-                EA.Attribute literalAtt = eenumElement.Attributes.AddNew(literalNode.getAttributeOrCreate("name").Value, "") as EA.Attribute;
-                literalAtt.Update();
+                String literalName = literalNode.getAttributeOrCreate("name").Value;
+                if (literalName != "" && !literalExist(eenumElement, literalName))
+                {
+                    EA.Attribute literalAtt = eenumElement.Attributes.AddNew(literalName, "") as EA.Attribute;
+                    literalAtt.Update();
+                }
             }
             eenumElement.Attributes.Refresh();
             EEnum eenum = new EEnum(sqlRep.GetElementByID(eenumElement.ElementID), sqlRep);
@@ -376,6 +380,16 @@ namespace EAEcoreAddin.Import
             MainImport.getInstance().OldGuidToNewGuid.Add(eenum.Guid, eenumElement.ElementGUID);
         }
 
+        private bool literalExist(EA.Element eenumElement, String name)
+        {
+            foreach (EA.Attribute attr in eenumElement.Attributes)
+            {
+                if (attr.Name == name)
+                    return true;
+            }
+
+            return false;
+        }
 
         #region getOrCreate methods
         public EA.Package getOrCreatePackage(SQLPackage rootPackage, MocaNode packageNode)
@@ -383,8 +397,13 @@ namespace EAEcoreAddin.Import
             String oldGuid = packageNode.getAttributeOrCreate(Main.GuidStringName).Value;
 
             EA.Package modelPackage = repository.GetPackageByGuid(oldGuid);
-            if (modelPackage == null)
+            if (modelPackage != null)
             {
+                DeleteWithGuid(rootPackage, oldGuid);
+                EA.Package parent = repository.GetPackageByID(modelPackage.ParentID);
+                DeleteWithGuid(parent, oldGuid);
+            }
+
                 EA.Package rootPackageOriginal = rootPackage.getRealPackage();
                 String packageName = packageNode.getAttributeOrCreate(MetamodelHelper.MoflonCustomNameTaggedValueName).Value;
                 if(packageName == "") {
@@ -417,8 +436,34 @@ namespace EAEcoreAddin.Import
                 repository.Execute("update t_package set ea_guid = '" + oldGuid + "' where ea_guid = '" + modelPackage.PackageGUID + "'");
                 repository.Execute("update t_object set ea_guid = '" + oldGuid + "' where ea_guid = '" + modelPackage.PackageGUID + "'");
                 modelPackage = repository.GetPackageByGuid(oldGuid);
-            }
+            
             return modelPackage;
+        }
+
+        public void DeleteWithGuid(SQLPackage rootPackage, String guid)
+        {
+            foreach (SQLPackage sqlPackage in rootPackage.Packages)
+            {
+                if (rootPackage.PackageGUID == guid)
+                {
+                    rootPackage.Packages.Delete(sqlPackage);
+                }
+
+            }
+        }
+
+        public void DeleteWithGuid(EA.Package parent, String guid)
+        {
+            short max = parent.Packages.Count;
+            for (short i = 0; i < max; i++)
+            {
+                EA.Package package = (EA.Package) parent.Packages.GetAt(i);
+                if (package.PackageGUID == guid)
+                {
+                    parent.Packages.Delete(i);
+                    return;
+                }
+            }
         }
 
         private void setTagValueIfPossibleForPackage(String tagNameInNode, MocaNode node, EA.Package eaPack)
@@ -516,6 +561,8 @@ namespace EAEcoreAddin.Import
             int locSupAgg = supplierAggregation;
             int locCliAgg = clientAggregation;
 
+            String oldGuid = guid.Replace("Client", "").Replace("Supplier", "");
+
             EA.Connector connector = client.getRealElement().Connectors.AddNew("", connectorType) as EA.Connector;
             connector.SupplierID = supplier.ElementID;
             connector.Update();
@@ -564,6 +611,15 @@ namespace EAEcoreAddin.Import
 
             client.Connectors.Refresh();
             supplier.Connectors.Refresh();
+
+            if (oldGuid != "")
+            {
+                repository.Execute("update t_connector set ea_guid = '" + oldGuid + "' where ea_guid = '" + connector.ConnectorGUID + "'");
+                connector = repository.GetConnectorByGuid(oldGuid);
+            }
+
+            connector.Update();
+
             return connector;
         }
 

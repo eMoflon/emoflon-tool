@@ -34,7 +34,12 @@ namespace EAEcoreAddin.SQLWrapperClasses
 
         public void Delete(short index)
         {
-            throw new NotImplementedException();
+            collection.RemoveAt(index);
+        }
+
+        public void Delete(T oldEntry)
+        {
+            collection.Remove(oldEntry);
         }
 
         public void DeleteAt(short index, bool Refresh)
