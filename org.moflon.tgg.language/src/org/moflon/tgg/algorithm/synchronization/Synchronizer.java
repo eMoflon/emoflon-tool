@@ -234,7 +234,7 @@ public abstract class Synchronizer
 
    private Collection<Match> collectDerivations(Graph elements, RulesTable lookupMethods)
    {
-      return elements.stream().parallel().flatMap(new InvokeIsAppropriate(lookupMethods)).collect(Collectors.toSet());
+      return elements.stream().flatMap(new InvokeIsAppropriate(lookupMethods)).collect(Collectors.toSet());
    }
 
    private Graph revoke(Graph elts)
@@ -410,7 +410,7 @@ public abstract class Synchronizer
 
    private Collection<IsApplicableRuleResult> extendToFullMatches(Stream<Match> ready)
    {
-      return ready.parallel().map(new InvokeIsApplicable()).collect(Collectors.toSet());
+      return ready.map(new InvokeIsApplicable()).collect(Collectors.toSet());
    }
 
    protected Graph determineInputElements(Match coreMatch)

@@ -36,7 +36,7 @@ public class InvokeIsAppropriate implements Function<EObject, Stream<Match>>
    {
       String typeName = getTypeName(t);
       if (typeToIsAppr.containsKey(typeName))
-         return typeToIsAppr.get(typeName).parallelStream()
+         return typeToIsAppr.get(typeName).stream()
                .map(isAppropriate -> (EObjectContainer) InvokeUtil.invokeOperationWithSingleArg(isAppropriate.getEContainingClass(), isAppropriate, t))
                .flatMap(matchContainer -> matchContainer.getContents().stream()).map(Match.class::cast);
 
