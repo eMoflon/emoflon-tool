@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EReference;
 
@@ -15,9 +13,9 @@ import MocaTree.Attribute;
 
 public class GuidManager {
 	
-	private Map<EModelElement, String> guids;
+	private Map<ENamedElement, String> guids;
 	private Map<EReference, EReference> opposites;
-	private Map<Attribute, Set<EModelElement>> searchMap;
+	private Map<Attribute, Set<ENamedElement>> searchMap;
 	
 	private static final String [] signalWords = {"EInt", "void", "EString", "EDouble", "EBoolean"};
 	private List<String> blackList;
@@ -36,7 +34,7 @@ public class GuidManager {
 		opposites.clear();
 	}
 	
-	public String getGuid(EModelElement element){
+	public String getGuid(ENamedElement element){
 		String guid = null;
 		if(element == null)
 			throw new RuntimeException("The given element is Null");
@@ -48,15 +46,15 @@ public class GuidManager {
 			guids.put(element, guid);
 		}
 		else{
-			guid=GuidGenerator.generateGuid(null);
+			guid=GuidGenerator.generateGuid(element.getClass().getName(), element.getName());
 			guids.put(element, guid);
 		}
 		
 		return guid;
 	}
 
-	public void addSearchElement(EModelElement ecoreElement, Attribute searchAttribute) {
-		Set<EModelElement> models=null;
+	public void addSearchElement(ENamedElement ecoreElement, Attribute searchAttribute) {
+		Set<ENamedElement> models=null;
 		if(searchMap.containsKey(searchAttribute)){
 			models = searchMap.get(searchAttribute);
 			models.add(ecoreElement);
@@ -70,11 +68,11 @@ public class GuidManager {
 	
 	public void resolve(){
 		for(Attribute attribute : searchMap.keySet()){
-			Set<EModelElement> models = searchMap.get(attribute);
+			Set<ENamedElement> models = searchMap.get(attribute);
 			String seperator = "";
 			if(models.size() > 1)
 				seperator = " ";
-			for(EModelElement element : models){
+			for(ENamedElement element : models){
 				String guid = null;
 				if(element == null)
 					guid="";
@@ -101,9 +99,9 @@ public class GuidManager {
 			opposites.put(eReference, eOpposite);
 		}else{
 			if(eOpposite==null || !eOpposite.isContainment())
-				guid=GuidGenerator.generateGuid(null) + "Supplier";			
+				guid=GuidGenerator.generateGuid(eReference.getClass().getName(), eReference.getName()) + "Supplier"; 			
 			else
-				guid=GuidGenerator.generateGuid(null) + "Client";
+				guid=GuidGenerator.generateGuid(eReference.getClass().getName(), eReference.getName()) + "Client";
 			if(eOpposite != null)
 				opposites.put(eReference, eOpposite);
 		}

@@ -14,7 +14,7 @@ partial class Ecore2MocaXMIConverterAdapterImpl {
 		manager.init(projectName);
 	-->
 	
-	@model getGuid(EModelElement ecoreElement) <--
+	@model getGuid(ENamedElement ecoreElement) <--
 		return manager.getGuid(ecoreElement);
 	-->
 	
@@ -26,7 +26,7 @@ partial class Ecore2MocaXMIConverterAdapterImpl {
 		return ""+ eInt;
 	-->
 	
-	@model addSearchElement(EModelElement ecoreElement, Attribute searchAttribute) <--
+	@model addSearchElement(ENamedElement ecoreElement, Attribute searchAttribute) <--
 		manager.addSearchElement(ecoreElement, searchAttribute);
 	-->
 	
