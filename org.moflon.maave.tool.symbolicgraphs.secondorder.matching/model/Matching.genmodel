@@ -174,9 +174,6 @@
         <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/copyGraph">
           <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/copyGraph/graphG"/>
         </genOperations>
-        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/createIsomorpicCopy">
-          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/createIsomorpicCopy/graphA"/>
-        </genOperations>
         <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getInverseIfIsomorphism">
           <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//CategoryUtils/CategoryUtil/getInverseIfIsomorphism/isoMor"/>
         </genOperations>

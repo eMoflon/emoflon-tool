@@ -56,6 +56,15 @@ partial class TransformerImpl {
             EcoreUtil.delete(e);
          }
       }
+      labelEdgeList = new LinkedList<LabelEdge>(K.getLabelEdges());
+      for (LabelEdge e : labelEdgeList)
+      {
+
+         if (e.getTarget() == null)
+         {
+            EcoreUtil.delete(e);
+         }
+      }
       labelNodeList = new LinkedList<LabelNode>(K.getLabelNodes());
       for (LabelNode n : labelNodeList)
       {

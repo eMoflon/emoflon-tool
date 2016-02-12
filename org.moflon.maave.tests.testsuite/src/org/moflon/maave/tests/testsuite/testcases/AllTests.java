@@ -16,6 +16,7 @@ import org.junit.runners.Suite.SuiteClasses;
    ,DirectDerivationTest.class
    ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
    ,SubgraphBuilderTest.class
+   ,JointlyEpiTest.class
 //   ,SymbMorphismFinderTest.class
 //   ,TempVarSymbMorphismFinderTest.class
    ,PushoutComplement_DiaChasing.class

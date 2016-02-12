@@ -1,4 +1,21 @@
 
+import org.eclipse.emf.ecore.EObject;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.smt.solverutil.IAttribSolver;
+import org.moflon.maave.tool.smt.solverutil.Z3AttribSolver;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClass;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClassFactory;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.util.FormulaUtil;
+import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
+
 partial class CategoryUtilImpl {
 
 @members <--
@@ -366,12 +383,6 @@ partial class CategoryUtilImpl {
       }
       FormulaUtil.copyFormulaFromCodomToDom(isoMor);
       return isoMor;
--->
-
-@model createIsomorpicCopy (SymbolicGraph graphA) <--
-
-      
-      return null;
 -->
 
 @model getInverseIfIsomorphism (SymbolicGraphMorphism isoMor) <--

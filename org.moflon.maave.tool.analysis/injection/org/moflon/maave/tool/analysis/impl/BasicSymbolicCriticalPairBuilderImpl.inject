@@ -5,17 +5,5 @@ partial class BasicSymbolicCriticalPairBuilderImpl {
 
 
 
-@model getRestrictedMatch (SymbolicGraphMorphism match) <--
-
-		SymbolicGraphMorphism newMatch = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-		newMatch.setDom(match.getDom());
-		newMatch.setCodom(match.getCodom());
-
-		match.getDom().getGraphNodes().forEach(x -> newMatch.addMapping(x, match.imageOf(x)));
-		match.getDom().getGraphEdges().forEach(x -> newMatch.addMapping(x, match.imageOf(x)));
-		match.getDom().getLabelEdges().forEach(x -> newMatch.addMapping(x, match.imageOf(x)));
-		match.getDom().getLabelNodes().forEach(x -> newMatch.addMapping(x, match.imageOf(x)));
-		return newMatch;
--->
 
 }
