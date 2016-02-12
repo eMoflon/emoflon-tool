@@ -27,6 +27,11 @@ public class OnlineChangeDetector implements Adapter
 
    Collection<EObject> allKnownElements = null;
 
+   /**
+    * Instances of this class listen to changes at {@code root} and record these changes in {@code delta}.
+    * @param delta the 'storage' for change events
+    * @param root the object (hierarchy) to be observed
+    */
    public OnlineChangeDetector(Delta delta, EObject root)
    {
       this.delta = delta;

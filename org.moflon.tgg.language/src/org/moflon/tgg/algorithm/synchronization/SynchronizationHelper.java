@@ -162,9 +162,15 @@ public class SynchronizationHelper
       verbose = state;
    }
    
-   public void setMute(final boolean state)
+   /**
+    * Sets the 'mute' state of this helper.
+    * 
+    * If true, no log messages are printed, e.g., in case of errors.
+    * @param isMute
+    */
+   public void setMute(final boolean isMute)
    {
-      mute = state;
+      mute = isMute;
    }
 
    // Getters

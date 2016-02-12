@@ -37,13 +37,13 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
    private EcoreEditor currentEditor;
 
-   private Statistics statisticsOfLastRun = new Statistics(-1, -1, -1.0);
+   private Statistics statisticsOfLastRun = null;
 
    /**
     * Returns whether the given element can be translated by this particular class.
     */
    public abstract boolean isElementValidInput(Object selectedElement);
-   
+
    /**
     * Returns the plugin ID of the plugin that provides the rules for visualizing the supported elements
     * 
@@ -61,7 +61,6 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
     * Returns the {@link EPackage} containing the correspondence metamodel for the selected type of transation
     */
    protected abstract EPackage getPackage();
-
 
    /**
     * Returns the DOT visualization for the given selection
@@ -119,6 +118,11 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
          return isElementValidInput(structuredSelection.getFirstElement());
    }
 
+   /**
+    * Returns statistics of the previous visualization transformation. May be null.
+    * 
+    * @return
+    */
    public Statistics getStatisticsOfLastRun()
    {
       return this.statisticsOfLastRun;
@@ -153,27 +157,42 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    public DirectedGraph modelToDot(final EObject input)
    {
       final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", getPluginId());
-      ResourceSet rs = input.eResource().getResourceSet();
+      final ResourceSet resourceSet = input.eResource().getResourceSet();
 
-      long tic = System.nanoTime();
+      final long tic = System.nanoTime();
       try
       {
-         if (incrCache.containsKey(input))
+         if (hasSynchronizationInformationForObject(input))
             return runSync(input);
          else
-            return runBatch(pathToPlugin, input, rs);
+            return runBatch(pathToPlugin, input, resourceSet);
 
       } catch (final Exception e)
       {
-         e.printStackTrace();
+         logger.error("Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ".", e);
       } finally
       {
-         long toc = System.nanoTime();
-         logger.debug(formatStatistics(input, tic, toc));
-         rs.getResources().removeIf(this::unwantedResource);
+         final long toc = System.nanoTime();
+         final double durationInMillis = (toc - tic) / 1e6;
+         updateStatisticsOfLastRun(input, durationInMillis);
+
+         logger.debug(formatStatistics(this.statisticsOfLastRun));
+         resourceSet.getResources().removeIf(this::unwantedResource);
       }
 
       return null;
+   }
+
+   private boolean hasSynchronizationInformationForObject(final EObject input)
+   {
+      return incrCache.containsKey(input);
+   }
+
+   private void updateStatisticsOfLastRun(final EObject input, final double durationInMillis)
+   {
+      final int edges = eMoflonEMFUtil.getEdgeCount(input);
+      final int nodes = eMoflonEMFUtil.getNodeCount(input);
+      this.statisticsOfLastRun = new Statistics(input, nodes, edges, durationInMillis);
    }
 
    private boolean unwantedResource(Resource r)
@@ -181,21 +200,13 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       return r.getURI() != null && r.getURI().toString().endsWith("tempOutputContainer.xmi");
    }
 
-   private String formatStatistics(final EObject input, long tic, long toc)
+   private static String formatStatistics(final Statistics statistics)
    {
-      final int edges = eMoflonEMFUtil.getEdgeCount(input);
-      final int nodes = eMoflonEMFUtil.getNodeCount(input);
-      final double durationInSeconds = (toc - tic) / 1000000000.0;
-
-      this.statisticsOfLastRun.edgeCount = edges;
-      this.statisticsOfLastRun.nodeCount = nodes;
-      this.statisticsOfLastRun.durationInSeconds = durationInSeconds;
-
-      return String.format("Visualisation of [%s (E:%d + V:%d = %d] in: %.6fs", eMoflonEMFUtil.getIdentifier(input), edges, nodes, edges + nodes,
-            durationInSeconds);
+      return String.format("Visualisation of [%s (E:%d + V:%d = %d] in: %.6fs", eMoflonEMFUtil.getIdentifier(statistics.input), statistics.edgeCount,
+            statistics.nodeCount, statistics.edgeCount + statistics.nodeCount, statistics.durationInMillis);
    }
 
-   private DirectedGraph runSync(EObject input)
+   private DirectedGraph runSync(final EObject input)
    {
       logger.debug("Running synchronization...");
       SynchronizationHelper helper = incrCache.get(input);
@@ -218,11 +229,32 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       }
    }
 
-   private DirectedGraph runBatch(URL pathToPlugin, EObject input, ResourceSet rs)
+   /**
+    * Performs a batch transformation and registers listeners for subsequent changes
+    * 
+    * @param pathToTggRulePlugin
+    *           path to the plugin that contains the generated TGG rules that support the model-to-visualization
+    *           transformation for the given input. Used to create the appropriate {@link SynchronizationHelper}
+    * @param input
+    *           the model to be visualized
+    * @param rs
+    *           the resource set to be used by the created {@link SynchronizationHelper}
+    * @return
+    */
+   private DirectedGraph runBatch(URL pathToTggRulePlugin, EObject input, ResourceSet rs)
    {
       logger.debug("Running batch...");
 
-      SynchronizationHelper helper = new SynchronizationHelper(getPackage(), pathToPlugin.getFile(), rs);
+      final SynchronizationHelper helper = registerSynchronizationHelper(pathToTggRulePlugin, input, rs);
+      final DirectedGraph result = runTrafo(helper);
+      this.registerChangeDetector(input);
+
+      return result;
+   }
+
+   private SynchronizationHelper registerSynchronizationHelper(URL pathToPlugin, EObject input, ResourceSet rs)
+   {
+      final SynchronizationHelper helper = new SynchronizationHelper(getPackage(), pathToPlugin.getFile(), rs);
       helper.setMute(true);
       incrCache.put(input, helper);
 
@@ -230,29 +262,35 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
          helper.setSrc(input);
       else
          helper.setTrg(input);
-
-      DirectedGraph result = runTrafo(helper);
-
-      Delta delta = new Delta();
-      new OnlineChangeDetector(delta, input);
-      deltaCache.put(input, delta);
-
-      return result;
+      return helper;
    }
 
+   private void registerChangeDetector(EObject input)
+   {
+      final Delta delta = new Delta();
+      new OnlineChangeDetector(delta, input);
+      deltaCache.put(input, delta);
+   }
+
+   /**
+    * Collects information about a visualization transformation application
+    */
    public class Statistics
    {
+      public EObject input;
+
       public int nodeCount;
 
       public int edgeCount;
 
-      public double durationInSeconds;
+      public double durationInMillis;
 
-      private Statistics(int nodeCount, int edgeCount, double durationInSeconds)
+      private Statistics(EObject input, int nodeCount, int edgeCount, double durationInMillis)
       {
+         this.input = input;
          this.nodeCount = nodeCount;
          this.edgeCount = edgeCount;
-         this.durationInSeconds = durationInSeconds;
+         this.durationInMillis = durationInMillis;
       }
 
    }
