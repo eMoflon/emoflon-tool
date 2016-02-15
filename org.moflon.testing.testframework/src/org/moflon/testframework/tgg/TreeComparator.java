@@ -20,19 +20,6 @@ public class TreeComparator
 
    private static CodeAdapter codeAdapter;
 
-   @Deprecated //TODO@rkluge: Remove if no longer needed
-   public static void main(final String[] args)
-   {
-      BasicConfigurator.configure();
-
-      // Load tree from file
-      MocaTreePackage.eINSTANCE.eClass();
-      Folder tree = (Folder) eMoflonEMFUtil.loadModel("instances/tree.xmi");
-
-      // Perform tree-to-text
-      getCodeAdapter().unparse("instances/out", tree);
-   }
-
    public static CodeAdapter getCodeAdapter()
    {
       if (codeAdapter == null)

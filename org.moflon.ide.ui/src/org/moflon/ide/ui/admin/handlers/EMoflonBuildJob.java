@@ -108,37 +108,6 @@ public class EMoflonBuildJob extends WorkspaceJob
             project.build(IncrementalProjectBuilder.CLEAN_BUILD, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             project.build(IncrementalProjectBuilder.FULL_BUILD, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
-            // TODO@rkluge: Test this later
-            // if (WorkspaceHelper.isRepositoryProject(project))
-            // {
-            // project.build(IncrementalProjectBuilder.CLEAN_BUILD, RepositoryBuilder.BUILDER_ID, new HashMap<String,
-            // String>(),
-            // WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            // project.build(IncrementalProjectBuilder.FULL_BUILD, RepositoryBuilder.BUILDER_ID, new HashMap<String,
-            // String>(),
-            // WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            // }
-            //
-            // if (WorkspaceHelper.isIntegrationProject(project))
-            // {
-            // project.build(IncrementalProjectBuilder.CLEAN_BUILD, IntegrationBuilder.BUILDER_ID, new HashMap<String,
-            // String>(),
-            // WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            // project.build(IncrementalProjectBuilder.FULL_BUILD, IntegrationBuilder.BUILDER_ID, new HashMap<String,
-            // String>(),
-            // WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            // }
-            //
-            // if (WorkspaceHelper.isMetamodelProject(project))
-            // {
-            // project.build(IncrementalProjectBuilder.CLEAN_BUILD, MetamodelBuilder.BUILDER_ID, new HashMap<String,
-            // String>(),
-            // WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            // project.build(IncrementalProjectBuilder.FULL_BUILD, MetamodelBuilder.BUILDER_ID, new HashMap<String,
-            // String>(),
-            // WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            // }
-
             logger.debug("Cleaning project " + project.getName() + " done.");
 
          }

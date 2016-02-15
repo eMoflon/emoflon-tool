@@ -4653,7 +4653,7 @@ public class JavaClassGenerator
                      }
                      stringBuffer.append(TEXT_333);
 
-                     // TODO@rkluge This code has been inserted manually and MUST be moved to the template file
+                     // rkluge: This code has been inserted manually and MUST be moved to the template file
                      // 'Class/getGenFeature.pre.insert.javajetinc' (l 759 in Class.javajet) before regenerating this
                      // class
                      final String preGetGenFeatureCode = generatorAdapter.getPreGetGenFeatureCode(genFeature);
@@ -4662,7 +4662,7 @@ public class JavaClassGenerator
                         stringBuffer.append(preGetGenFeatureCode);
                      }
                      // Class/getGenFeature.pre.insert.javajetinc
-                     // TODO@rkluge: End of inserted code
+                     // rkluge: End of inserted code
 
                      if (genModel.isDynamicDelegation())
                      {
@@ -5509,7 +5509,7 @@ public class JavaClassGenerator
                            .append(setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName());
                      stringBuffer.append(TEXT_650);
                      
-                     // TODO@rkluge This code has been inserted manually and MUST be moved to the template file
+                     // rkluge This code has been inserted manually and MUST be moved to the template file
                      // 'Class/setGenFeature.pre.insert.javajetinc' (l 759 in Class.javajet) before regenerating this
                      // class
                      final String preSetGenFeatureCode = generatorAdapter.getPreSetGenFeatureCode(genFeature);
@@ -5518,7 +5518,7 @@ public class JavaClassGenerator
                         stringBuffer.append(preSetGenFeatureCode);
                      }
                      // Class/setGenFeature.pre.insert.javajetinc
-                     // TODO@rkluge: End of inserted code
+                     // rkluge: End of inserted code
 
                      
                      if (genModel.isDynamicDelegation())
