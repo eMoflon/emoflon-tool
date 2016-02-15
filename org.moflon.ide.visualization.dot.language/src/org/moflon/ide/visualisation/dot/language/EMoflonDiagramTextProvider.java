@@ -31,7 +31,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
    private Map<Object, String> diagramTextCache = new HashMap<>();
 
-   private Map<Object, SynchronizationHelper> incrCache = new HashMap<>();
+   private Map<Object, SynchronizationHelper> syncHelperCache = new HashMap<>();
 
    private Map<Object, Delta> deltaCache = new HashMap<>();
 
@@ -127,6 +127,11 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    {
       return this.statisticsOfLastRun;
    }
+   
+   public SynchronizationHelper getSynchronizationHelperForObject(final EObject input) {
+      return this.syncHelperCache.get(input);
+   }
+   
 
    /**
     * Removes all elements from the internal cache
@@ -135,7 +140,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    {
       diagramTextCache.clear();
       deltaCache.clear();
-      incrCache.clear();
+      syncHelperCache.clear();
    }
 
    private EObject determineInputObjectFromResource(Resource resourceForTrafo, EObject selectedElement)
@@ -185,7 +190,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
    private boolean hasSynchronizationInformationForObject(final EObject input)
    {
-      return incrCache.containsKey(input);
+      return syncHelperCache.containsKey(input);
    }
 
    private void updateStatisticsOfLastRun(final EObject input, final double durationInMillis)
@@ -209,7 +214,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    private DirectedGraph runSync(final EObject input)
    {
       logger.debug("Running synchronization...");
-      SynchronizationHelper helper = incrCache.get(input);
+      SynchronizationHelper helper = syncHelperCache.get(input);
       helper.setDelta(deltaCache.get(input));
       DirectedGraph result = runTrafo(helper);
       deltaCache.get(input).clear();
@@ -256,7 +261,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
    {
       final SynchronizationHelper helper = new SynchronizationHelper(getPackage(), pathToPlugin.getFile(), rs);
       helper.setMute(true);
-      incrCache.put(input, helper);
+      syncHelperCache.put(input, helper);
 
       if (directionIsForward())
          helper.setSrc(input);
