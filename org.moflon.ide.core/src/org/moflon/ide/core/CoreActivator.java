@@ -8,13 +8,13 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
+import org.moflon.core.utilities.EMoflonPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -23,7 +23,7 @@ import org.osgi.framework.BundleContext;
  * 
  * Core (non gui) functionality that can be useful for other Moflon eclipse plugins should be implemented here.
  */
-public class CoreActivator extends Plugin
+public class CoreActivator extends EMoflonPlugin
 {
    private static final Logger logger = Logger.getLogger(CoreActivator.class);
 
@@ -50,30 +50,20 @@ public class CoreActivator extends Plugin
 
    public static final String JAVA_WORKING_SET_ID = "org.eclipse.jdt.ui.JavaWorkingSetPage";
 
-   // The shared instance
-   private static CoreActivator plugin;
-
-   private static String bundleId;
-
    private Map<String, Boolean> isDirty = new HashMap<>();
 
    private List<DirtyProjectListener> dirtyProjectListeners;
 
-   // Singleton instance
-   public static CoreActivator getDefault()
-   {
+   public static CoreActivator getDefault() {
+      CoreActivator plugin = getPlugin(CoreActivator.class);
+      if (plugin == null)
+         throw new IllegalStateException("Plugin has not yet been set!");
       return plugin;
    }
 
    public static final String getModuleID()
    {
-      if (bundleId == null)
-      {
-         throw new NullPointerException();
-      } else
-      {
-         return bundleId;
-      }
+      return getDefault().getPluginId();
    }
 
    /**
@@ -85,8 +75,6 @@ public class CoreActivator extends Plugin
    public void start(final BundleContext context) throws Exception
    {
       super.start(context);
-      plugin = this;
-      bundleId = context.getBundle().getSymbolicName();
 
       dirtyProjectListeners = new ArrayList<>();
 
@@ -98,7 +86,6 @@ public class CoreActivator extends Plugin
    @Override
    public void stop(final BundleContext context) throws Exception
    {
-      plugin = null;
       dirtyProjectListeners = null;
       super.stop(context);
    }
