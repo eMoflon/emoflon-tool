@@ -1,12 +1,25 @@
 package org.moflon.sdm.compiler.democles.derivedfeatures;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
+import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
+import org.moflon.sdm.runtime.democles.Action;
+import org.moflon.sdm.runtime.democles.CFNode;
+import org.moflon.sdm.runtime.democles.CFVariable;
+import org.moflon.sdm.runtime.democles.CompoundNode;
+import org.moflon.sdm.runtime.democles.ReturnStatement;
+import org.moflon.sdm.runtime.democles.Scope;
+import org.moflon.sdm.runtime.democles.VariableReference;
 
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.ActivityNode;
@@ -39,19 +52,75 @@ public class DerivedFeatureSdmAnalyzer
    public static Set<EStructuralFeature> analyzeSDM(final GenFeature genFeature, String calcMethodName)
    {
 
-      // TODO@aaltenkirch: eOperation should be, e.g., __getTreeSize()
-      // You may search for usages of CONTROL_FLOW_FILE_EXTENSION to get more inspiration...
-      
-      // EOperation eOperation = null;
-      // AdapterResource cfResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation,
-      // DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
+        // TODO@aaltenkirch: eOperation should be, e.g., __getTreeSize()
+        // You may search for usages of CONTROL_FLOW_FILE_EXTENSION to get more
+        // inspiration...
+        Set<EStructuralFeature> dependentVariables = new HashSet<EStructuralFeature>();
+        String returnType = DerivedFeatureExtractor.getAttributeType(genFeature);
+        EOperation eOperation = DerivedFeatureExtractor.getEOperation(genFeature, calcMethodName, returnType, true);
 
-      // if (cfResource != null)
-      // {
-      // final Scope rootScope = (Scope) cfResource.getContents().get(0);
-      // }
+        AdapterResource cfResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation,
+                DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
 
-      Set<EStructuralFeature> dependentVariables = new HashSet<EStructuralFeature>();
+        if (cfResource != null && cfResource.getContents().size() > 0
+                && cfResource.getContents().get(0) instanceof Scope) {
+
+            final Scope rootScope = (Scope) cfResource.getContents().get(0);
+
+            for (EObject content : rootScope.eContents()) {
+                if (content instanceof ReturnStatement) {
+                    ReturnStatement returnStatement = (ReturnStatement) content;
+                    EList<Action> actions = returnStatement.getActions();
+                    for (Action action : actions) {
+                        EList<CFVariable> constructedVariables = action.getConstructedVariables();
+
+                        for (CFVariable variable : constructedVariables) {
+                            if (!variable.isLocal()) {
+                                EStructuralFeature eContainingFeature = variable.eContainingFeature();
+                                eContainingFeature.getName();
+                            }
+                        }
+                    }
+                    ActivityNode origin = returnStatement.getOrigin();
+                }
+
+                if (content instanceof CFNode) {
+                    CFNode cfNode = (CFNode) content;
+
+                    EList<Action> actions = cfNode.getActions();
+                    for (Action action : actions) {
+                        EList<CFVariable> constructedVariables = action.getConstructedVariables();
+
+                        for (CFVariable variable : constructedVariables) {
+                            if (!variable.isLocal()) {
+                                EStructuralFeature eContainingFeature = variable.eContainingFeature();
+                                eContainingFeature.getName();
+                            }
+                        }
+                    }
+
+                    ActivityNode origin = cfNode.getOrigin();
+                    if (origin instanceof StoryNode) {
+                        StoryNode storyNode = (StoryNode) origin;
+                        StoryPattern storyPattern = storyNode.getStoryPattern();
+                    }
+
+                    EList<EObject> eContents = origin.eContents();
+                    for (EObject eObject : eContents) {
+                        EStructuralFeature eContainingFeature = eObject.eContainingFeature();
+                    }
+                }
+
+            }
+
+            for (CFVariable variable : rootScope.getVariables()) {
+                if (!variable.isLocal()) {
+                    EList<VariableReference> references = variable.getReferences();
+                }
+
+            }
+        }
+
       Activity activity = DerivedFeatureExtractor.getActivity(genFeature, calcMethodName);
 
       if (activity != null)
