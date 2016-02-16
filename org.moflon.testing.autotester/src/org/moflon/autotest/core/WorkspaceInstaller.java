@@ -368,7 +368,7 @@ public class WorkspaceInstaller
       {
          logger.info("Exporting EAP file in project " + project.getName() + "...");
 
-         EnterpriseArchitectHelper.exportEcoreFilesFromEAP(project);
+         EnterpriseArchitectHelper.exportEcoreFilesFromEAP(project, monitor);
          monitor.worked(1);
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
       }
