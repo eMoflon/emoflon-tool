@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.tigris.subversion.subclipse.core.svnnature">
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/branches/mosl_xtext/org.moflon.tgg.mosl,org.moflon.tgg.mosl"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/branches/mosl_xtext/org.moflon.tgg.mosl.codeadapter,org.moflon.tgg.mosl.codeadapter"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/branches/mosl_xtext/org.moflon.tgg.mosl.specification,org.moflon.tgg.mosl.specification"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/branches/mosl_xtext/org.moflon.tgg.mosl.ui,org.moflon.tgg.mosl.ui"/>
+</provider>
+</psf>
