@@ -11,6 +11,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -53,6 +54,7 @@ public class EnterpriseArchitectHelper
        return  "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + EXPORT_OPTION + EAP_EXTENSIONS + "\"" + eapFile.getLocation().toOSString() + "\"";
 
    }
+    
    
    public static void delegateToEnterpriseArchitect(final IProject project, final IProgressMonitor monitor,final String command, final String importExport) throws IOException, InterruptedException
    {
@@ -60,16 +62,16 @@ public class EnterpriseArchitectHelper
       {
          monitor.beginTask(importExport +" project " + project.getName(), 2);
          Runtime rt = Runtime.getRuntime();
+         clParser.setMonitor(new SubProgressMonitor(monitor, 20));
          
          logger.debug("Executing '" + command + "'");
-
+      
          Process pr = rt.exec(command);
-         pr.waitFor();
          monitor.worked(1);
          
          InputStream inputStream = new BufferedInputStream(pr.getInputStream());
          StringBuilder stdout = new StringBuilder();
-         byte[] buffer = new byte[1024]; 
+         byte[] buffer = new byte[1]; 
          int readBytes = -1;
          do
          {
@@ -77,17 +79,23 @@ public class EnterpriseArchitectHelper
             if (readBytes > 0)
             {
             	String input = new String(buffer, 0, readBytes);
-               stdout.append(input);
+            	
+            	if("#".equals(input)){
+            		clParser.parse(stdout.toString());
+            		stdout = new StringBuilder();
+            	}
+            	else if(input != null && !("\r".equals(input)) && !("\n".equals(input)))
+            		stdout.append(input);
             }
-         } while (readBytes > 0);
-          clParser.parse(stdout.toString());
-
+         }while (pr.isAlive());
+                  
          Job refreshProject = new RefreshProjectJob(project);
          refreshProject.schedule();
          monitor.worked(1);
       } finally
       {
          monitor.done();
+         clParser.done();
       }
    }
    
