@@ -61,7 +61,7 @@ public class ExportToEAPJob extends Job {
 				if(tempFolder != null && tempFolder.exists()){
 					eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), eaTree, tempFolder.getLocation().toString() + "/" + ecoreFileName + EA_TREE_FILE_EXTENSION);
 					eaTreeFile = tempFolder.getFile(ecoreFileName + EA_TREE_FILE_EXTENSION);
-					EnterpriseArchitectHelper.importXMIFilesToEAP(parts.get(parts.size()-1),eapProject, eaTreeFile);
+					EnterpriseArchitectHelper.importXMIFilesToEAP(parts.get(parts.size()-1),eapProject, eaTreeFile, monitor);
 				}
 			}
 		}

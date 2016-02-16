@@ -117,10 +117,10 @@ public class EnterpriseArchitectHelper
       }
    }
    
-   public static void importXMIFilesToEAP(final String eapFileName, final IProject project, final IFile xmiFile){
+   public static void importXMIFilesToEAP(final String eapFileName, final IProject project, final IFile xmiFile, final IProgressMonitor monitor){
 	   try{
 		   IFile eapFile = project.getFile(eapFileName);
-		   delegateToEnterpriseArchitect(project, new NullProgressMonitor(), generateImportCommand(eapFile, xmiFile), "Importing");
+		   delegateToEnterpriseArchitect(project, monitor, generateImportCommand(eapFile, xmiFile), "Importing");
 	   }catch (IOException | InterruptedException e)
 	      {
 	         logger.error(ERROR_MESSAGE_PROBLEMS_EA_EXPORT + project.getName());
