@@ -15,7 +15,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
+import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.visualization.dot.language.DirectedGraph;
 import org.moflon.tgg.algorithm.delta.Delta;
@@ -174,7 +176,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
       } catch (final Exception e)
       {
-         logger.error("Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ".", e);
+         logger.error("Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ": " + MoflonUtil.displayExceptionAsString(e), e);
       } finally
       {
          final long toc = System.nanoTime();

@@ -6,7 +6,7 @@ public class TGGVisualizationPlugin extends EMoflonPlugin {
 	public static TGGVisualizationPlugin getDefault() {
 		TGGVisualizationPlugin plugin = getPlugin(TGGVisualizationPlugin.class);
 		if (plugin == null)
-			throw new IllegalStateException("Plugin has not yet been set!");
+			throw new IllegalStateException("Plugin not set yet/anymore!");
 		return plugin;
 	}
 }
