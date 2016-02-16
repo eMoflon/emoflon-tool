@@ -104,11 +104,11 @@ public class EnterpriseArchitectHelper
 	   return "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + IMPORT_OPTION + XMI_EXTENSIONS + "\"" + xmiFile.getLocation().toOSString() + "\" "+  EAP_EXTENSIONS + "\"" + eapFile.getLocation().toOSString() + "\"";
    }
    
-   public static void exportEcoreFilesFromEAP(final IProject project)
+   public static void exportEcoreFilesFromEAP(final IProject project, final IProgressMonitor monitor)
    {
       try
       {
-         delegateToEnterpriseArchitect(project);
+         delegateToEnterpriseArchitect(project, monitor);
       } catch (IOException | InterruptedException e)
       {
          logger.error(ERROR_MESSAGE_PROBLEMS_EA_EXPORT + project.getName());
