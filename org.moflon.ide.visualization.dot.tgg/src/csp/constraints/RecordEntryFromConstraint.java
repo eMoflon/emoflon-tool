@@ -30,7 +30,16 @@ public class RecordEntryFromConstraint extends TGGConstraintImpl {
          setSatisfied(constr.equals(expectedConstraint(op, literal, attrName)));
          break;
       }
-      
+    	case "FFFB":
+         String attrName = (String) var_3.getValue();
+         var_1.bindToValue(ComparingOperator.EQUAL);
+         var_2.bindToValue("foo");
+         var_0.bindToValue(expectedConstraint((ComparingOperator)var_1.getValue(), (String) var_2.getValue(), attrName));
+         
+         setSatisfied(true);
+         break;
+
+    	   
     	default: 
     		throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
     	}

@@ -29,6 +29,13 @@ public class RecordEntryFromAssignment extends TGGConstraintImpl
          setSatisfied(assgn.equals(expectedAssignment(attrName, literal)));
          break;         
       }  
+      case "FBF":
+         String attrName = (String) var_1.getValue();
+         var_2.bindToValue("foo");
+         var_0.bindToValue(expectedAssignment(attrName, (String) var_2.getValue())); 
+         setSatisfied(true);
+         break;
+      
       default:
          throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
       }

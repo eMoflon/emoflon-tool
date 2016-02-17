@@ -70,6 +70,13 @@ public class SetColor extends TGGConstraintImpl
          default:
             break;
          }
+      case "FFF":
+         var_0.bindToValue(DotColor.GREEN);
+         var_1.bindToValue(BindingOperator.CREATE);
+         var_2.bindToValue(BindingSemantics.MANDATORY);
+         setSatisfied(true);
+         return;
+         
       default:
          throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
       }
