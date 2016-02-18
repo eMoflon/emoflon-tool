@@ -719,7 +719,7 @@
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand"
-            name="Export to EAP">
+            name="Ecore-to-EA">
       </command>
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
@@ -833,7 +833,7 @@
          <command
                commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand"
                icon="resources/icons/export-eap.png"
-               label="Export to EAP"
+               label="Ecore-to-EA"
                style="push">
             <visibleWhen
                   checkEnabled="false">
