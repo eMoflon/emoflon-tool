@@ -11,6 +11,7 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.maave.tool.analysis.AnalysisFactory;
 import org.moflon.maave.tool.analysis.CriticalPairBuilder;
 import org.moflon.maave.tool.analysis.DirectDerivationBuilder;
+import org.moflon.maave.tool.analysis.JointlyEpiSetBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.DirectDerivationPairSet;
@@ -67,8 +68,9 @@ public class CPATestGAMPaperExample {
 		
 		
 		CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-		 DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createSymbolicDirectDerivationBuilder();
-	      DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder);
+		DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createSymbolicDirectDerivationBuilder();
+		 JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+		DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder,jointlyEpiSetBuilder);
 		Assert.assertTrue(criticalPairs.getPairsOfDirectDerivations().size()==1);
 		
 
@@ -89,7 +91,8 @@ public class CPATestGAMPaperExample {
       
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createSymbolicDirectDerivationBuilder();
-      DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder);
+      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+      DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder,jointlyEpiSetBuilder);
       Assert.assertTrue(criticalPairs.getPairsOfDirectDerivations().size()==1);
       
    }
@@ -108,7 +111,8 @@ public class CPATestGAMPaperExample {
       
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createSymbolicDirectDerivationBuilder();
-      DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder);
+      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+      DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder,jointlyEpiSetBuilder);
       Assert.assertTrue(criticalPairs.getPairsOfDirectDerivations().size()==1);
 
       

@@ -17,6 +17,7 @@ import org.junit.runners.Suite.SuiteClasses;
    ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
    ,SubgraphBuilderTest.class
    ,JointlyEpiTest.class
+   ,CriticalPairTestProj.class
 //   ,SymbMorphismFinderTest.class
 //   ,TempVarSymbMorphismFinderTest.class
    ,PushoutComplement_DiaChasing.class
@@ -24,7 +25,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,SubGraphBuilder_DiaChasing.class
 //   ,RbacMinimalContextTest.class
 //   ,PoushoutPullbackTestChase.class
-//   ,CPATest.class
+//    ,CPATest.class
 //   ,CPATestGAMPaperExample.class
 //   // //  ,FeatureModelTest.class
 //   ,InitialPushoutTests.class

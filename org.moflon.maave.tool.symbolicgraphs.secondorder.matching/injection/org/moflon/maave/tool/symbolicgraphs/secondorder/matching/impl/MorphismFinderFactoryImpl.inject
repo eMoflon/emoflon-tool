@@ -132,7 +132,7 @@ partial class MorphismFinderFactoryImpl {
 		return morphismFinder;
 -->
 
-@model createMorphismFinder (SymbolicGraph pattern, ConfigurableMorphismClass morphismClass) <--
+@model createMorphismFinder (SymbolicGraph pattern, MorphismClass morphismClass) <--
 
 
 		FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();

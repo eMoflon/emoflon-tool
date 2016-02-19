@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.moflon.maave.tool.analysis.AnalysisFactory;
 import org.moflon.maave.tool.analysis.CriticalPairBuilder;
 import org.moflon.maave.tool.analysis.DirectDerivationBuilder;
+import org.moflon.maave.tool.analysis.JointlyEpiSetBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.DirectDerivationPairSet;
@@ -40,9 +41,10 @@ public class CPATest {
       SymbGTRule rule2= transformer.transformStpToSymbGTRule(stp2);
       SymbGTRule rule3= transformer.transformStpToSymbGTRule(stp3);
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
+      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
       DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createSymbolicDirectDerivationBuilder();
-      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder);
-      DirectDerivationPairSet setEmpty=cpBuilder.getAllCriticalPairs(rule1, rule3,derBuilder);
+      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder,jointlyEpiSetBuilder);
+      DirectDerivationPairSet setEmpty=cpBuilder.getAllCriticalPairs(rule1, rule3,derBuilder,jointlyEpiSetBuilder);
 
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
       Assert.assertTrue(setEmpty.getPairsOfDirectDerivations().size()==0);
@@ -60,8 +62,9 @@ public class CPATest {
       SymbGTRule ruleAddOne= transformer.transformStpToSymbGTRule(stpAddTwo);
       SymbGTRule ruleAddTwo= transformer.transformStpToSymbGTRule(stpAddOne);
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
+      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
       DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createSymbolicDirectDerivationBuilder();
-      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(ruleAddOne , ruleAddTwo,derBuilder);
+      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(ruleAddOne , ruleAddTwo,derBuilder,jointlyEpiSetBuilder);
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
    }
 
