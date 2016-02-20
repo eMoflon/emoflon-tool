@@ -18,6 +18,7 @@ import org.junit.runners.Suite.SuiteClasses;
    ,SubgraphBuilderTest.class
    ,JointlyEpiTest.class
    ,CriticalPairTestProj.class
+   ,NormalFormEquivalenceTest.class
 //   ,SymbMorphismFinderTest.class
 //   ,TempVarSymbMorphismFinderTest.class
    ,PushoutComplement_DiaChasing.class

@@ -1,0 +1,22 @@
+
+partial class NaiveConfDirectDerivationIteratorImpl {
+
+@members <--
+
+   SymbolicGraph graphG;
+   SymbGTRule production;
+   SymbolicGraphMorphism morN_P;
+   GraphTransformationSystem gts;
+   
+-->
+
+@model init (SymbolicGraph graphG, SymbGTRule production, SymbolicGraphMorphism morN_P, GraphTransformationSystem gts) <--
+
+      
+      this.graphG=graphG;
+      this.production=production;
+      this.morN_P=morN_P;
+      this.gts=gts;
+-->
+
+}

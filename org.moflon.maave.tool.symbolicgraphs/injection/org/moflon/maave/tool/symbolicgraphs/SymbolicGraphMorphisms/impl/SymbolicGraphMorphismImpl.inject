@@ -187,6 +187,9 @@ partial class SymbolicGraphMorphismImpl {
 
 @model composeWith (SymbolicGraphMorphism after) <--
 
+      if(this.getCodom()!=after.getDom()){
+         throw new IllegalArgumentException("Codomain incompatible with domain: cannot compose "+this.getDom().getName()+"->"+this.getCodom().getName()+" with "+after.getDom().getName()+"->"+after.getDom().getName());
+      }
       SymbolicGraphMorphismImpl composedMorphism = (SymbolicGraphMorphismImpl) SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
       composedMorphism.graphNodeMap = graphNodeMap.compose(((SymbolicGraphMorphismImpl) after).graphNodeMap);
       composedMorphism.graphEdgeMap = graphEdgeMap.compose(((SymbolicGraphMorphismImpl) after).graphEdgeMap);

@@ -1,6 +1,10 @@
 package org.moflon.maave.tool.symbolicgraphs.secondorder.util;
 
 import java.security.InvalidParameterException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -127,54 +131,78 @@ public class FormulaUtil
 
    public static void disjunctDomFormulawithCodomFormula(SymbolicGraphMorphism mor)
    {
-      SymbolicGraph from = mor.getCodom();
-      SymbolicGraph to = mor.getDom();
-      Disjunction phi_To = to.getFormula();
-      if (phi_To == null)
+      SymbolicGraph codom = mor.getCodom();
+      SymbolicGraph dom = mor.getDom();
+      Disjunction phi_dom = dom.getFormula();
+      Disjunction phi_codom = codom.getFormula();
+      if (phi_dom == null||phi_codom==null)
       {
-         throw new InvalidParameterException("Domain formula must not to be empty");
+         throw new InvalidParameterException("Domain and Codomain formulas must not to be empty");
       }
 
-      Quantifier quantifierTo = (Exists) phi_To.getQuantifier();
-      if (quantifierTo == null)
+      Quantifier quantifier_dom = (Exists) phi_dom.getQuantifier();
+      if (quantifier_dom == null)
       {
-         quantifierTo = SymbolicGraphsFactory.eINSTANCE.createExists();
+         quantifier_dom = SymbolicGraphsFactory.eINSTANCE.createExists();
 
       }
-
-      for (Conjunction conj_From : from.getFormula().getOf())
+      Map<LabelNode, LabelNode> quantLnMapDom_Codom=new HashMap<LabelNode, LabelNode>();
+      //add quantified Label nodes in codomain to domain quantifier
+      if(phi_codom.getQuantifier()!=null)
       {
-         Conjunction conj_To = SymbolicGraphsFactory.eINSTANCE.createConjunction();
-         phi_To.getOf().add(conj_To);
-         for (Predicate pred_From : conj_From.getOf())
+         for (LabelNode quantLn_codom : phi_codom.getQuantifier().getLabelNodes())
          {
-            Predicate pred_To = SymbolicGraphsFactory.eINSTANCE.createPredicate();
-            conj_To.getOf().add(pred_To);
-            pred_To.setSymbol(pred_From.getSymbol());
-            for (Parameter param_From : pred_From.getParameters())
+            
+            LabelNode quantLN_dom=SymbolicGraphsFactory.eINSTANCE.createLabelNode();
+            quantLN_dom.setType(quantLn_codom.getType());
+            quantLN_dom.setLabel(quantLn_codom.getLabel());
+            quantifier_dom.getLabelNodes().add(quantLN_dom);
+            quantLnMapDom_Codom.put(quantLN_dom, quantLn_codom);
+         }
+      }
+      //add quantified Label nodes to domain quantifier for each removed label node
+      List<LabelNode> removedLnList_codom = mor.getCodom().getLabelNodes().stream().filter(ln->(mor.isInImage(ln)==false)).collect(Collectors.toList());
+      for (LabelNode removedLn_codom : removedLnList_codom)
+      {
+         LabelNode quantLN_dom=SymbolicGraphsFactory.eINSTANCE.createLabelNode();
+         quantLN_dom.setType(removedLn_codom.getType());
+         quantLN_dom.setLabel(removedLn_codom.getLabel());
+         quantifier_dom.getLabelNodes().add(quantLN_dom);
+         quantLnMapDom_Codom.put(quantLN_dom, removedLn_codom);
+      }
+      //conjunct Domain Formula with codomain Formula
+      for (Conjunction conj_codom : codom.getFormula().getOf())
+      {
+         Conjunction conj_dom = SymbolicGraphsFactory.eINSTANCE.createConjunction();
+         phi_dom.getOf().add(conj_dom);
+         for (Predicate pred_codom : conj_codom.getOf())
+         {
+            Predicate pred_dom = SymbolicGraphsFactory.eINSTANCE.createPredicate();
+            conj_dom.getOf().add(pred_dom);
+            pred_dom.setSymbol(pred_codom.getSymbol());
+            for (Parameter param_codom : pred_codom.getParameters())
             {
-               if (param_From instanceof LabelNode)
+               if (param_codom instanceof LabelNode)
                {
-                  LabelNode target = to.getLabelNodes().stream().filter(ln -> mor.imageOf(ln) == param_From).findAny().orElse(null);
-                  if (target == null)
+                  LabelNode ln_codom=(LabelNode) param_codom;
+                  LabelNode ln_dom = dom.getLabelNodes().stream().filter(ln -> mor.imageOf(ln) == ln_codom).findAny().orElse(null);
+                  if (ln_dom == null)
                   {
-                     target = SymbolicGraphsFactory.eINSTANCE.createLabelNode();
-                     target.setType(param_From.getType());
-                     target.setLabel(((LabelNode) param_From).getLabel());
-                     quantifierTo.getLabelNodes().add(target);
+                     ln_dom = quantifier_dom.getLabelNodes().stream().filter(ln -> quantLnMapDom_Codom.get(ln) == param_codom).findAny().orElse(null);
                   }
-                  pred_To.getParameters().add(target);
-               } else
+                  pred_dom.getParameters().add(ln_dom);
+               } else if(param_codom instanceof Constant)
                {
-                  Constant const_d = phi_To.getConstant(((Constant) param_From).getInterpretation(), param_From.getType());
-                  pred_To.getParameters().add(const_d);
+                  Constant const_codom=(Constant) param_codom;
+                  Constant const_d = phi_dom.getConstant(const_codom.getInterpretation(), param_codom.getType());
+                  pred_dom.getParameters().add(const_d);
                }
             }
          }
       }
-      if (quantifierTo.getLabelNodes().isEmpty() == false)
+      if (quantifier_dom.getLabelNodes().isEmpty() == false)
       {
-         phi_To.setQuantifier(quantifierTo);
+         phi_dom.setQuantifier(quantifier_dom);
       }
    }
 
