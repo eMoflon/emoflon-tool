@@ -17,7 +17,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -31,7 +30,6 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.team.internal.ui.wizards.ImportProjectSetOperation;
 import org.eclipse.ui.IWorkingSet;
@@ -127,15 +125,14 @@ public class WorkspaceInstaller
 
    private void installWorkspacesExternal(final List<String> absolutePathsToPSF, final String displayName)
    {
-
-      IRunnableWithProgress runnable = new IRunnableWithProgress() {
+      final Job job = new Job("Installing " + displayName + "...") {
 
          @Override
-         public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
+         protected IStatus run(final IProgressMonitor monitor)
          {
-            logger.info("Installing " + displayName + "...");
             try
             {
+               logger.info("Installing " + displayName + "...");
                monitor.beginTask("Installing " + displayName, 400);
                if (BuilderHelper.turnOffAutoBuild())
                {
@@ -163,9 +160,13 @@ public class WorkspaceInstaller
 
                   logger.info("Finished auto-test process - Good bye!");
                }
-            } catch (CoreException e)
+               return Status.OK_STATUS;
+            } catch (final InterruptedException e)
             {
-               logger.error("Sorry, I was unable to check out the projects in the PSF file.\n"//
+               return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Failed to install workspace", e);
+            } catch (final CoreException e)
+            {
+               final String message = "Sorry, I was unable to check out the projects in the PSF file.\n"//
                      + "  If you did not explicitly cancel then please check the following (most probable first):\n"//
                      + "      (1) Ensure you have switched to SVNKit (Window/Preferences/Team/SVN) or make sure JavaHL is working.\n"//
                      + "      (2) If possible, start with a clean Workspace without any projects. Although the PSF import offers to delete the projects this does not always work, especially on Windows.\n"//
@@ -174,60 +175,17 @@ public class WorkspaceInstaller
                      + "      (5) If it's quite late in the night, our server might be down performing a back-up - try again in a few hours.\n"//
                      + "      (6) What nothing helped?!  Please send us an email at contact@emoflon.org :)\n" //
                      + "\n" //
-                     + "Exception of type " + e.getClass().getName() + ", Message: " + MoflonUtil.displayExceptionAsString(e));
+                     + "Exception of type " + e.getClass().getName() + ", Message: " + MoflonUtil.displayExceptionAsString(e);
+               logger.error(message);
+               return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), message, e);
             } finally
             {
                monitor.done();
             }
-
-         }
-      };
-      
-      // This code blocks the UI!
-      // ProgressMonitorDialog dialog = new ProgressMonitorDialog(window.getShell());
-      // dialog.run(true, true, runnable);
-
-      final WorkspaceJob job = new WorkspaceJob("Installing " + displayName + "...") {
-         
-         @Override
-         public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
-         {
-            try
-            {
-               runnable.run(monitor);
-            } catch (InvocationTargetException | InterruptedException e)
-            {
-               return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Failed to install workspace", e);
-            }
-            return Status.OK_STATUS;
          }
       };
       job.setUser(true);
       job.schedule();
-      
-      // final IMonitoredJob job = new IMonitoredJob() {
-      //
-      // @Override
-      // public IStatus run(IProgressMonitor monitor)
-      // {
-      // try
-      // {
-      // runnable.run(monitor);
-      // return Status.OK_STATUS;
-      // } catch (InvocationTargetException | InterruptedException e)
-      // {
-      // return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Failed to install workspace", e);
-      // }
-      // }
-      //
-      // @Override
-      // public String getTaskName()
-      // {
-      // return "Installing " + displayName + "...";
-      // }
-      // };
-      // ProgressMonitoringJob monitoringJob = new ProgressMonitoringJob(AutoTestActivator.getModuleID(), job);
-      // monitoringJob.schedule();
    }
 
    private void runJUnitTests(final IProgressMonitor monitor) throws InterruptedException, CoreException
