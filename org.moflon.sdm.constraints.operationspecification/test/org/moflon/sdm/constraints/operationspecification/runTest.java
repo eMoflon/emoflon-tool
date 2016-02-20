@@ -1,4 +1,4 @@
-package DemoclesAttributeConstraintSpecification.test;
+package org.moflon.sdm.constraints.operationspecification;
 
 import java.lang.reflect.InvocationTargetException;
 

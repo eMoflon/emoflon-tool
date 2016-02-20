@@ -43,13 +43,12 @@ import org.moflon.sdm.compiler.democles.validation.scope.SingleResultPatternInvo
 import org.moflon.sdm.compiler.democles.validation.scope.StoryNodeActionBuilder;
 import org.moflon.sdm.constraints.constraintstodemocles.ConstraintstodemoclesFactory;
 import org.moflon.sdm.constraints.operationspecification.AttributeConstraintLibrary;
+import org.moflon.sdm.constraints.operationspecification.constraint.AttributeVariableConstraintsTypeModule;
+import org.moflon.sdm.constraints.operationspecification.constraint.util.AttributeConstraintLibUtil;
+import org.moflon.sdm.constraints.operationspecification.constraint.util.AttributeVariableConstraintsModule;
 import org.moflon.sdm.constraints.scopevalidation.ScopevalidationFactory;
 import org.moflon.sdm.democles.literalexpressionsolver.ConstantTransformer;
 import org.moflon.sdm.democles.literalexpressionsolver.LiteralexpressionsolverFactory;
-
-import DemoclesAttributeConstraintSpecification.constraint.AttributeVariableConstraintsTypeModule;
-import DemoclesAttributeConstraintSpecification.constraint.util.AttributeConstraintLibUtil;
-import DemoclesAttributeConstraintSpecification.constraint.util.AttributeVariableConstraintsModule;
 
 public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGeneratorConfig {
 	protected final WeightedOperationBuilder<GeneratorOperation> builder =

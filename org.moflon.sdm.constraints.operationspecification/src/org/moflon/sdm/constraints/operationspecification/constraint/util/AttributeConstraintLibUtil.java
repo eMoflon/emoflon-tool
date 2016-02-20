@@ -1,4 +1,4 @@
-package DemoclesAttributeConstraintSpecification.constraint.util;
+package org.moflon.sdm.constraints.operationspecification.constraint.util;
 
 import java.io.IOException;
 
@@ -7,10 +7,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.moflno.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
 import org.moflon.sdm.constraints.operationspecification.AttributeConstraintLibrary;
+import org.moflon.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator;
 import org.moflon.sdm.constraints.operationspecification.OperationspecificationFactory;
 import org.moflon.sdm.constraints.operationspecification.OperationspecificationPackage;
 

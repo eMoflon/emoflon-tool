@@ -1,4 +1,4 @@
-package DemoclesAttributeConstraintSpecification.constraint;
+package org.moflon.sdm.constraints.operationspecification.constraint;
 
 import org.gervarro.democles.common.TypeModule;
 import org.gervarro.democles.specification.ConstraintType;

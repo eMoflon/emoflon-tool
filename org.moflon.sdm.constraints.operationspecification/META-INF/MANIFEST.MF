@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.sdm.constraints.operationspecification
  ;singleton:=true
-Export-Package: DemoclesAttributeConstraintSpecification.constraint,
- DemoclesAttributeConstraintSpecification.constraint.util,
- org.moflon.sdm.constraints.operationspecification,
+Export-Package: org.moflon.sdm.constraints.operationspecification,
+ org.moflon.sdm.constraints.operationspecification.constraint,
+ org.moflon.sdm.constraints.operationspecification.constraint.util,
  org.moflon.sdm.constraints.operationspecification.impl,
  org.moflon.sdm.constraints.operationspecification.util
 Bundle-Name: DemoclesAttributeConstraintSpecification
@@ -22,6 +22,5 @@ Require-Bundle: org.eclipse.core.resources,
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Activator: org.moflno.sdm.constraints.operationspecification.At
- tributeConstraintsOperationActivator
-Bundle-Vendor: TU Darmstadt
+Bundle-Activator: org.moflon.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator
+Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
