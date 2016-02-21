@@ -724,12 +724,12 @@
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.build.BuildCommand"
-            name="Build">
+            name="%buildLabel">
       </command>
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
-            name="Build selected dirty projects">
+            name="%buildDirtyProjectsLabel">
       </command>
       <category
             description="Collection of eMoflon commands"
@@ -846,10 +846,10 @@
          <command
                commandId="org.moflon.ide.ui.commands.build.BuildCommand"
                icon="resources/icons/rebuildClasses.png"
-               label="Build"
+               label="%buildLabel"
                mnemonic="B"
                style="push"
-               tooltip="Build">
+               tooltip="%buildTooltip">
             <visibleWhen
                   checkEnabled="false">
             </visibleWhen>
@@ -857,10 +857,10 @@
          <command
                commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
                icon="resources/icons/rebuildClassesDirtyOnly.png"
-               label="Build selected dirty projects"
+               label="%buildDirtyProjectsLabel"
                mnemonic="D"
                style="push"
-               tooltip="Build selected dirty projects">
+               tooltip="%buildDirtyProjectsTooltip">
             <visibleWhen
                   checkEnabled="false">
             </visibleWhen>
@@ -868,8 +868,10 @@
          <command
                commandId="org.moflon.ide.ui.commands.build.ExportAndBuild"
                icon="resources/icons/exportAndBuild.gif"
-               label="Export and build"
-               style="push">
+               label="%exportAndBuildLabel"
+               style="push"
+               tooltip="%exportAndBuildTooltip"
+               >
             <visibleWhen
                   checkEnabled="false">
             </visibleWhen>
@@ -877,10 +879,10 @@
          <command
                commandId="org.moflon.ide.ui.commands.build.CreateInjectionCommand"
                icon="resources/icons/noun_project_7402.png"
-               label="Create/update injection for class"
+               label="Refresh injection for class"
                mnemonic="I"
                style="push"
-               tooltip="Creates or updates a corresponding injection file">
+               tooltip="Creates or updates the corresponding injection file">
             <visibleWhen
                   checkEnabled="false">
             </visibleWhen>
@@ -932,10 +934,10 @@
             <command
                   commandId="org.moflon.ide.ui.commands.build.BuildCommand"
                   icon="resources/icons/rebuildClasses.png"
-                  label="Build"
+                  label="%buildLabel"
                   mnemonic="B"
                   style="push"
-                  tooltip="Build">
+                  tooltip="%buildTooltip">
                <visibleWhen
                      checkEnabled="false">
                   <reference
@@ -946,10 +948,10 @@
             <command
                   commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
                   icon="resources/icons/rebuildClassesDirtyOnly.png"
-                  label="Build"
+                  label="%buildDirtyProjectsLabel"
                   mnemonic="D"
                   style="push"
-                  tooltip="Build (dirty projects only)">
+                  tooltip="%buildDirtyProjectsTooltip">
                <visibleWhen
                      checkEnabled="false">
                   <reference
@@ -963,7 +965,7 @@
                   id="org.moflon.ide.ui.commands.admin.toolbar.ConfigureLogging"
                   label="Logging"
                   style="pulldown"
-                  tooltip="View and configure eMoflon logging">
+                  tooltip="View and configure logging configuration for eMoflon console">
                <visibleWhen
                      checkEnabled="false">
                   <reference
@@ -981,7 +983,7 @@
                icon="resources/icons/logfile.png"
                label="Edit config file"
                style="push"
-               tooltip="Edit configuration file for eMoflon logging">
+               tooltip="Edit configuration file for eMoflon logging. To take effect, 'Reconfigure Logging' has to be executed.">
          </command>
          <command
                commandId="org.moflon.ide.ui.commands.admin.ReconfigureLogging"
