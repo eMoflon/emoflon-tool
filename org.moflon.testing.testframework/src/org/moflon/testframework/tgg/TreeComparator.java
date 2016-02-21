@@ -3,17 +3,12 @@ package org.moflon.testframework.tgg;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
-import org.apache.log4j.BasicConfigurator;
 import org.junit.Assert;
 import org.moflon.core.moca.processing.CodeAdapter;
 import org.moflon.core.moca.processing.ProcessingFactory;
 import org.moflon.core.moca.processing.impl.CodeAdapterImpl;
-import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.moca.MocaTreeSorter;
 import org.moflon.testframework.tgg.xml.unparser.XmlUnparserAdapter;
-
-import MocaTree.Folder;
-import MocaTree.MocaTreePackage;
 
 public class TreeComparator
 {
