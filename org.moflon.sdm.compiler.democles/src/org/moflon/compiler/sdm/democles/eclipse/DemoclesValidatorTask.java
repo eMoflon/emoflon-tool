@@ -102,7 +102,7 @@ public class DemoclesValidatorTask implements IMonitoredJob
          final List<EOperation> eOperations = eClass.getEOperations();
          monitor.beginTask("Validating operations in class " + eClass.getName(), eOperations.size());
          for (final EOperation eOperation : eOperations)
-         {
+         {//TODO@rkluge: The resulting status is ignored even if it is Status.ERROR
             IStatus cancelStatus = validateEOperation(eOperation, validationStatus, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             if (cancelStatus.getSeverity() == IStatus.CANCEL)
                return cancelStatus;
