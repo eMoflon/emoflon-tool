@@ -1,5 +1,6 @@
 package org.moflon.compiler.sdm.democles.eclipse;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -9,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.codegen.ErrorReporter;
 import org.moflon.codegen.eclipse.ValidationStatus;
+import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin;
@@ -24,6 +26,7 @@ import SDMLanguage.expressions.LiteralExpression;
 
 public class EclipseErrorReporter implements ErrorReporter
 {
+   private static final Logger logger = Logger.getLogger(EclipseErrorReporter.class);
    private IFile file;
 
    public EclipseErrorReporter(final IFile ecoreFile)
@@ -52,6 +55,7 @@ public class EclipseErrorReporter implements ErrorReporter
         					  DemoclesSdmCompilerPlugin.convertStatusSeverityToEclipseMarkerSeverity(status.getSeverity()));
         		  }
         	  } catch (final CoreException e) {
+        	     logger.error("Problem while reporting eMoflon errors in Eclipse: " + MoflonUtil.displayExceptionAsString(e));
         		  e.printStackTrace();
         	  }
     	  }

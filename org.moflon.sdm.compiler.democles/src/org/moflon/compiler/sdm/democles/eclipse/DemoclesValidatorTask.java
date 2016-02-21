@@ -72,18 +72,23 @@ public class DemoclesValidatorTask implements IMonitoredJob
    public IStatus run(final IProgressMonitor monitor)
    {
       final MultiStatus validationStatus = new MultiStatus(CodeGeneratorPlugin.getModuleID(), 0, TASK_NAME + " failed", null);
+      final MultiStatus processStatus = new MultiStatus(CodeGeneratorPlugin.getModuleID(), 0, TASK_NAME + " crashed", null);
       final List<EClass> eClasses = CodeGeneratorPlugin.getEClasses(ePackage);
       try
       {
          monitor.beginTask("Validating classes in package " + ePackage.getName(), eClasses.size());
          for (final EClass eClass : eClasses)
          {
-            IStatus cancelStatus = validateEClass(eClass, validationStatus, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+            IStatus cancelStatus = validateEClass(eClass, validationStatus, processStatus, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             if (cancelStatus.getSeverity() == Status.CANCEL)
                return cancelStatus;
          }
+         
+         if (!processStatus.isOK())
+            return processStatus;
+         
          return validationStatus.isOK() ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), TASK_NAME + " succeeded") : validationStatus;
-      } catch (RuntimeException e)
+      } catch (final RuntimeException e)
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR,
                "Internal exception occured (probably caused by a bug in the validation module): " + e.getMessage()
@@ -95,15 +100,25 @@ public class DemoclesValidatorTask implements IMonitoredJob
       }
    }
 
-   private IStatus validateEClass(final EClass eClass, final MultiStatus validationStatus, final IProgressMonitor monitor)
+   /**
+    * Run validation on the given {@code eClass}, validation errors are stored in {@code validationStatus}, process
+    * errors (such as exceptions) are stored in {@code processStatus}
+    * 
+    * @param eClass
+    * @param validationStatus
+    * @param processStatus
+    * @param monitor
+    * @return
+    */
+   private IStatus validateEClass(final EClass eClass, final MultiStatus validationStatus, MultiStatus processStatus, final IProgressMonitor monitor)
    {
       try
       {
          final List<EOperation> eOperations = eClass.getEOperations();
          monitor.beginTask("Validating operations in class " + eClass.getName(), eOperations.size());
          for (final EOperation eOperation : eOperations)
-         {//TODO@rkluge: The resulting status is ignored even if it is Status.ERROR
-            IStatus cancelStatus = validateEOperation(eOperation, validationStatus, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         {
+            final IStatus cancelStatus = validateEOperation(eOperation, validationStatus, processStatus, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
             if (cancelStatus.getSeverity() == IStatus.CANCEL)
                return cancelStatus;
          }
@@ -114,11 +129,24 @@ public class DemoclesValidatorTask implements IMonitoredJob
       return Status.OK_STATUS;
    }
 
-   private IStatus validateEOperation(final EOperation eOperation, final MultiStatus validationStatus, final IProgressMonitor monitor)
+   /**
+    * Validates a particular EOperation.
+    * 
+    * For the description of the parameters, see
+    * {@link #validateEClass(EClass, MultiStatus, MultiStatus, IProgressMonitor)}
+    * 
+    * @param eOperation
+    * @param validationStatus
+    * @param processStatus
+    * @param monitor
+    * @return
+    */
+   private IStatus validateEOperation(final EOperation eOperation, final MultiStatus validationStatus, MultiStatus processStatus,
+         final IProgressMonitor monitor)
    {
       try
       {
-         monitor.beginTask("Validating " + eOperation.getName(), 1);
+         monitor.beginTask(String.format("Validating %s::%s", eOperation.getEContainingClass().getName(), eOperation.getName()), 1);
 
          // Lookup activity in EOperation
          final Activity activity = lookupRootActivity(eOperation);
@@ -170,11 +198,13 @@ public class DemoclesValidatorTask implements IMonitoredJob
             }
          }
          monitor.worked(1);
-      } catch (RuntimeException e)
+      } catch (final RuntimeException e)
       {
-         return new Status(IStatus.ERROR,
-               "Validation of EOpration " + eOperation.getName() + " in EClass " + eOperation.getEContainingClass().getName() + " crashed",
+         final Status processErrorStatus = new Status(IStatus.ERROR,
+               String.format("Validation of %s::%s crashed", eOperation.getEContainingClass().getName(), eOperation.getName()),
                CodeGeneratorPlugin.getModuleID(), e);
+         processStatus.add(processErrorStatus);
+         return processErrorStatus;
       } finally
       {
          monitor.done();
