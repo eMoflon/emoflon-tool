@@ -1,0 +1,16 @@
+
+import org.moflon.maave.tool.analysis.confluence.NaiveConfDirectDerivationIterator;
+
+partial class DirectConfluenceModuloNFEQAnalyserImpl {
+
+
+
+@model getDerivationItterator (SymbGTRule production, SymbolicGraphMorphism morN_P, SymbolicGraph graphG) <--
+
+		NaiveConfDirectDerivationIterator derIter = ConfluenceFactory.eINSTANCE
+				.createNaiveConfDirectDerivationIterator();
+		derIter.init(null, production, morN_P, this.getGraphTransformationSystem());
+		return derIter;
+-->
+
+}

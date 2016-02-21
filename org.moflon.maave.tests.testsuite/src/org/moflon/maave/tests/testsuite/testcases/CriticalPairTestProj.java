@@ -134,7 +134,29 @@ public class CriticalPairTestProj {
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,derBuilder,jointlyEpiSetBuilder);
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
    }
+   @Test
+   public  void test4(){
+      System.out.println("Starting CriticalPairTestProj/Test4" );
+          
 
+      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.testgen.diachase", "Diachase");
+      EClass cls=(EClass) pack.getEClassifier("PaperExampleTest");
+      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("ruleTimes")).findFirst().get();
+      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("ruleAddTwo")).findFirst().get();
+      Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
+      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
+      StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
+
+      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
+      SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
+      SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
+      
+      CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
+      DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,derBuilder,jointlyEpiSetBuilder);
+      Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
+   }
 
 
 }

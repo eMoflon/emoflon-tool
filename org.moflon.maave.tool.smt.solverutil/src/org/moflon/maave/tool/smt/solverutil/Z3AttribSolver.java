@@ -28,7 +28,7 @@ public class Z3AttribSolver implements IAttribSolver {
 		try {
 			ctx = new Context();
 //		System.out.println(GraphAndMorphismPrinter.print(morphism));
-       System.out.println("Z3AttribSolver/checkImplication:");
+//       System.out.println("Z3AttribSolver/checkImplication:");
 //       System.out.println(smtStr);
 			eq = ctx.parseSMTLIB2String(smtStr, null, null, null, null);
 			
@@ -51,13 +51,13 @@ public class Z3AttribSolver implements IAttribSolver {
 		Status status=s.check();
 //		System.out.println("Z3AttribSolver/ceck/  Model:");
 		if(status==Status.SATISFIABLE){
-			System.out.println("SATISFIABLE + Model: ");
+//			System.out.println("SATISFIABLE + Model: ");
 			
-			System.out.println(s.getModel());
+//			System.out.println(s.getModel());
 			
 		}else if (status==Status.UNSATISFIABLE) {
 		   
-			System.out.println("UNSATISFIABLE");
+//			System.out.println("UNSATISFIABLE");
 			
 //			System.out.println(s.getUnsatCore());
 		}else if (status==Status.UNKNOWN)
@@ -110,5 +110,28 @@ public class Z3AttribSolver implements IAttribSolver {
       }
       return false;
    }
-	
+   @Override
+   
+   public boolean isTrue(SymbolicGraph symbGraph)
+   {
+      SymbFormulaToSMTLibTransformer iTransformer= new SymbFormulaToSMTLibTransformer();
+      String smtStr=iTransformer.transformDisjunction(symbGraph.getFormula());
+      Context ctx; 
+      BoolExpr eq;
+      try {
+    	 HashMap<String, String> cfg = new HashMap<String, String>();
+         ctx = new Context(cfg);
+//         System.out.println("Z3AttribSolver/hasNonEmptySemantic:");
+//         System.out.println(smtStr);
+         eq = ctx.parseSMTLIB2String(smtStr, null, null, null, null);
+         Status result= check(ctx, eq);
+//         System.out.println(result);
+         
+         return result==Status.SATISFIABLE;
+      } catch (Z3Exception e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      return false;
+   }
 }

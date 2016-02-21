@@ -45,7 +45,7 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 	public void test3(){
 
 		EClass cls=(EClass) pack.getEClassifier("NacPatternGenerator");
-		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(2);
+		MoflonEOperation operation=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("nacTestPattern3")).findFirst().get();
 		StoryNode stn=(StoryNode) operation.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
 		Assert.assertTrue("FailedAssert: 0",operation.getName().equals("nacTestPattern3"));
 		Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
@@ -189,7 +189,7 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 	public void test2(){
 
 		EClass cls=(EClass) pack.getEClassifier("NacPatternGenerator");
-		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(1);
+		MoflonEOperation operation=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("nacTestPattern2")).findFirst().get();
 		StoryNode stn=(StoryNode) operation.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
 		Assert.assertTrue("FailedAssert: 67",operation.getName().equals("nacTestPattern2"));
 		Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
@@ -267,7 +267,7 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 	public void test1(){
 
 		EClass cls=(EClass) pack.getEClassifier("NacPatternGenerator");
-		MoflonEOperation operation=(MoflonEOperation) cls.getEOperation(0);
+		MoflonEOperation operation=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("nacTestPattern1")).findFirst().get();
 		StoryNode stn=(StoryNode) operation.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
 		Assert.assertTrue("FailedAssert: 107",operation.getName().equals("nacTestPattern1"));
 		Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();

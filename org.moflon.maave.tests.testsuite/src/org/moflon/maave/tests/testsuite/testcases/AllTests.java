@@ -9,16 +9,18 @@ import org.junit.runners.Suite.SuiteClasses;
    TestForStoryPatternToSymbGraTraRules_Basic.class 
    ,TestForStoryPatternToProjGraTraRules_Basic.class
    ,TestForStoryPatternToSymbGraTraRules_NAC.class
-   ,MorphismFinderTest.class
-   ,PullbackTest.class
-   ,PushoutUMPTest.class
-   ,IsomorphicCopyTester.class
-   ,DirectDerivationTest.class
-   ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
-   ,SubgraphBuilderTest.class
-   ,JointlyEpiTest.class
-   ,CriticalPairTestProj.class
-   ,NormalFormEquivalenceTest.class
+//   ,MorphismFinderTest.class
+//   ,PullbackTest.class
+//   ,PushoutUMPTest.class
+//   ,IsomorphicCopyTester.class
+//   ,DirectDerivationTest.class
+//   ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
+//   ,SubgraphBuilderTest.class
+//   ,JointlyEpiTest.class
+//   ,CriticalPairTestProj.class
+//   ,NormalFormEquivalenceTest.class
+   ,ConfluenceProjTestGAMPaper.class
+//   ,ConfluenceProjTestModelsPaper.class
 //   ,SymbMorphismFinderTest.class
 //   ,TempVarSymbMorphismFinderTest.class
    ,PushoutComplement_DiaChasing.class
@@ -34,7 +36,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,SymbolicPushoutTest.class
 //   ,SemanticAnalyserTest.class
 //   //   ,SymbolicPushoutComplementTest.class
-//   //  // , ModelsPaperExample.class
+    //, ModelsPaperExample.class
 })
 //@SuiteClasses({MorphismFinderTest.class})
 //@SuiteClasses({})
