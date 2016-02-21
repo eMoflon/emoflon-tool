@@ -100,3 +100,5 @@
 ---
 2016-02-07	Add org.moflon.sdm.compiler.democles.derivedfeatures
 2016-02-06	Beta version of Ecore-to-EAP importer ready
+2016-02-11	eMoflon 2.11.0 released
+---
