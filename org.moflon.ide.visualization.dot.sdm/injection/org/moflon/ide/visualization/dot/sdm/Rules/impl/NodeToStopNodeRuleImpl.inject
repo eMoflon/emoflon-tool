@@ -1,10 +1,15 @@
 
 import org.moflon.csp.*;
 import org.moflon.util.eMoflonSDMUtil;
-
 import csp.constraints.*;
 import org.moflon.tgg.language.csp.*;
-
+import org.moflon.csp.*;
+import csp.constraints.*;
+import org.moflon.tgg.language.csp.*;
+import org.moflon.tgg.runtime.TripleMatchNodeMapping;
+import java.util.Optional;
+import org.moflon.tgg.algorithm.delta.attribute.CheckAttributeHelper;
+import SDMLanguage.expressions.ComparingOperator;
 
 partial class NodeToStopNodeRuleImpl {
 
@@ -12,7 +17,11 @@ partial class NodeToStopNodeRuleImpl {
 
 @model postProcessBACKWARD (StopNode activityNode, DoubleCircle node) <--
 
-      node.setLabel(eMoflonSDMUtil.extractExpression(activityNode.getReturnValue(), ""));
+      String stopNodeLabel = eMoflonSDMUtil.extractExpression(activityNode.getReturnValue(), "");
+      if("null".equals(stopNodeLabel))
+         stopNodeLabel = "void";
+      
+      node.setLabel(stopNodeLabel);
 -->
 
 }
