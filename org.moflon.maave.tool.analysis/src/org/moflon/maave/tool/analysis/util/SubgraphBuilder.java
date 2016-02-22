@@ -32,7 +32,7 @@ public class SubgraphBuilder
    {
       BigInteger graphNodesVec = inputGraph.getGraphNodes().size() > 0
             ? new BigInteger(new String(new char[inputGraph.getGraphNodes().size()]).replace("\0", "1"), 2) : new BigInteger("0");
-      System.out.println(inputGraph.getGraphNodes().size());
+//      System.out.println(inputGraph.getGraphNodes().size());
       BigInteger graphEdgesVec = inputGraph.getGraphEdges().size() > 0
             ? new BigInteger(new String(new char[inputGraph.getGraphEdges().size()]).replace("\0", "1"), 2) : new BigInteger("0");
 
@@ -137,12 +137,14 @@ public class SubgraphBuilder
             subgraph.setName(graphNodesString + "|" + graphEdgesString + "|");
 
             mList.add(monoMorphism);
-            if (System.currentTimeMillis() - time > 1000)
-            {
-               System.out.println(mList.size());
-               time = System.currentTimeMillis();
-            }
-
+//            System.out.print("SubgraphBuilder processed Subgraphs: ");
+//            if (System.currentTimeMillis() - time > 1000)
+//            {
+//               System.out.print(mList.size()+";");
+//               time = System.currentTimeMillis();
+//            }
+//            System.out.print(mList.size()+";");
+//            System.out.println("");
          }
       }
       morphisms.getMorphisms().addAll(mList);

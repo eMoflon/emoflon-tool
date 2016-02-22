@@ -23,9 +23,11 @@ partial class TransformerImpl {
       SymbolicGraph R = morK_R.getCodom();
 
       List<LabelNode> labelNodeList = new LinkedList<LabelNode>(K.getLabelNodes());
+
       for (LabelNode n : labelNodeList)
       {
-         if (n.getPredicates().isEmpty())
+         if (!K.getFormula().getOf().stream()
+               .anyMatch(conj -> conj.getOf().stream().anyMatch(pred -> pred.getParameters().stream().anyMatch(param -> param == n))))
          {
 
             EcoreUtil.delete(morK_L.imageOf(n));

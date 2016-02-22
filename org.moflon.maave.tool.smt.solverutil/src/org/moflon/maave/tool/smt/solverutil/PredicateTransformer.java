@@ -73,7 +73,7 @@ public class PredicateTransformer implements IPredicateTransformer {
             }else if(labelNode.eContainer() instanceof Quantifier){
                label=labelNode.getLabel();
                
-               //label=label+"E"+((Quantifier)labelNode.eContainer()).getLabelNodes().indexOf(labelNode);
+               label=label+"!"+((Quantifier)labelNode.eContainer()).getLabelNodes().indexOf(labelNode);
                variableNames.add(label);
             }
             

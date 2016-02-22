@@ -2,11 +2,11 @@ package org.moflon.maave.tool.symbolicgraphs.secondorder.util;
 
 import java.security.InvalidParameterException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Conjunction;
@@ -110,7 +110,9 @@ public class FormulaUtil
       {
          phi_new.setQuantifier(quantifier_to_new);
       }
+      syntacticallySimplifyFormula(phi_new);
       to.setFormula(phi_new);
+
    }
 
    private static Quantifier copyQuantifierWithLabelNodes(Quantifier quantifier)
@@ -152,7 +154,7 @@ public class FormulaUtil
       {
          for (LabelNode quantLn_codom : phi_codom.getQuantifier().getLabelNodes())
          {
-            
+
             LabelNode quantLN_dom=SymbolicGraphsFactory.eINSTANCE.createLabelNode();
             quantLN_dom.setType(quantLn_codom.getType());
             quantLN_dom.setLabel(quantLn_codom.getLabel());
@@ -204,49 +206,84 @@ public class FormulaUtil
       {
          phi_dom.setQuantifier(quantifier_dom);
       }
+      syntacticallySimplifyFormula(phi_dom);
    }
 
    public static void copyFormulaFromCodomToDom(SymbolicGraphMorphism mor)
    {
-      SymbolicGraph from = mor.getCodom();
       SymbolicGraph to = mor.getDom();
       Disjunction phi_To = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
       to.setFormula(phi_To);
-      Quantifier quantifier = SymbolicGraphsFactory.eINSTANCE.createExists();
-      for (Conjunction conj_From : from.getFormula().getOf())
+      Conjunction con_to=SymbolicGraphsFactory.eINSTANCE.createConjunction();
+      phi_To.getOf().add(con_to);
+      Predicate pred_false=SymbolicGraphsFactory.eINSTANCE.createPredicate();
+      pred_false.setSymbol("#F");
+      con_to.getOf().add(pred_false);
+      disjunctDomFormulawithCodomFormula(mor);
+
+
+   }
+   public static Disjunction createFalseFormula()
+   {
+
+      return createFormula(false);
+   }
+
+   private static Disjunction createFormula(boolean predicate)
+   {
+      Disjunction phi=SymbolicGraphsFactory.eINSTANCE.createDisjunction();
+      Conjunction conj=SymbolicGraphsFactory.eINSTANCE.createConjunction();
+      phi.getOf().add(conj);
+      Predicate pred=SymbolicGraphsFactory.eINSTANCE.createPredicate();
+      conj.getOf().add(pred);
+      if(predicate)
       {
-         Conjunction conj_To = SymbolicGraphsFactory.eINSTANCE.createConjunction();
-         phi_To.getOf().add(conj_To);
-         for (Predicate pred_From : conj_From.getOf())
+         pred.setSymbol("#T");
+      }
+      else
+      {
+         pred.setSymbol("#F");
+      }
+      return phi;
+   }
+
+
+   private static void syntacticallySimplifyFormula(Disjunction  phi){
+
+      List<Conjunction>conjunctions=new LinkedList<Conjunction>(phi.getOf());
+      for (Conjunction conj : conjunctions)
+      {
+         if(conj.getOf().stream().anyMatch(pred->pred.getSymbol().equals("#F")))
          {
-            Predicate pred_To = SymbolicGraphsFactory.eINSTANCE.createPredicate();
-            conj_To.getOf().add(pred_To);
-            pred_To.setSymbol(pred_From.getSymbol());
-            for (Parameter param_From : pred_From.getParameters())
+            if(phi.getOf().size()>1)
             {
-               if (param_From instanceof LabelNode)
-               {
-                  LabelNode target = to.getLabelNodes().stream().filter(ln -> mor.imageOf(ln) == param_From).findAny().orElse(null);
-                  if (target == null)
-                  {
-                     target = SymbolicGraphsFactory.eINSTANCE.createLabelNode();
-                     target.setType(param_From.getType());
-                     target.setLabel(((LabelNode) param_From).getLabel());
-                     quantifier.getLabelNodes().add(target);
-                  }
-                  pred_To.getParameters().add(target);
-               } else
-               {
-                  Constant const_d = phi_To.getConstant(((Constant) param_From).getInterpretation(), param_From.getType());
-                  pred_To.getParameters().add(const_d);
-               }
+               phi.getOf().remove(conj);
             }
          }
+         else
+         {
+
+            List<Predicate> predList=conj.getOf().stream().filter(pred->pred.getSymbol().equals("#T")).collect(Collectors.toList());
+            for (Predicate predicate : predList)
+            {
+               if(conj.getOf().size()>1)
+               {
+                  conj.getOf().remove(predicate);
+               }
+            }
+
+         }
       }
-      if (quantifier.getLabelNodes().isEmpty() == false)
-      {
-         phi_To.setQuantifier(quantifier);
-      }
+
+
+
+
+
+   }
+
+   public static Disjunction createTrueFormula()
+   {
+      return createFormula(true);
    }
 
 }

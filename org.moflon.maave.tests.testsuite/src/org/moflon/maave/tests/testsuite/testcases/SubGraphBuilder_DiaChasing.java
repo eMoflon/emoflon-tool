@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtil;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
 import org.moflon.maave.tests.testgen.diachase.DiaChaseTestGen;
 import org.moflon.maave.tests.testgen.diachase.DiachaseFactory;
@@ -22,7 +22,7 @@ import org.moflon.maave.tests.testgen.diachase.DiachaseFactory;
 public class SubGraphBuilder_DiaChasing {
 
 
-	CategoryUtil util=CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+	CategoryUtil util=MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
 	
 	
 	@Test

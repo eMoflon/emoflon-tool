@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 public class Mapping<T> {
    protected HashMap<T,T> map;
 

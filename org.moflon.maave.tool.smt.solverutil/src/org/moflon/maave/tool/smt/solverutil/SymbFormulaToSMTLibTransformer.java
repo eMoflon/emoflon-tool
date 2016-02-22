@@ -11,6 +11,7 @@ import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Conjunction;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Disjunction;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Quantifier;
 
 public class SymbFormulaToSMTLibTransformer {
 
@@ -61,7 +62,7 @@ public String transformBiImplication(Disjunction term1, Disjunction term2, Mappi
 		st.add("conclusion", internalTransformDisjunction(conclusion,labelNodeSubstMap));
 		return st.render();
 	}
-	public String transformDisjunction(Disjunction disjunction){
+	public String transformDisjunctionSat(Disjunction disjunction){
 	   ST st;
       st = stg.getInstanceOf("checkSat");
       st.add("term", internalTransformDisjunction(disjunction, new IdentityMapping<LabelNode>()));
@@ -69,14 +70,21 @@ public String transformBiImplication(Disjunction term1, Disjunction term2, Mappi
       st.add("varDecls", predicateTransformer.getVariableDeclarations());
       return st.render();
 	}
+	public String transformDisjunctionUnsat(Disjunction disjunction){
+      ST st;
+      st = stg.getInstanceOf("checkUnsat");
+      st.add("term", internalTransformDisjunction(disjunction, new IdentityMapping<LabelNode>()));
+      st.add("funcDefs", predicateTransformer.getFunctionDefinitions());
+      st.add("varDecls", predicateTransformer.getVariableDeclarations());
+      return st.render();
+   }
 	private String internalTransformDisjunction(Disjunction disjunction,Mapping<LabelNode> labelNodeSubstMap){
 		
 	   
 	   List<String> conjunctions=disjunction.getOf().stream().map(conj->transformConjunction(conj,labelNodeSubstMap)).collect(Collectors.toList());
 		ST st;
 		if(disjunction.getQuantifier()!=null){
-		   
-		   List<String>exVarDefs=disjunction.getQuantifier().getLabelNodes().stream().map(ln->"("+ln.getLabel()+" "+ParameterTypeTransformer.getSMTLibDatatypeString(ln.getType())+")").collect(Collectors.toList());
+		   List<String>exVarDefs=disjunction.getQuantifier().getLabelNodes().stream().map(ln->"("+ln.getLabel()+"!"+((Quantifier)ln.eContainer()).getLabelNodes().indexOf(ln)+" "+ParameterTypeTransformer.getSMTLibDatatypeString(ln.getType())+")").collect(Collectors.toList());
 		   st = stg.getInstanceOf("disjunctionExists");
 		   st.add("varDefs", exVarDefs);
 	     

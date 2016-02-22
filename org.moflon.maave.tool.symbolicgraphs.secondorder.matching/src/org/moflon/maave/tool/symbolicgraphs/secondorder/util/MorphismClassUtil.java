@@ -13,8 +13,11 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.FormulaMode;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.MorMappingMode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.FormulaMode;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MorMappingMode;
 import org.moflon.maave.wsconfig.WsInfo;
 
 public class MorphismClassUtil {
@@ -41,6 +44,7 @@ public class MorphismClassUtil {
 		switch (formulaMode) {
 		case IMPL: return checkImplication(morphism);	
 		case BIIMPL: return checkBiImplication(morphism); 
+		case PROJ: return checkProjection(morphism);
 		case ARBIT: return true;
 		default: return false;
 			
@@ -57,6 +61,22 @@ public class MorphismClassUtil {
 		return solver.checkImplication(morphism);
 		
 	}
+	
+	private static boolean checkProjection(SymbolicGraphMorphism morC_B) {
+      
+	   //   D----------morD_B---|
+	   //   |                   |
+	   // morD_C                |
+	   //   !                   !
+	   //   C------morC_B------>B
+	   CategoryUtil catUtil=MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
+	   SymbolicGraphMorphism morD_C=catUtil.copyGraph(morC_B.getDom());
+	   SymbolicGraphMorphism morD_B=morD_C.composeWith(morC_B);
+	   morD_B.getDom().setFormula(FormulaUtil.createFalseFormula());
+	   FormulaUtil.disjunctDomFormulawithCodomFormula(morD_B);
+	   return checkBiImplication(morD_C);
+      
+   }
 
 	private static void reportSimilarURIs(EObject typeA, EObject typeB) {
 		String uriA = EcoreUtil.getURI(typeA).toString();

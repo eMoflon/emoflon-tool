@@ -19,11 +19,9 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraph
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Constant;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClass;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClassFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClass;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.util.MorphismClassUtil;
 import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tests.testsuite.helper.TestHelper;
@@ -71,9 +69,9 @@ public class TestForStoryPatternToProjGraTraRules_Basic {
 //      Assert.assertTrue(K.getFormula().getQuantifier().getLabelNodes().stream().anyMatch(x->x.getLabel().equals("temp")));
 //      Assert.assertTrue(R.getFormula().getQuantifier().getLabelNodes().stream().anyMatch(x->x.getLabel().equals("temp")));
       
-      ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       ConfigurableMorphismClass leftRuleMorclass=morClassFac.createMorphismClass("I", "B", "I", "I", "<=>");
-      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "=>");
+      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "Proj");
       assertTrue(rightRuleMorclass.isMember(right).isValid());
       
       assertTrue(leftRuleMorclass.isMember(left).isValid());
@@ -175,9 +173,9 @@ public class TestForStoryPatternToProjGraTraRules_Basic {
             && x.getParameters().size()==2
             && ((LabelNode) x.getParameters().get(0)).getLabel().equals("c_x_prime")
             && ((LabelNode) x.getParameters().get(1)).getLabel().equals("a_x")));
-      ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       ConfigurableMorphismClass leftRuleMorclass=morClassFac.createMorphismClass("I", "B", "I", "I", "<=>");
-      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "=>");
+      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "Proj");
       assertTrue(rightRuleMorclass.isMember(right).isValid());
       assertTrue(leftRuleMorclass.isMember(left).isValid());
       assertTrue(MorphismClassUtil.isCorrectlyTyped(right));
@@ -272,9 +270,9 @@ public class TestForStoryPatternToProjGraTraRules_Basic {
             && x.getParameters().size()==2
             && ((LabelNode) x.getParameters().get(0)).getLabel().equals("a_x_prime")
             && ((LabelNode) x.getParameters().get(1)).getLabel().equals("c_x")));
-      ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       ConfigurableMorphismClass leftRuleMorclass=morClassFac.createMorphismClass("I", "B", "I", "I", "<=>");
-      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "=>");
+      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "Proj");
       assertTrue(rightRuleMorclass.isMember(right).isValid());
       assertTrue(leftRuleMorclass.isMember(left).isValid());
       assertTrue(MorphismClassUtil.isCorrectlyTyped(right));
@@ -373,9 +371,9 @@ public class TestForStoryPatternToProjGraTraRules_Basic {
             && x.getParameters().size()==2
             && ((LabelNode) x.getParameters().get(0)).getLabel().equals("a_x_prime")
             && ((LabelNode) x.getParameters().get(1)).getLabel().equals("b_x")));
-      ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       ConfigurableMorphismClass leftRuleMorclass=morClassFac.createMorphismClass("I", "B", "I", "I", "<=>");
-      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "=>");
+      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "Proj");
       assertTrue(rightRuleMorclass.isMember(right).isValid());
       assertTrue(leftRuleMorclass.isMember(left).isValid());
       assertTrue(MorphismClassUtil.isCorrectlyTyped(right));
@@ -481,9 +479,9 @@ public class TestForStoryPatternToProjGraTraRules_Basic {
             && ((LabelNode)x.getParameters().get(0)).getLabel().equals("a_x_prime")
             && ((LabelNode)x.getParameters().get(1)).getLabel().equals("a_x")
             && ((Constant)x.getParameters().get(2)).getInterpretation().equals("1")));
-      ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       ConfigurableMorphismClass leftRuleMorclass=morClassFac.createMorphismClass("I", "B", "I", "I", "<=>");
-      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "=>");
+      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "Proj");
       assertTrue(rightRuleMorclass.isMember(right).isValid());
       assertTrue(leftRuleMorclass.isMember(left).isValid());
       assertTrue(MorphismClassUtil.isCorrectlyTyped(right));
@@ -586,9 +584,9 @@ public class TestForStoryPatternToProjGraTraRules_Basic {
             && ((LabelNode)x.getParameters().get(0)).getLabel().equals("a_x_prime")
             && ((LabelNode)x.getParameters().get(1)).getLabel().equals("b_x")
             && ((LabelNode)x.getParameters().get(2)).getLabel().equals("a_x")));
-      ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       ConfigurableMorphismClass leftRuleMorclass=morClassFac.createMorphismClass("I", "B", "I", "I", "<=>");
-      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "=>");
+      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "Proj");
       assertTrue(rightRuleMorclass.isMember(right).isValid());
       assertTrue(leftRuleMorclass.isMember(left).isValid());
       assertTrue(MorphismClassUtil.isCorrectlyTyped(right));
@@ -675,9 +673,9 @@ public class TestForStoryPatternToProjGraTraRules_Basic {
             && x.getParameters().size()==2
             && ((LabelNode)x.getParameters().get(0)).getLabel().equals("a_x")
             && ((Constant)x.getParameters().get(1)).getInterpretation().equals("5")));
-      ConfigurableMorphismClassFactory morClassFac =CategoryUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       ConfigurableMorphismClass leftRuleMorclass=morClassFac.createMorphismClass("I", "B", "I", "I", "<=>");
-      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "=>");
+      ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "Proj");
       assertTrue(rightRuleMorclass.isMember(right).isValid());
       assertTrue(leftRuleMorclass.isMember(left).isValid());
       assertTrue(MorphismClassUtil.isCorrectlyTyped(right));

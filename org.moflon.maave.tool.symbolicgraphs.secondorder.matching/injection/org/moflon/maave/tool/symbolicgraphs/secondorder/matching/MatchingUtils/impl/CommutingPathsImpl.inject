@@ -1,0 +1,32 @@
+
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
+
+partial class CommutingPathsImpl {
+
+
+
+@model areCommuting () <--
+
+      SymbolicGraphMorphism morA = pathA.stream().filter(m -> m.getDom() == begin).findAny().get();
+      while (morA.getCodom() != end)
+      {
+         SymbolicGraph codomainA = morA.getCodom();
+         SymbolicGraphMorphism morA2 = pathA.stream().filter(m -> m.getDom() == codomainA).findAny().get();
+         morA = morA.composeWith(morA2);
+      }
+
+      SymbolicGraphMorphism morB = pathB.stream().filter(m -> m.getDom() == begin).findAny().get();
+      while (morB.getCodom() != end)
+      {
+         SymbolicGraph codomainB = morB.getCodom();
+         SymbolicGraphMorphism morB2 = pathB.stream().filter(m -> m.getDom() == codomainB).findAny().get();
+         morB = morB.composeWith(morB2);
+      }
+      CategoryUtil util = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
+      Status status = MatchingUtilsFactory.eINSTANCE.createStatus();
+      status.setValid(util.areSimilarEGraphMorphisms(morA, morB));
+      return status;
+-->
+
+}

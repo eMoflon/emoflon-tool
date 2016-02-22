@@ -9,28 +9,21 @@ import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.moflon.maave.tests.lang.abc.AbcPackage;
+import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.ConfigurableMorphismFinder;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.GenericMorphismFinder;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtil;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClass;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClassFactory;
-import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
+
 import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StoryNode;
-import org.moflon.maave.tests.lang.abc.AbcPackage;
 
 public class MorphismFinderTest {
    private EPackage pack;  
@@ -108,7 +101,7 @@ public class MorphismFinderTest {
    }
 
    public boolean containsMorphism(SymbolicGraphMorphism mor, MorphismsSet morList){
-      CategoryUtil helper=CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+      CategoryUtil helper=MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
       for (SymbolicGraphMorphism mor2 : morList.getMorphisms()) {
          if(helper.areSimilarEGraphMorphisms(mor, mor2)){
             return true;

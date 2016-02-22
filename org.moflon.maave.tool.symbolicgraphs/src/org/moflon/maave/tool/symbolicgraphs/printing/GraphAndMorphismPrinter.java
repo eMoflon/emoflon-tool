@@ -8,8 +8,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
-
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Conjunction;
@@ -21,7 +19,6 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Parameter;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Predicate;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Quantifier;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 
 public class GraphAndMorphismPrinter

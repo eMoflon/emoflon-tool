@@ -7,13 +7,14 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
    TestForStoryPatternToSymbGraTraRules_Basic.class 
-   ,TestForStoryPatternToProjGraTraRules_Basic.class
-   ,TestForStoryPatternToSymbGraTraRules_NAC.class
+//   ,TestForStoryPatternToProjGraTraRules_Basic.class
+//   ,TestForStoryPatternToSymbGraTraRules_NAC.class
 //   ,MorphismFinderTest.class
 //   ,PullbackTest.class
 //   ,PushoutUMPTest.class
 //   ,IsomorphicCopyTester.class
 //   ,DirectDerivationTest.class
+//   ,MorphismClassTest.class
 //   ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
 //   ,SubgraphBuilderTest.class
 //   ,JointlyEpiTest.class
@@ -23,7 +24,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,ConfluenceProjTestModelsPaper.class
 //   ,SymbMorphismFinderTest.class
 //   ,TempVarSymbMorphismFinderTest.class
-   ,PushoutComplement_DiaChasing.class
+//   ,PushoutComplement_DiaChasing.class
 //   ,DPO_RuleApllication_DiaChasing.class
 //   ,SubGraphBuilder_DiaChasing.class
 //   ,RbacMinimalContextTest.class

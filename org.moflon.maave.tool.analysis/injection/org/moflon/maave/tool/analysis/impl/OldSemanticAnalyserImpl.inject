@@ -12,34 +12,33 @@ partial class OldSemanticAnalyserImpl {
 
 @model removeFormula (SymbolicGraph graphG) <--
 
-		CategoryUtil util = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
-		SymbolicGraphMorphism isoMor = util.copyGraph(graphG);
-		SymbolicGraph copy = isoMor.getDom();
+      CategoryUtil util = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
+      SymbolicGraphMorphism isoMor = util.copyGraph(graphG);
+      SymbolicGraph copy = isoMor.getDom();
 
-		Disjunction dis = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
-		copy.setFormula(dis);
+      Disjunction dis = SymbolicGraphsFactory.eINSTANCE.createDisjunction();
+      copy.setFormula(dis);
 
-		Conjunction conj = SymbolicGraphsFactory.eINSTANCE.createConjunction();
-		dis.getOf().add(conj);
+      Conjunction conj = SymbolicGraphsFactory.eINSTANCE.createConjunction();
+      dis.getOf().add(conj);
 
-		Predicate pred = SymbolicGraphsFactory.eINSTANCE.createPredicate();
-		pred.setSymbol("#T");
-		conj.getOf().add(pred);
+      Predicate pred = SymbolicGraphsFactory.eINSTANCE.createPredicate();
+      pred.setSymbol("#T");
+      conj.getOf().add(pred);
 
-		return isoMor;
+      return isoMor;
 -->
 
 @model getRestrictionMorphism (SymbolicGraph graphG) <--
 
-		CategoryUtil util = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
-		SymbolicGraphMorphism isoMor = util.copyGraph(graphG);
-		isoMor.getDom().getLabelNodes().stream().filter(ln -> ln.getLabelEdge().isEmpty()).collect(Collectors.toList())
-				.forEach(ln -> {
-					isoMor.getDom().getLabelNodes().remove(ln);
-					((SymbolicGraphMorphismImpl) isoMor).labelNodeMap.removeMapping(ln);
+      CategoryUtil util = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
+      SymbolicGraphMorphism isoMor = util.copyGraph(graphG);
+      isoMor.getDom().getLabelNodes().stream().filter(ln -> ln.getLabelEdge().isEmpty()).collect(Collectors.toList()).forEach(ln -> {
+         isoMor.getDom().getLabelNodes().remove(ln);
+         ((SymbolicGraphMorphismImpl) isoMor).labelNodeMap.removeMapping(ln);
 
-				});
-		return isoMor;
+      });
+      return isoMor;
 -->
 
 }

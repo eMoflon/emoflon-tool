@@ -7,48 +7,20 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
+import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.analysis.AnalysisFactory;
 import org.moflon.maave.tool.analysis.CriticalPairBuilder;
 import org.moflon.maave.tool.analysis.DirectDerivationBuilder;
-import org.moflon.maave.tool.analysis.ImprovedJointlyEpiSetBuilder;
 import org.moflon.maave.tool.analysis.JointlyEpiSetBuilder;
-import org.moflon.maave.tool.analysis.NonEmptySemanticJointlyEpiSetBuilder;
-import org.moflon.maave.tool.analysis.ProjectiveDirectDerivationBuilder;
-import org.moflon.maave.tool.category.CategoryFactory;
-import org.moflon.maave.tool.category.SymbolicGraphCat;
-import org.moflon.maave.tool.category.SymbolicPullback;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.DirectDerivationPairSet;
-import org.moflon.maave.tool.symbolicgraphs.Datastructures.MorphismPairSet;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.ConfigurableMorphismFinder;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.GenericMorphismFinder;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtil;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClass;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.ConfigurableMorphismClassFactory;
-import org.moflon.maave.tests.testgen.diachase.DiachaseFactory;
-import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
-import org.moflon.maave.tests.testgen.diachase.PaperExampleTest;
 
 import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StoryNode;
-import SDMLanguage.patterns.StoryPattern;
-
-import org.moflon.maave.tests.lang.abc.AbcPackage;
-import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
 
 public class CriticalPairTestProj {
      

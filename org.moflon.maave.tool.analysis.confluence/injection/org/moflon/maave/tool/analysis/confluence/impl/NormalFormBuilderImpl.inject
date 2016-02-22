@@ -1,6 +1,6 @@
 
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtil;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
@@ -13,16 +13,16 @@ partial class NormalFormBuilderImpl {
 
 @model getNormalForm (SymbolicGraph graphG) <--
 
-      CategoryUtil catUtil = CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+      CategoryUtil catUtil = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
       SymbolicGraphMorphism morA_G = catUtil.copyGraph(graphG);
-      SymbolicGraph graphA=morA_G.getDom();
+      SymbolicGraph graphA = morA_G.getDom();
       List<LabelNode> auxLabelNodes = graphA.getLabelNodes().stream().filter(ln -> ln.getLabelEdge().isEmpty()).collect(Collectors.toList());
       for (LabelNode labelNode : auxLabelNodes)
       {
          morA_G.getDom().getLabelNodes().remove(labelNode);
          morA_G.removeMapping(labelNode);
       }
-      
+
       SymbolicGraphCat cat = CategoryFactory.eINSTANCE.createSymbolicGraphCat();
       return cat.Project(morA_G);
 -->

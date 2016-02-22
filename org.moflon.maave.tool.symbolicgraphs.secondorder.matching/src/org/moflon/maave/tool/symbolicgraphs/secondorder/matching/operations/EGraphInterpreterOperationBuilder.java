@@ -5,17 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.EReference;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.runtime.OperationBuilder;
 import org.gervarro.democles.common.runtime.VariableRuntime;
-import org.gervarro.democles.interpreter.InterpretableOperation;
 import org.gervarro.democles.runtime.DelegatingAdornedOperation;
-import org.gervarro.democles.runtime.NativeOperation;
 import org.gervarro.democles.runtime.RemappingOperation;
 import org.gervarro.democles.specification.impl.Constraint;
 import org.gervarro.democles.specification.impl.Variable;

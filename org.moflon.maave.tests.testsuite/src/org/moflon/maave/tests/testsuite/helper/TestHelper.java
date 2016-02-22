@@ -10,15 +10,15 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtil;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.CategoryUtilsFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
 
 
 public class TestHelper {
 
 	public static boolean checkMorphismsInRule(SymbGTRule rule){
-		CategoryUtil categoryUtil= CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+		CategoryUtil categoryUtil= MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
 	   
 	   SymbolicGraphMorphism left=rule.getLeft();
 		SymbolicGraphMorphism right=rule.getRight();
@@ -55,7 +55,7 @@ public class TestHelper {
 	
 	public static boolean checkMorphism(SymbolicGraphMorphism mor){
 		 
-		CategoryUtil categoryHelper= CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+		CategoryUtil categoryHelper= MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
 		
 		boolean result= categoryHelper.isValidEGraphMorphism(mor);
 		
@@ -126,7 +126,7 @@ public class TestHelper {
 		
 	}
 	public static boolean areLabelNodesAndEdgesCorrect(SymbGTRule rule){
-		CategoryUtil util=CategoryUtilsFactory.eINSTANCE.createCategoryUtil();
+		CategoryUtil util=MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
 		SymbolicGraph graphK=rule.getLeft().getDom();
 		for (GraphNode gn : graphK.getGraphNodes()) {
 			for (EAttribute attrib : gn.getType().getEAllAttributes()) {

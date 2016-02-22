@@ -1,11 +1,8 @@
 package org.moflon.maave.tool.symbolicgraphs.secondorder.matching.operations;
 
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.EReference;
 import org.gervarro.democles.common.Adornment;
-import org.gervarro.democles.interpreter.InterpretableOperation;
 import org.gervarro.democles.runtime.InternalDataFrameProvider;
-import org.gervarro.democles.runtime.NativeOperation;
 import org.gervarro.democles.runtime.RemappedDataFrame;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsPackage;

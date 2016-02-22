@@ -7,11 +7,9 @@ import java.util.HashMap;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
-import org.moflon.maave.tool.symbolicgraphs.printing.GraphAndMorphismPrinter;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
-import com.microsoft.z3.Model;
 import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
 import com.microsoft.z3.Z3Exception;
@@ -19,30 +17,6 @@ import com.microsoft.z3.Z3Exception;
 public class Z3AttribSolver implements IAttribSolver {
 	
 	
-	@Override
-	public boolean checkImplication(SymbolicGraphMorphism morphism) {
-		SymbFormulaToSMTLibTransformer iTransformer= new SymbFormulaToSMTLibTransformer();
-		String smtStr=iTransformer.transformImplication(morphism.getCodom().getFormula(),morphism.getDom().getFormula(),((SymbolicGraphMorphismImpl)morphism).labelNodeMap);
-		Context ctx; 
-		BoolExpr eq;
-		try {
-			ctx = new Context();
-//		System.out.println(GraphAndMorphismPrinter.print(morphism));
-//       System.out.println("Z3AttribSolver/checkImplication:");
-//       System.out.println(smtStr);
-			eq = ctx.parseSMTLIB2String(smtStr, null, null, null, null);
-			
-			Status result= check(ctx, eq);
-			
-			
-			return result==Status.UNSATISFIABLE;
-		} catch (Z3Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
 
 	private Status check(Context ctx, BoolExpr f) throws Z3Exception
 	{
@@ -66,11 +40,36 @@ public class Z3AttribSolver implements IAttribSolver {
 		
 	}
 
+	@Override
+	public boolean checkImplication(SymbolicGraphMorphism morphism) {
+	   SymbFormulaToSMTLibTransformer iTransformer= new SymbFormulaToSMTLibTransformer();
+	   String smtStr=iTransformer.transformImplication(morphism.getCodom().getFormula(),morphism.getDom().getFormula(),((SymbolicGraphMorphismImpl)morphism).labelNodeMap);
+	   Context ctx; 
+	   BoolExpr eq;
+	   try {
+	      ctx = new Context();
+//		System.out.println(GraphAndMorphismPrinter.print(morphism));
+//       System.out.println("Z3AttribSolver/checkImplication:");
+//       System.out.println(smtStr);
+	      eq = ctx.parseSMTLIB2String(smtStr, null, null, null, null);
+	      
+	      Status result= check(ctx, eq);
+	      
+	      
+	      return result==Status.UNSATISFIABLE;
+	   } catch (Z3Exception e) {
+	      System.out.println(smtStr);
+	      // TODO Auto-generated catch block
+	      e.printStackTrace();
+	   }
+	   
+	   return false;
+	}
    @Override
    public boolean hasNonEmptySemantic(SymbolicGraph symbGraph)
    {
       SymbFormulaToSMTLibTransformer iTransformer= new SymbFormulaToSMTLibTransformer();
-      String smtStr=iTransformer.transformDisjunction(symbGraph.getFormula());
+      String smtStr=iTransformer.transformDisjunctionSat(symbGraph.getFormula());
       Context ctx; 
       BoolExpr eq;
       try {
@@ -85,7 +84,9 @@ public class Z3AttribSolver implements IAttribSolver {
          return result==Status.SATISFIABLE;
       } catch (Z3Exception e) {
          // TODO Auto-generated catch block
+         System.out.println(smtStr);
          e.printStackTrace();
+         
       }
       return false;
    }
@@ -106,6 +107,7 @@ public class Z3AttribSolver implements IAttribSolver {
          return result==Status.UNSATISFIABLE;
       } catch (Z3Exception e) {
          // TODO Auto-generated catch block
+         System.out.println(smtStr);
          e.printStackTrace();
       }
       return false;
@@ -115,7 +117,8 @@ public class Z3AttribSolver implements IAttribSolver {
    public boolean isTrue(SymbolicGraph symbGraph)
    {
       SymbFormulaToSMTLibTransformer iTransformer= new SymbFormulaToSMTLibTransformer();
-      String smtStr=iTransformer.transformDisjunction(symbGraph.getFormula());
+      String smtStr=iTransformer.transformDisjunctionUnsat(symbGraph.getFormula());
+      
       Context ctx; 
       BoolExpr eq;
       try {
@@ -127,9 +130,10 @@ public class Z3AttribSolver implements IAttribSolver {
          Status result= check(ctx, eq);
 //         System.out.println(result);
          
-         return result==Status.SATISFIABLE;
+         return result==Status.UNSATISFIABLE;
       } catch (Z3Exception e) {
          // TODO Auto-generated catch block
+         System.out.println(smtStr);
          e.printStackTrace();
       }
       return false;

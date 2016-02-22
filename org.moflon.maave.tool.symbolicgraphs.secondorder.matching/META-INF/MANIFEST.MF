@@ -1,11 +1,18 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.maave.tool.symbolicgraphs.secondorder.
  matching;singleton:=true
-Export-Package: org.moflon.maave.tool.symbolicgraphs.secondorder.matching,
- org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils,
- org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.impl,
- org.moflon.maave.tool.symbolicgraphs.secondorder.matching.CategoryUtils.util,
+Export-Package: org.moflon.maave.tool.symbolicgraphs.secondorder.match
+ ing,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUti
+ ls,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUti
+ ls.impl,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUti
+ ls.util,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching.emf.constra
+ int,
  org.moflon.maave.tool.symbolicgraphs.secondorder.matching.impl,
+ org.moflon.maave.tool.symbolicgraphs.secondorder.matching.operations,
  org.moflon.maave.tool.symbolicgraphs.secondorder.matching.util,
  org.moflon.maave.tool.symbolicgraphs.secondorder.util
 Bundle-Name: org.moflon.maave.tool.symbolicgraphs.secondorder.matching
