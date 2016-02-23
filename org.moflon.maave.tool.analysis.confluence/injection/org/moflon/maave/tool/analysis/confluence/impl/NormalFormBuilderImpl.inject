@@ -3,13 +3,41 @@ import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.C
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.category.CategoryFactory;
 import org.moflon.maave.tool.category.SymbolicGraphCat;
 
 partial class NormalFormBuilderImpl {
 
+@members <--
 
+   private void derivePossibleZ(SymbolicGraphMorphism morN_P, SymbolicGraphMorphism morZ_P)
+   {
+      SymbolicGraph graphZ3=morZ_P.getDom();
+      List<LabelNode> remLabelNodeList=graphZ3.getLabelNodes().stream().filter(x->
+                                                   ((morZ_P.imageOf(x)).getLabelEdge().isEmpty()) &&
+                                                   (!morN_P.isInImage(morZ_P.imageOf(x)))).collect(Collectors.toList());                                                         
+      if(remLabelNodeList.isEmpty()==false)
+      {
+         if(graphZ3.getFormula().getQuantifier()==null)
+         {
+            graphZ3.getFormula().setQuantifier(SymbolicGraphsFactory.eINSTANCE.createExists());
+         }
+         for (LabelNode ln : remLabelNodeList)
+         {
+            graphZ3.getFormula().getQuantifier().getLabelNodes().add(ln);
+            morZ_P.removeMapping(ln);
+         }
+      }
+   }
+   private boolean isCommuting(SymbolicGraphMorphism morA_B,SymbolicGraphMorphism morB_C,SymbolicGraphMorphism morC_D,SymbolicGraphMorphism morA_D)
+   {
+      return morA_B.getDom().getAllElements().stream().allMatch(x->morC_D.imageOf(morB_C.imageOf(morA_B.imageOf((EGraphElement) x)))==morA_D.imageOf((EGraphElement) x));
+   }
+   
+-->
 
 @model getNormalForm (SymbolicGraph graphG) <--
 
@@ -25,6 +53,46 @@ partial class NormalFormBuilderImpl {
 
       SymbolicGraphCat cat = CategoryFactory.eINSTANCE.createSymbolicGraphCat();
       return cat.Project(morA_G);
+-->
+
+@model checkZnew (SymbolicGraphMorphism morN_P3, SymbolicGraphMorphism morN_P4) <--
+
+      CategoryUtil catUtil=MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
+      ConfigurableMorphismClassFactory morClassFac=MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      MorphismClass morClassIso=morClassFac.createMorphismClass("B", "B", "B", "B", "<=>");
+      MorphismFinderFactory morFinderFac=MatchingFactory.eINSTANCE.createMorphismFinderFactory();
+      
+      SymbolicGraph graphP3=morN_P3.getCodom();
+      SymbolicGraphMorphism morZ3_P3=catUtil.copyGraph(graphP3);
+      SymbolicGraphMorphism morN_Z3=morN_P3.composeWith(catUtil.getInverseIfIsomorphism(morZ3_P3));
+      derivePossibleZ(morN_P3, morZ3_P3);
+      SymbolicGraph graphZ3=morZ3_P3.getDom();
+
+      SymbolicGraph graphP4=morN_P4.getCodom();
+      SymbolicGraphMorphism morZ4_P4=catUtil.copyGraph(graphP4);
+      SymbolicGraphMorphism morN_Z4=morN_P4.composeWith(catUtil.getInverseIfIsomorphism(morZ4_P4));
+      derivePossibleZ(morN_P4, morZ4_P4);
+      SymbolicGraph graphZ4=morZ4_P4.getDom();
+      
+      ConfigurableMorphismFinder morFinderForZ3=morFinderFac.createMorphismFinder(graphZ3, morClassIso);
+      SymbolicGraphMorphism partialMatch=SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      partialMatch.setDom(graphZ3);
+      partialMatch.setCodom(graphZ4);
+      MorphismsSet isoMorSetZ3_Z4=morFinderForZ3.getAllMorphisms(partialMatch);
+      
+      Status status=MatchingUtilsFactory.eINSTANCE.createStatus();
+      status.setValid(false);
+      for (SymbolicGraphMorphism isoMorZ3_Z4 : isoMorSetZ3_Z4.getMorphisms())
+      {
+         SymbolicGraphMorphism isoMorZ4_Z3=catUtil.getInverseIfIsomorphism(isoMorZ3_Z4);
+         if(isCommuting(morN_Z3, isoMorZ3_Z4, morZ4_P4 , morN_P4)&&isCommuting(morN_Z4, isoMorZ4_Z3, morZ3_P3 , morN_P3))
+         {
+            
+            status.setValid(true);
+            return status;
+         }
+      }
+      return status;
 -->
 
 }
