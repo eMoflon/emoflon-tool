@@ -7,7 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
    TestForStoryPatternToSymbGraTraRules_Basic.class 
-   ,TestForStoryPatternToProjGraTraRules_Basic.class
+//   ,TestForStoryPatternToProjGraTraRules_Basic.class
    ,TestForStoryPatternToSymbGraTraRules_NAC.class
    ,MorphismFinderTest.class
    ,PullbackTest.class
@@ -21,7 +21,8 @@ import org.junit.runners.Suite.SuiteClasses;
    ,CriticalPairTestProj.class
    ,NormalFormEquivalenceTest.class
    ,ConfluenceProjTestGAMPaper.class
-   ,ConfluenceProjTestModelsPaper.class
+//   ,ConfluenceProjTestModelsPaper.class
+   ,ConfluenceProjTestCMS.class
 //   ,SymbMorphismFinderTest.class
 //   ,TempVarSymbMorphismFinderTest.class
 //   ,PushoutComplement_DiaChasing.class

@@ -219,8 +219,48 @@
           href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameterTypes>
   </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.16"
+      symbol=">=">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.0"
+      symbol="+">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.9"
+      symbol="=">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+  </predicateSpecifications>
   <smtLibPredicateSpecifications
-      predicateSpecifications="//@predicateSpecifications.0"
+      predicateSpecifications="//@predicateSpecifications.0 //@predicateSpecifications.17"
       smtLibString="(define-fun add((x!0 Int)(x!1 Int)(x!2 Int)) Bool (= x!0 (+ x!1 x!2)) )"
       identifier="(add $x0$ $x1$ $x2$)"/>
   <smtLibPredicateSpecifications
@@ -254,7 +294,7 @@
       smtLibString="(define-fun isLarger((x!0 Int)(x!1 Int)(x!2 Bool)) Bool (= (>= x!0 x!1) x!2) )"
       identifier="(isLarger $x0$ $x1$ $x2$)"/>
   <smtLibPredicateSpecifications
-      predicateSpecifications="//@predicateSpecifications.9"
+      predicateSpecifications="//@predicateSpecifications.9 //@predicateSpecifications.18"
       smtLibString="(define-fun equalInt((x!0 Int)(x!1 Int)) Bool (= x!0 x!1) )"
       identifier="(equalInt $x0$ $x1$)"/>
   <smtLibPredicateSpecifications
@@ -281,4 +321,8 @@
       predicateSpecifications="//@predicateSpecifications.15"
       smtLibString="(define-fun subInt((x!0 Int)(x!1 Int)(x!2 Int)) Bool (= x!0 (- x!1 x!2)) )"
       identifier="(subInt $x0$ $x1$ $x2$)"/>
+  <smtLibPredicateSpecifications
+      predicateSpecifications="//@predicateSpecifications.16"
+      smtLibString="(define-fun largerEqInt((x!0 Int)(x!1 Int)) Bool (>= x!0 x!1) )"
+      identifier="(largerEqInt $x0$ $x1$)"/>
 </org.moflon.maave.tool.smt.constraintlib:SMTConstraintLibrary>
