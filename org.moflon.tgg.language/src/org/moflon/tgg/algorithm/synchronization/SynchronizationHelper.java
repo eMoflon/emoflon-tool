@@ -620,16 +620,4 @@ public class SynchronizationHelper
       set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(pgAsPSs);
       eMoflonEMFUtil.saveModel(pgAsPSs.eResource().getResourceSet(), pgAsPSs, path);
    }
-
-   /**
-    * This can be set to true to activate a stricter comparison of matches. This influences when matches are considered
-    * to be equal and can have a positive/negative effect on efficiency and memory consumption due to all the hashsets
-    * used.
-    * 
-    * @param value
-    */
-   public void filterMatches(final boolean value)
-   {
-      MatchImpl.filterMatches = value;
-   }
 }
