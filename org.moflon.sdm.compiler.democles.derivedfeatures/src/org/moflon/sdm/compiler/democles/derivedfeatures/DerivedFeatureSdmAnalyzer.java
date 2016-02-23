@@ -1,6 +1,5 @@
 package org.moflon.sdm.compiler.democles.derivedfeatures;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,12 +10,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.gervarro.democles.specification.emf.Constraint;
+import org.gervarro.democles.specification.emf.Pattern;
+import org.gervarro.democles.specification.emf.PatternBody;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
 import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.CFVariable;
-import org.moflon.sdm.runtime.democles.CompoundNode;
+import org.moflon.sdm.runtime.democles.RegularPatternInvocation;
 import org.moflon.sdm.runtime.democles.ReturnStatement;
 import org.moflon.sdm.runtime.democles.Scope;
 import org.moflon.sdm.runtime.democles.VariableReference;
@@ -68,20 +70,9 @@ public class DerivedFeatureSdmAnalyzer
             final Scope rootScope = (Scope) cfResource.getContents().get(0);
 
             for (EObject content : rootScope.eContents()) {
+                
                 if (content instanceof ReturnStatement) {
                     ReturnStatement returnStatement = (ReturnStatement) content;
-                    EList<Action> actions = returnStatement.getActions();
-                    for (Action action : actions) {
-                        EList<CFVariable> constructedVariables = action.getConstructedVariables();
-
-                        for (CFVariable variable : constructedVariables) {
-                            if (!variable.isLocal()) {
-                                EStructuralFeature eContainingFeature = variable.eContainingFeature();
-                                eContainingFeature.getName();
-                            }
-                        }
-                    }
-                    ActivityNode origin = returnStatement.getOrigin();
                 }
 
                 if (content instanceof CFNode) {
@@ -89,6 +80,21 @@ public class DerivedFeatureSdmAnalyzer
 
                     EList<Action> actions = cfNode.getActions();
                     for (Action action : actions) {
+                        
+                        if (action instanceof RegularPatternInvocation) {
+                            RegularPatternInvocation regPatInv = (RegularPatternInvocation)action;
+                            Pattern pattern = regPatInv.getPattern();
+                            if (pattern != null) {
+                                for (PatternBody patternBody : pattern.getBodies()) {
+                                    for (Constraint constraint : patternBody.getConstraints()) {
+                                        if (constraint instanceof AttributeValueConstraint) {
+                                            AttributeValueConstraint attrValConstraint = (AttributeValueConstraint)constraint;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
                         EList<CFVariable> constructedVariables = action.getConstructedVariables();
 
                         for (CFVariable variable : constructedVariables) {
@@ -109,6 +115,10 @@ public class DerivedFeatureSdmAnalyzer
                     for (EObject eObject : eContents) {
                         EStructuralFeature eContainingFeature = eObject.eContainingFeature();
                     }
+                }
+                
+                if (content instanceof CFVariable) {
+                    CFVariable cfVariable = (CFVariable) content;
                 }
 
             }
