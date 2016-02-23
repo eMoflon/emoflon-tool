@@ -1,4 +1,4 @@
-package org.moflon.ide.metamodelevolution.core.processing;
+package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -15,6 +15,7 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenameProjectRefactoring implements RenameRefactoring {
@@ -24,12 +25,12 @@ public class RenameProjectRefactoring implements RenameRefactoring {
 		refactorProject(project, change);
 	}
 	
-	private void refactorProject(IProject project, RenameChange renaming) 
+	private IStatus refactorProject(IProject project, RenameChange renaming) 
 	{
 		IJavaProject oldProject = JavaCore.create(project);
 
 	      if (!oldProject.exists())
-		         return;
+	         return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No Project for refactoring found");
 	      
 	      RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(IJavaRefactorings.RENAME_JAVA_PROJECT);
 	      RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
@@ -52,10 +53,17 @@ public class RenameProjectRefactoring implements RenameRefactoring {
 	         
 	      } catch (CoreException e)
 	      {
-	         // TODO@settl: Return an appropriate status and/or log if
-	         // status.severity() == IStatus.ERROR (RK)
 	         e.printStackTrace();
-	         new Status(IStatus.ERROR, "", "Problem during refactoring", e);
+	         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
 	      }
+         return Status.OK_STATUS;
 	   }
+
+   @Override
+   public IStatus refactor(IProject project)
+   {
+      return null;
+      // TODO Auto-generated method stub
+      
+   }
 }

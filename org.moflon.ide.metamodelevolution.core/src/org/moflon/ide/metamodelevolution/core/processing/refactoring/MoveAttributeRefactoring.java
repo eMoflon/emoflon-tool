@@ -1,4 +1,4 @@
-package org.moflon.ide.metamodelevolution.core.processing;
+package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;

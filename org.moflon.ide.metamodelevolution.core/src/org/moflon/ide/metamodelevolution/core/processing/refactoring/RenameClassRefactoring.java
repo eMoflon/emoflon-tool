@@ -1,4 +1,4 @@
-package org.moflon.ide.metamodelevolution.core.processing;
+package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -19,43 +19,43 @@ import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenameClassRefactoring implements RenameRefactoring
 {
 
    private static final String IMPL_File = "Impl";
-   
+
    private boolean processInjections;
-   
-   private String oldName;
-   
-   private String newName;
-   
-   private String packagePath;
-   
+
+   private final String oldName;
+
+   private final String newName;
+
+   private final String packagePath;
+
    public RenameClassRefactoring(String oldName, String newName, String packagePath, boolean processInjections)
    {
-	   this.oldName = oldName;
-	   this.newName = newName;
-	   this.packagePath = packagePath;
-	   this.processInjections = processInjections;
+      this.oldName = oldName;
+      this.newName = newName;
+      this.packagePath = packagePath;
+      this.processInjections = processInjections;
    }
-   
+
    @Override
-   public void refactor(IProject project, RenameChange renameChange)
+   public IStatus refactor(IProject project)
    {
-      refactorClass(project, renameChange);
+      return refactorClass(project);
    }
 
-   private void refactorClass(IProject project, RenameChange renameChange)
+   private IStatus refactorClass(IProject project)
    {
-
-	  IFile file = project.getFile(new Path(GEN_FOLDER + WorkspaceHelper.formatPackagePath(packagePath) + oldName + JAVA_EXTENSION));
-	  ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
+      IFile file = project.getFile(new Path(GEN_FOLDER + WorkspaceHelper.formatPackagePath(packagePath) + oldName + JAVA_EXTENSION));
+      ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
 
       if (!cu.exists())
-         return;
+         return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No EClass for refactoring found");
 
       RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(IJavaRefactorings.RENAME_COMPILATION_UNIT);
       RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
@@ -75,17 +75,16 @@ public class RenameClassRefactoring implements RenameRefactoring
 
          Change change = refactoring.createChange(monitor);
          change.perform(monitor);
-         
+
          if (processInjections)
          {
-             processInjections(project, file); 
+            processInjections(project, file);
          }
+         return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "EClass refactoring successful");
       } catch (CoreException e)
       {
-         // TODO@settl: Return an appropriate status and/or log if
-         // status.severity() == IStatus.ERROR (RK)
          e.printStackTrace();
-         new Status(IStatus.ERROR, "", "Problem during refactoring", e);
+         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
       }
    }
 
@@ -103,8 +102,7 @@ public class RenameClassRefactoring implements RenameRefactoring
       IFile previousInjectionFile = project.getFile(WorkspaceHelper.getPathToInjection(previousJavaFile));
       if (previousInjectionFile.exists())
       {
-         final String newLastSegmentOfInjectionFile = previousInjectionFile.getProjectRelativePath().lastSegment().replace(oldName,
-               newName);
+         final String newLastSegmentOfInjectionFile = previousInjectionFile.getProjectRelativePath().lastSegment().replace(oldName, newName);
          previousInjectionFile.move(Path.fromPortableString(newLastSegmentOfInjectionFile), true, new NullProgressMonitor());
       }
    }
@@ -114,9 +112,15 @@ public class RenameClassRefactoring implements RenameRefactoring
     */
    private IFile getCurrentJavaFile(IProject project, IFile previousJavaFile)
    {
-      final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(oldName,
-            newName);
+      final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(oldName, newName);
       final IPath newJavaFilePath = previousJavaFile.getProjectRelativePath().removeLastSegments(1).append(newLastSegment);
       return project.getFile(newJavaFilePath);
+   }
+
+   @Override
+   public void refactor(IProject project, RenameChange renameChange)
+   {
+      // TODO Auto-generated method stub
+
    }
 }

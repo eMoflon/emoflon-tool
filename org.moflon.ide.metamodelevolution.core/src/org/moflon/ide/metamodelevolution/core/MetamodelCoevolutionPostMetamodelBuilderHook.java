@@ -1,15 +1,21 @@
 package org.moflon.ide.metamodelevolution.core;
 
+import java.util.Map;
+
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
 import org.moflon.ide.metamodelevolution.core.changes.ChangesTreeCalculator;
 import org.moflon.ide.metamodelevolution.core.changes.MetamodelChangeCalculator;
 import org.moflon.ide.metamodelevolution.core.processing.JavaRefactorProcessor;
 import org.moflon.ide.metamodelevolution.core.processing.MetamodelDeltaProcessor;
+import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Node;
 
@@ -20,27 +26,53 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
    @Override
    public IStatus run(final PostMetamodelBuilderHookDTO postMetamodelBuilderHookDTO)
    {
-      logger.debug("Performing post-build step for meta-model co-evolution support");
-
-      Node mocaTree = MetamodelCoevolutionHelper.getMocaTree(postMetamodelBuilderHookDTO.metamodelproject);
-
-      //TODO@settl: Check whether tree is there - do nothing if not
-      Node changesTree = (Node) mocaTree.getChildren().get(0);
-      IProject repositoryProject = MetamodelCoevolutionHelper.getRepositoryProject(changesTree, postMetamodelBuilderHookDTO);     
-           
-      if (repositoryProject != null)
+      IStatus status = Status.OK_STATUS;
+      try
       {
+         logger.debug("Performing post-build step for meta-model co-evolution support");
+
+         Node changesTree = MetamodelCoevolutionHelper.getMocaTree(postMetamodelBuilderHookDTO.metamodelproject);
+         if (changesTree == null)
+         {
+            return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No Changes detected");
+         }
+
          MetamodelChangeCalculator changeCalculator = new ChangesTreeCalculator();
-         ChangeSequence delta = changeCalculator.parseTree(mocaTree);
-         
+         ChangeSequence delta = changeCalculator.parseTree(changesTree);
+
+         final Map<String, MetamodelProperties> projectPropertiesMap = postMetamodelBuilderHookDTO.extractRepositoryProjectProperties();
+
          if (delta.getEModelElementChange().size() > 0) // did we find any changes?
          {
-             MetamodelDeltaProcessor processor = new JavaRefactorProcessor();
-             processor.processDelta(repositoryProject, delta);
-         }        
+            for (EModelElementChange change : delta.getEModelElementChange())
+            {
+               final MetamodelProperties properties = projectPropertiesMap.get(change.getProjectName());
+               if (properties != null && properties.isRepositoryProject())
+               {
+                  final IProject repositoryProject = properties.getProject();
+                  MetamodelDeltaProcessor processor = new JavaRefactorProcessor();
+                  status = processor.processDelta(repositoryProject, delta);
+               } else
+               {
+                  // Integration projects are currently not supported
+               }
+            }            
+            if (status.isOK())
+            {
+            // delete changes tree if changes have been successfully processed
+               IFile changesTreeFile = WorkspaceHelper.getChangesMocaTree(postMetamodelBuilderHookDTO.metamodelproject);
+               if (changesTreeFile.exists())
+               {
+                  changesTreeFile.delete(false, new NullProgressMonitor());
+               }
+            }
+         }
+      } catch (Exception e)
+      {
+         e.printStackTrace();
+         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem in PostMetamodelBuilderHook during refactoring", e);
       }
-      //TODO@settl: Remove tree if everything in the changes tree has been successfully processed
-     
+
       return Status.OK_STATUS;
    }
 }

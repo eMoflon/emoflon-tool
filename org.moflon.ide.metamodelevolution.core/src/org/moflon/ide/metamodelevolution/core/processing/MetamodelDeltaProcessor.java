@@ -1,19 +1,17 @@
 package org.moflon.ide.metamodelevolution.core.processing;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IStatus;
 import org.moflon.ide.metamodelevolution.core.ChangeSequence;
 
 public interface MetamodelDeltaProcessor
 {
-   // TODO@settl Document all public API (rkluge)
-	   public final static String E_CLASS ="EClass";
-	   
-	   public final static String E_PACKAGE ="EPackage";
-	   
-	   public final static String TL_PACKAGE ="TLPackage";
-	   
-	   // TODO@settl Document all public API (rkluge)
-	   // TODO@settl: return an IStatus (if in doubt: Status.STATUS_OK)
-	   void processDelta(IProject project, ChangeSequence delta);
-	   
+   /**
+    * This method processes the changes found in the metamodel delta.
+    * 
+    * @param project
+    * @param delta
+    */
+   public IStatus processDelta(IProject project, ChangeSequence delta);
+
 }

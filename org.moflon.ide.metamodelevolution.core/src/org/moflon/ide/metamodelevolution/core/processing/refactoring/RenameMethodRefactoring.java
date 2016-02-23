@@ -1,12 +1,15 @@
-package org.moflon.ide.metamodelevolution.core.processing;
+package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Arrays;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaCore;
@@ -18,27 +21,51 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenameMethodRefactoring implements RenameRefactoring
 {
 
    private static String FACTORY = "Factory";
+   
+   private final String oldName;
 
-   // TODO@settl: for all kind of methods
+   private final String newName;
+
+   private final String packagePath;
+   
+   private final String[] parameters;
+   
+   private final String className;
+   
+   public RenameMethodRefactoring(String oldName, String newName, String packagePath, String[] parameters, String className)
+   {
+      this.oldName = oldName;
+      this.newName = newName;
+      this.packagePath = "/" + packagePath.replaceAll("\\.", "/") + "/";
+      if (parameters == null)
+      {
+         this.parameters = new String[0];
+      }
+      else 
+      {
+         this.parameters = parameters;
+      }
+      this.className = className;
+   }
+   
    @Override
-   public void refactor(IProject project, RenameChange renameChange)
+   public IStatus refactor(IProject project)
    {
       RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(IJavaRefactorings.RENAME_METHOD);
       RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
 
-      String packagePath = "/" + renameChange.getPackageName().replaceAll("\\.", "/") + "/";
-
       descriptor.setUpdateReferences(true);
       descriptor.setProject(project.getName());
-      descriptor.setNewName("create" + renameChange.getCurrentValue());
+      descriptor.setNewName(newName);
 
-      IFile file = project.getFile(new Path(GEN_FOLDER + packagePath + StringUtils.capitalize(getFactoryClassName(renameChange.getPackageName())) + JAVA_EXTENSION));
+      IFile file = project.getFile(new Path(GEN_FOLDER + packagePath + className) + JAVA_EXTENSION);
       ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
 
       if (cu.exists())
@@ -46,17 +73,17 @@ public class RenameMethodRefactoring implements RenameRefactoring
          IMethod method;
          try
          {
-            method = findMethod(cu, "create" + renameChange.getPreviousValue());
+            method = findMethod(cu, oldName);
             if (method != null)
                descriptor.setJavaElement(method);
             else
-               return;
+               return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No matching method for refactoring found");
          } catch (JavaModelException e)
          {
             e.printStackTrace();
          }
       } else
-         return;
+         return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No CompilationUnit for refactoring found");;
 
       RefactoringStatus status = new RefactoringStatus();
       try
@@ -69,35 +96,24 @@ public class RenameMethodRefactoring implements RenameRefactoring
 
          Change change = refactoring.createChange(monitor);
          change.perform(monitor);
-
-         //processInjections(project, file, renameChange);
+         return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Method Refactoring successfull");
       }
 
       catch (CoreException e)
       {
-         // TODO@settl: Return an appropriate status and/or log if
-         // status.severity() == IStatus.ERROR (RK)
          e.printStackTrace();
+         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
       }
-
    }
 
-   // TODO@settl: I have only added this without testing it becuase we currently only rename the factory methods
-   /*private void processInjections(IProject project, IFile javaFile, RenameChange renameChange)
-   {
-      JavaFileInjectionExtractor extractor = new JavaFileInjectionExtractor();
-      extractor.extractInjection(javaFile, false);
-   }*/
-
-   // TODO@settl: How to handle methods with identical name but different parameters?? (RK)
-   private static IMethod findMethod(ICompilationUnit cu, String methodName) throws JavaModelException
+   private IMethod findMethod(ICompilationUnit cu, String methodName) throws JavaModelException
    {
       try
       {
          IMethod[] methods = cu.findPrimaryType().getMethods();
          for (IMethod method : methods)
          {
-            if (method.getElementName().equals(methodName))
+            if (method.getElementName().equals(methodName) && Arrays.equals(method.getParameterTypes(), parameters))
                return method;
          }
       } catch (JavaModelException e)
@@ -107,8 +123,10 @@ public class RenameMethodRefactoring implements RenameRefactoring
       return null;
    }
 
-   private String getFactoryClassName(String packageName)
+   @Override
+   public void refactor(IProject project, RenameChange renameChange)
    {
-      return packageName.substring(packageName.lastIndexOf(".") + 1) + FACTORY;
+      // TODO Auto-generated method stub
+      
    }
 }

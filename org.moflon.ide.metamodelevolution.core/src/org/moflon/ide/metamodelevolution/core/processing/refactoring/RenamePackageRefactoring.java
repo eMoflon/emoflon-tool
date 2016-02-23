@@ -1,4 +1,4 @@
-package org.moflon.ide.metamodelevolution.core.processing;
+package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -17,6 +17,7 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenamePackageRefactoring implements RenameRefactoring
@@ -32,21 +33,23 @@ public class RenamePackageRefactoring implements RenameRefactoring
 	}
 	
    @Override
-   public void refactor(IProject project, RenameChange change)
+   public IStatus refactor(IProject project)
    {
       try
       {
          if(project.hasNature("org.eclipse.jdt.core.javanature")) {
             
-            refactorPackage(project);
+            return refactorPackage(project);
          }
       } catch (CoreException e)
       {
          e.printStackTrace();
+         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during RenamePackage Refactoring", e);
       }
+      return Status.OK_STATUS;
    }
    
-   private void refactorPackage(IProject project)
+   private IStatus refactorPackage(IProject project)
    {
 	  IJavaProject javaProject = JavaCore.create(project);
       IPackageFragment[] packages;
@@ -73,8 +76,8 @@ public class RenamePackageRefactoring implements RenameRefactoring
             }
          }
          if (!hasElement)
-        	 return;
-         
+        	 return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No EPackage for refactoring found");
+        
          RefactoringStatus status = new RefactoringStatus();
          Refactoring refactoring = descriptor.createRefactoring(status);
 
@@ -91,7 +94,15 @@ public class RenamePackageRefactoring implements RenameRefactoring
       } catch (Exception e)
       {
          e.printStackTrace();
-         new Status(IStatus.ERROR, "", "Problem during refactoring", e);
-      }     
+         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
+      }
+      return Status.OK_STATUS;     
+   }
+
+   @Override
+   public void refactor(IProject project, RenameChange renameChange)
+   {
+      // TODO Auto-generated method stub
+      
    }
 }

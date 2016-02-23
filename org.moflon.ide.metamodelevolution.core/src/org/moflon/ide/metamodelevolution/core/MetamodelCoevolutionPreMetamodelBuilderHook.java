@@ -29,18 +29,33 @@ public class MetamodelCoevolutionPreMetamodelBuilderHook implements PreMetamodel
          logger.debug("Performing pre-build step for meta-model co-evolution support");
 
          Node changesTree = MetamodelCoevolutionHelper.getMocaTree(preMetamodelBuilderHookDTO.metamodelproject);
-
-         // TODO@settl: Check whether tree is there - do nothing if not
+         if (changesTree == null)
+         {
+            return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No Changes detected");
+         }
 
          MetamodelChangeCalculator changeCalculator = new ChangesTreeCalculator();
          ChangeSequence delta = changeCalculator.parseTree(changesTree);
 
+         final Map<String, MetamodelProperties> projectPropertiesMap = preMetamodelBuilderHookDTO.extractRepositoryProjectProperties();
 
          if (delta.getEModelElementChange().size() > 0) // did we find any changes?
          {
-            final Map<String, MetamodelProperties> projectPropertiesMap = preMetamodelBuilderHookDTO.extractRepositoryProjectProperties();
+        	 for (EModelElementChange change : delta.getEModelElementChange())
+        	 {
+        		 final MetamodelProperties properties = projectPropertiesMap.get(change.getProjectName());
+                 if (properties != null && properties.isRepositoryProject())
+                 {
+                    final IProject repositoryProject = properties.getProject();
+                    MetamodelDeltaProcessor processor = new RenameProjectProcessor();
+                    processor.processDelta(repositoryProject, delta);
+                 } else
+                 {
+                    // Integration projects are currently not supported
+                 }
+        	 }
             
-            for (final String projectName : projectPropertiesMap.keySet())
+            /*for (final String projectName : projectPropertiesMap.keySet())
             {
                final MetamodelProperties properties = projectPropertiesMap.get(projectName);
                
@@ -53,13 +68,13 @@ public class MetamodelCoevolutionPreMetamodelBuilderHook implements PreMetamodel
                {
                   // Integration projects are currently not supported
                }
-            }
+            }*/
          }
 
          return Status.OK_STATUS;
       } catch (final CoreException e)
       {
-         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem why running pre builder hook", e);
+         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem in PreMetamodelBuilderHook during refactoring", e);
       }
 
    }

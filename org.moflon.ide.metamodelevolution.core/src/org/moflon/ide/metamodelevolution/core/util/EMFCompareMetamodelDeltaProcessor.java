@@ -10,6 +10,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaModelMarker;
 import org.eclipse.jdt.core.ITypeRoot;
@@ -287,7 +288,8 @@ public class EMFCompareMetamodelDeltaProcessor implements MetamodelDeltaProcesso
 
 
 @Override
-public void processDelta(IProject project, ChangeSequence delta) {
+public IStatus processDelta(IProject project, ChangeSequence delta) {
+   return null;
 	// TODO Auto-generated method stub
 	
 }
