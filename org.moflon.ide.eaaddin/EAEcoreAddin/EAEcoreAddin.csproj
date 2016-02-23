@@ -214,6 +214,7 @@
     </Compile>
     <Compile Include="Refactoring\CachedClass.cs" />
     <Compile Include="Refactoring\CachedElement.cs" />
+    <Compile Include="Refactoring\CachedNamedElement.cs" />
     <Compile Include="Refactoring\CachedPackage.cs" />
     <Compile Include="Refactoring\Changes.cs" />
     <Compile Include="Server\DataReceiveStrategy.cs" />

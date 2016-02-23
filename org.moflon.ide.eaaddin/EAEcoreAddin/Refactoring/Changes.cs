@@ -30,6 +30,7 @@ namespace EAEcoreAddin.Refactoring
         {
             this.currentNode = new MocaNode();
             MocaNode outerMostPackageMocaNode = processEPackage(outermostPackage);
+            outerMostPackageMocaNode.appendChildAttribute("Changes::IsTLP", "true");
 
             return outerMostPackageMocaNode;
         }
@@ -44,38 +45,47 @@ namespace EAEcoreAddin.Refactoring
 
                 EPackage ePackage = new EPackage(eaPackage, repository);
                 MocaNode ePackageMocaNode = MocaTreeUtil.mocaNodeFromXmlString(mocaTreeTag.Notes);
-                ePackage.addAttributesDuringExport(ePackageMocaNode);
 
-                /*SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaPackage, Main.MoflonChangesTreeTaggedValueName);
-                if (changesTreeTag == null)
+                SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaPackage, Main.MoflonChangesTreeTaggedValueName);
+                if (changesTreeTag != null)
                 {
                     MocaNode ePackageChangesMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
-                    ePackage.addAttributesDuringExport(ePackageChangesMocaNode);
-                }*/
+                    //ePackage.addAttributesDuringExport(ePackageChangesMocaNode);
+                    ePackage.addChangesAttributesDuringExport(ePackageMocaNode, changesTreeTag);
 
-                this.currentNode.appendChildNode(ePackageMocaNode);
+                    CachedPackage temp = new CachedPackage();
+                    temp.getPackage(eaPackage.PackageGUID, repository);
+                    temp.name = eaPackage.Name;
+                    temp.previousName = eaPackage.Name;
+                    temp.packageName = ePackageChangesMocaNode.getAttribute("packageName").Value;
+                    //temp.isTLP = ePackageChangesMocaNode.getAttribute("isTLP").Value;
+                    temp.savePackageToEATaggedValue(true);
+                }
 
-                foreach (SQLElement childClass in eaPackage.Elements)
-                {
-                    this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.ClassesChildNodeName);
-                    if (childClass.Stereotype.ToLower() == ECOREModelingMain.EClassStereotype.ToLower())
+                ePackage.addAttributesDuringExport(ePackageMocaNode);
+
+                //String workingSetName = ePackageMocaNode.getAttribute("Moflon::WorkingSet").Value;
+                //if (!workingSetName.Equals("Dependencies"))
+                //{
+                    
+                    this.currentNode.appendChildNode(ePackageMocaNode);
+
+                    foreach (SQLElement childClass in eaPackage.Elements)
                     {
-                        processEClass(childClass);
+                        this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.ClassesChildNodeName);
+                        if (childClass.Stereotype.ToLower() == ECOREModelingMain.EClassStereotype.ToLower())
+                        {
+                            processEClass(childClass);
+                        }
                     }
-                }
 
-                foreach (SQLPackage childPackage in eaPackage.Packages)
-                {
-                    this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.PackagesChildNodeName);
-                    processEPackage(childPackage);
-                }
-
-                /*CachedPackage temp = new CachedPackage();
-                temp.getPackage(eaPackage.PackageGUID, repository);
-                temp.name = eaPackage.Name;
-                temp.previousName = eaPackage.Name;
-                temp.savePackageToEATaggedValue(true);*/
-
+                    foreach (SQLPackage childPackage in eaPackage.Packages)
+                    {
+                        this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.PackagesChildNodeName);
+                        processEPackage(childPackage);
+                    }
+                    
+                //}
                 return ePackageMocaNode;
             }
             return null;
@@ -96,12 +106,14 @@ namespace EAEcoreAddin.Refactoring
                 this.currentNode.appendChildNode(eClassMocaNode);
 
                 String packageName = eClassMocaNode.getAttribute("packageName").Value;
+                String projectName = eClassMocaNode.getAttribute("projectName").Value;
 
                 CachedClass temp = new CachedClass();
                 temp.getElement(eaClass.ElementGUID, repository);
                 temp.name = eClass.Name;
                 temp.previousName = eClass.Name;
                 temp.packageName = packageName;
+                temp.projectName = projectName;
                 temp.saveElementToEATaggedValue(true);
                 
                 return eClassMocaNode;

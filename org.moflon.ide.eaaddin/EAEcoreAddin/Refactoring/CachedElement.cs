@@ -15,7 +15,6 @@ namespace EAEcoreAddin.Refactoring
         public SQLRepository sqlRepository;
 
         public abstract MocaNode serializeToMocaTree();
-        //public abstract void cache();
 
         public void getElement(String GUID, SQLRepository repository)
         {
@@ -44,14 +43,6 @@ namespace EAEcoreAddin.Refactoring
         public void saveElementToEATaggedValue(Boolean updateEaGui)
         {
             EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(this.sqlRepository, this.element, Main.MoflonChangesTreeTaggedValueName, getXMLDocumentString());
-            
-            refreshSQLObject();
-        }
-
-        //TODO@settl: Remove
-        public void refreshSQLObject()
-        {
-            this.element = this.sqlRepository.GetElementByID(this.element.ElementID);
         }
     }
 }

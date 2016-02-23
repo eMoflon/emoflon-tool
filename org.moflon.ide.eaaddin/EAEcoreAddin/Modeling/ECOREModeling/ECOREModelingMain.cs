@@ -157,11 +157,6 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
             
         }
 
-        public void EA_OnContextItemChanged(EA.Repository Repository, String GUID, EA.ObjectType ot)
-        {
-
-        }
-
         public void EA_OnNotifyContextItemModified(EA.Repository Repository, String GUID, EA.ObjectType ot)
         {
 
@@ -220,9 +215,8 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
                     }
                 }
             }
-            
-
         }
+
         private String addPackageName(EPackage epackage, String path, SQLRepository repository)
         {
             if (path.Equals(""))
@@ -247,9 +241,19 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
         {
             SQLPackage package = sqlRepository.GetPackageByID(eaElement.PackageID);
             EPackage epackage = new EPackage(package, sqlRepository);
-            String packages = addPackageName(epackage, "", sqlRepository);
+           // String packages = addPackageName(epackage, "", sqlRepository);
 
             String previousName = eaElement.Name;
+
+            SQLTaggedValue exportTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaElement, Main.MoflonExportTreeTaggedValueName);
+            /*if (exportTreeTag != null)
+            {
+                MocaNode eClassMocaNode = MocaTreeUtil.mocaNodeFromXmlString(exportTreeTag.Notes);
+                MocaNode eClassAttributes = eClassMocaNode.Children[1];
+                eClassAttributes.getAttribute()
+
+                previousName = eClassMocaNode.getAttribute("previousName").Value;
+            }*/
 
             SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaElement, Main.MoflonChangesTreeTaggedValueName);
             if (changesTreeTag != null)
@@ -261,51 +265,44 @@ namespace EAEcoreAddin.Modeling.ECOREModeling
             temp.getElement(GUID, sqlRepository);
             temp.name = eaElement.Name;
             temp.previousName = previousName;
-            temp.packageName = packages;
+            temp.packageName = addPackageName(epackage, "", sqlRepository);
+            temp.projectName = getTopLevelPackageName(package, sqlRepository);
             temp.saveElementToEATaggedValue(true);
         }
         private void savePackageChangesToEATaggedValue(SQLRepository sqlRepository, String GUID) 
         {
-            /*SQLPackage sqlPackage = sqlRepository.GetPackageByGuid(GUID);
-            SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(sqlPackage, Main.MoflonChangesTreeTaggedValueName);
-            MocaNode eClassMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
+            SQLPackage sqlPackage = sqlRepository.GetPackageByGuid(GUID);
+            EPackage epackage = new EPackage(sqlPackage, sqlRepository);
+            String packages = addPackageName(epackage, "", sqlRepository);
 
-            String previousName;
-            if (eClassMocaNode.getAttribute("previousName") == null)
+            String previousName = sqlPackage.Name;
+
+            SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(sqlPackage, Main.MoflonChangesTreeTaggedValueName);
+            if (changesTreeTag != null)
             {
-                previousName = eaPackage.Name;
-            }
-            else
-            {
+                MocaNode eClassMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
                 previousName = eClassMocaNode.getAttribute("previousName").Value;
             }
 
             CachedPackage temp = new CachedPackage();
             temp.getPackage(GUID, sqlRepository);
-            temp.name = eaPackage.Name;
+            temp.name = sqlPackage.Name;
             temp.previousName = previousName;
-            if (isTopLevelPackage(eaPackage, sqlRepository))
-            {
-                temp.isTLP = "true";
-            }
-            else
-            {
-                temp.isTLP = "false";
-            }
-            temp.savePackageToEATaggedValue(true);*/
+            temp.packageName = packages;
+            temp.projectName = getTopLevelPackageName(sqlPackage, sqlRepository);
+            temp.savePackageToEATaggedValue(true);
         }
 
-        private Boolean isTopLevelPackage(EA.Package epackage, SQLRepository repository)
+        private String getTopLevelPackageName(SQLPackage sqlPackage, SQLRepository repository)
         {
-            Boolean isTLP = false;
-            int parentID = epackage.ParentID;
+            int parentID = sqlPackage.ParentID;
             SQLPackage parent = repository.GetPackageByID(parentID);
 
-            if (!parent.IsModel)
+            if (parent.IsModel)
             {
-                return true;
+                return getTopLevelPackageName(parent, repository);
             }
-            return isTLP;
+            return sqlPackage.Name;
         }
     }
 }

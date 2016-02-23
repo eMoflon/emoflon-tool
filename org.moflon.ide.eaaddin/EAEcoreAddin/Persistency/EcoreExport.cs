@@ -120,7 +120,7 @@ namespace EAEcoreAddin.Persistency
         {
             //this.exportProgressBar.invokePerformNext("exporting EClass: " + eaClass.Name);
 
-            SQLTaggedValue refactorTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaClass, Main.MoflonChangesTreeTaggedValueName);
+            SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaClass, Main.MoflonChangesTreeTaggedValueName);
 
 
             SQLTaggedValue mocaTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaClass, Main.MoflonExportTreeTaggedValueName);
@@ -132,11 +132,10 @@ namespace EAEcoreAddin.Persistency
 
                 eClass.addMocaAttributesDuringExport(eClassMocaNode);
 
-                if (refactorTreeTag != null)
+                if (changesTreeTag != null)
                 {
-
-                    MocaNode eClassRefactorNode = MocaTreeUtil.mocaNodeFromXmlString(refactorTreeTag.Notes);
-                    eClass.addMocaAttributesDuringExport(eClassRefactorNode);
+                    MocaNode eClassChangesNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
+                    eClass.addMocaAttributesDuringExport(eClassChangesNode);
                 }
                 //add baseclass dependencies
                 foreach (var baseClass in eClassMocaNode.getAttributeOrCreate("baseClasses").Value.Split(" ".ToArray()))

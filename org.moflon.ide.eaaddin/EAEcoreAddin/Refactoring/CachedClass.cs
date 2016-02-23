@@ -6,32 +6,22 @@ using EAEcoreAddin.Serialization.MocaTree;
 
 namespace EAEcoreAddin.Refactoring
 {
-    //TODO@settl: --> CachedNamedElement
     class CachedClass : CachedElement
     {
+        public string type;
         public string previousName;
         public string name;
         public string packageName;
-
-        /*public override void cache()
-        {
-            if (this.element != null)
-            {
-                if (!(this.element.Name.Equals(this.previousName)))
-                {
-                    this.previousName = this.element.Name;
-                }
-            }
-        }*/
+        public string projectName;
 
         public override Serialization.MocaTree.MocaNode serializeToMocaTree()
         {
-            MocaNode eclassNode = new MocaNode("EClass");     
-            eclassNode.appendChildAttribute("name", this.name);
-            eclassNode.appendChildAttribute("previousName", this.previousName);
-            eclassNode.appendChildAttribute("packageName", this.packageName);
-            return eclassNode;
+            MocaNode ePackageNode = new MocaNode("EClass");
+            ePackageNode.appendChildAttribute("name", this.name);
+            ePackageNode.appendChildAttribute("previousName", this.previousName);
+            ePackageNode.appendChildAttribute("packageName", this.packageName);
+            ePackageNode.appendChildAttribute("projectName", this.projectName);
+            return ePackageNode;
         }
-
     }
 }

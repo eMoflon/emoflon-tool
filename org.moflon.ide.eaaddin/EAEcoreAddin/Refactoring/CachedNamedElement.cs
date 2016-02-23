@@ -1,36 +1,23 @@
-﻿using System;
+﻿using EAEcoreAddin.Serialization.MocaTree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EAEcoreAddin.SQLWrapperClasses;
 using EAEcoreAddin.Serialization.MocaTree;
-using EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper;
 
 namespace EAEcoreAddin.Refactoring
-{   
-    class CachedPackage : CachedElement
+{
+    class CachedNamedElement : CachedElement
     {
-        public SQLPackage package;
         public string type;
         public string previousName;
         public string name;
         public string packageName;
         public string projectName;
 
-        public void getPackage(String GUID, SQLRepository repository)
-        {
-            this.sqlRepository = repository;
-            this.package = this.sqlRepository.GetPackageByGuid(GUID);
-        }
-
-        public void savePackageToEATaggedValue(Boolean updateEaGui)
-        {
-            EAEcoreAddin.Util.EAUtil.setTaggedValueNotes(this.sqlRepository, this.package, Main.MoflonChangesTreeTaggedValueName, getXMLDocumentString());
-        }
-
         public override Serialization.MocaTree.MocaNode serializeToMocaTree()
         {
-            MocaNode ePackageNode = new MocaNode("EPackage");
+            MocaNode ePackageNode = new MocaNode(type);
             ePackageNode.appendChildAttribute("name", this.name);
             ePackageNode.appendChildAttribute("previousName", this.previousName);
             ePackageNode.appendChildAttribute("packageName", this.packageName);

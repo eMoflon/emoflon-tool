@@ -288,7 +288,7 @@ namespace EAEcoreAddin
             //delete all queued Elements
             deleteElementsInQueue(Repository);
 
-            ecoreModeling.EA_OnContextItemChanged(Repository, GUID, ot);
+            //ecoreModeling.EA_OnContextItemChanged(Repository, GUID, ot);
 
         }
 

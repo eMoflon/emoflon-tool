@@ -50,6 +50,17 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             helper.addAttributesDuringExport(pkgNode);
         }
 
+        public void addChangesAttributesDuringExport(MocaNode pkgNode, SQLTaggedValue changesTreeTag)
+        {
+            MocaNode ePackageMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
+
+            pkgNode.appendChildAttribute("Changes::Name", ePackageMocaNode.getAttribute("name").Value);
+            pkgNode.appendChildAttribute("Changes::PreviousName", ePackageMocaNode.getAttribute("previousName").Value);
+            pkgNode.appendChildAttribute("Changes::PackageName", ePackageMocaNode.getAttribute("packageName").Value);
+            pkgNode.appendChildAttribute("Changes::ProjectName", ePackageMocaNode.getAttribute("projectName").Value);
+            //pkgNode.appendChildAttribute("Changes::IsTLP", ePackageMocaNode.getAttribute("isTLP").Value);
+        }
+
         public override void doEaGuiStuff()
         {
             EA.Package realPackage = EaPackage.getRealPackage();

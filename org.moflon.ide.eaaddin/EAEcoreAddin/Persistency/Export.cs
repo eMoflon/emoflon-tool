@@ -188,7 +188,9 @@ namespace EAEcoreAddin.Persistency
                         EPackage ePackage = new EPackage(projectPackage, Repository);
                         packageNameToEPackage.Add(projectPackage.Name, ePackage);
 
-                        if (!(projectPackage.Name.Equals("Ecore")) && !(projectPackage.Name.Equals("MocaTree"))) // we don't need the Ecore/MocaTree package in our changes tree
+                        String workingSetName = computeRootNodeName(ePackage);
+                        // export changes for metamodelevolution
+                        if (!(projectPackage.Name.Equals("Ecore")) && !(projectPackage.Name.Equals("MocaTree")) && !(workingSetName.Equals("Dependencies"))) // we don't need the Ecore/MocaTree package in our changes tree
                         {
                             outerMostPackageNodeChangesTree = changes.processOutermostPackage(projectPackage);
                         }
@@ -233,11 +235,11 @@ namespace EAEcoreAddin.Persistency
             if (outerMostPackageNodeChangesTree != null)
             {
                 this.ChangesTree.appendChildNode(outerMostPackageNodeChangesTree);
-                SQLTaggedValue moflonExportTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(projectPackage, MetamodelHelper.MoflonChangesTaggedValueName);
+                SQLTaggedValue moflonChangesTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(projectPackage, MetamodelHelper.MoflonChangesTaggedValueName);
 
                 Boolean createPropertyFile = true;
 
-                if (moflonExportTag != null && moflonExportTag.Value == "false")
+                if (moflonChangesTag != null && moflonChangesTag.Value == "false")
                     createPropertyFile = false;
 
                 if (!this.FullExport && !this.packageGuidsToExport.Contains(projectPackage.PackageGUID))
@@ -338,6 +340,14 @@ namespace EAEcoreAddin.Persistency
         
         }
 
-        
+        private String computeRootNodeName(EPackage package)
+        {
+            SQLPackage curPackage = package.EaPackage;
+            while (curPackage.ParentID != 0)
+            {
+                curPackage = package.Repository.GetPackageByID(curPackage.ParentID);
+            }
+            return curPackage.Name;
+        }
     }
 }
