@@ -9,9 +9,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -92,16 +94,16 @@ public class ConverterHelper {
 	
 	public static Node getEATree(final IFile file, final boolean export){
 		Ecore2MocaXMIConverter converter = Ecore2mocaxmiFactory.eINSTANCE.createEcore2MocaXMIConverter();
-		Node tree = null;
+		Node tree = converter.createNewRootNode();
 		AbstractMonitoredMetamodelLoader mmLoader = createMetaModelLoader(new ResourceSetImpl(), file);
 		try{
+			String fileName = file.getName().replace('.' + file.getFileExtension(), "");
 			mmLoader.run(new NullProgressMonitor());
 			Resource res = mmLoader.getEcoreResource();
-			EObject eObject = res.getContents().get(0);
-			if (eObject instanceof EPackage) {
-			    EPackage p = (EPackage)eObject;
-			    tree = converter.convert(p, file.getProject().getName(), export);
-		}
+			converter.clear();
+			EPackage p = getEPackage(res, fileName);
+			tree = converter.convert(p, "imported"+ fileName, export, tree);
+			converter.resolve();
 		}catch (Exception e){
 			logger.error("A Problem has been caused", e);
 			return null;
@@ -109,6 +111,63 @@ public class ConverterHelper {
 		return tree;
 	}
 	
+	private static EPackage getEPackage(Resource res, String fileName){
+		if(res.getContents().size() > 1 && moreThanOneAreEPackeges(res.getContents()))
+			return createNewSuperPackage(res.getContents(), fileName);
+		else if(res.getContents().size() >= 1 && onlyOneEPackage(res.getContents()))
+			return theSingleEPackage(res.getContents());
+		else
+			return null;
+	}
+
+	private static EPackage theSingleEPackage(EList<EObject> contents) {
+		for(EObject object : contents){
+			if(object instanceof EPackage)
+				return EPackage.class.cast(object);
+		}
+		return null;
+	}
+
+	private static boolean onlyOneEPackage(EList<EObject> contents) {
+		boolean theOneAndOnly = false;
+		for(EObject object : contents){
+			if(!theOneAndOnly && object instanceof EPackage)
+				theOneAndOnly = true;
+			else if(theOneAndOnly && object instanceof EPackage)
+				return false;
+		}
+		return theOneAndOnly;
+	}
+
+	private static EPackage createNewSuperPackage(EList<EObject> contents, String fileName) {
+		EPackage superPackage = EcoreFactory.eINSTANCE.createEPackage();
+		superPackage.setName("org.emoflon.importedEcore."+fileName);
+		superPackage.setNsPrefix("");
+		superPackage.setNsURI("");
+		for(EObject object : contents){
+			if(object instanceof EPackage){
+				EPackage ePackage = EPackage.class.cast(object);
+				superPackage.getESubpackages().add(ePackage);
+				if(ePackage.getNsPrefix() != null &&!superPackage.getNsPrefix().equals(ePackage.getNsPrefix()))
+					superPackage.setNsPrefix(ePackage.getNsPrefix());
+				
+				if(ePackage.getNsURI() != null && !superPackage.getNsURI().equals(ePackage.getNsURI()))
+					superPackage.setNsURI(ePackage.getNsURI());
+			}
+		}
+		return superPackage;
+	}
+
+	private static boolean moreThanOneAreEPackeges(EList<EObject> contents) {
+		boolean first = false;
+		for (EObject object : contents) {
+			if (first && object instanceof EPackage)
+				return true;
+			else if(object instanceof EPackage)
+				first = true;
+		}
+		return false;
+	}
 
 	public static IProject getProject(final List<String> parts){		
 		List<IProject> projects = WorkspaceHelper.getAllProjectsInWorkspace();

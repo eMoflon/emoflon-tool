@@ -47,4 +47,12 @@ partial class Ecore2MocaXMIConverterAdapterImpl {
 		return PathProvider.getNewPath(oldPath, element);
 	-->
 	
+	@model isNodeNull(Node node) <--
+		return node == null;
+	-->
+	
+	@model clear() <--
+		manager.clear();
+	-->
+	
 }

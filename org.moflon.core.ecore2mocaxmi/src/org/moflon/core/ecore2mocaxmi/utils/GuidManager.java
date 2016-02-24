@@ -27,11 +27,14 @@ public class GuidManager {
 		opposites = new HashMap<>();
 	}
 	
-	public void init(String projectName){
-		GuidGenerator.init(projectName);
+	public void clear(){
 		guids.clear();
 		searchMap.clear();
 		opposites.clear();
+	}
+	
+	public void init(String projectName){
+		GuidGenerator.init(projectName);
 	}
 	private String getGuid(ENamedElement element){
 		return getGuid(element, null);
