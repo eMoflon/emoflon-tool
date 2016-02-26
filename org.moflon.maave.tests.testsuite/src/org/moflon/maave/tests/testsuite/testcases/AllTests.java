@@ -10,10 +10,10 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,TestForStoryPatternToProjGraTraRules_Basic.class
    ,TestForStoryPatternToSymbGraTraRules_NAC.class
    ,MorphismFinderTest.class
-   ,PullbackTest.class
+//   ,PullbackTest.class
    ,PushoutUMPTest.class
    ,IsomorphicCopyTester.class
-   ,DirectDerivationTest.class
+//   ,DirectDerivationTest.class
    ,MorphismClassTest.class
    ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
    ,SubgraphBuilderTest.class
