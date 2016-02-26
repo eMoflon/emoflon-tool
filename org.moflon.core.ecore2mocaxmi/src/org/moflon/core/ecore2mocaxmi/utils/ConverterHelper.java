@@ -34,6 +34,7 @@ public class ConverterHelper {
 	protected static Logger logger;
 	
 	private final static String LOCK_FILE_EXTENSION=".ldb";
+	private final static String IMPORTED_PACKAGE_PREFIX="org.emoflon.importedecore.";
 	
 	public static void setLogger(final Logger log){
 		logger = log;
@@ -102,7 +103,7 @@ public class ConverterHelper {
 			Resource res = mmLoader.getEcoreResource();
 			converter.clear();
 			EPackage p = getEPackage(res, fileName);
-			tree = converter.convert(p, "imported"+ fileName, export, tree);
+			tree = converter.convert(p, "imported "+ file.getName(), export, tree);
 			converter.resolve();
 		}catch (Exception e){
 			logger.error("A Problem has been caused", e);
@@ -122,8 +123,11 @@ public class ConverterHelper {
 
 	private static EPackage theSingleEPackage(EList<EObject> contents) {
 		for(EObject object : contents){
-			if(object instanceof EPackage)
-				return EPackage.class.cast(object);
+			if(object instanceof EPackage){
+				EPackage ePackage = EPackage.class.cast(object);
+				ePackage.setName(IMPORTED_PACKAGE_PREFIX + ePackage.getName().toLowerCase());
+				return ePackage;
+			}
 		}
 		return null;
 	}
@@ -141,17 +145,17 @@ public class ConverterHelper {
 
 	private static EPackage createNewSuperPackage(EList<EObject> contents, String fileName) {
 		EPackage superPackage = EcoreFactory.eINSTANCE.createEPackage();
-		superPackage.setName("org.emoflon.importedEcore."+fileName);
-		superPackage.setNsPrefix("");
-		superPackage.setNsURI("");
+		superPackage.setName(IMPORTED_PACKAGE_PREFIX + fileName.toLowerCase());
+		superPackage.setNsPrefix("__default__");
+		superPackage.setNsURI("__default__");
 		for(EObject object : contents){
 			if(object instanceof EPackage){
 				EPackage ePackage = EPackage.class.cast(object);
 				superPackage.getESubpackages().add(ePackage);
-				if(ePackage.getNsPrefix() != null &&!superPackage.getNsPrefix().equals(ePackage.getNsPrefix()))
+				if(ePackage.getNsPrefix() != null && "".equalsIgnoreCase(ePackage.getNsPrefix()) &&!superPackage.getNsPrefix().equals(ePackage.getNsPrefix()))
 					superPackage.setNsPrefix(ePackage.getNsPrefix());
 				
-				if(ePackage.getNsURI() != null && !superPackage.getNsURI().equals(ePackage.getNsURI()))
+				if(ePackage.getNsURI() != null && "".equalsIgnoreCase(ePackage.getNsURI()) && !superPackage.getNsURI().equals(ePackage.getNsURI()))
 					superPackage.setNsURI(ePackage.getNsURI());
 			}
 		}
