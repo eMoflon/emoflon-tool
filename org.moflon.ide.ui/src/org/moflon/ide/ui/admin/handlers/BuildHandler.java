@@ -18,9 +18,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * Handler for the 'Build' command.
  * 
  * May be called on several projects.
- * 
- * The command performs a clean prior to building, which is especially necessary
- * due to the Democles code generation process.
  */
 public class BuildHandler extends AbstractCommandHandler {
 

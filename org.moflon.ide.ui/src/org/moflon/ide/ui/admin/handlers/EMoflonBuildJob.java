@@ -4,21 +4,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.eclipse.job.IMonitoredJob;
-import org.moflon.eclipse.job.ProgressMonitoringJob;
 import org.moflon.ide.core.util.BuilderHelper;
 import org.moflon.ide.ui.UIActivator;
 
@@ -30,8 +26,6 @@ public class EMoflonBuildJob extends WorkspaceJob
 
    private final List<IProject> projects;
 
-   private final boolean validateAutomaticallyIfCodeGenerationFailed = true;
-
    public EMoflonBuildJob(final String name, final List<IProject> projects)
    {
       super(name);
@@ -42,55 +36,36 @@ public class EMoflonBuildJob extends WorkspaceJob
    @Override
    public IStatus runInWorkspace(final IProgressMonitor monitor)
    {
-      IStatus status = OK_STATUS;
+      final MultiStatus resultStatus = new MultiStatus(UIActivator.getModuleID(), 0, "eMoflon Build Job failed", null);
+      
       final List<IProject> projectsToBeBuilt = this.projects.stream().filter(project -> shallBuildProject(project)).collect(Collectors.toList());
-
       try
       {
-         monitor.beginTask("eMoflon Cleaning", 4 * projectsToBeBuilt.size());
+         monitor.beginTask("eMoflon Cleaning", 2 * projectsToBeBuilt.size());
 
          for (final IProject project : projectsToBeBuilt)
          {
-            final IStatus projectBuildStatus = cleanAndBuild(project, WorkspaceHelper.createSubMonitor(monitor, 2));
-            if (projectBuildStatus != OK_STATUS)
+            try
             {
-               status = projectBuildStatus;
-            }
-         }
-
-         BuilderHelper.generateCodeInOrder(WorkspaceHelper.createSubMonitor(monitor, projectsToBeBuilt.size()), projectsToBeBuilt);
-      } catch (final CoreException e)
-      {
-         logger.error("Unable to Clean and Build: " + MoflonUtil.displayExceptionAsString(e));
-         status = new Status(IStatus.ERROR, UIActivator.getModuleID(), IStatus.ERROR, "Error during clean and build", e);
-
-         if (this.validateAutomaticallyIfCodeGenerationFailed)
-         {
-            for (final IProject project : projectsToBeBuilt)
-            {
-               final IFile ecoreFile = WorkspaceHelper.getDefaultEcoreFile(project);
-
-               final IMonitoredJob validationTask = (IMonitoredJob) Platform.getAdapterManager().loadAdapter(ecoreFile,
-                     "org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator");
-
-               if (validationTask != null)
+               final IStatus projectBuildStatus = cleanAndBuild(project, WorkspaceHelper.createSubMonitor(monitor, 2));
+               if (!projectBuildStatus.isOK())
                {
-                  final ProgressMonitoringJob job = new ProgressMonitoringJob(CodeGeneratorPlugin.getModuleID(), validationTask);
-                  job.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+                  resultStatus.add(projectBuildStatus);
                }
+               
+               BuilderHelper.generateCodeInOrder(WorkspaceHelper.createSubMonitor(monitor, projectsToBeBuilt.size()), projectsToBeBuilt);
+            } catch (final CoreException e)
+            {
+               logger.error("Unable to build " + project.getName() + ": " + MoflonUtil.displayExceptionAsString(e));
+               resultStatus.add(new Status(IStatus.ERROR, UIActivator.getModuleID(), IStatus.ERROR, "Error while building " + project.getName(), e));
             }
-
-         } else
-         {
-            monitor.worked(projectsToBeBuilt.size());
          }
-
       } finally
       {
          monitor.done();
       }
 
-      return status;
+      return resultStatus.matches(Status.ERROR) ? resultStatus : Status.OK_STATUS;
    }
 
    private IStatus cleanAndBuild(final IProject project, final IProgressMonitor monitor)
