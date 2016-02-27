@@ -102,8 +102,12 @@ public class RepositoryCodeGenerator
     * Handles errors and warning produced by the code generation task
     * @param status
     */
-   private void handleErrorsAndWarnings(final IStatus status)
+   private void handleErrorsAndWarnings(final IStatus status) throws CoreException
    {
+      if (indicatesThatValidationCrashed(status))
+      {
+         throw new CoreException(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), status.getMessage(), status.getException().getCause()));
+      }
       if (status.matches(IStatus.ERROR))
       {
          handleErrorsInEA(status);
@@ -113,6 +117,11 @@ public class RepositoryCodeGenerator
       {
          handleInjectionWarningsAndErrors(status);
       }
+   }
+
+   private boolean indicatesThatValidationCrashed(IStatus status)
+   {
+      return status.getException() != null;
    }
 
    private void handleInjectionWarningsAndErrors(final IStatus status)
