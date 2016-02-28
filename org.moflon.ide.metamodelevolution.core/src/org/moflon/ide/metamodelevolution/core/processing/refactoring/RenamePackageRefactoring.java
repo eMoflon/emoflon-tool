@@ -18,7 +18,6 @@ import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
-import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenamePackageRefactoring implements RenameRefactoring
 {
@@ -97,12 +96,5 @@ public class RenamePackageRefactoring implements RenameRefactoring
          return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
       }
       return Status.OK_STATUS;     
-   }
-
-   @Override
-   public void refactor(IProject project, RenameChange renameChange)
-   {
-      // TODO Auto-generated method stub
-      
    }
 }

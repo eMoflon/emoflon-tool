@@ -22,13 +22,9 @@ import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
-import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenameMethodRefactoring implements RenameRefactoring
-{
-
-   private static String FACTORY = "Factory";
-   
+{   
    private final String oldName;
 
    private final String newName;
@@ -121,12 +117,5 @@ public class RenameMethodRefactoring implements RenameRefactoring
          e.printStackTrace();
       }
       return null;
-   }
-
-   @Override
-   public void refactor(IProject project, RenameChange renameChange)
-   {
-      // TODO Auto-generated method stub
-      
    }
 }

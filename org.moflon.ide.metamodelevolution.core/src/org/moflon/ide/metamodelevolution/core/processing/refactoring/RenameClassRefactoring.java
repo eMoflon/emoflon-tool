@@ -20,12 +20,9 @@ import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
-import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class RenameClassRefactoring implements RenameRefactoring
 {
-
-   private static final String IMPL_File = "Impl";
 
    private boolean processInjections;
 
@@ -115,12 +112,5 @@ public class RenameClassRefactoring implements RenameRefactoring
       final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(oldName, newName);
       final IPath newJavaFilePath = previousJavaFile.getProjectRelativePath().removeLastSegments(1).append(newLastSegment);
       return project.getFile(newJavaFilePath);
-   }
-
-   @Override
-   public void refactor(IProject project, RenameChange renameChange)
-   {
-      // TODO Auto-generated method stub
-
    }
 }
