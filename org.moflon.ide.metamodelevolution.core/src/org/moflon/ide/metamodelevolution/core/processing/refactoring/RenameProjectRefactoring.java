@@ -16,54 +16,54 @@ import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
-import org.moflon.ide.metamodelevolution.core.RenameChange;
 
-public class RenameProjectRefactoring implements RenameRefactoring {
+public class RenameProjectRefactoring implements RenameRefactoring
+{
 
-	@Override
-	public void refactor(IProject project, RenameChange change) {
-		refactorProject(project, change);
-	}
-	
-	private IStatus refactorProject(IProject project, RenameChange renaming) 
-	{
-		IJavaProject oldProject = JavaCore.create(project);
+   private final String currentValue;
 
-	      if (!oldProject.exists())
-	         return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No Project for refactoring found");
-	      
-	      RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(IJavaRefactorings.RENAME_JAVA_PROJECT);
-	      RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
-	      descriptor.setProject(null);
-	      descriptor.setUpdateReferences(true);
-	      descriptor.setNewName(renaming.getCurrentValue());
-	      descriptor.setJavaElement(oldProject);
-	      
-	      RefactoringStatus status = new RefactoringStatus();
-	      try
-	      {
-	         Refactoring refactoring = descriptor.createRefactoring(status);
-
-	         IProgressMonitor monitor = new NullProgressMonitor();
-	         refactoring.checkInitialConditions(monitor);
-	         refactoring.checkFinalConditions(monitor);
-
-	         Change change = refactoring.createChange(monitor);
-	         change.perform(monitor);
-	         
-	      } catch (CoreException e)
-	      {
-	         e.printStackTrace();
-	         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
-	      }
-         return Status.OK_STATUS;
-	   }
-
+   public RenameProjectRefactoring(String currentName)
+   {
+      this.currentValue = currentName;
+   }
+   
    @Override
    public IStatus refactor(IProject project)
    {
-      return null;
-      // TODO Auto-generated method stub
-      
+      return refactorProject(project);
+   }
+   
+   private IStatus refactorProject(IProject project)
+   {
+      IJavaProject oldProject = JavaCore.create(project);
+
+      if (!oldProject.exists())
+         return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No Project for refactoring found");
+
+      RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(IJavaRefactorings.RENAME_JAVA_PROJECT);
+      RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
+      descriptor.setProject(null);
+      descriptor.setUpdateReferences(true);
+      descriptor.setNewName(currentValue);
+      descriptor.setJavaElement(oldProject);
+
+      RefactoringStatus status = new RefactoringStatus();
+      try
+      {
+         Refactoring refactoring = descriptor.createRefactoring(status);
+
+         IProgressMonitor monitor = new NullProgressMonitor();
+         refactoring.checkInitialConditions(monitor);
+         refactoring.checkFinalConditions(monitor);
+
+         Change change = refactoring.createChange(monitor);
+         change.perform(monitor);
+
+      } catch (CoreException e)
+      {
+         e.printStackTrace();
+         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
+      }
+      return Status.OK_STATUS;
    }
 }

@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.ide.metamodelevolution.core;singleton:
  =true
-Export-Package: org.moflon.ide.metamodelevolution.core.util,
- org.moflon.ide.metamodelevolution.core,
+Export-Package: org.moflon.ide.metamodelevolution.core,
+ org.moflon.ide.metamodelevolution.core.util,
  org.moflon.ide.metamodelevolution.core.impl
 Bundle-Name: org.moflon.ide.metamodelevolution.core
 Bundle-Version: 2.0.0.qualifier
