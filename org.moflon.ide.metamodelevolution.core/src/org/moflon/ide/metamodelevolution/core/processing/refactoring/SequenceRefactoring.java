@@ -41,26 +41,133 @@ public class SequenceRefactoring
             null, getFactoryInterfaceName(getLastPackageComponent(packageName)));
       factoryMethodRenaming.refactor(project);
 
-      RenameRefactoring methodRenaming = new RenameMethodRefactoring(getPackageMethodName(previousName), getPackageMethodName(currentName), packageName,
-            null, getPackageInterfaceName(getLastPackageComponent(packageName)));
+      RenameRefactoring methodRenaming = new RenameMethodRefactoring(getPackageMethodName(previousName), getPackageMethodName(currentName), packageName, null,
+            getPackageInterfaceName(getLastPackageComponent(packageName)));
       methodRenaming.refactor(project);
 
       return status;
+   }
+
+   /**
+    * This method creates all refactorings that are required to handle a Rename EPackage change operation.
+    * 
+    * @param project
+    * @param implementationFileSuffix
+    * @return
+    */
+   public IStatus createPackageRefactorings(IProject project, String implementationFileSuffix)
+   {
+      /*
+       * Something goes wrong in the Eclipse LTK when calling that many refactorings one after another (concurrency problem?)
+       * Solution 1: Proper concurrency handling e.g., wait until one refactoring is done before calling the next one
+       * Solution 2: Only call refactorings that are propably rather used than others (might omit important elements though)
+       */
+      try
+      {
+         // PackageName*Factory
+         RenameRefactoring factoryProcessor = new RenameClassRefactoring(getFactoryInterfaceName(previousName), getFactoryInterfaceName(currentName),
+               getSubPackage(previousName), false);
+         factoryProcessor.refactor(project);
+         // just a quick fix for now - give the Eclipse LTK some time to process the refactoring
+         Thread.sleep(1000);
+
+         // PackageName*Package
+         RenameRefactoring packageProcessor = new RenameClassRefactoring(getPackageInterfaceName(previousName), getPackageInterfaceName(currentName),
+               getSubPackage(previousName), false);
+         packageProcessor.refactor(project);
+
+         Thread.sleep(1000);
+         
+         // PackageName*FactoryImpl
+         RenameRefactoring factoryImplProcessor = new RenameClassRefactoring(getFactoryClassName(previousName), getFactoryClassName(currentName),
+               getSubPackage(previousName) + getImplPackageExtension(), false);
+         factoryImplProcessor.refactor(project);
+
+         Thread.sleep(1000);
+         
+         // PackageName*PackageImpl
+         RenameRefactoring packageImplProcessor = new RenameClassRefactoring(getPackageClassName(previousName), getPackageClassName(currentName),
+               getSubPackage(previousName) + getImplPackageExtension(), false);
+         packageImplProcessor.refactor(project);
+
+         Thread.sleep(1000);
+         
+         // AdapterFactory
+         RenameRefactoring factoryUtilProcessor = new RenameClassRefactoring(getAdapterFactoryInterfaceName(previousName),
+               getAdapterFactoryInterfaceName(currentName), getSubPackage(previousName) + getUtilPackageExtension(), false);
+         factoryUtilProcessor.refactor(project);
+
+         Thread.sleep(2000);
+         
+         // Switch
+         RenameRefactoring switchProcessor = new RenameClassRefactoring(getSwitchInterfaceName(previousName), getSwitchInterfaceName(currentName),
+               getSubPackage(previousName) + getUtilPackageExtension(), false);
+         switchProcessor.refactor(project);
+
+         Thread.sleep(2000);
+         
+         // Package
+         RenameRefactoring processor = new RenamePackageRefactoring(getSubPackage(previousName), getSubPackage(currentName));
+         processor.refactor(project);
+
+         Thread.sleep(2000);
+         
+         // .impl package
+         RenameRefactoring implProcessor = new RenamePackageRefactoring(getSubPackage(previousName) + getImplPackageExtension(),
+               getSubPackage(currentName) + getImplPackageExtension());
+         implProcessor.refactor(project);
+
+         Thread.sleep(2000);
+         
+         // .util package
+         RenameRefactoring utilProcessor = new RenamePackageRefactoring(getSubPackage(previousName) + getUtilPackageExtension(),
+               getSubPackage(currentName) + getUtilPackageExtension());
+         utilProcessor.refactor(project);
+      } catch (Exception e)
+      {
+         e.printStackTrace();
+      }
+      return Status.OK_STATUS;
    }
 
    private String getLastPackageComponent(String packageName)
    {
       return packageName.substring(packageName.lastIndexOf(".") + 1);
    }
-   
+
+   private String getSubPackage(String subPackageName)
+   {
+      return packageName.substring(0, packageName.lastIndexOf(".") + 1) + subPackageName;
+   }
+
    private String getFactoryInterfaceName(String name)
    {
       return StringUtils.capitalize(name + "Factory");
    }
 
+   private String getFactoryClassName(String name)
+   {
+      return StringUtils.capitalize(name + "FactoryImpl");
+   }
+
+   private String getAdapterFactoryInterfaceName(String name)
+   {
+      return StringUtils.capitalize(name + "AdapterFactory");
+   }
+
    private String getPackageInterfaceName(String packageName)
    {
       return StringUtils.capitalize(packageName + "Package");
+   }
+
+   private String getPackageClassName(String packageName)
+   {
+      return StringUtils.capitalize(packageName + "PackageImpl");
+   }
+
+   private String getSwitchInterfaceName(String name)
+   {
+      return StringUtils.capitalize(name + "Switch");
    }
 
    private String getFactoryMethodName(String methodName)
@@ -73,63 +180,13 @@ public class SequenceRefactoring
       return "get" + methodName;
    }
 
-   /**
-    * This method creates all refactorings that are required to handle a Rename EPackage change operation.
-    * @param project
-    * @param implementationFileSuffix
-    * @return
-    */
-   public IStatus createPackageRefactorings(IProject project, String implementationFileSuffix)
+   private String getImplPackageExtension()
    {
-      
-       String oldValue = packageName.substring(0, packageName.lastIndexOf(".")) +
-       "." + previousName; String newValue = packageName.substring(0,
-             packageName.lastIndexOf(".")) + "." + currentName;
-       
-       //final GenModel genmodel = eMoflonEMFUtil.extractGenModelFromProject(project); 
-       /*TODO@settl: Encapsulate
-       * sequences of refactorings into a new class 'SequenceRefactoring' String factoryInterfaceName =
-       * renameChange.getCurrentValue() + "Factory"; List<GenPackage> genPackages =
-       * genmodel.getAllGenPackagesWithClassifiers(); for (GenPackage pckg : genPackages) { String test =
-       * pckg.getNSName(); if (pckg.getNSName().equals(renameChange.getPackageName())) { factoryInterfaceName =
-       * pckg.getFactoryInterfaceName(); break; } }
-       * */
-       //RenameRefactoring factoryProcessor = new RenameClassRefactoring(getFactoryInterfaceName(previousName), getFactoryInterfaceName(currentName), packageName, false); 
-       //factoryProcessor.refactor(project);
-        /* RenameRefactoring packageProcessor = new
-       * RenameClassRefactoring(StringUtils.capitalize(renameChange.getPreviousValue()) + "Package",
-       * StringUtils.capitalize(renameChange.getCurrentValue()) + "Package", renameChange.getPackageName(), false);
-       * packageProcessor.refactor(project, renameChange);
-       * 
-       * RenameRefactoring processor = new RenamePackageRefactoring(oldValue, newValue); processor.refactor(project,
-       * renameChange);
-       * 
-       * // .impl package RenameRefactoring factoryImplProcessor = new RenameClassRefactoring(
-       * StringUtils.capitalize(renameChange.getPreviousValue()) + "Factory" + IMPL_FILE,
-       * StringUtils.capitalize(renameChange.getCurrentValue()) + "Factory" + IMPL_FILE, renameChange.getPackageName() +
-       * IMPL_EXTENSION, false); factoryImplProcessor.refactor(project, renameChange);
-       * 
-       * RenameRefactoring packageImplProcessor = new RenameClassRefactoring(
-       * StringUtils.capitalize(renameChange.getPreviousValue()) + "Package" + IMPL_FILE,
-       * StringUtils.capitalize(renameChange.getCurrentValue()) + "Package" + IMPL_FILE, renameChange.getPackageName() +
-       * IMPL_EXTENSION, false); packageImplProcessor.refactor(project, renameChange);
-       * 
-       * RenameRefactoring implProcessor = new RenamePackageRefactoring(oldValue + IMPL_EXTENSION, newValue +
-       * IMPL_EXTENSION); implProcessor.refactor(project, renameChange);
-       * 
-       * // .util package RenameRefactoring utilProcessor = new RenamePackageRefactoring(oldValue + UTIL_EXTENSION,
-       * newValue + UTIL_EXTENSION); utilProcessor.refactor(project, renameChange);
-       * 
-       * RenameRefactoring factoryUtilProcessor = new RenameClassRefactoring(
-       * StringUtils.capitalize(renameChange.getPreviousValue()) + "Factory" + IMPL_FILE,
-       * StringUtils.capitalize(renameChange.getCurrentValue()) + "AdapterFactory", renameChange.getPackageName() +
-       * UTIL_EXTENSION, false); factoryUtilProcessor.refactor(project, renameChange);
-       * 
-       * RenameRefactoring switchProcessor = new
-       * RenameClassRefactoring(StringUtils.capitalize(renameChange.getPreviousValue()) + "Package" + IMPL_FILE,
-       * StringUtils.capitalize(renameChange.getCurrentValue()) + "Switch", renameChange.getPackageName() +
-       * UTIL_EXTENSION, false); switchProcessor.refactor(project, renameChange);
-       */
-      return Status.OK_STATUS;
+      return ".impl";
+   }
+
+   private String getUtilPackageExtension()
+   {
+      return ".util";
    }
 }

@@ -28,7 +28,6 @@ public class ChangesTreeCalculator implements MetamodelChangeCalculator
     */
    private ChangeSequence parseChangesTree(final Node tree, ChangeSequence delta)
    {
-      // TODO@settl: Proceed analogously for all other types
       if (MocaToMoflonUtils.isEClassNode(tree))
       {
          RenameChange change = createClassRenameChange(tree);
@@ -125,7 +124,7 @@ public class ChangesTreeCalculator implements MetamodelChangeCalculator
             renaming.setProjectName(attr.getValue());
             break;
          case "Changes::IsTLP":
-            renaming.setElementType(MocaToMoflonUtils.TLPACKAGE_NODE_NAME);
+            renaming.setElementType(MocaToMoflonUtils.ROOTPACKAGE_NODE_NAME);
             break;
          }
       }
