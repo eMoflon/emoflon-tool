@@ -58,17 +58,12 @@ namespace EAEcoreAddin.Refactoring
                     temp.name = eaPackage.Name;
                     temp.previousName = eaPackage.Name;
                     temp.packageName = ePackageChangesMocaNode.getAttribute("packageName").Value;
-                    //temp.isTLP = ePackageChangesMocaNode.getAttribute("isTLP").Value;
+                    temp.projectName = ePackageChangesMocaNode.getAttribute("projectName").Value;
                     temp.savePackageToEATaggedValue(true);
                 }
 
                 ePackage.addAttributesDuringExport(ePackageMocaNode);
-
-                //String workingSetName = ePackageMocaNode.getAttribute("Moflon::WorkingSet").Value;
-                //if (!workingSetName.Equals("Dependencies"))
-                //{
-                    
-                    this.currentNode.appendChildNode(ePackageMocaNode);
+                this.currentNode.appendChildNode(ePackageMocaNode);
 
                     foreach (SQLElement childClass in eaPackage.Elements)
                     {
@@ -85,7 +80,6 @@ namespace EAEcoreAddin.Refactoring
                         processEPackage(childPackage);
                     }
                     
-                //}
                 return ePackageMocaNode;
             }
             return null;
