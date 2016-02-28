@@ -55,55 +55,25 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
             if (renameChange.arePreviousAndCurrentValueDifferent())
             {
                logger.debug("Change detected for old value: " + renameChange.getPreviousValue() + ". New value is: " + renameChange.getCurrentValue());
-               // todo@settl: Impl und factory method infos aus dem
-               // genmodel laden
-               // adapt java code
-               // rename class and "Impl" class
-               // TODO@settl: If possible, leave RenameClassRefactoring as
-               // dumb as possible -> invoke it twice for both classes (I
-               // guess this is what you already planned to do) (RK)
 
-               // rename factory method
-               // TODO@settl: Create a new MethodRenamingChange here:
-               // "createOldClass -> createNewClass in class XYZFactory"
-               /*
-                * GenModel genModel = eMoflonEMFUtil.extractGenModelFromProject(project); // class name
-                * genModel.getAllGenPackagesWithClassifiers().get(0).getGenClasses().get(0).getClassName();
-                * genModel.getAllGenPackagesWithClassifiers().get(0).getGenClasses().get(0).getInterfaceName(); String
-                * 
-                * String genFolder = genModel.getModelDirectory(); // path to gen folder String factoryInterfaceName =
-                * genModel.getAllGenPackagesWithClassifiers().get(0).getFactoryInterfaceName();
-                * 
-                * String factoryInterfacePCkgName =
-                * genModel.getAllGenPackagesWithClassifiers().get(0).getPackageInterfaceName();
-                * genModel.getAllGenPackagesWithClassifiers().get(0).getSwitchClassName();
-                * genModel.getAllGenPackagesWithClassifiers().get(0).getUtilitiesPackageName();
-                * genModel.getAllGenPackagesWithClassifiers().get(0).getClassPackageName(); EClass cls =
-                * EcoreFactory.eINSTANCE.createEClass(); // If // possible, // use // the // EClasses...
-                * cls.setName("Topology");
-                */
-               // genModel.findGenClassifier(cls);
-               GenModel genModel2 = eMoflonEMFUtil.extractGenModelFromProject(project);
-               String className = genModel2.getAllGenPackagesWithClassifiers().get(0).getGenClasses().get(0).getClassName();
-               String interfaceName = genModel2.getAllGenPackagesWithClassifiers().get(0).getGenClasses().get(0).getInterfaceName();
                if (renameChange.getElementType().equals(MocaToMoflonUtils.ECLASS_NODE_NAME))
                {
                   if (createClassRefactorings(renameChange).isOK())
                   {
-                     Set<IProject> projectsToReextract = findReferences(renameChange);
-                     for (IProject proj : projectsToReextract)
-                     {
-                        processInjections(proj);
-                     }
+                     findAndProcessInjections(renameChange);
                   }
 
                } else if (renameChange.getElementType().equals(MocaToMoflonUtils.EPACKAGE_NODE_NAME))
                {
-                  createPackageRefactorings(renameChange);
+                  if(createPackageRefactorings(renameChange).isOK())
+                  {
+                     findAndProcessInjections(renameChange);
+                  }
                }
             }
          }
-         else if (change instanceof TaggedValueChange) // other types of changes can be called like this
+         // other types of changes can be called like this
+         else if (change instanceof TaggedValueChange) 
          {
             // process changes in a tagged value
          }
@@ -132,16 +102,34 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
          return "Impl";
    }
 
+   private void findAndProcessInjections(RenameChange renameChange)
+   {
+      Set<IProject> projectsToReextract = findReferences(renameChange);
+      for (IProject proj : projectsToReextract)
+      {
+         processInjections(proj);
+      }
+   }
    /**
     * This method finds all references to the refactored element in the workspace. The references are used to identify
     * injection files that have to be reextracted (in all projects).
     */
-   private Set<IProject> findReferences(RenameChange rename)
+   private Set<IProject> findReferences(RenameChange renameChange)
    {
       Set<IProject> projects = new HashSet<IProject>();
+      SearchPattern pattern = null;
+      
+      if (renameChange.getElementType().equals(MocaToMoflonUtils.ECLASS_NODE_NAME))
+      {
+         pattern = SearchPattern.createPattern(renameChange.getCurrentValue(), IJavaSearchConstants.INTERFACE, IJavaSearchConstants.REFERENCES,
+               SearchPattern.R_EXACT_MATCH);  
+      }
+      else if (renameChange.getElementType().equals(MocaToMoflonUtils.EPACKAGE_NODE_NAME))
+      {
+         pattern = SearchPattern.createPattern(renameChange.getPackageName(), IJavaSearchConstants.PACKAGE, IJavaSearchConstants.REFERENCES,
+               SearchPattern.R_EXACT_MATCH);
+      }
 
-      SearchPattern pattern = SearchPattern.createPattern(rename.getCurrentValue(), IJavaSearchConstants.INTERFACE, IJavaSearchConstants.REFERENCES,
-            SearchPattern.R_EXACT_MATCH);
       IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
       SearchRequestor requestor = new SearchRequestor() {
          @Override
@@ -154,7 +142,10 @@ public class JavaRefactorProcessor implements MetamodelDeltaProcessor
       SearchEngine engine = new SearchEngine();
       try
       {
-         engine.search(pattern, new SearchParticipant[] { SearchEngine.getDefaultSearchParticipant() }, scope, requestor, null);
+         if (pattern != null)
+         {         
+            engine.search(pattern, new SearchParticipant[] { SearchEngine.getDefaultSearchParticipant() }, scope, requestor, null);        
+         }
       } catch (CoreException e)
       {
          e.printStackTrace();
