@@ -54,21 +54,6 @@ public class MetamodelCoevolutionPreMetamodelBuilderHook implements PreMetamodel
                     // Integration projects are currently not supported
                  }
         	 }
-            
-            /*for (final String projectName : projectPropertiesMap.keySet())
-            {
-               final MetamodelProperties properties = projectPropertiesMap.get(projectName);
-               
-               if (properties.isRepositoryProject())
-               {
-                  final IProject repositoryProject = properties.getProject();
-                  MetamodelDeltaProcessor processor = new RenameProjectProcessor();
-                  processor.processDelta(repositoryProject, delta);
-               } else
-               {
-                  // Integration projects are currently not supported
-               }
-            }*/
          }
 
          return Status.OK_STATUS;

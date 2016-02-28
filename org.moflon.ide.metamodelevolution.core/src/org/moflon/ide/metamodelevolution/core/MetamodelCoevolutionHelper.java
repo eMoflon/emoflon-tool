@@ -21,7 +21,7 @@ import MocaTree.Text;
 public class MetamodelCoevolutionHelper {
 	
 	   /**
-	    * 
+	    * This method returns the Changes Moca tree
 	    */
 	   public static Node getMocaTree(IProject metamodelProject)
 	   {
