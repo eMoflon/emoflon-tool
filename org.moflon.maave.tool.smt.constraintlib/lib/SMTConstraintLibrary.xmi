@@ -259,18 +259,42 @@
           href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     </parameterTypes>
   </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.1"
+      symbol=">">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+  </predicateSpecifications>
+  <predicateSpecifications
+      smtLibPredicateSpecification="//@smtLibPredicateSpecifications.2"
+      symbol="&lt;">
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+    <parameterTypes>
+      <eDataType
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+  </predicateSpecifications>
   <smtLibPredicateSpecifications
       predicateSpecifications="//@predicateSpecifications.0 //@predicateSpecifications.17"
-      smtLibString="(define-fun add((x!0 Int)(x!1 Int)(x!2 Int)) Bool (= x!0 (+ x!1 x!2)) )"
-      identifier="(add $x0$ $x1$ $x2$)"/>
+      smtLibString="(define-fun addNAT((x!0 Int)(x!1 Int)(x!2 Int)) Bool (= x!0 (+ x!1 x!2)) )"
+      identifier="(addNAT $x0$ $x1$ $x2$)"/>
   <smtLibPredicateSpecifications
-      predicateSpecifications="//@predicateSpecifications.1"
-      smtLibString="(define-fun larger((x!0 Int)(x!1 Int)) Bool (> x!0 x!1) )"
-      identifier="(larger $x0$ $x1$)"/>
+      predicateSpecifications="//@predicateSpecifications.1 //@predicateSpecifications.19"
+      smtLibString="(define-fun largerNAT((x!0 Int)(x!1 Int)) Bool (> x!0 x!1) )"
+      identifier="(largerNAT $x0$ $x1$)"/>
   <smtLibPredicateSpecifications
-      predicateSpecifications="//@predicateSpecifications.2"
-      smtLibString="(define-fun smaller((x!0 Int)(x!1 Int)) Bool (&lt; x!0 x!1) )"
-      identifier="(smaller $x0$ $x1$)"/>
+      predicateSpecifications="//@predicateSpecifications.2 //@predicateSpecifications.20"
+      smtLibString="(define-fun smallerNAT((x!0 Int)(x!1 Int)) Bool (&lt; x!0 x!1) )"
+      identifier="(smallerNAT $x0$ $x1$)"/>
   <smtLibPredicateSpecifications
       predicateSpecifications="//@predicateSpecifications.3"
       identifier="true"/>

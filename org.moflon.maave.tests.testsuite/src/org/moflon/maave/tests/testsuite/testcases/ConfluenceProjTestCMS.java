@@ -41,10 +41,9 @@ public class ConfluenceProjTestCMS {
       System.out.println("Starting ConfluenceProjTestCMS/Test1" );
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-      EClass cls=(EClass) pack.getEClassifier("RoomManagement");
+      EClass cls=(EClass) pack.getEClassifier("CMS");
       MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("bookRoomForExam")).findFirst().get();
-      EClass cls2=(EClass) pack.getEClassifier("StrudentManagement");
-      MoflonEOperation op2=(MoflonEOperation) cls2.getEOperations().stream().filter(x->x.getName().equals("registerStudentForExam")).findFirst().get();
+      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerStudentForExam")).findFirst().get();
       Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
       StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
       StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
@@ -76,10 +75,9 @@ public class ConfluenceProjTestCMS {
       System.out.println("Starting ConfluenceProjTestCMS/Test2" );
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-      EClass cls=(EClass) pack.getEClassifier("RoomManagement");
+      EClass cls=(EClass) pack.getEClassifier("CMS");
       MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("bookRoomForExam")).findFirst().get();
-      EClass cls2=(EClass) pack.getEClassifier("StrudentManagement");
-      MoflonEOperation op2=(MoflonEOperation) cls2.getEOperations().stream().filter(x->x.getName().equals("unregisterStudentForExam")).findFirst().get();
+      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerStudentForExamDeadline")).findFirst().get();
       Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
       StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
       StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
@@ -106,16 +104,14 @@ public class ConfluenceProjTestCMS {
 
 
    }
-   
    @Test
    public void test3() {
       System.out.println("Starting ConfluenceProjTestCMS/Test3" );
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-      EClass cls=(EClass) pack.getEClassifier("RoomManagement");
-      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("bookRoomForExamClosed")).findFirst().get();
-      EClass cls2=(EClass) pack.getEClassifier("StrudentManagement");
-      MoflonEOperation op2=(MoflonEOperation) cls2.getEOperations().stream().filter(x->x.getName().equals("registerStudentForExamClosed")).findFirst().get();
+      EClass cls=(EClass) pack.getEClassifier("CMS");
+      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("unregisterStudentForExam")).findFirst().get();
+      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("bookRoomForExam")).findFirst().get();
       Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
       StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
       StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
@@ -124,13 +120,13 @@ public class ConfluenceProjTestCMS {
       SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
       SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
       
-      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+       
       
       GraphTransformationSystem gts=AnalysisFactory.eINSTANCE.createGraphTransformationSystem();
       gts.getRules().add(rule1);
       gts.getRules().add(rule2);
-      
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(AnalysisFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       
@@ -138,19 +134,16 @@ public class ConfluenceProjTestCMS {
       ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
       
       assertTrue(status.isValid());
-
-
-
+        
    }
    @Test
    public void test4() {
       System.out.println("Starting ConfluenceProjTestCMS/Test4" );
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-      EClass cls=(EClass) pack.getEClassifier("RoomManagement");
-      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("bookRoomForExamClosed")).findFirst().get();
-      EClass cls2=(EClass) pack.getEClassifier("StrudentManagement");
-      MoflonEOperation op2=(MoflonEOperation) cls2.getEOperations().stream().filter(x->x.getName().equals("unregisterStudentForExam")).findFirst().get();
+      EClass cls=(EClass) pack.getEClassifier("CMS");
+      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("unregisterStudentForExam")).findFirst().get();
+      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("bookRoomForExam")).findFirst().get();
       Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
       StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
       StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
@@ -173,9 +166,38 @@ public class ConfluenceProjTestCMS {
       ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
       
       assertTrue(status.isValid());
-
-
-
+   
    }
-  
+//   @Test
+//   public void test5() {
+//      System.out.println("Starting ConfluenceProjTestCMS/Test5" );
+//      CmsPackage.eINSTANCE.getClass();
+//      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
+//      EClass cls=(EClass) pack.getEClassifier("CMS");
+//      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("unregisterStudentForExam")).findFirst().get();
+//      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerStudentForExamDeadline")).findFirst().get();
+//      Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
+//      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
+//      StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
+//
+//      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
+//      SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
+//      SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
+//      
+//
+//      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+//       
+//      
+//      GraphTransformationSystem gts=AnalysisFactory.eINSTANCE.createGraphTransformationSystem();
+//      gts.getRules().add(rule1);
+//      gts.getRules().add(rule2);
+//      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+//      gts.setDirectDerivationBuilder(AnalysisFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+//      
+//      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+//      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
+//      
+//      assertTrue(status.isValid());
+//   
+//   }
 }

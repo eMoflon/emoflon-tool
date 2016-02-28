@@ -8,18 +8,18 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
    TestForStoryPatternToSymbGraTraRules_Basic.class 
 //   ,TestForStoryPatternToProjGraTraRules_Basic.class
-   ,TestForStoryPatternToSymbGraTraRules_NAC.class
-   ,MorphismFinderTest.class
-//   ,PullbackTest.class
-   ,PushoutUMPTest.class
-   ,IsomorphicCopyTester.class
-//   ,DirectDerivationTest.class
-   ,MorphismClassTest.class
-   ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
-   ,SubgraphBuilderTest.class
-   ,JointlyEpiTest.class
-   ,CriticalPairTestProj.class
-   ,NormalFormEquivalenceTest.class
+//   ,TestForStoryPatternToSymbGraTraRules_NAC.class
+//   ,MorphismFinderTest.class
+////   ,PullbackTest.class
+//   ,PushoutUMPTest.class
+//   ,IsomorphicCopyTester.class
+////   ,DirectDerivationTest.class
+//   ,MorphismClassTest.class
+//   ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
+//   ,SubgraphBuilderTest.class
+//   ,JointlyEpiTest.class
+//   ,CriticalPairTestProj.class
+//   ,NormalFormEquivalenceTest.class
    ,ConfluenceProjTestGAMPaper.class
 //   ,ConfluenceProjTestModelsPaper.class
    ,ConfluenceProjTestCMS.class

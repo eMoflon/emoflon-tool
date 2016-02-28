@@ -12,83 +12,71 @@ partial class TransformerImpl {
 
 @model transformStpToProjGTRule (StoryPattern storyPattern) <--
 
-      SymbGTRule rule = this.transformStpToSymbGTRule(storyPattern);
-      SymbolicGraphMorphism morK_L = rule.getLeft();
-      SymbolicGraphMorphism morK_R = rule.getRight();
+		SymbGTRule rule = this.transformStpToSymbGTRule(storyPattern);
+		SymbolicGraphMorphism morK_L = rule.getLeft();
+		SymbolicGraphMorphism morK_R = rule.getRight();
 
-      SymbolicGraph L = morK_L.getCodom();
-      Quantifier exitsL = SymbolicGraphsFactory.eINSTANCE.createExists();
-      SymbolicGraph K = morK_L.getDom();
-      Quantifier exitsK = SymbolicGraphsFactory.eINSTANCE.createExists();
-      SymbolicGraph R = morK_R.getCodom();
+		SymbolicGraph L = morK_L.getCodom();
+		Quantifier exitsL = SymbolicGraphsFactory.eINSTANCE.createExists();
+		SymbolicGraph K = morK_L.getDom();
+		Quantifier exitsK = SymbolicGraphsFactory.eINSTANCE.createExists();
+		SymbolicGraph R = morK_R.getCodom();
 
-      List<LabelNode> labelNodeList = new LinkedList<LabelNode>(K.getLabelNodes());
+		List<LabelNode> labelNodeList = new LinkedList<LabelNode>(K.getLabelNodes());
 
-      for (LabelNode n : labelNodeList)
-      {
-         if (!K.getFormula().getOf().stream()
-               .anyMatch(conj -> conj.getOf().stream().anyMatch(pred -> pred.getParameters().stream().anyMatch(param -> param == n))))
-         {
+//		for (LabelNode n : labelNodeList) {
+//			if (!K.getFormula().getOf().stream().anyMatch(conj -> conj.getOf().stream()
+//					.anyMatch(pred -> pred.getParameters().stream().anyMatch(param -> param == n)))) {
+//
+//				EcoreUtil.delete(morK_L.imageOf(n));
+//				morK_L.removeMapping(n);
+//				EcoreUtil.delete(morK_R.imageOf(n));
+//				morK_R.removeMapping(n);
+//				EcoreUtil.delete(n);
+//
+//			}
+//
+//		}
 
-            EcoreUtil.delete(morK_L.imageOf(n));
-            morK_L.removeMapping(n);
-            EcoreUtil.delete(morK_R.imageOf(n));
-            morK_R.removeMapping(n);
-            EcoreUtil.delete(n);
+		List<LabelEdge> labelEdgeList = new LinkedList<LabelEdge>(L.getLabelEdges());
+		for (LabelEdge e : labelEdgeList) {
 
-         }
+			if (e.getTarget() == null) {
+				EcoreUtil.delete(e);
+			}
+		}
+		labelEdgeList = new LinkedList<LabelEdge>(R.getLabelEdges());
+		for (LabelEdge e : labelEdgeList) {
 
-      }
+			if (e.getTarget() == null) {
+				EcoreUtil.delete(e);
+			}
+		}
+		labelEdgeList = new LinkedList<LabelEdge>(K.getLabelEdges());
+		for (LabelEdge e : labelEdgeList) {
 
-      List<LabelEdge> labelEdgeList = new LinkedList<LabelEdge>(L.getLabelEdges());
-      for (LabelEdge e : labelEdgeList)
-      {
+			if (e.getTarget() == null) {
+				EcoreUtil.delete(e);
+			}
+		}
+		labelNodeList = new LinkedList<LabelNode>(K.getLabelNodes());
+		for (LabelNode n : labelNodeList) {
+			if (morK_L.imageOf(n).getLabelEdge().isEmpty()) {
+				exitsL.getLabelNodes().add(morK_L.imageOf(n));
+				exitsK.getLabelNodes().add(n);
+				morK_L.removeMapping(n);
+				morK_R.removeMapping(n);
+			}
+		}
 
-         if (e.getTarget() == null)
-         {
-            EcoreUtil.delete(e);
-         }
-      }
-      labelEdgeList = new LinkedList<LabelEdge>(R.getLabelEdges());
-      for (LabelEdge e : labelEdgeList)
-      {
+		if (exitsL.getLabelNodes().isEmpty() == false) {
+			L.getFormula().setQuantifier(exitsL);
+		}
+		if (exitsK.getLabelNodes().isEmpty() == false) {
+			K.getFormula().setQuantifier(exitsK);
+		}
 
-         if (e.getTarget() == null)
-         {
-            EcoreUtil.delete(e);
-         }
-      }
-      labelEdgeList = new LinkedList<LabelEdge>(K.getLabelEdges());
-      for (LabelEdge e : labelEdgeList)
-      {
-
-         if (e.getTarget() == null)
-         {
-            EcoreUtil.delete(e);
-         }
-      }
-      labelNodeList = new LinkedList<LabelNode>(K.getLabelNodes());
-      for (LabelNode n : labelNodeList)
-      {
-         if (morK_L.imageOf(n).getLabelEdge().isEmpty())
-         {
-            exitsL.getLabelNodes().add(morK_L.imageOf(n));
-            exitsK.getLabelNodes().add(n);
-            morK_L.removeMapping(n);
-            morK_R.removeMapping(n);
-         }
-      }
-
-      if (exitsL.getLabelNodes().isEmpty() == false)
-      {
-         L.getFormula().setQuantifier(exitsL);
-      }
-      if (exitsK.getLabelNodes().isEmpty() == false)
-      {
-         K.getFormula().setQuantifier(exitsK);
-      }
-
-      return rule;
+		return rule;
 -->
 
 }
