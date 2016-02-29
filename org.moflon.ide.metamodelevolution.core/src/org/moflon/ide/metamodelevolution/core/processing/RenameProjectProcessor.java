@@ -17,6 +17,7 @@ import org.moflon.ide.metamodelevolution.core.impl.RenameChangeImpl;
 import org.moflon.ide.metamodelevolution.core.processing.refactoring.RenameGenmodelRefactoring;
 import org.moflon.ide.metamodelevolution.core.processing.refactoring.RenameProjectRefactoring;
 import org.moflon.ide.metamodelevolution.core.processing.refactoring.RenameRefactoring;
+import org.moflon.ide.metamodelevolution.core.processing.refactoring.SequenceRefactoring;
 
 public class RenameProjectProcessor implements MetamodelDeltaProcessor
 {
@@ -54,6 +55,9 @@ public class RenameProjectProcessor implements MetamodelDeltaProcessor
                // rename project
                RenameRefactoring renameProjectRefactoring = new RenameProjectRefactoring(((RenameChangeImpl) change).getCurrentValue());
                renameProjectRefactoring.refactor(oldProject);
+               
+               // rename generated packages
+               new SequenceRefactoring(renaming).createPackageRefactorings(project, "Impl");
             }
          }
       }
