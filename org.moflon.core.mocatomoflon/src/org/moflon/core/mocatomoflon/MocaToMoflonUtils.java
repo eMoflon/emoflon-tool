@@ -8,7 +8,7 @@ public class MocaToMoflonUtils
    
    public static final String EPACKAGE_NODE_NAME = "EPackage";
    
-   public static final String TLPACKAGE_NODE_NAME = "TLPackage";
+   public static final String ROOTPACKAGE_NODE_NAME = "TLPackage";
 
    public static boolean isEClassNode(final Node node) {
       return node.getName() != null && (node.getName().equals(ECLASS_NODE_NAME));
@@ -19,6 +19,6 @@ public class MocaToMoflonUtils
    }
    
    public static boolean isTLPackageNode(final Node node) {
-	      return node.getName() != null && (node.getName().equals(TLPACKAGE_NODE_NAME));
+	      return node.getName() != null && (node.getName().equals(ROOTPACKAGE_NODE_NAME));
    }   
 }
