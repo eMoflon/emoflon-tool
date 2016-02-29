@@ -217,6 +217,7 @@
     <Compile Include="Refactoring\CachedNamedElement.cs" />
     <Compile Include="Refactoring\CachedPackage.cs" />
     <Compile Include="Refactoring\Changes.cs" />
+    <Compile Include="Refactoring\ChangesTreeConstants.cs" />
     <Compile Include="Server\DataReceiveStrategy.cs" />
     <Compile Include="Server\DataStrategies\AbstractDataReceiveStrategy.cs" />
     <Compile Include="Server\DataStrategies\HighlightObjectReceiveStrategy.cs" />
@@ -524,8 +525,12 @@
     <Content Include="Profiles\Images\widders.bmp" />
     <Content Include="Profiles\Images\widderSmall.ico" />
     <Content Include="Profiles\Tech\ECORE_Diagram.xml" />
-    <Content Include="Profiles\Tech\ECORE_Elements.xml" />
-    <Content Include="Profiles\Tech\ECORE_Toolbox.xml" />
+    <Content Include="Profiles\Tech\ECORE_Elements.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Profiles\Tech\ECORE_Toolbox.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Profiles\Tech\ESDM_Diagram.xml" />
     <Content Include="Profiles\Tech\ESDM_Elements.xml" />
     <Content Include="Profiles\Tech\ESDM_Toolbox.xml" />
@@ -541,13 +546,17 @@
     <EmbeddedResource Include="Modeling\SDMModeling\Gui\ObjectVariableDialog\AcceptInformationLoss.resx">
       <DependentUpon>AcceptInformationLoss.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Profiles\Tech\MOFLON2_Technology.xml" />
+    <EmbeddedResource Include="Profiles\Tech\MOFLON2_Technology.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="Profiles\Tech\MOFLON2_Technology_Selection.mts" />
     <Content Include="Profiles\Tech\TGG_Diagram.xml" />
     <Content Include="Profiles\Tech\TGG_Elements.xml" />
     <Content Include="Profiles\Tech\TGG_RulesToolbox.xml" />
     <Content Include="Profiles\Tech\TGG_RuleToolbox.xml" />
-    <Content Include="Profiles\Tech\TGG_Schema_Toolbox.xml" />
+    <Content Include="Profiles\Tech\TGG_Schema_Toolbox.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\Aboutbox_EA_Addin_MOFLON.png" />
     <None Include="Resources\arrow_up.png" />
     <None Include="Resources\arrow_down.png" />
@@ -667,8 +676,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ECORE_Datatypes.xml" />
     <EmbeddedResource Include="Resources\MOFLON2_Technology.xml">
-      <SubType>
-      </SubType>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Modeling\SDMModeling\Util\DeleteMethod.resx">
       <DependentUpon>DeleteMethod.cs</DependentUpon>

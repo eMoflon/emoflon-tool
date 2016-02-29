@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EAEcoreAddin.Serialization.MocaTree;
 
 namespace EAEcoreAddin.Refactoring
 {
@@ -18,10 +17,10 @@ namespace EAEcoreAddin.Refactoring
         public override Serialization.MocaTree.MocaNode serializeToMocaTree()
         {
             MocaNode ePackageNode = new MocaNode(type);
-            ePackageNode.appendChildAttribute("name", this.name);
-            ePackageNode.appendChildAttribute("previousName", this.previousName);
-            ePackageNode.appendChildAttribute("packageName", this.packageName);
-            ePackageNode.appendChildAttribute("projectName", this.projectName);
+            ePackageNode.appendChildAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_NAME, this.name);
+            ePackageNode.appendChildAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PREVIOUS_NAME, this.previousName);
+            ePackageNode.appendChildAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME, this.packageName);
+            ePackageNode.appendChildAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME, this.projectName);
             return ePackageNode;
         }
     }

@@ -57,8 +57,8 @@ namespace EAEcoreAddin.Refactoring
                     temp.getPackage(eaPackage.PackageGUID, repository);
                     temp.name = eaPackage.Name;
                     temp.previousName = eaPackage.Name;
-                    temp.packageName = ePackageChangesMocaNode.getAttribute("packageName").Value;
-                    temp.projectName = ePackageChangesMocaNode.getAttribute("projectName").Value;
+                    temp.packageName = ePackageChangesMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME).Value;
+                    temp.projectName = ePackageChangesMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME).Value;
                     temp.savePackageToEATaggedValue(true);
                 }
 
@@ -99,18 +99,23 @@ namespace EAEcoreAddin.Refactoring
 
                 this.currentNode.appendChildNode(eClassMocaNode);
 
-                String packageName = eClassMocaNode.getAttribute("packageName").Value;
-                String projectName = eClassMocaNode.getAttribute("projectName").Value;
+                MocaAttribute packageNode = eClassMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME);
+                MocaAttribute projectNode = eClassMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME);
+                if (packageNode != null && projectNode != null)
+                {
+                    String packageName = packageNode.Value;
+                    String projectName = projectNode.Value;
 
-                CachedClass temp = new CachedClass();
-                temp.getElement(eaClass.ElementGUID, repository);
-                temp.name = eClass.Name;
-                temp.previousName = eClass.Name;
-                temp.packageName = packageName;
-                temp.projectName = projectName;
-                temp.saveElementToEATaggedValue(true);
-                
-                return eClassMocaNode;
+                    CachedClass temp = new CachedClass();
+                    temp.getElement(eaClass.ElementGUID, repository);
+                    temp.name = eClass.Name;
+                    temp.previousName = eClass.Name;
+                    temp.packageName = packageName;
+                    temp.projectName = projectName;
+                    temp.saveElementToEATaggedValue(true);
+
+                    return eClassMocaNode;
+                }
             }
             return null;
         }

@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using EAEcoreAddin.Serialization.MocaTree.Util;using EAEcoreAddin.Serialization;
+using EAEcoreAddin.Serialization.MocaTree.Util;
+using EAEcoreAddin.Serialization;
 using EAEcoreAddin.Modeling.SDMModeling;
 using EAEcoreAddin.SQLWrapperClasses;
 using EAEcoreAddin.Serialization.MocaTree;
 using EAEcoreAddin.Util;
 using EAEcoreAddin.Modeling.TGGModeling.Util;
 using EAEcoreAddin.Persistency.Util;
+
+using EAEcoreAddin.Refactoring;
 
 namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
 {
@@ -54,10 +57,10 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         {
             MocaNode ePackageMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
 
-            pkgNode.appendChildAttribute("Changes::Name", ePackageMocaNode.getAttribute("name").Value);
-            pkgNode.appendChildAttribute("Changes::PreviousName", ePackageMocaNode.getAttribute("previousName").Value);
-            pkgNode.appendChildAttribute("Changes::PackageName", ePackageMocaNode.getAttribute("packageName").Value);
-            pkgNode.appendChildAttribute("Changes::ProjectName", ePackageMocaNode.getAttribute("projectName").Value);
+            pkgNode.appendChildAttribute("Changes::Name", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_NAME).Value);
+            pkgNode.appendChildAttribute("Changes::PreviousName", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PREVIOUS_NAME).Value);
+            pkgNode.appendChildAttribute("Changes::PackageName", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME).Value);
+            pkgNode.appendChildAttribute("Changes::ProjectName", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME).Value);
             //pkgNode.appendChildAttribute("Changes::IsTLP", ePackageMocaNode.getAttribute("isTLP").Value);
         }
 
