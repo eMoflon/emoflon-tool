@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.moflon.core.mocatomoflon.MocaToMoflonUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -19,8 +20,13 @@ import org.moflon.ide.metamodelevolution.core.processing.refactoring.RenameProje
 import org.moflon.ide.metamodelevolution.core.processing.refactoring.RenameRefactoring;
 import org.moflon.ide.metamodelevolution.core.processing.refactoring.SequenceRefactoring;
 
-public class RenameProjectProcessor implements MetamodelDeltaProcessor
+public class RenameProjectProcessor extends MetamodelDeltaProcessor_ImplBase
 {
+
+   public RenameProjectProcessor(GenModel genModel)
+   {
+      super(genModel);
+   }
 
    @Override
    public IStatus processDelta(IProject project, ChangeSequence delta)

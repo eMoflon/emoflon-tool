@@ -7,6 +7,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHookDTO;
 import org.moflon.ide.metamodelevolution.core.changes.ChangesTreeCalculator;
@@ -39,21 +41,22 @@ public class MetamodelCoevolutionPreMetamodelBuilderHook implements PreMetamodel
 
          final Map<String, MetamodelProperties> projectPropertiesMap = preMetamodelBuilderHookDTO.extractRepositoryProjectProperties();
 
-         if (delta.getEModelElementChange().size() > 0) // did we find any changes?
+         if (!delta.getEModelElementChange().isEmpty())
          {
-        	 for (EModelElementChange change : delta.getEModelElementChange())
-        	 {
-        		 final MetamodelProperties properties = projectPropertiesMap.get(change.getProjectName());
-                 if (properties != null && properties.isRepositoryProject())
-                 {
-                    final IProject repositoryProject = properties.getProject();
-                    MetamodelDeltaProcessor processor = new RenameProjectProcessor();
-                    processor.processDelta(repositoryProject, delta);
-                 } else
-                 {
-                    // Integration projects are currently not supported
-                 }
-        	 }
+            for (EModelElementChange change : delta.getEModelElementChange())
+            {
+               final MetamodelProperties properties = projectPropertiesMap.get(change.getProjectName());
+               if (properties != null && properties.isRepositoryProject())
+               {
+                  final IProject repositoryProject = properties.getProject();
+                  final GenModel genModel = eMoflonEMFUtil.extractGenModelFromProject(repositoryProject);
+                  final MetamodelDeltaProcessor processor = new RenameProjectProcessor(genModel);
+                  processor.processDelta(repositoryProject, delta);
+               } else
+               {
+                  // Integration projects are currently not supported
+               }
+            }
          }
 
          return Status.OK_STATUS;

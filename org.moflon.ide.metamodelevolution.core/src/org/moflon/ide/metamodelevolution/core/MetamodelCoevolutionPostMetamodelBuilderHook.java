@@ -8,7 +8,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
 import org.moflon.ide.metamodelevolution.core.changes.ChangesTreeCalculator;
@@ -50,7 +52,8 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
                if (properties != null && properties.isRepositoryProject())
                {
                   final IProject repositoryProject = properties.getProject();
-                  MetamodelDeltaProcessor processor = new JavaRefactorProcessor();
+                  final GenModel genModel = eMoflonEMFUtil.extractGenModelFromProject(repositoryProject);
+                  final MetamodelDeltaProcessor processor = new JavaRefactorProcessor(genModel);
                   status = processor.processDelta(repositoryProject, delta);
                } else
                {
