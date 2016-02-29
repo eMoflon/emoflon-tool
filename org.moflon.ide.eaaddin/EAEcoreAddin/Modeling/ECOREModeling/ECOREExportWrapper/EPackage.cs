@@ -57,11 +57,15 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         {
             MocaNode ePackageMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
 
-            pkgNode.appendChildAttribute("Changes::Name", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_NAME).Value);
-            pkgNode.appendChildAttribute("Changes::PreviousName", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PREVIOUS_NAME).Value);
-            pkgNode.appendChildAttribute("Changes::PackageName", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME).Value);
-            pkgNode.appendChildAttribute("Changes::ProjectName", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME).Value);
-            //pkgNode.appendChildAttribute("Changes::IsTLP", ePackageMocaNode.getAttribute("isTLP").Value);
+            string[] expectedAttributes = {ChangesTreeConstants.ATTRIBUTE_KEY_NAME, ChangesTreeConstants.ATTRIBUTE_KEY_PREVIOUS_NAME, ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME, ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME};
+            if (ePackageMocaNode.hasAllAttributes(new List<string>(expectedAttributes)))
+            {
+                pkgNode.appendChildAttribute("Changes::Name", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_NAME).Value);
+                pkgNode.appendChildAttribute("Changes::PreviousName", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PREVIOUS_NAME).Value);
+                pkgNode.appendChildAttribute("Changes::PackageName", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME).Value);
+                pkgNode.appendChildAttribute("Changes::ProjectName", ePackageMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME).Value);
+                //pkgNode.appendChildAttribute("Changes::IsTLP", ePackageMocaNode.getAttribute("isTLP").Value);
+            }
         }
 
         public override void doEaGuiStuff()

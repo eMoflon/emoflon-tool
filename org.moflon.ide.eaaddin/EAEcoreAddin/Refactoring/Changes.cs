@@ -50,36 +50,40 @@ namespace EAEcoreAddin.Refactoring
                 if (changesTreeTag != null)
                 {
                     MocaNode ePackageChangesMocaNode = MocaTreeUtil.mocaNodeFromXmlString(changesTreeTag.Notes);
-                    //ePackage.addAttributesDuringExport(ePackageChangesMocaNode);
-                    ePackage.addChangesAttributesDuringExport(ePackageMocaNode, changesTreeTag);
-
-                    CachedPackage temp = new CachedPackage();
-                    temp.getPackage(eaPackage.PackageGUID, repository);
-                    temp.name = eaPackage.Name;
-                    temp.previousName = eaPackage.Name;
-                    temp.packageName = ePackageChangesMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME).Value;
-                    temp.projectName = ePackageChangesMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME).Value;
-                    temp.savePackageToEATaggedValue(true);
+                    if (ePackageChangesMocaNode.hasAllAttributes(new List<string>(
+                        new string[] { ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME, ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME })))
+                    {
+                        //ePackage.addAttributesDuringExport(ePackageChangesMocaNode);
+                        ePackage.addChangesAttributesDuringExport(ePackageMocaNode, changesTreeTag);
+                    
+                        CachedPackage temp = new CachedPackage();
+                        temp.getPackage(eaPackage.PackageGUID, repository);
+                        temp.name = eaPackage.Name;
+                        temp.previousName = eaPackage.Name;
+                        temp.packageName = ePackageChangesMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME).Value;
+                        temp.projectName = ePackageChangesMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME).Value;
+                        temp.savePackageToEATaggedValue(true);
+                    }
                 }
 
                 ePackage.addAttributesDuringExport(ePackageMocaNode);
                 this.currentNode.appendChildNode(ePackageMocaNode);
 
-                    foreach (SQLElement childClass in eaPackage.Elements)
+                foreach (SQLElement childClass in eaPackage.Elements)
+                {
+                    this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.ClassesChildNodeName);
+                    if (childClass.Stereotype.ToLower() == ECOREModelingMain.EClassStereotype.ToLower())
                     {
-                        this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.ClassesChildNodeName);
-                        if (childClass.Stereotype.ToLower() == ECOREModelingMain.EClassStereotype.ToLower())
-                        {
-                            processEClass(childClass);
-                        }
+                        processEClass(childClass);
                     }
+                }
 
-                    foreach (SQLPackage childPackage in eaPackage.Packages)
-                    {
-                        this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.PackagesChildNodeName);
-                        processEPackage(childPackage);
-                    }
-                    
+                foreach (SQLPackage childPackage in eaPackage.Packages)
+                {
+                    this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.PackagesChildNodeName);
+                    processEPackage(childPackage);
+                }
+
                 return ePackageMocaNode;
             }
             return null;
@@ -99,12 +103,11 @@ namespace EAEcoreAddin.Refactoring
 
                 this.currentNode.appendChildNode(eClassMocaNode);
 
-                MocaAttribute packageNode = eClassMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME);
-                MocaAttribute projectNode = eClassMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME);
-                if (packageNode != null && projectNode != null)
+                if (eClassMocaNode.hasAllAttributes(new List<string>(
+                    new string[] { ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME, ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME })))
                 {
-                    String packageName = packageNode.Value;
-                    String projectName = projectNode.Value;
+                    String packageName = eClassMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME).Value;
+                    String projectName = eClassMocaNode.getAttribute(ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME).Value;
 
                     CachedClass temp = new CachedClass();
                     temp.getElement(eaClass.ElementGUID, repository);

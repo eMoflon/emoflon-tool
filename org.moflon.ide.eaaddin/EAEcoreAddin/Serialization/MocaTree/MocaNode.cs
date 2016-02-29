@@ -101,6 +101,25 @@ namespace EAEcoreAddin.Serialization.MocaTree
             return attribute;
         }
 
+        public Boolean hasAllAttributes(List<String> expectedAttributeNames)
+        {
+            foreach (String expectedAttributeName in expectedAttributeNames)
+            {
+                Boolean found = false;
+                foreach (MocaAttribute mocaAttribute in this.Attributes)
+                {
+                    if (expectedAttributeName == mocaAttribute.Name)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                    return false;
+            }
+            return true;
+        }
+
         public MocaAttribute getAttributeOrCreate(String attributeName)
         {
             MocaAttribute attribute = getAttribute(attributeName);
