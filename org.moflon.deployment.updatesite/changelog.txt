@@ -107,4 +107,4 @@
 ---
 2016-02-27	Bugfix: Errors in validation are not reported properly #668
 2016-02-27	Build process: A single failure should not stop the whole build process #670 
- 
+2016-03-01	Introduce a timeout for the validation process
