@@ -7,11 +7,17 @@ import org.moflon.ide.ui.UIActivator;
 public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
 {
 
+   public static final int DEFAULT_VALIDATION_TIMEOUT_MILLIS = 30000;
+
+   public static final String DEFAULT_UPDATE_SITE_PROJECT = "org.moflon.deployment.updatesite";
+
    public static final String INSTALL_DEVELOPER_WORKSPACE_KEY = "org.moflon.ide.ui.preferences.InstallDevWorkspaceUsingCurrentPSFs";
-   
+
    public static final String UPDATE_SITE_PROJECT_KEY = "org.moflon.ide.ui.preferences.UpdateSiteProject";
 
    public static final String LOCAL_DEPLOYMENT_PATH = "org.moflon.ide.ui.preferences.LocalDeploymentPath";
+
+   public static final String VALIDATION_TIMEOUT = "org.moflon.ide.ui.preferences.ValidationTimeoutMillis";
 
    public EMoflonPreferenceInitializer()
    {
@@ -26,8 +32,9 @@ public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
 
    public static void restoreDefaults()
    {
-      IPreferenceStore store = EMoflonPreferenceInitializer.getPreferencesStore();
-      store.setValue(UPDATE_SITE_PROJECT_KEY, "org.moflon.deployment.updatesite");
+      final IPreferenceStore store = EMoflonPreferenceInitializer.getPreferencesStore();
+      store.setValue(UPDATE_SITE_PROJECT_KEY, DEFAULT_UPDATE_SITE_PROJECT);
+      store.setValue(VALIDATION_TIMEOUT, DEFAULT_VALIDATION_TIMEOUT_MILLIS);
    }
 
    public static IPreferenceStore getPreferencesStore()
@@ -51,8 +58,8 @@ public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
       if (result.isEmpty()) // Default behavior
       {
          return defaultLocalDeployPath;
-      }
-      else {
+      } else
+      {
          return result;
       }
    }
@@ -60,5 +67,15 @@ public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
    public static void setLocalDeploymentPath(final String path)
    {
       getPreferencesStore().setValue(LOCAL_DEPLOYMENT_PATH, path);
+   }
+
+   public static int getValidationTimeoutMillis()
+   {
+      return getPreferencesStore().getInt(VALIDATION_TIMEOUT);
+   }
+
+   public static void setValidationTimeoutMillis(final int validationTimeout)
+   {
+      getPreferencesStore().setValue(VALIDATION_TIMEOUT, validationTimeout);
    }
 }

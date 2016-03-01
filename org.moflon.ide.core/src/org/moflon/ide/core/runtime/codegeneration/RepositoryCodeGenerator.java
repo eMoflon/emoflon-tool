@@ -33,6 +33,7 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.CoreActivator;
+import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.util.BuilderHelper;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
@@ -68,6 +69,7 @@ public class RepositoryCodeGenerator
          monitor.worked(1);
 
          final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet);
+         codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
 
          generateDependenciesIfNecessary(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
@@ -100,6 +102,7 @@ public class RepositoryCodeGenerator
 
    /**
     * Handles errors and warning produced by the code generation task
+    * 
     * @param status
     */
    private void handleErrorsAndWarnings(final IStatus status) throws CoreException

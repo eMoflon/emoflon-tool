@@ -13,7 +13,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.jobs.JobGroup;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -24,6 +26,7 @@ import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
 import org.moflon.eclipse.job.ProgressMonitoringJob;
+import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
 public class ValidateHandler extends AbstractCommandHandler {
 
@@ -77,8 +80,12 @@ public class ValidateHandler extends AbstractCommandHandler {
 		}
 	}
 
-	private void validateFile(final IFile ecoreFile, final IProgressMonitor monitor) {
-		try {
+	@SuppressWarnings("deprecation")
+   private void validateFile(final IFile ecoreFile, final IProgressMonitor monitor) {
+	   final long validationTimeoutMillis = EMoflonPreferenceInitializer.getValidationTimeoutMillis();
+		final String validationTimeoutMessage = "Validation took longer than " + validationTimeoutMillis
+            + "ms. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page";
+      try {
 			monitor.beginTask("Validating " + ecoreFile.getName(), 1);
 
 			final IMonitoredJob validationTask = (IMonitoredJob) Platform.getAdapterManager().loadAdapter(ecoreFile,
@@ -92,13 +99,23 @@ public class ValidateHandler extends AbstractCommandHandler {
 					// Run in foreground
 					PlatformUI.getWorkbench().getProgressService().showInDialog(null, job);
 				}
-				job.schedule();
+				JobGroup jobGroup = new JobGroup("Validation job group", 2, 2);
+            job.setJobGroup(jobGroup);
+            job.schedule();
+            boolean completed = jobGroup.join(validationTimeoutMillis , new NullProgressMonitor());
+            if(!completed) {
+               //TODO@rkluge: This is a really ugly hack that should be removed as soon as a more elegant solution is available
+               job.getThread().stop();
+               logger.error(validationTimeoutMessage);
+               throw new OperationCanceledException(validationTimeoutMessage);
+            }
 			}
 
 			monitor.worked(1);
-		} catch (final Exception e) {
-			logger.error("Validation failed for reason: " + e.getMessage());
-		} finally {
+		}  catch (InterruptedException e)
+      {
+		   throw new OperationCanceledException(validationTimeoutMessage);
+      } finally {
 			monitor.done();
 		}
 	}

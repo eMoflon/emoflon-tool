@@ -4,13 +4,16 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.JobGroup;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -31,6 +34,8 @@ import MoflonPropertyContainer.MoflonPropertiesContainer;
 
 public class MoflonCodeGenerator extends GenericMoflonProcess
 {
+   private int timeoutForValidationTaskInMillis = 0;
+
    private static final Logger logger = Logger.getLogger(MoflonCodeGenerator.class);
 
    private InjectionManager injectionManager;
@@ -41,6 +46,10 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    {
       super(ecoreFile, resourceSet);
    }
+   
+   public void setValidationTimeout(final int timeoutInMillis) {
+      this.timeoutForValidationTaskInMillis = timeoutInMillis;
+   }
 
    @Override
    public String getTaskName()
@@ -48,6 +57,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       return "Generating code";
    }
 
+   @SuppressWarnings("deprecation")
    @Override
    public IStatus processResource(final IProgressMonitor monitor)
    {
@@ -77,8 +87,28 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
          // (2) Validate metamodel (including SDMs)
          final IMonitoredJob validator = methodBodyHandler.createValidator(ePackage);
-         final IStatus validatorStatus = validator.run(WorkspaceHelper.createSubMonitor(monitor, 10));
-         if (monitor.isCanceled())
+         // final IStatus validatorStatus = validator.run(WorkspaceHelper.createSubMonitor(monitor, 10));
+         final WorkspaceJob validationJob = new WorkspaceJob(engineID) {
+            @Override
+            public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
+            {
+               return validator.run(monitor);
+            }
+         };
+         JobGroup jobGroup = new JobGroup("Validation job group", 2, 2);
+         validationJob.setJobGroup(jobGroup);
+         validationJob.schedule();
+         jobGroup.join(timeoutForValidationTaskInMillis, new NullProgressMonitor());
+
+         final IStatus validatorStatus = validationJob.getResult();
+
+         if (validatorStatus == null)
+         {
+            //TODO@rkluge: This is a really ugly hack that should be removed as soon as a more elegant solution is available
+            validationJob.getThread().stop();
+            throw new OperationCanceledException("Validation took longer than " + timeoutForValidationTaskInMillis
+                  + "ms. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
+         } else if (monitor.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
@@ -141,13 +171,14 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             return codeGenerationStatus;
          }
          monitor.worked(5);
-         
+
          long tic = System.nanoTime();
 
          logger.info("Completed in " + (tic - toc) / 1e9 + "s");
 
          return validatorStatus.isOK() && injectionStatus.isOK() ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Code generation succeeded")
-               : new MultiStatus(CodeGeneratorPlugin.getModuleID(), validatorStatus.getCode(), new IStatus[] { validatorStatus, injectionStatus }, "Code generation warnings/errors", null);
+               : new MultiStatus(CodeGeneratorPlugin.getModuleID(), validatorStatus.getCode(), new IStatus[] { validatorStatus, injectionStatus },
+                     "Code generation warnings/errors", null);
       } catch (final Exception e)
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
@@ -158,7 +189,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    }
 
    /**
-    * Loads the injections from the /injection folder 
+    * Loads the injections from the /injection folder
     */
    private IStatus createInjections(final IProject project, final GenModel genModel) throws CoreException
    {
