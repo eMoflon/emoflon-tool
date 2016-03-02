@@ -4,15 +4,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.democles.specification.emf.Constraint;
+import org.gervarro.democles.specification.emf.ConstraintParameter;
+import org.gervarro.democles.specification.emf.ConstraintVariable;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.PatternBody;
+import org.gervarro.democles.specification.emf.constraint.emf.emf.Attribute;
+import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
+import org.gervarro.democles.specification.emf.constraint.emf.emf.Reference;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
 import org.moflon.sdm.runtime.democles.Action;
@@ -21,43 +25,19 @@ import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.RegularPatternInvocation;
 import org.moflon.sdm.runtime.democles.ReturnStatement;
 import org.moflon.sdm.runtime.democles.Scope;
-import org.moflon.sdm.runtime.democles.VariableReference;
+import org.moflon.sdm.runtime.democles.SingleResultPatternInvocation;
 
-import SDMLanguage.activities.Activity;
-import SDMLanguage.activities.ActivityNode;
-import SDMLanguage.activities.StopNode;
-import SDMLanguage.activities.StoryNode;
-import SDMLanguage.calls.callExpressions.MethodCallExpression;
-import SDMLanguage.calls.callExpressions.ParameterExpression;
-import SDMLanguage.expressions.Expression;
-import SDMLanguage.patterns.StoryPattern;
-import SDMLanguage.patterns.AttributeConstraints.AssignmentConstraint;
-import SDMLanguage.patterns.AttributeConstraints.AttributeConstraintExpression;
-import SDMLanguage.patterns.AttributeConstraints.AttributeConstraintVariable;
-import SDMLanguage.patterns.AttributeConstraints.AttributeLookupConstraint;
-import SDMLanguage.patterns.AttributeConstraints.AttributeValueConstraint;
-import SDMLanguage.patterns.AttributeConstraints.CspConstraint;
-import SDMLanguage.patterns.AttributeConstraints.PrimitiveVariable;
-import SDMLanguage.patterns.patternExpressions.AttributeValueExpression;
-import SDMLanguage.patterns.patternExpressions.ObjectVariableExpression;
+public class DerivedFeatureSdmAnalyzer {
 
-public class DerivedFeatureSdmAnalyzer
-{
-
-   /**
-    * Creates a set of variables on which the derived attribute depends.
-    * 
-    * @param genFeature
-    *           The derived attribute that should be analyzed.
-    * @return A set of variables on which the derived attribute depends.
-    */
-   public static Set<EStructuralFeature> analyzeSDM(final GenFeature genFeature, String calcMethodName)
-   {
-
-        // TODO@aaltenkirch: eOperation should be, e.g., __getTreeSize()
-        // You may search for usages of CONTROL_FLOW_FILE_EXTENSION to get more
-        // inspiration...
-        Set<EStructuralFeature> dependentVariables = new HashSet<EStructuralFeature>();
+    /**
+     * Creates a set of variables on which the derived attribute depends.
+     * 
+     * @param genFeature
+     *            The derived attribute that should be analyzed.
+     * @return A set of variables on which the derived attribute depends.
+     */
+    public static Set<EStructuralFeature> analyzeSDM(final GenFeature genFeature, String calcMethodName) {
+        Set<EStructuralFeature> dependentFeatures = new HashSet<EStructuralFeature>();
         String returnType = DerivedFeatureExtractor.getAttributeType(genFeature);
         EOperation eOperation = DerivedFeatureExtractor.getEOperation(genFeature, calcMethodName, returnType, true);
 
@@ -70,205 +50,100 @@ public class DerivedFeatureSdmAnalyzer
             final Scope rootScope = (Scope) cfResource.getContents().get(0);
 
             for (EObject content : rootScope.eContents()) {
-                
                 if (content instanceof ReturnStatement) {
                     ReturnStatement returnStatement = (ReturnStatement) content;
-                }
-
-                if (content instanceof CFNode) {
+                    analyzeNode(dependentFeatures, returnStatement);
+                } else if (content instanceof CFNode) {
                     CFNode cfNode = (CFNode) content;
+                    analyzeNode(dependentFeatures, cfNode);
+                }
+            }
+        }
 
-                    EList<Action> actions = cfNode.getActions();
-                    for (Action action : actions) {
-                        
-                        if (action instanceof RegularPatternInvocation) {
-                            RegularPatternInvocation regPatInv = (RegularPatternInvocation)action;
-                            Pattern pattern = regPatInv.getPattern();
-                            if (pattern != null) {
-                                for (PatternBody patternBody : pattern.getBodies()) {
-                                    for (Constraint constraint : patternBody.getConstraints()) {
-                                        if (constraint instanceof AttributeValueConstraint) {
-                                            AttributeValueConstraint attrValConstraint = (AttributeValueConstraint)constraint;
+        return dependentFeatures;
+    }
+
+    private static void analyzeNode(Set<EStructuralFeature> dependentFeatures, CFNode cfNode) {
+        for (Action action : cfNode.getActions()) {
+
+            if (action instanceof RegularPatternInvocation) {
+                RegularPatternInvocation regPatInv = (RegularPatternInvocation) action;
+                Pattern pattern = regPatInv.getPattern();
+                if (pattern != null) {
+                    for (PatternBody patternBody : pattern.getBodies()) {
+                        for (Constraint constraint : patternBody.getConstraints()) {
+
+                            if (constraint instanceof Reference) {
+                                Reference ref = (Reference) constraint;
+
+                                addSdmReference(dependentFeatures, ref);
+
+                                for (ConstraintParameter param : ref.getParameters()) {
+                                    if (param.getReference() != null) {
+                                        ConstraintVariable var = param.getReference();
+
+                                        if (var instanceof EMFVariable) {
+                                            EMFVariable emfVar = (EMFVariable) var;
+
+                                            if (!emfVar.getName().equals("this")) {
+
+                                            }
                                         }
                                     }
                                 }
                             }
+                            
+                            /*
+                            if (constraint instanceof AttributeValueConstraint) {
+                                AttributeValueConstraint attrValConstraint = (AttributeValueConstraint)constraint;
+                            }
+                            */
                         }
-                        
-                        EList<CFVariable> constructedVariables = action.getConstructedVariables();
+                    }
+                }
+            }
+        }
+    }
 
-                        for (CFVariable variable : constructedVariables) {
-                            if (!variable.isLocal()) {
-                                EStructuralFeature eContainingFeature = variable.eContainingFeature();
-                                eContainingFeature.getName();
+    private static void analyzeNode(Set<EStructuralFeature> dependentFeatures, ReturnStatement returnStatement) {
+        for (Action action : returnStatement.getActions()) {
+            if (action instanceof SingleResultPatternInvocation) {
+                SingleResultPatternInvocation inv = (SingleResultPatternInvocation)action;
+                for (CFVariable var : inv.getConstructedVariables()) {
+                    if (var instanceof CFVariable) {
+                        CFVariable cfVar = (CFVariable)var;
+                        
+                        if (cfVar.getConstructor() instanceof SingleResultPatternInvocation) {
+                            SingleResultPatternInvocation constVar = (SingleResultPatternInvocation)cfVar.getConstructor();
+                            Pattern pattern = constVar.getPattern();
+                            if (pattern != null) {
+                                for (PatternBody patternBody : pattern.getBodies()) {
+                                    for (Constraint constraint : patternBody.getConstraints()) {
+                                        if (constraint instanceof Attribute) {
+                                            Attribute attribute = (Attribute)constraint;
+                                            dependentFeatures.add(attribute.getEModelElement());
+                                        }
+                                    }
+                                    
+                                }
                             }
                         }
                     }
-
-                    ActivityNode origin = cfNode.getOrigin();
-                    if (origin instanceof StoryNode) {
-                        StoryNode storyNode = (StoryNode) origin;
-                        StoryPattern storyPattern = storyNode.getStoryPattern();
-                    }
-
-                    EList<EObject> eContents = origin.eContents();
-                    for (EObject eObject : eContents) {
-                        EStructuralFeature eContainingFeature = eObject.eContainingFeature();
-                    }
                 }
-                
-                if (content instanceof CFVariable) {
-                    CFVariable cfVariable = (CFVariable) content;
-                }
-
-            }
-
-            for (CFVariable variable : rootScope.getVariables()) {
-                if (!variable.isLocal()) {
-                    EList<VariableReference> references = variable.getReferences();
-                }
-
             }
         }
+    }
 
-      Activity activity = DerivedFeatureExtractor.getActivity(genFeature, calcMethodName);
+    private static void addSdmReference(Set<EStructuralFeature> dependentFeatures, Reference ref) {
+        EReference modelRef = ref.getEModelElement();
+        EReference modelRefOpp = modelRef.getEOpposite();
 
-      if (activity != null)
-      {
-         EList<ActivityNode> nodes = activity.getOwnedActivityNode();
+        if (!modelRef.getName().equals("this")) {
+            dependentFeatures.add(modelRef);
+        }
 
-         for (ActivityNode node : nodes)
-         {
-            if (node instanceof StopNode)
-            {
-               Set<EStructuralFeature> stopNodeVariables = analyzeStopNode((StopNode) node);
-               dependentVariables.addAll(stopNodeVariables);
-            } else if (node instanceof StoryNode)
-            {
-               Set<EStructuralFeature> storyNodeVariables = analyzeStoryNode((StoryNode) node);
-               dependentVariables.addAll(storyNodeVariables);
-            }
-         }
-      }
-
-      return dependentVariables;
-   }
-
-   /**
-    * Creates a set of variables contained in a {@link StoryNode}} on which the derived attribute depends.
-    * 
-    * @param node
-    *           The story node that should be analyzed.
-    * @return A set of variables on which the derived attribute depends.
-    */
-   private static Set<EStructuralFeature> analyzeStoryNode(StoryNode node)
-   {
-      Set<EStructuralFeature> dependentVariables = new HashSet<EStructuralFeature>();
-      StoryPattern storyPattern = node.getStoryPattern();
-
-      if (storyPattern != null)
-      {
-         for (AttributeConstraintVariable variable : storyPattern.getVariables())
-         {
-            if (variable instanceof AttributeConstraintExpression)
-            {
-               // AttributeConstraintExpression attributeConstraintExpression = (AttributeConstraintExpression)variable;
-            } else if (variable instanceof CspConstraint)
-            {
-               // CspConstraint cspConstraint = (CspConstraint)variable;
-            } else if (variable instanceof PrimitiveVariable)
-            {
-               findDependencies((PrimitiveVariable) variable);
-            }
-         }
-      }
-
-      /*
-       * for (ObjectVariable variable : storyPattern.getObjectVariable()) { if (!variable.getName().equals("this")) {
-       * //dependentVariables.add(variable.getName()); dependentVariables.add(null); } }
-       */
-
-      return dependentVariables;
-   }
-
-   /**
-    * Creates a set of derived features contained in an {@link PrimitiveVariable}}
-    * 
-    * @param primitiveVariable
-    *           The variable that should be analyzed.
-    * @return A set of derived features that occurs in the PrimitiveVariable.
-    */
-   private static Set<EStructuralFeature> findDependencies(PrimitiveVariable primitiveVariable)
-   {
-      Set<EStructuralFeature> dependentVariables = new HashSet<EStructuralFeature>();
-
-      for (AttributeValueConstraint attributeValueConstraint : primitiveVariable.getAttributeValueConstraints())
-      {
-         if (attributeValueConstraint != null)
-         {
-            if (attributeValueConstraint instanceof AssignmentConstraint)
-            {
-               AssignmentConstraint assignmentConstraint = (AssignmentConstraint) attributeValueConstraint;
-               // dependentVariables.add(assignmentConstraint.getObjectVariable().getName());
-               dependentVariables.add(assignmentConstraint.getType());
-            } else if (attributeValueConstraint instanceof AttributeLookupConstraint)
-            {
-               AttributeLookupConstraint assignmentLookupConstraint = (AttributeLookupConstraint) attributeValueConstraint;
-               if (!assignmentLookupConstraint.getObjectVariable().getName().equals("this"))
-               {
-                  // dependentVariables.add(assignmentLookupConstraint.getObjectVariable());
-                  dependentVariables.add(null);
-               } else
-               {
-                  if (assignmentLookupConstraint.getType() instanceof EAttribute)
-                  {
-                     dependentVariables.add(assignmentLookupConstraint.getType());
-                  }
-               }
-            }
-         }
-      }
-
-      return dependentVariables;
-   }
-
-   /**
-    * Creates a set of variables contained in a {@link StopNode}} on which the derived attribute depends.
-    * 
-    * @param node
-    *           The stop node that should be analyzed.
-    * @return A set of variables on which the derived attribute depends.
-    */
-   private static Set<EStructuralFeature> analyzeStopNode(StopNode node)
-   {
-      return analyzeExpression(node.getReturnValue());
-   }
-
-   /**
-    * Creates a set of variables contained in an {@link Expression}} on which the derived attribute depends.
-    * 
-    * @param expression
-    *           The expression that should be analyzed.
-    * @return A set of variables on which the expression depends.
-    */
-   private static Set<EStructuralFeature> analyzeExpression(Expression expression)
-   {
-      Set<EStructuralFeature> dependentVariables = new HashSet<EStructuralFeature>();
-
-      if (expression instanceof AttributeValueExpression)
-      {
-         // AttributeValueExpression attributeValueExpression = (AttributeValueExpression)expression;
-      } else if (expression instanceof ObjectVariableExpression)
-      {
-         // ObjectVariableExpression objectVariableExpression = (ObjectVariableExpression)expression;
-      } else if (expression instanceof MethodCallExpression)
-      {
-         // MethodCallExpression methodCallExpression = (MethodCallExpression)expression;
-      } else if (expression instanceof ParameterExpression)
-      {
-         // ParameterExpression parameterExpression = (ParameterExpression)expression;
-      }
-
-      return dependentVariables;
-   }
+        if (!modelRefOpp.getName().equals("this")) {
+            dependentFeatures.add(modelRefOpp);
+        }
+    }
 }

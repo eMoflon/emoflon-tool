@@ -1,17 +1,57 @@
 // This template group contains rules for generating code that updates 
 // derived attributes.
 
-preGetGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+preGetGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
     // Feature '<genFeature.name>' is derived.
+    
+    org.eclipse.emf.ecore.util.EContentAdapter adapter = new org.eclipse.emf.ecore.util.EContentAdapter() {
+        @Override
+        public void notifyChanged(Notification notification) {
+            super.notifyChanged(notification);
+            if (notification.getFeature() instanceof org.eclipse.emf.ecore.EStructuralFeature) {
+                org.eclipse.emf.ecore.EStructuralFeature feature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
+                
+                if (notification.getEventType() == Notification.SET) {
+                    <dependentFeatures: { dependentFeature |
+					if ("<genFeature.safeName>".equals("<dependentFeature.name>"))
+						System.out.println("get<genFeature.capName>: " + feature.getName() + " changed!");
+					}>
+                }
+            }
+        }
+    };
+    this.eAdapters().add(adapter);
+    
+    
+    
     final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();;
     if (derived<genFeature.capName> != <genFeature.safeName>)
     {
     	this.set<genFeature.accessorName>(derived<genFeature.capName>);
-    } 
+    }
 >>
 
-preGetGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+preGetGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
 	// Feature '<genFeature.name>' is derived.
+    
+    org.eclipse.emf.ecore.util.EContentAdapter adapter = new org.eclipse.emf.ecore.util.EContentAdapter() {
+        @Override
+        public void notifyChanged(Notification notification) {
+            super.notifyChanged(notification);
+            if (notification.getFeature() instanceof org.eclipse.emf.ecore.EStructuralFeature) {
+                org.eclipse.emf.ecore.EStructuralFeature feature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
+                
+                if (notification.getEventType() == Notification.SET) {
+                    <dependentFeatures: { dependentFeature |
+					if (feature.getName().equals("<dependentFeature.name>"))
+						System.out.println("get<genFeature.capName>: " + feature.getName() + " changed!");
+					}>
+                }
+            }
+        }
+    };
+    this.eAdapters().add(adapter);
+	
     final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();
     if (derived<genFeature.capName> != null) {
 	    if (!derived<genFeature.capName>.equals(<genFeature.safeName>))

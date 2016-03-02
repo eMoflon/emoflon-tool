@@ -1,10 +1,13 @@
 package org.moflon.sdm.compiler.democles.derivedfeatures;
 
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.ui.LoggingSTErrorListener;
@@ -21,7 +24,8 @@ public class DerivedFeatureProcessor {
     public DerivedFeatureProcessor() {
     }
     
-    public String generateDerivatedFeatureCode(GenFeature genFeature, String calcMethodName) {
+    public String generateDerivatedFeatureCode(GenFeature genFeature, String calcMethodName,
+            Set<EStructuralFeature> dependentFeatures) {
         initializeTemplates();
     
         String derivedFeatureTemplateName = "";
@@ -40,6 +44,7 @@ public class DerivedFeatureProcessor {
         derivedFeatureTemplate.add("genFeature", genFeature);
         derivedFeatureTemplate.add("genFeatureType", genFeature.getImportedType(genFeature.getGenClass()));
         derivedFeatureTemplate.add("calculationMethodName",  calcMethodName);
+        derivedFeatureTemplate.add("dependentFeatures",  dependentFeatures);
         String derivedFeatureCode = derivedFeatureTemplate.render();
 
         return derivedFeatureCode;
