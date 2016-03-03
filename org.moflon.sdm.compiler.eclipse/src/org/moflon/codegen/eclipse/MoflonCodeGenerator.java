@@ -92,13 +92,20 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             @Override
             public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
             {
-               return validator.run(monitor);
+               try
+               {
+                  monitor.beginTask("Validation job", 100);
+                  return validator.run(WorkspaceHelper.createSubMonitor(monitor, 100));
+               } 
+               finally {
+                  monitor.done();
+               }
             }
          };
-         JobGroup jobGroup = new JobGroup("Validation job group", 2, 2);
+         JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
          validationJob.setJobGroup(jobGroup);
          validationJob.schedule();
-         jobGroup.join(timeoutForValidationTaskInMillis, new NullProgressMonitor());
+         jobGroup.join(timeoutForValidationTaskInMillis, WorkspaceHelper.createSubMonitor(monitor, 10));
 
          final IStatus validatorStatus = validationJob.getResult();
 
