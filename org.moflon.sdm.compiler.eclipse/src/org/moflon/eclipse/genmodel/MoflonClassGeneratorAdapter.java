@@ -34,8 +34,8 @@ import org.moflon.moca.inject.util.InjectionRegions;
 
 /**
  * This implementation base class is invoked during the code generation of a Java class
- *  
- * @author Gergely Varró
+ * 
+ * @author Gergely Varrï¿½
  * @author Roland Kluge
  * 
  * @see JavaClassGenerator
@@ -43,8 +43,9 @@ import org.moflon.moca.inject.util.InjectionRegions;
 abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter
 {
    private static final String DERIVED_FEATURES_CODE_CONTRIBUTOR = "org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributor";
+
    private static final Logger logger = Logger.getLogger(MoflonClassGeneratorAdapter.class);
-   
+
    private JETEmitterDescriptor[] emitterDescriptors;
 
    /**
@@ -70,6 +71,31 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
    abstract public String getGeneratedMethodBody(EOperation eOperation);
 
    /**
+    * Returns a string that is injected into the generated constructor.
+    * 
+    * @param genClass
+    * @return
+    */
+   public String getConstructorInjectionCode(GenClass genClass)
+   {
+      MoflonClassGeneratorCodeContributor codeContributor = (MoflonClassGeneratorCodeContributor) Platform.getAdapterManager().loadAdapter(genClass,
+            DERIVED_FEATURES_CODE_CONTRIBUTOR);
+      if (codeContributor != null)
+      {
+         try
+         {
+            return codeContributor.getConstructorInjectionCode(genClass);
+         } catch (final Exception e)
+         {
+            logger.error(String
+                  .format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
+            return null;
+         }
+      }
+      return null;
+   }
+
+   /**
     * Returns the code that should be inserted at the beginning of the getter of the given {@link GenFeature}
     * 
     * @param genFeature
@@ -89,11 +115,12 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
             return codeContributor.getPreGetGenFeatureCode(genFeature);
          } catch (final Exception e)
          {
-            logger.error(String.format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
+            logger.error(String
+                  .format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
             return null;
          }
       }
-      
+
       return null;
    }
 
@@ -116,11 +143,12 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
             return codeContributor.getPreSetGenFeatureCode(genFeature);
          } catch (final Exception e)
          {
-            logger.error(String.format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
+            logger.error(String
+                  .format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
             return null;
          }
       }
-      
+
       return null;
    }
 

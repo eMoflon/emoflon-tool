@@ -4242,6 +4242,15 @@ public class JavaClassGenerator
             }
             stringBuffer.append(TEXT_196);
          }
+         // rkluge (2016-03-03): This code has been inserted manually.
+         // Unfortunately, there is no injection point in the original template Class.javajet 
+         final String constructorInjection = generatorAdapter.getConstructorInjectionCode(genClass);
+         if (constructorInjection != null)
+         {
+            stringBuffer.append(constructorInjection);
+         }
+         // rkluge: End of inserted code
+
          stringBuffer.append(TEXT_197);
          if (genModel.useClassOverrideAnnotation())
          {
@@ -5508,7 +5517,7 @@ public class JavaClassGenerator
                      stringBuffer
                            .append(setAccessorOperation == null ? "new" + genFeature.getCapName() : setAccessorOperation.getGenParameters().get(0).getName());
                      stringBuffer.append(TEXT_650);
-                     
+
                      // rkluge This code has been inserted manually and MUST be moved to the template file
                      // 'Class/setGenFeature.pre.insert.javajetinc' (l 759 in Class.javajet) before regenerating this
                      // class
@@ -5520,7 +5529,6 @@ public class JavaClassGenerator
                      // Class/setGenFeature.pre.insert.javajetinc
                      // rkluge: End of inserted code
 
-                     
                      if (genModel.isDynamicDelegation())
                      {
                         stringBuffer.append(TEXT_651);

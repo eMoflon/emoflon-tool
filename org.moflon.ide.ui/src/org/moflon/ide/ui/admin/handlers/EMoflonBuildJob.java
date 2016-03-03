@@ -41,7 +41,7 @@ public class EMoflonBuildJob extends WorkspaceJob
       final List<IProject> projectsToBeBuilt = this.projects.stream().filter(project -> shallBuildProject(project)).collect(Collectors.toList());
       try
       {
-         monitor.beginTask("eMoflon Cleaning", 2 * projectsToBeBuilt.size());
+         monitor.beginTask("eMoflon Build Job", 2 * projectsToBeBuilt.size());
 
          // Update user-selected timeout
          EMoflonPreferencesStorage.getInstance().setValidationTimeout(EMoflonPreferenceInitializer.getValidationTimeoutMillis());

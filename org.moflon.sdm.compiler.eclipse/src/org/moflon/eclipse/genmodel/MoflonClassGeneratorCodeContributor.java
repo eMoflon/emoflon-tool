@@ -1,5 +1,6 @@
 package org.moflon.eclipse.genmodel;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 
 /**
@@ -11,5 +12,7 @@ public interface MoflonClassGeneratorCodeContributor
    String getPreGetGenFeatureCode(GenFeature genFeature);
 
    String getPreSetGenFeatureCode(GenFeature genFeature);
+
+   String getConstructorInjectionCode(GenClass genClass);
 
 }

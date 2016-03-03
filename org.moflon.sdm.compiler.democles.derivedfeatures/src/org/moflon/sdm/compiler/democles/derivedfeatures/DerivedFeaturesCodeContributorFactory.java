@@ -1,9 +1,7 @@
 package org.moflon.sdm.compiler.democles.derivedfeatures;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 
 public class DerivedFeaturesCodeContributorFactory implements IAdapterFactory
@@ -11,23 +9,28 @@ public class DerivedFeaturesCodeContributorFactory implements IAdapterFactory
    /**
     * This map caches the code contributor for each {@link GenFeature}.
     */
-   private static final Map<GenFeature, DerivedFeaturesCodeContributor> adapterMap = new HashMap<>();
-   
+   // private static final Map<GenFeature, DerivedFeaturesCodeContributor> adapterMap = new HashMap<>();
+   private static DerivedFeaturesCodeContributor instance;
+
    @SuppressWarnings("unchecked")
    @Override
    public DerivedFeaturesCodeContributor getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType)
    {
-      if (adaptableObject instanceof GenFeature && adapterType == DerivedFeaturesCodeContributor.class)
+      if ((adaptableObject instanceof GenFeature || adaptableObject instanceof GenClass) && adapterType == DerivedFeaturesCodeContributor.class)
       {
-         final GenFeature genFeature = (GenFeature) adaptableObject;
-         if (adapterMap.containsKey(genFeature)) {
-            return adapterMap.get(genFeature);
-         }
-         else {
-            DerivedFeaturesCodeContributor adapter = new DerivedFeaturesCodeContributor();
-            adapterMap.put(genFeature, adapter);
-            return adapter;
-         }
+         // final GenFeature genFeature = (GenFeature) adaptableObject;
+         // if (adapterMap.containsKey(genFeature)) {
+         // return adapterMap.get(genFeature);
+         // }
+         // else {
+         // DerivedFeaturesCodeContributor adapter = new DerivedFeaturesCodeContributor();
+         // adapterMap.put(genFeature, adapter);
+         // return adapter;
+         // }
+         if (instance == null)
+            instance = new DerivedFeaturesCodeContributor();
+
+         return instance;
       }
       return null;
    }

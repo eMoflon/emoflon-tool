@@ -10,5 +10,12 @@
                type="org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributor">
          </adapter>
       </factory>
+      <factory
+            adaptableType="org.eclipse.emf.codegen.ecore.genmodel.GenClass"
+            class="org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributorFactory">
+         <adapter
+               type="org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributor">
+         </adapter>
+      </factory>
    </extension>
 </plugin>
