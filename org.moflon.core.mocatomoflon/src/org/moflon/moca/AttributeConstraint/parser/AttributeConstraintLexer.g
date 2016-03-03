@@ -34,6 +34,7 @@ import org.moflon.core.moca.processing.ProblemType;
 }
 
 WS : (' '|'\n' | '\r')+ {skip();};
+SL_COMMENT: ('//' (~'\n')* '\n') {skip();}; 
 
 //Operation
 
@@ -53,6 +54,8 @@ fragment
 LETTER: SMALL_LETTER | CAPITAL_LETTER;
 fragment
 OP: ('-' |  '*' | '+' | '=' | '<' | '>' | '/' |'?') ;
+
+IMPORT : 'importPackage';
 
 STRING
  : QUOTE (~('\r'|'\n'|QUOTE)| BACKSLASH QUOTE)* QUOTE  {

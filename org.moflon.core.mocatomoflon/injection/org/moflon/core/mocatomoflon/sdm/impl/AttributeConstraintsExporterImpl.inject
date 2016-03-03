@@ -1,4 +1,5 @@
 
+import java.util.stream.Collectors;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.sdm.compiler.democles.validation.result.Severity;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
@@ -16,49 +17,125 @@ import antlr.debug.ParserAdapter;
 import java.io.IOException;
 import java.io.StringReader;
 import org.moflon.core.moca.processing.ProcessingFactory;
+import java.util.List;
 
 partial class AttributeConstraintsExporterImpl {
 
 @members <--
 
-	private static final Logger logger = Logger.getLogger(AttributeConstraintsExporter.class);
-	
+   private static final Logger logger = Logger.getLogger(AttributeConstraintsExporter.class);
+   
 -->
 
 @model setUp () <--
 
-		this.setCodeAdapter(ProcessingFactory.eINSTANCE.createCodeAdapter());
-		this.getCodeAdapter().getParser().add(new AttributeConstraintParserAdapter());
+      this.setCodeAdapter(ProcessingFactory.eINSTANCE.createCodeAdapter());
+      this.getCodeAdapter().getParser().add(new AttributeConstraintParserAdapter());
 -->
 
 @model createUnknownVariableError (StoryPattern storyPattern, Attribute ovNameNode, Attribute attrVarNode) <--
 
-		ErrorMessage errMessage = ResultFactory.eINSTANCE.createErrorMessage();
-		errMessage.setSeverity(Severity.ERROR);
-		errMessage.setId("Attribute Constraint Error: Variable " + ovNameNode.getValue() + "." + attrVarNode.getValue()
-				+ " is unknown");
-		errMessage.getLocation().add(storyPattern);
-		this.getExporter().getMocaToMoflonReport().getErrorMessages().add(errMessage);
+      ErrorMessage errMessage = ResultFactory.eINSTANCE.createErrorMessage();
+      errMessage.setSeverity(Severity.ERROR);
+      errMessage.setId("Attribute Constraint Error: Variable " + ovNameNode.getValue() + "." + attrVarNode.getValue() + " is unknown");
+      errMessage.getLocation().add(storyPattern);
+      this.getExporter().getMocaToMoflonReport().getErrorMessages().add(errMessage);
+-->
+
+@model getPackageName (Node ePackageNode) <--
+
+      Node packNameNode = (Node) ePackageNode.getChildren().stream().filter(a -> a.getName().equals("PACKAGENAME")).findAny().get();
+      return packNameNode.getChildren().get(0).getName();
+-->
+
+@model getNsPrefix (Node ePackageNode) <--
+
+      Node qualifierNode = (Node) ePackageNode.getChildren().stream().filter(a -> a.getName().equals("QUALIFIER")).findAny().get();
+      Node nameNode = (Node) ePackageNode.getChildren().stream().filter(a -> a.getName().equals("PACKAGENAME")).findAny().get();
+      StringBuilder sb = new StringBuilder();
+
+      for (Text fragmentNode : qualifierNode.getChildren())
+      {
+         sb.append(fragmentNode.getName());
+         sb.append(".");
+      }
+      sb.append(nameNode.getChildren().get(0).getName());
+      return sb.toString();
 -->
 
 @model calcAttrVarName (String ovName, String attrName, String postFix) <--
 
-		return ovName + "_" + attrName + postFix;
+      return ovName + "_" + attrName + postFix;
 -->
 
-@model getEDatatypeFromString (String datatypeString) <--
+@model lookupEDatatype (Node variableNode) <--
 
-		return (EDataType) org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEClassifier(datatypeString);
+      Node ePackageNode = (Node) variableNode.getChildren().stream().filter(child -> child.getName().equals("EPACKAGE")).findAny().orElse(null);
+      String typeName = variableNode.getAttribute().stream().filter(attr -> attr.getName().equals("datatype")).findAny().get().getValue();
+      if (ePackageNode != null)
+      {
+         String packName = this.getPackageName(ePackageNode);
+         String nsPrefix = this.getNsPrefix(ePackageNode);
+
+         EPackage correspondingPackage = this.resolvePackageImport(nsPrefix, packName);
+         if (correspondingPackage != null)
+         {
+
+            EClassifier type = correspondingPackage.getEClassifier(typeName);
+            if (type instanceof EDataType)
+            {
+               return (EDataType) type;
+            } else
+            {
+               this.addErrorReport("Cannot find EDatatype \"" + typeName + "\" in EPackage \"" + nsPrefix + "." + packName + "\"", this.getActivityNode(),
+                     this.getActivityNode().getOwningActivity().getOwningOperation());
+               return null;
+            }
+
+         } else
+         {
+            this.addErrorReport("Cannot find EPackage \"" + nsPrefix + "." + packName + "\" for type \"" + nsPrefix + "." + packName + "." + typeName + "\"",
+                  this.getActivityNode(), this.getActivityNode().getOwningActivity().getOwningOperation());
+            return null;
+         }
+      } else
+      {
+
+         List<EPackage> correspondingPackages = this.getImportedPackages().stream().filter(p -> p.getEClassifier(typeName) != null)
+               .collect(Collectors.toList());
+         if (correspondingPackages.size() > 1)
+         {
+            this.addErrorReport("Type \"" + typeName + "\" is not unique in imported packages", this.getActivityNode(),
+                  this.getActivityNode().getOwningActivity().getOwningOperation());
+            return null;
+         } else if (correspondingPackages.size() <= 0)
+         {
+            this.addErrorReport("Unable to resolve type \"" + typeName + "\" in imported packages", this.getActivityNode(),
+                  this.getActivityNode().getOwningActivity().getOwningOperation());
+            return null;
+         } else
+         {
+            EClassifier type = correspondingPackages.get(0).getEClassifier(typeName);
+            if (type instanceof EDataType)
+            {
+               return (EDataType) type;
+            } else
+            {
+               this.addErrorReport("Unable to resolve type \"" + typeName + "\" in imported packages", this.getActivityNode(),
+                     this.getActivityNode().getOwningActivity().getOwningOperation());
+               return null;
+            }
+         }
+      }
 -->
 
 @model parse (StoryPattern storyPattern, String parseString) <--
 
-		AttributeConstraintParserAdapter parser = (AttributeConstraintParserAdapter) this.getCodeAdapter().getParser()
-				.get(0);
-		ValidationReport report = parser.parse(parseString, storyPattern);
-		this.getExporter().getMocaToMoflonReport().merge(report);
+      AttributeConstraintParserAdapter parser = (AttributeConstraintParserAdapter) this.getCodeAdapter().getParser().get(0);
+      ValidationReport report = parser.parse(parseString, storyPattern);
+      this.getExporter().getMocaToMoflonReport().merge(report);
 
-		return (Node) report.getResult();
+      return (Node) report.getResult();
 -->
 
 }

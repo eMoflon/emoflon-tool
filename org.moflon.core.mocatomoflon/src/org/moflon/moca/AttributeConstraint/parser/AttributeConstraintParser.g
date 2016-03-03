@@ -13,6 +13,13 @@ tokens {
 	T;
 	ATTR_CONST_VAR;
 	ROOT;
+	IMPORTS;
+	ANIMPORT;
+	QUALIFIER;
+	FRAGMENT;
+	PACKAGEIMPORTS;
+	EPACKAGE;
+	PACKAGENAME;
 }
 
 @members {
@@ -49,10 +56,21 @@ import org.moflon.core.moca.processing.ProblemType;
 }
 
 // Parser Rules:
-main: (op+=constraint SEMICOLON)* -> ^(ROOT $op*); 
+main: im=packageImports (op+=constraint SEMICOLON)* -> ^(ROOT $op* $im); 
 constraint: op=(OP_ID|ID) LPAR p1=parameter (SEP pn+=parameter)* RPAR -> 	^(CSP_CONSTRAINT ^(ATTRIBUTE T["name"] $op) $p1 $pn*);
  			
 
+packageImports: 
+     (imp+=packageImport)* ->^(PACKAGEIMPORTS $imp*);
+     
+packageImport:
+	 IMPORT pack=fullyQualifiedPack SEMICOLON -> $pack ;
+	 														
+fullyQualifiedPack:
+	prefix=qualifier pack=ID -> ^(EPACKAGE ^(PACKAGENAME ^($pack)) $prefix );
+
+qualifier:
+	(fragments+=ID DOT)*-> ^(QUALIFIER ^($fragments)*);       
 parameter:
 	attrVar=attrLookupPrimitiveVar -> $attrVar | 
 	attrVar1=attrAssignPrimitiveVar -> $attrVar1 |
@@ -63,7 +81,7 @@ parameter:
 
 attrAssignPrimitiveVar:
 	ovName=ID DOT attrName=ID SINGLEQUOTE -> ^(ATTR_CONST_VAR 	^(ATTRIBUTE T["type"] T["AttrAssignmentVariable"])
-																^(ATTRIBUTE T["ovName"] $ovName  )
+													 			^(ATTRIBUTE T["ovName"] $ovName  )
 																^(ATTRIBUTE T["attrName"] $attrName));
 attrLookupPrimitiveVar:
 	ovName=ID DOT attrName=ID -> ^(ATTR_CONST_VAR 	^(ATTRIBUTE T["type"] T["AttrLookupVariable"])
@@ -71,11 +89,18 @@ attrLookupPrimitiveVar:
 														^(ATTRIBUTE T["attrName"] $attrName ));
 
 tempPrimtiveVar:
-	name=ID COLON datatype=ID-> ^(ATTR_CONST_VAR		^(ATTRIBUTE T["type"] T["TempVariable"])
+	name=ID COLON (pack=fullyQualifiedPack DOT)? type=ID-> ^(ATTR_CONST_VAR		^(ATTRIBUTE T["type"] T["TempVariable"])
 																^(ATTRIBUTE T["name"] $name)
-																^(ATTRIBUTE T["datatype"] $datatype)); 
+																^(ATTRIBUTE T["datatype"] $type)
+																$pack*); 
 
 literalVar:
-	constant=(NUMBER|BOOLEAN|STRING) COLON datatype=ID -> 		^(ATTR_CONST_VAR 	^(ATTRIBUTE T["type"] T["LiteralVariable"])
-													^(ATTRIBUTE T["value"] $constant) 	
-													^(ATTRIBUTE T["datatype"] $datatype)); 
+	constant=(NUMBER|BOOLEAN|STRING|ID) COLON COLON  (pack=fullyQualifiedPack DOT)? type=ID -> 
+													^(ATTR_CONST_VAR 	
+													^(ATTRIBUTE T["type"] T["LiteralVariable"])
+													^(ATTRIBUTE T["value"] $constant)
+													^(ATTRIBUTE T["datatype"] $type) 
+														$pack*);  
+													
+											 	
+													
