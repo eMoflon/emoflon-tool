@@ -86,6 +86,7 @@ namespace MOFLON2EAExportImportTest
                 EA.Repository repository = null;
                 try
                 {
+                    Console.Out.WriteLine("DEBUG:start export#");
                     String filename = eapFile.Value; 
                     repository = new EA.Repository();
                     repository.OpenFile(filename);
@@ -94,7 +95,11 @@ namespace MOFLON2EAExportImportTest
                     updater.updateEAPIfNecessary(false);
 
                     SQLRepository sqlRepository = new SQLRepository(repository, true, false);
+
+                    Console.Out.WriteLine("DEBUG:initialize exporter#");
                     Export exporter = new Export(sqlRepository, true, false);
+
+                    Console.Out.WriteLine("DEBUG:do export#");
                     exporter.doExport();
 
                     Console.Out.WriteLine("INFO:Export was successfull#");
