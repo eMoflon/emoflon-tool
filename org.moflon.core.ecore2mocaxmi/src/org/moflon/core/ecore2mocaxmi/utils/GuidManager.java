@@ -17,7 +17,7 @@ public class GuidManager {
 	private Map<EReference, EReference> opposites;
 	private Map<Attribute, Set<ENamedElement>> searchMap;
 	
-	private static final String [] signalWords = {"EInt", "void", "EString", "EDouble", "EBoolean"};
+	private static final String [] signalWords = {"EInt", "void", "EString", "EDouble", "EBoolean", "EFloat", "ELong"};
 	private List<String> blackList;
 	
 	public GuidManager(){
