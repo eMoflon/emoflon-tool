@@ -88,6 +88,9 @@ public class MetamodelBuilder extends AbstractBuilder
                }
                if (exporter.getEpackages().isEmpty())
                   throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Unable to transform exported files to ecore models."));
+            } catch (Exception e)
+            {
+               throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Exception during export.", e));
             } finally
             {
                exporterSubMonitor.done();
@@ -149,8 +152,8 @@ public class MetamodelBuilder extends AbstractBuilder
          if (!file.exists())
          {
             file.create(source, true, new NullProgressMonitor());
-         }
-         else {
+         } else
+         {
             file.setContents(source, true, false, new NullProgressMonitor());
          }
       } catch (final CoreException e)
@@ -158,7 +161,6 @@ public class MetamodelBuilder extends AbstractBuilder
          logger.warn("Failed to create project info file " + file, e);
       }
    }
-
 
    /**
     * This method delegates to the registered extensions of the "Pre-MetamodelBuilder" extension points
@@ -178,7 +180,7 @@ public class MetamodelBuilder extends AbstractBuilder
          }
       }
    }
-   
+
    /**
     * This method delegates to the registered extensions of the "Post-MetamodelBuilder" extension points
     */
