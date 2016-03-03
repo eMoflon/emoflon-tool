@@ -7,7 +7,6 @@ import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.eclipse.core.resources.IProject;
 import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
 import org.moflon.sdm.constraints.operationspecification.OperationSpecification;
-import org.moflon.sdm.constraints.operationspecification.constraint.util.AttributeConstraintLibUtil;
 
 partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
 
@@ -18,52 +17,10 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
       super.postprocess(storyPattern, pattern);
 -->
 
-@model validateCspConstraints (AttributeVariableConstraint attributeConstraint, CspConstraint cspConstraint) <--
-
-      //Lookup constraint in build in lib
-      AttributeConstraintLibrary buildInLib = AttributeConstraintLibUtil.getBuildInAttributeConstraintLibrary();
-      if (buildInLib.lookupConstraintType(attributeConstraint) != null)
-      {
-         return;
-      }
-      //Lookup constraint in user defined lib
-      IProject project = CodeGeneratorPlugin.getWorkspaceProject(cspConstraint.eResource().getURI());
-      AttributeConstraintLibrary userDefLib = AttributeConstraintLibUtil.getUserDefinedAttributeConstraintLibrary(project);
-      validateConstraintLibrary(userDefLib, project.getName());
-      if (userDefLib.lookupConstraintType(attributeConstraint) != null)
-      {
-         return;
-      }
-      //create Stub
-      updateUserDefinedConstraintLib(attributeConstraint, userDefLib);
-      AttributeConstraintLibUtil.saveAttributeConstraintLibrary(userDefLib);
-
-      //create Error Message
-      StringBuilder errorMsgString = new StringBuilder(Errors.UNKNOWN_ATTRIBUTE_CONSTRAINT.getLiteral());
-      errorMsgString.append(": ");
-      errorMsgString.append("\"" + cspConstraint.getName());
-      errorMsgString.append("(");
-      for (AttributeConstraintVariable var : cspConstraint.getParameters())
-      {
-         errorMsgString.append(var.getType().getName() + ",");
-      }
-      errorMsgString.deleteCharAt(errorMsgString.length() - 1);
-      errorMsgString.append(")\".");
-      errorMsgString.append("\n    Please complete stub in: \"" + project.getName() + " /lib/" + userDefLib.getPrefix() + ".xmi\"");
-
-      ValidationReport report = this.getValidationReport();
-
-      ErrorMessage errorMessage = ResultFactory.eINSTANCE.createErrorMessage();
-      errorMessage.setId(errorMsgString.toString());
-      errorMessage.setSeverity(Severity.ERROR);
-      errorMessage.getLocation().add(attributeConstraint);
-      report.getErrorMessages().add(errorMessage);
--->
-
-@model validateConstraintLibrary (AttributeConstraintLibrary attributeConstraintLibrary, String projectName) <--
+@model validateConstraintLibrary (AttributeConstraintLibrary attributeConstraintLibrary) <--
 
       ValidationReport validationReport = this.getValidationReport();
-      String fileLoc = "\"" + projectName + "/lib/" + projectName + "AttributeConstraintLibrary.xmi\"";
+      String fileLoc = attributeConstraintLibrary.getPrefix() + "/AttributeConstraintLibrary.xmi";
       if (attributeConstraintLibrary.getPrefix() == null || attributeConstraintLibrary.getPrefix().length() == 0)
       {
          ErrorMessage errorMsg = createErrorMessage(attributeConstraintLibrary.eClass());
@@ -175,6 +132,60 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
          }
 
       }
+-->
+
+@model validateCspConstraints (AttributeVariableConstraint attributeConstraint, CspConstraint cspConstraint) <--
+
+     
+      //Lookup constraint in user defined lib first
+
+      AttributeConstraintLibrary userDefLib = this.getAttributeConstraintLibUtil().getUserDefinedAttributeConstraintLibrary();
+     
+      if(userDefLib!=null)
+      {
+         validateConstraintLibrary(userDefLib);
+         if (userDefLib.lookupConstraintType(attributeConstraint) != null)
+         {
+            return;
+         }
+      }
+      //Lookup constraint in build in lib     
+      AttributeConstraintLibrary buildInLib = this.getAttributeConstraintLibUtil().getBuildInAttributeConstraintLibrary();
+      if (buildInLib.lookupConstraintType(attributeConstraint) != null)
+      {
+         return;
+      }
+      
+      //Create user defined lib if not exists
+      if(userDefLib==null)
+      {
+         userDefLib=OperationspecificationFactory.eINSTANCE.createAttributeConstraintLibrary();
+         this.getAttributeConstraintLibUtil().setUserDefinedAttributeConstraintLibrary(userDefLib);
+      }
+      //  create Stub
+      updateUserDefinedConstraintLib(attributeConstraint, userDefLib);
+      this.getAttributeConstraintLibUtil().saveUserDefinedAttributeConstraintLibrary();
+
+      //create Error Message
+      StringBuilder errorMsgString = new StringBuilder(Errors.UNKNOWN_ATTRIBUTE_CONSTRAINT.getLiteral());
+      errorMsgString.append(": ");
+      errorMsgString.append("\"" + cspConstraint.getName());
+      errorMsgString.append("(");
+      for (AttributeConstraintVariable var : cspConstraint.getParameters())
+      {
+         errorMsgString.append(var.getType().getName() + ",");
+      }
+      errorMsgString.deleteCharAt(errorMsgString.length() - 1);
+      errorMsgString.append(")\".");
+      errorMsgString.append("\n    Please complete stub in: \"" +  " /lib/" + userDefLib.getPrefix() + ".xmi\"");
+
+      ValidationReport report = this.getValidationReport();
+
+      ErrorMessage errorMessage = ResultFactory.eINSTANCE.createErrorMessage();
+      errorMessage.setId(errorMsgString.toString());
+      errorMessage.setSeverity(Severity.ERROR);
+      errorMessage.getLocation().add(attributeConstraint);
+      report.getErrorMessages().add(errorMessage);
 -->
 
 @model createErrorMessage (EObject location) <--

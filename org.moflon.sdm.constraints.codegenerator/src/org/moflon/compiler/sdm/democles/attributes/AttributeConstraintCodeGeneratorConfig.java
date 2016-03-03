@@ -41,10 +41,12 @@ import org.moflon.sdm.compiler.democles.validation.scope.ScopeFactory;
 import org.moflon.sdm.compiler.democles.validation.scope.ScopeValidator;
 import org.moflon.sdm.compiler.democles.validation.scope.SingleResultPatternInvocationBuilder;
 import org.moflon.sdm.compiler.democles.validation.scope.StoryNodeActionBuilder;
+import org.moflon.sdm.constraints.constraintstodemocles.AttributeConstraintBlackAndNacPatternTransformer;
+import org.moflon.sdm.constraints.constraintstodemocles.AttributeConstraintLibUtil;
 import org.moflon.sdm.constraints.constraintstodemocles.ConstraintstodemoclesFactory;
+import org.moflon.sdm.constraints.constraintstodemocles.impl.AttributeConstraintLibUtilImpl;
 import org.moflon.sdm.constraints.operationspecification.AttributeConstraintLibrary;
 import org.moflon.sdm.constraints.operationspecification.constraint.AttributeVariableConstraintsTypeModule;
-import org.moflon.sdm.constraints.operationspecification.constraint.util.AttributeConstraintLibUtil;
 import org.moflon.sdm.constraints.operationspecification.constraint.util.AttributeVariableConstraintsModule;
 import org.moflon.sdm.constraints.scopevalidation.ScopevalidationFactory;
 import org.moflon.sdm.democles.literalexpressionsolver.ConstantTransformer;
@@ -74,8 +76,9 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 		//Constraint type module
 		private final AttributeVariableConstraintsTypeModule attributeVariableConstraintsTypeModule;
 		
-		protected static final URI BUILDIN_ATTRIBUTE_CONSTRAINT_LIB=URI.createPlatformPluginURI("/org.moflon.sdm.constraints.operationspecification/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi",true); 
+		 
 		
+		protected AttributeConstraintLibUtilImpl attributeConstraintLibUtil=(AttributeConstraintLibUtilImpl) ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintLibUtil();
 		public AttributeConstraintCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project){
 			super(resourceSet);
 			if(project==null){
@@ -83,8 +86,13 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			}
 			
 			//load attribute constraint libraries first loaded has higher priority 
-			loadUserDefinedAttributeConstraintLibrary(project);
-			loadBuildInAttributeConstraintLibrary();
+			attributeConstraintLibUtil.init(resourceSet, project);
+			if(attributeConstraintLibUtil.getUserDefinedAttributeConstraintLibrary()!=null)
+			{
+			   attributeVariableConstraintLibraries.add(attributeConstraintLibUtil.getUserDefinedAttributeConstraintLibrary());
+			}
+			attributeVariableConstraintLibraries.add(attributeConstraintLibUtil.getBuildInAttributeConstraintLibrary());
+			
 			
 			
 			//create attribute variable constraints type module using constraint libraries
@@ -152,7 +160,8 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 				final BlackPatternBuilder regularBlackInvocationBuilder = ScopevalidationFactory.eINSTANCE.createAttributeConstraintBlackPatternInvocationBuilder();
 				regularBindingAndBlackInvocationBuilder.getChildBuilders().add(regularBlackInvocationBuilder);
 				regularBindingAndBlackInvocationBuilder.setBlackPatternBuilder(regularBlackInvocationBuilder);
-				final BlackAndNacPatternTransformer regularBlackPatternTransformer = ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintBlackAndNacPatternTransformer();
+				final AttributeConstraintBlackAndNacPatternTransformer regularBlackPatternTransformer = ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintBlackAndNacPatternTransformer();
+				regularBlackPatternTransformer.setAttributeConstraintLibUtil(attributeConstraintLibUtil);
 				regularBlackInvocationBuilder.setPatternTransformer(regularBlackPatternTransformer);
 				regularBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 				regularBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
@@ -278,27 +287,8 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			return blackPatternMatcherCompiler;
 		}
 
-		protected void loadBuildInAttributeConstraintLibrary(){
+		
 			
-				AttributeConstraintLibrary attributeVariableConstraintLibrary =AttributeConstraintLibUtil.getBuildInAttributeConstraintLibrary();
-				if(attributeVariableConstraintLibrary==null){
-					throw new NullPointerException("AttributeConstraintCodeGeneratorConfig: loading of build in attribute constraint library failed: "+BUILDIN_ATTRIBUTE_CONSTRAINT_LIB );
-				}
-				attributeVariableConstraintLibraries.add(attributeVariableConstraintLibrary);
-			
-			
-		}
-		protected void loadUserDefinedAttributeConstraintLibrary(final IProject project){
-			
-			
-		   AttributeConstraintLibrary attributeVariableConstraintLibrary=AttributeConstraintLibUtil.loadUserDefinedAttributeConstraintLibrary(project);
-		   
-			if(attributeVariableConstraintLibrary!=null){
-				attributeVariableConstraintLibraries.add(attributeVariableConstraintLibrary);
-			}
-					
-		}
-					
 			
 		@Override
 		public TemplateConfigurationProvider createTemplateConfiguration(final GenModel genModel) {
