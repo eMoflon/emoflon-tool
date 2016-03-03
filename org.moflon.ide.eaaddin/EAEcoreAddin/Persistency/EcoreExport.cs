@@ -64,9 +64,14 @@ namespace EAEcoreAddin.Persistency
                 ePackage.addAttributesDuringExport(ePackageMocaNode);
 
                 this.currentNode.appendChildNode(ePackageMocaNode);
-
+                int counter = 0;
                 foreach (SQLElement childClass in eaPackage.Elements)
                 {
+                    if (!Export.showStatusBar)
+                    {
+                        Console.Out.WriteLine("SCALE:export Classifier '" + childClass.Name + "' %" + counter + "/" + eaPackage.Elements.Count + "#");
+                    }
+                    counter++;
                     this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.ClassesChildNodeName);
                     if (childClass.Stereotype.ToLower() == ECOREModelingMain.EClassStereotype.ToLower())
                     {
@@ -150,6 +155,7 @@ namespace EAEcoreAddin.Persistency
                 this.currentNode.appendChildNode(eClassMocaNode);
 
                 //process SDM Container Objects
+                int counter = 0;
                 foreach (SQLElement possibleSDMContainer in eaClass.Elements)
                 {
                     if (possibleSDMContainer.Stereotype == SDMModelingMain.SdmContainerStereotype || possibleSDMContainer.Stereotype == "SDM_Container")
@@ -157,7 +163,11 @@ namespace EAEcoreAddin.Persistency
                         String associatedMethodguid = EAEcoreAddin.Util.EAUtil.findTaggedValue(possibleSDMContainer, SDMModelingMain.SDMContainerAssociatedMethodTaggedValueName).Value;
                         MocaNode operationsNode = eClassMocaNode.getChildNodeWithName(EClass.OperationsChildNodeName);
                         MocaNode owningOperationNode = null;
-
+                        if (!Export.showStatusBar)
+                        {
+                            Console.Out.WriteLine("SCALE:export SDM '" + possibleSDMContainer.Name + "' %" + counter + "/" + eaClass.Elements.Count + "#");
+                        }
+                        counter++;
                         foreach (MocaNode EOperationNode in operationsNode.Children)
                         {
                             MocaAttribute guidAttribute = EOperationNode.getAttributeOrCreate(Main.GuidStringName);
@@ -174,10 +184,16 @@ namespace EAEcoreAddin.Persistency
                     }
                 }
 
+                counter = 0;
                 foreach (SQLConnector ereference in eaClass.Connectors)
                 {
                     if (ereference.Type == Main.EAAssociationType)
                     {
+                        if (!Export.showStatusBar)
+                        {
+                            Console.Out.WriteLine("SCALE:export EReference '" + ereference.Name + "' %" + counter + "/" + eaClass.Connectors.Count + "#");
+                        }
+                        counter++;
                         MocaNode referencesNode = eClassMocaNode.getChildNodeWithName(EClass.ReferencesChildNodeName);
 
                         if (ereference.ClientID != eaClass.ElementID && ereference.ClientEnd.IsNavigable)

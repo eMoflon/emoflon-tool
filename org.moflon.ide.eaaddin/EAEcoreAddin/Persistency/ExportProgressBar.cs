@@ -105,13 +105,21 @@ namespace EAEcoreAddin.Persistency
         {
             try
             {
+                int index = 0;
                 foreach (SQLPackage projectPackage in packagesToExport)
                 {
+                    if (!exporter.showStatusBar)
+                    {
+                        Console.Out.WriteLine("SCALE:export Package '" + projectPackage.Name + "' %" + index + "/" + packagesToExport.Count + "#");
+                    }
                     exporter.CurrentMetamodelName = projectPackage.Name;
                     exporter.exportPackage(projectPackage);
+                    index++;
                 }
 
                 exporter.createDependencyTree();
+
+
 
                 //write property file
                 foreach (SQLPackage projectPackage in packagesToExport)
@@ -127,9 +135,10 @@ namespace EAEcoreAddin.Persistency
                     }
                     if (metamodelNode != null)
                     {
+
                         exporter.enhanceMetamodelNodeWithDependencies(projectPackage, metamodelNode);
                     }
-
+                    
                     // refactor
                     /*MocaNode refactorNode = null;
                     foreach (MocaNode node in exporter.RefactorTree.Children)
@@ -151,7 +160,13 @@ namespace EAEcoreAddin.Persistency
             catch(Exception e)
             {
                 worker.ReportProgress(0, "Error");
-                MessageBox.Show(EAUtil.formatErrorMessage(e));
+                if(exporter.showStatusBar)
+                    MessageBox.Show(EAUtil.formatErrorMessage(e));
+                else
+                {
+                    Console.Out.WriteLine("EXCEPTION:" + e.StackTrace + "#");
+                    Console.Out.WriteLine("ERROR:Something has gone wrong. Please check the validation messages and contact the eMoflon team if necessary (contact@emoflon.org)");
+                }
             }
         }
 

@@ -320,9 +320,18 @@ namespace EAEcoreAddin.Import
             eaCliEnd.Role = eRef.ClientEnd.Name;
             eaCliEnd.Update();
 
-            eaSupEnd.Cardinality = eRef.SupplierEnd.lowerBound.Replace("-1", "*") + ".." + eRef.SupplierEnd.upperBound.Replace("-1", "*");
+            // repair Suppliers End
+            if (eaSupEnd.Role == null || eaSupEnd.Role == "")
+                eaSupEnd.Cardinality = "";
+            else
+                eaSupEnd.Cardinality = eRef.SupplierEnd.lowerBound.Replace("-1", "*") + ".." + eRef.SupplierEnd.upperBound.Replace("-1", "*");
             eaSupEnd.Update();
-            eaCliEnd.Cardinality = eRef.ClientEnd.lowerBound.Replace("-1", "*") + ".." + eRef.ClientEnd.upperBound.Replace("-1", "*");
+
+            // repair Cliend End
+            if (eaCliEnd.Role == null || eaCliEnd.Role == "")
+                eaCliEnd.Cardinality = "";
+            else
+                eaCliEnd.Cardinality = eRef.ClientEnd.lowerBound.Replace("-1", "*") + ".." + eRef.ClientEnd.upperBound.Replace("-1", "*");
             eaCliEnd.Update();
 
         }

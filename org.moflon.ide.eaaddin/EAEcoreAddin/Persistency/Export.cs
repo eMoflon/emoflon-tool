@@ -146,7 +146,13 @@ namespace EAEcoreAddin.Persistency
             }
             catch (Exception e)
             {
-                MessageBox.Show(EAUtil.formatErrorMessage(e));
+                if(showStatusBar)
+                    MessageBox.Show(EAUtil.formatErrorMessage(e));
+                else
+                {
+                    Console.Out.WriteLine("EXCEPTION:" + e.StackTrace + "#");
+                    Console.Out.WriteLine("ERROR:Something has gone wrong. Please check the validation messages and contact the eMoflon team if necessary (contact@emoflon.org)");
+                }
                 ExportRunning = false;
             }
         }
@@ -160,10 +166,17 @@ namespace EAEcoreAddin.Persistency
             
             if (dependencyList.Count != 0)
             {
+                int counter = 0;
                 foreach (String dependency in dependencyList)
                 {
+
                     MetamodelHelper mmHelper = packageNameToEPackage[dependency].helper as MetamodelHelper;
+                    if (!showStatusBar)
+                    {
+                        Console.Out.WriteLine("SCALE:export Dependency'" + mmHelper.pluginID + "' %" + counter + "/" + dependencyList.Count + "#");
+                    }
                     dependenciesNode.appendChildNode(mmHelper.pluginID);
+                    counter++;
                 }
             }
         }
