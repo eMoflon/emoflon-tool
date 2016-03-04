@@ -15,6 +15,7 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
     {
         private EA.Element elem;
         private SQLRepository sqlRepository;
+        private const string DEFAULT_CSP_CONTENT = "importPackage Ecore;";
 
 
         public SDMCSPDialog(SQLElement elem, SQLRepository sqlRepository)
@@ -23,7 +24,14 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.elem = EAUtil.sqlEAObjectToOriginalObject(sqlRepository, elem) as EA.Element;
             this.sqlRepository = sqlRepository;
 
-            textBoxCspDefinition.Text = elem.Notes;
+            if (elem.Notes == "")
+            {
+                textBoxCspDefinition.Text = DEFAULT_CSP_CONTENT;
+            }
+            else
+            {
+                textBoxCspDefinition.Text = elem.Notes;
+            }
 
             SQLTaggedValue nacIndexTag = EAUtil.findTaggedValue(elem, "nacIndex");
             if (nacIndexTag != null)
