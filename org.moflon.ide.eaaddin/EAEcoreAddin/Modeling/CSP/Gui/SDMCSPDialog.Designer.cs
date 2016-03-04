@@ -33,6 +33,7 @@
             this.buttonOk = new System.Windows.Forms.Button();
             this.textBoxCspDefinition = new System.Windows.Forms.RichTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.showHelpButton = new System.Windows.Forms.Button();
             this.complexNAC1 = new EAEcoreAddin.Modeling.SDMModeling.Gui.ObjectVariableDialog.ComplexNAC();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -44,7 +45,7 @@
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.Text = "&Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
@@ -55,7 +56,7 @@
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 3;
-            this.buttonOk.Text = "OK";
+            this.buttonOk.Text = "&OK";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
@@ -81,7 +82,17 @@
             this.groupBox2.Size = new System.Drawing.Size(470, 160);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Define CSP";
+            this.groupBox2.Text = "&Define CSP";
+            // 
+            // showHelpButton
+            // 
+            this.showHelpButton.Location = new System.Drawing.Point(15, 248);
+            this.showHelpButton.Name = "showHelpButton";
+            this.showHelpButton.Size = new System.Drawing.Size(75, 23);
+            this.showHelpButton.TabIndex = 7;
+            this.showHelpButton.Text = "Show &Help";
+            this.showHelpButton.UseVisualStyleBackColor = true;
+            this.showHelpButton.Click += new System.EventHandler(this.showHelpButton_Click);
             // 
             // complexNAC1
             // 
@@ -98,6 +109,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(494, 283);
+            this.Controls.Add(this.showHelpButton);
             this.Controls.Add(this.complexNAC1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.buttonOk);
@@ -118,5 +130,6 @@
         private System.Windows.Forms.RichTextBox textBoxCspDefinition;
         private System.Windows.Forms.GroupBox groupBox2;
         private SDMModeling.Gui.ObjectVariableDialog.ComplexNAC complexNAC1;
+        private System.Windows.Forms.Button showHelpButton;
     }
 }

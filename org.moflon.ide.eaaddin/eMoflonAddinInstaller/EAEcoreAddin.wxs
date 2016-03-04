@@ -7,7 +7,7 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="MyFilesGroup">
-            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{26A99414-FDFD-43BD-AB2A-59B927652143}">
+            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{A9F6CF19-1A3E-488B-ADDA-4672FEAD9D4B}">
                 <Class Id="{015D7EFC-B00B-3485-B36C-3815B0B50ED3}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.ConsistencyProgressBar" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="EAEcoreAddin.Consistency.ConsistencyProgressBar" Description="EAEcoreAddin.Consistency.ConsistencyProgressBar" />
                 </Class>
@@ -73,6 +73,9 @@
                 </Class>
                 <Class Id="{71DB0FE4-757A-3DB1-B2E3-E2F113B06002}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvNamesComboBox" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvNamesComboBox" Description="EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog.OvNamesComboBox" />
+                </Class>
+                <Class Id="{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}" Context="InprocServer32" Description="EAEcoreAddin.Modeling.CSP.Gui.SDMCSPQuickReferenceDialog" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="EAEcoreAddin.Modeling.CSP.Gui.SDMCSPQuickReferenceDialog" Description="EAEcoreAddin.Modeling.CSP.Gui.SDMCSPQuickReferenceDialog" />
                 </Class>
                 <Class Id="{7AC8651B-B6F1-3199-A943-94A57820C482}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.Util.RuleResultIComparer" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="EAEcoreAddin.Consistency.Util.RuleResultIComparer" Description="EAEcoreAddin.Consistency.Util.RuleResultIComparer" />
@@ -361,6 +364,15 @@
                 <RegistryValue Root="HKCR" Key="CLSID\{71DB0FE4-757A-3DB1-B2E3-E2F113B06002}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=2.10.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
                 <RegistryValue Root="HKCR" Key="CLSID\{71DB0FE4-757A-3DB1-B2E3-E2F113B06002}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                 <RegistryValue Root="HKCR" Key="CLSID\{71DB0FE4-757A-3DB1-B2E3-E2F113B06002}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}\InprocServer32\2.10.0.0" Name="Class" Value="EAEcoreAddin.Modeling.CSP.Gui.SDMCSPQuickReferenceDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}\InprocServer32\2.10.0.0" Name="Assembly" Value="EAEcoreAddin, Version=2.10.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}\InprocServer32\2.10.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}\InprocServer32\2.10.0.0" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}\InprocServer32" Name="Class" Value="EAEcoreAddin.Modeling.CSP.Gui.SDMCSPQuickReferenceDialog" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}\InprocServer32" Name="Assembly" Value="EAEcoreAddin, Version=2.10.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{74BB9C0C-BC56-334E-A3CB-7F1B0381D2CB}\InprocServer32" Name="CodeBase" Value="file:///[#filA1C34050C1E7EC80F88D6C691674D780]" Type="string" Action="write" />
                 <RegistryValue Root="HKCR" Key="CLSID\{7AC8651B-B6F1-3199-A943-94A57820C482}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
                 <RegistryValue Root="HKCR" Key="CLSID\{7AC8651B-B6F1-3199-A943-94A57820C482}\InprocServer32\2.10.0.0" Name="Class" Value="EAEcoreAddin.Consistency.Util.RuleResultIComparer" Type="string" Action="write" />
                 <RegistryValue Root="HKCR" Key="CLSID\{7AC8651B-B6F1-3199-A943-94A57820C482}\InprocServer32\2.10.0.0" Name="Assembly" Value="EAEcoreAddin, Version=2.10.0.0, Culture=neutral, PublicKeyToken=641591c5441ffb62" Type="string" Action="write" />

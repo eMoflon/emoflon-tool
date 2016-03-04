@@ -63,6 +63,11 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
 
         }
 
+        private void showHelpButton_Click(object sender, EventArgs e)
+        {
+            new SDMCSPQuickReferenceDialog().Show();
+        }
+
 
     }
 }

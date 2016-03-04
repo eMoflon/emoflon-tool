@@ -152,6 +152,12 @@
     </Compile>
     <Compile Include="Import\GraphPath.cs" />
     <Compile Include="Modeling\CSP\CSPController.cs" />
+    <Compile Include="Modeling\CSP\Gui\SDMCSPQuickReferenceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modeling\CSP\Gui\SDMCSPQuickReferenceDialog.Designer.cs">
+      <DependentUpon>SDMCSPQuickReferenceDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modeling\CSP\Gui\SDMCSPDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -539,6 +545,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ControlPanel\Global\UnableToExportDialog.resx">
       <DependentUpon>UnableToExportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modeling\CSP\Gui\SDMCSPQuickReferenceDialog.resx">
+      <DependentUpon>SDMCSPQuickReferenceDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modeling\SDMModeling\Gui\Common\LiteralExpressionForm.resx">
       <DependentUpon>LiteralExpressionForm.cs</DependentUpon>
