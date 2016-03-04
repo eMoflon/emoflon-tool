@@ -19,7 +19,7 @@ partial class AttributeConstraintLibUtilImpl {
       Resource buildInLibResource = loadAttributeConstraintLibraryResource(getURIOfBuiltInLibrary(), false);
       if (buildInLibResource == null)
       {
-         throw new RuntimeException("Could not find build in attribute constraint library");
+         throw new RuntimeException("Could not find built-in attribute constraint library");
       }
       this.setBuildInAttributeConstraintLibrary((AttributeConstraintLibrary) buildInLibResource.getContents().get(0));
 
