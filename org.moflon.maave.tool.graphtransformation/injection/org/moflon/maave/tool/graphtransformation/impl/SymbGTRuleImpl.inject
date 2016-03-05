@@ -1,0 +1,12 @@
+
+partial class SymbGTRuleImpl {
+
+
+
+@model toString () <--
+
+
+      return SymbGTRulePrinter.print(this);
+-->
+
+}
