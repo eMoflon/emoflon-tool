@@ -27,6 +27,7 @@ public class Z3AttribSolver implements IAttribSolver {
       Solver s = ctx.mkSolver();
       s.add(eq);
       Status status=s.check();
+      ctx.dispose();
       ContextFactory.getInstance().releaseContext(ctx);
       s.dispose();
       if(status==Status.SATISFIABLE){

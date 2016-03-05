@@ -11,13 +11,13 @@ partial class SymbolicGraphMorphismImpl {
 
 @members <--
 
-   public Mapping<GraphNode> graphNodeMap = new Mapping();
+   public Mapping<GraphNode> graphNodeMap = new Mapping(20);
 
-   public Mapping<GraphEdge> graphEdgeMap = new Mapping();
+   public Mapping<GraphEdge> graphEdgeMap = new Mapping(20);
 
-   public Mapping<LabelEdge> labelEdgeMap = new Mapping();
+   public Mapping<LabelEdge> labelEdgeMap = new Mapping(20);
 
-   public Mapping<LabelNode> labelNodeMap = new Mapping();
+   public Mapping<LabelNode> labelNodeMap = new Mapping(20);
 
    private class MyImageOfEGraphElementSwitch extends EGraphElementSwitch<EGraphElement>
    {
@@ -187,8 +187,10 @@ partial class SymbolicGraphMorphismImpl {
 
 @model composeWith (SymbolicGraphMorphism after) <--
 
-      if(this.getCodom()!=after.getDom()){
-         throw new IllegalArgumentException("Codomain incompatible with domain: cannot compose "+this.getDom().getName()+"->"+this.getCodom().getName()+" with "+after.getDom().getName()+"->"+after.getDom().getName());
+      if (this.getCodom() != after.getDom())
+      {
+         throw new IllegalArgumentException("Codomain incompatible with domain: cannot compose " + this.getDom().getName() + "->" + this.getCodom().getName()
+               + " with " + after.getDom().getName() + "->" + after.getDom().getName());
       }
       SymbolicGraphMorphismImpl composedMorphism = (SymbolicGraphMorphismImpl) SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
       composedMorphism.graphNodeMap = graphNodeMap.compose(((SymbolicGraphMorphismImpl) after).graphNodeMap);

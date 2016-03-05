@@ -1,16 +1,95 @@
 
 import org.moflon.maave.tool.analysis.confluence.NaiveConfDirectDerivationIterator;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.moflon.maave.tool.analysis.confluence.ItterativeDirectDerivationIterator;
 
 partial class DirectConfluenceModuloNFEQAnalyserImpl {
 
 
 
+@model checkConfluence (GraphTransformationSystem gts) <--
+
+      // init
+      Object[] result1_black = DirectConfluenceModuloNFEQAnalyserImpl.pattern_DirectConfluenceModuloNFEQAnalyser_0_1_init_blackBBFFF(this, gts);
+      if (result1_black == null)
+      {
+         throw new RuntimeException("Pattern matching in node [init] failed." + " Variables: " + "[this] = " + this + ", " + "[gts] = " + gts + ".");
+      }
+      SymbGTRule rule1 = (SymbGTRule) result1_black[2];
+      SymbGTRule rule2 = (SymbGTRule) result1_black[3];
+      DirectDerivationBuilder derBuilder = (DirectDerivationBuilder) result1_black[4];
+      Object[] result1_green = DirectConfluenceModuloNFEQAnalyserImpl.pattern_DirectConfluenceModuloNFEQAnalyser_0_1_init_greenBBFFF(this, gts);
+      BasicSymbolicCriticalPairBuilder criticalPairBuilder = (BasicSymbolicCriticalPairBuilder) result1_green[2];
+      ConfluenceStatus confluencStatus = (ConfluenceStatus) result1_green[3];
+      NonEmptySemanticJointlyEpiSetBuilder jointlyEpiSetbuilder = (NonEmptySemanticJointlyEpiSetBuilder) result1_green[4];
+
+      // ForEach init
+      Object[] result2_binding = DirectConfluenceModuloNFEQAnalyserImpl.pattern_DirectConfluenceModuloNFEQAnalyser_0_2_init_bindingFBBBBB(criticalPairBuilder,
+            rule1, rule2, derBuilder, jointlyEpiSetbuilder);
+      if (result2_binding == null)
+      {
+         throw new RuntimeException("Binding in node init failed." + " Variables: " + "[criticalPairBuilder] = " + criticalPairBuilder + ", " + "[rule1] = "
+               + rule1 + ", " + "[rule2] = " + rule2 + ", " + "[derBuilder] = " + derBuilder + ", " + "[jointlyEpiSetbuilder] = " + jointlyEpiSetbuilder + ".");
+      }
+      DirectDerivationPairSet criticalPairSet = (DirectDerivationPairSet) result2_binding[0];
+
+      long time = System.currentTimeMillis();
+      List<Status> states = criticalPairSet.getPairsOfDirectDerivations().parallelStream().map(x -> this.checkDirectConfluence(x)).collect(Collectors.toList());
+      if (states.stream().anyMatch(s -> s.isValid() == false))
+      {
+         confluencStatus.setValid(false);
+      }
+      System.out.println("Confluence analysis perfomred in " + (System.currentTimeMillis() - time) + "ms");
+      return confluencStatus;
+
+      //      for (Object[] result2_black : DirectConfluenceModuloNFEQAnalyserImpl.pattern_DirectConfluenceModuloNFEQAnalyser_0_2_init_blackBF(criticalPairSet))
+      //      {
+      //        
+      //         
+      //         DirectDerivationPair criticalPair = (DirectDerivationPair) result2_black[1];
+      //         // ActivityNode117
+      //         Object[] result3_bindingAndBlack = DirectConfluenceModuloNFEQAnalyserImpl
+      //               .pattern_DirectConfluenceModuloNFEQAnalyser_0_3_ActivityNode117_bindingAndBlackFBB(this, criticalPair);
+      //         if (result3_bindingAndBlack != null)
+      //         {
+      //            // Status status = (Status) result3_bindingAndBlack[0];
+      //
+      //            // ActivityNode118
+      //            Object[] result4_black = DirectConfluenceModuloNFEQAnalyserImpl
+      //                  .pattern_DirectConfluenceModuloNFEQAnalyser_0_4_ActivityNode118_blackBB(confluencStatus, criticalPair);
+      //            if (result4_black == null)
+      //            {
+      //               throw new RuntimeException("Pattern matching in node [ActivityNode118] failed." + " Variables: " + "[confluencStatus] = " + confluencStatus
+      //                     + ", " + "[criticalPair] = " + criticalPair + ".");
+      //            }
+      //            DirectConfluenceModuloNFEQAnalyserImpl.pattern_DirectConfluenceModuloNFEQAnalyser_0_4_ActivityNode118_greenBB(confluencStatus, criticalPair);
+      //
+      //         } else
+      //         {
+      //
+      //            // ActivityNode119
+      //            Object[] result5_black = DirectConfluenceModuloNFEQAnalyserImpl
+      //                  .pattern_DirectConfluenceModuloNFEQAnalyser_0_5_ActivityNode119_blackBB(confluencStatus, criticalPair);
+      //            if (result5_black == null)
+      //            {
+      //               throw new RuntimeException("Pattern matching in node [ActivityNode119] failed." + " Variables: " + "[confluencStatus] = " + confluencStatus
+      //                     + ", " + "[criticalPair] = " + criticalPair + ".");
+      //            }
+      //            DirectConfluenceModuloNFEQAnalyserImpl.pattern_DirectConfluenceModuloNFEQAnalyser_0_5_ActivityNode119_greenBB(confluencStatus, criticalPair);
+      //
+      //         }
+      //
+      //      }
+      //      System.out.println("Confluence analysis perfomred in "+(System.currentTimeMillis()-time)+"ms");
+      //      return DirectConfluenceModuloNFEQAnalyserImpl.pattern_DirectConfluenceModuloNFEQAnalyser_0_6_expressionFB(confluencStatus);
+-->
+
 @model getDerivationItterator (SymbGTRule production, SymbolicGraphMorphism morN_P, SymbolicGraph graphG) <--
 
-		NaiveConfDirectDerivationIterator derIter = ConfluenceFactory.eINSTANCE
-				.createNaiveConfDirectDerivationIterator();
-		derIter.init(null, production, morN_P, this.getGraphTransformationSystem());
-		return derIter;
+      ItterativeDirectDerivationIterator derIter = ConfluenceFactory.eINSTANCE.createItterativeDirectDerivationIterator();
+      derIter.init(production, morN_P, this.getGraphTransformationSystem());
+      return derIter;
 -->
 
 }

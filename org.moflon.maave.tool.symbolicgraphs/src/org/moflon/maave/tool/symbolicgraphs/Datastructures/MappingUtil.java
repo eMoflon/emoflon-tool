@@ -6,11 +6,16 @@ import java.util.HashSet;
 public class MappingUtil {
 
 	public static <T> boolean isInjective(Mapping<T> mapping) {
-		HashSet<T> imageSet=new HashSet<T>(mapping.getImage());
-		if(imageSet.size()==mapping.getImage().size()){
-			return true;
-		}
-		return false;
+	   
+		HashSet<T> imageSet=new HashSet<T>(mapping.getImage().size()+10,0.99f);
+		for (T elem : mapping.getImage())
+      {
+         if(imageSet.add(elem)==false)
+         {
+            return false;
+         }
+      }
+		return true;
 	}
 	public static <T> boolean isSurjective(Mapping<T>mapping, Collection<T> coDom)
 	{

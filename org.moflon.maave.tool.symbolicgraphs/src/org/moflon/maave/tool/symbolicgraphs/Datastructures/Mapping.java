@@ -21,7 +21,7 @@ public class Mapping<T> {
    }
    public Mapping()
    {
-      this.map = new HashMap<T,T>(30);
+      this.map = new HashMap<T,T>(40);
    }
    public Mapping(Mapping<T> map)
    {
