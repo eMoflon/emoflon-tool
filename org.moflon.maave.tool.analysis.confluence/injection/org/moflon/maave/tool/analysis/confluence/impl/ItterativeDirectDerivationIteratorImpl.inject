@@ -14,8 +14,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.moflon.maave.tool.symbolicgraphs.Datastructures.DirectDerivation;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
+import org.moflon.maave.tool.graphtransformation.DirectDerivation;
 
 partial class ItterativeDirectDerivationIteratorImpl {
 
@@ -131,12 +131,11 @@ partial class ItterativeDirectDerivationIteratorImpl {
 
 @model init (SymbGTRule production, SymbolicGraphMorphism morN_P, GraphTransformationSystem gts) <--
 
-
-      this.production=production;
-      this.morN_P1=morN_P;
-      this.gts=gts;
+      this.production = production;
+      this.morN_P1 = morN_P;
+      this.gts = gts;
       setUpMorTriples();
-      this.morTripleItterator=morTriples.iterator();
+      this.morTripleItterator = morTriples.iterator();
 -->
 
 @model reset () <--

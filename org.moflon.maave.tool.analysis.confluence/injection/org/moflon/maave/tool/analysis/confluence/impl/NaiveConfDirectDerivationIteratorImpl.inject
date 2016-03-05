@@ -1,4 +1,5 @@
 
+import org.moflon.maave.tool.graphtransformation.DirectDerivation;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.ConfigurableMorphismFinder;
@@ -13,136 +14,147 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.moflon.maave.tool.symbolicgraphs.Datastructures.DirectDerivation;
 
 partial class NaiveConfDirectDerivationIteratorImpl {
 
 @members <--
 
-	private void initDirectDerivations() {
-		SymbolicGraph graphL = production.getLeft().getCodom();
-		SymbolicGraph graphP1 = morN_P1.getCodom();
-		MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
-		ConfigurableMorphismFinder morFinderForL = morFinderFac.createMorphismFinder(graphL,
-				gts.getMatchMorphismClass());
-		SymbolicGraphMorphism emptyMorL_P1 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-		emptyMorL_P1.setDom(graphL);
-		emptyMorL_P1.setCodom(graphP1);
-		MorphismsSet morSetL_G = morFinderForL.getAllMorphisms(emptyMorL_P1);
-		for (SymbolicGraphMorphism match : morSetL_G.getMorphisms()) {
+   private void initDirectDerivations()
+   {
+      SymbolicGraph graphL = production.getLeft().getCodom();
+      SymbolicGraph graphP1 = morN_P1.getCodom();
+      MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
+      ConfigurableMorphismFinder morFinderForL = morFinderFac.createMorphismFinder(graphL, gts.getMatchMorphismClass());
+      SymbolicGraphMorphism emptyMorL_P1 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      emptyMorL_P1.setDom(graphL);
+      emptyMorL_P1.setCodom(graphP1);
+      MorphismsSet morSetL_G = morFinderForL.getAllMorphisms(emptyMorL_P1);
+      for (SymbolicGraphMorphism match : morSetL_G.getMorphisms())
+      {
 
-			derTupleList
-					.add(new Tuple(gts.getDirectDerivationBuilder().deriveDirectDerivation(production, match), null));
+         derTupleList.add(new Tuple(gts.getDirectDerivationBuilder().deriveDirectDerivation(production, match), null));
 
-		}
+      }
 
-	}
+   }
 
-	private void calculateAllMorN_P3() {
-		ConfigurableMorphismClassFactory morFac = MatchingUtilsFactory.eINSTANCE
-				.createConfigurableMorphismClassFactory();
-		ConfigurableMorphismClass morClassForY = morFac.createMorphismClass("I", "I", "I", "I", "*");
-		MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
-		ConfigurableMorphismFinder morFinderForN = morFinderFac.createMorphismFinder(morN_P1.getDom(), morClassForY);
+   private void calculateAllMorN_P3()
+   {
+      ConfigurableMorphismClassFactory morFac = MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      ConfigurableMorphismClass morClassForY = morFac.createMorphismClass("I", "I", "I", "I", "*");
+      MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
+      ConfigurableMorphismFinder morFinderForN = morFinderFac.createMorphismFinder(morN_P1.getDom(), morClassForY);
 
-		for (Tuple<DirectDerivation, SymbolicGraphMorphism> tuple : derTupleList) {
-			DirectDerivation der = tuple.getElemA();
-			SymbolicGraphMorphism emptyMorN_E3 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-			emptyMorN_E3.setDom(morN_P1.getDom());
-			emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
-			MorphismsSet morSetN_E3 = morFinderForN.getAllMorphisms(emptyMorN_E3);
-			Iterator<SymbolicGraphMorphism> morN_E3Iterator = morFinderForN.getAllMorphisms(emptyMorN_E3).getMorphisms()
-					.iterator();
-			boolean foundValidY3 = false;
-			while (morN_E3Iterator.hasNext() && foundValidY3 == false) {
-				SymbolicGraphMorphism morN_E3 = morN_E3Iterator.next();
-				if (checkCommuting(morN_P1, morN_E3, der.getSpan().getG())) {
-					tuple.setElemB(morN_E3.composeWith(der.getSpan().getH()));
-					foundValidY3 = true;
-				}
-			}
-		}
+      for (Tuple<DirectDerivation, SymbolicGraphMorphism> tuple : derTupleList)
+      {
+         DirectDerivation der = tuple.getElemA();
+         SymbolicGraphMorphism emptyMorN_E3 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+         emptyMorN_E3.setDom(morN_P1.getDom());
+         emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
+         MorphismsSet morSetN_E3 = morFinderForN.getAllMorphisms(emptyMorN_E3);
+         Iterator<SymbolicGraphMorphism> morN_E3Iterator = morFinderForN.getAllMorphisms(emptyMorN_E3).getMorphisms().iterator();
+         boolean foundValidY3 = false;
+         while (morN_E3Iterator.hasNext() && foundValidY3 == false)
+         {
+            SymbolicGraphMorphism morN_E3 = morN_E3Iterator.next();
+            if (checkCommuting(morN_P1, morN_E3, der.getSpan().getG()))
+            {
+               tuple.setElemB(morN_E3.composeWith(der.getSpan().getH()));
+               foundValidY3 = true;
+            }
+         }
+      }
 
-	}
+   }
 
-	private boolean checkCommuting(SymbolicGraphMorphism morN_P1, SymbolicGraphMorphism morN_E3,
-			SymbolicGraphMorphism morE3_P1) {
-		for (Object obj : morN_P1.getDom().getAllElements()) {
-			EGraphElement elem = (EGraphElement) obj;
-			if (!(morN_P1.imageOf(elem) == morE3_P1.imageOf(morN_E3.imageOf(elem)))) {
-				return false;
-			}
-		}
-		return true;
-	}
+   private boolean checkCommuting(SymbolicGraphMorphism morN_P1, SymbolicGraphMorphism morN_E3, SymbolicGraphMorphism morE3_P1)
+   {
+      for (Object obj : morN_P1.getDom().getAllElements())
+      {
+         EGraphElement elem = (EGraphElement) obj;
+         if (!(morN_P1.imageOf(elem) == morE3_P1.imageOf(morN_E3.imageOf(elem))))
+         {
+            return false;
+         }
+      }
+      return true;
+   }
 
-	private SymbGTRule production;
+   private SymbGTRule production;
 
-	private SymbolicGraphMorphism morN_P1;
+   private SymbolicGraphMorphism morN_P1;
 
-	private GraphTransformationSystem gts;
+   private GraphTransformationSystem gts;
 
-	private MorphismsSet morSetL_G;
+   private MorphismsSet morSetL_G;
 
-	private List<Tuple<DirectDerivation, SymbolicGraphMorphism>> derTupleList = new LinkedList();
+   private List<Tuple<DirectDerivation, SymbolicGraphMorphism>> derTupleList = new LinkedList();
 
-	private Iterator<Tuple<DirectDerivation, SymbolicGraphMorphism>> derTupleListIterator;
+   private Iterator<Tuple<DirectDerivation, SymbolicGraphMorphism>> derTupleListIterator;
 
-	private class Tuple<T, E> {
-		private T elemA;
+   private class Tuple<T, E>
+   {
+      private T elemA;
 
-		private E elemB;
+      private E elemB;
 
-		public Tuple(T elemA, E elemB) {
-			super();
-			this.elemA = elemA;
-			this.elemB = elemB;
-		}
+      public Tuple(T elemA, E elemB)
+      {
+         super();
+         this.elemA = elemA;
+         this.elemB = elemB;
+      }
 
-		public T getElemA() {
-			return elemA;
-		}
+      public T getElemA()
+      {
+         return elemA;
+      }
 
-		public void setElemA(T elemA) {
-			this.elemA = elemA;
-		}
+      public void setElemA(T elemA)
+      {
+         this.elemA = elemA;
+      }
 
-		public E getElemB() {
-			return elemB;
-		}
+      public E getElemB()
+      {
+         return elemB;
+      }
 
-		public void setElemB(E elemB) {
-			this.elemB = elemB;
-		}
-	}
-	
+      public void setElemB(E elemB)
+      {
+         this.elemB = elemB;
+      }
+   }
+   
 -->
 
 @model reset () <--
 
-		derTupleListIterator = derTupleList.iterator();
+      derTupleListIterator = derTupleList.iterator();
 -->
 
 @model getNext () <--
 
-		if (derTupleListIterator.hasNext()) {
-			return derTupleListIterator.next().elemB;
-		} else {
-			return null;
-		}
+      if (derTupleListIterator.hasNext())
+      {
+         return derTupleListIterator.next().elemB;
+      } else
+      {
+         return null;
+      }
 -->
 
 @model init (SymbolicGraph graphG, SymbGTRule production, SymbolicGraphMorphism morN_P, GraphTransformationSystem gts) <--
 
-		this.production = production;
-		this.morN_P1 = morN_P;
-		this.gts = gts;
+      this.production = production;
+      this.morN_P1 = morN_P;
+      this.gts = gts;
 
-		initDirectDerivations();
-		calculateAllMorN_P3();
-		derTupleList = (List<Tuple<DirectDerivation, SymbolicGraphMorphism>>) derTupleList.stream()
-				.filter(t -> t.getElemB() != null).collect(Collectors.toList());
-		derTupleListIterator = derTupleList.iterator();
+      initDirectDerivations();
+      calculateAllMorN_P3();
+      derTupleList = (List<Tuple<DirectDerivation, SymbolicGraphMorphism>>) derTupleList.stream().filter(t -> t.getElemB() != null)
+            .collect(Collectors.toList());
+      derTupleListIterator = derTupleList.iterator();
 -->
 
 }

@@ -3,6 +3,7 @@
   <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.maave.tool.analysis/model/Analysis.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.maave.tool.category/model/Category.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tool.graphtransformation/model/Graphtransformation.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore"/>
   <factoryMappings key="relational" value="RelationalConstraintFactory"/>

@@ -13,7 +13,6 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.FormulaMode;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;

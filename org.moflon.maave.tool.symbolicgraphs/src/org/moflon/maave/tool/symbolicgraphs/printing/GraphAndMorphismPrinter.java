@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
+
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Conjunction;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Constant;
@@ -23,15 +23,7 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 
 public class GraphAndMorphismPrinter
 {
-   public static String print(SymbGTRule rule){
-      SymbolicGraphMorphism l=rule.getLeft();
-      SymbolicGraphMorphism r=rule.getRight();
-     
-      
-      return internalPrintSpan(l, r);
    
-      
-   }
    public static String getDisjString(SymbolicGraph  graph){
       Disjunction disjunction=graph.getFormula();
       return disjunction!=null?disjunction.toString():"";
@@ -313,7 +305,7 @@ public class GraphAndMorphismPrinter
       int l=25;
       return String.format("%-"+l+"s"+" <====== "+"%-"+l+"s"+" ======> "+"%-"+l+"s", StringUtils.leftPad(r1, l),StringUtils.center(k1, l),StringUtils.rightPad(l12, l));
    }
-   protected static String internalPrintSpan(SymbolicGraphMorphism l, SymbolicGraphMorphism r)
+   public static String internalPrintSpan(SymbolicGraphMorphism l, SymbolicGraphMorphism r)
    {
       SymbolicGraph graphR=r.getCodom();
       SymbolicGraph graphK=r.getDom();

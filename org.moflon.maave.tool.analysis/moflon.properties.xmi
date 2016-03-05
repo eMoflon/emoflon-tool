@@ -2,6 +2,7 @@
 <MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.maave.tool.analysis">
   <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.maave.tool.category/model/Category.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tool.graphtransformation/model/Graphtransformation.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore"/>
   <factoryMappings key="relational" value="RelationalConstraintFactory"/>
