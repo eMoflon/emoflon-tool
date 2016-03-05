@@ -13,10 +13,10 @@ import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.analysis.AnalysisFactory;
 import org.moflon.maave.tool.analysis.ImprovedJointlyEpiSetBuilder;
 import org.moflon.maave.tool.analysis.NonEmptySemanticJointlyEpiSetBuilder;
+import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.MorphismPairSet;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 
 import SDMLanguage.activities.MoflonEOperation;

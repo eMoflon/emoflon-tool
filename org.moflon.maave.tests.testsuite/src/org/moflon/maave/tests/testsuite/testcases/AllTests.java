@@ -8,37 +8,23 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
    TestForStoryPatternToSymbGraTraRules_Basic.class 
 //   ,TestForStoryPatternToProjGraTraRules_Basic.class
-//   ,TestForStoryPatternToSymbGraTraRules_NAC.class
-//   ,MorphismFinderTest.class
-////   ,PullbackTest.class
-//   ,PushoutUMPTest.class
-//   ,IsomorphicCopyTester.class
-////   ,DirectDerivationTest.class
-//   ,MorphismClassTest.class
-//   ,TestForSymbGraph2HODemoclesPattern_DiaChasing.class
-//   ,SubgraphBuilderTest.class
-//   ,JointlyEpiTest.class
-//   ,CriticalPairTestProj.class
-//   ,NormalFormEquivalenceTest.class
+   ,TestForStoryPatternToSymbGraTraRules_NAC.class
+   ,MorphismFinderTest.class
+//   ,PullbackTest.class //TODO fix
+   ,PushoutUMPTest.class
+   ,IsomorphicCopyTester.class
+//   ,DirectDerivationTest.class //fix
+   ,MorphismClassTest.class
+
+   ,SubgraphBuilderTest.class
+   ,JointlyEpiTest.class
+   ,CriticalPairTestProj.class
+   ,NormalFormEquivalenceTest.class
    ,ConfluenceProjTestGAMPaper.class
 //   ,ConfluenceProjTestModelsPaper.class
-   ,ConfluenceProjTestCMS.class
-//   ,SymbMorphismFinderTest.class
-//   ,TempVarSymbMorphismFinderTest.class
-//   ,PushoutComplement_DiaChasing.class
-//   ,DPO_RuleApllication_DiaChasing.class
-//   ,SubGraphBuilder_DiaChasing.class
-//   ,RbacMinimalContextTest.class
-//   ,PoushoutPullbackTestChase.class
-//    ,CPATest.class
-//   ,CPATestGAMPaperExample.class
-//   // //  ,FeatureModelTest.class
-//   ,InitialPushoutTests.class
-//   //  // ,DirectConfluenceTestGAMPaperExample.class
-//   ,SymbolicPushoutTest.class
-//   ,SemanticAnalyserTest.class
-//   //   ,SymbolicPushoutComplementTest.class
-    //, ModelsPaperExample.class
+//   ,ConfluenceProjTestCMS.class
+//   ,SymbolicPushoutComplementTest.class //TODO fix
+
 })
 //@SuiteClasses({MorphismFinderTest.class})
 //@SuiteClasses({})

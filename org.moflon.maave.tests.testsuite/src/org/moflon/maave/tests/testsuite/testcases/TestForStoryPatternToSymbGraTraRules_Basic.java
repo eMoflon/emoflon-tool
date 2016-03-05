@@ -10,21 +10,19 @@ import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.moflon.maave.tests.lang.abc.AbcPackage;
+import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
+import org.moflon.maave.tests.testsuite.helper.TestHelper;
+import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Constant;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 
-import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
-import org.moflon.maave.tests.testsuite.helper.TestHelper;
-
 import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StoryNode;
-
-import org.moflon.maave.tests.lang.abc.AbcPackage;
 /**
  * @author fdeckwerth
  *

@@ -9,16 +9,17 @@ import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
+import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.analysis.util.SubgraphBuilder;
+import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
-import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
+
 import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StoryNode;
-import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
 
 public class SubgraphBuilderTest {
    private EPackage pack;  

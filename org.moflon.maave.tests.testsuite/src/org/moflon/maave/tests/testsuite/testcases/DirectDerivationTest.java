@@ -11,12 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
 import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
-import org.moflon.maave.tool.analysis.AnalysisFactory;
-import org.moflon.maave.tool.analysis.DirectDerivationBuilder;
+import org.moflon.maave.tool.graphtransformation.DirectDerivation;
+import org.moflon.maave.tool.graphtransformation.DirectDerivationBuilder;
+import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
+import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
-import org.moflon.maave.tool.symbolicgraphs.Datastructures.DirectDerivation;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
@@ -83,7 +83,7 @@ public class DirectDerivationTest {
         
          SymbolicGraphMorphism morL_G=morListL_G.getMorphisms().get(0);
          // build direct derivation
-         DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+         DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
          DirectDerivation der=derBuilder.deriveDirectDerivation(rule, morL_G);
          
          SymbolicGraph H=der.getComatch().getCodom();
@@ -208,7 +208,7 @@ public class DirectDerivationTest {
         
          SymbolicGraphMorphism morL_G=morListL_G.getMorphisms().get(0);
          // build direct derivation
-         DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+         DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
          DirectDerivation der=derBuilder.deriveDirectDerivation(rule, morL_G);
          assertTrue(der==null);
          

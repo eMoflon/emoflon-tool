@@ -12,12 +12,13 @@ import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
 import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.analysis.AnalysisFactory;
 import org.moflon.maave.tool.analysis.CriticalPairBuilder;
-import org.moflon.maave.tool.analysis.DirectDerivationBuilder;
 import org.moflon.maave.tool.analysis.JointlyEpiSetBuilder;
+import org.moflon.maave.tool.graphtransformation.DirectDerivationBuilder;
+import org.moflon.maave.tool.graphtransformation.DirectDerivationPairSet;
+import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
+import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
-import org.moflon.maave.tool.symbolicgraphs.Datastructures.DirectDerivationPairSet;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
 
 import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StoryNode;
@@ -43,7 +44,7 @@ public class CriticalPairTestProj {
       SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
       SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
 
-      DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
       
@@ -74,7 +75,7 @@ public class CriticalPairTestProj {
       SymbGTRule rule3= transformer.transformStpToProjGTRule(stn3.getStoryPattern());
       
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-      DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder,jointlyEpiSetBuilder);
       DirectDerivationPairSet setEmpty=cpBuilder.getAllCriticalPairs(rule1, rule3,derBuilder,jointlyEpiSetBuilder);
@@ -101,7 +102,7 @@ public class CriticalPairTestProj {
       SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
       
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-      DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,derBuilder,jointlyEpiSetBuilder);
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
@@ -124,7 +125,7 @@ public class CriticalPairTestProj {
       SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
       
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-      DirectDerivationBuilder derBuilder=AnalysisFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,derBuilder,jointlyEpiSetBuilder);
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
