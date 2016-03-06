@@ -18,7 +18,7 @@ import org.junit.runner.notification.Failure;
 import org.moflon.dependency.PackageRemappingDependency;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 import org.moflon.maave.tool.category.CategoryPackage;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
+import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 
 import SDMLanguage.SDMLanguagePackage;
 

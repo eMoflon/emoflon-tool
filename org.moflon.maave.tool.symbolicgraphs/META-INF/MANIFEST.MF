@@ -2,12 +2,7 @@ Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.maave.tool.symbolicgraphs;singleton:=t
  rue
 Export-Package: org.moflon.maave.tool.symbolicgraphs,
- org.moflon.maave.tool.symbolicgraphs.ApplicationConditions,
- org.moflon.maave.tool.symbolicgraphs.ApplicationConditions.impl,
- org.moflon.maave.tool.symbolicgraphs.ApplicationConditions.util,
  org.moflon.maave.tool.symbolicgraphs.Datastructures,
- org.moflon.maave.tool.symbolicgraphs.Datastructures.impl,
- org.moflon.maave.tool.symbolicgraphs.Datastructures.util,
  org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms,
  org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl,
  org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.util,

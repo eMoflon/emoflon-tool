@@ -16,7 +16,7 @@ import org.moflon.maave.tool.analysis.NonEmptySemanticJointlyEpiSetBuilder;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
-import org.moflon.maave.tool.symbolicgraphs.Datastructures.MorphismPairSet;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.MorphismPairSet;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 
 import SDMLanguage.activities.MoflonEOperation;

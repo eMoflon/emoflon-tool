@@ -3,7 +3,7 @@ package org.moflon.maave.tests.testsuite.helper;
 
 
 import org.eclipse.emf.ecore.EAttribute;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGTRule.SymbGTRule;
+import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;

@@ -9,10 +9,4 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsPackage" genModel="model/Symbolicgraphs.genmodel" uri="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//SymbolicGraphs"/>
   </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="org.moflon.maave.tool.symbolicgraphs.ApplicationConditions.ApplicationConditionsPackage" genModel="model/Symbolicgraphs.genmodel" uri="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//ApplicationConditions"/>
-  </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="org.moflon.maave.tool.symbolicgraphs.Datastructures.DatastructuresPackage" genModel="model/Symbolicgraphs.genmodel" uri="platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.ecore#//Datastructures"/>
-  </extension>
 </plugin>

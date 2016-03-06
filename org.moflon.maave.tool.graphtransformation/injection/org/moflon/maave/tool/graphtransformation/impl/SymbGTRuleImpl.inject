@@ -1,10 +1,11 @@
 
+import org.moflon.maave.tool.graphtransformation.printing.SymbGTRulePrinter;
+
 partial class SymbGTRuleImpl {
 
 
 
 @model toString () <--
-
 
       return SymbGTRulePrinter.print(this);
 -->

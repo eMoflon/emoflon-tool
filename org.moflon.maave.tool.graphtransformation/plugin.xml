@@ -3,4 +3,7 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.maave.tool.graphtransformation.GraphtransformationPackage" genModel="model/Graphtransformation.genmodel" uri="platform:/plugin/org.moflon.maave.tool.graphtransformation/model/Graphtransformation.ecore"/>
   </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.maave.tool.graphtransformation.conditions.ConditionsPackage" genModel="model/Graphtransformation.genmodel" uri="platform:/plugin/org.moflon.maave.tool.graphtransformation/model/Graphtransformation.ecore#//conditions"/>
+  </extension>
 </plugin>

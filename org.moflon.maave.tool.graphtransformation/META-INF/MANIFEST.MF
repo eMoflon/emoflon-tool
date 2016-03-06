@@ -3,7 +3,10 @@ Bundle-SymbolicName: org.moflon.maave.tool.graphtransformation;singlet
  on:=true
 Export-Package: org.moflon.maave.tool.graphtransformation.impl,
  org.moflon.maave.tool.graphtransformation.util,
- org.moflon.maave.tool.graphtransformation
+ org.moflon.maave.tool.graphtransformation,
+ org.moflon.maave.tool.graphtransformation.conditions.impl,
+ org.moflon.maave.tool.graphtransformation.conditions.util,
+ org.moflon.maave.tool.graphtransformation.conditions
 Bundle-Name: org.moflon.maave.tool.graphtransformation
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
