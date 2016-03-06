@@ -13,11 +13,15 @@ import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.analysis.AnalysisFactory;
 import org.moflon.maave.tool.analysis.ImprovedJointlyEpiSetBuilder;
 import org.moflon.maave.tool.analysis.NonEmptySemanticJointlyEpiSetBuilder;
+import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
+import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.MorphismPairSet;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
 import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StoryNode;
@@ -47,15 +51,21 @@ public class JointlyEpiTest {
       SymbolicGraph L2=ruleL2.getLeft().getCodom();
       L1.setName("L1");
       L2.setName("L2");
-
+      
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+      
       NonEmptySemanticJointlyEpiSetBuilder epiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
 
-      MorphismPairSet jointliEpiPairSet= epiSetBuilder.getAllMinimalContexts(L1, L2);
+      MorphismPairSet jointliEpiPairSet= epiSetBuilder.getAllMinimalContexts(L1, L2,gts);
 
 
       ImprovedJointlyEpiSetBuilder epiSetBuilder2=AnalysisFactory.eINSTANCE.createImprovedJointlyEpiSetBuilder();
 
-      MorphismPairSet jointliEpiPairSet2= epiSetBuilder.getAllMinimalContexts(L1, L2);
+      MorphismPairSet jointliEpiPairSet2= epiSetBuilder.getAllMinimalContexts(L1, L2,gts);
       assertTrue(true);
 
 
@@ -84,15 +94,21 @@ public class JointlyEpiTest {
       L1.setName("L1");
       L2.setName("L2");
 
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+            
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+      
       NonEmptySemanticJointlyEpiSetBuilder epiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
       long time1start=System.currentTimeMillis();
-      MorphismPairSet jointliEpiPairSet= epiSetBuilder.getAllMinimalContexts(L1, L2);
+      MorphismPairSet jointliEpiPairSet= epiSetBuilder.getAllMinimalContexts(L1, L2,gts);
       long time1end=System.currentTimeMillis();
       
       
       ImprovedJointlyEpiSetBuilder epiSetBuilder2=AnalysisFactory.eINSTANCE.createImprovedJointlyEpiSetBuilder();
       long time2start=System.currentTimeMillis();
-      MorphismPairSet jointliEpiPairSet2= epiSetBuilder2.getAllMinimalContexts(L1, L2);
+      MorphismPairSet jointliEpiPairSet2= epiSetBuilder2.getAllMinimalContexts(L1, L2,gts);
       long time2end=System.currentTimeMillis();
       
       System.out.println("number of jointlyEpiPairs1: "+jointliEpiPairSet.getMorphismPairs().size()+";;;; calculated in "+(time1end-time1start)+"ms");

@@ -1,0 +1,24 @@
+
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
+
+partial class GraphTransformationSystemImpl {
+
+
+
+@model checkConsistency (SymbolicGraph graphG) <--
+
+      Status consitentStauts = MatchingUtilsFactory.eINSTANCE.createStatus();
+      consitentStauts.setValid(false);
+      for (GraphConstraint constraint : this.getConstraints())
+      {
+         if (constraint.isConsistent(graphG, getMatchMorphismClass()).isValid() == false)
+         {
+            return consitentStauts;
+         }
+
+      }
+      consitentStauts.setValid(true);
+      return consitentStauts;
+-->
+
+}

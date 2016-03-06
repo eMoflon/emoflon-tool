@@ -15,10 +15,13 @@ import org.moflon.maave.tool.analysis.CriticalPairBuilder;
 import org.moflon.maave.tool.analysis.JointlyEpiSetBuilder;
 import org.moflon.maave.tool.graphtransformation.DirectDerivationBuilder;
 import org.moflon.maave.tool.graphtransformation.DirectDerivationPairSet;
+import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
 import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StoryNode;
@@ -44,11 +47,18 @@ public class CriticalPairTestProj {
       SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
       SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
 
-      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      gts.getRules().add(rule1);
+      gts.getRules().add(rule2);
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+      
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
       
-      DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2, derBuilder,jointlyEpiSetBuilder);
+      DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2, gts,jointlyEpiSetBuilder);
       assertTrue(criticalPairs.getPairsOfDirectDerivations().size()==1);
 
 
@@ -74,11 +84,20 @@ public class CriticalPairTestProj {
       SymbGTRule rule2= transformer.transformStpToProjGTRule(stn2.getStoryPattern());
       SymbGTRule rule3= transformer.transformStpToProjGTRule(stn3.getStoryPattern());
       
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      gts.getRules().add(rule1);
+      gts.getRules().add(rule2);
+      gts.getRules().add(rule3);
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+      
+      
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
-      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1, rule2,derBuilder,jointlyEpiSetBuilder);
-      DirectDerivationPairSet setEmpty=cpBuilder.getAllCriticalPairs(rule1, rule3,derBuilder,jointlyEpiSetBuilder);
+      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1, rule2,gts,jointlyEpiSetBuilder);
+      DirectDerivationPairSet setEmpty=cpBuilder.getAllCriticalPairs(rule1, rule3,gts,jointlyEpiSetBuilder);
 
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
       Assert.assertTrue(setEmpty.getPairsOfDirectDerivations().size()==0);
@@ -101,10 +120,19 @@ public class CriticalPairTestProj {
       SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
       SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
       
+      
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      gts.getRules().add(rule1);
+      gts.getRules().add(rule2);
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+      
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+    
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
-      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,derBuilder,jointlyEpiSetBuilder);
+      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder);
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
    }
    @Test
@@ -124,10 +152,18 @@ public class CriticalPairTestProj {
       SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
       SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
       
+      
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      gts.getRules().add(rule1);
+      gts.getRules().add(rule2);
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+      
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
-      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,derBuilder,jointlyEpiSetBuilder);
+      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder);
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
    }
 
