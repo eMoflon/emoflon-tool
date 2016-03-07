@@ -98,7 +98,7 @@ public class TestRunner {
 		rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true), URI.createFileURI(workspaceLoc+ "\\"));
 		//rs.getURIConverter().getURIMap().put(URI.createPlatformPluginURI(pluginName, true), URI.createPlatformResourceURI(projectName, true));
 
-		PackageRemappingDependency d = new PackageRemappingDependency(URI.createPlatformResourceURI("/CathegoryLanguageTestSuite/instances/"+name+".xmi", true), false, false);
+		PackageRemappingDependency d = new PackageRemappingDependency(URI.createPlatformResourceURI("/org.moflon.maave.tests.testsuite/instances/"+name+".xmi", true), false, false);
 		Resource newRes=d.getResource(rs, false);
 		newRes.getContents().add(obj);
 		Map<String, Object> saveOptions = new HashMap<String, Object>();
