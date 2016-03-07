@@ -184,6 +184,14 @@ namespace EAEcoreAddin.Persistency
                     }
                 }
 
+                foreach (SQLAttribute element in eaClass.Attributes)
+                {
+                    string t = element.Type;
+                    int cid = element.ClassifierID;
+                    SQLElement typeElement = repository.GetElementByIDNullable(cid);
+                    Export.computeAndAddToDependencies(repository, typeElement);
+                }
+
                 counter = 0;
                 foreach (SQLConnector ereference in eaClass.Connectors)
                 {
