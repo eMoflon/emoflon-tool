@@ -1,5 +1,9 @@
 
 import java.security.InvalidParameterException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
@@ -21,11 +25,40 @@ partial class ConfigurableMorphismFinderImpl {
 @members <--
 
    org.gervarro.democles.interpreter.Pattern patternRuntime;
+   private SymbolicGraphMorphism setUpMorphism(SymbolicGraph from, SymbolicGraph to,  DataFrame matching)
+   {
+      SymbolicGraphMorphism newMor = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      newMor.setDom(from);
+      newMor.setCodom(to);
+      for (GraphNode gn : from.getGraphNodes())
+      {
+         newMor.addMapping(gn, (GraphNode) matching.getValue(getPatternSpec().getIndexOf(gn)));
+      }
+      for (GraphEdge ge : from.getGraphEdges())
+      {
+         newMor.addMapping(ge, (GraphEdge) matching.getValue(getPatternSpec().getIndexOf(ge)));
+      }
+      for (LabelNode ln : from.getLabelNodes())
+      {
+         newMor.addMapping(ln, (LabelNode) matching.getValue(getPatternSpec().getIndexOf(ln)));
+      }
+      for (LabelEdge le : from.getLabelEdges())
+      {
+         newMor.addMapping(le, (LabelEdge) matching.getValue(getPatternSpec().getIndexOf(le)));
+      }
+      if (this.getMorphismClass().isMember(newMor).isValid())
+      {
+         return newMor;
+
+      }
+      return null;
+   }
    
 -->
 
 @model getAllMorphisms (SymbolicGraphMorphism partialMatch) <--
 
+   // [user code injected with eMoflon]
       if (partialMatch.getDom() != this.getPatternSpec().getSourceSymbolicGraph())
       {
          throw new InvalidParameterException("Matcher source pattern does not match domain of partial match.");
@@ -47,34 +80,18 @@ partial class ConfigurableMorphismFinderImpl {
          frame.setValue(getPatternSpec().getIndexOf(elem), elemMapping.imageOf(elem));
       }
       MorphismsSet morList = MatchingFactory.eINSTANCE.createMorphismsSet();
+      
+      
+      List<DataFrame>matchings=new LinkedList<DataFrame>();
+
       for (DataFrame matching : patternRuntime.matchAll(frame))
       {
-         SymbolicGraphMorphism newMor = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-         newMor.setDom(from);
-         newMor.setCodom(to);
-         for (GraphNode gn : from.getGraphNodes())
-         {
-            newMor.addMapping(gn, (GraphNode) matching.getValue(getPatternSpec().getIndexOf(gn)));
-         }
-         for (GraphEdge ge : from.getGraphEdges())
-         {
-            newMor.addMapping(ge, (GraphEdge) matching.getValue(getPatternSpec().getIndexOf(ge)));
-         }
-         for (LabelNode ln : from.getLabelNodes())
-         {
-            newMor.addMapping(ln, (LabelNode) matching.getValue(getPatternSpec().getIndexOf(ln)));
-         }
-         for (LabelEdge le : from.getLabelEdges())
-         {
-            newMor.addMapping(le, (LabelEdge) matching.getValue(getPatternSpec().getIndexOf(le)));
-         }
-         if (this.getMorphismClass().isMember(newMor).isValid())
-         {
-            morList.getMorphisms().add(newMor);
-
-         }
+         matchings.add(matching);
+         //setUpMorphism(from, to, , matching);
 
       }
+      List<SymbolicGraphMorphism>newMorList =matchings.parallelStream().map(x->setUpMorphism(from, to, x)).filter(x->x!=null).collect(Collectors.toList());
+      morList.getMorphisms().addAll(newMorList);
       return morList;
 -->
 

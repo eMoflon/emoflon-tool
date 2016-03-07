@@ -45,11 +45,14 @@ partial class ItterativeDirectDerivationIteratorImpl {
       DirectDerivation der = gts.getDirectDerivationBuilder().deriveDirectDerivation(production, morTriple.morL_P1);
       ConfigurableMorphismFinder morFinderForN = morFinderFac.createMorphismFinder(morN_P1.getDom(), morClassForY);
 
-      SymbolicGraphMorphism emptyMorN_E3 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      emptyMorN_E3.setDom(morN_P1.getDom());
-      emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
+//      SymbolicGraphMorphism emptyMorN_E3 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+//      emptyMorN_E3.setDom(morN_P1.getDom());
+//      emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
+      CategoryUtil catUtil=MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
+      SymbolicGraphMorphism partialMorP1_E3=catUtil.getInverseMorphism(der.getSpan().getG());
+      SymbolicGraphMorphism partialMorN_E3=morN_P1.composeWith(partialMorP1_E3);
 
-      for (SymbolicGraphMorphism morN_E3 : morFinderForN.getAllMorphisms(emptyMorN_E3).getMorphisms())
+      for (SymbolicGraphMorphism morN_E3 : morFinderForN.getAllMorphisms(partialMorN_E3).getMorphisms())
       {
 
          if (checkCommuting(morN_P1, morN_E3, der.getSpan().getG()))
