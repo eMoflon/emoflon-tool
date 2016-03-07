@@ -8,9 +8,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.moflon.sdm.constraints.operationspecification.AttributeConstraintLibrary;
-import org.moflon.sdm.constraints.operationspecification.OperationSpecificationGroup;
-import org.moflon.sdm.constraints.operationspecification.OperationspecificationPackage;
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroup;
 
 import SDMLanguage.SDMLanguagePackage;
 
@@ -18,22 +17,7 @@ import SDMLanguage.SDMLanguagePackage;
 
 public class runTest {
 
-//	public static void main(String[] args) {
-//		STGroup stg=new STGroup('$', '$');
-//		stg.loadGroupFile("/",	"file:/F:/Workspaces/Eclipse/2015_01_22_DevWs_ComplexAttributeValidation/DemoclesAttributeConstraintSpecification/lib/stringtemplates/basicStringtemplateDef.stg");
-//		System.out.println(stg.getTemplateNames());
-//		ST decl=stg.getInstanceOf("/noCheck");
-//		decl.add("templateName", "plusBBB");
-//		//decl.add("templateBody", "$p0()$=$p1()$+$p2()$");
-//		decl.add("bT", "::=<<");
-//		decl.add("eT", ">>");
-//		
-//		ST st=new ST("op()::=<< $/p0()$=$/p1()$+$/p2()$ >>",'$','$');
-//		stg.rawDefineTemplate("/userOperation", st.impl, null);
-//		System.out.println(decl.render());
-//	}
-	
-	public static void main(final String[] args) throws InvocationTargetException {
+	public static void main2(final String[] args) throws InvocationTargetException {
 		
 	   ResourceSet rs=new ResourceSetImpl();
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
