@@ -63,7 +63,7 @@ public class RenameProjectProcessor extends MetamodelDeltaProcessor_ImplBase
                renameProjectRefactoring.refactor(oldProject);
                
                // rename generated packages
-               new SequenceRefactoring(renaming).createPackageRefactorings(project, "Impl");
+               new SequenceRefactoring(processFields(renaming)).createPackageRefactorings(project, "Impl");
             }
          }
       }
@@ -78,5 +78,15 @@ public class RenameProjectProcessor extends MetamodelDeltaProcessor_ImplBase
    private String getLastPackageComponent(String packageName)
    {
       return packageName.substring(packageName.lastIndexOf(".") + 1);
+   }
+   
+   private RenameChange processFields(RenameChange change)
+   {
+      String previousValue = getLastPackageComponent(change.getPreviousValue());      
+      change.setPreviousValue(previousValue);
+      
+      String currentValue = getLastPackageComponent(change.getCurrentValue());      
+      change.setCurrentValue(currentValue);
+      return change;      
    }
 }
