@@ -218,7 +218,8 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 
 				final BlackPatternBuilder forEachBlackInvocationBuilder = ScopevalidationFactory.eINSTANCE.createAttributeConstraintBlackPatternInvocationBuilder();
 				forEachStoryNodeActionBuilder.getChildren().add(forEachBlackInvocationBuilder);
-				final BlackAndNacPatternTransformer forEachBlackPatternTransformer = ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintBlackAndNacPatternTransformer();
+				final AttributeConstraintBlackAndNacPatternTransformer forEachBlackPatternTransformer = ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintBlackAndNacPatternTransformer();
+				forEachBlackPatternTransformer.setAttributeConstraintLibUtil(attributeConstraintLibUtil);
 				forEachBlackInvocationBuilder.setPatternTransformer(forEachBlackPatternTransformer);
 				forEachBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 				forEachBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
