@@ -1,0 +1,12 @@
+
+import java.util.List;
+
+partial class PredicateSpec {
+
+@members <--
+
+   String getSMTPredicateInvocation(List<String> variables);
+   
+-->
+
+}

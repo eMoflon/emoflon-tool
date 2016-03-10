@@ -1,0 +1,40 @@
+
+import org.stringtemplate.v4.ST;
+
+partial class PrimitiveSortImpl {
+
+
+
+@model getSMTDeclaration () <--
+
+      return this.sortDeclaration;
+-->
+
+@model getSMTSortSymbol () <--
+
+      return this.sortSymbol;
+-->
+
+@model getSMTVariableDeclaration (String variableSymbol) <--
+
+      ST declST = new ST(this.getVariableDeclarationTemplate(), '$', '$');
+      declST.add("x", variableSymbol);
+      declST.add("t", this.getSortSymbol());
+      String template = declST.render();
+
+      return template;
+-->
+
+@model matchesParameter (Parameter parameter) <--
+
+      return this.getEDataType().stream().anyMatch(x -> x == parameter.getType());
+-->
+
+@model getSMTConstantValue (String constantString) <--
+
+      ST constST = new ST(this.getConstTemplate(), '$', '$');
+      constST.add("x", constantString);
+      return constST.render();
+-->
+
+}

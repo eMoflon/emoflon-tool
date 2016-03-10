@@ -1,0 +1,87 @@
+
+import org.stringtemplate.v4.ST;
+import java.util.List;
+
+partial class PredicateSpecImpl {
+
+@members <--
+
+   @Override
+   public String getSMTPredicateInvocation(List<String> variables)
+   {
+
+      ST declST = new ST(this.buildInvocationTemplate(), '$', '$');
+      for (int i = 0; i < variables.size(); i++)
+      {
+         declST.add("x" + i, variables.get(i));
+      }
+
+      String template = declST.render();
+      //    System.out.println(template); 
+      return template;
+
+   }
+
+   private String buildInvocationTemplate()
+   {
+      StringBuilder invocTempateSb = new StringBuilder();
+
+      invocTempateSb.append(this.getSmtSymbol() + " ");
+
+      for (int i = 0; i < this.getParameters().size(); i++)
+      {
+         invocTempateSb.append("$x" + i + "$");
+         if (i < this.getParameters().size() - 1)
+         {
+            invocTempateSb.append(" ");
+         }
+
+      }
+      if(this.getParameters().size()>0)
+      {
+         invocTempateSb.insert(0, "(");
+         invocTempateSb.append(")");
+      }
+      return invocTempateSb.toString();
+   }
+   
+-->
+
+@model getSMTDeclaration () <--
+
+      StringBuilder declTemplateSb = new StringBuilder();
+      declTemplateSb.append("(define-fun ");
+      declTemplateSb.append(this.getSmtSymbol() + " (");
+
+      for (int i = 0; i < this.getParameters().size(); i++)
+      {
+
+         declTemplateSb.append("(x!" + i + " ");
+         declTemplateSb.append(this.getParameters().get(i).getParamSort().getSMTSortSymbol() + ")");
+
+      }
+      declTemplateSb.append(") Bool");
+      declTemplateSb.append(this.getSmtPredicateDefinition());
+      declTemplateSb.append(")");
+
+      return declTemplateSb.toString();
+-->
+
+@model matchesPredicate (Predicate predicate) <--
+
+      if (this.symbol.equals(predicate.getSymbol()) == false)
+      {
+         return false;
+      }
+      for (int i = 0; i < predicate.getParameters().size(); i++)
+      {
+         if ((this.getParameters().get(i).matchesParameter(predicate.getParameters().get(i))) == false)
+         {
+            return false;
+         }
+
+      }
+      return true;
+-->
+
+}

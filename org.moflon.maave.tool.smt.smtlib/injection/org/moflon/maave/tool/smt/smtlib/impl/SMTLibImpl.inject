@@ -1,0 +1,16 @@
+
+partial class SMTLibImpl {
+
+
+
+@model lookUpCorrespondingSort (Parameter parameter) <--
+
+      return this.getSorts().stream().filter(x -> x.matchesParameter(parameter)).findFirst().orElse(null);
+-->
+
+@model lookupPredicateSpec (Predicate predicate) <--
+
+      return this.getPredicateSpec().stream().filter(x -> x.matchesPredicate(predicate)).findFirst().orElse(null);
+-->
+
+}

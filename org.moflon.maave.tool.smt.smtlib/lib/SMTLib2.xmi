@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org.moflon.maave.tool.smt.smtlib:SMTLib
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:org.moflon.maave.tool.smt.smtlib="platform:/plugin/org.moflon.maave.tool.smt.smtlib/model/Smtlib.ecore"
+    xsi:schemaLocation="platform:/plugin/org.moflon.maave.tool.smt.smtlib/model/Smtlib.ecore ../model/Smtlib.ecore">
+  <predicateSpec
+      symbol="+"
+      smtPredicateDefinition="(= x!0 (bvadd x!1 x!2))"
+      smtSymbol="addSigInt32">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      symbol=">"
+      smtPredicateDefinition="(bvsgt x!0 x!1)"
+      smtSymbol="geSigInt32">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      symbol="#T"
+      smtSymbol="true"/>
+  <predicateSpec
+      symbol="#F"
+      smtSymbol="false"/>
+  <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:PrimitiveSort"
+      id="Signed32BitInt"
+      sortSymbol="Signed32BitInt "
+      sortDeclaration="(define-sort Signed32BitInt () (_ BitVec 32))"
+      variableDeclarationTemplate="(declare-const $x$ $t$)"
+      constTemplate="(_ bv$x$ 32)">
+    <eDataType
+        href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </sorts>
+</org.moflon.maave.tool.smt.smtlib:SMTLib>
