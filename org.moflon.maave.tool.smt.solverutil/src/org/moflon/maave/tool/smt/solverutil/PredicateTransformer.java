@@ -120,6 +120,12 @@ public class PredicateTransformer implements IPredicateTransformer {
          funcDefinitions.put(spec.getIdentifier(), spec.getSmtLibString());
       }
    }
+   @Override
+   public Collection<String> getSortDeclarations()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 
 
 }

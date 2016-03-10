@@ -263,4 +263,11 @@ public class OldPredicateTransformer extends PredicateSymbolSwitch implements IP
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+   @Override
+   public Collection<String> getSortDeclarations()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

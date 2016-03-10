@@ -15,12 +15,14 @@ implication(premise, conclusion)::=<<
 			<conclusion>
 		)
 >>
+
 biImplication(term1, term2)::=<<
 		(= 
 			<term1> 
 			<term2>
 		)
 >>
+
 dis(premise, conclusion)::=<<(assert	
 	(not 
 		(=> 
@@ -30,9 +32,20 @@ dis(premise, conclusion)::=<<(assert
 	)
 )
 >>
-checkUnsat(varDecls,funcDefs,term)::=<<
+
+operation(term1, term2, op)
+::=<<
+		(<op> 
+			<term1> 
+			<term2>
+		)
+>>
+
+checkUnsat(sortDecl,varDecls,funcDefs,term)::=<<
+<sortDecl;separator="\n">
 <varDecls;separator="\n">
 <funcDefs;separator="\n">
+
 (assert	
 	(not 
 	<term>
@@ -41,7 +54,8 @@ checkUnsat(varDecls,funcDefs,term)::=<<
 (check-sat)
 >>
 
-checkSat(varDecls,funcDefs,term)::=<<
+checkSat(sortDecl,varDecls,funcDefs,term)::=<<
+<sortDecl;separator="\n">
 <varDecls;separator="\n">
 <funcDefs;separator="\n">
 (assert	

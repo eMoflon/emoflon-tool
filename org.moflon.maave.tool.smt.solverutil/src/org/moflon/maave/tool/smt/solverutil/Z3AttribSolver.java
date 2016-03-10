@@ -2,8 +2,6 @@ package org.moflon.maave.tool.smt.solverutil;
 
 
 
-import java.util.HashMap;
-
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
@@ -18,9 +16,14 @@ public class Z3AttribSolver implements IAttribSolver {
 	
 	
 
+   IFormulaTransformer formulaTransformer;
+   
 
-
-	private Status check(String smtStr) throws Z3Exception 
+	public Z3AttribSolver()
+   {
+      formulaTransformer=new FormulaToSMTLibTransformer();
+   }
+   private Status check(String smtStr) throws Z3Exception 
    {
 	   Context ctx=ContextFactory.getInstance().takeContext();
 	   BoolExpr eq = ctx.parseSMTLIB2String(smtStr, null, null, null, null);
@@ -41,14 +44,16 @@ public class Z3AttribSolver implements IAttribSolver {
          
 //       System.out.println(s.getUnsatCore());
       }else if (status==Status.UNKNOWN)
-         System.out.println("UNKNOWN + Reason: "+ s.getReasonUnknown());
+      {
+         System.out.println("UNKNOWN + Reason: ");
+      }
       return status;
       
    }
 	@Override
 	public boolean checkImplication(SymbolicGraphMorphism morphism) {
-	   SymbFormulaToSMTLibTransformer iTransformer= new SymbFormulaToSMTLibTransformer();
-	   String smtStr=iTransformer.transformImplication(morphism.getCodom().getFormula(),morphism.getDom().getFormula(),((SymbolicGraphMorphismImpl)morphism).labelNodeMap);
+	  
+	   String smtStr=formulaTransformer.transformImplication(morphism.getCodom().getFormula(),morphism.getDom().getFormula(),((SymbolicGraphMorphismImpl)morphism).labelNodeMap);
 	  
 	      Status result;
          try
@@ -57,6 +62,8 @@ public class Z3AttribSolver implements IAttribSolver {
             return result==Status.UNSATISFIABLE;
          } catch (Z3Exception e)
          {
+            System.out.println(smtStr);
+            e.printStackTrace();
             throw new RuntimeException(e.fillInStackTrace());
             
          }
@@ -68,8 +75,8 @@ public class Z3AttribSolver implements IAttribSolver {
    @Override
    public boolean hasNonEmptySemantic(SymbolicGraph symbGraph)
    {
-      SymbFormulaToSMTLibTransformer iTransformer= new SymbFormulaToSMTLibTransformer();
-      String smtStr=iTransformer.transformDisjunctionSat(symbGraph.getFormula());
+     
+      String smtStr=formulaTransformer.transformDisjunctionSat(symbGraph.getFormula());
       Status result;
       try
       {
@@ -77,6 +84,10 @@ public class Z3AttribSolver implements IAttribSolver {
          return result==Status.SATISFIABLE;
       } catch (Z3Exception e)
       {
+         
+         
+         System.out.println(smtStr);
+         e.printStackTrace();
          throw new RuntimeException(e.fillInStackTrace());
          
       }
@@ -85,8 +96,8 @@ public class Z3AttribSolver implements IAttribSolver {
    @Override
    public boolean hasEquivalentFormulas(SymbolicGraphMorphism morphism)
    {
-      SymbFormulaToSMTLibTransformer iTransformer= new SymbFormulaToSMTLibTransformer();
-      String smtStr=iTransformer.transformBiImplication(morphism.getCodom().getFormula(),morphism.getDom().getFormula(),((SymbolicGraphMorphismImpl)morphism).labelNodeMap);
+     
+      String smtStr=formulaTransformer.transformBiImplication(morphism.getCodom().getFormula(),morphism.getDom().getFormula(),((SymbolicGraphMorphismImpl)morphism).labelNodeMap);
       Status result;
       try
       {
@@ -94,6 +105,8 @@ public class Z3AttribSolver implements IAttribSolver {
          return result==Status.UNSATISFIABLE;
       } catch (Z3Exception e)
       {
+         System.out.println(smtStr);
+         e.printStackTrace();
          throw new RuntimeException(e.fillInStackTrace());
          
       }
@@ -102,8 +115,8 @@ public class Z3AttribSolver implements IAttribSolver {
    
    public boolean isTrue(SymbolicGraph symbGraph)
    {
-      SymbFormulaToSMTLibTransformer iTransformer= new SymbFormulaToSMTLibTransformer();
-      String smtStr=iTransformer.transformDisjunctionUnsat(symbGraph.getFormula());
+      
+      String smtStr=formulaTransformer.transformDisjunctionUnsat(symbGraph.getFormula());
       
       Status result;
       try
@@ -112,8 +125,11 @@ public class Z3AttribSolver implements IAttribSolver {
          return result==Status.UNSATISFIABLE;
       } catch (Z3Exception e)
       {
+         System.out.println(smtStr);
+         e.printStackTrace();
          throw new RuntimeException(e.fillInStackTrace());
          
       }
    }
+   
 }

@@ -8,6 +8,7 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.10.1",
  org.eclipse.emf.common,
  org.moflon.maave.tool.smt.z3;bundle-version="1.0.0",
  org.moflon.maave.tool.symbolicgraphs;bundle-version="1.0.0",
- org.moflon.maave.tool.smt.constraintlib;bundle-version="1.0.0"
+ org.moflon.maave.tool.smt.constraintlib;bundle-version="1.0.0",
+ org.moflon.maave.tool.smt.smtlib;bundle-version="1.0.0"
 Export-Package: org.moflon.maave.tool.smt.solverutil
 Import-Package: org.stringtemplate.v4

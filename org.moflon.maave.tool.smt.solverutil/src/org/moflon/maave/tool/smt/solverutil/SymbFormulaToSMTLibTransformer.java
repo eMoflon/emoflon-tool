@@ -13,7 +13,7 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Disjunction;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Quantifier;
 
-public class SymbFormulaToSMTLibTransformer {
+public class SymbFormulaToSMTLibTransformer implements IFormulaTransformer {
 
 	private IPredicateTransformer predicateTransformer =new PredicateTransformer();
 	private STGroup stg;
