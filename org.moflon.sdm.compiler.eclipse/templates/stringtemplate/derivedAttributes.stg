@@ -3,63 +3,24 @@
 
 preGetGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
     // Feature '<genFeature.name>' is derived.
-    
-    org.eclipse.emf.ecore.util.EContentAdapter adapter = new org.eclipse.emf.ecore.util.EContentAdapter() {
-        @Override
-        public void notifyChanged(Notification notification) {
-            super.notifyChanged(notification);
-            if (notification.getFeature() instanceof org.eclipse.emf.ecore.EStructuralFeature) {
-                org.eclipse.emf.ecore.EStructuralFeature feature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
-                
-                if (notification.getEventType() == Notification.SET) {
-                    <dependentFeatures: { dependentFeature |
-					if ("<genFeature.safeName>".equals("<dependentFeature.name>"))
-						System.out.println("get<genFeature.capName>: " + feature.getName() + " changed!");
-					}>
-                }
-            }
-        }
-    };
-    this.eAdapters().add(adapter);
-    
-    
-    
-    final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();;
+    if ("<genFeature.safeName>".equals("<dependentFeature.name>"))
+    final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();
     if (derived<genFeature.capName> != <genFeature.safeName>)
     {
-    	this.set<genFeature.accessorName>(derived<genFeature.capName>);
+    	set<genFeature.accessorName>(derived<genFeature.capName>);
     }
 >>
 
 preGetGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
 	// Feature '<genFeature.name>' is derived.
-    
-    org.eclipse.emf.ecore.util.EContentAdapter adapter = new org.eclipse.emf.ecore.util.EContentAdapter() {
-        @Override
-        public void notifyChanged(Notification notification) {
-            super.notifyChanged(notification);
-            if (notification.getFeature() instanceof org.eclipse.emf.ecore.EStructuralFeature) {
-                org.eclipse.emf.ecore.EStructuralFeature feature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
-                
-                if (notification.getEventType() == Notification.SET) {
-                    <dependentFeatures: { dependentFeature |
-					if (feature.getName().equals("<dependentFeature.name>"))
-						System.out.println("get<genFeature.capName>: " + feature.getName() + " changed!");
-					}>
-                }
-            }
-        }
-    };
-    this.eAdapters().add(adapter);
-	
     final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();
     if (derived<genFeature.capName> != null) {
 	    if (!derived<genFeature.capName>.equals(<genFeature.safeName>))
 	    {
-	    	this.set<genFeature.accessorName>(derived<genFeature.capName>);
+	    	set<genFeature.accessorName>(derived<genFeature.capName>);
 	    }
     } else {
-    	this.set<genFeature.accessorName>(null);
+    	set<genFeature.accessorName>(null);
     }
 >>
 
@@ -71,4 +32,83 @@ preGetGenFeatureUnknownType(genFeature, genFeatureType, calculationMethodName) :
 preGetGenFeatureNoOperation(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
     // Feature '<genFeature.name>' is derived, but expected calculation
     // method '_get<genFeature.capName>(): <genFeature.typeGenDataType.name>' does not exist.
+>>
+
+
+preConstructorGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
+    org.eclipse.emf.ecore.util.EContentAdapter <genFeature.safeName>Adapter = new org.eclipse.emf.ecore.util.EContentAdapter() {
+        @Override
+        public void notifyChanged(Notification notification) {
+            super.notifyChanged(notification);
+            if (notification.getFeature() instanceof org.eclipse.emf.ecore.EStructuralFeature) {
+                org.eclipse.emf.ecore.EStructuralFeature feature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
+                
+                if (notification.getEventType() == Notification.SET || notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.REMOVE) {
+                	<genFeatureType> derived<genFeature.capName>;
+                    <dependentFeatures: { dependentFeature |
+                    	<addAttributeSetterPrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
+                }
+            }
+        }
+    };
+    this.eAdapters().add(<genFeature.safeName>Adapter);
+>>
+
+preConstructorGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
+    org.eclipse.emf.ecore.util.EContentAdapter <genFeature.safeName>Adapter = new org.eclipse.emf.ecore.util.EContentAdapter() {
+        @Override
+        public void notifyChanged(Notification notification) {
+            super.notifyChanged(notification);
+            if (notification.getFeature() instanceof org.eclipse.emf.ecore.EStructuralFeature) {
+                org.eclipse.emf.ecore.EStructuralFeature feature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
+ 
+                if (notification.getEventType() == Notification.SET || notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.REMOVE) {
+                    <genFeatureType> derived<genFeature.capName>;
+                    <dependentFeatures: { dependentFeature |
+                    	<addAttributeSetterReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
+                }
+            }
+        }
+    };
+    this.eAdapters().add(<genFeature.safeName>Adapter);
+>>
+
+preConstructorGenFeatureUnknownType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+    // Feature '<genFeature.name>' is derived, but no code
+    // has been generated, because its type is unknown.
+>>
+
+preConstructorGenFeatureNoOperation(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+    // Feature '<genFeature.name>' is derived, but expected calculation
+    // method '_get<genFeature.capName>(): <genFeature.typeGenDataType.name>' does not exist.
+>>
+
+addAlert(genFeature, dependentFeature) ::= <<<\n>
+    if (feature.getName().equals("<dependentFeature.name>")) {
+		System.out.println("get<genFeature.capName>: " + feature.getName() + " changed!");
+	}
+>>
+
+addAttributeSetterPrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
+	if ("<genFeature.safeName>".equals("<dependentFeature.name>")) {
+	    derived<genFeature.capName> = <calculationMethodName>();
+	    if (derived<genFeature.capName> != <genFeature.safeName>)
+	    {
+	    	set<genFeature.accessorName>(derived<genFeature.capName>);
+	    }
+	}
+>>
+
+addAttributeSetterReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
+	if ("<genFeature.safeName>".equals("<dependentFeature.name>")) {
+	    derived<genFeature.capName> = <calculationMethodName>();
+	    if (derived<genFeature.capName> != null) {
+		    if (!derived<genFeature.capName>.equals(<genFeature.safeName>))
+		    {
+		    	set<genFeature.accessorName>(derived<genFeature.capName>);
+		    }
+	    } else {
+	    	set<genFeature.accessorName>(null);
+	    }
+	}
 >>

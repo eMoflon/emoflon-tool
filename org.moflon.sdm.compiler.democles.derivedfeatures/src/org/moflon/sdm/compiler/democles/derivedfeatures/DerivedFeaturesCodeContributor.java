@@ -11,17 +11,20 @@ import org.moflon.eclipse.genmodel.MoflonClassGeneratorCodeContributor;
 //TODO@aaltenkirch: Currently, the same instance of this class is re-used for generating all pieces of code. If this assumption is not valid, then a safe strategy would be to regenerate a fresh code contributor in DerivedFeaturesCodeContributorFactory whenever necessary. 
 public class DerivedFeaturesCodeContributor implements MoflonClassGeneratorCodeContributor
 {
+   public enum AccessType { PULL, PUSH }
+    
    private DerivedFeatureProcessor derivedFeatureProcessor;
-
-   public DerivedFeaturesCodeContributor()
+   private AccessType accessType;
+   
+   public DerivedFeaturesCodeContributor(AccessType accessType)
    {
+      this.accessType = accessType;
       derivedFeatureProcessor = new DerivedFeatureProcessor();
    }
 
    @Override
    public String getPreGetGenFeatureCode(final GenFeature genFeature)
    {
-
       if (genFeature.isDerived())
       {
          final String calcMethodName = "_get" + genFeature.getCapName();
@@ -32,7 +35,7 @@ public class DerivedFeaturesCodeContributor implements MoflonClassGeneratorCodeC
             dependentFeatures.addAll(DerivedFeatureSdmAnalyzer.analyzeSDM(genFeature, calcMethodName));
          }
 
-         return derivedFeatureProcessor.generateDerivatedFeatureCode(genFeature, calcMethodName, dependentFeatures);
+         return derivedFeatureProcessor.generateDerivatedFeatureGetterCode(genFeature, calcMethodName, dependentFeatures, accessType);
       } else
       {
          return null;
@@ -50,13 +53,22 @@ public class DerivedFeaturesCodeContributor implements MoflonClassGeneratorCodeC
    public String getConstructorInjectionCode(GenClass genClass)
    {
       final StringBuilder stringBuilder = new StringBuilder();
-      for (final GenFeature genFeature : genClass.getGenFeatures())
+      
+      if (accessType == AccessType.PUSH)
       {
-         final String constructorInjectionCodeOfFeature = getConstructorInjectionCode(genFeature);
-         if (constructorInjectionCodeOfFeature != null)
-         {
-            stringBuilder.append(constructorInjectionCodeOfFeature);
-         }
+          for (final GenFeature genFeature : genClass.getGenFeatures())
+          {
+              if (genFeature.isDerived())
+              {
+                 final String calcMethodName = "_get" + genFeature.getCapName();
+                 final Set<EStructuralFeature> dependentFeatures = DerivedFeatureSdmAnalyzer.analyzeSDM(genFeature, calcMethodName);
+                 final String constructorInjectionCodeOfFeature = getConstructorInjectionCode(genFeature, dependentFeatures, calcMethodName);
+                 if (constructorInjectionCodeOfFeature != null)
+                 {
+                    stringBuilder.append(constructorInjectionCodeOfFeature);
+                 }
+              }
+          }
       }
       return stringBuilder.toString();
    }
@@ -68,9 +80,8 @@ public class DerivedFeaturesCodeContributor implements MoflonClassGeneratorCodeC
     * @param genFeature
     * @return
     */
-   private String getConstructorInjectionCode(GenFeature genFeature)
+   private String getConstructorInjectionCode(GenFeature genFeature, Set<EStructuralFeature> dependentFeatures, String calcMethodName)
    {
-      // TODO@aaltenkirch: Implement me
-      return String.format("//In-constructor code for %s\n", genFeature.getName());
+       return derivedFeatureProcessor.generateDerivatedFeatureConstructorCode(genFeature, calcMethodName, dependentFeatures);
    }
 }

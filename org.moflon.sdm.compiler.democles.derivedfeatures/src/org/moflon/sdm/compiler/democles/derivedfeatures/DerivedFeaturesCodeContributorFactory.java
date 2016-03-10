@@ -3,6 +3,7 @@ package org.moflon.sdm.compiler.democles.derivedfeatures;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributor.AccessType;
 
 public class DerivedFeaturesCodeContributorFactory implements IAdapterFactory
 {
@@ -28,7 +29,7 @@ public class DerivedFeaturesCodeContributorFactory implements IAdapterFactory
          // return adapter;
          // }
          if (instance == null)
-            instance = new DerivedFeaturesCodeContributor();
+            instance = new DerivedFeaturesCodeContributor(AccessType.PUSH);
 
          return instance;
       }

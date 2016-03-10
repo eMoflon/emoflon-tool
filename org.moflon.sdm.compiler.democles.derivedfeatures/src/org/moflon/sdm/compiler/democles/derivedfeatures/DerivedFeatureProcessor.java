@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.ui.LoggingSTErrorListener;
 import org.moflon.eclipse.genmodel.MoflonGenClass;
+import org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributor.AccessType;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
@@ -24,12 +25,13 @@ public class DerivedFeatureProcessor
 
    private final String DERIVED_ATTRIBUTES_TEMPLATE_GROUP = "derivedAttributes";
 
-   public String generateDerivatedFeatureCode(GenFeature genFeature, String calcMethodName, Set<EStructuralFeature> dependentFeatures)
+   public String generateDerivatedFeatureGetterCode(GenFeature genFeature, String calcMethodName, Set<EStructuralFeature> dependentFeatures, AccessType accessType)
    {
       initializeTemplates();
 
       String derivedFeatureTemplateName = "";
-      if (!calculationMethodExists(genFeature))
+      
+      if (!calculationMethodExists(genFeature) || accessType == AccessType.PUSH)
       {
          derivedFeatureTemplateName = "/preGetGenFeatureNoOperation";
       } else if (genFeature.isPrimitiveType())
@@ -41,6 +43,35 @@ public class DerivedFeatureProcessor
       } else
       {
          derivedFeatureTemplateName = "/preGetGenFeatureUnknownType";
+      }
+
+      ST derivedFeatureTemplate = derivedAttributesGroup.getInstanceOf("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + derivedFeatureTemplateName);
+      derivedFeatureTemplate.add("genFeature", genFeature);
+      derivedFeatureTemplate.add("genFeatureType", genFeature.getImportedType(genFeature.getGenClass()));
+      derivedFeatureTemplate.add("calculationMethodName", calcMethodName);
+      derivedFeatureTemplate.add("dependentFeatures", dependentFeatures);
+      String derivedFeatureCode = derivedFeatureTemplate.render();
+
+      return derivedFeatureCode;
+   }
+   
+   public String generateDerivatedFeatureConstructorCode(GenFeature genFeature, String calcMethodName, Set<EStructuralFeature> dependentFeatures)
+   {
+      initializeTemplates();
+
+      String derivedFeatureTemplateName = "";
+      if (!calculationMethodExists(genFeature))
+      {
+         derivedFeatureTemplateName = "/preConstructorGenFeatureNoOperation";
+      } else if (genFeature.isPrimitiveType())
+      {
+         derivedFeatureTemplateName = "/preConstructorGenFeaturePrimitiveType";
+      } else if (genFeature.isReferenceType() || genFeature.isStringType() || isUserDefinedType(genFeature))
+      {
+         derivedFeatureTemplateName = "/preConstructorGenFeatureReferenceType";
+      } else
+      {
+         derivedFeatureTemplateName = "/preConstructorGenFeatureUnknownType";
       }
 
       ST derivedFeatureTemplate = derivedAttributesGroup.getInstanceOf("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + derivedFeatureTemplateName);
