@@ -35,8 +35,56 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             this.Navigable = eaConnectorEnd.IsNavigable;
         }
 
+        public void Update()
+        {
+            String cardinality = ConnectorEnd.getRealConnectorEnd().Cardinality;
+            if(cardinality != null){
+                if (cardinality == "")
+                {
+                    lowerBound = "0";
+                    upperBound = "1";
+                }
+                else
+                {
+                    String[] parts = cardinality.Split('.');
+                    if (parts.Length > 0)
+                    {
+                        if (parts.Length == 1)
+                        {
+                            if (parts[0] == "*")
+                            {
+                                lowerBound = "0";
+                                upperBound = "-1";
+                            }
+                            else
+                            {
+                                lowerBound = getCardinality(parts[0]);
+                                upperBound = getCardinality(parts[0]);
+                            }
+                        }
 
-        
+                        else
+                        {
+                            lowerBound = getCardinality(parts[0]);
+                            upperBound = getCardinality(parts[parts.Length - 1]);
+                        }
+                    }
+                }
+            }
+        }
+
+        private String getCardinality(String cad)
+        {
+            if (cad == "*")
+                return "-1";
+            else
+                return cad;
+        }
+
+        public void setEndString(String endString)
+        {
+            ConnectorEnd.setClientOrTarget(endString);
+        }
 
         public override void deserializeFromMocaTree(Serialization.MocaTree.MocaNode referencesNode)
         {
@@ -123,52 +171,52 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         {
             MocaNode dummyNode = null;
 
-            EcoreUtil.computeLowerUpperBound(ConnectorEnd.Cardinality, ref lowerBound, ref upperBound);
+            EcoreUtil.computeLowerUpperBound(ConnectorEnd.getRealConnectorEnd().Cardinality, ref lowerBound, ref upperBound);
 
-            if (ConnectorEnd.End == "Client")
+            if (ConnectorEnd.getRealConnectorEnd().End == "Client")
             {
                 dummyNode = actNode.appendChildNode("ClientReference");
                 
-                SQLElement clientEClass = Repository.GetElementByID(this.EaConnector.ClientID);
+                SQLElement clientEClass = Repository.GetElementByID(this.EaConnector.getRealConnector().ClientID);
                 typeGUID = clientEClass.ElementGUID;
-                refGUID = this.EaConnector.ConnectorGUID + "Client";
-                if (this.EaConnector.SupplierEnd.Role != "")
+                refGUID = this.EaConnector.getRealConnector().ConnectorGUID + "Client";
+                if (this.EaConnector.getRealConnector().SupplierEnd.Role != "")
                 {
-                    oppositeGUID = this.EaConnector.ConnectorGUID + "Supplier";
+                    oppositeGUID = this.EaConnector.getRealConnector().ConnectorGUID + "Supplier";
                 }
 
 
-                containment = this.EaConnector.SupplierEnd.getAggregation() == 2;
+                containment = this.EaConnector.getRealConnector().SupplierEnd.Aggregation == 2;
 
             }
 
-            else if (ConnectorEnd.End == "Supplier")
+            else if (ConnectorEnd.getRealConnectorEnd().End == "Supplier")
             {
                 dummyNode = actNode.appendChildNode("SupplierReference");
-                SQLElement supplierEClass = Repository.GetElementByID(this.EaConnector.SupplierID);
+                SQLElement supplierEClass = Repository.GetElementByID(this.EaConnector.getRealConnector().SupplierID);
                 typeGUID = supplierEClass.ElementGUID;
-                refGUID = this.EaConnector.ConnectorGUID + "Supplier";
-                if (this.EaConnector.ClientEnd.Role != "")
+                refGUID = this.EaConnector.getRealConnector().ConnectorGUID + "Supplier";
+                if (this.EaConnector.getRealConnector().ClientEnd.Role != "")
                 {
-                    oppositeGUID = this.EaConnector.ConnectorGUID + "Client";
+                    oppositeGUID = this.EaConnector.getRealConnector().ConnectorGUID + "Client";
                 }
 
 
-                containment = this.EaConnector.ClientEnd.getAggregation() == 2;
+                containment = this.EaConnector.getRealConnector().ClientEnd.Aggregation == 2;
             }
 
             if (Navigable)
             {
                 MocaNode ereferenceNode = dummyNode.appendChildNode("EReference");
                 ereferenceNode.appendChildAttribute("typeGuid", typeGUID);
-                if(this.Name != ConnectorEnd.Role && (ConnectorEnd.Role == "" || ConnectorEnd.Role == null))
+                if((ConnectorEnd.Role == "" || ConnectorEnd.getRealConnectorEnd().Role == null))
                     ereferenceNode.appendChildAttribute("name", this.Name);
                 else
-                    ereferenceNode.appendChildAttribute("name", ConnectorEnd.Role);
+                    ereferenceNode.appendChildAttribute("name", ConnectorEnd.getRealConnectorEnd().Role);
                 ereferenceNode.appendChildAttribute(Main.GuidStringName, refGUID);
                 ereferenceNode.appendChildAttribute("lowerBound", lowerBound);
                 ereferenceNode.appendChildAttribute("upperBound", upperBound);
-                ereferenceNode.appendChildAttribute("containment", containment+"");
+                ereferenceNode.appendChildAttribute("containment", (containment+"").ToLower());
                 if (oppositeGUID != "")
                 {
                     ereferenceNode.appendChildAttribute("oppositeGuid", oppositeGUID);
@@ -177,9 +225,6 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             }
             return dummyNode;
         }
-        public void Update()
-        {
-            this.ConnectorEnd.Update();
-        }
+
     }
 }

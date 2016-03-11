@@ -72,8 +72,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
 
             setConnectorEnd(ClientEnd);
             setConnectorEnd(SupplierEnd);
-
-            Update();
+            EaConnector.Update();
             
         }
 
@@ -107,7 +106,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                     end.ConnectorEnd.setAggregation(2);
                    end.aggregationSet = true;
                     end.ConnectorEnd.Update();
-                    Update();
+                    EaConnector.Update();
                     oldAggregation = end.ConnectorEnd.getAggregation(); 
                 }
                 if (end.lowerBound != ClientEnd.upperBound)
@@ -132,12 +131,22 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         }
         public void Update()
         {
-            //this.ClientEnd.Update();
-            //this.SupplierEnd.Update();
-            EaConnector.
-                //getRealConnector().
-                Update();
-            //Repository.Resources.Refresh();
+            this.SupplierEnd.Update();
+            this.ClientEnd.Update();
+        }
+
+        public void switchEnds()
+        {
+            EReferenceEnd tmp = this.SupplierEnd;
+            this.SupplierEnd = this.ClientEnd;
+            SupplierEnd.setEndString("Supplier");
+            this.ClientEnd = tmp;
+            ClientEnd.setEndString("Client");
+        }
+
+        public void setRealConnector(EA.Connector con)
+        {
+            EaConnector.setRealConnector(con);
         }
     }
 }

@@ -303,8 +303,15 @@ namespace EAEcoreAddin.Import
                         cleanUpEA(con.ClientEnd, con.SupplierEnd, eRef);
                         con.Notes = "";
                         con.Update();
+                        eRef.switchEnds();
                     }
                     else cleanUpEA(con.SupplierEnd, con.ClientEnd, eRef);
+
+                    con.Update();
+
+                    eRef.setRealConnector(con);
+
+                    eRef.Update();
 
                     MocaTaggableElements.Add(eRef);
                    

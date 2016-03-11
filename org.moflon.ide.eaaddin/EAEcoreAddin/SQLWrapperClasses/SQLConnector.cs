@@ -33,7 +33,11 @@ namespace EAEcoreAddin.SQLWrapperClasses
             }
             return realConnector;
         }
-        
+
+        public void setRealConnector(EA.Connector con)
+        {
+            realConnector = con;
+        }
 
         private SQLConnectorEnd clientEnd;
         public SQLConnectorEnd ClientEnd

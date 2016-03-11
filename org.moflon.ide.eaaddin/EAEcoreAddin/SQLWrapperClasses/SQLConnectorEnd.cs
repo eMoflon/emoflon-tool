@@ -149,6 +149,14 @@ namespace EAEcoreAddin.SQLWrapperClasses
             }
         }
 
+        public void setClientOrTarget(String end)
+        {
+            if (end == "Client")
+                clientOrTarget = "client";
+            else if (end == "Supplier")
+                clientOrTarget = "target";
+        }
+
 
         public bool IsNavigable
         {
