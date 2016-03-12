@@ -1,0 +1,43 @@
+
+import org.eclipse.emf.ecore.EEnum;
+
+partial class GenericEnumPredicateSpecImpl {
+
+@members <--
+
+   private static final String DECLARATION_TEMPLATE = "(define-fun eq<type>((x!0 <type>)(x!1 <type>)) Bool (=  x!1 x!2) )";
+   
+-->
+
+@model matchesPredicate (Predicate predicate) <--
+
+      if (predicate.getParameters().size() != 2)
+      {
+         return false;
+      }
+      if (predicate.getParameters().get(0).getType() != (predicate.getParameters().get(1).getType()))
+      {
+         return false;
+      }
+      return (predicate.getParameters().get(0).getType() instanceof EEnum) && (predicate.getParameters().get(1).getType() instanceof EEnum);
+-->
+
+@model getSMTDeclaration (Predicate predicate) <--
+
+
+      if (this.matchesPredicate(predicate))
+      {
+
+         EEnum type=(EEnum) predicate.getParameters().get(0);
+
+         ST declST = new ST(this.DECLARATION_TEMPLATE, '<', '>');
+
+         declST.add("type", type.getName());
+         String declaration = declST.render();
+
+         return declaration;
+      }
+      return null;
+-->
+
+}

@@ -1,5 +1,6 @@
 package org.moflon.maave.tool.smt.solverutil;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,11 +112,15 @@ public String transformDisjunctionUnsat(Disjunction disjunction){
 	   List<String> conjunctions=disjunction.getOf().stream().map(conj->transformConjunction(conj,labelNodeSubstMap)).collect(Collectors.toList());
 		ST st;
 		if(disjunction.getQuantifier()!=null){
-		   List<String>exVarDefs=disjunction.getQuantifier().getLabelNodes().stream().map(ln->
-		   "("+ln.getLabel()+IFormulaTransformer.QANT_VAR_SUFFIX+((Quantifier)ln.eContainer()).getLabelNodes().indexOf(ln)+
-		   " "+
-		   smtLib.lookUpCorrespondingSort(ln).getSMTSortSymbol()+
-		   ")").collect(Collectors.toList());
+		   List<String>exVarDefs=new LinkedList<String>();
+		   for (LabelNode variable : disjunction.getQuantifier().getLabelNodes())
+         {
+            StringBuilder varSymbolBuilder=new StringBuilder();
+            varSymbolBuilder.append(variable.getLabel());
+            varSymbolBuilder.append(IFormulaTransformer.QANT_VAR_SUFFIX);
+            varSymbolBuilder.append(((Quantifier)variable.eContainer()).getLabelNodes().indexOf(variable));
+            exVarDefs.add(smtLib.getSmtLibQuantifiedVarDeclaration(variable.getType(), varSymbolBuilder.toString()));
+         }
 		   st = stg.getInstanceOf("disjunctionExists");
 		   st.add("varDefs", exVarDefs);
 	     

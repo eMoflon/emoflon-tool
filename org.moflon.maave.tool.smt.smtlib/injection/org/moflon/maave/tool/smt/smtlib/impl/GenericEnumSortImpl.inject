@@ -1,0 +1,88 @@
+
+import java.util.stream.Collectors;
+import org.eclipse.emf.ecore.EEnum;
+import org.stringtemplate.v4.ST;
+
+partial class GenericEnumSortImpl {
+
+@members <--
+
+   private static final String SORT_DECLARATION_TEMPLATE = "(declare-datatypes () ((<type><predicates:{enum| <enum>}>)))";
+
+   private static final String VAR_DECLARATION_TEMPLATE = "(declare-const <var> <type>)";
+   private static final String QUANT_VAR_DECLARATION_TEMPLATE = "(<var> <type>)";
+   
+-->
+
+@model getSMTConstantValue (String constantString, EDataType type) <--
+
+      return type.getEPackage().getEFactoryInstance().convertToString(type, constantString);
+-->
+
+@model getSMTDeclaration (EDataType type) <--
+
+      if (this.isForType(type))
+      {
+
+         if (type instanceof EEnum)
+         {
+            EEnum enumType = (EEnum) type;
+            ST declST = new ST(this.SORT_DECLARATION_TEMPLATE, '<', '>');
+            declST.add("enum", enumType.getELiterals().stream().map(x -> x.getLiteral()).collect(Collectors.toList()));
+            declST.add("type", enumType.getName());
+            String declaration = declST.render();
+
+            return declaration;
+         }
+      }
+      return null;
+-->
+
+@model getSMTSortSymbol (EDataType type) <--
+
+      return type.getName();
+-->
+
+@model getSMTVariableDeclaration (String variableSymbol, EDataType type) <--
+
+      if (this.isForType(type))
+      {
+         if (type instanceof EEnum)
+         {
+            EEnum enumType = (EEnum) type;
+            ST declST = new ST(this.VAR_DECLARATION_TEMPLATE, '<', '>');
+            declST.add("var", variableSymbol);
+            declST.add("type", enumType.getName());
+            String declaration = declST.render();
+
+            return declaration;
+         }
+      }
+      return null;
+-->
+
+@model isForType (EDataType type) <--
+
+      return (type instanceof EEnum);
+-->
+
+@model getSMTQuantfiedVarDeclaration (String varSymbol, EDataType type) <--
+
+
+      if (this.isForType(type))
+      {
+         if (type instanceof EEnum)
+         {
+            EEnum enumType = (EEnum) type;
+            ST declST = new ST(this.QUANT_VAR_DECLARATION_TEMPLATE, '<', '>');
+            declST.add("var", varSymbol);
+            declST.add("type", enumType.getName());
+            String declaration = declST.render();
+
+            return declaration;
+         }
+      }
+      return null;
+-->
+
+}

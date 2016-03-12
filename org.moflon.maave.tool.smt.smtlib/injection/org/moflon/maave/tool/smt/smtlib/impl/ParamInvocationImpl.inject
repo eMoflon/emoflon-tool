@@ -5,7 +5,7 @@ partial class ParamInvocationImpl {
 
 @model matchesParameter (Parameter parameter) <--
 
-      return this.getParamSort().matchesParameter(parameter);
+      return this.getParamSort().isForType(parameter.getType());
 -->
 
 }

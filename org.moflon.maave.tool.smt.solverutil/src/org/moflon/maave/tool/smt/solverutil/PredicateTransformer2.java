@@ -7,10 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EDataType;
 import org.moflon.maave.tool.smt.smtlib.PredicateSpec;
 import org.moflon.maave.tool.smt.smtlib.SMTLib;
 import org.moflon.maave.tool.smt.smtlib.SmtLibHelper;
-import org.moflon.maave.tool.smt.smtlib.Sort;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Constant;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
@@ -23,8 +23,8 @@ public class PredicateTransformer2 implements IPredicateTransformer
 {
 
 
-   private HashSet<Sort> toBeDeclaredSorts=new HashSet<Sort>();
-   private HashSet<PredicateSpec> toBeDeclaredPredicates=new HashSet<PredicateSpec>();
+   private HashSet<EDataType> toBeDeclaredTypes=new HashSet<EDataType>();
+   private HashSet<Predicate> toBeDeclaredPredicates=new HashSet<Predicate>();
    private HashMap<LabelNode,String> toBeDeclaredVariables=new HashMap<LabelNode,String>();
    private SMTLib smtLib;
    
@@ -39,18 +39,18 @@ public class PredicateTransformer2 implements IPredicateTransformer
    @Override
    public String transformPredicate(Predicate predicate, Mapping<LabelNode> labelNodeSubstMap)
    {
-     PredicateSpec predSpec=smtLib.lookupPredicateSpec(predicate);
-     if(predSpec==null){
-        throw new RuntimeException("Missing predicate specification for predicate with symbol \""+predicate.getSymbol()+
-              "\" and parameters"+predicate.getParameters().stream().map(x->x.getType().getName()).reduce(" ",(a,b)->a+", "+b));
-
-     }
-    
+//     PredicateSpec predSpec=smtLib.lookupPredicateSpec(predicate);
+//     if(predSpec==null){
+//        throw new RuntimeException("Missing predicate specification for predicate with symbol \""+predicate.getSymbol()+
+//              "\" and parameters"+predicate.getParameters().stream().map(x->x.getType().getName()).reduce(" ",(a,b)->a+", "+b));
+//
+//     }
+     toBeDeclaredPredicates.add(predicate);
      List<String> variableSymbols=new LinkedList<String>();
      for (int i=0; i< predicate.getParameters().size();i++) 
      {
-        toBeDeclaredPredicates.add(predSpec);
-        toBeDeclaredSorts.add(predSpec.getParameters().get(i).getParamSort());
+       
+        toBeDeclaredTypes.add(predicate.getParameters().get(i).getType());
         
         Parameter param=predicate.getParameters().get(i);
         String variableSymbol;
@@ -77,20 +77,20 @@ public class PredicateTransformer2 implements IPredicateTransformer
         else
         {
            Constant constant=(Constant) param;
-           variableSymbol=predSpec.getParameters().get(i).getParamSort().getSMTConstantValue(constant.getInterpretation());           
+           variableSymbol=smtLib.getSmtLibConstantValue(constant.getInterpretation(),constant.getType());           
         }
         variableSymbols.add(variableSymbol);
   
      }
      
-     return predSpec.getSMTPredicateInvocation(variableSymbols);
+     return smtLib.getSmtLibPredicateInvocation(predicate, variableSymbols);
      
    }
 
    @Override
    public Collection<String> getFunctionDefinitions()
    {
-      return toBeDeclaredPredicates.stream().map(x->x.getSMTDeclaration()).collect(Collectors.toList());
+      return toBeDeclaredPredicates.stream().map(x->smtLib.getSmtLibPredicateDeclaration(x)).collect(Collectors.toList());
    }
 
    @Override
@@ -100,7 +100,7 @@ public class PredicateTransformer2 implements IPredicateTransformer
       List<String> varDeclarations=new LinkedList<String>();
       for (LabelNode variable : toBeDeclaredVariables.keySet())
       {
-         varDeclarations.add(smtLib.lookUpCorrespondingSort(variable).getSMTVariableDeclaration(toBeDeclaredVariables.get(variable)));
+         varDeclarations.add(smtLib.getSmtLibVariableDeclarations(toBeDeclaredVariables.get(variable), variable.getType()));
       }
       
       
@@ -110,7 +110,7 @@ public class PredicateTransformer2 implements IPredicateTransformer
    @Override
    public Collection<String> getSortDeclarations()
    {
-      return toBeDeclaredSorts.stream().map(x->x.getSMTDeclaration()).filter(x->x!=null).collect(Collectors.toList());
+      return toBeDeclaredTypes.stream().map(x->smtLib.getSortDeclaration(x)).filter(x->x!=null).collect(Collectors.toList());
    }
    
    

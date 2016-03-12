@@ -1,0 +1,12 @@
+
+import java.util.List;
+
+partial class SMTLib {
+
+@members <--
+
+   String getSmtLibPredicateInvocation(Predicate predicate, List<String> variableSymbols);
+   
+-->
+
+}

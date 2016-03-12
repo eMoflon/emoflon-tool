@@ -37,7 +37,7 @@ partial class PredicateSpecImpl {
          }
 
       }
-      if(this.getParameters().size()>0)
+      if (this.getParameters().size() > 0)
       {
          invocTempateSb.insert(0, "(");
          invocTempateSb.append(")");
@@ -82,6 +82,16 @@ partial class PredicateSpecImpl {
 
       }
       return true;
+-->
+
+@model getSMTDeclaration (Predicate predicate) <--
+
+
+      if(matchesPredicate(predicate))
+      {
+         return this.getSMTDeclaration();
+      }
+      return null;
 -->
 
 }
