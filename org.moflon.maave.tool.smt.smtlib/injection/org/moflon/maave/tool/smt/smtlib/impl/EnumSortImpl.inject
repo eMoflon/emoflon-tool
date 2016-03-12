@@ -45,10 +45,6 @@ partial class EnumSortImpl {
       {
          return true;
       }
-      if (this.getEEnum().getName().equals(parameter.getType().getName()))
-      {
-         throw new RuntimeException("Baaam");
-      }
       return false;
 -->
 

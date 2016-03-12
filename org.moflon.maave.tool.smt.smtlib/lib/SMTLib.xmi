@@ -104,6 +104,6 @@
   </sorts>
   <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:EnumSort"
       id="LEVEL">
-    <eEnum href="../../org.moflon.maave.tests.lang.enumlang/model/Enumlang.ecore#//LEVEL"/>
+    <eEnum href="platform:/plugin/org.moflon.maave.tests.lang.enumlang/model/Enumlang.ecore#//LEVEL"/>
   </sorts>
 </org.moflon.maave.tool.smt.smtlib:SMTLib>
