@@ -10,17 +10,11 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
  org.gervarro.democles.specification.emf;bundle-version="1.0.0",
+ SDMLanguage,
  org.moflon.maave.tests.lang.abc,
  org.moflon.maave.tests.lang.mnoq,
- org.moflon.maave.tool.symbolicgraphs.secondorder.constraints,
- org.moflon.maave.tool.sdm.stptransformation,
- org.moflon.maave.tool.symbolicgraphs,
- SDMLanguage,
- org.moflon.maave.tool.analysis,
- org.moflon.maave.tool.symbolicgraphs.secondorder.matching,
- org.moflon.maave.tool.category,
  org.moflon.maave.tests.lang.tggcpa,
- org.moflon.maave.tool.graphtransformation
+ org.moflon.maave.tests.lang.enumlang
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

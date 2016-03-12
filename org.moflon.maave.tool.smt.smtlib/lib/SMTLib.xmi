@@ -80,6 +80,15 @@
     <parameters
         paramSort="//@sorts.0"/>
   </predicateSpec>
+  <predicateSpec
+      symbol="="
+      smtPredicateDefinition="(= x!0 x!1)"
+      smtSymbol="eqLEVEL">
+    <parameters
+        paramSort="//@sorts.1"/>
+    <parameters
+        paramSort="//@sorts.1"/>
+  </predicateSpec>
   <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:PrimitiveSort"
       id="Nat"
       sortSymbol="Int"
@@ -92,5 +101,9 @@
         href="http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
     <eDataType
         href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </sorts>
+  <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:EnumSort"
+      id="LEVEL">
+    <eEnum href="../../org.moflon.maave.tests.lang.enumlang/model/Enumlang.ecore#//LEVEL"/>
   </sorts>
 </org.moflon.maave.tool.smt.smtlib:SMTLib>

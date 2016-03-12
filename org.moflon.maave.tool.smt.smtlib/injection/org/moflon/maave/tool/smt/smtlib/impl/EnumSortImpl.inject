@@ -1,0 +1,55 @@
+
+import org.stringtemplate.v4.ST;
+import org.eclipse.emf.ecore.EEnumLiteral;
+
+partial class EnumSortImpl {
+
+
+
+@model getSMTConstantValue (String constantString) <--
+
+      return constantString;
+-->
+
+@model getSMTDeclaration () <--
+
+      StringBuilder declBuilder = new StringBuilder("(declare-datatypes () ((");
+      declBuilder.append(this.getEEnum().getName());
+      for (EEnumLiteral literal : this.getEEnum().getELiterals())
+      {
+         declBuilder.append(" ");
+         declBuilder.append(literal.getLiteral());
+      }
+      declBuilder.append(")))");
+      return declBuilder.toString();
+-->
+
+@model getSMTSortSymbol () <--
+
+      return this.getEEnum().getName();
+-->
+
+@model getSMTVariableDeclaration (String variableSymbol) <--
+
+      ST declST = new ST("(declare-const $x$ $t$)", '$', '$');
+      declST.add("x", variableSymbol);
+      declST.add("t", this.getEEnum().getName());
+      String varDecl = declST.render();
+
+      return varDecl;
+-->
+
+@model matchesParameter (Parameter parameter) <--
+
+      if (this.getEEnum() == parameter.getType())
+      {
+         return true;
+      }
+      if (this.getEEnum().getName().equals(parameter.getType().getName()))
+      {
+         throw new RuntimeException("Baaam");
+      }
+      return false;
+-->
+
+}

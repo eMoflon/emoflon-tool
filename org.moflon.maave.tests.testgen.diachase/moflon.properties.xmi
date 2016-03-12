@@ -2,13 +2,14 @@
 <MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.maave.tests.testgen.diachase">
   <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.maave.tests.lang.abc/model/Abc.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.maave.tests.lang.enumlang/model/Enumlang.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.maave.tests.lang.mnoq/model/Mnoq.ecore"/>
   <additionalDependencies value="platform:/resource/org.gervarro.democles.specification.emf/model/relational.ecore"/>
   <additionalDependencies value="platform:/resource/org.gervarro.democles.specification.emf/model/specification.ecore"/>
   <additionalDependencies value="platform:/resource/org.gervarro.democles.specification.emf/model/emf.ecore"/>
   <metaModelProject MetaModelProjectName="org.moflon.maave.tests"/>
   <replaceGenModel/>
-  <sdmCodegeneratorHandlerId/>
+  <sdmCodegeneratorHandlerId value="DEMOCLES_ATTRIBUTES"/>
   <additionalUsedGenPackages value="platform:/resource/org.gervarro.democles.specification.emf/model/specification.genmodel"/>
   <additionalUsedGenPackages value="platform:/resource/org.gervarro.democles.specification.emf/model/emf.genmodel"/>
   <additionalUsedGenPackages value="platform:/resource/org.gervarro.democles.specification.emf/model/relational.genmodel"/>
