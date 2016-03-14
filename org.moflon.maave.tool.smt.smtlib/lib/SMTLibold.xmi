@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org.moflon.maave.tool.smt.smtlib:SMTLib
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:org.moflon.maave.tool.smt.smtlib="platform:/plugin/org.moflon.maave.tool.smt.smtlib/model/Smtlib.ecore"
+    xsi:schemaLocation="platform:/plugin/org.moflon.maave.tool.smt.smtlib/model/Smtlib.ecore ../model/Smtlib.ecore">
+  <predicateSpec
+      symbol="+"
+      smtPredicateDefinition="(= x!0 (+ x!1 x!2))"
+      smtSymbol="addNat">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      symbol=">"
+      smtPredicateDefinition="(> x!0 x!1)"
+      smtSymbol="geNAT">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      symbol="#T"
+      smtSymbol="true"/>
+  <predicateSpec
+      symbol="#F"
+      smtSymbol="false"/>
+  <predicateSpec
+      symbol="&lt;"
+      smtPredicateDefinition="(&lt; x!0 x!1)"
+      smtSymbol="leNat">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      symbol="="
+      smtPredicateDefinition="(= x!0 x!1)"
+      smtSymbol="eqNat">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      symbol=">="
+      smtPredicateDefinition="(>= x!0 x!1)"
+      smtSymbol="geqNAT">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      symbol="-"
+      smtPredicateDefinition="(= x!0 (- x!1 x!2))"
+      smtSymbol="subNat">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      symbol="*"
+      smtPredicateDefinition="(= x!0 (* x!1 x!2))"
+      smtSymbol="multNat">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      symbol="="
+      smtPredicateDefinition="(= x!0 x!1)"
+      smtSymbol="eqLEVEL">
+    <parameters
+        paramSort="//@sorts.1"/>
+    <parameters
+        paramSort="//@sorts.1"/>
+  </predicateSpec>
+  <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:PrimitiveSort"
+      id="Nat"
+      sortSymbol="Int"
+      sortDeclaration=""
+      variableDeclarationTemplate="(declare-const $x$ $t$)"
+      constTemplate="$x$">
+    <eDataType
+        href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eDataType
+        href="http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eDataType
+        href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </sorts>
+  <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:EnumSort"
+      id="LEVEL">
+    <eEnum href="platform:/plugin/org.moflon.maave.tests.lang.enumlang/model/Enumlang.ecore#//LEVEL"/>
+  </sorts>
+</org.moflon.maave.tool.smt.smtlib:SMTLib>

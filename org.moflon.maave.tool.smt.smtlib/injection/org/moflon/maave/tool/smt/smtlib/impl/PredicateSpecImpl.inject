@@ -7,7 +7,7 @@ partial class PredicateSpecImpl {
 @members <--
 
    @Override
-   public String getSMTPredicateInvocation(List<String> variables)
+   public String getSMTPredicateInvocation(Predicate predicate,List<String> variables)
    {
 
       ST declST = new ST(this.buildInvocationTemplate(), '$', '$');
@@ -49,6 +49,10 @@ partial class PredicateSpecImpl {
 
 @model getSMTDeclaration () <--
 
+      if(this.getParameters().size()==0)
+      {
+         return null;
+      }
       StringBuilder declTemplateSb = new StringBuilder();
       declTemplateSb.append("(define-fun ");
       declTemplateSb.append(this.getSmtSymbol() + " (");

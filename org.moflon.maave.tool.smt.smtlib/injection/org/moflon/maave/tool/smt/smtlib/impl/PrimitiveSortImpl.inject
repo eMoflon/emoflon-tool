@@ -79,18 +79,15 @@ partial class PrimitiveSortImpl {
 
 @model getSMTQuantfiedVarDeclaration (String varSymbol, EDataType type) <--
 
-
-      if (this.isForType(type))
+      if(isForType(type))
       {
-            
-            ST declST = new ST(this.QUANT_VAR_DECLARATION_TEMPLATE, '<', '>');
-            declST.add("var", varSymbol);
-            declST.add("type", this.getSMTSortSymbol());
-            String declaration = declST.render();
-
-            return declaration;
-         
+         ST declST = new ST(QUANT_VAR_DECLARATION_TEMPLATE);
+         declST.add("var", varSymbol);
+         declST.add("type", this.getSortSymbol());
+         String template = declST.render();
+         return template;
       }
+      
       return null;
 -->
 

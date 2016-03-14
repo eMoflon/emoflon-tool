@@ -1,0 +1,10 @@
+
+partial class IPredicateSpec {
+
+@members <--
+
+   String getSMTPredicateInvocation(List<String> variables);
+   
+-->
+
+}

@@ -6,6 +6,7 @@
     xmlns:org.moflon.maave.tool.smt.smtlib="platform:/plugin/org.moflon.maave.tool.smt.smtlib/model/Smtlib.ecore"
     xsi:schemaLocation="platform:/plugin/org.moflon.maave.tool.smt.smtlib/model/Smtlib.ecore ../model/Smtlib.ecore">
   <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
       symbol="+"
       smtPredicateDefinition="(= x!0 (+ x!1 x!2))"
       smtSymbol="addNat">
@@ -17,6 +18,7 @@
         paramSort="//@sorts.0"/>
   </predicateSpec>
   <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
       symbol=">"
       smtPredicateDefinition="(> x!0 x!1)"
       smtSymbol="geNAT">
@@ -26,39 +28,49 @@
         paramSort="//@sorts.0"/>
   </predicateSpec>
   <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
       symbol="#T"
       smtSymbol="true"/>
   <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
       symbol="#F"
       smtSymbol="false"/>
   <predicateSpec
-      symbol="&lt;"
-      smtPredicateDefinition="(&lt; x!0 x!1)"
-      smtSymbol="leNat">
-    <parameters
-        paramSort="//@sorts.0"/>
-    <parameters
-        paramSort="//@sorts.0"/>
-  </predicateSpec>
-  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
       symbol="="
       smtPredicateDefinition="(= x!0 x!1)"
-      smtSymbol="eqNat">
+      smtSymbol="eqNAT">
     <parameters
         paramSort="//@sorts.0"/>
     <parameters
         paramSort="//@sorts.0"/>
   </predicateSpec>
   <predicateSpec
-      symbol=">="
-      smtPredicateDefinition="(>= x!0 x!1)"
-      smtSymbol="geqNAT">
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="&lt;"
+      smtPredicateDefinition="(&lt; x!0 x!1)"
+      smtSymbol="leNAT">
     <parameters
         paramSort="//@sorts.0"/>
     <parameters
         paramSort="//@sorts.0"/>
   </predicateSpec>
   <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:GenericEnumPredicateSpec"/>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="*"
+      smtPredicateDefinition="(= x!0 (* x!1 x!2))"
+      smtSymbol="multNAT">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+  </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
       symbol="-"
       smtPredicateDefinition="(= x!0 (- x!1 x!2))"
       smtSymbol="subNat">
@@ -70,40 +82,30 @@
         paramSort="//@sorts.0"/>
   </predicateSpec>
   <predicateSpec
-      symbol="*"
-      smtPredicateDefinition="(= x!0 (* x!1 x!2))"
-      smtSymbol="multNat">
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol=">="
+      smtPredicateDefinition="(>= x!0 x!1)"
+      smtSymbol="geqNAT">
     <parameters
         paramSort="//@sorts.0"/>
     <parameters
         paramSort="//@sorts.0"/>
-    <parameters
-        paramSort="//@sorts.0"/>
-  </predicateSpec>
-  <predicateSpec
-      symbol="="
-      smtPredicateDefinition="(= x!0 x!1)"
-      smtSymbol="eqLEVEL">
-    <parameters
-        paramSort="//@sorts.1"/>
-    <parameters
-        paramSort="//@sorts.1"/>
   </predicateSpec>
   <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:PrimitiveSort"
-      id="Nat"
+      id="NAT"
       sortSymbol="Int"
       sortDeclaration=""
       variableDeclarationTemplate="(declare-const $x$ $t$)"
       constTemplate="$x$">
     <eDataType
+        href="http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eDataType
         href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eDataType
-        href="http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+        href="http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
     <eDataType
         href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
   </sorts>
-  <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:EnumSort"
-      id="LEVEL">
-    <eEnum href="platform:/plugin/org.moflon.maave.tests.lang.enumlang/model/Enumlang.ecore#//LEVEL"/>
-  </sorts>
+  <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:GenericEnumSort"
+      id="ENUM"/>
 </org.moflon.maave.tool.smt.smtlib:SMTLib>

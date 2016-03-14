@@ -8,8 +8,12 @@ partial class SMTLibImpl {
    @Override
    public String getSmtLibPredicateInvocation(Predicate predicate, List<String> variableSymbols)
    {
-      // TODO Auto-generated method stub
-      return null;
+      IPredicateSpec predSpec = this.getPredicateSpec().stream().filter(x -> x.matchesPredicate(predicate)).findFirst().orElse(null);
+      if (predSpec != null)
+      {
+         return predSpec.getSMTPredicateInvocation(predicate, variableSymbols);
+      }
+      throw new RuntimeException("No appropriate PredicateSpecification for predicate " + predicate.toString() + "in smtLib");
    }
    
 -->

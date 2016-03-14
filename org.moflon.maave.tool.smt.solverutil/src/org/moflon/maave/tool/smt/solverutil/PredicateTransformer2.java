@@ -24,7 +24,7 @@ public class PredicateTransformer2 implements IPredicateTransformer
 
 
    private HashSet<EDataType> toBeDeclaredTypes=new HashSet<EDataType>();
-   private HashSet<Predicate> toBeDeclaredPredicates=new HashSet<Predicate>();
+   private HashSet<String> toBeDeclaredPredicates=new HashSet<String>();
    private HashMap<LabelNode,String> toBeDeclaredVariables=new HashMap<LabelNode,String>();
    private SMTLib smtLib;
    
@@ -45,7 +45,7 @@ public class PredicateTransformer2 implements IPredicateTransformer
 //              "\" and parameters"+predicate.getParameters().stream().map(x->x.getType().getName()).reduce(" ",(a,b)->a+", "+b));
 //
 //     }
-     toBeDeclaredPredicates.add(predicate);
+     
      List<String> variableSymbols=new LinkedList<String>();
      for (int i=0; i< predicate.getParameters().size();i++) 
      {
@@ -82,7 +82,7 @@ public class PredicateTransformer2 implements IPredicateTransformer
         variableSymbols.add(variableSymbol);
   
      }
-     
+     toBeDeclaredPredicates.add(smtLib.getSmtLibPredicateDeclaration(predicate));
      return smtLib.getSmtLibPredicateInvocation(predicate, variableSymbols);
      
    }
@@ -90,7 +90,7 @@ public class PredicateTransformer2 implements IPredicateTransformer
    @Override
    public Collection<String> getFunctionDefinitions()
    {
-      return toBeDeclaredPredicates.stream().map(x->smtLib.getSmtLibPredicateDeclaration(x)).collect(Collectors.toList());
+      return toBeDeclaredPredicates;
    }
 
    @Override
