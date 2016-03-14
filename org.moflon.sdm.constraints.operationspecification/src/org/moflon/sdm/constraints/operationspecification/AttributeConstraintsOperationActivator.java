@@ -8,7 +8,7 @@ public class AttributeConstraintsOperationActivator extends EMoflonPlugin
    public static final char INNER_ST_DELIMITER = '$';
 
    // This is used to generate string templates from the user-specified operations
-   public static final char OUTER_ST_DELIMITER = '§'; // '@' does not work.
+   public static final char OUTER_ST_DELIMITER = '#'; // '@' does not work.
 
    public static AttributeConstraintsOperationActivator getDefault() {
       AttributeConstraintsOperationActivator plugin = getPlugin(AttributeConstraintsOperationActivator.class);
