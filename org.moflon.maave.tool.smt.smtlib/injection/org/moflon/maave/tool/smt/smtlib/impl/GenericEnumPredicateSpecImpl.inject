@@ -5,7 +5,7 @@ partial class GenericEnumPredicateSpecImpl {
 
 @members <--
 
-   private static final String DECLARATION_TEMPLATE = "(define-fun eq<type>((x!0 <type>)(x!1 <type>)) Bool (=  x!1 x!2) )";
+   private static final String DECLARATION_TEMPLATE = "(define-fun eq<type>((x!1 <type>)(x!2 <type>)) Bool (=  x!1 x!2) )";
    private static final String INVOCATION_TEMPLATE = "(eq<type> <var0> <var1>)";
    
 -->
