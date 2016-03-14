@@ -7,9 +7,10 @@ partial class GenericEnumSortImpl {
 
 @members <--
 
-   private static final String SORT_DECLARATION_TEMPLATE = "(declare-datatypes () ((<type><predicates:{enum| <enum>}>)))";
+   private static final String SORT_DECLARATION_TEMPLATE = "(declare-datatypes () ((<type><literals:{literal|  <literal>}>)))";
 
    private static final String VAR_DECLARATION_TEMPLATE = "(declare-const <var> <type>)";
+
    private static final String QUANT_VAR_DECLARATION_TEMPLATE = "(<var> <type>)";
    
 -->
@@ -28,7 +29,7 @@ partial class GenericEnumSortImpl {
          {
             EEnum enumType = (EEnum) type;
             ST declST = new ST(this.SORT_DECLARATION_TEMPLATE, '<', '>');
-            declST.add("enum", enumType.getELiterals().stream().map(x -> x.getLiteral()).collect(Collectors.toList()));
+            declST.add("literals", enumType.getELiterals().stream().map(x -> x.getLiteral()).collect(Collectors.toList()));
             declST.add("type", enumType.getName());
             String declaration = declST.render();
 
@@ -69,20 +70,12 @@ partial class GenericEnumSortImpl {
 @model getSMTQuantfiedVarDeclaration (String varSymbol, EDataType type) <--
 
 
-      if (this.isForType(type))
-      {
-         if (type instanceof EEnum)
-         {
-            EEnum enumType = (EEnum) type;
-            ST declST = new ST(this.QUANT_VAR_DECLARATION_TEMPLATE, '<', '>');
-            declST.add("var", varSymbol);
-            declST.add("type", enumType.getName());
-            String declaration = declST.render();
+      ST declST = new ST(this.QUANT_VAR_DECLARATION_TEMPLATE, '<', '>');
+      declST.add("var", varSymbol);
+      declST.add("type", this.getSMTSortSymbol(type));
+      String template = declST.render();
 
-            return declaration;
-         }
-      }
-      return null;
+      return template;
 -->
 
 }
