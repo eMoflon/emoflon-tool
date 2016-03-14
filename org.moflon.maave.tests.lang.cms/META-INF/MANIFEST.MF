@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.maave.tests.lang.cms;singleton:=true
-Export-Package: org.moflon.maave.tests.lang.cms.impl,
- org.moflon.maave.tests.lang.cms,
+Export-Package: org.moflon.maave.tests.lang.cms,
+ org.moflon.maave.tests.lang.cms.impl,
  org.moflon.maave.tests.lang.cms.util
 Bundle-Name: org.moflon.maave.tests.lang.cms
 Bundle-Version: 1.0.0.qualifier
