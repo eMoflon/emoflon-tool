@@ -21,6 +21,36 @@
     <parameterIDs
         identifier="b"/>
   </operationSpecifications>
+  <operationSpecifications
+      constraintSpecifications="//@constraintSpecifications.1"
+      operationIdentifier="eqBool">
+    <operationSpecifications
+        specification="$a$==$b$"
+        adornmentString="BB"
+        alwaysSuccessful="false"/>
+    <operationSpecifications
+        specification="$a$=$b$"
+        adornmentString="FB"/>
+    <operationSpecifications
+        specification="$b$=$a$"
+        adornmentString="BF"/>
+    <parameterIDs
+        identifier="a"/>
+    <parameterIDs
+        identifier="b"/>
+  </operationSpecifications>
+  <operationSpecifications
+      constraintSpecifications="//@constraintSpecifications.2"
+      operationIdentifier="eqEN_STATE">
+    <operationSpecifications
+        specification="$a$==$b$"
+        adornmentString="BB"
+        alwaysSuccessful="false"/>
+    <parameterIDs
+        identifier="a"/>
+    <parameterIDs
+        identifier="b"/>
+  </operationSpecifications>
   <constraintSpecifications
       operationSpecificationGroup="//@operationSpecifications.0"
       symbol="=">
@@ -33,6 +63,34 @@
       <type
           xsi:type="ecore:EEnum"
           href="../model/Cms.ecore#//EN_ACTIONS"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.1"
+      symbol="=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.2"
+      symbol="=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EEnum"
+          href="../model/Cms.ecore#//EN_STATE"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EEnum"
+          href="../model/Cms.ecore#//EN_STATE"/>
     </parameterTypes>
   </constraintSpecifications>
 </org.moflon.sdm.constraints.operationspecification:AttributeConstraintLibrary>

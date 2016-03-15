@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.maave.tests.lang.cms;singleton:=true
-Export-Package: org.moflon.maave.tests.lang.cms,
- org.moflon.maave.tests.lang.cms.impl,
- org.moflon.maave.tests.lang.cms.util
+Export-Package: org.moflon.maave.tests.lang.cms.impl,
+ org.moflon.maave.tests.lang.cms.util,
+ org.moflon.maave.tests.lang.cms
 Bundle-Name: org.moflon.maave.tests.lang.cms
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,

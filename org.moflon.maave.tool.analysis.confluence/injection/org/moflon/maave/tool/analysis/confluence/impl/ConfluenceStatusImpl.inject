@@ -1,0 +1,12 @@
+
+partial class ConfluenceStatusImpl {
+
+
+
+@model toString () <--
+
+
+      return ConfluenceStatusPrinter.printConfluencStatus(this);
+-->
+
+}

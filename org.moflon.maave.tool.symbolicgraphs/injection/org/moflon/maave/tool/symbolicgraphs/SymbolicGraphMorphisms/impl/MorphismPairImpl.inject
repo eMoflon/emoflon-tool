@@ -1,0 +1,12 @@
+
+partial class MorphismPairImpl {
+
+
+
+@model toString () <--
+
+
+     return GraphAndMorphismPrinter.internalPrintPair(this.getFirst(), this.getSecond());
+-->
+
+}

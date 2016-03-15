@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
    TestForStoryPatternToSymbGraTraRules_Basic.class 
 //   ,TestForStoryPatternToProjGraTraRules_Basic.class
 //   ,TestForStoryPatternToSymbGraTraRules_NAC.class
-   ,TestForStoryPatternToProjGraTraRules_Enum.class
+//   ,TestForStoryPatternToProjGraTraRules_Enum.class
 //   ,MorphismFinderTest.class
 ////   ,PullbackTest.class //TODO fix
 //   ,PushoutUMPTest.class
@@ -24,7 +24,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,NormalFormEquivalenceTest.class
 //   ,ConfluenceProjTestGAMPaper.class
 ////   ,ConfluenceProjTestModelsPaper.class
-//   ,ConfluenceProjTestCMS.class
+   ,ConfluenceProjTestCMS.class
 //   ,SymbolicPushoutComplementTest.class //TODO fix
 
 })
