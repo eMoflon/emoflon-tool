@@ -41,7 +41,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(672, 285);
+            this.buttonCancel.Location = new System.Drawing.Point(672, 340);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -52,7 +52,7 @@
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOk.Location = new System.Drawing.Point(591, 285);
+            this.buttonOk.Location = new System.Drawing.Point(591, 340);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 3;
@@ -66,7 +66,7 @@
             this.textBoxCspDefinition.Font = new System.Drawing.Font("Courier New", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxCspDefinition.Location = new System.Drawing.Point(3, 16);
             this.textBoxCspDefinition.Name = "textBoxCspDefinition";
-            this.textBoxCspDefinition.Size = new System.Drawing.Size(729, 178);
+            this.textBoxCspDefinition.Size = new System.Drawing.Size(729, 233);
             this.textBoxCspDefinition.TabIndex = 4;
             this.textBoxCspDefinition.Text = "awdawdaw";
             this.textBoxCspDefinition.TextChanged += new System.EventHandler(this.textBoxCspDefinition_TextChanged);
@@ -79,14 +79,15 @@
             this.groupBox2.Controls.Add(this.textBoxCspDefinition);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(735, 197);
+            this.groupBox2.Size = new System.Drawing.Size(735, 252);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "&Define CSP";
             // 
             // showHelpButton
             // 
-            this.showHelpButton.Location = new System.Drawing.Point(12, 285);
+            this.showHelpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.showHelpButton.Location = new System.Drawing.Point(12, 340);
             this.showHelpButton.Name = "showHelpButton";
             this.showHelpButton.Size = new System.Drawing.Size(75, 23);
             this.showHelpButton.TabIndex = 7;
@@ -98,7 +99,7 @@
             // 
             this.complexNAC1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.complexNAC1.Location = new System.Drawing.Point(12, 215);
+            this.complexNAC1.Location = new System.Drawing.Point(12, 270);
             this.complexNAC1.MinimumSize = new System.Drawing.Size(155, 64);
             this.complexNAC1.Name = "complexNAC1";
             this.complexNAC1.Size = new System.Drawing.Size(735, 64);
@@ -108,7 +109,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(759, 320);
+            this.ClientSize = new System.Drawing.Size(759, 375);
             this.Controls.Add(this.showHelpButton);
             this.Controls.Add(this.complexNAC1);
             this.Controls.Add(this.groupBox2);
