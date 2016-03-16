@@ -24,7 +24,7 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.elem = EAUtil.sqlEAObjectToOriginalObject(sqlRepository, elem) as EA.Element;
             this.sqlRepository = sqlRepository;
 
-            if (elem.Notes == "")
+            if (elem.Notes.Trim() == "")
             {
                 textBoxCspDefinition.Text = DEFAULT_CSP_CONTENT;
             }
