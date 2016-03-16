@@ -13,7 +13,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.util.BuilderHelper;
@@ -36,39 +35,42 @@ public class EMoflonBuildJob extends WorkspaceJob
    @Override
    public IStatus runInWorkspace(final IProgressMonitor monitor)
    {
-      final MultiStatus resultStatus = new MultiStatus(UIActivator.getModuleID(), 0, "eMoflon Build Job failed", null);
-
-      final List<IProject> projectsToBeBuilt = this.projects.stream().filter(project -> shallBuildProject(project)).collect(Collectors.toList());
       try
       {
+         final MultiStatus resultStatus = new MultiStatus(UIActivator.getModuleID(), 0, "eMoflon Build Job failed", null);
+         final List<IProject> projectsToBeBuilt = this.projects.stream().filter(project -> shallBuildProject(project)).collect(Collectors.toList());
+         
          monitor.beginTask("eMoflon Build Job", 2 * projectsToBeBuilt.size());
 
-         // Update user-selected timeout
-         EMoflonPreferencesStorage.getInstance().setValidationTimeout(EMoflonPreferenceInitializer.getValidationTimeoutMillis());
+         updateUserSelectedTimeoutForValidation();
 
          for (final IProject project : projectsToBeBuilt)
          {
-            try
-            {
-               final IStatus projectBuildStatus = cleanAndBuild(project, WorkspaceHelper.createSubMonitor(monitor, 2));
-               if (!projectBuildStatus.isOK())
-               {
-                  resultStatus.add(projectBuildStatus);
-               }
 
-               BuilderHelper.generateCodeInOrder(WorkspaceHelper.createSubMonitor(monitor, projectsToBeBuilt.size()), projectsToBeBuilt);
-            } catch (final CoreException e)
+            final IStatus projectBuildStatus = cleanAndBuild(project, WorkspaceHelper.createSubMonitor(monitor, 2));
+            if (!projectBuildStatus.isOK())
             {
-               logger.error("Unable to build " + project.getName() + ": " + MoflonUtil.displayExceptionAsString(e));
-               resultStatus.add(new Status(IStatus.ERROR, UIActivator.getModuleID(), IStatus.ERROR, "Error while building " + project.getName(), e));
+               resultStatus.add(projectBuildStatus);
             }
          }
+
+         final IStatus codeGenerationStatus = BuilderHelper.generateCodeInOrder(WorkspaceHelper.createSubMonitor(monitor, projectsToBeBuilt.size()), projectsToBeBuilt);
+         if (!codeGenerationStatus.isOK())
+         {
+            resultStatus.add(codeGenerationStatus);
+         }
+         
+         return resultStatus.matches(Status.ERROR) ? resultStatus : Status.OK_STATUS;
       } finally
       {
          monitor.done();
       }
 
-      return resultStatus.matches(Status.ERROR) ? resultStatus : Status.OK_STATUS;
+   }
+
+   private void updateUserSelectedTimeoutForValidation()
+   {
+      EMoflonPreferencesStorage.getInstance().setValidationTimeout(EMoflonPreferenceInitializer.getValidationTimeoutMillis());
    }
 
    private IStatus cleanAndBuild(final IProject project, final IProgressMonitor monitor)
@@ -91,10 +93,10 @@ public class EMoflonBuildJob extends WorkspaceJob
          }
       } catch (final OperationCanceledException e)
       {
-         status = new Status(IStatus.CANCEL, UIActivator.getModuleID(), IStatus.OK, "", null);
+         status = new Status(IStatus.CANCEL, UIActivator.getModuleID(), "", null);
       } catch (final CoreException e)
       {
-         status = new Status(IStatus.ERROR, UIActivator.getModuleID(), IStatus.OK, "", e);
+         status = new Status(IStatus.ERROR, UIActivator.getModuleID(), "Problem during clean and build: " + e.getMessage(), e);
       } finally
       {
          monitor.done();
