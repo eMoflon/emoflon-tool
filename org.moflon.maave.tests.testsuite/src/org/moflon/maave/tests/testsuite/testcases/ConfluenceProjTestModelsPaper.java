@@ -11,8 +11,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.moflon.maave.tests.lang.featuremodel.FeaturemodelPackage;
 import org.moflon.maave.tests.testgen.genfeaturemodel.GenfeaturemodelPackage;
+import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
-import org.moflon.maave.tool.analysis.confluence.ConfluenceStatus;
 import org.moflon.maave.tool.analysis.confluence.DirectConfluenceModuloNFEQAnalyser;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
@@ -57,10 +57,11 @@ public class ConfluenceProjTestModelsPaper {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
+      
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      assertFalse(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
-      assertFalse(status.isValid());
-      System.out.println(" isConfluent="+status.isValid());
+      System.out.println(" isConfluent="+report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
 
    }
@@ -92,10 +93,12 @@ public class ConfluenceProjTestModelsPaper {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
-      
-      assertTrue(status.isValid());
-      System.out.println(" isConfluent="+status.isValid());
+       
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      assertTrue(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
+
+      System.out.println(" isConfluent="+report.getConfluenceStates().stream().allMatch(x->x.isValid()));
+     
 
       
       
@@ -129,10 +132,10 @@ public class ConfluenceProjTestModelsPaper {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      assertFalse(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
-      assertFalse(status.isValid());
-      System.out.println("isConfluent="+status.isValid());
+      System.out.println(" isConfluent="+report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
 
    }
@@ -165,11 +168,10 @@ public class ConfluenceProjTestModelsPaper {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      assertTrue(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
-      assertTrue(status.isValid());
-      System.out.println(" isConfluent="+status.isValid());
-
+      System.out.println(" isConfluent="+report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
    }
    @Test
@@ -201,11 +203,10 @@ public class ConfluenceProjTestModelsPaper {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      assertFalse(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
-      assertFalse(status.isValid());
-      System.out.println(" isConfluent="+status.isValid());
-
+      System.out.println(" isConfluent="+report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
    }
    @Test
@@ -237,10 +238,10 @@ public class ConfluenceProjTestModelsPaper {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      assertTrue(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
-      assertTrue(status.isValid());
-      System.out.println(" isConfluent="+status.isValid());
+      System.out.println(" isConfluent="+report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
 
    }

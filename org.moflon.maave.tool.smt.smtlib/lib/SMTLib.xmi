@@ -111,6 +111,16 @@
     <parameters
         paramSort="//@sorts.2"/>
   </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="OR"
+      smtPredicateDefinition="(or x!0 x!1)"
+      smtSymbol="orBOOL">
+    <parameters
+        paramSort="//@sorts.2"/>
+    <parameters
+        paramSort="//@sorts.2"/>
+  </predicateSpec>
   <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:PrimitiveSort"
       id="NAT"
       sortSymbol="Int"

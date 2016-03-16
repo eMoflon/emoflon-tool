@@ -1,0 +1,18 @@
+
+partial class ConfluenceAnalysisReportImpl {
+
+
+
+@model toString () <--
+
+
+      StringBuilder sb=new StringBuilder();
+      for (ConfluenceAnalysisResult result : this.getConfluenceStates())
+      {
+         sb.append("========================================================================================");
+         sb.append(result.toString());
+      }
+      return sb.toString();
+-->
+
+}

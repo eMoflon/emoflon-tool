@@ -23,34 +23,39 @@ partial class ItterativeDirectDerivationIteratorImpl {
 
    private void setUpMorTriples()
    {
-      SymbolicGraph graphL = production.getLeft().getCodom();
-      SymbolicGraph graphP1 = morN_P1.getCodom();
       MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
-      ConfigurableMorphismFinder morFinderForL = morFinderFac.createMorphismFinder(graphL, gts.getMatchMorphismClass());
-      SymbolicGraphMorphism emptyMorL_P1 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      emptyMorL_P1.setDom(graphL);
-      emptyMorL_P1.setCodom(graphP1);
-      MorphismsSet morSetL_G = morFinderForL.getAllMorphisms(emptyMorL_P1);
-      for (SymbolicGraphMorphism match : morSetL_G.getMorphisms())
+      SymbolicGraph graphP1 = morN_P1.getCodom();
+      
+      for (SymbGTRule production : this.gts.getRules())
       {
-
-         this.morTriples.add(new StateFullMorN_P3(match));
-
+         SymbolicGraph graphL = production.getLeft().getCodom();
+         ConfigurableMorphismFinder morFinderForL = morFinderFac.createMorphismFinder(graphL, gts.getMatchMorphismClass());
+         SymbolicGraphMorphism emptyMorL_P1 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+         emptyMorL_P1.setDom(graphL);
+         emptyMorL_P1.setCodom(graphP1);
+         MorphismsSet morSetL_G = morFinderForL.getAllMorphisms(emptyMorL_P1);
+         for (SymbolicGraphMorphism match : morSetL_G.getMorphisms())
+         {
+            
+            this.morTriples.add(new StateFullMorN_P3(match,production));
+            
+         }
+         
       }
 
    }
 
    private void deriveMorTriple(StateFullMorN_P3 morTriple)
    {
-      DirectDerivation der = gts.getDirectDerivationBuilder().deriveDirectDerivation(production, morTriple.morL_P1);
+      DirectDerivation der = gts.getDirectDerivationBuilder().deriveDirectDerivation(morTriple.production, morTriple.morL_P1);
       ConfigurableMorphismFinder morFinderForN = morFinderFac.createMorphismFinder(morN_P1.getDom(), morClassForY);
 
-//      SymbolicGraphMorphism emptyMorN_E3 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-//      emptyMorN_E3.setDom(morN_P1.getDom());
-//      emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
-      CategoryUtil catUtil=MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
-      SymbolicGraphMorphism partialMorP1_E3=catUtil.getInverseMorphism(der.getSpan().getG());
-      SymbolicGraphMorphism partialMorN_E3=morN_P1.composeWith(partialMorP1_E3);
+      //      SymbolicGraphMorphism emptyMorN_E3 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      //      emptyMorN_E3.setDom(morN_P1.getDom());
+      //      emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
+      CategoryUtil catUtil = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
+      SymbolicGraphMorphism partialMorP1_E3 = catUtil.getInverseMorphism(der.getSpan().getG());
+      SymbolicGraphMorphism partialMorN_E3 = morN_P1.composeWith(partialMorP1_E3);
 
       for (SymbolicGraphMorphism morN_E3 : morFinderForN.getAllMorphisms(partialMorN_E3).getMorphisms())
       {
@@ -82,8 +87,6 @@ partial class ItterativeDirectDerivationIteratorImpl {
 
    private Iterator<StateFullMorN_P3> morTripleItterator;
 
-   private SymbGTRule production;
-
    private SymbolicGraphMorphism morN_P1;
 
    private GraphTransformationSystem gts;
@@ -99,12 +102,15 @@ partial class ItterativeDirectDerivationIteratorImpl {
       SymbolicGraphMorphism morN_P3 = null;
 
       SymbolicGraphMorphism morL_P1;
+      
+      SymbGTRule production;
 
       boolean isInvalid = false;
 
-      public StateFullMorN_P3(SymbolicGraphMorphism match)
+      public StateFullMorN_P3(SymbolicGraphMorphism match,SymbGTRule production)
       {
-         morL_P1 = match;
+         this.morL_P1 = match;
+         this.production=production;
       }
    }
    
@@ -134,7 +140,7 @@ partial class ItterativeDirectDerivationIteratorImpl {
 
 @model init (SymbGTRule production, SymbolicGraphMorphism morN_P, GraphTransformationSystem gts) <--
 
-      this.production = production;
+
       this.morN_P1 = morN_P;
       this.gts = gts;
       setUpMorTriples();

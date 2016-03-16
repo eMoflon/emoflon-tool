@@ -34,9 +34,9 @@ public class Z3AttribSolver implements IAttribSolver {
       ContextFactory.getInstance().releaseContext(ctx);
       s.dispose();
       if(status==Status.SATISFIABLE){
-//       System.out.println("SATISFIABLE + Model: ");
-         
-//       System.out.println(s.getModel());
+//    System.out.println("SATISFIABLE + Model: ");
+//         
+//      System.out.println(s.getModel());
          
       }else if (status==Status.UNSATISFIABLE) {
          

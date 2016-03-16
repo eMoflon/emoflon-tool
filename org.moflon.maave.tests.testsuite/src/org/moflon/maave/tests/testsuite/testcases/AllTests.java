@@ -15,6 +15,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,PushoutUMPTest.class
 //   ,IsomorphicCopyTester.class
 ////   ,DirectDerivationTest.class //fix
+   ,EmptyRuleDirectDerivationTest.class
 //   ,MorphismClassTest.class
 //
 //   ,SubgraphBuilderTest.class
@@ -22,7 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,JointlyEpiTestFiltering.class
 //   ,CriticalPairTestProj.class
 //   ,NormalFormEquivalenceTest.class
-//   ,ConfluenceProjTestGAMPaper.class
+   ,ConfluenceProjTestGAMPaper.class
 ////   ,ConfluenceProjTestModelsPaper.class
    ,ConfluenceProjTestCMS.class
 //   ,SymbolicPushoutComplementTest.class //TODO fix

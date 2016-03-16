@@ -8,9 +8,11 @@ partial class GenericEnumPredicateSpecImpl {
 
 @members <--
 
-   private static final String DECLARATION_TEMPLATE = "(define-fun eq<type>((x!1 <type>)(x!2 <type>)) Bool (=  x!1 x!2) )";
+   private static final String EQ_DECLARATION_TEMPLATE = "(define-fun eq<type>((x!1 <type>)(x!2 <type>)) Bool (=  x!1 x!2) )";
+   private static final String IS_EQ_DECLARATION_TEMPLATE = "(define-fun isEq<type>((x!1 <type>)(x!2 <type>)(x!3 Bool)) Bool (= (= x!1 x!2) x!3))";
 
-   private static final String INVOCATION_TEMPLATE = "(eq<type> <var0> <var1>)";
+   private static final String EQ_INVOCATION_TEMPLATE = "(eq<type> <var0> <var1>)";
+   private static final String IS_EQ_INVOCATION_TEMPLATE = "(isEq<type> <var0> <var1> <var2>)";
 
    @Override
    public String getSMTPredicateInvocation(Predicate predicate, List<String> variables)
@@ -20,14 +22,30 @@ partial class GenericEnumPredicateSpecImpl {
 
          EEnum type = (EEnum) predicate.getParameters().get(0).getType();
 
-         ST invocST = new ST(this.INVOCATION_TEMPLATE, '<', '>');
+         if (predicate.getParameters().size() == 2)
+         {
+            ST invocST = new ST(this.EQ_INVOCATION_TEMPLATE, '<', '>');
 
-         invocST.add("type", type.getName());
-         invocST.add("var0", variables.get(0));
-         invocST.add("var1", variables.get(1));
-         String invocation = invocST.render();
+            invocST.add("type", type.getName());
+            invocST.add("var0", variables.get(0));
+            invocST.add("var1", variables.get(1));
+            String invocation = invocST.render();
 
-         return invocation;
+            return invocation;
+         }
+         else if (predicate.getParameters().size() == 3)
+         {
+            ST invocST = new ST(this.EQ_INVOCATION_TEMPLATE, '<', '>');
+
+            invocST.add("type", type.getName());
+            invocST.add("var0", variables.get(0));
+            invocST.add("var1", variables.get(1));
+            invocST.add("var2", variables.get(2));
+            String invocation = invocST.render();
+
+            return invocation;
+         }
+
       }
       return null;
    }
@@ -36,15 +54,36 @@ partial class GenericEnumPredicateSpecImpl {
 
 @model matchesPredicate (Predicate predicate) <--
 
-      if (predicate.getParameters().size() != 2)
+      if(predicate.getSymbol().equals("="))
       {
-         return false;
+         if (predicate.getParameters().size() == 2)
+         {
+            if((predicate.getParameters().get(0).getType() instanceof EEnum) && (predicate.getParameters().get(1).getType() instanceof EEnum))
+            {
+               if (predicate.getParameters().get(0).getType() == (predicate.getParameters().get(1).getType()))
+               {
+                  return true;
+               }
+            }
+         }
       }
-      if (predicate.getParameters().get(0).getType() != (predicate.getParameters().get(1).getType()))
+      else if (predicate.getSymbol().equals("=?")) 
       {
-         return false;
-      }
-      return (predicate.getParameters().get(0).getType() instanceof EEnum) && (predicate.getParameters().get(1).getType() instanceof EEnum);
+         if (predicate.getParameters().size() == 3)
+         {
+            if((predicate.getParameters().get(0).getType() instanceof EEnum) && 
+                  (predicate.getParameters().get(1).getType() instanceof EEnum)&&
+                  predicate.getParameters().get(2).getType() ==EcorePackage.eINSTANCE.getEBoolean())
+            {
+               if (predicate.getParameters().get(0).getType() == (predicate.getParameters().get(1).getType()))
+               {
+                  return true;
+               }
+            }
+         }
+      }   
+
+      return false;
 -->
 
 @model getSMTDeclaration (Predicate predicate) <--
@@ -53,13 +92,25 @@ partial class GenericEnumPredicateSpecImpl {
       {
 
          EEnum type = (EEnum) predicate.getParameters().get(0).getType();
+         if (predicate.getParameters().size() == 2)
+         {
+            ST declST = new ST(this.EQ_DECLARATION_TEMPLATE, '<', '>');
 
-         ST declST = new ST(this.DECLARATION_TEMPLATE, '<', '>');
+            declST.add("type", type.getName());
+            String declaration = declST.render();
 
-         declST.add("type", type.getName());
-         String declaration = declST.render();
+            return declaration;
+         }
+         else if (predicate.getParameters().size() == 3)
+         {
+            ST declST = new ST(this.EQ_DECLARATION_TEMPLATE, '<', '>');
 
-         return declaration;
+            declST.add("type", type.getName());
+            String declaration = declST.render();
+
+            return declaration;
+         }
+
       }
       return null;
 -->

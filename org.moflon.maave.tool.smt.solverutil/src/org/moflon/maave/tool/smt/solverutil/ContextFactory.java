@@ -1,6 +1,7 @@
 package org.moflon.maave.tool.smt.solverutil;
 
 
+import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -38,7 +39,8 @@ public class ContextFactory
       {
          try
          {
-            contexts.put(new Context());
+            Context ctx = new Context();
+            contexts.put(ctx);
          } catch (InterruptedException e)
          {
             throw new RuntimeException(e.getMessage());
