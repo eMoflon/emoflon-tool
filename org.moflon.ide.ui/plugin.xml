@@ -1295,4 +1295,17 @@
                class="org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer">
          </initializer>
    </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.moflon.ide.ui.propertypages.EMoflonPropertyPage"
+            id="org.moflon.ide.ui.errorspropertypage"
+            name="eMoflon Error">
+            <enabledWhen>
+            <adapt
+                  type="org.eclipse.core.resources.IMarker">
+            </adapt>
+         </enabledWhen>
+      </page>
+   </extension>
 </plugin>
