@@ -1,22 +1,19 @@
 // This template group contains rules for generating code that updates 
 // derived attributes.
 
-preGetGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
+preGetGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
     // Feature '<genFeature.name>' is derived.
-    if ("<genFeature.safeName>".equals("<dependentFeature.name>"))
     final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();
-    if (derived<genFeature.capName> != <genFeature.safeName>)
-    {
+    if (derived<genFeature.capName> != <genFeature.safeName>) {
     	set<genFeature.accessorName>(derived<genFeature.capName>);
     }
 >>
 
-preGetGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
+preGetGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
 	// Feature '<genFeature.name>' is derived.
     final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();
     if (derived<genFeature.capName> != null) {
-	    if (!derived<genFeature.capName>.equals(<genFeature.safeName>))
-	    {
+	    if (!derived<genFeature.capName>.equals(<genFeature.safeName>)) {
 	    	set<genFeature.accessorName>(derived<genFeature.capName>);
 	    }
     } else {
@@ -41,12 +38,13 @@ preConstructorGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMet
         public void notifyChanged(Notification notification) {
             super.notifyChanged(notification);
             if (notification.getFeature() instanceof org.eclipse.emf.ecore.EStructuralFeature) {
-                org.eclipse.emf.ecore.EStructuralFeature feature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
-                
                 if (notification.getEventType() == Notification.SET || notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.REMOVE) {
-                	<genFeatureType> derived<genFeature.capName>;
-                    <dependentFeatures: { dependentFeature |
-                    	<addAttributeSetterPrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
+                	org.eclipse.emf.ecore.EStructuralFeature notificationFeature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
+                	if (notificationFeature != null && notificationFeature.getName() != null) { 
+                		<genFeatureType> derived<genFeature.capName>;
+	                    <dependentFeatures: { dependentFeature |
+	                    	<addAttributeSetterPrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
+                	}
                 }
             }
         }
@@ -60,12 +58,13 @@ preConstructorGenFeatureReferenceType(genFeature, genFeatureType, calculationMet
         public void notifyChanged(Notification notification) {
             super.notifyChanged(notification);
             if (notification.getFeature() instanceof org.eclipse.emf.ecore.EStructuralFeature) {
-                org.eclipse.emf.ecore.EStructuralFeature feature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
- 
                 if (notification.getEventType() == Notification.SET || notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.REMOVE) {
-                    <genFeatureType> derived<genFeature.capName>;
-                    <dependentFeatures: { dependentFeature |
-                    	<addAttributeSetterReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
+                	org.eclipse.emf.ecore.EStructuralFeature notificationFeature = (org.eclipse.emf.ecore.EStructuralFeature) notification.getFeature();
+                    if (notificationFeature != null && notificationFeature.getName() != null) { 
+	                    <genFeatureType> derived<genFeature.capName>;
+	                    <dependentFeatures: { dependentFeature |
+	                    	<addAttributeSetterReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
+                	}
                 }
             }
         }
@@ -90,21 +89,19 @@ addAlert(genFeature, dependentFeature) ::= <<<\n>
 >>
 
 addAttributeSetterPrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
-	if ("<genFeature.safeName>".equals("<dependentFeature.name>")) {
+	if (notificationFeature.getName().equals("<dependentFeature.name>")) {
 	    derived<genFeature.capName> = <calculationMethodName>();
-	    if (derived<genFeature.capName> != <genFeature.safeName>)
-	    {
+	    if (derived<genFeature.capName> != <genFeature.safeName>) {
 	    	set<genFeature.accessorName>(derived<genFeature.capName>);
 	    }
 	}
 >>
 
 addAttributeSetterReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
-	if ("<genFeature.safeName>".equals("<dependentFeature.name>")) {
+	if (notificationFeature.getName().equals("<dependentFeature.name>")) {
 	    derived<genFeature.capName> = <calculationMethodName>();
 	    if (derived<genFeature.capName> != null) {
-		    if (!derived<genFeature.capName>.equals(<genFeature.safeName>))
-		    {
+		    if (!derived<genFeature.capName>.equals(<genFeature.safeName>)) {
 		    	set<genFeature.accessorName>(derived<genFeature.capName>);
 		    }
 	    } else {

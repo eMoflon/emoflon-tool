@@ -1,6 +1,5 @@
 package org.moflon.sdm.compiler.democles.derivedfeatures;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -25,21 +24,14 @@ public class DerivedFeaturesCodeContributor implements MoflonClassGeneratorCodeC
    @Override
    public String getPreGetGenFeatureCode(final GenFeature genFeature)
    {
-      if (genFeature.isDerived())
+      String featureCode = null;
+      if (accessType == AccessType.PULL && genFeature.isDerived())
       {
          final String calcMethodName = "_get" + genFeature.getCapName();
-
-         final Set<EStructuralFeature> dependentFeatures = new HashSet<EStructuralFeature>();
-         if (genFeature.getName().equals("systemName"))
-         {
-            dependentFeatures.addAll(DerivedFeatureSdmAnalyzer.analyzeSDM(genFeature, calcMethodName));
-         }
-
-         return derivedFeatureProcessor.generateDerivatedFeatureGetterCode(genFeature, calcMethodName, dependentFeatures, accessType);
-      } else
-      {
-         return null;
+         featureCode =  derivedFeatureProcessor.generateDerivatedFeatureGetterCode(genFeature, calcMethodName);
       }
+      
+      return featureCode;
    }
 
    @Override

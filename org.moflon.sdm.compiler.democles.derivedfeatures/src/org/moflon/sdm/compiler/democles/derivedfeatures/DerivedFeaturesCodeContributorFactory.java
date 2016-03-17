@@ -29,7 +29,7 @@ public class DerivedFeaturesCodeContributorFactory implements IAdapterFactory
          // return adapter;
          // }
          if (instance == null)
-            instance = new DerivedFeaturesCodeContributor(AccessType.PUSH);
+            instance = new DerivedFeaturesCodeContributor(AccessType.PULL);
 
          return instance;
       }
