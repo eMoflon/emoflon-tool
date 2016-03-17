@@ -1,12 +1,13 @@
 
+import org.moflon.maave.tool.symbolicgraphs.printing.GraphAndMorphismPrinter;
+
 partial class MorphismPairImpl {
 
 
 
 @model toString () <--
 
-
-     return GraphAndMorphismPrinter.internalPrintPair(this.getFirst(), this.getSecond());
+      return GraphAndMorphismPrinter.internalPrintPair(this.getFirst(), this.getSecond());
 -->
 
 }

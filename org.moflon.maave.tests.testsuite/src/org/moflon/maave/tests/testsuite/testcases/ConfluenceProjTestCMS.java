@@ -40,8 +40,8 @@ public class ConfluenceProjTestCMS {
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
       EClass cls=(EClass) pack.getEClassifier("Enrollment");
-      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForExam")).findFirst().get();
-      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("unregisterFromExam")).findFirst().get();
+      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForModule")).findFirst().get();
+      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForModule")).findFirst().get();
       Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
       System.out.print(op1.getName()+"|"+op2.getName()+"\n" );
       StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
@@ -57,6 +57,7 @@ public class ConfluenceProjTestCMS {
       GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
       gts.getRules().add(rule1);
       gts.getRules().add(rule2);
+      gts.getRules().add(gts.getIdentityRule());
 
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
@@ -302,17 +303,19 @@ public class ConfluenceProjTestCMS {
       System.out.println("Starting ConfluenceProjTestCMS/Test7: " );
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-      EClass cls=(EClass) pack.getEClassifier("Enrollment");
+      EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
+      EClass clsExam=(EClass) pack.getEClassifier("Exam");
 
       
      
 
       Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(cls,"registerForExam"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(cls,"registerForModule"));
-      SymbGTRule rule3=transformer.transformStpToProjGTRule(getStoryPattern(cls,"unregisterFromExam"));
-      SymbGTRule rule4=transformer.transformStpToProjGTRule(getStoryPattern(cls,"registerThesis"));
-      SymbGTRule rule5=transformer.transformStpToProjGTRule(getStoryPattern(cls,"registerForThesisModule"));
+      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForExam"));
+      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForModule"));
+      SymbGTRule rule3=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"unregisterFromExam"));
+      SymbGTRule rule4=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerThesis"));
+      SymbGTRule rule5=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForThesisModule"));
+      SymbGTRule rule6=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"bookRoom"));
 
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
@@ -323,6 +326,7 @@ public class ConfluenceProjTestCMS {
       gts.getRules().add(rule3);
       gts.getRules().add(rule4);
       gts.getRules().add(rule5);
+      gts.getRules().add(rule6);
       gts.getRules().add(gts.getIdentityRule());
 
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));

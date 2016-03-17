@@ -56,7 +56,7 @@
   </operationSpecifications>
   <operationSpecifications
       constraintSpecifications="//@constraintSpecifications.3"
-      operationIdentifier="isEqEN_STATE">
+      operationIdentifier="isEq">
     <operationSpecifications
         specification="$c$=($a$==$b$)"
         adornmentString="BBF"/>
@@ -81,6 +81,42 @@
         identifier="a"/>
     <parameterIDs
         identifier="b"/>
+  </operationSpecifications>
+  <operationSpecifications
+      constraintSpecifications="//@constraintSpecifications.5"
+      operationIdentifier="isLeqInt">
+    <operationSpecifications
+        specification="$c$=($a$&lt;=$b$)"
+        adornmentString="BBF"/>
+    <operationSpecifications
+        specification="$c$==($a$&lt;=$b$)"
+        adornmentString="BBB"
+        alwaysSuccessful="false"/>
+    <parameterIDs
+        identifier="a"/>
+    <parameterIDs
+        identifier="b"/>
+    <parameterIDs
+        identifier="c"/>
+  </operationSpecifications>
+  <operationSpecifications
+      constraintSpecifications="//@constraintSpecifications.6"
+      operationIdentifier="ite">
+    <operationSpecifications
+        specification="$b$=$a$?$c$:$d$"
+        adornmentString="BFBB"/>
+    <operationSpecifications
+        specification="$b$==$a$?$c$:$d$"
+        adornmentString="BBBB"
+        alwaysSuccessful="false"/>
+    <parameterIDs
+        identifier="a"/>
+    <parameterIDs
+        identifier="b"/>
+    <parameterIDs
+        identifier="c"/>
+    <parameterIDs
+        identifier="d"/>
   </operationSpecifications>
   <constraintSpecifications
       operationSpecificationGroup="//@operationSpecifications.0"
@@ -155,6 +191,49 @@
       <type
           xsi:type="ecore:EDataType"
           href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.5"
+      symbol="&lt;=?">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.6"
+      symbol="ite">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameterTypes>
   </constraintSpecifications>
 </org.moflon.sdm.constraints.operationspecification:AttributeConstraintLibrary>

@@ -23,7 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,JointlyEpiTestFiltering.class
 //   ,CriticalPairTestProj.class
 //   ,NormalFormEquivalenceTest.class
-   ,ConfluenceProjTestGAMPaper.class
+//   ,ConfluenceProjTestGAMPaper.class
 ////   ,ConfluenceProjTestModelsPaper.class
    ,ConfluenceProjTestCMS.class
 //   ,SymbolicPushoutComplementTest.class //TODO fix
