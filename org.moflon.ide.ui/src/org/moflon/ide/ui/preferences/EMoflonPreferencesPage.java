@@ -55,7 +55,7 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
          final GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
          pageDescriptionLabel.setLayoutData(gd1);
       }
-      
+
       {
          final Composite updateSiteComponent = toolkit.createComposite(parent);
          updateSiteComponent.setBackground(DEFAULT_BACKGROUND_COLOR);
@@ -78,7 +78,7 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
          validationTimeoutComponent.setLayoutData(gd4);
 
          validationTimeoutComponent.setLayout(new GridLayout(2, false));
-         final Label validationTimeoutLabel = toolkit.createLabel(validationTimeoutComponent, "Validation timeout in ms: ");
+         final Label validationTimeoutLabel = toolkit.createLabel(validationTimeoutComponent, "Validation timeout in seconds: ");
          validationTimeoutLabel.setBackground(DEFAULT_BACKGROUND_COLOR);
 
          validationTimeoutTextBox = toolkit.createText(validationTimeoutComponent, "");
@@ -142,13 +142,13 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
    private void storeValues()
    {
       EMoflonPreferenceInitializer.setUpdateSiteProject(updateSiteProjectTextBox.getText());
-      EMoflonPreferenceInitializer.setValidationTimeoutMillis(Integer.parseInt(validationTimeoutTextBox.getText()));
+      EMoflonPreferenceInitializer.setValidationTimeoutMillis(Integer.parseInt(validationTimeoutTextBox.getText()) * 1000);
    }
 
    private void initializeValues()
    {
       updateSiteProjectTextBox.setText(EMoflonPreferenceInitializer.getUpdateSiteProject());
-      validationTimeoutTextBox.setText(Integer.toString(EMoflonPreferenceInitializer.getValidationTimeoutMillis()));
+      validationTimeoutTextBox.setText(Integer.toString(EMoflonPreferenceInitializer.getValidationTimeoutMillis() / 1000));
    }
 
 }
