@@ -1,4 +1,5 @@
 package org.moflon.moca.AttributeConstraint.parser;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -18,72 +19,92 @@ import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import MocaTree.Node;
 import SDMLanguage.patterns.StoryPattern;
 
-public class AttributeConstraintParserAdapter extends ParserImpl 
+public class AttributeConstraintParserAdapter extends ParserImpl
 {
-  
+
    private String inputString;
+
    private StoryPattern sourceStoryPattern;
+
    private ValidationReport parseReport;
+
    @Override
-   public boolean canParseFile(final String fileName) 
+   public boolean canParseFile(final String fileName)
    {
-      
+
       return false;
    }
 
-   public ValidationReport parse(final String input, final StoryPattern storyPattern){
-      
-      inputString=input;
-      sourceStoryPattern=storyPattern;
-      parseReport=ResultFactory.eINSTANCE.createValidationReport();
+   public ValidationReport parse(final String input)
+   {
+      inputString = input;
+      parseReport = ResultFactory.eINSTANCE.createValidationReport();
       parseReport.setResult(parse(new StringReader(input)));
       return parseReport;
    }
 
-   @Override
-   public Node parse(final Reader reader) 
+   public ValidationReport parse(final String input, final StoryPattern storyPattern)
    {
-      try 
+
+      sourceStoryPattern = storyPattern;
+      return this.parse(input);
+   }
+
+   @Override
+   public Node parse(final Reader reader)
+   {
+      if (parseReport == null)
+      {
+         throw new IllegalStateException("Parse Report has not been initialized yet");
+      }
+
+      try
       {
          AttributeConstraintLexer lexer = new AttributeConstraintLexer(new ANTLRReaderStream(reader));
          CommonTokenStream tokens = new CommonTokenStream(lexer);
          AttributeConstraintParser parser = new AttributeConstraintParser(tokens);
-         CommonTree result = (CommonTree) parser.main().tree; 
+         CommonTree result = (CommonTree) parser.main().tree;
 
          // Log Lexer Errors
-         
-         for (Problem problem : lexer.problems) {
-           parseReport.getErrorMessages().add(createErrorMessage(problem));               
+
+         for (Problem problem : lexer.problems)
+         {
+            parseReport.getErrorMessages().add(createErrorMessage(problem));
          }
 
          // Log Parser Errors
-         for (Problem problem : parser.problems) {
+         for (Problem problem : parser.problems)
+         {
             parseReport.getErrorMessages().add(createErrorMessage(problem));
          }
 
          return MocaUtil.commonTreeToMocaTree(result);
-      } catch (IOException e) 
+      } catch (IOException e)
       {
          e.printStackTrace();
-      } catch (RecognitionException e) 
+      } catch (RecognitionException e)
       {
          e.printStackTrace();
-      } 
+      }
       return null;
    }
-   
-   private ErrorMessage createErrorMessage(final Problem problem){
+
+   private ErrorMessage createErrorMessage(final Problem problem)
+   {
       StringBuilder msg = new StringBuilder();
       msg.append("Problems parsing attribute constraint expression:\n ");
-      msg.append("\t"+inputString.replace("\n", "\n\t"));
+      msg.append("\t" + inputString.replace("\n", "\n\t"));
       msg.append("\n at line ");
       msg.append(problem.getLine() + ":" + problem.getCharacterPositionStart());
       msg.append(" " + problem.getMessage());
-      
-      ErrorMessage errMsg= ResultFactory.eINSTANCE.createErrorMessage();
+
+      ErrorMessage errMsg = ResultFactory.eINSTANCE.createErrorMessage();
       errMsg.setId(msg.toString());
       errMsg.setSeverity(Severity.ERROR);
-      errMsg.getLocation().add(sourceStoryPattern);
+      if (sourceStoryPattern != null)
+      {
+         errMsg.getLocation().add(sourceStoryPattern);
+      }
       return errMsg;
-    }
+   }
 }

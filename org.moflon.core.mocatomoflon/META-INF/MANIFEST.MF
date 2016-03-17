@@ -22,7 +22,8 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.moflon.core.moca.processing,
  org.eclipse.emf.ecore.xmi,
  org.moflon.tgg.cspcodeadapter,
- org.moflon.sdm.compiler.democles.validation.result
+ org.moflon.sdm.compiler.democles.validation.result,
+ org.junit;bundle-version="4.10.0";resolution:=optional
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
