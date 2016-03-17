@@ -71,7 +71,7 @@ public class AttributeEnabledWeightedOperationBuilder<T extends OperationRuntime
             return -5;
          } else if (cType instanceof ConstraintSpecification)
          {
-            return -4;
+            return 100;
          }
 
       } else if (object instanceof Variable)
