@@ -32,7 +32,7 @@ public class Z3AttribSolver implements IAttribSolver {
       Status status=s.check();
       ctx.dispose();
       ContextFactory.getInstance().releaseContext(ctx);
-      s.dispose();
+//      s.dispose();
       if(status==Status.SATISFIABLE){
 //    System.out.println("SATISFIABLE + Model: ");
 //         
@@ -46,6 +46,7 @@ public class Z3AttribSolver implements IAttribSolver {
       }else if (status==Status.UNKNOWN)
       {
          System.out.println("UNKNOWN + Reason: ");
+         System.out.println(smtStr);
       }
       return status;
       

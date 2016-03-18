@@ -1,0 +1,25 @@
+
+partial class PredicateImpl {
+
+
+
+@model toString () <--
+
+      StringBuilder sb = new StringBuilder();
+      sb.append(this.getSymbol());
+      if (this.getParameters().size() > 0)
+      {
+         sb.append("(");
+         for (Parameter param : this.getParameters())
+         {
+            sb.append(param.toString());
+            sb.append(", ");
+         }
+         sb.deleteCharAt(sb.length() - 1);
+         sb.deleteCharAt(sb.length() - 1);
+         sb.append(")");
+      }
+      return sb.toString();
+-->
+
+}

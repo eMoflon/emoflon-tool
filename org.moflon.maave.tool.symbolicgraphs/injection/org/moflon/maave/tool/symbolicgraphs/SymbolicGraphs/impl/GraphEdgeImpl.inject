@@ -1,0 +1,11 @@
+
+partial class GraphEdgeImpl {
+
+
+
+@model getDebugId () <--
+
+      return this.getSource().getDebugId() + "=>" + this.getTarget().getDebugId();
+-->
+
+}

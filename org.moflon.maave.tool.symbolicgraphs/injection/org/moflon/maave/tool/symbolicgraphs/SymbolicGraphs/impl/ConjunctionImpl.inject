@@ -1,0 +1,24 @@
+
+partial class ConjunctionImpl {
+
+
+
+@model toString () <--
+
+      StringBuilder sb = new StringBuilder();
+      if (this.getOf().size() > 0)
+      {
+         sb.append("[");
+         for (Predicate pred : this.getOf())
+         {
+            sb.append(pred.toString());
+            sb.append(" AND ");
+         }
+         sb.delete(sb.length() - 5, sb.length() - 0);
+         sb.append("]");
+
+      }
+      return sb.toString();
+-->
+
+}

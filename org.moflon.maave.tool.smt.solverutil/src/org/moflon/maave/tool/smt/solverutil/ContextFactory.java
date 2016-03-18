@@ -14,7 +14,7 @@ public class ContextFactory
 {
 
    private static ContextFactory instance = null;
-   private final int NUMEROFCONTEXTS=8;
+   private final int NUMEROFCONTEXTS=1;
    private LinkedBlockingQueue<Context> contexts=new LinkedBlockingQueue<Context>(NUMEROFCONTEXTS);
    protected ContextFactory() {
    }
