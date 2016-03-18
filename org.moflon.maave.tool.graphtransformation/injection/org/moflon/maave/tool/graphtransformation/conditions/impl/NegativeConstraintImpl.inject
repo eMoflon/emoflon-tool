@@ -11,7 +11,7 @@ partial class NegativeConstraintImpl {
 
 
 
-@model isConsistent (SymbolicGraph graphG, MorphismClass matchMorphismClass) <--
+@model isConsistent (SymbolicGraph graphG) <--
 
       MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
       Status status = MatchingUtilsFactory.eINSTANCE.createStatus();
@@ -22,7 +22,7 @@ partial class NegativeConstraintImpl {
          SymbolicGraphMorphism partialMorC_G = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
          partialMorC_G.setDom(atomicconstraintC);
          partialMorC_G.setCodom(graphG);
-         MorphismsSet morSetC_G = morFinderFac.createMorphismFinder(atomicconstraintC, matchMorphismClass).getAllMorphisms(partialMorC_G);
+         MorphismsSet morSetC_G = morFinderFac.createMorphismFinder(atomicconstraintC, this.getMorphismClass()).getAllMorphisms(partialMorC_G);
          if (morSetC_G.getMorphisms().size() > 0)
          {
             status.setValid(false);

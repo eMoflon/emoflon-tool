@@ -374,20 +374,20 @@ public class ConfluenceProjTestCMS {
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
-      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
-      gts.getConstraints().add(mmC);
-      
-    //user defined constraints
-    NegativeConstraint nC = getUserDefConstraints(pack, transformer);
-    
-    gts.getConstraints().add(nC);
+//      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
+//      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
+//      gts.getConstraints().add(mmC);
+//
+//      //user defined constraints
+      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+//
+      gts.getConstraints().add(nC);
 
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
       System.out.println(report);
-
-
+//      Runtime.getRuntime().
+     
    }
    private StoryPattern getStoryPattern(EClass cls,String name)
    {
@@ -460,6 +460,8 @@ public class ConfluenceProjTestCMS {
       
       
       NegativeConstraint nC=ConditionsFactory.eINSTANCE.createNegativeConstraint();
+      ConfigurableMorphismClassFactory morClassFac=MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      nC.setMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       for (EOperation eOperation : ncOps)
       {
          MoflonEOperation mEOp=(MoflonEOperation) eOperation;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/org.moflon.maave.tool.smt.solverutil/src/org/moflon/maave/tool/smt/solverutil/test.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="CurrentWSLoc" value="${workspace_loc}"/>
+<mapEntry key="MAaVeVerboseLevel" value="0"/>
+<mapEntry key="PATH" value="${workspace_loc}/org.moflon.maave.tool.smt.z3/lib/z3-4.4.2-x64-win/bin;${env_var:PATH}"/>
+<mapEntry key="java.library.path" value="${workspace_loc}/org.moflon.maave.tool.smt.z3/lib/z3-4.4.2-x64-win/bin"/>
+</mapAttribute>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.moflon.maave.tool.smt.solverutil.test"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;${workspace_loc}&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.moflon.maave.tool.smt.solverutil"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dosgi.requiredJavaVersion=1.5 -Xms8000m -Xmx8000m"/>
+</launchConfiguration>

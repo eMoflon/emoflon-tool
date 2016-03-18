@@ -11,7 +11,7 @@ partial class GraphTransformationSystemImpl {
       consitentStauts.setValid(false);
       for (GraphConstraint constraint : this.getConstraints())
       {
-         if (constraint.isConsistent(graphG, getMatchMorphismClass()).isValid() == false)
+         if (constraint.isConsistent(graphG).isValid() == false)
          {
             return consitentStauts;
          }
