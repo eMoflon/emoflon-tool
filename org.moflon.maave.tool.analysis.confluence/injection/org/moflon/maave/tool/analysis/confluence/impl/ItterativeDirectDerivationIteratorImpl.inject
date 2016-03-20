@@ -25,8 +25,9 @@ partial class ItterativeDirectDerivationIteratorImpl {
    {
       MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
       SymbolicGraph graphP1 = morN_P1.getCodom();
-      
-      for (SymbGTRule production : this.gts.getRules())
+      List<SymbGTRule> productions= new LinkedList<SymbGTRule>(gts.getRules());
+      productions.add(this.gts.getIdentityRule());
+      for (SymbGTRule production : productions)
       {
          SymbolicGraph graphL = production.getLeft().getCodom();
          ConfigurableMorphismFinder morFinderForL = morFinderFac.createMorphismFinder(graphL, gts.getMatchMorphismClass());
@@ -36,11 +37,11 @@ partial class ItterativeDirectDerivationIteratorImpl {
          MorphismsSet morSetL_G = morFinderForL.getAllMorphisms(emptyMorL_P1);
          for (SymbolicGraphMorphism match : morSetL_G.getMorphisms())
          {
-            
-            this.morTriples.add(new StateFullMorN_P3(match,production));
-            
+
+            this.morTriples.add(new StateFullMorN_P3(match, production));
+
          }
-         
+
       }
 
    }
@@ -102,15 +103,15 @@ partial class ItterativeDirectDerivationIteratorImpl {
       SymbolicGraphMorphism morN_P3 = null;
 
       SymbolicGraphMorphism morL_P1;
-      
+
       SymbGTRule production;
 
       boolean isInvalid = false;
 
-      public StateFullMorN_P3(SymbolicGraphMorphism match,SymbGTRule production)
+      public StateFullMorN_P3(SymbolicGraphMorphism match, SymbGTRule production)
       {
          this.morL_P1 = match;
-         this.production=production;
+         this.production = production;
       }
    }
    
@@ -139,7 +140,6 @@ partial class ItterativeDirectDerivationIteratorImpl {
 -->
 
 @model init (SymbGTRule production, SymbolicGraphMorphism morN_P, GraphTransformationSystem gts) <--
-
 
       this.morN_P1 = morN_P;
       this.gts = gts;

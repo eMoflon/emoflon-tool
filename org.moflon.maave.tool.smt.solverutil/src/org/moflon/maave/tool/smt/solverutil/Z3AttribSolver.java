@@ -25,16 +25,14 @@ public class Z3AttribSolver implements IAttribSolver {
    }
    public Status check(String smtStr) throws Z3Exception 
    {
-//	   Context ctx=ContextFactory.getInstance().takeContext();
-      Context ctx=new Context();
-	   BoolExpr eq = ctx.parseSMTLIB2String(smtStr, null, null, null, null);
-      Solver s = ctx.mkSolver();
+      
+      Context ctx=ContextFactory.createContext();
+	   BoolExpr eq = ContextFactory.parseSMTLibString(ctx, smtStr);
+      Solver s = ContextFactory.createSolver(ctx);
       s.add(eq);
       Status status=s.check();
-//      ctx.dispose();
-//      ctx.
-//      ContextFactory.getInstance().releaseContext(ctx);
-//      s.dispose();
+
+
       if(status==Status.SATISFIABLE){
 //    System.out.println("SATISFIABLE + Model: ");
 //         

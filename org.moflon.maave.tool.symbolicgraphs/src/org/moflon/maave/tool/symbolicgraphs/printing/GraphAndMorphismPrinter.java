@@ -491,16 +491,16 @@ public class GraphAndMorphismPrinter
 
    private static int calculateOffset(SymbolicGraph graph)
    {
-      int maxOfset=0;
-      for (GraphEdge ge : graph.getGraphEdges())
+      int maxOffset=0;
+      for (LabelEdge le : graph.getLabelEdges())
       {
-         int currentoffset=print(ge).length();
-         if(currentoffset>maxOfset)
+         int currentoffset=print(le).length();
+         if(currentoffset>maxOffset)
          {
-            maxOfset=currentoffset;
+            maxOffset=currentoffset;
          }
 
       }
-      return maxOfset;
+      return maxOffset>15?maxOffset+4:15;
    }
 }

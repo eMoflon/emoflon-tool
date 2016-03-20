@@ -32,363 +32,160 @@ import SDMLanguage.patterns.StoryPattern;
 
 public class ConfluenceProjTestCMS {
 
-   @Ignore
    @Test
-   public void test1() {
+   public void test_EXAM_V2_1() {
       System.out.println("");
       System.out.println("-------------------------------------------------------------");
-      System.out.print("Starting ConfluenceProjTestCMS/Test1: " );
+      System.out.println("Starting ConfluenceProjTestCMS/test_EXAM_V2_1 " );
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-      EClass cls=(EClass) pack.getEClassifier("Enrollment");
-      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForModule")).findFirst().get();
-      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForModule")).findFirst().get();
-      Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
-      System.out.print(op1.getName()+"|"+op2.getName()+"\n" );
-      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-      StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
-
-      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-
-
-      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
-      gts.getRules().add(rule1);
-      gts.getRules().add(rule2);
-      gts.getRules().add(gts.getIdentityRule());
-
-      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-
-      //Arity constraints
-      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
-      gts.getConstraints().add(mmC);
-      
-//      //user defined constraints
-//      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
-//      
-//      gts.getConstraints().add(nC);
-
-
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
-      System.out.println(report);
-
-  
-//      System.out.println(status.toString());
-
-
-
-   }
-//   @Test
-//   public void test2() {
-//      System.out.println("");
-//      System.out.println("-------------------------------------------------------------");
-//      System.out.print("Starting ConfluenceProjTestCMS/Test2: " );
-//      CmsPackage.eINSTANCE.getClass();
-//      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-//      EClass cls=(EClass) pack.getEClassifier("Enrollment");
-//      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForExam")).findFirst().get();
-//      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForModule")).findFirst().get();
-//      Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
-//      System.out.print(op1.getName()+"|"+op2.getName()+"\n" );
-//      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//      StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//
-//      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-//      SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
-//      SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
-//
-//      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-//
-//
-//      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
-//      gts.getRules().add(rule1);
-//      gts.getRules().add(rule2);
-//
-//      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-//      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-//
-//      //Arity constraints
-//      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-//      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
-//      gts.getConstraints().add(mmC);
-//
-//      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-//      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
-//
-//      System.out.println("CONFLUENT="+status.isValid() );
-//
-//
-//
-//   }
-////
-//   @Test
-//   public void test3() {
-//      System.out.println("");
-//      System.out.println("-------------------------------------------------------------");
-//      System.out.print("Starting ConfluenceProjTestCMS/Test3: " );
-//      CmsPackage.eINSTANCE.getClass();
-//      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-//      EClass cls=(EClass) pack.getEClassifier("Enrollment");
-//      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForModule")).findFirst().get();
-//      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("unregisterFromExam")).findFirst().get();
-//      Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
-//      System.out.print(op1.getName()+"|"+op2.getName()+"\n" );
-//      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//      StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//
-//      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-//      SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
-//      SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
-//
-//      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-//
-//
-//      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
-//      gts.getRules().add(rule1);
-//      gts.getRules().add(rule2);
-//
-//      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-//      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-//
-//
-//      //Arity constraints
-//      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-//      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
-//      gts.getConstraints().add(mmC);
-//
-//
-//
-//      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-//      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
-//
-//      System.out.println("CONFLUENT="+status.isValid() );
-//
-//
-//
-//   }
-//   @Test
-//   public void test4() {
-//      System.out.println("");
-//      System.out.println("-------------------------------------------------------------");
-//      System.out.print("Starting ConfluenceProjTestCMS/Test4: " );
-//      CmsPackage.eINSTANCE.getClass();
-//      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-//      EClass cls=(EClass) pack.getEClassifier("Enrollment");
-//      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("unregisterFromExam")).findFirst().get();
-//      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("unregisterFromExam")).findFirst().get();
-//      Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
-//      System.out.print(op1.getName()+"|"+op2.getName()+"\n" );
-//      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//      StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//
-//      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-//      SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
-//      SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
-//
-//      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-//
-//
-//      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
-//      gts.getRules().add(rule1);
-//      gts.getRules().add(rule2);
-//
-//      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-//      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-//
-//      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-//      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
-//      gts.getConstraints().add(mmC);
-//
-//
-//      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-//      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
-//
-//      System.out.println("CONFLUENT="+status.isValid() );
-//
-//
-//
-//   }
-//   @Test
-//   public void test5() {
-//      System.out.println("");
-//      System.out.println("-------------------------------------------------------------");
-//      System.out.print("Starting ConfluenceProjTestCMS/Test3: " );
-//      CmsPackage.eINSTANCE.getClass();
-//      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-//      EClass cls=(EClass) pack.getEClassifier("Enrollment");
-//      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForModule")).findFirst().get();
-//      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForModule")).findFirst().get();
-//      Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
-//      System.out.print(op1.getName()+"|"+op2.getName()+"\n" );
-//      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//      StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//
-//      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-//      SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
-//      SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
-//
-//      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-//
-//
-//      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
-//      gts.getRules().add(rule1);
-//      gts.getRules().add(rule2);
-//
-//      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-//      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-//
-//      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-//      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
-//      gts.getConstraints().add(mmC);
-//
-//
-//      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-//      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
-//
-//      System.out.println("CONFLUENT="+status.isValid() );
-//
-//
-//   }
-   @Ignore
-   @Test
-   public void test6() {
-      System.out.println("");
-      System.out.println("-------------------------------------------------------------");
-      System.out.print("Starting ConfluenceProjTestCMS/Test6: " );
-      CmsPackage.eINSTANCE.getClass();
-      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-      EClass cls=(EClass) pack.getEClassifier("Enrollment");
-      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForExam")).findFirst().get();
-      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForExam")).findFirst().get();
-      System.out.print(op1.getName()+"|"+op2.getName()+"\n" );
-      Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
-      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-      StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
-
-      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-
-
-      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
-      gts.getRules().add(rule1);
-      gts.getRules().add(rule2);
-      gts.getRules().add(gts.getIdentityRule());
-
-      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-
-      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
-      gts.getConstraints().add(mmC);
-
-
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
-      System.out.println(report);
-
-
-   }
-   @Ignore
-   @Test
-   public void test7() {
-      System.out.println("");
-      System.out.println("-------------------------------------------------------------");
-      System.out.println("Starting ConfluenceProjTestCMS/Test7: " );
-      CmsPackage.eINSTANCE.getClass();
-      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-      EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
-
-      
-     
-
       Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForExam"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForModule"));
-      SymbGTRule rule3=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"unregisterFromExam"));
-      SymbGTRule rule4=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerThesis"));
-      SymbGTRule rule5=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForThesisModule"));
-      SymbGTRule rule6=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"bookRoom"));
 
+      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"closeREG_v2"));
+      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"closeREG_v2"));
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
       GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
       gts.getRules().add(rule1);
       gts.getRules().add(rule2);
-      gts.getRules().add(rule3);
-      gts.getRules().add(rule4);
-      gts.getRules().add(rule5);
-      gts.getRules().add(rule6);
-      gts.getRules().add(gts.getIdentityRule());
+
 
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
+      //Add ArityConstraints
       MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
       NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
       gts.getConstraints().add(mmC);
-
-
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
-      System.out.println(report);
-
-
-   }
-   @Test
-   public void test8() {
-      System.out.println("");
-      System.out.println("-------------------------------------------------------------");
-      System.out.println("Starting ConfluenceProjTestCMS/Test8: " );
-      CmsPackage.eINSTANCE.getClass();
-      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-      EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
-      EClass clsExam=(EClass) pack.getEClassifier("Exam");
-
-      
-     
-
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord"));
-
-      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-
-
-      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
-      gts.getRules().add(rule1);
-      gts.getRules().add(rule2);
-     
-      gts.getRules().add(gts.getIdentityRule());
-
-      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-
-//      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-//      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
-//      gts.getConstraints().add(mmC);
-//
-//      //user defined constraints
+      //Add user defined constraints
       NegativeConstraint nC = getUserDefConstraints(pack, transformer);
-//
       gts.getConstraints().add(nC);
 
+
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
       System.out.println(report);
-//      Runtime.getRuntime().
-     
+
+
    }
+   @Test
+   public void test_EXAM_V2_2() {
+      System.out.println("");
+      System.out.println("-------------------------------------------------------------");
+      System.out.println("Starting ConfluenceProjTestCMS/test_EXAM_V2_2 " );
+      CmsPackage.eINSTANCE.getClass();
+      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
+      EClass clsExam=(EClass) pack.getEClassifier("Exam");
+      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
+
+      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"bookRoom_v2"));
+      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"bookRoom_v2"));
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+
+
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      gts.getRules().add(rule1);
+      gts.getRules().add(rule2);
+
+
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+
+      //Add ArityConstraints
+      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
+      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
+      gts.getConstraints().add(mmC);
+      //Add user defined constraints
+      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      gts.getConstraints().add(nC);
+
+
+      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      System.out.println(report);
+
+
+   }
+   @Test
+   public void test_EXAM_V2_3() {
+      System.out.println("");
+      System.out.println("-------------------------------------------------------------");
+      System.out.println("Starting ConfluenceProjTestCMS/test_EXAM_V2_3 " );
+      CmsPackage.eINSTANCE.getClass();
+      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
+      EClass clsExam=(EClass) pack.getEClassifier("Exam");
+      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
+
+      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"uploadRecords_v2"));
+      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"uploadRecords_v2"));
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+
+
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      gts.getRules().add(rule1);
+      gts.getRules().add(rule2);
+
+
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+
+      //Add ArityConstraints
+      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
+      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
+      gts.getConstraints().add(mmC);
+      //Add user defined constraints
+      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      gts.getConstraints().add(nC);
+
+
+      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      System.out.println(report);
+
+
+   }
+   @Test
+   public void test_EXAM_V2_4() {
+      System.out.println("");
+      System.out.println("-------------------------------------------------------------");
+      System.out.println("Starting ConfluenceProjTestCMS/test_EXAM_V2_4 " );
+      CmsPackage.eINSTANCE.getClass();
+      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
+      EClass clsExam=(EClass) pack.getEClassifier("Exam");
+      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
+
+      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord_v2"));
+      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord_v2"));
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+
+
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      gts.getRules().add(rule1);
+      gts.getRules().add(rule2);
+
+
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+
+      //Add ArityConstraints
+      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
+      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
+      gts.getConstraints().add(mmC);
+      //Add user defined constraints
+      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      gts.getConstraints().add(nC);
+
+
+      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      System.out.println(report);
+
+
+   }
+
+
    private StoryPattern getStoryPattern(EClass cls,String name)
    {
       MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals(name)).findFirst().get();
@@ -396,61 +193,7 @@ public class ConfluenceProjTestCMS {
       StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
       return stn1.getStoryPattern();
    }
-//   @Test
-//   public void test7() {
-//      System.out.println("");
-//      System.out.println("-------------------------------------------------------------");
-//      System.out.print("Starting ConfluenceProjTestCMS/Test7: " );
-//      CmsPackage.eINSTANCE.getClass();
-//      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
-//      EClass cls=(EClass) pack.getEClassifier("Enrollment");
-//      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForThesis")).findFirst().get();
-//      MoflonEOperation op2=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals("registerForThesis")).findFirst().get();
-//      System.out.print(op1.getName()+"|"+op2.getName()+"\n" );
-//      Assert.assertTrue("FailedAssert: 0",op1!=null && op2!=null);
-//      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//      StoryNode stn2=(StoryNode) op2.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//
-//      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-//      SymbGTRule rule1=transformer.transformStpToProjGTRule(stn1.getStoryPattern());
-//      SymbGTRule rule2=transformer.transformStpToProjGTRule(stn2.getStoryPattern());
-//
-//      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-//
-//
-//      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
-//      gts.getRules().add(rule1);
-//      gts.getRules().add(rule2);
-//
-//      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-//      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-//
-//      //Arity constraints
-//      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-//      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
-//      gts.getConstraints().add(mmC);
-//      
-//     
-//    
-//      
-//      //UserDefConstraints
-//      EClass clsConstr=(EClass) pack.getEClassifier("MetamodelConstraints");
-//      MoflonEOperation opC=(MoflonEOperation) clsConstr.getEOperations().stream().filter(x->x.getName().equals("nowTwoEnStates")).findFirst().get();
-//      Assert.assertTrue(opC!=null);
-//      StoryNode stnC=(StoryNode) opC.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-//      SymbGTRule ruleC=transformer.transformStpToProjGTRule(stnC.getStoryPattern());
-//      NegativeConstraint nC=ConditionsFactory.eINSTANCE.createNegativeConstraint();
-//      nC.getAtomicNegativeConstraints().add(ruleC.getLeft().getCodom());
-//      gts.getConstraints().add(nC);
-//
-//      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-//      ConfluenceStatus status=directConfluenceAnalyser.checkConfluence(gts);
-//
-//      System.out.println("CONFLUENT="+status.isValid() );
-//      System.out.println(status.toString());
-//
-//
-//   }
+
 
    private NegativeConstraint getUserDefConstraints(EPackage pack, Transformer transformer)
    {

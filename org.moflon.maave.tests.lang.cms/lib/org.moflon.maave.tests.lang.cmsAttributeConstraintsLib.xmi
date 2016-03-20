@@ -40,7 +40,7 @@
         identifier="b"/>
   </operationSpecifications>
   <operationSpecifications
-      constraintSpecifications="//@constraintSpecifications.2"
+      constraintSpecifications="//@constraintSpecifications.2 //@constraintSpecifications.7"
       operationIdentifier="eqEN_STATE">
     <operationSpecifications
         specification="$a$==$b$"
@@ -234,6 +234,20 @@
       <type
           xsi:type="ecore:EDataType"
           href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.2"
+      symbol="=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EEnum"
+          href="../model/Cms.ecore#//EX_STATE"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EEnum"
+          href="../model/Cms.ecore#//EX_STATE"/>
     </parameterTypes>
   </constraintSpecifications>
 </org.moflon.sdm.constraints.operationspecification:AttributeConstraintLibrary>

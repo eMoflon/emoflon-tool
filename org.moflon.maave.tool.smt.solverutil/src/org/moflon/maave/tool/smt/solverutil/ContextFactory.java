@@ -4,9 +4,9 @@ package org.moflon.maave.tool.smt.solverutil;
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
-
-
+import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
+import com.microsoft.z3.Solver;
 import com.microsoft.z3.Z3Exception;
 
 
@@ -62,7 +62,18 @@ public class ContextFactory
          
       }
    }
-   
+   public static synchronized Context createContext()
+   {
+      return new Context();
+   }
+   public static synchronized Solver createSolver(Context ctx)
+   {
+      return ctx.mkSolver();
+   }
+   public static synchronized BoolExpr parseSMTLibString(Context ctx,String smtStr)
+   {
+      return   ctx.parseSMTLIB2String(smtStr, null, null, null, null);
+   }
    public void releaseContext(Context context)
    {
       try

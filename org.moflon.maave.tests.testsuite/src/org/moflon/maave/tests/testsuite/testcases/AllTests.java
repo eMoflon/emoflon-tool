@@ -20,11 +20,14 @@ import org.junit.runners.Suite.SuiteClasses;
 //
 //   ,SubgraphBuilderTest.class
 //   ,JointlyEpiTest.class
+//   ,MinimalContextsPerformanceTest.class
 //
 //   ,CriticalPairTestProj.class
 //   ,NormalFormEquivalenceTest.class
+//   ,ConfluenceProjTestCMSMandatory.class
+   
 //   ,ConfluenceProjTestGAMPaper.class
-//   ,ConfluenceProjTestModelsPaper.class
+////   ,ConfluenceProjTestModelsPaper.class
    ,ConfluenceProjTestCMS.class
 //   ,SymbolicPushoutComplementTest.class //TODO fix
 
