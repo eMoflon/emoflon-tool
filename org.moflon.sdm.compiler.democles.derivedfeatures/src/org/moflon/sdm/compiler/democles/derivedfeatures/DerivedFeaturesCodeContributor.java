@@ -7,7 +7,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.moflon.eclipse.genmodel.MoflonClassGeneratorCodeContributor;
 
-//TODO@aaltenkirch: Currently, the same instance of this class is re-used for generating all pieces of code. If this assumption is not valid, then a safe strategy would be to regenerate a fresh code contributor in DerivedFeaturesCodeContributorFactory whenever necessary. 
 public class DerivedFeaturesCodeContributor implements MoflonClassGeneratorCodeContributor
 {
    public enum AccessType { PULL, PUSH }

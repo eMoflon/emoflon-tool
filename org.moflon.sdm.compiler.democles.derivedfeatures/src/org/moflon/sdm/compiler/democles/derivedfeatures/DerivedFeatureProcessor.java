@@ -17,69 +17,85 @@ import org.stringtemplate.v4.STGroup;
 
 public class DerivedFeatureProcessor
 {
-
    private Logger logger = Logger.getLogger(DerivedFeatureProcessor.class);
 
    private STGroup derivedAttributesGroup;
 
    private final String DERIVED_ATTRIBUTES_TEMPLATE_GROUP = "derivedAttributes";
 
-   public String generateDerivatedFeatureGetterCode(GenFeature genFeature, String calcMethodName)
-   {
-      initializeTemplates();
+   /**
+    * Generates code that calculates the value of a derived feature. 
+    * This code is used in the pull-based approach in the features's getter.
+    * 
+    * @param genFeature
+    *           The derived feature for which the code will be generated.
+    * @param dependentFeatures
+    *           A list of features the derived feature depends on.
+    * @return
+    *           The generated code.
+    */
+    public String generateDerivatedFeatureGetterCode(GenFeature genFeature, String calcMethodName) {
+        initializeTemplates();
 
-      String derivedFeatureTemplateName = "";
-      
-      if (!calculationMethodExists(genFeature))
-      {
-         derivedFeatureTemplateName = "/preGetGenFeatureNoOperation";
-      } else if (genFeature.isPrimitiveType())
-      {
-         derivedFeatureTemplateName = "/preGetGenFeaturePrimitiveType";
-      } else if (genFeature.isReferenceType() || genFeature.isStringType() || isUserDefinedType(genFeature))
-      {
-         derivedFeatureTemplateName = "/preGetGenFeatureReferenceType";
-      } else
-      {
-         derivedFeatureTemplateName = "/preGetGenFeatureUnknownType";
-      }
+        String derivedFeatureTemplateName = "";
 
-      ST derivedFeatureTemplate = derivedAttributesGroup.getInstanceOf("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + derivedFeatureTemplateName);
-      derivedFeatureTemplate.add("genFeature", genFeature);
-      derivedFeatureTemplate.add("genFeatureType", genFeature.getImportedType(genFeature.getGenClass()));
-      derivedFeatureTemplate.add("calculationMethodName", calcMethodName);
-      String derivedFeatureCode = derivedFeatureTemplate.render();
+        if (!calculationMethodExists(genFeature)) {
+            derivedFeatureTemplateName = "/genFeatureNoOperation";
+        } else if (genFeature.isPrimitiveType()) {
+            derivedFeatureTemplateName = "/preGetGenFeaturePrimitiveType";
+        } else if (genFeature.isReferenceType() || genFeature.isStringType() || isUserDefinedType(genFeature)) {
+            derivedFeatureTemplateName = "/preGetGenFeatureReferenceType";
+        } else {
+            derivedFeatureTemplateName = "/genFeatureUnknownType";
+        }
 
-      return derivedFeatureCode;
-   }
+        ST derivedFeatureTemplate = derivedAttributesGroup
+                .getInstanceOf("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + derivedFeatureTemplateName);
+        derivedFeatureTemplate.add("genFeature", genFeature);
+        derivedFeatureTemplate.add("genFeatureType", genFeature.getImportedType(genFeature.getGenClass()));
+        derivedFeatureTemplate.add("calculationMethodName", calcMethodName);
+        String derivedFeatureCode = derivedFeatureTemplate.render();
+
+        return derivedFeatureCode;
+    }
    
+   /**
+    * Generates code that calculates the value of a derived feature on notification. 
+    * This code is used in the push-based approach in the constructor of the feature's class.
+    * 
+    * @param genFeature 
+    *           The derived feature for which the code will be generated.
+    * @param calcMethodName
+    *           The name of the calculation method.
+    * @param dependentFeatures
+    *           A list of features the derived feature depends on.
+    * @return
+    *           The generated code.
+    */
    public String generateDerivatedFeatureConstructorCode(GenFeature genFeature, String calcMethodName, Set<EStructuralFeature> dependentFeatures)
    {
-      initializeTemplates();
+        initializeTemplates();
 
-      String derivedFeatureTemplateName = "";
-      if (!calculationMethodExists(genFeature))
-      {
-         derivedFeatureTemplateName = "/preConstructorGenFeatureNoOperation";
-      } else if (genFeature.isPrimitiveType())
-      {
-         derivedFeatureTemplateName = "/preConstructorGenFeaturePrimitiveType";
-      } else if (genFeature.isReferenceType() || genFeature.isStringType() || isUserDefinedType(genFeature))
-      {
-         derivedFeatureTemplateName = "/preConstructorGenFeatureReferenceType";
-      } else
-      {
-         derivedFeatureTemplateName = "/preConstructorGenFeatureUnknownType";
-      }
+        String derivedFeatureTemplateName = "";
+        if (!calculationMethodExists(genFeature)) {
+            derivedFeatureTemplateName = "/genFeatureNoOperation";
+        } else if (genFeature.isPrimitiveType()) {
+            derivedFeatureTemplateName = "/preConstructorGenFeaturePrimitiveType";
+        } else if (genFeature.isReferenceType() || genFeature.isStringType() || isUserDefinedType(genFeature)) {
+            derivedFeatureTemplateName = "/preConstructorGenFeatureReferenceType";
+        } else {
+            derivedFeatureTemplateName = "/genFeatureUnknownType";
+        }
 
-      ST derivedFeatureTemplate = derivedAttributesGroup.getInstanceOf("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + derivedFeatureTemplateName);
-      derivedFeatureTemplate.add("genFeature", genFeature);
-      derivedFeatureTemplate.add("genFeatureType", genFeature.getImportedType(genFeature.getGenClass()));
-      derivedFeatureTemplate.add("calculationMethodName", calcMethodName);
-      derivedFeatureTemplate.add("dependentFeatures", dependentFeatures);
-      String derivedFeatureCode = derivedFeatureTemplate.render();
+        ST derivedFeatureTemplate = derivedAttributesGroup
+                .getInstanceOf("/" + DERIVED_ATTRIBUTES_TEMPLATE_GROUP + derivedFeatureTemplateName);
+        derivedFeatureTemplate.add("genFeature", genFeature);
+        derivedFeatureTemplate.add("genFeatureType", genFeature.getImportedType(genFeature.getGenClass()));
+        derivedFeatureTemplate.add("calculationMethodName", calcMethodName);
+        derivedFeatureTemplate.add("dependentFeatures", dependentFeatures);
+        String derivedFeatureCode = derivedFeatureTemplate.render();
 
-      return derivedFeatureCode;
+        return derivedFeatureCode;
    }
 
    /**

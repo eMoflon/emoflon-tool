@@ -1,6 +1,9 @@
-// This template group contains rules for generating code that updates 
-// derived attributes.
+// This template group contains rules for generating code that updates derived attributes.
 
+
+////// Code templates for pull-based approach //////
+
+// Getter code template for a primitive type derived feature.
 preGetGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
     // Feature '<genFeature.name>' is derived.
     final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();
@@ -9,6 +12,7 @@ preGetGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName)
     }
 >>
 
+// Getter code template for a reference type derived feature.
 preGetGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
 	// Feature '<genFeature.name>' is derived.
     final <genFeatureType> derived<genFeature.capName> = <calculationMethodName>();
@@ -21,17 +25,11 @@ preGetGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName)
     }
 >>
 
-preGetGenFeatureUnknownType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
-    // Feature '<genFeature.name>' is derived, but no code
-    // has been generated, because its type is unknown.
->>
-
-preGetGenFeatureNoOperation(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
-    // Feature '<genFeature.name>' is derived, but expected calculation
-    // method '_get<genFeature.capName>(): <genFeature.typeGenDataType.name>' does not exist.
->>
 
 
+////// Code templates for pull-based approach //////
+
+// Constructor code template for a primitive type derived feature.
 preConstructorGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
     org.eclipse.emf.ecore.util.EContentAdapter <genFeature.safeName>Adapter = new org.eclipse.emf.ecore.util.EContentAdapter() {
         @Override
@@ -43,7 +41,7 @@ preConstructorGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMet
                 	if (notificationFeature != null && notificationFeature.getName() != null) { 
                 		<genFeatureType> derived<genFeature.capName>;
 	                    <dependentFeatures: { dependentFeature |
-	                    	<addAttributeSetterPrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
+	                    	<calculatePrimitiveTypeFeature(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
                 	}
                 }
             }
@@ -52,6 +50,7 @@ preConstructorGenFeaturePrimitiveType(genFeature, genFeatureType, calculationMet
     this.eAdapters().add(<genFeature.safeName>Adapter);
 >>
 
+// Constructor code template for a reference type derived feature.
 preConstructorGenFeatureReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
     org.eclipse.emf.ecore.util.EContentAdapter <genFeature.safeName>Adapter = new org.eclipse.emf.ecore.util.EContentAdapter() {
         @Override
@@ -63,7 +62,7 @@ preConstructorGenFeatureReferenceType(genFeature, genFeatureType, calculationMet
                     if (notificationFeature != null && notificationFeature.getName() != null) { 
 	                    <genFeatureType> derived<genFeature.capName>;
 	                    <dependentFeatures: { dependentFeature |
-	                    	<addAttributeSetterReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
+	                    	<calculateReferenceTypeFeature(genFeature, genFeatureType, calculationMethodName, dependentFeatures)> }>
                 	}
                 }
             }
@@ -72,23 +71,8 @@ preConstructorGenFeatureReferenceType(genFeature, genFeatureType, calculationMet
     this.eAdapters().add(<genFeature.safeName>Adapter);
 >>
 
-preConstructorGenFeatureUnknownType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
-    // Feature '<genFeature.name>' is derived, but no code
-    // has been generated, because its type is unknown.
->>
-
-preConstructorGenFeatureNoOperation(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
-    // Feature '<genFeature.name>' is derived, but expected calculation
-    // method '_get<genFeature.capName>(): <genFeature.typeGenDataType.name>' does not exist.
->>
-
-addAlert(genFeature, dependentFeature) ::= <<<\n>
-    if (feature.getName().equals("<dependentFeature.name>")) {
-		System.out.println("get<genFeature.capName>: " + feature.getName() + " changed!");
-	}
->>
-
-addAttributeSetterPrimitiveType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
+// Code template for a primitive type derived feature that calculates and sets the derived feature.
+calculatePrimitiveTypeFeature(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
 	if (notificationFeature.getName().equals("<dependentFeature.name>")) {
 	    derived<genFeature.capName> = <calculationMethodName>();
 	    if (derived<genFeature.capName> != <genFeature.safeName>) {
@@ -97,7 +81,8 @@ addAttributeSetterPrimitiveType(genFeature, genFeatureType, calculationMethodNam
 	}
 >>
 
-addAttributeSetterReferenceType(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
+// Code template for a reference type derived feature that calculates and sets the derived feature.
+calculateReferenceTypeFeature(genFeature, genFeatureType, calculationMethodName, dependentFeatures) ::= <<<\n>
 	if (notificationFeature.getName().equals("<dependentFeature.name>")) {
 	    derived<genFeature.capName> = <calculationMethodName>();
 	    if (derived<genFeature.capName> != null) {
@@ -108,4 +93,18 @@ addAttributeSetterReferenceType(genFeature, genFeatureType, calculationMethodNam
 	    	set<genFeature.accessorName>(null);
 	    }
 	}
+>>
+
+
+
+// Code template for a derived feature of an unknown type.
+genFeatureUnknownType(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+    // Feature '<genFeature.name>' is derived, but no code
+    // has been generated, because its type is unknown.
+>>
+
+// Code template for a derived feature if no calculation method is found.
+genFeatureNoOperation(genFeature, genFeatureType, calculationMethodName) ::= <<<\n>
+    // Feature '<genFeature.name>' is derived, but expected calculation
+    // method '_get<genFeature.capName>(): <genFeature.typeGenDataType.name>' does not exist.
 >>

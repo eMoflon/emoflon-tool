@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.core.runtime,
  SDMLanguage;bundle-version="2.0.0",
  org.moflon.sdm.compiler.democles,
  org.moflon.sdm.runtime.democles,
- org.eclipse.emf.ecore.xmi
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.sdm.constraints.democles;bundle-version="2.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
