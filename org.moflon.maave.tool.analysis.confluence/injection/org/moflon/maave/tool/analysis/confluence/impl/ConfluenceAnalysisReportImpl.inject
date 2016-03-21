@@ -3,10 +3,39 @@ partial class ConfluenceAnalysisReportImpl {
 
 
 
+@model printCP () <--
+
+
+      StringBuilder sb = new StringBuilder();
+      for (ConfluenceAnalysisResult result : this.getConfluenceStates())
+      {
+         if(result.getNrOfCriticalpairs()>0)
+         {
+            sb.append("========================================================================================");
+            sb.append(result.toString());
+         }
+      }
+      return sb.toString();
+-->
+
+@model printNConf () <--
+
+
+      StringBuilder sb = new StringBuilder();
+      for (ConfluenceAnalysisResult result : this.getConfluenceStates())
+      {
+         if(result.isValid()==false)
+         {
+            sb.append("========================================================================================");
+            sb.append(result.toString());
+         }
+      }
+      return sb.toString();
+-->
+
 @model toString () <--
 
-
-      StringBuilder sb=new StringBuilder();
+      StringBuilder sb = new StringBuilder();
       for (ConfluenceAnalysisResult result : this.getConfluenceStates())
       {
          sb.append("========================================================================================");

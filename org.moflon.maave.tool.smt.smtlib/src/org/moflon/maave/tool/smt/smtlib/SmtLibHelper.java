@@ -12,18 +12,38 @@ public class SmtLibHelper
 {
    private static final String BUILDIN_SMT_LIB_PROJECT="org.moflon.maave.tool.smt.smtlib";
    private static final URI BUILDIN_SMT_LIB_URI=URI.createPlatformPluginURI("/"+BUILDIN_SMT_LIB_PROJECT+"/lib/SMTLib.xmi",true);
-   
-   public static SMTLib getSMTLib()
+   private SMTLib lib;
+
+   private static SmtLibHelper instance = null;
+
+   public static SmtLibHelper getInstance() {
+      if (instance == null) {
+         synchronized (SmtLibHelper.class) {
+            if (instance == null) {
+               instance = new SmtLibHelper();
+               instance.init();
+            }
+         }
+      }
+      return instance;
+   }
+   private void init()
    {
       Resource res=loadSMTLibResource(BUILDIN_SMT_LIB_URI,false);
       if(res==null){
-         return null;
+       this.lib=null; 
       }
-      return (SMTLib) res.getContents().get(0);
+      this.lib =(SMTLib) res.getContents().get(0);
+
    }
-   
-   
-   private static Resource loadSMTLibResource(URI uri, boolean createOnDemand){
+
+   public SMTLib getSMTLib()
+   {
+      return lib;
+   }
+
+
+   private Resource loadSMTLibResource(URI uri, boolean createOnDemand){
       ResourceSet rset= new ResourceSetImpl();
       rset.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi",new XMIResourceFactoryImpl());
       rset.getPackageRegistry().put(SmtlibPackage.eNS_URI, SmtlibPackage.eINSTANCE);

@@ -50,7 +50,7 @@ public class ContextFactory
          }
       }
    }
-   public Context takeContext()
+   public synchronized Context takeContext()
    {
       try
       {
@@ -62,22 +62,16 @@ public class ContextFactory
          
       }
    }
-   public static synchronized Context createContext()
-   {
-      return new Context();
-   }
-   public static synchronized Solver createSolver(Context ctx)
-   {
-      return ctx.mkSolver();
-   }
-   public static synchronized BoolExpr parseSMTLibString(Context ctx,String smtStr)
+   public synchronized BoolExpr parseSMTLibString(Context ctx,String smtStr)
    {
       return   ctx.parseSMTLIB2String(smtStr, null, null, null, null);
    }
-   public void releaseContext(Context context)
+   public synchronized void releaseContext(Context context)
    {
       try
       {
+         context.dispose();
+        
          contexts.put(context);
       } catch (InterruptedException e)
       {

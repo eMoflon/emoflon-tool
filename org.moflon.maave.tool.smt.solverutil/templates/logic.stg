@@ -42,7 +42,7 @@ operation(term1, term2, op)
 >>
 
 checkUnsat(sortDecl,varDecls,funcDefs,term)::=<<
-(set-option :timeout 30000)
+(set-option :timeout 60000)
 <sortDecl;separator="\n">
 <varDecls;separator="\n">
 <funcDefs;separator="\n">

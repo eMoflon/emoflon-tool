@@ -2331,7 +2331,8 @@ class JavaExample
             }
 
             { // These examples need proof generation turned on.
-                HashMap<String, String> cfg = new HashMap<String, String>();
+
+               HashMap<String, String> cfg = new HashMap<String, String>();
                 cfg.put("proof", "true");
                 Context ctx = new Context(cfg);
                 p.proveExample1(ctx);

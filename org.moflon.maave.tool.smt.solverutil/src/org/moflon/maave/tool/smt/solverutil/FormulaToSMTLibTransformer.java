@@ -26,7 +26,7 @@ public class FormulaToSMTLibTransformer implements IFormulaTransformer {
 	public FormulaToSMTLibTransformer() {
 		this.stg = new STGroup('<', '>');
 		this.stg.loadGroupFile("/","file:/"+System.getenv("CurrentWSLoc")+"/org.moflon.maave.tool.smt.solverutil/templates/logic.stg");
-		this.smtLib=SmtLibHelper.getSMTLib();
+		this.smtLib=SmtLibHelper.getInstance().getSMTLib();
 		this.predicateTransformer=new PredicateTransformer2(smtLib);
 	}
 	
