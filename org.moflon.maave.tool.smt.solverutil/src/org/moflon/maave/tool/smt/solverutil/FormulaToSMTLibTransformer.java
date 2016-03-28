@@ -112,15 +112,7 @@ public String transformDisjunctionUnsat(Disjunction disjunction){
 	   List<String> conjunctions=disjunction.getOf().stream().map(conj->transformConjunction(conj,labelNodeSubstMap)).collect(Collectors.toList());
 		ST st;
 		if(disjunction.getQuantifier()!=null){
-		   List<String>exVarDefs=new LinkedList<String>();
-		   for (LabelNode variable : disjunction.getQuantifier().getLabelNodes())
-         {
-            StringBuilder varSymbolBuilder=new StringBuilder();
-            varSymbolBuilder.append(variable.getLabel());
-            varSymbolBuilder.append(IFormulaTransformer.QANT_VAR_SUFFIX);
-            varSymbolBuilder.append(((Quantifier)variable.eContainer()).getLabelNodes().indexOf(variable));
-            exVarDefs.add(smtLib.getSmtLibQuantifiedVarDeclaration(variable.getType(), varSymbolBuilder.toString()));
-         }
+		   List<String> exVarDefs = predicateTransformer.getQuantifiedVarDef(disjunction);
 		   st = stg.getInstanceOf("disjunctionExists");
 		   st.add("varDefs", exVarDefs);
 	     
@@ -131,6 +123,8 @@ public String transformDisjunctionUnsat(Disjunction disjunction){
 		st.add("conjunctions", conjunctions);
 		return st.render();
 	}
+
+  
 	private String transformConjunction(Conjunction conjunction,Mapping<LabelNode> labelNodeSubstMap){
 		List<String> predicates;
 		predicates=conjunction.getOf().stream().map(pred->predicateTransformer.transformPredicate(pred,labelNodeSubstMap)).collect(Collectors.toList());

@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.moflon.maave.tests.lang.cms.CmsPackage;
+import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
 import org.moflon.maave.tool.analysis.confluence.DirectConfluenceModuloNFEQAnalyser;
@@ -47,9 +48,9 @@ public class ConfluenceProjTestCMSMandatory {
       
      
 
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForExam"));
-      SymbGTRule rule6=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"bookRoom"));
+
+      SymbGTRule rule1=ModelHelper.getRule(clsEnrollment,"registerForExam");
+      SymbGTRule rule6=ModelHelper.getRule(clsExam,"bookRoom");
 
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
@@ -88,9 +89,9 @@ public class ConfluenceProjTestCMSMandatory {
       
      
 
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForExam"));
-      SymbGTRule rule6=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"unregisterFromExam"));
+
+      SymbGTRule rule1=ModelHelper.getRule(clsEnrollment,"registerForExam");
+      SymbGTRule rule6=ModelHelper.getRule(clsEnrollment,"unregisterFromExam");
 
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
@@ -131,9 +132,9 @@ public class ConfluenceProjTestCMSMandatory {
       
      
 
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord"));
-      SymbGTRule rule6=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord"));
+  
+      SymbGTRule rule1=ModelHelper.getRule(clsExam,"transscriptRecord");
+      SymbGTRule rule6=ModelHelper.getRule(clsExam,"transscriptRecord");
 
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
@@ -152,7 +153,7 @@ public class ConfluenceProjTestCMSMandatory {
       gts.getConstraints().add(mmC);
       
       //Add user defined constraints
-      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
 
@@ -163,33 +164,7 @@ public class ConfluenceProjTestCMSMandatory {
       System.out.println(report);
 
    }
-   private StoryPattern getStoryPattern(EClass cls,String name)
-   {
-      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals(name)).findFirst().get();
-      Assert.assertTrue(op1!=null);
-      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-      return stn1.getStoryPattern();
-   }
+  
    
-   private NegativeConstraint getUserDefConstraints(EPackage pack, Transformer transformer)
-   {
-      //UserDefConstraints
-      EClass clsConstr=(EClass) pack.getEClassifier("MetamodelConstraints");
-      List<EOperation> ncOps= clsConstr.getEOperations().stream().filter(x->x.getName().startsWith("_NC_")).collect(Collectors.toList());
-      
-      
-      NegativeConstraint nC=ConditionsFactory.eINSTANCE.createNegativeConstraint();
-      ConfigurableMorphismClassFactory morClassFac=MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-      nC.setMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-      for (EOperation eOperation : ncOps)
-      {
-         MoflonEOperation mEOp=(MoflonEOperation) eOperation;
-         StoryNode constraintStn=(StoryNode) mEOp.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).findAny().get();
-         SymbGTRule ruleC=transformer.transformStpToProjGTRule(constraintStn.getStoryPattern());
-         nC.getAtomicNegativeConstraints().add(ruleC.getLeft().getCodom());
-         
-      }
-    
-      return nC;
-   }
+  
 }

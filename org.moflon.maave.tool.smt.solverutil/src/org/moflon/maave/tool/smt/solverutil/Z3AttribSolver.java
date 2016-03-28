@@ -25,7 +25,7 @@ public class Z3AttribSolver implements IAttribSolver {
    }
    public Status check(String smtStr) throws Z3Exception 
    {
-String smtStr2=new String(smtStr);
+      String smtStr2=new String(smtStr);
       
       Context ctx= ContextFactory.getInstance().takeContext();
       BoolExpr eq =ContextFactory.getInstance().parseSMTLibString(ctx, smtStr2);

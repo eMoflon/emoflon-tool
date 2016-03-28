@@ -2,8 +2,17 @@ package org.moflon.maave.tests.testsuite.helper;
 
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
+import org.moflon.maave.tool.graphtransformation.conditions.ConditionsFactory;
+import org.moflon.maave.tool.graphtransformation.conditions.NegativeConstraint;
+import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
@@ -11,7 +20,12 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
+
+import SDMLanguage.activities.MoflonEOperation;
+import SDMLanguage.activities.StoryNode;
+import junit.framework.Assert;
 
 
 
@@ -82,49 +96,10 @@ public class TestHelper {
 		return result;
 	}
 	
-	public static void printSpan(SymbGTRule rule){
-		System.out.println("########## TestHelper/printSpan("+rule+") ###########");
-		SymbolicGraphMorphism left=rule.getLeft();
-		SymbolicGraphMorphism right=rule.getRight();
-		SymbolicGraph K=left.getDom();
-		
-		System.out.println("GraphNodes:");
-		for (GraphNode gn : K.getGraphNodes()) {
-			System.out.println(left.imageOf(gn).getDebugId()+" <------- "+gn.getDebugId()+" ------> "+right.imageOf(gn).getDebugId());
-		}
-		System.out.println("GraphEdges:");
-		for (GraphEdge ge : K.getGraphEdges()) {
-			System.out.println(left.imageOf(ge).getDebugId()+" <------- "+ge.getDebugId()+" ------> "+right.imageOf(ge).getDebugId());
-		}
-		System.out.println("LabelNodes:");
-		for (LabelNode ln: K.getLabelNodes()) {
-			System.out.println(left.imageOf(ln).getLabel()+" <------- "+ln.getLabel()+" ------> "+right.imageOf(ln).getLabel());
-		}
-		System.out.println("LabelEdges:");
-		for (LabelEdge le: K.getLabelEdges()) {
-			System.out.println(left.imageOf(le).getDebugId()+" <------- "+le.getDebugId()+" ------> "+right.imageOf(le).getDebugId());
-		}
-	}
+	
+	
 
-	public static void printMorphism(SymbolicGraphMorphism ix) {
-		System.out.println("########## TestHelper/printMorphism("+ix+") ##########");
-		SymbolicGraphMorphism right=ix;
-		SymbolicGraph K=right.getDom();
-		
-		for (GraphNode gn : K.getGraphNodes()) {
-			System.out.println(gn.getDebugId()+"\t ------> \t "+right.imageOf(gn).getDebugId());
-		}
-		for (GraphEdge ge : K.getGraphEdges()) {
-			System.out.println(ge.getDebugId()+"\t ------> \t "+right.imageOf(ge).getDebugId());
-		}
-		for (LabelNode ln: K.getLabelNodes()) {
-			System.out.println(ln.getLabel()+"\t ------> \t "+ right.imageOf(ln).getLabel());
-		}
-		for (LabelEdge le: K.getLabelEdges()) {
-			System.out.println(le.getDebugId()+"\t ------> \t "+right.imageOf(le).getDebugId());
-		}
-		
-	}
+	
 	public static boolean areLabelNodesAndEdgesCorrect(SymbGTRule rule){
 		CategoryUtil util=MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
 		SymbolicGraph graphK=rule.getLeft().getDom();
@@ -160,4 +135,5 @@ public class TestHelper {
 		return true;
 		
 	}
+	
 }

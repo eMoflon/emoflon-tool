@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.moflon.maave.tests.lang.cms.CmsPackage;
+import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
 import org.moflon.maave.tool.analysis.confluence.DirectConfluenceModuloNFEQAnalyser;
@@ -41,10 +42,8 @@ public class ConfluenceProjTestCMS {
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"closeREG_v2"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"closeREG_v2"));
+      SymbGTRule rule1=ModelHelper.getRule(clsExam,"closeREG_v2");
+      SymbGTRule rule2=ModelHelper.getRule(clsExam,"closeREG_v2");
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
@@ -61,7 +60,7 @@ public class ConfluenceProjTestCMS {
       NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
       gts.getConstraints().add(mmC);
       //Add user defined constraints
-      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
 
@@ -80,10 +79,8 @@ public class ConfluenceProjTestCMS {
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"bookRoom_v2"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"bookRoom_v2"));
+      SymbGTRule rule1=ModelHelper.getRule(clsExam,"bookRoom_v2");
+      SymbGTRule rule2=ModelHelper.getRule(clsExam,"bookRoom_v2");
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
@@ -100,7 +97,7 @@ public class ConfluenceProjTestCMS {
       NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
       gts.getConstraints().add(mmC);
       //Add user defined constraints
-      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
 
@@ -119,10 +116,8 @@ public class ConfluenceProjTestCMS {
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"uploadRecords_v2"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"uploadRecords_v2"));
+      SymbGTRule rule1=ModelHelper.getRule(clsExam,"uploadRecords_v2");
+      SymbGTRule rule2=ModelHelper.getRule(clsExam,"uploadRecords_v2");
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
@@ -139,7 +134,7 @@ public class ConfluenceProjTestCMS {
       NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
       gts.getConstraints().add(mmC);
       //Add user defined constraints
-      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
 
@@ -158,10 +153,8 @@ public class ConfluenceProjTestCMS {
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord_v2"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord_v2"));
+      SymbGTRule rule1=ModelHelper.getRule(clsExam,"transscriptRecord_v2");
+      SymbGTRule rule2=ModelHelper.getRule(clsExam,"transscriptRecord_v2");
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
@@ -178,7 +171,7 @@ public class ConfluenceProjTestCMS {
       NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
       gts.getConstraints().add(mmC);
       //Add user defined constraints
-      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
 
@@ -197,10 +190,8 @@ public class ConfluenceProjTestCMS {
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"close_v2"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"close_v2"));
+      SymbGTRule rule1=ModelHelper.getRule(clsExam,"close_v2");
+      SymbGTRule rule2=ModelHelper.getRule(clsExam,"close_v2");
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
@@ -217,7 +208,7 @@ public class ConfluenceProjTestCMS {
       NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
       gts.getConstraints().add(mmC);
       //Add user defined constraints
-      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
 
@@ -236,12 +227,11 @@ public class ConfluenceProjTestCMS {
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"closeREG_v2"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"bookRoom_v2"));
-      SymbGTRule rule3=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"uploadRecords_v2"));
-      SymbGTRule rule4=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord_v2"));
-      SymbGTRule rule5=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"close_v2"));
+      SymbGTRule rule1=ModelHelper.getRule(clsExam,"closeREG_v2");
+      SymbGTRule rule2=ModelHelper.getRule(clsExam,"bookRoom_v2");
+      SymbGTRule rule3=ModelHelper.getRule(clsExam,"uploadRecords_v2");
+      SymbGTRule rule4=ModelHelper.getRule(clsExam,"transscriptRecord_v2");
+      SymbGTRule rule5=ModelHelper.getRule(clsExam,"close_v2");
 
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
@@ -262,7 +252,7 @@ public class ConfluenceProjTestCMS {
       NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
       gts.getConstraints().add(mmC);
       //Add user defined constraints
-      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
 
@@ -283,18 +273,17 @@ public class ConfluenceProjTestCMS {
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
       EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
-      Transformer transformer=StptransformationFactory.eINSTANCE.createTransformer();
-      SymbGTRule rule1=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"closeREG_v2"));
-      SymbGTRule rule2=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"bookRoom_v2"));
-      SymbGTRule rule3=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"uploadRecords_v2"));
-      SymbGTRule rule4=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord_v2"));
-      SymbGTRule rule5=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"close_v2"));
+      SymbGTRule rule1=ModelHelper.getRule(clsExam,"closeREG_v2");
+      SymbGTRule rule2=ModelHelper.getRule(clsExam,"bookRoom_v2");
+      SymbGTRule rule3=ModelHelper.getRule(clsExam,"uploadRecords_v2");
+      SymbGTRule rule4=ModelHelper.getRule(clsExam,"transscriptRecord_v2");
+      SymbGTRule rule5=ModelHelper.getRule(clsExam,"close_v2");
 
-      SymbGTRule rule6=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForModule"));
-      SymbGTRule rule7=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForExam_v2"));
-      SymbGTRule rule8=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"unregisterFromExam_v2"));
-      SymbGTRule rule9=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForThesisModule"));
-      SymbGTRule rule10=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerThesis"));
+      SymbGTRule rule6=ModelHelper.getRule(clsEnrollment,"registerForModule");
+      SymbGTRule rule7=ModelHelper.getRule(clsEnrollment,"registerForExam_v2");
+      SymbGTRule rule8=ModelHelper.getRule(clsEnrollment,"unregisterFromExam_v2");
+      SymbGTRule rule9=ModelHelper.getRule(clsEnrollment,"registerForThesisModule");
+      SymbGTRule rule10=ModelHelper.getRule(clsEnrollment,"registerThesis");
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
@@ -315,7 +304,7 @@ public class ConfluenceProjTestCMS {
       NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
       gts.getConstraints().add(mmC);
       //Add user defined constraints
-      NegativeConstraint nC = getUserDefConstraints(pack, transformer);
+      NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
       for (int i = 0; i < 1; i++)
@@ -332,35 +321,8 @@ public class ConfluenceProjTestCMS {
 
 
 
-   private StoryPattern getStoryPattern(EClass cls,String name)
-   {
-      MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals(name)).findFirst().get();
-      Assert.assertTrue(op1!=null);
-      StoryNode stn1=(StoryNode) op1.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).collect(Collectors.toList()).get(0);
-      return stn1.getStoryPattern();
-   }
+ 
 
 
-   private NegativeConstraint getUserDefConstraints(EPackage pack, Transformer transformer)
-   {
-      //UserDefConstraints
-      EClass clsConstr=(EClass) pack.getEClassifier("MetamodelConstraints");
-      List<EOperation> ncOps= clsConstr.getEOperations().stream().filter(x->x.getName().startsWith("_NC_")).collect(Collectors.toList());
-
-
-      NegativeConstraint nC=ConditionsFactory.eINSTANCE.createNegativeConstraint();
-      ConfigurableMorphismClassFactory morClassFac=MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-      nC.setMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
-      for (EOperation eOperation : ncOps)
-      {
-         MoflonEOperation mEOp=(MoflonEOperation) eOperation;
-         StoryNode constraintStn=(StoryNode) mEOp.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).findAny().get();
-         SymbGTRule ruleC=transformer.transformStpToProjGTRule(constraintStn.getStoryPattern());
-         nC.getAtomicNegativeConstraints().add(ruleC.getLeft().getCodom());
-
-      }
-
-
-      return nC;
-   }
+   
 }

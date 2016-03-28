@@ -18,28 +18,38 @@ partial class DirectConfluenceModuloNFEQAnalyserImpl {
       ConfluenceAnalysisReport report = ConfluenceFactory.eINSTANCE.createConfluenceAnalysisReport();
       for (int i = 0; i < gts.getRules().size(); i++)
       {
-         for (int j = i + 1; j < gts.getRules().size(); j++)
+         for (int j = i; j < gts.getRules().size(); j++)
          {
-            SymbGTRule rule1 = gts.getRules().get(i);
-            SymbGTRule rule2 = gts.getRules().get(j);
 
+            SymbGTRule rule1;
+            SymbGTRule rule2;
+            if(i==j)
+            {
+               rule1 = gts.getRules().get(i);
+               rule2 = rule1.createCopy();
+            }
+            else
+            {
+               rule1 = gts.getRules().get(i);
+               rule2 = gts.getRules().get(j);
+            }
             long timeStampStart = System.currentTimeMillis();
             DirectDerivationPairSet criticalPairSet = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
 
             long timeStampCPA = System.currentTimeMillis();
-                        ConfluenceAnalysisResult result=ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult();
-                        result.setValid(false);
-                        for (DirectDerivationPair criticalPair : criticalPairSet.getPairsOfDirectDerivations())
-                        {
-                           result=this.checkDirectConfluence(criticalPair);
-                           if(result.isValid()==false)
-                           {
-                              break;
-                           }
-                        }
+            ConfluenceAnalysisResult result = ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult();
+            result.setValid(false);
+            for (DirectDerivationPair criticalPair : criticalPairSet.getPairsOfDirectDerivations())
+            {
+               result = this.checkDirectConfluence(criticalPair);
+               if (result.isValid() == false)
+               {
+                  break;
+               }
+            }
             //            System.out.println("Remaining CP=" + criticalPairSet.getPairsOfDirectDerivations().size());
-//            ConfluenceAnalysisResult result = criticalPairSet.getPairsOfDirectDerivations().stream().map(x -> this.checkDirectConfluence(x))
-//                  .filter(s -> s.isValid() == false).findAny().orElse(ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult());
+            //            ConfluenceAnalysisResult result = criticalPairSet.getPairsOfDirectDerivations().stream().map(x -> this.checkDirectConfluence(x))
+            //                  .filter(s -> s.isValid() == false).findAny().orElse(ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult());
             long timeStampConfluence = System.currentTimeMillis();
             if (result.getNonConfluentCriticalPair() == null)
             {

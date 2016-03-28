@@ -18,6 +18,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,EmptyRuleDirectDerivationTest.class
 //   ,MorphismClassTest.class
 //
+//   ,CopyRuleTest.class
 //   ,SubgraphBuilderTest.class
 //   ,JointlyEpiTest.class
 //   ,MinimalContextsPerformanceTest.class
@@ -28,7 +29,8 @@ import org.junit.runners.Suite.SuiteClasses;
    
 //   ,ConfluenceProjTestGAMPaper.class
 ////   ,ConfluenceProjTestModelsPaper.class
-   ,ConfluenceProjTestCMS.class
+//   ,ConfluenceProjTestCMS.class
+   ,ConfluenceProjTestCMSnew.class
 //   ,SymbolicPushoutComplementTest.class //TODO fix
 
 })

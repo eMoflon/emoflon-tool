@@ -80,20 +80,14 @@ public class ContextFactory
    }
    
    
-   public synchronized BoolExpr parseSMTLibString(Context ctx,String smtStr)
+   public synchronized BoolExpr parseSMTLibString(Context ctx,String smtStr) throws Z3Exception
    {
      
 //      System.out.println("X");
-      BoolExpr exp;
-      try
-      {
+         BoolExpr exp;
          exp = ctx.parseSMTLIB2String(smtStr, null, null, null, null);
          return   exp;
-      } catch (Z3Exception e)
-      {
-         throw new RuntimeException();
-         
-      }
+      
     
       
    }

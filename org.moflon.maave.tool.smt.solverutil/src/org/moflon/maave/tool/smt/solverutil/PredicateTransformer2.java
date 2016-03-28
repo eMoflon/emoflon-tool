@@ -13,6 +13,7 @@ import org.moflon.maave.tool.smt.smtlib.SMTLib;
 import org.moflon.maave.tool.smt.smtlib.SmtLibHelper;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Constant;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Disjunction;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Parameter;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Predicate;
@@ -113,6 +114,22 @@ public class PredicateTransformer2 implements IPredicateTransformer
       return toBeDeclaredTypes.stream().map(x->smtLib.getSortDeclaration(x)).filter(x->x!=null).collect(Collectors.toList());
    }
    
-   
+   public List<String> getQuantifiedVarDef(Disjunction disjunction)
+   {
+      
+      List<String>exVarDefs=new LinkedList<String>();
+      for (LabelNode variable : disjunction.getQuantifier().getLabelNodes())
+      {
+         toBeDeclaredTypes.add(variable.getType());
+         
+         StringBuilder varSymbolBuilder=new StringBuilder();
+         varSymbolBuilder.append(variable.getLabel());
+         varSymbolBuilder.append(IFormulaTransformer.QANT_VAR_SUFFIX);
+         varSymbolBuilder.append(((Quantifier)variable.eContainer()).getLabelNodes().indexOf(variable));
+         exVarDefs.add(smtLib.getSmtLibQuantifiedVarDeclaration(variable.getType(), varSymbolBuilder.toString()));
+         
+      }
+      return exVarDefs;
+   }
 
 }

@@ -43,9 +43,9 @@ class JavaExample
     // / </code>
     // / Where, <code>finv</code>is a fresh function declaration.
 
-    public BoolExpr injAxiom(Context ctx, FuncDecl f, int i) 
+    public BoolExpr injAxiom(Context ctx, FuncDecl f, int i) throws Z3Exception
     {
-        Sort[] domain = f.getDomain();
+        Sort[] domain = f.getDomain(); 
         int sz = f.getDomainSize();
 
         if (i >= sz)
@@ -104,6 +104,7 @@ class JavaExample
     // / Where, <code>finv</code>is a fresh function declaration.
 
     public BoolExpr injAxiomAbs(Context ctx, FuncDecl f, int i)
+            throws Z3Exception
     {
         Sort[] domain = f.getDomain();
         int sz = f.getDomainSize();
@@ -180,7 +181,7 @@ class JavaExample
 
     // / "Hello world" example: create a Z3 logical context, and delete it.
 
-    public void simpleExample()
+    public void simpleExample() throws Z3Exception
     {
         System.out.println("SimpleExample");
         Log.append("SimpleExample");
@@ -194,7 +195,8 @@ class JavaExample
         }
     }
 
-    Model check(Context ctx, BoolExpr f, Status sat) throws TestFailedException
+    Model check(Context ctx, BoolExpr f, Status sat) throws Z3Exception,
+            TestFailedException
     {
         Solver s = ctx.mkSolver();
         s.add(f);
@@ -207,7 +209,7 @@ class JavaExample
     }
 
     void solveTactical(Context ctx, Tactic t, Goal g, Status sat)
-            throws TestFailedException
+            throws Z3Exception, TestFailedException
     {
         Solver s = ctx.mkSolver(t);
         System.out.println("\nTactical solver: " + s);
@@ -220,7 +222,7 @@ class JavaExample
             throw new TestFailedException();
     }
 
-    ApplyResult applyTactic(Context ctx, Tactic t, Goal g)
+    ApplyResult applyTactic(Context ctx, Tactic t, Goal g) throws Z3Exception
     {
         System.out.println("\nGoal: " + g);
 
@@ -250,14 +252,15 @@ class JavaExample
         return res;
     }
 
-    void prove(Context ctx, BoolExpr f, boolean useMBQI) throws TestFailedException
+    void prove(Context ctx, BoolExpr f, boolean useMBQI) throws Z3Exception,
+            TestFailedException
     {
         BoolExpr[] assumptions = new BoolExpr[0];
         prove(ctx, f, useMBQI, assumptions);
     }
 
     void prove(Context ctx, BoolExpr f, boolean useMBQI,
-            BoolExpr... assumptions) throws TestFailedException
+            BoolExpr... assumptions) throws Z3Exception, TestFailedException
     {
         System.out.println("Proving: " + f);
         Solver s = ctx.mkSolver();
@@ -282,15 +285,15 @@ class JavaExample
         }
     }
 
-    void disprove(Context ctx, BoolExpr f, boolean useMBQI) 
-		throws TestFailedException
+    void disprove(Context ctx, BoolExpr f, boolean useMBQI) throws Z3Exception,
+            TestFailedException
     {
         BoolExpr[] a = {};
         disprove(ctx, f, useMBQI, a);
     }
 
     void disprove(Context ctx, BoolExpr f, boolean useMBQI,
-            BoolExpr... assumptions) throws TestFailedException
+            BoolExpr... assumptions) throws Z3Exception, TestFailedException
     {
         System.out.println("Disproving: " + f);
         Solver s = ctx.mkSolver();
@@ -315,7 +318,8 @@ class JavaExample
         }
     }
 
-    void modelConverterTest(Context ctx) throws TestFailedException
+    void modelConverterTest(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("ModelConverterTest");
 
@@ -355,7 +359,7 @@ class JavaExample
 
     // / A simple array example.
 
-    void arrayExample1(Context ctx) throws TestFailedException
+    void arrayExample1(Context ctx) throws Z3Exception, TestFailedException
     {
         System.out.println("ArrayExample1");
         Log.append("ArrayExample1");
@@ -405,7 +409,8 @@ class JavaExample
 
     // / <remarks>This example demonstrates how to use the array
     // theory.</remarks>
-    public void arrayExample2(Context ctx) throws TestFailedException
+    public void arrayExample2(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("ArrayExample2");
         Log.append("ArrayExample2");
@@ -454,7 +459,8 @@ class JavaExample
 
     // / <remarks>This example also shows how to use the <code>distinct</code>
     // construct.</remarks>
-    public void arrayExample3(Context ctx) throws TestFailedException
+    public void arrayExample3(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("ArrayExample3");
         Log.append("ArrayExample2");
@@ -493,7 +499,7 @@ class JavaExample
 
     // / Sudoku solving example.
 
-    void sudokuExample(Context ctx) throws TestFailedException
+    void sudokuExample(Context ctx) throws Z3Exception, TestFailedException
     {
         System.out.println("SudokuExample");
         Log.append("SudokuExample");
@@ -596,7 +602,7 @@ class JavaExample
 
     // / A basic example of how to use quantifiers.
 
-    void quantifierExample1(Context ctx)
+    void quantifierExample1(Context ctx) throws Z3Exception
     {
         System.out.println("QuantifierExample");
         Log.append("QuantifierExample");
@@ -634,7 +640,7 @@ class JavaExample
         System.out.println("Quantifier Y: " + y.toString());
     }
 
-    void quantifierExample2(Context ctx)
+    void quantifierExample2(Context ctx) throws Z3Exception
     {
 
         System.out.println("QuantifierExample2");
@@ -690,7 +696,8 @@ class JavaExample
     // / <code>f</code> is injective in the second argument. <seealso
     // cref="inj_axiom"/>
 
-    public void quantifierExample3(Context ctx) throws TestFailedException
+    public void quantifierExample3(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("QuantifierExample3");
         Log.append("QuantifierExample3");
@@ -731,7 +738,8 @@ class JavaExample
     // / <code>f</code> is injective in the second argument. <seealso
     // cref="inj_axiom"/>
 
-    public void quantifierExample4(Context ctx) throws TestFailedException
+    public void quantifierExample4(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("QuantifierExample4");
         Log.append("QuantifierExample4");
@@ -770,7 +778,7 @@ class JavaExample
 
     // / Some basic tests.
 
-    void basicTests(Context ctx) throws TestFailedException
+    void basicTests(Context ctx) throws Z3Exception, TestFailedException
     {
         System.out.println("BasicTests");
 
@@ -884,7 +892,7 @@ class JavaExample
 
     // / Some basic expression casting tests.
 
-    void castingTest(Context ctx) throws TestFailedException
+    void castingTest(Context ctx) throws Z3Exception, TestFailedException
     {
         System.out.println("CastingTest");
 
@@ -1032,7 +1040,7 @@ class JavaExample
 
     // / Shows how to read an SMT1 file.
 
-    void smt1FileTest(String filename)
+    void smt1FileTest(String filename) throws Z3Exception
     {
         System.out.print("SMT File test ");
 
@@ -1048,7 +1056,7 @@ class JavaExample
 
     // / Shows how to read an SMT2 file.
 
-    void smt2FileTest(String filename)
+    void smt2FileTest(String filename) throws Z3Exception
     {
         Date before = new Date();
 
@@ -1089,13 +1097,13 @@ class JavaExample
 
     // / Shows how to use Solver(logic)
 
-    // / @param ctx 
-    void logicExample(Context ctx) throws TestFailedException
+    // / <param name="ctx"></param>
+    void logicExample(Context ctx) throws Z3Exception, TestFailedException
     {
         System.out.println("LogicTest");
         Log.append("LogicTest");
 
-        com.microsoft.z3.Global.ToggleWarningMessages(true);
+        Context.ToggleWarningMessages(true);
 
         BitVecSort bvs = ctx.mkBitVecSort(32);
         Expr x = ctx.mkConst("x", bvs);
@@ -1122,7 +1130,7 @@ class JavaExample
 
     // / Demonstrates how to use the ParOr tactic.
 
-    void parOrExample(Context ctx) throws TestFailedException
+    void parOrExample(Context ctx) throws Z3Exception, TestFailedException
     {
         System.out.println("ParOrExample");
         Log.append("ParOrExample");
@@ -1145,7 +1153,7 @@ class JavaExample
             throw new TestFailedException();
     }
 
-    void bigIntCheck(Context ctx, RatNum r)
+    void bigIntCheck(Context ctx, RatNum r) throws Z3Exception
     {
         System.out.println("Num: " + r.getBigIntNumerator());
         System.out.println("Den: " + r.getBigIntDenominator());
@@ -1153,7 +1161,8 @@ class JavaExample
 
     // / Find a model for <code>x xor y</code>.
 
-    public void findModelExample1(Context ctx) throws TestFailedException
+    public void findModelExample1(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("FindModelExample1");
         Log.append("FindModelExample1");
@@ -1170,7 +1179,8 @@ class JavaExample
     // / Find a model for <tt>x < y + 1, x > 2</tt>.
     // / Then, assert <tt>not(x = y)</tt>, and find another model.
 
-    public void findModelExample2(Context ctx) throws TestFailedException
+    public void findModelExample2(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("FindModelExample2");
         Log.append("FindModelExample2");
@@ -1209,7 +1219,8 @@ class JavaExample
 
     // / <remarks>This function demonstrates how to create uninterpreted
     // / types and functions.</remarks>
-    public void proveExample1(Context ctx) throws TestFailedException
+    public void proveExample1(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("ProveExample1");
         Log.append("ProveExample1");
@@ -1255,7 +1266,8 @@ class JavaExample
     // / <remarks>This example demonstrates how to combine uninterpreted
     // functions
     // / and arithmetic.</remarks>
-    public void proveExample2(Context ctx) throws TestFailedException
+    public void proveExample2(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("ProveExample2");
         Log.append("ProveExample2");
@@ -1309,7 +1321,8 @@ class JavaExample
 
     // / <remarks>This example also demonstrates how big numbers can be
     // / created in ctx.</remarks>
-    public void pushPopExample1(Context ctx) throws TestFailedException
+    public void pushPopExample1(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("PushPopExample1");
         Log.append("PushPopExample1");
@@ -1375,7 +1388,8 @@ class JavaExample
 
     // / <remarks>Check that the projection of a tuple
     // / returns the corresponding element.</remarks>
-    public void tupleExample(Context ctx) throws TestFailedException
+    public void tupleExample(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("TupleExample");
         Log.append("TupleExample");
@@ -1410,7 +1424,8 @@ class JavaExample
     // / This example disproves that x - 10 &lt;= 0 IFF x &lt;= 10 for (32-bit)
     // machine integers
     // / </remarks>
-    public void bitvectorExample1(Context ctx) throws TestFailedException
+    public void bitvectorExample1(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("BitvectorExample1");
         Log.append("BitvectorExample1");
@@ -1431,7 +1446,8 @@ class JavaExample
 
     // / Find x and y such that: x ^ y - 103 == x * y
 
-    public void bitvectorExample2(Context ctx) throws TestFailedException
+    public void bitvectorExample2(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("BitvectorExample2");
         Log.append("BitvectorExample2");
@@ -1456,7 +1472,8 @@ class JavaExample
 
     // / Demonstrates how to use the SMTLIB parser.
 
-    public void parserExample1(Context ctx) throws TestFailedException
+    public void parserExample1(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("ParserExample1");
         Log.append("ParserExample1");
@@ -1474,7 +1491,8 @@ class JavaExample
 
     // / Demonstrates how to initialize the parser symbol table.
 
-    public void parserExample2(Context ctx) throws TestFailedException
+    public void parserExample2(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("ParserExample2");
         Log.append("ParserExample2");
@@ -1516,7 +1534,7 @@ class JavaExample
 
     // / Display the declarations, assumptions and formulas in a SMT-LIB string.
 
-    public void parserExample4(Context ctx)
+    public void parserExample4(Context ctx) throws Z3Exception
     {
         System.out.println("ParserExample4");
         Log.append("ParserExample4");
@@ -1563,7 +1581,7 @@ class JavaExample
 
     // / Create an ite-Expr (if-then-else Exprs).
 
-    public void iteExample(Context ctx)
+    public void iteExample(Context ctx) throws Z3Exception
     {
         System.out.println("ITEExample");
         Log.append("ITEExample");
@@ -1578,7 +1596,8 @@ class JavaExample
 
     // / Create an enumeration data type.
 
-    public void enumExample(Context ctx) throws TestFailedException
+    public void enumExample(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("EnumExample");
         Log.append("EnumExample");
@@ -1625,7 +1644,8 @@ class JavaExample
 
     // / Create a list datatype.
 
-    public void listExample(Context ctx) throws TestFailedException
+    public void listExample(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("ListExample");
         Log.append("ListExample");
@@ -1688,7 +1708,8 @@ class JavaExample
 
     // / Create a binary tree datatype.
 
-    public void treeExample(Context ctx) throws TestFailedException
+    public void treeExample(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("TreeExample");
         Log.append("TreeExample");
@@ -1760,7 +1781,8 @@ class JavaExample
     // / forest ::= nil | cons(tree, forest)
     // / tree ::= nil | cons(forest, forest)
     // / </remarks>
-    public void forestExample(Context ctx) throws TestFailedException
+    public void forestExample(Context ctx) throws Z3Exception,
+            TestFailedException
     {
         System.out.println("ForestExample");
         Log.append("ForestExample");
@@ -1879,7 +1901,7 @@ class JavaExample
 
     // / Demonstrate how to use #Eval.
 
-    public void evalExample1(Context ctx)
+    public void evalExample1(Context ctx) throws Z3Exception
     {
         System.out.println("EvalExample1");
         Log.append("EvalExample1");
@@ -1919,7 +1941,7 @@ class JavaExample
 
     // / Demonstrate how to use #Eval on tuples.
 
-    public void evalExample2(Context ctx)
+    public void evalExample2(Context ctx) throws Z3Exception
     {
         System.out.println("EvalExample2");
         Log.append("EvalExample2");
@@ -1970,7 +1992,8 @@ class JavaExample
     // / control the size of models.
 
     // / <remarks>Note: this test is specialized to 32-bit bitvectors.</remarks>
-    public void checkSmall(Context ctx, Solver solver, BitVecExpr... to_minimize)
+    public void checkSmall(Context ctx, Solver solver,
+            BitVecExpr... to_minimize) throws Z3Exception
     {
         int num_Exprs = to_minimize.length;
         int[] upper = new int[num_Exprs];
@@ -2042,7 +2065,7 @@ class JavaExample
 
     // / Reduced-size model generation example.
 
-    public void findSmallModelExample(Context ctx)
+    public void findSmallModelExample(Context ctx) throws Z3Exception
     {
         System.out.println("FindSmallModelExample");
         Log.append("FindSmallModelExample");
@@ -2059,7 +2082,7 @@ class JavaExample
 
     // / Simplifier example.
 
-    public void simplifierExample(Context ctx)
+    public void simplifierExample(Context ctx) throws Z3Exception
     {
         System.out.println("SimplifierExample");
         Log.append("SimplifierExample");
@@ -2077,7 +2100,7 @@ class JavaExample
 
     // / Extract unsatisfiable core example
 
-    public void unsatCoreAndProofExample(Context ctx)
+    public void unsatCoreAndProofExample(Context ctx) throws Z3Exception
     {
         System.out.println("UnsatCoreAndProofExample");
         Log.append("UnsatCoreAndProofExample");
@@ -2116,177 +2139,32 @@ class JavaExample
             }
         }
     }
-    
-    /// Extract unsatisfiable core example with AssertAndTrack
-    
-    public void unsatCoreAndProofExample2(Context ctx)
-    {
-        System.out.println("UnsatCoreAndProofExample2");
-        Log.append("UnsatCoreAndProofExample2");
 
-        Solver solver = ctx.mkSolver();
-
-        BoolExpr pa = ctx.mkBoolConst("PredA");
-        BoolExpr pb = ctx.mkBoolConst("PredB");
-        BoolExpr pc = ctx.mkBoolConst("PredC");
-        BoolExpr pd = ctx.mkBoolConst("PredD");
-        
-        BoolExpr f1 = ctx.mkAnd(new BoolExpr[] { pa, pb, pc });
-        BoolExpr f2 = ctx.mkAnd(new BoolExpr[] { pa, ctx.mkNot(pb), pc });
-        BoolExpr f3 = ctx.mkOr(ctx.mkNot(pa), ctx.mkNot(pc));
-        BoolExpr f4 = pd;
-
-        BoolExpr p1 = ctx.mkBoolConst("P1");
-        BoolExpr p2 = ctx.mkBoolConst("P2");
-        BoolExpr p3 = ctx.mkBoolConst("P3");
-        BoolExpr p4 = ctx.mkBoolConst("P4");
-
-        solver.assertAndTrack(f1, p1);
-        solver.assertAndTrack(f2, p2);
-        solver.assertAndTrack(f3, p3);
-        solver.assertAndTrack(f4, p4);
-        Status result = solver.check();
-
-        if (result == Status.UNSATISFIABLE)
-        {
-            System.out.println("unsat");
-            System.out.println("core: ");
-            for (Expr c : solver.getUnsatCore())
-            {
-                System.out.println(c);
-            }
-        }
-    }
-
-    public void finiteDomainExample(Context ctx)
+    public void finiteDomainExample(Context ctx) throws Z3Exception
     {
         System.out.println("FiniteDomainExample");
         Log.append("FiniteDomainExample");
 
         FiniteDomainSort s = ctx.mkFiniteDomainSort("S", 10);
         FiniteDomainSort t = ctx.mkFiniteDomainSort("T", 10);
-        FiniteDomainNum s1 = (FiniteDomainNum)ctx.mkNumeral(1, s);
-        FiniteDomainNum t1 = (FiniteDomainNum)ctx.mkNumeral(1, t);
+        Expr s1 = ctx.mkNumeral(1, s);
+        Expr t1 = ctx.mkNumeral(1, t);
         System.out.println(s);
         System.out.println(t);
-        System.out.println(s1);        
+        System.out.println(s1);
+        System.out.println(ctx.mkNumeral(2, s));
         System.out.println(t1);
-        System.out.println(s1.getInt());
-        System.out.println(t1.getInt());
         // But you cannot mix numerals of different sorts
         // even if the size of their domains are the same:
         // System.out.println(ctx.mkEq(s1, t1));
     }    
-
-    public void floatingPointExample1(Context ctx) throws TestFailedException
-    {
-        System.out.println("FloatingPointExample1");
-        Log.append("FloatingPointExample1");
-        
-        FPSort s = ctx.mkFPSort(11, 53);
-        System.out.println("Sort: " + s);
-
-        FPNum x = (FPNum)ctx.mkNumeral("-1e1", s); /* -1 * 10^1 = -10 */
-        FPNum y = (FPNum)ctx.mkNumeral("-10", s); /* -10 */
-        FPNum z = (FPNum)ctx.mkNumeral("-1.25p3", s); /* -1.25 * 2^3 = -1.25 * 8 = -10 */
-        System.out.println("x=" + x.toString()  + 
-                           "; y=" + y.toString() + 
-                           "; z=" + z.toString());
-        
-        BoolExpr a = ctx.mkAnd(ctx.mkFPEq(x, y), ctx.mkFPEq(y, z));
-        check(ctx, ctx.mkNot(a), Status.UNSATISFIABLE);
-
-        /* nothing is equal to NaN according to floating-point 
-         * equality, so NaN == k should be unsatisfiable. */
-        FPExpr k = (FPExpr)ctx.mkConst("x", s);
-        FPExpr nan = ctx.mkFPNaN(s);
-
-        /* solver that runs the default tactic for QF_FP. */
-        Solver slvr = ctx.mkSolver("QF_FP");
-        slvr.add(ctx.mkFPEq(nan, k));
-        if (slvr.check() != Status.UNSATISFIABLE)
-            throw new TestFailedException();
-        System.out.println("OK, unsat:" + System.getProperty("line.separator") + slvr);
-
-        /* NaN is equal to NaN according to normal equality. */
-        slvr = ctx.mkSolver("QF_FP");
-        slvr.add(ctx.mkEq(nan, nan));
-        if (slvr.check() != Status.SATISFIABLE)
-            throw new TestFailedException();
-        System.out.println("OK, sat:" + System.getProperty("line.separator")  + slvr);
-
-        /* Let's prove -1e1 * -1.25e3 == +100 */
-        x = (FPNum)ctx.mkNumeral("-1e1", s);
-        y = (FPNum)ctx.mkNumeral("-1.25p3", s);
-        FPExpr x_plus_y = (FPExpr)ctx.mkConst("x_plus_y", s);
-        FPNum r = (FPNum)ctx.mkNumeral("100", s);
-        slvr = ctx.mkSolver("QF_FP");
-
-        slvr.add(ctx.mkEq(x_plus_y, ctx.mkFPMul(ctx.mkFPRoundNearestTiesToAway(), x, y)));
-        slvr.add(ctx.mkNot(ctx.mkFPEq(x_plus_y, r)));
-        if (slvr.check() != Status.UNSATISFIABLE)
-            throw new TestFailedException();
-        System.out.println("OK, unsat:" + System.getProperty("line.separator")  + slvr);
-    }
-
-    public void floatingPointExample2(Context ctx) throws TestFailedException
-    {
-        System.out.println("FloatingPointExample2");
-        Log.append("FloatingPointExample2");
-        FPSort double_sort = ctx.mkFPSort(11, 53);
-        FPRMSort rm_sort = ctx.mkFPRoundingModeSort();
-        
-        FPRMExpr rm = (FPRMExpr)ctx.mkConst(ctx.mkSymbol("rm"), rm_sort);
-        BitVecExpr x = (BitVecExpr)ctx.mkConst(ctx.mkSymbol("x"), ctx.mkBitVecSort(64));
-        FPExpr y = (FPExpr)ctx.mkConst(ctx.mkSymbol("y"), double_sort);            
-        FPExpr fp_val = ctx.mkFP(42, double_sort);
-        
-        BoolExpr c1 = ctx.mkEq(y, fp_val);
-        BoolExpr c2 = ctx.mkEq(x, ctx.mkFPToBV(rm, y, 64, false));
-        BoolExpr c3 = ctx.mkEq(x, ctx.mkBV(42, 64));
-        BoolExpr c4 = ctx.mkEq(ctx.mkNumeral(42, ctx.getRealSort()), ctx.mkFPToReal(fp_val));
-        BoolExpr c5 = ctx.mkAnd(c1, c2, c3, c4);
-        System.out.println("c5 = " + c5);
-
-        /* Generic solver */
-        Solver s = ctx.mkSolver();
-        s.add(c5);
-
-        if (s.check() != Status.SATISFIABLE)
-            throw new TestFailedException();
-
-        System.out.println("OK, model: " + s.getModel().toString());        
-    }
-
-    public void optimizeExample(Context ctx) 
-    {
-        System.out.println("Opt");
-
-        Optimize opt = ctx.mkOptimize();
-
-        // Set constraints.
-        IntExpr xExp = ctx.mkIntConst("x");
-        IntExpr yExp = ctx.mkIntConst("y");
-
-        opt.Add(ctx.mkEq(ctx.mkAdd(xExp, yExp), ctx.mkInt(10)),
-                ctx.mkGe(xExp, ctx.mkInt(0)),
-                ctx.mkGe(yExp, ctx.mkInt(0)));
-
-        // Set objectives.
-        Optimize.Handle mx = opt.MkMaximize(xExp);
-        Optimize.Handle my = opt.MkMaximize(yExp);
-
-        System.out.println(opt.Check()); 
-        System.out.println(mx);
-        System.out.println(my);
-    }
 
     public static void main(String[] args)
     {
         JavaExample p = new JavaExample();
         try
         {
-            com.microsoft.z3.Global.ToggleWarningMessages(true);
+            Context.ToggleWarningMessages(true);
             Log.open("test.log");
 
             System.out.print("Z3 Major Version: ");
@@ -2300,8 +2178,6 @@ class JavaExample
                 HashMap<String, String> cfg = new HashMap<String, String>();
                 cfg.put("model", "true");
                 Context ctx = new Context(cfg);
-		
-		p.optimizeExample(ctx);
                 p.basicTests(ctx);
                 p.castingTest(ctx);
                 p.sudokuExample(ctx);
@@ -2326,13 +2202,10 @@ class JavaExample
                 p.findSmallModelExample(ctx);
                 p.simplifierExample(ctx);
                 p.finiteDomainExample(ctx);
-                p.floatingPointExample1(ctx);
-                p.floatingPointExample2(ctx);
             }
 
             { // These examples need proof generation turned on.
-
-               HashMap<String, String> cfg = new HashMap<String, String>();
+                HashMap<String, String> cfg = new HashMap<String, String>();
                 cfg.put("proof", "true");
                 Context ctx = new Context(cfg);
                 p.proveExample1(ctx);
@@ -2345,7 +2218,6 @@ class JavaExample
                 p.treeExample(ctx);
                 p.forestExample(ctx);
                 p.unsatCoreAndProofExample(ctx);
-                p.unsatCoreAndProofExample2(ctx);
             }
 
             { // These examples need proof generation turned on and auto-config
