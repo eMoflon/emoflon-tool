@@ -10,24 +10,25 @@ import com.microsoft.z3.Z3Exception;
 public class Z3Solver
 {
 
-   public static Status check(String smtStr) throws Z3Exception 
+   public static Status fcheck(String smtStr) throws Z3Exception 
    {
-      String smtStr2=new String(smtStr);
-      Context ctx= new Context();
-      System.out.print("X");
-      BoolExpr eq =ctx.parseSMTLIB2String(smtStr2, null, null, null, null);
+      
+String smtStr2=new String(smtStr);
+      
+      Context ctx= ContextFactory.getInstance().takeContext();
+      BoolExpr eq =ContextFactory.getInstance().parseSMTLibString(ctx, smtStr2);
       Solver s=ctx.mkSolver();
       s.add(eq);
       Status status=s.check();
-      s.dispose();
-      ctx.dispose();
+//      s.dispose();
+
+      ContextFactory.getInstance().releaseContext(ctx);
       if (status==Status.UNKNOWN)
       {
          System.out.println("UNKNOWN + Reason: ");
          System.out.println(smtStr);
       }
       return status;  
-
    }
 
 }

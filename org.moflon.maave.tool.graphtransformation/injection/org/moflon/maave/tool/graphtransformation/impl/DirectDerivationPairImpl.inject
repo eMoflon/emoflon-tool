@@ -1,12 +1,14 @@
 
+import org.moflon.maave.tool.symbolicgraphs.printing.GraphAndMorphismPrinter;
+
 partial class DirectDerivationPairImpl {
 
 
 
 @model toString () <--
 
-      String ruleName=this.getDer1().getRule().getName()+"|"+this.getDer2().getRule().getName()+"\n";
-      return ruleName+GraphAndMorphismPrinter.internalPrintPair(this.getDer1().getMatch(),this.getDer2().getMatch());
+      String ruleName = this.getDer1().getRule().getName() + "|" + this.getDer2().getRule().getName() + "\n";
+      return ruleName + GraphAndMorphismPrinter.internalPrintPair(this.getDer1().getMatch(), this.getDer2().getMatch());
 -->
 
 }

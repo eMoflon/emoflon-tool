@@ -1,12 +1,11 @@
 package org.moflon.maave.tool.smt.solverutil;
 
 
-import java.util.HashMap;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
-import com.microsoft.z3.Solver;
 import com.microsoft.z3.Z3Exception;
 
 
@@ -14,15 +13,23 @@ public class ContextFactory
 {
 
    private static ContextFactory instance = null;
-   private final int NUMEROFCONTEXTS=1;
-   private LinkedBlockingQueue<Context> contexts=new LinkedBlockingQueue<Context>(NUMEROFCONTEXTS);
-   protected ContextFactory() {
+   private final int NUMEROFCONTEXTS=5;
+   private List<Context> contexts=new LinkedList<Context>();
+   
+   
+
+
+   public ContextFactory()
+   {
+      super();
+      // TODO Auto-generated constructor stub
    }
- 
-  
+
+
    public static ContextFactory getInstance() {
-      if (instance == null) {
-          synchronized (ContextFactory.class) {
+      if (instance == null) 
+      {
+         synchronized (ContextFactory.class) {
             if (instance == null) {
                instance = new ContextFactory();
                instance.init();
@@ -33,49 +40,61 @@ public class ContextFactory
    }
 
 
-   private void init()
+   private synchronized void init()
    {
       for (int i = 0; i < NUMEROFCONTEXTS;i++)
       {
-         try
-         {
-            Context ctx = new Context();
-            contexts.put(ctx);
-         } catch (InterruptedException e)
-         {
-            throw new RuntimeException(e.getMessage());
-         } catch (Z3Exception e)
-         {
-            throw new RuntimeException(e.getMessage());
-         }
+       
+            Context ctx;
+            try
+            {
+               ctx = new Context();
+               contexts.add(ctx);
+            } catch (Z3Exception e)
+            {
+               // TODO Auto-generated catch block
+               e.printStackTrace();
+            }
+         
       }
    }
    public synchronized Context takeContext()
    {
-      try
+
+
+      while (contexts.isEmpty()) 
       {
-         return contexts.take();
-      } catch (InterruptedException e)
-      {
-         
-         throw new RuntimeException(e.getMessage());
-         
-      }
-   }
-   public synchronized BoolExpr parseSMTLibString(Context ctx,String smtStr)
-   {
-      return   ctx.parseSMTLIB2String(smtStr, null, null, null, null);
+         try { wait(); }
+         catch (InterruptedException e) { } 
+
+      } 
+      Context ctx = contexts.get(0); 
+      return ctx;
+
    }
    public synchronized void releaseContext(Context context)
    {
+      
+      contexts.add(context);
+      notify(); 
+   }
+   
+   
+   public synchronized BoolExpr parseSMTLibString(Context ctx,String smtStr)
+   {
+     
+//      System.out.println("X");
+      BoolExpr exp;
       try
       {
-         context.dispose();
-        
-         contexts.put(context);
-      } catch (InterruptedException e)
+         exp = ctx.parseSMTLIB2String(smtStr, null, null, null, null);
+         return   exp;
+      } catch (Z3Exception e)
       {
-         throw new RuntimeException(e.getMessage());
+         throw new RuntimeException();
+         
       }
+    
+      
    }
 }

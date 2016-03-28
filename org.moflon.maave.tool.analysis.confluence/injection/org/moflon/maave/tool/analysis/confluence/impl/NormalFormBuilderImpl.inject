@@ -34,8 +34,15 @@ partial class NormalFormBuilderImpl {
 
    private boolean isCommuting(SymbolicGraphMorphism morA_B, SymbolicGraphMorphism morB_C, SymbolicGraphMorphism morC_D, SymbolicGraphMorphism morA_D)
    {
-      return morA_B.getDom().getAllElements().stream()
-            .allMatch(x -> morC_D.imageOf(morB_C.imageOf(morA_B.imageOf((EGraphElement) x))) == morA_D.imageOf((EGraphElement) x));
+      
+      for (Object obj : morA_B.getDom().getAllElements())
+      {
+         if((morC_D.imageOf(morB_C.imageOf(morA_B.imageOf((EGraphElement) obj))) == morA_D.imageOf((EGraphElement) obj))==false)
+         {
+            return false;
+         }
+      }
+      return true;
    }
    
 -->

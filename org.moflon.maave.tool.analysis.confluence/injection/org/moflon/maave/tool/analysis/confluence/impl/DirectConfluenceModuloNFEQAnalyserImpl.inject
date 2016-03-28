@@ -27,19 +27,19 @@ partial class DirectConfluenceModuloNFEQAnalyserImpl {
             DirectDerivationPairSet criticalPairSet = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
 
             long timeStampCPA = System.currentTimeMillis();
-            //            ConfluenceAnalysisResult result=ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult();
-            //            result.setValid(false);
-            //            for (DirectDerivationPair criticalPair : criticalPairSet.getPairsOfDirectDerivations())
-            //            {
-            //               result=this.checkDirectConfluence(criticalPair);
-            //               if(result.isValid()==false)
-            //               {
-            //                  break;
-            //               }
-            //            }
-//            System.out.println("Remaining CP=" + criticalPairSet.getPairsOfDirectDerivations().size());
-            ConfluenceAnalysisResult result = criticalPairSet.getPairsOfDirectDerivations().parallelStream().map(x -> this.checkDirectConfluence(x))
-                  .filter(s -> s.isValid() == false).findAny().orElse(ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult());
+                        ConfluenceAnalysisResult result=ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult();
+                        result.setValid(false);
+                        for (DirectDerivationPair criticalPair : criticalPairSet.getPairsOfDirectDerivations())
+                        {
+                           result=this.checkDirectConfluence(criticalPair);
+                           if(result.isValid()==false)
+                           {
+                              break;
+                           }
+                        }
+            //            System.out.println("Remaining CP=" + criticalPairSet.getPairsOfDirectDerivations().size());
+//            ConfluenceAnalysisResult result = criticalPairSet.getPairsOfDirectDerivations().stream().map(x -> this.checkDirectConfluence(x))
+//                  .filter(s -> s.isValid() == false).findAny().orElse(ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult());
             long timeStampConfluence = System.currentTimeMillis();
             if (result.getNonConfluentCriticalPair() == null)
             {

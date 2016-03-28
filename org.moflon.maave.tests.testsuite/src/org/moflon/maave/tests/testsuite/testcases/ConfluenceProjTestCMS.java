@@ -242,7 +242,7 @@ public class ConfluenceProjTestCMS {
       SymbGTRule rule3=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"uploadRecords_v2"));
       SymbGTRule rule4=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord_v2"));
       SymbGTRule rule5=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"close_v2"));
-      
+
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
@@ -268,7 +268,7 @@ public class ConfluenceProjTestCMS {
 
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
-//      System.out.println(report);
+      //      System.out.println(report);
       System.out.println(report.printCP());
 
 
@@ -289,7 +289,7 @@ public class ConfluenceProjTestCMS {
       SymbGTRule rule3=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"uploadRecords_v2"));
       SymbGTRule rule4=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"transscriptRecord_v2"));
       SymbGTRule rule5=transformer.transformStpToProjGTRule(getStoryPattern(clsExam,"close_v2"));
-      
+
       SymbGTRule rule6=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForModule"));
       SymbGTRule rule7=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"registerForExam_v2"));
       SymbGTRule rule8=transformer.transformStpToProjGTRule(getStoryPattern(clsEnrollment,"unregisterFromExam_v2"));
@@ -318,16 +318,20 @@ public class ConfluenceProjTestCMS {
       NegativeConstraint nC = getUserDefConstraints(pack, transformer);
       gts.getConstraints().add(nC);
 
+      for (int i = 0; i < 1; i++)
+      {
 
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
-      System.out.println(report.printCP());
-     
+         DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+         long start=System.currentTimeMillis();
+         ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+         //      System.out.println(report.printCP());
+         System.out.println("Time: "+(System.currentTimeMillis()-start));
+      }
 
    }
-  
- 
- 
+
+
+
    private StoryPattern getStoryPattern(EClass cls,String name)
    {
       MoflonEOperation op1=(MoflonEOperation) cls.getEOperations().stream().filter(x->x.getName().equals(name)).findFirst().get();
@@ -342,8 +346,8 @@ public class ConfluenceProjTestCMS {
       //UserDefConstraints
       EClass clsConstr=(EClass) pack.getEClassifier("MetamodelConstraints");
       List<EOperation> ncOps= clsConstr.getEOperations().stream().filter(x->x.getName().startsWith("_NC_")).collect(Collectors.toList());
-      
-      
+
+
       NegativeConstraint nC=ConditionsFactory.eINSTANCE.createNegativeConstraint();
       ConfigurableMorphismClassFactory morClassFac=MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       nC.setMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
@@ -353,10 +357,10 @@ public class ConfluenceProjTestCMS {
          StoryNode constraintStn=(StoryNode) mEOp.getActivity().getOwnedActivityNode().stream().filter(x->x instanceof StoryNode).findAny().get();
          SymbGTRule ruleC=transformer.transformStpToProjGTRule(constraintStn.getStoryPattern());
          nC.getAtomicNegativeConstraints().add(ruleC.getLeft().getCodom());
-         
+
       }
-    
-     
+
+
       return nC;
    }
 }
