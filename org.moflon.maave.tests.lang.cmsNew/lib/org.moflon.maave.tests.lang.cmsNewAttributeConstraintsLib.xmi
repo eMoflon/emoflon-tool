@@ -39,7 +39,7 @@
         identifier="b"/>
   </operationSpecifications>
   <operationSpecifications
-      constraintSpecifications="//@constraintSpecifications.1 //@constraintSpecifications.6 //@constraintSpecifications.7"
+      constraintSpecifications="//@constraintSpecifications.1 //@constraintSpecifications.6 //@constraintSpecifications.7 //@constraintSpecifications.8"
       operationIdentifier="eqENUM">
     <operationSpecifications
         specification="$a$==$b$"
@@ -54,7 +54,7 @@
         identifier="b"/>
   </operationSpecifications>
   <operationSpecifications
-      constraintSpecifications="//@constraintSpecifications.2"
+      constraintSpecifications="//@constraintSpecifications.2 //@constraintSpecifications.9"
       operationIdentifier="isEq">
     <operationSpecifications
         specification="$c$=($a$==$b$)"
@@ -247,6 +247,39 @@
       <type
           xsi:type="ecore:EEnum"
           href="../model/CmsNew.ecore#//SEM_STATE"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.2"
+      symbol="=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EEnum"
+          href="../model/CmsNew.ecore#//MO_STATE"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EEnum"
+          href="../model/CmsNew.ecore#//MO_STATE"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.3"
+      symbol="=?">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EEnum"
+          href="../model/CmsNew.ecore#//MO_STATE"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EEnum"
+          href="../model/CmsNew.ecore#//MO_STATE"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </parameterTypes>
   </constraintSpecifications>
 </org.moflon.sdm.constraints.operationspecification:AttributeConstraintLibrary>
