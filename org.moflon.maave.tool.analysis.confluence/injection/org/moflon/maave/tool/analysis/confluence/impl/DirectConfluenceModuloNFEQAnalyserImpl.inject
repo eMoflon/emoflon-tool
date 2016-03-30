@@ -1,8 +1,11 @@
 
+import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisResult;
+import org.moflon.maave.tool.graphtransformation.DirectDerivationPairSet;
 import org.moflon.maave.tool.analysis.confluence.NaiveConfDirectDerivationIterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.moflon.maave.tool.analysis.confluence.ItterativeDirectDerivationIterator;
+import org.moflon.maave.tool.analysis.AnalysisFactory;
 import org.moflon.maave.tool.analysis.CriticalPairBuilder;
 import org.moflon.maave.tool.analysis.JointlyEpiSetBuilder;
 
@@ -23,35 +26,38 @@ partial class DirectConfluenceModuloNFEQAnalyserImpl {
 
             SymbGTRule rule1;
             SymbGTRule rule2;
-            if(i==j)
+            if (i == j)
             {
                rule1 = gts.getRules().get(i);
                rule2 = rule1.createCopy();
-            }
-            else
+            } else
             {
                rule1 = gts.getRules().get(i);
                rule2 = gts.getRules().get(j);
             }
             long timeStampStart = System.currentTimeMillis();
+
             DirectDerivationPairSet criticalPairSet = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
 
             long timeStampCPA = System.currentTimeMillis();
+
             ConfluenceAnalysisResult result = ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult();
             result.setValid(false);
             for (DirectDerivationPair criticalPair : criticalPairSet.getPairsOfDirectDerivations())
             {
-               result = this.checkDirectConfluence(criticalPair);
-               if (result.isValid() == false)
+
+               if (this.checkDirectConfluence(criticalPair).isValid() == false)
                {
-                  break;
+                  result.getNonConfluentCriticalPairs().add(criticalPair);
                }
+
             }
             //            System.out.println("Remaining CP=" + criticalPairSet.getPairsOfDirectDerivations().size());
             //            ConfluenceAnalysisResult result = criticalPairSet.getPairsOfDirectDerivations().stream().map(x -> this.checkDirectConfluence(x))
             //                  .filter(s -> s.isValid() == false).findAny().orElse(ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult());
+
             long timeStampConfluence = System.currentTimeMillis();
-            if (result.getNonConfluentCriticalPair() == null)
+            if (result.getNonConfluentCriticalPairs().isEmpty())
             {
                result.setValid(true);
             }

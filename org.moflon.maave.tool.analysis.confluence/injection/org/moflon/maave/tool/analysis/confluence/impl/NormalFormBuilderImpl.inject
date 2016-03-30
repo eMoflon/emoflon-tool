@@ -34,10 +34,10 @@ partial class NormalFormBuilderImpl {
 
    private boolean isCommuting(SymbolicGraphMorphism morA_B, SymbolicGraphMorphism morB_C, SymbolicGraphMorphism morC_D, SymbolicGraphMorphism morA_D)
    {
-      
+
       for (Object obj : morA_B.getDom().getAllElements())
       {
-         if((morC_D.imageOf(morB_C.imageOf(morA_B.imageOf((EGraphElement) obj))) == morA_D.imageOf((EGraphElement) obj))==false)
+         if ((morC_D.imageOf(morB_C.imageOf(morA_B.imageOf((EGraphElement) obj))) == morA_D.imageOf((EGraphElement) obj)) == false)
          {
             return false;
          }
@@ -83,16 +83,21 @@ partial class NormalFormBuilderImpl {
       SymbolicGraph graphZ4 = morZ4_P4.getDom();
 
       ConfigurableMorphismFinder morFinderForZ3 = morFinderFac.createMorphismFinder(graphZ3, morClassIso);
-      SymbolicGraphMorphism partialMatch = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      partialMatch.setDom(graphZ3);
-      partialMatch.setCodom(graphZ4);
-      MorphismsSet isoMorSetZ3_Z4 = morFinderForZ3.getAllMorphisms(partialMatch);
+      SymbolicGraphMorphism partialMatchZ3_Z4 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      partialMatchZ3_Z4.setDom(graphZ3);
+      partialMatchZ3_Z4.setCodom(graphZ4);
+      for (Object obj : morN_P4.getDom().getAllElements())
+      {
+         EGraphElement elem=(EGraphElement) obj;
+         partialMatchZ3_Z4.addMapping(morN_Z3.imageOf(elem), morN_Z4.imageOf(elem));
+      }
+      MorphismsSet isoMorSetZ3_Z4 = morFinderForZ3.getAllMorphisms(partialMatchZ3_Z4);
 
       Status status = MatchingUtilsFactory.eINSTANCE.createStatus();
       status.setValid(false);
       for (SymbolicGraphMorphism isoMorZ3_Z4 : isoMorSetZ3_Z4.getMorphisms())
       {
-         SymbolicGraphMorphism isoMorZ4_Z3 = catUtil.getInverseIfIsomorphism(isoMorZ3_Z4);
+         SymbolicGraphMorphism isoMorZ4_Z3 = catUtil.getInverseMorphism(isoMorZ3_Z4);
          if (isCommuting(morN_Z3, isoMorZ3_Z4, morZ4_P4, morN_P4) && isCommuting(morN_Z4, isoMorZ4_Z3, morZ3_P3, morN_P3))
          {
 

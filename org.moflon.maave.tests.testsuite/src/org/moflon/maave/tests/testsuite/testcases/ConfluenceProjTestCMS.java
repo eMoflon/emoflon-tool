@@ -70,7 +70,7 @@ public class ConfluenceProjTestCMS {
 
 
    }
-   @Ignore
+  
    @Test
    public void test_EXAM_V2_2() {
       System.out.println("");
@@ -263,7 +263,7 @@ public class ConfluenceProjTestCMS {
 
 
    }
-
+   @Ignore
    @Test
    public void test_EXAM_V2_B() {
       System.out.println("");

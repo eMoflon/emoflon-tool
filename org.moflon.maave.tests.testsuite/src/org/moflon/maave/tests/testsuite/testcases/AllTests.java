@@ -25,12 +25,12 @@ import org.junit.runners.Suite.SuiteClasses;
 //
 //   ,CriticalPairTestProj.class
 //   ,NormalFormEquivalenceTest.class
-//   ,ConfluenceProjTestCMSMandatory.class
+   ,ConfluenceProjTestCMSMandatory.class
    
 //   ,ConfluenceProjTestGAMPaper.class
 ////   ,ConfluenceProjTestModelsPaper.class
 //   ,ConfluenceProjTestCMS.class
-   ,ConfluenceProjTestCMSnew.class
+//   ,ConfluenceProjTestCMSnew.class
 //   ,SymbolicPushoutComplementTest.class //TODO fix
 
 })

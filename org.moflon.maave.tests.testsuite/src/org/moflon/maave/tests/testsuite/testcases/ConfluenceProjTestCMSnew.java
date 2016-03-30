@@ -111,7 +111,48 @@ public class ConfluenceProjTestCMSnew {
 
 
    }
+   @Test
+   public void test_Exam_v0() {
+      System.out.println("");
+      System.out.println("-------------------------------------------------------------");
+      System.out.println("Starting ConfluenceProjTestCMS/test_Exam_v0" );
+      
+      CmsNewPackage.eINSTANCE.getClass();
+      EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cmsNew", "CmsNew");
+      EClass clsExam=(EClass) pack.getEClassifier("Exam");
+      
+      
 
+      GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+      
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"bookRoom_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"uploadResults_v0"));
+        gts.getRules().add(ModelHelper.getRule(clsExam,"transcriptRecords_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"closeExam_v0"));
+
+     
+
+      ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+      gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+      gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
+
+      //Add ArityConstraints
+      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
+      NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
+      gts.getConstraints().add(mmC);
+//      //Add user defined constraints
+//      NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
+//      gts.getConstraints().add(nC);
+
+
+      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+      System.out.println(report);
+
+
+
+   }
+   @Ignore
    @Test
    public void test_Combined_v0() {
       System.out.println("");

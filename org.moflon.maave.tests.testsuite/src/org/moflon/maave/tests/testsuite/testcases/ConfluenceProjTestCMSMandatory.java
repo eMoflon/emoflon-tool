@@ -134,14 +134,14 @@ public class ConfluenceProjTestCMSMandatory {
 
   
       SymbGTRule rule1=ModelHelper.getRule(clsExam,"transscriptRecord");
-      SymbGTRule rule6=ModelHelper.getRule(clsExam,"transscriptRecord");
+      
 
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
       GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
       gts.getRules().add(rule1);
-      gts.getRules().add(rule6);
+    
 
 
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
@@ -156,12 +156,16 @@ public class ConfluenceProjTestCMSMandatory {
       NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
-
+      for (int i = 0; i < 4; i++)
+      {
+         
+      
       DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
-      assertTrue(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
-      assertTrue(report.getConfluenceStates().stream().anyMatch(x->x.getNrOfCriticalpairs()>0));
       System.out.println(report);
+      }
+//      assertTrue(report.getConfluenceStates().stream().anyMatch(x->x.isValid())==false);
+//      assertTrue(report.getConfluenceStates().stream().anyMatch(x->x.getNrOfCriticalpairs()>0));
 
    }
   

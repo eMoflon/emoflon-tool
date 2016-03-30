@@ -1,6 +1,7 @@
 package org.moflon.maave.tool.smt.solverutil;
 
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,7 +49,9 @@ public class ContextFactory
             Context ctx;
             try
             {
-               ctx = new Context();
+               HashMap<String, String> cfg = new HashMap<String, String>();
+               ctx = new Context(cfg);
+               
                contexts.add(ctx);
             } catch (Z3Exception e)
             {

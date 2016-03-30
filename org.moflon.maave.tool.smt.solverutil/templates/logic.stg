@@ -53,6 +53,9 @@ checkUnsat(sortDecl,varDecls,funcDefs,term)::=<<
 	)
 )
 (check-sat)
+;(check-sat-using ufnia)
+;(check-sat-using (then simplify smt))
+;(check-sat-using smt)
 >>
 
 checkSat(sortDecl,varDecls,funcDefs,term)::=<<
