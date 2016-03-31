@@ -1,5 +1,7 @@
 package org.moflon.maave.tests.testsuite.testcases;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.junit.Ignore;
@@ -17,6 +19,7 @@ import org.moflon.maave.tool.sdm.stptransformation.MetaModelConstraintBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
+import org.moflon.maave.wsconfig.WsInfo;
 
 
 public class ConfluenceProjTestCMSnew {
@@ -26,6 +29,7 @@ public class ConfluenceProjTestCMSnew {
       System.out.println("");
       System.out.println("-------------------------------------------------------------");
       System.out.println("Starting ConfluenceProjTestCMS/test_Semester_v0" );
+     
       CmsNewPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cmsNew", "CmsNew");
       EClass clsSemester=(EClass) pack.getEClassifier("Semester");
@@ -116,7 +120,7 @@ public class ConfluenceProjTestCMSnew {
       System.out.println("");
       System.out.println("-------------------------------------------------------------");
       System.out.println("Starting ConfluenceProjTestCMS/test_Exam_v0" );
-      
+          
       CmsNewPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cmsNew", "CmsNew");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");

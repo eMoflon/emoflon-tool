@@ -14,35 +14,16 @@ public class ContextFactory
 {
 
    private static ContextFactory instance = null;
-   private final int NUMEROFCONTEXTS=5;
-   private List<Context> contexts=new LinkedList<Context>();
-   
+   private int NUMEROFCONTEXTS=20;
+   private LinkedList<Context> contexts=new LinkedList<Context>();
+
    
 
 
    public ContextFactory()
    {
       super();
-      // TODO Auto-generated constructor stub
-   }
-
-
-   public static ContextFactory getInstance() {
-      if (instance == null) 
-      {
-         synchronized (ContextFactory.class) {
-            if (instance == null) {
-               instance = new ContextFactory();
-               instance.init();
-            }
-         }
-      }
-      return instance;
-   }
-
-
-   private synchronized void init()
-   {
+      System.out.println("FOOO");
       for (int i = 0; i < NUMEROFCONTEXTS;i++)
       {
        
@@ -61,6 +42,23 @@ public class ContextFactory
          
       }
    }
+
+
+   public static ContextFactory getInstance() {
+      if (instance == null) 
+      {
+         synchronized (ContextFactory.class) {
+            if (instance == null) {
+               instance = new ContextFactory();
+               
+            }
+         }
+      }
+      return instance;
+   }
+
+
+  
    public synchronized Context takeContext()
    {
 
@@ -71,7 +69,7 @@ public class ContextFactory
          catch (InterruptedException e) { } 
 
       } 
-      Context ctx = contexts.get(0); 
+      Context ctx = contexts.remove(0); 
       return ctx;
 
    }
@@ -83,10 +81,11 @@ public class ContextFactory
    }
    
    
-   public synchronized BoolExpr parseSMTLibString(Context ctx,String smtStr) throws Z3Exception
+   public static synchronized BoolExpr parseSMTLibString(Context ctx,final String smtStr) throws Z3Exception
    {
      
 //      System.out.println("X");
+       
          BoolExpr exp;
          exp = ctx.parseSMTLIB2String(smtStr, null, null, null, null);
          return   exp;

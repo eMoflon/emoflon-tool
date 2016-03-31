@@ -19,20 +19,21 @@ import org.moflon.dependency.PackageRemappingDependency;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 import org.moflon.maave.tool.category.CategoryPackage;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
+import org.moflon.maave.wsconfig.WsInfo;
 
 import SDMLanguage.SDMLanguagePackage;
 
 
 public class TestRunner {
-	public static String workspaceLoc;
+
 
 
 
 	public static void main(String[] args) {
 
-		TestRunner.workspaceLoc=args[0];
+
 		
-		System.out.println(System.getenv("CurrentWSLoc"));
+		
 		Result result = JUnitCore.runClasses(AllTests.class);
 		
 		
@@ -50,7 +51,7 @@ public class TestRunner {
 	public static EPackage loadTestMM(String pluginName, String projectName){
 		ResourceSet rs =new ResourceSetImpl();
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
-		rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true), URI.createFileURI(workspaceLoc+ "\\"));
+		rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true), URI.createFileURI(WsInfo.getCurrentWsLoc()+ "\\"));
 		rs.getURIConverter().getURIMap().put(URI.createPlatformPluginURI("/"+pluginName+"/", true), URI.createPlatformResourceURI("/"+projectName+"/", true));
 
 		//		URI uri3=URI.createURI("platform:/plugin/org.moflon.SDMLanguage/model/SDMLanguage.ecore",true);
@@ -71,7 +72,7 @@ public class TestRunner {
 	public static SymbGTRule loadTestModel(String name){
 		ResourceSet rs=new ResourceSetImpl();
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-		rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true), URI.createFileURI(workspaceLoc + "\\"));
+		rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true), URI.createFileURI(WsInfo.getCurrentWsLoc() + "\\"));
 		rs.getURIConverter().getURIMap().put(URI.createPlatformPluginURI("/TestGenerator/", true), URI.createPlatformResourceURI("/TestGenerator/", true));
 		
 		URI testGeneratorURI =URI.createURI("platform:/plugin/TestGenerator/model/TestGenerator.ecore",true);
@@ -95,7 +96,7 @@ public class TestRunner {
 	public static void saveTestResult(EObject obj,String name) {
 		ResourceSet rs =new ResourceSetImpl();
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-		rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true), URI.createFileURI(workspaceLoc+ "\\"));
+		rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true), URI.createFileURI(WsInfo.getCurrentWsLoc()+ "\\"));
 		//rs.getURIConverter().getURIMap().put(URI.createPlatformPluginURI(pluginName, true), URI.createPlatformResourceURI(projectName, true));
 
 		PackageRemappingDependency d = new PackageRemappingDependency(URI.createPlatformResourceURI("/org.moflon.maave.tests.testsuite/instances/"+name+".xmi", true), false, false);

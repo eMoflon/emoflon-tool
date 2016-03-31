@@ -20,20 +20,21 @@ public class Z3AttribSolver implements IAttribSolver {
    
 
 	public Z3AttribSolver()
-   {
-      formulaTransformer=new FormulaToSMTLibTransformer();
+	{
+      super();
+	   formulaTransformer=new FormulaToSMTLibTransformer();
    }
    public Status check(String smtStr) throws Z3Exception 
    {
       String smtStr2=new String(smtStr);
-      
+//      System.out.println(smtStr2);
       Context ctx= ContextFactory.getInstance().takeContext();
-      BoolExpr eq =ContextFactory.getInstance().parseSMTLibString(ctx, smtStr2);
+      BoolExpr eq =ContextFactory.parseSMTLibString(ctx, smtStr2);
       Solver s=ctx.mkSolver();
       s.add(eq);
       Status status=s.check();
-      ctx.dispose();
-      s.dispose();
+//      ctx.dispose();
+//      s.dispose();
       ContextFactory.getInstance().releaseContext(ctx);
       if (status==Status.UNKNOWN)
       {

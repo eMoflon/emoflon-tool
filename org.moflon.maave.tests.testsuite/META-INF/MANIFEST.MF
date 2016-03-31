@@ -32,4 +32,5 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.moflon.maave.tests.testgen.genfeaturemodel;bundle-version="1.0.0",
  org.moflon.maave.tests.lang.cms;bundle-version="1.0.0",
  org.moflon.maave.tool.graphtransformation,
- org.moflon.maave.tests.lang.cmsNew;bundle-version="1.0.0"
+ org.moflon.maave.tests.lang.cmsNew;bundle-version="1.0.0",
+ org.moflon.maave.wsconfig;bundle-version="1.0.0"
