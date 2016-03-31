@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.maave.tool.analysis.confluence;singlet
  on:=true
-Export-Package: org.moflon.maave.tool.analysis.confluence.impl,
- org.moflon.maave.tool.analysis.confluence,
+Export-Package: org.moflon.maave.tool.analysis.confluence,
+ org.moflon.maave.tool.analysis.confluence.impl,
+ org.moflon.maave.tool.analysis.confluence.prettyprinter,
  org.moflon.maave.tool.analysis.confluence.util
 Bundle-Name: org.moflon.maave.tool.analysis.confluence
 Bundle-Version: 1.0.0.qualifier

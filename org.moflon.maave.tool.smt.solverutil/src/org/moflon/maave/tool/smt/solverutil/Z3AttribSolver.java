@@ -33,8 +33,8 @@ public class Z3AttribSolver implements IAttribSolver {
       Solver s=ctx.mkSolver();
       s.add(eq);
       Status status=s.check();
-//      ctx.dispose();
-//      s.dispose();
+      ctx.dispose();
+      s.dispose();
       ContextFactory.getInstance().releaseContext(ctx);
       if (status==Status.UNKNOWN)
       {

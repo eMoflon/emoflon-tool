@@ -35,6 +35,7 @@ import SDMLanguage.patterns.StoryPattern;
 
 public class ConfluenceProjTestCMSMandatory {
 
+  
    @Test
    public void test1() {
       System.out.println("");
@@ -45,8 +46,8 @@ public class ConfluenceProjTestCMSMandatory {
       EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
 
-      
-     
+
+
 
 
       SymbGTRule rule1=ModelHelper.getRule(clsEnrollment,"registerForExam");
@@ -58,7 +59,7 @@ public class ConfluenceProjTestCMSMandatory {
       GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
       gts.getRules().add(rule1);
       gts.getRules().add(rule6);
-      
+
 
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
@@ -76,6 +77,7 @@ public class ConfluenceProjTestCMSMandatory {
 
 
    }
+   
    @Test
    public void test2() {
       System.out.println("");
@@ -84,10 +86,7 @@ public class ConfluenceProjTestCMSMandatory {
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
       EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
-      EClass clsExam=(EClass) pack.getEClassifier("Exam");
 
-      
-     
 
 
       SymbGTRule rule1=ModelHelper.getRule(clsEnrollment,"registerForExam");
@@ -129,19 +128,16 @@ public class ConfluenceProjTestCMSMandatory {
 
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
 
-      
-     
 
-  
-      SymbGTRule rule1=ModelHelper.getRule(clsExam,"transscriptRecord");
-      
+
+
 
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
 
 
       GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
-      gts.getRules().add(rule1);
-    
+      gts.getRules().add(ModelHelper.getRule(clsExam,"transscriptRecordPassed"));
+      gts.getRules().add(ModelHelper.getRule(clsExam,"transscriptRecordFailed"));
 
 
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
@@ -151,24 +147,25 @@ public class ConfluenceProjTestCMSMandatory {
       MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
       NegativeConstraint mmC=constraintBuilder.buildConstraints(pack);
       gts.getConstraints().add(mmC);
-      
+
       //Add user defined constraints
       NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
       for (int i = 0; i < 4; i++)
       {
-         
-      
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
-      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
-      System.out.println(report);
+
+
+         DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+         ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
+         assertTrue(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
+         assertTrue(report.getConfluenceStates().stream().allMatch(x->x.getNrOfCriticalpairs()>0));
+         System.out.println(report);
       }
-//      assertTrue(report.getConfluenceStates().stream().anyMatch(x->x.isValid())==false);
-//      assertTrue(report.getConfluenceStates().stream().anyMatch(x->x.getNrOfCriticalpairs()>0));
+
 
    }
-  
-   
-  
+
+
+
 }

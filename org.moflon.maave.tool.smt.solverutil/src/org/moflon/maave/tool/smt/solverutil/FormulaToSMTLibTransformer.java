@@ -1,33 +1,29 @@
 package org.moflon.maave.tool.smt.solverutil;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.STGroup;
-import org.moflon.maave.tool.smt.smtlib.SMTLib;
-import org.moflon.maave.tool.smt.smtlib.SmtLibHelper;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.IdentityMapping;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Conjunction;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Disjunction;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Quantifier;
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroup;
 
 public class FormulaToSMTLibTransformer implements IFormulaTransformer {
 
 	private IPredicateTransformer predicateTransformer;
 	private STGroup stg;
-	private SMTLib smtLib;
+
 	private static final String IMPLICATION="=>";
 	private static final String BI_IMPLICATION="=";
 	
 	public FormulaToSMTLibTransformer() {
 		this.stg = new STGroup('<', '>');
 		this.stg.loadGroupFile("/","file:/"+System.getenv("CurrentWSLoc")+"/org.moflon.maave.tool.smt.solverutil/templates/logic.stg");
-		this.smtLib=SmtLibHelper.getInstance().getSMTLib();
-		this.predicateTransformer=new PredicateTransformer2(smtLib);
+		
+		this.predicateTransformer=new PredicateTransformer2();
 	}
 	
 /* (non-Javadoc)

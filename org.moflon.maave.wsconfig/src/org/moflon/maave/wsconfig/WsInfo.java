@@ -15,4 +15,9 @@ public class WsInfo {
 		}
 		return verboseLevel;
 	}
+	public static String getCurrentWsLoc()
+   {
+   
+   return System.getenv().get("CurrentWSLoc");
+   }
 }

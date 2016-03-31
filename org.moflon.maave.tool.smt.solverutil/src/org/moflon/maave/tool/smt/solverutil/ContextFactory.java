@@ -3,7 +3,6 @@ package org.moflon.maave.tool.smt.solverutil;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
@@ -14,7 +13,7 @@ public class ContextFactory
 {
 
    private static ContextFactory instance = null;
-   private int NUMEROFCONTEXTS=20;
+   private int NUMEROFCONTEXTS=6;
    private LinkedList<Context> contexts=new LinkedList<Context>();
 
    

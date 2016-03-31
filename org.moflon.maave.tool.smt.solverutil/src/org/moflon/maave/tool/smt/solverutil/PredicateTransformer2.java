@@ -27,14 +27,14 @@ public class PredicateTransformer2 implements IPredicateTransformer
    private HashSet<EDataType> toBeDeclaredTypes=new HashSet<EDataType>();
    private HashSet<String> toBeDeclaredPredicates=new HashSet<String>();
    private HashMap<LabelNode,String> toBeDeclaredVariables=new HashMap<LabelNode,String>();
-   private SMTLib smtLib;
+
    
    
    
-   public PredicateTransformer2(SMTLib smtLib)
+   public PredicateTransformer2()
    {
       super();
-      this.smtLib = smtLib;
+      
    }
 
    @Override
@@ -78,13 +78,14 @@ public class PredicateTransformer2 implements IPredicateTransformer
         else
         {
            Constant constant=(Constant) param;
-           variableSymbol=smtLib.getSmtLibConstantValue(constant.getInterpretation(),constant.getType());           
+           
+           variableSymbol=SmtLibHelper.getInstance().getSMTLib().getSmtLibConstantValue(constant.getInterpretation(),constant.getType());           
         }
         variableSymbols.add(variableSymbol);
   
      }
-     toBeDeclaredPredicates.add(smtLib.getSmtLibPredicateDeclaration(predicate));
-     return smtLib.getSmtLibPredicateInvocation(predicate, variableSymbols);
+     toBeDeclaredPredicates.add(SmtLibHelper.getInstance().getSMTLib().getSmtLibPredicateDeclaration(predicate));
+     return SmtLibHelper.getInstance().getSMTLib().getSmtLibPredicateInvocation(predicate, variableSymbols);
      
    }
 
@@ -101,7 +102,7 @@ public class PredicateTransformer2 implements IPredicateTransformer
       List<String> varDeclarations=new LinkedList<String>();
       for (LabelNode variable : toBeDeclaredVariables.keySet())
       {
-         varDeclarations.add(smtLib.getSmtLibVariableDeclarations(toBeDeclaredVariables.get(variable), variable.getType()));
+         varDeclarations.add(SmtLibHelper.getInstance().getSMTLib().getSmtLibVariableDeclarations(toBeDeclaredVariables.get(variable), variable.getType()));
       }
       
       
@@ -111,7 +112,7 @@ public class PredicateTransformer2 implements IPredicateTransformer
    @Override
    public Collection<String> getSortDeclarations()
    {
-      return toBeDeclaredTypes.stream().map(x->smtLib.getSortDeclaration(x)).filter(x->x!=null).collect(Collectors.toList());
+      return toBeDeclaredTypes.stream().map(x->SmtLibHelper.getInstance().getSMTLib().getSortDeclaration(x)).filter(x->x!=null).collect(Collectors.toList());
    }
    
    public List<String> getQuantifiedVarDef(Disjunction disjunction)
@@ -126,7 +127,7 @@ public class PredicateTransformer2 implements IPredicateTransformer
          varSymbolBuilder.append(variable.getLabel());
          varSymbolBuilder.append(IFormulaTransformer.QANT_VAR_SUFFIX);
          varSymbolBuilder.append(((Quantifier)variable.eContainer()).getLabelNodes().indexOf(variable));
-         exVarDefs.add(smtLib.getSmtLibQuantifiedVarDeclaration(variable.getType(), varSymbolBuilder.toString()));
+         exVarDefs.add(SmtLibHelper.getInstance().getSMTLib().getSmtLibQuantifiedVarDeclaration(variable.getType(), varSymbolBuilder.toString()));
          
       }
       return exVarDefs;
