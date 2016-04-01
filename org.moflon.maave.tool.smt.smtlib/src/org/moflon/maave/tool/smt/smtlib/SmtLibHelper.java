@@ -20,8 +20,9 @@ public class SmtLibHelper
       if (instance == null) {
          synchronized (SmtLibHelper.class) {
             if (instance == null) {
-               instance = new SmtLibHelper();
-               instance.init();
+               SmtLibHelper newHelper= new SmtLibHelper();
+               newHelper.init();
+               instance = newHelper;
             }
          }
       }

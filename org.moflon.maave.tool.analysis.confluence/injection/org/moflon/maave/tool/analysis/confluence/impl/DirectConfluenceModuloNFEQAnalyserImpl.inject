@@ -43,6 +43,8 @@ partial class DirectConfluenceModuloNFEQAnalyserImpl {
 
             ConfluenceAnalysisResult result = ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult();
             result.setValid(false);
+            result.setRuleA(rule1.getName());
+            result.setRuleB(rule2.getName());
             for (DirectDerivationPair criticalPair : criticalPairSet.getPairsOfDirectDerivations())
             {
 

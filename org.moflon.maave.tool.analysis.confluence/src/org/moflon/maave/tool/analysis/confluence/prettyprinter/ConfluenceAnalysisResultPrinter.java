@@ -1,5 +1,9 @@
 package org.moflon.maave.tool.analysis.confluence.prettyprinter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisResult;
 import org.moflon.maave.tool.graphtransformation.DirectDerivationPair;
@@ -93,5 +97,83 @@ public class ConfluenceAnalysisResultPrinter
          sb.append("===========================================================================");
       }
       return sb.toString();
+   }
+   
+   public static String confluenceReportToTable(ConfluenceAnalysisReport report)
+   {
+//      ArrayList<ArrayList<String>> table=new ArrayList<ArrayList<String>>();
+      HashMap<String, Integer> nameToIndex=new HashMap();
+      int i=0;
+      for (ConfluenceAnalysisResult result : report.getConfluenceStates())
+      {
+         if(nameToIndex.containsKey(result.getRuleA())==false)
+         {
+            nameToIndex.put(result.getRuleA(), i);
+            i++;
+         }
+      }
+      String[][] table = new String[nameToIndex.keySet().size()+1][nameToIndex.keySet().size()+1];
+      
+      for (String st1 : nameToIndex.keySet())
+      {
+         String st=st1.replace("_", "\\_");
+         table[0][nameToIndex.get(st1)+1]=st;
+         
+         table[nameToIndex.get(st1)+1][0]=st;
+      }
+      for (ConfluenceAnalysisResult result : report.getConfluenceStates())
+      {
+         int iy=nameToIndex.get(result.getRuleA())+1;
+         int ix=nameToIndex.get(result.getRuleB())+1;
+         if(result.isValid())
+         {
+//            if(result.getNrOfCriticalpairs()==0)
+//            {
+//               table[ix][iy]=" ";
+//            }
+//            else
+//            {
+//               table[ix][iy]=" ";
+//            }
+//            table[ix][iy]=String.valueOf(result.getNrOfCriticalpairs());
+            table[ix][iy]=" ";
+         }
+         else
+         {
+            table[ix][iy]="X";
+         }
+         if(ix!=iy)
+         {
+            table[iy][ix]="o";
+         }
+      }
+      StringBuilder tb=new StringBuilder();
+      tb.append("\\begin{tabular}{|");
+      for (int x = 0; x < table.length; x++)
+      {
+         tb.append("c|");
+      }
+      tb.append("|}\n");
+      tb.append("\\hline \n");
+      
+      tb.append(Arrays.asList(table[0]).stream().map(x->"\\rot{"+x+"}").reduce((a, b) -> a+"&"+b).get());
+      tb.append("\\\\ \\hline \n");
+      for (int x = 1; x < table.length; x++)
+      {
+         if(x==0)
+         {
+            
+         }
+         tb.append(Arrays.asList(table[x]).stream().reduce((a, b) -> a+"&"+b).get());
+         tb.append("\\\\ \\hline \n");
+         
+      }
+      tb.append("\\end{tabular}");
+      System.out.println(tb);
+      
+      return null;   
+      
+      
+      
    }
 }
