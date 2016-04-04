@@ -4,7 +4,7 @@
    <description name="Update site for eMoflon MOSL-TGG" url="http://www.emoflon.org/emoflon/installation/">
       Update site for eMoflon MOSL-TGG
    </description>
-   <feature url="features/org.moflon.tgg.mosl.feature_2.13.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="2.13.0.qualifier">
+   <feature url="features/org.moflon.tgg.mosl.feature_2.13.0.201604041640.jar" id="org.moflon.tgg.mosl.feature" version="2.13.0.201604041640">
       <category name="org.moflon.ide"/>
    </feature>
    <category-def name="org.moflon.ide" label="eMoflon">

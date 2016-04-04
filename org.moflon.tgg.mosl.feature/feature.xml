@@ -3,9 +3,7 @@
       id="org.moflon.tgg.mosl.feature"
       label="eMoflon MOSL-TGG"
       version="2.13.0.qualifier"
-      provider-name="Real-Time Systems Lab, TU Darmstadt"
-      license-feature="org.moflon.ide.feature"
-      license-feature-version="2.13.0">
+      provider-name="Real-Time Systems Lab, TU Darmstadt">
 
    <description url="http://www.emoflon.org/">
       This features contains plugins related to the textual syntax
@@ -28,7 +26,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
    </license>
 
    <requires>
-      <import feature="org.moflon.ide.feature" version="2.12.0.201602221344"/>
+      <import feature="org.moflon.ide.feature" version="2.12.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.xtext.xbase" version="2.9.1" match="greaterOrEqual"/>
    </requires>
 
