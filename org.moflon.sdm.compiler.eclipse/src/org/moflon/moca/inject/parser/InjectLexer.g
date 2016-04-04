@@ -40,6 +40,8 @@ import org.moflon.core.moca.processing.ProblemType;
 
 IMPORT_KEYWORD: 'import';
 
+STATIC_KEYWORD: 'static';
+
 CLASS_KEYWORD: 'class';
 
 PARTIAL_KEYWORD: 'partial';
