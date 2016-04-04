@@ -13,7 +13,7 @@ Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Export-Package: org.moflon.tgg.runtime,
  org.moflon.tgg.runtime.impl,
  org.moflon.tgg.runtime.util
-Bundle-Name: org.moflon.tgg.runtime (MOFLON)
+Bundle-Name: org.moflon.tgg.runtime
 Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
