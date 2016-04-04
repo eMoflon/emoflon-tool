@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site
-associateSitesURL="http://www.moflon.org/fileadmin/download/moflon-ide/eclipse-plugin/beta/update-site2/associateSites.xml">
- <description name="Update site for eMoflon MOSL-TGG" url="http://www.emoflon.org/emoflon/installation/">
+      associateSitesURL="http://www.moflon.org/fileadmin/download/moflon-ide/eclipse-plugin/beta/update-site2/associateSites.xml">
+   <description name="Update site for eMoflon MOSL-TGG" url="http://www.emoflon.org/emoflon/installation/">
       Update site for eMoflon MOSL-TGG
    </description>
-   <feature url="features/org.moflon.ide.metamodelevolution.feature_2.13.0.qualifier.jar" 
-   		id="org.moflon.tgg.mosl.feature" 
-   		version="2.13.0.qualifier">
+   <feature url="features/org.moflon.tgg.mosl.feature_2.13.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="2.13.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
    <category-def name="org.moflon.ide" label="eMoflon">
