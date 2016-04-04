@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.moflon.tgg.tggproject;singleton:=true
+Export-Package: org.moflon.tgg.tggproject,
+ org.moflon.tgg.tggproject.impl,
+ org.moflon.tgg.tggproject.util
+Bundle-Name: org.moflon.tgg.tggproject
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities,
+ org.moflon.tgg.language,
+ SDMLanguage,
+ MocaTree
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt
