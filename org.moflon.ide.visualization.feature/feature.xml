@@ -11,7 +11,8 @@
       This feature provides visualization support for meta-models and
 TGGs.
 
-This feature requires PlantUML to be installed. If the automatic installation does not work, PlantUML can be installed from the following update site:
+This feature requires PlantUML to be installed.
+If the automatic installation does not work, PlantUML can be installed from the following update site:
 http://basar.idi.ntnu.no/svn/tdt4100/anonymous/trunk/updatesite/
    </description>
 
@@ -21,10 +22,6 @@ Emmanuel Mangatia - Les Lunettes Bleues, from The Noun Project
 Wrench CC-by Josh Dean, from The Noun Project
 Hammer by Wes Breazell from the Noun Project
    </copyright>
-
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
-   </license>
 
    <requires>
       <import feature="org.moflon.ide.feature" version="2.6.0" match="greaterOrEqual"/>
