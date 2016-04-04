@@ -13,6 +13,8 @@ tokens {
   MEMBERS;
   MODEL;
   METHOD;
+  STATIC_IMPORT_NODE;
+  REGULAR_IMPORT_NODE;
 }
 
 @header {
@@ -60,7 +62,11 @@ classHead: PARTIAL_KEYWORD CLASS_KEYWORD STRING;
 
 imports: (importStatement)* -> ^(IMPORTS importStatement*);
 
-importStatement: IMPORT_KEYWORD STRING SEMICOLON -> STRING;
+importStatement: (x=regularImportStatement | x=staticImportStatement) -> $x;
+
+regularImportStatement: IMPORT_KEYWORD fqn=STRING SEMICOLON -> ^(REGULAR_IMPORT_NODE $fqn);
+
+staticImportStatement: IMPORT_KEYWORD STATIC_KEYWORD fqn=STRING SEMICOLON -> ^(STATIC_IMPORT_NODE $fqn);
 
 
 implBody: members? model* -> ^(MEMBERS members?) ^(MODEL model*);

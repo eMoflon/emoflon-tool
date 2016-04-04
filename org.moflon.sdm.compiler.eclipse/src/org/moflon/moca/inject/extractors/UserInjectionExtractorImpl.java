@@ -22,6 +22,7 @@ import org.moflon.core.moca.processing.ProcessingFactory;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.parser.InjectImplParserAdapter;
+import org.moflon.moca.inject.parser.InjectParser;
 import org.moflon.moca.inject.parser.InjectParserAdapter;
 import org.moflon.moca.inject.util.ClassNameToPathConverter;
 import org.moflon.moca.inject.util.MatchingParametersChecker;
@@ -349,7 +350,12 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
 
       for (final Text childNode : children)
       {
-         imports.add(childNode.getName());
+         if (InjectParser.tokenNames[InjectParser.STATIC_IMPORT_NODE].equals(childNode.getName())) {
+            imports.add("static " + ((Node)childNode).getChildren().get(0).getName());
+         }
+         else if (InjectParser.tokenNames[InjectParser.REGULAR_IMPORT_NODE].equals(childNode.getName())) {
+            imports.add(((Node)childNode).getChildren().get(0).getName());
+         }
       }
 
       return imports;

@@ -73,4 +73,4 @@ PARAMETER_END: ')';
 COMMA: ',';
 
 // Common token definitions
-STRING: ('_' | ('a'..'z') | ('A'..'Z') | ('0'..'9') | DOT | '*')+; 
+STRING: ('_' | ('a'..'z') | ('A'..'Z') | ('0'..'9') | DOT | '*')+;
