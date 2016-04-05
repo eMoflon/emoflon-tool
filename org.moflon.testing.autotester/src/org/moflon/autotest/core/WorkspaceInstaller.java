@@ -7,14 +7,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -23,10 +26,15 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.mwe2.language.Mwe2StandaloneSetup;
+import org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher;
+import org.eclipse.emf.mwe2.launch.runtime.Mwe2Runner;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -43,6 +51,8 @@ import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
 import org.moflon.ide.core.util.BuilderHelper;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 import org.moflon.ide.workspaceinstaller.psf.PSFPlugin;
+
+import com.google.inject.Injector;
 
 @SuppressWarnings("restriction")
 public class WorkspaceInstaller
@@ -133,14 +143,18 @@ public class WorkspaceInstaller
             try
             {
                logger.info("Installing " + displayName + "...");
-               monitor.beginTask("Installing " + displayName, 400);
+               monitor.beginTask("Installing " + displayName, 500);
                if (BuilderHelper.turnOffAutoBuild())
                {
                   logger.info("Ok - I was able to switch off auto build ...");
 
                   checkOutProjectsWithPsfFiles(absolutePathsToPSF, WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                  logger.info("All projects have now been checked out ...");
+                  logger.info("Invoking MWE2 workflows...");
+
+                  invokeMwe2Workflows(WorkspaceHelper.createSubMonitor(monitor, 100));
+
+                  logger.info("Exporting EAP files...");
 
                   exportModelsFromEAPFilesInWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
 
@@ -246,6 +260,67 @@ public class WorkspaceInstaller
          monitor.done();
       }
 
+   }
+
+   private void invokeMwe2Workflows(final IProgressMonitor monitor) throws CoreException
+   {
+      try
+      {
+         final List<IFile> collectedWorkflows = collectMwe2Workflows();
+         monitor.beginTask("Invoking MWE2 Workflows", 20 * collectedWorkflows.size());
+         for (final IFile file : collectedWorkflows)
+         {
+            // See: https://wiki.eclipse.org/EMF/FAQ#How_do_I_map_between_an_EMF_Resource_and_an_Eclipse_IFile.3F
+            final URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
+            try
+            {
+               // final Injector injector = new Mwe2StandaloneSetup().createInjectorAndDoEMFRegistration();
+               // final Mwe2Runner mweRunner = injector.getInstance(Mwe2Runner.class);
+               // mweRunner.run(URI.createPlatformResourceURI(file.getFullPath().toString(), true), new HashMap<>());
+               new Mwe2Launcher().run(new String[] { uri.toString() });
+               monitor.worked(20);
+            } catch (final Exception ex)
+            {
+               // TODO@rkluge: Fail silently for now.
+               ex.printStackTrace();
+               logger.debug(String.format("Invoking Mwe2Launcher with %s failed. Reason: %s", uri, ex.getMessage()));
+            }
+         }
+
+      } finally
+      {
+         monitor.done();
+      }
+   }
+
+   /**
+    * Returns the list of all MWE2 files in eMoflon-specific projects
+    */
+   private List<IFile> collectMwe2Workflows() throws CoreException
+   {
+      final List<IFile> collectedWorkflows = new ArrayList<>();
+      ResourcesPlugin.getWorkspace().getRoot().accept(new IResourceVisitor() {
+
+         @Override
+         public boolean visit(IResource resource) throws CoreException
+         {
+            // Only consider Moflon-specific IProjects
+            if ((resource.getAdapter(IProject.class) != null && !resource.getName().startsWith("org.moflon"))
+                  || (resource.getAdapter(IFolder.class) != null && Arrays.asList("bin").contains(resource.getName())))
+            {
+               return false;
+            } else if (resource.getAdapter(IFile.class) != null & resource.getName().endsWith(".mwe2"))
+            {
+               collectedWorkflows.add(resource.getAdapter(IFile.class));
+               return false;
+            } else
+            {
+               return true;
+            }
+
+         }
+      });
+      return collectedWorkflows;
    }
 
    private List<String> extractPsfFileContents(final List<String> absolutePathsToPSF) throws IOException
