@@ -108,4 +108,7 @@
 2016-02-27	Bugfix: Errors in validation are not reported properly #668
 2016-02-27	Build process: A single failure should not stop the whole build process #670 
 2016-03-01	Introduce a timeout for the validation process
-2016-03-16	Redundant rebuilds when manually building multiple projects #677 
+2016-03-16	Redundant rebuilds when manually building multiple projects #677
+2016-03-XX	New syntax for SDM-CSPs: "importPackage Ecore;", "::" notation for literals, support for EEnum types 
+2016-04-05	eMoflon 2.13.0 released
+---
