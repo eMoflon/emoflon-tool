@@ -154,25 +154,33 @@ public class WorkspaceInstaller
 
                   invokeMwe2Workflows(WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                  logger.info("Exporting EAP files...");
+                  if (exportingEapFilesRequired(displayName))
+                  {
+                     logger.info("Exporting EAP files...");
 
-                  exportModelsFromEAPFilesInWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
+                     exportModelsFromEAPFilesInWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                  logger.info("Great! All model (.ecore) files have been exported ...");
+                     logger.info("Great! All model (.ecore) files have been exported ...");
 
-                  logger.info("Now refreshing and turning auto build back on to invoke normal code generation (build) process ...");
+                     logger.info("Now refreshing and turning auto build back on to invoke normal code generation (build) process ...");
+                  }
 
                   refreshAndBuildWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                  logger.info("Finished building workspace...  Running tests if any test projects according to our naming convention exist (*TestSuite*)");
+                  logger.info("Finished building workspace...");
 
-                  // Without this time of waiting, a NPE is thrown
-                  // when launching JUnit.
-                  Thread.sleep(5000);
+                  if (runningJUnitTestsRequired(displayName))
+                  {
+                     logger.info("Running tests if any test projects according to our naming convention exist (*TestSuite*)");
+                     // Without this time of waiting, a NPE is thrown
+                     // when launching JUnit.
+                     Thread.sleep(5000);
 
-                  runJUnitTests(WorkspaceHelper.createSubMonitor(monitor, 100));
+                     runJUnitTests(WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                  logger.info("Finished auto-test process - Good bye!");
+                     logger.info("Finished auto-test process");
+                  }
+                  logger.info("Workspace installation completed succesfully. Bye bye.");
                }
                return Status.OK_STATUS;
             } catch (final InterruptedException e)
@@ -200,6 +208,7 @@ public class WorkspaceInstaller
       };
       job.setUser(true);
       job.schedule();
+
    }
 
    private void runJUnitTests(final IProgressMonitor monitor) throws InterruptedException, CoreException
@@ -262,6 +271,11 @@ public class WorkspaceInstaller
 
    }
 
+   /**
+    * Executes relevant MWE2 workflows in the workspace
+    * 
+    * @see #collectMwe2Workflows()
+    */
    private void invokeMwe2Workflows(final IProgressMonitor monitor) throws CoreException
    {
       try
@@ -274,6 +288,7 @@ public class WorkspaceInstaller
             final URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
             try
             {
+               logger.debug(String.format("Invoking Mwe2Launcher for %s.", uri));
                // final Injector injector = new Mwe2StandaloneSetup().createInjectorAndDoEMFRegistration();
                // final Mwe2Runner mweRunner = injector.getInstance(Mwe2Runner.class);
                // mweRunner.run(URI.createPlatformResourceURI(file.getFullPath().toString(), true), new HashMap<>());
@@ -281,7 +296,7 @@ public class WorkspaceInstaller
                monitor.worked(20);
             } catch (final Exception ex)
             {
-               // TODO@rkluge: Fail silently for now.
+               // TODO@rkluge: Fail silently because the Mwe2Launcher fails, currently.
                ex.printStackTrace();
                logger.debug(String.format("Invoking Mwe2Launcher with %s failed. Reason: %s", uri, ex.getMessage()));
             }
@@ -291,6 +306,30 @@ public class WorkspaceInstaller
       {
          monitor.done();
       }
+   }
+
+   /**
+    * Returns true if EAP files shall be exported, based on the provided displayed name
+    */
+   private boolean exportingEapFilesRequired(String displayName)
+   {
+      // When installing the 'handbook' workspace, only latex sources are downloaded.
+      if (EMoflonStandardWorkspaces.HANDBOOK_WORKSPACE_NAME.equals(displayName))
+         return false;
+
+      return true;
+   }
+
+   /**
+    * Returns true if the JUnit tests in the workspace shall be executed, based on the provided displayed name
+    */
+   private boolean runningJUnitTestsRequired(String displayName)
+   {
+      // When installing the 'handbook' workspace, only latex sources are downloaded.
+      if (EMoflonStandardWorkspaces.HANDBOOK_WORKSPACE_NAME.equals(displayName))
+         return false;
+
+      return true;
    }
 
    /**
