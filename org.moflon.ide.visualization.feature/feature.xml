@@ -3,9 +3,7 @@
       id="org.moflon.ide.visualization.feature"
       label="eMoflon Visualization Feature (optional, requires PlantUML)"
       version="2.7.0.qualifier"
-      provider-name="Real-Time Systems Lab, TU Darmstadt"
-      license-feature="org.moflon.ide.feature"
-      license-feature-version="2.13.0.qualifier">
+      provider-name="Real-Time Systems Lab, TU Darmstadt">
 
    <description url="http://www.emoflon.org/">
       This feature provides visualization support for meta-models and
@@ -22,6 +20,14 @@ Emmanuel Mangatia - Les Lunettes Bleues, from The Noun Project
 Wrench CC-by Josh Dean, from The Noun Project
 Hammer by Wes Breazell from the Noun Project
    </copyright>
+
+   <license url="http://www.gnu.org/licenses/gpl-3.0.html;http://www.eclipse.org/org/documents/epl-v10.php">
+      eMoflon is dual-licensed under the GNU General Public License (GPL), version 3 or later, and the Eclipse Public License (EPL). 
+As a recipient of eMoflon, you may choose which license to receive the code under. 
+
+See here for more details on GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
+See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.php
+   </license>
 
    <requires>
       <import feature="org.moflon.ide.feature" version="2.6.0" match="greaterOrEqual"/>
