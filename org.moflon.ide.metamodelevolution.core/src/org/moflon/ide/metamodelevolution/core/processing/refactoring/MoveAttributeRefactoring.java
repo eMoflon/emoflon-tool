@@ -1,5 +1,6 @@
 package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -7,7 +8,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.refactoring.IJavaRefactorings;
@@ -21,6 +21,8 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 public class MoveAttributeRefactoring
 {
 
+   private static final Logger logger = Logger.getLogger(MoveAttributeRefactoring.class);
+	
    public void refactor(IProject project, String oldClassName, String newClassName) throws JavaModelException
    {
       RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(IJavaRefactorings.MOVE);
@@ -31,7 +33,6 @@ public class MoveAttributeRefactoring
 
       IFile oldFile = project.getFile(new Path("/gen/org/emoflon/TopologyMetamodel/" + oldClassName + ".java"));
       ICompilationUnit oldClass = JavaCore.createCompilationUnitFrom(oldFile);
-      IType[] types = oldClass.getTypes();
 
       if (oldClass.exists())
          descriptor.setMoveMembers(null);
@@ -57,7 +58,7 @@ public class MoveAttributeRefactoring
 
       catch (CoreException e)
       {
-         e.printStackTrace();
+    	  logger.error("An Exception has been Thrown", e);
       }
 
    }

@@ -1,8 +1,14 @@
 package org.moflon.ide.metamodelevolution.core.processing;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -23,6 +29,7 @@ import org.moflon.core.mocatomoflon.MocaToMoflonUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
 import org.moflon.ide.metamodelevolution.core.ChangeSequence;
+import org.moflon.ide.metamodelevolution.core.CoreFactory;
 import org.moflon.ide.metamodelevolution.core.EModelElementChange;
 import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
@@ -32,15 +39,23 @@ import org.moflon.ide.metamodelevolution.core.processing.refactoring.SequenceRef
 
 public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
 {
+   private static final Logger logger = Logger.getLogger(JavaRefactorProcessor.class);
+	
    private String implementationFileSuffix;
 
    private IProject project;
+   
+   private List<RenameChange> postChanges;
 
    public JavaRefactorProcessor(GenModel genModel)
    {
       super(genModel);
+      postChanges= new LinkedList<>();
    }
 
+   /*
+    * This is the Entry point to modify for Future Work
+    */
    @Override
    public IStatus processDelta(IProject project, ChangeSequence delta)
    {
@@ -58,9 +73,14 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
 
                if (renameChange.getElementType().equals(MocaToMoflonUtils.ECLASS_NODE_NAME))
                {
-                  if (createClassRefactorings(renameChange).isOK())
+            	  String tmpName = createTmpName(renameChange);
+            	  RenameChange firstRC = createNewRenameChange(renameChange.getPreviousValue(), tmpName, renameChange);
+             	  RenameChange secondRC = createNewRenameChange(tmpName, renameChange.getCurrentValue(), renameChange);
+             	   
+            	  postChanges.add(secondRC);
+                  if (createClassRefactorings(firstRC).isOK())
                   {
-                     findAndProcessInjections(renameChange);
+                     findAndProcessInjections(firstRC);
                   }
 
                } else if (renameChange.getElementType().equals(MocaToMoflonUtils.EPACKAGE_NODE_NAME))
@@ -78,9 +98,52 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
             // process changes in a tagged value
          }
       }
+      
+      for(RenameChange renameChange : postChanges)
+      {
+          if (createClassRefactorings(renameChange).isOK())
+          {
+             findAndProcessInjections(renameChange);
+          }  
+      }
       return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Refactoring successfull");
    }
-
+   
+   private RenameChange createNewRenameChange(String previous, String current, RenameChange old){
+	   RenameChange newRenameChange = CoreFactory.eINSTANCE.createRenameChange();
+	   newRenameChange.setPackageName(old.getPackageName());
+	   newRenameChange.setCurrentValue(current);
+	   newRenameChange.setPreviousValue(previous);
+	   newRenameChange.setElementType(old.getElementType());
+	   return newRenameChange;
+   }
+   
+   private String createTmpName(RenameChange renameChange){
+	   StringBuilder sb = new StringBuilder();
+	   sb.append(renameChange.getElementType()).append(createHash(renameChange.getPreviousValue(), renameChange.getCurrentValue()));
+	   return sb.toString();
+   }
+   
+   private String createHash(String previousName, String newName){
+	   StringBuilder sb = new StringBuilder();
+	   sb.append(previousName).append(newName);
+	   return sha1(sb.toString());
+   }
+   
+	private String sha1(String s) {
+		   try 
+		   {
+		        MessageDigest md = MessageDigest.getInstance( "SHA1" );
+		        md.update( s.getBytes() );
+		        return new BigInteger( 1, md.digest() ).toString(16);
+		    }
+		    catch (NoSuchAlgorithmException e) 
+		   {
+		    	logger.error("An Exception has been Thrown", e);
+		        return s;
+		   }
+		}
+   
    private IStatus createPackageRefactorings(RenameChange renameChange)
    {
       SequenceRefactoring sequenceRefactoring = new SequenceRefactoring(renameChange);
@@ -148,7 +211,7 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
          }
       } catch (CoreException e)
       {
-         e.printStackTrace();
+    	 logger.error("An Exception has been Thrown", e);
       }
 
       return projects;
@@ -187,7 +250,7 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
 
       } catch (Exception e)
       {
-         e.printStackTrace();
+    	  logger.error("An Exception has been Thrown", e);
       }
    }
 

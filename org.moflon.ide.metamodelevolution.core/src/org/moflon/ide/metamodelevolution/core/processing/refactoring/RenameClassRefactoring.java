@@ -72,7 +72,8 @@ public class RenameClassRefactoring implements RenameRefactoring
 
          Change change = refactoring.createChange(monitor);
          change.perform(monitor);
-
+         
+         
          if (processInjections)
          {
             processInjections(project, file);

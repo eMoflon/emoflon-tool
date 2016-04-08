@@ -1,6 +1,7 @@
 package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -8,18 +9,26 @@ import org.moflon.ide.metamodelevolution.core.RenameChange;
 
 public class SequenceRefactoring
 {
-   private final String previousName;
+	private static final Logger logger = Logger.getLogger(SequenceRefactoring.class);
+	
+	private final String previousName;
 
-   private final String currentName;
+	private final String currentName;
 
-   private final String packageName;
+	private final String packageName;
 
-   public SequenceRefactoring(RenameChange renameChange)
-   {
-      previousName = renameChange.getPreviousValue();
-      currentName = renameChange.getCurrentValue();
-      packageName = renameChange.getPackageName();
-   }
+	public SequenceRefactoring(RenameChange renameChange)
+	{
+		previousName = renameChange.getPreviousValue();
+		currentName = renameChange.getCurrentValue();
+		packageName = renameChange.getPackageName();
+	}
+   
+	public SequenceRefactoring(String previousName, String currentName, String packageName){
+		this.previousName = previousName;
+		this.currentName = currentName;
+		this.packageName = packageName;
+	}
 
    /**
     * This method creates all refactorings that are required to handle a Rename EClass change operation.
@@ -28,25 +37,36 @@ public class SequenceRefactoring
     * @param implFileSuffix
     * @return
     */
-   public IStatus createClassRefactorings(IProject project, String implFileSuffix)
-   {
-      RenameClassRefactoring interfaceRefactoring = new RenameClassRefactoring(previousName, currentName, packageName, true);
-      IStatus status = interfaceRefactoring.refactor(project);
-
-      String implPackageName = packageName + "/impl/";
-      RenameRefactoring classRefactoring = new RenameClassRefactoring(previousName + implFileSuffix, currentName + implFileSuffix, implPackageName, true);
-      classRefactoring.refactor(project);
-
-      RenameRefactoring factoryMethodRenaming = new RenameMethodRefactoring(getFactoryMethodName(previousName), getFactoryMethodName(currentName), packageName,
-            null, getFactoryInterfaceName(getLastPackageComponent(packageName)));
-      factoryMethodRenaming.refactor(project);
-
-      RenameRefactoring methodRenaming = new RenameMethodRefactoring(getPackageMethodName(previousName), getPackageMethodName(currentName), packageName, null,
-            getPackageInterfaceName(getLastPackageComponent(packageName)));
-      methodRenaming.refactor(project);
-
-      return status;
-   }
+	public IStatus createClassRefactorings(IProject project, String implFileSuffix)
+	{
+	   
+		RenameClassRefactoring interfaceRefactoring = new RenameClassRefactoring(previousName, currentName, packageName, true);
+		IStatus status = interfaceRefactoring.refactor(project);
+		try
+		{
+			String implPackageName = packageName + "/impl/";
+			RenameRefactoring classRefactoring = new RenameClassRefactoring(previousName + implFileSuffix, currentName + implFileSuffix, implPackageName, true);
+			classRefactoring.refactor(project);
+	
+			Thread.sleep(10);
+	      
+			RenameRefactoring factoryMethodRenaming = new RenameMethodRefactoring(getFactoryMethodName(previousName), getFactoryMethodName(currentName), packageName,
+					null, getFactoryInterfaceName(getLastPackageComponent(packageName)));
+			factoryMethodRenaming.refactor(project);
+	
+			Thread.sleep(10);
+	      
+			RenameRefactoring methodRenaming = new RenameMethodRefactoring(getPackageMethodName(previousName), getPackageMethodName(currentName), packageName, null,
+					getPackageInterfaceName(getLastPackageComponent(packageName)));
+			methodRenaming.refactor(project);
+	
+			Thread.sleep(10);
+		} catch (InterruptedException ie){
+    	  logger.error("An Exception has been thrown", ie);
+		}
+      
+		return status;
+	}
 
    /**
     * This method creates all refactorings that are required to handle a Rename EPackage change operation.
@@ -125,7 +145,7 @@ public class SequenceRefactoring
          utilProcessor.refactor(project);
       } catch (Exception e)
       {
-         e.printStackTrace();
+        logger.error("An Exception has been thrown", e);
       }
       return Status.OK_STATUS;
    }
