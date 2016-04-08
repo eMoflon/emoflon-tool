@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EAEcoreAddin.Modeling.TGGModeling;
+using EAEcoreAddin.Modeling.ECOREModeling;
 using EAEcoreAddin.SQLWrapperClasses;
 
 namespace EAEcoreAddin.Consistency.Rules.ElementRules
@@ -20,6 +21,20 @@ namespace EAEcoreAddin.Consistency.Rules.ElementRules
                 {
                     if (elem.Name == eaElement.Name && elem.ElementID != eaElement.ElementID)
                         results.Add("name of CorrespondenceType must be unique");
+                }
+            }
+
+           
+
+            if (eaElement.MetaType == ECOREModelingMain.EClassStereotype)
+            {
+                SQLPackage pkg = repository.GetPackageByID(eaElement.PackageID);
+                foreach (SQLElement elem in pkg.Elements)
+                {
+                    if (elem.Name == eaElement.Name && elem.ElementID != eaElement.ElementID)
+                    {
+                        results.Add("name of classes in a package must be unique");
+                    }
                 }
             }
             return results;
