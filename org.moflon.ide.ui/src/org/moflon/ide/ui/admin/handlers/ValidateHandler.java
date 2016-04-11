@@ -99,7 +99,7 @@ public class ValidateHandler extends AbstractCommandHandler {
 					// Run in foreground
 					PlatformUI.getWorkbench().getProgressService().showInDialog(null, job);
 				}
-				JobGroup jobGroup = new JobGroup("Validation job group", 2, 2);
+				JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
             job.setJobGroup(jobGroup);
             job.schedule();
             boolean completed = jobGroup.join(validationTimeoutMillis , new NullProgressMonitor());
