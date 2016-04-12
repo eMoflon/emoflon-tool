@@ -7,31 +7,30 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
    TestForStoryPatternToSymbGraTraRules_Basic.class 
-////   ,TestForStoryPatternToProjGraTraRules_Basic.class \\TODO fix
-//   ,TestForStoryPatternToSymbGraTraRules_NAC.class
-//   ,TestForStoryPatternToProjGraTraRules_Enum.class
-//   ,MorphismFinderTest.class
-////   ,PullbackTest.class //TODO fix
-//   ,PushoutUMPTest.class
-//   ,IsomorphicCopyTester.class
-////   ,DirectDerivationTest.class //fix
-//   ,EmptyRuleDirectDerivationTest.class
-//   ,MorphismClassTest.class
-//
-//   ,CopyRuleTest.class
-//   ,SubgraphBuilderTest.class
-//   ,JointlyEpiTest.class
-//   ,MinimalContextsPerformanceTest.class
-//
-//   ,CriticalPairTestProj.class
-//   ,NormalFormEquivalenceTest.class
-//   ,ConfluenceProjTestCMSMandatory.class
+//   ,TestForStoryPatternToProjGraTraRules_Basic.class \\TODO fix
+   ,TestForStoryPatternToSymbGraTraRules_NAC.class
+   ,TestForStoryPatternToProjGraTraRules_Enum.class
+   ,MorphismFinderTest.class
+//   ,PullbackTest.class //TODO fix
+   ,PushoutUMPTest.class
+   ,IsomorphicCopyTester.class
+//   ,DirectDerivationTest.class //TODO fix
+   ,EmptyRuleDirectDerivationTest.class
+   ,MorphismClassTest.class
+
+//   ,CopyRuleTest.class //TODO fix
+   ,SubgraphBuilderTest.class
+   ,JointlyEpiTest.class
+//   ,MinimalContextsPerformanceTest.class //TODO fix
+
+   ,CriticalPairTestProj.class
+   ,NormalFormEquivalenceTest.class
+   ,ConfluenceProjTestCMSMandatory.class
    
-//   ,ConfluenceProjTestGAMPaper.class
-////   ,ConfluenceProjTestModelsPaper.class
-//   ,ConfluenceProjTestCMS.class
+   ,ConfluenceProjTestGAMPaper.class
+//   ,ConfluenceProjTestModelsPaper.class //TODO fix
+   ,ConfluenceProjTestCMS.class
    ,ConfluenceProjTestCMSnew.class
-//   ,SymbolicPushoutComplementTest.class //TODO fix
 
 })
 //@SuiteClasses({MorphismFinderTest.class})

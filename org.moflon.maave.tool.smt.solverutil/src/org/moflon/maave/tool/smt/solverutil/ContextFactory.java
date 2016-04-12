@@ -22,7 +22,6 @@ public class ContextFactory
    public ContextFactory()
    {
       super();
-      System.out.println("FOOO");
       for (int i = 0; i < NUMEROFCONTEXTS;i++)
       {
        

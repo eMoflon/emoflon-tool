@@ -55,18 +55,15 @@ partial class ConsitentJointlyEpiSetBuilderImpl {
 @model filterMinimalContexts (MorphismPairSet criticalPairSet) <--
 
       MorphismPairSet consistentCritPairSet = SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPairSet();
-      List<MorphismPair> minimalContexts=new LinkedList<MorphismPair>(criticalPairSet.getMorphismPairs());
-      
+      List<MorphismPair> minimalContexts = new LinkedList<MorphismPair>(criticalPairSet.getMorphismPairs());
+
       for (MorphismPair crPair : minimalContexts)
       {
-         if(this.getGraphTransformationSystem().checkConsistency(crPair.getFirst().getCodom()).isValid())
+         if (this.getGraphTransformationSystem().checkConsistency(crPair.getFirst().getCodom()).isValid())
          {
             consistentCritPairSet.getMorphismPairs().add(crPair);
-            System.out.print("X");
          }
       }
-      System.out.println();
-      
       return consistentCritPairSet;
 -->
 

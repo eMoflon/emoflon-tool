@@ -152,7 +152,7 @@ public class ConfluenceProjTestCMSMandatory {
       NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
       gts.getConstraints().add(nC);
 
-      for (int i = 0; i < 4; i++)
+      for (int i = 0; i < 1; i++)
       {
 
 
