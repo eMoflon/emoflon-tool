@@ -9,7 +9,7 @@
       xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
       symbol="+"
       smtPredicateDefinition="(= x!0 (+ x!1 x!2))"
-      smtSymbol="addNat">
+      smtSymbol="addNAT">
     <parameters
         paramSort="//@sorts.0"/>
     <parameters
@@ -147,6 +147,80 @@
     <parameters
         paramSort="//@sorts.0"/>
   </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="*"
+      smtPredicateDefinition="(= x!0 (* x!1 x!2))"
+      smtSymbol="multREAL">
+    <parameters
+        paramSort="//@sorts.3"/>
+    <parameters
+        paramSort="//@sorts.3"/>
+    <parameters
+        paramSort="//@sorts.3"/>
+  </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="="
+      smtPredicateDefinition="(= x!0 x!1)"
+      smtSymbol="eqREAL">
+    <parameters
+        paramSort="//@sorts.3"/>
+    <parameters
+        paramSort="//@sorts.3"/>
+  </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="&lt;"
+      smtPredicateDefinition="(&lt; x!0 x!1)"
+      smtSymbol="leREAL">
+    <parameters
+        paramSort="//@sorts.3"/>
+    <parameters
+        paramSort="//@sorts.3"/>
+  </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="&lt;="
+      smtPredicateDefinition="(&lt;= x!0 x!1)"
+      smtSymbol="leqREAL">
+    <parameters
+        paramSort="//@sorts.3"/>
+    <parameters
+        paramSort="//@sorts.3"/>
+  </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol=">="
+      smtPredicateDefinition="(>= x!0 x!1)"
+      smtSymbol="geqREAL">
+    <parameters
+        paramSort="//@sorts.3"/>
+    <parameters
+        paramSort="//@sorts.3"/>
+  </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol=">"
+      smtPredicateDefinition="(> x!0 x!1)"
+      smtSymbol="geREAL">
+    <parameters
+        paramSort="//@sorts.3"/>
+    <parameters
+        paramSort="//@sorts.3"/>
+  </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="+"
+      smtPredicateDefinition="(= x!0 (+ x!1 x!2))"
+      smtSymbol="addREAL">
+    <parameters
+        paramSort="//@sorts.3"/>
+    <parameters
+        paramSort="//@sorts.3"/>
+    <parameters
+        paramSort="//@sorts.3"/>
+  </predicateSpec>
   <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:PrimitiveSort"
       id="NAT"
       sortSymbol="Int"
@@ -172,5 +246,16 @@
       constTemplate="$x$">
     <eDataType
         href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </sorts>
+  <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:PrimitiveSort"
+      id="REAL"
+      sortSymbol="Real"
+      sortDeclaration=""
+      variableDeclarationTemplate="(declare-const $x$ $t$)"
+      constTemplate="$x$">
+    <eDataType
+        href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eDataType
+        href="http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </sorts>
 </org.moflon.maave.tool.smt.smtlib:SMTLib>
