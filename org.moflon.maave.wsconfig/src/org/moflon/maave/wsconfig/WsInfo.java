@@ -1,8 +1,8 @@
 package org.moflon.maave.wsconfig;
 
 public class WsInfo {
+	static String verboseLevelVar=System.getenv().get("MAaVeVerboseLevel");
 	public static int getVerboseLevel() {
-		String verboseLevelVar=System.getenv().get("MAaVeVerboseLevel");
 		int verboseLevel=0;
 		if(verboseLevelVar!=null ){
 			try {

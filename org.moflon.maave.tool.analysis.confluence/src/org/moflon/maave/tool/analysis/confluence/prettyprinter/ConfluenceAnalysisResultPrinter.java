@@ -1,6 +1,5 @@
 package org.moflon.maave.tool.analysis.confluence.prettyprinter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 

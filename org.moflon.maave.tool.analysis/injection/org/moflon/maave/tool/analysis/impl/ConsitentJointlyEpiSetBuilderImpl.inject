@@ -2,112 +2,118 @@
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.moflon.maave.tool.analysis.AnalysisPackage;
+import org.moflon.maave.tool.analysis.ConsitentJointlyEpiSetBuilder;
 import org.moflon.maave.tool.analysis.util.SubgraphBuilder;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.category.CategoryFactory;
 import org.moflon.maave.tool.category.SymbolicGraphCat;
+import org.moflon.maave.tool.category.SymbolicPushout;
+import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.MorphismPair;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.MorphismPairSet;
-import org.moflon.maave.tool.category.SymbolicPushout;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.ConfigurableMorphismFinder;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MorphismClass;
+import org.moflon.maave.wsconfig.WsInfo;
 
 partial class ConsitentJointlyEpiSetBuilderImpl {
 
 @members <--
 
-   private MorphismPair deriveMinimalContext(SymbolicGraphMorphism morA_L1, SymbolicGraphMorphism morA_L2, SymbolicGraphCat cat)
-   {
-      SymbolicPushout po = cat.pushout(morA_L1, morA_L2);
-      MorphismPair minContext = SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPair();
-      minContext.setFirst(po.getMorphism().get(0));
-      minContext.setSecond(po.getMorphism().get(1));
-      return minContext;
-   }
-   
+	private MorphismPair deriveMinimalContext(SymbolicGraphMorphism morA_L1, SymbolicGraphMorphism morA_L2,
+			SymbolicGraphCat cat) {
+		SymbolicPushout po = cat.pushout(morA_L1, morA_L2);
+		MorphismPair minContext = SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPair();
+		minContext.setFirst(po.getMorphism().get(0));
+		minContext.setSecond(po.getMorphism().get(1));
+		return minContext;
+	}
+	
 -->
 
 @model deriveMinimalContexts (SymbolicGraph graphL2, SymbolicGraphMorphism morA_L1) <--
+		ConfigurableMorphismClassFactory morClassFac = MatchingUtilsFactory.eINSTANCE
+				.createConfigurableMorphismClassFactory();
+		MorphismClass morClass = morClassFac.createMorphismClass("I", "I", "I", "I", "*");
 
-      ConfigurableMorphismClassFactory morClassFac = MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
-      MorphismClass morClass = morClassFac.createMorphismClass("I", "I", "I", "I", "*");
+		MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
+		ConfigurableMorphismFinder morFinderForA = morFinderFac.createMorphismFinder(morA_L1.getDom(), morClass);
 
-      MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
-      ConfigurableMorphismFinder morFinderForA = morFinderFac.createMorphismFinder(morA_L1.getDom(), morClass);
+		SymbolicGraphMorphism emptyMorA_L2 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+		emptyMorA_L2.setDom(morA_L1.getDom());
+		emptyMorA_L2.setCodom(graphL2);
 
-      SymbolicGraphMorphism emptyMorA_L2 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      emptyMorA_L2.setDom(morA_L1.getDom());
-      emptyMorA_L2.setCodom(graphL2);
+		MorphismsSet morSetA_L2 = morFinderForA.getAllMorphisms(emptyMorA_L2);
 
-      MorphismsSet morSetA_L2 = morFinderForA.getAllMorphisms(emptyMorA_L2);
-
-      SymbolicGraphCat category = CategoryFactory.eINSTANCE.createSymbolicGraphCat();
-      MorphismPairSet criticalPairSet = SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPairSet();
-      morSetA_L2.getMorphisms().stream().map(x -> this.deriveMinimalContext(morA_L1, x, category)).forEach(x -> criticalPairSet.getMorphismPairs().add(x));
-      return criticalPairSet;
+		SymbolicGraphCat category = CategoryFactory.eINSTANCE.createSymbolicGraphCat();
+		MorphismPairSet criticalPairSet = SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPairSet();
+		morSetA_L2.getMorphisms().stream().map(x -> this.deriveMinimalContext(morA_L1, x, category))
+				.forEach(x -> criticalPairSet.getMorphismPairs().add(x));
+		return criticalPairSet;
 -->
 
 @model filterMinimalContexts (MorphismPairSet criticalPairSet) <--
+		MorphismPairSet consistentCritPairSet = SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPairSet();
+		List<MorphismPair> minimalContexts = new LinkedList<MorphismPair>(criticalPairSet.getMorphismPairs());
+		if (WsInfo.getVerboseLevel() >= 5) {
+			System.out.println(
+					"----------------------------- Calculating Minimal Contexts ------------------------------------------------");
+			System.out.println("Number of minimal contexts=" + minimalContexts.size());
+			System.out.println("Filtering minimal contexts:");
+			for (MorphismPair morphismPair : minimalContexts) {
+				System.out.print("X");
+			}
 
-      MorphismPairSet consistentCritPairSet = SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPairSet();
-      List<MorphismPair> minimalContexts = new LinkedList<MorphismPair>(criticalPairSet.getMorphismPairs());
-      if(WsInfo.getVerboseLevel()>=5)
-      {
-         System.out.println("----------------------------- Calculating Minimal Contexts ------------------------------------------------");
-         System.out.println("Number of minimal contexts="+minimalContexts.size() );
-         System.out.println("Filtering minimal contexts:" );
-         for (MorphismPair morphismPair : minimalContexts)
-         {
-            System.out.print("X");
-         }
-         
-         System.out.println("");
-        
-      }
-      for (MorphismPair crPair : minimalContexts)
-      {
-         if(WsInfo.getVerboseLevel()>=5)
-         {
-            System.out.print("X");
-         }
-         if (this.getGraphTransformationSystem().checkConsistency(crPair.getFirst().getCodom()).isValid())
-         {
-            consistentCritPairSet.getMorphismPairs().add(crPair);
-         }
-      }
-      if(WsInfo.getVerboseLevel()>=5)
-      {
-         System.out.println("");
-         System.out.println("Number of consistent minimal contexts="+consistentCritPairSet.getMorphismPairs().size());
-      }
-      return consistentCritPairSet;
+			System.out.println("");
+
+		}
+		for (MorphismPair crPair : minimalContexts) {
+			if (WsInfo.getVerboseLevel() >= 5) {
+				System.out.print("X");
+			}
+			if (this.getGraphTransformationSystem().checkConsistency(crPair.getFirst().getCodom()).isValid()) {
+				consistentCritPairSet.getMorphismPairs().add(crPair);
+			}
+		}
+		if (WsInfo.getVerboseLevel() >= 5) {
+			System.out.println("");
+			System.out.println(
+					"Number of consistent minimal contexts=" + consistentCritPairSet.getMorphismPairs().size());
+		}
+		return consistentCritPairSet;
 -->
 
 @model getAllMinimalContexts (SymbolicGraph graphL1, SymbolicGraph graphL2, GraphTransformationSystem gts) <--
+		this.setGraphTransformationSystem(gts);
+		MorphismsSet subgraphs = this.getAllSubgraphs(graphL1);
 
-      this.setGraphTransformationSystem(gts);
-      MorphismsSet subgraphs = this.getAllSubgraphs(graphL1);
-
-      List<MorphismPairSet> rawMinContextsList = subgraphs.getMorphisms().stream().map(x -> this.deriveMinimalContexts(graphL2, x))
-            .collect(Collectors.toList());
-      MorphismPairSet rawMinContexts = SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPairSet();
-      for (MorphismPairSet morphismPairSet : rawMinContextsList)
-      {
-         rawMinContexts.getMorphismPairs().addAll(morphismPairSet.getMorphismPairs());
-      }
-      MorphismPairSet filteredMinContexts = this.filterMinimalContexts(rawMinContexts);
-      return filteredMinContexts;
+		List<MorphismPairSet> rawMinContextsList = subgraphs.getMorphisms().stream()
+				.map(x -> this.deriveMinimalContexts(graphL2, x)).collect(Collectors.toList());
+		MorphismPairSet rawMinContexts = SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPairSet();
+		for (MorphismPairSet morphismPairSet : rawMinContextsList) {
+			rawMinContexts.getMorphismPairs().addAll(morphismPairSet.getMorphismPairs());
+		}
+		MorphismPairSet filteredMinContexts = this.filterMinimalContexts(rawMinContexts);
+		return filteredMinContexts;
 -->
 
 @model getAllSubgraphs (SymbolicGraph symbGraph) <--
-
-      SubgraphBuilder subgraphBuilder = new SubgraphBuilder(symbGraph);
-      return subgraphBuilder.getAllSubgraphs();
+		SubgraphBuilder subgraphBuilder = new SubgraphBuilder(symbGraph);
+		return subgraphBuilder.getAllSubgraphs();
 -->
 
 }
