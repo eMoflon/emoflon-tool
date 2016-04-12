@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.moflon.maave.tool.category,
  org.moflon.maave.tool.symbolicgraphs,
  org.moflon.maave.tool.symbolicgraphs.secondorder.matching,
- org.moflon.maave.tool.graphtransformation
+ org.moflon.maave.tool.graphtransformation,
+ org.moflon.maave.wsconfig;bundle-version="1.0.0"
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -35,16 +35,30 @@ partial class DirectConfluenceModuloNFEQAnalyserImpl {
                rule1 = gts.getRules().get(i);
                rule2 = gts.getRules().get(j);
             }
+            if(WsInfo.getVerboseLevel()>=5)
+            {
+               System.out.println("=============== Starting Confluence Analysis For Rule Pair: "+rule1.getName()+" | "+rule2.getName()+"====================");
+            }
             long timeStampStart = System.currentTimeMillis();
 
+            System.out.println("----------------------------Starting Critical Pair Analyis  -------------------------");
             DirectDerivationPairSet criticalPairSet = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
-
+            if(WsInfo.getVerboseLevel()>=5)
+            {
+               System.out.println("Number of Critical Pairs="+criticalPairSet.getPairsOfDirectDerivations().size());
+               for (Object obj : criticalPairSet.getPairsOfDirectDerivations())
+               {
+                  System.out.print("X");
+               }
+               System.out.println("");
+            }
             long timeStampCPA = System.currentTimeMillis();
 
             ConfluenceAnalysisResult result = ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult();
             result.setValid(false);
             result.setRuleA(rule1.getName());
             result.setRuleB(rule2.getName());
+            System.out.println("--------------------------------Starting Confluence Analysis -------------------------");
             for (DirectDerivationPair criticalPair : criticalPairSet.getPairsOfDirectDerivations())
             {
 
@@ -52,7 +66,15 @@ partial class DirectConfluenceModuloNFEQAnalyserImpl {
                {
                   result.getNonConfluentCriticalPairs().add(criticalPair);
                }
+               if(WsInfo.getVerboseLevel()>=5)
+               {
+                  System.out.print("X");
+               }
 
+            }
+            if(WsInfo.getVerboseLevel()>=5)
+            {
+               System.out.println("");
             }
             //            System.out.println("Remaining CP=" + criticalPairSet.getPairsOfDirectDerivations().size());
             //            ConfluenceAnalysisResult result = criticalPairSet.getPairsOfDirectDerivations().stream().map(x -> this.checkDirectConfluence(x))

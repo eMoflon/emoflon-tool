@@ -2,11 +2,11 @@ package org.moflon.maave.wsconfig;
 
 public class WsInfo {
 	public static int getVerboseLevel() {
-		String verboseLevelVar=System.getenv().get("MAaVeVerbose");
+		String verboseLevelVar=System.getenv().get("MAaVeVerboseLevel");
 		int verboseLevel=0;
 		if(verboseLevelVar!=null ){
 			try {
-				verboseLevel= Integer.valueOf(verboseLevel);
+				verboseLevel= Integer.parseInt(verboseLevelVar);
 			} catch (NumberFormatException e) {
 				// TODO: handle exception
 			}
