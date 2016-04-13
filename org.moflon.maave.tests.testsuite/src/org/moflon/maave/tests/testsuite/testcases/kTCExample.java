@@ -41,7 +41,7 @@ public class kTCExample {
 
 		GraphTransformationSystem gts = GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
 		gts.getRules().add(rule1);
-//		gts.getRules().add(rule2);
+		// gts.getRules().add(rule2);
 
 		gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
 		gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
@@ -52,16 +52,22 @@ public class kTCExample {
 		NegativeConstraint mmC = constraintBuilder.buildConstraints(pack);
 		gts.getConstraints().add(mmC);
 		// //Add user defined constraints
-		// NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
-		// gts.getConstraints().add(nC);
+		/*
+		 * Instructions
+		 * - Create a class 'MetamodelConstraints'
+		 * - Operations starting with '_NC_'
+		 * - In each operation: SDM with single pattern that specifies **valid** metamodel instances
+		 */
+		NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
+		gts.getConstraints().add(nC);
 
 		DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser = ConfluenceFactory.eINSTANCE
 				.createDirectConfluenceModuloNFEQAnalyser();
 		ConfluenceAnalysisReport report = directConfluenceAnalyser.checkConfluence(gts);
-//		System.out.println(report);
+		// System.out.println(report);
 		ConfluenceAnalysisResultPrinter.confluenceReportToTable(report);
-		ConfluenceAnalysisResultPrinter.printConfluenceReport(report, true, false, true, true);
-		
+		System.out.println(ConfluenceAnalysisResultPrinter.printConfluenceReport(report, true, false, true, true));
+
 		System.out.println("Finished at " + new Date());
 
 	}
