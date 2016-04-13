@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="de.tudarmstadt.maki.modeling.jvlc.JvlcPackage" genModel="model/Jvlc.genmodel" uri="platform:/plugin/de.tudarmstadt.maki.modeling.jvlc/model/Jvlc.ecore"/>
+  </extension>
+</plugin>

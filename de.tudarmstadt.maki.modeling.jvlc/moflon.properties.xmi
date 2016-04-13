@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="de.tudarmstadt.maki.modeling.jvlc">
+  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
+  <metaModelProject MetaModelProjectName="de.tudarmstadt.maki.modeling.jvlc.specification"/>
+  <replaceGenModel/>
+  <sdmCodegeneratorHandlerId value="DEMOCLES_ATTRIBUTES"/>
+</MoflonPropertyContainer:MoflonPropertiesContainer>

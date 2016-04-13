@@ -1,0 +1,24 @@
+
+import de.tudarmstadt.maki.modeling.jvlc.KTCNode;
+
+partial class KTCLinkImpl {
+
+
+
+@model calculateEstimatedRemainingLifetime () <--
+
+		return ((KTCNode) this.getSource()).getRemainingEnergy() / this.getRequiredTransmissionPower();
+-->
+
+@model hasSameDistanceAndSmallerID (KTCLink other) <--
+
+		return this.getDistance() == other.getDistance() && this.getId().compareTo(other.getId()) < 0;
+-->
+
+@model hasSameEstimaedRemainingLifetimeAndSmallerID (KTCLink other) <--
+
+
+		return this.calculateEstimatedRemainingLifetime() == other.calculateEstimatedRemainingLifetime() && this.getId().compareTo(other.getId()) < 0;
+-->
+
+}

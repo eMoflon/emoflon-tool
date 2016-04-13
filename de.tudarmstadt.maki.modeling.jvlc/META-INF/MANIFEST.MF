@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: de.tudarmstadt.maki.modeling.jvlc;singleton:=true
+Export-Package: de.tudarmstadt.maki.modeling.jvlc.util,
+ de.tudarmstadt.maki.modeling.jvlc.impl,
+ de.tudarmstadt.maki.modeling.jvlc
+Bundle-Name: de.tudarmstadt.maki.modeling.jvlc
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.core.utilities,
+ org.junit
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: TU Darmstadt
