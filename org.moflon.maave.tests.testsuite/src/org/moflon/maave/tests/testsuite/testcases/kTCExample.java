@@ -50,18 +50,6 @@ public class kTCExample {
 		MetaModelConstraintBuilder constraintBuilder = StptransformationFactory.eINSTANCE
 				.createMetaModelConstraintBuilder();
 		NegativeConstraint mmC = constraintBuilder.buildConstraints(pack);
-		for (SymbolicGraph nc : mmC.getAtomicNegativeConstraints()) {
-			for (GraphNode gn : nc.getGraphNodes()) {
-				if (gn.getType() == pack.getEClassifier("Node")) {
-					gn.setType((EClass) pack.getEClassifier("KTCNode"));
-				}
-			}
-			for (GraphNode gn : nc.getGraphNodes()) {
-				if (gn.getType() == pack.getEClassifier("Edge")) {
-					gn.setType((EClass) pack.getEClassifier("KTCLink"));
-				}
-			}
-		}
 		gts.getConstraints().add(mmC);
 		// //Add user defined constraints
 		// NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
