@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="moflon" sequenceNumber="29">
+<?pde version="3.8"?><target name="moflon" sequenceNumber="36">
 <locations>
 <location path="${eclipse_home}" type="Profile"/>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.stringtemplate.feature.feature.group" version="4.2.1.201412181809"/>
-<repository location="http://95.140.46.126/external"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.apache.commons.lang3.source" version="3.1.0.v201403281430"/>
 <unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
 <unit id="org.apache.commons.io.source" version="2.2.0.v201405211200"/>
@@ -14,6 +10,22 @@
 <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
 <unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20150124073747/repository/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.gervarro.eclipse.util.feature.source.feature.group" version="2.0.0.v20160413-0000"/>
+<unit id="org.gervarro.eclipse.util.feature.feature.group" version="2.0.0.v20160413-0000"/>
+<repository location="http://gervarro.org/eclipse-utils/integration-2.0.0/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.gervarro.democles.feature.compiler.source.feature.group" version="0.4.0.v20160412-1015"/>
+<unit id="org.gervarro.democles.feature.compiler.feature.group" version="0.4.0.v20160412-1015"/>
+<unit id="org.gervarro.democles.feature.specification.source.feature.group" version="0.4.0.v20160412-1015"/>
+<unit id="org.gervarro.democles.feature.specification.feature.group" version="0.4.0.v20160412-1015"/>
+<repository location="http://gervarro.org/democles/integration-0.4.0/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.stringtemplate" version="4.2.1.201501011937"/>
+<repository location="http://gervarro.org/external/"/>
 </location>
 </locations>
 </target>
