@@ -104,21 +104,25 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	}
 
 	private Optional<TGGRule> getTGGRuleForSelection(ISelection selection) {
-			IPath ruleNamePath = new Path(oldEditor.getEditorInput().getName());
-			ruleNamePath = ruleNamePath.removeFileExtension();
-			String ruleName = ruleNamePath.toString();
+		IPath ruleNamePath = new Path(oldEditor.getEditorInput().getName());
+		ruleNamePath = ruleNamePath.removeFileExtension();
+		String ruleName = ruleNamePath.toString();
 
-			if(oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput){
-				IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
-				IProject project = file.getProject();
-				IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), ".pre.tgg.xmi"));
+		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
+			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
+			IProject project = file.getProject();
+			IFile tggFile = project
+					.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), ".pre.tgg.xmi"));
+
+			if (tggFile.exists()) {
 				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
 				URI uri = URI.createPlatformResourceURI(tggFile.getFullPath().toString(), true);
 				Resource tggResource = rs.getResource(uri, true);
 				TripleGraphGrammar tgg = (TripleGraphGrammar) tggResource.getContents().get(0);
 				return tgg.getTggRule().stream().filter(r -> r.getName().equals(ruleName)).findAny();
 			}
-					
+		}
+
 		return Optional.empty();
 	}
 }
