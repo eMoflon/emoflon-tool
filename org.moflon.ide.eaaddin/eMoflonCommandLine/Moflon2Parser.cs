@@ -45,6 +45,9 @@ namespace MOFLON2EAExportImportTest
             codegen2compatibility = new SwitchArgument('c', "codegen2", false);
             validate = new SwitchArgument('v', "validate", false);
 
+            eapFile.AllowMultiple = true;
+            parser.AdditionalArgumentsSettings.AcceptAdditionalArguments = true;
+
             parser.Arguments.Add(eapFile);
             parser.Arguments.Add(xmiFile);
             parser.Arguments.Add(export);
@@ -86,25 +89,33 @@ namespace MOFLON2EAExportImportTest
                 EA.Repository repository = null;
                 try
                 {
-                    Console.Out.WriteLine("DEBUG:start export#");
-                    String filename = eapFile.Value; 
-                    repository = new EA.Repository();
-                    repository.OpenFile(filename);
+                    Console.Out.WriteLine("DEBUG:Starting export process#");
+                    if (parser.AdditionalArgumentsSettings.AdditionalArguments.Count() > 0)
+                    {
+                        eapFile.Values.AddRange(parser.AdditionalArgumentsSettings.AdditionalArguments);
+                    }
 
-                    EAPUpdater updater = new EAPUpdater(repository, false);
-                    updater.updateEAPIfNecessary(false);
+                    foreach (String filename in eapFile.Values)
+                    {
+                        Console.Out.WriteLine("SCALE:start export of '" + filename + "'#");
+                        repository = new EA.Repository();
+                        repository.OpenFile(filename);
 
-                    SQLRepository sqlRepository = new SQLRepository(repository, true, false);
+                        EAPUpdater updater = new EAPUpdater(repository, false);
+                        updater.updateEAPIfNecessary(false);
 
-                    Console.Out.WriteLine("DEBUG:initialize exporter#");
-                    Export exporter = new Export(sqlRepository, true, false);
+                        SQLRepository sqlRepository = new SQLRepository(repository, true, false);
 
-                    Console.Out.WriteLine("DEBUG:do export#");
-                    exporter.doExport();
+                        Console.Out.WriteLine("DEBUG:initialize exporter#");
+                        Export exporter = new Export(sqlRepository, true, false);
 
-                    Console.Out.WriteLine("INFO:Export was successfull#");
+                        Console.Out.WriteLine("DEBUG:do export#");
+                        exporter.doExport();
 
-                    repository.Exit();
+                        Console.Out.WriteLine("SCALE:Export of '" + filename + "' was successfull#");
+
+                        repository.Exit();
+                    }
 
                 }
                 catch(Exception e)
@@ -114,6 +125,7 @@ namespace MOFLON2EAExportImportTest
                 }   
             } 
         }
+
 
         public void doImport()
         {
