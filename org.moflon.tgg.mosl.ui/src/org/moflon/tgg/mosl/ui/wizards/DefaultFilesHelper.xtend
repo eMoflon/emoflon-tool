@@ -4,9 +4,6 @@ import org.moflon.core.utilities.MoflonUtil
 
 class DefaultFilesHelper {
 
-	val static l = "«"
-	val static r = "»"
-
 	static def generateDefaultEPackageForProject(String projectName) {
 		return '''
 		<?xml version="1.0" encoding="ASCII"?>
@@ -25,21 +22,21 @@ class DefaultFilesHelper {
 		return '''
 		// Add imports here
 		
-		«l»schema«r» «projectName»
+		#schema «projectName»
 			
-		«l»source«r» {
+		#source {
 			
 		}
 		
-		«l»target«r» { 
+		#target { 
 			
 		} 
 		
-		«l»correspondence«r» {
+		#correspondence {
 			
 		}
 		
-		«l»attribute conditions«r» {
+		#attributeConditions {
 			
 		}
 		'''
@@ -47,24 +44,24 @@ class DefaultFilesHelper {
 	
 	static def generateDefaultRule(String projectName, String ruleName){
 		return '''
-		«l»using«r» «projectName».*
-		«l»using«r» AttrCondDefLibrary.*
+		#using «projectName».*
+		#using AttrCondDefLibrary.*
 		
-		«l»rule«r» «ruleName» «l»with«r» «projectName»
+		#rule «ruleName» #with «projectName»
 		
-		«l»source«r» { 
+		#source { 
 			
 		}
 		
-		«l»target«r» {
+		#target {
 			
 		}
 		
-		«l»correspondence«r» {
+		#correspondence {
 			
 		}
 		
-		«l»attribute conditions«r» {
+		#attributeConditions {
 			
 		}
 		'''

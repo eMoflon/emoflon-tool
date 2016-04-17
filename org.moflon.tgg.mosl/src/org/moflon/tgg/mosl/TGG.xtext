@@ -1,3 +1,8 @@
+/* 
+ * Warning: Do not try to refactor the grammar by extracting keywords as rules!
+ * Xtext handles rules differently and this will adversely affect syntax highlighting etc.
+ */
+
 grammar org.moflon.tgg.mosl.TGG with org.eclipse.xtext.common.Terminals
 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
@@ -10,53 +15,61 @@ TripleGraphGrammarFile:
   	(library = AttrCondDefLibrary)?
 ;
 
+/* ---------- */
+/*   SCHEMA   */
+/* ---------- */
+
 Schema:
 	imports += Import*	
 	using += Using*	
-	'«schema»' name = QualifiedName
+	'#schema' name = QualifiedName
 		
-	('«source»' '{'
+	('#source' '{'
 		sourceTypes += [ecore::EPackage | QualifiedName]*
 	'}')? 
 	
-	('«target»' '{'
+	('#target' '{'
 		targetTypes += [ecore::EPackage | QualifiedName]*
 	'}')? 
 
-	('«correspondence»' '{'
+	('#correspondence' '{'
 		correspondenceTypes += CorrType*
 	'}')?	
 	
-	('«attribute conditions»' '{'
+	('#attributeConditions' '{'
 		attributeCondDefs += AttrCondDef*
 	'}')? 
 ;
 
 CorrType:
-	name = ID (('«extends»' super=[CorrType]) | ('{'
-		'-«src»->' source = [ecore::EClass | QualifiedName]  
-		'-«trg»->' target = [ecore::EClass | QualifiedName]
+	name = ID (('#extends' super=[CorrType]) | ('{'
+		'#src->' source = [ecore::EClass | QualifiedName]  
+		'#trg->' target = [ecore::EClass | QualifiedName]
 	'}'))
 ;
+
+/* ------------- */
+/*   TGG RULES   */
+/* ------------- */
 
 Rule:
 	imports += Import*	
 	using += Using*
-	(abstractRule ?= '«abstract»')? '«rule»' name = ID ('«extends»' supertypes += [Rule] (',' supertypes += [Rule])*)? ('«complements»' kernel = [Rule])? '«with»' schema = [Schema | QualifiedName]
+	(abstractRule ?= '#abstract')? '#rule' name = ID ('#extends' supertypes += [Rule] (',' supertypes += [Rule])*)? ('#complements' kernel = [Rule])? '#with' schema = [Schema | QualifiedName]
 		
-	('«source»' '{'
+	('#source' '{'
 		sourcePatterns += ObjectVariablePattern* 
 	'}')? 	
 	
-	('«target»' '{'
+	('#target' '{'
 		targetPatterns += ObjectVariablePattern* 
 	'}')? 
 	
-	('«correspondence»' '{'
+	('#correspondence' '{'
 		correspondencePatterns += CorrVariablePattern*	
 	'}')? 
 
-	('«attribute conditions»' '{'
+	('#attributeConditions' '{'
 		attrConditions += AttrCond*
 	'}')? 
 ;
@@ -66,16 +79,16 @@ AttrCond:
 ;
 
 AttrCondDef:
-	(userDefined ?= '«userDefined»')? name = ID '(' (params += Param (',' params += Param)*)? ')' '{'
-		'sync:'
+	(userDefined ?= '#userDefined')? name = ID '(' (params += Param (',' params += Param)*)? ')' '{'
+		'#sync:'
 			allowedSyncAdornments += Adornment (',' allowedSyncAdornments += Adornment)*
-		'gen:'
+		'#gen:'
 			(allowedGenAdornments += Adornment (',' allowedGenAdornments += Adornment )*)?
 	'}'
 ;
 
 AttrCondDefLibrary:
-	'«library»' name = QualifiedName
+	'#library' name = QualifiedName
 	('{'
 		attributeCondDefs += AttrCondDef*
 	'}')?
@@ -107,8 +120,8 @@ Literal:
 
 CorrVariablePattern:
 	(op = Operator)? name = ID ' : ' type = [CorrType | QualifiedName] '{'
-		'-«src»->' source = [ObjectVariablePattern]
-		'-«trg»->' target = [ObjectVariablePattern]
+		'#src->' source = [ObjectVariablePattern]
+		'#trg->' target = [ObjectVariablePattern]
 	'}' 
 ;
 
@@ -141,21 +154,23 @@ LiteralExpression:
 ;
 
 LinkVariablePattern:
-	(op = Operator)? '-' type = [ecore::EReference] '->' target = [ObjectVariablePattern]
+	(op = Operator)? type = [ecore::EReference] '->' target = [ObjectVariablePattern]
 ;
 
 Operator:
 	value = ('++ ' | '! ')
 ;
 
-// Auxiliaries
+/* ---------------- */
+/*    Auxiliaries   */
+/* ---------------- */
 
 Import:
-	'«import»' name=STRING
+	'#import' name = STRING
 ;
 
 Using:
-	'«using»' importedNamespace = QualifiedNameWithWildcard
+	'#using' importedNamespace = QualifiedNameWithWildcard
 ;
 
 terminal DECIMAL: INT '.' INT;
