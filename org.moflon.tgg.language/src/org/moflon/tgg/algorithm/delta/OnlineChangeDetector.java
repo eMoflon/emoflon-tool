@@ -85,7 +85,7 @@ public class OnlineChangeDetector implements Adapter
          delta.getAttributeChanges().add(new AttributeDelta((EAttribute) notification.getFeature(), oldValue, newValue, (EObject)notification.getNotifier()));
       }
 
-      if ( notification.getFeature() instanceof EReference)
+      if (notification.getFeature() instanceof EReference)
       {
           handleAddition(notifier, (EObject) newValue, (EReference) notification.getFeature());
           handleDeletion(notifier, (EObject) oldValue, (EReference) notification.getFeature());
