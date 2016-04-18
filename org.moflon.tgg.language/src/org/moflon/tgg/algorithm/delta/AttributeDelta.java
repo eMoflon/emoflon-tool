@@ -2,7 +2,7 @@ package org.moflon.tgg.algorithm.delta;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.tgg.runtime.RuntimeFactory;
 
 public class AttributeDelta
@@ -51,7 +51,7 @@ public class AttributeDelta
    
    private String getStringValue(Object value)
    {
-      return EcoreFactory.eINSTANCE.convertToString(affectedAttribute.getEAttributeType(), value);
+      return EcoreUtil.convertToString(affectedAttribute.getEAttributeType(), value);
    }
 
    public static AttributeDelta fromEMF(org.moflon.tgg.runtime.AttributeDelta attDeltaEMF){
@@ -61,6 +61,6 @@ public class AttributeDelta
 
    private static Object extractTypeFromString(String value, EAttribute attribute)
    {
-      return EcoreFactory.eINSTANCE.createFromString(attribute.getEAttributeType(), value);
+      return EcoreUtil.createFromString(attribute.getEAttributeType(), value);
    }
 }
