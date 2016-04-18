@@ -9,7 +9,7 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonProjectInfoPage;
 import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonWizard;
-import org.moflon.tgg.mosl.ui.wizards.DefaultFilesHelper;
+import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.PluginProducerWorkspaceRunnable;
 

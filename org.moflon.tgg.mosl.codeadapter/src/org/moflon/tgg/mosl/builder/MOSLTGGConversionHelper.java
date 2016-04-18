@@ -33,10 +33,9 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.language.TripleGraphGrammar;
-import org.moflon.tgg.mosl.scoping.AttrCondDefLibraryProvider;
+import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
 import org.moflon.tgg.mosl.tgg.AttrCond;
 import org.moflon.tgg.mosl.tgg.AttrCondDef;
-import org.moflon.tgg.mosl.tgg.AttrCondDefLibrary;
 import org.moflon.tgg.mosl.tgg.Rule;
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile;
 import org.moflon.tgg.tggproject.TGGProject;
@@ -68,11 +67,10 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       {
          IProject project = resource.getProject();
 
-         String projectPath = project.getFullPath().toString();
          IFolder moslFolder = IFolder.class.cast(resource);
          XtextResourceSet resourceSet = new XtextResourceSet();
 
-         AttrCondDefLibraryProvider.syncAttrCondDefLibrary(resourceSet, projectPath);
+         AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
 
          TripleGraphGrammarFile xtextParsedTGG = createTGGFileAndLoadSchema(resourceSet, moslFolder);
          if (xtextParsedTGG != null)
@@ -224,10 +222,10 @@ public class MOSLTGGConversionHelper extends AbstractHandler
                TripleGraphGrammarFile tggModel = (TripleGraphGrammarFile) helper.getSrc();
                String projectPath = tggFile.getProject().getFullPath().toString();
 
-               saveXtextTGGModelToTGGFile(tggModel, projectPath, "/src/org/moflon/tgg/mosl" + projectPath + ".tgg");
+               saveXtextTGGModelToTGGFile(tggModel, tggFile.getProject(), "/src/org/moflon/tgg/mosl" + projectPath + ".tgg");
             }
          }
-      } catch (IOException e)
+      } catch (Exception e)
       {
          e.printStackTrace();
       }
@@ -262,13 +260,13 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       pretggXmiResource.save(options);
    }
 
-   private void saveXtextTGGModelToTGGFile(TripleGraphGrammarFile tggModel, String projectPath, String filePath) throws IOException
+   private void saveXtextTGGModelToTGGFile(TripleGraphGrammarFile tggModel, IProject project, String filePath) throws IOException, CoreException
    {
-      URI tggFileURI = URI.createPlatformResourceURI(projectPath + filePath, true);
+      URI tggFileURI = URI.createPlatformResourceURI(project.getFullPath().toString() + filePath, true);
 
       XtextResourceSet xtextResourceSet = new XtextResourceSet();
       XtextResource xtextResource = (XtextResource) xtextResourceSet.createResource(tggFileURI);
-	  AttrCondDefLibraryProvider.syncAttrCondDefLibrary(xtextResourceSet, projectPath);
+	  AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
 
       xtextResource.getContents().add(tggModel);
       EcoreUtil.resolveAll(xtextResource);
