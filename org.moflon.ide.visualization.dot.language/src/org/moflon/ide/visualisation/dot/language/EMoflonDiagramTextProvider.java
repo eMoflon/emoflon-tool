@@ -1,9 +1,7 @@
 package org.moflon.ide.visualisation.dot.language;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -22,7 +20,6 @@ import org.moflon.ide.visualization.dot.language.DirectedGraph;
 import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
-import org.moflon.util.eMoflonSDMUtil;
 
 import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider;
 
@@ -79,7 +76,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       EObject selectedElement = (EObject) structuredSelection.getFirstElement();
 
       // Extract input object
-      EObject input = determineInputObjectFromResource(selectedElement.eResource(), selectedElement);
+      EObject input = selectedElement;
       if (!diagramTextCache.containsKey(input) || selectionHasBeenChanged(input))
       {
          String dotDiagram = new DotUnparserAdapter().unparse(modelToDot(input));
@@ -142,17 +139,6 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       diagramTextCache.clear();
       deltaCache.clear();
       syncHelperCache.clear();
-   }
-
-   private EObject determineInputObjectFromResource(Resource resourceForTrafo, EObject selectedElement)
-   {
-      final List<EObject> newSp = new ArrayList<>();
-      resourceForTrafo.getContents().get(0).eAllContents().forEachRemaining(e -> {
-         if (eMoflonSDMUtil.getFQN(e).equals(eMoflonSDMUtil.getFQN(selectedElement)))
-            newSp.add(e);
-      });
-
-      return newSp.isEmpty() ? resourceForTrafo.getContents().get(0) : newSp.get(0);
    }
 
    private boolean selectionHasBeenChanged(EObject input)
