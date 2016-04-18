@@ -147,8 +147,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       IFile ruleFile = (IFile) iResource;
       if (ruleFile.getFileExtension().equals("tgg"))
       {
-         XtextResource ruleRes = (XtextResource) resourceSet.createResource(URI.createPlatformResourceURI(ruleFile.getFullPath().toString(), false));
-         ruleRes.load(null);
+         XtextResource ruleRes = (XtextResource) resourceSet.getResource(URI.createPlatformResourceURI(ruleFile.getFullPath().toString(), true), true);
          EcoreUtil.resolveAll(resourceSet);
 
          EObject ruleEObj = ruleRes.getContents().get(0).eContents().get(0);
