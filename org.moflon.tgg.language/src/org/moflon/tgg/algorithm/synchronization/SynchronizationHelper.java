@@ -31,7 +31,6 @@ import org.moflon.tgg.language.analysis.StaticAnalysis;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.runtime.EMoflonEdge;
 import org.moflon.tgg.runtime.RuntimeFactory;
-import org.moflon.tgg.runtime.impl.MatchImpl;
 
 /**
  * Responsible for checking if input data makes sense, inducing default deltas for the batch case, and establishing all
@@ -560,6 +559,10 @@ public class SynchronizationHelper
    public void loadSynchronizationProtocol(final String path)
    {
       org.moflon.tgg.runtime.PrecedenceStructure ps = (org.moflon.tgg.runtime.PrecedenceStructure) loadModel(path);
+      
+      // Resolve to make sure that there are no proxies
+      EcoreUtil.resolveAll(ps);
+      
       protocol = new SynchronizationProtocol();
       protocol.load(ps);
    }
