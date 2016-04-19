@@ -84,7 +84,7 @@ public class SynchronizationProtocol extends PrecedenceStructure<TripleMatch>
    }
    
    @Override
-public org.moflon.tgg.runtime.TripleMatch toEMF(TripleMatch m)
+   public org.moflon.tgg.runtime.TripleMatch toEMF(TripleMatch m)
    {
       org.moflon.tgg.runtime.TripleMatch tripleMatch = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE.createTripleMatch();
 
