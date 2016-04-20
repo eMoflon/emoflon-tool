@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.moflon.maave.tests.lang.abc,
  org.moflon.maave.tests.lang.mnoq,
  org.moflon.maave.tests.lang.tggcpa,
- org.moflon.maave.tests.lang.enumlang
+ org.moflon.maave.tests.lang.enumlang,
+ org.moflon.maave.tests.lang.vwxyz
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

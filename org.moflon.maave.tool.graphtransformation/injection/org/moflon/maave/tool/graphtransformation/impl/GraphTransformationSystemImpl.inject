@@ -1,5 +1,6 @@
 
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
+import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
 
 partial class GraphTransformationSystemImpl {
 
@@ -7,9 +8,9 @@ partial class GraphTransformationSystemImpl {
 
 @model checkConsistency (SymbolicGraph graphG) <--
 
-      Status consitentStauts = MatchingUtilsFactory.eINSTANCE.createStatus();
+      Status consitentStauts = MaaveutilFactory.eINSTANCE.createStatus();
       consitentStauts.setValid(false);
-      for (GraphConstraint constraint : this.getConstraints())
+      for (GlobalConstraint   constraint : this.getGlobalConstraints())
       {
          if (constraint.isConsistent(graphG).isValid() == false)
          {

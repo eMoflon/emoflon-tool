@@ -1,0 +1,12 @@
+
+partial class NegCondImpl {
+
+
+
+@model isSat (SymbolicGraphMorphism morP_G, MorphismClass matchMorClass) <--
+
+
+      return !this.getNegCondition().isSat(morP_G, matchMorClass);
+-->
+
+}

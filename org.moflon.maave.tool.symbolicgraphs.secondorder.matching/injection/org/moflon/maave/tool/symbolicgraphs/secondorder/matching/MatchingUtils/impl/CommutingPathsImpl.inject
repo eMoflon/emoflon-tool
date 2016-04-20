@@ -1,4 +1,6 @@
 
+import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
+import org.moflon.maave.tool.maaveutil.Status;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
@@ -24,7 +26,7 @@ partial class CommutingPathsImpl {
          morB = morB.composeWith(morB2);
       }
       CategoryUtil util = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
-      Status status = MatchingUtilsFactory.eINSTANCE.createStatus();
+      Status status = MaaveutilFactory.eINSTANCE.createStatus();
       status.setValid(util.areSimilarEGraphMorphisms(morA, morB));
       return status;
 -->

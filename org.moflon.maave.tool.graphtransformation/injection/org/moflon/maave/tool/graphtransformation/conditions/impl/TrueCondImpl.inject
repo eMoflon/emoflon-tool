@@ -1,0 +1,12 @@
+
+partial class TrueCondImpl {
+
+
+
+@model isSat (SymbolicGraphMorphism morP_G, MorphismClass matchMorClass) <--
+
+
+     return true;
+-->
+
+}

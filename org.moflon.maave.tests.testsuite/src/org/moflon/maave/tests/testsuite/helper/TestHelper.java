@@ -2,17 +2,8 @@ package org.moflon.maave.tests.testsuite.helper;
 
 
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
-import org.moflon.maave.tool.graphtransformation.conditions.ConditionsFactory;
-import org.moflon.maave.tool.graphtransformation.conditions.NegativeConstraint;
-import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
@@ -20,12 +11,7 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelEdge;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
-
-import SDMLanguage.activities.MoflonEOperation;
-import SDMLanguage.activities.StoryNode;
-import junit.framework.Assert;
 
 
 

@@ -10,14 +10,12 @@ import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
 import org.moflon.maave.tool.analysis.confluence.DirectConfluenceModuloNFEQAnalyser;
 import org.moflon.maave.tool.analysis.confluence.prettyprinter.ConfluenceAnalysisResultPrinter;
+import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
-import org.moflon.maave.tool.graphtransformation.conditions.NegativeConstraint;
 import org.moflon.maave.tool.sdm.stptransformation.MetaModelConstraintBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphNode;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
@@ -46,20 +44,18 @@ public class kTCExample {
 		gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
 		gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
-		// Add ArityConstraints
-		MetaModelConstraintBuilder constraintBuilder = StptransformationFactory.eINSTANCE
-				.createMetaModelConstraintBuilder();
-		NegativeConstraint mmC = constraintBuilder.buildConstraints(pack);
-		gts.getConstraints().add(mmC);
-		// //Add user defined constraints
-		/*
+		 //Add ArityConstraints
+      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
+      GlobalConstraint mmC=constraintBuilder.buildConstraints(pack);
+      gts.getGlobalConstraints().add(mmC);
+      //Add user defined constraints
+      /*
 		 * Instructions
-		 * - Create a class 'MetamodelConstraints'
+		 * - Create a class 'UserDefinedConstraints'
 		 * - Operations starting with '_NC_'
 		 * - In each operation: SDM with single pattern that specifies **valid** metamodel instances
 		 */
-		NegativeConstraint nC = ModelHelper.getUserDefConstraints(pack);
-		gts.getConstraints().add(nC);
+      gts.getGlobalConstraints().add(ModelHelper.getUserDefConstraints(pack));
 
 		DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser = ConfluenceFactory.eINSTANCE
 				.createDirectConfluenceModuloNFEQAnalyser();

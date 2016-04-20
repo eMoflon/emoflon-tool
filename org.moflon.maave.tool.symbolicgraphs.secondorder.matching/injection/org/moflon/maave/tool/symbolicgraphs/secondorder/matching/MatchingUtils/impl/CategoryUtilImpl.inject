@@ -1,4 +1,5 @@
 
+import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.smt.solverutil.IAttribSolver;
@@ -322,7 +323,7 @@ partial class CategoryUtilImpl {
 @model hasNonEmptySemantic (SymbolicGraph symbolicGraph) <--
 
       IAttribSolver solver = new Z3AttribSolver();
-      Status status = MatchingUtilsFactory.eINSTANCE.createStatus();
+      Status status = MaaveutilFactory.eINSTANCE.createStatus();
       status.setValid(solver.hasNonEmptySemantic(symbolicGraph));
       return status;
 -->

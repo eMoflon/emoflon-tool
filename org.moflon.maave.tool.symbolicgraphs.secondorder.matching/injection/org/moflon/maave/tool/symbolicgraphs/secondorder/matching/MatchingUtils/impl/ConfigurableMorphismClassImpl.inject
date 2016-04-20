@@ -1,4 +1,6 @@
 
+import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
+import org.moflon.maave.tool.maaveutil.Status;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.util.MorphismClassUtil;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
@@ -12,7 +14,7 @@ partial class ConfigurableMorphismClassImpl {
 @model isMember (SymbolicGraphMorphism morphism) <--
 
       SymbolicGraphMorphismImpl morphismImpl = (SymbolicGraphMorphismImpl) morphism;
-      Status status = MatchingUtilsFactory.eINSTANCE.createStatus();
+      Status status = MaaveutilFactory.eINSTANCE.createStatus();
       status.setValid(false);
       if (MorphismClassUtil.checkMappingMode(morphismImpl.graphNodeMap, morphismImpl.getDom().getGraphNodes(), morphismImpl.getCodom().getGraphNodes(),
             this.graphNodeMode) == false)

@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
+import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.graphtransformation.conditions.ConditionsFactory;
-import org.moflon.maave.tool.graphtransformation.conditions.NegativeConstraint;
+import org.moflon.maave.tool.sdm.stptransformation.MetaModelConstraintBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
@@ -44,25 +46,25 @@ public class ModelHelper {
 		return transformer.transformStpToProjGTRule(stn1.getStoryPattern());
 	}
 
-	public static NegativeConstraint getUserDefConstraints(EPackage pack) {
+	public static GlobalConstraint getUserDefConstraints(EPackage pack) {
 		// UserDefConstraints
-		EClass clsConstr = (EClass) pack.getEClassifier("MetamodelConstraints");
-		List<EOperation> ncOps = clsConstr.getEOperations().stream().filter(x -> x.getName().startsWith("_NC_"))
-				.collect(Collectors.toList());
+		EClass clsConstr = (EClass) pack.getEClassifier("UserDefinedConstraints");
+		List<EOperation> ncOps = clsConstr.getEOperations().stream().filter(x -> x.getName().startsWith("_NC_")).collect(Collectors.toList());
 
-		NegativeConstraint nC = ConditionsFactory.eINSTANCE.createNegativeConstraint();
-		ConfigurableMorphismClassFactory morClassFac = MatchingUtilsFactory.eINSTANCE
-				.createConfigurableMorphismClassFactory();
-		nC.setMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+		ConfigurableMorphismClassFactory morClassFac = MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+		
+		GlobalConstraint gc=GraphtransformationFactory.eINSTANCE.createGlobalConstraint();
+		gc.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+		
+		MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
 		for (EOperation eOperation : ncOps) {
 			MoflonEOperation mEOp = (MoflonEOperation) eOperation;
-			StoryNode constraintStn = (StoryNode) mEOp.getActivity().getOwnedActivityNode().stream()
-					.filter(x -> x instanceof StoryNode).findAny().get();
+			StoryNode constraintStn = (StoryNode) mEOp.getActivity().getOwnedActivityNode().stream().filter(x -> x instanceof StoryNode).findAny().get();
 			SymbGTRule ruleC = transformer.transformStpToProjGTRule(constraintStn.getStoryPattern());
-			nC.getAtomicNegativeConstraints().add(ruleC.getLeft().getCodom());
+			gc.getConditions().add(constraintBuilder.getNac(ruleC.getLeft().getCodom()));
 
 		}
 
-		return nC;
+		return gc;
 	}
 }

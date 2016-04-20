@@ -14,6 +14,10 @@ import org.moflon.maave.tests.lang.abc.AbcPackage;
 import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tests.testsuite.helper.TestHelper;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
+import org.moflon.maave.tool.graphtransformation.conditions.AndCond;
+import org.moflon.maave.tool.graphtransformation.conditions.AtomicCond;
+import org.moflon.maave.tool.graphtransformation.conditions.NegCond;
+import org.moflon.maave.tool.graphtransformation.conditions.TrueCond;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
@@ -138,9 +142,17 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 		
 		
 		//////////////////////////////////
-		Assert.assertTrue("FailedAssert: 45",symbGTRule.getApplicationConditions().size()==1);
-		Assert.assertTrue("FailedAssert: 46",symbGTRule.getApplicationConditions().get(0).getX().getDom()==L);
-		SymbolicGraph X=symbGTRule.getApplicationConditions().get(0).getX().getCodom();
+		Assert.assertTrue("FailedAssert: 45",L.getCondition()!=null);
+		Assert.assertTrue(L.getCondition() instanceof AndCond);
+		AndCond andCond=(AndCond) L.getCondition();
+		Assert.assertTrue(andCond.getConditions().size()==1);
+		Assert.assertTrue(andCond.getConditions().get(0) instanceof NegCond);
+		NegCond negCond= (NegCond) andCond.getConditions().get(0);
+	   Assert.assertTrue(negCond.getNegCondition() instanceof AtomicCond);
+		AtomicCond nac=(AtomicCond) negCond.getNegCondition();
+		Assert.assertTrue(nac.getNestedCondition() instanceof TrueCond);
+		Assert.assertTrue("FailedAssert: 46",nac.getMorP_C().getDom()==L);
+		SymbolicGraph X=nac.getMorP_C().getCodom();
 		
 		Assert.assertTrue("FailedAssert: 47",X.getGraphNodes().size()==2);
 		Assert.assertTrue("FailedAssert: 48",X.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("a") && x.getType().getName().equals("A")));
@@ -175,7 +187,7 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 				&& ((LabelNode) x.getParameters().get(1)).getLabel().equals("c_x")));
 		
 		
-		Assert.assertTrue("FailedAssert: 65",TestHelper.checkMorphism(symbGTRule.getApplicationConditions().get(0).getX()));
+		Assert.assertTrue("FailedAssert: 65",TestHelper.checkMorphism(nac.getMorP_C()));
 		
 		
 		Assert.assertTrue("FailedAssert: 66",TestHelper.checkMorphismsInRule(symbGTRule));
@@ -220,9 +232,21 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 		Assert.assertTrue("FailedAssert: 84",R.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("a") && x.getType().getName().equals("A")));
 		Assert.assertTrue("FailedAssert: 85",R.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("c1") && x.getType().getName().equals("C")));
 		
-		Assert.assertTrue("FailedAssert: 86",symbGTRule.getApplicationConditions().size()==2);
-		Assert.assertTrue("FailedAssert: 87",symbGTRule.getApplicationConditions().get(1).getX().getDom()==L);
-		SymbolicGraph X=(SymbolicGraph) symbGTRule.getApplicationConditions().stream().filter(x->x.getId().equals("1")).findFirst().get().getX().getCodom();
+		//////////////////////
+		Assert.assertTrue("FailedAssert: 45",L.getCondition()!=null);
+      Assert.assertTrue(L.getCondition() instanceof AndCond);
+      AndCond andCond=(AndCond) L.getCondition();
+      Assert.assertTrue(andCond.getConditions().size()==2);
+      
+      Assert.assertTrue(andCond.getConditions().get(0) instanceof NegCond);
+      NegCond negCond1= (NegCond) andCond.getConditions().get(0);
+      Assert.assertTrue(negCond1.getNegCondition() instanceof AtomicCond);
+      AtomicCond nac1=(AtomicCond) negCond1.getNegCondition();
+      Assert.assertTrue(nac1.getNestedCondition() instanceof TrueCond);
+      Assert.assertTrue("FailedAssert: 46",nac1.getMorP_C().getDom()==L);
+      SymbolicGraph X=nac1.getMorP_C().getCodom();
+		
+		
 		
 		Assert.assertTrue("FailedAssert: 88",X.getGraphNodes().size()==4);
 		Assert.assertTrue("FailedAssert: 89",X.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("a") && x.getType().getName().equals("A")));
@@ -240,9 +264,14 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 		Assert.assertTrue("FailedAssert: 82",X.getLabelNodes().size()==2);
 		Assert.assertTrue("FailedAssert: 83",X.getLabelEdges().size()==2);
 		
-		Assert.assertTrue("FailedAssert: 98",symbGTRule.getApplicationConditions().get(0).getX().getDom()==L);
-		SymbolicGraph X2=(SymbolicGraph) symbGTRule.getApplicationConditions().stream().filter(x->x.getId().equals("2")).findFirst().get().getX().getCodom();
-		
+		Assert.assertTrue(andCond.getConditions().get(1) instanceof NegCond);
+		NegCond negCond2= (NegCond) andCond.getConditions().get(1);
+		Assert.assertTrue(negCond2.getNegCondition() instanceof AtomicCond);
+		AtomicCond nac2=(AtomicCond) negCond2.getNegCondition();
+		Assert.assertTrue(nac2.getNestedCondition() instanceof TrueCond);
+		Assert.assertTrue("FailedAssert: 46",nac2.getMorP_C().getDom()==L);
+		SymbolicGraph X2=nac2.getMorP_C().getCodom();
+
 		Assert.assertTrue("FailedAssert: 99",X2.getGraphNodes().size()==2);
 		Assert.assertTrue("FailedAssert: 100",X2.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("a") && x.getType().getName().equals("A")));
 		Assert.assertTrue("FailedAssert: 101",X2.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("c1") && x.getType().getName().equals("C")));
@@ -250,11 +279,11 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 		Assert.assertTrue("FailedAssert: 102",X2.getGraphEdges().size()==1);
 		Assert.assertTrue("FailedAssert: 103",X2.getGraphEdges().stream().anyMatch(x->x.getSource().getDebugId().equals("a") && x.getTarget().getDebugId().equals("c1") && x.getType().getName().equals("c")));
 		
-		Assert.assertTrue("FailedAssert: 104",TestHelper.checkMorphism(symbGTRule.getApplicationConditions().get(1).getX()));
-		Assert.assertTrue("FailedAssert: 105",TestHelper.checkMorphism(symbGTRule.getApplicationConditions().get(0).getX()));
 		Assert.assertTrue("FailedAssert: 82",X2.getLabelNodes().size()==2);
 		Assert.assertTrue("FailedAssert: 83",X2.getLabelEdges().size()==2);
 		
+		Assert.assertTrue("FailedAssert: 104",TestHelper.checkMorphism(nac1.getMorP_C()));
+		Assert.assertTrue("FailedAssert: 105",TestHelper.checkMorphism(nac2.getMorP_C()));
 
 		Assert.assertTrue("FailedAssert: 106",TestHelper.checkMorphismsInRule(symbGTRule));
 		Assert.assertTrue(TestHelper.areLabelNodesAndEdgesCorrect(symbGTRule));
@@ -295,9 +324,17 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 		Assert.assertTrue("FailedAssert: 121",R.getLabelEdges().size()==1);
 		Assert.assertTrue("FailedAssert: 122",R.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("a") && x.getType().getName().equals("A")));
 		
-		Assert.assertTrue("FailedAssert: 123",symbGTRule.getApplicationConditions().size()==1);
-		Assert.assertTrue("FailedAssert: 124",symbGTRule.getApplicationConditions().get(0).getX().getDom()==L);
-		SymbolicGraph X=symbGTRule.getApplicationConditions().get(0).getX().getCodom();
+		Assert.assertTrue("FailedAssert: 45",L.getCondition()!=null);
+      Assert.assertTrue(L.getCondition() instanceof AndCond);
+      AndCond andCond=(AndCond) L.getCondition();
+      Assert.assertTrue(andCond.getConditions().size()==1);
+      Assert.assertTrue(andCond.getConditions().get(0) instanceof NegCond);
+      NegCond negCond= (NegCond) andCond.getConditions().get(0);
+      Assert.assertTrue(negCond.getNegCondition() instanceof AtomicCond);
+      AtomicCond nac=(AtomicCond) negCond.getNegCondition();
+      Assert.assertTrue(nac.getNestedCondition() instanceof TrueCond);
+      Assert.assertTrue("FailedAssert: 46",nac.getMorP_C().getDom()==L);
+      SymbolicGraph X=nac.getMorP_C().getCodom();
 		
 		Assert.assertTrue("FailedAssert: 125",X.getGraphNodes().size()==2);
 		Assert.assertTrue("FailedAssert: 126",X.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("a") && x.getType().getName().equals("A")));
@@ -309,7 +346,7 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 		
 		Assert.assertTrue("FailedAssert: 120",X.getLabelNodes().size()==1);
 		Assert.assertTrue("FailedAssert: 121",X.getLabelEdges().size()==1);
-		Assert.assertTrue("FailedAssert: 131",TestHelper.checkMorphism(symbGTRule.getApplicationConditions().get(0).getX()));
+		Assert.assertTrue("FailedAssert: 131",TestHelper.checkMorphism(nac.getMorP_C()));
 		
 		
 		Assert.assertTrue("FailedAssert: 132",TestHelper.checkMorphismsInRule(symbGTRule));

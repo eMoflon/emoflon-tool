@@ -16,11 +16,11 @@ import org.moflon.maave.tool.graphtransformation.SpanSet;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.MorphismClass;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MorphismClass;
 
 import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StoryNode;

@@ -8,6 +8,7 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.category.CategoryFactory;
 import org.moflon.maave.tool.category.SymbolicGraphCat;
+import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
 
 partial class NormalFormBuilderImpl {
 
@@ -88,12 +89,12 @@ partial class NormalFormBuilderImpl {
       partialMatchZ3_Z4.setCodom(graphZ4);
       for (Object obj : morN_P4.getDom().getAllElements())
       {
-         EGraphElement elem=(EGraphElement) obj;
+         EGraphElement elem = (EGraphElement) obj;
          partialMatchZ3_Z4.addMapping(morN_Z3.imageOf(elem), morN_Z4.imageOf(elem));
       }
       MorphismsSet isoMorSetZ3_Z4 = morFinderForZ3.getAllMorphisms(partialMatchZ3_Z4);
 
-      Status status = MatchingUtilsFactory.eINSTANCE.createStatus();
+      Status status = MaaveutilFactory.eINSTANCE.createStatus();
       status.setValid(false);
       for (SymbolicGraphMorphism isoMorZ3_Z4 : isoMorSetZ3_Z4.getMorphisms())
       {

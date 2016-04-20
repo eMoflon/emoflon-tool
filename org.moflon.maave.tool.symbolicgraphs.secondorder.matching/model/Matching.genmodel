@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/gen"
     modelPluginID="org.moflon.maave.tool.symbolicgraphs.secondorder.matching" modelName="Matching"
     updateClasspath="false" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../org.gervarro.democles.specification.emf/model/specification.genmodel#//specification ../../org.gervarro.democles.specification.emf/model/emf.genmodel#//emf ../../org.gervarro.democles.specification.emf/model/relational.genmodel#//relational platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.genmodel#//symbolicgraphs"
+    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../org.gervarro.democles.specification.emf/model/specification.genmodel#//specification ../../org.gervarro.democles.specification.emf/model/emf.genmodel#//emf ../../org.gervarro.democles.specification.emf/model/relational.genmodel#//relational platform:/plugin/org.moflon.maave.tool.symbolicgraphs/model/Symbolicgraphs.genmodel#//symbolicgraphs platform:/plugin/org.moflon.maave.tool.maaveutil/model/Maaveutil.genmodel#//maaveutil"
     operationReflection="true">
   <foreignModel>Matching.ecore</foreignModel>
   <genPackages prefix="Matching" basePackage="org.moflon.maave.tool.symbolicgraphs.secondorder"
@@ -192,10 +192,6 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/Path/over"/>
       </genClasses>
-      <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/Status">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/Status/valid"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/Status/message"/>
-      </genClasses>
       <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/CommutingPaths">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/CommutingPaths/pathA"/>
@@ -224,11 +220,6 @@
           <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/ConfigurableMorphismClassFactory/createMorphismClass/graphEdgeMode"/>
           <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/ConfigurableMorphismClassFactory/createMorphismClass/labelEdgeMode"/>
           <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/ConfigurableMorphismClassFactory/createMorphismClass/formulaMode"/>
-        </genOperations>
-      </genClasses>
-      <genClasses ecoreClass="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/MorphismClass">
-        <genOperations ecoreOperation="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/MorphismClass/isMember">
-          <genParameters ecoreParameter="platform:/plugin/org.moflon.maave.tool.symbolicgraphs.secondorder.matching/model/Matching.ecore#//MatchingUtils/MorphismClass/isMember/morphism"/>
         </genOperations>
       </genClasses>
     </nestedGenPackages>

@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.moflon.maave.tests.lang.cms.CmsPackage;
 import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.MorphismClass;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.IMorphismFinder;
@@ -15,7 +16,6 @@ import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MorphismClass;
 
 
 public class CopyRuleTest {

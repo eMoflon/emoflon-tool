@@ -35,4 +35,6 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.moflon.maave.tests.lang.cmsNew;bundle-version="1.0.0",
  org.moflon.maave.wsconfig;bundle-version="1.0.0",
  org.moflon.maave.tool.smt.smtlib;bundle-version="1.0.0",
- de.tudarmstadt.maki.modeling.jvlc;bundle-version="1.0.0"
+ de.tudarmstadt.maki.modeling.jvlc;bundle-version="1.0.0",
+ org.moflon.maave.tool.maaveutil;bundle-version="1.0.0",
+ org.moflon.maave.tests.lang.vwxyz;bundle-version="1.0.0"

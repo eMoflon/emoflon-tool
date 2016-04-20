@@ -1,0 +1,52 @@
+
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.IMorphismFinder;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
+
+partial class AtomicCondImpl {
+
+@members <--
+
+   private boolean isCommuting(SymbolicGraphMorphism morP_G, SymbolicGraphMorphism morC_G)
+   {
+      for (Object obj : morP_G.getDom().getAllElements())
+      {
+         EGraphElement elem = (EGraphElement) obj;
+         if (!(morP_G.imageOf(elem) == morC_G.imageOf(this.getMorP_C().imageOf(elem))))
+         {
+            return false;
+         }
+      }
+      return true;
+   }
+   
+-->
+
+@model isSat (SymbolicGraphMorphism morP_G, MorphismClass matchMorClass) <--
+
+      MorphismFinderFactory mofFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
+
+      SymbolicGraph graphC = this.getMorP_C().getCodom();
+      SymbolicGraph graphG = morP_G.getCodom();
+      IMorphismFinder morFinderforC = mofFinderFac.createMorphismFinder(graphC, matchMorClass);
+      SymbolicGraphMorphism emptyMorC_G = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      emptyMorC_G.setDom(graphC);
+      emptyMorC_G.setCodom(graphG);
+      MorphismsSet morSetC_G = morFinderforC.getAllMorphisms(emptyMorC_G);
+      for (SymbolicGraphMorphism morC_G : morSetC_G.getMorphisms())
+      {
+         if (this.isCommuting(morP_G, morC_G))
+         {
+            if (this.getNestedCondition().isSat(morC_G, matchMorClass))
+            {
+               return true;
+            }
+         }
+      }
+      return false;
+-->
+
+}

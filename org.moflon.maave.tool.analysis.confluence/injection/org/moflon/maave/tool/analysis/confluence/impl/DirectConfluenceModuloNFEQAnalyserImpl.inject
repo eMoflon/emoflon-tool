@@ -40,10 +40,11 @@ partial class DirectConfluenceModuloNFEQAnalyserImpl {
             {
                System.out.println(
                      "=============== Starting Confluence Analysis For Rule Pair: " + rule1.getName() + " | " + rule2.getName() + "====================");
+                     System.out.println("----------------------------Starting Critical Pair Analyis  -------------------------");
             }
             long timeStampStart = System.currentTimeMillis();
 
-            System.out.println("----------------------------Starting Critical Pair Analyis  -------------------------");
+           
             DirectDerivationPairSet criticalPairSet = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
             if (WsInfo.getVerboseLevel() >= 5)
             {
@@ -60,7 +61,10 @@ partial class DirectConfluenceModuloNFEQAnalyserImpl {
             result.setValid(false);
             result.setRuleA(rule1.getName());
             result.setRuleB(rule2.getName());
-            System.out.println("--------------------------------Starting Confluence Analysis -------------------------");
+            if (WsInfo.getVerboseLevel() >= 5)
+            {
+               System.out.println("--------------------------------Starting Confluence Analysis -------------------------");
+            }
             for (DirectDerivationPair criticalPair : criticalPairSet.getPairsOfDirectDerivations())
             {
 
