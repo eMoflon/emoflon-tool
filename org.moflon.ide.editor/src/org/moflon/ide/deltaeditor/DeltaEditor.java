@@ -1,194 +1,123 @@
 package org.moflon.ide.deltaeditor;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.presentation.EcoreEditor;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.tgg.algorithm.delta.AttributeDelta;
 import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
+import org.moflon.tgg.runtime.DeltaSpecification;
+import org.moflon.tgg.runtime.EMoflonEdge;
+import org.moflon.tgg.runtime.RuntimeFactory;
 
 public class DeltaEditor extends EcoreEditor {
-	private boolean deltaAlreadyCreated = false;
-
 	private Delta delta;
-	private EObject content;
-	private Resource deltaResource;
-	private Resource contentResource;
-
-	private static final Logger logger = Logger.getLogger(DeltaEditor.class);
 	
-	public DeltaEditor() {
-		super();
-	}
-
-	public void init(IEditorSite site, IEditorInput input) {
-		super.init(site, input);
-	}
-
-	public void setFocus() {
-		super.setFocus();
-	}
-
+	// The user is going to perform changes on this model
+	private EObject originalModel;
+	
+	// The changes will be mapped to this unchanged model
+	private EObject copiedModel;
+	
+	// Mapping is:  originalModel ---> copiedModel
+	private Copier copier;
+	
+	private Resource contentResource;
+	private Boolean dirty = true;
+	
 	@Override
-	/**
-	 * clear all resources and reset to the initial state update deltas
-	 * afterwards and delete all listeners
-	 */
-	public void dispose() {
-		super.dispose();
-
-		// restore old state
-		try {
-			editingDomain.getResourceSet().getResources().get(0).save(Collections.EMPTY_MAP);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		updateDeltaResource();
-
-		removeAllDeltaListeners();
-	}
-
-	@Override
-	/**
-	 * only called once when opening the resource initialize delta listeners and
-	 * create copies of all resources to be able to reset them later
-	 */
 	public void createModel() {
 		super.createModel();
-		convertToFileURI();
-		findExistingDeltaResource();
 
 		contentResource = editingDomain.getResourceSet().getResources().get(0);
-		content = contentResource.getContents().get(0);
-		if (!deltaAlreadyCreated) {
-			delta = new Delta();
-		}
+		originalModel = contentResource.getContents().get(0);
+		
+		copier = new Copier();
+	    copiedModel = copier.copy(originalModel);
+	    copier.copyReferences();
+		
+		delta = new Delta();
 
-		new OnlineChangeDetector(delta, content);
-	}
-
-	public void convertToFileURI() {
-		for (Resource r : editingDomain.getResourceSet().getResources()) {
-			if (r.getURI().isPlatform()) {
-				URI currUri = r.getURI();
-				if (currUri.isPlatform()) {
-					String filePath = platformURIToPath(currUri);
-					r.setURI(URI.createFileURI(filePath));
-				}
-			}
-		}
+		new OnlineChangeDetector(delta, originalModel);
 	}
 
 	@Override
+	public boolean isDirty() {
+		return dirty;
+	}
+	
+	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
-		updateDeltaResource();
-		super.doSave(progressMonitor);
+		createNewDeltaResource();
+		dirty = false;
 	}
 
 	@Override
 	protected void doSaveAs(URI uri, IEditorInput editorInput) {
-		updateDeltaResource();
-		super.doSaveAs(uri, editorInput);
+		doSave(new NullProgressMonitor());
 	}
 
-	public void processDeltas() {
+	private void createNewDeltaResource() {
+		DeltaSpecification deltaSpec = createSpecificationFromDelta();
+		deltaSpec.setTargetModel(copiedModel);
 
-	}
-
-	public void findExistingDeltaResource() {
-		String filePath = null;
-		filePath = editingDomain.getResourceSet().getResources().get(0).getURI().toFileString();
+		editingDomain.getResourceSet().getResources().remove(contentResource);
+		
+		Resource resourceForCopy = editingDomain.getResourceSet().createResource(contentResource.getURI());
+	    resourceForCopy.getContents().add(copiedModel);
+		
+		Resource deltaResource = editingDomain.getResourceSet().createResource(contentResource.getURI().trimFileExtension().appendFileExtension("delta.xmi"));
+		deltaResource.getContents().add(deltaSpec);
 		try {
-			editingDomain.getResourceSet().getResources().add(editingDomain.getResourceSet().getResource(URI.createFileURI(filePath.replace(".xmi", "_delta.xmi")), true));
-		} catch (Exception e) {
-			logger.info("No file containing existing deltas were found. Please verify that the name of the delta file has not been changed if this is unintentional.");
-			editingDomain.getResourceSet().getResources().remove(editingDomain.getResourceSet().getResources().size() - 1);
-		}
-
-		for (Resource r : editingDomain.getResourceSet().getResources()) {
-			EObject extractedContent = r.getContents().get(0);
-			if (extractedContent instanceof org.moflon.tgg.runtime.Delta) {
-				delta = Delta.fromEMF((org.moflon.tgg.runtime.Delta) extractedContent);
-				content = ((org.moflon.tgg.runtime.Delta) extractedContent).getTargetModel();
-				deltaResource = r;
-				contentResource = editingDomain.getResourceSet().getResources().get(0);
-				deltaAlreadyCreated = true;
-				break;
-			}
+			deltaResource.save(null);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * update old delta entries or create them
-	 */
-	public void updateDeltaResource() {
-		if (deltaAlreadyCreated)
-			updateExistingDeltaResource();
-		else
-			createNewDeltaResource();
+	private DeltaSpecification createSpecificationFromDelta() {
+		DeltaSpecification spec = RuntimeFactory.eINSTANCE.createDeltaSpecification();
+		spec.getAddedEdges().addAll(mapEdgesToCopy(delta.getAddedEdges()));
+		spec.getDeletedEdges().addAll(mapEdgesToCopy(delta.getDeletedEdges()));
+		spec.getDeletedNodes().addAll(mapNodesToCopy(delta.getDeletedNodes()));
+		spec.getAddedNodes().addAll(mapNodesToCopy(delta.getAddedNodes()));
+		spec.getAttributeChanges().addAll(mapAttrDeltaToCopy(delta.getAttributeChanges()).stream()
+				.map(d -> d.toEMF())
+				.collect(Collectors.toList()));
+		
+		return spec;
 	}
 
-	public void updateExistingDeltaResource() {
-		deltaResource.getContents().clear();
-		deltaResource.getContents().add(delta.toEMF().preparePersistence());
+	private Collection<AttributeDelta> mapAttrDeltaToCopy(Collection<AttributeDelta> attributeChanges) {
+		return attributeChanges.stream()
+				.map(ac -> new AttributeDelta(ac.getAffectedAttribute(), ac.getOldValue(), ac.getNewValue(), copier.get(ac.getAffectedNode())))
+				.collect(Collectors.toList());
 	}
 
-	public void createNewDeltaResource() {
-		// set link to model and update new one
-		if (!delta.isChangeDetected()) {
-			return;
-		}
-
-		org.moflon.tgg.runtime.Delta emfDelta = delta.toEMF().preparePersistence();
-		emfDelta.setTargetModel(content);
-
-		String filePath = contentResource.getURI().toFileString();
-		deltaResource = editingDomain.getResourceSet().createResource(URI.createFileURI(filePath.replace(".xmi", "_delta.xmi")));
-		deltaResource.getContents().add(emfDelta);
-
-		deltaAlreadyCreated = true;
+	private Collection<EObject> mapNodesToCopy(Collection<EObject> deletedNodes) {
+		return deletedNodes.stream()
+				.map(copier::get)
+				.collect(Collectors.toList());
 	}
 
-	private String platformURIToPath(URI currUri) {
-		String filePath;
-		String[] uriFragments = currUri.toString().split("/");
-		String projectName = uriFragments[2];
-		filePath = WorkspaceHelper.getProjectByName(projectName).getProject().getLocation().toString() + currUri.toString().substring(currUri.toString().indexOf(uriFragments[2]) + uriFragments[2].length());
-		return filePath;
-	}
-
-	/**
-	 * remove all delta listeners
-	 */
-	public void removeAllDeltaListeners() {
-		removeDeltaListeners(content);
-	}
-
-	protected void removeDeltaListeners(final EObject root) {
-		removeListenerFromNode(root);
-		root.eAllContents().forEachRemaining(this::removeListenerFromNode);
-	}
-
-	protected void removeListenerFromNode(final EObject element) {
-		List<Adapter> toBeRemoved = new ArrayList<>();
-		element.eAdapters().forEach(adapter -> {
-			if (adapter instanceof OnlineChangeDetector)
-				toBeRemoved.add(adapter);
-		});
-
-		if (toBeRemoved != null)
-			element.eAdapters().removeAll(toBeRemoved);
+	private Collection<EMoflonEdge> mapEdgesToCopy(Collection<EMoflonEdge> addedEdges) {
+		return addedEdges.stream()
+				.map(ae -> {
+					EMoflonEdge e = RuntimeFactory.eINSTANCE.createEMoflonEdge();
+					e.setName(ae.getName());
+					e.setSrc(copier.get(ae.getSrc()));
+					e.setTrg(copier.get(ae.getTrg()));
+					return e;
+				})
+				.collect(Collectors.toList());
 	}
 }

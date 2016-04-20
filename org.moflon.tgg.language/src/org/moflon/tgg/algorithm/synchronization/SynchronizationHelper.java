@@ -3,6 +3,7 @@ package org.moflon.tgg.algorithm.synchronization;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
@@ -28,7 +29,9 @@ import org.moflon.tgg.language.algorithm.AlgorithmFactory;
 import org.moflon.tgg.language.algorithm.TempOutputContainer;
 import org.moflon.tgg.language.analysis.Rule;
 import org.moflon.tgg.language.analysis.StaticAnalysis;
+import org.moflon.tgg.runtime.AttributeDelta;
 import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.DeltaSpecification;
 import org.moflon.tgg.runtime.EMoflonEdge;
 import org.moflon.tgg.runtime.RuntimeFactory;
 
@@ -72,10 +75,8 @@ public class SynchronizationHelper
 
    protected TempOutputContainer tempOutputContainer;
 
-   protected boolean batchOptimization = false;
+   protected boolean batchMode = false;
    
-   protected boolean loadedDelta = false;
-
    protected boolean verbose = false;
    protected boolean mute = false;
 
@@ -137,7 +138,6 @@ public class SynchronizationHelper
 
    public void setDelta(final Delta delta)
    {
-      loadedDelta = true;
       this.delta = delta;
    }
 
@@ -256,10 +256,10 @@ public class SynchronizationHelper
    // Integration
    protected void establishTranslationProtocol()
    {
-      if (protocol == null && !batchOptimization)
+	  if (batchMode)
+		   protocol = new SynchronizationProtocol();
+	  else if (protocol == null)
          throw new IllegalStateException("You cannot synchronize your delta without providing a translation protocol");
-      if (protocol == null)
-         protocol = new SynchronizationProtocol();
    }
 
    protected void establishGraphTriple()
@@ -304,14 +304,38 @@ public class SynchronizationHelper
       establishDelta(trg, changeTrg);
    }
 
+   @SuppressWarnings({ "unchecked", "rawtypes" })
+   protected Consumer<EObject> executeDeltaSpec(String pathToDelta){
+	   DeltaSpecification deltaSpec = (DeltaSpecification) loadModel(pathToDelta);
+	   return (input) -> {
+		   // Edge deletion
+		   for(EMoflonEdge de : deltaSpec.getDeletedEdges())
+			   performActionOnFeature(de, (f, o) -> ((EList)de.getSrc().eGet(f)).remove(o), (f,o) -> de.getSrc().eUnset(f));
+			   
+		   // Node deletion
+		   for(EObject delObj : deltaSpec.getDeletedNodes())
+			   EcoreUtil.delete(delObj);
+		   
+		   // Attribute deltas
+		   for(AttributeDelta ac : deltaSpec.getAttributeChanges())
+			   ac.getAffectedNode().eSet(ac.getAffectedAttribute(), ac.getNewValue());
+		   
+		   // Added edges (nodes are indirectly added) 
+		   for(EMoflonEdge ae : deltaSpec.getAddedEdges())
+			   performActionOnFeature(ae, (f, o) -> ((EList)ae.getSrc().eGet(f)).add(o), ae.getSrc()::eSet);
+	   }; 
+   	}
+
+	private void performActionOnFeature(EMoflonEdge e, BiConsumer<EStructuralFeature, EObject> actionMany, BiConsumer<EStructuralFeature, EObject> actionOne) {
+		EStructuralFeature feature = e.getSrc().eClass().getEStructuralFeature(e.getName());
+		if (feature.isMany()) {
+			actionMany.accept(feature, e.getTrg());
+		} else
+			actionOne.accept(feature, e.getTrg());
+	}
+
    protected void establishDelta(final EObject input, final Consumer<EObject> change)
-   {
-	  // check if delta has already been loaded, e.g. by using deltas created with delta editor
-	  if(loadedDelta){
-		  logger.debug("Using loaded delta for synchronization...");
-		  return;
-	  }
-		  
+   {  
 	  delta = new Delta();
 	   
       if (input == null)
@@ -324,10 +348,10 @@ public class SynchronizationHelper
       if (noChangesWereMade() && protocol == null)
       {
          induceCreateDeltaForBatchTrafo(input);
-         batchOptimization = true;
+         batchMode = true;
       } else
       {
-         batchOptimization = false;
+         batchMode = false;
       }
    }
 
@@ -356,13 +380,6 @@ public class SynchronizationHelper
    protected StaticAnalysis determineLookupMethods()
    {
       StaticAnalysis sma = EcoreUtil.copy(rules);
-
-      if (batchOptimization)
-      {
-         sma.getSourceRules().getRules().forEach(this::reduceToOneEntry);
-         sma.getTargetRules().getRules().forEach(this::reduceToOneEntry);
-      }
-
       return sma;
    }
 
@@ -502,11 +519,6 @@ public class SynchronizationHelper
    public void loadSrc(final String path)
    {
       setSrc(loadModel(path));
-   }
-   
-   public void loadDelta(final String path) 
-   {
-	   setDelta(Delta.fromEMF((org.moflon.tgg.runtime.Delta) loadModel(path)));
    }
 
    public void loadCorr(final String path)
