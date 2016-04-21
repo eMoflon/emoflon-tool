@@ -31,9 +31,7 @@ public class EMoflonStandardWorkspaces
    public static final String HANDBOOK_EXAMPLE_GUI = "HandbookGUI";
    
    public static final String HANDBOOK_EXAMPLE_PART3 = "HandbookPart3";
-   
-   public static final String HANDBOOK_EXAMPLE_PART4_5 = "HandbookPart4_5";
-   
+      
    public static final String HANDBOOK_EXAMPLE_PART4 = "HandbookPart4";
 
    public static final String PATH_TO_PSFS_ONLY = "/resources/PSFs/psfsOnlyWorkspace.psf";
@@ -63,9 +61,6 @@ public class EMoflonStandardWorkspaces
    private static final String PATH_TO_HANDBOOK_EXAMPLE_PART3 = "/resources/PSFs/handbookExample_Part3.psf";
    
    private static final String PATH_TO_HANDBOOK_EXAMPLE_PART4 = "/resources/PSFs/handbookExample_Part4_FreshStart.psf";
-   
-   private static final String PATH_TO_HANDBOOK_EXAMPLE_PART4_5 = "/resources/PSFs/handbookExample_Part4+5_Dictionary.psf"; 
-
 
    public static List<String> getAllTestWorkspaceNames()
    {
@@ -146,10 +141,6 @@ public class EMoflonStandardWorkspaces
          
       case HANDBOOK_EXAMPLE_PART4:
          path = PATH_TO_HANDBOOK_EXAMPLE_PART4;
-         break;
-         
-      case HANDBOOK_EXAMPLE_PART4_5:
-         path = PATH_TO_HANDBOOK_EXAMPLE_PART4_5;
          break;
          
       default:
