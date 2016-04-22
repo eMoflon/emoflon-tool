@@ -154,7 +154,7 @@ LiteralExpression:
 ;
 
 LinkVariablePattern:
-	(op = Operator)? type = [ecore::EReference] '->' target = [ObjectVariablePattern]
+	(op = Operator)? '-' type = [ecore::EReference] '->' target = [ObjectVariablePattern]
 ;
 
 Operator:
