@@ -4,10 +4,12 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.deployment.feature,org.moflon.deployment.feature"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.deployment.pdefragment,org.moflon.deployment.pdefragment"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.deployment.updatesite,org.moflon.deployment.updatesite"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.deployment.signing,org.moflon.deployment.signing"/>
 </provider>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1439495715901_22" label="org.moflon.deployment" name="org.moflon.deployment">
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.deployment.updatesite" type="4"/>
 <item elementID="=org.moflon.deployment.pdefragment" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.deployment.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.deployment.signing" type="4"/>
 </workingSets>
 </psf>
