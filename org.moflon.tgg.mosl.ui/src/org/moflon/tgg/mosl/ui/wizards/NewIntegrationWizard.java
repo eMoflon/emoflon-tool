@@ -2,6 +2,7 @@ package org.moflon.tgg.mosl.ui.wizards;
 
 import static org.moflon.core.utilities.WorkspaceHelper.addAllFoldersAndFile;
 import static org.moflon.core.utilities.WorkspaceHelper.addNature;
+import static org.moflon.core.utilities.WorkspaceHelper.addAllFolders;
 import static org.moflon.core.utilities.WorkspaceHelper.createSubmonitorWith1Tick;
 
 import org.eclipse.core.resources.IProject;
@@ -44,7 +45,9 @@ public class NewIntegrationWizard extends NewRepositoryWizard {
 		String defaultSchema = DefaultFilesHelper.generateDefaultSchema(project.getName());
 		addAllFoldersAndFile(project, new Path("src/org/moflon/tgg/mosl/Schema.tgg"), defaultSchema,
 				createSubmonitorWith1Tick(monitor));
-
+		
+		addAllFolders(project, "src/org/moflon/tgg/mosl/rules", createSubmonitorWith1Tick(monitor));
+		
 		AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
 	}
 }

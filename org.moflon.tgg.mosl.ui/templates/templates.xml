@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <templates>
-
-<template id="t3" autoinsert="true" context="org.moflon.tgg.mosl.TGG.kw_«rule»" deleted="false" description="Declare TGG Rule" enabled="true" name="Rule">«using» ${nameOfSchema}.*&#13;
-«using» AttrCondDefLibrary.*&#13;
-&#13;
-«rule» ${nameOfRule} «with» ${nameOfSchema}&#13;
-&#13;
-«source» { &#13;
-		&#13;
-}&#13;
- &#13;
-«target» {&#13;
-	&#13;
-}&#13;
-&#13;
-«correspondence» {&#13;
-	&#13;
-}&#13;
-&#13;
-«attribute conditions» {&#13;
-	&#13;
-}&#13;
-</template>
-
+<template id="t1" autoinsert="false" context="org.moflon.tgg.mosl.TGG.Import" deleted="false" description="Format for importing eMoflon projects" enabled="true" name="eMoflon import">#import "platform:/plugin/${projectName}/model/${projectName}.ecore"</template>
 </templates>
