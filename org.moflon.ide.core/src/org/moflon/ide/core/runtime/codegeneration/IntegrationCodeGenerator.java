@@ -173,6 +173,12 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          tgg = (TripleGraphGrammar) tggResource.getContents().get(0);
          monitor.worked(5);
 
+         if(tggIsEmpty()){
+        	 monitor.done();
+        	 logger.warn("Your TGG does not contain any rules, aborting attempt to generate code...");
+        	 return;        	 
+         }
+         
          // Create and add precompiler to resourceSet so reverse navigation of links works
          TGGPrecompiler precompiler = PrecompilerFactory.eINSTANCE.createTGGPrecompiler();
          eMoflonEMFUtil.createParentResourceAndInsertIntoResourceSet(precompiler, set);
@@ -285,6 +291,10 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
       {
          monitor.done();
       }
+   }
+
+   private boolean tggIsEmpty() {
+	   return tgg.getTggRule().isEmpty();
    }
 
    private void enrichCspsWithTypeInformation()
