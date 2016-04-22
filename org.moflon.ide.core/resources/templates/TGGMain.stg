@@ -97,7 +97,6 @@ import org.eclipse.emf.ecore.EObject;
 TGGMainSync(projects, corrPackage, className) ::= <<
 <basicHeader()>
 
-import org.eclipse.emf.common.util.URI;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 
 <basic()>
@@ -106,14 +105,14 @@ import org.moflon.tgg.runtime.CorrespondenceModel;
 		// Set up logging
 		BasicConfigurator.configure();
 
-		PatientsToDosageSync helper;
+		<className> helper;
 
 		// Propagate changes made to source
-		helper = new PatientsToDosageSync();
+		helper = new <className>();
 		helper.syncForward("instances/fwd.corr.xmi", "instances/fwd.src.delta.xmi");
 
 		// Propagate changes made to target
-		// helper = new PatientsToDosageSync();
+		// helper = new <className>();
 		// helper.syncBackward("instances/fwd.corr.xmi",
 		// "instances/fwd.trg.delta.xmi");
 	}
