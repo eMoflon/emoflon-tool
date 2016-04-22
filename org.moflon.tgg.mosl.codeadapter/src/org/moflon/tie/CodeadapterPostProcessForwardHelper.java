@@ -185,14 +185,16 @@ public class CodeadapterPostProcessForwardHelper {
 		
 		for (Domain domain : tgg.getDomain()) {
 			if(domain.getType() == DomainType.SOURCE){
-				EPackage sourceType = tggFile.getSchema().getSourceTypes().get(0);
-				domain.getMetamodel().setOutermostPackage(sourceType);
-				domain.getMetamodel().setName(sourceType.getName());
+				tggFile.getSchema().getSourceTypes().forEach(sourceType -> {
+					domain.getMetamodel().setOutermostPackage(sourceType);
+					domain.getMetamodel().setName(sourceType.getName());
+				});
 			}
 			if(domain.getType() == DomainType.TARGET){
-				EPackage targetType = tggFile.getSchema().getTargetTypes().get(0);
-				domain.getMetamodel().setOutermostPackage(targetType);
-				domain.getMetamodel().setName(targetType.getName());
+				tggFile.getSchema().getTargetTypes().forEach(targetType -> {
+					domain.getMetamodel().setOutermostPackage(targetType);
+					domain.getMetamodel().setName(targetType.getName());
+				});
 			}
 			if(domain.getType() == DomainType.CORRESPONDENCE){
 				domain.getMetamodel().setOutermostPackage(corrPackage);
