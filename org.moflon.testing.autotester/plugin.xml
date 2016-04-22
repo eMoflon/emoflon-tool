@@ -97,11 +97,6 @@
                style="push">
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part45_Command"
-               label="Handbook Example (Part 4, 5)"
-               style="push">
-         </command>
-         <command
                commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_GUI_Command"
                label="Handbook Example (GUI)"
                style="push">
@@ -295,12 +290,6 @@
             defaultHandler="org.moflon.devtools.ui.handlers.install.InstallHandbookExampleFinalHandler"
             id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Final_Command"
             name="Install handbook example (final)">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallHandbookExamplePart45Handler"
-            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part45_Command"
-            name="Install handbook example (part 4, 5)">
       </command>
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
