@@ -188,6 +188,8 @@
 </workingSets>
 
 <!-- MOSL-TGG -->
+<!-- This slows down the building of the dev. workspace dramatically! -->
+<!--
 <provider id="org.tigris.subversion.subclipse.core.svnnature">
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.mosl,org.moflon.tgg.mosl"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.mosl.codeadapter,org.moflon.tgg.mosl.codeadapter"/>
@@ -206,4 +208,5 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.mosl.codeadapter" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.tggproject" type="4"/>
 </workingSets>
+-->
 </psf>
