@@ -1,5 +1,6 @@
 package org.moflon.tgg.algorithm.delta;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -195,5 +196,22 @@ public class OnlineChangeDetector implements Adapter
    {
       return node.eContainer() != null || node.eResource() != null;
    }
+   
+   public static void removeDeltaListeners(final EObject root)
+   {
+      removeListenerFromNode(root);
+      root.eAllContents().forEachRemaining(OnlineChangeDetector::removeListenerFromNode);
+   }
 
+   public static void removeListenerFromNode(final EObject element)
+   {
+      List<Adapter> toBeRemoved = new ArrayList<>();
+      element.eAdapters().forEach(adapter -> {
+         if (adapter instanceof OnlineChangeDetector)
+            toBeRemoved.add(adapter);
+      });
+
+      if (toBeRemoved != null)
+         element.eAdapters().removeAll(toBeRemoved);
+   }
 }

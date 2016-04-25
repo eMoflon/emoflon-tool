@@ -276,24 +276,6 @@ public class SynchronizationHelper
       set.createResource(eMoflonEMFUtil.createFileURI(projectName + "/tempOutputContainer.xmi", false)).getContents().add(tempOutputContainer);
    }
 
-   protected void removeDeltaListeners(final EObject root)
-   {
-      removeListenerFromNode(root);
-      root.eAllContents().forEachRemaining(this::removeListenerFromNode);
-   }
-
-   protected void removeListenerFromNode(final EObject element)
-   {
-      List<Adapter> toBeRemoved = new ArrayList<>();
-      element.eAdapters().forEach(adapter -> {
-         if (adapter instanceof OnlineChangeDetector)
-            toBeRemoved.add(adapter);
-      });
-
-      if (toBeRemoved != null)
-         element.eAdapters().removeAll(toBeRemoved);
-   }
-
    protected void establishForwardDelta()
    {
       establishDelta(src, changeSrc);
@@ -305,26 +287,29 @@ public class SynchronizationHelper
    }
 
    @SuppressWarnings({ "unchecked", "rawtypes" })
-   protected Consumer<EObject> executeDeltaSpec(String pathToDelta){
-	   DeltaSpecification deltaSpec = (DeltaSpecification) loadModel(pathToDelta);
-	   return (input) -> {
-		   // Edge deletion
-		   for(EMoflonEdge de : deltaSpec.getDeletedEdges())
-			   performActionOnFeature(de, (f, o) -> ((EList)de.getSrc().eGet(f)).remove(o), (f,o) -> de.getSrc().eUnset(f));
-			   
-		   // Node deletion
-		   for(EObject delObj : deltaSpec.getDeletedNodes())
-			   EcoreUtil.delete(delObj);
-		   
-		   // Attribute deltas
-		   for(AttributeDelta ac : deltaSpec.getAttributeChanges())
-			   ac.getAffectedNode().eSet(ac.getAffectedAttribute(), ac.getNewValue());
-		   
-		   // Added edges (nodes are indirectly added) 
-		   for(EMoflonEdge ae : deltaSpec.getAddedEdges())
-			   performActionOnFeature(ae, (f, o) -> ((EList)ae.getSrc().eGet(f)).add(o), ae.getSrc()::eSet);
-	   }; 
-   	}
+   protected Consumer<EObject> executeDeltaSpec(String pathToDelta)
+   {
+      DeltaSpecification deltaSpec = (DeltaSpecification) loadModel(pathToDelta);
+      EcoreUtil.resolveAll(deltaSpec);
+      
+      return (input) -> {
+         // Edge deletion
+         for (EMoflonEdge de : deltaSpec.getDeletedEdges())
+            performActionOnFeature(de, (f, o) -> ((EList) de.getSrc().eGet(f)).remove(o), (f, o) -> de.getSrc().eUnset(f));
+
+         // Node deletion
+         for (EObject delObj : deltaSpec.getDeletedNodes())
+            EcoreUtil.delete(delObj);
+
+         // Attribute deltas
+         for (AttributeDelta ac : deltaSpec.getAttributeChanges())
+            ac.getAffectedNode().eSet(ac.getAffectedAttribute(), ac.getNewValue());
+
+         // Added edges (nodes are indirectly added)
+         for (EMoflonEdge ae : deltaSpec.getAddedEdges())
+            performActionOnFeature(ae, (f, o) -> ((EList) ae.getSrc().eGet(f)).add(o), ae.getSrc()::eSet);
+      };
+   }
 
 	private void performActionOnFeature(EMoflonEdge e, BiConsumer<EStructuralFeature, EObject> actionMany, BiConsumer<EStructuralFeature, EObject> actionOne) {
 		EStructuralFeature feature = e.getSrc().eClass().getEStructuralFeature(e.getName());
@@ -343,7 +328,7 @@ public class SynchronizationHelper
 
       new OnlineChangeDetector(delta, input);
       change.accept(input);
-      removeDeltaListeners(input);
+      OnlineChangeDetector.removeDeltaListeners(input);
 
       if (noChangesWereMade() && protocol == null)
       {
@@ -502,7 +487,7 @@ public class SynchronizationHelper
 
    private EObject loadModel(final String path)
    {
-	  Resource r = set.getResource(eMoflonEMFUtil.createFileURI(path, true), true);
+      Resource r = set.getResource(eMoflonEMFUtil.createFileURI(path, true), true);
       return r.getContents().get(0);
    }
    

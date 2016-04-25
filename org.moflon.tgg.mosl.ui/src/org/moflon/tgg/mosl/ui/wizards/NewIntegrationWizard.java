@@ -1,15 +1,17 @@
 package org.moflon.tgg.mosl.ui.wizards;
 
+import static org.moflon.core.utilities.WorkspaceHelper.addAllFolders;
 import static org.moflon.core.utilities.WorkspaceHelper.addAllFoldersAndFile;
 import static org.moflon.core.utilities.WorkspaceHelper.addNature;
-import static org.moflon.core.utilities.WorkspaceHelper.addAllFolders;
 import static org.moflon.core.utilities.WorkspaceHelper.createSubmonitorWith1Tick;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.tgg.mosl.builder.MOSLTGGNature;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
@@ -43,11 +45,14 @@ public class NewIntegrationWizard extends NewRepositoryWizard {
 	@Override
 	protected void generateDefaultFiles(final IProgressMonitor monitor, IProject project) throws CoreException {
 		String defaultSchema = DefaultFilesHelper.generateDefaultSchema(project.getName());
-		addAllFoldersAndFile(project, new Path("src/org/moflon/tgg/mosl/Schema.tgg"), defaultSchema,
+		IPath pathToSchema = new Path("src/org/moflon/tgg/mosl/Schema.tgg");
+		addAllFoldersAndFile(project, pathToSchema, defaultSchema,
 				createSubmonitorWith1Tick(monitor));
 		
 		addAllFolders(project, "src/org/moflon/tgg/mosl/rules", createSubmonitorWith1Tick(monitor));
 		
 		AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
+		
+		WorkspaceHelper.openDefaultEditorForFile(project.getFile(pathToSchema));
 	}
 }

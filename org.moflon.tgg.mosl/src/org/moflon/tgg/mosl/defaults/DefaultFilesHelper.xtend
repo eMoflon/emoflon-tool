@@ -71,22 +71,26 @@ class DefaultFilesHelper {
 		return '''
 		#library AttrCondDefLibrary {
 		
-			// Semantics:  0: == 1:
+			// Semantics:  0:Object == 1:Object
 			eq(0: , 1: ) {
 				#sync: BB, BF, FB
 				#gen: BB, BF, FB, FF
 			}
 		
+			// Semantics: 0:Prefix + 1:Word = 2:Result (where + is string concatenation)
 			addPrefix(0:EString, 1:EString, 2:EString) {
 				#sync: BBB, BBF, BFB, FBB
 				#gen: BBB, BBF, BFB, FBB, BFF, FBF
 			}
-		
+			
+			// Semantics: 0:Suffix + 1:Word = 2:Result (where + is string concatenation)
 			addSuffix(0:EString, 1:EString, 2:EString) {
 				#sync: BBB, BBF, BFB, FBB
 				#gen: BBB, BBF, BFB, FBB, BFF, FFF, FBF
 			}
 		
+			// Semantics: 1:LeftWord + 0:Separator + 2:RightWord = 3:Result (where + is string concatenation)
+			// Note:  0:Separator should be occur only once in 3:Result
 			concat(0:EString, 1:EString, 2:EString, 3:EString) {
 				#sync: BBBB, BBBF, BBFB, BFFB, BFBB
 				#gen: BBBB, BBBF, BBFB, BFFB, BFBB, BFFF, BFBF, BBFF
@@ -122,6 +126,7 @@ class DefaultFilesHelper {
 				#gen: BBB, BBF, BFB, FBB
 			}
 		
+			// Semantics: 0:a + 1:b = 2:c (where + is addition for Numbers)
 			add(0:Number, 1:Number, 2:Number) {
 				#sync: BBB, BBF, BFB, FBB
 				#gen: BBB, BBF, BFB, FBB, FFB, FBF, BFF

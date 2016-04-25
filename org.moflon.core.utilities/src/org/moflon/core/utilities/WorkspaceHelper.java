@@ -47,9 +47,14 @@ import org.eclipse.jdt.internal.ui.workingsets.IWorkingSetIDs;
 import org.eclipse.jdt.ui.wizards.JavaCapabilityConfigurationPage;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * A collection of useful helper methods when dealing with a workspace in an eclipse plugin.
@@ -1194,5 +1199,24 @@ public class WorkspaceHelper
          monitor.done();
       }
    }
-
+   
+   /**
+    * Open the default editor for a file in the current workbench page
+    * @throws PartInitException 
+    */
+   public static void openDefaultEditorForFile(IFile file)
+   {
+      Display.getDefault().asyncExec(() -> {
+         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+         IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
+         try
+         {
+            page.openEditor(new FileEditorInput(file), desc.getId());
+         } catch (Exception e)
+         {
+            logger.error("Unable to open " + file);
+            e.printStackTrace();
+         }          
+      });
+   }
 }
