@@ -12,6 +12,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -21,9 +23,9 @@ import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 
-import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider;
+import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
 
-public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
+public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProvider
 {
    private static final Logger logger = Logger.getLogger(EMoflonDiagramTextProvider.class);
 
@@ -65,39 +67,34 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
     * 
     * If the selection is null or empty, the result is an empty string.
     */
-   @Override
-   public String getDiagramText(IEditorPart editorPart)
-   {
-      ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
+	@Override
+	public String getDiagramText(IEditorPart editorPart, IEditorInput editorInput) {
+		EObject selectedElement = getSelectedObject(editorPart);
+		if (selectedElement != null && isElementValidInput(selectedElement)) {
+			// Extract input object
+			EObject input = selectedElement;
+			if (!diagramTextCache.containsKey(input) || selectionHasBeenChanged(input)) {
+				String dotDiagram = new DotUnparserAdapter().unparse(modelToDot(input));
+				if (dotDiagram == null)
+					return "";
+				diagramTextCache.put(input, dotDiagram);
+			}
 
-      if (selection != null && !selection.isEmpty() && selection instanceof StructuredSelection)
-      {
-         StructuredSelection structuredSelection = (StructuredSelection) selection;
-         EObject selectedElement = (EObject) structuredSelection.getFirstElement();
+			return diagramTextCache.get(input);
+		}
 
-         if (isElementValidInput(selectedElement))
-         {
-            // Extract input object
-            EObject input = selectedElement;
-            if (!diagramTextCache.containsKey(input) || selectionHasBeenChanged(input))
-            {
-               String dotDiagram = new DotUnparserAdapter().unparse(modelToDot(input));
-               if (dotDiagram == null)
-                  return "";
-               diagramTextCache.put(input, dotDiagram);
-            }
-
-            return diagramTextCache.get(input);
-         }
-      }
-      
-      return "";
-   }
+		return "";
+	}
 
    @Override
    public boolean supportsEditor(IEditorPart editorPart)
    {
-      if (editorPart.equals(currentEditor))
+	  EObject selectedElement = getSelectedObject(editorPart); 
+	   
+	  if(selectedElement == null || !isElementValidInput(selectedElement))
+		 return false;
+	  
+	  if (editorPart.equals(currentEditor))
          return true;
 
       if (editorPart instanceof EcoreEditor)
@@ -257,6 +254,19 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       final Delta delta = new Delta();
       new OnlineChangeDetector(delta, input);
       deltaCache.put(input, delta);
+   }
+   
+   private EObject getSelectedObject(IEditorPart editorPart){
+	   ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
+
+		if (selection != null && !selection.isEmpty() && selection instanceof TreeSelection) {
+			StructuredSelection structuredSelection = (StructuredSelection) selection;
+			if (structuredSelection.getFirstElement() instanceof EObject) {
+				return (EObject) structuredSelection.getFirstElement();
+			}
+		}
+		
+		return null;
    }
 
    /**
