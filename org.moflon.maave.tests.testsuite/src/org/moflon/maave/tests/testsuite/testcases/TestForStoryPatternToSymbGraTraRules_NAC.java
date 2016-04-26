@@ -142,9 +142,9 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 		
 		
 		//////////////////////////////////
-		Assert.assertTrue("FailedAssert: 45",L.getCondition()!=null);
-		Assert.assertTrue(L.getCondition() instanceof AndCond);
-		AndCond andCond=(AndCond) L.getCondition();
+		Assert.assertFalse("FailedAssert: 45",L.getConditions().isEmpty());
+		Assert.assertTrue(L.getConditions().get(0) instanceof AndCond);
+		AndCond andCond=(AndCond) L.getConditions().get(0);
 		Assert.assertTrue(andCond.getConditions().size()==1);
 		Assert.assertTrue(andCond.getConditions().get(0) instanceof NegCond);
 		NegCond negCond= (NegCond) andCond.getConditions().get(0);
@@ -233,9 +233,9 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 		Assert.assertTrue("FailedAssert: 85",R.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("c1") && x.getType().getName().equals("C")));
 		
 		//////////////////////
-		Assert.assertTrue("FailedAssert: 45",L.getCondition()!=null);
-      Assert.assertTrue(L.getCondition() instanceof AndCond);
-      AndCond andCond=(AndCond) L.getCondition();
+      Assert.assertFalse("FailedAssert: 45",L.getConditions().isEmpty());
+      Assert.assertTrue(L.getConditions().get(0) instanceof AndCond);
+      AndCond andCond=(AndCond) L.getConditions().get(0);
       Assert.assertTrue(andCond.getConditions().size()==2);
       
       Assert.assertTrue(andCond.getConditions().get(0) instanceof NegCond);
@@ -324,9 +324,9 @@ public class TestForStoryPatternToSymbGraTraRules_NAC {
 		Assert.assertTrue("FailedAssert: 121",R.getLabelEdges().size()==1);
 		Assert.assertTrue("FailedAssert: 122",R.getGraphNodes().stream().anyMatch(x->x.getDebugId().equals("a") && x.getType().getName().equals("A")));
 		
-		Assert.assertTrue("FailedAssert: 45",L.getCondition()!=null);
-      Assert.assertTrue(L.getCondition() instanceof AndCond);
-      AndCond andCond=(AndCond) L.getCondition();
+      Assert.assertFalse("FailedAssert: 45",L.getConditions().isEmpty());
+      Assert.assertTrue(L.getConditions().get(0) instanceof AndCond);
+      AndCond andCond=(AndCond) L.getConditions().get(0);
       Assert.assertTrue(andCond.getConditions().size()==1);
       Assert.assertTrue(andCond.getConditions().get(0) instanceof NegCond);
       NegCond negCond= (NegCond) andCond.getConditions().get(0);

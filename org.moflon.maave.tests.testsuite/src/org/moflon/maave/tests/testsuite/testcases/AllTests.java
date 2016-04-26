@@ -7,28 +7,29 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
    TestForStoryPatternToSymbGraTraRules_Basic.class 
-//   ,TestForStoryPatternToProjGraTraRules_Basic.class \\TODO fix
+////   ,TestForStoryPatternToProjGraTraRules_Basic.class \\TODO fix
   ,TestForStoryPatternToSymbGraTraRules_NAC.class 
-   ,TestForStoryPatternToProjGraTraRules_Enum.class
-   ,MorphismFinderTest.class
-//   ,PullbackTest.class //TODO fix
-   ,PushoutUMPTest.class
-   ,IsomorphicCopyTester.class
-//   ,DirectDerivationTest.class //TODO fix
-   ,EmptyRuleDirectDerivationTest.class
-   ,MorphismClassTest.class
+//   ,TestForStoryPatternToProjGraTraRules_Enum.class
+//   ,MorphismFinderTest.class
+////   ,PullbackTest.class //TODO fix
+//   ,PushoutUMPTest.class
+//   ,IsomorphicCopyTester.class
+////   ,DirectDerivationTest.class //TODO fix
+//   ,EmptyRuleDirectDerivationTest.class
+//   ,MorphismClassTest.class
     ,ApplicationConditionTest.class
-    ,GlobalConditionsTest.class
-//   ,CopyRuleTest.class //TODO fix
-   ,SubgraphBuilderTest.class
-   ,JointlyEpiTest.class
+//    ,GlobalConditionsTest.class
+////   ,CopyRuleTest.class //TODO fix
+//   ,SubgraphBuilderTest.class
+//   ,JointlyEpiTest.class
 
 //
-   ,CriticalPairTestProj.class
-   ,NormalFormEquivalenceTest.class
-   ,ConfluenceProjTestCMSMandatory.class
-//   
-   ,ConfluenceProjTestGAMPaper.class
+   ,ConstraintsToPostConditionsTest.class
+//   ,CriticalPairTestProj.class
+//   ,NormalFormEquivalenceTest.class
+//   ,ConfluenceProjTestCMSMandatory.class
+////   
+//   ,ConfluenceProjTestGAMPaper.class
 ////   ,ConfluenceProjTestModelsPaper.class //TODO fix
 //   ,ConfluenceProjTestCMSnew.class
 //    ,kTCExample.class

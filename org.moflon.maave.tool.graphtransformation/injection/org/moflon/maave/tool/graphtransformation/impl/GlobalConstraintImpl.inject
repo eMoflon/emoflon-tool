@@ -1,4 +1,5 @@
 
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Condition;
 import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
@@ -23,11 +24,14 @@ partial class GlobalConstraintImpl {
          emptyMorP_G.setCodom(graphG);
          for (SymbolicGraphMorphism morP_G : morFinderForP.getAllMorphisms(emptyMorP_G).getMorphisms())
          {
-            if (graphP.getCondition().isSat(morP_G, this.getMatchMorphismClass()) == false)
+            for (Condition cond : graphP.getConditions())
             {
+               if (cond.isSat(morP_G, this.getMatchMorphismClass()) == false)
+               {
 
-               status.setValid(false);
-               return status;
+                  status.setValid(false);
+                  return status;
+               }
             }
          }
       }

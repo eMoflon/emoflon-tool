@@ -92,7 +92,7 @@ public class ApplicationConditionTest {
       MorphismsSet morSetL_G1=morFinderForL.getAllMorphisms(emptyMorL_G1);
       assertTrue(morSetL_G1.getMorphisms().size()==1);
       
-      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getCondition().isSat(x, morclass)).count()==1);
+      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getConditions().get(0).isSat(x, morclass)).count()==1);
       
    }
    
@@ -125,7 +125,7 @@ public class ApplicationConditionTest {
       MorphismsSet morSetL_G1=morFinderForL.getAllMorphisms(emptyMorL_G1);
       assertTrue(morSetL_G1.getMorphisms().size()==1);
       
-      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getCondition().isSat(x, morclass)).count()==0);
+      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getConditions().get(0).isSat(x, morclass)).count()==0);
       
    }
    @Test
@@ -157,7 +157,7 @@ public class ApplicationConditionTest {
       MorphismsSet morSetL_G1=morFinderForL.getAllMorphisms(emptyMorL_G1);
       assertTrue(morSetL_G1.getMorphisms().size()==2);
       
-      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getCondition().isSat(x, morclass)).count()==0);
+      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getConditions().get(0).isSat(x, morclass)).count()==0);
       
    }
    @Test
@@ -189,7 +189,7 @@ public class ApplicationConditionTest {
       MorphismsSet morSetL_G1=morFinderForL.getAllMorphisms(emptyMorL_G1);
       assertTrue(morSetL_G1.getMorphisms().size()==1);
       
-      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getCondition().isSat(x, morclass)).count()==0);
+      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getConditions().get(0).isSat(x, morclass)).count()==0);
       
    }
    @Test
@@ -221,7 +221,7 @@ public class ApplicationConditionTest {
       MorphismsSet morSetL_G1=morFinderForL.getAllMorphisms(emptyMorL_G1);
       assertTrue(morSetL_G1.getMorphisms().size()==2);
       
-      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getCondition().isSat(x, morclass)).count()==0);
+      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getConditions().get(0).isSat(x, morclass)).count()==0);
       
    }
    @Test
@@ -253,7 +253,7 @@ public class ApplicationConditionTest {
       MorphismsSet morSetL_G1=morFinderForL.getAllMorphisms(emptyMorL_G1);
       assertTrue(morSetL_G1.getMorphisms().size()==1);
       
-      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getCondition().isSat(x, morclass)).count()==1);
+      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getConditions().get(0).isSat(x, morclass)).count()==1);
       
    }
    @Test
@@ -285,7 +285,7 @@ public class ApplicationConditionTest {
       MorphismsSet morSetL_G1=morFinderForL.getAllMorphisms(emptyMorL_G1);
       assertTrue(morSetL_G1.getMorphisms().size()==1);
       
-      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getCondition().isSat(x, morclass)).count()==0);
+      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getConditions().get(0).isSat(x, morclass)).count()==0);
       
    }
    @Test
@@ -317,7 +317,7 @@ public class ApplicationConditionTest {
       MorphismsSet morSetL_G1=morFinderForL.getAllMorphisms(emptyMorL_G1);
       assertTrue(morSetL_G1.getMorphisms().size()==1);
       
-      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getCondition().isSat(x, morclass)).count()==1);
+      assertTrue(morSetL_G1.getMorphisms().stream().filter(x->x.getDom().getConditions().get(0).isSat(x, morclass)).count()==1);
       
    }
 }

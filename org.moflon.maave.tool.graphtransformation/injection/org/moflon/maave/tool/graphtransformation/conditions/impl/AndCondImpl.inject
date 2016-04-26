@@ -5,8 +5,7 @@ partial class AndCondImpl {
 
 @model isSat (SymbolicGraphMorphism morP_G, MorphismClass matchMorClass) <--
 
-
-      if(this.getConditions().stream().anyMatch(x->x.isSat(morP_G, matchMorClass)==false))
+      if (this.getConditions().isEmpty()||this.getConditions().stream().anyMatch(x -> x.isSat(morP_G, matchMorClass) == false))
       {
          return false;
       }
