@@ -10,7 +10,7 @@ import org.moflon.maave.tool.analysis.AnalysisFactory;
 import org.moflon.maave.tool.analysis.CriticalPairBuilder;
 import org.moflon.maave.tool.analysis.JointlyEpiSetBuilder;
 
-partial class DirectConfluenceModuloNFEQAnalyserImpl {
+partial class SubcommutativityModuloNFEQAnalyserImpl {
 
 
 
@@ -40,11 +40,10 @@ partial class DirectConfluenceModuloNFEQAnalyserImpl {
             {
                System.out.println(
                      "=============== Starting Confluence Analysis For Rule Pair: " + rule1.getName() + " | " + rule2.getName() + "====================");
-                     System.out.println("----------------------------Starting Critical Pair Analyis  -------------------------");
+               System.out.println("----------------------------Starting Critical Pair Analyis  -------------------------");
             }
             long timeStampStart = System.currentTimeMillis();
 
-           
             DirectDerivationPairSet criticalPairSet = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
             if (WsInfo.getVerboseLevel() >= 5)
             {

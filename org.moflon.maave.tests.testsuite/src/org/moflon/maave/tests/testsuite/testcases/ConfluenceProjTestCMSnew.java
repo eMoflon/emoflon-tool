@@ -8,7 +8,7 @@ import org.moflon.maave.tests.lang.cmsNew.CmsNewPackage;
 import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
-import org.moflon.maave.tool.analysis.confluence.DirectConfluenceModuloNFEQAnalyser;
+import org.moflon.maave.tool.analysis.confluence.SubcommutativityModuloNFEQAnalyser;
 import org.moflon.maave.tool.analysis.confluence.prettyprinter.ConfluenceAnalysisResultPrinter;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
@@ -70,7 +70,7 @@ public class ConfluenceProjTestCMSnew {
 
 
 
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      SubcommutativityModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createSubcommutativityModuloNFEQAnalyser();
       long start=System.currentTimeMillis();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
       //System.out.println("#NCP="+report.getConfluenceStates().stream().filter(x->x.isValid()==false).count());
@@ -130,7 +130,7 @@ public class ConfluenceProjTestCMSnew {
 
 
 
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      SubcommutativityModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createSubcommutativityModuloNFEQAnalyser();
       long start=System.currentTimeMillis();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
 //      System.out.println("#NCP="+report.getConfluenceStates().stream().filter(x->x.isValid()==false).count());
@@ -175,7 +175,7 @@ public class ConfluenceProjTestCMSnew {
 
 
 
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      SubcommutativityModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createSubcommutativityModuloNFEQAnalyser();
       long start=System.currentTimeMillis();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
       System.out.println("#NCP="+report.getConfluenceStates().stream().filter(x->x.isValid()==false).count());
@@ -236,7 +236,7 @@ public class ConfluenceProjTestCMSnew {
 
 
 
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      SubcommutativityModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createSubcommutativityModuloNFEQAnalyser();
       long start=System.currentTimeMillis();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
       System.out.println("#NCP="+report.getConfluenceStates().stream().filter(x->x.isValid()==false).count());

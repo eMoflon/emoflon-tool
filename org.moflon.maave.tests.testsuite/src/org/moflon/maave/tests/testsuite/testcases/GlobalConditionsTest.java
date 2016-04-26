@@ -17,7 +17,7 @@ import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
-import org.moflon.maave.tool.analysis.confluence.DirectConfluenceModuloNFEQAnalyser;
+import org.moflon.maave.tool.analysis.confluence.SubcommutativityModuloNFEQAnalyser;
 import org.moflon.maave.tool.category.CategoryFactory;
 import org.moflon.maave.tool.category.SymbolicGraphCat;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;

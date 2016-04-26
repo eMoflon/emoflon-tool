@@ -1,11 +1,20 @@
 
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.MorphismClass;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.ConfigurableMorphismFinder;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.CategoryUtil;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.category.CategoryFactory;
 import org.moflon.maave.tool.category.SymbolicGraphCat;
 import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
@@ -48,23 +57,7 @@ partial class NormalFormBuilderImpl {
    
 -->
 
-@model getNormalForm (SymbolicGraph graphG) <--
-
-      CategoryUtil catUtil = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
-      SymbolicGraphMorphism morA_G = catUtil.copyGraph(graphG);
-      SymbolicGraph graphA = morA_G.getDom();
-      List<LabelNode> auxLabelNodes = graphA.getLabelNodes().stream().filter(ln -> ln.getLabelEdge().isEmpty()).collect(Collectors.toList());
-      for (LabelNode labelNode : auxLabelNodes)
-      {
-         morA_G.getDom().getLabelNodes().remove(labelNode);
-         morA_G.removeMapping(labelNode);
-      }
-
-      SymbolicGraphCat cat = CategoryFactory.eINSTANCE.createSymbolicGraphCat();
-      return cat.Project(morA_G);
--->
-
-@model checkZnew (SymbolicGraphMorphism morN_P3, SymbolicGraphMorphism morN_P4) <--
+@model checkZ(SymbolicGraphMorphism morN_P3, SymbolicGraphMorphism morN_P4) <--
 
       CategoryUtil catUtil = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
       ConfigurableMorphismClassFactory morClassFac = MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();

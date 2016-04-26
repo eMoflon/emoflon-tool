@@ -10,7 +10,7 @@ import org.moflon.maave.tests.lang.cms.CmsPackage;
 import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
-import org.moflon.maave.tool.analysis.confluence.DirectConfluenceModuloNFEQAnalyser;
+import org.moflon.maave.tool.analysis.confluence.SubcommutativityModuloNFEQAnalyser;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
@@ -59,7 +59,7 @@ public class ConfluenceProjTestCMSMandatory {
 
 
 
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      SubcommutativityModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createSubcommutativityModuloNFEQAnalyser();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
       assertFalse(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
 
@@ -98,7 +98,7 @@ public class ConfluenceProjTestCMSMandatory {
 
 
 
-      DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+      SubcommutativityModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createSubcommutativityModuloNFEQAnalyser();
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
       assertTrue(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
       assertTrue(report.getConfluenceStates().stream().anyMatch(x->x.getNrOfCriticalpairs()>0));
@@ -142,7 +142,7 @@ public class ConfluenceProjTestCMSMandatory {
       {
 
 
-         DirectConfluenceModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createDirectConfluenceModuloNFEQAnalyser();
+         SubcommutativityModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createSubcommutativityModuloNFEQAnalyser();
          ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
          assertTrue(report.getConfluenceStates().stream().allMatch(x->x.isValid()));
          assertTrue(report.getConfluenceStates().stream().allMatch(x->x.getNrOfCriticalpairs()>0));

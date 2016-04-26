@@ -50,16 +50,16 @@ partial class NaiveConfDirectDerivationIteratorImpl {
          DirectDerivation der = tuple.getElemA();
          SymbolicGraphMorphism emptyMorN_E3 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
          emptyMorN_E3.setDom(morN_P1.getDom());
-         emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
+         emptyMorN_E3.setCodom(der.getLeft().getDom());
          MorphismsSet morSetN_E3 = morFinderForN.getAllMorphisms(emptyMorN_E3);
          Iterator<SymbolicGraphMorphism> morN_E3Iterator = morFinderForN.getAllMorphisms(emptyMorN_E3).getMorphisms().iterator();
          boolean foundValidY3 = false;
          while (morN_E3Iterator.hasNext() && foundValidY3 == false)
          {
             SymbolicGraphMorphism morN_E3 = morN_E3Iterator.next();
-            if (checkCommuting(morN_P1, morN_E3, der.getSpan().getG()))
+            if (checkCommuting(morN_P1, morN_E3, der.getLeft()))
             {
-               tuple.setElemB(morN_E3.composeWith(der.getSpan().getH()));
+               tuple.setElemB(morN_E3.composeWith(der.getRight()));
                foundValidY3 = true;
             }
          }

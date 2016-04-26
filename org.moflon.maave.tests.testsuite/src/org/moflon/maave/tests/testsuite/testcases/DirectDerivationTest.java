@@ -109,13 +109,13 @@ public class DirectDerivationTest {
          ConfigurableMorphismClass rightRuleMorclass=morClassFac.createMorphismClass("I", "I", "I", "I", "=>");
          
          assertTrue(rightRuleMorclass.isMember(rule.getRight()).isValid());
-         assertTrue(rightRuleMorclass.isMember(der.getSpan().getH()).isValid());
+         assertTrue(rightRuleMorclass.isMember(der.getRight()).isValid());
          assertTrue(leftRuleMorclass.isMember(rule.getLeft()).isValid());
-         assertTrue(leftRuleMorclass.isMember(der.getSpan().getG()).isValid());
+         assertTrue(leftRuleMorclass.isMember(der.getLeft()).isValid());
          assertTrue(rightRuleMorclass.isMember(der.getMatch()).isValid());
          assertTrue(rightRuleMorclass.isMember(der.getComatch()).isValid());
-         assertTrue(MorphismClassUtil.isCorrectlyTyped(der.getSpan().getG()));
-         assertTrue(MorphismClassUtil.isCorrectlyTyped(der.getSpan().getH()));
+         assertTrue(MorphismClassUtil.isCorrectlyTyped(der.getLeft()));
+         assertTrue(MorphismClassUtil.isCorrectlyTyped(der.getRight()));
          assertTrue(MorphismClassUtil.isCorrectlyTyped(rule.getRight()));
          assertTrue(MorphismClassUtil.isCorrectlyTyped(rule.getLeft()));
          

@@ -89,8 +89,8 @@ public class EmptyRuleDirectDerivationTest {
          
          
          ConfigurableMorphismClass isoMorclass=morClassFac.createMorphismClass("B", "B", "B", "B", "<=>");
-         assertTrue(isoMorclass.isMember(der.getSpan().getG()).isValid());
-         assertTrue(isoMorclass.isMember(der.getSpan().getH()).isValid());
+         assertTrue(isoMorclass.isMember(der.getLeft()).isValid());
+         assertTrue(isoMorclass.isMember(der.getRight()).isValid());
       
 
 

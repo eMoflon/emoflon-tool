@@ -25,7 +25,7 @@ partial class ItterativeDirectDerivationIteratorImpl {
    {
       MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
       SymbolicGraph graphP1 = morN_P1.getCodom();
-      List<SymbGTRule> productions= new LinkedList<SymbGTRule>(gts.getRules());
+      List<SymbGTRule> productions = new LinkedList<SymbGTRule>(gts.getRules());
       productions.add(this.gts.getIdentityRule());
       for (SymbGTRule production : productions)
       {
@@ -55,15 +55,15 @@ partial class ItterativeDirectDerivationIteratorImpl {
       //      emptyMorN_E3.setDom(morN_P1.getDom());
       //      emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
       CategoryUtil catUtil = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
-      SymbolicGraphMorphism partialMorP1_E3 = catUtil.getInverseMorphism(der.getSpan().getG());
+      SymbolicGraphMorphism partialMorP1_E3 = catUtil.getInverseMorphism(der.getLeft());
       SymbolicGraphMorphism partialMorN_E3 = morN_P1.composeWith(partialMorP1_E3);
 
       for (SymbolicGraphMorphism morN_E3 : morFinderForN.getAllMorphisms(partialMorN_E3).getMorphisms())
       {
 
-         if (checkCommuting(morN_P1, morN_E3, der.getSpan().getG()))
+         if (checkCommuting(morN_P1, morN_E3, der.getLeft()))
          {
-            morTriple.morN_P3 = morN_E3.composeWith(der.getSpan().getH());
+            morTriple.morN_P3 = morN_E3.composeWith(der.getRight());
             return;
          }
       }
