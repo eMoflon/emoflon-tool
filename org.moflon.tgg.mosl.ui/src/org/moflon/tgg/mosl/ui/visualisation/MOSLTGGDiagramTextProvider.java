@@ -59,26 +59,31 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 		}
 	};
 	
-	@Override
-	public String getDiagramText(IEditorPart editorPart, ISelection selection) {
-		try {
-			if (oldValue.isPresent() && !outdated)
-				return oldValue.get();
+   @Override
+   public String getDiagramText(IEditorPart editorPart)
+   {
+      try
+      {
+         ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
 
-			Optional<TGGRule> rule = getTGGRuleForSelection(selection);
+         if (oldValue.isPresent() && !outdated)
+            return oldValue.get();
 
-			oldValue = rule.map(r -> {
-				outdated = false;
-				TGGRuleDiagramTextProvider tggTextProvider = new TGGRuleDiagramTextProvider();
-				return new DotUnparserAdapter().unparse(tggTextProvider.modelToDot(r));
-			});
+         Optional<TGGRule> rule = getTGGRuleForSelection(selection);
 
-			return oldValue.orElse("@startuml @enduml");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "@startuml @enduml";
-		}
-	}
+         oldValue = rule.map(r -> {
+            outdated = false;
+            TGGRuleDiagramTextProvider tggTextProvider = new TGGRuleDiagramTextProvider();
+            return new DotUnparserAdapter().unparse(tggTextProvider.modelToDot(r));
+         });
+
+         return oldValue.orElse("@startuml @enduml");
+      } catch (Exception e)
+      {
+         e.printStackTrace();
+         return "@startuml @enduml";
+      }
+   }
 
 	@Override
 	public boolean supportsEditor(IEditorPart editorPart) {
@@ -98,12 +103,10 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 		return false;
 	}
 
-	@Override
-	public boolean supportsSelection(ISelection selection) {
-		return true;
-	}
-
 	private Optional<TGGRule> getTGGRuleForSelection(ISelection selection) {
+	   // Could be extended to check which TGG rules is currently selected
+	   // This is necessary for multiple TGG rules in one file.
+	   
 		IPath ruleNamePath = new Path(oldEditor.getEditorInput().getName());
 		ruleNamePath = ruleNamePath.removeFileExtension();
 		String ruleName = ruleNamePath.toString();

@@ -66,26 +66,32 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
     * If the selection is null or empty, the result is an empty string.
     */
    @Override
-   public String getDiagramText(IEditorPart editorPart, ISelection selection)
+   public String getDiagramText(IEditorPart editorPart)
    {
-      StructuredSelection structuredSelection = (StructuredSelection) selection;
+      ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
 
-      if (null == selection || selection.isEmpty())
-         return "";
-
-      EObject selectedElement = (EObject) structuredSelection.getFirstElement();
-
-      // Extract input object
-      EObject input = selectedElement;
-      if (!diagramTextCache.containsKey(input) || selectionHasBeenChanged(input))
+      if (selection != null && !selection.isEmpty() && selection instanceof StructuredSelection)
       {
-         String dotDiagram = new DotUnparserAdapter().unparse(modelToDot(input));
-         if (dotDiagram == null)
-            return "";
-         diagramTextCache.put(input, dotDiagram);
-      }
+         StructuredSelection structuredSelection = (StructuredSelection) selection;
+         EObject selectedElement = (EObject) structuredSelection.getFirstElement();
 
-      return diagramTextCache.get(input);
+         if (isElementValidInput(selectedElement))
+         {
+            // Extract input object
+            EObject input = selectedElement;
+            if (!diagramTextCache.containsKey(input) || selectionHasBeenChanged(input))
+            {
+               String dotDiagram = new DotUnparserAdapter().unparse(modelToDot(input));
+               if (dotDiagram == null)
+                  return "";
+               diagramTextCache.put(input, dotDiagram);
+            }
+
+            return diagramTextCache.get(input);
+         }
+      }
+      
+      return "";
    }
 
    @Override
@@ -103,17 +109,6 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
       }
 
       return false;
-   }
-
-   @Override
-   public boolean supportsSelection(ISelection selection)
-   {
-      StructuredSelection structuredSelection = (StructuredSelection) selection;
-
-      if (null == selection || selection.isEmpty())
-         return false;
-      else
-         return isElementValidInput(structuredSelection.getFirstElement());
    }
 
    /**
