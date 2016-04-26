@@ -98,6 +98,7 @@ TGGMainSync(projects, corrPackage, className) ::= <<
 <basicHeader()>
 
 import org.moflon.tgg.runtime.CorrespondenceModel;
+import java.util.function.BiConsumer;
 
 <basic()>
 	
@@ -109,7 +110,7 @@ import org.moflon.tgg.runtime.CorrespondenceModel;
 		// Adjust values as required
 		String delta = "instances/fwd.trg.delta.xmi";
 		String corr  = "instances/fwd.corr.xmi";
-		BiConsumer<String, String> synchronizer = helper::syncBackward;
+		BiConsumer\<String, String\> synchronizer = helper::syncBackward;
 		
 		// Propagate changes
 		synchronizer.accept(corr, delta);

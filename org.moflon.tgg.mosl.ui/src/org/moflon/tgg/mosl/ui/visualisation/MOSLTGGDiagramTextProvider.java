@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPartConstants;
@@ -29,12 +30,13 @@ import org.moflon.ide.visualization.dot.tgg.TGGRuleDiagramTextProvider;
 import org.moflon.tgg.language.TGGRule;
 import org.moflon.tgg.language.TripleGraphGrammar;
 
-import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider;
+import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
 
-public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
+public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 	private boolean outdated = false;
 	private XtextEditor oldEditor;
 	private Optional<String> oldValue = Optional.empty();
+	
 	private IPropertyListener listener = (o, p) -> {
 		if (p == IWorkbenchPartConstants.PROP_DIRTY && !oldEditor.isDirty()) {
 			Job j = new Job("set outdated") {
@@ -60,7 +62,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	};
 	
    @Override
-   public String getDiagramText(IEditorPart editorPart)
+   public String getDiagramText(IEditorPart editorPart, IEditorInput editorInput)
    {
       try
       {

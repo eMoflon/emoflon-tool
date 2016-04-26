@@ -248,12 +248,12 @@ public class MOSLTGGConversionHelper extends AbstractHandler
          file = StringUtils.capitalize(file);
       }
 
-      URI preEcoreXmiURI = URI.createPlatformPluginURI(saveTargetName + "/" + MoflonUtil.getDefaultPathToFileInProject(file, ".pre.ecore"), false);
+      URI preEcoreXmiURI = URI.createPlatformResourceURI(saveTargetName + "/" + MoflonUtil.getDefaultPathToFileInProject(file, ".pre.ecore"), false);
       Resource preEcoreResource = resourceSet.createResource(preEcoreXmiURI);
       preEcoreResource.getContents().add(corrPackage);
       preEcoreResource.save(options);
 
-      URI pretggXmiURI = URI.createPlatformPluginURI(saveTargetName + "/" + MoflonUtil.getDefaultPathToFileInProject(file, ".pre.tgg.xmi"), false);
+      URI pretggXmiURI = URI.createPlatformResourceURI(saveTargetName + "/" + MoflonUtil.getDefaultPathToFileInProject(file, ".pre.tgg.xmi"), false);
       Resource pretggXmiResource = resourceSet.createResource(pretggXmiURI);
       pretggXmiResource.getContents().add(tgg);
       pretggXmiResource.save(options);
