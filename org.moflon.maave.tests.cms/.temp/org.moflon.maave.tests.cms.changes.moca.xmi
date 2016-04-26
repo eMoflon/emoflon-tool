@@ -1,0 +1,271 @@
+<MocaTree:Node xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MocaTree="platform:/plugin/MocaTree/model/MocaTree.ecore">
+  <children name="changesTree" index="0" xsi:type="MocaTree:Node">
+    <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node">
+        <children name="EClass" index="0" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ECharContainer" index="0" />
+          <attribute name="previousName" value="ECharContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="1" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EStringContainer" index="0" />
+          <attribute name="previousName" value="EStringContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="2" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EBigIntegerContainer" index="0" />
+          <attribute name="previousName" value="EBigIntegerContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="3" xsi:type="MocaTree:Node">
+          <attribute name="name" value="MoflonListItem" index="0" />
+          <attribute name="previousName" value="MoflonListItem" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="4" xsi:type="MocaTree:Node">
+          <attribute name="name" value="MoflonList" index="0" />
+          <attribute name="previousName" value="MoflonList" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="5" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EDoubleContainer" index="0" />
+          <attribute name="previousName" value="EDoubleContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="6" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EShortContainer" index="0" />
+          <attribute name="previousName" value="EShortContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="7" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EByteContainer" index="0" />
+          <attribute name="previousName" value="EByteContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="8" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EFloatContainer" index="0" />
+          <attribute name="previousName" value="EFloatContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="9" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ELongContainer" index="0" />
+          <attribute name="previousName" value="ELongContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="10" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EIntContainer" index="0" />
+          <attribute name="previousName" value="EIntContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="11" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EDateContainer" index="0" />
+          <attribute name="previousName" value="EDateContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="12" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EBooleanContainer" index="0" />
+          <attribute name="previousName" value="EBooleanContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+      </children>
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{4A9919A8-C367-434f-BF18-D08E72EC8E43}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.core.ecoreutils" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.core.ecoreutils" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.core.ecoreutils/model/Ecoreutils.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.core.ecoreutils" index="4" />
+      <attribute name="Moflon::Export" value="false" index="5" />
+      <attribute name="Moflon::Validated" value="true" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Languages" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node">
+        <children name="EClass" index="0" xsi:type="MocaTree:Node">
+          <attribute name="name" value="GradeFormular" index="0" />
+          <attribute name="previousName" value="GradeFormular" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cms" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cms" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="1" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Thesis" index="0" />
+          <attribute name="previousName" value="Thesis" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="2" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Enrollment" index="0" />
+          <attribute name="previousName" value="Enrollment" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="3" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Lecture" index="0" />
+          <attribute name="previousName" value="Lecture" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="4" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Module" index="0" />
+          <attribute name="previousName" value="Module" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cms" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="5" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Date" index="0" />
+          <attribute name="previousName" value="Date" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="6" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Entry" index="0" />
+          <attribute name="previousName" value="Entry" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cms" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cms" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="7" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ThesisModule" index="0" />
+          <attribute name="previousName" value="ThesisModule" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cms" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="8" xsi:type="MocaTree:Node">
+          <attribute name="name" value="CoModOffer" index="0" />
+          <attribute name="previousName" value="CoModOffer" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="9" xsi:type="MocaTree:Node">
+          <attribute name="name" value="CourseManagement" index="0" />
+          <attribute name="previousName" value="CourseManagement" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="10" xsi:type="MocaTree:Node">
+          <attribute name="name" value="UserDefinedConstraints" index="0" />
+          <attribute name="previousName" value="UserDefinedConstraints" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="11" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Record" index="0" />
+          <attribute name="previousName" value="Record" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cms" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="12" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Room" index="0" />
+          <attribute name="previousName" value="Room" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cms" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="13" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Program" index="0" />
+          <attribute name="previousName" value="Program" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="14" xsi:type="MocaTree:Node">
+          <attribute name="name" value="CMS" index="0" />
+          <attribute name="previousName" value="CMS" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="15" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Exam" index="0" />
+          <attribute name="previousName" value="Exam" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="16" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Degree" index="0" />
+          <attribute name="previousName" value="Degree" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="17" xsi:type="MocaTree:Node">
+          <attribute name="name" value="RoomManagement" index="0" />
+          <attribute name="previousName" value="RoomManagement" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cms" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="18" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ThesisRecord" index="0" />
+          <attribute name="previousName" value="ThesisRecord" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="19" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Semester" index="0" />
+          <attribute name="previousName" value="Semester" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="20" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Booking" index="0" />
+          <attribute name="previousName" value="Booking" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cms" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="21" xsi:type="MocaTree:Node">
+          <attribute name="name" value="SystemTimer" index="0" />
+          <attribute name="previousName" value="SystemTimer" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="22" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ThesisModuleOffer" index="0" />
+          <attribute name="previousName" value="ThesisModuleOffer" index="1" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+      </children>
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{B54FEC0E-2528-475d-9875-5E814AAD5AB4}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.maave.tests.lang.cmsNew" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.maave.tests.lang.cmsNew/model/CmsNew.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.maave.tests.lang.cmsNew" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="MAaVeTests" index="7" />
+      <attribute name="Changes::Name" value="org.moflon.maave.tests.lang.cmsNew" index="8" />
+      <attribute name="Changes::PreviousName" value="org.moflon.maave.tests.lang.cmsNew" index="9" />
+      <attribute name="Changes::PackageName" value="org.moflon.maave.tests.lang.cmsNew" index="10" />
+      <attribute name="Changes::ProjectName" value="org.moflon.maave.tests.lang.cmsNew" index="11" />
+      <attribute name="Changes::IsTLP" value="true" index="12" />
+      <attribute name="Moflon::Changes" value="true" index="13" />
+    </children>
+  </children>
+</MocaTree:Node>
