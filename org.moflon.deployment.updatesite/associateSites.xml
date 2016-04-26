@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <associateSites>
-	<associateSite url="http://basar.idi.ntnu.no/svn/tdt4100/anonymous/trunk/updatesite"
+	<associateSite url="http://plantuml.sourceforge.net/updatesitejuno/"
 		label="PlantUML update site" />
 	<associateSite url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"
 		label="XText update site (release)" />
