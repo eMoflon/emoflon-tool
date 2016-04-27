@@ -112,3 +112,8 @@
 2016-03-XX	New syntax for SDM-CSPs: "importPackage Ecore;", "::" notation for literals, support for EEnum types 
 2016-04-05	eMoflon 2.13.0 released
 ---
+
+2016-04-26  Downgraded PlantUML from 1.1.11 to 1.1.8 as the update site we were using ceased to work.  The current update site appears to be more stable and directly from the PlantUML developers.
+2016-04-26  Our new textual concrete syntax for TGGs, MOSL-TGG, is now more or less usable.   Many issues are still open but one can work with it already.
+2016-04-26  The handbook chapter on TGGs has had a major update and now uses MOSL-TGG.
+2016-04-26  Our delta editor for model synchronisation has been improved and tested
