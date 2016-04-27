@@ -49,27 +49,27 @@ public class EMoflonStandardWorkspaces
 
    static
    {
-      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteZoo0.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteZoo1.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_0_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteTGG1.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_1_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteTGG1.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_MISC_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteMisc.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("/resources/PSFs/TestSuiteDemocles1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME, Arrays.asList("/resources/psf/tests/TestSuiteZoo0.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME, Arrays.asList("/resources/psf/tests/TestSuiteZoo1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_0_NAME, Arrays.asList("/resources/psf/tests/TestSuiteTGG1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_1_NAME, Arrays.asList("/resources/psf/tests/TestSuiteTGG1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_MISC_NAME, Arrays.asList("/resources/psf/tests/TestSuiteMisc.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("/resources/psf/TestSuiteDemocles1.psf"));
 
-      PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_NAME, Arrays.asList("/resources/PSFs/development/OldDeveloperWorkspace.psf"));
-      PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_TGG_NAME, Arrays.asList("/resources/PSFs/development/OldDeveloperWorkspace_TGG.psf"));
-      PATH_LOOKUP.put(MODULE_DOCUMENTATION, Arrays.asList("/resources/PSFs/development/Documentation.psf"));
+      PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_NAME, Arrays.asList("/resources/psf/development/OldDeveloperWorkspace.psf"));
+      PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_TGG_NAME, Arrays.asList("/resources/psf/development/OldDeveloperWorkspace_TGG.psf"));
+      PATH_LOOKUP.put(MODULE_DOCUMENTATION, Arrays.asList("/resources/psf/development/Documentation.psf"));
       PATH_LOOKUP.put(MODULE_ALL, Arrays.asList()); // TODO@rkluge: Implement me
-      PATH_LOOKUP.put(MODULE_CORE_SDM, Arrays.asList("/resources/PSFs/development/Core_SDM_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_TGG, Arrays.asList("/resources/PSFs/development/TGG_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_VISUALIZATION, Arrays.asList("/resources/PSFs/development/IDE_Vis_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_COEVOLUTION, Arrays.asList("/resources/PSFs/development/IDE_CoEvolution_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_CORE_SDM, Arrays.asList("/resources/psf/development/Core_SDM_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_TGG, Arrays.asList("/resources/psf/development/TGG_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_VISUALIZATION, Arrays.asList("/resources/psf/development/IDE_Vis_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_COEVOLUTION, Arrays.asList("/resources/psf/development/IDE_CoEvolution_Modules.psf"));
 
-      PATH_LOOKUP.put(DEMO_WORKSPACE_NAME, Arrays.asList("/resources/PSFs/examples/DemoWorkspace.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_FINAL, Arrays.asList("/resources/PSFs/examples/HandbookExample_FinalSolution.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_GUI, Arrays.asList("/resources/PSFs/examples/HandbookExample_LeitnersBoxGui.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART3, Arrays.asList("/resources/PSFs/examples/HandbookExample_Part3.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART4, Arrays.asList("/resources/PSFs/examples/HandbookExample_Part4_FreshStart.psf"));
+      PATH_LOOKUP.put(DEMO_WORKSPACE_NAME, Arrays.asList("/resources/psf/examples/DemoWorkspace.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_FINAL, Arrays.asList("/resources/psf/examples/HandbookExample_FinalSolution.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_GUI, Arrays.asList("/resources/psf/examples/HandbookExample_LeitnersBoxGui.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART3, Arrays.asList("/resources/psf/examples/HandbookExample_Part3.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART4, Arrays.asList("/resources/psf/examples/HandbookExample_Part4_FreshStart.psf"));
    }
 
    /**
