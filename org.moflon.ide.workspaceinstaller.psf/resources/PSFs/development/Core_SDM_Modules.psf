@@ -39,7 +39,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.validation.validationplugin,org.moflon.validation.validationplugin"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.language,SDMLanguage"/>
 </provider>
-<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1450098331942_9" label="Core + SDM" name="Core + SDM">
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1450098331942_9" label="eMoflon Core + SDM" name="eMoflon Core + SDM">
 <item elementID="=org.moflon.core.mocatomoflon" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.mocatomoflon" type="4"/>
 <item elementID="=org.moflon.sdm.constraints.scopevalidation" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>

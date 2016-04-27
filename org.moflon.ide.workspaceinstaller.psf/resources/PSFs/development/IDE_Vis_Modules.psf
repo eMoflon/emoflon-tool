@@ -11,7 +11,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.feature,org.moflon.ide.visualization.feature"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.specification,org.moflon.ide.visualization.specification"/>
 </provider>
-<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1450098542341_15" label="IDE Vis" name="IDE Vis">
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1450098542341_15" label="eMoflon IDE Visualization" name="eMoflon IDE Visualization">
 <item elementID="=org.moflon.ide.visualization.dot.sdmpatterns" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.tgg.runtimepatterns" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.abstractsyntaxviewer" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>

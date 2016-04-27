@@ -1,8 +1,9 @@
 package org.moflon.ide.workspaceinstaller.psf;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EMoflonStandardWorkspaces
 {
@@ -18,136 +19,71 @@ public class EMoflonStandardWorkspaces
 
    public static final String TEST_WORKSPACE_DEMOCLES_0_NAME = "TestWorkspace_Democles_0";
 
-   public static final String DEVELOPER_WORKSPACE_NAME = "DeveloperWorkspace";
+   public static final String OLD_DEVELOPER_WORKSPACE_NAME = "DeveloperWorkspace";
 
-   public static final String HANDBOOK_WORKSPACE_NAME = "eMoflonHandbook";
+   public static final String OLD_DEVELOPER_WORKSPACE_TGG_NAME = "DeveloperWorkspace (TGG)";
+
+   public static final String MODULE_DOCUMENTATION = "eMoflonHandbook";
 
    public static final String DEMO_WORKSPACE_NAME = "eMoflonDemoWorkspace";
 
-   public static final String PSFS_ONLY_NAME = "PSFs only";
-   
    public static final String HANDBOOK_EXAMPLE_FINAL = "HandbookFinal";
-   
+
    public static final String HANDBOOK_EXAMPLE_GUI = "HandbookGUI";
-   
+
    public static final String HANDBOOK_EXAMPLE_PART3 = "HandbookPart3";
-      
+
    public static final String HANDBOOK_EXAMPLE_PART4 = "HandbookPart4";
 
-   public static final String PATH_TO_PSFS_ONLY = "/resources/PSFs/psfsOnlyWorkspace.psf";
-   
-   public static final String PATH_TO_DEVELOPER_PSF = "/resources/PSFs/developerWorkspace.psf";
+   public static final String MODULE_ALL = "ModuleAll";
 
-   public static final String PATH_TO_TESTWORKSPACE_MISC_PSF = "/resources/PSFs/testsuiteWorkspace.psf";
+   public static final String MODULE_CORE_SDM = "ModuleCoreSDM";
 
-   public static final String PATH_TO_TESTWORKSPACE_TGG_0_PSF = "/resources/PSFs/tggTestSuiteWorkspace0.psf";
+   public static final String MODULE_TGG = "ModuleTGG";
 
-   public static final String PATH_TO_TESTWORKSPACE_TGG_1_PSF = "/resources/PSFs/tggTestSuiteWorkspace1.psf";
+   public static final String MODULE_COEVOLUTION = "ModuleCoEvolution";
 
-   public static final String PATH_TO_TRANSFORMATIONZOO_0_PSF = "/resources/PSFs/transformationZoo0.psf";
+   public static final String MODULE_VISUALIZATION = "ModuleVisualization";
 
-   public static final String PATH_TO_TRANSFORMATIONZOO_1_PSF = "/resources/PSFs/transformationZoo1.psf";
+   private static final Map<String, List<String>> PATH_LOOKUP = new HashMap<>();
 
-   public static final String PATH_TO_DEMOCLES_0_PSF = "/resources/PSFs/democles0.psf";
-
-   public static final String PATH_TO_HANDBOOK_PSF = "/resources/PSFs/eMoflonDocumentation.psf";
-
-   private static final String PATH_TO_DEMO_WORKSPACE = "/resources/PSFs/eMoflonDemoWorkspace.psf";
-   
-   private static final String PATH_TO_HANDBOOK_EXAMPLE_FINAL = "/resources/PSFs/handbookExample_FinalSolution.psf";
-   
-   private static final String PATH_TO_HANDBOOK_EXAMPLE_GUI = "/resources/PSFs/handbookExample_LeitnersBoxGui.psf";
-   
-   private static final String PATH_TO_HANDBOOK_EXAMPLE_PART3 = "/resources/PSFs/handbookExample_Part3.psf";
-   
-   private static final String PATH_TO_HANDBOOK_EXAMPLE_PART4 = "/resources/PSFs/handbookExample_Part4_FreshStart.psf";
-
-   public static List<String> getAllTestWorkspaceNames()
+   static
    {
-      return Arrays.asList(
-            TEST_WORKSPACE_DEMOCLES_0_NAME, 
-            TEST_WORKSPACE_MISC_NAME, 
-            TEST_WORKSPACE_TGG_0_NAME,
-            TEST_WORKSPACE_TGG_1_NAME, 
-            TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME, 
-            TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME
-      );
-   }
-   
-   public static List<String> getAllMoflonWorkspaces() {
-      List<String> workspaceNames = new ArrayList<>();
-      workspaceNames.add(DEVELOPER_WORKSPACE_NAME);
-      workspaceNames.addAll(getAllTestWorkspaceNames());
-      return workspaceNames;
+      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteZoo0.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteZoo1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_0_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteTGG1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_1_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteTGG1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_MISC_NAME, Arrays.asList("/resources/PSFs/tests/TestSuiteMisc.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("/resources/PSFs/TestSuiteDemocles1.psf"));
+
+      PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_NAME, Arrays.asList("/resources/PSFs/development/OldDeveloperWorkspace.psf"));
+      PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_TGG_NAME, Arrays.asList("/resources/PSFs/development/OldDeveloperWorkspace_TGG.psf"));
+      PATH_LOOKUP.put(MODULE_DOCUMENTATION, Arrays.asList("/resources/PSFs/development/Documentation.psf"));
+      PATH_LOOKUP.put(MODULE_ALL, Arrays.asList()); // TODO@rkluge: Implement me
+      PATH_LOOKUP.put(MODULE_CORE_SDM, Arrays.asList("/resources/PSFs/development/Core_SDM_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_TGG, Arrays.asList("/resources/PSFs/development/TGG_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_VISUALIZATION, Arrays.asList("/resources/PSFs/development/IDE_Vis_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_COEVOLUTION, Arrays.asList("/resources/PSFs/development/IDE_CoEvolution_Modules.psf"));
+
+      PATH_LOOKUP.put(DEMO_WORKSPACE_NAME, Arrays.asList("/resources/PSFs/examples/DemoWorkspace.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_FINAL, Arrays.asList("/resources/PSFs/examples/HandbookExample_FinalSolution.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_GUI, Arrays.asList("/resources/PSFs/examples/HandbookExample_LeitnersBoxGui.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART3, Arrays.asList("/resources/PSFs/examples/HandbookExample_Part3.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART4, Arrays.asList("/resources/PSFs/examples/HandbookExample_Part4_FreshStart.psf"));
    }
 
-   public static String getPathToPsfFileForWorkspace(final String workspaceName)
+   /**
+    * Returns the project-relative path to the PSF file that corresponds to the given workspace name.
+    * 
+    * If no such path exists, the list is empty
+    */
+   public static List<String> getPathToPsfFileForWorkspace(final String workspaceName)
    {
-      final String path;
-      switch (workspaceName)
-      {
-      case DEVELOPER_WORKSPACE_NAME:
-         path = PATH_TO_DEVELOPER_PSF;
-         break;
-   
-      case TEST_WORKSPACE_MISC_NAME:
-         path = PATH_TO_TESTWORKSPACE_MISC_PSF;
-         break;
-   
-      case TEST_WORKSPACE_TGG_0_NAME:
-   
-         path = PATH_TO_TESTWORKSPACE_TGG_0_PSF;
-         break;
-   
-      case TEST_WORKSPACE_TGG_1_NAME:
-         path = PATH_TO_TESTWORKSPACE_TGG_1_PSF;
-         break;
-   
-      case TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME:
-         path = PATH_TO_TRANSFORMATIONZOO_0_PSF;
-         break;
-   
-      case TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME:
-         path = PATH_TO_TRANSFORMATIONZOO_1_PSF;
-         break;
-   
-      case TEST_WORKSPACE_DEMOCLES_0_NAME:
-         path = PATH_TO_DEMOCLES_0_PSF;
-         break;
-   
-      case HANDBOOK_WORKSPACE_NAME:
-         path = PATH_TO_HANDBOOK_PSF;
-         break;
-         
-      case PSFS_ONLY_NAME:
-         path = PATH_TO_PSFS_ONLY;
-         break;
-         
-      case DEMO_WORKSPACE_NAME: 
-         path = PATH_TO_DEMO_WORKSPACE;
-         break;
-         
-      case HANDBOOK_EXAMPLE_FINAL:
-         path = PATH_TO_HANDBOOK_EXAMPLE_FINAL;
-         break;
-      
-      case HANDBOOK_EXAMPLE_GUI:
-         path = PATH_TO_HANDBOOK_EXAMPLE_GUI;
-         break;
-      
-      case HANDBOOK_EXAMPLE_PART3:
-         path = PATH_TO_HANDBOOK_EXAMPLE_PART3;
-         break;
-         
-      case HANDBOOK_EXAMPLE_PART4:
-         path = PATH_TO_HANDBOOK_EXAMPLE_PART4;
-         break;
-         
-      default:
-         path = null;
-         break;
-      }
-      return path;
+      final List<String> psfPaths = PATH_LOOKUP.get(workspaceName);
+      if (psfPaths == null)
+         return Arrays.asList();
+      else
+         return psfPaths;
    }
 
 }

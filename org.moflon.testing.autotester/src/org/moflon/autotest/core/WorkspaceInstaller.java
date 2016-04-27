@@ -7,7 +7,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -55,16 +57,20 @@ public class WorkspaceInstaller
 
    public void installWorkspacesByName(final List<String> workspaceNames, final String displayName)
    {
-      final List<String> psfPaths = workspaceNames.stream().map(EMoflonStandardWorkspaces::getPathToPsfFileForWorkspace).collect(Collectors.toList());
+      final Set<String> psfPaths = new HashSet<>();
+      for (final String workspaceName : workspaceNames)
+      {
+         psfPaths.addAll(EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName));
+      }
       installWorkspaceWithPluginRelativePsfPath(psfPaths, displayName);
    }
 
    public void installWorkspaceByName(final String workspaceName)
    {
-      final String path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
-      if (path != null)
+      final List<String> path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
+      if (!path.isEmpty())
       {
-         this.installWorkspaceWithPluginRelativePsfPath(Arrays.asList(path), workspaceName);
+         this.installWorkspaceWithPluginRelativePsfPath(path, workspaceName);
       } else
       {
          logger.debug("Not a recognized workspace: " + workspaceName);
@@ -81,7 +87,7 @@ public class WorkspaceInstaller
       this.installWorkspacesExternal(absolutePaths.stream().map(File::getAbsolutePath).collect(Collectors.toList()), displayName);
    }
 
-   private void installWorkspaceWithPluginRelativePsfPath(final List<String> pluginRelativePathToPSF, final String displayName)
+   private void installWorkspaceWithPluginRelativePsfPath(final Collection<String> pluginRelativePathToPSF, final String displayName)
    {
       prepareWorkspace();
 
@@ -308,7 +314,7 @@ public class WorkspaceInstaller
    private boolean exportingEapFilesRequired(String displayName)
    {
       // When installing the 'handbook' workspace, only latex sources are downloaded.
-      if (EMoflonStandardWorkspaces.HANDBOOK_WORKSPACE_NAME.equals(displayName))
+      if (EMoflonStandardWorkspaces.MODULE_DOCUMENTATION.equals(displayName))
          return false;
 
       return true;
@@ -320,7 +326,7 @@ public class WorkspaceInstaller
    private boolean runningJUnitTestsRequired(String displayName)
    {
       // When installing the 'handbook' workspace, only latex sources are downloaded.
-      if (EMoflonStandardWorkspaces.HANDBOOK_WORKSPACE_NAME.equals(displayName))
+      if (EMoflonStandardWorkspaces.MODULE_DOCUMENTATION.equals(displayName))
          return false;
 
       return true;

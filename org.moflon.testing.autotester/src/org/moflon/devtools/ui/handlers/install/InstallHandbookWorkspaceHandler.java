@@ -9,7 +9,7 @@ public class InstallHandbookWorkspaceHandler extends AbstractInstallCommandHandl
    @Override
    public Object execute(final ExecutionEvent event) throws ExecutionException
    {
-      this.getWorkspaceController(event).installWorkspaceByName(EMoflonStandardWorkspaces.HANDBOOK_WORKSPACE_NAME);
+      this.getWorkspaceController(event).installWorkspaceByName(EMoflonStandardWorkspaces.MODULE_DOCUMENTATION);
       return null;
    }
 

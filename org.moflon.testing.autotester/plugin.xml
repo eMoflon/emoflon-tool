@@ -47,22 +47,13 @@
       <menuContribution
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureMenu">
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallDemoWorkspaceCommand"
-               label="Demo Workspace"
-               style="push">
-         </command>
-         <separator
-               name="org.moflon.devtools.ui.menus.Separator1"
-               visible="true">
-         </separator>
          <menu
                id="org.moflon.devtools.ui.menus.InstallAndConfigureHandbookExamples"
-               label="Handbook Examples">
+               label="eMoflon Examples">
          </menu>
          <menu
-               id="org.moflon.devtools.ui.menus.InstallAndConfigureDeveloper"
-               label="Developer Workspaces">
+               id="org.moflon.devtools.ui.menus.InstallAndConfigureDeveloperModules"
+               label="Developer Modules">
          </menu>
          <menu
                id="org.moflon.devtools.ui.menus.InstallAndConfigureTestingWorkspace"
@@ -74,36 +65,49 @@
          </separator>
          <command
                commandId="org.moflon.devtools.ui.commands.install.LoadPsfFileCommand"
-               label="Load custom PSF file"
+               label="Load Custom PSF File..."
                style="push">
          </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.OpenPsfSelectionDialog"
-               label="Open PSF selection dialog..."
+               label="Open PSF Selection Dialog..."
                style="push">
          </command>
+         <separator
+               name="org.moflon.devtools.ui.menus.Separator3"
+               visible="true">
+         </separator>
+         <menu
+               id="org.moflon.devtools.ui.menus.InstallAndConfigureDeveloper"
+               label="Developer Workspaces [Deprecated]">
+         </menu>
       </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureHandbookExamples">
-             <command
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallDemoWorkspaceCommand"
+               label="Demo (Double-linked List)"
+               style="push">
+         </command>
+         <command
                commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Command"
-               label="Handbook Example (Part 3)"
+               label="Handbook Part 3"
                style="push">
          </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part4_Command"
-               label="Handbook Example (Part 4)"
+               label="Handbook Part 4"
                style="push">
          </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_GUI_Command"
-               label="Handbook Example (GUI)"
+               label="Handbook Learning Box GUI"
                style="push">
          </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Final_Command"
-               label="Handbook Example (Final)"
+               label="Handbook Final"
                style="push">
          </command>
       </menuContribution>
@@ -112,22 +116,22 @@
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureTestingWorkspace">
             <command
                commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceMiscCommand"
-               label="Test Workspace Misc."
+               label="Miscellaneous"
                style="push">
          </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG0Command"
-               label="Test Workspace TGG 0"
+               label="TGG 0"
                style="push">
          </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG1Command"
-               label="Test Workspace TGG 1"
+               label="TGG 1"
                style="push">
          </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceDemocles0Command"
-               label="Test Workspace Democles 0"
+               label="Democles 0"
                style="push">
          </command>
          <command
@@ -141,32 +145,28 @@
                style="push">
          </command>
       </menuContribution>
+      
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureDeveloperModules">
+            <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingInstalledPSF"
+               label="Developer Workspace"
+               style="push">
+         </command>
+      </menuContribution>
+      
       <menuContribution
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureDeveloper">
             <command
                commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingInstalledPSF"
-               label="Developer Workspace (using installed PSF)"
-               style="push">
-         </command>
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingCurrentPSF"
-               label="Developer Workspace (using current PSF)"
+               label="Developer Workspace"
                style="push">
          </command>
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallHandbookCommand"
-               label="Install handbook (latex source)"
-               style="push">
-         </command>
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallDevAndTestWorkspacesCommand"
-               label="Developer and all Test Workspaces"
-               style="push">
-         </command>
-         <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallPsfFilesOnlyCommand"
-               label="org.moflon.ide.workspaceinstaller.psf"
+               label="Install handbook (LaTeX Sources)"
                style="push">
          </command>
       </menuContribution>
