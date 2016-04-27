@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.deployment.AbstractDeployer;
 import org.moflon.deployment.EclipsePluginDeployer;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
@@ -40,7 +39,8 @@ public class DeploymentJob extends Job
    protected IStatus run(final IProgressMonitor monitor)
    {
 
-      final AbstractDeployer eclipsePluginDeployer = new EclipsePluginDeployer(deploymentRoot + "/update-site2", EMoflonPreferenceInitializer.getUpdateSiteProject());
+      final EclipsePluginDeployer eclipsePluginDeployer = new EclipsePluginDeployer(deploymentRoot + "/update-site2",
+            EMoflonPreferenceInitializer.getUpdateSiteProject());
       try
       {
          monitor.beginTask("Deploying eMoflon", 200);

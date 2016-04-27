@@ -20,22 +20,55 @@ import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 
-public class EclipsePluginDeployer extends AbstractDeployer
+public class EclipsePluginDeployer
 {
+   private static final Logger logger = Logger.getLogger(EclipsePluginDeployer.class);
+
+   protected int warningCount;
+
+   private final String deploymentPath;
 
    private static final String SITE_BUILD_OPERATION = "org.eclipse.pde.internal.core.exports.SiteBuildOperation";
 
-   private static final Logger logger = Logger.getLogger(EclipsePluginDeployer.class);
 
    private String updateSiteProjectName;
 
    public EclipsePluginDeployer(final String deploymentPath, final String updateSiteProject)
    {
-      super(deploymentPath);
+      this.deploymentPath = deploymentPath;
       this.updateSiteProjectName = updateSiteProject;
    }
 
-   @Override
+   public int getWarningCount()
+   {
+      return this.warningCount;
+   }
+
+   public String getDeploymentPath()
+   {
+      return this.deploymentPath;
+   }
+
+   /**
+    * Creates or clears the given target folder.
+    */
+   protected static File clearFlatFolder(final String targetPath)
+   {
+      File target = new File(targetPath);
+      if (!target.exists())
+      {
+         target.mkdirs();
+         return target;
+      }
+
+      File[] files = target.listFiles();
+
+      for (File file : files)
+         file.delete();
+
+      return target;
+   }
+
    public void deploy(final IProgressMonitor monitor) throws CoreException
    {
       final String projectName = this.updateSiteProjectName;
@@ -124,7 +157,7 @@ public class EclipsePluginDeployer extends AbstractDeployer
             {
                copyAndReportMissingFile(file.getLocation().toFile(), new File(target.getCanonicalPath().toString() + File.separator + file.getName()));
             }
-            
+
          } else if (source instanceof IFolder)
          {
             for (IResource file : ((IFolder) source).members())
@@ -264,6 +297,6 @@ public class EclipsePluginDeployer extends AbstractDeployer
    {
       return file.getName().equals(".project") || file.getName().equals(".svn") || file.getName().equals("site.xml")
             || file.getName().equals("associateSites.xml") || file.getName().equals("index.html") || file.getName().equals("moflon.target")
-            || file.getName().equals("ea-ecore-addin.zip") || file.getName().equals("changelog.txt"); 
+            || file.getName().equals("ea-ecore-addin.zip") || file.getName().equals("changelog.txt");
    }
 }
