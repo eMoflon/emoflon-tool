@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,Dictionary"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.dictionaryCodeAdapter"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.dictionaryLanguage"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.learningBoxLanguage"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.learningBoxToDictionaryIntegration"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.leitnersBoxGui"/>
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,LeitnersLearningBox"/>
+</provider>
+</psf>

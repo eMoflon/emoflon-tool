@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="0.9.3,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.leitnersBoxGui"/>
+</provider>
+</psf>

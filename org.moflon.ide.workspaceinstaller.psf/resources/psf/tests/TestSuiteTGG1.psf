@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.tigris.subversion.subclipse.core.svnnature">
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/EdgeRulesTestSuite,EdgeRulesTestSuite"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/folksonomy/FolksonomyCodeAdapter,FolksonomyCodeAdapter"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/folksonomy/FolksonomyDataGenerator,FolksonomyDataGenerator"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/libraryToBibliographyExample/LibraryToBibliography,LibraryToBibliography"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/libraryToBibliographyExample/LibraryToBibliographyCSP,LibraryToBibliographyCSP"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/libraryToBibliographyExample/LibraryToBibliographyIntegration,LibraryToBibliographyIntegration"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/libraryToBibliographyExample/LibraryToBibliographyIntegrationCSP,LibraryToBibliographyIntegrationCSP"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/MDAE,MDAE"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/OSCAx,OSCAx"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/productrequirementsToSimulinkproject/ProductrequirementsToSimulinkproject,ProductrequirementsToSimulinkproject"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/SDFToSense,SDFToSense"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/SDFToSenseIntegration,SDFToSenseIntegration"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/SimpleEcoreToHTMLExample,SimpleEcoreToHTMLExample"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/test_suite/TGGTestSuite_1,TGGTestSuite_1"/>
+</provider>
+</psf>

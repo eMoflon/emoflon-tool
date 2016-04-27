@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.tigris.subversion.subclipse.core.svnnature">
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/sdmTestSuite/BooleanStatementNodes,BooleanStatementNodes"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/DemoLanguages,DemoLanguages"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/DoubleContainer,DoubleContainer"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/doubleLinkedList/DoubleLinkedListLanguage,DoubleLinkedListLanguage"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/test_suite/EclipseTestSuite,EclipseTestSuite"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/injectionTestCases/InjectionTest,InjectionTest"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/injectionTestCases/InjectionTestSpecification,InjectionTestSpecification"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/memoryBox/MemoryBoxLanguage,MemoryBoxLanguage"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/memoryBoxToDoubleLinkedList/MemoryBoxToDoubleLinkedListIntegration,MemoryBoxToDoubleLinkedListIntegration"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/memoryBoxToDoubleLinkedList/MemoryBoxToDoubleLinkedListTransformation,MemoryBoxToDoubleLinkedListTransformation"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/MocaToMoflonAttributeConstr,MocaToMoflonAttributeConstr"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/sdmTestSuite/SDMTestSuite,SDMTestSuite"/>
+</provider>
+</psf>
