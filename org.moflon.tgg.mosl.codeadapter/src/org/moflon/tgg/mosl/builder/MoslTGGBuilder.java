@@ -37,34 +37,8 @@ public class MoslTGGBuilder extends IncrementalProjectBuilder
             }
          }
          
-         if(isGeneratedEcore(resource)){
-            switch (delta.getKind())
-            {
-            case IResourceDelta.ADDED:
-               removeXtextMarkers(resource);
-               return false;
-            }
-         }
-
          // return true to continue visiting children.
          return true;
-      }
-
-      private void removeXtextMarkers(IResource resource)
-      {
-         try
-         {
-            resource.deleteMarkers(org.eclipse.xtext.ui.MarkerTypes.FAST_VALIDATION, false, IResource.DEPTH_ZERO);
-         } catch (CoreException e)
-         {
-            e.printStackTrace();
-         }
-      }
-
-      private boolean isGeneratedEcore(IResource resource)
-      {
-         return "ecore".equals(resource.getProjectRelativePath().getFileExtension())
-             && "model".equals(resource.getProjectRelativePath().segment(0));
       }
 
       private boolean isMOSLFolder(IResource resource)
@@ -81,9 +55,6 @@ public class MoslTGGBuilder extends IncrementalProjectBuilder
          {
             new MOSLTGGConversionHelper().generateTGGModel(resource);
             return false;
-         } else if(isGeneratedEcore(resource)){
-        	removeXtextMarkers(resource);
-        	return false;
          }
 
          return true;
@@ -107,9 +78,22 @@ public class MoslTGGBuilder extends IncrementalProjectBuilder
             incrementalBuild(delta, monitor);
          }
       }
+      
+      removeXtextMarkers(getProject());
       return null;
    }
 
+   private void removeXtextMarkers(IProject project)
+   {
+      try
+      {
+         project.deleteMarkers(org.eclipse.xtext.ui.MarkerTypes.FAST_VALIDATION, true, IResource.DEPTH_INFINITE);
+      } catch (CoreException e)
+      {
+         e.printStackTrace();
+      }
+   }
+   
    @Override
    protected void clean(IProgressMonitor monitor) throws CoreException
    {

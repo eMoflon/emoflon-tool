@@ -129,8 +129,9 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
             getTGGFile().delete(true, new NullProgressMonitor());
 
          IntegrationBuilder.getPreTGGFile(project).copy(getTGGFile().getFullPath(), true, new NullProgressMonitor());
-      } catch (CoreException e)
+      } catch (Exception e)
       {
+    	 logger.error("I'm having problems building " + project.getName() + ", please refresh all projects and retry.");
          e.printStackTrace();
       }
    }
