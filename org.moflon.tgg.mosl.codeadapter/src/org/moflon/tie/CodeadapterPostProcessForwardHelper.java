@@ -43,36 +43,39 @@ public class CodeadapterPostProcessForwardHelper {
 	
 	public void postProcessForward(CodeadapterTrafo trafoHelper) {
 		CorrespondenceModel corrModel = trafoHelper.getCorr();
-		EPackage corrPackage = ((TGGProject) trafoHelper.getTrg()).getCorrPackage();
-		
-		for (EObject corr : corrModel.getCorrespondences()) {
-			
-			if(corr instanceof TripleGraphGrammarFileToTripleGraphGrammar)
-				postProcessForward_TripleGraphGrammarRoot((TripleGraphGrammarFileToTripleGraphGrammar)corr, corrPackage);
-			
-			if(corr instanceof CorrTypeToEClass)
-				postProcessForward_AbstractCorrespondenceSubClass((CorrTypeToEClass)corr);
-			
-			if(corr instanceof ObjectVariablePatternToTGGObjectVariable)
-				postProcessForward_TGGObjectVariable((ObjectVariablePatternToTGGObjectVariable)corr);
-			
-			if(corr instanceof CorrVariablePatternToTGGObjectVariable)
-				postProcessForward_TGGObjectVariable((CorrVariablePatternToTGGObjectVariable)corr, corrPackage);
-			
-			if(corr instanceof LinkVariablePatternToTGGLinkVariable)
-				postProcessForward_TGGLinkVariable((LinkVariablePatternToTGGLinkVariable)corr);
-			
-			if(corr instanceof AttributeAssignmentToAttributeAssignment)
-				postProcessForward_AttributeAssignment((AttributeAssignmentToAttributeAssignment)corr);
-			
-			if(corr instanceof AttributeConstraintToConstraint)
-				postProcessForward_AttributeConstraint((AttributeConstraintToConstraint)corr);
-			
-			if(corr instanceof ExpressionToExpression)
-				postProcessForward_Expression((ExpressionToExpression)corr);
-			
-			if(corr instanceof AttrCondToTGGConstraint)
-				postProcessForward_TGGConstraint((AttrCondToTGGConstraint)corr);
+		if (trafoHelper.getTrg() != null) {
+			EPackage corrPackage = ((TGGProject) trafoHelper.getTrg()).getCorrPackage();
+
+			for (EObject corr : corrModel.getCorrespondences()) {
+
+				if (corr instanceof TripleGraphGrammarFileToTripleGraphGrammar)
+					postProcessForward_TripleGraphGrammarRoot((TripleGraphGrammarFileToTripleGraphGrammar) corr,
+							corrPackage);
+
+				if (corr instanceof CorrTypeToEClass)
+					postProcessForward_AbstractCorrespondenceSubClass((CorrTypeToEClass) corr);
+
+				if (corr instanceof ObjectVariablePatternToTGGObjectVariable)
+					postProcessForward_TGGObjectVariable((ObjectVariablePatternToTGGObjectVariable) corr);
+
+				if (corr instanceof CorrVariablePatternToTGGObjectVariable)
+					postProcessForward_TGGObjectVariable((CorrVariablePatternToTGGObjectVariable) corr, corrPackage);
+
+				if (corr instanceof LinkVariablePatternToTGGLinkVariable)
+					postProcessForward_TGGLinkVariable((LinkVariablePatternToTGGLinkVariable) corr);
+
+				if (corr instanceof AttributeAssignmentToAttributeAssignment)
+					postProcessForward_AttributeAssignment((AttributeAssignmentToAttributeAssignment) corr);
+
+				if (corr instanceof AttributeConstraintToConstraint)
+					postProcessForward_AttributeConstraint((AttributeConstraintToConstraint) corr);
+
+				if (corr instanceof ExpressionToExpression)
+					postProcessForward_Expression((ExpressionToExpression) corr);
+
+				if (corr instanceof AttrCondToTGGConstraint)
+					postProcessForward_TGGConstraint((AttrCondToTGGConstraint) corr);
+			}
 		}
 	}
 
