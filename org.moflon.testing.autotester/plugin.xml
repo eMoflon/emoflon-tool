@@ -190,7 +190,7 @@
       <menuContribution
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureDeveloperModules">
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesAll" label="All Modules" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesAll" label="All Modules (without MOSL)" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleAll">
@@ -200,7 +200,7 @@
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleCoreSDM">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesTGG" label="TGG Modules" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesTGG" label="TGG Modules (incl. MOSL-TGG)" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleTGG">
@@ -484,7 +484,7 @@
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
             id="org.moflon.devtools.ui.commands.install.InstallModulesTGG"
-            name="Install TGG Modules">
+            name="Install TGG Modules (incl. MOSL-TGG)">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
@@ -495,7 +495,7 @@
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
             id="org.moflon.devtools.ui.commands.install.InstallModulesRest"
-            name="Install All Modules">
+            name="Install All Modules (without MOSL)">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
