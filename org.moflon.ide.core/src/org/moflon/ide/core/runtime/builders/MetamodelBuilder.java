@@ -83,12 +83,6 @@ public class MetamodelBuilder extends AbstractBuilder
                exporter = new ResourceFillingMocaToMoflonTransformation(mocaTreeReader.getResourceSet(), properties, exporterSubMonitor);
                exporter.mocaToEcore(mocaTreeReader.getMocaTree());
 
-               for (final String projectName : properties.keySet())
-               {
-                  MetamodelProperties metamodelProperties = properties.get(projectName);
-                  WorkspaceHelper.moveProjectToWorkingSet(metamodelProperties.getProject(), metamodelProperties.get(MetamodelProperties.WORKING_SET_KEY));
-               }
-
                for (final ErrorMessage message : exporter.getMocaToMoflonReport().getErrorMessages())
                {
                   mocaToMoflonStatus.add(ValidationStatus.createValidationStatus(message));

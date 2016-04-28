@@ -279,12 +279,13 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       {
          setEPackageURI(subPackage);
       }
-      
+
       setDefaultName(ePackage);
    }
 
-   private void setDefaultName(final EPackage ePackage) {
-	  ePackage.setName(MoflonUtil.lastSegmentOf(ePackage.getName()));
+   private void setDefaultName(final EPackage ePackage)
+   {
+      ePackage.setName(MoflonUtil.lastSegmentOf(ePackage.getName()));
    }
 
    private final void copyEPackageURI(final EPackage source, final EPackage target)
@@ -358,6 +359,8 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
          return;
       }
 
+      WorkspaceHelper.moveProjectToWorkingSet(project, properties.get(MetamodelProperties.WORKING_SET_KEY));
+
       moflonProps.getDependencies().clear();
       properties.getDependenciesAsURIs().stream().forEach(dep -> addMetamodelDependency(moflonProps, dep));
 
@@ -407,7 +410,7 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       if (moflonProps.exists())
       {
          MoflonPropertiesContainer container = MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
-         
+
          container.updateMetamodelProjectName(metamodelProject);
          return container;
 
