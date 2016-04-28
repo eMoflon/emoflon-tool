@@ -23,7 +23,7 @@ public class EMoflonStandardWorkspaces
 
    public static final String OLD_DEVELOPER_WORKSPACE_TGG_NAME = "DeveloperWorkspace (TGG)";
 
-   public static final String MODULE_DOCUMENTATION = "eMoflonHandbook";
+   public static final String MODULE_DOCUMENTATION = "ModuleDocumentation";
 
    public static final String DEMO_WORKSPACE_NAME = "eMoflonDemoWorkspace";
 
@@ -45,13 +45,17 @@ public class EMoflonStandardWorkspaces
 
    public static final String MODULE_VISUALIZATION = "ModuleVisualization";
 
+   private static final String MODULE_IDE = "ModuleIDE";
+
+   private static final String MODULE_META = "ModuleMeta";
+
    private static final Map<String, List<String>> PATH_LOOKUP = new HashMap<>();
 
    static
    {
-      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME, Arrays.asList("/resources/psf/tests/TestSuiteZoo0.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME, Arrays.asList("/resources/psf/tests/TestSuiteZoo1.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_0_NAME, Arrays.asList("/resources/psf/tests/TestSuiteTGG1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME, Arrays.asList("/resources/psf/tests/TestSuiteZoo0.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME, Arrays.asList("/resources/psf/tests/TestSuiteZoo1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_0_NAME, Arrays.asList("/resources/psf/tests/TestSuiteTGG0.psf"));
       PATH_LOOKUP.put(TEST_WORKSPACE_TGG_1_NAME, Arrays.asList("/resources/psf/tests/TestSuiteTGG1.psf"));
       PATH_LOOKUP.put(TEST_WORKSPACE_MISC_NAME, Arrays.asList("/resources/psf/tests/TestSuiteMisc.psf"));
       PATH_LOOKUP.put(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("/resources/psf/TestSuiteDemocles1.psf"));
@@ -59,11 +63,13 @@ public class EMoflonStandardWorkspaces
       PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_NAME, Arrays.asList("/resources/psf/development/OldDeveloperWorkspace.psf"));
       PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_TGG_NAME, Arrays.asList("/resources/psf/development/OldDeveloperWorkspace_TGG.psf"));
       PATH_LOOKUP.put(MODULE_DOCUMENTATION, Arrays.asList("/resources/psf/development/Documentation.psf"));
-      PATH_LOOKUP.put(MODULE_ALL, Arrays.asList()); // TODO@rkluge: Implement me
+      PATH_LOOKUP.put(MODULE_ALL, Arrays.asList("/resources/psf/development/All_Modules.psf"));
       PATH_LOOKUP.put(MODULE_CORE_SDM, Arrays.asList("/resources/psf/development/Core_SDM_Modules.psf"));
       PATH_LOOKUP.put(MODULE_TGG, Arrays.asList("/resources/psf/development/TGG_Modules.psf"));
       PATH_LOOKUP.put(MODULE_VISUALIZATION, Arrays.asList("/resources/psf/development/IDE_Vis_Modules.psf"));
       PATH_LOOKUP.put(MODULE_COEVOLUTION, Arrays.asList("/resources/psf/development/IDE_CoEvolution_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_IDE, Arrays.asList("/resources/psf/development/IDE_Rest_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_META, Arrays.asList("/resources/psf/development/Meta_Modules.psf"));
 
       PATH_LOOKUP.put(DEMO_WORKSPACE_NAME, Arrays.asList("/resources/psf/examples/DemoWorkspace.psf"));
       PATH_LOOKUP.put(HANDBOOK_EXAMPLE_FINAL, Arrays.asList("/resources/psf/examples/HandbookExample_FinalSolution.psf"));

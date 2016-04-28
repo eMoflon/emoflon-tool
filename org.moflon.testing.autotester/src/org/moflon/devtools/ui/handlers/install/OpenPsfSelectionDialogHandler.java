@@ -33,7 +33,7 @@ import org.moflon.ide.workspaceinstaller.psf.PSFPlugin;
 public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
 {
 
-   private static final String PSF_ROOT_FOLDER_NAME = "resources/PSFs/";
+   private static final String PSF_ROOT_FOLDER_NAME = "resources/psf/";
 
    @Override
    public Object execute(final ExecutionEvent event) throws ExecutionException

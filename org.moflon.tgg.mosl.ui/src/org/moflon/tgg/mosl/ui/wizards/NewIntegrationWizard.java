@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
+import org.moflon.ide.ui.WorkspaceHelperUI;
 import org.moflon.tgg.mosl.builder.MOSLTGGNature;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
 import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
@@ -53,6 +54,6 @@ public class NewIntegrationWizard extends NewRepositoryWizard {
 		
 		AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
 		
-		WorkspaceHelper.openDefaultEditorForFile(project.getFile(pathToSchema));
+      WorkspaceHelperUI.openDefaultEditorForFile(project.getFile(pathToSchema));
 	}
 }

@@ -1194,26 +1194,4 @@ public class WorkspaceHelper
          monitor.done();
       }
    }
-   
-	// /**
-	// * Open the default editor for a file in the current workbench page
-	// */
-	// @Deprecated // Not used
-	// public static void openDefaultEditorForFile(IFile file)
-	// {
-	// Display.getDefault().asyncExec(() -> {
-	// IWorkbenchPage page =
-	// PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-	// IEditorDescriptor desc =
-	// PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
-	// try
-	// {
-	// page.openEditor(new FileEditorInput(file), desc.getId());
-	// } catch (Exception e)
-	// {
-	// logger.error("Unable to open " + file);
-	// e.printStackTrace();
-	// }
-	// });
-	// }
 }
