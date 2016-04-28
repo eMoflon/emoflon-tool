@@ -78,7 +78,7 @@
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureHandbookExamples">
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallDemoWorkspaceCommand"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Demo (Double-Linked List)"
                mnemonic="d"
                style="push">
@@ -88,7 +88,7 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Start_Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Handbook Part 3 Start"
                mnemonic="3"
                style="push">
@@ -98,7 +98,7 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Final_Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Handbook Part 3 Final"
                mnemonic="3"
                style="push">
@@ -108,7 +108,7 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part4_Start_Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Handbook Part 4 Start"
                mnemonic="4"
                style="push">
@@ -118,7 +118,7 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_GUI_Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Handbook Learning Box GUI"
                mnemonic="g"
                style="push">
@@ -128,7 +128,7 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Final_Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Handbook Final"
                mnemonic="f"
                style="push">
@@ -142,7 +142,7 @@
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureTestingWorkspace">
             <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceMiscCommand"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Miscellaneous"
                style="push">
                <parameter
@@ -151,7 +151,7 @@
                </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG0Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="TGG 0"
                style="push">
             <parameter
@@ -160,7 +160,7 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG1Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="TGG 1"
                style="push">
             <parameter
@@ -169,7 +169,7 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceDemocles0Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Democles 0"
                style="push">
             <parameter
@@ -178,7 +178,7 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallTransformationZoo0Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Transformation Zoo 0"
                style="push">
             <parameter
@@ -187,7 +187,7 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallTransformationZoo1Command"
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                label="Transformation Zoo 1"
                style="push">
             <parameter
@@ -200,48 +200,48 @@
       <menuContribution
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureDeveloperModules">
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesAll" label="All Modules (without MOSL)" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="All Modules (without MOSL)" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleAll">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesSDMCore" label="Core and SDM Modules" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Core and SDM Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleCoreSDM">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesTGG" label="TGG Modules (incl. MOSL-TGG)" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="TGG Modules (incl. MOSL-TGG)" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleTGG">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesVisualization " label="Visualization Modules" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Visualization Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleVisualization">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesCoevolution" label="Coevolution Modules" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Coevolution Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleCoEvolution">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesDocumentation" label="Documentation Modules" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Documentation Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleDocumentation">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesRest" label="IDE Modules" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="IDE Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleIDE">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesMeta" label="Deployment and Configuration Modules" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Deployment and Configuration Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleMeta">
                </parameter></command>
             <command
-                  commandId="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingInstalledPSF"
+                  commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
                   label="Developer Workspace [OLD, DEPRECATED]"
                   style="push">
                <parameter
@@ -256,42 +256,9 @@
          point="org.eclipse.ui.commands">
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallModulesAll"
-            name="Install IDE Modules">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-       <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallModulesMeta"
-            name="Install Deployment and Configuration Modules">
-          <commandParameter
-                id="org.moflon.devtools.ui.commands.install.workspacename"
-                name="Workspace Name"
-                optional="true">
-          </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.DoNothingHandler"
             id="org.moflon.ide.ui.commands.MoflonDevtoolsMenuCommand"
             name="Install, configure, and deploy Moflon">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.install.InstallDeveloperWorkspaceHandlerUsingInstalledPSFs"
-            id="org.moflon.devtools.ui.commands.install.InstallDeveloperWorkspaceCommandUsingInstalledPSF"
-            name="Install developer workspace">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
@@ -310,83 +277,6 @@
       </command>
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceMiscCommand"
-            name="Install test workspace misc.">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG0Command"
-            name="Install test workspace TGG 0">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceTGG1Command"
-            name="Install test workspace TGG 1">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallTestWorkspaceDemocles0Command"
-            name="Install test workspace Democles 0">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallTransformationZoo0Command"
-            name="Install transformation zoo 0">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallTransformationZoo1Command"
-            name="Install transformation zoo 1">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallModulesDocumentation"
-            name="Install Documentation Module">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.install.InstallPsfFileHandler"
             id="org.moflon.devtools.ui.commands.install.LoadPsfFileCommand"
             name="Install: Load PSF file">
@@ -399,63 +289,8 @@
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallDemoWorkspaceCommand"
-            name="Demo Workspace">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Start_Command"
-            name="Install Example Part 3 Start">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Start_Command"
-            name="Install Example Part 3 Final">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part4_Start_Command"
-            name="Install Example Part 4 Start">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_GUI_Command"
-            name="Install Learning Box GUI">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Final_Command"
-            name="Install Example Final">
+            id="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
+            name="Install Module">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
@@ -467,61 +302,6 @@
             defaultHandler="org.moflon.devtools.ui.handlers.install.OpenPsfSelectionDialogHandler"
             id="org.moflon.devtools.ui.commands.install.OpenPsfSelectionDialog"
             name="Open PSF file selection dialog...">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallModulesSDMCore"
-            name="Install Core and SDM Modules">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallModulesCoevolution"
-            name="Install Coevolution Modules">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallModulesVisualization "
-            name="Install Visualization Modules">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallModulesTGG"
-            name="Install TGG Modules (incl. MOSL-TGG)">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallModulesRest"
-            name="Install All Modules (without MOSL)">
-         <commandParameter
-               id="org.moflon.devtools.ui.commands.install.workspacename"
-               name="Workspace Name"
-               optional="true">
-         </commandParameter>
       </command>
    </extension>
    <extension
