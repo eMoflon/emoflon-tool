@@ -8,6 +8,11 @@ import org.moflon.tgg.mosl.tgg.TggPackage
 import org.eclipse.xtext.validation.Check
 import org.moflon.tgg.mosl.tgg.AttributeVariable
 import org.eclipse.emf.common.util.BasicEList
+import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
+import org.moflon.tgg.mosl.tgg.Rule
+import java.util.HashSet
+import java.util.Set
+import java.util.Collection
 
 /**
  * This class contains custom validation rules. 
@@ -18,6 +23,7 @@ class TGGValidator extends AbstractTGGValidator {
 
   public static val INVALID_ADORNMENT = 'invalidAdornmentValue'
   public static val INVALID_ATTRIBUTE_VARIABLE = 'invalidAttributeVariableAttribute'
+  public static val NOT_UNIQUE_OBJECT_VARIABLE_NAME = 'notUniqueObjectVariableName'
 
 	@Check
 	def checkAdornmentValue(Adornment adornment){
@@ -36,6 +42,37 @@ class TGGValidator extends AbstractTGGValidator {
 		}
 		if (!attrNames.contains(attrVar.attribute)) {
 			error("EClass " + attrVar.objectVar.type.name + " does not contain EAttribute " + attrVar.attribute + ".", TggPackage.Literals.ATTRIBUTE_VARIABLE__ATTRIBUTE, org.moflon.tgg.mosl.validation.TGGValidator.INVALID_ATTRIBUTE_VARIABLE);
+		}
+	}
+
+	def boolean checkObjectVariableNamesAreUniqueInPattern(Set<String> ovNames, Collection<ObjectVariablePattern> objectVariables){
+		for(ov : objectVariables){
+			if(ovNames.contains(ov.name)){
+				return false;
+			}
+			else{
+				ovNames.add(ov.name);
+				return true;				
+			}
+		}
+	}
+
+	def boolean checkObjectVariableNamesAreUniqueWithSuperTypes(Rule rule, Set<String> ovNames){
+		var isUnique = checkObjectVariableNamesAreUniqueInPattern(ovNames,rule.sourcePatterns)&&
+		checkObjectVariableNamesAreUniqueInPattern(ovNames,rule.targetPatterns);
+		if(isUnique && rule.supertypes.size()>0){
+			for(superType : rule.supertypes){
+				checkObjectVariableNamesAreUniqueWithSuperTypes(superType, ovNames)			
+			}			
+		}
+		return isUnique;
+	}
+	
+	@Check
+	def checkObjectVariableNamesAreUnique(ObjectVariablePattern objectVariablePattern){
+		var container = objectVariablePattern.eContainer;
+		if(container instanceof Rule && !checkObjectVariableNamesAreUniqueWithSuperTypes(container as Rule, new HashSet<String>())){
+			error("Object Variables must be unique", TggPackage.Literals.OBJECT_VARIABLE_PATTERN__NAME, org.moflon.tgg.mosl.validation.TGGValidator.NOT_UNIQUE_OBJECT_VARIABLE_NAME);
 		}
 	}
 }
