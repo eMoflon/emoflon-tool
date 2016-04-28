@@ -203,7 +203,7 @@
             <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesTGG" label="TGG Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
-                     value="ModuleMeta">
+                     value="ModuleTGG">
                </parameter></command>
             <command commandId="org.moflon.devtools.ui.commands.install.InstallModulesVisualization " label="Visualization Modules" style="push">
                <parameter
