@@ -66,7 +66,7 @@ public class EMoflonStandardWorkspaces
       PATH_LOOKUP.put(TEST_WORKSPACE_TGG_0_NAME, Arrays.asList("/resources/psf/tests/TestSuiteTGG0.psf"));
       PATH_LOOKUP.put(TEST_WORKSPACE_TGG_1_NAME, Arrays.asList("/resources/psf/tests/TestSuiteTGG1.psf"));
       PATH_LOOKUP.put(TEST_WORKSPACE_MISC_NAME, Arrays.asList("/resources/psf/tests/TestSuiteMisc.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("/resources/psf/TestSuiteDemocles1.psf"));
+      PATH_LOOKUP.put(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("/resources/psf/tests/TestSuiteDemocles0.psf"));
 
       PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_NAME, Arrays.asList("/resources/psf/development/OldDeveloperWorkspace.psf"));
       PATH_LOOKUP.put(OLD_DEVELOPER_WORKSPACE_TGG_NAME, Arrays.asList("/resources/psf/development/OldDeveloperWorkspace_TGG.psf"));
