@@ -37,7 +37,7 @@ public class EnterpriseArchitectHelper
    
    private static final String XMI_EXTENSIONS = "--xmi ";
    
-   private static EnterpriseArchitectCommandLineParser clParser = new EnterpriseArchitectCommandLineParser(logger);
+   private static EnterpriseArchitectCommandLineParser clParser = new EnterpriseArchitectCommandLineParser();
    
    public static void delegateToEnterpriseArchitect(final IProject project) throws IOException, InterruptedException
    {

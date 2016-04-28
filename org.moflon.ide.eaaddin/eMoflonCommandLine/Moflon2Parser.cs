@@ -97,7 +97,7 @@ namespace MOFLON2EAExportImportTest
 
                     foreach (String filename in eapFile.Values)
                     {
-                        Console.Out.WriteLine("SCALE:Start Export of '" + filename + "'#");
+                        Console.Out.WriteLine("INFO:Start Export of '" + filename + "'#");
                         repository = new EA.Repository();
                         repository.OpenFile(filename);
 
@@ -112,7 +112,7 @@ namespace MOFLON2EAExportImportTest
                         Console.Out.WriteLine("DEBUG:Do Export#");
                         exporter.doExport();
 
-                        Console.Out.WriteLine("SCALE:Export of '" + filename + "' was successfull#");
+                        Console.Out.WriteLine("INFO:Export of '" + filename + "' was successfull#");
 
                         repository.Exit();
                     }
