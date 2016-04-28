@@ -39,9 +39,11 @@ public class EMoflonStandardWorkspaces
 
    public static final String HANDBOOK_EXAMPLE_GUI = "HandbookGUI";
 
-   public static final String HANDBOOK_EXAMPLE_PART3 = "HandbookPart3";
+   public static final String HANDBOOK_EXAMPLE_PART3_START = "HandbookPart3Start";
 
-   public static final String HANDBOOK_EXAMPLE_PART4 = "HandbookPart4";
+   public static final String HANDBOOK_EXAMPLE_PART3_FINAL = "HandbookPart3Final";
+
+   public static final String HANDBOOK_EXAMPLE_PART4_START = "HandbookPart4Start";
 
    public static final String MODULE_ALL = "ModuleAll";
 
@@ -82,8 +84,9 @@ public class EMoflonStandardWorkspaces
       PATH_LOOKUP.put(DEMO_WORKSPACE_NAME, Arrays.asList("/resources/psf/examples/DemoWorkspace.psf"));
       PATH_LOOKUP.put(HANDBOOK_EXAMPLE_FINAL, Arrays.asList("/resources/psf/examples/HandbookExample_FinalSolution.psf"));
       PATH_LOOKUP.put(HANDBOOK_EXAMPLE_GUI, Arrays.asList("/resources/psf/examples/HandbookExample_LeitnersBoxGui.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART3, Arrays.asList("/resources/psf/examples/HandbookExample_Part3.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART4, Arrays.asList("/resources/psf/examples/HandbookExample_Part4_FreshStart.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART3_START, Arrays.asList("/resources/psf/examples/HandbookExample_Part3_Start.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART3_FINAL, Arrays.asList("/resources/psf/examples/HandbookExample_Part3_Final.psf"));
+      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART4_START, Arrays.asList("/resources/psf/examples/HandbookExample_Part4_FreshStart.psf"));
    }
 
    /**

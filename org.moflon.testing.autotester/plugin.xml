@@ -79,7 +79,7 @@
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureHandbookExamples">
          <command
                commandId="org.moflon.devtools.ui.commands.install.InstallDemoWorkspaceCommand"
-               label="Demo (Double-linked List)"
+               label="Demo (Double-Linked List)"
                mnemonic="d"
                style="push">
             <parameter
@@ -88,23 +88,33 @@
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Command"
-               label="Handbook Part 3"
+               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Start_Command"
+               label="Handbook Part 3 Start"
                mnemonic="3"
                style="push">
             <parameter
                   name="org.moflon.devtools.ui.commands.install.workspacename"
-                  value="HandbookPart3">
+                  value="HandbookPart3Start">
             </parameter>
          </command>
          <command
-               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part4_Command"
-               label="Handbook Part 4"
+               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Final_Command"
+               label="Handbook Part 3 Final"
+               mnemonic="3"
+               style="push">
+            <parameter
+                  name="org.moflon.devtools.ui.commands.install.workspacename"
+                  value="HandbookPart3Final">
+            </parameter>
+         </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part4_Start_Command"
+               label="Handbook Part 4 Start"
                mnemonic="4"
                style="push">
             <parameter
                   name="org.moflon.devtools.ui.commands.install.workspacename"
-                  value="HandbookPart4">
+                  value="HandbookPart4Start">
             </parameter>
          </command>
          <command
@@ -400,8 +410,8 @@
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Command"
-            name="Install handbook example (part 3)">
+            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Start_Command"
+            name="Install Example Part 3 Start">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
@@ -411,8 +421,19 @@
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
-            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part4_Command"
-            name="Install handbook example (part 4)">
+            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part3_Start_Command"
+            name="Install Example Part 3 Final">
+         <commandParameter
+               id="org.moflon.devtools.ui.commands.install.workspacename"
+               name="Workspace Name"
+               optional="true">
+         </commandParameter>
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
+            defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
+            id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Part4_Start_Command"
+            name="Install Example Part 4 Start">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
@@ -423,7 +444,7 @@
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
             id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_GUI_Command"
-            name="Install handbook example (GUI)">
+            name="Install Learning Box GUI">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
@@ -434,7 +455,7 @@
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.InstallModulesHandler"
             id="org.moflon.devtools.ui.commands.install.InstallHandbookExample_Final_Command"
-            name="Install handbook example (final)">
+            name="Install Example Final">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
