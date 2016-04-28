@@ -13,7 +13,7 @@ public class InstallModulesHandler extends AbstractInstallCommandHandler
    public Object execute(final ExecutionEvent event) throws ExecutionException
    {
       final String workspaceName = event.getParameter("org.moflon.devtools.ui.commands.install.workspacename");
-      List<String> psfFiles = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
+      final List<String> psfFiles = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
       if (!psfFiles.isEmpty())
       {
          logger.debug("Installing workspace  '" + workspaceName + "' using the following PSFs " + psfFiles);
