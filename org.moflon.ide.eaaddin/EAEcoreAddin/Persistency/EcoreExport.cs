@@ -69,7 +69,7 @@ namespace EAEcoreAddin.Persistency
                 {
                     if (!Export.showStatusBar)
                     {
-                        Console.Out.WriteLine("SCALE:export Classifier '" + childClass.Name + "' %" + counter + "/" + eaPackage.Elements.Count + "#");
+                        Console.Out.WriteLine("SCALE:Export Classifier '" + childClass.Name + "' %" + counter + "/" + eaPackage.Elements.Count + "#");
                     }
                     counter++;
                     this.currentNode = ePackageMocaNode.getChildNodeWithName(EPackageHelper.ClassesChildNodeName);
@@ -123,7 +123,7 @@ namespace EAEcoreAddin.Persistency
 
         public MocaNode processEClass(SQLElement eaClass)
         {
-            //this.exportProgressBar.invokePerformNext("exporting EClass: " + eaClass.Name);
+            //this.exportProgressBar.invokePerformNext("Exporting EClass: " + eaClass.Name);
 
             SQLTaggedValue changesTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaClass, Main.MoflonChangesTreeTaggedValueName);
 
@@ -165,7 +165,7 @@ namespace EAEcoreAddin.Persistency
                         MocaNode owningOperationNode = null;
                         if (!Export.showStatusBar)
                         {
-                            Console.Out.WriteLine("SCALE:export SDM '" + possibleSDMContainer.Name + "' %" + counter + "/" + eaClass.Elements.Count + "#");
+                            Console.Out.WriteLine("SCALE:Export SDM '" + possibleSDMContainer.Name + "' %" + counter + "/" + eaClass.Elements.Count + "#");
                         }
                         counter++;
                         foreach (MocaNode EOperationNode in operationsNode.Children)
@@ -199,7 +199,7 @@ namespace EAEcoreAddin.Persistency
                     {
                         if (!Export.showStatusBar)
                         {
-                            Console.Out.WriteLine("SCALE:export EReference '" + ereference.Name + "' %" + counter + "/" + eaClass.Connectors.Count + "#");
+                            Console.Out.WriteLine("SCALE:Export EReference '" + ereference.Name + "' %" + counter + "/" + eaClass.Connectors.Count + "#");
                         }
                         counter++;
                         MocaNode referencesNode = eClassMocaNode.getChildNodeWithName(EClass.ReferencesChildNodeName);

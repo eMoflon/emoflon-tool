@@ -110,7 +110,7 @@ namespace EAEcoreAddin.Persistency
                 {
                     if (!exporter.showStatusBar)
                     {
-                        Console.Out.WriteLine("SCALE:export Package '" + projectPackage.Name + "' %" + index + "/" + packagesToExport.Count + "#");
+                        Console.Out.WriteLine("SCALE:Export Package '" + projectPackage.Name + "' %" + index + "/" + packagesToExport.Count + "#");
                     }
                     exporter.CurrentMetamodelName = projectPackage.Name;
                     exporter.exportPackage(projectPackage);

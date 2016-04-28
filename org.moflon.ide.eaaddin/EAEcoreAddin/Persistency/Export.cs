@@ -173,7 +173,7 @@ namespace EAEcoreAddin.Persistency
                     MetamodelHelper mmHelper = packageNameToEPackage[dependency].helper as MetamodelHelper;
                     if (!showStatusBar)
                     {
-                        Console.Out.WriteLine("SCALE:export Dependency'" + mmHelper.pluginID + "' %" + counter + "/" + dependencyList.Count + "#");
+                        Console.Out.WriteLine("SCALE:Export Dependency'" + mmHelper.pluginID + "' %" + counter + "/" + dependencyList.Count + "#");
                     }
                     dependenciesNode.appendChildNode(mmHelper.pluginID);
                     counter++;
