@@ -148,13 +148,13 @@ namespace EAEcoreAddin.Import
             if(hasGui)
                 ImportWorker.ReportProgress(0, new ProgressObject(ProgressBarType.Complete, "Import raw Objects", 6));
             else
-                Console.Out.WriteLine("INFO:Import raw Objects#");
+                Console.Out.WriteLine("INFO:Import Raw Objects#");
             importMetamodelNodes();
 
             if (hasGui)
                 ImportWorker.ReportProgress(1, new ProgressObject(ProgressBarType.Complete, "Import raw Connectors"));
             else
-                Console.Out.WriteLine("INFO:Import raw Connector#");
+                Console.Out.WriteLine("INFO:Import Raw Connector#");
             importConnectors();
 
             if (hasGui)
@@ -172,7 +172,7 @@ namespace EAEcoreAddin.Import
             if (hasGui)
                 ImportWorker.ReportProgress(4, new ProgressObject(ProgressBarType.Complete, "Save Moca Fragment and refresh EA Gui"));
             else
-                Console.Out.WriteLine("INFO:Save Moca Fragment and refresh EA Gui#");
+                Console.Out.WriteLine("INFO:Save Moca Fragment and Refresh EA Gui#");
             saveMocaTagElements();
 
             if (hasGui)
@@ -284,7 +284,7 @@ namespace EAEcoreAddin.Import
                     ImportWorker.ReportProgress(2, new ProgressObject(ProgressBarType.Current, "Save EReference and refresh Gui", ReferenceGuidToClientTarget.Count));
                 else
                 {
-                    Console.Out.WriteLine("SCALE:Save EReference and refresh Gui for '"+refGuid+"' %" + counter + "/" + ReferenceGuidToClientTarget.Count + "#");
+                    Console.Out.WriteLine("SCALE:Save EReference and Refresh Gui for '"+refGuid+"' %" + counter + "/" + ReferenceGuidToClientTarget.Count + "#");
                     counter++;
                 }
                 if (ReferenceGuidToClientTarget.ContainsKey(refGuid) 

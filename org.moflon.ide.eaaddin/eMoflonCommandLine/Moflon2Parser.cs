@@ -97,7 +97,7 @@ namespace MOFLON2EAExportImportTest
 
                     foreach (String filename in eapFile.Values)
                     {
-                        Console.Out.WriteLine("SCALE:Start export of '" + filename + "'#");
+                        Console.Out.WriteLine("SCALE:Start Export of '" + filename + "'#");
                         repository = new EA.Repository();
                         repository.OpenFile(filename);
 
@@ -106,10 +106,10 @@ namespace MOFLON2EAExportImportTest
 
                         SQLRepository sqlRepository = new SQLRepository(repository, true, false);
 
-                        Console.Out.WriteLine("DEBUG:initialize exporter#");
+                        Console.Out.WriteLine("DEBUG:Initialize Exporter#");
                         Export exporter = new Export(sqlRepository, true, false);
 
-                        Console.Out.WriteLine("DEBUG:do export#");
+                        Console.Out.WriteLine("DEBUG:Do Export#");
                         exporter.doExport();
 
                         Console.Out.WriteLine("SCALE:Export of '" + filename + "' was successfull#");
@@ -121,7 +121,7 @@ namespace MOFLON2EAExportImportTest
                 catch(Exception e)
                 {
                     repository.Exit();
-                    Console.Out.WriteLine("ERROR:Export was not successfull " + "\n" + e.Message + "\n" + e.ToString() + "\n" + e.StackTrace+"#");
+                    Console.Out.WriteLine("ERROR:Export failed " + "\n" + e.Message + "\n" + e.ToString() + "\n" + e.StackTrace+"#");
                 }   
             } 
         }
@@ -134,7 +134,7 @@ namespace MOFLON2EAExportImportTest
                 EA.Repository repository = null;
                 try
                 {
-                    Console.Out.WriteLine("DEBUG:start import#");
+                    Console.Out.WriteLine("DEBUG:Start import#");
                     String xmiFilename = xmiFile.Value;
                     String eapFilename = eapFile.Value;
                     EAEcoreAddin.Main main = new EAEcoreAddin.Main();
@@ -143,18 +143,18 @@ namespace MOFLON2EAExportImportTest
 
                     
 
-                    Console.Out.WriteLine("DEBUG:initialize importer#");
+                    Console.Out.WriteLine("DEBUG:Initialize Importer#");
                     SQLRepository sqlRepository = new SQLRepository(repository, false);
                     MainImport importer = MainImport.getInstance(sqlRepository, new BackgroundWorker());
 
 
-                        Console.Out.WriteLine("DEBUG:getMocaTree Node#");
+                        Console.Out.WriteLine("DEBUG:Get MocaTree Node#");
                         MocaNode exportedTree = new MocaNode();
                         String readText = File.ReadAllText(xmiFilename);
                         XmlDocument mocaXmlDocument = XmlUtil.stringToXmlDocument(readText);
                         exportedTree.deserializeFromXmlTree(mocaXmlDocument.DocumentElement.FirstChild as XmlElement);
 
-                        Console.Out.WriteLine("DEBUG:do import#");
+                        Console.Out.WriteLine("DEBUG:Do Import#");
                         checkedMetamodelsToImport = new List<string>();
                         
                         MocaNode mocaTree = new MocaNode();
@@ -163,7 +163,7 @@ namespace MOFLON2EAExportImportTest
                         ////open the empty eap
                         
 
-                        Console.Out.WriteLine("INFO:Import was successfull#");
+                        Console.Out.WriteLine("INFO:Import was Successfull#");
 
                 }
                 catch (Exception e)

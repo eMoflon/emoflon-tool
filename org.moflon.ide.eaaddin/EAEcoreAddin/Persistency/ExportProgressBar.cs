@@ -165,7 +165,7 @@ namespace EAEcoreAddin.Persistency
                 else
                 {
                     Console.Out.WriteLine("EXCEPTION:" + e.StackTrace + "#");
-                    Console.Out.WriteLine("ERROR:Something has gone wrong. Please check the validation messages and contact the eMoflon team if necessary (contact@emoflon.org)");
+                    Console.Out.WriteLine("ERROR:Something went wrong. Please check the validation messages and contact the eMoflon team if necessary (contact@emoflon.org)");
                 }
             }
         }
