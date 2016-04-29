@@ -45,7 +45,9 @@ import org.eclipse.ui.statushandlers.StatusManager;
 import org.eclipse.ui.views.markers.internal.MarkerMessages;
 import org.eclipse.ui.views.markers.internal.Util;
 
-//TODO@rkluge Clean up
+/**
+ * The following code has been copied and extended from {@link MarkersPropertyPage}
+ */
 @SuppressWarnings("restriction")
 public class EMoflonPropertyPage extends MarkersPropertyPage
 {
