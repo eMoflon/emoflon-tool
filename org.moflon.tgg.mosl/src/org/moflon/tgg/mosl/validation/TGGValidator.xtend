@@ -24,6 +24,7 @@ class TGGValidator extends AbstractTGGValidator {
   public static val INVALID_ADORNMENT = 'invalidAdornmentValue'
   public static val INVALID_ATTRIBUTE_VARIABLE = 'invalidAttributeVariableAttribute'
   public static val NOT_UNIQUE_OBJECT_VARIABLE_NAME = 'notUniqueObjectVariableName'
+  public static val TYPE_IS_ABSTRACT = 'typeIsAbstract'
 
 	@Check
 	def checkAdornmentValue(Adornment adornment){
@@ -71,5 +72,23 @@ class TGGValidator extends AbstractTGGValidator {
 		}
 	}
 	
+	@Check
+	def checkIfTheTryingToGenerateObjectVariableIsAbstract(ObjectVariablePattern objectVariablePattern){
+		val type = objectVariablePattern.type
+		val eContainer = objectVariablePattern.eContainer;		
+		if(eContainer instanceof Rule){
+		  var rule = eContainer as Rule;
+		  var operator = objectVariablePattern.op;
+		  var ruleIsAbstract = rule.abstractRule;
+		  var typeIsAbstract = type.abstract;
+		  var isGeneration = operator != null && operator.value != null && operator.value.equalsIgnoreCase("++ ");
+		  var isAnError = !ruleIsAbstract && typeIsAbstract && isGeneration;
+		  if(isAnError){
+		  	error("The type of the Object Variable '" + objectVariablePattern.name + "' is abstract or the Rule '" + Rule.name + "' is not abstract", TggPackage.Literals.OBJECT_VARIABLE_PATTERN__TYPE, org.moflon.tgg.mosl.validation.TGGValidator.TYPE_IS_ABSTRACT);
+		  }
+		  
+		}
+		
+	} 
 	
 }

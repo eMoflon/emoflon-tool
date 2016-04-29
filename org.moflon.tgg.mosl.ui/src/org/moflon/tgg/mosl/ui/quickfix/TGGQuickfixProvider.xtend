@@ -11,6 +11,7 @@ import org.eclipse.xtext.ui.editor.model.edit.ISemanticModification
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.ui.editor.model.edit.IModificationContext
 import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
+import org.moflon.tgg.mosl.tgg.Rule
 
 //import org.eclipse.xtext.ui.editor.quickfix.Fix
 //import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
@@ -38,6 +39,29 @@ class TGGQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.DefaultQu
      					override apply(EObject element, IModificationContext context) {
         					val ovPattern = element as ObjectVariablePattern;
         					ovPattern.name = ovPattern.name + '1';
+						}				
+				}
+		)
+	}
+	
+	@Fix(TGGValidator::TYPE_IS_ABSTRACT)
+	def changeRuleToAbstract(Issue issue, IssueResolutionAcceptor acceptor) {
+		var messageParts = issue.message.split("'");
+		var name ="";
+		if (messageParts.size() == 5)
+			name = messageParts.get(1);
+			
+		acceptor.accept(issue, 
+    			"change Rule to abstract",    // label
+    			"change Rule to abstract '" + name +"'", // description
+    			null,           // icon 
+    			new ISemanticModification() {
+     					override apply(EObject element, IModificationContext context) {
+        					val ovPattern = element as ObjectVariablePattern;
+        					if(ovPattern.eContainer instanceof Rule){
+        						var rule = ovPattern.eContainer as Rule;
+        						rule.abstractRule = true;
+        					}
 						}				
 				}
 		)
