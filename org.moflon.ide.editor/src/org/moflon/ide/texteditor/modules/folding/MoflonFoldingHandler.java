@@ -17,8 +17,6 @@ import MocaTree.Text;
 public class MoflonFoldingHandler
 {
 
-   int testValue;
-
    ProjectionViewer pViewer;
 
    ProjectionAnnotationModel annotationModel;
@@ -34,7 +32,6 @@ public class MoflonFoldingHandler
       this.textEditor = textEditor;
       this.oldAnnotations = new ArrayList<ProjectionAnnotation>();
       this.newAnnotations = new HashMap<ProjectionAnnotation, Position>();
-      testValue = 50;
    }
 
    public void refreshAnnotations(Node mocaTree)
