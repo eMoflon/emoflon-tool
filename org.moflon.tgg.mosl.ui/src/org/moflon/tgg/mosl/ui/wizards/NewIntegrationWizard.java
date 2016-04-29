@@ -11,7 +11,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.ide.ui.WorkspaceHelperUI;
 import org.moflon.tgg.mosl.builder.MOSLTGGNature;
