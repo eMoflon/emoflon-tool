@@ -45,23 +45,29 @@ partial class AttributeConstraintsExporterImpl {
     *           a list of the NS prefixes
     * @return the lowest sub-package that matches the given candidate.
     */
-   private EPackage findEPackageForCandidates(EList<EPackage> candidatePackages, List<String> candidate)
+   private EPackage findEPackageForCandidates(EList<EPackage> candidatePackages, final String candidateNsPrefix, final String rest)
    {
-      final String segmentNsPrefix = candidate.get(0);
-      final String segmentName = determinePackageName(segmentNsPrefix);
+      final String segmentNsPrefix = candidateNsPrefix;
+      final String segmentName = determinePackageName(candidateNsPrefix);
       for (final EPackage ePackage : candidatePackages)
       {
          if (segmentNsPrefix.equals(ePackage.getNsPrefix()) && segmentName.equals(ePackage.getName()))
          {
-            if (candidate.size() == 1)
+            if (rest.isEmpty())
             {
                return ePackage;
             } else
             {
-               final EPackage result = findEPackageForCandidates(ePackage.getESubpackages(), candidate.subList(1, candidate.size()));
-               if (result != null)
+               final List<String> restSegments = splitIntoSegments(rest);
+               for (int i = 1; i <= restSegments.size(); ++i)
                {
-                  return result;
+                  final String restCandidateNsPrefix = String.join(".", restSegments.subList(0, i));
+                  final String restRest = String.join(".", restSegments.subList(i, restSegments.size()));
+                  final EPackage result = findEPackageForCandidates(ePackage.getESubpackages(), restCandidateNsPrefix, restRest);
+                  if (result != null)
+                  {
+                     return result;
+                  }
                }
             }
 
@@ -109,24 +115,15 @@ partial class AttributeConstraintsExporterImpl {
 @model resolvePackageImport (String NsPrefix, String ePackageName) <--
       final List<String> segments = splitIntoSegments(NsPrefix);
 
-      final List<List<String>> candidates = new ArrayList<>();
-      candidates.add(Arrays.asList(String.join(".", segments)));
-      if (segments.size() > 1)
-         candidates.add(Arrays.asList(String.join(".", segments.subList(0, 1)), String.join(".", segments.subList(1, segments.size()))));
-      if (segments.size() > 2)
-         candidates.add(Arrays.asList(String.join(".", segments.subList(0, 2)), String.join(".", segments.subList(2, segments.size()))));
-      if (segments.size() > 3)
-         candidates.add(Arrays.asList(String.join(".", segments.subList(0, 3)), String.join(".", segments.subList(3, segments.size()))));
-      if (segments.size() > 4)
-         candidates.add(Arrays.asList(String.join(".", segments.subList(0, 4)), String.join(".", segments.subList(4, segments.size()))));
-
-      for (final List<String> candidate : candidates)
+      for (int i = 1; i <= segments.size(); ++i)
       {
-         final EPackage result = findEPackageForCandidates(this.getExporter().getEpackages(), candidate);
+         final String candidateNsPrefix = String.join(".", segments.subList(0, i));
+         final String rest = String.join(".", segments.subList(i, segments.size()));
+
+         final EPackage result = findEPackageForCandidates(this.getExporter().getEpackages(), candidateNsPrefix, rest);
          if (result != null)
             return result;
       }
-
       return null;
 -->
 
