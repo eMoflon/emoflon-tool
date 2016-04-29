@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.ui.editor.model.edit.IModificationContext
 import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
 import org.moflon.tgg.mosl.tgg.Rule
+import java.util.ArrayList
 
 //import org.eclipse.xtext.ui.editor.quickfix.Fix
 //import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
@@ -61,6 +62,56 @@ class TGGQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.DefaultQu
         					if(ovPattern.eContainer instanceof Rule){
         						var rule = ovPattern.eContainer as Rule;
         						rule.abstractRule = true;
+        					}
+						}				
+				}
+		)
+	}
+	
+	@Fix(TGGValidator::RULE_REFINEMENT_CREATES_A_CYCLE)
+	def deleteRefinements(Issue issue, IssueResolutionAcceptor acceptor) {
+		var messageParts = issue.message.split("'");
+		var name ="";
+		if (messageParts.size() >= 4){
+			name = messageParts.get(1);
+			
+		}
+			
+		acceptor.accept(issue, 
+    			"delete all Refinements",    // label
+    			"delete all Refinements from '" + name +"'", // description
+    			null,           // icon 
+    			new ISemanticModification() {
+     					override apply(EObject element, IModificationContext context) {
+        					val rule = element as Rule;
+        					rule.supertypes.clear();
+						}				
+				}
+		)
+	}
+	
+		@Fix(TGGValidator::RULE_REFINEMENT_CREATES_A_CYCLE)
+	def deleteRefinement(Issue issue, IssueResolutionAcceptor acceptor) {
+		var messageParts = issue.message.split("'");
+		var name ="";
+		var refinement = "";
+		if (messageParts.size() >= 4){
+			name = messageParts.get(1);
+			refinement =  messageParts.get(3);
+		}
+		val refinementName = refinement;	
+		acceptor.accept(issue, 
+    			"delete the Refinement",    // label
+    			"delete the Refinements '"+ refinement +"' from '" + name +"'", // description
+    			null,           // icon 
+    			new ISemanticModification() {
+     					override apply(EObject element, IModificationContext context) {
+        					var rule = element as Rule;
+        					var allSuperTypes=new ArrayList<Rule>(rule.supertypes);
+        					for(superRule : allSuperTypes){
+        						if(refinementName.compareTo(superRule.name)==0){
+        							rule.supertypes.remove(superRule);
+        						}
         					}
 						}				
 				}

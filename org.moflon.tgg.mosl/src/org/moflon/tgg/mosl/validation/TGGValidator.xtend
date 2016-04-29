@@ -13,6 +13,8 @@ import org.moflon.tgg.mosl.tgg.Rule
 import java.util.HashSet
 import java.util.Set
 import java.util.Collection
+import java.util.List
+import java.util.ArrayList
 
 /**
  * This class contains custom validation rules. 
@@ -25,6 +27,7 @@ class TGGValidator extends AbstractTGGValidator {
   public static val INVALID_ATTRIBUTE_VARIABLE = 'invalidAttributeVariableAttribute'
   public static val NOT_UNIQUE_OBJECT_VARIABLE_NAME = 'notUniqueObjectVariableName'
   public static val TYPE_IS_ABSTRACT = 'typeIsAbstract'
+  public static val RULE_REFINEMENT_CREATES_A_CYCLE = 'RuleRefinementCreatesACycle'
 
 	@Check
 	def checkAdornmentValue(Adornment adornment){
@@ -87,8 +90,34 @@ class TGGValidator extends AbstractTGGValidator {
 		  	error("The type of the Object Variable '" + objectVariablePattern.name + "' is abstract or the Rule '" + Rule.name + "' is not abstract", TggPackage.Literals.OBJECT_VARIABLE_PATTERN__TYPE, org.moflon.tgg.mosl.validation.TGGValidator.TYPE_IS_ABSTRACT);
 		  }
 		  
-		}
-		
+		}		
 	} 
 	
+	def boolean findCycleInRule(Rule rule, List<Rule> visited){
+		if(visited.contains(rule)){
+			return true;
+		}else {
+			visited.add(rule);
+			for(superType : rule.supertypes){
+				if (findCycleInRule(superType, visited)){
+					return true;
+				}
+				else{
+					visited.remove(superType);	
+				}
+			}			
+			return false;
+		}
+	}
+	
+	@Check
+	def checkForCycleRefinments(Rule rule){
+		var foundSuperTypes = new ArrayList<Rule>();
+		if(findCycleInRule(rule, foundSuperTypes)){
+			var refinementName = "<Placeholder>";
+			if(foundSuperTypes.size() >= 2)
+				refinementName = foundSuperTypes.get(1).name;
+			error("The Rule '" + rule.name + "' creates a Cycle with the Refinement '" + refinementName +"'", TggPackage.Literals.RULE__SUPERTYPES, org.moflon.tgg.mosl.validation.TGGValidator.RULE_REFINEMENT_CREATES_A_CYCLE);
+		}
+	}
 }
