@@ -215,7 +215,7 @@ partial class AttributeConstraintsExporterImpl {
       ValidationReport report = parser.parse(parseString, storyPattern);
       this.getExporter().getMocaToMoflonReport().merge(report);
 
-      return (Node) report.getResult();
+      return report;
 -->
 
 }
