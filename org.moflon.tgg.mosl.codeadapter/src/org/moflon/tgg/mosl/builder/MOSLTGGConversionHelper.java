@@ -1,6 +1,9 @@
 package org.moflon.tgg.mosl.builder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -130,11 +133,8 @@ public class MOSLTGGConversionHelper extends AbstractHandler
          {
             if (iResource instanceof IFile)
             {
-               Rule rule = loadRule(iResource, resourceSet, moslFolder);
-               if (rule != null)
-               {
-                  rules.add(rule);
-               }
+               Collection<Rule> rulesFromFile = loadRules(iResource, resourceSet, moslFolder);
+               rules.addAll(rulesFromFile);
             }
          }
          xtextParsedTGG.getRules().addAll(rules);
@@ -142,7 +142,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
 
    }
 
-   private Rule loadRule(IResource iResource, XtextResourceSet resourceSet, IFolder moslFolder) throws IOException
+   private Collection<Rule> loadRules(IResource iResource, XtextResourceSet resourceSet, IFolder moslFolder) throws IOException
    {
       IFile ruleFile = (IFile) iResource;
       if (ruleFile.getFileExtension().equals("tgg"))
@@ -150,13 +150,13 @@ public class MOSLTGGConversionHelper extends AbstractHandler
          XtextResource ruleRes = (XtextResource) resourceSet.getResource(URI.createPlatformResourceURI(ruleFile.getFullPath().toString(), true), true);
          EcoreUtil.resolveAll(resourceSet);
 
-         EObject ruleEObj = ruleRes.getContents().get(0).eContents().get(0);
-         if (ruleEObj instanceof Rule)
-         {
-            return (Rule) ruleEObj;
+         EObject tggFile = ruleRes.getContents().get(0);
+         if(tggFile instanceof TripleGraphGrammarFile){
+            TripleGraphGrammarFile tggFileWithRules = (TripleGraphGrammarFile)tggFile;
+            return new ArrayList<Rule>(tggFileWithRules.getRules());
          }
       }
-      return null;
+      return Collections.<Rule>emptyList();
    }
 
    private TripleGraphGrammarFile createTGGFileAndLoadSchema(XtextResourceSet resourceSet, IFolder moslFolder) throws IOException, CoreException
