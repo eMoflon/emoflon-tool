@@ -3,6 +3,15 @@
  */
 package org.moflon.tgg.mosl.ui.quickfix
 
+import org.moflon.tgg.mosl.validation.TGGValidator
+import org.eclipse.xtext.ui.editor.quickfix.Fix
+import org.eclipse.xtext.validation.Issue
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
+import org.eclipse.xtext.ui.editor.model.edit.ISemanticModification
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.ui.editor.model.edit.IModificationContext
+import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
+
 //import org.eclipse.xtext.ui.editor.quickfix.Fix
 //import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
 //import org.eclipse.xtext.validation.Issue
@@ -14,6 +23,25 @@ package org.moflon.tgg.mosl.ui.quickfix
  */
 class TGGQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider {
 
+	@Fix(TGGValidator::NOT_UNIQUE_OBJECT_VARIABLE_NAME)
+	def fixDuplicateNames(Issue issue, IssueResolutionAcceptor acceptor) {
+		var messageParts = issue.message.split("'");
+		var name ="";
+		if (messageParts.size() == 3)
+			name = messageParts.get(1);
+			
+		acceptor.accept(issue, 
+    			"change name",    // label
+    			"change name '" + name +"' to '" + name + "1'", // description
+    			null,           // icon 
+    			new ISemanticModification() {
+     					override apply(EObject element, IModificationContext context) {
+        					val ovPattern = element as ObjectVariablePattern;
+        					ovPattern.name = ovPattern.name + '1';
+						}				
+				}
+		)
+	}
 //	@Fix(MyDslValidator::INVALID_NAME)
 //	def capitalizeName(Issue issue, IssueResolutionAcceptor acceptor) {
 //		acceptor.accept(issue, 'Capitalize name', 'Capitalize the name.', 'upcase.png') [
