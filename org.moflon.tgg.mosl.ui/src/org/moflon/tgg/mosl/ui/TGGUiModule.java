@@ -3,9 +3,15 @@
  */
 package org.moflon.tgg.mosl.ui;
 
+
+
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.ide.editor.syntaxcoloring.DefaultSemanticHighlightingCalculator;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.moflon.tgg.mosl.ui.highlighting.MOSLHighlightingConfiguration;
+import org.moflon.tgg.mosl.ui.highlighting.MOSLSemanticHighlightCalculator;
+
+import com.google.inject.Binder;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -18,5 +24,11 @@ public class TGGUiModule extends org.moflon.tgg.mosl.ui.AbstractTGGUiModule {
 	public Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration()
 	{
 	   return MOSLHighlightingConfiguration.class;
+	}
+	
+	@Override
+	public void configure(Binder binder) {
+		super.configure(binder);
+		binder.bind(DefaultSemanticHighlightingCalculator.class).to(MOSLSemanticHighlightCalculator.class);
 	}
 }

@@ -71,7 +71,7 @@ class TGGValidator extends AbstractTGGValidator {
 	def checkObjectVariableNamesAreUnique(ObjectVariablePattern objectVariablePattern){
 		var container = objectVariablePattern.eContainer;
 		if(container instanceof Rule && !checkObjectVariableNamesAreUniqueWithSuperTypes(container as Rule, new HashSet<String>())){
-			error("Object Variables must be unique. Object Variable '" + objectVariablePattern.name + "' already exist", TggPackage.Literals.OBJECT_VARIABLE_PATTERN__NAME, org.moflon.tgg.mosl.validation.TGGValidator.NOT_UNIQUE_OBJECT_VARIABLE_NAME);
+			error("Object Variables must be unique. Object Variable '" + objectVariablePattern.name + "' already exist", TggPackage.Literals.VARIABLE_PATTERN__NAME, org.moflon.tgg.mosl.validation.TGGValidator.NOT_UNIQUE_OBJECT_VARIABLE_NAME);
 		}
 	}
 	

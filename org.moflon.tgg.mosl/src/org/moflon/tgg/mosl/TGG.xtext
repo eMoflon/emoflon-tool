@@ -99,7 +99,7 @@ Adornment:
 ;
 
 Param:
-	index = INT ':' type = ParamType
+	index = INT TypeSeparator type = ParamType
 ;
 
 ParamValue:
@@ -119,14 +119,14 @@ Literal:
 ;
 
 CorrVariablePattern:
-	(op = Operator)? name = ID ' : ' type = [CorrType | QualifiedName] '{'
+	(op = Operator)? name = ID TypeSeparator type = [CorrType | QualifiedName] '{'
 		'#src->' source = [ObjectVariablePattern]
 		'#trg->' target = [ObjectVariablePattern]
 	'}' 
 ;
 
 ObjectVariablePattern:
-	(op = Operator)? name = ID ' : ' type = [ecore::EClass | QualifiedName] ('{'
+	(op = Operator)? name = ID TypeSeparator type = [ecore::EClass | QualifiedName] ('{'
 		attributeAssignments += AttributeAssignment*
 		attributeConstraints += AttributeConstraint*
 		linkVariablePatterns += LinkVariablePattern*
@@ -158,7 +158,7 @@ LinkVariablePattern:
 ;
 
 Operator:
-	value = ('++ ' | '! ')
+	value = OperationValues
 ;
 
 /* ---------------- */
@@ -197,4 +197,18 @@ QualifiedNameWithWildcard:
 
 QualifiedName returns ecore::EString:
 	ID ('.' ID)*
+;
+
+TypeSeparator:
+	':' | ' : ' | ' :' | ': '
+;
+
+OperationValues:
+	"++" | "!" | "--"
+;
+
+// some Head classes for better OOP aspects
+
+VariablePattern:
+	CorrVariablePattern | ObjectVariablePattern
 ;
