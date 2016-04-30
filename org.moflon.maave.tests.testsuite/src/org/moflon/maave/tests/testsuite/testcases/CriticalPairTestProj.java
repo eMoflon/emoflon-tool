@@ -56,7 +56,7 @@ public class CriticalPairTestProj {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       
       DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2, gts,jointlyEpiSetBuilder);
       assertTrue(criticalPairs.getPairsOfDirectDerivations().size()==1);
@@ -95,7 +95,7 @@ public class CriticalPairTestProj {
       
       
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1, rule2,gts,jointlyEpiSetBuilder);
       DirectDerivationPairSet setEmpty=cpBuilder.getAllCriticalPairs(rule1, rule3,gts,jointlyEpiSetBuilder);
 
@@ -131,7 +131,7 @@ public class CriticalPairTestProj {
       
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
     
-      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder);
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
    }
@@ -162,7 +162,7 @@ public class CriticalPairTestProj {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       
-      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+      JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder);
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
    }

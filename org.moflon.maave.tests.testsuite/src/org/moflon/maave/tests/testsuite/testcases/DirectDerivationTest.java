@@ -13,6 +13,7 @@ import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
 import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.graphtransformation.DirectDerivation;
 import org.moflon.maave.tool.graphtransformation.DirectDerivationBuilder;
+import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
@@ -83,8 +84,11 @@ public class DirectDerivationTest {
         
          SymbolicGraphMorphism morL_G=morListL_G.getMorphisms().get(0);
          // build direct derivation
+         GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+         gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+         
          DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
-         DirectDerivation der=derBuilder.deriveDirectDerivation(rule, morL_G);
+         DirectDerivation der=derBuilder.deriveDirectDerivation(rule, morL_G,gts,false);
          
          SymbolicGraph H=der.getComatch().getCodom();
          assertTrue(H.getGraphNodes().size()==3);
@@ -208,8 +212,11 @@ public class DirectDerivationTest {
         
          SymbolicGraphMorphism morL_G=morListL_G.getMorphisms().get(0);
          // build direct derivation
+         GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
+         gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
+         
          DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
-         DirectDerivation der=derBuilder.deriveDirectDerivation(rule, morL_G);
+         DirectDerivation der=derBuilder.deriveDirectDerivation(rule, morL_G,gts,false);
          assertTrue(der==null);
          
          

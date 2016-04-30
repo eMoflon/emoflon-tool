@@ -7,7 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
    TestForStoryPatternToSymbGraTraRules_Basic.class 
-////   ,TestForStoryPatternToProjGraTraRules_Basic.class \\TODO fix
+//   ,TestForStoryPatternToProjGraTraRules_Basic.class \\TODO fix
 //  ,TestForStoryPatternToSymbGraTraRules_NAC.class 
 //   ,TestForStoryPatternToProjGraTraRules_Enum.class
 //   ,MorphismFinderTest.class
@@ -24,10 +24,11 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,JointlyEpiTest.class
 
 //
-   ,ConstraintsToPostAndPreConditionsTest.class
+//   ,ConstraintsToPostAndPreConditionsTest.class
+   ,RBACTest.class,
 //   ,CriticalPairTestProj.class
 //   ,ConfluenceProjTestCMSMandatory.class
-//   
+////   
 //   ,ConfluenceProjTestGAMPaper.class
 //   ,ConfluenceProjTestModelsPaper.class //TODO fix
 //   ,ConfluenceProjTestCMSnew.class

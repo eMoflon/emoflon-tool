@@ -21,135 +21,124 @@ partial class ItterativeDirectDerivationIteratorImpl {
 
 @members <--
 
-   private void setUpMorTriples()
-   {
-      MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
-      SymbolicGraph graphP1 = morN_P1.getCodom();
-      List<SymbGTRule> productions = new LinkedList<SymbGTRule>(gts.getRules());
-      productions.add(this.gts.getIdentityRule());
-      for (SymbGTRule production : productions)
-      {
-         SymbolicGraph graphL = production.getLeft().getCodom();
-         ConfigurableMorphismFinder morFinderForL = morFinderFac.createMorphismFinder(graphL, gts.getMatchMorphismClass());
-         SymbolicGraphMorphism emptyMorL_P1 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-         emptyMorL_P1.setDom(graphL);
-         emptyMorL_P1.setCodom(graphP1);
-         MorphismsSet morSetL_G = morFinderForL.getAllMorphisms(emptyMorL_P1);
-         for (SymbolicGraphMorphism match : morSetL_G.getMorphisms())
-         {
+	private void setUpMorTriples() {
+		MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
+		SymbolicGraph graphP1 = morN_P1.getCodom();
+		List<SymbGTRule> productions = new LinkedList<SymbGTRule>(gts.getRules());
+		productions.add(this.gts.getIdentityRule());
+		for (SymbGTRule production : productions) {
+			SymbolicGraph graphL = production.getLeft().getCodom();
+			ConfigurableMorphismFinder morFinderForL = morFinderFac.createMorphismFinder(graphL,
+					gts.getMatchMorphismClass());
+			SymbolicGraphMorphism emptyMorL_P1 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+			emptyMorL_P1.setDom(graphL);
+			emptyMorL_P1.setCodom(graphP1);
+			MorphismsSet morSetL_G = morFinderForL.getAllMorphisms(emptyMorL_P1);
+			for (SymbolicGraphMorphism match : morSetL_G.getMorphisms()) {
 
-            this.morTriples.add(new StateFullMorN_P3(match, production));
+				this.morTriples.add(new StateFullMorN_P3(match, production));
 
-         }
+			}
 
-      }
+		}
 
-   }
+	}
 
-   private void deriveMorTriple(StateFullMorN_P3 morTriple)
-   {
-      DirectDerivation der = gts.getDirectDerivationBuilder().deriveDirectDerivation(morTriple.production, morTriple.morL_P1);
-      ConfigurableMorphismFinder morFinderForN = morFinderFac.createMorphismFinder(morN_P1.getDom(), morClassForY);
+	private void deriveMorTriple(StateFullMorN_P3 morTriple) {
+		DirectDerivation der = gts.getDirectDerivationBuilder().deriveDirectDerivation(morTriple.production,
+				morTriple.morL_P1,gts,false);
+		ConfigurableMorphismFinder morFinderForN = morFinderFac.createMorphismFinder(morN_P1.getDom(), morClassForY);
 
-      //      SymbolicGraphMorphism emptyMorN_E3 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      //      emptyMorN_E3.setDom(morN_P1.getDom());
-      //      emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
-      CategoryUtil catUtil = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
-      SymbolicGraphMorphism partialMorP1_E3 = catUtil.getInverseMorphism(der.getLeft());
-      SymbolicGraphMorphism partialMorN_E3 = morN_P1.composeWith(partialMorP1_E3);
+		//      SymbolicGraphMorphism emptyMorN_E3 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+		//      emptyMorN_E3.setDom(morN_P1.getDom());
+		//      emptyMorN_E3.setCodom(der.getSpan().getG().getDom());
+		CategoryUtil catUtil = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
+		SymbolicGraphMorphism partialMorP1_E3 = catUtil.getInverseMorphism(der.getLeft());
+		SymbolicGraphMorphism partialMorN_E3 = morN_P1.composeWith(partialMorP1_E3);
 
-      for (SymbolicGraphMorphism morN_E3 : morFinderForN.getAllMorphisms(partialMorN_E3).getMorphisms())
-      {
+		for (SymbolicGraphMorphism morN_E3 : morFinderForN.getAllMorphisms(partialMorN_E3).getMorphisms()) {
 
-         if (checkCommuting(morN_P1, morN_E3, der.getLeft()))
-         {
-            morTriple.morN_P3 = morN_E3.composeWith(der.getRight());
-            return;
-         }
-      }
-      morTriple.isInvalid = true;
+			if (checkCommuting(morN_P1, morN_E3, der.getLeft())) {
+				morTriple.morN_P3 = morN_E3.composeWith(der.getRight());
+				return;
+			}
+		}
+		morTriple.isInvalid = true;
 
-   }
+	}
 
-   private boolean checkCommuting(SymbolicGraphMorphism morN_P1, SymbolicGraphMorphism morN_E3, SymbolicGraphMorphism morE3_P1)
-   {
-      for (Object obj : morN_P1.getDom().getAllElements())
-      {
-         EGraphElement elem = (EGraphElement) obj;
-         if (!(morN_P1.imageOf(elem) == morE3_P1.imageOf(morN_E3.imageOf(elem))))
-         {
-            return false;
-         }
-      }
-      return true;
-   }
+	private boolean checkCommuting(SymbolicGraphMorphism morN_P1, SymbolicGraphMorphism morN_E3,
+			SymbolicGraphMorphism morE3_P1) {
+		for (Object obj : morN_P1.getDom().getAllElements()) {
+			EGraphElement elem = (EGraphElement) obj;
+			if (!(morN_P1.imageOf(elem) == morE3_P1.imageOf(morN_E3.imageOf(elem)))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-   private List<StateFullMorN_P3> morTriples = new LinkedList();
+	private List<StateFullMorN_P3> morTriples = new LinkedList();
 
-   private Iterator<StateFullMorN_P3> morTripleItterator;
+	private Iterator<StateFullMorN_P3> morTripleItterator;
 
-   private SymbolicGraphMorphism morN_P1;
+	private SymbolicGraphMorphism morN_P1;
 
-   private GraphTransformationSystem gts;
+	private GraphTransformationSystem gts;
 
-   private ConfigurableMorphismClassFactory morFac = MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
+	private ConfigurableMorphismClassFactory morFac = MatchingUtilsFactory.eINSTANCE
+			.createConfigurableMorphismClassFactory();
 
-   private ConfigurableMorphismClass morClassForY = morFac.createMorphismClass("I", "I", "I", "I", "*");
+	private ConfigurableMorphismClass morClassForY = morFac.createMorphismClass("I", "I", "I", "I", "*");
 
-   private MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
+	private MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
 
-   private class StateFullMorN_P3
-   {
-      SymbolicGraphMorphism morN_P3 = null;
+	private class StateFullMorN_P3 {
+		SymbolicGraphMorphism morN_P3 = null;
 
-      SymbolicGraphMorphism morL_P1;
+		SymbolicGraphMorphism morL_P1;
 
-      SymbGTRule production;
+		SymbGTRule production;
 
-      boolean isInvalid = false;
+		boolean isInvalid = false;
 
-      public StateFullMorN_P3(SymbolicGraphMorphism match, SymbGTRule production)
-      {
-         this.morL_P1 = match;
-         this.production = production;
-      }
-   }
-   
+		public StateFullMorN_P3(SymbolicGraphMorphism match, SymbGTRule production) {
+			this.morL_P1 = match;
+			this.production = production;
+		}
+	}
+	
 -->
 
 @model getNext () <--
 
-      while (morTripleItterator.hasNext())
-      {
-         StateFullMorN_P3 morTriple = morTripleItterator.next();
-         if (morTriple.morN_P3 != null)
-         {
-            return morTriple.morN_P3;
-         } else if (morTriple.isInvalid == false)
-         {
-            deriveMorTriple(morTriple);
-            if (morTriple.isInvalid == false)
-            {
-               if (morTriple.morN_P3 == null)
-                  throw new RuntimeException("BAAAAAM");
-               return morTriple.morN_P3;
-            }
-         }
-      }
-      return null;
+		while (morTripleItterator.hasNext()) {
+			StateFullMorN_P3 morTriple = morTripleItterator.next();
+			if (morTriple.morN_P3 != null) {
+				return morTriple.morN_P3;
+			} else if (morTriple.isInvalid == false) {
+				deriveMorTriple(morTriple);
+				if (morTriple.isInvalid == false) {
+					if (morTriple.morN_P3 == null)
+						throw new RuntimeException("BAAAAAM");
+					return morTriple.morN_P3;
+				}
+			}
+		}
+		return null;
 -->
 
 @model init (SymbGTRule production, SymbolicGraphMorphism morN_P, GraphTransformationSystem gts) <--
 
-      this.morN_P1 = morN_P;
-      this.gts = gts;
-      setUpMorTriples();
-      this.morTripleItterator = morTriples.iterator();
+		this.morN_P1 = morN_P;
+		this.gts = gts;
+		setUpMorTriples();
+		this.morTripleItterator = morTriples.iterator();
 -->
 
 @model reset () <--
 
-      morTripleItterator = morTriples.iterator();
+		morTripleItterator = morTriples.iterator();
 -->
 
 }

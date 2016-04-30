@@ -12,7 +12,7 @@ import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
 import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.analysis.AnalysisFactory;
 import org.moflon.maave.tool.analysis.ImprovedJointlyEpiSetBuilder;
-import org.moflon.maave.tool.analysis.NonEmptySemanticJointlyEpiSetBuilder;
+import org.moflon.maave.tool.analysis.StandartJointlyEpiSetBuilder;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
@@ -58,7 +58,7 @@ public class JointlyEpiTest {
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       
-      NonEmptySemanticJointlyEpiSetBuilder epiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+      StandartJointlyEpiSetBuilder epiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
 
       MorphismPairSet jointliEpiPairSet= epiSetBuilder.getAllMinimalContexts(L1, L2,gts);
 
@@ -100,7 +100,7 @@ public class JointlyEpiTest {
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       
-      NonEmptySemanticJointlyEpiSetBuilder epiSetBuilder=AnalysisFactory.eINSTANCE.createNonEmptySemanticJointlyEpiSetBuilder();
+      StandartJointlyEpiSetBuilder epiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       long time1start=System.currentTimeMillis();
       MorphismPairSet jointliEpiPairSet= epiSetBuilder.getAllMinimalContexts(L1, L2,gts);
       long time1end=System.currentTimeMillis();

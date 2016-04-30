@@ -1,0 +1,15 @@
+
+import org.moflon.maave.tool.analysis.util.SubgraphBuilder;
+
+partial class StandartJointlyEpiSetBuilderImpl {
+
+
+
+@model getAllSubgraphs (SymbolicGraph symbGraph) <--
+
+
+		SubgraphBuilder subgraphBuilder = new SubgraphBuilder(symbGraph);
+		return subgraphBuilder.getAllSubgraphs();
+-->
+
+}

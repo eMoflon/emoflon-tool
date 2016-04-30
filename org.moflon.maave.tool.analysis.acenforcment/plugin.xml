@@ -3,7 +3,4 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.maave.tool.analysis.acenforcment.AcenforcmentPackage" genModel="model/Acenforcment.genmodel" uri="platform:/plugin/org.moflon.maave.tool.analysis.acenforcment/model/Acenforcment.ecore"/>
   </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="org.moflon.maave.tool.analysis.acenforcment.actheorySolver.ActheorySolverPackage" genModel="model/Acenforcment.genmodel" uri="platform:/plugin/org.moflon.maave.tool.analysis.acenforcment/model/Acenforcment.ecore#//actheorySolver"/>
-  </extension>
 </plugin>

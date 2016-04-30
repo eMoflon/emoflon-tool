@@ -10,8 +10,11 @@ import org.junit.Test;
 import org.moflon.maave.tests.lang.vwxyz.VwxyzPackage;
 import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.analysis.acenforcment.AcenforcmentFactory;
+import org.moflon.maave.tool.analysis.acenforcment.ConstraintsToACBuilder;
 import org.moflon.maave.tool.analysis.acenforcment.IConditionAlongMorphismShifter;
 import org.moflon.maave.tool.analysis.acenforcment.IConditionAlongRuleShifter;
+import org.moflon.maave.tool.graphtransformation.DirectDerivationBuilder;
+import org.moflon.maave.tool.graphtransformation.DirectDerivationSet;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
@@ -99,24 +102,21 @@ public class ConstraintsToPostAndPreConditionsTest {
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
-      //Add ArityConstraints
+      //Init
       GlobalConstraint nC=ModelHelper.getUserDefConstraints(pack);
-      SymbolicGraph graphI=nC.getConditions().get(1);
-
+      nC.getConditions().remove(0);
+      gts.getGlobalConstraints().add(nC);
+      
       SymbGTRule rule = ModelHelper.getRule(cls,"rule1");
-      SymbolicGraph graphR=rule.getRight().getCodom();
       SymbolicGraph graphL=rule.getLeft().getCodom();
-      //Constraint to Postcondition
-      SymbolicGraphMorphism morI_R=SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      morI_R.setDom(graphI);
-      morI_R.setCodom(graphR);
-      IConditionAlongMorphismShifter condMorShifter=AcenforcmentFactory.eINSTANCE.createConditionAlongMorphismShifter();
-      condMorShifter.setGraphTransformationSystem(gts);
-      condMorShifter.shiftAllConditonsAlongMorphism(morI_R);
+      gts.getRules().add(rule);  
+
+      //verifyConstraints
+      ConstraintsToACBuilder acBuilder=AcenforcmentFactory.eINSTANCE.createConstraintsToACBuilder();
+      acBuilder.verifyGTS(gts);
       
       
-      IConditionAlongRuleShifter condRuleShifter = AcenforcmentFactory.eINSTANCE.createConditionAlongRuleShifter();
-      condRuleShifter.shiftAllConditionsLeft(rule);
+      
       //Test Postcondition AC
       
       SymbolicGraph graphG=ModelHelper.getRule(cls,"testpattern2Inconsistent").getLeft().getCodom();
@@ -130,10 +130,12 @@ public class ConstraintsToPostAndPreConditionsTest {
       MorphismFinderFactory morFinderFac=MatchingFactory.eINSTANCE.createMorphismFinderFactory();
       IMorphismFinder morFinderForL=morFinderFac.createMorphismFinder(graphL, gts.getMatchMorphismClass());
       MorphismsSet morSetL_G=morFinderForL.getAllMorphisms(emptyMorL_G);
-      for (SymbolicGraphMorphism morL_G : morSetL_G.getMorphisms())
-      {
-         assertTrue(graphL.getConditions().stream().anyMatch(x->x.isSat(morL_G, gts.getMatchMorphismClass())==false));
-      }
+      
+      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+      DirectDerivationSet derSet=derBuilder.deriveAllDirectDerivations(rule, morSetL_G, gts, true);
+      
+      assertTrue(derSet.getDirectDerivations().size()==0);
+      
       
 
 
@@ -155,24 +157,18 @@ public class ConstraintsToPostAndPreConditionsTest {
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
-      //Add ArityConstraints
+    //Init
       GlobalConstraint nC=ModelHelper.getUserDefConstraints(pack);
-      SymbolicGraph graphI=nC.getConditions().get(1);
-
+      nC.getConditions().remove(0);
+      gts.getGlobalConstraints().add(nC);
+      
       SymbGTRule rule = ModelHelper.getRule(cls,"rule1");
-      SymbolicGraph graphR=rule.getRight().getCodom();
       SymbolicGraph graphL=rule.getLeft().getCodom();
-      //Constraint to Postcondition
-      SymbolicGraphMorphism morI_R=SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-      morI_R.setDom(graphI);
-      morI_R.setCodom(graphR);
-      IConditionAlongMorphismShifter condMorShifter=AcenforcmentFactory.eINSTANCE.createConditionAlongMorphismShifter();
-      condMorShifter.setGraphTransformationSystem(gts);
-      condMorShifter.shiftAllConditonsAlongMorphism(morI_R);
-      
-      
-      IConditionAlongRuleShifter condRuleShifter = AcenforcmentFactory.eINSTANCE.createConditionAlongRuleShifter();
-      condRuleShifter.shiftAllConditionsLeft(rule);
+      gts.getRules().add(rule);  
+
+      //verifyConstraints
+      ConstraintsToACBuilder acBuilder=AcenforcmentFactory.eINSTANCE.createConstraintsToACBuilder();
+      acBuilder.verifyGTS(gts);
       //Test Postcondition AC
       
       SymbolicGraph graphG=ModelHelper.getRule(cls,"testpattern2consistent").getLeft().getCodom();
@@ -186,11 +182,10 @@ public class ConstraintsToPostAndPreConditionsTest {
       MorphismFinderFactory morFinderFac=MatchingFactory.eINSTANCE.createMorphismFinderFactory();
       IMorphismFinder morFinderForL=morFinderFac.createMorphismFinder(graphL, gts.getMatchMorphismClass());
       MorphismsSet morSetL_G=morFinderForL.getAllMorphisms(emptyMorL_G);
-      for (SymbolicGraphMorphism morL_G : morSetL_G.getMorphisms())
-      {
-         assertFalse(graphL.getConditions().stream().anyMatch(x->x.isSat(morL_G, gts.getMatchMorphismClass())==false));
-      }
       
+      DirectDerivationBuilder derBuilder=GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder();
+      DirectDerivationSet derSet=derBuilder.deriveAllDirectDerivations(rule, morSetL_G, gts, true);
+      assertTrue(derSet.getDirectDerivations().size()>0);
 
 
    }

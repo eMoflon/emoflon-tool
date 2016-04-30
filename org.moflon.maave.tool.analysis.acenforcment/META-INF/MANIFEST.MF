@@ -1,12 +1,9 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.maave.tool.analysis.acenforcment;singl
  eton:=true
-Export-Package: org.moflon.maave.tool.analysis.acenforcment.impl,
- org.moflon.maave.tool.analysis.acenforcment,
- org.moflon.maave.tool.analysis.acenforcment.util,
- org.moflon.maave.tool.analysis.acenforcment.actheorySolver.util,
- org.moflon.maave.tool.analysis.acenforcment.actheorySolver.impl,
- org.moflon.maave.tool.analysis.acenforcment.actheorySolver
+Export-Package: org.moflon.maave.tool.analysis.acenforcment,
+ org.moflon.maave.tool.analysis.acenforcment.impl,
+ org.moflon.maave.tool.analysis.acenforcment.util
 Bundle-Name: org.moflon.maave.tool.analysis.acenforcment
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
