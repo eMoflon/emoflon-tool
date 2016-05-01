@@ -19,8 +19,11 @@ import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
+import org.moflon.maave.tool.graphtransformation.conditions.AtomicCond;
+import org.moflon.maave.tool.graphtransformation.conditions.NegCond;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Condition;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.IMorphismFinder;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
@@ -60,7 +63,16 @@ public class RBACTest {
       //verifyConstraints
       ConstraintsToACBuilder acBuilder=AcenforcmentFactory.eINSTANCE.createConstraintsToACBuilder();
       acBuilder.verifyGTS(gts);
-      System.out.println();
+      assertTrue(rule.getLeft().getCodom().getConditions().size()==1);
+      for (Condition cond: rule.getLeft().getCodom().getConditions())
+      {
+         NegCond negCond=(NegCond) cond;
+         AtomicCond atomicCond=(AtomicCond) negCond.getNegCondition();
+         assertTrue(gts.checkConsistency(atomicCond.getMorP_C().getCodom()).isValid());
+         
+      }
+		
+	
       
       
       

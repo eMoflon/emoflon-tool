@@ -1,0 +1,35 @@
+
+partial class ConstraintsToACBuilderImpl {
+
+
+
+@model verifyGTS (GraphTransformationSystem gts) <--
+
+      this.setConditionAlongMorphismShifter(AcenforcmentFactory.eINSTANCE.createConditionAlongMorphismShifter());
+      this.setConditionAlongRuleShifter(AcenforcmentFactory.eINSTANCE.createConditionAlongRuleShifter());
+      this.getConditionAlongMorphismShifter().setGraphTransformationSystem(gts);
+      this.getConditionAlongRuleShifter().setGraphTransformationSystem(gts);
+      if(WsInfo.getVerboseLevel()>=5)
+      {
+         System.out.println("=========Verifying constraints for GTS=========");
+      }
+      for (SymbGTRule rule : gts.getRules())
+      {
+         if(WsInfo.getVerboseLevel()>=5)
+         {
+            System.out.print("Verifying constraints for Rule: "+rule.getName());
+         }
+         for (GlobalConstraint gc : gts.getGlobalConstraints())
+         {
+            this.transformAllConstraints(rule, gc);
+         }
+         if(WsInfo.getVerboseLevel()>=5)
+         {
+            System.out.print(" ::Finished \n");
+            
+         }
+      }
+      this.mimimize(gts);
+-->
+
+}

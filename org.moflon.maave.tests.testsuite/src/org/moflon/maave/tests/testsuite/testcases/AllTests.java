@@ -25,12 +25,13 @@ import org.junit.runners.Suite.SuiteClasses;
 
 //
 //   ,ConstraintsToPostAndPreConditionsTest.class
-   ,RBACTest.class,
+//   ,RBACTest.class,
 //   ,CriticalPairTestProj.class
 //   ,ConfluenceProjTestCMSMandatory.class
 ////   
 //   ,ConfluenceProjTestGAMPaper.class
 //   ,ConfluenceProjTestModelsPaper.class //TODO fix
+   ,ApplicationConditionTestCMSnew.class
 //   ,ConfluenceProjTestCMSnew.class
 //    ,kTCExample.class
 
