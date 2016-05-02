@@ -1,0 +1,84 @@
+
+import org.moflon.maave.tool.analysis.acenforcment.AcenforcmentFactory;
+import java.util.HashMap;
+
+partial class ACEnforcmentReportImpl {
+
+@members <--
+
+   public HashMap<SymbGTRule, ACEnforcementResult> ruleToResultMap = new HashMap<SymbGTRule, ACEnforcementResult>();
+   
+-->
+
+@model lookupResult (SymbGTRule rule) <--
+
+      ACEnforcementResult result = ruleToResultMap.get(rule);
+      if (result == null)
+      {
+         result = AcenforcmentFactory.eINSTANCE.createACEnforcementResult();
+         result.setRuleName(rule.getName());
+         ruleToResultMap.put(rule, result);
+      }
+      return result;
+-->
+
+@model print () <--
+
+      StringBuilder sb = new StringBuilder();
+      sb.append("=========================================== ACReport ===========================================\n");
+      sb.append("#Rules=" + this.getNrOfRules() + "\n");
+      sb.append("#Constraints=" + this.getNrOfConstraints() + "\n");
+      sb.append("TimeOverall=" + this.getTimeOverall() + "ms\n");
+      sb.append("TimeOverallMinimize=" + this.getTimeMinimize() + "ms\n");
+      for (ACEnforcementResult result : ruleToResultMap.values())
+      {
+         sb.append(result.print());
+      }
+      sb.append("================================================================================================\n");
+      return sb.toString();
+-->
+
+@model printCSV () <--
+
+      StringBuilder sb = new StringBuilder();
+      sb.append("Production;");
+      sb.append("#PreconditionNACs raw;");
+      sb.append("#PreconditionNACs Filtered Guaranteeing NACs;");
+      sb.append("#PreconditionNACs Filtered Subsumed NACs;");
+      sb.append("time NC to NAC;");
+      sb.append("time Filter G;");
+      sb.append("time Filter Subsumed\n");
+      for (ACEnforcementResult result : ruleToResultMap.values())
+      {
+         sb.append(result.getRuleName() + ";");
+         sb.append(result.getNrOfPreACRaw() + ";");
+         sb.append(result.getNrOfPreAcRemGuaranteeingAC() + ";");
+         sb.append(result.getNrOfPreAC() + ";");
+         sb.append(result.getTimeConstToPrecond() + ";");
+         sb.append(result.getTimeRemoveGuaranteeingAC() + ";");
+         sb.append(result.getTimeMinimizeRedAC() + "\n");
+      }
+      return sb.toString();
+-->
+
+@model printOverallCSV () <--
+
+      StringBuilder sb = new StringBuilder();
+      sb.append(this.getNrOfRules() + ";");
+      sb.append(this.getNrOfConstraints() + ";");
+      sb.append(this.getTimeOverall() + ";");
+      sb.append(this.getTimeMinimize() + "\n");
+      return sb.toString();
+-->
+
+@model printOverallCSVHeader () <--
+
+      StringBuilder sb = new StringBuilder();
+      sb.append("#Rules;");
+      sb.append("#Constraints;");
+      sb.append("timeOverall;");
+      sb.append("timeMinimize\n");
+      return sb.toString();
+-->
+
+}

@@ -1,4 +1,7 @@
 
+import org.moflon.maave.tool.analysis.acenforcment.ACEnforcementResult;
+import org.moflon.maave.wsconfig.WsInfo;
+
 partial class ConstraintsToACBuilderImpl {
 
 
@@ -9,27 +12,66 @@ partial class ConstraintsToACBuilderImpl {
       this.setConditionAlongRuleShifter(AcenforcmentFactory.eINSTANCE.createConditionAlongRuleShifter());
       this.getConditionAlongMorphismShifter().setGraphTransformationSystem(gts);
       this.getConditionAlongRuleShifter().setGraphTransformationSystem(gts);
-      if(WsInfo.getVerboseLevel()>=5)
+      this.setCurrentReport(AcenforcmentFactory.eINSTANCE.createACEnforcmentReport());
+      this.getCurrentReport().setNrOfRules(gts.getRules().size());
+      
+      this.getCurrentReport().setNrOfConstraints(0);
+      for (GlobalConstraint gc : gts.getGlobalConstraints())
+      {
+         this.getCurrentReport().setNrOfConstraints(this.getCurrentReport().getNrOfConstraints() + gc.getConditions().size());
+      }
+      if (WsInfo.getVerboseLevel() >= 5)
       {
          System.out.println("=========Verifying constraints for GTS=========");
       }
+
+      long absTimeStartOverall = System.currentTimeMillis();
       for (SymbGTRule rule : gts.getRules())
       {
-         if(WsInfo.getVerboseLevel()>=5)
+         if (WsInfo.getVerboseLevel() >= 5)
          {
-            System.out.print("Verifying constraints for Rule: "+rule.getName());
+            System.out.print("Verifying constraints for Rule: " + rule.getName());
          }
+
+         long startTime = System.currentTimeMillis();
          for (GlobalConstraint gc : gts.getGlobalConstraints())
          {
+            
             this.transformAllConstraints(rule, gc);
          }
-         if(WsInfo.getVerboseLevel()>=5)
+         this.getCurrentReport().lookupResult(rule).setTimeConstToPrecond(System.currentTimeMillis() - startTime);
+         this.getCurrentReport().lookupResult(rule).setNrOfPreACRaw(rule.getLeft().getCodom().getConditions().size());
+         if (WsInfo.getVerboseLevel() >= 5)
          {
             System.out.print(" ::Finished \n");
-            
+
          }
       }
+      long absTimeStartMimize = System.currentTimeMillis();
       this.mimimize(gts);
+      this.getCurrentReport().setTimeMinimize(System.currentTimeMillis() - absTimeStartMimize);
+      this.getCurrentReport().setTimeOverall(System.currentTimeMillis() - absTimeStartOverall);
+      return this.getCurrentReport();
+-->
+
+@model mimimize (GraphTransformationSystem gts) <--
+
+      NacAndPacMinimizer nacAndPacMinimizer = AcenforcmentFactory.eINSTANCE.createNacAndPacMinimizer();
+      for (SymbGTRule rule : gts.getRules())
+      {
+         long absTimeStart = System.currentTimeMillis();
+         nacAndPacMinimizer.removeGuaranteeingAc(rule, gts);
+         long absTimeRemoveGuaranteeingAC = System.currentTimeMillis();
+
+         ACEnforcementResult currentResult = this.getCurrentReport().lookupResult(rule);
+
+         currentResult.setTimeRemoveGuaranteeingAC(absTimeRemoveGuaranteeingAC - absTimeStart);
+         currentResult.setNrOfPreAcRemGuaranteeingAC(rule.getLeft().getCodom().getConditions().size());
+
+         nacAndPacMinimizer.removeSubsumedAc(rule, gts);
+         currentResult.setTimeMinimizeRedAC(System.currentTimeMillis() - absTimeRemoveGuaranteeingAC);
+         currentResult.setNrOfPreAC(rule.getLeft().getCodom().getConditions().size());
+      }
 -->
 
 }

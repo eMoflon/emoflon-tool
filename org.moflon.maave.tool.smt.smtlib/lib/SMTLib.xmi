@@ -221,6 +221,18 @@
     <parameters
         paramSort="//@sorts.3"/>
   </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="=?"
+      smtPredicateDefinition="(= (= x!0 x!1) x!2)"
+      smtSymbol="isEqNAT">
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.0"/>
+    <parameters
+        paramSort="//@sorts.2"/>
+  </predicateSpec>
   <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:PrimitiveSort"
       id="NAT"
       sortSymbol="Int"

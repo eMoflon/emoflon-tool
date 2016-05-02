@@ -58,7 +58,7 @@ partial class SymbolicGraphCatImpl {
       SymbolicGraphMorphism morD_G = util.copyGraph(G);
       SymbolicGraph D = morD_G.getDom();
       D.setName("D");
-      SymbolicGraphMorphism morG_D = util.getInverseIfIsomorphism(morD_G);
+      SymbolicGraphMorphism morG_D = util.getInverseMorphism(morD_G);
       SymbolicGraphMorphism morK_G = morK_L.composeWith(morL_G);//needed later for image
       SymbolicGraphMorphism morK_D = morK_G.composeWith(morG_D);
       Quantifier quantifier = D.getFormula().getQuantifier();
@@ -517,7 +517,7 @@ partial class SymbolicGraphCatImpl {
       SymbolicGraphMorphism morPf_B = mor;
       SymbolicGraph B = morPf_B.getCodom();
       CategoryUtil catUtil = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
-      SymbolicGraphMorphism morB_Bf = catUtil.getInverseIfIsomorphism(catUtil.copyGraph(B));
+      SymbolicGraphMorphism morB_Bf = catUtil.getInverseMorphism(catUtil.copyGraph(B));
       SymbolicGraphMorphism morPf_Bf = morPf_B.composeWith(morB_Bf);
       SymbolicGraph Bf = morPf_Bf.getCodom();
       if (Bf.getFormula() != null)
@@ -571,7 +571,7 @@ partial class SymbolicGraphCatImpl {
       SymbolicGraphMorphism morD_G = util.copyGraph(G);
       SymbolicGraph D = morD_G.getDom();
       D.setName("D");
-      SymbolicGraphMorphism morG_D = util.getInverseIfIsomorphism(morD_G);
+      SymbolicGraphMorphism morG_D = util.getInverseMorphism(morD_G);
       SymbolicGraphMorphism morK_G = morK_L.composeWith(morL_G);//needed later for image
       SymbolicGraphMorphism morK_D = morK_G.composeWith(morG_D);
       Quantifier quantifier = D.getFormula().getQuantifier();

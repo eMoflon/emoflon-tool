@@ -6017,6 +6017,129 @@
               <attribute name="typeGuid" value="" index="2" />
               <attribute name="returnType" value="void" index="3" />
             </children>
+            <children name="EOperation" index="6" xsi:type="MocaTree:Node">
+              <children name="parameters" index="0" xsi:type="MocaTree:Node">
+                <children name="EParameter" index="0" xsi:type="MocaTree:Node">
+                  <attribute name="type" value="Room" index="0" />
+                  <attribute name="name" value="room" index="1" />
+                  <attribute name="typeGuid" value="{9123F9E9-EB17-4ffd-AE60-D4420C2A30FF}" index="2" />
+                  <attribute name="guid" value="{DC15F38C-81EC-478e-A30B-E050D07733C0}" index="3" />
+                </children>
+              </children>
+              <children name="Activity" index="1" xsi:type="MocaTree:Node">
+                <children name="ActivityNode" index="0" xsi:type="MocaTree:Node">
+                  <children name="outgoingTransitions" index="0" xsi:type="MocaTree:Node">
+                    <children name="ActivityEdge" index="0" xsi:type="MocaTree:Node">
+                      <attribute name="sourceGuid" value="{85C6B84D-2BBF-4aaa-8439-24D04CB2291C}" index="0" />
+                      <attribute name="targetGuid" value="{E3757384-F711-4765-BD05-CC967270CC63}" index="1" />
+                      <attribute name="edgeGuard" value="none" index="2" />
+                      <attribute name="guid" value="{FD730DC5-6301-49a8-AE1E-C0C42DA974A9}" index="3" />
+                    </children>
+                  </children>
+                  <attribute name="name" value="UserDefinedConstraints::_NC_NoCompetingBookings (room: Room): " index="0" />
+                  <attribute name="guid" value="{85C6B84D-2BBF-4aaa-8439-24D04CB2291C}" index="1" />
+                  <attribute name="type" value="start" index="2" />
+                </children>
+                <children name="ActivityNode" index="1" xsi:type="MocaTree:Node">
+                  <children name="outgoingTransitions" index="0" xsi:type="MocaTree:Node">
+                    <children name="ActivityEdge" index="0" xsi:type="MocaTree:Node">
+                      <attribute name="sourceGuid" value="{E3757384-F711-4765-BD05-CC967270CC63}" index="0" />
+                      <attribute name="targetGuid" value="{6ADA58A2-D5BC-4986-A03D-CCA22FDBB29B}" index="1" />
+                      <attribute name="edgeGuard" value="none" index="2" />
+                      <attribute name="guid" value="{3351DE72-28A7-46e7-9433-B8E46BF5C4C3}" index="3" />
+                    </children>
+                  </children>
+                  <children name="objectVariables" index="1" xsi:type="MocaTree:Node">
+                    <children name="ObjectVariable" index="0" xsi:type="MocaTree:Node">
+                      <children name="constraints" index="0" xsi:type="MocaTree:Node" />
+                      <children name="attributeAssignments" index="1" xsi:type="MocaTree:Node" />
+                      <children name="outgoingLinks" index="2" xsi:type="MocaTree:Node">
+                        <children name="LinkVariable" index="0" xsi:type="MocaTree:Node">
+                          <attribute name="name" value="reservations" index="0" />
+                          <attribute name="sourceGuid" value="{191BD942-8764-4a80-A868-107D7F87C9EE}" index="1" />
+                          <attribute name="targetGuid" value="{BA85440A-519E-4de7-A241-BF6B3AFF3332}" index="2" />
+                          <attribute name="bindingOperator" value="check_only" index="3" />
+                          <attribute name="bindingSemantics" value="mandatory" index="4" />
+                          <attribute name="sourceName" value="room" index="5" />
+                          <attribute name="nacIndex" value="-1" index="6" />
+                          <attribute name="textOfReference" value="" index="7" />
+                          <attribute name="textOfReferenceOpposite" value="" index="8" />
+                          <attribute name="idOfReference" value="{36BAF7B7-93CC-4e09-BD9C-1A5FEBFAE594}" index="9" />
+                          <attribute name="direction" value="bi" index="10" />
+                          <attribute name="guid" value="{E95AA4D4-3FCD-4bb5-BB40-036E132E1C30}" index="11" />
+                        </children>
+                        <children name="LinkVariable" index="1" xsi:type="MocaTree:Node">
+                          <attribute name="name" value="reservations" index="0" />
+                          <attribute name="sourceGuid" value="{191BD942-8764-4a80-A868-107D7F87C9EE}" index="1" />
+                          <attribute name="targetGuid" value="{3A04E30D-F827-46c0-9443-0BAA0DFDCA35}" index="2" />
+                          <attribute name="bindingOperator" value="check_only" index="3" />
+                          <attribute name="bindingSemantics" value="mandatory" index="4" />
+                          <attribute name="sourceName" value="room" index="5" />
+                          <attribute name="nacIndex" value="-1" index="6" />
+                          <attribute name="textOfReference" value="" index="7" />
+                          <attribute name="textOfReferenceOpposite" value="" index="8" />
+                          <attribute name="idOfReference" value="{36BAF7B7-93CC-4e09-BD9C-1A5FEBFAE594}" index="9" />
+                          <attribute name="direction" value="bi" index="10" />
+                          <attribute name="guid" value="{964B37B0-E875-4272-887A-0F2A365314CE}" index="11" />
+                        </children>
+                      </children>
+                      <attribute name="guid" value="{191BD942-8764-4a80-A868-107D7F87C9EE}" index="0" />
+                      <attribute name="typeGuid" value="{9123F9E9-EB17-4ffd-AE60-D4420C2A30FF}" index="1" />
+                      <attribute name="bindingState" value="bound" index="2" />
+                      <attribute name="bindingOperator" value="check_only" index="3" />
+                      <attribute name="name" value="room" index="4" />
+                      <attribute name="bindingSemantics" value="mandatory" index="5" />
+                      <attribute name="nacIndex" value="-1" index="6" />
+                    </children>
+                    <children name="ObjectVariable" index="1" xsi:type="MocaTree:Node">
+                      <children name="constraints" index="0" xsi:type="MocaTree:Node" />
+                      <children name="attributeAssignments" index="1" xsi:type="MocaTree:Node" />
+                      <children name="outgoingLinks" index="2" xsi:type="MocaTree:Node" />
+                      <attribute name="guid" value="{3A04E30D-F827-46c0-9443-0BAA0DFDCA35}" index="0" />
+                      <attribute name="typeGuid" value="{F99699ED-B491-4df2-818E-EA4A2F525BF6}" index="1" />
+                      <attribute name="bindingState" value="unbound" index="2" />
+                      <attribute name="bindingOperator" value="check_only" index="3" />
+                      <attribute name="name" value="boA" index="4" />
+                      <attribute name="bindingSemantics" value="mandatory" index="5" />
+                      <attribute name="nacIndex" value="-1" index="6" />
+                    </children>
+                    <children name="ObjectVariable" index="2" xsi:type="MocaTree:Node">
+                      <children name="constraints" index="0" xsi:type="MocaTree:Node" />
+                      <children name="attributeAssignments" index="1" xsi:type="MocaTree:Node" />
+                      <children name="outgoingLinks" index="2" xsi:type="MocaTree:Node" />
+                      <attribute name="guid" value="{BA85440A-519E-4de7-A241-BF6B3AFF3332}" index="0" />
+                      <attribute name="typeGuid" value="{F99699ED-B491-4df2-818E-EA4A2F525BF6}" index="1" />
+                      <attribute name="bindingState" value="unbound" index="2" />
+                      <attribute name="bindingOperator" value="check_only" index="3" />
+                      <attribute name="name" value="boB" index="4" />
+                      <attribute name="bindingSemantics" value="mandatory" index="5" />
+                      <attribute name="nacIndex" value="-1" index="6" />
+                    </children>
+                  </children>
+                  <children name="AttributeConstraints" index="2" xsi:type="MocaTree:Node">
+                    <children name="AttributeConstraint" index="0" xsi:type="MocaTree:Node">
+                      <attribute name="constraintSpec" value="importPackage Ecore;&#xD;&#xA;&gt;=(boA.end,boB.begin);&#xD;&#xA;&gt;=(boB.end,boA.begin);" index="0" />
+                      <attribute name="nacIndex" value="-1" index="1" />
+                    </children>
+                  </children>
+                  <attribute name="name" value="ActivityNode7" index="0" />
+                  <attribute name="guid" value="{E3757384-F711-4765-BD05-CC967270CC63}" index="1" />
+                  <attribute name="forEach" value="false" index="2" />
+                  <attribute name="type" value="story" index="3" />
+                </children>
+                <children name="ActivityNode" index="2" xsi:type="MocaTree:Node">
+                  <children name="outgoingTransitions" index="0" xsi:type="MocaTree:Node" />
+                  <attribute name="name" value="" index="0" />
+                  <attribute name="guid" value="{6ADA58A2-D5BC-4986-A03D-CCA22FDBB29B}" index="1" />
+                  <attribute name="type" value="stop" index="2" />
+                </children>
+                <attribute name="guid" value="{658999BD-651D-4d2f-82CD-701A070FA1B1}" index="0" />
+              </children>
+              <attribute name="name" value="_NC_NoCompetingBookings" index="0" />
+              <attribute name="guid" value="{1728B175-E9C7-4d02-9C35-80F6AB525707}" index="1" />
+              <attribute name="typeGuid" value="" index="2" />
+              <attribute name="returnType" value="void" index="3" />
+            </children>
           </children>
           <attribute name="name" value="UserDefinedConstraints" index="0" />
           <attribute name="isAbstract" value="false" index="1" />

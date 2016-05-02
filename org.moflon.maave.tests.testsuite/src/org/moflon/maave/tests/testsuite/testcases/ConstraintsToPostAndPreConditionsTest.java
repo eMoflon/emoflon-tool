@@ -9,6 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.moflon.maave.tests.lang.vwxyz.VwxyzPackage;
 import org.moflon.maave.tests.testsuite.helper.ModelHelper;
+import org.moflon.maave.tool.analysis.acenforcment.ACEnforcmentReport;
 import org.moflon.maave.tool.analysis.acenforcment.AcenforcmentFactory;
 import org.moflon.maave.tool.analysis.acenforcment.ConstraintsToACBuilder;
 import org.moflon.maave.tool.analysis.acenforcment.IConditionAlongMorphismShifter;
@@ -32,7 +33,7 @@ import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.M
 public class ConstraintsToPostAndPreConditionsTest {
 
 
-   @Ignore
+   
    @Test
    public void test1() {
       System.out.println("");
@@ -85,7 +86,7 @@ public class ConstraintsToPostAndPreConditionsTest {
 
 
    }
-   @Ignore
+   
    @Test
    public void test2() {
       System.out.println("");
@@ -115,10 +116,10 @@ public class ConstraintsToPostAndPreConditionsTest {
 
       //verifyConstraints
       ConstraintsToACBuilder acBuilder=AcenforcmentFactory.eINSTANCE.createConstraintsToACBuilder();
-      acBuilder.verifyGTS(gts);
+      ACEnforcmentReport report=acBuilder.verifyGTS(gts);
 
 
-
+      System.out.println(report.print());
       //Test Postcondition AC
 
       SymbolicGraph graphG=ModelHelper.getRule(cls,"testpattern2Inconsistent").getLeft().getCodom();
@@ -142,7 +143,7 @@ public class ConstraintsToPostAndPreConditionsTest {
 
 
    }
-   @Ignore
+   
    @Test
    public void test3() {
 
