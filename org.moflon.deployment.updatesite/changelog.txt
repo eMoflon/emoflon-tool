@@ -117,3 +117,8 @@
 2016-04-26  Our new textual concrete syntax for TGGs, MOSL-TGG, is now more or less usable.   Many issues are still open but one can work with it already.
 2016-04-26  The handbook chapter on TGGs has had a major update and now uses MOSL-TGG.
 2016-04-26  Our delta editor for model synchronisation has been improved and tested
+2016-04-28	Introduce new modules to structure eMoflon developer workspace
+2016-04-28	Discontinue Part 5 of handbook
+2016-04-28	Documenation of new features in SDM CPSs
+2016-05-03	More selective export during workspace installation #706
+2016-05-03	eMoflon 2.15.0 released
