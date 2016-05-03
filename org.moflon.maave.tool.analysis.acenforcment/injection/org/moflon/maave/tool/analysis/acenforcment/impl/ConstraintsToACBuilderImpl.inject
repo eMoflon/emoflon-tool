@@ -14,7 +14,7 @@ partial class ConstraintsToACBuilderImpl {
       this.getConditionAlongRuleShifter().setGraphTransformationSystem(gts);
       this.setCurrentReport(AcenforcmentFactory.eINSTANCE.createACEnforcmentReport());
       this.getCurrentReport().setNrOfRules(gts.getRules().size());
-      
+
       this.getCurrentReport().setNrOfConstraints(0);
       for (GlobalConstraint gc : gts.getGlobalConstraints())
       {
@@ -32,15 +32,32 @@ partial class ConstraintsToACBuilderImpl {
          {
             System.out.print("Verifying constraints for Rule: " + rule.getName());
          }
-
+         ACEnforcementResult currentResult=this.getCurrentReport().lookupResult(rule);
          long startTime = System.currentTimeMillis();
          for (GlobalConstraint gc : gts.getGlobalConstraints())
          {
-            
-            this.transformAllConstraints(rule, gc);
+            for (SymbolicGraph constraint : gc.getConditions())
+            {
+               SymbolicGraphMorphism morI_R=SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+               morI_R.setDom(constraint);
+               morI_R.setCodom(rule.getRight().getCodom());
+               
+               long absTimeStartShift=System.currentTimeMillis();
+               this.getConditionAlongMorphismShifter().shiftAllConditonsAlongMorphism(morI_R);
+               currentResult.setTimeForPostNacs(System.currentTimeMillis()-absTimeStartShift);
+               currentResult.setNrOfPostNACs(rule.getRight().getCodom().getConditions().size());
+               
+               long absTimeStartPostToPre=System.currentTimeMillis();
+               this.getConditionAlongRuleShifter().shiftAllConditionsLeft(rule);
+               rule.getRight().getCodom().getConditions().clear();
+               currentResult.setTimePostToPre(System.currentTimeMillis()-absTimeStartPostToPre);
+               currentResult.setNrOfPreACRaw(rule.getLeft().getCodom().getConditions().size());
+               
+            }
+           
          }
          this.getCurrentReport().lookupResult(rule).setTimeConstToPrecond(System.currentTimeMillis() - startTime);
-         this.getCurrentReport().lookupResult(rule).setNrOfPreACRaw(rule.getLeft().getCodom().getConditions().size());
+         
          if (WsInfo.getVerboseLevel() >= 5)
          {
             System.out.print(" ::Finished \n");

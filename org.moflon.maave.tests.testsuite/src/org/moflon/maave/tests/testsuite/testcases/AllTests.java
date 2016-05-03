@@ -28,7 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //   ,ConfluenceProjTestCMSMandatory.class
 ////   
 //   ,ConfluenceProjTestGAMPaper.class
-//   ,ConfluenceProjTestModelsPaper.class //TODO fix
+////   ,ConfluenceProjTestModelsPaper.class //TODO fix
    ,ApplicationConditionTestCMSnew.class
 //   ,ConfluenceProjTestCMSnew.class
 //    ,kTCExample.class

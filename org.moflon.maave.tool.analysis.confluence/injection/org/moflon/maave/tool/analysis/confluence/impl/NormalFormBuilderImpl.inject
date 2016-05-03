@@ -57,7 +57,7 @@ partial class NormalFormBuilderImpl {
    
 -->
 
-@model checkZ(SymbolicGraphMorphism morN_P3, SymbolicGraphMorphism morN_P4) <--
+@model checkZ (SymbolicGraphMorphism morN_P3, SymbolicGraphMorphism morN_P4) <--
 
       CategoryUtil catUtil = MatchingUtilsFactory.eINSTANCE.createCategoryUtil();
       ConfigurableMorphismClassFactory morClassFac = MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
@@ -66,13 +66,13 @@ partial class NormalFormBuilderImpl {
 
       SymbolicGraph graphP3 = morN_P3.getCodom();
       SymbolicGraphMorphism morZ3_P3 = catUtil.copyGraph(graphP3);
-      SymbolicGraphMorphism morN_Z3 = morN_P3.composeWith(catUtil.getInverseIfIsomorphism(morZ3_P3));
+      SymbolicGraphMorphism morN_Z3 = morN_P3.composeWith(catUtil.getInverseMorphism(morZ3_P3));
       derivePossibleZ(morN_P3, morZ3_P3);
       SymbolicGraph graphZ3 = morZ3_P3.getDom();
 
       SymbolicGraph graphP4 = morN_P4.getCodom();
       SymbolicGraphMorphism morZ4_P4 = catUtil.copyGraph(graphP4);
-      SymbolicGraphMorphism morN_Z4 = morN_P4.composeWith(catUtil.getInverseIfIsomorphism(morZ4_P4));
+      SymbolicGraphMorphism morN_Z4 = morN_P4.composeWith(catUtil.getInverseMorphism(morZ4_P4));
       derivePossibleZ(morN_P4, morZ4_P4);
       SymbolicGraph graphZ4 = morZ4_P4.getDom();
 

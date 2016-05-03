@@ -20,15 +20,17 @@ import org.moflon.maave.tool.analysis.confluence.prettyprinter.ConfluenceAnalysi
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
+import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.MetaModelConstraintBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
 
 public class ApplicationConditionTestCMSnew {
 
-   //   @Ignore
+//      @Ignore
    @Test
    public void test_Combined_v0() {
       System.out.println("");
@@ -39,7 +41,7 @@ public class ApplicationConditionTestCMSnew {
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cmsNew", "CmsNew");
 
       List<ACEnforcmentReport>reports=new LinkedList<ACEnforcmentReport>();
-      for(int i=0; i<20;i++)
+      for(int i=0; i<1;i++)
       {
          GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
 
@@ -66,7 +68,11 @@ public class ApplicationConditionTestCMSnew {
          gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"reset_v0"));
          gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateLecture_v0"));
          gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateExam_v0"));
-
+         
+         for (SymbGTRule  rule : gts.getRules())
+         {
+            rule.getRight().getCodom().setName("L_"+rule.getName());
+         }
          ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
          gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
          gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
@@ -84,13 +90,15 @@ public class ApplicationConditionTestCMSnew {
          ACEnforcmentReport report=acBuilder.verifyGTS(gts);
          reports.add(report);
          System.out.println(i);
-//         System.out.println(report.printCSV());
+         System.out.println(report.printCSV());
          
       }
       ACEnforcmentReport megedReport=EvalHelper.mergeReports(reports);
       System.out.println(megedReport.printCSV());
       System.out.print(megedReport.printOverallCSVHeader());
       System.out.print(megedReport.printOverallCSV());
+      
+      
    }
    @Ignore
    @Test
@@ -198,7 +206,7 @@ public class ApplicationConditionTestCMSnew {
       gc.getConditions().remove(0);
       gc.getConditions().remove(0);
       gc.getConditions().remove(0);
-      gc.getConditions().add(gts.getSatConstraint());
+//      gc.getConditions().add(gts.getSatConstraint());
       gts.getGlobalConstraints().add(gc);
 
 
@@ -206,6 +214,8 @@ public class ApplicationConditionTestCMSnew {
 
       ConstraintsToACBuilder acBuilder=AcenforcmentFactory.eINSTANCE.createConstraintsToACBuilder();
       ACEnforcmentReport report=acBuilder.verifyGTS(gts);
+      SymbolicGraph graphL=gts.getRules().get(0).getLeft().getCodom();
+      SymbolicGraph graphR=gts.getRules().get(0).getRight().getCodom();
       System.out.println(report.print());
 
    }

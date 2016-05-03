@@ -5328,7 +5328,7 @@
                       <attribute name="nacIndex" value="-1" index="6" />
                     </children>
                   </children>
-                  <attribute name="name" value="ActivityNode1" index="0" />
+                  <attribute name="name" value="SingeltonSystem" index="0" />
                   <attribute name="guid" value="{2F24903C-128D-46c1-99DF-5F6342B4A417}" index="1" />
                   <attribute name="forEach" value="false" index="2" />
                   <attribute name="type" value="story" index="3" />
@@ -5416,7 +5416,7 @@
                       <attribute name="nacIndex" value="-1" index="1" />
                     </children>
                   </children>
-                  <attribute name="name" value="ActivityNode2" index="0" />
+                  <attribute name="name" value="SingeltonCurrentSem " index="0" />
                   <attribute name="guid" value="{15D985DC-0CAC-48fb-92B5-7293566744F8}" index="1" />
                   <attribute name="forEach" value="false" index="2" />
                   <attribute name="type" value="story" index="3" />
@@ -5459,7 +5459,7 @@
                       <attribute name="guid" value="{7C86D5E6-583C-46d2-81C5-AE465CC99694}" index="3" />
                     </children>
                   </children>
-                  <attribute name="name" value="MetamodelConstraints::_NC_NoTwoEnrollmentsWithSameID (en1: Enrollment, en2: Enrollment): void" index="0" />
+                  <attribute name="name" value="UserDefinedConstraints::_NC_NoTwoEnrollmentsWithSameID (en1: Enrollment, en2: Enrollment): void" index="0" />
                   <attribute name="guid" value="{1C9C6703-262D-405f-94F0-C9747EDF1EB8}" index="1" />
                   <attribute name="type" value="start" index="2" />
                 </children>
@@ -5504,7 +5504,7 @@
                       <attribute name="nacIndex" value="-1" index="1" />
                     </children>
                   </children>
-                  <attribute name="name" value="ActivityNode3" index="0" />
+                  <attribute name="name" value="NoTwoEnrollmentsWithSameID" index="0" />
                   <attribute name="guid" value="{72714437-D7FC-47c9-BAB0-DF796B8A7ECB}" index="1" />
                   <attribute name="forEach" value="false" index="2" />
                   <attribute name="type" value="story" index="3" />
@@ -5627,7 +5627,7 @@
                       <attribute name="nacIndex" value="-1" index="1" />
                     </children>
                   </children>
-                  <attribute name="name" value="ActivityNode4" index="0" />
+                  <attribute name="name" value="NoTwoEntriesWithSameID" index="0" />
                   <attribute name="guid" value="{F1E6961D-25B8-4ab3-9595-888174B3E08E}" index="1" />
                   <attribute name="forEach" value="false" index="2" />
                   <attribute name="type" value="story" index="3" />
@@ -5786,7 +5786,7 @@
                       <attribute name="nacIndex" value="-1" index="6" />
                     </children>
                   </children>
-                  <attribute name="name" value="ActivityNode5" index="0" />
+                  <attribute name="name" value="onlyOneRecordForModuleOfferAndExam" index="0" />
                   <attribute name="guid" value="{3201EC1F-4C60-4eed-A348-270624E9B077}" index="1" />
                   <attribute name="forEach" value="false" index="2" />
                   <attribute name="type" value="story" index="3" />
@@ -5999,7 +5999,7 @@
                       <attribute name="nacIndex" value="-1" index="6" />
                     </children>
                   </children>
-                  <attribute name="name" value="ActivityNode6" index="0" />
+                  <attribute name="name" value="onlyOneCMOPerExam" index="0" />
                   <attribute name="guid" value="{6F0DE8F1-48F1-4594-B288-4E249EC36C87}" index="1" />
                   <attribute name="forEach" value="false" index="2" />
                   <attribute name="type" value="story" index="3" />
@@ -6122,7 +6122,7 @@
                       <attribute name="nacIndex" value="-1" index="1" />
                     </children>
                   </children>
-                  <attribute name="name" value="ActivityNode7" index="0" />
+                  <attribute name="name" value="NoCompetingBookings" index="0" />
                   <attribute name="guid" value="{E3757384-F711-4765-BD05-CC967270CC63}" index="1" />
                   <attribute name="forEach" value="false" index="2" />
                   <attribute name="type" value="story" index="3" />

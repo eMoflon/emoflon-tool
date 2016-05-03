@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
@@ -46,7 +47,7 @@ public class SubgraphBuilder
       List<GraphNode> graphNodes = inputGraph.getGraphNodes();
       List<LabelEdge> labelEdges = inputGraph.getLabelEdges();
 
-      //         addToElementToIndexMap(graphEdges);
+      addToElementToIndexMap(graphEdges);
       //         addToElementToIndexMap(labelNodes);
       addToElementToIndexMap(graphNodes);
       //         addToElementToIndexMap(labelEdges);
@@ -71,7 +72,27 @@ public class SubgraphBuilder
                   if (graphNodesVec.testBit(graphNodes.size() - 1 - elemToIndexMap.get(imageEdge.getSource()))
                         && graphNodesVec.testBit(graphNodes.size() - 1 - elemToIndexMap.get(imageEdge.getTarget())))
                   {
+                     //remove wrong bidirectional EReffrences
+                     EReference opposite=imageEdge.getType().getEOpposite();
+                     if(opposite!=null)
+                     {
+                        GraphEdge oppositeEdge=graphEdges.stream().filter(e->
+                           (e.getType()==opposite)&&(e.getSource()==imageEdge.getTarget())&&
+                           (e.getTarget()==imageEdge.getSource())).findAny().get();
+                        if(graphEdgesVec.testBit(graphEdges.size()-1-elemToIndexMap.get(oppositeEdge)))
+                        {
+                           subGraphGraphEdges.add(imageEdge);
+                        }
+                        else
+                        {
+                           continue ge;//discard if opposite is missing for bidirectional edge
+                        }
+                           
+                     }
+                     else
+                     {
                      subGraphGraphEdges.add(imageEdge);
+                     }
                   } else
                   {
                      continue ge;//discard morphism if edge is dangling

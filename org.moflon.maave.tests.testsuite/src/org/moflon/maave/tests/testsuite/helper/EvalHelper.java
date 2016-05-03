@@ -20,11 +20,12 @@ public class EvalHelper
       newReport.setNrOfRules(0);
       newReport.setTimeMinimize(0);
       newReport.setTimeOverall(0);
-      for (int i = 0; i < 5; i++)
-      {
-         reports.remove(0);  
+      if(reports.size()>5){
+         for (int i = 0; i < 5; i++)
+         {
+            reports.remove(0);  
+         }
       }
-      
       for (ACEnforcmentReport acEnforcmentReport : reports)
       {
          newReport.setNrOfConstraints(newReport.getNrOfConstraints()+acEnforcmentReport.getNrOfConstraints());
@@ -48,7 +49,9 @@ public class EvalHelper
          newResult.setTimeConstToPrecond(0);
          newResult.setTimeMinimizeRedAC(0);
          newResult.setTimeRemoveGuaranteeingAC(0);
-         
+         newResult.setNrOfPostNACs(0);
+         newResult.setTimeForPostNacs(0);
+         newResult.setTimePostToPre(0);
          
 
          for (ACEnforcmentReport acEnforcmentReport : reports)
@@ -61,7 +64,9 @@ public class EvalHelper
             newResult.setTimeConstToPrecond(acEnforcmentReport.lookupResult(currentRule).getTimeConstToPrecond()+newResult.getTimeConstToPrecond());
             newResult.setTimeMinimizeRedAC(acEnforcmentReport.lookupResult(currentRule).getTimeMinimizeRedAC()+newResult.getTimeMinimizeRedAC());
             newResult.setTimeRemoveGuaranteeingAC(acEnforcmentReport.lookupResult(currentRule).getTimeRemoveGuaranteeingAC()+newResult.getTimeRemoveGuaranteeingAC());
-            
+            newResult.setNrOfPostNACs(acEnforcmentReport.lookupResult(currentRule).getNrOfPostNACs()+newResult.getNrOfPostNACs());
+            newResult.setTimeForPostNacs(acEnforcmentReport.lookupResult(currentRule).getTimeForPostNacs()+newResult.getTimeForPostNacs());
+            newResult.setTimePostToPre(acEnforcmentReport.lookupResult(currentRule).getTimePostToPre()+newResult.getTimePostToPre());
          }
          newResult.setNrOfPreAC(newResult.getNrOfPreAC()/reports.size());
          newResult.setNrOfPreACRaw(newResult.getNrOfPreACRaw()/reports.size());
@@ -69,6 +74,9 @@ public class EvalHelper
          newResult.setTimeConstToPrecond(newResult.getTimeConstToPrecond()/reports.size());
          newResult.setTimeMinimizeRedAC(newResult.getTimeMinimizeRedAC()/reports.size());
          newResult.setTimeRemoveGuaranteeingAC(newResult.getTimeRemoveGuaranteeingAC()/reports.size());
+         newResult.setNrOfPostNACs(newResult.getNrOfPostNACs()/reports.size());
+         newResult.setTimeForPostNacs(+newResult.getTimeForPostNacs()/reports.size());
+         newResult.setTimePostToPre(+newResult.getTimePostToPre()/reports.size());
       }
       return newReport;
       

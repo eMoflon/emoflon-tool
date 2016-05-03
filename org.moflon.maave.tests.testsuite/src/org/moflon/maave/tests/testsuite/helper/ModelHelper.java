@@ -13,6 +13,7 @@ import org.moflon.maave.tool.graphtransformation.conditions.ConditionsFactory;
 import org.moflon.maave.tool.sdm.stptransformation.MetaModelConstraintBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
@@ -61,7 +62,9 @@ public class ModelHelper {
 			MoflonEOperation mEOp = (MoflonEOperation) eOperation;
 			StoryNode constraintStn = (StoryNode) mEOp.getActivity().getOwnedActivityNode().stream().filter(x -> x instanceof StoryNode).findAny().get();
 			SymbGTRule ruleC = transformer.transformStpToProjGTRule(constraintStn.getStoryPattern());
-			gc.getConditions().add(constraintBuilder.getNac(ruleC.getLeft().getCodom()));
+			SymbolicGraph nC=ruleC.getLeft().getCodom();
+			nC.setName(ruleC.getName());
+			gc.getConditions().add(constraintBuilder.getNac(nC));
 
 		}
 

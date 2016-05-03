@@ -21,7 +21,7 @@ import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.M
 
 public class ConfluenceProjTestCMSnew {
    
-//   @Ignore 
+   @Ignore 
    @Test
    public void test_Combined_v0() {
       System.out.println("");

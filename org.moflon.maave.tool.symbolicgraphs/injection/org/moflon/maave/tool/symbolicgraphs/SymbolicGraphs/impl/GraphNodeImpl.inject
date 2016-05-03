@@ -1,0 +1,12 @@
+
+partial class GraphNodeImpl {
+
+
+
+@model toString () <--
+
+
+      return this.getDebugId()+":"+this.getType().getName();
+-->
+
+}

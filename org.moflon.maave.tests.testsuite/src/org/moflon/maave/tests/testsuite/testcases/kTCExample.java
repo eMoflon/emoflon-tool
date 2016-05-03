@@ -62,7 +62,7 @@ public class kTCExample {
 		ConfluenceAnalysisReport report = directConfluenceAnalyser.checkConfluence(gts);
 		// System.out.println(report);
 		ConfluenceAnalysisResultPrinter.confluenceReportToTable(report);
-		System.out.println(ConfluenceAnalysisResultPrinter.printConfluenceReport(report, true, false, true, true));
+//		System.out.println(ConfluenceAnalysisResultPrinter.printConfluenceReport(report, true, false, true, true));
 
 		System.out.println("Finished at " + new Date());
 
