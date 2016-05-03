@@ -14,7 +14,6 @@ import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
-import org.moflon.core.utilities.WorkspaceHelper;
 
 public class WorkspaceHelperUI {
    private static final Logger logger = Logger.getLogger(WorkspaceHelperUI.class);

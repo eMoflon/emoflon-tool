@@ -2,16 +2,6 @@ package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 
 public class RenameMethodParameters
 {
-   private String oldName;
-
-   private String newName;
-
-   private String packagePath;
-   
-   private String[] parameters;
-   
-   private String className;
-   
    public static String getFactoryMethodName(String methodName)
    {
       return "create" + methodName;

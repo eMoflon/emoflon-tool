@@ -3,7 +3,6 @@ package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -108,10 +107,12 @@ public class RenameClassRefactoring implements RenameRefactoring
    /*
     * Determines the path of a Java file after performing the given RenameChange.
     */
-   private IFile getCurrentJavaFile(IProject project, IFile previousJavaFile)
-   {
-      final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(oldName, newName);
-      final IPath newJavaFilePath = previousJavaFile.getProjectRelativePath().removeLastSegments(1).append(newLastSegment);
-      return project.getFile(newJavaFilePath);
-   }
+   // TODO@fstallmeyer: Do you need this method?
+   // private IFile getCurrentJavaFile(IProject project, IFile previousJavaFile)
+   // {
+   // final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(oldName, newName);
+   // final IPath newJavaFilePath =
+   // previousJavaFile.getProjectRelativePath().removeLastSegments(1).append(newLastSegment);
+   // return project.getFile(newJavaFilePath);
+   // }
 }

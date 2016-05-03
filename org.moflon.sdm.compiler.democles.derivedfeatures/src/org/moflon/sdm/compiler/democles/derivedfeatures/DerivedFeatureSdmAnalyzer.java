@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.democles.specification.emf.Constraint;
-import org.gervarro.democles.specification.emf.ConstraintParameter;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.Attribute;
@@ -89,9 +88,9 @@ public class DerivedFeatureSdmAnalyzer
                             // finds dependent features in CSPs
                             // TODO find also the corresponding StructuralFeatures 
                             if (constraint instanceof AttributeValueConstraint) {
-                                AttributeValueConstraint attrValConstr = (AttributeValueConstraint) constraint;
-                                for (ConstraintParameter constrParam : attrValConstr.getParameters()) {
-                                }
+                        // AttributeValueConstraint attrValConstr = (AttributeValueConstraint) constraint;
+                        // for (ConstraintParameter constrParam : attrValConstr.getParameters()) {
+                        // }
                             }
                             
                             // finds references to dependent features
