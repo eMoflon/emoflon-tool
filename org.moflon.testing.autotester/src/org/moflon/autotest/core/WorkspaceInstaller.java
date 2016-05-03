@@ -1,7 +1,11 @@
 package org.moflon.autotest.core;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,6 +45,8 @@ import org.eclipse.team.internal.ui.wizards.ImportProjectSetOperation;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
+import org.eclipse.ui.XMLMemento;
 import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -508,4 +514,35 @@ public class WorkspaceInstaller
       }
    }
 
+   // Will be useful when merging configurations
+   // private static XMLMemento filenameToXMLMemento(String filename) throws InvocationTargetException
+   // {
+   // InputStreamReader reader = null;
+   // try
+   // {
+   // reader = new InputStreamReader(new FileInputStream(filename), "UTF-8"); //$NON-NLS-1$
+   // return XMLMemento.createReadRoot(reader);
+   // } catch (UnsupportedEncodingException e)
+   // {
+   // throw new InvocationTargetException(e);
+   // } catch (FileNotFoundException e)
+   // {
+   // throw new InvocationTargetException(e);
+   // } catch (WorkbenchException e)
+   // {
+   // throw new InvocationTargetException(e);
+   // } finally
+   // {
+   // if (reader != null)
+   // {
+   // try
+   // {
+   // reader.close();
+   // } catch (IOException e)
+   // {
+   // throw new InvocationTargetException(e);
+   // }
+   // }
+   // }
+   // }
 }
