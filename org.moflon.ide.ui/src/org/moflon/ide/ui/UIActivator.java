@@ -303,11 +303,9 @@ public class UIActivator extends AbstractUIPlugin
                      IResource eapFile = delta.getResource();
                      if (eapFile.getName().endsWith(".eap"))
                      {
-                        IFile xmiTree = WorkspaceHelper.getExportedMocaTree(eapFile.getProject());
-                        if (xmiTree.exists() && xmiTree.getLocalTimeStamp() < eapFile.getLocalTimeStamp())
-                        {
-                           CoreActivator.getDefault().setDirty(eapFile.getProject(), true);
-                        }
+                        final IFile xmiTree = WorkspaceHelper.getExportedMocaTree(eapFile.getProject());
+                        final boolean isDirty = !xmiTree.exists() || (xmiTree.exists() && xmiTree.getLocalTimeStamp() < eapFile.getLocalTimeStamp());
+                        CoreActivator.getDefault().setDirty(eapFile.getProject(), isDirty);
                         return false;
                      } else
                      {
