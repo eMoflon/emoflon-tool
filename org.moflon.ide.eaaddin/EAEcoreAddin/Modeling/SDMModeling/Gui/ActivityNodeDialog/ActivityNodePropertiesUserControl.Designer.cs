@@ -36,7 +36,6 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.comboTypes = new EAEcoreAddin.Modeling.SDMModeling.ActivityNodeDialog.ActivityNodeTypeComboBox();
-            this.smoothTableLayoutPanel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -46,9 +45,6 @@
             // 
             this.smoothTableLayoutPanel1.ColumnCount = 1;
             this.smoothTableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.smoothTableLayoutPanel1.Controls.Add(this.groupBox3, 0, 2);
-            this.smoothTableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
-            this.smoothTableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
             this.smoothTableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.smoothTableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.smoothTableLayoutPanel1.Name = "smoothTableLayoutPanel1";
@@ -147,8 +143,6 @@
             this.Controls.Add(this.smoothTableLayoutPanel1);
             this.Name = "ActivityNodePropertiesUserControl";
             this.Size = new System.Drawing.Size(331, 209);
-            this.smoothTableLayoutPanel1.ResumeLayout(false);
-            this.smoothTableLayoutPanel1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
