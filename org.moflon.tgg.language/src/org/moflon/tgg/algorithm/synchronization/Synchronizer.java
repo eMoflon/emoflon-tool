@@ -232,7 +232,7 @@ public abstract class Synchronizer
       throw new UnsupportedOperationException();
    }
 
-   private Collection<Match> collectDerivations(Graph elements, RulesTable lookupMethods)
+   protected Collection<Match> collectDerivations(Graph elements, RulesTable lookupMethods)
    {
       return elements.stream().flatMap(new InvokeIsAppropriate(lookupMethods)).collect(Collectors.toSet());
    }
@@ -290,7 +290,7 @@ public abstract class Synchronizer
       return elt instanceof AbstractCorrespondence;
    }
 
-   private void translate() throws InputLocalCompletenessException, TranslationLocalCompletenessException
+   protected void translate() throws InputLocalCompletenessException, TranslationLocalCompletenessException
    {
       pg.collectAllPrecedences(inputMatches);
 
@@ -551,6 +551,11 @@ public abstract class Synchronizer
    public Graph getToBeTranslated()
    {
       return toBeTranslated;
+   }
+   
+   public void setToBeTranslated(Delta delta)
+   {   
+	   this.toBeTranslated = new Graph(delta.getAllAddedElements());
    }
 
    public PrecedenceInputGraph getPrecedenceGraph()

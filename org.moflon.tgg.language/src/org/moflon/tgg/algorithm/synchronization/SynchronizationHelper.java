@@ -441,6 +441,20 @@ public class SynchronizationHelper
       if (trg == null)
          trg = corr.getTarget();
    }
+   
+   public void createCorrespondences()
+   {
+	   init();
+	   
+	   establishForwardDelta();
+	   Delta srcDelta = delta;
+	   establishBackwardDelta();
+	   Delta trgDelta = delta;
+	   
+	   establishTranslationProtocol();
+	   
+	   performSynchronization(new ConsistencySynchronizer(corr, srcDelta, trgDelta, protocol, configurator, determineLookupMethods(), tempOutputContainer));
+   }
 
    protected void performSynchronization(final Synchronizer synchronizer)
    {
