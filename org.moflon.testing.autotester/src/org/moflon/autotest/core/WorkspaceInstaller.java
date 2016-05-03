@@ -1,11 +1,7 @@
 package org.moflon.autotest.core;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,8 +41,6 @@ import org.eclipse.team.internal.ui.wizards.ImportProjectSetOperation;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.WorkbenchException;
-import org.eclipse.ui.XMLMemento;
 import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -205,7 +199,8 @@ public class WorkspaceInstaller
                      + "\n" //
                      + "Exception of type " + e.getClass().getName() + ", Message: " + MoflonUtil.displayExceptionAsString(e);
                logger.error(message);
-               return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), message, e);
+               return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(),
+                     "Installing workspace failed. Please consult the eMoflon console for further information.", e);
             } finally
             {
                monitor.done();
@@ -439,7 +434,7 @@ public class WorkspaceInstaller
    private void exportModelsFromEAPFilesInWorkspace(final IProgressMonitor monitor) throws CoreException, InterruptedException
    {
       final List<IProject> metamodelProjects = Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects()).stream().filter(p -> p.isOpen())
-            .filter(WorkspaceHelper::isMetamodelProjectNoThrow).collect(Collectors.toList());
+            .filter(WorkspaceHelper::isMetamodelProjectNoThrow).filter(WorkspaceInstaller::hasNoTempDirectoryOrOutdatedMocaTree).collect(Collectors.toList());
       monitor.beginTask("Exporting models from EAP files", metamodelProjects.size());
 
       for (IProject project : metamodelProjects)
@@ -451,6 +446,22 @@ public class WorkspaceInstaller
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
       }
       monitor.done();
+   }
+
+   private static boolean hasNoTempDirectoryOrOutdatedMocaTree(final IProject metamodelProject)
+   {
+      if (!metamodelProject.getFolder(WorkspaceHelper.TEMP_FOLDER).exists())
+         return true;
+
+      final IFile metamodelFile = WorkspaceHelper.getEapFileFromMetamodelProject(metamodelProject);
+      if (!metamodelFile.exists())
+      {
+         return false;
+      }
+
+      final IFile xmiTree = WorkspaceHelper.getExportedMocaTree(metamodelProject);
+      final boolean isDirty = !xmiTree.exists() || (xmiTree.exists() && xmiTree.getLocalTimeStamp() < metamodelFile.getLocalTimeStamp());
+      return isDirty;
    }
 
    private void refreshAndBuildWorkspace(final IProgressMonitor monitor) throws InterruptedException
