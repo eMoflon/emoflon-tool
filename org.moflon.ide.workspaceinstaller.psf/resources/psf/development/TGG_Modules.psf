@@ -22,7 +22,9 @@
 <item elementID="=org.moflon.tgg.runtime" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.specification" type="4"/>
 <item elementID="=org.moflon.tgg.cspcodeadapter" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+</workingSets>
 
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1450098350884_10" label="eMoflon TGG MOSL" name="eMoflon TGG MOSL">
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.mosl.codeadapter" type="4"/>
 <item elementID="=org.moflon.tgg.mosl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.tgg.mosl.feature" type="4"/>
