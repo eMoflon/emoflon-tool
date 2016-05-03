@@ -46,8 +46,8 @@
             // 
             // comboBoxCorrClasses
             // 
-            this.comboBoxCorrClasses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxCorrClasses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxCorrClasses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCorrClasses.FormattingEnabled = true;
             this.comboBoxCorrClasses.Location = new System.Drawing.Point(6, 19);
@@ -92,8 +92,8 @@
             // 
             // textBoxLinkName
             // 
-            this.textBoxLinkName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLinkName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxLinkName.Location = new System.Drawing.Point(6, 16);
             this.textBoxLinkName.Name = "textBoxLinkName";
             this.textBoxLinkName.Size = new System.Drawing.Size(327, 20);
@@ -101,8 +101,8 @@
             // 
             // groupBoxSelectLink
             // 
-            this.groupBoxSelectLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxSelectLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxSelectLink.Controls.Add(this.comboBoxCorrClasses);
             this.groupBoxSelectLink.Location = new System.Drawing.Point(6, 65);
             this.groupBoxSelectLink.Name = "groupBoxSelectLink";
@@ -113,8 +113,8 @@
             // 
             // groupBoxCreateNewLink
             // 
-            this.groupBoxCreateNewLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxCreateNewLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxCreateNewLink.Controls.Add(this.textBoxLinkName);
             this.groupBoxCreateNewLink.Enabled = false;
             this.groupBoxCreateNewLink.Location = new System.Drawing.Point(6, 152);
@@ -135,8 +135,8 @@
             // 
             // textBoxObjectName
             // 
-            this.textBoxObjectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxObjectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxObjectName.Location = new System.Drawing.Point(194, 14);
             this.textBoxObjectName.Name = "textBoxObjectName";
             this.textBoxObjectName.Size = new System.Drawing.Size(139, 20);
@@ -144,8 +144,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.textBoxObjectName);
             this.groupBox3.Location = new System.Drawing.Point(6, 12);

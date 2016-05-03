@@ -29,26 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ActivityEdgePropertiesForm));
-            this.cmbGuard = new EAEcoreAddin.Modeling.SDMModeling.ActivityEdgeDialog.GuardTypeComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
+            this.cmbGuard = new EAEcoreAddin.Modeling.SDMModeling.ActivityEdgeDialog.GuardTypeComboBox();
             this.SuspendLayout();
-            // 
-            // cmbGuard
-            // 
-            this.cmbGuard.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbGuard.FormattingEnabled = true;
-            this.cmbGuard.Items.AddRange(new object[] {
-            "None",
-            "Success",
-            "Failure",
-            "Each Time",
-            "End (for each)"});
-            this.cmbGuard.Location = new System.Drawing.Point(12, 26);
-            this.cmbGuard.Name = "cmbGuard";
-            this.cmbGuard.Size = new System.Drawing.Size(260, 21);
-            this.cmbGuard.TabIndex = 0;
             // 
             // label2
             // 
@@ -79,6 +64,21 @@
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // cmbGuard
+            // 
+            this.cmbGuard.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbGuard.FormattingEnabled = true;
+            this.cmbGuard.Items.AddRange(new object[] {
+            "None",
+            "Success",
+            "Failure",
+            "Each Time",
+            "End (for each)"});
+            this.cmbGuard.Location = new System.Drawing.Point(12, 26);
+            this.cmbGuard.Name = "cmbGuard";
+            this.cmbGuard.Size = new System.Drawing.Size(260, 21);
+            this.cmbGuard.TabIndex = 0;
             // 
             // ActivityEdgePropertiesForm
             // 

@@ -35,21 +35,21 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.adornmentDataGridView = new EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefDataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.parameterDataGridView = new EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefDataGridView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.modelgenAdornmentDataGridView = new EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefDataGridView();
-            this.parameterDataGridView = new EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefDataGridView();
-            this.adornmentDataGridView = new EAEcoreAddin.Modeling.CSP.Gui.NewCSPDefDataGridView();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.adornmentDataGridView)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.modelgenAdornmentDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.adornmentDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // textBoxName
@@ -95,6 +95,15 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Adornments";
+            // 
+            // adornmentDataGridView
+            // 
+            this.adornmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.adornmentDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.adornmentDataGridView.Location = new System.Drawing.Point(3, 16);
+            this.adornmentDataGridView.Name = "adornmentDataGridView";
+            this.adornmentDataGridView.Size = new System.Drawing.Size(143, 139);
+            this.adornmentDataGridView.TabIndex = 6;
             // 
             // groupBox2
             // 
@@ -147,6 +156,15 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Parameters";
             // 
+            // parameterDataGridView
+            // 
+            this.parameterDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.parameterDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.parameterDataGridView.Location = new System.Drawing.Point(3, 16);
+            this.parameterDataGridView.Name = "parameterDataGridView";
+            this.parameterDataGridView.Size = new System.Drawing.Size(209, 139);
+            this.parameterDataGridView.TabIndex = 5;
+            // 
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -168,24 +186,6 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.modelgenAdornmentDataGridView.Size = new System.Drawing.Size(143, 139);
             this.modelgenAdornmentDataGridView.TabIndex = 6;
             // 
-            // parameterDataGridView
-            // 
-            this.parameterDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.parameterDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.parameterDataGridView.Location = new System.Drawing.Point(3, 16);
-            this.parameterDataGridView.Name = "parameterDataGridView";
-            this.parameterDataGridView.Size = new System.Drawing.Size(209, 139);
-            this.parameterDataGridView.TabIndex = 5;
-            // 
-            // adornmentDataGridView
-            // 
-            this.adornmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.adornmentDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.adornmentDataGridView.Location = new System.Drawing.Point(3, 16);
-            this.adornmentDataGridView.Name = "adornmentDataGridView";
-            this.adornmentDataGridView.Size = new System.Drawing.Size(143, 139);
-            this.adornmentDataGridView.TabIndex = 6;
-            // 
             // NewCSPDefinitionDialog
             // 
             this.AcceptButton = this.buttonOk;
@@ -206,13 +206,13 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.Name = "NewCSPDefinitionDialog";
             this.Text = "Edit Constraint";
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.adornmentDataGridView)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).EndInit();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.modelgenAdornmentDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.adornmentDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }

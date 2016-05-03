@@ -32,6 +32,7 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CSPInstanceDialog));
             this.comboBoxConstraints = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CSPConstraintDataGridView1 = new EAEcoreAddin.Modeling.CSP.Gui.CSPDefinitionDataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonEditUserDefinedConstraint = new System.Windows.Forms.Button();
@@ -40,6 +41,7 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.buttonDeleteConstraint = new System.Windows.Forms.Button();
             this.buttonAddConstraint = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.listBoxConstraints = new EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothListBox();
             this.buttonModify = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
@@ -47,13 +49,11 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
-            this.listBoxConstraints = new EAEcoreAddin.Modeling.SDMModeling.Gui.Util.SmoothListBox();
-            this.CSPConstraintDataGridView1 = new EAEcoreAddin.Modeling.CSP.Gui.CSPDefinitionDataGridView();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CSPConstraintDataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CSPConstraintDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBoxConstraints
@@ -78,6 +78,15 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Specify Values";
+            // 
+            // CSPConstraintDataGridView1
+            // 
+            this.CSPConstraintDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CSPConstraintDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CSPConstraintDataGridView1.Location = new System.Drawing.Point(3, 16);
+            this.CSPConstraintDataGridView1.Name = "CSPConstraintDataGridView1";
+            this.CSPConstraintDataGridView1.Size = new System.Drawing.Size(740, 172);
+            this.CSPConstraintDataGridView1.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -167,6 +176,17 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Constraints";
             // 
+            // listBoxConstraints
+            // 
+            this.listBoxConstraints.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxConstraints.FormattingEnabled = true;
+            this.listBoxConstraints.Location = new System.Drawing.Point(6, 19);
+            this.listBoxConstraints.Name = "listBoxConstraints";
+            this.listBoxConstraints.Size = new System.Drawing.Size(653, 108);
+            this.listBoxConstraints.TabIndex = 0;
+            this.listBoxConstraints.SelectedIndexChanged += new System.EventHandler(this.listBoxConstraints_SelectedIndexChanged);
+            // 
             // buttonModify
             // 
             this.buttonModify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -245,26 +265,6 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
-            // listBoxConstraints
-            // 
-            this.listBoxConstraints.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxConstraints.FormattingEnabled = true;
-            this.listBoxConstraints.Location = new System.Drawing.Point(6, 19);
-            this.listBoxConstraints.Name = "listBoxConstraints";
-            this.listBoxConstraints.Size = new System.Drawing.Size(653, 108);
-            this.listBoxConstraints.TabIndex = 0;
-            this.listBoxConstraints.SelectedIndexChanged += new System.EventHandler(this.listBoxConstraints_SelectedIndexChanged);
-            // 
-            // CSPConstraintDataGridView1
-            // 
-            this.CSPConstraintDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CSPConstraintDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CSPConstraintDataGridView1.Location = new System.Drawing.Point(3, 16);
-            this.CSPConstraintDataGridView1.Name = "CSPConstraintDataGridView1";
-            this.CSPConstraintDataGridView1.Size = new System.Drawing.Size(740, 172);
-            this.CSPConstraintDataGridView1.TabIndex = 0;
-            // 
             // CSPInstanceDialog
             // 
             this.AcceptButton = this.buttonOk;
@@ -285,11 +285,11 @@ namespace EAEcoreAddin.Modeling.CSP.Gui
             this.Name = "CSPInstanceDialog";
             this.Text = "Define CSP";
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.CSPConstraintDataGridView1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.CSPConstraintDataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
