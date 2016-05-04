@@ -47,7 +47,7 @@ public class ConsistencySynchronizer extends Synchronizer {
 	
 	public ConsistencySynchronizer(CorrespondenceModel graphTriple, Delta srcDelta, Delta trgDelta, SynchronizationProtocol protocol,
 			Configurator configurator, StaticAnalysis rules, TempOutputContainer tempOutputContainer) {
-		super(graphTriple, null, protocol, configurator, rules, tempOutputContainer);
+		super(graphTriple, new Delta(), protocol, configurator, rules, tempOutputContainer);
 
 		srcLookupMethods = rules.getSourceRules();
 		trgLookupMethods = rules.getTargetRules();
