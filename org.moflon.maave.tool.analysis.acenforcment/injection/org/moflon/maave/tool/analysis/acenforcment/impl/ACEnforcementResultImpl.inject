@@ -5,14 +5,14 @@ partial class ACEnforcementResultImpl {
 
 @model print () <--
 
-      StringBuilder sb=new StringBuilder();
-      sb.append("------------------------- Rule: "+this.getRuleName()+" -------------------------\n");
-      sb.append("#PreconditionAC raw="+this.getNrOfPreACRaw()+"\n");
-      sb.append("#PreconditionAC without guaranteeing="+this.getNrOfPreAcRemGuaranteeingAC()+"\n");
-      sb.append("#PreconditionAC final="+this.getNrOfPreAC()+"\n");
-      sb.append("Time for constraint to preconditionAC="+this.getTimeConstToPrecond()+"ms\n");
-      sb.append("Time for removing AC guarateeing NACs="+this.getTimeRemoveGuaranteeingAC()+"ms\n");
-      sb.append("Time for removing subsumed NACs="+this.getTimeMinimizeRedAC()+"ms\n");
+      StringBuilder sb = new StringBuilder();
+      sb.append("------------------------- Rule: " + this.getRuleName() + " -------------------------\n");
+      sb.append("#PreconditionAC raw=" + this.getNrOfPreACRaw() + "\n");
+      sb.append("#PreconditionAC without guaranteeing=" + this.getNrOfPreAcRemGuaranteeingAC() + "\n");
+      sb.append("#PreconditionAC final=" + this.getNrOfPreAC() + "\n");
+      sb.append("Time for constraint to preconditionAC=" + this.getTimeConstToPrecond() + "ms\n");
+      sb.append("Time for removing AC guarateeing NACs=" + this.getTimeRemoveGuaranteeingAC() + "ms\n");
+      sb.append("Time for removing subsumed NACs=" + this.getTimeMinimizeRedAC() + "ms\n");
       return sb.toString();
 -->
 

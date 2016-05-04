@@ -1,0 +1,19 @@
+
+partial class MetaModelConstraintBuilderImpl {
+
+@members <--
+
+   SymbolicGraph initialObject;
+   
+-->
+
+@model getIntialObject () <--
+
+      if(initialObject==null)
+      {
+         initialObject=CategoryFactory.eINSTANCE.createSymbolicGraphCat().getInitalInitalSG();
+      }
+      return initialObject;
+-->
+
+}

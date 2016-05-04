@@ -1,7 +1,6 @@
 package org.moflon.maave.tool.smt.actheorysolver;
 
-import java.util.Arrays;
-import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;

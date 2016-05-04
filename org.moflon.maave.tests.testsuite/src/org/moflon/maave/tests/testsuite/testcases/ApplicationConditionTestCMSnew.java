@@ -90,7 +90,9 @@ public class ApplicationConditionTestCMSnew {
          ACEnforcmentReport report=acBuilder.verifyGTS(gts);
          reports.add(report);
          System.out.println(i);
-         System.out.println(report.printCSV());
+         if(i==0)System.out.println(report.printOverallCSVHeader());
+         System.out.println(report.printOverallCSV());
+//         System.out.println(report.printCSV());
          
       }
       ACEnforcmentReport megedReport=EvalHelper.mergeReports(reports);

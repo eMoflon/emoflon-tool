@@ -1,4 +1,6 @@
 
+import org.moflon.maave.tool.analysis.acenforcment.AcenforcmentFactory;
+import org.moflon.maave.tool.analysis.acenforcment.NacAndPacMinimizer;
 import org.moflon.maave.tool.analysis.acenforcment.ACEnforcementResult;
 import org.moflon.maave.wsconfig.WsInfo;
 
@@ -32,32 +34,35 @@ partial class ConstraintsToACBuilderImpl {
          {
             System.out.print("Verifying constraints for Rule: " + rule.getName());
          }
-         ACEnforcementResult currentResult=this.getCurrentReport().lookupResult(rule);
+         ACEnforcementResult currentResult = this.getCurrentReport().lookupResult(rule);
          long startTime = System.currentTimeMillis();
+         long absTimeStartShift = System.currentTimeMillis();
          for (GlobalConstraint gc : gts.getGlobalConstraints())
          {
             for (SymbolicGraph constraint : gc.getConditions())
             {
-               SymbolicGraphMorphism morI_R=SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+               SymbolicGraphMorphism morI_R = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
                morI_R.setDom(constraint);
                morI_R.setCodom(rule.getRight().getCodom());
-               
-               long absTimeStartShift=System.currentTimeMillis();
+
                this.getConditionAlongMorphismShifter().shiftAllConditonsAlongMorphism(morI_R);
-               currentResult.setTimeForPostNacs(System.currentTimeMillis()-absTimeStartShift);
-               currentResult.setNrOfPostNACs(rule.getRight().getCodom().getConditions().size());
-               
-               long absTimeStartPostToPre=System.currentTimeMillis();
-               this.getConditionAlongRuleShifter().shiftAllConditionsLeft(rule);
-               rule.getRight().getCodom().getConditions().clear();
-               currentResult.setTimePostToPre(System.currentTimeMillis()-absTimeStartPostToPre);
-               currentResult.setNrOfPreACRaw(rule.getLeft().getCodom().getConditions().size());
-               
+
             }
-           
+
          }
-         this.getCurrentReport().lookupResult(rule).setTimeConstToPrecond(System.currentTimeMillis() - startTime);
-         
+         currentResult.setTimeForPostNacs(System.currentTimeMillis() - absTimeStartShift);
+         currentResult.setNrOfPostNACs(rule.getRight().getCodom().getConditions().size());
+
+         long absTimeStartPostToPre = System.currentTimeMillis();
+
+         this.getConditionAlongRuleShifter().shiftAllConditionsLeft(rule);
+         rule.getRight().getCodom().getConditions().clear();
+
+         currentResult.setTimePostToPre(System.currentTimeMillis() - absTimeStartPostToPre);
+         currentResult.setNrOfPreACRaw(rule.getLeft().getCodom().getConditions().size());
+
+         currentResult.setTimeConstToPrecond(System.currentTimeMillis() - startTime);
+
          if (WsInfo.getVerboseLevel() >= 5)
          {
             System.out.print(" ::Finished \n");
@@ -85,7 +90,7 @@ partial class ConstraintsToACBuilderImpl {
          currentResult.setTimeRemoveGuaranteeingAC(absTimeRemoveGuaranteeingAC - absTimeStart);
          currentResult.setNrOfPreAcRemGuaranteeingAC(rule.getLeft().getCodom().getConditions().size());
 
-         nacAndPacMinimizer.removeSubsumedAc(rule, gts);
+         nacAndPacMinimizer.removeSubsumedAc(rule.getLeft().getCodom(), gts);
          currentResult.setTimeMinimizeRedAC(System.currentTimeMillis() - absTimeRemoveGuaranteeingAC);
          currentResult.setNrOfPreAC(rule.getLeft().getCodom().getConditions().size());
       }

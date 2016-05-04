@@ -42,18 +42,24 @@ partial class ACEnforcmentReportImpl {
 
       StringBuilder sb = new StringBuilder();
       sb.append("Production;");
+      sb.append("#PostconditionNACs;");
       sb.append("#PreconditionNACs raw;");
       sb.append("#PreconditionNACs Filtered Guaranteeing NACs;");
       sb.append("#PreconditionNACs Filtered Subsumed NACs;");
+      sb.append("time NC to Post;");
+      sb.append("time Post to Pre;");
       sb.append("time NC to NAC;");
       sb.append("time Filter G;");
       sb.append("time Filter Subsumed\n");
       for (ACEnforcementResult result : ruleToResultMap.values())
       {
          sb.append(result.getRuleName() + ";");
+         sb.append(result.getNrOfPostNACs() + ";");
          sb.append(result.getNrOfPreACRaw() + ";");
          sb.append(result.getNrOfPreAcRemGuaranteeingAC() + ";");
          sb.append(result.getNrOfPreAC() + ";");
+         sb.append(result.getTimeForPostNacs() + ";");
+         sb.append(result.getTimePostToPre() + ";");
          sb.append(result.getTimeConstToPrecond() + ";");
          sb.append(result.getTimeRemoveGuaranteeingAC() + ";");
          sb.append(result.getTimeMinimizeRedAC() + "\n");
