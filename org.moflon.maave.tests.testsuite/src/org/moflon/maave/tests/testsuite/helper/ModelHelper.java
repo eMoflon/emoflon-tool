@@ -64,7 +64,7 @@ public class ModelHelper {
 			SymbGTRule ruleC = transformer.transformStpToProjGTRule(constraintStn.getStoryPattern());
 			SymbolicGraph nC=ruleC.getLeft().getCodom();
 			nC.setName(ruleC.getName());
-			gc.getConditions().add(constraintBuilder.getNac(nC));
+			gc.getConstraints().add(constraintBuilder.getNac(nC));
 
 		}
 

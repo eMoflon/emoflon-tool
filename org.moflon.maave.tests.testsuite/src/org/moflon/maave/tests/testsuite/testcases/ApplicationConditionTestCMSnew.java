@@ -202,12 +202,12 @@ public class ApplicationConditionTestCMSnew {
       //Add user defined constraints
       //      gts.getGlobalConstraints().add(ModelHelper.getUserDefConstraints(pack));
       GlobalConstraint gc=ModelHelper.getUserDefConstraints(pack);
-      gc.getConditions().remove(0);
-      gc.getConditions().remove(0);
-      gc.getConditions().remove(0);
-      gc.getConditions().remove(0);
-      gc.getConditions().remove(0);
-      gc.getConditions().remove(0);
+      gc.getConstraints().remove(0);
+      gc.getConstraints().remove(0);
+      gc.getConstraints().remove(0);
+      gc.getConstraints().remove(0);
+      gc.getConstraints().remove(0);
+      gc.getConstraints().remove(0);
 //      gc.getConditions().add(gts.getSatConstraint());
       gts.getGlobalConstraints().add(gc);
 

@@ -1,56 +1,61 @@
 
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.IMorphismFinder;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
+import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
 import java.util.HashSet;
 
 partial class NacAndPacMinimizerImpl {
 
 @members <--
 
-private boolean commutes(SymbolicGraphMorphism morG_C1,SymbolicGraphMorphism morG_C2,SymbolicGraphMorphism morC1_C2)
-{
-   for (Object obj : morG_C1.getDom().getAllElements())
+   private boolean commutes(SymbolicGraphMorphism morG_C1, SymbolicGraphMorphism morG_C2, SymbolicGraphMorphism morC1_C2)
    {
-      EGraphElement elem = (EGraphElement) obj;
-      if(morC1_C2.imageOf(morG_C1.imageOf(elem))!=morG_C2.imageOf(elem))
+      for (Object obj : morG_C1.getDom().getAllElements())
       {
-         return false;
+         EGraphElement elem = (EGraphElement) obj;
+         if (morC1_C2.imageOf(morG_C1.imageOf(elem)) != morG_C2.imageOf(elem))
+         {
+            return false;
+         }
       }
+      return true;
    }
-   return true;
-}
-
+   
 -->
 
 @model removeSubsumedAc (SymbolicGraph graphG, GraphTransformationSystem gts) <--
 
       HashSet<NegCond> subsumedSet = new HashSet<NegCond>();
-      MorphismFinderFactory morFinderFactory=MatchingFactory.eINSTANCE.createMorphismFinderFactory();
-      for (int i=0; i<graphG.getConditions().size(); i++)
+      MorphismFinderFactory morFinderFactory = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
+      for (int i = 0; i < graphG.getConditions().size(); i++)
       {
-         Condition cond=graphG.getConditions().get(i);
-         if(isNac(cond))
+         Condition cond = graphG.getConditions().get(i);
+         if (isNac(cond))
          {
-            NegCond nac1=(NegCond) cond;
-            if(!subsumedSet.contains(nac1))
+            NegCond nac1 = (NegCond) cond;
+            if (!subsumedSet.contains(nac1))
             {
-               SymbolicGraphMorphism morG_C1=((AtomicCond)nac1.getNegCondition()).getMorP_C();
-               SymbolicGraph graphC1=morG_C1.getCodom();
-               IMorphismFinder morFinderForC1=morFinderFactory.createMorphismFinder(graphC1, gts.getMatchMorphismClass());
-               for (int j=0; j<graphG.getConditions().size(); j++)
+               SymbolicGraphMorphism morG_C1 = ((AtomicCond) nac1.getNegCondition()).getMorP_C();
+               SymbolicGraph graphC1 = morG_C1.getCodom();
+               IMorphismFinder morFinderForC1 = morFinderFactory.createMorphismFinder(graphC1, gts.getMatchMorphismClass());
+               for (int j = 0; j < graphG.getConditions().size(); j++)
                {
-                  Condition cond2=graphG.getConditions().get(j);
-                  if(i!=j&&isNac(cond2))
+                  Condition cond2 = graphG.getConditions().get(j);
+                  if (i != j && isNac(cond2))
                   {
-                     NegCond nac2=(NegCond) cond2;
-                     if(!subsumedSet.contains(nac2))
+                     NegCond nac2 = (NegCond) cond2;
+                     if (!subsumedSet.contains(nac2))
                      {
-                        SymbolicGraphMorphism morG_C2=((AtomicCond)nac2.getNegCondition()).getMorP_C();
-                        SymbolicGraph graphC2=morG_C2.getCodom();
-                        SymbolicGraphMorphism emptyMorC1_C2=SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+                        SymbolicGraphMorphism morG_C2 = ((AtomicCond) nac2.getNegCondition()).getMorP_C();
+                        SymbolicGraph graphC2 = morG_C2.getCodom();
+                        SymbolicGraphMorphism emptyMorC1_C2 = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
                         emptyMorC1_C2.setDom(graphC1);
                         emptyMorC1_C2.setCodom(graphC2);
                         for (SymbolicGraphMorphism morC1_C2 : morFinderForC1.getAllMorphisms(emptyMorC1_C2).getMorphisms())
                         {
-                           if(commutes(morG_C1, morG_C2, morC1_C2))
+                           if (commutes(morG_C1, morG_C2, morC1_C2))
                            {
                               subsumedSet.add(nac2);
                               break;
@@ -63,24 +68,24 @@ private boolean commutes(SymbolicGraphMorphism morG_C1,SymbolicGraphMorphism mor
             }
          }
       }
-   graphG.getConditions().removeAll(subsumedSet);
+      graphG.getConditions().removeAll(subsumedSet);
 -->
 
 @model isNac (Condition condition) <--
 
-   if(condition instanceof NegCond)
-   {
-      NegCond negCond=(NegCond) condition;
-      if(negCond.getNegCondition() instanceof AtomicCond)
+      if (condition instanceof NegCond)
       {
-         AtomicCond nestedCond=(AtomicCond) negCond.getNegCondition();
-         if(nestedCond.getNestedCondition() instanceof TrueCond)
+         NegCond negCond = (NegCond) condition;
+         if (negCond.getNegCondition() instanceof AtomicCond)
          {
-            return true;
+            AtomicCond nestedCond = (AtomicCond) negCond.getNegCondition();
+            if (nestedCond.getNestedCondition() instanceof TrueCond)
+            {
+               return true;
+            }
          }
       }
-   }
-   return false;
+      return false;
 -->
 
 }

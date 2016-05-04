@@ -16,25 +16,19 @@ partial class GlobalConstraintImpl {
       MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
       Status status = MaaveutilFactory.eINSTANCE.createStatus();
       status.setValid(true);
-      for (SymbolicGraph graphP : this.getConditions())
+      for (Condition cond : this.getConstraints())
       {
-         IMorphismFinder morFinderForP = morFinderFac.createMorphismFinder(graphP, this.getMatchMorphismClass());
-         SymbolicGraphMorphism emptyMorP_G = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
-         emptyMorP_G.setDom(graphP);
-         emptyMorP_G.setCodom(graphG);
-         for (SymbolicGraphMorphism morP_G : morFinderForP.getAllMorphisms(emptyMorP_G).getMorphisms())
+         SymbolicGraph graphP=cond.getGraphP();
+         SymbolicGraphMorphism morP_G = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+         morP_G.setDom(graphP);
+         morP_G.setCodom(graphG);
+         if(cond.isSat(morP_G, matchMorphismClass)==false)
          {
-            for (Condition cond : graphP.getConditions())
-            {
-               if (cond.isSat(morP_G, this.getMatchMorphismClass()) == false)
-               {
-
-                  status.setValid(false);
-                  return status;
-               }
-            }
+            status.setValid(false);
+            return status;
          }
       }
+         
       return status;
 -->
 

@@ -53,7 +53,7 @@ public class ConstraintsToPostAndPreConditionsTest {
 
       //Add ArityConstraints
       GlobalConstraint nC=ModelHelper.getUserDefConstraints(pack);
-      SymbolicGraph graphI=nC.getConditions().get(1);
+      SymbolicGraph graphI=nC.getConstraints().get(1).getGraphP();
 
       SymbGTRule rule = ModelHelper.getRule(cls,"rule1");
       SymbolicGraph graphR=rule.getRight().getCodom();
@@ -106,8 +106,8 @@ public class ConstraintsToPostAndPreConditionsTest {
 
       //Init
       GlobalConstraint nC=ModelHelper.getUserDefConstraints(pack);
-      nC.getConditions().remove(2);
-      nC.getConditions().remove(0);
+      nC.getConstraints().remove(2);
+      nC.getConstraints().remove(0);
       gts.getGlobalConstraints().add(nC);
 
       SymbGTRule rule = ModelHelper.getRule(cls,"rule1");
@@ -162,8 +162,8 @@ public class ConstraintsToPostAndPreConditionsTest {
 
       //Init
       GlobalConstraint nC=ModelHelper.getUserDefConstraints(pack);
-      nC.getConditions().remove(2);
-      nC.getConditions().remove(0);
+      nC.getConstraints().remove(2);
+      nC.getConstraints().remove(0);
       gts.getGlobalConstraints().add(nC);
 
       SymbGTRule rule = ModelHelper.getRule(cls,"rule1");
@@ -212,8 +212,8 @@ public class ConstraintsToPostAndPreConditionsTest {
 
       //Init
       GlobalConstraint nC=ModelHelper.getUserDefConstraints(pack);
-      nC.getConditions().remove(0);
-      nC.getConditions().remove(0);
+      nC.getConstraints().remove(0);
+      nC.getConstraints().remove(0);
       gts.getGlobalConstraints().add(nC);
 
       SymbGTRule rule = ModelHelper.getRule(cls,"rule2");
@@ -262,8 +262,8 @@ public class ConstraintsToPostAndPreConditionsTest {
 
       //Init
       GlobalConstraint nC=ModelHelper.getUserDefConstraints(pack);
-      nC.getConditions().remove(0);
-      nC.getConditions().remove(0);
+      nC.getConstraints().remove(0);
+      nC.getConstraints().remove(0);
       gts.getGlobalConstraints().add(nC);
 
       SymbGTRule rule = ModelHelper.getRule(cls,"rule2");
