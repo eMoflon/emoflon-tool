@@ -1,4 +1,5 @@
 
+import org.moflon.maave.tool.analysis.confluence.CpaResult;
 import org.moflon.maave.tool.analysis.confluence.ICriticalPairBuilder;
 import org.moflon.maave.wsconfig.WsInfo;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisResult;
@@ -43,7 +44,7 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
             long timeStampStart = System.currentTimeMillis();
 
             CpaResult cpaResult = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
-            DirectDerivationPairSet criticalPairSet=cpaResult.getDirectDerivationPairSet();
+            DirectDerivationPairSet criticalPairSet = cpaResult.getDirectDerivationPairSet();
             if (WsInfo.getVerboseLevel() >= 5)
             {
                System.out.println("Number of Critical Pairs=" + criticalPairSet.getPairsOfDirectDerivations().size());
