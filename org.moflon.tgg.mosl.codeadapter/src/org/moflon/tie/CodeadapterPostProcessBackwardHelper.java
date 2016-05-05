@@ -109,7 +109,8 @@ public class CodeadapterPostProcessBackwardHelper {
 		EPackage packageOfOVType = ovType.getEPackage();
 		Schema schema = ((Rule) corr.getSource().eContainer()).getSchema();
 
-		importEPackage(schema, packageOfOVType);
+		if(!tggOV.getDomain().getType().equals(DomainType.CORRESPONDENCE))
+			importEPackage(schema, packageOfOVType);
 		
 		if(tggOV.getDomain().getType().equals(DomainType.SOURCE) && !schema.getSourceTypes().contains(packageOfOVType))
 			schema.getSourceTypes().add(packageOfOVType);
