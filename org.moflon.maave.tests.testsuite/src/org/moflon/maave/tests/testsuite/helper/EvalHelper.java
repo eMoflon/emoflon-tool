@@ -1,12 +1,19 @@
 package org.moflon.maave.tests.testsuite.helper;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
+import org.apache.commons.io.FileUtils;
 import org.moflon.maave.tool.analysis.acenforcment.ACEnforcementResult;
 import org.moflon.maave.tool.analysis.acenforcment.ACEnforcmentReport;
 import org.moflon.maave.tool.analysis.acenforcment.AcenforcmentFactory;
 import org.moflon.maave.tool.analysis.acenforcment.impl.ACEnforcmentReportImpl;
+import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
+import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisResult;
+import org.moflon.maave.tool.analysis.confluence.prettyprinter.ConfluenceAnalysisResultPrinter;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 
 public class EvalHelper
@@ -80,5 +87,166 @@ public class EvalHelper
       }
       return newReport;
       
+   }
+   public static void reportToFile(ConfluenceAnalysisReport report)
+   {
+      Function<ConfluenceAnalysisResult, String> fTimeOverall = x ->
+      {  
+         return   String.valueOf(x.getTimeOverall());
+
+      };
+      Function<ConfluenceAnalysisResult, String> fTimeConfluence = x ->
+      {  
+         return   String.valueOf(x.getTimeForConfluence());
+
+      };
+      Function<ConfluenceAnalysisResult, String> fTimeCalcMinContexts = x ->
+      {  
+         return   String.valueOf(x.getCpaResult().getTimeCalcMinContexts());
+
+      };
+      Function<ConfluenceAnalysisResult, String> fTimeFilteringConsistent = x ->
+      {  
+         return   String.valueOf(x.getCpaResult().getTimeFilteringConsistent());
+
+      };
+      Function<ConfluenceAnalysisResult, String> fTimeCalcCritpairs = x ->
+      {  
+         return   String.valueOf(x.getCpaResult().getTimeForCalcCritPairs());
+
+      };
+      ////
+      Function<ConfluenceAnalysisResult, String> fNrNonConfluentPairs = x ->
+      {  
+         return   String.valueOf(x.getNrOfNonConfluentCriticalPairs());
+
+      };
+
+      Function<ConfluenceAnalysisResult, String> fNrMincontexts = x ->
+      {  
+         return   String.valueOf(x.getCpaResult().getNrOfMinContexts());
+
+      };
+      Function<ConfluenceAnalysisResult, String> fNrOfConsistentMinContexts = x ->
+      {  
+         return   String.valueOf(x.getCpaResult().getNrOfConsistentMinContexts());
+
+      };
+      Function<ConfluenceAnalysisResult, String> fNrOfCritPairs = x ->
+      {  
+         return   String.valueOf(x.getCpaResult().getNrOfCritPairs());
+
+      };
+
+
+      Function<ConfluenceAnalysisResult, String> fTimeCPAvsConfluenceL = x ->
+      {  
+         return   "\\makecell{"+(x.getTimeOverall()-x.getTimeForConfluence())+" | "+x.getTimeForConfluence()+"}";
+
+      };
+      Function<ConfluenceAnalysisResult, String> fNumbersL = x ->
+      {  
+         return   "\\makecell{"+ x.getCpaResult().getNrOfMinContexts()+" | "+
+               x.getCpaResult().getNrOfConsistentMinContexts()+" | "+
+               x.getCpaResult().getNrOfCritPairs()+" | "+
+               x.getNrOfNonConfluentCriticalPairs()+"}";
+
+
+      };
+      Function<ConfluenceAnalysisResult, String> fTimesL = x ->
+      {  
+         return   "\\makecell{"+ x.getCpaResult().getTimeCalcMinContexts()+" | "+
+               x.getCpaResult().getTimeFilteringConsistent()+" | "+
+               x.getCpaResult().getTimeForCalcCritPairs()+" | "+
+               x.getTimeForConfluence()+"}";
+
+
+      };
+
+      Function<ConfluenceAnalysisResult, String> fNumberVSTimesL = x ->
+      {  
+         return   "\\makecell{"+x.getCpaResult().getNrOfMinContexts()+" | "+
+               x.getCpaResult().getNrOfConsistentMinContexts()+" | "+
+               x.getCpaResult().getNrOfCritPairs()+" | "+
+               x.getNrOfNonConfluentCriticalPairs() +"\\\\"+
+               x.getCpaResult().getTimeCalcMinContexts()+" | "+
+               x.getCpaResult().getTimeFilteringConsistent()+" | "+
+               x.getCpaResult().getTimeForCalcCritPairs()+" | "+
+               x.getTimeForConfluence()+"}";
+
+
+      };
+      try
+      {
+      System.out.println("====================================================================");
+      System.out.println("TimeOverall");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
+      FileUtils.writeStringToFile(new File("instances/TimeOverall.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
+
+      System.out.println("====================================================================");
+      System.out.println("instances/TimeCalcMinContexts");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcMinContexts));
+      FileUtils.writeStringToFile(new File("instances/TimeCalcMinContexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcMinContexts));
+
+      System.out.println("====================================================================");
+      System.out.println("instances/TimeFilteringConsistent");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeFilteringConsistent));
+      FileUtils.writeStringToFile(new File("instances/TimeFilteringConsistent.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeFilteringConsistent));
+
+      System.out.println("====================================================================");
+      System.out.println("instances/TimeCalcCritpairs");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcCritpairs));
+      FileUtils.writeStringToFile(new File("instances/TimeCalcCritpairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcCritpairs));
+
+      System.out.println("====================================================================");
+      System.out.println("NrMincontexts");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrMincontexts));
+      FileUtils.writeStringToFile(new File("instances/NrMincontexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrMincontexts));
+
+      System.out.println("====================================================================");
+      System.out.println("NrOfConsistentMinContexts");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfConsistentMinContexts));
+      FileUtils.writeStringToFile(new File("instances/NrOfConsistentMinContexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfConsistentMinContexts));
+
+      System.out.println("====================================================================");
+      System.out.println("NrOfCritPairs");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfCritPairs));
+      FileUtils.writeStringToFile(new File("instances/NrOfCritPairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfCritPairs));
+
+      System.out.println("====================================================================");
+      System.out.println("NrNonConfluentPairs");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrNonConfluentPairs));
+      FileUtils.writeStringToFile(new File("instances/NrNonConfluentPairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrNonConfluentPairs));
+
+      System.out.println("====================================================================");
+      System.out.println("TimeOverall Latex Table");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeOverall));
+      FileUtils.writeStringToFile(new File("instances/TimeOverall.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeOverall));
+
+      System.out.println("====================================================================");
+      System.out.println("TimeCPAvsConfluence Latex Table");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeCPAvsConfluenceL));
+      FileUtils.writeStringToFile(new File("instances/TimeCPAvsConfluence.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeCPAvsConfluenceL));
+
+      System.out.println("====================================================================");
+      System.out.println("Numbers Latex Table");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumbersL));
+      FileUtils.writeStringToFile(new File("instances/Numbers.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumbersL));
+
+      System.out.println("====================================================================");
+      System.out.println("Times Latex Table");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimesL));
+      FileUtils.writeStringToFile(new File("instances/Times.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimesL));
+      
+      System.out.println("====================================================================");
+      System.out.println("NumberVSTimes Latex Table");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumberVSTimesL));
+      FileUtils.writeStringToFile(new File("instances/NumberVSTimes.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumberVSTimesL));
+     
+      } catch (IOException e)
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
    }
 }

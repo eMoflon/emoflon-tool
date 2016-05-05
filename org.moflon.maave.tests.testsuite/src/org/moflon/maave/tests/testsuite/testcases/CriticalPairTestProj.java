@@ -58,7 +58,7 @@ public class CriticalPairTestProj {
       ICriticalPairBuilder cpBuilder=ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       
-      DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2, gts,jointlyEpiSetBuilder);
+      DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2, gts,jointlyEpiSetBuilder).getDirectDerivationPairSet();
       assertTrue(criticalPairs.getPairsOfDirectDerivations().size()==1);
 
 
@@ -96,8 +96,8 @@ public class CriticalPairTestProj {
       
       ICriticalPairBuilder cpBuilder=ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
-      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1, rule2,gts,jointlyEpiSetBuilder);
-      DirectDerivationPairSet setEmpty=cpBuilder.getAllCriticalPairs(rule1, rule3,gts,jointlyEpiSetBuilder);
+      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1, rule2,gts,jointlyEpiSetBuilder).getDirectDerivationPairSet();
+      DirectDerivationPairSet setEmpty=cpBuilder.getAllCriticalPairs(rule1, rule3,gts,jointlyEpiSetBuilder).getDirectDerivationPairSet();
 
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
       Assert.assertTrue(setEmpty.getPairsOfDirectDerivations().size()==0);
@@ -132,7 +132,7 @@ public class CriticalPairTestProj {
       ICriticalPairBuilder cpBuilder=ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
     
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
-      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder);
+      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder).getDirectDerivationPairSet();
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
    }
    @Test
@@ -163,7 +163,7 @@ public class CriticalPairTestProj {
       ICriticalPairBuilder cpBuilder=ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
-      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder);
+      DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder).getDirectDerivationPairSet();
       Assert.assertTrue(setNotEmpty.getPairsOfDirectDerivations().size()>0);
    }
 

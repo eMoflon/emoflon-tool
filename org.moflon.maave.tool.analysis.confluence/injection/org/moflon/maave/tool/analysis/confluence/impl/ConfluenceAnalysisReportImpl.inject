@@ -3,18 +3,25 @@ partial class ConfluenceAnalysisReportImpl {
 
 
 
-@model printCP () <--
+@model getOverallNrOfMinCtx () <--
 
-      StringBuilder sb = new StringBuilder();
-      for (ConfluenceAnalysisResult result : this.getConfluenceStates())
+      int i=0;  
+      for (ConfluenceAnalysisResult   result : this.getConfluenceStates())
       {
-         if (result.getNrOfCriticalpairs() > 0)
-         {
-            sb.append("========================================================================================");
-            sb.append(result.toString());
-         }
+         i=i+result.getCpaResult().getNrOfMinContexts();
       }
-      return sb.toString();
+      return i;
+-->
+
+@model getOverallNrOfConsistMinCtx () <--
+
+
+      int i=0;  
+      for (ConfluenceAnalysisResult   result : this.getConfluenceStates())
+      {
+         i=i+result.getCpaResult().getNrOfConsistentMinContexts();
+      }
+      return i;
 -->
 
 @model printNConf () <--
@@ -31,6 +38,16 @@ partial class ConfluenceAnalysisReportImpl {
       return sb.toString();
 -->
 
+@model getOverallNrOfCritPairs () <--
+
+      int i=0;  
+      for (ConfluenceAnalysisResult   result : this.getConfluenceStates())
+      {
+         i=i+result.getCpaResult().getNrOfCritPairs();
+      }
+      return i;
+-->
+
 @model toString () <--
 
       StringBuilder sb = new StringBuilder();
@@ -40,6 +57,16 @@ partial class ConfluenceAnalysisReportImpl {
          sb.append(result.toString());
       }
       return sb.toString();
+-->
+
+@model getOverallNrOfNonConfluentCritPairs () <--
+
+      int i=0;  
+      for (ConfluenceAnalysisResult   result : this.getConfluenceStates())
+      {
+         i=i+result.getNrOfNonConfluentCriticalPairs();
+      }
+      return i;
 -->
 
 }

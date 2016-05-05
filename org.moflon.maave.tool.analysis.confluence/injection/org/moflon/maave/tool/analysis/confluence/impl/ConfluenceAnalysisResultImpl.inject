@@ -7,7 +7,7 @@ partial class ConfluenceAnalysisResultImpl {
 
 @model toString () <--
 
-      return ConfluenceAnalysisResultPrinter.printConfluenceStatusExample(this);
+     return super.toString();
 -->
 
 }

@@ -16,9 +16,10 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
 @model checkConfluence (GraphTransformationSystem gts) <--
 
       ICriticalPairBuilder criticalPairBuilder = ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
-      JointlyEpiSetBuilder jointlyEpiSetBuilder = AnalysisFactory.eINSTANCE.createConsitentJointlyEpiSetBuilder();
+      JointlyEpiSetBuilder jointlyEpiSetBuilder = AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       this.setGraphTransformationSystem(gts);
       ConfluenceAnalysisReport report = ConfluenceFactory.eINSTANCE.createConfluenceAnalysisReport();
+      long absTimeStart = System.currentTimeMillis();
       for (int i = 0; i < gts.getRules().size(); i++)
       {
          for (int j = i; j < gts.getRules().size(); j++)
@@ -41,8 +42,7 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
                      "=============== Starting Confluence Analysis For Rule Pair: " + rule1.getName() + " | " + rule2.getName() + "====================");
                System.out.println("----------------------------Starting Critical Pair Analyis  -------------------------");
             }
-            long timeStampStart = System.currentTimeMillis();
-
+            // Critical Pair analysis
             CpaResult cpaResult = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
             DirectDerivationPairSet criticalPairSet = cpaResult.getDirectDerivationPairSet();
             if (WsInfo.getVerboseLevel() >= 5)
@@ -54,16 +54,17 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
                }
                System.out.println("");
             }
-            long timeStampCPA = System.currentTimeMillis();
 
             ConfluenceAnalysisResult result = ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult();
             result.setValid(false);
             result.setRuleA(rule1.getName());
             result.setRuleB(rule2.getName());
+            // Confluence Analysis 
             if (WsInfo.getVerboseLevel() >= 5)
             {
                System.out.println("--------------------------------Starting Confluence Analysis -------------------------");
             }
+            long absTimeConfluenceStart = System.currentTimeMillis();
             for (DirectDerivationPair criticalPair : criticalPairSet.getPairsOfDirectDerivations())
             {
 
@@ -81,20 +82,18 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
             {
                System.out.println("");
             }
-            //            System.out.println("Remaining CP=" + criticalPairSet.getPairsOfDirectDerivations().size());
-            //            ConfluenceAnalysisResult result = criticalPairSet.getPairsOfDirectDerivations().stream().map(x -> this.checkDirectConfluence(x))
-            //                  .filter(s -> s.isValid() == false).findAny().orElse(ConfluenceFactory.eINSTANCE.createConfluenceAnalysisResult());
-
-            long timeStampConfluence = System.currentTimeMillis();
+            long absTimeStop = System.currentTimeMillis();
             if (result.getNonConfluentCriticalPairs().isEmpty())
             {
                result.setValid(true);
             }
+            result.setCpaResult(cpaResult);
             result.setMessage("Confluence analysis result for Rules: " + rule1.getName() + " | " + rule2.getName());
-            result.setNrOfCriticalpairs(criticalPairSet.getPairsOfDirectDerivations().size());
-            result.setTimeForCPA(timeStampCPA - timeStampStart);
-            result.setTimeForConfluence(timeStampConfluence - timeStampCPA);
+            result.setNrOfNonConfluentCriticalPairs(result.getNonConfluentCriticalPairs().size());
+            result.setTimeForConfluence(absTimeStop-absTimeConfluenceStart);
+            result.setTimeOverall(absTimeStart-absTimeStop);
             report.getConfluenceStates().add(result);
+            
          }
       }
       return report;
