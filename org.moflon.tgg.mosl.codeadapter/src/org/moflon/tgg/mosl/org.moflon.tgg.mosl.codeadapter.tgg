@@ -1,5 +1,5 @@
 #import "http://www.moflon.org/ide/tgg/mosl/TGG"
-#import "platform:/resource/org.moflon.tgg.tggproject/model/Tggproject.ecore"
+#import "platform:/plugin/org.moflon.tgg.tggproject/model/Tggproject.ecore"
 #import "http://www.eclipse.org/emf/2002/Ecore"
 #import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
 #import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions"
