@@ -1,5 +1,4 @@
 
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.MappingUtil;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
@@ -13,27 +12,27 @@ partial class AbstractDirectDerivationBuilderImpl {
 
 @model constructPartialMorphismForLabelNodes (SymbolicGraphMorphism morK_L, SymbolicGraphMorphism morB_L) <--
 
-		Mapping<LabelNode> labelNodeMappingK_L = ((SymbolicGraphMorphismImpl) morK_L).labelNodeMap;
-		if (MappingUtil.isInjective(labelNodeMappingK_L) == false) {
-			throw new InvalidParameterException("Parameter morK_L is not injective for label nodes");
-		}
-		Mapping<LabelNode> labelNodeMappingL_K = labelNodeMappingK_L.getInverseMapping();
+      Mapping<LabelNode> labelNodeMappingK_L = ((SymbolicGraphMorphismImpl) morK_L).labelNodeMap;
+      if (MappingUtil.isInjective(labelNodeMappingK_L) == false)
+      {
+         throw new InvalidParameterException("Parameter morK_L is not injective for label nodes");
+      }
+      Mapping<LabelNode> labelNodeMappingL_K = labelNodeMappingK_L.getInverseMapping();
 
-		SymbolicGraphMorphismImpl partMorL_K = (SymbolicGraphMorphismImpl) SymbolicGraphMorphismsFactory.eINSTANCE
-				.createSymbolicGraphMorphism();
-		partMorL_K.setDom(morK_L.getCodom());
-		partMorL_K.setCodom(morK_L.getDom());
-		partMorL_K.labelNodeMap = labelNodeMappingL_K;
-		return morB_L.composeWith(partMorL_K);
+      SymbolicGraphMorphismImpl partMorL_K = (SymbolicGraphMorphismImpl) SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
+      partMorL_K.setDom(morK_L.getCodom());
+      partMorL_K.setCodom(morK_L.getDom());
+      partMorL_K.labelNodeMap = labelNodeMappingL_K;
+      return morB_L.composeWith(partMorL_K);
 -->
 
 @model checkACs (SymbolicGraphMorphism match, MorphismClass matchMorClass, boolean checkAc) <--
 
-		if(checkAc==false)
-		{
-			return true;
-		}
-		return !match.getDom().getConditions().stream().anyMatch(x->x.isSat(match, matchMorClass)==false);
+      if (checkAc == false)
+      {
+         return true;
+      }
+      return !match.getDom().getConditions().stream().anyMatch(x -> x.isSat(match, matchMorClass) == false);
 -->
 
 }

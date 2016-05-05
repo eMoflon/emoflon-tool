@@ -3,9 +3,6 @@ import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Condition;
 import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.IMorphismFinder;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
 
 partial class GlobalConstraintImpl {
 
@@ -13,10 +10,8 @@ partial class GlobalConstraintImpl {
 
 @model isConsistent (SymbolicGraph graphG) <--
 
-      MorphismFinderFactory morFinderFac = MatchingFactory.eINSTANCE.createMorphismFinderFactory();
       Status status = MaaveutilFactory.eINSTANCE.createStatus();
-      
-      
+
       SymbolicGraph graphI = this.getConstraint();
       SymbolicGraphMorphism morI_G = SymbolicGraphMorphismsFactory.eINSTANCE.createSymbolicGraphMorphism();
       morI_G.setDom(graphI);
@@ -30,7 +25,7 @@ partial class GlobalConstraintImpl {
             return status;
          }
       }
-  
+
       return status;
 -->
 

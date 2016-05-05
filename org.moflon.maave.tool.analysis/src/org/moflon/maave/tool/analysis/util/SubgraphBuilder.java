@@ -173,7 +173,6 @@ public class SubgraphBuilder
 
    }
 
-   private long time = 0;
 
    private void addToElementToIndexMap(List<? extends Object> eList)
    {

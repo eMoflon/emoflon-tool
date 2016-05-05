@@ -2,8 +2,6 @@
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.EGraphElementSwitch;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.symbolicgraphs.printing.GraphAndMorphismPrinter;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsPackage;
 
@@ -11,13 +9,13 @@ partial class SymbolicGraphMorphismImpl {
 
 @members <--
 
-   public Mapping<GraphNode> graphNodeMap = new Mapping(20);
+   public Mapping<GraphNode> graphNodeMap = new Mapping<GraphNode>(20);
 
-   public Mapping<GraphEdge> graphEdgeMap = new Mapping(20);
+   public Mapping<GraphEdge> graphEdgeMap = new Mapping<GraphEdge>(20);
 
-   public Mapping<LabelEdge> labelEdgeMap = new Mapping(20);
+   public Mapping<LabelEdge> labelEdgeMap = new Mapping<LabelEdge>(20);
 
-   public Mapping<LabelNode> labelNodeMap = new Mapping(20);
+   public Mapping<LabelNode> labelNodeMap = new Mapping<LabelNode>(20);
 
    private class MyImageOfEGraphElementSwitch extends EGraphElementSwitch<EGraphElement>
    {

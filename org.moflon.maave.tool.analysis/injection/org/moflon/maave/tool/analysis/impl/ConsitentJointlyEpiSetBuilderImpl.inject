@@ -2,7 +2,6 @@
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -74,7 +73,7 @@ partial class ConsitentJointlyEpiSetBuilderImpl {
          System.out.println("----------------------------- Calculating Minimal Contexts ------------------------------------------------");
          System.out.println("Number of minimal contexts=" + minimalContexts.size());
          System.out.println("Filtering minimal contexts:");
-         for (MorphismPair morphismPair : minimalContexts)
+         for (int n=0;n<minimalContexts.size();n++)
          {
             System.out.print("X");
          }

@@ -101,7 +101,7 @@ public class ConfluenceAnalysisResultPrinter
    public static String confluenceReportToTable(ConfluenceAnalysisReport report)
    {
 //      ArrayList<ArrayList<String>> table=new ArrayList<ArrayList<String>>();
-      HashMap<String, Integer> nameToIndex=new HashMap();
+      HashMap<String, Integer> nameToIndex=new HashMap<String, Integer>();
       int i=0;
       for (ConfluenceAnalysisResult result : report.getConfluenceStates())
       {

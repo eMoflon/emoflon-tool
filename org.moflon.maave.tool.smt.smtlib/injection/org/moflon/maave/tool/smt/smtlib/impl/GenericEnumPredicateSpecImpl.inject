@@ -27,7 +27,7 @@ partial class GenericEnumPredicateSpecImpl {
 
          if (predicate.getParameters().size() == 2)
          {
-            ST invocST = new ST(this.EQ_INVOCATION_TEMPLATE, '<', '>');
+            ST invocST = new ST(GenericEnumPredicateSpecImpl.EQ_INVOCATION_TEMPLATE, '<', '>');
 
             invocST.add("type", type.getName());
             invocST.add("var0", variables.get(0));
@@ -37,7 +37,7 @@ partial class GenericEnumPredicateSpecImpl {
             return invocation;
          } else if (predicate.getParameters().size() == 3)
          {
-            ST invocST = new ST(this.IS_EQ_INVOCATION_TEMPLATE, '<', '>');
+            ST invocST = new ST(GenericEnumPredicateSpecImpl.IS_EQ_INVOCATION_TEMPLATE, '<', '>');
 
             invocST.add("type", type.getName());
             invocST.add("var0", variables.get(0));
@@ -94,7 +94,7 @@ partial class GenericEnumPredicateSpecImpl {
          EEnum type = (EEnum) predicate.getParameters().get(0).getType();
          if (predicate.getParameters().size() == 2)
          {
-            ST declST = new ST(this.EQ_DECLARATION_TEMPLATE, '<', '>');
+            ST declST = new ST(GenericEnumPredicateSpecImpl.EQ_DECLARATION_TEMPLATE, '<', '>');
 
             declST.add("type", type.getName());
             String declaration = declST.render();
@@ -102,7 +102,7 @@ partial class GenericEnumPredicateSpecImpl {
             return declaration;
          } else if (predicate.getParameters().size() == 3)
          {
-            ST declST = new ST(this.IS_EQ_DECLARATION_TEMPLATE, '<', '>');
+            ST declST = new ST(GenericEnumPredicateSpecImpl.IS_EQ_DECLARATION_TEMPLATE, '<', '>');
 
             declST.add("type", type.getName());
             String declaration = declST.render();

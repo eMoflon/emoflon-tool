@@ -1,9 +1,5 @@
 
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraphsFactory;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Parameter;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Predicate;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import java.util.Optional;
 
 partial class DisjunctionImpl {

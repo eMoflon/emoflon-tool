@@ -1,13 +1,11 @@
 
+import org.moflon.maave.tool.analysis.confluence.ICriticalPairBuilder;
 import org.moflon.maave.wsconfig.WsInfo;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisResult;
 import org.moflon.maave.tool.graphtransformation.DirectDerivationPairSet;
-import org.moflon.maave.tool.analysis.confluence.NaiveConfDirectDerivationIterator;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.moflon.maave.tool.analysis.confluence.ItterativeDirectDerivationIterator;
 import org.moflon.maave.tool.analysis.AnalysisFactory;
-import org.moflon.maave.tool.analysis.CriticalPairBuilder;
+import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
 import org.moflon.maave.tool.analysis.JointlyEpiSetBuilder;
 
 partial class SubcommutativityModuloNFEQAnalyserImpl {
@@ -16,7 +14,7 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
 
 @model checkConfluence (GraphTransformationSystem gts) <--
 
-      CriticalPairBuilder criticalPairBuilder = AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
+      ICriticalPairBuilder criticalPairBuilder = ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder = AnalysisFactory.eINSTANCE.createConsitentJointlyEpiSetBuilder();
       this.setGraphTransformationSystem(gts);
       ConfluenceAnalysisReport report = ConfluenceFactory.eINSTANCE.createConfluenceAnalysisReport();
@@ -48,7 +46,7 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
             if (WsInfo.getVerboseLevel() >= 5)
             {
                System.out.println("Number of Critical Pairs=" + criticalPairSet.getPairsOfDirectDerivations().size());
-               for (Object obj : criticalPairSet.getPairsOfDirectDerivations())
+               for (int i1 = 0; i1 < criticalPairSet.getPairsOfDirectDerivations().size(); i1++)
                {
                   System.out.print("X");
                }

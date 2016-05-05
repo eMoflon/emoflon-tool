@@ -33,6 +33,7 @@ partial class SymbolicGraphCatImpl {
 
 @members <--
 
+   
    private SymbolicPushoutComplement uncheckedPushoutComplement(SymbolicGraphMorphism morK_L, SymbolicGraphMorphism morL_G)
    {
       // [user code injected with eMoflon]

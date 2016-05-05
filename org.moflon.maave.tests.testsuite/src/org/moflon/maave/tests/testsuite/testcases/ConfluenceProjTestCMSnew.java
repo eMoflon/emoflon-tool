@@ -76,8 +76,9 @@ public class ConfluenceProjTestCMSnew {
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
       //System.out.println("#NCP="+report.getConfluenceStates().stream().filter(x->x.isValid()==false).count());
       //System.out.println(ConfluenceAnalysisResultPrinter.printConfluenceReport(report, true, false, true, true));
-      System.out.println("time: "+(System.currentTimeMillis()-start));
+      long time=System.currentTimeMillis()-start;
       ConfluenceAnalysisResultPrinter.confluenceReportToTable(report);
+      System.out.println("time: "+time);
 
 
    }
@@ -124,9 +125,7 @@ public class ConfluenceProjTestCMSnew {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
       //Add ArityConstraints
-      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-      GlobalConstraint mmC=constraintBuilder.buildConstraints(pack);
-      gts.getGlobalConstraints().add(mmC);
+      ModelHelper.addCardinalityConstraintsToGTS(pack, gts);
       //Add user defined constraints
       gts.getGlobalConstraints().add(ModelHelper.getUserDefConstraints(pack));
 

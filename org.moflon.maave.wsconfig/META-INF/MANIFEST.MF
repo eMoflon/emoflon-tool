@@ -4,3 +4,4 @@ Bundle-Name: Wsconfig
 Bundle-SymbolicName: org.moflon.maave.wsconfig
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.moflon.maave.wsconfig
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

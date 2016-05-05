@@ -16,8 +16,6 @@ public class FormulaToSMTLibTransformer implements IFormulaTransformer {
 	private IPredicateTransformer predicateTransformer;
 	private STGroup stg;
 
-	private static final String IMPLICATION="=>";
-	private static final String BI_IMPLICATION="=";
 	
 	public FormulaToSMTLibTransformer() {
 		this.stg = new STGroup('<', '>');

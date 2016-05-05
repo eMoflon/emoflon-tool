@@ -1,18 +1,16 @@
 
 import org.eclipse.emf.ecore.EPackage.Registry;
-import org.gervarro.democles.common.DataFrame;
+
 import org.gervarro.democles.constraint.emf.EMFConstraintModule;
-import org.gervarro.democles.emf.EMFWeightedOperationBuilder;
+
 import org.gervarro.democles.interpreter.PatternMatcherModule;
 import org.gervarro.democles.operation.emf.ReflectiveInterpreterOperationBuilder;
 import org.gervarro.democles.plan.WeightedOperationBuilder;
 import org.gervarro.democles.plan.combiner.InterpreterCombiner;
 import org.gervarro.democles.plan.common.DefaultAlgorithm;
-import org.gervarro.democles.runtime.InterpretedDataFrame;
 import org.gervarro.democles.runtime.RemappingOperation;
 import org.gervarro.democles.runtime.Scheduler;
 import org.gervarro.democles.specification.emf.EMFPatternBuilder;
-import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.SpecificationPackage;
 import org.gervarro.democles.specification.emf.constraint.EMFTypeModule;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypePackage;
@@ -36,152 +34,133 @@ partial class MorphismFinderFactoryImpl {
 
 @model createInjectiveEGraphMorphismFinder (SymbolicGraph symbolicGraph) <--
 
-		FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();
-		foResult.init(symbolicGraph);
+      FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();
+      foResult.init(symbolicGraph);
 
-		SpecificationPackage.eINSTANCE.getSpecificationFactory();
-		EMFTypePackage.eINSTANCE.getEMFTypeFactory();
-		SymbolicGraphsPackage.eINSTANCE.getClass();
+      SpecificationPackage.eINSTANCE.getSpecificationFactory();
+      EMFTypePackage.eINSTANCE.getEMFTypeFactory();
+      SymbolicGraphsPackage.eINSTANCE.getClass();
 
-		// 2) Prepares an internal representation for the pattern
-		EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder = new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(
-				new DefaultPatternFactory());
-		EMFConstraintModule emfTypeModule = new EMFConstraintModule((Registry) null);
-		EMFTypeModule internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
-		patternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
-		patternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+      // 2) Prepares an internal representation for the pattern
+      EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder = new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(
+            new DefaultPatternFactory());
+      EMFConstraintModule emfTypeModule = new EMFConstraintModule((Registry) null);
+      EMFTypeModule internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
+      patternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+      patternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
 
-		SymbolicGraphConstraintModule symbolicGraphConstraintModule = new SymbolicGraphConstraintModule(
-				(Registry) null);
-		SymbolicGraphTypeModule symbolicGraphTypeModule = new SymbolicGraphTypeModule(symbolicGraphConstraintModule);
-		patternBuilder.addVariableTypeSwitch(symbolicGraphTypeModule.getVariableTypeSwitch());
+      SymbolicGraphConstraintModule symbolicGraphConstraintModule = new SymbolicGraphConstraintModule((Registry) null);
+      SymbolicGraphTypeModule symbolicGraphTypeModule = new SymbolicGraphTypeModule(symbolicGraphConstraintModule);
+      patternBuilder.addVariableTypeSwitch(symbolicGraphTypeModule.getVariableTypeSwitch());
 
-		// 3) Initializes the pattern matcher module
-		WeightedOperationBuilder<RemappingOperation> builder = new EGraphGraphWeightedOperationBuilder<RemappingOperation>();
-		DefaultAlgorithm<InterpreterCombiner, RemappingOperation> searchPlanAlgorithm = new DefaultAlgorithm<InterpreterCombiner, RemappingOperation>(
-				builder);
-		PatternMatcherModule patternMatcherModule = new PatternMatcherModule();
-		patternMatcherModule.setAlgorithm(searchPlanAlgorithm);
-		patternMatcherModule.setScheduler(new Scheduler());
+      // 3) Initializes the pattern matcher module
+      WeightedOperationBuilder<RemappingOperation> builder = new EGraphGraphWeightedOperationBuilder<RemappingOperation>();
+      DefaultAlgorithm<InterpreterCombiner, RemappingOperation> searchPlanAlgorithm = new DefaultAlgorithm<InterpreterCombiner, RemappingOperation>(builder);
+      PatternMatcherModule patternMatcherModule = new PatternMatcherModule();
+      patternMatcherModule.setAlgorithm(searchPlanAlgorithm);
+      patternMatcherModule.setScheduler(new Scheduler());
 
-		ReflectiveInterpreterOperationBuilder emfReflectiveOperationBuilder = new ReflectiveInterpreterOperationBuilder(
-				emfTypeModule);
-		patternMatcherModule.addOperationBuilder(emfReflectiveOperationBuilder);
+      ReflectiveInterpreterOperationBuilder emfReflectiveOperationBuilder = new ReflectiveInterpreterOperationBuilder(emfTypeModule);
+      patternMatcherModule.addOperationBuilder(emfReflectiveOperationBuilder);
 
-		EGraphInterpreterOperationBuilder eGraphInterpreterOperationBuilder = new EGraphInterpreterOperationBuilder(
-				symbolicGraphConstraintModule);
-		patternMatcherModule.addOperationBuilder(eGraphInterpreterOperationBuilder);
-		// TODO revert engine.addOperationBuilder(new SpecificationPackageOperationBuilder());
-		// 4) Creates the interpretable pattern matcher
-		DefaultPattern internalPatternSpecification = patternBuilder.build(foResult.getFirstOrderPattern());
-		org.gervarro.democles.interpreter.Pattern patternRuntime = patternMatcherModule
-				.build(internalPatternSpecification);
-		CInjectiveEGraphMorphismFinder morphismFinder = MatchingFactory.eINSTANCE
-				.createCInjectiveEGraphMorphismFinder();
-		morphismFinder.setFOTransformationResult(foResult);
-		((CInjectiveEGraphMorphismFinderImpl) morphismFinder).patternRuntime = patternRuntime;
-		return morphismFinder;
+      EGraphInterpreterOperationBuilder eGraphInterpreterOperationBuilder = new EGraphInterpreterOperationBuilder(symbolicGraphConstraintModule);
+      patternMatcherModule.addOperationBuilder(eGraphInterpreterOperationBuilder);
+      // TODO revert engine.addOperationBuilder(new SpecificationPackageOperationBuilder());
+      // 4) Creates the interpretable pattern matcher
+      DefaultPattern internalPatternSpecification = patternBuilder.build(foResult.getFirstOrderPattern());
+      org.gervarro.democles.interpreter.Pattern patternRuntime = patternMatcherModule.build(internalPatternSpecification);
+      CInjectiveEGraphMorphismFinder morphismFinder = MatchingFactory.eINSTANCE.createCInjectiveEGraphMorphismFinder();
+      morphismFinder.setFOTransformationResult(foResult);
+      ((CInjectiveEGraphMorphismFinderImpl) morphismFinder).patternRuntime = patternRuntime;
+      return morphismFinder;
 -->
 
 @model createInjectiveSymbolicGraphMorphismFinder (SymbolicGraph symbolicGraph) <--
 
-		FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();
-		foResult.init(symbolicGraph);
+      FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();
+      foResult.init(symbolicGraph);
 
-		SpecificationPackage.eINSTANCE.getSpecificationFactory();
-		EMFTypePackage.eINSTANCE.getEMFTypeFactory();
-		SymbolicGraphsPackage.eINSTANCE.getClass();
+      SpecificationPackage.eINSTANCE.getSpecificationFactory();
+      EMFTypePackage.eINSTANCE.getEMFTypeFactory();
+      SymbolicGraphsPackage.eINSTANCE.getClass();
 
-		// 2) Prepares an internal representation for the pattern
-		EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder = new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(
-				new DefaultPatternFactory());
-		EMFConstraintModule emfTypeModule = new EMFConstraintModule((Registry) null);
-		EMFTypeModule internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
-		patternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
-		patternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+      // 2) Prepares an internal representation for the pattern
+      EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder = new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(
+            new DefaultPatternFactory());
+      EMFConstraintModule emfTypeModule = new EMFConstraintModule((Registry) null);
+      EMFTypeModule internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
+      patternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+      patternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
 
-		SymbolicGraphConstraintModule symbolicGraphConstraintModule = new SymbolicGraphConstraintModule(
-				(Registry) null);
-		SymbolicGraphTypeModule symbolicGraphTypeModule = new SymbolicGraphTypeModule(symbolicGraphConstraintModule);
-		patternBuilder.addVariableTypeSwitch(symbolicGraphTypeModule.getVariableTypeSwitch());
+      SymbolicGraphConstraintModule symbolicGraphConstraintModule = new SymbolicGraphConstraintModule((Registry) null);
+      SymbolicGraphTypeModule symbolicGraphTypeModule = new SymbolicGraphTypeModule(symbolicGraphConstraintModule);
+      patternBuilder.addVariableTypeSwitch(symbolicGraphTypeModule.getVariableTypeSwitch());
 
-		// 3) Initializes the pattern matcher module
-		WeightedOperationBuilder<RemappingOperation> builder = new EGraphGraphWeightedOperationBuilder<RemappingOperation>();
-		DefaultAlgorithm<InterpreterCombiner, RemappingOperation> searchPlanAlgorithm = new DefaultAlgorithm<InterpreterCombiner, RemappingOperation>(
-				builder);
-		PatternMatcherModule patternMatcherModule = new PatternMatcherModule();
-		patternMatcherModule.setAlgorithm(searchPlanAlgorithm);
-		patternMatcherModule.setScheduler(new Scheduler());
+      // 3) Initializes the pattern matcher module
+      WeightedOperationBuilder<RemappingOperation> builder = new EGraphGraphWeightedOperationBuilder<RemappingOperation>();
+      DefaultAlgorithm<InterpreterCombiner, RemappingOperation> searchPlanAlgorithm = new DefaultAlgorithm<InterpreterCombiner, RemappingOperation>(builder);
+      PatternMatcherModule patternMatcherModule = new PatternMatcherModule();
+      patternMatcherModule.setAlgorithm(searchPlanAlgorithm);
+      patternMatcherModule.setScheduler(new Scheduler());
 
-		ReflectiveInterpreterOperationBuilder emfReflectiveOperationBuilder = new ReflectiveInterpreterOperationBuilder(
-				emfTypeModule);
-		patternMatcherModule.addOperationBuilder(emfReflectiveOperationBuilder);
+      ReflectiveInterpreterOperationBuilder emfReflectiveOperationBuilder = new ReflectiveInterpreterOperationBuilder(emfTypeModule);
+      patternMatcherModule.addOperationBuilder(emfReflectiveOperationBuilder);
 
-		EGraphInterpreterOperationBuilder eGraphInterpreterOperationBuilder = new EGraphInterpreterOperationBuilder(
-				symbolicGraphConstraintModule);
-		patternMatcherModule.addOperationBuilder(eGraphInterpreterOperationBuilder);
-		// TODO revert engine.addOperationBuilder(new SpecificationPackageOperationBuilder());
-		// 4) Creates the interpretable pattern matcher
-		DefaultPattern internalPatternSpecification = patternBuilder.build(foResult.getFirstOrderPattern());
-		org.gervarro.democles.interpreter.Pattern patternRuntime = patternMatcherModule
-				.build(internalPatternSpecification);
-		SInjectiveSymbolicGraphMorphismFinder morphismFinder = MatchingFactory.eINSTANCE
-				.createSInjectiveSymbolicGraphMorphismFinder();
-		morphismFinder.setFOTransformationResult(foResult);
-		((CInjectiveEGraphMorphismFinderImpl) morphismFinder).patternRuntime = patternRuntime;
-		return morphismFinder;
+      EGraphInterpreterOperationBuilder eGraphInterpreterOperationBuilder = new EGraphInterpreterOperationBuilder(symbolicGraphConstraintModule);
+      patternMatcherModule.addOperationBuilder(eGraphInterpreterOperationBuilder);
+      // TODO revert engine.addOperationBuilder(new SpecificationPackageOperationBuilder());
+      // 4) Creates the interpretable pattern matcher
+      DefaultPattern internalPatternSpecification = patternBuilder.build(foResult.getFirstOrderPattern());
+      org.gervarro.democles.interpreter.Pattern patternRuntime = patternMatcherModule.build(internalPatternSpecification);
+      SInjectiveSymbolicGraphMorphismFinder morphismFinder = MatchingFactory.eINSTANCE.createSInjectiveSymbolicGraphMorphismFinder();
+      morphismFinder.setFOTransformationResult(foResult);
+      ((CInjectiveEGraphMorphismFinderImpl) morphismFinder).patternRuntime = patternRuntime;
+      return morphismFinder;
 -->
 
 @model createMorphismFinder (SymbolicGraph pattern, MorphismClass morphismClass) <--
 
+      FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();
+      foResult.init(pattern);
 
-		FOTransformationResult foResult = MatchingFactory.eINSTANCE.createFOTransformationResult();
-		foResult.init(pattern);
+      SpecificationPackage.eINSTANCE.getSpecificationFactory();
+      EMFTypePackage.eINSTANCE.getEMFTypeFactory();
+      SymbolicGraphsPackage.eINSTANCE.getClass();
 
-		SpecificationPackage.eINSTANCE.getSpecificationFactory();
-		EMFTypePackage.eINSTANCE.getEMFTypeFactory();
-		SymbolicGraphsPackage.eINSTANCE.getClass();
+      // 2) Prepares an internal representation for the pattern
+      EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder = new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(
+            new DefaultPatternFactory());
+      EMFConstraintModule emfTypeModule = new EMFConstraintModule((Registry) null);
+      EMFTypeModule internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
+      patternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
+      patternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
 
-		// 2) Prepares an internal representation for the pattern
-		EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder = new EMFPatternBuilder<DefaultPattern, DefaultPatternBody>(
-				new DefaultPatternFactory());
-		EMFConstraintModule emfTypeModule = new EMFConstraintModule((Registry) null);
-		EMFTypeModule internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
-		patternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
-		patternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
+      SymbolicGraphConstraintModule symbolicGraphConstraintModule = new SymbolicGraphConstraintModule((Registry) null);
+      SymbolicGraphTypeModule symbolicGraphTypeModule = new SymbolicGraphTypeModule(symbolicGraphConstraintModule);
+      patternBuilder.addVariableTypeSwitch(symbolicGraphTypeModule.getVariableTypeSwitch());
 
-		SymbolicGraphConstraintModule symbolicGraphConstraintModule = new SymbolicGraphConstraintModule(
-				(Registry) null);
-		SymbolicGraphTypeModule symbolicGraphTypeModule = new SymbolicGraphTypeModule(symbolicGraphConstraintModule);
-		patternBuilder.addVariableTypeSwitch(symbolicGraphTypeModule.getVariableTypeSwitch());
+      // 3) Initializes the pattern matcher module
+      WeightedOperationBuilder<RemappingOperation> builder = new EGraphGraphWeightedOperationBuilder<RemappingOperation>();
+      DefaultAlgorithm<InterpreterCombiner, RemappingOperation> searchPlanAlgorithm = new DefaultAlgorithm<InterpreterCombiner, RemappingOperation>(builder);
+      PatternMatcherModule patternMatcherModule = new PatternMatcherModule();
+      patternMatcherModule.setAlgorithm(searchPlanAlgorithm);
+      patternMatcherModule.setScheduler(new Scheduler());
 
-		// 3) Initializes the pattern matcher module
-		WeightedOperationBuilder<RemappingOperation> builder = new EGraphGraphWeightedOperationBuilder<RemappingOperation>();
-		DefaultAlgorithm<InterpreterCombiner, RemappingOperation> searchPlanAlgorithm = new DefaultAlgorithm<InterpreterCombiner, RemappingOperation>(
-				builder);
-		PatternMatcherModule patternMatcherModule = new PatternMatcherModule();
-		patternMatcherModule.setAlgorithm(searchPlanAlgorithm);
-		patternMatcherModule.setScheduler(new Scheduler());
+      ReflectiveInterpreterOperationBuilder emfReflectiveOperationBuilder = new ReflectiveInterpreterOperationBuilder(emfTypeModule);
+      patternMatcherModule.addOperationBuilder(emfReflectiveOperationBuilder);
 
-		ReflectiveInterpreterOperationBuilder emfReflectiveOperationBuilder = new ReflectiveInterpreterOperationBuilder(
-				emfTypeModule);
-		patternMatcherModule.addOperationBuilder(emfReflectiveOperationBuilder);
+      EGraphInterpreterOperationBuilder eGraphInterpreterOperationBuilder = new EGraphInterpreterOperationBuilder(symbolicGraphConstraintModule);
+      patternMatcherModule.addOperationBuilder(eGraphInterpreterOperationBuilder);
+      // TODO revert engine.addOperationBuilder(new SpecificationPackageOperationBuilder());
+      // 4) Creates the interpretable pattern matcher
+      DefaultPattern internalPatternSpecification = patternBuilder.build(foResult.getFirstOrderPattern());
+      org.gervarro.democles.interpreter.Pattern patternRuntime = patternMatcherModule.build(internalPatternSpecification);
 
-		EGraphInterpreterOperationBuilder eGraphInterpreterOperationBuilder = new EGraphInterpreterOperationBuilder(
-				symbolicGraphConstraintModule);
-		patternMatcherModule.addOperationBuilder(eGraphInterpreterOperationBuilder);
-		// TODO revert engine.addOperationBuilder(new SpecificationPackageOperationBuilder());
-		// 4) Creates the interpretable pattern matcher
-		DefaultPattern internalPatternSpecification = patternBuilder.build(foResult.getFirstOrderPattern());
-		org.gervarro.democles.interpreter.Pattern patternRuntime = patternMatcherModule
-				.build(internalPatternSpecification);
-		
-		ConfigurableMorphismFinder morphismFinder = MatchingFactory.eINSTANCE
-				.createConfigurableMorphismFinder();
-		morphismFinder.setPatternSpec(foResult);
-		morphismFinder.setMorphismClass(morphismClass);
-		((ConfigurableMorphismFinderImpl) morphismFinder).patternRuntime = patternRuntime;
-		return morphismFinder;
+      ConfigurableMorphismFinder morphismFinder = MatchingFactory.eINSTANCE.createConfigurableMorphismFinder();
+      morphismFinder.setPatternSpec(foResult);
+      morphismFinder.setMorphismClass(morphismClass);
+      ((ConfigurableMorphismFinderImpl) morphismFinder).patternRuntime = patternRuntime;
+      return morphismFinder;
 -->
 
 }

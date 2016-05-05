@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.EGraphElement;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.LabelNode;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
-import org.moflon.maave.tool.category.CategoryFactory;
-import org.moflon.maave.tool.category.SymbolicGraphCat;
 import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
 
 partial class NormalFormBuilderImpl {

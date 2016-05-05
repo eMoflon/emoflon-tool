@@ -1,13 +1,6 @@
 
 import org.gervarro.democles.specification.emf.Variable;
-import java.io.IOException;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.eclipse.emf.common.util.URI;
-import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
 import java.util.HashMap;
-import org.eclipse.emf.ecore.EObject;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.transformation.EGraphToHoPatternSpecTransformer;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.transformation.GraphEdge2GraphEdgeVariable;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.transformation.GraphNode2GraphNodeVariable;

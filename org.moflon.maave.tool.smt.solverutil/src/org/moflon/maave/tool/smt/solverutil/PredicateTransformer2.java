@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EDataType;
-import org.moflon.maave.tool.smt.smtlib.PredicateSpec;
-import org.moflon.maave.tool.smt.smtlib.SMTLib;
 import org.moflon.maave.tool.smt.smtlib.SmtLibHelper;
 import org.moflon.maave.tool.symbolicgraphs.Datastructures.Mapping;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Constant;

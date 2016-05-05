@@ -3,9 +3,6 @@ import org.moflon.maave.tool.maaveutil.MaaveutilFactory;
 import org.moflon.maave.tool.maaveutil.Status;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.util.MorphismClassUtil;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.impl.SymbolicGraphMorphismImpl;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
-import org.moflon.maave.tool.smt.solverutil.IAttribSolver;
-import org.moflon.maave.tool.smt.solverutil.Z3AttribSolver;
 
 partial class ConfigurableMorphismClassImpl {
 

@@ -11,9 +11,9 @@ import org.junit.Test;
 import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
 import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.analysis.AnalysisFactory;
-import org.moflon.maave.tool.analysis.CriticalPairBuilder;
 import org.moflon.maave.tool.analysis.JointlyEpiSetBuilder;
-import org.moflon.maave.tool.graphtransformation.DirectDerivationBuilder;
+import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
+import org.moflon.maave.tool.analysis.confluence.ICriticalPairBuilder;
 import org.moflon.maave.tool.graphtransformation.DirectDerivationPairSet;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
@@ -55,7 +55,7 @@ public class CriticalPairTestProj {
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       
-      CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
+      ICriticalPairBuilder cpBuilder=ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       
       DirectDerivationPairSet criticalPairs=cpBuilder.getAllCriticalPairs(rule1, rule2, gts,jointlyEpiSetBuilder);
@@ -94,7 +94,7 @@ public class CriticalPairTestProj {
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       
       
-      CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
+      ICriticalPairBuilder cpBuilder=ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1, rule2,gts,jointlyEpiSetBuilder);
       DirectDerivationPairSet setEmpty=cpBuilder.getAllCriticalPairs(rule1, rule3,gts,jointlyEpiSetBuilder);
@@ -129,7 +129,7 @@ public class CriticalPairTestProj {
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       
-      CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
+      ICriticalPairBuilder cpBuilder=ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
     
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder);
@@ -160,7 +160,7 @@ public class CriticalPairTestProj {
       gts.getRules().add(rule2);
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-      CriticalPairBuilder cpBuilder=AnalysisFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
+      ICriticalPairBuilder cpBuilder=ConfluenceFactory.eINSTANCE.createBasicSymbolicCriticalPairBuilder();
       
       JointlyEpiSetBuilder jointlyEpiSetBuilder=AnalysisFactory.eINSTANCE.createStandartJointlyEpiSetBuilder();
       DirectDerivationPairSet setNotEmpty=cpBuilder.getAllCriticalPairs(rule1 , rule2,gts,jointlyEpiSetBuilder);
