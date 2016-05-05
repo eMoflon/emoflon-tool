@@ -13,10 +13,6 @@ import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.analysis.acenforcment.ACEnforcmentReport;
 import org.moflon.maave.tool.analysis.acenforcment.AcenforcmentFactory;
 import org.moflon.maave.tool.analysis.acenforcment.ConstraintsToACBuilder;
-import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
-import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
-import org.moflon.maave.tool.analysis.confluence.SubcommutativityModuloNFEQAnalyser;
-import org.moflon.maave.tool.analysis.confluence.prettyprinter.ConfluenceAnalysisResultPrinter;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
@@ -30,7 +26,7 @@ import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.M
 
 public class ApplicationConditionTestCMSnew {
 
-//      @Ignore
+       
    @Test
    public void test_Combined_v0() {
       System.out.println("");
@@ -41,7 +37,7 @@ public class ApplicationConditionTestCMSnew {
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cmsNew", "CmsNew");
 
       List<ACEnforcmentReport>reports=new LinkedList<ACEnforcmentReport>();
-      for(int i=0; i<1;i++)
+      for(int i=0; i<20;i++)
       {
          GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
 
@@ -68,7 +64,7 @@ public class ApplicationConditionTestCMSnew {
          gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"reset_v0"));
          gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateLecture_v0"));
          gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateExam_v0"));
-         
+
          for (SymbGTRule  rule : gts.getRules())
          {
             rule.getRight().getCodom().setName("L_"+rule.getName());
@@ -77,10 +73,8 @@ public class ApplicationConditionTestCMSnew {
          gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
          gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
-         //Add ArityConstraints
-         MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
-         GlobalConstraint mmC=constraintBuilder.buildConstraints(pack);
-         gts.getGlobalConstraints().add(mmC);
+         //Add Cardinality Constraints
+         ModelHelper.addCardinalityConstraintsToGTS(pack, gts);
          //Add user defined constraints
          gts.getGlobalConstraints().add(ModelHelper.getUserDefConstraints(pack));
 
@@ -92,15 +86,15 @@ public class ApplicationConditionTestCMSnew {
          System.out.println(i);
          if(i==0)System.out.println(report.printOverallCSVHeader());
          System.out.println(report.printOverallCSV());
-//         System.out.println(report.printCSV());
-         
+         //         System.out.println(report.printCSV());
+
       }
       ACEnforcmentReport megedReport=EvalHelper.mergeReports(reports);
       System.out.println(megedReport.printCSV());
       System.out.print(megedReport.printOverallCSVHeader());
       System.out.print(megedReport.printOverallCSV());
-      
-      
+
+
    }
    @Ignore
    @Test
@@ -202,13 +196,13 @@ public class ApplicationConditionTestCMSnew {
       //Add user defined constraints
       //      gts.getGlobalConstraints().add(ModelHelper.getUserDefConstraints(pack));
       GlobalConstraint gc=ModelHelper.getUserDefConstraints(pack);
-      gc.getConstraints().remove(0);
-      gc.getConstraints().remove(0);
-      gc.getConstraints().remove(0);
-      gc.getConstraints().remove(0);
-      gc.getConstraints().remove(0);
-      gc.getConstraints().remove(0);
-//      gc.getConditions().add(gts.getSatConstraint());
+      gc.getConstraint().getConditions().remove(0);
+      gc.getConstraint().getConditions().remove(0);
+      gc.getConstraint().getConditions().remove(0);
+      gc.getConstraint().getConditions().remove(0);
+      gc.getConstraint().getConditions().remove(0);
+      gc.getConstraint().getConditions().remove(0);
+      //      gc.getConditions().add(gts.getSatConstraint());
       gts.getGlobalConstraints().add(gc);
 
 
@@ -221,4 +215,8 @@ public class ApplicationConditionTestCMSnew {
       System.out.println(report.print());
 
    }
+   
+ 
+ 
+ 
 }

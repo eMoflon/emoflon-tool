@@ -1,18 +1,25 @@
 package org.moflon.maave.tests.testsuite.helper;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.moflon.maave.tool.analysis.acenforcment.AcenforcmentFactory;
+import org.moflon.maave.tool.analysis.acenforcment.NacAndPacMinimizer;
+import org.moflon.maave.tool.category.CategoryFactory;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
+import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.graphtransformation.conditions.ConditionsFactory;
 import org.moflon.maave.tool.sdm.stptransformation.MetaModelConstraintBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Condition;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
@@ -58,16 +65,25 @@ public class ModelHelper {
 		gc.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
 		
 		MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
+		SymbolicGraph initialObject=CategoryFactory.eINSTANCE.createSymbolicGraphCat().getInitalInitalSG();
 		for (EOperation eOperation : ncOps) {
 			MoflonEOperation mEOp = (MoflonEOperation) eOperation;
 			StoryNode constraintStn = (StoryNode) mEOp.getActivity().getOwnedActivityNode().stream().filter(x -> x instanceof StoryNode).findAny().get();
 			SymbGTRule ruleC = transformer.transformStpToProjGTRule(constraintStn.getStoryPattern());
 			SymbolicGraph nC=ruleC.getLeft().getCodom();
 			nC.setName(ruleC.getName());
-			gc.getConstraints().add(constraintBuilder.getNac(nC));
+			gc.setConstraint(constraintBuilder.addNC(initialObject,nC));
 
 		}
 
 		return gc;
 	}
+	public static void addCardinalityConstraintsToGTS(EPackage pack, GraphTransformationSystem gts)
+   {
+      MetaModelConstraintBuilder constraintBuilder=StptransformationFactory.eINSTANCE.createMetaModelConstraintBuilder();
+      GlobalConstraint mmC=constraintBuilder.buildConstraints(pack);
+      NacAndPacMinimizer nacAndPacMinimizer=AcenforcmentFactory.eINSTANCE.createNacAndPacMinimizer();
+      nacAndPacMinimizer.removeSubsumedAc(mmC.getConstraint(), gts);
+      gts.getGlobalConstraints().add(mmC);
+   }
 }
