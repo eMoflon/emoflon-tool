@@ -1,0 +1,53 @@
+
+partial class BasicSymbolicCriticalPairBuilderImpl {
+
+
+
+@model getAllCriticalPairs (SymbGTRule rule1, SymbGTRule rule2, GraphTransformationSystem gts, JointlyEpiSetBuilder jointlyEpiSetBuilder) <--
+
+
+      CpaResult result=ConfluenceFactory.eINSTANCE.createCpaResult();
+      result.setDirectDerivationPairSet(GraphtransformationFactory.eINSTANCE.createDirectDerivationPairSet());
+      // Derive all minimal contexts
+      long timeStartCalcMinContexts=System.currentTimeMillis();
+      MorphismPairSet epiPairSet=jointlyEpiSetBuilder.getAllMinimalContexts(rule1.getLeft().getCodom(), rule2.getLeft().getCodom(), gts);
+      result.setTimeCalcMinContexts(System.currentTimeMillis()-timeStartCalcMinContexts);
+      result.setNrOfMinContexts(epiPairSet.getMorphismPairs().size());
+
+      // Filter minimal contexts
+      long timeStartFilterConsistent=System.currentTimeMillis();
+      MorphismPairSet consistenEPairSet=SymbolicGraphMorphismsFactory.eINSTANCE.createMorphismPairSet();
+      List<MorphismPair> minimalContextsList = new LinkedList<MorphismPair>(epiPairSet.getMorphismPairs());
+      for (MorphismPair epiPair : minimalContextsList)
+      {
+         if(gts.checkConsistency(epiPair.getFirst().getCodom()).isValid())
+         {
+            consistenEPairSet.getMorphismPairs().add(epiPair);
+         }
+      }
+      result.setTimeFilteringConsistent(System.currentTimeMillis()-timeStartFilterConsistent);
+      result.setNrOfConsistentMinContexts(consistenEPairSet.getMorphismPairs().size());
+      //Perform CPA
+      IParallelDependenceAnalyser parDepAnalyser=ConfluenceFactory.eINSTANCE.createBasicParallelDependenceAnalyser();
+      DirectDerivationBuilder derBuilder=gts.getDirectDerivationBuilder();
+      long timeStartCPA=System.currentTimeMillis();
+      for (MorphismPair morphismPair : minimalContextsList)
+      {
+         DirectDerivationPair derPair=GraphtransformationFactory.eINSTANCE.createDirectDerivationPair();
+         derPair.setDer1(derBuilder.deriveDirectDerivation(rule1, morphismPair.getFirst(), gts, false));
+         derPair.setDer2(derBuilder.deriveDirectDerivation(rule2, morphismPair.getSecond(), gts, false));
+         //if both rules can be applied
+         if(derPair.getDer1()!=null && derPair.getDer2()!=null)
+         {
+            if(parDepAnalyser.areParallelIndependent(derPair, gts.getMatchMorphismClass()).isValid()==false)
+            {
+               result.getDirectDerivationPairSet().getPairsOfDirectDerivations().add(derPair);
+            }
+         }
+      }
+      result.setTimeForCalcCritPairs(System.currentTimeMillis()-timeStartCPA);
+      result.setNrOfCritPairs(result.getDirectDerivationPairSet().getPairsOfDirectDerivations().size());
+      return result;
+-->
+
+}

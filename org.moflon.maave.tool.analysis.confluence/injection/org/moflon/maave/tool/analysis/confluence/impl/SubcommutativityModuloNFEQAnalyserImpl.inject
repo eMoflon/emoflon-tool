@@ -42,7 +42,8 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
             }
             long timeStampStart = System.currentTimeMillis();
 
-            DirectDerivationPairSet criticalPairSet = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
+            CpaResult cpaResult = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
+            DirectDerivationPairSet criticalPairSet=cpaResult.getDirectDerivationPairSet();
             if (WsInfo.getVerboseLevel() >= 5)
             {
                System.out.println("Number of Critical Pairs=" + criticalPairSet.getPairsOfDirectDerivations().size());
