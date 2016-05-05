@@ -213,12 +213,14 @@ public class CodeadapterPostProcessBackwardHelper {
 
 		for (Domain domain : tggRoot.getDomain()) {
 			EPackage domainPackage = domain.getMetamodel().getOutermostPackage();
-			importEPackage(schema, domainPackage);
+			
 			if (domain.getType() == DomainType.SOURCE) {
 				schema.getSourceTypes().add(domainPackage);
+				importEPackage(schema, domainPackage);
 			}
 			if (domain.getType() == DomainType.TARGET) {
 				schema.getTargetTypes().add(domainPackage);
+				importEPackage(schema, domainPackage);
 			}
 		}
 
