@@ -10,11 +10,11 @@ import org.moflon.tgg.mosl.tgg.AttributeVariable
 import org.eclipse.emf.common.util.BasicEList
 import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
 import org.moflon.tgg.mosl.tgg.Rule
-import java.util.HashSet
-import java.util.Set
 import java.util.Collection
 import java.util.List
 import java.util.ArrayList
+import org.moflon.tgg.mosl.tgg.VariablePattern
+import org.moflon.tgg.mosl.tgg.CorrVariablePattern
 
 /**
  * This class contains custom validation rules. 
@@ -49,28 +49,30 @@ class TGGValidator extends AbstractTGGValidator {
 		}
 	}
 
-	def boolean checkObjectVariableNamesAreUniqueInPattern(Set<String> ovNames, Collection<ObjectVariablePattern> objectVariables){
-		for(ov : objectVariables){
-			if(ovNames.contains(ov.name)){
+	def boolean checkVariableNamesAreUniqueInPattern(VariablePattern origin, Collection<? extends VariablePattern> variablePatterns){
+		for(vp : variablePatterns){
+			if(origin != null && origin.name!=null && !origin.equals(vp) && origin.name.compareTo(vp.name)==0){
 				return false;
 			}
-			else{
-				ovNames.add(ov.name);
-			}
+
 		}
 		return true;	
 	}
 
-	def boolean checkObjectVariableNamesAreUniqueWithSuperTypes(Rule rule, Set<String> ovNames){
-		var isUnique = checkObjectVariableNamesAreUniqueInPattern(ovNames,rule.sourcePatterns)&&
-		checkObjectVariableNamesAreUniqueInPattern(ovNames,rule.targetPatterns);
+
+	def boolean checkVariablePatternNamesAreUnique(VariablePattern variablePattern, Rule rule){
+		var isUnique = (variablePattern instanceof ObjectVariablePattern 
+			&& (checkVariableNamesAreUniqueInPattern(variablePattern,rule.sourcePatterns)&&
+			checkVariableNamesAreUniqueInPattern(variablePattern,rule.targetPatterns))) 
+		|| (variablePattern instanceof CorrVariablePattern 
+			&& checkVariableNamesAreUniqueInPattern(variablePattern, rule.correspondencePatterns)) ;
 		return isUnique;
 	}
 	
 	@Check
-	def checkObjectVariableNamesAreUnique(ObjectVariablePattern objectVariablePattern){
+	def checkAllVariablePatternNamesAreUnique(ObjectVariablePattern objectVariablePattern){
 		var container = objectVariablePattern.eContainer;
-		if(container instanceof Rule && !checkObjectVariableNamesAreUniqueWithSuperTypes(container as Rule, new HashSet<String>())){
+		if(container instanceof Rule && !checkVariablePatternNamesAreUnique(objectVariablePattern, container as Rule)){
 			error("Object Variables must be unique. Object Variable '" + objectVariablePattern.name + "' already exist", TggPackage.Literals.VARIABLE_PATTERN__NAME, org.moflon.tgg.mosl.validation.TGGValidator.NOT_UNIQUE_OBJECT_VARIABLE_NAME);
 		}
 	}
@@ -120,4 +122,5 @@ class TGGValidator extends AbstractTGGValidator {
 			error("The Rule '" + rule.name + "' creates a Cycle with the Refinement '" + refinementName +"'", TggPackage.Literals.RULE__SUPERTYPES, org.moflon.tgg.mosl.validation.TGGValidator.RULE_REFINEMENT_CREATES_A_CYCLE);
 		}
 	}
+	
 }
