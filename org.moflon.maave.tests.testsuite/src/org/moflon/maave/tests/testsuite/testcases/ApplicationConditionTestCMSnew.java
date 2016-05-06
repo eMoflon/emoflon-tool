@@ -210,7 +210,9 @@ public class ApplicationConditionTestCMSnew {
 
       ConstraintsToACBuilder acBuilder=AcenforcmentFactory.eINSTANCE.createConstraintsToACBuilder();
       ACEnforcmentReport report=acBuilder.verifyGTS(gts);
+      @SuppressWarnings("unused")
       SymbolicGraph graphL=gts.getRules().get(0).getLeft().getCodom();
+      @SuppressWarnings("unused")
       SymbolicGraph graphR=gts.getRules().get(0).getRight().getCodom();
       System.out.println(report.print());
 

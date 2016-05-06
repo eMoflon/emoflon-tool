@@ -58,8 +58,11 @@ public class TestForStoryPatternToProjGraTraRules_Basic {
       TestRunner.saveTestResult(symbGTRule,"TestForStoryPatternToProjGraTraRules_Basic_test8");
       SymbolicGraphMorphism left=symbGTRule.getLeft();
       SymbolicGraphMorphism right=symbGTRule.getRight();
+      @SuppressWarnings("unused")
       SymbolicGraph K=left.getDom();
+      @SuppressWarnings("unused")
       SymbolicGraph L=left.getCodom();
+      @SuppressWarnings("unused")
       SymbolicGraph R=right.getCodom();
       
       

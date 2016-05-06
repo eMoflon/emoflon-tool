@@ -1,13 +1,11 @@
 
-import org.moflon.maave.tool.analysis.confluence.prettyprinter.ConfluenceAnalysisResultPrinter;
-
 partial class ConfluenceAnalysisResultImpl {
 
 
 
 @model toString () <--
 
-     return super.toString();
+      return super.toString();
 -->
 
 }

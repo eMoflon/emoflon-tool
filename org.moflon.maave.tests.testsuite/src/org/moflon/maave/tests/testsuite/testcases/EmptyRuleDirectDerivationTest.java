@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.moflon.maave.tests.lang.cms.Sys;
 import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
 import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tool.graphtransformation.DirectDerivation;
@@ -29,7 +28,6 @@ import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClass;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.util.MorphismClassUtil;
 
 import SDMLanguage.activities.MoflonEOperation;
 import SDMLanguage.activities.StoryNode;

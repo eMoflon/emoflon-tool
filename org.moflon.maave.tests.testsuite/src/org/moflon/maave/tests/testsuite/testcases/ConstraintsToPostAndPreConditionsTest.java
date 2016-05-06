@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.moflon.maave.tests.lang.vwxyz.VwxyzPackage;
 import org.moflon.maave.tests.testsuite.helper.ModelHelper;
@@ -13,7 +12,6 @@ import org.moflon.maave.tool.analysis.acenforcment.ACEnforcmentReport;
 import org.moflon.maave.tool.analysis.acenforcment.AcenforcmentFactory;
 import org.moflon.maave.tool.analysis.acenforcment.ConstraintsToACBuilder;
 import org.moflon.maave.tool.analysis.acenforcment.IConditionAlongMorphismShifter;
-import org.moflon.maave.tool.analysis.acenforcment.IConditionAlongRuleShifter;
 import org.moflon.maave.tool.graphtransformation.DirectDerivationBuilder;
 import org.moflon.maave.tool.graphtransformation.DirectDerivationSet;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;

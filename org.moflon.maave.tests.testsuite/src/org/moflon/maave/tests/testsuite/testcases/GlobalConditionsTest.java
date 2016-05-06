@@ -3,43 +3,19 @@ package org.moflon.maave.tests.testsuite.testcases;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.stream.Collectors;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.junit.Assert;
 import org.junit.Test;
-import org.junit.validator.ValidateWith;
-import org.moflon.maave.tests.lang.cms.CmsPackage;
-import org.moflon.maave.tests.lang.mnoq.MnoqPackage;
 import org.moflon.maave.tests.lang.vwxyz.VwxyzPackage;
-import org.moflon.maave.tests.testgen.diachase.DiachasePackage;
 import org.moflon.maave.tests.testsuite.helper.ModelHelper;
-import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
-import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
-import org.moflon.maave.tool.analysis.confluence.SubcommutativityModuloNFEQAnalyser;
-import org.moflon.maave.tool.category.CategoryFactory;
-import org.moflon.maave.tool.category.SymbolicGraphCat;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
-import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.sdm.stptransformation.MetaModelConstraintBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
-import org.moflon.maave.tool.sdm.stptransformation.Transformer;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.ConfigurableMorphismFinder;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClass;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
-
-import SDMLanguage.activities.MoflonEOperation;
-import SDMLanguage.activities.StoryNode;
 
 public class GlobalConditionsTest {
      

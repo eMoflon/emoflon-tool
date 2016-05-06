@@ -1,7 +1,5 @@
 package org.moflon.maave.tests.testsuite.helper;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,11 +13,9 @@ import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
-import org.moflon.maave.tool.graphtransformation.conditions.ConditionsFactory;
 import org.moflon.maave.tool.sdm.stptransformation.MetaModelConstraintBuilder;
 import org.moflon.maave.tool.sdm.stptransformation.StptransformationFactory;
 import org.moflon.maave.tool.sdm.stptransformation.Transformer;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Condition;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;

@@ -182,6 +182,11 @@ public class EvalHelper
       System.out.println("TimeOverall");
       System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
       FileUtils.writeStringToFile(new File("instances/TimeOverall.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
+      
+      System.out.println("====================================================================");
+      System.out.println("TimeConfluence");
+      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
+      FileUtils.writeStringToFile(new File("instances/TimeConfluence.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeConfluence));
 
       System.out.println("====================================================================");
       System.out.println("instances/TimeCalcMinContexts");
@@ -245,7 +250,6 @@ public class EvalHelper
      
       } catch (IOException e)
       {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
    }

@@ -1,34 +1,22 @@
 package org.moflon.maave.tests.testsuite.testcases;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.moflon.maave.tests.lang.vwxyz.VwxyzPackage;
 import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.analysis.acenforcment.AcenforcmentFactory;
 import org.moflon.maave.tool.analysis.acenforcment.ConstraintsToACBuilder;
-import org.moflon.maave.tool.analysis.acenforcment.IConditionAlongMorphismShifter;
-import org.moflon.maave.tool.analysis.acenforcment.IConditionAlongRuleShifter;
-import org.moflon.maave.tool.graphtransformation.DirectDerivationBuilder;
-import org.moflon.maave.tool.graphtransformation.DirectDerivationSet;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
 import org.moflon.maave.tool.graphtransformation.conditions.AtomicCond;
 import org.moflon.maave.tool.graphtransformation.conditions.NegCond;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphismsFactory;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.Condition;
 import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.IMorphismFinder;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismFinderFactory;
-import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MorphismsSet;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
@@ -57,6 +45,7 @@ public class RBACTest {
       gts.getGlobalConstraints().add(nC);
       
       SymbGTRule rule = ModelHelper.getRule(cls,"addUserToRole");
+      @SuppressWarnings("unused")
       SymbolicGraph graphL=rule.getLeft().getCodom();
       gts.getRules().add(rule);  
 

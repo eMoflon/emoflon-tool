@@ -10,9 +10,6 @@ import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisResult;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
 import org.moflon.maave.tool.analysis.confluence.CpaResult;
-import org.moflon.maave.tool.graphtransformation.DirectDerivationPair;
-import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphMorphisms.SymbolicGraphMorphism;
-import org.moflon.maave.tool.symbolicgraphs.printing.GraphAndMorphismPrinter;
 
 public class ConfluenceAnalysisResultPrinter
 {

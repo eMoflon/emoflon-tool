@@ -65,8 +65,8 @@ public class JointlyEpiTest {
 
       ImprovedJointlyEpiSetBuilder epiSetBuilder2=AnalysisFactory.eINSTANCE.createImprovedJointlyEpiSetBuilder();
 
-      MorphismPairSet jointliEpiPairSet2= epiSetBuilder.getAllMinimalContexts(L1, L2,gts);
-      assertTrue(true);
+      MorphismPairSet jointliEpiPairSet2= epiSetBuilder2.getAllMinimalContexts(L1, L2,gts);
+      assertTrue(jointliEpiPairSet.getMorphismPairs().size()>=jointliEpiPairSet2.getMorphismPairs().size());
 
 
 

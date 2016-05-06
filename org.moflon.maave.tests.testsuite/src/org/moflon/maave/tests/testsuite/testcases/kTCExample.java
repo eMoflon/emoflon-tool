@@ -9,7 +9,6 @@ import org.moflon.maave.tests.testsuite.helper.ModelHelper;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceFactory;
 import org.moflon.maave.tool.analysis.confluence.SubcommutativityModuloNFEQAnalyser;
-import org.moflon.maave.tool.analysis.confluence.prettyprinter.ConfluenceAnalysisResultPrinter;
 import org.moflon.maave.tool.graphtransformation.GlobalConstraint;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
@@ -33,7 +32,7 @@ public class kTCExample {
 		EPackage pack = TestRunner.loadTestMM("de.tudarmstadt.maki.modeling.jvlc", "Jvlc");
 		EClass clsSemester = (EClass) pack.getEClassifier("DistanceKTC");
 		SymbGTRule rule1 = ModelHelper.getPattern(clsSemester, "runOnNode", "FindTriangle");
-		SymbGTRule rule2 = ModelHelper.getPattern(clsSemester, "runOnNode", "FindTriangle2");
+//		SymbGTRule rule2 = ModelHelper.getPattern(clsSemester, "runOnNode", "FindTriangle2");
 		ConfigurableMorphismClassFactory morClassFac = MatchingUtilsFactory.eINSTANCE
 				.createConfigurableMorphismClassFactory();
 
@@ -60,7 +59,7 @@ public class kTCExample {
 		SubcommutativityModuloNFEQAnalyser directConfluenceAnalyser = ConfluenceFactory.eINSTANCE
 				.createSubcommutativityModuloNFEQAnalyser();
 		ConfluenceAnalysisReport report = directConfluenceAnalyser.checkConfluence(gts);
-		// System.out.println(report);
+		System.out.println(report);
 
 //		System.out.println(ConfluenceAnalysisResultPrinter.printConfluenceReport(report, true, false, true, true));
 
