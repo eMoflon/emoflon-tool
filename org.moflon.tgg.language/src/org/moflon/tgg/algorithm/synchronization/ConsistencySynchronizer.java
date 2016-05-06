@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -29,6 +31,7 @@ import org.moflon.tgg.runtime.CCMatch;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.runtime.IsApplicableRuleResult;
 import org.moflon.tgg.runtime.Match;
+import org.moflon.tgg.runtime.RuntimeFactory;
 
 /**
  * A specialization of {@link Synchronizer} for consistency checks.
@@ -52,13 +55,12 @@ public class ConsistencySynchronizer extends Synchronizer {
 		srcLookupMethods = rules.getSourceRules();
 		trgLookupMethods = rules.getTargetRules();
 		
-		srcElements = new Graph(srcDelta.getAddedNodes());
-		trgElements = new Graph(trgDelta.getAddedNodes());
+		srcElements = new Graph(srcDelta.getAddedNodes(), srcDelta.getAddedEdges());
+		trgElements = new Graph(trgDelta.getAddedNodes(), trgDelta.getAddedEdges());
 	}
 
 	@Override
 	public void synchronize() throws InputLocalCompletenessException, TranslationLocalCompletenessException {
-		// TODO Auto-generated method stub
 		translate();
 	}
 	
@@ -67,10 +69,10 @@ public class ConsistencySynchronizer extends Synchronizer {
 		// TODO Auto-generated method stub
 		HashSet<RulePair> pairs = extractMatchPairs();
 		List<CCMatch> ccMatches = new ArrayList<>();
-
-		boolean onceApplied;
+		
+		HashSet<RulePair> appliedInLastRun;
 		do {
-			onceApplied = false;
+			appliedInLastRun = new HashSet<>(); 
 			
 			for(RulePair pair : pairs) {
 				EOperation isApplCC = pair.src.getIsApplicableCCOperation();
@@ -79,32 +81,48 @@ public class ConsistencySynchronizer extends Synchronizer {
 				arguments.add(pair.trg);
 				IsApplicableRuleResult isApplRR = (IsApplicableRuleResult) InvokeUtil.invokeOperationWithNArguments(isApplCC.getEContainingClass(), isApplCC, arguments);
 				if(isApplRR.isSuccess()) {
-					pairs.remove(pair);
+					appliedInLastRun.add(pair);
 					ccMatches.add((CCMatch) isApplRR.getIsApplicableMatch().get(0));
-					onceApplied = true;
 				}
 			}
+			pairs.removeAll(appliedInLastRun);
 			
-		} while(onceApplied);
+		} while(!appliedInLastRun.isEmpty());
+		return;
 	}
 
 	private HashSet<RulePair> extractMatchPairs() {
 		Collection<Match> srcMatches = collectDerivations(srcElements, srcLookupMethods);
 		Collection<Match> trgMatches = collectDerivations(trgElements, trgLookupMethods);
 	
-		Set<String> ruleNames = new HashSet<String>();
-		Map<String, List<Match>> ruleToSrcMap = new HashMap<String, List<Match>>();
-		Map<String, List<Match>> ruleToTrgMap = new HashMap<String, List<Match>>();
-
+		Set<String> ruleNames = Stream.concat(srcLookupMethods.getRules().stream(), trgLookupMethods.getRules().stream()).map(r -> r.getRuleName()).collect(Collectors.toSet());
+		
+		Map<String, Collection<Match>> ruleToSrcMap = new HashMap<String, Collection<Match>>();
+		Map<String, Collection<Match>> ruleToTrgMap = new HashMap<String, Collection<Match>>();
+		ruleNames.forEach(rn -> {
+			ruleToSrcMap.put(rn, new HashSet<>());
+			ruleToTrgMap.put(rn, new HashSet<>());
+		});
+		
 		for(Match m : srcMatches) {
-			ruleNames.add(m.getRuleName());
-			ruleToSrcMap.putIfAbsent(m.getRuleName(), new ArrayList<Match>()).add(m);
+			ruleToSrcMap.putIfAbsent(m.getRuleName(), new ArrayList<Match>());
+			ruleToSrcMap.get(m.getRuleName()).add(m);
 		}
 		
 		for(Match m : trgMatches) {
-			ruleNames.add(m.getRuleName());
-			ruleToTrgMap.putIfAbsent(m.getRuleName(), new ArrayList<Match>()).add(m);
+			ruleToTrgMap.putIfAbsent(m.getRuleName(), new ArrayList<Match>());
+			ruleToTrgMap.get(m.getRuleName()).add(m);
 		}
+		
+		//at one-sided matchings of ignore rules, provide an empty match for the missing side
+		ruleNames.forEach(n -> {
+			Match emptyMatch = RuntimeFactory.eINSTANCE.createMatch();
+			emptyMatch.setRuleName(n);
+			if(isIgnored(n, srcLookupMethods))
+				ruleToSrcMap.get(n).add(emptyMatch);
+			if(isIgnored(n, trgLookupMethods))
+				ruleToTrgMap.get(n).add(emptyMatch);
+		});
 		
 		HashSet<RulePair> pairs = new HashSet<RulePair>();
 		for(String rule : ruleNames) {
@@ -169,5 +187,9 @@ public class ConsistencySynchronizer extends Synchronizer {
 	protected Graph delete(Collection<TripleMatch> allToBeRevokedTripleMatches) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private boolean isIgnored(String ruleName, RulesTable lookupMethods){
+		return lookupMethods.getRules().stream().noneMatch(r -> r.getRuleName().equals(ruleName));
 	}
 }
