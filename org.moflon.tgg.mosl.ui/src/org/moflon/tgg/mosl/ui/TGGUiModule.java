@@ -10,6 +10,7 @@ import org.eclipse.xtext.ide.editor.syntaxcoloring.DefaultSemanticHighlightingCa
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.moflon.tgg.mosl.ui.highlighting.MOSLHighlightingConfiguration;
 import org.moflon.tgg.mosl.ui.highlighting.MOSLSemanticHighlightCalculator;
+import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLHighlightProviderHelper;
 
 import com.google.inject.Binder;
 
@@ -19,6 +20,7 @@ import com.google.inject.Binder;
 public class TGGUiModule extends org.moflon.tgg.mosl.ui.AbstractTGGUiModule {
 	public TGGUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
+		MOSLHighlightProviderHelper.init();
 	}
 	
 	public Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration()
@@ -28,7 +30,8 @@ public class TGGUiModule extends org.moflon.tgg.mosl.ui.AbstractTGGUiModule {
 	
 	@Override
 	public void configure(Binder binder) {
-		super.configure(binder);
 		binder.bind(DefaultSemanticHighlightingCalculator.class).to(MOSLSemanticHighlightCalculator.class);
+		super.configure(binder);
+		
 	}
 }

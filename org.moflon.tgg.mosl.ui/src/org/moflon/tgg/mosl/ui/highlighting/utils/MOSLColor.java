@@ -1,4 +1,4 @@
-package org.moflon.tgg.mosl.ui.highlighting;
+package org.moflon.tgg.mosl.ui.highlighting.utils;
 
 import org.eclipse.swt.graphics.RGB;
 
