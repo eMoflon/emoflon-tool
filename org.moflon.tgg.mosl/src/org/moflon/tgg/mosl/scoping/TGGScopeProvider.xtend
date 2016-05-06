@@ -31,6 +31,9 @@ import org.moflon.tgg.mosl.tgg.Schema
 import org.moflon.tgg.mosl.tgg.TggPackage
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile
 import org.moflon.tgg.mosl.tgg.CorrType
+import org.eclipse.xtext.scoping.impl.SimpleScope
+import org.eclipse.xtext.util.SimpleAttributeResolver
+import org.eclipse.xtext.naming.QualifiedName
 
 /**
  * This class contains custom scoping description.
@@ -135,7 +138,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 		val set = new ResourceSetImpl()
 		var schema = context as Schema
 		var resources = schema.imports.map[u | set.getResource(URI.createURI(u.name), true)]
-		return Scopes.scopeFor(resources.map[r | r.contents.get(0)])
+		return new MoflonScope(resources.map[r | r.contents.get(0)])
 	}
 	
 	def is_source_or_target_type_of_schema(EObject context, EReference reference) {
