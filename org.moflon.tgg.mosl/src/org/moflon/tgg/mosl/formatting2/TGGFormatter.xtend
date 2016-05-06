@@ -153,7 +153,7 @@ class TGGFormatter extends AbstractFormatter2 {
 	}
 
 	def dispatch void format(AttrCondDef attrconddef, extension IFormattableDocument document) {
-		attrconddef.surround[newLines=2]
+		attrconddef.surround[newLine]
 		attrconddef.surround[indent]
 		attrconddef.interior[indent]
 		attrconddef.regionFor.keyword("(").surround[noSpace]
