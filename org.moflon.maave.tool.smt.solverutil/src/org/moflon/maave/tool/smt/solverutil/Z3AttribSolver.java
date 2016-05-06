@@ -26,6 +26,7 @@ public class Z3AttribSolver implements IAttribSolver {
    }
    public Status check(String smtStr) throws Z3Exception 
    {
+      long timeStart=System.currentTimeMillis();
       String smtStr2=new String(smtStr);
 //      System.out.println(smtStr2);
       Context ctx= ContextFactory.getInstance().takeContext();
@@ -41,6 +42,7 @@ public class Z3AttribSolver implements IAttribSolver {
          System.out.println("UNKNOWN + Reason: ");
          //System.out.println(smtStr);
       }
+      TimeWriter.addTimeSolving(System.currentTimeMillis()-timeStart);
       return status;  
       
    }

@@ -178,76 +178,54 @@ public class EvalHelper
       };
       try
       {
-      System.out.println("====================================================================");
-      System.out.println("TimeOverall");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
+     
       FileUtils.writeStringToFile(new File("instances/TimeOverall.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
       
-      System.out.println("====================================================================");
-      System.out.println("TimeConfluence");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
+      
       FileUtils.writeStringToFile(new File("instances/TimeConfluence.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeConfluence));
 
-      System.out.println("====================================================================");
-      System.out.println("instances/TimeCalcMinContexts");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcMinContexts));
+      
       FileUtils.writeStringToFile(new File("instances/TimeCalcMinContexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcMinContexts));
 
-      System.out.println("====================================================================");
-      System.out.println("instances/TimeFilteringConsistent");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeFilteringConsistent));
+     
       FileUtils.writeStringToFile(new File("instances/TimeFilteringConsistent.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeFilteringConsistent));
 
-      System.out.println("====================================================================");
-      System.out.println("instances/TimeCalcCritpairs");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcCritpairs));
+      
       FileUtils.writeStringToFile(new File("instances/TimeCalcCritpairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcCritpairs));
 
-      System.out.println("====================================================================");
-      System.out.println("NrMincontexts");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrMincontexts));
+     
       FileUtils.writeStringToFile(new File("instances/NrMincontexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrMincontexts));
 
-      System.out.println("====================================================================");
-      System.out.println("NrOfConsistentMinContexts");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfConsistentMinContexts));
+      
       FileUtils.writeStringToFile(new File("instances/NrOfConsistentMinContexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfConsistentMinContexts));
 
-      System.out.println("====================================================================");
-      System.out.println("NrOfCritPairs");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfCritPairs));
+    
       FileUtils.writeStringToFile(new File("instances/NrOfCritPairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfCritPairs));
 
-      System.out.println("====================================================================");
-      System.out.println("NrNonConfluentPairs");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrNonConfluentPairs));
+     
       FileUtils.writeStringToFile(new File("instances/NrNonConfluentPairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrNonConfluentPairs));
 
-      System.out.println("====================================================================");
-      System.out.println("TimeOverall Latex Table");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeOverall));
+      
       FileUtils.writeStringToFile(new File("instances/TimeOverall.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeOverall));
 
-      System.out.println("====================================================================");
-      System.out.println("TimeCPAvsConfluence Latex Table");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeCPAvsConfluenceL));
+    
       FileUtils.writeStringToFile(new File("instances/TimeCPAvsConfluence.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeCPAvsConfluenceL));
 
-      System.out.println("====================================================================");
-      System.out.println("Numbers Latex Table");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumbersL));
+      
       FileUtils.writeStringToFile(new File("instances/Numbers.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumbersL));
 
-      System.out.println("====================================================================");
-      System.out.println("Times Latex Table");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimesL));
+     
       FileUtils.writeStringToFile(new File("instances/Times.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimesL));
       
-      System.out.println("====================================================================");
-      System.out.println("NumberVSTimes Latex Table");
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumberVSTimesL));
+      
       FileUtils.writeStringToFile(new File("instances/NumberVSTimes.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumberVSTimesL));
      
+     
+      StringBuilder sb=new StringBuilder();
+      sb.append("OverallNrOfMinCtx;OverallNrOfConsistMinCtx;OverallNrOfCritPairs;OverallNrOfNonConfluentCritPairs\n");
+      sb.append(report.getOverallNrOfMinCtx()+";"+report.getOverallNrOfConsistMinCtx()+";"+report.getOverallNrOfCritPairs()+";"+report.getOverallNrOfNonConfluentCritPairs()+"\n");
+      FileUtils.writeStringToFile(new File("instances/Overall Numbers.tex"), sb.toString());
+      
       } catch (IOException e)
       {
          e.printStackTrace();

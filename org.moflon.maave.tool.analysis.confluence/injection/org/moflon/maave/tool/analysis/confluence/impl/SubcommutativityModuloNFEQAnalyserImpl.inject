@@ -90,10 +90,10 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
             result.setCpaResult(cpaResult);
             result.setMessage("Confluence analysis result for Rules: " + rule1.getName() + " | " + rule2.getName());
             result.setNrOfNonConfluentCriticalPairs(result.getNonConfluentCriticalPairs().size());
-            result.setTimeForConfluence(absTimeStop-absTimeConfluenceStart);
-            result.setTimeOverall(absTimeStart-absTimeStop);
+            result.setTimeForConfluence(absTimeStop - absTimeConfluenceStart);
+            result.setTimeOverall(absTimeStop-absTimeStart);
             report.getConfluenceStates().add(result);
-            
+
          }
       }
       return report;

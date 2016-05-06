@@ -18,13 +18,15 @@ import org.moflon.maave.tool.analysis.confluence.SubcommutativityModuloNFEQAnaly
 import org.moflon.maave.tool.analysis.confluence.prettyprinter.ConfluenceAnalysisResultPrinter;
 import org.moflon.maave.tool.graphtransformation.GraphTransformationSystem;
 import org.moflon.maave.tool.graphtransformation.GraphtransformationFactory;
+import org.moflon.maave.tool.graphtransformation.SymbGTRule;
+import org.moflon.maave.tool.smt.solverutil.TimeWriter;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.ConfigurableMorphismClassFactory;
 import org.moflon.maave.tool.symbolicgraphs.secondorder.matching.MatchingUtils.MatchingUtilsFactory;
 
 
 public class ConfluenceProjTestCMSnew {
 
-//   @Ignore 
+   @Ignore 
    @Test
    public void test_Combined_v0() {
       System.out.println("");
@@ -83,19 +85,23 @@ public class ConfluenceProjTestCMSnew {
       
       long time=System.currentTimeMillis();
       reports.add(directConfluenceAnalyser.checkConfluence(gts));
-      //System.out.println("#NCP="+report.getConfluenceStates().stream().filter(x->x.isValid()==false).count());
-      //System.out.println(ConfluenceAnalysisResultPrinter.printConfluenceReport(report, true, false, true, true));
       System.out.println("--------------- "+ i + "---------------------------"+(System.currentTimeMillis()-time));
+      if(i==4)
+      {
+         TimeWriter.timeMorFinder=0;
+         TimeWriter.timeSolving=0;
       }
-      
+      }
       ConfluenceAnalysisReport report=ConfluenceAnalysisResultPrinter.getAverageReport(reports);
       EvalHelper.reportToFile(report);
+      System.out.println("Time Finder="+String.valueOf((TimeWriter.timeMorFinder/15)));
+      System.out.println("Time SolvingFinder="+String.valueOf((TimeWriter.timeSolving/15)));
       
    
 
 
    }
-      @Ignore
+//      @Ignore
    @Test
    public void test_Combined_v1() {
       System.out.println("");
@@ -104,7 +110,10 @@ public class ConfluenceProjTestCMSnew {
 
       CmsNewPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cmsNew", "CmsNew");
-
+      
+      List<ConfluenceAnalysisReport> reports=new LinkedList<ConfluenceAnalysisReport>();
+      for (int i = 0; i < 20; i++)
+      {
       GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
 
 
@@ -136,7 +145,12 @@ public class ConfluenceProjTestCMSnew {
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
-
+      
+      
+      for (SymbGTRule   rule  : gts.getRules())
+      {
+         System.out.println(rule.getName()+"="+(rule.getLeft().getCodom().getGraphNodes().size()+rule.getLeft().getCodom().getGraphEdges().size()));
+      }
       //Add cardinality constraints
       ModelHelper.addCardinalityConstraintsToGTS(pack, gts);
       //Add user defined constraints
@@ -146,22 +160,20 @@ public class ConfluenceProjTestCMSnew {
 
 
       SubcommutativityModuloNFEQAnalyser directConfluenceAnalyser=ConfluenceFactory.eINSTANCE.createSubcommutativityModuloNFEQAnalyser();
-      long start=System.currentTimeMillis();
-      ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
-      //      System.out.println("#NCP="+report.getConfluenceStates().stream().filter(x->x.isValid()==false).count());
-      //      System.out.println(ConfluenceAnalysisResultPrinter.printConfluenceReport(report, true, false, true, true));
-      System.out.println("time: "+(System.currentTimeMillis()-start));
-      Function<ConfluenceAnalysisResult, String> function = x ->
-      {  
-         return   "\\makecell{"+ x.getCpaResult().getNrOfMinContexts()+"; "+
-                  x.getCpaResult().getNrOfConsistentMinContexts()+"; "+
-                  x.getCpaResult().getNrOfCritPairs()+"; "+
-                  x.getNonConfluentCriticalPairs().size()+"}";
-        
-      };
-
-      System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,function));
-
+      long time=System.currentTimeMillis();
+      reports.add(directConfluenceAnalyser.checkConfluence(gts));
+     
+      System.out.println("--------------- "+ i + "---------------------------"+(System.currentTimeMillis()-time));
+      if(i==4)
+      {
+         TimeWriter.timeMorFinder=0;
+         TimeWriter.timeSolving=0;
+      }
+      }
+      ConfluenceAnalysisReport report=ConfluenceAnalysisResultPrinter.getAverageReport(reports);
+      EvalHelper.reportToFile(report);
+      System.out.println("Time Finder="+String.valueOf((TimeWriter.timeMorFinder/15)));
+      System.out.println("Time SolvingFinder="+String.valueOf((TimeWriter.timeSolving/15)));
 
    }
    @Ignore
