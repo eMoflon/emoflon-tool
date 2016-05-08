@@ -97,7 +97,8 @@ public class MOSLTGGConversionHelper extends AbstractHandler
             postProcessHelper.postProcessForward(helper);
 
             TGGProject tggProject = (TGGProject) helper.getTrg();
-            saveInternalTGGModelToXMI(tggProject, resourceSet, options, project.getName());
+            if(tggProject != null)
+            	saveInternalTGGModelToXMI(tggProject, resourceSet, options, project.getName());
          }
       } catch (Exception e)
       {
@@ -222,6 +223,10 @@ public class MOSLTGGConversionHelper extends AbstractHandler
                String projectPath = tggFile.getProject().getFullPath().toString();
 
                saveXtextTGGModelToTGGFile(tggModel, tggFile.getProject(), "/src/org/moflon/tgg/mosl" + projectPath + ".tgg");
+               
+               Resource resource = resourceSet.createResource(URI.createPlatformResourceURI(projectPath + "/src/org/moflon/tgg/mosl" + projectPath + ".xmi", true));
+               resource.getContents().add(tggModel);
+               resource.save(null);
             }
          }
       } catch (Exception e)

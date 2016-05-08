@@ -48,6 +48,25 @@ CorrType:
 	'}'))
 ;
 
+AttrCondDef:
+	(userDefined ?= '#userDefined')? name = ID '(' (params += Param (',' params += Param)*)? ')' '{'
+		'#sync:'
+			allowedSyncAdornments += Adornment (',' allowedSyncAdornments += Adornment)*
+		'#gen:'
+			(allowedGenAdornments += Adornment (',' allowedGenAdornments += Adornment )*)?
+	'}'
+;
+
+Param:
+	// FIXME This should be: index = INT TypeSeparator type = [ecore::EDataType | QualifiedName]
+	index = INT TypeSeparator type = ParamType
+;
+
+// FIXME Get rid of this after fixing Param
+ParamType returns ecore::EString:
+	(ID ('.' ID)*)?
+;
+
 /* ------------- */
 /*   TGG RULES   */
 /* ------------- */
@@ -78,15 +97,6 @@ AttrCond:
 	name = [AttrCondDef] '(' (values += ParamValue (',' values += ParamValue)*)? ')'
 ;
 
-AttrCondDef:
-	(userDefined ?= '#userDefined')? name = ID '(' (params += Param (',' params += Param)*)? ')' '{'
-		'#sync:'
-			allowedSyncAdornments += Adornment (',' allowedSyncAdornments += Adornment)*
-		'#gen:'
-			(allowedGenAdornments += Adornment (',' allowedGenAdornments += Adornment )*)?
-	'}'
-;
-
 AttrCondDefLibrary:
 	'#library' name = QualifiedName
 	('{'
@@ -95,27 +105,22 @@ AttrCondDefLibrary:
 ;
 
 Adornment:
+	//FIXME This should be: ('B' | 'F')+
 	value = ID
 ;
 
-Param:
-	index = INT TypeSeparator type = ParamType
-;
-
 ParamValue:
-	(AttributeVariable | LocalVariable | Literal)
+	//FIXME This should eventually be simply: (LocalVariable | Expression)  
+	(LocalVariable | LiteralExpression | AttributeVariable | EnumExpression)
 ;
 
+//FIXME eventually remove when ParamValue is fixed
 AttributeVariable:
 	objectVar = [ObjectVariablePattern] '.' attribute = ID
 ;
 
 LocalVariable:
 	name = ID
-;
-
-Literal:
-	value = LiteralValue
 ;
 
 CorrVariablePattern:
@@ -142,7 +147,11 @@ AttributeAssignment:
 ;
 
 Expression:
-	(LiteralExpression | AttributeExpression)
+	(LiteralExpression | AttributeExpression | EnumExpression)
+;
+
+EnumExpression:
+	'$' value = [ecore::EEnumLiteral | QualifiedName]  
 ;
 
 AttributeExpression:
@@ -150,7 +159,7 @@ AttributeExpression:
 ;
 
 LiteralExpression:
-	value = LiteralExpressionValue
+	value = LiteralValue
 ;
 
 LinkVariablePattern:
@@ -173,22 +182,15 @@ Using:
 	'#using' importedNamespace = QualifiedNameWithWildcard
 ;
 
-terminal DECIMAL: INT '.' INT;
 
 ComparisonOperator:
 	(' == ' | ' != ' | ' <= ' | ' >= ' | ' > ' | ' < ')
 ;
 
-LiteralExpressionValue:
-	(ID | ID'::'ID | STRING | ('-')?INT | ('-')?DECIMAL)
-;
+terminal DECIMAL: INT '.' INT;
 
 LiteralValue:
-	(ID'::'ID | STRING | ('-')?INT | ('-')?DECIMAL)
-;
-
-ParamType returns ecore::EString:
-	(ID ('.' ID)*)?
+	(STRING | ('-')?INT | ('-')?DECIMAL)
 ;
 
 QualifiedNameWithWildcard:

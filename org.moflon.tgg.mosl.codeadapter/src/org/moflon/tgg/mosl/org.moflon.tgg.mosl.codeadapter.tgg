@@ -1,4 +1,4 @@
-#import "http://www.moflon.org/ide/tgg/mosl/TGG"
+#import "platform:/resource/org.moflon.tgg.mosl/model/generated/TGG.ecore"
 #import "platform:/plugin/org.moflon.tgg.tggproject/model/Tggproject.ecore"
 #import "http://www.eclipse.org/emf/2002/Ecore"
 #import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
@@ -122,11 +122,11 @@
 #rule LiteralExpressionRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ literalExpression:LiteralExpression
+	++literalExpression:LiteralExpression
 }
 
 #target {
-	++ tggLiteralExpression:LiteralExpression
+	++tggLiteralExpression:LiteralExpression
 }
 
 #correspondence {
@@ -151,11 +151,11 @@
 		++  - source->objectVariablePatternSource
 		- op->operator
 	}
-	! operator:Operator
+	!operator:Operator
 }
 
 #target {
-	++ tggLinkVariableSource:TGGLinkVariable {
+	++tggLinkVariableSource:TGGLinkVariable {
 		bindingOperator := BindingOperator::CHECK_ONLY
 		name := "source"
 		++  - domain->domainCorrespondence
@@ -221,7 +221,7 @@
 		- domain->domainCorrespondence
 		++  - outgoingLink->tggLinkVariableTarget
 	}
-	++ tggLinkVariableTarget:TGGLinkVariable {
+	++tggLinkVariableTarget:TGGLinkVariable {
 		name := "target"
 		bindingOperator := BindingOperator::CREATE
 		++  - domain->domainCorrespondence
@@ -251,7 +251,7 @@
 	attributeConstraint:AttributeConstraint {
 		++  - valueExp->attributeExpression
 	}
-	++ attributeExpression:AttributeExpression {
+	++attributeExpression:AttributeExpression {
 		++  - objectVar->objectVariablePatternSource
 	}
 	objectVariablePatternSource:ObjectVariablePattern
@@ -261,7 +261,7 @@
 	comparisonExpression:ComparisonExpression {
 		++  - rightExpression->attributeValueExpression
 	}
-	++ attributeValueExpression:AttributeValueExpression {
+	++attributeValueExpression:AttributeValueExpression {
 		++  - object->tggObjectVariableSource
 	}
 	constraint:Constraint {
@@ -291,7 +291,7 @@
 #rule AttributeVariableTargetOVCheckRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attributeVariable:AttributeVariable {
+	++attributeVariable:AttributeVariable {
 		++  - objectVar->objectVariablePattern
 	}
 	attrCond:AttrCond {
@@ -350,7 +350,7 @@
 #rule XtextRuleToTGGRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ rule:Rule {
+	++rule:Rule {
 		++  - schema->schema
 	}
 	tggFile:TripleGraphGrammarFile {
@@ -382,12 +382,12 @@
 		type == DomainType::CORRESPONDENCE
 		name == "Correspondence"
 	}
-	++ abstractRule:EClass
+	++abstractRule:EClass
 	domainSource:Domain {
 		name == "Source"
 		type == DomainType::SOURCE
 	}
-	++ tggRule:TGGRule {
+	++tggRule:TGGRule {
 		++  - correspondence->domainCorrespondence
 		++  - csp->tggCSP
 		++  - target->domainTarget
@@ -397,7 +397,7 @@
 		name == "Rules"
 		++  - eClassifiers->abstractRule
 	}
-	++ tggCSP:CSP
+	++tggCSP:CSP
 }
 
 #correspondence {
@@ -426,14 +426,14 @@
 	attrCond:AttrCond {
 		- name->attrCondDef
 	}
-	++ param:Param
+	++param:Param
 	attrCondDef:AttrCondDef {
 		++  - params->param
 	}
 }
 
 #target {
-	++ signatureElement:SignatureElement
+	++signatureElement:SignatureElement
 	tggConstraint:TGGConstraint {
 		++  - signature->signatureElement
 	}
@@ -498,10 +498,10 @@
 }
 
 #target {
-	++ tggConstraint:TGGConstraint {
+	++tggConstraint:TGGConstraint {
 		++  - signature->signatureElement
 	}
-	++ signatureElement:SignatureElement
+	++signatureElement:SignatureElement
 }
 
 #correspondence {
@@ -530,7 +530,7 @@
 		- sourcePatterns->objectVariablePattern
 		- attrConditions->attrCond
 	}
-	++ attributeVariable:AttributeVariable {
+	++attributeVariable:AttributeVariable {
 		++  - objectVar->objectVariablePattern
 	}
 }
@@ -584,7 +584,7 @@
 	attrCond:AttrCond {
 		++  - values->localVariable
 	}
-	++ localVariable:LocalVariable
+	++localVariable:LocalVariable
 	rule:Rule {
 		- attrConditions->attrCond
 	}
@@ -599,11 +599,11 @@
 		++  - variables->tggLocalVariable
 		- constraints->tggConstraint
 	}
-	++ tggLocalVariable:LocalVariable
+	++tggLocalVariable:LocalVariable
 	tggRule:TGGRule {
 		- csp->tggCSP
 	}
-	! nacLocalVariable:LocalVariable {
+	!nacLocalVariable:LocalVariable {
 		name == localVariable . name
 	}
 }
@@ -633,7 +633,7 @@
 #rule CorrTypeDefToCorrespondenceRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ corrType:CorrType
+	++corrType:CorrType
 	tggFile:TripleGraphGrammarFile {
 		- schema->schema
 	}
@@ -651,7 +651,7 @@
 	corrPackage:EPackage {
 		++  - eClassifiers->correspondence
 	}
-	++ correspondence:EClass
+	++correspondence:EClass
 }
 
 #correspondence {
@@ -675,16 +675,16 @@
 #rule AttributeConstraintEqualRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attributeConstraint:AttributeConstraint {
+	++attributeConstraint:AttributeConstraint {
 		op := " == "
 	}
 }
 
 #target {
-	++ constraint:Constraint {
+	++constraint:Constraint {
 		++  - constraintExpression->comparisonExpression
 	}
-	++ comparisonExpression:ComparisonExpression {
+	++comparisonExpression:ComparisonExpression {
 		operator := ComparingOperator::EQUAL
 	}
 }
@@ -702,7 +702,7 @@
 #rule AttributeAssignmentRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attributeAssignment:AttributeAssignment {
+	++attributeAssignment:AttributeAssignment {
 		op := " := "
 	}
 	objectVariablePatternSource:ObjectVariablePattern {
@@ -711,7 +711,7 @@
 }
 
 #target {
-	++ tggAttributeAssignment:AttributeAssignment
+	++tggAttributeAssignment:AttributeAssignment
 	tggObjectVariableSource:TGGObjectVariable {
 		++  - attributeAssignment->tggAttributeAssignment
 	}
@@ -734,10 +734,10 @@
 #rule SourceLinkVariablePatternCreateToTGGLinkVariableRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ linkVariablePatternTarget:LinkVariablePattern {
+	++linkVariablePatternTarget:LinkVariablePattern {
 		++  - op->operator
 	}
-	++ operator:Operator {
+	++operator:Operator {
 		value := "++"
 	}
 	objectVariablePatternTargetSrc:ObjectVariablePattern {
@@ -761,7 +761,7 @@
 		++  - linkVariable->tggLinkVariableTarget
 		- objectVariable->tggObjectVariableTargetSrc
 	}
-	++ tggLinkVariableTarget:TGGLinkVariable {
+	++tggLinkVariableTarget:TGGLinkVariable {
 		bindingOperator := BindingOperator::CREATE
 		++  - domain->domain
 	}
@@ -791,10 +791,10 @@
 	rule:Rule {
 		++  - sourcePatterns->objectVariablePatternSource
 	}
-	++ operator:Operator {
+	++operator:Operator {
 		value := "++"
 	}
-	++ objectVariablePatternSource:ObjectVariablePattern {
+	++objectVariablePatternSource:ObjectVariablePattern {
 		++  - op->operator
 	}
 }
@@ -804,7 +804,7 @@
 		++  - objectVariable->tggObjectVariableSource
 		- source->domainSource
 	}
-	++ tggObjectVariableSource:TGGObjectVariable {
+	++tggObjectVariableSource:TGGObjectVariable {
 		bindingOperator := BindingOperator::CREATE
 		bindingSemantics := BindingSemantics::MANDATORY
 		++  - domain->domainSource
@@ -836,7 +836,7 @@
 #rule GenAdornmentRule_ComplementOtherConstraintsInOtherRules #complements GenAdornmentRule#with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ adornment:Adornment
+	++adornment:Adornment
 }
 
 #target {
@@ -849,14 +849,14 @@
 	otherRule:TGGRule {
 		- csp->otherCSP
 	}
-	++ otherTggAdornment:Adornment
+	++otherTggAdornment:Adornment
 	otherCSP:CSP {
 		- constraints->otherTGGConstraint
 	}
 	otherTGGConstraint:TGGConstraint {
 		++  - modelgenAdornments->otherTggAdornment
 	}
-	++ tggAdornment:Adornment
+	++tggAdornment:Adornment
 	tggConstraint:TGGConstraint {
 		++  - modelgenAdornments->tggAdornment
 	}
@@ -888,18 +888,18 @@
 #rule SyncAdornmentRule_ComplementOtherConstraintsWithinTheSameRule #complements SyncAdornmentRule#with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ adornment:Adornment
+	++adornment:Adornment
 }
 
 #target {
-	++ tggAdornment:Adornment
+	++tggAdornment:Adornment
 	tggConstraint:TGGConstraint {
 		++  - allowedAdornments->tggAdornment
 	}
 	otherTGGConstraint:TGGConstraint {
 		++  - allowedAdornments->otherTGGAdornment
 	}
-	++ otherTGGAdornment:Adornment
+	++otherTGGAdornment:Adornment
 	_csp:CSP {
 		- constraints->tggConstraint
 		- constraints->otherTGGConstraint
@@ -934,11 +934,11 @@
 	rule:Rule {
 		- sourcePatterns->objectVariablePatternTargetSrc
 	}
-	++ linkVariablePatternTarget:LinkVariablePattern
+	++linkVariablePatternTarget:LinkVariablePattern
 }
 
 #target {
-	++ tggLinkVariableTarget:TGGLinkVariable {
+	++tggLinkVariableTarget:TGGLinkVariable {
 		bindingSemantics := BindingSemantics::MANDATORY
 		bindingOperator := BindingOperator::CHECK_ONLY
 		++  - domain->domain
@@ -984,11 +984,11 @@
 	attrCond:AttrCond {
 		- name->attrCondDef
 	}
-	++ adornment:Adornment
+	++adornment:Adornment
 }
 
 #target {
-	++ tggAdornment:Adornment
+	++tggAdornment:Adornment
 	tggConstraint:TGGConstraint {
 		++  - modelgenAdornments->tggAdornment
 	}
@@ -1015,10 +1015,10 @@
 #rule CorrVariablePatternCreateToTGGObjectVariableRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ operator:Operator {
+	++operator:Operator {
 		value := "++"
 	}
-	++ corrVariablePattern:CorrVariablePattern {
+	++corrVariablePattern:CorrVariablePattern {
 		++  - op->operator
 	}
 	rule:Rule {
@@ -1027,7 +1027,7 @@
 }
 
 #target {
-	++ tggObjectVariableCorr:TGGObjectVariable {
+	++tggObjectVariableCorr:TGGObjectVariable {
 		bindingOperator := BindingOperator::CREATE
 		++  - domain->domainCorrespondence
 	}
@@ -1062,16 +1062,16 @@
 #rule AttributeConstraintLessRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attributeConstraint:AttributeConstraint {
+	++attributeConstraint:AttributeConstraint {
 		op := " < "
 	}
 }
 
 #target {
-	++ constraint:Constraint {
+	++constraint:Constraint {
 		++  - constraintExpression->comparisonExpression
 	}
-	++ comparisonExpression:ComparisonExpression {
+	++comparisonExpression:ComparisonExpression {
 		operator := ComparingOperator::LESS
 	}
 }
@@ -1092,7 +1092,7 @@
 	rule:Rule {
 		++  - sourcePatterns->objectVariablePatternSource
 	}
-	++ objectVariablePatternSource:ObjectVariablePattern
+	++objectVariablePatternSource:ObjectVariablePattern
 }
 
 #target {
@@ -1104,7 +1104,7 @@
 		type == DomainType::SOURCE
 		name == "Source"
 	}
-	++ tggObjectVariableSource:TGGObjectVariable {
+	++tggObjectVariableSource:TGGObjectVariable {
 		bindingSemantics := BindingSemantics::MANDATORY
 		bindingOperator := BindingOperator::CHECK_ONLY
 		++  - domain->domainSource
@@ -1132,7 +1132,7 @@
 #rule TargetLinkVariablePatternCheckToTGGLinkVariableRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ linkVariablePatternTarget:LinkVariablePattern
+	++linkVariablePatternTarget:LinkVariablePattern
 	objectVariablePatternTargetSrc:ObjectVariablePattern {
 		++  - linkVariablePatterns->linkVariablePatternTarget
 	}
@@ -1142,7 +1142,7 @@
 }
 
 #target {
-	++ tggLinkVariableTarget:TGGLinkVariable {
+	++tggLinkVariableTarget:TGGLinkVariable {
 		bindingOperator := BindingOperator::CHECK_ONLY
 		bindingSemantics := BindingSemantics::MANDATORY
 		++  - domain->domain
@@ -1198,7 +1198,7 @@
 	tggObjectVariableSource:TGGObjectVariable {
 		++  - constraint->constraint
 	}
-	++ attributeValueExpression:AttributeValueExpression {
+	++attributeValueExpression:AttributeValueExpression {
 		++  - object->tggObjectVariableSource
 	}
 }
@@ -1227,10 +1227,10 @@
 }
 
 #target {
-	++ tggConstraint:TGGConstraint {
+	++tggConstraint:TGGConstraint {
 		++  - modelgenAdornments->tggAdornment
 	}
-	++ tggAdornment:Adornment
+	++tggAdornment:Adornment
 }
 
 #correspondence {
@@ -1286,10 +1286,10 @@
 	objectVariablePatternTargetSrc:ObjectVariablePattern {
 		++  - linkVariablePatterns->linkVariablePatternTarget
 	}
-	++ linkVariablePatternTarget:LinkVariablePattern {
+	++linkVariablePatternTarget:LinkVariablePattern {
 		++  - op->operator
 	}
-	++ operator:Operator {
+	++operator:Operator {
 		value := "++"
 	}
 }
@@ -1307,7 +1307,7 @@
 		++  - outgoingLink->tggLinkVariableTarget
 		- domain->domain
 	}
-	++ tggLinkVariableTarget:TGGLinkVariable {
+	++tggLinkVariableTarget:TGGLinkVariable {
 		bindingOperator := BindingOperator::CREATE
 		++  - domain->domain
 	}
@@ -1334,7 +1334,7 @@
 #rule SyncAdornmentRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ adornment:Adornment
+	++adornment:Adornment
 	attrCondDef:AttrCondDef {
 		++  - allowedSyncAdornments->adornment
 	}
@@ -1347,7 +1347,7 @@
 	tggConstraint:TGGConstraint {
 		++  - allowedAdornments->tggAdornment
 	}
-	++ tggAdornment:Adornment
+	++tggAdornment:Adornment
 }
 
 #correspondence {
@@ -1410,10 +1410,10 @@
 	rule:Rule {
 		- sourcePatterns->objectVariablePatternTargetSrc
 	}
-	++ operator:Operator {
+	++operator:Operator {
 		value := "!"
 	}
-	++ linkVariablePatternTarget:LinkVariablePattern {
+	++linkVariablePatternTarget:LinkVariablePattern {
 		++  - op->operator
 	}
 }
@@ -1424,7 +1424,7 @@
 		- objectVariable->tggObjectVariableTargetSrc
 		- source->domain
 	}
-	++ tggLinkVariableTarget:TGGLinkVariable {
+	++tggLinkVariableTarget:TGGLinkVariable {
 		bindingSemantics := BindingSemantics::NEGATIVE
 		bindingOperator := BindingOperator::CHECK_ONLY
 		++  - domain->domain
@@ -1467,7 +1467,7 @@
 		- schema->schema
 		++  - attrConditions->attrCond
 	}
-	++ attrCond:AttrCond {
+	++attrCond:AttrCond {
 		++  - name->attrCondDef
 	}
 }
@@ -1476,7 +1476,7 @@
 	tggRule:TGGRule {
 		- csp->tggCSP
 	}
-	++ tggConstraint:TGGConstraint
+	++tggConstraint:TGGConstraint
 	tggCSP:CSP {
 		++  - constraints->tggConstraint
 	}
@@ -1512,7 +1512,7 @@
 	attrCond:AttrCond {
 		++  - values->attributeVariable
 	}
-	++ attributeVariable:AttributeVariable {
+	++attributeVariable:AttributeVariable {
 		++  - objectVar->objectVariablePattern
 	}
 }
@@ -1530,11 +1530,11 @@
 	tggConstraint:TGGConstraint {
 		++  - variables->tggAttributeVariable
 	}
-	! attributeVariableNAC:AttributeVariable {
+	!attributeVariableNAC:AttributeVariable {
 		objectVariable == objectVariablePattern . name
 		attribute == attributeVariable . attribute
 	}
-	++ tggAttributeVariable:AttributeVariable
+	++tggAttributeVariable:AttributeVariable
 	tggObjectVariable:TGGObjectVariable
 }
 
@@ -1568,16 +1568,16 @@
 #rule AttributeConstraintLessOrEqualRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attributeConstraint:AttributeConstraint {
+	++attributeConstraint:AttributeConstraint {
 		op := " <= "
 	}
 }
 
 #target {
-	++ comparisonExpression:ComparisonExpression {
+	++comparisonExpression:ComparisonExpression {
 		operator := ComparingOperator::LESS_OR_EQUAL
 	}
-	++ constraint:Constraint {
+	++constraint:Constraint {
 		++  - constraintExpression->comparisonExpression
 	}
 }
@@ -1595,7 +1595,7 @@
 #rule AttributeVariableTargetOVRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attributeVariable:AttributeVariable {
+	++attributeVariable:AttributeVariable {
 		++  - objectVar->objectVariablePattern
 	}
 	objectVariablePattern:ObjectVariablePattern
@@ -1609,7 +1609,7 @@
 }
 
 #target {
-	++ tggAttributeVariable:AttributeVariable
+	++tggAttributeVariable:AttributeVariable
 	tggConstraint:TGGConstraint {
 		++  - variables->tggAttributeVariable
 	}
@@ -1618,7 +1618,7 @@
 		- csp->tggCSP
 	}
 	tggObjectVariable:TGGObjectVariable
-	! attributeVariableNAC:AttributeVariable {
+	!attributeVariableNAC:AttributeVariable {
 		attribute == attributeVariable . attribute
 		objectVariable == objectVariablePattern . name
 	}
@@ -1659,7 +1659,7 @@
 #rule CorrVariablePatternCheckToTGGObjectVariableRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ corrVariablePattern:CorrVariablePattern
+	++corrVariablePattern:CorrVariablePattern
 	rule:Rule {
 		++  - correspondencePatterns->corrVariablePattern
 	}
@@ -1670,7 +1670,7 @@
 		- correspondence->domainCorrespondence
 		++  - objectVariable->tggObjectVariableCorr
 	}
-	++ tggObjectVariableCorr:TGGObjectVariable {
+	++tggObjectVariableCorr:TGGObjectVariable {
 		bindingOperator := BindingOperator::CHECK_ONLY
 		++  - domain->domainCorrespondence
 	}
@@ -1704,13 +1704,13 @@
 	rule:Rule {
 		- targetPatterns->objectVariablePatternTargetSrc
 	}
-	++ operator:Operator {
+	++operator:Operator {
 		value := "!"
 	}
 	objectVariablePatternTargetSrc:ObjectVariablePattern {
 		++  - linkVariablePatterns->linkVariablePatternTarget
 	}
-	++ linkVariablePatternTarget:LinkVariablePattern {
+	++linkVariablePatternTarget:LinkVariablePattern {
 		++  - op->operator
 	}
 }
@@ -1721,7 +1721,7 @@
 		- target->domain
 		- objectVariable->tggObjectVariableTargetSrc
 	}
-	++ tggLinkVariableTarget:TGGLinkVariable {
+	++tggLinkVariableTarget:TGGLinkVariable {
 		bindingOperator := BindingOperator::CHECK_ONLY
 		bindingSemantics := BindingSemantics::NEGATIVE
 		++  - domain->domain
@@ -1759,7 +1759,7 @@
 	rule:Rule {
 		- attrConditions->attrCond
 	}
-	++ localVariable:LocalVariable
+	++localVariable:LocalVariable
 	attrCond:AttrCond {
 		++  - values->localVariable
 	}
@@ -1857,7 +1857,7 @@
 	tggObjectVariableSource:TGGObjectVariable {
 		++  - incomingLink->tggLinkVariableSource
 	}
-	++ tggLinkVariableSource:TGGLinkVariable {
+	++tggLinkVariableSource:TGGLinkVariable {
 		name := "source"
 		bindingOperator := BindingOperator::CREATE
 		++  - domain->domainCorrespondence
@@ -1886,36 +1886,36 @@
 #rule RootRule2 #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ schema:Schema
-	++ tggFile:TripleGraphGrammarFile {
+	++schema:Schema
+	++tggFile:TripleGraphGrammarFile {
 		++  - schema->schema
 	}
 }
 
 #target {
-	++ domainTarget:Domain {
+	++domainTarget:Domain {
 		name := "Target"
 		type := DomainType::TARGET
 		++  - metamodel->metamodelTarget
 	}
-	++ corrPackage:EPackage {
+	++corrPackage:EPackage {
 		++  - eSubpackages->rulesPackage
 	}
-	++ rulesPackage:EPackage {
+	++rulesPackage:EPackage {
 		name := "Rules"
 		nsPrefix := "Rules"
 	}
-	++ domainSource:Domain {
+	++domainSource:Domain {
 		name := "Source"
 		type := DomainType::SOURCE
 		++  - metamodel->metamodelSource
 	}
-	++ metamodelTarget:Metamodel
-	++ project:TGGProject {
+	++metamodelTarget:Metamodel
+	++project:TGGProject {
 		++  - corrPackage->corrPackage
 		++  - tgg->tggModel
 	}
-	++ tggModel:TripleGraphGrammar {
+	++tggModel:TripleGraphGrammar {
 		++  - metamodel->metamodelSource
 		++  - metamodel->metamodelTarget
 		++  - metamodel->metamodelCorrespondence
@@ -1923,13 +1923,13 @@
 		++  - domain->domainTarget
 		++  - domain->domainCorrespondence
 	}
-	++ domainCorrespondence:Domain {
+	++domainCorrespondence:Domain {
 		name := "Correspondence"
 		type := DomainType::CORRESPONDENCE
 		++  - metamodel->metamodelCorrespondence
 	}
-	++ metamodelCorrespondence:Metamodel
-	++ metamodelSource:Metamodel
+	++metamodelCorrespondence:Metamodel
+	++metamodelSource:Metamodel
 }
 
 #correspondence {
@@ -1957,10 +1957,10 @@
 #rule TargetObjectVariablePatternNACToTGGObjectVariableRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ objectVariablePatternTarget:ObjectVariablePattern {
+	++objectVariablePatternTarget:ObjectVariablePattern {
 		++  - op->operator
 	}
-	++ operator:Operator {
+	++operator:Operator {
 		value := "!"
 	}
 	rule:Rule {
@@ -1973,7 +1973,7 @@
 		++  - objectVariable->tggObjectVariableTarget
 		- target->domainTarget
 	}
-	++ tggObjectVariableTarget:TGGObjectVariable {
+	++tggObjectVariableTarget:TGGObjectVariable {
 		bindingSemantics := BindingSemantics::NEGATIVE
 		bindingOperator := BindingOperator::CHECK_ONLY
 		++  - domain->domainTarget
@@ -2035,15 +2035,15 @@
 #rule GenAdornmentRule_ComplementOtherConstraintsWithinTheSameRule #complements GenAdornmentRule#with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ adornment:Adornment
+	++adornment:Adornment
 }
 
 #target {
-	++ otherTggAdornment:Adornment
+	++otherTggAdornment:Adornment
 	otherTGGConstraint:TGGConstraint {
 		++  - modelgenAdornments->otherTggAdornment
 	}
-	++ tggAdornment:Adornment
+	++tggAdornment:Adornment
 	tggConstraint:TGGConstraint {
 		++  - modelgenAdornments->tggAdornment
 	}
@@ -2075,7 +2075,7 @@
 #rule LiteralRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ literal:Literal
+	++literal:LiteralExpression
 	attrCond:AttrCond {
 		++  - values->literal
 	}
@@ -2093,13 +2093,13 @@
 	tggRule:TGGRule {
 		- csp->tggCSP
 	}
-	++ tggLiteral:Literal {
+	++tggLiteral:Literal {
 		bound := true
 	}
 	tggConstraint:TGGConstraint {
 		++  - variables->tggLiteral
 	}
-	! literalNAC:Literal {
+	!literalNAC:Literal {
 		value == literal . value
 	}
 }
@@ -2129,16 +2129,16 @@
 #rule AttributeConstraintUnequalRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attributeConstraint:AttributeConstraint {
+	++attributeConstraint:AttributeConstraint {
 		op := " != "
 	}
 }
 
 #target {
-	++ comparisonExpression:ComparisonExpression {
+	++comparisonExpression:ComparisonExpression {
 		operator := ComparingOperator::UNEQUAL
 	}
-	++ constraint:Constraint {
+	++constraint:Constraint {
 		++  - constraintExpression->comparisonExpression
 	}
 }
@@ -2159,10 +2159,10 @@
 	rule:Rule {
 		++  - targetPatterns->objectVariablePatternTarget
 	}
-	++ objectVariablePatternTarget:ObjectVariablePattern {
+	++objectVariablePatternTarget:ObjectVariablePattern {
 		++  - op->operator
 	}
-	++ operator:Operator {
+	++operator:Operator {
 		value := "++"
 	}
 }
@@ -2172,7 +2172,7 @@
 		name == "Target"
 		type == DomainType::TARGET
 	}
-	++ tggObjectVariableTarget:TGGObjectVariable {
+	++tggObjectVariableTarget:TGGObjectVariable {
 		bindingOperator := BindingOperator::CREATE
 		bindingSemantics := BindingSemantics::MANDATORY
 		++  - domain->domainTarget
@@ -2204,7 +2204,7 @@
 #rule ParamToSignatureElementRule_ComplementOtherConstraintsWithinTheSameRule #complements ParamToSignatureElementRule#with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ param:Param
+	++param:Param
 }
 
 #target {
@@ -2215,11 +2215,11 @@
 		- constraints->otherTGGConstraint
 		- constraints->tggConstraint
 	}
-	++ otherSignatureElement:SignatureElement
+	++otherSignatureElement:SignatureElement
 	otherTGGConstraint:TGGConstraint {
 		++  - signature->otherSignatureElement
 	}
-	++ signatureElement:SignatureElement
+	++signatureElement:SignatureElement
 }
 
 #correspondence {
@@ -2248,7 +2248,7 @@
 	attrCond:AttrCond {
 		++  - values->literal
 	}
-	++ literal:Literal
+	++literal:LiteralExpression
 	rule:Rule {
 		- attrConditions->attrCond
 	}
@@ -2293,10 +2293,10 @@
 #rule CorrVariablePatternNACToTGGObjectVariableRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ operator:Operator {
+	++operator:Operator {
 		value := "!"
 	}
-	++ corrVariablePattern:CorrVariablePattern {
+	++corrVariablePattern:CorrVariablePattern {
 		++  - op->operator
 	}
 	rule:Rule {
@@ -2313,7 +2313,7 @@
 		++  - objectVariable->tggObjectVariableCorr
 		- correspondence->domainCorrespondence
 	}
-	++ tggObjectVariableCorr:TGGObjectVariable {
+	++tggObjectVariableCorr:TGGObjectVariable {
 		bindingSemantics := BindingSemantics::NEGATIVE
 		bindingOperator := BindingOperator::CHECK_ONLY
 		++  - domain->domainCorrespondence
@@ -2341,10 +2341,10 @@
 #rule SourceObjectVariablePatternNACToTGGObjectVariableRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ objectVariablePatternSource:ObjectVariablePattern {
+	++objectVariablePatternSource:ObjectVariablePattern {
 		++  - op->operator
 	}
-	++ operator:Operator {
+	++operator:Operator {
 		value := "!"
 	}
 	rule:Rule {
@@ -2353,7 +2353,7 @@
 }
 
 #target {
-	++ tggObjectVariableSource:TGGObjectVariable {
+	++tggObjectVariableSource:TGGObjectVariable {
 		bindingSemantics := BindingSemantics::NEGATIVE
 		bindingOperator := BindingOperator::CHECK_ONLY
 		++  - domain->domainSource
@@ -2389,11 +2389,11 @@
 #rule ParamToSignatureElementRule_ComplementOtherConstraintsInOtherRules #complements ParamToSignatureElementRule#with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ param:Param
+	++param:Param
 }
 
 #target {
-	++ signatureElement:SignatureElement
+	++signatureElement:SignatureElement
 	_rule:TGGRule {
 		- csp->_csp
 	}
@@ -2406,7 +2406,7 @@
 	otherTGGConstraint:TGGConstraint {
 		++  - signature->otherSignatureElement
 	}
-	++ otherSignatureElement:SignatureElement
+	++otherSignatureElement:SignatureElement
 	tggConstraint:TGGConstraint {
 		++  - signature->signatureElement
 	}
@@ -2442,17 +2442,17 @@
 #rule AttrCondCreateToTGGConstraintRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attrCond:AttrCond {
+	++attrCond:AttrCond {
 		++  - name->attrCondDef
 	}
 	rule:Rule {
 		++  - attrConditions->attrCond
 		- schema->schema
 	}
-	! attrCondDefNac:AttrCondDef {
+	!attrCondDefNac:AttrCondDef {
 		name == tggConstraint . name
 	}
-	++ attrCondDef:AttrCondDef
+	++attrCondDef:AttrCondDef
 	schema:Schema {
 		- attributeCondDefs->attrCondDefNac
 		++  - attributeCondDefs->attrCondDef
@@ -2466,7 +2466,7 @@
 	tggCSP:CSP {
 		++  - constraints->tggConstraint
 	}
-	++ tggConstraint:TGGConstraint
+	++tggConstraint:TGGConstraint
 }
 
 #correspondence {
@@ -2494,7 +2494,7 @@
 	rule:Rule {
 		++  - targetPatterns->objectVariablePatternTarget
 	}
-	++ objectVariablePatternTarget:ObjectVariablePattern
+	++objectVariablePatternTarget:ObjectVariablePattern
 }
 
 #target {
@@ -2506,7 +2506,7 @@
 		name == "Target"
 		type == DomainType::TARGET
 	}
-	++ tggObjectVariableTarget:TGGObjectVariable {
+	++tggObjectVariableTarget:TGGObjectVariable {
 		bindingOperator := BindingOperator::CHECK_ONLY
 		bindingSemantics := BindingSemantics::MANDATORY
 		++  - domain->domainTarget
@@ -2534,16 +2534,16 @@
 #rule AttributeConstraintGreaterOrEqualRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attributeConstraint:AttributeConstraint {
+	++attributeConstraint:AttributeConstraint {
 		op := " >= "
 	}
 }
 
 #target {
-	++ constraint:Constraint {
+	++constraint:Constraint {
 		++  - constraintExpression->comparisonExpression
 	}
-	++ comparisonExpression:ComparisonExpression {
+	++comparisonExpression:ComparisonExpression {
 		operator := ComparingOperator::GREATER_OR_EQUAL
 	}
 }
@@ -2568,10 +2568,10 @@
 }
 
 #target {
-	++ tggConstraint:TGGConstraint {
+	++tggConstraint:TGGConstraint {
 		++  - allowedAdornments->tggAdornment
 	}
-	++ tggAdornment:Adornment
+	++tggAdornment:Adornment
 }
 
 #correspondence {
@@ -2595,7 +2595,7 @@
 		++  - valueExp->attributeExpression
 	}
 	objectVariablePatternSource:ObjectVariablePattern
-	++ attributeExpression:AttributeExpression {
+	++attributeExpression:AttributeExpression {
 		++  - objectVar->objectVariablePatternSource
 	}
 }
@@ -2605,7 +2605,7 @@
 		++  - valueExpression->attributeValueExpression
 	}
 	tggObjectVariableSource:TGGObjectVariable
-	++ attributeValueExpression:AttributeValueExpression {
+	++attributeValueExpression:AttributeValueExpression {
 		++  - object->tggObjectVariableSource
 	}
 }
@@ -2631,16 +2631,16 @@
 #rule AttributeConstraintGreaterRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ attributeConstraint:AttributeConstraint {
+	++attributeConstraint:AttributeConstraint {
 		op := " > "
 	}
 }
 
 #target {
-	++ constraint:Constraint {
+	++constraint:Constraint {
 		++  - constraintExpression->comparisonExpression
 	}
-	++ comparisonExpression:ComparisonExpression {
+	++comparisonExpression:ComparisonExpression {
 		operator := ComparingOperator::GREATER
 	}
 }
@@ -2658,12 +2658,12 @@
 #rule SyncAdornmentRule_ComplementOtherConstraintsInOtherRules #complements SyncAdornmentRule#with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ adornment:Adornment
+	++adornment:Adornment
 }
 
 #target {
-	++ tggAdornment:Adornment
-	++ otherTGGadornment:Adornment
+	++tggAdornment:Adornment
+	++otherTGGadornment:Adornment
 	otherTGGConstraint:TGGConstraint {
 		++  - allowedAdornments->otherTGGadornment
 	}
@@ -2710,7 +2710,7 @@
 #rule TargetCorrVariablePatternCheckToTGGLinkVariableRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	! operator:Operator
+	!operator:Operator
 	corrVariablePattern:CorrVariablePattern {
 		++  - target->objectVariablePatternTarget
 		- op->operator
@@ -2728,7 +2728,7 @@
 		++  - linkVariable->tggLinkVariableTarget
 		- correspondence->domainCorrespondence
 	}
-	++ tggLinkVariableTarget:TGGLinkVariable {
+	++tggLinkVariableTarget:TGGLinkVariable {
 		bindingOperator := BindingOperator::CHECK_ONLY
 		name := "target"
 		++  - domain->domainCorrespondence

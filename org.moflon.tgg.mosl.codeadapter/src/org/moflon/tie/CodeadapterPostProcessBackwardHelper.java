@@ -142,8 +142,8 @@ public class CodeadapterPostProcessBackwardHelper {
 					if (srcAttr.getName().equals(trgAttr.getName()))
 						srcVariables.add(srcAttr);
 				}
-				if (var instanceof Literal && paramVal instanceof org.moflon.tgg.mosl.tgg.Literal) {
-					org.moflon.tgg.mosl.tgg.Literal srcAttr = (org.moflon.tgg.mosl.tgg.Literal) paramVal;
+				if (var instanceof Literal && paramVal instanceof org.moflon.tgg.mosl.tgg.LiteralExpression) {
+					org.moflon.tgg.mosl.tgg.LiteralExpression srcAttr = (org.moflon.tgg.mosl.tgg.LiteralExpression) paramVal;
 					Literal trgAttr = (Literal) var;
 					String srcAttrValue = srcAttr.getValue();
 					String trgAttrValue = (String) trgAttr.getValue();

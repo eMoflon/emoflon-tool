@@ -3,18 +3,18 @@
  */
 package org.moflon.tgg.mosl.validation
 
-import org.moflon.tgg.mosl.tgg.Adornment
-import org.moflon.tgg.mosl.tgg.TggPackage
-import org.eclipse.xtext.validation.Check
-import org.moflon.tgg.mosl.tgg.AttributeVariable
-import org.eclipse.emf.common.util.BasicEList
-import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
-import org.moflon.tgg.mosl.tgg.Rule
+import java.util.ArrayList
 import java.util.Collection
 import java.util.List
-import java.util.ArrayList
-import org.moflon.tgg.mosl.tgg.VariablePattern
+import org.eclipse.emf.common.util.BasicEList
+import org.eclipse.xtext.validation.Check
+import org.moflon.tgg.mosl.tgg.Adornment
+import org.moflon.tgg.mosl.tgg.AttributeExpression
 import org.moflon.tgg.mosl.tgg.CorrVariablePattern
+import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
+import org.moflon.tgg.mosl.tgg.Rule
+import org.moflon.tgg.mosl.tgg.TggPackage
+import org.moflon.tgg.mosl.tgg.VariablePattern
 
 /**
  * This class contains custom validation rules. 
@@ -33,19 +33,19 @@ class TGGValidator extends AbstractTGGValidator {
 	def checkAdornmentValue(Adornment adornment){
 		for (character : adornment.value.toCharArray) {
 			if(character.compareTo('B')!=0 && character.compareTo('F')!=0){
-				error("Adornment value may only contain capital letters B or F", TggPackage.Literals.ADORNMENT__VALUE, org.moflon.tgg.mosl.validation.TGGValidator.INVALID_ADORNMENT);
+				error("Adornment value may only contain capital letters B or F", TggPackage.Literals.ADORNMENT__VALUE, TGGValidator.INVALID_ADORNMENT);
 			}
 		}
 	}
 	
 	@Check
-	def checkAttributeVariable(AttributeVariable attrVar){
+	def checkAttributeVariable(AttributeExpression attrVar){
 		var attrNames = new BasicEList()
 		for (attr : attrVar.objectVar.type.EAllAttributes) {
 			attrNames.add(attr.name)
 		}
 		if (!attrNames.contains(attrVar.attribute)) {
-			error("EClass " + attrVar.objectVar.type.name + " does not contain EAttribute " + attrVar.attribute + ".", TggPackage.Literals.ATTRIBUTE_VARIABLE__ATTRIBUTE, org.moflon.tgg.mosl.validation.TGGValidator.INVALID_ATTRIBUTE_VARIABLE);
+			error("EClass " + attrVar.objectVar.type.name + " does not contain EAttribute " + attrVar.attribute + ".", TggPackage.Literals.ATTRIBUTE_EXPRESSION__ATTRIBUTE, TGGValidator.INVALID_ATTRIBUTE_VARIABLE);
 		}
 	}
 
@@ -73,7 +73,7 @@ class TGGValidator extends AbstractTGGValidator {
 	def checkAllVariablePatternNamesAreUnique(ObjectVariablePattern objectVariablePattern){
 		var container = objectVariablePattern.eContainer;
 		if(container instanceof Rule && !checkVariablePatternNamesAreUnique(objectVariablePattern, container as Rule)){
-			error("Object Variables must be unique. Object Variable '" + objectVariablePattern.name + "' already exist", TggPackage.Literals.VARIABLE_PATTERN__NAME, org.moflon.tgg.mosl.validation.TGGValidator.NOT_UNIQUE_OBJECT_VARIABLE_NAME);
+			error("Object Variables must be unique. Object Variable '" + objectVariablePattern.name + "' already exist", TggPackage.Literals.VARIABLE_PATTERN__NAME, TGGValidator.NOT_UNIQUE_OBJECT_VARIABLE_NAME);
 		}
 	}
 	
@@ -89,7 +89,7 @@ class TGGValidator extends AbstractTGGValidator {
 		  var isGeneration = operator != null && operator.value != null && operator.value.equalsIgnoreCase("++ ");
 		  var isAnError = !ruleIsAbstract && typeIsAbstract && isGeneration;
 		  if(isAnError){
-		  	error("The type of the Object Variable '" + objectVariablePattern.name + "' is abstract or the Rule '" + Rule.name + "' is not abstract", TggPackage.Literals.OBJECT_VARIABLE_PATTERN__TYPE, org.moflon.tgg.mosl.validation.TGGValidator.TYPE_IS_ABSTRACT);
+		  	error("The type of the Object Variable '" + objectVariablePattern.name + "' is abstract or the Rule '" + Rule.name + "' is not abstract", TggPackage.Literals.OBJECT_VARIABLE_PATTERN__TYPE, TGGValidator.TYPE_IS_ABSTRACT);
 		  }
 		  
 		}		
@@ -119,7 +119,7 @@ class TGGValidator extends AbstractTGGValidator {
 			var refinementName = "<Placeholder>";
 			if(foundSuperTypes.size() >= 2)
 				refinementName = foundSuperTypes.get(1).name;
-			error("The Rule '" + rule.name + "' creates a Cycle with the Refinement '" + refinementName +"'", TggPackage.Literals.RULE__SUPERTYPES, org.moflon.tgg.mosl.validation.TGGValidator.RULE_REFINEMENT_CREATES_A_CYCLE);
+			error("The Rule '" + rule.name + "' creates a Cycle with the Refinement '" + refinementName +"'", TggPackage.Literals.RULE__SUPERTYPES, TGGValidator.RULE_REFINEMENT_CREATES_A_CYCLE);
 		}
 	}
 	

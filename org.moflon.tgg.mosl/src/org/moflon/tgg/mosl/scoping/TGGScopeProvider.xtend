@@ -21,7 +21,7 @@ import org.eclipse.xtext.scoping.impl.FilteringScope
 import org.moflon.tgg.mosl.tgg.AttributeAssignment
 import org.moflon.tgg.mosl.tgg.AttributeConstraint
 import org.moflon.tgg.mosl.tgg.AttributeExpression
-import org.moflon.tgg.mosl.tgg.AttributeVariable
+import org.moflon.tgg.mosl.tgg.CorrType
 import org.moflon.tgg.mosl.tgg.CorrVariablePattern
 import org.moflon.tgg.mosl.tgg.LinkVariablePattern
 import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
@@ -30,10 +30,9 @@ import org.moflon.tgg.mosl.tgg.Rule
 import org.moflon.tgg.mosl.tgg.Schema
 import org.moflon.tgg.mosl.tgg.TggPackage
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile
-import org.moflon.tgg.mosl.tgg.CorrType
-import org.eclipse.xtext.scoping.impl.SimpleScope
-import org.eclipse.xtext.util.SimpleAttributeResolver
-import org.eclipse.xtext.naming.QualifiedName
+import org.moflon.tgg.mosl.tgg.EnumExpression
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.EEnum
 
 /**
  * This class contains custom scoping description.
@@ -78,6 +77,9 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 			
 			if(is_trg_of_corr_ov(context, reference))
 				return trg_of_corr_ov_must_be_in_trg_domain(context)
+				
+			if(is_enum_exp(context, reference))
+				return potential_enum_literals(context)
 			
 			/* Scopes in Schema */
 			
@@ -97,6 +99,30 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 		}
 
 		super.getScope(context, reference)
+	}
+	
+	def potential_enum_literals(EObject context) {
+		val enumExp = context as EnumExpression
+		
+		// Crawl up eContainers to Rule
+		var EObject current = enumExp
+		while(!(current instanceof Rule))
+			current = current.eContainer
+		
+		// Get imports from schema
+		val ResourceSet set = new ResourceSetImpl
+		val schema = (current as Rule).schema
+		val packages = schema.imports.map[u | set.getResource(URI.createURI(u.name), true).contents.get(0) as EPackage]
+		
+		val literals = packages.map[p | p.EClassifiers].flatten
+							   .filter[e | e instanceof EEnum]
+							   .map[e | (e as EEnum).ELiterals].flatten
+				
+		Scopes.scopeFor(literals)
+	}
+	
+	def is_enum_exp(EObject context, EReference reference) {
+		context instanceof EnumExpression && reference == TggPackage.Literals.ENUM_EXPRESSION__VALUE
 	}
 	
 	def is_attr_of_ov(EObject context, EReference reference) {
@@ -193,7 +219,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 
 	def is_attr_cond(EObject context, EReference reference) {
-		context instanceof AttributeVariable && reference == TggPackage.Literals.ATTRIBUTE_VARIABLE__ATTRIBUTE
+		context instanceof AttributeExpression && reference == TggPackage.Literals.ATTRIBUTE_EXPRESSION__ATTRIBUTE
 	}
 
 	def is_type_of_lv(EObject context, EReference reference) {
@@ -237,7 +263,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 			return determineTypeDefFromExtension(typeExtension.super as CorrType)
 		else
 			throw new IllegalStateException("This should never be the case!") 
-	}
+	}                  
 	
 	def src_of_corr_ov_must_be_in_src_domain(EObject context) {
 		val typeDef = determineTypeDef(context)
@@ -308,7 +334,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 
 	def attr_in_cond_must_be_an_attr_of_the_ref_ov(EObject context) {
-		var paramVal = context as AttributeVariable
+		var paramVal = context as AttributeExpression
 		var ovPattern = paramVal.objectVar as ObjectVariablePattern
 		return Scopes.scopeFor(ovPattern.type.EAllAttributes)
 	}
