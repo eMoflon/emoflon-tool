@@ -282,11 +282,16 @@ public class WorkspaceInstaller
       try
       {
          final List<IFile> collectedWorkflows = collectMwe2Workflows();
+
+			// TODO@rkluge: This effectively disables the invocation of the
+			// Mwe2Launcher (seams to be problematic)
+			collectedWorkflows.clear();
+
          monitor.beginTask("Invoking MWE2 Workflows", 20 * collectedWorkflows.size());
-         for (final IFile file : collectedWorkflows)
+         for (final IFile workflowFile : collectedWorkflows)
          {
             // See: https://wiki.eclipse.org/EMF/FAQ#How_do_I_map_between_an_EMF_Resource_and_an_Eclipse_IFile.3F
-            final URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
+            final URI uri = URI.createPlatformResourceURI(workflowFile.getFullPath().toString(), true);
             try
             {
                logger.debug(String.format("Invoking Mwe2Launcher for %s.", uri));
