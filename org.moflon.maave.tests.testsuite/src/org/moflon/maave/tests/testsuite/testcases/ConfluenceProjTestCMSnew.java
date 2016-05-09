@@ -101,7 +101,7 @@ public class ConfluenceProjTestCMSnew {
 
 
    }
-//      @Ignore
+      @Ignore
    @Test
    public void test_Combined_v1() {
       System.out.println("");
@@ -178,7 +178,7 @@ public class ConfluenceProjTestCMSnew {
    }
    @Ignore
    @Test
-   public void test_v0() {
+   public void test_single_v0() {
       System.out.println("");
       System.out.println("-------------------------------------------------------------");
       System.out.println("Starting ConfluenceProjTestCMS/test_single_v0" );
@@ -189,25 +189,25 @@ public class ConfluenceProjTestCMSnew {
       GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
 
       EClass clsExam=(EClass) pack.getEClassifier("Exam");
-      gts.getRules().add(ModelHelper.getRule(clsExam,"bookRoom_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"bookRoom_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsExam,"uploadResults_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsExam,"zetDate_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsExam,"updateDate_v0"));
-            gts.getRules().add(ModelHelper.getRule(clsExam,"transferResultPassed_v0"));
+//            gts.getRules().add(ModelHelper.getRule(clsExam,"transferResultPassed_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsExam,"transferResultFailed_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsExam,"closeExam_v0"));
       //      
-//      EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
-//      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForExam_v0"));
+      EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
+      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForExam_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForModule_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"unregFromExam_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForThesisModuleOffer_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForThesis_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"obtainDegree_v0"));
 
-//      EClass clsCoModOffer=(EClass) pack.getEClassifier("CoModOffer");
+      EClass clsCoModOffer=(EClass) pack.getEClassifier("CoModOffer");
       //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setLecture_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setExam_v0"));
+            gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setExam_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"reset_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateLecture_v0"));
       //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateExam_v0"));
@@ -242,9 +242,9 @@ public class ConfluenceProjTestCMSnew {
 
 
    }
-   @Ignore
+//   @Ignore
    @Test
-   public void test_v2() {
+   public void test_single_v1() {
       System.out.println("");
       System.out.println("-------------------------------------------------------------");
       System.out.println("Starting ConfluenceProjTestCMS/test_single_v1" );
@@ -254,31 +254,29 @@ public class ConfluenceProjTestCMSnew {
 
       GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
 
-//      EClass clsExam=(EClass) pack.getEClassifier("Exam");
-      //      gts.getRules().add(ModelHelper.getRule(clsExam,"bookRoom_v1"));
-      //      gts.getRules().add(ModelHelper.getRule(clsExam,"uploadResults_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsExam,"zetDate_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsExam,"updateDate_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsExam,"transferResult_v1"));
-      //      gts.getRules().add(ModelHelper.getRule(clsExam,"transferResultPassed_v1"));
-      //      gts.getRules().add(ModelHelper.getRule(clsExam,"transferResultFailed_v1"));
-      //      gts.getRules().add(ModelHelper.getRule(clsExam,"closeExam_v0"));
-      //      
-      EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
-      //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForExam_v1"));
-      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForModule_v0"));
-      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"unregFromExam_v1"));
-      //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForThesisModuleOffer_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForThesis_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"obtainDegree_v0"));
+      EClass clsExam=(EClass) pack.getEClassifier("Exam");
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"bookRoom_v1"));
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"uploadResults_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"zetDate_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"updateDate_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"transferResultPassed_v1"));
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"transferResultFailed_v1"));
+//      gts.getRules().add(ModelHelper.getRule(clsExam,"closeExam_v0"));
 
-//      EClass clsCoModOffer=(EClass) pack.getEClassifier("CoModOffer");
-      //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setLecture_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setExam_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"reset_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateLecture_v0"));
-      //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateExam_v1"));
-      //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"closeModuleOffer_v0"));
+      EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
+      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForExam_v1"));
+//      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForModule_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"unregFromExam_v1"));
+//      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForThesisModuleOffer_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForThesis_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"obtainDegree_v0"));
+
+      EClass clsCoModOffer=(EClass) pack.getEClassifier("CoModOffer");
+//      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setLecture_v0"));
+      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setExam_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"reset_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateLecture_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateExam_v1"));
 
       ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));

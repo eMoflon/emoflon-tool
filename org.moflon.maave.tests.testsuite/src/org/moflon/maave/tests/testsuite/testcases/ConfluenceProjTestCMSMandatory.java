@@ -70,8 +70,6 @@ public class ConfluenceProjTestCMSMandatory {
    
    @Test
    public void test2() {
-      System.out.println("");
-      System.out.println("-------------------------------------------------------------");
       System.out.println("Starting ConfluenceProjTestCMSMandatory/Test2: " );
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");
@@ -112,8 +110,6 @@ public class ConfluenceProjTestCMSMandatory {
    }
    @Test
    public void test3() {
-      System.out.println("");
-      System.out.println("-------------------------------------------------------------");
       System.out.println("Starting ConfluenceProjTestCMSMandatory/Test3: " );
       CmsPackage.eINSTANCE.getClass();
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cms", "Cms");

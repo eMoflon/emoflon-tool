@@ -69,6 +69,11 @@ public class ApplicationConditionTestCMSnew {
          {
             rule.getRight().getCodom().setName("L_"+rule.getName());
          }
+         
+         for (SymbGTRule   rule  : gts.getRules())
+         {
+            System.out.println(rule.getName()+"="+(rule.getLeft().getCodom().getGraphNodes().size()+rule.getLeft().getCodom().getGraphEdges().size()));
+         }
          ConfigurableMorphismClassFactory morClassFac =MatchingUtilsFactory.eINSTANCE.createConfigurableMorphismClassFactory();
          gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
          gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
