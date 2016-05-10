@@ -9,10 +9,16 @@
     <package class="org.moflon.tgg.language.LanguagePackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.tgg.language.consistencycheck.ConsistencycheckPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//consistencycheck"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.tgg.language.csp.CspPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.tgg.language.modelgenerator.ModelgeneratorPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//modelgenerator"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.tgg.language.precompiler.PrecompilerPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//precompiler"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.tgg.language.algorithm.AlgorithmPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//algorithm"/>
@@ -24,15 +30,9 @@
     <package class="org.moflon.tgg.language.analysis.decNACs.DecNACsPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//analysis/decNACs"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="org.moflon.tgg.language.precompiler.PrecompilerPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//precompiler"/>
-  </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.tgg.language.compiler.CompilerPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//compiler"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.tgg.language.compiler.compilerfacade.CompilerfacadePackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//compiler/compilerfacade"/>
-  </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="org.moflon.tgg.language.consistencycheck.ConsistencycheckPackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//consistencycheck"/>
   </extension>
 </plugin>
