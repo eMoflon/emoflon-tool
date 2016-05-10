@@ -300,7 +300,7 @@ public class SynchronizationHelper
 
          // Attribute deltas
          for (AttributeDelta ac : deltaSpec.getAttributeChanges())
-            ac.getAffectedNode().eSet(ac.getAffectedAttribute(), ac.getNewValue());
+            ac.getAffectedNode().eSet(ac.getAffectedAttribute(), EcoreUtil.createFromString(ac.getAffectedAttribute().getEAttributeType(), ac.getNewValue()));
 
          // Added edges (nodes are indirectly added)
          for (EMoflonEdge ae : deltaSpec.getAddedEdges())

@@ -33,7 +33,7 @@ class TGGValidator extends AbstractTGGValidator {
 	def checkAdornmentValue(Adornment adornment){
 		for (character : adornment.value.toCharArray) {
 			if(character.compareTo('B')!=0 && character.compareTo('F')!=0){
-				error("Adornment value may only contain capital letters B or F", TggPackage.Literals.ADORNMENT__VALUE, TGGValidator.INVALID_ADORNMENT);
+				error("Adornment value may only consist of the capital letters B or F", TggPackage.Literals.ADORNMENT__VALUE, TGGValidator.INVALID_ADORNMENT);
 			}
 		}
 	}
@@ -73,7 +73,7 @@ class TGGValidator extends AbstractTGGValidator {
 	def checkAllVariablePatternNamesAreUnique(ObjectVariablePattern objectVariablePattern){
 		var container = objectVariablePattern.eContainer;
 		if(container instanceof Rule && !checkVariablePatternNamesAreUnique(objectVariablePattern, container as Rule)){
-			error("Object Variables must be unique. Object Variable '" + objectVariablePattern.name + "' already exist", TggPackage.Literals.VARIABLE_PATTERN__NAME, TGGValidator.NOT_UNIQUE_OBJECT_VARIABLE_NAME);
+			error("Object variables must be unique. The object variable '" + objectVariablePattern.name + "' already exists", TggPackage.Literals.VARIABLE_PATTERN__NAME, TGGValidator.NOT_UNIQUE_OBJECT_VARIABLE_NAME);
 		}
 	}
 	
@@ -89,7 +89,7 @@ class TGGValidator extends AbstractTGGValidator {
 		  var isGeneration = operator != null && operator.value != null && operator.value.equalsIgnoreCase("++ ");
 		  var isAnError = !ruleIsAbstract && typeIsAbstract && isGeneration;
 		  if(isAnError){
-		  	error("The type of the Object Variable '" + objectVariablePattern.name + "' is abstract or the Rule '" + Rule.name + "' is not abstract", TggPackage.Literals.OBJECT_VARIABLE_PATTERN__TYPE, TGGValidator.TYPE_IS_ABSTRACT);
+		  	error("The type of the object variable '" + objectVariablePattern.name + "' is abstract and the rule '" + Rule.name + "' is not abstract", TggPackage.Literals.OBJECT_VARIABLE_PATTERN__TYPE, TGGValidator.TYPE_IS_ABSTRACT);
 		  }
 		  
 		}		
@@ -119,7 +119,7 @@ class TGGValidator extends AbstractTGGValidator {
 			var refinementName = "<Placeholder>";
 			if(foundSuperTypes.size() >= 2)
 				refinementName = foundSuperTypes.get(1).name;
-			error("The Rule '" + rule.name + "' creates a Cycle with the Refinement '" + refinementName +"'", TggPackage.Literals.RULE__SUPERTYPES, TGGValidator.RULE_REFINEMENT_CREATES_A_CYCLE);
+			error("The rule '" + rule.name + "' creates a cycle with the refinement '" + refinementName +"'", TggPackage.Literals.RULE__SUPERTYPES, TGGValidator.RULE_REFINEMENT_CREATES_A_CYCLE);
 		}
 	}
 	

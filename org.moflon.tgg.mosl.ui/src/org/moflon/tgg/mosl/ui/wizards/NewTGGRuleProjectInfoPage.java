@@ -89,7 +89,7 @@ public class NewTGGRuleProjectInfoPage extends WizardPage {
 	}
 
 	public void createControlsForSchemaLocation(final Composite container) {
-		schemaLocationLabel = createDummyLabel(container);
+		schemaLocationLabel = createLabel(container);
 		schemaLocationLabel.setText("&Schema:");
 		schemaLocationTextfield = new Text(container, SWT.BORDER | SWT.SINGLE);
 		schema.ifPresent(s -> schemaLocationTextfield.setText(s));
@@ -98,14 +98,14 @@ public class NewTGGRuleProjectInfoPage extends WizardPage {
 		gd2.horizontalSpan = 2;
 		schemaLocationTextfield.setLayoutData(gd2);
 		schemaLocationTextfield.addModifyListener(new ModifyListener() {
-
 			@Override
 			public void modifyText(final ModifyEvent e) {
 				final String text = schemaLocationTextfield.getText();
-				if (text.isEmpty()) {
+				if (text.isEmpty() || text.equals("")) {
 					setErrorMessage("Schema location must not be empty");
+					schema = Optional.empty();
 				} else {
-					schema = Optional.of(schemaLocationTextfield.getText());
+					schema = Optional.of(text);
 				}
 
 				dialogChanged();
@@ -115,7 +115,7 @@ public class NewTGGRuleProjectInfoPage extends WizardPage {
 
 	public void createControlsForRuleName(final Composite container) {
 		// Create control for entering project name
-		Label label = createDummyLabel(container);
+		Label label = createLabel(container);
 		label.setText("&Rule name:");
 
 		ruleNameTextfield = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -136,7 +136,7 @@ public class NewTGGRuleProjectInfoPage extends WizardPage {
 		});
 	}
 
-	public Label createDummyLabel(final Composite container) {
+	public Label createLabel(final Composite container) {
 		return new Label(container, SWT.NULL);
 	}
 
@@ -186,7 +186,7 @@ public class NewTGGRuleProjectInfoPage extends WizardPage {
 	}
 
 	private void dialogChanged() {
-		IStatus validity = validateRuleName();
+		IStatus validity = validate();
 
 		if (validity.isOK())
 			updateStatus(null);
@@ -194,11 +194,14 @@ public class NewTGGRuleProjectInfoPage extends WizardPage {
 			updateStatus(validity.getMessage());
 	}
 
-	private IStatus validateRuleName() {
-		if (!ruleName.isEmpty())
-			return new Status(IStatus.OK, TGGActivator.ORG_MOFLON_TGG_MOSL_TGG, "Rule name is valid");
-		else
+	private IStatus validate() {
+		if (ruleName.isEmpty())
 			return new Status(IStatus.ERROR, TGGActivator.ORG_MOFLON_TGG_MOSL_TGG, "Rule name must not be empty!");
+		
+		if(!schema.isPresent())
+			return new Status(IStatus.ERROR, TGGActivator.ORG_MOFLON_TGG_MOSL_TGG, "Schema name must not be empty!");
+
+		return new Status(IStatus.OK, TGGActivator.ORG_MOFLON_TGG_MOSL_TGG, "Rule is valid");
 	}
 
 }
