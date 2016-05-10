@@ -205,6 +205,15 @@
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleAll">
                </parameter></command>
+            <command
+                  commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
+                  label="All Modules (incl. MOSL)"
+                  style="push">
+               <parameter
+                     name="org.moflon.devtools.ui.commands.install.workspacename"
+                     value="ModuleAllInclMOSL">
+               </parameter>
+            </command>
             <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Core and SDM Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
