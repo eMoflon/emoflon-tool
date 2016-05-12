@@ -123,3 +123,5 @@
 2016-05-03	More selective export during workspace installation #706
 2016-05-03	eMoflon 2.15.0 released
 ---
+2016-05-08	Fix critical bugs in MOSL-TGG that break the bootstrapping
+2016-05-12	eMoflon 2.16.0 released
