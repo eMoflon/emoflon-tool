@@ -50,13 +50,15 @@ $sleepTimeBetweenStartsInSeconds = 120
 # [void]$WORKSPACES.add("TestWorkspace_TGG_1")
 # [void]$WORKSPACES.add("TransformationZoo_0")
 # [void]$WORKSPACES.add("TransformationZoo_1")
-# [void]$WORKSPACES.add("DeveloperWorkspace")
+# [void]$workspaces.add("DeveloperWorkspace") # OLD
+#[void]$workspaces.add("ModuleAll")
+# [void]$workspaces.add("ModuleAllInclMOSL")
 # [void]$WORKSPACES.add("eMoflonDemoWorkspace")
 # [void]$WORKSPACES.add("HandbookFinal")
 # [void]$WORKSPACES.add("HandbookGUI")
-# [void]$WORKSPACES.add("HandbookPart3")
-# [void]$WORKSPACES.add("HandbookPart4_5")
-# [void]$WORKSPACES.add("HandbookPart4")
+# [void]$WORKSPACES.add("HandbookPart3Start")
+# [void]$WORKSPACES.add("HandbookPart3Final")
+# [void]$WORKSPACES.add("HandbookPart4Start")
  
 
 # Whether to spawn a new console for each Eclipse instance, showing standard output/standard error messages
