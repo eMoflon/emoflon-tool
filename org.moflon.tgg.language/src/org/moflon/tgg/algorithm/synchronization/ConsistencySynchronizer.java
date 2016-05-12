@@ -65,7 +65,7 @@ public class ConsistencySynchronizer extends Synchronizer {
 	
 	@Override
 	protected void translate() throws InputLocalCompletenessException, TranslationLocalCompletenessException {
-		// TODO Auto-generated method stub
+
 		HashSet<RulePair> pairs = extractMatchPairs();
 		List<CCMatch> ccMatches = new ArrayList<>();
 		
@@ -81,13 +81,16 @@ public class ConsistencySynchronizer extends Synchronizer {
 				IsApplicableRuleResult isApplRR = (IsApplicableRuleResult) InvokeUtil.invokeOperationWithNArguments(isApplCC.getEContainingClass(), isApplCC, arguments);
 				if(isApplRR.isSuccess()) {
 					appliedInLastRun.add(pair);
-					ccMatches.add((CCMatch) isApplRR.getIsApplicableMatch().get(0));
+					isApplRR.getIsApplicableMatch().forEach(m -> {
+						CCMatch ccMatch = (CCMatch) m;
+						ccMatches.add(ccMatch);
+						ccMatch.getCreateCorr().forEach(corr -> graphTriple.getCorrespondences().add(corr));
+					});
 				}
 			}
 			pairs.removeAll(appliedInLastRun);
 			
 		} while(!appliedInLastRun.isEmpty());
-		return;
 	}
 
 	private HashSet<RulePair> extractMatchPairs() {
@@ -143,7 +146,7 @@ public class ConsistencySynchronizer extends Synchronizer {
 		}
 		@Override
 		public boolean equals(Object arg0) {
-			// TODO Auto-generated method stub
+
 			if(arg0 instanceof RulePair) {
 				RulePair arg = (RulePair) arg0;
 				return src.equals(arg.src) && trg.equals(arg.trg);
@@ -184,7 +187,6 @@ public class ConsistencySynchronizer extends Synchronizer {
 
 	@Override
 	protected Graph delete(Collection<TripleMatch> allToBeRevokedTripleMatches) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

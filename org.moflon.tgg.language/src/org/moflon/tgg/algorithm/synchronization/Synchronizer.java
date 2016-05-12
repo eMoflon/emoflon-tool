@@ -55,7 +55,7 @@ public abstract class Synchronizer
 
    protected TempOutputContainer tempOutputContainer;
 
-   private CorrespondenceModel graphTriple;
+   protected CorrespondenceModel graphTriple;
 
    private Graph toBeTranslated;
 
