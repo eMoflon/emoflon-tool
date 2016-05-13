@@ -4,9 +4,9 @@ import org.eclipse.xtext.ui.editor.utils.TextStyle;
 import org.moflon.tgg.mosl.tgg.Operator;
 import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLColor;
 
-public class CreationVariablePatternHighlightRule extends AbstractVariablePatternWithOperatorHighlightRule {
+public class CreationOperatorPatternHighlightRule extends AbstractOperatorPatternHighlightRule {
 
-	public CreationVariablePatternHighlightRule() {
+	public CreationOperatorPatternHighlightRule() {
 		super("CreatePattern", "Create-Operator");
 	}
 

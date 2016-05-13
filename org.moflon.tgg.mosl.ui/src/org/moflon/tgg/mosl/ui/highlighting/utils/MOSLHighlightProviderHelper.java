@@ -10,14 +10,14 @@ import org.moflon.tgg.mosl.ui.highlighting.rules.AbstractHighlightingRule;
 
 public class MOSLHighlightProviderHelper {
 
-	private static Map<String, AbstractHighlightingRule> rules = new HashMap<>();
+	private static Map<String, AbstractHighlightingRule<?>> rules = new HashMap<>();
 	
 	public static void init(){
 		rules.clear();
 		MOSLHighlightFactory.createAllInstances();
 	}
 	
-	public static void addHighlightRule(AbstractHighlightingRule rule) throws IDAlreadyExistException{
+	public static void addHighlightRule(AbstractHighlightingRule<?> rule) throws IDAlreadyExistException{
 		if(rules.containsKey(rule.getID()))
 			throw new IDAlreadyExistException();
 		else{
@@ -25,7 +25,7 @@ public class MOSLHighlightProviderHelper {
 		}
 	}
 	
-	public static Collection<AbstractHighlightingRule> getHighlightRules(){
+	public static Collection<AbstractHighlightingRule<?>> getHighlightRules(){
 		return rules.values();
 	}
 }

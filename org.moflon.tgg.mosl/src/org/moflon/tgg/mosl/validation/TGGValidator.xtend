@@ -4,18 +4,19 @@
 package org.moflon.tgg.mosl.validation
 
 import java.util.ArrayList
-import java.util.Collection
 import java.util.List
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.xtext.validation.Check
 import org.moflon.tgg.mosl.tgg.Adornment
 import org.moflon.tgg.mosl.tgg.AttributeExpression
-import org.moflon.tgg.mosl.tgg.CorrVariablePattern
 import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
 import org.moflon.tgg.mosl.tgg.Rule
 import org.moflon.tgg.mosl.tgg.TggPackage
-import org.moflon.tgg.mosl.tgg.VariablePattern
 import org.moflon.tgg.mosl.tgg.AttributeVariable
+import org.moflon.tgg.mosl.tgg.NamedElements
+import java.util.Map
+import org.eclipse.emf.ecore.EObject
+import java.util.HashMap
 
 /**
  * This class contains custom validation rules. 
@@ -26,7 +27,7 @@ class TGGValidator extends AbstractTGGValidator {
 
   public static val INVALID_ADORNMENT = 'invalidAdornmentValue'
   public static val INVALID_ATTRIBUTE_VARIABLE = 'invalidAttributeVariableAttribute'
-  public static val NOT_UNIQUE_OBJECT_VARIABLE_NAME = 'notUniqueObjectVariableName'
+  public static val NOT_UNIQUE_NAME = 'notUniqueName'
   public static val TYPE_IS_ABSTRACT = 'typeIsAbstract'
   public static val RULE_REFINEMENT_CREATES_A_CYCLE = 'RuleRefinementCreatesACycle'
 
@@ -60,32 +61,41 @@ class TGGValidator extends AbstractTGGValidator {
 			error("EClass " + attrVar.objectVar.type.name + " does not contain EAttribute " + attrVar.attribute + ".", TggPackage.Literals.ATTRIBUTE_EXPRESSION__ATTRIBUTE, TGGValidator.INVALID_ATTRIBUTE_VARIABLE);
 		}
 	}
-
-	def boolean checkVariableNamesAreUniqueInPattern(VariablePattern origin, Collection<? extends VariablePattern> variablePatterns){
-		for(vp : variablePatterns){
-			if(origin != null && origin.name!=null && !origin.equals(vp) && origin.name.compareTo(vp.name)==0){
-				return false;
-			}
-
-		}
-		return true;	
-	}
-
-
-	def boolean checkVariablePatternNamesAreUnique(VariablePattern variablePattern, Rule rule){
-		var isUnique = (variablePattern instanceof ObjectVariablePattern 
-			&& (checkVariableNamesAreUniqueInPattern(variablePattern,rule.sourcePatterns)&&
-			checkVariableNamesAreUniqueInPattern(variablePattern,rule.targetPatterns))) 
-		|| (variablePattern instanceof CorrVariablePattern 
-			&& checkVariableNamesAreUniqueInPattern(variablePattern, rule.correspondencePatterns)) ;
-		return isUnique;
-	}
+	
+	Map<String, Map<EObject, Map<Class<? extends EObject>, EObject>>> names = new HashMap<String, Map<EObject, Map<Class<? extends EObject>, EObject>>>();
 	
 	@Check
-	def checkAllVariablePatternNamesAreUnique(ObjectVariablePattern objectVariablePattern){
-		var container = objectVariablePattern.eContainer;
-		if(container instanceof Rule && !checkVariablePatternNamesAreUnique(objectVariablePattern, container as Rule)){
-			error("Object variables must be unique. The object variable '" + objectVariablePattern.name + "' already exists", TggPackage.Literals.VARIABLE_PATTERN__NAME, TGGValidator.NOT_UNIQUE_OBJECT_VARIABLE_NAME);
+	def checkForUniqueNames(NamedElements ne){
+		if(names.containsKey(ne.name)){
+			var containers = names.get(ne.name);
+			if(containers.containsKey(ne.eContainer)){
+				var classes = containers.get(ne.eContainer);
+				
+				if(classes.containsKey(ne.class)){
+					var object = classes.get(ne.class);
+					if(!object.equals(ne)){
+						error("Names must be unique. The Name '" + ne.name + "' already used", TggPackage.Literals.NAMED_ELEMENTS__NAME, TGGValidator.NOT_UNIQUE_NAME);
+					}				
+				}
+				else{
+					classes.put(ne.class, ne);
+					containers.put(ne.eContainer, classes);
+					names.put(ne.name, containers);
+				}
+			}
+			else{
+				var classes = new HashMap<Class<? extends EObject>, EObject>();
+				classes.put(ne.class,ne);
+				containers.put(ne.eContainer, classes);
+				names.put(ne.name, containers);
+			}			
+		}
+		else{
+			var classes = new HashMap<Class<? extends EObject>, EObject>();
+			classes.put(ne.class,ne);			
+			var containers = new HashMap<EObject, Map<Class<? extends EObject>, EObject>>();
+			containers.put(ne.eContainer, classes);
+			names.put(ne.name, containers);
 		}
 	}
 	

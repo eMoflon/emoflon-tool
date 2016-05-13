@@ -5,9 +5,9 @@ import org.eclipse.xtext.ui.editor.utils.TextStyle;
 import org.moflon.tgg.mosl.tgg.Operator;
 import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLColor;
 
-public class NegationVariablePatternHighlightRule extends AbstractVariablePatternWithOperatorHighlightRule {
+public class NegationOperationPatternHighlightRule extends AbstractOperatorPatternHighlightRule {
 
-	public NegationVariablePatternHighlightRule() {
+	public NegationOperationPatternHighlightRule() {
 		super("Negation", "Negation-Operator");
 	}
 

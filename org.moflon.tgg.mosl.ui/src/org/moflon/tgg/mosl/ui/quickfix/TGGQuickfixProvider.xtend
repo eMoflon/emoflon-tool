@@ -13,6 +13,7 @@ import org.eclipse.xtext.ui.editor.model.edit.IModificationContext
 import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
 import org.moflon.tgg.mosl.tgg.Rule
 import java.util.ArrayList
+import org.moflon.tgg.mosl.tgg.NamedElements
 
 //import org.eclipse.xtext.ui.editor.quickfix.Fix
 //import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
@@ -25,7 +26,7 @@ import java.util.ArrayList
  */
 class TGGQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider {
 
-	@Fix(TGGValidator::NOT_UNIQUE_OBJECT_VARIABLE_NAME)
+	@Fix(TGGValidator::NOT_UNIQUE_NAME)
 	def fixDuplicateNames(Issue issue, IssueResolutionAcceptor acceptor) {
 		var messageParts = issue.message.split("'");
 		var name ="";
@@ -38,7 +39,7 @@ class TGGQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.DefaultQu
     			null,           // icon 
     			new ISemanticModification() {
      					override apply(EObject element, IModificationContext context) {
-        					val ovPattern = element as ObjectVariablePattern;
+        					val ovPattern = element as NamedElements;
         					ovPattern.name = ovPattern.name + '1';
 						}				
 				}

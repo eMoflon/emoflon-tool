@@ -187,7 +187,7 @@ class TGGFormatter extends AbstractFormatter2 {
 		objectvariablepattern.surround[newLine]
 		objectvariablepattern.surround[indent]
 		objectvariablepattern.interior[indent]
-		objectvariablepattern.regionFor.feature(VARIABLE_PATTERN__NAME).surround[noSpace]
+		objectvariablepattern.regionFor.feature(NAMED_ELEMENTS__NAME).surround[noSpace]
 		objectvariablepattern.regionFor.feature(OBJECT_VARIABLE_PATTERN__TYPE).prepend[noSpace]
 		
 		for (AttributeAssignment assignment : objectvariablepattern.getAttributeAssignments()) {

@@ -20,7 +20,7 @@ public class MOSLSemanticHighlightCalculator extends DefaultSemanticHighlighting
 	protected void doProvideHighlightingFor(XtextResource resource,
 			IHighlightedPositionAcceptor acceptor) {
 		EObject rootObject = resource.getParseResult().getRootASTElement();
-		for(AbstractHighlightingRule rule : MOSLHighlightProviderHelper.getHighlightRules())
+		for(AbstractHighlightingRule<?> rule : MOSLHighlightProviderHelper.getHighlightRules())
 			rule.provideHighlightingFor(rootObject, acceptor);
 		super.doProvideHighlightingFor(resource, acceptor);
 	}

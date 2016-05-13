@@ -182,7 +182,6 @@ Using:
 	'#using' importedNamespace = QualifiedNameWithWildcard
 ;
 
-
 ComparisonOperator:
 	(' == ' | ' != ' | ' <= ' | ' >= ' | ' > ' | ' < ')
 ;
@@ -215,6 +214,18 @@ OperationValues:
 
 // some Head classes for better OOP aspects
 
-VariablePattern:
+MOSLIncluding:
+	Schema | Rule
+;
+
+OperatorPattern:
+	NamePattern | LinkVariablePattern
+;
+
+NamedElements:
+	 Rule | Schema | CorrType | AttrCondDef | NamePattern | AttrCondDefLibrary
+;
+
+NamePattern:
 	CorrVariablePattern | ObjectVariablePattern
 ;

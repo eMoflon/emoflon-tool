@@ -4,9 +4,9 @@ import org.eclipse.xtext.ui.editor.utils.TextStyle;
 import org.moflon.tgg.mosl.tgg.Operator;
 import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLColor;
 
-public class DestructionVariablePatternHighlightRule extends AbstractVariablePatternWithOperatorHighlightRule {
+public class DestructionOperatorPatternHighlightRule extends AbstractOperatorPatternHighlightRule {
 
-	public DestructionVariablePatternHighlightRule() {
+	public DestructionOperatorPatternHighlightRule() {
 		super("DestroyPattern", "Destroy-Operator");
 	}
 

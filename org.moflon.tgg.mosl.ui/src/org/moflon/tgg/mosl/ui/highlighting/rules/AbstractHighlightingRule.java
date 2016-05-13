@@ -2,7 +2,10 @@ package org.moflon.tgg.mosl.ui.highlighting.rules;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.nodemodel.INode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfigurationAcceptor;
 import org.eclipse.xtext.ui.editor.utils.TextStyle;
@@ -10,13 +13,15 @@ import org.moflon.tgg.mosl.ui.highlighting.exceptions.IDAlreadyExistException;
 import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLHighlightProviderHelper;
 
 @SuppressWarnings("deprecation")
-public abstract class AbstractHighlightingRule {
+public abstract class AbstractHighlightingRule <M extends EObject>{
 
 	protected Logger logger;
 	
 	protected String id;
 	
 	protected String description;
+	
+	private IHighlightedPositionAcceptor acceptor;
 	
 	public AbstractHighlightingRule(String id, String description){
 		logger = Logger.getLogger(this.getClass());
@@ -30,7 +35,13 @@ public abstract class AbstractHighlightingRule {
 		}
 	}
 	
-	protected void setHighlighting(IHighlightedPositionAcceptor acceptor, INode node, String id){
+	protected void setHighlighting(EObject eObject){
+		INode node = NodeModelUtils.getNode(eObject);
+		if(node != null)
+			setHighlighting(node);
+	}
+	
+	protected void setHighlighting(INode node){
 		acceptor.addPosition(node.getOffset(), node.getLength() , id);
 	}
 	
@@ -40,7 +51,21 @@ public abstract class AbstractHighlightingRule {
 		acceptor.acceptDefaultHighlighting(id, description, getTextStyle());
 	}
 	
-	public abstract void provideHighlightingFor(EObject rootObject, IHighlightedPositionAcceptor acceptor);
+	public void provideHighlightingFor(EObject rootObject, IHighlightedPositionAcceptor acceptor) {
+		this.acceptor = acceptor;
+		for(M moslObject: EcoreUtil2.getAllContentsOfType(rootObject, getNodeClass())){
+			for(INode node : NodeModelUtils.findNodesForFeature(moslObject, getLiteral())){	
+				provideHighlightingFor(moslObject, node);				
+			}
+		}
+
+	}
+	
+	protected abstract EStructuralFeature getLiteral();
+	
+	protected abstract Class<M> getNodeClass();
+	
+	protected abstract void provideHighlightingFor(M moslObject, INode node);
 	
 	public String getID(){
 		return id;

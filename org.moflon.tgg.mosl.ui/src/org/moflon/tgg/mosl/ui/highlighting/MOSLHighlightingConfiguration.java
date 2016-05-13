@@ -15,12 +15,8 @@ public class MOSLHighlightingConfiguration extends DefaultHighlightingConfigurat
 	@Override
 	public void configure(IHighlightingConfigurationAcceptor acceptor) {
 		super.configure(acceptor);
-		for(AbstractHighlightingRule rule : MOSLHighlightProviderHelper.getHighlightRules())
+		for(AbstractHighlightingRule<?> rule : MOSLHighlightProviderHelper.getHighlightRules())
 			rule.setHighlightingConfiguration(acceptor);
-//		acceptor.acceptDefaultHighlighting(CREATION_ID, "Create-Operator", creationTextStyle());
-//		acceptor.acceptDefaultHighlighting(DESTROY_ID, "Destroy-Operator", destroyTextStyle());
-//		acceptor.acceptDefaultHighlighting(NEGATE_ID, "Negate-Operator", negateTextStyle());
-//		acceptor.acceptDefaultHighlighting(REFINED_ID, "Refined", refinedTextStyle());
 	}
 	
    @Override
