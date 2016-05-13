@@ -2,6 +2,7 @@
 <psf version="2.0">
 <provider id="org.tigris.subversion.subclipse.core.svnnature">
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_siemens-cme/CAMLanguage,CAMLanguage"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_siemens-cme/CLS2CNC,CLS2CNC"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_siemens-cme/ClsToCAMLanguageTGG,ClsToCAMLanguageTGG"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_siemens-cme/CME,CME"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_siemens-cme/CMEVortragInBerlin,CMEVortragInBerlin"/>

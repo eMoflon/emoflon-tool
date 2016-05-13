@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
 <provider id="org.tigris.subversion.subclipse.core.svnnature">
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/BoardGame/BoardGameTGG_eMoflonTutorial,BoardGameTGG_eMoflonTutorial"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/Amalgamation/CDtoDoc_ToolPaperExample,CDtoDoc_ToolPaperExample"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/Amalgamation/CDtoDocTGG,CDtoDocTGG"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/Amalgamation/CDtoDocumentation,CDtoDocumentation"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/ClassDiagramToDocumentation/ClassDiagramToDocumentationIntegration,ClassDiagramToDocumentationIntegration"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/eMoflonTutorialEAVersion,eMoflonTutorialEAVersion"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/Fixml/fixmlTGG,fixmlTGG"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/fixmlTransformation,fixmlTransformation"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/OpenstreetMap,OpenstreetMap"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/OpenStreetMap/OSMLanguage,OSMLanguage"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/OpenStreetMap/OSMTGG,OSMTGG"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/PetriNet2Statechart,PetriNet2Statechart"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/PetriNetToStatechart/PetriNetToStatechartIntegration,PetriNetToStatechartIntegration"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/modellingWizards/ProcessCodeAdapter,ProcessCodeAdapter"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/ProcessLanguage,ProcessLanguage"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/Sokoban/SokobanImportExport,SokobanImportExport"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/SokobanTutorial,SokobanTutorial"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/StatechartLanguage,StatechartLanguage"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/test_suite/ZooTestSuite0,ZooTestSuite0"/>
