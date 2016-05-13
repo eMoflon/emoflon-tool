@@ -99,7 +99,7 @@
         identifier="c"/>
   </operationSpecifications>
   <operationSpecifications
-      constraintSpecifications="//@constraintSpecifications.5"
+      constraintSpecifications="//@constraintSpecifications.5 //@constraintSpecifications.13"
       operationIdentifier="ite">
     <operationSpecifications
         specification="$b$=$a$?$c$:$d$"
@@ -322,6 +322,30 @@
       <type
           xsi:type="ecore:EDataType"
           href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.6"
+      symbol="ite">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </parameterTypes>
     <parameterTypes>
       <type

@@ -15,6 +15,8 @@ import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisReport;
 import org.moflon.maave.tool.analysis.confluence.ConfluenceAnalysisResult;
 import org.moflon.maave.tool.analysis.confluence.prettyprinter.ConfluenceAnalysisResultPrinter;
 import org.moflon.maave.tool.graphtransformation.SymbGTRule;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.GraphEdge;
+import org.moflon.maave.tool.symbolicgraphs.SymbolicGraphs.SymbolicGraph;
 
 public class EvalHelper
 {
@@ -40,12 +42,12 @@ public class EvalHelper
          newReport.setTimeMinimize(newReport.getTimeMinimize()+acEnforcmentReport.getTimeMinimize());
          newReport.setTimeOverall(newReport.getTimeOverall()+acEnforcmentReport.getTimeOverall());
       }
-      
+
       newReport.setNrOfConstraints(newReport.getNrOfConstraints()/reports.size());
       newReport.setNrOfRules(newReport.getNrOfRules()/reports.size());
       newReport.setTimeMinimize(newReport.getTimeMinimize()/reports.size());
       newReport.setTimeOverall(newReport.getTimeOverall()/reports.size());
-      
+
       for (SymbGTRule rule : rules)
       {
          ACEnforcementResult newResult = newReport.lookupResult(rule);
@@ -59,7 +61,7 @@ public class EvalHelper
          newResult.setNrOfPostNACs(0);
          newResult.setTimeForPostNacs(0);
          newResult.setTimePostToPre(0);
-         
+
 
          for (ACEnforcmentReport acEnforcmentReport : reports)
          {
@@ -86,7 +88,7 @@ public class EvalHelper
          newResult.setTimePostToPre(+newResult.getTimePostToPre()/reports.size());
       }
       return newReport;
-      
+
    }
    public static void reportToFile(ConfluenceAnalysisReport report)
    {
@@ -176,59 +178,86 @@ public class EvalHelper
 
 
       };
+
+      Function<ConfluenceAnalysisResult, String> fconfluentL = x ->
+      {  
+         return    (x.getNrOfNonConfluentCriticalPairs()>0?"X":" ");
+
+
+      };
       try
       {
-     
-      FileUtils.writeStringToFile(new File("instances/TimeOverall.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
-      
-      
-      FileUtils.writeStringToFile(new File("instances/TimeConfluence.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeConfluence));
 
-      
-      FileUtils.writeStringToFile(new File("instances/TimeCalcMinContexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcMinContexts));
+         FileUtils.writeStringToFile(new File("instances/TimeOverall.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeOverall));
 
-     
-      FileUtils.writeStringToFile(new File("instances/TimeFilteringConsistent.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeFilteringConsistent));
 
-      
-      FileUtils.writeStringToFile(new File("instances/TimeCalcCritpairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcCritpairs));
+         FileUtils.writeStringToFile(new File("instances/TimeConfluence.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeConfluence));
 
-     
-      FileUtils.writeStringToFile(new File("instances/NrMincontexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrMincontexts));
 
-      
-      FileUtils.writeStringToFile(new File("instances/NrOfConsistentMinContexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfConsistentMinContexts));
+         FileUtils.writeStringToFile(new File("instances/TimeCalcMinContexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcMinContexts));
 
-    
-      FileUtils.writeStringToFile(new File("instances/NrOfCritPairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfCritPairs));
 
-     
-      FileUtils.writeStringToFile(new File("instances/NrNonConfluentPairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrNonConfluentPairs));
+         FileUtils.writeStringToFile(new File("instances/TimeFilteringConsistent.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeFilteringConsistent));
 
-      
-      FileUtils.writeStringToFile(new File("instances/TimeOverall.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeOverall));
 
-    
-      FileUtils.writeStringToFile(new File("instances/TimeCPAvsConfluence.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeCPAvsConfluenceL));
+         FileUtils.writeStringToFile(new File("instances/TimeCalcCritpairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fTimeCalcCritpairs));
 
-      
-      FileUtils.writeStringToFile(new File("instances/Numbers.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumbersL));
 
-     
-      FileUtils.writeStringToFile(new File("instances/Times.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimesL));
-      
-      
-      FileUtils.writeStringToFile(new File("instances/NumberVSTimes.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumberVSTimesL));
-     
-     
-      StringBuilder sb=new StringBuilder();
-      sb.append("OverallNrOfMinCtx;OverallNrOfConsistMinCtx;OverallNrOfCritPairs;OverallNrOfNonConfluentCritPairs\n");
-      sb.append(report.getOverallNrOfMinCtx()+";"+report.getOverallNrOfConsistMinCtx()+";"+report.getOverallNrOfCritPairs()+";"+report.getOverallNrOfNonConfluentCritPairs()+"\n");
-      FileUtils.writeStringToFile(new File("instances/Overall Numbers.tex"), sb.toString());
-      
+         FileUtils.writeStringToFile(new File("instances/NrMincontexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrMincontexts));
+
+
+         FileUtils.writeStringToFile(new File("instances/NrOfConsistentMinContexts.csv"), ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfConsistentMinContexts));
+
+
+         FileUtils.writeStringToFile(new File("instances/NrOfCritPairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrOfCritPairs));
+
+
+         FileUtils.writeStringToFile(new File("instances/NrNonConfluentPairs.csv"),ConfluenceAnalysisResultPrinter.confluenceReportToCSVTable(report,fNrNonConfluentPairs));
+
+
+         FileUtils.writeStringToFile(new File("instances/TimeOverall.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeOverall));
+
+
+         FileUtils.writeStringToFile(new File("instances/TimeCPAvsConfluence.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimeCPAvsConfluenceL));
+
+
+         FileUtils.writeStringToFile(new File("instances/Numbers.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumbersL));
+
+
+         FileUtils.writeStringToFile(new File("instances/Times.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fTimesL));
+
+
+         FileUtils.writeStringToFile(new File("instances/NumberVSTimes.tex"), ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fNumberVSTimesL));
+
+
+         System.out.println(ConfluenceAnalysisResultPrinter.confluenceReportToLatexTable(report,fconfluentL));
+
+         StringBuilder sb=new StringBuilder();
+         sb.append("OverallNrOfMinCtx;OverallNrOfConsistMinCtx;OverallNrOfCritPairs;OverallNrOfNonConfluentCritPairs\n");
+         sb.append(report.getOverallNrOfMinCtx()+";"+report.getOverallNrOfConsistMinCtx()+";"+report.getOverallNrOfCritPairs()+";"+report.getOverallNrOfNonConfluentCritPairs()+"\n");
+         FileUtils.writeStringToFile(new File("instances/Overall Numbers.tex"), sb.toString());
+
       } catch (IOException e)
       {
          e.printStackTrace();
       }
    }
+   public static String printElemStatistics(SymbolicGraph graphG){
+      double nr=0;
+      
+      for (GraphEdge  ge : graphG.getGraphEdges())
+      {
+         if(ge.getType().getEOpposite()!=null)
+         {
+            nr=nr+0.5;
+         }
+         else
+         {
+            nr=nr+1;
+         }
+      }
+      nr=nr+graphG.getGraphNodes().size();
+      return String.valueOf(nr);
+   }
+
 }

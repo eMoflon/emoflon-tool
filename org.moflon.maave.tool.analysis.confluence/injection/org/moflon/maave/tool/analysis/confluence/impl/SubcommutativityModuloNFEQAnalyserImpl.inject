@@ -36,11 +36,11 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
                rule1 = gts.getRules().get(i);
                rule2 = gts.getRules().get(j);
             }
-            if (WsInfo.getVerboseLevel() >= 5)
+            if (WsInfo.getVerboseLevel() >= 3)
             {
                System.out.println(
                      "=============== Starting Confluence Analysis For Rule Pair: " + rule1.getName() + " | " + rule2.getName() + "====================");
-               System.out.println("----------------------------Starting Critical Pair Analyis  -------------------------");
+              
             }
             // Critical Pair analysis
             CpaResult cpaResult = criticalPairBuilder.getAllCriticalPairs(rule1, rule2, gts, jointlyEpiSetBuilder);
@@ -91,7 +91,7 @@ partial class SubcommutativityModuloNFEQAnalyserImpl {
             result.setMessage("Confluence analysis result for Rules: " + rule1.getName() + " | " + rule2.getName());
             result.setNrOfNonConfluentCriticalPairs(result.getNonConfluentCriticalPairs().size());
             result.setTimeForConfluence(absTimeStop - absTimeConfluenceStart);
-            result.setTimeOverall(absTimeStop-absTimeStart);
+            result.setTimeOverall(absTimeStop - absTimeStart);
             report.getConfluenceStates().add(result);
 
          }

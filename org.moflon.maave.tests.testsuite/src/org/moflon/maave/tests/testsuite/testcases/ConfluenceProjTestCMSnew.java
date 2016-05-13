@@ -37,7 +37,7 @@ public class ConfluenceProjTestCMSnew {
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cmsNew", "CmsNew");
       
       List<ConfluenceAnalysisReport> reports=new LinkedList<ConfluenceAnalysisReport>();
-      for (int i = 0; i < 20; i++)
+      for (int i = 0; i < 1; i++)
       {
          
       
@@ -72,6 +72,11 @@ public class ConfluenceProjTestCMSnew {
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
 
+      for (SymbGTRule rule : gts.getRules())
+      {
+         System.out.println(rule.getName()+":"+EvalHelper.printElemStatistics(rule.getLeft().getCodom()) );
+      }
+      
       //Add cardinality constraints
       ModelHelper.addCardinalityConstraintsToGTS(pack, gts);
       //Add user defined constraints
@@ -112,7 +117,7 @@ public class ConfluenceProjTestCMSnew {
       EPackage pack=TestRunner.loadTestMM("org.moflon.maave.tests.lang.cmsNew", "CmsNew");
       
       List<ConfluenceAnalysisReport> reports=new LinkedList<ConfluenceAnalysisReport>();
-      for (int i = 0; i < 20; i++)
+      for (int i = 0; i < 1; i++)
       {
       GraphTransformationSystem gts=GraphtransformationFactory.eINSTANCE.createGraphTransformationSystem();
 
@@ -146,11 +151,12 @@ public class ConfluenceProjTestCMSnew {
       gts.setMatchMorphismClass(morClassFac.createMorphismClass("I", "I", "I", "I", "=>"));
       gts.setDirectDerivationBuilder(GraphtransformationFactory.eINSTANCE.createProjectiveDirectDerivationBuilder());
       
-      
-      for (SymbGTRule   rule  : gts.getRules())
+      for (SymbGTRule rule : gts.getRules())
       {
-         System.out.println(rule.getName()+"="+(rule.getLeft().getCodom().getGraphNodes().size()+rule.getLeft().getCodom().getGraphEdges().size()));
+         System.out.println(rule.getName()+":"+EvalHelper.printElemStatistics(rule.getLeft().getCodom()) );
       }
+     
+    
       //Add cardinality constraints
       ModelHelper.addCardinalityConstraintsToGTS(pack, gts);
       //Add user defined constraints
@@ -264,7 +270,7 @@ public class ConfluenceProjTestCMSnew {
 //      gts.getRules().add(ModelHelper.getRule(clsExam,"closeExam_v0"));
 
       EClass clsEnrollment=(EClass) pack.getEClassifier("Enrollment");
-      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForExam_v1"));
+//      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForExam_v1"));
 //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForModule_v0"));
 //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"unregFromExam_v1"));
 //      gts.getRules().add(ModelHelper.getRule(clsEnrollment,"regForThesisModuleOffer_v0"));
@@ -273,8 +279,8 @@ public class ConfluenceProjTestCMSnew {
 
       EClass clsCoModOffer=(EClass) pack.getEClassifier("CoModOffer");
 //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setLecture_v0"));
-      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setExam_v0"));
-//      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"reset_v0"));
+//      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"setExam_v0"));
+      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"reset_v0"));
 //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateLecture_v0"));
 //      gts.getRules().add(ModelHelper.getRule(clsCoModOffer,"updateExam_v1"));
 
@@ -297,7 +303,7 @@ public class ConfluenceProjTestCMSnew {
      
       @SuppressWarnings("unused")
       ConfluenceAnalysisReport report=directConfluenceAnalyser.checkConfluence(gts);
-     
+      System.out.println(ConfluenceAnalysisResultPrinter.printConfluenceReport(report, true, false, true, true));
 
 
    }

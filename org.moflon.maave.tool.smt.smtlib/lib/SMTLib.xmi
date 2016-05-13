@@ -233,6 +233,20 @@
     <parameters
         paramSort="//@sorts.2"/>
   </predicateSpec>
+  <predicateSpec
+      xsi:type="org.moflon.maave.tool.smt.smtlib:PredicateSpec"
+      symbol="ite"
+      smtPredicateDefinition="(and  (=> x!0 (= x!1 x!2))  (=> (not x!0) (= x!1 x!3)))"
+      smtSymbol="iteBOOL">
+    <parameters
+        paramSort="//@sorts.2"/>
+    <parameters
+        paramSort="//@sorts.2"/>
+    <parameters
+        paramSort="//@sorts.2"/>
+    <parameters
+        paramSort="//@sorts.2"/>
+  </predicateSpec>
   <sorts xsi:type="org.moflon.maave.tool.smt.smtlib:PrimitiveSort"
       id="NAT"
       sortSymbol="Int"

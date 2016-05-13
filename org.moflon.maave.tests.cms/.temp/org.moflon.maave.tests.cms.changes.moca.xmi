@@ -98,8 +98,8 @@
         <children name="EClass" index="0" xsi:type="MocaTree:Node">
           <attribute name="name" value="GradeFormular" index="0" />
           <attribute name="previousName" value="GradeFormular" index="1" />
-          <attribute name="packageName" value="org.moflon.maave.tests.lang.cms" index="2" />
-          <attribute name="projectName" value="org.moflon.maave.tests.lang.cms" index="3" />
+          <attribute name="packageName" value="org.moflon.maave.tests.lang.cmsNew" index="2" />
+          <attribute name="projectName" value="org.moflon.maave.tests.lang.cmsNew" index="3" />
           <attribute name="baseClasses" value="" index="4" />
         </children>
         <children name="EClass" index="1" xsi:type="MocaTree:Node">
