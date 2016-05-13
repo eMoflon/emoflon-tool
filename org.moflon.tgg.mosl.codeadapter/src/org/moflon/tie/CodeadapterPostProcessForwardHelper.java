@@ -1,7 +1,5 @@
 package org.moflon.tie;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
@@ -15,11 +13,6 @@ import org.moflon.tgg.language.DomainType;
 import org.moflon.tgg.language.TGGLinkVariable;
 import org.moflon.tgg.language.TGGObjectVariable;
 import org.moflon.tgg.language.TripleGraphGrammar;
-import org.moflon.tgg.language.csp.AttributeVariable;
-import org.moflon.tgg.language.csp.Literal;
-import org.moflon.tgg.language.csp.LocalVariable;
-import org.moflon.tgg.language.csp.Variable;
-import org.moflon.tgg.mosl.codeadapter.AttrCondToTGGConstraint;
 import org.moflon.tgg.mosl.codeadapter.AttributeAssignmentToAttributeAssignment;
 import org.moflon.tgg.mosl.codeadapter.AttributeConstraintToConstraint;
 import org.moflon.tgg.mosl.codeadapter.CorrTypeToEClass;
@@ -32,7 +25,6 @@ import org.moflon.tgg.mosl.codeadapter.TripleGraphGrammarFileToTripleGraphGramma
 import org.moflon.tgg.mosl.tgg.AttributeExpression;
 import org.moflon.tgg.mosl.tgg.CorrType;
 import org.moflon.tgg.mosl.tgg.EnumExpression;
-import org.moflon.tgg.mosl.tgg.ParamValue;
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.runtime.RuntimePackage;
@@ -77,9 +69,6 @@ public class CodeadapterPostProcessForwardHelper {
 				if (corr instanceof ExpressionToExpression)
 					postProcessForward_Expression((ExpressionToExpression) corr);
 
-				if (corr instanceof AttrCondToTGGConstraint)
-					postProcessForward_TGGConstraint((AttrCondToTGGConstraint) corr);
-				
 				if (corr instanceof EnumExpressionToLiteralExpression)
 					postProcessForward_TGGEnumExpression((EnumExpressionToLiteralExpression) corr);
 			}
@@ -113,51 +102,6 @@ public class CodeadapterPostProcessForwardHelper {
 		}
 	}
 	
-	/**
-	 * PostProcess for TGGConstraints used in CSPs.
-	 * 
-	 * @param corr Correspondence between AttrCond of source graph and TGGConstraint of target graph.
-	 */
-	private void postProcessForward_TGGConstraint(AttrCondToTGGConstraint corr) {
-		//List to store sorted Variables
-		EList<Variable> trgVariables = new BasicEList<Variable>();
-		
-		// Iterated through AttrCond's ordered ParamValues and search corresponding Variable
-		for (ParamValue paramVal : corr.getSource().getValues()) {
-			for (Variable var : corr.getTarget().getVariables()) {
-				if(var instanceof AttributeVariable && paramVal instanceof org.moflon.tgg.mosl.tgg.AttributeVariable){
-					org.moflon.tgg.mosl.tgg.AttributeVariable srcAttr = (org.moflon.tgg.mosl.tgg.AttributeVariable) paramVal;
-					AttributeVariable trgAttr = (AttributeVariable) var;
-					
-					if(srcAttr.getAttribute().equals(trgAttr.getAttribute()) && srcAttr.getObjectVar().getName().equals(trgAttr.getObjectVariable()))
-						trgVariables.add(trgAttr);
-				}
-				if(var instanceof LocalVariable && paramVal instanceof org.moflon.tgg.mosl.tgg.LocalVariable){
-					org.moflon.tgg.mosl.tgg.LocalVariable srcAttr = (org.moflon.tgg.mosl.tgg.LocalVariable) paramVal;
-					LocalVariable trgAttr = (LocalVariable) var;
-					
-					if(srcAttr.getName().equals(trgAttr.getName()))
-						trgVariables.add(trgAttr);
-				}
-				if(var instanceof Literal && paramVal instanceof org.moflon.tgg.mosl.tgg.LiteralExpression){
-					org.moflon.tgg.mosl.tgg.LiteralExpression srcAttr = (org.moflon.tgg.mosl.tgg.LiteralExpression) paramVal;
-					Literal trgAttr = (Literal) var;
-					String srcAttrValue = srcAttr.getValue();
-					String trgAttrValue = (String) trgAttr.getValue();
-					
-					if(srcAttrValue.equals(trgAttrValue) || srcAttrValue.equals(trgAttrValue.replace(".", "::"))){
-						if(trgAttrValue.charAt(0) != '"' && trgAttrValue.charAt(0) != '\''){
-							trgAttr.setValue(trgAttrValue.replace("::", "."));
-						}
-						trgVariables.add(trgAttr);
-					}
-				}
-			}
-		}
-		corr.getTarget().getVariables().clear();
-		corr.getTarget().getVariables().addAll(trgVariables);
-	}
-
 	/**
 	 * PostProcess for inline Constraints used in ObjectVariable.
 	 * 

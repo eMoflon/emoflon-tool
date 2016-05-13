@@ -1,9 +1,14 @@
 package org.moflon.tgg.mosl.scoping;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
@@ -17,7 +22,18 @@ import com.google.inject.Provider;
 public class MoflonScope extends SimpleScope {
 
 	public MoflonScope(List<EObject> objects) {
-		super(IScope.NULLSCOPE, Scopes.scopedElementsFor(objects, QualifiedName.wrapper(SimpleAttributeResolver.NAME_RESOLVER)));
+		super(IScope.NULLSCOPE, Scopes.scopedElementsFor(accountForResourceURIs(objects), QualifiedName.wrapper(SimpleAttributeResolver.NAME_RESOLVER)));
+	}
+
+	private static Collection<EObject> accountForResourceURIs(List<EObject> objects) {		
+		Set<EObject> allPackages = objects
+			.stream()
+			.flatMap(o -> EcoreUtil2.getAllContentsOfType(o, EPackage.class).stream())
+			.collect(Collectors.toSet());
+		
+		allPackages.addAll(objects);
+		
+		return allPackages;
 	}
 
 	@Override

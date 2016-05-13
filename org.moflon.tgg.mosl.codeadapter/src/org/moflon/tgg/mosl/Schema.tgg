@@ -1,4 +1,9 @@
-#import "platform:/resource/org.moflon.tgg.mosl/model/generated/TGG.ecore"
+
+// Use the platform:/resource if you've changed TGG.ecore and you want to use the version in the workspace
+// For deployment, however, switch back to the default URI so scope resolution works
+#import "http://www.moflon.org/ide/tgg/mosl/TGG"
+//#import "platform:/resource/org.moflon.tgg.mosl/model/generated/TGG.ecore"
+
 #import "platform:/plugin/org.moflon.tgg.tggproject/model/Tggproject.ecore"
 #import "http://www.eclipse.org/emf/2002/Ecore"
 #import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
@@ -94,5 +99,9 @@
 	#userDefined NamespaceToName(1:EString, 0:EString) {
 		#sync: BF, BB
 		#gen:
+	}
+	
+	#userDefined isReallyEnum(0:EString){
+		#sync: B, F
 	}
 }

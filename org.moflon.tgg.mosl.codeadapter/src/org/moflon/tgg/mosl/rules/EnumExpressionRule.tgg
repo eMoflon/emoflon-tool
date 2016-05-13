@@ -19,5 +19,5 @@
 }
 
 #attributeConditions {
-
+	isReallyEnum(tggLiteralExpression.value)
 }

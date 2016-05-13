@@ -1,28 +1,34 @@
 package org.moflon.tgg.mosl.scoping
 
+import java.util.ArrayList
 import java.util.Collection
 import java.util.List
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EDataType
+import org.eclipse.emf.ecore.EEnum
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.EcoreUtil2
+import org.eclipse.xtext.naming.QualifiedName
 import org.eclipse.xtext.resource.IEObjectDescription
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import org.eclipse.xtext.scoping.impl.FilteringScope
+import org.eclipse.xtext.util.SimpleAttributeResolver
 import org.moflon.tgg.mosl.tgg.AttributeAssignment
 import org.moflon.tgg.mosl.tgg.AttributeConstraint
 import org.moflon.tgg.mosl.tgg.AttributeExpression
 import org.moflon.tgg.mosl.tgg.CorrType
 import org.moflon.tgg.mosl.tgg.CorrVariablePattern
+import org.moflon.tgg.mosl.tgg.EnumExpression
 import org.moflon.tgg.mosl.tgg.LinkVariablePattern
 import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
 import org.moflon.tgg.mosl.tgg.Param
@@ -30,9 +36,8 @@ import org.moflon.tgg.mosl.tgg.Rule
 import org.moflon.tgg.mosl.tgg.Schema
 import org.moflon.tgg.mosl.tgg.TggPackage
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile
-import org.moflon.tgg.mosl.tgg.EnumExpression
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.emf.ecore.EEnum
+import org.eclipse.xtext.scoping.impl.SimpleScope
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 
 /**
  * This class contains custom scoping description.
@@ -323,7 +328,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 
 	def trg_of_corr_type_must_be_a_trg_type(EObject context) {
-		handleCorrTypeDef(context, [Schema s|s.targetTypes])
+		handleCorrTypeDef(context, [Schema s | s.targetTypes])
 	}
 
 	def handleCorrTypeDef(EObject context, (Schema)=>List<EPackage> types) {
@@ -335,15 +340,20 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def allTypes(List<EPackage> types, Schema schema) {
 		val set = schema.eResource.resourceSet
-		var resources = schema.imports.map[u | set.getResource(URI.createURI(u.name), true)]
-		var packages = resources.map[r | r.contents.get(0) as EPackage]
+		val resources = schema.imports.map[u | set.getResource(URI.createURI(u.name), true)]
+		val packages = resources.map[r | r.contents.get(0) as EPackage]
 		
-		for (pkg : packages) {
-			if(!pkg.getName().equals(schema.sourceTypes.get(0).getName()) && !pkg.getName().equals(schema.targetTypes.get(0).getName())) {
-				types.add(pkg)
-			}
-		}
-		Scopes.scopeFor(types.map[EPackage p|EcoreUtil2.getAllContentsOfType(p, EClassifier)].flatten)
+		val allPackages = new ArrayList()
+		allPackages.addAll(packages)
+		allPackages.removeAll(schema.sourceTypes)
+		allPackages.removeAll(schema.targetTypes)
+		allPackages.addAll(types)		
+		
+		val elements = allPackages.map[EPackage p | EcoreUtil2.getAllContentsOfType(p, EClassifier)].flatten
+		new SimpleScope(
+			Scopes.scopeFor(elements), 
+			Scopes.scopedElementsFor(elements, new DefaultDeclarativeQualifiedNameProvider)
+		)
 	}
 
 	def attr_in_cond_must_be_an_attr_of_the_ref_ov(EObject context) {

@@ -1,10 +1,10 @@
 package org.moflon.tie;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
@@ -12,16 +12,10 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.tgg.language.Domain;
 import org.moflon.tgg.language.DomainType;
 import org.moflon.tgg.language.TGGObjectVariable;
 import org.moflon.tgg.language.TripleGraphGrammar;
-import org.moflon.tgg.language.csp.AttributeVariable;
-import org.moflon.tgg.language.csp.Literal;
-import org.moflon.tgg.language.csp.LocalVariable;
-import org.moflon.tgg.language.csp.Variable;
-import org.moflon.tgg.mosl.codeadapter.AttrCondToTGGConstraint;
 import org.moflon.tgg.mosl.codeadapter.AttributeAssignmentToAttributeAssignment;
 import org.moflon.tgg.mosl.codeadapter.AttributeConstraintToConstraint;
 import org.moflon.tgg.mosl.codeadapter.CorrTypeToEClass;
@@ -32,17 +26,16 @@ import org.moflon.tgg.mosl.codeadapter.LinkVariablePatternToTGGLinkVariable;
 import org.moflon.tgg.mosl.codeadapter.ObjectVariablePatternToTGGObjectVariable;
 import org.moflon.tgg.mosl.codeadapter.RuleToTGGRule;
 import org.moflon.tgg.mosl.codeadapter.TripleGraphGrammarFileToTripleGraphGrammar;
-import org.moflon.tgg.mosl.tgg.AttrCond;
 import org.moflon.tgg.mosl.tgg.AttributeExpression;
 import org.moflon.tgg.mosl.tgg.CorrType;
 import org.moflon.tgg.mosl.tgg.EnumExpression;
 import org.moflon.tgg.mosl.tgg.Import;
-import org.moflon.tgg.mosl.tgg.ParamValue;
 import org.moflon.tgg.mosl.tgg.Rule;
 import org.moflon.tgg.mosl.tgg.Schema;
 import org.moflon.tgg.mosl.tgg.TggFactory;
 import org.moflon.tgg.mosl.tgg.Using;
 import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.tggproject.TGGProject;
 
 import SDMLanguage.expressions.ComparisonExpression;
 import SDMLanguage.expressions.Expression;
@@ -89,15 +82,12 @@ public class CodeadapterPostProcessBackwardHelper {
 			if (corr instanceof ExpressionToExpression)
 				postProcessBackward_Expression((ExpressionToExpression) corr);
 
-			if (corr instanceof AttrCondToTGGConstraint)
-				postProcessBackward_AttrCond((AttrCondToTGGConstraint) corr);
-			
 			if (corr instanceof EnumExpressionToLiteralExpression)
-				postProcessBackward_TGGEnumExpression((EnumExpressionToLiteralExpression) corr);			
+				postProcessBackward_TGGEnumExpression((EnumExpressionToLiteralExpression) corr, trafoHelper);			
 		}
 	}
 
-	private void postProcessBackward_TGGEnumExpression(EnumExpressionToLiteralExpression corr) {
+	private void postProcessBackward_TGGEnumExpression(EnumExpressionToLiteralExpression corr, CodeadapterTrafo trafoHelper) {
 		EnumExpression enumExp = (EnumExpression) corr.getSource();
 		LiteralExpression exp = (LiteralExpression) corr.getTarget();
 		
@@ -106,21 +96,29 @@ public class CodeadapterPostProcessBackwardHelper {
 		String eenum = enumAndLiteral.substring(0, enumAndLiteral.lastIndexOf('.'));
 		assert((eenum + "." + literalString).equals(enumAndLiteral));
 		
-		ResourceSet set = corr.eResource().getResourceSet();
-		set.getAllContents().forEachRemaining(o -> {			
-			if(o instanceof EEnum){ 
-				EEnum e = (EEnum)o;
-				if(e.getName().equals(eenum)){
+		getAllReferencedPackages(trafoHelper).forEach(p -> p.eAllContents().forEachRemaining(o -> {
+			if (o instanceof EEnum) {
+				EEnum e = (EEnum) o;
+				if (e.getName().equals(eenum)) {
 					enumExp.setEenum(e);
-					
+
 					EEnumLiteral literal = e.getEEnumLiteral(literalString);
 					enumExp.setLiteral(literal);
 				}
 			}
-		});
+		}));
 		
 		if(enumExp.getEenum() == null || enumExp.getLiteral() == null)
 			throw new IllegalStateException("Unable to post process " + enumExp + " using " + exp); 
+	}
+
+	private Collection<EPackage> getAllReferencedPackages(CodeadapterTrafo trafoHelper) {
+		TripleGraphGrammar tgg = TGGProject.class.cast(trafoHelper.getTrg()).getTgg();
+		return tgg.getTggRule()
+				.stream()
+				.flatMap(r -> r.getObjectVariable().stream())
+				.map(ov -> ov.getType().getEPackage())
+				.collect(Collectors.toSet());
 	}
 
 	private void postProcessBackward_CorrVariablePattern(CorrVariablePatternToTGGObjectVariable corr) {
@@ -154,46 +152,6 @@ public class CodeadapterPostProcessBackwardHelper {
 			schema.getTargetTypes().add(packageOfOVType);
 		
 		corr.getSource().setType(ovType);
-	}
-
-	private void postProcessBackward_AttrCond(AttrCondToTGGConstraint corr) {
-		AttrCond attrCond = corr.getSource();
-		EList<ParamValue> srcVariables = new BasicEList<ParamValue>();
-
-		for (Variable var : corr.getTarget().getVariables()) {
-			for (ParamValue paramVal : attrCond.getValues()) {
-				if (var instanceof AttributeVariable && paramVal instanceof org.moflon.tgg.mosl.tgg.AttributeVariable) {
-					org.moflon.tgg.mosl.tgg.AttributeVariable srcAttr = (org.moflon.tgg.mosl.tgg.AttributeVariable) paramVal;
-					AttributeVariable trgAttr = (AttributeVariable) var;
-
-					if (srcAttr.getAttribute().equals(trgAttr.getAttribute())
-							&& srcAttr.getObjectVar().getName().equals(trgAttr.getObjectVariable()))
-						srcVariables.add(srcAttr);
-				}
-				if (var instanceof LocalVariable && paramVal instanceof org.moflon.tgg.mosl.tgg.LocalVariable) {
-					org.moflon.tgg.mosl.tgg.LocalVariable srcAttr = (org.moflon.tgg.mosl.tgg.LocalVariable) paramVal;
-					LocalVariable trgAttr = (LocalVariable) var;
-
-					if (srcAttr.getName().equals(trgAttr.getName()))
-						srcVariables.add(srcAttr);
-				}
-				if (var instanceof Literal && paramVal instanceof org.moflon.tgg.mosl.tgg.LiteralExpression) {
-					org.moflon.tgg.mosl.tgg.LiteralExpression srcAttr = (org.moflon.tgg.mosl.tgg.LiteralExpression) paramVal;
-					Literal trgAttr = (Literal) var;
-					String srcAttrValue = srcAttr.getValue();
-					String trgAttrValue = (String) trgAttr.getValue();
-
-					if (srcAttrValue.equals(trgAttrValue) || srcAttrValue.equals(trgAttrValue.replace(".", "::"))) {
-						if (srcAttrValue.charAt(0) != '"' && srcAttrValue.charAt(0) != '\'') {
-							srcAttr.setValue(srcAttrValue.replace(".", "::"));
-						}
-						srcVariables.add(srcAttr);
-					}
-				}
-			}
-		}
-		attrCond.getValues().clear();
-		attrCond.getValues().addAll(srcVariables);
 	}
 
 	private void postProcessBackward_Expression(ExpressionToExpression corr) {
