@@ -15,6 +15,7 @@ import org.moflon.tgg.mosl.tgg.ObjectVariablePattern
 import org.moflon.tgg.mosl.tgg.Rule
 import org.moflon.tgg.mosl.tgg.TggPackage
 import org.moflon.tgg.mosl.tgg.VariablePattern
+import org.moflon.tgg.mosl.tgg.AttributeVariable
 
 /**
  * This class contains custom validation rules. 
@@ -39,7 +40,18 @@ class TGGValidator extends AbstractTGGValidator {
 	}
 	
 	@Check
-	def checkAttributeVariable(AttributeExpression attrVar){
+	def checkAttributeExpression(AttributeExpression attrVar){
+		var attrNames = new BasicEList()
+		for (attr : attrVar.objectVar.type.EAllAttributes) {
+			attrNames.add(attr)
+		}
+		if (!attrNames.contains(attrVar.attribute)) {
+			error("EClass " + attrVar.objectVar.type.name + " does not contain EAttribute " + attrVar.attribute.name + ".", TggPackage.Literals.ATTRIBUTE_EXPRESSION__ATTRIBUTE, TGGValidator.INVALID_ATTRIBUTE_VARIABLE);
+		}
+	}
+	
+	@Check
+	def checkAttributeVariable(AttributeVariable attrVar){
 		var attrNames = new BasicEList()
 		for (attr : attrVar.objectVar.type.EAllAttributes) {
 			attrNames.add(attr.name)

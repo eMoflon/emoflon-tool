@@ -1,0 +1,23 @@
+#using org.moflon.tgg.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule EnumExpressionRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ enumExpression : EnumExpression 
+}
+
+#target {
+	++ tggLiteralExpression : LiteralExpression
+}
+
+#correspondence {
+	++  enumExpressionToTggLiteralExpression : EnumExpressionToLiteralExpression {
+		#src->enumExpression
+		#trg->tggLiteralExpression
+	}
+}
+
+#attributeConditions {
+
+}

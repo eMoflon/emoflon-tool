@@ -79,6 +79,9 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 				return trg_of_corr_ov_must_be_in_trg_domain(context)
 				
 			if(is_enum_exp(context, reference))
+				return potential_enums(context)
+				
+			if(is_enum_literal(context, reference))
 				return potential_enum_literals(context)
 			
 			/* Scopes in Schema */
@@ -101,7 +104,19 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 		super.getScope(context, reference)
 	}
 	
+	def is_enum_literal(EObject context, EReference reference) {
+		context instanceof EnumExpression && reference == TggPackage.Literals.ENUM_EXPRESSION__LITERAL	
+	}
+	
 	def potential_enum_literals(EObject context) {
+		val enumExp = context as EnumExpression
+		val eenum = enumExp.eenum;
+		val literals = eenum.ELiterals
+		
+		Scopes.scopeFor(literals)	
+	}
+	
+	def potential_enums(EObject context) {
 		val enumExp = context as EnumExpression
 		
 		// Crawl up eContainers to Rule
@@ -114,15 +129,13 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 		val schema = (current as Rule).schema
 		val packages = schema.imports.map[u | set.getResource(URI.createURI(u.name), true).contents.get(0) as EPackage]
 		
-		val literals = packages.map[p | p.EClassifiers].flatten
-							   .filter[e | e instanceof EEnum]
-							   .map[e | (e as EEnum).ELiterals].flatten
+		val literals = packages.map[p | EcoreUtil2.getAllContentsOfType(p, EEnum)].flatten
 				
 		Scopes.scopeFor(literals)
 	}
 	
 	def is_enum_exp(EObject context, EReference reference) {
-		context instanceof EnumExpression && reference == TggPackage.Literals.ENUM_EXPRESSION__VALUE
+		context instanceof EnumExpression && reference == TggPackage.Literals.ENUM_EXPRESSION__EENUM
 	}
 	
 	def is_attr_of_ov(EObject context, EReference reference) {

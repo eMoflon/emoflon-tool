@@ -7,9 +7,12 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.tgg.language.Domain;
 import org.moflon.tgg.language.DomainType;
 import org.moflon.tgg.language.TGGObjectVariable;
@@ -23,6 +26,7 @@ import org.moflon.tgg.mosl.codeadapter.AttributeAssignmentToAttributeAssignment;
 import org.moflon.tgg.mosl.codeadapter.AttributeConstraintToConstraint;
 import org.moflon.tgg.mosl.codeadapter.CorrTypeToEClass;
 import org.moflon.tgg.mosl.codeadapter.CorrVariablePatternToTGGObjectVariable;
+import org.moflon.tgg.mosl.codeadapter.EnumExpressionToLiteralExpression;
 import org.moflon.tgg.mosl.codeadapter.ExpressionToExpression;
 import org.moflon.tgg.mosl.codeadapter.LinkVariablePatternToTGGLinkVariable;
 import org.moflon.tgg.mosl.codeadapter.ObjectVariablePatternToTGGObjectVariable;
@@ -31,6 +35,7 @@ import org.moflon.tgg.mosl.codeadapter.TripleGraphGrammarFileToTripleGraphGramma
 import org.moflon.tgg.mosl.tgg.AttrCond;
 import org.moflon.tgg.mosl.tgg.AttributeExpression;
 import org.moflon.tgg.mosl.tgg.CorrType;
+import org.moflon.tgg.mosl.tgg.EnumExpression;
 import org.moflon.tgg.mosl.tgg.Import;
 import org.moflon.tgg.mosl.tgg.ParamValue;
 import org.moflon.tgg.mosl.tgg.Rule;
@@ -41,6 +46,7 @@ import org.moflon.tgg.runtime.CorrespondenceModel;
 
 import SDMLanguage.expressions.ComparisonExpression;
 import SDMLanguage.expressions.Expression;
+import SDMLanguage.expressions.LiteralExpression;
 import SDMLanguage.patterns.patternExpressions.AttributeValueExpression;
 
 public class CodeadapterPostProcessBackwardHelper {
@@ -85,7 +91,36 @@ public class CodeadapterPostProcessBackwardHelper {
 
 			if (corr instanceof AttrCondToTGGConstraint)
 				postProcessBackward_AttrCond((AttrCondToTGGConstraint) corr);
+			
+			if (corr instanceof EnumExpressionToLiteralExpression)
+				postProcessBackward_TGGEnumExpression((EnumExpressionToLiteralExpression) corr);			
 		}
+	}
+
+	private void postProcessBackward_TGGEnumExpression(EnumExpressionToLiteralExpression corr) {
+		EnumExpression enumExp = (EnumExpression) corr.getSource();
+		LiteralExpression exp = (LiteralExpression) corr.getTarget();
+		
+		String enumAndLiteral = exp.getValue();
+		String literalString = enumAndLiteral.substring(enumAndLiteral.lastIndexOf('.') + 1);
+		String eenum = enumAndLiteral.substring(0, enumAndLiteral.lastIndexOf('.'));
+		assert((eenum + "." + literalString).equals(enumAndLiteral));
+		
+		ResourceSet set = corr.eResource().getResourceSet();
+		set.getAllContents().forEachRemaining(o -> {			
+			if(o instanceof EEnum){ 
+				EEnum e = (EEnum)o;
+				if(e.getName().equals(eenum)){
+					enumExp.setEenum(e);
+					
+					EEnumLiteral literal = e.getEEnumLiteral(literalString);
+					enumExp.setLiteral(literal);
+				}
+			}
+		});
+		
+		if(enumExp.getEenum() == null || enumExp.getLiteral() == null)
+			throw new IllegalStateException("Unable to post process " + enumExp + " using " + exp); 
 	}
 
 	private void postProcessBackward_CorrVariablePattern(CorrVariablePatternToTGGObjectVariable corr) {

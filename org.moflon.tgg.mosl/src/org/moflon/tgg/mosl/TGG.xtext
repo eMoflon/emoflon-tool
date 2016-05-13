@@ -52,8 +52,8 @@ AttrCondDef:
 	(userDefined ?= '#userDefined')? name = ID '(' (params += Param (',' params += Param)*)? ')' '{'
 		'#sync:'
 			allowedSyncAdornments += Adornment (',' allowedSyncAdornments += Adornment)*
-		'#gen:'
-			(allowedGenAdornments += Adornment (',' allowedGenAdornments += Adornment )*)?
+		('#gen:'
+			(allowedGenAdornments += Adornment (',' allowedGenAdornments += Adornment )*)?)?
 	'}'
 ;
 
@@ -151,7 +151,7 @@ Expression:
 ;
 
 EnumExpression:
-	'$' value = [ecore::EEnumLiteral | QualifiedName]  
+	 'enum::' eenum=[ecore::EEnum | QualifiedName] '::' literal = [ecore::EEnumLiteral | QualifiedName]  
 ;
 
 AttributeExpression:
@@ -190,7 +190,11 @@ ComparisonOperator:
 terminal DECIMAL: INT '.' INT;
 
 LiteralValue:
-	(STRING | ('-')?INT | ('-')?DECIMAL)
+	(STRING | ('-')?INT | ('-')?DECIMAL | BOOL)
+;
+
+terminal BOOL:
+	'true' | 'false'
 ;
 
 QualifiedNameWithWildcard:

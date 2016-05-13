@@ -4,6 +4,8 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -22,12 +24,14 @@ import org.moflon.tgg.mosl.codeadapter.AttributeAssignmentToAttributeAssignment;
 import org.moflon.tgg.mosl.codeadapter.AttributeConstraintToConstraint;
 import org.moflon.tgg.mosl.codeadapter.CorrTypeToEClass;
 import org.moflon.tgg.mosl.codeadapter.CorrVariablePatternToTGGObjectVariable;
+import org.moflon.tgg.mosl.codeadapter.EnumExpressionToLiteralExpression;
 import org.moflon.tgg.mosl.codeadapter.ExpressionToExpression;
 import org.moflon.tgg.mosl.codeadapter.LinkVariablePatternToTGGLinkVariable;
 import org.moflon.tgg.mosl.codeadapter.ObjectVariablePatternToTGGObjectVariable;
 import org.moflon.tgg.mosl.codeadapter.TripleGraphGrammarFileToTripleGraphGrammar;
 import org.moflon.tgg.mosl.tgg.AttributeExpression;
 import org.moflon.tgg.mosl.tgg.CorrType;
+import org.moflon.tgg.mosl.tgg.EnumExpression;
 import org.moflon.tgg.mosl.tgg.ParamValue;
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile;
 import org.moflon.tgg.runtime.CorrespondenceModel;
@@ -36,6 +40,7 @@ import org.moflon.tgg.tggproject.TGGProject;
 
 import SDMLanguage.expressions.ComparisonExpression;
 import SDMLanguage.expressions.Expression;
+import SDMLanguage.expressions.LiteralExpression;
 import SDMLanguage.patterns.LinkVariable;
 import SDMLanguage.patterns.patternExpressions.AttributeValueExpression;
 
@@ -49,8 +54,7 @@ public class CodeadapterPostProcessForwardHelper {
 			for (EObject corr : corrModel.getCorrespondences()) {
 
 				if (corr instanceof TripleGraphGrammarFileToTripleGraphGrammar)
-					postProcessForward_TripleGraphGrammarRoot((TripleGraphGrammarFileToTripleGraphGrammar) corr,
-							corrPackage);
+					postProcessForward_TripleGraphGrammarRoot((TripleGraphGrammarFileToTripleGraphGrammar) corr, corrPackage);
 
 				if (corr instanceof CorrTypeToEClass)
 					postProcessForward_AbstractCorrespondenceSubClass((CorrTypeToEClass) corr);
@@ -75,8 +79,22 @@ public class CodeadapterPostProcessForwardHelper {
 
 				if (corr instanceof AttrCondToTGGConstraint)
 					postProcessForward_TGGConstraint((AttrCondToTGGConstraint) corr);
+				
+				if (corr instanceof EnumExpressionToLiteralExpression)
+					postProcessForward_TGGEnumExpression((EnumExpressionToLiteralExpression) corr);
 			}
 		}
+	}
+
+	private void postProcessForward_TGGEnumExpression(EnumExpressionToLiteralExpression corr) {
+		EnumExpression enumExp = (EnumExpression) corr.getSource();
+		LiteralExpression exp = (LiteralExpression) corr.getTarget();
+		
+		EEnum eenum = enumExp.getEenum();
+		EEnumLiteral literal = enumExp.getLiteral();
+		
+		String fqn = eenum.getName() + "." + literal.getName();
+		exp.setValue(fqn);
 	}
 
 

@@ -1,0 +1,98 @@
+#import "platform:/resource/org.moflon.tgg.mosl/model/generated/TGG.ecore"
+#import "platform:/plugin/org.moflon.tgg.tggproject/model/Tggproject.ecore"
+#import "http://www.eclipse.org/emf/2002/Ecore"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions"
+
+#schema org.moflon.tgg.mosl.codeadapter
+
+#source {
+	tgg
+}
+
+#target {
+	tggproject
+}
+
+#correspondence {
+	CorrTypeToEClass {
+		#src->CorrType
+		#trg->EClass
+	}
+	AttributeAssignmentToAttributeAssignment {
+		#src->AttributeAssignment
+		#trg->AttributeAssignment
+	}
+	ParamValueToVariable {
+		#src->ParamValue
+		#trg->Variable
+	}
+	AttributeConstraintToConstraint {
+		#src->AttributeConstraint
+		#trg->Constraint
+	}
+	ObjectVariablePatternToTGGObjectVariable {
+		#src->ObjectVariablePattern
+		#trg->TGGObjectVariable
+	}
+	ExpressionToExpression {
+		#src->Expression
+		#trg->Expression
+	}
+	LinkVariablePatternToTGGLinkVariable {
+		#src->LinkVariablePattern
+		#trg->TGGLinkVariable
+	}
+	CorrVariablePatternToTGGObjectVariable {
+		#src->CorrVariablePattern
+		#trg->TGGObjectVariable
+	}
+	ParamToSignatureElement {
+		#src->Param
+		#trg->SignatureElement
+	}
+	AdornmentToAdornment {
+		#src->Adornment
+		#trg->Adornment
+	}
+	TripleGraphGrammarFileToTripleGraphGrammar {
+		#src->TripleGraphGrammarFile
+		#trg->TripleGraphGrammar
+	}
+	RuleToTGGRule {
+		#src->Rule
+		#trg->TGGRule
+	}
+	AttrCondToTGGConstraint {
+		#src->AttrCond
+		#trg->TGGConstraint
+	}
+	
+	EnumExpressionToLiteralExpression #extends ExpressionToExpression 
+}
+
+#attributeConditions {
+	
+	#userDefined MoslToTggLiteral(1:EString, 0:EString) {
+		#sync: BF, BB, FB
+		#gen:
+	}
+
+	#userDefined ParamTypeToSignatureElementType(0:EString, 1:EString) {
+		#sync: BB, BF, FB
+		#gen:
+	}
+
+	#userDefined CapitalizeString(0:EString, 1:EString) {
+		#sync: BF, BB
+		#gen:
+	}
+
+	#userDefined NamespaceToName(1:EString, 0:EString) {
+		#sync: BF, BB
+		#gen:
+	}
+}
