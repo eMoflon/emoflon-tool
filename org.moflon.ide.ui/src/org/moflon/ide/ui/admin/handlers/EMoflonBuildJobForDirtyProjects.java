@@ -17,7 +17,7 @@ final class EMoflonBuildJobForDirtyProjects extends EMoflonBuildJob
    @Override
    protected boolean shallBuildProject(final IProject project)
    {
-      return CoreActivator.getDefault().isDirty(project) && !WorkspaceHelper.isMetamodelProjectNoThrow(project);
+      return CoreActivator.getDefault().isDirty(project) && project.isAccessible() && !WorkspaceHelper.isMetamodelProjectNoThrow(project);
    }
 
 }
