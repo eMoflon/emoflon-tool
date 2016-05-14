@@ -249,15 +249,6 @@
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleMeta">
                </parameter></command>
-            <command
-                  commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
-                  label="Developer Workspace [OLD, DEPRECATED]"
-                  style="push">
-               <parameter
-                     name="org.moflon.devtools.ui.commands.install.workspacename"
-                     value="DeveloperWorkspace">
-               </parameter>
-            </command>
       </menuContribution>
       
    </extension>

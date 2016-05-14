@@ -7,12 +7,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -49,52 +47,36 @@ import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
 import org.moflon.ide.core.util.BuilderHelper;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 import org.moflon.ide.workspaceinstaller.psf.PSFPlugin;
+import org.moflon.ide.workspaceinstaller.psf.PsfFileUtils;
 
 @SuppressWarnings("restriction")
 public class WorkspaceInstaller
 {
    private static final Logger logger = Logger.getLogger(WorkspaceInstaller.class);
 
-   public void installWorkspacesByName(final List<String> workspaceNames, final String displayName)
-   {
-      final Set<String> psfPaths = new HashSet<>();
-      for (final String workspaceName : workspaceNames)
-      {
-         psfPaths.addAll(EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName));
-      }
-      installWorkspaceWithPluginRelativePsfPath(psfPaths, displayName);
-   }
-
    public void installWorkspaceByName(final String workspaceName)
    {
       final List<String> path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
       if (!path.isEmpty())
       {
-         this.installWorkspaceWithPluginRelativePsfPath(path, workspaceName);
+         this.installPluginRelativePsfFiles(path, workspaceName);
       } else
       {
          logger.debug("Not a recognized workspace: " + workspaceName);
       }
    }
 
-   public void installWorkspaceWithPSF(final String absolutePathToPSF)
+   public void installPsfFiles(final List<File> psfFiles)
    {
-      installWorkspaceExternal(absolutePathToPSF, absolutePathToPSF);
+      final String label = joinBasenames(psfFiles);
+      installPsfFiles(psfFiles, label);
    }
 
-   public void installWorkspacesWithPSF(List<File> absolutePaths, final String displayName)
-   {
-      this.installWorkspacesExternal(absolutePaths.stream().map(File::getAbsolutePath).collect(Collectors.toList()), displayName);
-   }
-
-   private void installWorkspaceWithPluginRelativePsfPath(final Collection<String> pluginRelativePathToPSF, final String displayName)
+   private void installPluginRelativePsfFiles(final Collection<String> pluginRelativePsfFiles, final String label)
    {
       prepareWorkspace();
 
-      final List<String> absolutePathsToPSF = pluginRelativePathToPSF.stream().filter(s -> s != null).map(WorkspaceInstaller::mapToAbsolutePath)
-            .collect(Collectors.toList());
-
-      installWorkspacesExternal(absolutePathsToPSF, displayName);
+      installPsfFiles(mapToAbsoluteFiles(pluginRelativePsfFiles), label);
    }
 
    private static String mapToAbsolutePath(final String pluginRelativePathToPSF)
@@ -103,58 +85,40 @@ public class WorkspaceInstaller
       final IProject workspaceProject = WorkspaceHelper.getProjectByPluginId(PSFPlugin.getDefault().getPluginId());
       if (workspaceProject != null)
       {
-         logger.debug("Using project with id " + PSFPlugin.getDefault().getPluginId() + " in workspace to retrieve PSF files.");
+         logger.debug("Using PSF files from workspace project with plugin ID " + PSFPlugin.getDefault().getPluginId() + ".");
          final File fullPath = new File(workspaceProject.getLocation().toOSString(), pluginRelativePathToPSF);
          return fullPath.getAbsolutePath();
       } else
       {
-         logger.debug("Using installed plugin to retrieve PSF files.");
+         logger.debug("Using PSF files in installed plugin " + PSFPlugin.getDefault().getPluginId() + ".");
          final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(pluginRelativePathToPSF, PSFPlugin.getDefault().getPluginId());
          final String absolutePathToPSF = new File(fullPathURL.getPath()).getAbsolutePath();
          return absolutePathToPSF;
       }
    }
 
-   private void prepareWorkspace()
+   public void installPsfFiles(final List<File> psfFiles, final String label)
    {
-      // This is required to avoid NPEs when checking out plugin projects (a problem with JDT)
-      try
-      {
-         JavaModelManager.getExternalManager().createExternalFoldersProject(new NullProgressMonitor());
-      } catch (final CoreException ex)
-      {
-         ex.printStackTrace();
-      }
-
-   }
-
-   private void installWorkspaceExternal(final String absolutePathToPSF, final String displayName)
-   {
-      this.installWorkspacesExternal(Arrays.asList(absolutePathToPSF), displayName);
-   }
-
-   private void installWorkspacesExternal(final List<String> absolutePathsToPSF, final String displayName)
-   {
-      final Job job = new Job("Installing " + displayName + "...") {
+      final Job job = new Job("Installing " + label + "...") {
 
          @Override
          protected IStatus run(final IProgressMonitor monitor)
          {
             try
             {
-               logger.info("Installing " + displayName + "...");
-               monitor.beginTask("Installing " + displayName, 500);
+               logger.info("Installing " + label + "...");
+               monitor.beginTask("Installing " + label, 500);
                if (BuilderHelper.turnOffAutoBuild())
                {
                   logger.info("Ok - I was able to switch off auto build ...");
 
-                  checkOutProjectsWithPsfFiles(absolutePathsToPSF, WorkspaceHelper.createSubMonitor(monitor, 100));
+                  checkOutProjectsWithPsfFiles(psfFiles, label, WorkspaceHelper.createSubMonitor(monitor, 100));
 
                   logger.info("Invoking MWE2 workflows...");
 
                   invokeMwe2Workflows(WorkspaceHelper.createSubMonitor(monitor, 100));
 
-                  if (exportingEapFilesRequired(displayName))
+                  if (exportingEapFilesRequired(label))
                   {
                      logger.info("Exporting EAP files...");
 
@@ -169,7 +133,7 @@ public class WorkspaceInstaller
 
                   logger.info("Finished building workspace...");
 
-                  if (runningJUnitTestsRequired(displayName))
+                  if (runningJUnitTestsRequired(label))
                   {
                      logger.info("Running tests if any test projects according to our naming convention exist (*TestSuite*)");
                      // Without this time of waiting, a NPE is thrown
@@ -190,12 +154,13 @@ public class WorkspaceInstaller
             {
                final String message = "Sorry, I was unable to check out the projects in the PSF file.\n"//
                      + "  If you did not explicitly cancel then please check the following (most probable first):\n"//
-                     + "      (1) Ensure you have switched to SVNKit (Window/Preferences/Team/SVN) or make sure JavaHL is working.\n"//
-                     + "      (2) If possible, start with a clean Workspace without any projects. Although the PSF import offers to delete the projects this does not always work, especially on Windows.\n"//
-                     + "      (3) Are you sure you have acess to all the projects (if they do not support anonymous access)?\n"//
-                     + "      (4) The PSF file might be outdated - please check for an update of the test plugin\n"//
-                     + "      (5) If it's quite late in the night, our server might be down performing a back-up - try again in a few hours.\n"//
-                     + "      (6) What nothing helped?!  Please send us an email at contact@emoflon.org :)\n" //
+                     + "      (1) SVN: Ensure you have switched to SVNKit (Window/Preferences/Team/SVN) or make sure JavaHL is working.\n"//
+                     + "      (2) Git: Ensure that the Git repositories appearing in the error message below are clean or do not exist (Window/Perspective/Open Perspective/Other.../Git)\n" //
+                     + "      (3) If possible, start with an empty, fresh workspace. Although the PSF import offers to delete the projects this may fail, especially on Windows.\n"//
+                     + "      (4) Are you sure you have acess to all the projects (if they do not support anonymous access)?\n"//
+                     + "      (5) The PSF file might be outdated - please check for an update of the test plugin\n"//
+                     + "      (6) If it's quite late in the night, our server might be down performing a back-up - try again in a few hours.\n"//
+                     + "      (7) If none of these helped, write us a mail to contact@emoflon.org :)\n" //
                      + "\n" //
                      + "Exception of type " + e.getClass().getName() + ", Message: " + MoflonUtil.displayExceptionAsString(e);
                logger.error(message);
@@ -247,22 +212,30 @@ public class WorkspaceInstaller
             .collect(Collectors.toList());
    }
 
-   private void checkOutProjectsWithPsfFiles(final List<String> absolutePathsToPSF, final IProgressMonitor monitor) throws CoreException, InterruptedException
+   private void checkOutProjectsWithPsfFiles(final List<File> psfFiles, String label, final IProgressMonitor monitor) throws CoreException, InterruptedException
    {
       try
       {
-         monitor.beginTask("Checking out projects", 20 * absolutePathsToPSF.size() + 1);
+         final String joinedPaths = joinBasenames(psfFiles);
+         monitor.beginTask("Checking out " + joinedPaths, 1 + 20);
 
          // We extract the contents beforehand because the following action may delete them if we load PSF files
          // directly from the workspace
-         final List<String> psfContents = extractPsfFileContents(absolutePathsToPSF);
+         final String psfContent = PsfFileUtils.joinPsfFile(psfFiles);
+
+         final int numberOfProjects = StringUtils.countMatches(psfContent, "<project ");
+         final int numberOfWorkingSets = StringUtils.countMatches(psfContent, "<workingSets ");
+         logger.info(String.format("Checking out %d projects and %d working sets in %s.", numberOfProjects, numberOfWorkingSets, joinedPaths));
 
          removeProjectsIfDesired(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
 
-         importProjectSets(WorkspaceHelper.createSubMonitor(monitor, 20 * absolutePathsToPSF.size()), absolutePathsToPSF, psfContents);
-      } catch (IOException e)
+         final ImportProjectSetOperation op = new ImportProjectSetOperation(null, psfContent, psfFiles.size() > 1 ? null : psfFiles.get(0).getAbsolutePath(),
+               new IWorkingSet[0]);
+         op.run(WorkspaceHelper.createSubMonitor(monitor, 20));
+
+      } catch (final IOException | InvocationTargetException e)
       {
          throw new CoreException(new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Importing projects failed", e));
       } finally
@@ -283,9 +256,9 @@ public class WorkspaceInstaller
       {
          final List<IFile> collectedWorkflows = collectMwe2Workflows();
 
-			// TODO@rkluge: This effectively disables the invocation of the
-			// Mwe2Launcher (seams to be problematic)
-			collectedWorkflows.clear();
+         // TODO@rkluge: This effectively disables the invocation of the
+         // Mwe2Launcher (seams to be problematic)
+         collectedWorkflows.clear();
 
          monitor.beginTask("Invoking MWE2 Workflows", 20 * collectedWorkflows.size());
          for (final IFile workflowFile : collectedWorkflows)
@@ -368,68 +341,38 @@ public class WorkspaceInstaller
       return collectedWorkflows;
    }
 
-   private List<String> extractPsfFileContents(final List<String> absolutePathsToPSF) throws IOException
-   {
-      final List<String> psfContents = new ArrayList<>();
-      for (final String absolutePathToPSF : absolutePathsToPSF)
-      {
-         psfContents.add(FileUtils.readFileToString(new File(absolutePathToPSF)));
-      }
-      return psfContents;
-   }
-
    public void removeProjectsIfDesired(final IProgressMonitor monitor)
-   {
-      final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-      monitor.beginTask("Deleting projects (if desired)", projects.length);
-      if (projects.length > 0)
-      {
-         Display.getDefault().syncExec(new Runnable() {
-            @Override
-            public void run()
-            {
-               if (MessageDialog.openQuestion(null, "There are projects in the workspace!", "Should I delete them for you?"))
-               {
-                  for (IProject project : projects)
-                  {
-                     try
-                     {
-                        logger.info("Deleting " + project.getName() + "...");
-                        project.delete(true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-                     } catch (CoreException e)
-                     {
-                        logger.error("Sorry - I was unable to clean up your workspace. I'll continue anyway...");
-                     }
-                  }
-               } else
-               {
-                  monitor.worked(projects.length);
-               }
-            }
-         });
-      }
-      monitor.done();
-   }
-
-   private void importProjectSets(final IProgressMonitor monitor, final List<String> absolutePathsToPSF, List<String> psfContents)
-         throws CoreException, InterruptedException
    {
       try
       {
-         monitor.beginTask("Importing projects", absolutePathsToPSF.size());
-
-         for (int i = 0; i < psfContents.size(); ++i)
+         final List<IProject> projects = WorkspaceHelper.getAllProjectsInWorkspace();
+         monitor.beginTask("Deleting projects (if desired)", projects.size());
+         if (projects.size() > 0)
          {
-            final String absolutePathToPSFFile = absolutePathsToPSF.get(i);
-            final String psfContent = psfContents.get(i);
-            logger.info("Checking out projects using PSF file: " + absolutePathToPSFFile);
-            final ImportProjectSetOperation op = new ImportProjectSetOperation(null, psfContent, absolutePathToPSFFile, new IWorkingSet[0]);
-            op.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
+            Display.getDefault().syncExec(new Runnable() {
+               @Override
+               public void run()
+               {
+                  if (MessageDialog.openQuestion(null, "There are projects in the workspace!", "Should I delete them for you?"))
+                  {
+                     for (IProject project : projects)
+                     {
+                        try
+                        {
+                           logger.info("Deleting " + project.getName() + "...");
+                           project.delete(true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+                        } catch (CoreException e)
+                        {
+                           logger.error("Sorry - I was unable to clean up your workspace. I'll continue anyway...");
+                        }
+                     }
+                  } else
+                  {
+                     monitor.worked(projects.size());
+                  }
+               }
+            });
          }
-      } catch (InvocationTargetException e)
-      {
-         throw new CoreException(new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Importing projects failed", e));
       } finally
       {
          monitor.done();
@@ -504,6 +447,19 @@ public class WorkspaceInstaller
 
    }
 
+   // This is required to avoid NPEs when checking out plugin projects (a problem with JDT)
+   private static void prepareWorkspace()
+   {
+      try
+      {
+         JavaModelManager.getExternalManager().createExternalFoldersProject(new NullProgressMonitor());
+      } catch (final CoreException ex)
+      {
+         ex.printStackTrace();
+      }
+
+   }
+
    private static boolean isTestProjectAccordingToConvention(final IProject project)
    {
       try
@@ -530,35 +486,15 @@ public class WorkspaceInstaller
       }
    }
 
-   // Will be useful when merging configurations
-   // private static XMLMemento filenameToXMLMemento(String filename) throws InvocationTargetException
-   // {
-   // InputStreamReader reader = null;
-   // try
-   // {
-   // reader = new InputStreamReader(new FileInputStream(filename), "UTF-8"); //$NON-NLS-1$
-   // return XMLMemento.createReadRoot(reader);
-   // } catch (UnsupportedEncodingException e)
-   // {
-   // throw new InvocationTargetException(e);
-   // } catch (FileNotFoundException e)
-   // {
-   // throw new InvocationTargetException(e);
-   // } catch (WorkbenchException e)
-   // {
-   // throw new InvocationTargetException(e);
-   // } finally
-   // {
-   // if (reader != null)
-   // {
-   // try
-   // {
-   // reader.close();
-   // } catch (IOException e)
-   // {
-   // throw new InvocationTargetException(e);
-   // }
-   // }
-   // }
-   // }
+   private static List<File> mapToAbsoluteFiles(final Collection<String> pluginRelativePsfFiles)
+   {
+      return pluginRelativePsfFiles.stream().filter(s -> s != null).map(WorkspaceInstaller::mapToAbsolutePath).map(s -> new File(s))
+            .collect(Collectors.toList());
+   }
+
+   private static String joinBasenames(final List<File> files)
+   {
+      return files.stream().map(f -> f.getName()).collect(Collectors.joining(", "));
+   }
+
 }
