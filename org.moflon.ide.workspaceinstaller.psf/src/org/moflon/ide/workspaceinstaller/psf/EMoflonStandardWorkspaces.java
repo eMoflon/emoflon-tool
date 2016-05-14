@@ -77,6 +77,7 @@ public class EMoflonStandardWorkspaces
 
    static
    {
+      // Basic test workspace modules
       PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME, Arrays.asList("tests/TestSuiteZoo0.psf"));
       PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME, Arrays.asList("tests/TestSuiteZoo1.psf"));
       PATH_LOOKUP.put(TEST_WORKSPACE_TGG_0_NAME, Arrays.asList("tests/TestSuiteTGG0.psf"));
@@ -84,6 +85,7 @@ public class EMoflonStandardWorkspaces
       PATH_LOOKUP.put(TEST_WORKSPACE_MISC_NAME, Arrays.asList("tests/TestSuiteMisc.psf"));
       PATH_LOOKUP.put(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("tests/TestSuiteDemocles0.psf"));
 
+      // Basic developer workspace modules
       PATH_LOOKUP.put(MODULE_CORE_SDM, Arrays.asList("development/Core_SDM_Modules.psf"));
       PATH_LOOKUP.put(MODULE_META, Arrays.asList("development/Meta_Modules.psf"));
       PATH_LOOKUP.put(MODULE_IDE, Arrays.asList("development/IDE_Rest_Modules.psf"));
@@ -91,13 +93,14 @@ public class EMoflonStandardWorkspaces
       PATH_LOOKUP.put(MODULE_TGG_MOSL, Arrays.asList("development/TGG_MOSL_Modules.psf"));
       PATH_LOOKUP.put(MODULE_VISUALIZATION, Arrays.asList("development/IDE_Vis_Modules.psf"));
       PATH_LOOKUP.put(MODULE_COEVOLUTION, Arrays.asList("development/IDE_CoEvolution_Modules.psf"));
-
-      PATH_LOOKUP.put(MODULE_TGG, joinLists(MODULE_TGG_CORE, MODULE_TGG_MOSL));
-      PATH_LOOKUP.put(MODULE_ALL, joinLists(MODULE_META, MODULE_IDE, MODULE_TGG_CORE, MODULE_VISUALIZATION, MODULE_COEVOLUTION)); // "development/All_Modules.psf"
-      PATH_LOOKUP.put(MODULE_ALL_INCL_MOSL, joinLists(MODULE_ALL, MODULE_TGG_MOSL)); // "development/All_Modules_incl_MOSL.psf"
-
       PATH_LOOKUP.put(MODULE_DOCUMENTATION, Arrays.asList("development/Documentation.psf"));
 
+      PATH_LOOKUP.put(MODULE_TGG, joinLists(MODULE_TGG_CORE, MODULE_TGG_MOSL));
+      PATH_LOOKUP.put(MODULE_ALL, joinLists(MODULE_META, MODULE_IDE, MODULE_CORE_SDM, MODULE_TGG_CORE, MODULE_VISUALIZATION, MODULE_COEVOLUTION)); // "development/All_Modules.psf"
+      PATH_LOOKUP.put(MODULE_ALL_INCL_MOSL, joinLists(MODULE_ALL, MODULE_TGG_MOSL)); // "development/All_Modules_incl_MOSL.psf"
+
+
+      // Handbook workspace modules
       PATH_LOOKUP.put(DEMO_WORKSPACE_NAME, Arrays.asList("examples/DemoWorkspace.psf"));
       PATH_LOOKUP.put(HANDBOOK_EXAMPLE_FINAL, Arrays.asList("examples/HandbookExample_FinalSolution.psf"));
       PATH_LOOKUP.put(HANDBOOK_EXAMPLE_GUI, Arrays.asList("examples/HandbookExample_LeitnersBoxGui.psf"));
