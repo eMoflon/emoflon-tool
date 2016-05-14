@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
 import org.moflon.util.plugins.MetamodelProperties;
@@ -71,7 +70,8 @@ public class MoflonProjectCreator implements IWorkspaceRunnable
          IJavaProject javaProject = WorkspaceHelper.setUpAsJavaProject(workspaceProject, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          WorkspaceHelper.setAsSourceFolderInBuildpath(javaProject, new IFolder[] { WorkspaceHelper.getGenFolder(workspaceProject) },
-               new IClasspathAttribute[] { JavaCore.newClasspathAttribute("ignore_optional_problems", "true") },
+               // see issue #718
+               new IClasspathAttribute[] { /* JavaCore.newClasspathAttribute("ignore_optional_problems", "true") */ },
                WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          MoflonPropertiesContainer moflonProperties = MoflonPropertiesContainerHelper.createDefaultPropertiesContainer(workspaceProject.getName(),

@@ -391,7 +391,7 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
       try
       {
          final String projectName = properties.getProjectName();
-         MoflonProjectCreator createMoflonProject = new MoflonProjectCreator();
+         final MoflonProjectCreator createMoflonProject = new MoflonProjectCreator();
          createMoflonProject.setProjectName(projectName);
          createMoflonProject.setType(properties.getType());
          createMoflonProject.setMetaModelProjectName(properties.getMetamodelProjectName());
