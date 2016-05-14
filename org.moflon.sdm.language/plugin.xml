@@ -9,13 +9,10 @@
     <package class="SDMLanguage.SDMLanguagePackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="SDMLanguage.patterns.PatternsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns"/>
+    <package class="SDMLanguage.activities.ActivitiesPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="SDMLanguage.patterns.patternExpressions.PatternExpressionsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions"/>
-  </extension>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="SDMLanguage.patterns.AttributeConstraints.AttributeConstraintsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/AttributeConstraints"/>
+    <package class="SDMLanguage.sdmUtil.SdmUtilPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//sdmUtil"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="SDMLanguage.calls.CallsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls"/>
@@ -27,9 +24,12 @@
     <package class="SDMLanguage.expressions.ExpressionsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="SDMLanguage.activities.ActivitiesPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities"/>
+    <package class="SDMLanguage.patterns.PatternsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package class="SDMLanguage.sdmUtil.SdmUtilPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//sdmUtil"/>
+    <package class="SDMLanguage.patterns.AttributeConstraints.AttributeConstraintsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/AttributeConstraints"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="SDMLanguage.patterns.patternExpressions.PatternExpressionsPackage" genModel="model/SDMLanguage.genmodel" uri="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions"/>
   </extension>
 </plugin>

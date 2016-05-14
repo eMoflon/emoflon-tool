@@ -125,5 +125,6 @@
 ---
 2016-05-08	Fix critical bugs in MOSL-TGG that break the bootstrapping
 2016-05-14	Implement merge algorithm for PSFs in WorkspaceInstaller #715
-2016-05-14	Disable automatic suppression of warnings for projects #718 
+2016-05-14	Disable automatic suppression of warnings for projects #718
+2016-05-14	Get rid of managed EAP files #708  
 ???	eMoflon 2.16.0 released
