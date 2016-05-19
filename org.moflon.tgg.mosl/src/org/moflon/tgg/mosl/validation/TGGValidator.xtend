@@ -64,39 +64,41 @@ class TGGValidator extends AbstractTGGValidator {
 	
 	Map<String, Map<EObject, Map<Class<? extends EObject>, EObject>>> names = new HashMap<String, Map<EObject, Map<Class<? extends EObject>, EObject>>>();
 	
+	
+	//FIXME Sascha: This does not work -- please test some more!
 	@Check
 	def checkForUniqueNames(NamedElements ne){
-		if(names.containsKey(ne.name)){
-			var containers = names.get(ne.name);
-			if(containers.containsKey(ne.eContainer)){
-				var classes = containers.get(ne.eContainer);
-				
-				if(classes.containsKey(ne.class)){
-					var object = classes.get(ne.class);
-					if(!object.equals(ne)){
-						error("Names must be unique. The Name '" + ne.name + "' already used", TggPackage.Literals.NAMED_ELEMENTS__NAME, TGGValidator.NOT_UNIQUE_NAME);
-					}				
-				}
-				else{
-					classes.put(ne.class, ne);
-					containers.put(ne.eContainer, classes);
-					names.put(ne.name, containers);
-				}
-			}
-			else{
-				var classes = new HashMap<Class<? extends EObject>, EObject>();
-				classes.put(ne.class,ne);
-				containers.put(ne.eContainer, classes);
-				names.put(ne.name, containers);
-			}			
-		}
-		else{
-			var classes = new HashMap<Class<? extends EObject>, EObject>();
-			classes.put(ne.class,ne);			
-			var containers = new HashMap<EObject, Map<Class<? extends EObject>, EObject>>();
-			containers.put(ne.eContainer, classes);
-			names.put(ne.name, containers);
-		}
+//		if(names.containsKey(ne.name)){
+//			var containers = names.get(ne.name);
+//			if(containers.containsKey(ne.eContainer)){
+//				var classes = containers.get(ne.eContainer);
+//				
+//				if(classes.containsKey(ne.class)){
+//					var object = classes.get(ne.class);
+//					if(!object.equals(ne)){
+//						error("Names must be unique. The Name '" + ne.name + "' already used", TggPackage.Literals.NAMED_ELEMENTS__NAME, TGGValidator.NOT_UNIQUE_NAME);
+//					}				
+//				}
+//				else{
+//					classes.put(ne.class, ne);
+//					containers.put(ne.eContainer, classes);
+//					names.put(ne.name, containers);
+//				}
+//			}
+//			else{
+//				var classes = new HashMap<Class<? extends EObject>, EObject>();
+//				classes.put(ne.class,ne);
+//				containers.put(ne.eContainer, classes);
+//				names.put(ne.name, containers);
+//			}			
+//		}
+//		else{
+//			var classes = new HashMap<Class<? extends EObject>, EObject>();
+//			classes.put(ne.class,ne);			
+//			var containers = new HashMap<EObject, Map<Class<? extends EObject>, EObject>>();
+//			containers.put(ne.eContainer, classes);
+//			names.put(ne.name, containers);
+//		}
 	}
 	
 	@Check
