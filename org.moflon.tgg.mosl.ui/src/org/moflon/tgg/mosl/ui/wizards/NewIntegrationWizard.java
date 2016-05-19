@@ -5,6 +5,8 @@ import static org.moflon.core.utilities.WorkspaceHelper.addAllFoldersAndFile;
 import static org.moflon.core.utilities.WorkspaceHelper.addNature;
 import static org.moflon.core.utilities.WorkspaceHelper.createSubmonitorWith1Tick;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -51,8 +53,12 @@ public class NewIntegrationWizard extends NewRepositoryWizard {
 		
 		addAllFolders(project, "src/org/moflon/tgg/mosl/rules", createSubmonitorWith1Tick(monitor));
 		
-		AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
+		try {
+			AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-      WorkspaceHelperUI.openDefaultEditorForFile(project.getFile(pathToSchema));
+		WorkspaceHelperUI.openDefaultEditorForFile(project.getFile(pathToSchema));
 	}
 }
