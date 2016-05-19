@@ -22,10 +22,10 @@ import com.google.inject.Provider;
 public class MoflonScope extends SimpleScope {
 
 	public MoflonScope(List<EObject> objects) {
-		super(IScope.NULLSCOPE, Scopes.scopedElementsFor(accountForResourceURIs(objects), QualifiedName.wrapper(SimpleAttributeResolver.NAME_RESOLVER)));
+		super(IScope.NULLSCOPE, Scopes.scopedElementsFor(accountForSubPackages(objects), QualifiedName.wrapper(SimpleAttributeResolver.NAME_RESOLVER)));
 	}
 
-	private static Collection<EObject> accountForResourceURIs(List<EObject> objects) {		
+	private static Collection<EObject> accountForSubPackages(List<EObject> objects) {		
 		Set<EObject> allPackages = objects
 			.stream()
 			.flatMap(o -> EcoreUtil2.getAllContentsOfType(o, EPackage.class).stream())

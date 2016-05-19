@@ -22,7 +22,7 @@ public class IsReallyEnum extends TGGConstraintImpl {
     	
   	}
 
-	private boolean isEnum(Object value) {
+	protected boolean isEnum(Object value) {
 		if(!(value instanceof String))
 			return false;
 		

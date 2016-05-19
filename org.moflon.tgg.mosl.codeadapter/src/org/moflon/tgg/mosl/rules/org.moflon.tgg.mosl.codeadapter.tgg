@@ -2001,6 +2001,7 @@
 }
 
 #attributeConditions {
+	isNotEnum(tggLiteral.value)
 	eq (literal.value, tggLiteral.value)
 }
 

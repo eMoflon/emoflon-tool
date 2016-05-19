@@ -118,6 +118,7 @@ public class CodeadapterPostProcessBackwardHelper {
 				.stream()
 				.flatMap(r -> r.getObjectVariable().stream())
 				.map(ov -> ov.getType().getEPackage())
+				.filter(p -> p != null)
 				.collect(Collectors.toSet());
 	}
 

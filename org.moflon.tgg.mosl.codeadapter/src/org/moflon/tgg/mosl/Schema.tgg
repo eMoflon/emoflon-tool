@@ -104,4 +104,8 @@
 	#userDefined isReallyEnum(0:EString){
 		#sync: B, F
 	}
+	
+	#userDefined isNotEnum(0:EString){
+		#sync: B, F	
+	}
 }
