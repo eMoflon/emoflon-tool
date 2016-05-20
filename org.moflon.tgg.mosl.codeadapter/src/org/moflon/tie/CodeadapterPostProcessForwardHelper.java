@@ -1,5 +1,6 @@
 package org.moflon.tie;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
@@ -10,6 +11,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.moflon.tgg.language.Domain;
 import org.moflon.tgg.language.DomainType;
+import org.moflon.tgg.language.Metamodel;
 import org.moflon.tgg.language.TGGLinkVariable;
 import org.moflon.tgg.language.TGGObjectVariable;
 import org.moflon.tgg.language.TripleGraphGrammar;
@@ -148,6 +150,8 @@ public class CodeadapterPostProcessForwardHelper {
 		TripleGraphGrammarFile tggFile = corr.getSource();
 		TripleGraphGrammar tgg = corr.getTarget();
 		
+		setDefaultURI(tgg);
+		
 		for (Domain domain : tgg.getDomain()) {
 			if(domain.getType() == DomainType.SOURCE){
 				tggFile.getSchema().getSourceTypes().forEach(sourceType -> {
@@ -175,6 +179,40 @@ public class CodeadapterPostProcessForwardHelper {
 					}
 				}
 			}
+		}
+	}
+
+	private void setDefaultURI(TripleGraphGrammar tgg) {
+		TGGProject project = (TGGProject) tgg.eContainer();
+		EPackage corrPackage = project.getCorrPackage();
+		
+		String corrPackageNsPrefix = corrPackage.getNsPrefix();
+		String nsURIstart = "platform:/plugin/" + corrPackageNsPrefix;
+		
+		
+		String corrPackageName = namespaceToName(tgg);
+		Metamodel corr = tgg.getDomain().stream()
+				.filter(d -> d.getType().equals(DomainType.CORRESPONDENCE))
+				.findAny().get().getMetamodel();
+		corr.setName(corrPackageName);
+		
+		String capitalizedCorrPackageName = StringUtils.capitalize(corrPackageName);
+		String nsURIend = capitalizedCorrPackageName + ".ecore";
+		String corrPackageNsURI = nsURIstart + "/model/" + nsURIend;
+		corrPackage.setNsURI(corrPackageNsURI);
+		
+		EPackage rulesPackage = corrPackage.getESubpackages().get(0);
+		rulesPackage.setNsURI(corrPackageNsURI + "#//Rules");
+		
+	}
+
+	private String namespaceToName(TripleGraphGrammar tgg) {
+		int index = tgg.getName().lastIndexOf(".");
+		if(index < 0) {
+			return tgg.getName();
+		}
+		else {
+			return tgg.getName().substring(index+1);
 		}
 	}
 

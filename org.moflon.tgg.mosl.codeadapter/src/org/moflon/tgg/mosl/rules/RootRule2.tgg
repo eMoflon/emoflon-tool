@@ -1,0 +1,62 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule RootRule2 #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++schema:Schema
+	++tggFile:TripleGraphGrammarFile {
+		++  - schema->schema
+	}
+}
+
+#target {
+	++domainTarget:Domain {
+		name := "Target"
+		type := enum::DomainType::TARGET
+		++  - metamodel->metamodelTarget
+	}
+	++corrPackage:EPackage {
+		++  - eSubpackages->rulesPackage
+	}
+	++rulesPackage:EPackage {
+		name := "Rules"
+		nsPrefix := "Rules"
+	}
+	++domainSource:Domain {
+		name := "Source"
+		type := enum::DomainType::SOURCE
+		++  - metamodel->metamodelSource
+	}
+	++metamodelTarget:Metamodel
+	++project:TGGProject {
+		++  - corrPackage->corrPackage
+		++  - tgg->tggModel
+	} 
+	++tggModel:TripleGraphGrammar {
+		++  - metamodel->metamodelSource
+		++  - metamodel->metamodelTarget
+		++  - metamodel->metamodelCorrespondence
+		++  - domain->domainSource
+		++  - domain->domainTarget
+		++  - domain->domainCorrespondence
+	}
+	++domainCorrespondence:Domain {
+		name := "Correspondence"
+		type := enum::DomainType::CORRESPONDENCE
+		++  - metamodel->metamodelCorrespondence
+	}
+	++metamodelCorrespondence:Metamodel
+	++metamodelSource:Metamodel
+}
+
+#correspondence {
+	++  tggFileToTgg :TripleGraphGrammarFileToTripleGraphGrammar {
+		#src->tggFile
+		#trg->tggModel
+	}
+}
+
+#attributeConditions {
+	eq(schema.name, tggModel.name)
+	eq(corrPackage.nsPrefix, schema.name)
+}

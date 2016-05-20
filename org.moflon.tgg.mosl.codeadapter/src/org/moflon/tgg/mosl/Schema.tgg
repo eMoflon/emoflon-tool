@@ -97,16 +97,6 @@
 		#sync: BB, BF, FB
 		#gen:
 	}
-
-	#userDefined CapitalizeString(0:EString, 1:EString) {
-		#sync: BF, BB
-		#gen:
-	}
-
-	#userDefined NamespaceToName(1:EString, 0:EString) {
-		#sync: BF, BB
-		#gen:
-	}
 	
 	#userDefined isReallyEnum(0:EString){
 		#sync: B, F
