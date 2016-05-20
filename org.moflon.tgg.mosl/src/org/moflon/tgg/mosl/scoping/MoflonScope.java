@@ -9,12 +9,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.SimpleScope;
-import org.eclipse.xtext.util.SimpleAttributeResolver;
 
 import com.google.common.collect.Iterables;
 import com.google.inject.Provider;
@@ -22,7 +21,7 @@ import com.google.inject.Provider;
 public class MoflonScope extends SimpleScope {
 
 	public MoflonScope(List<EObject> objects) {
-		super(IScope.NULLSCOPE, Scopes.scopedElementsFor(accountForSubPackages(objects), QualifiedName.wrapper(SimpleAttributeResolver.NAME_RESOLVER)));
+		super(IScope.NULLSCOPE, Scopes.scopedElementsFor(accountForSubPackages(objects), new DefaultDeclarativeQualifiedNameProvider()));
 	}
 
 	private static Collection<EObject> accountForSubPackages(List<EObject> objects) {		
