@@ -339,16 +339,12 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	}
 	
 	def allTypes(List<EPackage> types, Schema schema) {
-		val set = schema.eResource.resourceSet
-		val resources = schema.imports.map[u | set.getResource(URI.createURI(u.name), true)]
-		val packages = resources.map[r | r.contents.get(0) as EPackage]
-				
 		val allPackages = new ArrayList
-		allPackages.addAll(packages.filter[p | !p.nsURI.equals(schema.sourceTypes.get(0).nsURI) && !p.nsURI.equals(schema.targetTypes.get(0).nsURI)])
 		allPackages.addAll(types)
-		allPackages.addAll(allPackages.map[p | EcoreUtil2.getAllContentsOfType(p, EPackage)].flatten)		
+		allPackages.addAll(types.map[p | EcoreUtil2.getAllContentsOfType(p, EPackage)].flatten)		
 		
 		val elements = allPackages.map[EPackage p | EcoreUtil2.getAllContentsOfType(p, EClassifier)].flatten
+		
 		new SimpleScope(
 			Scopes.scopeFor(elements), 
 			Scopes.scopedElementsFor(elements, new DefaultDeclarativeQualifiedNameProvider)
