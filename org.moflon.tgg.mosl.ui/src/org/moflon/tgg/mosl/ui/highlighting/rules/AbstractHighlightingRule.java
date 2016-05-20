@@ -54,9 +54,9 @@ public abstract class AbstractHighlightingRule <M extends EObject>{
 	public void provideHighlightingFor(EObject rootObject, IHighlightedPositionAcceptor acceptor) {
 		this.acceptor = acceptor;
 		for(M moslObject: EcoreUtil2.getAllContentsOfType(rootObject, getNodeClass())){
-			for(INode node : NodeModelUtils.findNodesForFeature(moslObject, getLiteral())){	
+			INode node = NodeModelUtils.findActualNodeFor(moslObject);
 				provideHighlightingFor(moslObject, node);				
-			}
+			
 		}
 
 	}

@@ -12,7 +12,7 @@ public class CreationOperatorPatternHighlightRule extends AbstractOperatorPatter
 
 	@Override
 	protected boolean getOperatorCondition(Operator op) {
-		return op.getValue().contains("++");
+		return op!= null && op.getValue() != null && op.getValue().contains("++");
 	}
 
 	@Override

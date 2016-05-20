@@ -3,6 +3,7 @@ package org.moflon.tgg.mosl.ui.highlighting.rules;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.SWT;
 import org.eclipse.xtext.ui.editor.utils.TextStyle;
 import org.moflon.tgg.mosl.tgg.CorrVariablePattern;
 import org.moflon.tgg.mosl.tgg.NamePattern;
@@ -68,7 +69,8 @@ public class RefinedVariablePatternHighlightingRule extends AbstractNamePatternH
 	@Override
 	protected TextStyle getTextStyle() {
 	      TextStyle ts = new TextStyle();
-	      ts.setColor(MOSLColor.LIGHT_BLUE.getColor());
+	      ts.setColor(MOSLColor.BLACK.getColor());
+	      ts.setStyle(SWT.BOLD);
 	      return ts;
 	}
 

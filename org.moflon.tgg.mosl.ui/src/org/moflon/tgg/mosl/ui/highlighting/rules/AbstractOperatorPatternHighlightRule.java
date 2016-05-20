@@ -3,7 +3,6 @@ package org.moflon.tgg.mosl.ui.highlighting.rules;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.nodemodel.INode;
 import org.moflon.tgg.mosl.tgg.TggPackage;
-import org.moflon.tgg.mosl.tgg.NamePattern;
 import org.moflon.tgg.mosl.tgg.Operator;
 import org.moflon.tgg.mosl.tgg.OperatorPattern;
 
@@ -31,15 +30,10 @@ public abstract class AbstractOperatorPatternHighlightRule extends AbstractHighl
 	@Override
 	protected void provideHighlightingFor(OperatorPattern moslObject, INode node) {
 		Operator operator = moslObject.getOp();
-		if(operator!= null && operator.getValue() != null && getOperatorCondition(operator)){
-			//if(moslObject instanceof NamePattern)
+		if(getOperatorCondition(operator)){
 			setHighlighting(moslObject);
 		}
-			
 	}
 	
-//	private INode findNodeForText(INode current, String text){
-//		
-//	}
 
 }

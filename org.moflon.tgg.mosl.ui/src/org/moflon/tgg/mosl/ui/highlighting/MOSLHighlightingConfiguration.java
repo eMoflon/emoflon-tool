@@ -27,10 +27,18 @@ public class MOSLHighlightingConfiguration extends DefaultHighlightingConfigurat
       return ts;
    }
    
-   public TextStyle refinedTextStyle(){
-	      TextStyle ts = defaultTextStyle().copy();
-	      ts.setColor(MOSLColor.LIGHT_BLUE.getColor());
-	      return ts;
-}
+   @Override
+   public TextStyle commentTextStyle(){
+	   TextStyle ts = super.commentTextStyle();
+	   ts.setColor(MOSLColor.GRAY.getColor());
+	   return ts;
+   }
+   
+   @Override
+	public TextStyle stringTextStyle() {
+		TextStyle textStyle = super.stringTextStyle();
+		textStyle.setColor(MOSLColor.LIGHT_BLUE.getColor());
+		return textStyle;
+	}
 
 }
