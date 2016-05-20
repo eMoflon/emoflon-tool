@@ -1,16 +1,17 @@
 
-// Use the platform:/resource if you've changed TGG.ecore and you want to use the version in the workspace
-// For deployment, however, switch back to the default URI so scope resolution works (especially in the backwards direction)
+// Switch to http before trying the backward transformation
 //#import "http://www.moflon.org/ide/tgg/mosl/TGG"
+
 #import "platform:/resource/org.moflon.tgg.mosl/model/generated/TGG.ecore"
 
 #import "platform:/plugin/org.moflon.tgg.tggproject/model/Tggproject.ecore"
-#import "http://www.eclipse.org/emf/2002/Ecore"
 #import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
 #import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions"
 #import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns"
-#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
 #import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
+
+#import "http://www.eclipse.org/emf/2002/Ecore"
 
 #schema org.moflon.tgg.mosl.codeadapter
 
@@ -20,6 +21,12 @@
 
 #target {
 	tggproject
+	language
+	SDMLanguage.expressions
+	SDMLanguage.patterns
+	SDMLanguage.patterns.patternExpressions
+	language.csp
+	ecore
 }
 
 #correspondence {
