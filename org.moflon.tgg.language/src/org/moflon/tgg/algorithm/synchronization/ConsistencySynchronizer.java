@@ -15,6 +15,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.tgg.algorithm.ccutils.AbstractSATSolver;
+import org.moflon.tgg.algorithm.ccutils.Sat4JSolver;
 import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.SynchronizationProtocol;
@@ -31,6 +33,7 @@ import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.runtime.IsApplicableRuleResult;
 import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.RuntimeFactory;
+import org.sat4j.specs.ContradictionException;
 
 /**
  * A specialization of {@link Synchronizer} for consistency checks.
@@ -45,8 +48,7 @@ public class ConsistencySynchronizer extends Synchronizer {
 
     protected Graph srcElements;
     protected Graph trgElements;
-
-	
+    
 	public ConsistencySynchronizer(CorrespondenceModel graphTriple, Delta srcDelta, Delta trgDelta, SynchronizationProtocol protocol,
 			Configurator configurator, StaticAnalysis rules, TempOutputContainer tempOutputContainer) {
 		super(graphTriple, new Delta(), protocol, configurator, rules, tempOutputContainer);
@@ -85,12 +87,74 @@ public class ConsistencySynchronizer extends Synchronizer {
 						CCMatch ccMatch = (CCMatch) m;
 						ccMatches.add(ccMatch);
 						ccMatch.getCreateCorr().forEach(corr -> graphTriple.getCorrespondences().add(corr));
+						addToProtocol(ccMatch);
 					});
 				}
 			}
 			pairs.removeAll(appliedInLastRun);
 			
 		} while(!appliedInLastRun.isEmpty());
+		filter();
+	}
+
+	private void filter() {
+		
+		HashSet<int[]> clauses = new HashSet<>();
+		
+		HashMap<Integer, TripleMatch> variableToMatch = new HashMap<>();
+		HashMap<TripleMatch, Integer> matchToVariable = new HashMap<>();
+		
+		int tempV = 1;
+		for(TripleMatch m : protocol.getMatches()){
+			variableToMatch.put(tempV, m);
+			matchToVariable.put(m, tempV);
+			tempV++;
+		}
+		
+		clauses.addAll(getclausesForAlternatives(srcElements, matchToVariable));
+		clauses.addAll(getclausesForAlternatives(trgElements, matchToVariable));
+		
+		int[][] satProblem = new int[clauses.size()][];
+		int i = 0;
+		for(int[] clause : clauses){
+			satProblem[i] = clause;
+			i++;
+		}
+		ContradictionException ed;
+		AbstractSATSolver solver = new Sat4JSolver();
+		for(int value : solver.solve(satProblem)){
+			if(value < 0){
+				TripleMatch excludedMatch = variableToMatch.get(-value);
+				excludedMatch.getCreatedCorrElts().getElements().forEach(e -> graphTriple.getCorrespondences().remove(e));
+			}
+		}
+		
+	}
+	
+	private HashSet<int[]> getclausesForAlternatives(Graph graph, HashMap<TripleMatch, Integer> matchToVariable){
+		HashSet<int[]> clauses = new HashSet<>();
+		for(EObject srcElement : graph.getElements()){
+			Collection<Integer> variables = protocol.creates(srcElement).map(m -> matchToVariable.get(m)).collect(Collectors.toSet());
+			
+		    // get a clause like (a V b V c V d ...)
+			int[] all = new int[variables.size()];
+			int vIndex = 0;
+			for(int var : variables){
+				all[vIndex] = var;
+				vIndex++;
+			}
+			clauses.add(all);
+			//get clauses like (-a V -b), (-a V -c), (-b V -c)....
+			for(int i = 0; i < all.length; i++){
+				for(int j = i+1; j < all.length; j++){
+					int[] clause = new int[2];
+					clause[0] = -(all[i]);
+					clause[1] = -(all[j]);
+					clauses.add(clause);
+				}
+			}
+		}
+		return clauses;
 	}
 
 	private HashSet<RulePair> extractMatchPairs() {
@@ -122,7 +186,7 @@ public class ConsistencySynchronizer extends Synchronizer {
 			emptyMatch.setRuleName(n);
 			if(isIgnored(n, srcLookupMethods))
 				ruleToSrcMap.get(n).add(emptyMatch);
-			if(isIgnored(n, trgLookupMethods))
+			else if(isIgnored(n, trgLookupMethods))
 				ruleToTrgMap.get(n).add(emptyMatch);
 		});
 		
@@ -168,6 +232,67 @@ public class ConsistencySynchronizer extends Synchronizer {
 					.createResource(eMoflonEMFUtil.createFileURI("targetModel", false)).getContents().add(target);
 		} else
 			graphTriple.setTarget(tempOutputContainer);
+	}
+	
+	private void addToProtocol(CCMatch ccMatch) {
+		protocol.collectPrecedences(createTripleMatch(ccMatch));
+	}
+
+	private TripleMatch createTripleMatch(CCMatch ccMatch) {
+
+		Collection<EObject> sourceContext = new HashSet<>();
+		sourceContext.addAll(ccMatch.getSourceMatch().getContextNodes());
+		sourceContext.addAll(ccMatch.getSourceMatch().getContextEdges());
+		
+		Collection<EObject> sourceCreated = new HashSet<>();
+		sourceCreated.addAll(ccMatch.getSourceMatch().getToBeTranslatedNodes());
+		sourceCreated.addAll(ccMatch.getSourceMatch().getToBeTranslatedEdges());
+		
+		Collection<EObject> targetContext = new HashSet<>();
+		targetContext.addAll(ccMatch.getTargetMatch().getContextNodes());
+		targetContext.addAll(ccMatch.getTargetMatch().getContextEdges());
+		
+		Collection<EObject> targetCreated = new HashSet<>();
+		targetCreated.addAll(ccMatch.getTargetMatch().getToBeTranslatedNodes());
+		targetCreated.addAll(ccMatch.getTargetMatch().getToBeTranslatedEdges());
+		
+		Collection<EObject> corrContext = new HashSet<>();
+		corrContext.addAll(ccMatch.getAllContextElements());
+		corrContext.removeAll(sourceContext);
+		corrContext.removeAll(targetContext);
+		
+		Collection<EObject> corrCreated = new HashSet<>();
+		corrCreated.addAll(ccMatch.getCreateCorr());
+		
+		Collection<EObject> source = new HashSet<>();
+		source.addAll(sourceContext);
+		source.addAll(sourceCreated);
+		
+		Collection<EObject> target = new HashSet<>();
+		target.addAll(targetContext);
+		target.addAll(targetCreated);
+		
+		Collection<EObject> corr = new HashSet<>();
+		corr.addAll(corrContext);
+		corr.addAll(corrCreated);
+		
+		Collection<EObject> created = new HashSet<>();
+		created.addAll(sourceCreated);
+		created.addAll(targetCreated);
+		created.addAll(corrCreated);
+		
+		Collection<EObject> context = new HashSet<>();
+		context.addAll(sourceContext);
+		context.addAll(targetContext);
+		context.addAll(corrContext);
+		
+		Map<String, EObject> nodeMapping = new HashMap<>();
+		nodeMapping.putAll(ccMatch.getSourceMatch().getNodeMappings());
+		nodeMapping.putAll(ccMatch.getTargetMatch().getNodeMappings());
+		
+		String ruleName = ccMatch.getRuleName();
+		
+		return new TripleMatch(ruleName, new Graph(source), new Graph(target), new Graph(corr), new Graph(created), new Graph(context), nodeMapping);
 	}
 
 	@Override

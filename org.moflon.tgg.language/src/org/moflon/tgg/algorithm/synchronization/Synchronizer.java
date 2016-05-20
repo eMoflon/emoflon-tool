@@ -49,7 +49,7 @@ import org.moflon.tgg.runtime.PerformRuleResult;
  */
 public abstract class Synchronizer
 {
-   private SynchronizationProtocol protocol;
+   protected SynchronizationProtocol protocol;
 
    private Configurator configurator;
 

@@ -35,6 +35,8 @@ public class TripleMatch
    private Graph createdCorrAndTrg;
 
    private Graph createdCorrAndSrc;
+   
+   private Graph createdCorr;
 
    private Map<String, EObject> nodeMappings;
 
@@ -51,6 +53,7 @@ public class TripleMatch
       this.corr = corr;
       this.createdSrc = source.remove(context);
       this.createdTrg = target.remove(context);
+      this.createdCorr = corr.remove(context);
       this.createdCorrAndSrc = corr.add(source).removeDestructive(context);
       this.createdCorrAndTrg = corr.add(target).removeDestructive(context);
    }
@@ -98,6 +101,10 @@ public class TripleMatch
    public Graph getCreatedTrgElts()
    {
       return createdTrg;
+   }
+   
+   public Graph getCreatedCorrElts(){
+	   return createdCorr;
    }
 
    public Graph getCreatedCorrAndTrgElts()

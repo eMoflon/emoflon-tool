@@ -79,7 +79,12 @@ Export-Package: .,
  util
 Bundle-Name: TGGLanguage (MOFLON)
 Bundle-Version: 2.0.0.qualifier
-Bundle-ClassPath: .,lib/democles.jar,lib/javabdd-1.0b2.jar,lib/RTED_v1
- .1.jar
+Bundle-ClassPath: .,
+ lib/democles.jar,
+ lib/javabdd-1.0b2.jar,
+ lib/RTED_v1.1.jar,
+ lib/com.microsoft.z3.jar,
+ lib/org.sat4j.core.jar,
+ lib/smtinterpol.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.TGGLanguageActivator
