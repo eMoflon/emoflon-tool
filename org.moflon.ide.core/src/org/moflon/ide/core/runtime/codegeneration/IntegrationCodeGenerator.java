@@ -152,7 +152,12 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          monitor.worked(5);
 
          final MonitoredMetamodelLoader metamodelLoader = new MonitoredMetamodelLoader(set, RepositoryCodeGenerator.getEcoreFile(project), moflonProperties);
-         metamodelLoader.run(WorkspaceHelper.createSubMonitor(monitor, 10));
+         try {
+        	 metamodelLoader.run(WorkspaceHelper.createSubMonitor(monitor, 10));
+         } catch(Exception e){
+        	 logger.error("Unable to load " + RepositoryCodeGenerator.getEcoreFile(project));
+        	 return;
+         }
 
          // Make sure all dependencies are really loaded in the resource set.
          // This might be necessary as the tgg might depend on more than the correspondence metamodel does!
