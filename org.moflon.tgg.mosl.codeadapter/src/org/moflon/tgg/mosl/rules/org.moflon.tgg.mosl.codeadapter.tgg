@@ -19,6 +19,7 @@
 }
 
 #attributeConditions {
+	isNotEnum(tggLiteralExpression.value)
 	MoslToTggLiteral (literalExpression.value, tggLiteralExpression.value)
 }
 
@@ -2166,6 +2167,7 @@
 }
 
 #attributeConditions {
+	isNotEnum(tggLiteral.value)
 	eq (literal.value, tggLiteral.value)
 }
 
