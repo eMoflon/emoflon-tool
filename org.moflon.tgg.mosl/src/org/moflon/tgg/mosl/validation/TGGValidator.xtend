@@ -17,6 +17,8 @@ import org.moflon.tgg.mosl.tgg.NamedElements
 import java.util.Map
 import org.eclipse.emf.ecore.EObject
 import java.util.HashMap
+import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile
+import org.eclipse.xtext.EcoreUtil2
 
 /**
  * This class contains custom validation rules. 
@@ -30,6 +32,8 @@ class TGGValidator extends AbstractTGGValidator {
   public static val NOT_UNIQUE_NAME = 'notUniqueName'
   public static val TYPE_IS_ABSTRACT = 'typeIsAbstract'
   public static val RULE_REFINEMENT_CREATES_A_CYCLE = 'RuleRefinementCreatesACycle'
+
+
 
 	@Check
 	def checkAdornmentValue(Adornment adornment){
@@ -58,47 +62,59 @@ class TGGValidator extends AbstractTGGValidator {
 			attrNames.add(attr.name)
 		}
 		if (!attrNames.contains(attrVar.attribute)) {
-			error("EClass " + attrVar.objectVar.type.name + " does not contain EAttribute " + attrVar.attribute + ".", TggPackage.Literals.ATTRIBUTE_EXPRESSION__ATTRIBUTE, TGGValidator.INVALID_ATTRIBUTE_VARIABLE);
+			error("EClass " + attrVar.objectVar.type.name + " does not contain EAttribute " + attrVar.attribute + ".", TggPackage.Literals.ATTRIBUTE_VARIABLE__ATTRIBUTE, TGGValidator.INVALID_ATTRIBUTE_VARIABLE);
 		}
 	}
 	
 	Map<String, Map<EObject, Map<Class<? extends EObject>, EObject>>> names = new HashMap<String, Map<EObject, Map<Class<? extends EObject>, EObject>>>();
 	
 	
-	//FIXME Sascha: This does not work -- please test some more!
 	@Check
+	def checkForUniqueNames(TripleGraphGrammarFile tggFile){
+		names.clear();
+		for(NamedElements ne : EcoreUtil2.getAllContentsOfType(tggFile, NamedElements)){
+			checkForUniqueNames(ne);
+		}
+		
+	}
+	
+	//FIXME Sascha: This does not work -- please test some more!
 	def checkForUniqueNames(NamedElements ne){
-//		if(names.containsKey(ne.name)){
-//			var containers = names.get(ne.name);
-//			if(containers.containsKey(ne.eContainer)){
-//				var classes = containers.get(ne.eContainer);
-//				
-//				if(classes.containsKey(ne.class)){
-//					var object = classes.get(ne.class);
-//					if(!object.equals(ne)){
-//						error("Names must be unique. The Name '" + ne.name + "' already used", TggPackage.Literals.NAMED_ELEMENTS__NAME, TGGValidator.NOT_UNIQUE_NAME);
-//					}				
-//				}
-//				else{
-//					classes.put(ne.class, ne);
-//					containers.put(ne.eContainer, classes);
-//					names.put(ne.name, containers);
-//				}
-//			}
-//			else{
-//				var classes = new HashMap<Class<? extends EObject>, EObject>();
-//				classes.put(ne.class,ne);
-//				containers.put(ne.eContainer, classes);
-//				names.put(ne.name, containers);
-//			}			
-//		}
-//		else{
-//			var classes = new HashMap<Class<? extends EObject>, EObject>();
-//			classes.put(ne.class,ne);			
-//			var containers = new HashMap<EObject, Map<Class<? extends EObject>, EObject>>();
-//			containers.put(ne.eContainer, classes);
-//			names.put(ne.name, containers);
-//		}
+		if(names.containsKey(ne.name)){
+			var containers = names.get(ne.name);
+			if(containers.containsKey(ne.eContainer)){
+				var classes = containers.get(ne.eContainer);
+				
+				if(classes.containsKey(ne.class)){
+					var object = classes.get(ne.class);
+					if(!object.equals(ne)){
+						error("Names must be unique. The Name '" + ne.name + "' already used", ne,  TggPackage.Literals.NAMED_ELEMENTS__NAME, TGGValidator.NOT_UNIQUE_NAME);
+						error("Names must be unique. The Name '" + ne.name + "' already used", object,  TggPackage.Literals.NAMED_ELEMENTS__NAME, TGGValidator.NOT_UNIQUE_NAME);
+//						classes.remove(ne.class);
+//						containers.put(ne.eContainer, classes);
+//						names.put(ne.name, containers)
+					}				
+				}
+				else{
+					classes.put(ne.class, ne);
+					containers.put(ne.eContainer, classes);
+					names.put(ne.name, containers);
+				}
+			}
+			else{
+				var classes = new HashMap<Class<? extends EObject>, EObject>();
+				classes.put(ne.class,ne);
+				containers.put(ne.eContainer, classes);
+				names.put(ne.name, containers);
+			}			
+		}
+		else{
+			var classes = new HashMap<Class<? extends EObject>, EObject>();
+			classes.put(ne.class,ne);			
+			var containers = new HashMap<EObject, Map<Class<? extends EObject>, EObject>>();
+			containers.put(ne.eContainer, classes);
+			names.put(ne.name, containers);
+		}
 	}
 	
 	@Check
