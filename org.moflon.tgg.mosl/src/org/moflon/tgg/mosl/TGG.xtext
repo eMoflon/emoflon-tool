@@ -93,6 +93,8 @@ Rule:
 	'}')? 
 ;
 
+//FIXME:  This is ugly as it is important to order the paramvalues.  
+// 	      Would be much better to have a next edge between Paramvalues and handle this in the TGG.
 AttrCond:
 	name = [AttrCondDef] '(' (values += ParamValue (',' values += ParamValue)*)? ')'
 ;
