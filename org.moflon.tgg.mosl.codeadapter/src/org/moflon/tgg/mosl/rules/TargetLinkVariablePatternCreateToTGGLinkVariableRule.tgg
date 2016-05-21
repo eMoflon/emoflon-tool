@@ -1,0 +1,52 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule TargetLinkVariablePatternCreateToTGGLinkVariableRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	rule : Rule {
+		- targetPatterns->objectVariablePatternTargetSrc
+	}
+	objectVariablePatternTargetSrc : ObjectVariablePattern {
+		++   - linkVariablePatterns->linkVariablePatternTarget
+	}
+	++ linkVariablePatternTarget : LinkVariablePattern {
+		++   - op->operator
+	}
+	++ operator : Operator {
+		value := "++"
+	}
+}
+
+#target {
+	tggRule : TGGRule {
+		++   - linkVariable->tggLinkVariableTarget
+		- target->domain
+		- objectVariable->tggObjectVariableTargetSrc
+	}
+	domain : Domain {
+		type == DomainType::TARGET
+	}
+	tggObjectVariableTargetSrc : TGGObjectVariable {
+		++   - outgoingLink->tggLinkVariableTarget
+		- domain->domain
+	}
+	++ tggLinkVariableTarget : TGGLinkVariable {
+		bindingOperator := BindingOperator::CREATE
+		++   - domain->domain
+	}
+}
+
+#correspondence {
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+	++   linkVariablePatternTargetToTggLinkVariableTarget : LinkVariablePatternToTGGLinkVariable {
+		#src->linkVariablePatternTarget
+		#trg->tggLinkVariableTarget
+	}
+	objectVariablePatternTargetSrcToTggObjectVariableTargetSrc : ObjectVariablePatternToTGGObjectVariable {
+		#src->objectVariablePatternTargetSrc
+		#trg->tggObjectVariableTargetSrc
+	}
+}

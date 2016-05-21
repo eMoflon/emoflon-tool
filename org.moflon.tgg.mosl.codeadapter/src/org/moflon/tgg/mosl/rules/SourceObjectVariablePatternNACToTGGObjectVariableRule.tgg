@@ -1,0 +1,46 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule SourceObjectVariablePatternNACToTGGObjectVariableRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ objectVariablePatternSource : ObjectVariablePattern {
+		++   - op->operator
+	}
+	++ operator : Operator {
+		value := "!"
+	}
+	rule : Rule {
+		++   - sourcePatterns->objectVariablePatternSource
+	}
+}
+
+#target {
+	++ tggObjectVariableSource : TGGObjectVariable {
+		bindingSemantics := BindingSemantics::NEGATIVE
+		bindingOperator := BindingOperator::CHECK_ONLY
+		++   - domain->domainSource
+	}
+	domainSource : Domain {
+		name == "Source"
+		type == DomainType::SOURCE
+	}
+	tggRule : TGGRule {
+		- source->domainSource
+		++   - objectVariable->tggObjectVariableSource
+	}
+}
+
+#correspondence {
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+	++   objectVariablePatternSourceToTggObjectVariableSource : ObjectVariablePatternToTGGObjectVariable {
+		#src->objectVariablePatternSource
+		#trg->tggObjectVariableSource
+	}
+}
+
+#attributeConditions {
+	eq (objectVariablePatternSource.name, tggObjectVariableSource.name)
+}

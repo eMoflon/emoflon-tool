@@ -1,0 +1,28 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttrCondCheckToTGGConstraintRule_ComplementGenAdornments #complements AttrCondCheckToTGGConstraintRule#with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	adornment : Adornment
+	attrCondDef : AttrCondDef {
+		- allowedGenAdornments->adornment
+	}
+}
+
+#target {
+	++  tggConstraint : TGGConstraint {
+		++   - modelgenAdornments->tggAdornment
+	}
+	++  tggAdornment : Adornment
+}
+
+#correspondence {
+	++   adornmentToTggAdornment : AdornmentToAdornment {
+		#src->adornment
+		#trg->tggAdornment
+	}
+}
+
+#attributeConditions {
+	eq (adornment.value, tggAdornment.value)
+}

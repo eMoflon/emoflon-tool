@@ -1,5 +1,7 @@
 package org.moflon.tie;
 
+import java.util.Collection;
+
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -9,12 +11,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.language.Domain;
 import org.moflon.tgg.language.DomainType;
 import org.moflon.tgg.language.Metamodel;
 import org.moflon.tgg.language.TGGLinkVariable;
 import org.moflon.tgg.language.TGGObjectVariable;
 import org.moflon.tgg.language.TripleGraphGrammar;
+import org.moflon.tgg.language.csp.TGGConstraint;
+import org.moflon.tgg.language.csp.Variable;
+import org.moflon.tgg.mosl.codeadapter.AttrCondToTGGConstraint;
 import org.moflon.tgg.mosl.codeadapter.AttributeAssignmentToAttributeAssignment;
 import org.moflon.tgg.mosl.codeadapter.AttributeConstraintToConstraint;
 import org.moflon.tgg.mosl.codeadapter.CorrTypeToEClass;
@@ -23,10 +29,13 @@ import org.moflon.tgg.mosl.codeadapter.EnumExpressionToLiteralExpression;
 import org.moflon.tgg.mosl.codeadapter.ExpressionToExpression;
 import org.moflon.tgg.mosl.codeadapter.LinkVariablePatternToTGGLinkVariable;
 import org.moflon.tgg.mosl.codeadapter.ObjectVariablePatternToTGGObjectVariable;
+import org.moflon.tgg.mosl.codeadapter.ParamValueToVariable;
 import org.moflon.tgg.mosl.codeadapter.TripleGraphGrammarFileToTripleGraphGrammar;
+import org.moflon.tgg.mosl.tgg.AttrCond;
 import org.moflon.tgg.mosl.tgg.AttributeExpression;
 import org.moflon.tgg.mosl.tgg.CorrType;
 import org.moflon.tgg.mosl.tgg.EnumExpression;
+import org.moflon.tgg.mosl.tgg.ParamValue;
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.runtime.RuntimePackage;
@@ -73,7 +82,30 @@ public class CodeadapterPostProcessForwardHelper {
 
 				if (corr instanceof EnumExpressionToLiteralExpression)
 					postProcessForward_TGGEnumExpression((EnumExpressionToLiteralExpression) corr);
+				
+				if(corr instanceof ParamValueToVariable)
+					postProcessForward_Variable((ParamValueToVariable) corr);
 			}
+		}
+	}
+
+	private void postProcessForward_Variable(ParamValueToVariable corr) {
+		ParamValue pvalue = corr.getSource();
+		Variable variable = corr.getTarget();
+		
+		// Enforce order of variables of constraint using order from attrCond
+		AttrCond attributeCond = (AttrCond) pvalue.eContainer();
+		int indexOfPValue = attributeCond.getValues().indexOf(pvalue);
+		
+		Collection<AttrCondToTGGConstraint> corrs = eMoflonEMFUtil.getOppositeReferenceTyped(attributeCond, AttrCondToTGGConstraint.class, "source");
+		if(corrs.size() != 1)
+			return;  // Don't know what to do here
+		
+		TGGConstraint tggConstraint = corrs.iterator().next().getTarget();
+		int indexOfConstraint = tggConstraint.getVariables().indexOf(variable);
+		
+		if(indexOfPValue != indexOfConstraint){
+			tggConstraint.getVariables().move(indexOfPValue, variable);
 		}
 	}
 
@@ -191,6 +223,8 @@ public class CodeadapterPostProcessForwardHelper {
 		
 		
 		String corrPackageName = namespaceToName(tgg);
+		corrPackage.setName(corrPackageName);
+		
 		Metamodel corr = tgg.getDomain().stream()
 				.filter(d -> d.getType().equals(DomainType.CORRESPONDENCE))
 				.findAny().get().getMetamodel();

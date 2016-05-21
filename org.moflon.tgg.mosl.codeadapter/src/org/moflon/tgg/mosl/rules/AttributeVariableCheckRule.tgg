@@ -1,0 +1,59 @@
+
+
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttributeVariableCheckRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	attrCond : AttrCond {
+		++   - values->attributeVariable
+	}
+	objectVariablePattern : ObjectVariablePattern
+	rule : Rule {
+		- sourcePatterns->objectVariablePattern
+		- attrConditions->attrCond
+	}
+	++ attributeVariable : AttributeVariable {
+		++   - objectVar->objectVariablePattern
+	}
+}
+
+#target {
+	tggConstraint : TGGConstraint {
+		++   - variables->tggAttributeVariable
+	}
+	tggRule : TGGRule {
+		- objectVariable->tggObjectVariable
+		- csp->tggCSP
+	}
+	tggObjectVariable : TGGObjectVariable
+	tggCSP : CSP {
+		- constraints->tggConstraint
+		- variables->tggAttributeVariable
+	}
+	tggAttributeVariable : AttributeVariable
+}
+
+#correspondence {
+	++   attributeVariableToTggAttributeVariable : ParamValueToVariable {
+		#src->attributeVariable
+		#trg->tggAttributeVariable
+	}
+	attrCondToTggConstraint : AttrCondToTGGConstraint {
+		#src->attrCond
+		#trg->tggConstraint
+	}
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+	objectVariablePatternToTggObjectVariable : ObjectVariablePatternToTGGObjectVariable {
+		#src->objectVariablePattern
+		#trg->tggObjectVariable
+	}
+}
+
+#attributeConditions {
+	eq (attributeVariable.attribute, tggAttributeVariable.attribute)
+	eq (tggObjectVariable.name, tggAttributeVariable.objectVariable)
+}

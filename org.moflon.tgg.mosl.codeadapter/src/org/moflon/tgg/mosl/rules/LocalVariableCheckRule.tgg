@@ -1,0 +1,47 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule LocalVariableCheckRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	rule : Rule {
+		- attrConditions->attrCond
+	}
+	++ localVariable : LocalVariable
+	attrCond : AttrCond {
+		++   - values->localVariable
+	}
+}
+
+#target {
+	tggLocalVariable : LocalVariable
+	tggCSP : CSP {
+		- constraints->tggConstraint
+		- variables->tggLocalVariable
+	}
+	tggConstraint : TGGConstraint {
+		++   - variables->tggLocalVariable
+	}
+	tggRule : TGGRule {
+		- csp->tggCSP
+	}
+}
+
+#correspondence {
+	attrCondToTggConstraint : AttrCondToTGGConstraint {
+		#src->attrCond
+		#trg->tggConstraint
+	}
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+	++   localVariableToTggLocalVariable : ParamValueToVariable {
+		#src->localVariable
+		#trg->tggLocalVariable
+	}
+}
+
+#attributeConditions {
+	eq (localVariable.name, tggLocalVariable.name)
+}
+

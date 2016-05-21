@@ -1,0 +1,48 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule TargetLinkVariablePatternCheckToTGGLinkVariableRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ linkVariablePatternTarget : LinkVariablePattern
+	objectVariablePatternTargetSrc : ObjectVariablePattern {
+		++   - linkVariablePatterns->linkVariablePatternTarget
+	}
+	rule : Rule {
+		- targetPatterns->objectVariablePatternTargetSrc
+	}
+}
+
+#target {
+	++ tggLinkVariableTarget : TGGLinkVariable {
+		bindingOperator := BindingOperator::CHECK_ONLY
+		bindingSemantics := BindingSemantics::MANDATORY
+		++   - domain->domain
+	}
+	tggObjectVariableTargetSrc : TGGObjectVariable {
+		++   - outgoingLink->tggLinkVariableTarget
+		- domain->domain
+	}
+	domain : Domain {
+		type == DomainType::TARGET
+	}
+	tggRule : TGGRule {
+		- target->domain
+		++   - linkVariable->tggLinkVariableTarget
+		- objectVariable->tggObjectVariableTargetSrc
+	}
+}
+
+#correspondence {
+	objectVariablePatternTargetSrcToTggObjectVariableTargetSrc : ObjectVariablePatternToTGGObjectVariable {
+		#src->objectVariablePatternTargetSrc
+		#trg->tggObjectVariableTargetSrc
+	}
+	++   linkVariablePatternTargetToTggLinkVariableTarget : LinkVariablePatternToTGGLinkVariable {
+		#src->linkVariablePatternTarget
+		#trg->tggLinkVariableTarget
+	}
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+}

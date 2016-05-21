@@ -1,0 +1,71 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule XtextRuleToTGGRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ rule : Rule {
+		++   - schema->schema
+	}
+	tggFile : TripleGraphGrammarFile {
+		- schema->schema
+		++   - rules->rule
+	}
+	schema : Schema
+}
+
+#target {
+	tggModel : TripleGraphGrammar {
+		++   - tggRule->tggRule
+		- domain->domainSource
+		- domain->domainTarget
+		- domain->domainCorrespondence
+	}
+	project : TGGProject {
+		- tgg->tggModel
+		- corrPackage->corrPackage
+	}
+	corrPackage : EPackage {
+		- eSubpackages->rulesPackage
+	}
+	domainTarget : Domain {
+		name == "Target"
+		type == DomainType::TARGET
+	}
+	domainCorrespondence : Domain {
+		type == DomainType::CORRESPONDENCE
+		name == "Correspondence"
+	}
+	++ abstractRule : EClass
+	domainSource : Domain {
+		name == "Source"
+		type == DomainType::SOURCE
+	}
+	++ tggRule : TGGRule {
+		++   - correspondence->domainCorrespondence
+		++   - csp->tggCSP
+		++   - target->domainTarget
+		++   - source->domainSource
+	}
+	rulesPackage : EPackage {
+		name == "Rules"
+		++   - eClassifiers->abstractRule
+	}
+	++ tggCSP : CSP
+}
+
+#correspondence {
+	++   ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+	tggFileToTgg : TripleGraphGrammarFileToTripleGraphGrammar {
+		#src->tggFile
+		#trg->tggModel
+	}
+}
+
+#attributeConditions {
+	eq (abstractRule.name, tggRule.name)
+	eq (rule.abstractRule, tggRule.abstractRule)
+	eq (rule.name, tggRule.name)
+}

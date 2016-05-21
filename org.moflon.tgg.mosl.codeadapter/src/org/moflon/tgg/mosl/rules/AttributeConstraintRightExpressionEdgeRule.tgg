@@ -1,0 +1,32 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttributeConstraintRightExpressionEdgeRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	attributeConstraint : AttributeConstraint {
+		++   - valueExp->expression
+	}
+	expression : Expression
+}
+
+#target {
+	constraint : Constraint {
+		- constraintExpression->comparisonExpression
+	}
+	tggExpression : Expression
+	comparisonExpression : ComparisonExpression {
+		++   - rightExpression->tggExpression
+	}
+}
+
+#correspondence {
+	attributeConstraintToConstraint : AttributeConstraintToConstraint {
+		#src->attributeConstraint
+		#trg->constraint
+	}
+	expressionToTggExpression : ExpressionToExpression {
+		#src->expression
+		#trg->tggExpression
+	}
+}
+

@@ -1,0 +1,38 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule SyncAdornmentRule_ComplementOtherConstraintsWithinTheSameRule #complements SyncAdornmentRule#with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ adornment : Adornment
+}
+
+#target {
+	++ tggAdornment : Adornment
+	tggConstraint : TGGConstraint {
+		++   - allowedAdornments->tggAdornment
+	}
+	otherTGGConstraint : TGGConstraint {
+		++   - allowedAdornments->otherTGGAdornment
+	}
+	++ otherTGGAdornment : Adornment
+	_csp : CSP {
+		- constraints->tggConstraint
+		- constraints->otherTGGConstraint
+	}
+}
+
+#correspondence {
+	++   tggAdornmentToAdornment : AdornmentToAdornment {
+		#src->adornment
+		#trg->tggAdornment
+	}
+	++   adornmentToOtherTGGAdornment : AdornmentToAdornment {
+		#src->adornment
+		#trg->otherTGGAdornment
+	}
+}
+
+#attributeConditions {
+	eq (tggAdornment.value, otherTGGAdornment.value)
+	eq (tggConstraint.name, otherTGGConstraint.name)
+}

@@ -1,0 +1,40 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule CorrTypeDefToCorrespondenceRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ corrType : CorrType
+	tggFile : TripleGraphGrammarFile {
+		- schema->schema
+	}
+	schema : Schema {
+		++   - correspondenceTypes->corrType
+	}
+}
+
+#target {
+	project : TGGProject {
+		- tgg->tggModel
+		- corrPackage->corrPackage
+	}
+	tggModel : TripleGraphGrammar
+	corrPackage : EPackage {
+		++   - eClassifiers->correspondence
+	}
+	++ correspondence : EClass
+}
+
+#correspondence {
+	tggFileToTgg : TripleGraphGrammarFileToTripleGraphGrammar {
+		#src->tggFile
+		#trg->tggModel
+	}
+	++   corrTypeToCorrespondence : CorrTypeToEClass {
+		#src->corrType
+		#trg->correspondence
+	}
+}
+
+#attributeConditions {
+	eq (corrType.name, correspondence.name)
+}

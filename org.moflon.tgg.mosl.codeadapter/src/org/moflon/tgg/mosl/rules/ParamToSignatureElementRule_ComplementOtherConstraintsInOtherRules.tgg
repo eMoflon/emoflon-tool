@@ -1,0 +1,52 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule ParamToSignatureElementRule_ComplementOtherConstraintsInOtherRules #complements ParamToSignatureElementRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ param : Param
+}
+
+#target {
+	++ signatureElement : SignatureElement
+	_rule : TGGRule {
+		- csp->_csp
+	}
+	otherRule : TGGRule {
+		- csp->otherCSP
+	}
+	_csp : CSP {
+		- constraints->tggConstraint
+	}
+	otherTGGConstraint : TGGConstraint {
+		++   - signature->otherSignatureElement
+	}
+	++ otherSignatureElement : SignatureElement
+	tggConstraint : TGGConstraint {
+		++   - signature->signatureElement
+	}
+	tgg : TripleGraphGrammar {
+		- tggRule->_rule
+		- tggRule->otherRule
+	}
+	otherCSP : CSP {
+		- constraints->otherTGGConstraint
+	}
+}
+
+#correspondence {
+	++   paramToSignatureElement : ParamToSignatureElement {
+		#src->param
+		#trg->signatureElement
+	}
+	++   otherSignatureElementToParam : ParamToSignatureElement {
+		#src->param
+		#trg->otherSignatureElement
+	}
+}
+
+#attributeConditions {
+	eq (signatureElement.type, otherSignatureElement.type)
+	eq (signatureElement.index, otherSignatureElement.index)
+	eq (tggConstraint.name, otherTGGConstraint.name)
+}
+

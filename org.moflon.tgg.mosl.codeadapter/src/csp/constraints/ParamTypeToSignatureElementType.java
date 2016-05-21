@@ -12,7 +12,9 @@ public class ParamTypeToSignatureElementType extends TGGConstraintImpl {
     	
     	switch(bindingStates){
     	case "BB":
-    		if (paramType == null)
+    		if(paramType == null && sigEleType == null)
+    			setSatisfied(true);
+    		else if (paramType == null)
     			setSatisfied(sigEleType.equals(""));
             else
                 setSatisfied(paramType.equals(sigEleType));

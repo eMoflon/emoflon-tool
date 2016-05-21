@@ -1,0 +1,26 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttributeConstraintLessOrEqualRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ attributeConstraint : AttributeConstraint {
+		op := " <= "
+	}
+}
+
+#target {
+	++ comparisonExpression : ComparisonExpression {
+		operator := ComparingOperator::LESS_OR_EQUAL
+	}
+	++ constraint : Constraint {
+		++   - constraintExpression->comparisonExpression
+	}
+}
+
+#correspondence {
+	++   attributeConstraintToConstraint : AttributeConstraintToConstraint {
+		#src->attributeConstraint
+		#trg->constraint
+	}
+}
+

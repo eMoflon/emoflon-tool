@@ -1,0 +1,25 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttributeConstraintUnequalRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ attributeConstraint : AttributeConstraint {
+		op := " ! = "
+	}
+}
+
+#target {
+	++ comparisonExpression : ComparisonExpression {
+		operator := ComparingOperator::UNEQUAL
+	}
+	++ constraint : Constraint {
+		++   - constraintExpression->comparisonExpression
+	}
+}
+
+#correspondence {
+	++   attributeConstraintToConstraint : AttributeConstraintToConstraint {
+		#src->attributeConstraint
+		#trg->constraint
+	}
+}

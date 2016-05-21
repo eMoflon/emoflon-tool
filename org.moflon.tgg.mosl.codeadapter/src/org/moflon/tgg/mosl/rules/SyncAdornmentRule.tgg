@@ -1,0 +1,35 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule SyncAdornmentRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ adornment : Adornment
+	attrCondDef : AttrCondDef {
+		++   - allowedSyncAdornments->adornment
+	}
+	attrCond : AttrCond {
+		- name->attrCondDef
+	}
+}
+
+#target {
+	tggConstraint : TGGConstraint {
+		++   - allowedAdornments->tggAdornment
+	}
+	++ tggAdornment : Adornment
+}
+
+#correspondence {
+	attrCondToTggConstraint : AttrCondToTGGConstraint {
+		#src->attrCond
+		#trg->tggConstraint
+	}
+	++   tggAdornmentToAdornment : AdornmentToAdornment {
+		#src->adornment
+		#trg->tggAdornment
+	}
+}
+
+#attributeConditions {
+	eq (adornment.value, tggAdornment.value)
+}

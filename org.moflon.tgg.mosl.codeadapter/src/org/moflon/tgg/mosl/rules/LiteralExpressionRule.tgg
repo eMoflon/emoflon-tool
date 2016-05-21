@@ -1,0 +1,24 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+#using AttrCondDefLibrary.*
+
+#rule LiteralExpressionRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ literalExpression : LiteralExpression
+}
+
+#target {
+	++ tggLiteralExpression : LiteralExpression
+} 
+
+#correspondence {
+	++   literalExpressionToTggLiteralExpression : ExpressionToExpression {
+		#src->literalExpression
+		#trg->tggLiteralExpression
+	}
+}
+
+#attributeConditions {
+	isNotEnum(tggLiteralExpression.value)
+	MoslToTggLiteral (literalExpression.value, tggLiteralExpression.value)
+}

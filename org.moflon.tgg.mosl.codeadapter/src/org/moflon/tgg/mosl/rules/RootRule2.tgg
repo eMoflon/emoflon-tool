@@ -1,56 +1,57 @@
-#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+#using org.moflon.tgg.mosl.codeadapter.*  
+#using AttrCondDefLibrary.*
 
 #rule RootRule2 #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++schema:Schema
-	++tggFile:TripleGraphGrammarFile {
-		++  - schema->schema
+	++  schema : Schema
+	++  tggFile : TripleGraphGrammarFile {
+		++   - schema->schema
 	}
 }
 
 #target {
-	++domainTarget:Domain {
+	++  domainTarget : Domain {
 		name := "Target"
-		type := enum::DomainType::TARGET
-		++  - metamodel->metamodelTarget
+		type := DomainType::TARGET
+		++  -metamodel->metamodelTarget
 	}
-	++corrPackage:EPackage {
-		++  - eSubpackages->rulesPackage
+	++  corrPackage : EPackage {
+		++   - eSubpackages->rulesPackage
 	}
-	++rulesPackage:EPackage {
+	++  rulesPackage : EPackage {
 		name := "Rules"
 		nsPrefix := "Rules"
 	}
-	++domainSource:Domain {
+	++  domainSource : Domain {
 		name := "Source"
-		type := enum::DomainType::SOURCE
-		++  - metamodel->metamodelSource
+		type := DomainType::SOURCE
+		++  -metamodel->metamodelSource
 	}
-	++metamodelTarget:Metamodel
-	++project:TGGProject {
-		++  - corrPackage->corrPackage
-		++  - tgg->tggModel
+	++  metamodelTarget : Metamodel
+	++  project : TGGProject {
+		++  -corrPackage->corrPackage
+		++  -tgg->tggModel
 	} 
-	++tggModel:TripleGraphGrammar {
-		++  - metamodel->metamodelSource
-		++  - metamodel->metamodelTarget
-		++  - metamodel->metamodelCorrespondence
-		++  - domain->domainSource
-		++  - domain->domainTarget
-		++  - domain->domainCorrespondence
+	++  tggModel : TripleGraphGrammar {
+		++   - metamodel->metamodelSource
+		++   - metamodel->metamodelTarget
+		++   - metamodel->metamodelCorrespondence
+		++   - domain->domainSource
+		++   - domain->domainTarget
+		++   - domain->domainCorrespondence
 	}
-	++domainCorrespondence:Domain {
+	++  domainCorrespondence : Domain {
 		name := "Correspondence"
-		type := enum::DomainType::CORRESPONDENCE
-		++  - metamodel->metamodelCorrespondence
+		type := DomainType::CORRESPONDENCE
+		++   - metamodel->metamodelCorrespondence
 	}
-	++metamodelCorrespondence:Metamodel
-	++metamodelSource:Metamodel
+	++  metamodelCorrespondence : Metamodel
+	++  metamodelSource : Metamodel
 }
 
 #correspondence {
-	++  tggFileToTgg :TripleGraphGrammarFileToTripleGraphGrammar {
+	++   tggFileToTgg : TripleGraphGrammarFileToTripleGraphGrammar {
 		#src->tggFile
 		#trg->tggModel
 	}

@@ -1,0 +1,40 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule CorrVariablePatternCheckToTGGObjectVariableRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ corrVariablePattern : CorrVariablePattern
+	rule : Rule {
+		++   - correspondencePatterns->corrVariablePattern
+	}
+}
+
+#target {
+	tggRule : TGGRule {
+		- correspondence->domainCorrespondence
+		++   - objectVariable->tggObjectVariableCorr
+	}
+	++ tggObjectVariableCorr : TGGObjectVariable {
+		bindingOperator := BindingOperator::CHECK_ONLY
+		++   - domain->domainCorrespondence
+	}
+	domainCorrespondence : Domain {
+		name == "Correspondence"
+		type == DomainType::CORRESPONDENCE
+	}
+}
+
+#correspondence {
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+	++   corrVariablePatternToTggObjectVariableCorr : CorrVariablePatternToTGGObjectVariable {
+		#src->corrVariablePattern
+		#trg->tggObjectVariableCorr
+	}
+}
+
+#attributeConditions {
+	eq (corrVariablePattern.name, tggObjectVariableCorr.name)
+}

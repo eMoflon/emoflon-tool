@@ -1,0 +1,29 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule LinkVariablePatternEdgeToTGGLinkVariableEdgeRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	linkVariablePatternSource : LinkVariablePattern {
+		++   - target->objectVariablePatternSource
+	}
+	objectVariablePatternSource : ObjectVariablePattern
+}
+
+#target {
+	tggLinkVariableSource : TGGLinkVariable
+	tggObjectVariableSource : TGGObjectVariable {
+		++   - incomingLink->tggLinkVariableSource
+	}
+}
+
+#correspondence {
+	objectVariablePatternSourceToTggObjectVariableSource : ObjectVariablePatternToTGGObjectVariable {
+		#src->objectVariablePatternSource
+		#trg->tggObjectVariableSource
+	}
+	linkVariablePatternSourceToTggLinkVariableSource : LinkVariablePatternToTGGLinkVariable {
+		#src->linkVariablePatternSource
+		#trg->tggLinkVariableSource
+	}
+}
+

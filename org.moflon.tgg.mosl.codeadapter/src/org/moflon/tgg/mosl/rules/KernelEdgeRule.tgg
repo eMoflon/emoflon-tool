@@ -1,0 +1,29 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule KernelEdgeRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	kernelRule : Rule
+	rule : Rule {
+		++   - kernel->kernelRule
+	}
+}
+
+#target {
+	tggRule : TGGRule {
+		++   - kernel->kernelTGGRule
+	}
+	kernelTGGRule : TGGRule
+}
+
+#correspondence {
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+	kernelRuleToKernelTGGRule : RuleToTGGRule {
+		#src->kernelRule
+		#trg->kernelTGGRule
+	}
+}
+

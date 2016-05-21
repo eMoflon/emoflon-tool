@@ -22,10 +22,10 @@
 #target {
 	tggproject
 	language
-	SDMLanguage.expressions
-	SDMLanguage.patterns
-	SDMLanguage.patterns.patternExpressions
-	language.csp
+//	SDMLanguage.expressions
+//	SDMLanguage.patterns
+//	SDMLanguage.patterns.patternExpressions
+//	language.csp
 	ecore
 }
 
@@ -100,9 +100,11 @@
 	
 	#userDefined isReallyEnum(0:EString){
 		#sync: B, F
+		#gen:
 	}
 	
 	#userDefined isNotEnum(0:EString){
 		#sync: B, F	
+		#gen:
 	}
 }

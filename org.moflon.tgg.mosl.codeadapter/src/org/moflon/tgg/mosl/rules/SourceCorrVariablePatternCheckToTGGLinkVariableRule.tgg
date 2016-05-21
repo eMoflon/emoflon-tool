@@ -1,0 +1,48 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule SourceCorrVariablePatternCheckToTGGLinkVariableRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	objectVariablePatternSource : ObjectVariablePattern
+	corrVariablePattern : CorrVariablePattern {
+		++   - source->objectVariablePatternSource
+		- op->operator
+	}
+	! operator : Operator
+}
+
+#target {
+	++ tggLinkVariableSource : TGGLinkVariable {
+		bindingOperator := BindingOperator::CHECK_ONLY
+		name := "source"
+		++   - domain->domainCorrespondence
+	}
+	tggObjectVariableSource : TGGObjectVariable {
+		++   - incomingLink->tggLinkVariableSource
+	}
+	tggObjectVariableCorr : TGGObjectVariable {
+		bindingOperator == BindingOperator::CHECK_ONLY
+		- domain->domainCorrespondence
+		++   - outgoingLink->tggLinkVariableSource
+	}
+	tggRule : TGGRule {
+		++   - linkVariable->tggLinkVariableSource
+		- correspondence->domainCorrespondence
+		- objectVariable->tggObjectVariableCorr
+	}
+	domainCorrespondence : Domain {
+		name == "Correspondence"
+		type == DomainType::CORRESPONDENCE
+	}
+}
+
+#correspondence {
+	objectVariablePatternSourceToTggObjectVariableSource : ObjectVariablePatternToTGGObjectVariable {
+		#src->objectVariablePatternSource
+		#trg->tggObjectVariableSource
+	}
+	corrVariablePatternToTggObjectVariableCorr : CorrVariablePatternToTGGObjectVariable {
+		#src->corrVariablePattern
+		#trg->tggObjectVariableCorr
+	}
+}

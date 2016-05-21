@@ -1,0 +1,47 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule LiteralCheckRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	attrCond : AttrCond {
+		++   - values->literal
+	}
+	++ literal : LiteralExpression
+	rule : Rule {
+		- attrConditions->attrCond
+	}
+}
+
+#target {
+	tggRule : TGGRule {
+		- csp->tggCSP
+	}
+	tggConstraint : TGGConstraint {
+		++   - variables->tggLiteral
+	}
+	tggLiteral : Literal
+	tggCSP : CSP {
+		- constraints->tggConstraint
+		- variables->tggLiteral
+	}
+}
+
+#correspondence {
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+	++   literalToTggLiteral : ParamValueToVariable {
+		#src->literal
+		#trg->tggLiteral
+	}
+	attrCondToTggConstraint : AttrCondToTGGConstraint {
+		#src->attrCond
+		#trg->tggConstraint
+	}
+}
+
+#attributeConditions {
+	isNotEnum(tggLiteral.value)
+	eq (literal.value, tggLiteral.value)
+}

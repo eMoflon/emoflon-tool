@@ -1,0 +1,27 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttributeConstraintGreaterRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ attributeConstraint : AttributeConstraint {
+		op := " > "
+	}
+}
+
+#target {
+	++ constraint : Constraint {
+		++   - constraintExpression->comparisonExpression
+	}
+	++ comparisonExpression : ComparisonExpression {
+		operator := ComparingOperator::GREATER
+	}
+}
+
+#correspondence {
+	++   attributeConstraintToConstraint : AttributeConstraintToConstraint {
+		#src->attributeConstraint
+		#trg->constraint
+	}
+}
+
+

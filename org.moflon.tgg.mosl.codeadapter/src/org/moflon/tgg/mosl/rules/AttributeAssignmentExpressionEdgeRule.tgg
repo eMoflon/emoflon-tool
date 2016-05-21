@@ -1,0 +1,28 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttributeAssignmentExpressionEdgeRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	attributeAssignment : AttributeAssignment {
+		++   - valueExp->expression
+	}
+	expression : Expression
+}
+
+#target {
+	tggAttributeAssignment : AttributeAssignment {
+		++   - valueExpression->tggExpression
+	}
+	tggExpression : Expression
+}
+
+#correspondence {
+	expressionToTggExpression : ExpressionToExpression {
+		#src->expression
+		#trg->tggExpression
+	}
+	attributeAssignmentToTggAttributeAssignment : AttributeAssignmentToAttributeAssignment {
+		#src->attributeAssignment
+		#trg->tggAttributeAssignment
+	}
+}

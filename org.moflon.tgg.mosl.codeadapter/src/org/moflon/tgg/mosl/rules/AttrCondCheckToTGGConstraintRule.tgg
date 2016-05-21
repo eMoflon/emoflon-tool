@@ -1,0 +1,43 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttrCondCheckToTGGConstraintRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	attrCondDef : AttrCondDef
+	schema : Schema {
+		- attributeCondDefs->attrCondDef
+	}
+	rule : Rule {
+		- schema->schema
+		++   - attrConditions->attrCond
+	}
+	++ attrCond : AttrCond {
+		++   - name->attrCondDef
+	}
+}
+
+#target {
+	tggRule : TGGRule {
+		- csp->tggCSP
+	}
+	++ tggConstraint : TGGConstraint
+	tggCSP : CSP {
+		++   - constraints->tggConstraint
+	}
+}
+
+#correspondence {
+	++   attrCondToTggConstraint : AttrCondToTGGConstraint {
+		#src->attrCond
+		#trg->tggConstraint
+	}
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+}
+
+#attributeConditions {
+	eq (attrCondDef.name, tggConstraint.name)
+	eq (attrCondDef.userDefined, tggConstraint.userDefined)
+}

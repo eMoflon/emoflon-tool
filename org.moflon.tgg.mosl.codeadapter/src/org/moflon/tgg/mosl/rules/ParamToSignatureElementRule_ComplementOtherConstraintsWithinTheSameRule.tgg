@@ -1,0 +1,40 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule ParamToSignatureElementRule_ComplementOtherConstraintsWithinTheSameRule #complements ParamToSignatureElementRule#with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ param : Param
+}
+
+#target {
+	tggConstraint : TGGConstraint {
+		++   - signature->signatureElement
+	}
+	_csp : CSP {
+		- constraints->otherTGGConstraint
+		- constraints->tggConstraint
+	}
+	++ otherSignatureElement : SignatureElement
+	otherTGGConstraint : TGGConstraint {
+		++   - signature->otherSignatureElement
+	}
+	++ signatureElement : SignatureElement
+}
+
+#correspondence {
+	++   paramToOtherSignatureElement : ParamToSignatureElement {
+		#src->param
+		#trg->otherSignatureElement
+	}
+	++   paramToSignatureElement : ParamToSignatureElement {
+		#src->param
+		#trg->signatureElement
+	}
+}
+
+#attributeConditions {
+	eq (tggConstraint.name, otherTGGConstraint.name)
+	eq (signatureElement.type, otherSignatureElement.type)
+	eq (signatureElement.index, otherSignatureElement.index)
+}
+

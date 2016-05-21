@@ -4,15 +4,15 @@
 #rule EnumExpressionRule #with org.moflon.tgg.mosl.codeadapter
 
 #source {
-	++ enumExpression : EnumExpression 
+	++  enumExpression : EnumExpression 
 }
 
 #target {
-	++ tggLiteralExpression : LiteralExpression
+	++  tggLiteralExpression : LiteralExpression
 }
 
 #correspondence {
-	++  enumExpressionToTggLiteralExpression : EnumExpressionToLiteralExpression {
+	++   enumExpressionToTggLiteralExpression : EnumExpressionToLiteralExpression {
 		#src->enumExpression
 		#trg->tggLiteralExpression
 	}

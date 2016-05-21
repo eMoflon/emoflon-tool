@@ -1,0 +1,29 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule RefinementEdgeRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	rule : Rule {
+		++   - supertypes->superRule
+	}
+	superRule : Rule
+}
+
+#target {
+	tggRule : TGGRule {
+		++   - refines->superTGGRule
+	}
+	superTGGRule : TGGRule
+}
+
+#correspondence {
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+	superTGGRuleToSuperRule : RuleToTGGRule {
+		#src->superRule
+		#trg->superTGGRule
+	}
+}
+

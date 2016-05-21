@@ -1,0 +1,42 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttributeConstraintRightAttributeExpressionRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	attributeConstraint : AttributeConstraint {
+		++   - valueExp->attributeExpression
+	}
+	++ attributeExpression : AttributeExpression {
+		++   - objectVar->objectVariablePatternSource
+	}
+	objectVariablePatternSource : ObjectVariablePattern
+}
+
+#target {
+	comparisonExpression : ComparisonExpression {
+		++   - rightExpression->attributeValueExpression
+	}
+	++ attributeValueExpression : AttributeValueExpression {
+		++   - object->tggObjectVariableSource
+	}
+	constraint : Constraint {
+		- constraintExpression->comparisonExpression
+	}
+	tggObjectVariableSource : TGGObjectVariable
+}
+
+#correspondence {
+	objectVariablePatternSourceToTggObjectVariableSource : ObjectVariablePatternToTGGObjectVariable {
+		#src->objectVariablePatternSource
+		#trg->tggObjectVariableSource
+	}
+	++   attributeExpressionToAttributeValueExpression : ExpressionToExpression {
+		#src->attributeExpression
+		#trg->attributeValueExpression
+	}
+	attributeConstraintToConstraint : AttributeConstraintToConstraint {
+		#src->attributeConstraint
+		#trg->constraint
+	}
+}
+

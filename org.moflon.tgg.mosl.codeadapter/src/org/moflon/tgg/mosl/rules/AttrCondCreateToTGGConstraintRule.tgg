@@ -1,0 +1,48 @@
+#using org.moflon.tgg.mosl.codeadapter.*  #using AttrCondDefLibrary.*
+
+#rule AttrCondCreateToTGGConstraintRule #with org.moflon.tgg.mosl.codeadapter
+
+#source {
+	++ attrCond : AttrCond {
+		++   - name->attrCondDef
+	}
+	rule : Rule {
+		++   - attrConditions->attrCond
+		- schema->schema
+	}
+	!  attrCondDefNac : AttrCondDef {
+		name == tggConstraint . name
+	}
+	++ attrCondDef : AttrCondDef
+	schema : Schema {
+		- attributeCondDefs->attrCondDefNac
+		++   - attributeCondDefs->attrCondDef
+	}
+}
+
+#target {
+	tggRule : TGGRule {
+		- csp->tggCSP
+	}
+	tggCSP : CSP {
+		++   - constraints->tggConstraint
+	}
+	++ tggConstraint : TGGConstraint
+}
+
+#correspondence {
+	++   attrCondToTggConstraint : AttrCondToTGGConstraint {
+		#src->attrCond
+		#trg->tggConstraint
+	}
+	ruleToTggRule : RuleToTGGRule {
+		#src->rule
+		#trg->tggRule
+	}
+}
+
+#attributeConditions {
+	eq (attrCondDef.name, tggConstraint.name)
+	eq (attrCondDef.userDefined, tggConstraint.userDefined)
+}
+
