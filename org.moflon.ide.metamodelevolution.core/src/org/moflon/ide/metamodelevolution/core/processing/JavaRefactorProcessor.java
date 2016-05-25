@@ -40,17 +40,17 @@ import org.moflon.ide.metamodelevolution.core.processing.refactoring.SequenceRef
 public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
 {
    private static final Logger logger = Logger.getLogger(JavaRefactorProcessor.class);
-	
+
    private String implementationFileSuffix;
 
    private IProject project;
-   
+
    private List<RenameChange> postChanges;
 
    public JavaRefactorProcessor(GenModel genModel)
    {
       super(genModel);
-      postChanges= new LinkedList<>();
+      postChanges = new LinkedList<>();
    }
 
    /*
@@ -73,11 +73,12 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
 
                if (renameChange.getElementType().equals(MocaToMoflonUtils.ECLASS_NODE_NAME))
                {
-            	  String tmpName = createTmpName(renameChange);
-            	  RenameChange firstRC = createNewRenameChange(renameChange.getPreviousValue(), tmpName, renameChange);
-             	  RenameChange secondRC = createNewRenameChange(tmpName, renameChange.getCurrentValue(), renameChange);
-             	   
-            	  postChanges.add(secondRC);
+                  // TODO@fstallmeyer: Check why this "triangle exchange" does not work. Maybe even remove it.
+                  String tmpName = createTmpName(renameChange);
+                  RenameChange firstRC = createNewRenameChange(renameChange.getPreviousValue(), tmpName, renameChange);
+                  RenameChange secondRC = createNewRenameChange(tmpName, renameChange.getCurrentValue(), renameChange);
+
+                  postChanges.add(secondRC);
                   if (createClassRefactorings(firstRC).isOK())
                   {
                      findAndProcessInjections(firstRC);
@@ -98,52 +99,55 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
             // process changes in a tagged value
          }
       }
-      
-      for(RenameChange renameChange : postChanges)
+
+      for (RenameChange renameChange : postChanges)
       {
-          if (createClassRefactorings(renameChange).isOK())
-          {
-             findAndProcessInjections(renameChange);
-          }  
+         if (createClassRefactorings(renameChange).isOK())
+         {
+            findAndProcessInjections(renameChange);
+         }
       }
       return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Refactoring successfull");
    }
-   
-   private RenameChange createNewRenameChange(String previous, String current, RenameChange old){
-	   RenameChange newRenameChange = CoreFactory.eINSTANCE.createRenameChange();
-	   newRenameChange.setPackageName(old.getPackageName());
-	   newRenameChange.setCurrentValue(current);
-	   newRenameChange.setPreviousValue(previous);
-	   newRenameChange.setElementType(old.getElementType());
-	   return newRenameChange;
+
+   private RenameChange createNewRenameChange(String previous, String current, RenameChange old)
+   {
+      RenameChange newRenameChange = CoreFactory.eINSTANCE.createRenameChange();
+      newRenameChange.setPackageName(old.getPackageName());
+      newRenameChange.setCurrentValue(current);
+      newRenameChange.setPreviousValue(previous);
+      newRenameChange.setElementType(old.getElementType());
+      return newRenameChange;
    }
-   
-   private String createTmpName(RenameChange renameChange){
-	   StringBuilder sb = new StringBuilder();
-	   sb.append(renameChange.getElementType()).append(createHash(renameChange.getPreviousValue(), renameChange.getCurrentValue()));
-	   return sb.toString();
+
+   private String createTmpName(RenameChange renameChange)
+   {
+      StringBuilder sb = new StringBuilder();
+      sb.append(renameChange.getElementType()).append(createHash(renameChange.getPreviousValue(), renameChange.getCurrentValue()));
+      return sb.toString();
    }
-   
-   private String createHash(String previousName, String newName){
-	   StringBuilder sb = new StringBuilder();
-	   sb.append(previousName).append(newName);
-	   return sha1(sb.toString());
+
+   private String createHash(String previousName, String newName)
+   {
+      StringBuilder sb = new StringBuilder();
+      sb.append(previousName).append(newName);
+      return sha1(sb.toString());
    }
-   
-	private String sha1(String s) {
-		   try 
-		   {
-		        MessageDigest md = MessageDigest.getInstance( "SHA1" );
-		        md.update( s.getBytes() );
-		        return new BigInteger( 1, md.digest() ).toString(16);
-		    }
-		    catch (NoSuchAlgorithmException e) 
-		   {
-		    	logger.error("An Exception has been Thrown", e);
-		        return s;
-		   }
-		}
-   
+
+   private String sha1(String s)
+   {
+      try
+      {
+         MessageDigest md = MessageDigest.getInstance("SHA1");
+         md.update(s.getBytes());
+         return new BigInteger(1, md.digest()).toString(16);
+      } catch (NoSuchAlgorithmException e)
+      {
+         logger.error("An Exception has been Thrown", e);
+         return s;
+      }
+   }
+
    private IStatus createPackageRefactorings(RenameChange renameChange)
    {
       SequenceRefactoring sequenceRefactoring = new SequenceRefactoring(renameChange);
@@ -211,7 +215,7 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
          }
       } catch (CoreException e)
       {
-    	 logger.error("An Exception has been Thrown", e);
+         logger.error("An Exception has been Thrown", e);
       }
 
       return projects;
@@ -250,7 +254,7 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
 
       } catch (Exception e)
       {
-    	  logger.error("An Exception has been Thrown", e);
+         logger.error("An Exception has been Thrown", e);
       }
    }
 
