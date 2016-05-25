@@ -14,8 +14,6 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/ProcessLanguageEdgeRules/ProcessCodeAdapter_EdgeRules,ProcessCodeAdapter_EdgeRules"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/productrequirementsToSimulinkproject/ProductrequirementsToSimulinkproject,ProductrequirementsToSimulinkproject"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/ProductRequirementsToSimulink/ProductrequirementsToSimulinkprojectIntegration,ProductrequirementsToSimulinkprojectIntegration"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/SDFToSense,SDFToSense"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/SDFToSenseIntegration,SDFToSenseIntegration"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/SimpleEcoreToHTML/SimpleEcoreToHTML,SimpleEcoreToHTML"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/SimpleEcoreToHTMLExample,SimpleEcoreToHTMLExample"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/test_suite/TGGTestSuite_1,TGGTestSuite_1"/>
