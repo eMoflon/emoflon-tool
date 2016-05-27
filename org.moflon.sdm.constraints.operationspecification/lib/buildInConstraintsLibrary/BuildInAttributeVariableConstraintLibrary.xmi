@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ASCII"?>
-<DemoclesAttributeConstraintSpecification:AttributeConstraintLibrary
+<org.moflon.sdm.constraints.operationspecification:AttributeConstraintLibrary
     xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:DemoclesAttributeConstraintSpecification="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:org.moflon.sdm.constraints.operationspecification="platform:/plugin/org.moflon.sdm.constraints.operationspecification/model/Operationspecification.ecore"
     prefix="buildInAttributeConstraints">
   <operationSpecifications
       constraintSpecifications="//@constraintSpecifications.0 //@constraintSpecifications.2 //@constraintSpecifications.3 //@constraintSpecifications.1 //@constraintSpecifications.4"
@@ -258,6 +258,28 @@
         specification="$a$>=$b$"
         adornmentString="BB"
         alwaysSuccessful="false"/>
+    <parameterIDs
+        identifier="a"/>
+    <parameterIDs
+        identifier="b"/>
+  </operationSpecifications>
+  <operationSpecifications
+      constraintSpecifications="//@constraintSpecifications.49 //@constraintSpecifications.50 //@constraintSpecifications.51 //@constraintSpecifications.52 //@constraintSpecifications.53"
+      operationIdentifier="unequalNum">
+    <operationSpecifications
+        specification="$a$ != $b$"
+        adornmentString="BB"/>
+    <parameterIDs
+        identifier="a"/>
+    <parameterIDs
+        identifier="b"/>
+  </operationSpecifications>
+  <operationSpecifications
+      constraintSpecifications="//@constraintSpecifications.54"
+      operationIdentifier="unequalString">
+    <operationSpecifications
+        specification="$a$ == null ? $b$ == null : $a$.equals($b$)"
+        adornmentString="BB"/>
     <parameterIDs
         identifier="a"/>
     <parameterIDs
@@ -1054,4 +1076,84 @@
           href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </parameterTypes>
   </constraintSpecifications>
-</DemoclesAttributeConstraintSpecification:AttributeConstraintLibrary>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.15"
+      symbol="!=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.15"
+      symbol="!=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.15"
+      symbol="!=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameterTypes>
+    <parameterTypes/>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.15"
+      symbol="!=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.15"
+      symbol="!=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
+    </parameterTypes>
+  </constraintSpecifications>
+  <constraintSpecifications
+      operationSpecificationGroup="//@operationSpecifications.16"
+      symbol="!=">
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameterTypes>
+    <parameterTypes>
+      <type
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameterTypes>
+  </constraintSpecifications>
+</org.moflon.sdm.constraints.operationspecification:AttributeConstraintLibrary>

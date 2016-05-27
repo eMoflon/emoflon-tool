@@ -61,6 +61,13 @@ public class AttributeConstraintParserAdapterTest
       assertHasNoErrorMessages(validationReport);
    }
 
+   @Test
+   public void testUnequal() throws Exception
+   {
+      ValidationReport validationReport = this.adapter.parse("!=(this.x, ACTIVE::LinkState);");
+      assertHasNoErrorMessages(validationReport);
+   }
+
    private static void assertHasNoErrorMessages(ValidationReport validationReport)
    {
       final EList<ErrorMessage> errorMessages = validationReport.getErrorMessages();

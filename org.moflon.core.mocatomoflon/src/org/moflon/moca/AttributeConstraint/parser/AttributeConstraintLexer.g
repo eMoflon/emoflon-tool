@@ -53,7 +53,7 @@ DIGIT: ('0'..'9');
 fragment
 LETTER: SMALL_LETTER | CAPITAL_LETTER;
 fragment
-OP: ('-' |  '*' | '+' | '=' | '<' | '>' | '/' |'?') ;
+OP: ('-' |  '*' | '+' | '=' | '!=' | '<' | '>' | '/' |'?') ;
 
 IMPORT : 'importPackage';
 
