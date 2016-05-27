@@ -48,12 +48,8 @@ public class AttributeConstraintsCodeGenerationTest
             "org.moflon.sdm.constraints.operationspecification"), true);
       Resource r = rs.getResource(uri1, true);
       AttributeConstraintLibrary lib = (AttributeConstraintLibrary) r.getContents().get(0);
+      @SuppressWarnings("unused")
       OperationSpecificationGroup group = lib.getOperationSpecifications().get(0);
-      group.gernerateTemplate();
-      System.out.println("---------------------------------------");
-      System.out.println(group.getTemplateGroupString());
-
-      // int x=0;
    }
 
 }
