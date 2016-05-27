@@ -36,39 +36,43 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(12, 30);
+            this.progressBar.Location = new System.Drawing.Point(16, 37);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.progressBar.MarqueeAnimationSpeed = 0;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(453, 23);
+            this.progressBar.Size = new System.Drawing.Size(604, 28);
             this.progressBar.Step = 1;
             this.progressBar.TabIndex = 0;
             // 
             // labelOutput
             // 
             this.labelOutput.AutoSize = true;
-            this.labelOutput.Location = new System.Drawing.Point(9, 56);
+            this.labelOutput.Location = new System.Drawing.Point(12, 69);
+            this.labelOutput.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelOutput.Name = "labelOutput";
-            this.labelOutput.Size = new System.Drawing.Size(80, 13);
+            this.labelOutput.Size = new System.Drawing.Size(105, 17);
             this.labelOutput.TabIndex = 1;
             this.labelOutput.Text = "Extracting table";
             // 
             // labelCount
             // 
             this.labelCount.AutoSize = true;
-            this.labelCount.Location = new System.Drawing.Point(429, 56);
+            this.labelCount.Location = new System.Drawing.Point(572, 69);
+            this.labelCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(0, 13);
+            this.labelCount.Size = new System.Drawing.Size(0, 17);
             this.labelCount.TabIndex = 2;
             // 
             // ExtractingDatabaseProgessBar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(477, 102);
+            this.ClientSize = new System.Drawing.Size(636, 126);
             this.Controls.Add(this.labelCount);
             this.Controls.Add(this.labelOutput);
             this.Controls.Add(this.progressBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ExtractingDatabaseProgessBar";
             this.Text = "Extracting...";
             this.ResumeLayout(false);

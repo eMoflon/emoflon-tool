@@ -38,8 +38,6 @@ namespace EAEcoreAddin.Refactoring
 
         private MocaNode processEPackage(SQLPackage eaPackage)
         {
-            //backgroundWorker.ReportProgress(0, PersistencyUtil.computePackageUri(eaPackage, repository));
-
             SQLTaggedValue mocaTreeTag = EAEcoreAddin.Util.EAUtil.findTaggedValue(eaPackage, Main.MoflonExportTreeTaggedValueName);
             if (mocaTreeTag != null)
             {
@@ -54,7 +52,6 @@ namespace EAEcoreAddin.Refactoring
                     if (ePackageChangesMocaNode.hasAllAttributes(new List<string>(
                         new string[] { ChangesTreeConstants.ATTRIBUTE_KEY_PACKAGE_NAME, ChangesTreeConstants.ATTRIBUTE_KEY_PROJECT_NAME })))
                     {
-                        //ePackage.addAttributesDuringExport(ePackageChangesMocaNode);
                         ePackage.addChangesAttributesDuringExport(ePackageMocaNode, changesTreeTag);
                     
                         CachedPackage temp = new CachedPackage();
