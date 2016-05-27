@@ -157,7 +157,7 @@ namespace EAEcoreAddin.Consistency
                         foreach (SQLPackage model in root.Packages)
                         {
                             SQLTaggedValue validated = EAEcoreAddin.Util.EAUtil.findTaggedValue(model, MetamodelHelper.MoflonValidatedTaggedValueName);
-                            if (validated == null || !validated.Value.ToLower().Contains("true") || validated.Value == EPackageHelper.defaultValue)
+                            if (validated == null || !validated.Value.ToLower().Contains("true") || validated.Value == EPackageHelper.DEFAULT_VALUE_PLACEHOLDER)
                             {
                                 packagesToValidate.Add(model);
                             }

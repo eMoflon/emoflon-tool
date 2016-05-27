@@ -113,7 +113,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         public static readonly String MoflonCustomNsUriTaggedValueName = "Moflon::NsUri";
         public static readonly String MoflonCustomNsPrefixTaggedValueName = "Moflon::NsPrefix";
 
-        public static readonly String defaultValue = "__default__";
+        public static readonly String DEFAULT_VALUE_PLACEHOLDER = "__default__";
 
         public static readonly String PackagesChildNodeName = "packages";
         public static readonly String ClassesChildNodeName = "classes";
@@ -147,7 +147,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             {
                 String value = customProjectName.Value;
                 //use default
-                if (value.Equals(defaultValue))
+                if (value.Equals(DEFAULT_VALUE_PLACEHOLDER))
                 {
                     return package.EaPackage.getRealPackage().Name;
                 }
@@ -168,7 +168,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                 String value = customUri.Value;
 
                 // use custom value 
-                if (!value.Equals(defaultValue))
+                if (!value.Equals(DEFAULT_VALUE_PLACEHOLDER))
                 {
                     return value;
                 }
@@ -188,7 +188,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                 String value = customNsPrefix.Value;
 
                 //use default
-                if (value.Equals(defaultValue))
+                if (value.Equals(DEFAULT_VALUE_PLACEHOLDER))
                 {
                     return computeName();
                 }
@@ -217,7 +217,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
         {
             SQLTaggedValue tag = EAUtil.findTaggedValue(package.EaPackage, tagName);
             if (tag == null)
-                EAUtil.setTaggedValue(package.Repository, package.EaPackage.getRealPackage(), tagName, defaultValue);
+                EAUtil.setTaggedValue(package.Repository, package.EaPackage.getRealPackage(), tagName, DEFAULT_VALUE_PLACEHOLDER);
         }
 
         #endregion
@@ -290,7 +290,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                 String value = customUri.Value;
 
                 //use default
-                if (value.Equals(defaultValue))
+                if (value.Equals(DEFAULT_VALUE_PLACEHOLDER))
                 {
                     return base.computeNsUri() + "#//" + PersistencyUtil.computePackageUri(package.EaPackage, package.Repository);
                 }
@@ -346,7 +346,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             SQLTaggedValue exportTag = EAUtil.findTaggedValue(package.EaPackage, MoflonExportTaggedValueName);
             if (exportTag != null)
             {
-                if (exportTag.Value.Equals(defaultValue))
+                if (exportTag.Value.Equals(DEFAULT_VALUE_PLACEHOLDER))
                     return "true";
                 return exportTag.Value;
             }
@@ -361,7 +361,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
             SQLTaggedValue validatedTag = EAUtil.findTaggedValue(package.EaPackage, MoflonValidatedTaggedValueName);
             if (validatedTag != null)
             {
-                if (validatedTag.Value.Equals(defaultValue))
+                if (validatedTag.Value.Equals(DEFAULT_VALUE_PLACEHOLDER))
                     return "false";
                 return validatedTag.Value;
             }
@@ -389,7 +389,7 @@ namespace EAEcoreAddin.Modeling.ECOREModeling.ECOREExportWrapper
                 String value = customPluginID.Value;
 
                 //use default
-                if (value.Equals(defaultValue))
+                if (value.Equals(DEFAULT_VALUE_PLACEHOLDER))
                 {
                     return computeName();
                 }

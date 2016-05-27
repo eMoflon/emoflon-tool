@@ -30,7 +30,8 @@ namespace EAEcoreAddin.Refactoring
         {
             this.currentNode = new MocaNode();
             MocaNode outerMostPackageMocaNode = processEPackage(outermostPackage);
-            outerMostPackageMocaNode.appendChildAttribute("Changes::IsTLP", "true");
+            if (outerMostPackageMocaNode != null)
+                outerMostPackageMocaNode.appendChildAttribute("Changes::IsTLP", "true");
 
             return outerMostPackageMocaNode;
         }
