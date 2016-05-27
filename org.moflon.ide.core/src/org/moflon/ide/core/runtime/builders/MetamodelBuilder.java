@@ -93,7 +93,7 @@ public class MetamodelBuilder extends AbstractBuilder
 
             } catch (Exception e)
             {
-               throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Exception during export.", e));
+               throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Exception during export: " + e.toString(), e));
             } finally
             {
                exporterSubMonitor.done();
