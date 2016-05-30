@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -123,6 +124,12 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          if (RepositoryCodeGenerator.getEcoreFile(project).exists())
             RepositoryCodeGenerator.getEcoreFile(project).delete(true, new NullProgressMonitor());
 
+         if(!IntegrationBuilder.getPreEcoreFile(project).exists()){
+        	 // Try another build	
+        	 project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
+        	 project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+         }
+         
          IntegrationBuilder.getPreEcoreFile(project).copy(RepositoryCodeGenerator.getEcoreFile(project).getFullPath(), true, new NullProgressMonitor());
 
          if (getTGGFile().exists())
