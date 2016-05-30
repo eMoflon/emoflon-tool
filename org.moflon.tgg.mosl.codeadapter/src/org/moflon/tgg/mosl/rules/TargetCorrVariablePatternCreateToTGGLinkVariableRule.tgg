@@ -21,16 +21,16 @@
 	}
 	domainCorrespondence : Domain {
 		name == "Correspondence"
-		type == DomainType::CORRESPONDENCE
+		type == enum::DomainType::CORRESPONDENCE
 	}
 	tggObjectVariableCorr : TGGObjectVariable {
-		bindingOperator == BindingOperator::CREATE
+		bindingOperator == enum::BindingOperator::CREATE
 		- domain->domainCorrespondence
 		++   - outgoingLink->tggLinkVariableTarget
 	}
 	++ tggLinkVariableTarget : TGGLinkVariable {
 		name := "target"
-		bindingOperator := BindingOperator::CREATE
+		bindingOperator := enum::BindingOperator::CREATE
 		++   - domain->domainCorrespondence
 	}
 	tggObjectVariableTarget : TGGObjectVariable {

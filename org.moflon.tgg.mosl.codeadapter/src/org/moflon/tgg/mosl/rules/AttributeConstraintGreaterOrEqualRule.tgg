@@ -13,7 +13,7 @@
 		++   - constraintExpression->comparisonExpression
 	}
 	++ comparisonExpression : ComparisonExpression {
-		operator := ComparingOperator::GREATER_OR_EQUAL
+		operator := enum::ComparingOperator::GREATER_OR_EQUAL
 	}
 }
 

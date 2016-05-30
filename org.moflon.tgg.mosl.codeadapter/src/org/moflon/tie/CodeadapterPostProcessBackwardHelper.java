@@ -12,10 +12,14 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.language.Domain;
 import org.moflon.tgg.language.DomainType;
 import org.moflon.tgg.language.TGGObjectVariable;
 import org.moflon.tgg.language.TripleGraphGrammar;
+import org.moflon.tgg.language.csp.TGGConstraint;
+import org.moflon.tgg.language.csp.Variable;
+import org.moflon.tgg.mosl.codeadapter.AttrCondToTGGConstraint;
 import org.moflon.tgg.mosl.codeadapter.AttributeAssignmentToAttributeAssignment;
 import org.moflon.tgg.mosl.codeadapter.AttributeConstraintToConstraint;
 import org.moflon.tgg.mosl.codeadapter.CorrTypeToEClass;
@@ -24,12 +28,15 @@ import org.moflon.tgg.mosl.codeadapter.EnumExpressionToLiteralExpression;
 import org.moflon.tgg.mosl.codeadapter.ExpressionToExpression;
 import org.moflon.tgg.mosl.codeadapter.LinkVariablePatternToTGGLinkVariable;
 import org.moflon.tgg.mosl.codeadapter.ObjectVariablePatternToTGGObjectVariable;
+import org.moflon.tgg.mosl.codeadapter.ParamValueToVariable;
 import org.moflon.tgg.mosl.codeadapter.RuleToTGGRule;
 import org.moflon.tgg.mosl.codeadapter.TripleGraphGrammarFileToTripleGraphGrammar;
+import org.moflon.tgg.mosl.tgg.AttrCond;
 import org.moflon.tgg.mosl.tgg.AttributeExpression;
 import org.moflon.tgg.mosl.tgg.CorrType;
 import org.moflon.tgg.mosl.tgg.EnumExpression;
 import org.moflon.tgg.mosl.tgg.Import;
+import org.moflon.tgg.mosl.tgg.ParamValue;
 import org.moflon.tgg.mosl.tgg.Rule;
 import org.moflon.tgg.mosl.tgg.Schema;
 import org.moflon.tgg.mosl.tgg.TggFactory;
@@ -83,19 +90,38 @@ public class CodeadapterPostProcessBackwardHelper {
 				postProcessBackward_Expression((ExpressionToExpression) corr);
 
 			if (corr instanceof EnumExpressionToLiteralExpression)
-				postProcessBackward_TGGEnumExpression((EnumExpressionToLiteralExpression) corr, trafoHelper);			
+				postProcessBackward_TGGEnumExpression((EnumExpressionToLiteralExpression) corr, trafoHelper);
+
+			if (corr instanceof AttrCondToTGGConstraint)
+				postProcessBackward_AttrCond((AttrCondToTGGConstraint) corr);
 		}
 	}
 
-	private void postProcessBackward_TGGEnumExpression(EnumExpressionToLiteralExpression corr, CodeadapterTrafo trafoHelper) {
+	private void postProcessBackward_AttrCond(AttrCondToTGGConstraint corr) {
+
+		AttrCond attrCond = corr.getSource();
+		TGGConstraint tggConstraint = corr.getTarget();
+
+		// Enforce the same order of variables
+		for (int i = 0; i < tggConstraint.getVariables().size(); i++) {
+			Variable var = tggConstraint.getVariables().get(i);
+			ParamValue pVal = eMoflonEMFUtil.getOppositeReferenceTyped(var, ParamValueToVariable.class, "target")
+					.stream().map(c -> c.getSource()).filter(pv -> pv.eContainer() == attrCond).findAny().get();
+			attrCond.getValues().move(i, pVal);
+		}
+
+	}
+
+	private void postProcessBackward_TGGEnumExpression(EnumExpressionToLiteralExpression corr,
+			CodeadapterTrafo trafoHelper) {
 		EnumExpression enumExp = (EnumExpression) corr.getSource();
 		LiteralExpression exp = (LiteralExpression) corr.getTarget();
-		
+
 		String enumAndLiteral = exp.getValue();
 		String literalString = enumAndLiteral.substring(enumAndLiteral.lastIndexOf('.') + 1);
 		String eenum = enumAndLiteral.substring(0, enumAndLiteral.lastIndexOf('.'));
-		assert((eenum + "." + literalString).equals(enumAndLiteral));
-		
+		assert ((eenum + "." + literalString).equals(enumAndLiteral));
+
 		getAllReferencedPackages(trafoHelper).forEach(p -> p.eAllContents().forEachRemaining(o -> {
 			if (o instanceof EEnum) {
 				EEnum e = (EEnum) o;
@@ -107,19 +133,15 @@ public class CodeadapterPostProcessBackwardHelper {
 				}
 			}
 		}));
-		
-		if(enumExp.getEenum() == null || enumExp.getLiteral() == null)
-			throw new IllegalStateException("Unable to post process " + enumExp + " using " + exp); 
+
+		if (enumExp.getEenum() == null || enumExp.getLiteral() == null)
+			throw new IllegalStateException("Unable to post process " + enumExp + " using " + exp);
 	}
 
 	private Collection<EPackage> getAllReferencedPackages(CodeadapterTrafo trafoHelper) {
 		TripleGraphGrammar tgg = TGGProject.class.cast(trafoHelper.getTrg()).getTgg();
-		return tgg.getTggRule()
-				.stream()
-				.flatMap(r -> r.getObjectVariable().stream())
-				.map(ov -> ov.getType().getEPackage())
-				.filter(p -> p != null)
-				.collect(Collectors.toSet());
+		return tgg.getTggRule().stream().flatMap(r -> r.getObjectVariable().stream())
+				.map(ov -> ov.getType().getEPackage()).filter(p -> p != null).collect(Collectors.toSet());
 	}
 
 	private void postProcessBackward_CorrVariablePattern(CorrVariablePatternToTGGObjectVariable corr) {
@@ -143,15 +165,15 @@ public class CodeadapterPostProcessBackwardHelper {
 		EPackage packageOfOVType = ovType.getEPackage();
 		Schema schema = ((Rule) corr.getSource().eContainer()).getSchema();
 
-		if(!tggOV.getDomain().getType().equals(DomainType.CORRESPONDENCE))
+		if (!tggOV.getDomain().getType().equals(DomainType.CORRESPONDENCE))
 			importEPackage(schema, packageOfOVType);
-		
-		if(tggOV.getDomain().getType().equals(DomainType.SOURCE) && !schema.getSourceTypes().contains(packageOfOVType))
+
+		if (tggOV.getDomain().getType().equals(DomainType.SOURCE) && !schema.getSourceTypes().contains(packageOfOVType))
 			schema.getSourceTypes().add(packageOfOVType);
-		
-		if(tggOV.getDomain().getType().equals(DomainType.TARGET) && !schema.getTargetTypes().contains(packageOfOVType))
+
+		if (tggOV.getDomain().getType().equals(DomainType.TARGET) && !schema.getTargetTypes().contains(packageOfOVType))
 			schema.getTargetTypes().add(packageOfOVType);
-		
+
 		corr.getSource().setType(ovType);
 	}
 
@@ -207,7 +229,7 @@ public class CodeadapterPostProcessBackwardHelper {
 
 		for (Domain domain : tggRoot.getDomain()) {
 			EPackage domainPackage = domain.getMetamodel().getOutermostPackage();
-			
+
 			if (domain.getType() == DomainType.SOURCE) {
 				schema.getSourceTypes().add(domainPackage);
 				importEPackage(schema, domainPackage);

@@ -15,12 +15,12 @@
 		++   - objectVariable->tggObjectVariableCorr
 	}
 	++ tggObjectVariableCorr : TGGObjectVariable {
-		bindingOperator := BindingOperator::CHECK_ONLY
+		bindingOperator := enum::BindingOperator::CHECK_ONLY
 		++   - domain->domainCorrespondence
 	}
 	domainCorrespondence : Domain {
 		name == "Correspondence"
-		type == DomainType::CORRESPONDENCE
+		type == enum::DomainType::CORRESPONDENCE
 	}
 }
 

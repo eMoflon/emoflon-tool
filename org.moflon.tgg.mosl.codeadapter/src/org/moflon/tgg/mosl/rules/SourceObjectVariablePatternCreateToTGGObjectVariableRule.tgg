@@ -20,12 +20,12 @@
 		- source->domainSource
 	}
 	++ tggObjectVariableSource : TGGObjectVariable {
-		bindingOperator := BindingOperator::CREATE
-		bindingSemantics := BindingSemantics::MANDATORY
+		bindingOperator := enum::BindingOperator::CREATE
+		bindingSemantics := enum::BindingSemantics::MANDATORY
 		++   - domain->domainSource
 	}
 	domainSource : Domain {
-		type == DomainType::SOURCE
+		type == enum::DomainType::SOURCE
 		name == "Source"
 	}
 }

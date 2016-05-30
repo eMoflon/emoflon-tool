@@ -14,12 +14,12 @@
 
 #target {
 	++ tggLinkVariableTarget : TGGLinkVariable {
-		bindingSemantics := BindingSemantics::MANDATORY
-		bindingOperator := BindingOperator::CHECK_ONLY
+		bindingSemantics := enum::BindingSemantics::MANDATORY
+		bindingOperator := enum::BindingOperator::CHECK_ONLY
 		++   - domain->domain
 	}
 	domain : Domain {
-		type == DomainType::SOURCE
+		type == enum::DomainType::SOURCE
 	}
 	tggObjectVariableTargetSrc : TGGObjectVariable {
 		- domain->domain

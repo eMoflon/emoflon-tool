@@ -24,8 +24,8 @@
 		- source->domain
 	}
 	++ tggLinkVariableTarget : TGGLinkVariable {
-		bindingSemantics := BindingSemantics::NEGATIVE
-		bindingOperator := BindingOperator::CHECK_ONLY
+		bindingSemantics := enum::BindingSemantics::NEGATIVE
+		bindingOperator := enum::BindingOperator::CHECK_ONLY
 		++   - domain->domain
 	}
 	tggObjectVariableTargetSrc : TGGObjectVariable {
@@ -33,7 +33,7 @@
 		++   - outgoingLink->tggLinkVariableTarget
 	}
 	domain : Domain {
-		type == DomainType::SOURCE
+		type == enum::DomainType::SOURCE
 	}
 }
 

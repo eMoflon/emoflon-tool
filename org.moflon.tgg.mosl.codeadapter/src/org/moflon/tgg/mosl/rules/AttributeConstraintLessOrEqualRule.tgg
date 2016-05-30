@@ -10,7 +10,7 @@
 
 #target {
 	++ comparisonExpression : ComparisonExpression {
-		operator := ComparingOperator::LESS_OR_EQUAL
+		operator := enum::ComparingOperator::LESS_OR_EQUAL
 	}
 	++ constraint : Constraint {
 		++   - constraintExpression->comparisonExpression

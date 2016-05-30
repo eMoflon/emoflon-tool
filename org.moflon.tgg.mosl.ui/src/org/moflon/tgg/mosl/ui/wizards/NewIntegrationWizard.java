@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
-import org.moflon.ide.ui.WorkspaceHelperUI;
+//import org.moflon.ide.ui.WorkspaceHelperUI;
 import org.moflon.tgg.mosl.builder.MOSLTGGNature;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
 import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
@@ -59,6 +59,6 @@ public class NewIntegrationWizard extends NewRepositoryWizard {
 			e.printStackTrace();
 		}
 		
-		WorkspaceHelperUI.openDefaultEditorForFile(project.getFile(pathToSchema));
+		//WorkspaceHelperUI.openDefaultEditorForFile(project.getFile(pathToSchema));
 	}
 }

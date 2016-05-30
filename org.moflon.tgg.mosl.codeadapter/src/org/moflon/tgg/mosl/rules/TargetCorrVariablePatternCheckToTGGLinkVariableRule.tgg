@@ -14,7 +14,7 @@
 #target {
 	domainCorrespondence : Domain {
 		name == "Correspondence"
-		type == DomainType::CORRESPONDENCE
+		type == enum::DomainType::CORRESPONDENCE
 	}
 	tggRule : TGGRule {
 		- objectVariable->tggObjectVariableCorr
@@ -22,7 +22,7 @@
 		- correspondence->domainCorrespondence
 	}
 	++ tggLinkVariableTarget : TGGLinkVariable {
-		bindingOperator := BindingOperator::CHECK_ONLY
+		bindingOperator := enum::BindingOperator::CHECK_ONLY
 		name := "target"
 		++   - domain->domainCorrespondence
 	}
@@ -30,7 +30,7 @@
 		++   - incomingLink->tggLinkVariableTarget
 	}
 	tggObjectVariableCorr : TGGObjectVariable {
-		bindingOperator == BindingOperator::CHECK_ONLY
+		bindingOperator == enum::BindingOperator::CHECK_ONLY
 		++   - outgoingLink->tggLinkVariableTarget
 		- domain->domainCorrespondence
 	}

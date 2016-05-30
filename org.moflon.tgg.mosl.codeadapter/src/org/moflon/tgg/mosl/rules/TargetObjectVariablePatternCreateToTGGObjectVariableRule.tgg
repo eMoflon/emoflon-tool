@@ -17,11 +17,11 @@
 #target {
 	domainTarget : Domain {
 		name == "Target"
-		type == DomainType::TARGET
+		type == enum::DomainType::TARGET
 	}
 	++ tggObjectVariableTarget : TGGObjectVariable {
-		bindingOperator := BindingOperator::CREATE
-		bindingSemantics := BindingSemantics::MANDATORY
+		bindingOperator := enum::BindingOperator::CREATE
+		bindingSemantics := enum::BindingSemantics::MANDATORY
 		++   - domain->domainTarget
 	}
 	tggRule : TGGRule {

@@ -91,7 +91,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
             CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin);
             helper.getResourceSet().getResources().add(xtextParsedTGG.eResource());
             helper.setSrc(xtextParsedTGG);
-            helper.setVerbose(true);
+            helper.setVerbose(false);
             helper.integrateForward();
 
             CodeadapterPostProcessForwardHelper postProcessHelper = new CodeadapterPostProcessForwardHelper();

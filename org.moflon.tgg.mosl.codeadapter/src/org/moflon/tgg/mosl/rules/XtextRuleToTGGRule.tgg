@@ -29,16 +29,16 @@
 	}
 	domainTarget : Domain {
 		name == "Target"
-		type == DomainType::TARGET
+		type == enum::DomainType::TARGET
 	}
 	domainCorrespondence : Domain {
-		type == DomainType::CORRESPONDENCE
+		type == enum::DomainType::CORRESPONDENCE
 		name == "Correspondence"
 	}
 	++ abstractRule : EClass
 	domainSource : Domain {
 		name == "Source"
-		type == DomainType::SOURCE
+		type == enum::DomainType::SOURCE
 	}
 	++ tggRule : TGGRule {
 		++   - correspondence->domainCorrespondence

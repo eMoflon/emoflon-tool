@@ -19,7 +19,7 @@
 
 #target {
 	domain : Domain {
-		type == DomainType::SOURCE
+		type == enum::DomainType::SOURCE
 	}
 	tggObjectVariableTargetSrc : TGGObjectVariable {
 		++   - outgoingLink->tggLinkVariableTarget
@@ -31,7 +31,7 @@
 		- objectVariable->tggObjectVariableTargetSrc
 	}
 	++ tggLinkVariableTarget : TGGLinkVariable {
-		bindingOperator := BindingOperator::CREATE
+		bindingOperator := enum::BindingOperator::CREATE
 		++   - domain->domain
 	}
 }

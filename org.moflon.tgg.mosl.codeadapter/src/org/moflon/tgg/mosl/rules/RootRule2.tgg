@@ -13,7 +13,7 @@
 #target {
 	++  domainTarget : Domain {
 		name := "Target"
-		type := DomainType::TARGET
+		type := enum::DomainType::TARGET
 		++  -metamodel->metamodelTarget
 	}
 	++  corrPackage : EPackage {
@@ -25,7 +25,7 @@
 	}
 	++  domainSource : Domain {
 		name := "Source"
-		type := DomainType::SOURCE
+		type := enum::DomainType::SOURCE
 		++  -metamodel->metamodelSource
 	}
 	++  metamodelTarget : Metamodel
@@ -43,7 +43,7 @@
 	}
 	++  domainCorrespondence : Domain {
 		name := "Correspondence"
-		type := DomainType::CORRESPONDENCE
+		type := enum::DomainType::CORRESPONDENCE
 		++   - metamodel->metamodelCorrespondence
 	}
 	++  metamodelCorrespondence : Metamodel

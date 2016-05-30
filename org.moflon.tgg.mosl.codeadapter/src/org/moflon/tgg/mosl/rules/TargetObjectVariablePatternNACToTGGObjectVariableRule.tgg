@@ -20,12 +20,12 @@
 		- target->domainTarget
 	}
 	++ tggObjectVariableTarget : TGGObjectVariable {
-		bindingSemantics := BindingSemantics::NEGATIVE
-		bindingOperator := BindingOperator::CHECK_ONLY
+		bindingSemantics := enum::BindingSemantics::NEGATIVE
+		bindingOperator := enum::BindingOperator::CHECK_ONLY
 		++   - domain->domainTarget
 	}
 	domainTarget : Domain {
-		type == DomainType::TARGET
+		type == enum::DomainType::TARGET
 		name == "Target"
 	}
 }

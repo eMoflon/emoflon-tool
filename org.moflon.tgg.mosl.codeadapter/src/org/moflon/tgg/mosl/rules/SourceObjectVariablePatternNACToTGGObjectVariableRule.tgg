@@ -16,13 +16,13 @@
 
 #target {
 	++ tggObjectVariableSource : TGGObjectVariable {
-		bindingSemantics := BindingSemantics::NEGATIVE
-		bindingOperator := BindingOperator::CHECK_ONLY
+		bindingSemantics := enum::BindingSemantics::NEGATIVE
+		bindingOperator := enum::BindingOperator::CHECK_ONLY
 		++   - domain->domainSource
 	}
 	domainSource : Domain {
 		name == "Source"
-		type == DomainType::SOURCE
+		type == enum::DomainType::SOURCE
 	}
 	tggRule : TGGRule {
 		- source->domainSource

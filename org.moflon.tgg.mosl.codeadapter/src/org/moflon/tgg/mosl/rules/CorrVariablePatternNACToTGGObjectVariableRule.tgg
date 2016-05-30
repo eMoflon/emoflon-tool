@@ -16,7 +16,7 @@
 
 #target {
 	domainCorrespondence : Domain {
-		type == DomainType::CORRESPONDENCE
+		type == enum::DomainType::CORRESPONDENCE
 		name == "Correspondence"
 	}
 	tggRule : TGGRule {
@@ -24,8 +24,8 @@
 		- correspondence->domainCorrespondence
 	}
 	++ tggObjectVariableCorr : TGGObjectVariable {
-		bindingSemantics := BindingSemantics::NEGATIVE
-		bindingOperator := BindingOperator::CHECK_ONLY
+		bindingSemantics := enum::BindingSemantics::NEGATIVE
+		bindingOperator := enum::BindingOperator::CHECK_ONLY
 		++   - domain->domainCorrespondence
 	}
 }

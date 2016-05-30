@@ -24,14 +24,14 @@
 		- objectVariable->tggObjectVariableTargetSrc
 	}
 	domain : Domain {
-		type == DomainType::TARGET
+		type == enum::DomainType::TARGET
 	}
 	tggObjectVariableTargetSrc : TGGObjectVariable {
 		++   - outgoingLink->tggLinkVariableTarget
 		- domain->domain
 	}
 	++ tggLinkVariableTarget : TGGLinkVariable {
-		bindingOperator := BindingOperator::CREATE
+		bindingOperator := enum::BindingOperator::CREATE
 		++   - domain->domain
 	}
 }

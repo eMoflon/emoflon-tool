@@ -22,10 +22,10 @@
 #target {
 	tggproject
 	language
-//	SDMLanguage.expressions
-//	SDMLanguage.patterns
-//	SDMLanguage.patterns.patternExpressions
-//	language.csp
+	SDMLanguage.expressions
+	SDMLanguage.patterns
+	SDMLanguage.patterns.patternExpressions
+	language.csp
 	ecore
 }
 
@@ -50,7 +50,7 @@
 		#src->ObjectVariablePattern
 		#trg->TGGObjectVariable
 	}
-	ExpressionToExpression {
+	ExpressionToExpression { 
 		#src->Expression
 		#trg->Expression
 	}
