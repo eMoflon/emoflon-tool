@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -108,7 +109,8 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
          boolean success = super.generateCode(WorkspaceHelper.createSubMonitor(monitor, 100));
 
          CoreActivator.getDefault().setDirty(project, false);
-
+         removeObsoleteErrorMarkers();
+         
          return success;
       } finally
       {
@@ -116,6 +118,10 @@ public class IntegrationCodeGenerator extends RepositoryCodeGenerator
       }
 
    }
+
+private void removeObsoleteErrorMarkers() throws CoreException {
+	project.deleteMarkers( "org.eclipse.xtext.ui.check.fast", true, IResource.DEPTH_INFINITE);
+}
 
    private void createFilesFromPreFiles()
    {
