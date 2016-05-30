@@ -99,7 +99,7 @@ public class ConsistencySynchronizer extends Synchronizer {
 
 	private void filter() {
 		
-		HashSet<int[]> clauses = new HashSet<>();
+		ArrayList<int[]> clauses = new ArrayList<>();
 		
 		HashMap<Integer, TripleMatch> variableToMatch = new HashMap<>();
 		HashMap<TripleMatch, Integer> matchToVariable = new HashMap<>();
@@ -120,19 +120,19 @@ public class ConsistencySynchronizer extends Synchronizer {
 			satProblem[i] = clause;
 			i++;
 		}
-		ContradictionException ed;
 		AbstractSATSolver solver = new Sat4JSolver();
 		for(int value : solver.solve(satProblem)){
 			if(value < 0){
 				TripleMatch excludedMatch = variableToMatch.get(-value);
 				excludedMatch.getCreatedCorrElts().getElements().forEach(e -> graphTriple.getCorrespondences().remove(e));
+				protocol.getMatches().remove(excludedMatch);
 			}
 		}
 		
 	}
 	
-	private HashSet<int[]> getclausesForAlternatives(Graph graph, HashMap<TripleMatch, Integer> matchToVariable){
-		HashSet<int[]> clauses = new HashSet<>();
+	private ArrayList<int[]> getclausesForAlternatives(Graph graph, HashMap<TripleMatch, Integer> matchToVariable){
+		ArrayList<int[]> clauses = new ArrayList<>();
 		for(EObject srcElement : graph.getElements()){
 			Collection<Integer> variables = protocol.creates(srcElement).map(m -> matchToVariable.get(m)).collect(Collectors.toSet());
 			
