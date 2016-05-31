@@ -132,7 +132,7 @@ public class OnlineChangeDetector implements Adapter
          allKnownElements.add(addedEObject);
          delta.addNode(addedEObject);
 
-         for (EStructuralFeature referenceOfAddedNode : addedEObject.eClass().getEReferences())
+         for (EStructuralFeature referenceOfAddedNode : addedEObject.eClass().getEAllReferences())
          {
             if (referenceOfAddedNode.getUpperBound() != 1)
                for (EObject containedObject : (EList<EObject>) addedEObject.eGet(referenceOfAddedNode, true))
