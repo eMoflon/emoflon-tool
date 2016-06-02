@@ -127,4 +127,5 @@
 2016-05-14	Implement merge algorithm for PSFs in WorkspaceInstaller #715
 2016-05-14	Disable automatic suppression of warnings for projects #718
 2016-05-14	Get rid of managed EAP files #708  
-???	eMoflon 2.16.0 released
+2016-06-02	eMoflon 2.16.0 released
+---
