@@ -86,7 +86,7 @@ public class EMoflonStandardWorkspaces
       PATH_LOOKUP.put(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("tests/TestSuiteDemocles0.psf"));
 
       // Basic developer workspace modules
-      PATH_LOOKUP.put(MODULE_CORE_SDM, Arrays.asList("development/Core_SDM_Modules.psf"));
+      PATH_LOOKUP.put(MODULE_CORE_SDM, Arrays.asList("development/Core_SDM_Modules.psf", "development/TGG_Core_Modules.psf"));
       PATH_LOOKUP.put(MODULE_META, Arrays.asList("development/Meta_Modules.psf"));
       PATH_LOOKUP.put(MODULE_IDE, Arrays.asList("development/IDE_Rest_Modules.psf"));
       PATH_LOOKUP.put(MODULE_TGG_CORE, Arrays.asList("development/TGG_Core_Modules.psf"));
