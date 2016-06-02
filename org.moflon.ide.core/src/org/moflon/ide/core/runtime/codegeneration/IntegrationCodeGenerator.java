@@ -32,6 +32,7 @@ import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
 import org.moflon.moca.MocaUtil;
 import org.moflon.moca.tggUserDefinedConstraint.unparser.TGGUserDefinedConstraintUnparserAdapter;
 import org.moflon.moca.tie.RunIntegrationGeneratorBatch;
+import org.moflon.moca.tie.RunIntegrationGeneratorCC;
 import org.moflon.moca.tie.RunIntegrationGeneratorSync;
 import org.moflon.moca.tie.RunModelGenerationGenerator;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
@@ -304,6 +305,7 @@ private void removeObsoleteErrorMarkers() throws CoreException {
 
          new RunIntegrationGeneratorBatch(project).doFinish();
          new RunIntegrationGeneratorSync(project).doFinish();
+         new RunIntegrationGeneratorCC(project).doFinish();
          new RunModelGenerationGenerator(project).doFinish();
          monitor.worked(5);
       } finally
