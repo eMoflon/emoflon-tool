@@ -2,24 +2,24 @@
 <feature
       id="org.moflon.ide.metamodelevolution.feature"
       label="eMoflon Metamodel-Code Co-Evolution Support (optional)"
-      version="2.0.0.qualifier"
+      version="2.17.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt">
 
    <description url="http://www.emoflon.org/">
       This feature aggregates plugins that support the automatic co-evolution of meta-models and the code generated from them.
    </description>
 
-   <requires>
-      <import feature="org.moflon.ide.feature" version="2.4.0" match="greaterOrEqual"/>
-   </requires>
-   
-  <license url="http://www.gnu.org/licenses/gpl-3.0.html;http://www.eclipse.org/org/documents/epl-v10.php">
+   <license url="http://www.gnu.org/licenses/gpl-3.0.html;http://www.eclipse.org/org/documents/epl-v10.php">
       eMoflon is dual-licensed under the GNU General Public License (GPL), version 3 or later, and the Eclipse Public License (EPL). 
 As a recipient of eMoflon, you may choose which license to receive the code under. 
 
 See here for more details on GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
 See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.php
    </license>
+
+   <requires>
+      <import feature="org.moflon.ide.feature" version="2.4.0" match="greaterOrEqual"/>
+   </requires>
 
    <plugin
          id="org.moflon.ide.metamodelevolution.core"
