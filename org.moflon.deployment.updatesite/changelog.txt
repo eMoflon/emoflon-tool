@@ -129,3 +129,5 @@
 2016-05-14	Get rid of managed EAP files #708  
 2016-06-02	eMoflon 2.16.0 released
 ---
+
+2016-06-03 Fix Ecore-to-EA does not complete #743 
