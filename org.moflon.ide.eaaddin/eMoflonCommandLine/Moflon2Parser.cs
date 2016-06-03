@@ -129,23 +129,25 @@ namespace MOFLON2EAExportImportTest
 
         public void doImport()
         {
-            if (import.Value)
+            if (import.Value && eapFile.Values.Count == 1)
             {
                 EA.Repository repository = null;
                 try
                 {
-                    Console.Out.WriteLine("DEBUG:Start import#");
-                    String xmiFilename = xmiFile.Value;
-                    String eapFilename = eapFile.Value;
-                    EAEcoreAddin.Main main = new EAEcoreAddin.Main();
-                    repository = new EA.Repository();
-                    repository.OpenFile(eapFilename);
+                    foreach (String eapFilename in eapFile.Values)
+                    {
+                        Console.Out.WriteLine("DEBUG:Start import#");
+                        String xmiFilename = xmiFile.Value;
 
-                    
+                        EAEcoreAddin.Main main = new EAEcoreAddin.Main();
+                        repository = new EA.Repository();
+                        repository.OpenFile(eapFilename);
 
-                    Console.Out.WriteLine("DEBUG:Initialize Importer#");
-                    SQLRepository sqlRepository = new SQLRepository(repository, false);
-                    MainImport importer = MainImport.getInstance(sqlRepository, new BackgroundWorker());
+
+
+                        Console.Out.WriteLine("DEBUG:Initialize Importer#");
+                        SQLRepository sqlRepository = new SQLRepository(repository, false);
+                        MainImport importer = MainImport.getInstance(sqlRepository, new BackgroundWorker());
 
 
                         Console.Out.WriteLine("DEBUG:Get MocaTree Node#");
@@ -156,15 +158,16 @@ namespace MOFLON2EAExportImportTest
 
                         Console.Out.WriteLine("DEBUG:Do Import#");
                         checkedMetamodelsToImport = new List<string>();
-                        
+
                         MocaNode mocaTree = new MocaNode();
                         mocaTree.appendChildNode(exportedTree);
                         importer.startImport(exportedTree, checkedMetamodelsToImport, false);
                         ////open the empty eap
-                        
+
 
                         Console.Out.WriteLine("INFO:Import was Successfull#");
 
+                    }
                 }
                 catch (Exception e)
                 {
