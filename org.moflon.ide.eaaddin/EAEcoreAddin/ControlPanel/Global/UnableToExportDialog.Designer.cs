@@ -42,7 +42,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(261, 59);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "Unable to export due to validation errors. Please check the error panel and corre" +
-                "ct these problems before re-trying.";
+    "ct these problems before re-trying.";
             // 
             // button2
             // 
