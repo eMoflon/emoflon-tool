@@ -131,11 +131,9 @@ private void removeObsoleteErrorMarkers() throws CoreException {
          if (RepositoryCodeGenerator.getEcoreFile(project).exists())
             RepositoryCodeGenerator.getEcoreFile(project).delete(true, new NullProgressMonitor());
 
-         if(!IntegrationBuilder.getPreEcoreFile(project).exists()){
-        	 // Try another build	
-        	 project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
-        	 project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-         }
+         // Try another build to solve many problems due to checking out a workspace	
+         project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
+         project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
          
          IntegrationBuilder.getPreEcoreFile(project).copy(RepositoryCodeGenerator.getEcoreFile(project).getFullPath(), true, new NullProgressMonitor());
 
