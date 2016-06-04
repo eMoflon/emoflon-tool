@@ -31,3 +31,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Export-Package: org.moflon.autotest.core
+Import-Package: org.eclipse.jdt.launching

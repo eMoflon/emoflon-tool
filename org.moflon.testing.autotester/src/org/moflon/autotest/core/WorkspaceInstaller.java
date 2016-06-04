@@ -4,19 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -25,12 +25,14 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchManager;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher;
+import org.eclipse.debug.internal.ui.DebugUIMessages;
+import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -53,6 +55,10 @@ import org.moflon.ide.workspaceinstaller.psf.PsfFileUtils;
 public class WorkspaceInstaller
 {
    private static final Logger logger = Logger.getLogger(WorkspaceInstaller.class);
+   private static final long TIMEOUT = 5000; // 5s
+   private static String getMweLaunchJob(String name) { 
+	   return MessageFormat.format(DebugUIMessages.DebugUIPlugin_25, new Object[] {name});
+   }
 
    public void installWorkspaceByName(final String workspaceName)
    {
@@ -116,7 +122,7 @@ public class WorkspaceInstaller
 
                   logger.info("Invoking MWE2 workflows...");
 
-                  invokeMwe2Workflows(WorkspaceHelper.createSubMonitor(monitor, 100));
+                  Collection<Job> mweJobs = invokeMwe2Workflows(WorkspaceHelper.createSubMonitor(monitor, 100));
 
                   if (exportingEapFilesRequired(label))
                   {
@@ -125,10 +131,24 @@ public class WorkspaceInstaller
                      exportModelsFromEAPFilesInWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
 
                      logger.info("Great! All model (.ecore) files have been exported ...");
-
-                     logger.info("Now refreshing and turning auto build back on to invoke normal code generation (build) process ...");
                   }
+                  
+                  // Wait a bit for MWE jobs to be scheduled, then join them with a timeout
+                  if(!mweJobs.isEmpty()){
+                	  logger.info("Waiting a bit before trying to join all MWE jobs ...");
+                	  Thread.sleep(TIMEOUT);
+                  }
+                  
+                  mweJobs.forEach(j -> {
+                	  try {
+                		logger.info("Joining " + j.getName());
+						j.join(TIMEOUT, WorkspaceHelper.createSubMonitor(monitor, 100)); 
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+                  });
 
+                  logger.info("Now refreshing and turning auto build back on to invoke normal code generation (build) process ...");
                   refreshAndBuildWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
 
                   logger.info("Finished building workspace...");
@@ -138,7 +158,7 @@ public class WorkspaceInstaller
                      logger.info("Running tests if any test projects according to our naming convention exist (*TestSuite*)");
                      // Without this time of waiting, a NPE is thrown
                      // when launching JUnit.
-                     Thread.sleep(5000);
+                     Thread.sleep(TIMEOUT);
 
                      runJUnitTests(WorkspaceHelper.createSubMonitor(monitor, 100));
 
@@ -250,42 +270,43 @@ public class WorkspaceInstaller
     * 
     * @see #collectMwe2Workflows()
     */
-   private void invokeMwe2Workflows(final IProgressMonitor monitor) throws CoreException
-   {
-      try
-      {
-         final List<IFile> collectedWorkflows = collectMwe2Workflows();
+	private Collection<Job> invokeMwe2Workflows(final IProgressMonitor monitor) throws CoreException {
+		try {
+			final ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+			final ILaunchConfigurationType type = manager.getLaunchConfigurationType("org.eclipse.emf.mwe2.launch.Mwe2LaunchConfigurationType");
+			ILaunchConfiguration[] configurations = manager.getLaunchConfigurations(type);
 
-         // TODO@rkluge: This effectively disables the invocation of the
-         // Mwe2Launcher (seams to be problematic)
-         collectedWorkflows.clear();
-
-         monitor.beginTask("Invoking MWE2 Workflows", 20 * collectedWorkflows.size());
-         for (final IFile workflowFile : collectedWorkflows)
-         {
-            // See: https://wiki.eclipse.org/EMF/FAQ#How_do_I_map_between_an_EMF_Resource_and_an_Eclipse_IFile.3F
-            final URI uri = URI.createPlatformResourceURI(workflowFile.getFullPath().toString(), true);
-            try
-            {
-               logger.debug(String.format("Invoking Mwe2Launcher for %s.", uri));
-               // final Injector injector = new Mwe2StandaloneSetup().createInjectorAndDoEMFRegistration();
-               // final Mwe2Runner mweRunner = injector.getInstance(Mwe2Runner.class);
-               // mweRunner.run(URI.createPlatformResourceURI(file.getFullPath().toString(), true), new HashMap<>());
-               new Mwe2Launcher().run(new String[] { uri.toString() });
-               monitor.worked(20);
-            } catch (final Exception ex)
-            {
-               // TODO@rkluge: Fail silently because the Mwe2Launcher fails, currently.
-               ex.printStackTrace();
-               logger.debug(String.format("Invoking Mwe2Launcher with %s failed. Reason: %s", uri, ex.getMessage()));
-            }
-         }
-
-      } finally
-      {
-         monitor.done();
-      }
-   }
+			Collection<Job> launchJobs = new ArrayList<>();
+			for (int i = 0; i < configurations.length; i++)
+				launchJobs.add(runLaunchConfiguration(configurations[i], ILaunchManager.RUN_MODE, monitor));
+			
+			launchJobs.removeIf(job -> job == null);
+			return launchJobs;
+		} catch (final CoreException e) {
+			e.printStackTrace();
+		} finally {
+			monitor.done();
+		}
+		
+		return Collections.<Job>emptyList();
+	}
+   
+   
+	private Job runLaunchConfiguration(ILaunchConfiguration configuration, String runMode, IProgressMonitor monitor) {		
+		DebugUITools.launch(configuration, runMode);
+		final IJobManager jobManager = Job.getJobManager();
+		try {
+			Job[] allJobs = jobManager.find(null);
+			for(Job job : allJobs){
+				if(job.getName().equals(getMweLaunchJob(configuration.getName())))					
+					return job;
+			}
+		} catch (OperationCanceledException e) {
+			e.printStackTrace();
+		}
+		
+		return null; 
+	}
 
    /**
     * Returns true if EAP files shall be exported, based on the provided displayed name
@@ -309,36 +330,6 @@ public class WorkspaceInstaller
          return false;
 
       return true;
-   }
-
-   /**
-    * Returns the list of all MWE2 files in eMoflon-specific projects
-    */
-   private List<IFile> collectMwe2Workflows() throws CoreException
-   {
-      final List<IFile> collectedWorkflows = new ArrayList<>();
-      ResourcesPlugin.getWorkspace().getRoot().accept(new IResourceVisitor() {
-
-         @Override
-         public boolean visit(IResource resource) throws CoreException
-         {
-            // Only consider Moflon-specific IProjects
-            if ((resource.getAdapter(IProject.class) != null && !resource.getName().startsWith("org.moflon"))
-                  || (resource.getAdapter(IFolder.class) != null && Arrays.asList("bin").contains(resource.getName())))
-            {
-               return false;
-            } else if (resource.getAdapter(IFile.class) != null & resource.getName().endsWith(".mwe2"))
-            {
-               collectedWorkflows.add(resource.getAdapter(IFile.class));
-               return false;
-            } else
-            {
-               return true;
-            }
-
-         }
-      });
-      return collectedWorkflows;
    }
 
    public void removeProjectsIfDesired(final IProgressMonitor monitor)
