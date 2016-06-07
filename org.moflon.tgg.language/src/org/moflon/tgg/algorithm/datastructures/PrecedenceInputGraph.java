@@ -3,12 +3,17 @@ package org.moflon.tgg.algorithm.datastructures;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.runtime.EMoflonEdge;
 import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.RuntimeFactory;
 import org.moflon.tgg.runtime.TripleMatchNodeMapping;
+
+import gnu.trove.TIntCollection;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.set.hash.TIntHashSet;
 
 /**
  * An on-the-fly collection of source/target matches and their precedence dependencies created and used during
@@ -19,51 +24,29 @@ import org.moflon.tgg.runtime.TripleMatchNodeMapping;
  */
 public class PrecedenceInputGraph extends PrecedenceStructure<Match>
 {
-   protected HashMap<Match, Collection<Match>> matchToSiblings = new HashMap<>();
+   protected TIntObjectHashMap<TIntHashSet> matchToSiblings = new TIntObjectHashMap<>();
    
    public void collectAllPrecedences(Collection<Match> inputMatches)
    {
-      matches.addAll(inputMatches);
-      
-      for (Match match : matches)
+      for (Match match : inputMatches)
          calculateTables(match);
-   }
-   
-   @Override
-   protected void calculateTables(Match match)
-   {
-      super.calculateTables(match);
-      extendSiblingsTable(match);
-   }
-   
-   private void extendSiblingsTable(Match match)
-   {
-      Collection<Match> siblings = new HashSet<>();
-      getCreatedElements(match).forEach(elt -> siblings.addAll(getOrReturnEmpty(elt, createToMatch)));
-      matchToSiblings.put(match, siblings);
       
-      for (Match elt : siblings)         
-         matchToSiblings.get(elt).add(match);
+      calculateSiblings();
+   }
+
+   
+   private void calculateSiblings()
+   {
+	  for(Match match : matches.valueCollection()){
+		  TIntHashSet siblings = new TIntHashSet();
+	      getCreatedElements(match).forEach(elt -> siblings.addAll(getOrReturnEmpty(elt, createToMatch)));
+	      matchToSiblings.put(matchToInt(match), siblings);
+	  }
+	  
    }
    
-   public Collection<Match> siblings(Match m){
+   public TIntCollection siblings(int m){
       return matchToSiblings.get(m);
-   }
-   
-   public void remove(Match m){
-      matches.remove(m);
-      
-      matchToSiblings.get(m).forEach(sibling -> { if(sibling != m) matchToSiblings.get(sibling).remove(m); });
-      matchToSiblings.remove(m);
-      
-      matchToChildren.get(m).forEach(child -> matchToParents.get(child).remove(m));
-      matchToChildren.remove(m);
-      
-      matchToParents.get(m).forEach(parent -> matchToChildren.get(parent).remove(m));
-      matchToParents.remove(m);
-      
-      contextToMatch.values().forEach(contextMatches -> contextMatches.remove(m));
-      createToMatch.values().forEach(createMatches -> createMatches.remove(m));
    }
    
    // --------
@@ -132,4 +115,5 @@ public class PrecedenceInputGraph extends PrecedenceStructure<Match>
 
       return match;
    }
+
 }

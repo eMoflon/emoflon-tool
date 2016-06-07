@@ -52,9 +52,6 @@ public class ConsistencySynchronizer extends Synchronizer {
 	public ConsistencySynchronizer(CorrespondenceModel graphTriple, Delta srcDelta, Delta trgDelta, SynchronizationProtocol protocol,
 			Configurator configurator, StaticAnalysis rules, TempOutputContainer tempOutputContainer) {
 		super(graphTriple, new Delta(), protocol, configurator, rules, tempOutputContainer);
-
-		srcLookupMethods = rules.getSourceRules();
-		trgLookupMethods = rules.getTargetRules();
 		
 		srcElements = new Graph(srcDelta.getAddedNodes(), srcDelta.getAddedEdges());
 		trgElements = new Graph(trgDelta.getAddedNodes(), trgDelta.getAddedEdges());
@@ -317,5 +314,12 @@ public class ConsistencySynchronizer extends Synchronizer {
 	
 	private boolean isIgnored(String ruleName, RulesTable lookupMethods){
 		return lookupMethods.getRules().stream().noneMatch(r -> r.getRuleName().equals(ruleName));
+	}
+
+	@Override
+	protected RulesTable getLookupMethods(StaticAnalysis rules) {
+		srcLookupMethods = rules.getSourceRules();
+		trgLookupMethods = rules.getTargetRules();
+		return null;
 	}
 }

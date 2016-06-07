@@ -85,6 +85,7 @@ Bundle-ClassPath: .,
  lib/RTED_v1.1.jar,
  lib/com.microsoft.z3.jar,
  lib/org.sat4j.core.jar,
- lib/smtinterpol.jar
+ lib/smtinterpol.jar,
+ lib/trove-3.1a1.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.TGGLanguageActivator

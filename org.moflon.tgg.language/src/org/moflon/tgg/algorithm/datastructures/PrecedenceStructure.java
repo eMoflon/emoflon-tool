@@ -1,9 +1,9 @@
 package org.moflon.tgg.algorithm.datastructures;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -11,204 +11,224 @@ import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.runtime.EMoflonEdge;
 import org.moflon.tgg.runtime.RuntimeFactory;
 
+import gnu.trove.TIntCollection;
+import gnu.trove.list.array.TIntArrayList;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.set.hash.TIntHashSet;
+
 /**
  * Represents a set of matches and precedence dependencies between matches.
  * 
  * @author anjorin
  *
  */
-public abstract class PrecedenceStructure<M>
-{
-   protected Collection<M> matches =  CollectionProvider.<M>getCollection();
+public abstract class PrecedenceStructure<M> {
 
-   protected HashMap<EObject, Collection<M>> contextToMatch = new HashMap<>();
-   protected HashMap<EObject, Collection<M>> createToMatch = new HashMap<>();
-   
-   protected HashMap<M, Collection<M>> matchToChildren = new HashMap<>();
-   protected HashMap<M, Collection<M>> matchToParents = new HashMap<>();
-   
-   protected void calculateTables(M match)
-   {
-      getCreatedElements(match).forEach(elt -> addMatchToCreateTable(elt, match));
-      getContextElements(match).forEach(elt -> addMatchToContextTable(elt, match));   
-      
-      Collection<M> children = extendChildrenTable(match);
-      Collection<M> parents = extendParentsTable(match);
-      
-      for (M child : children)         
-         matchToParents.get(child).add(match);
-      
-      for (M parent : parents)
-         matchToChildren.get(parent).add(match);         
-   }
+	protected TIntObjectHashMap<M> matches = new TIntObjectHashMap<>();
 
-   // -------
-   
-   private void addMatchToContextTable(EObject element, M match)
-   {
-      addMatchToTable(contextToMatch, element, match);
-   }
+	protected HashMap<EObject, TIntArrayList> contextToMatch = new HashMap<>();
+	protected HashMap<EObject, TIntArrayList> createToMatch = new HashMap<>();
 
-   private void addMatchToCreateTable(EObject element, M match)
-   {
-      addMatchToTable(createToMatch, element, match);
-   }
+	protected TIntObjectHashMap<TIntHashSet> matchToChildren = new TIntObjectHashMap<>();
+	protected TIntObjectHashMap<TIntHashSet> matchToParents = new TIntObjectHashMap<>();
 
-   private void addMatchToTable(HashMap<EObject, Collection<M>> table, EObject element, M match)
-   {
-      if (!table.containsKey(element))
-         table.put(element, CollectionProvider.<M>getCollection());
+	protected void calculateTables(M match) {
+		
+		matches.put(matchToInt(match), match);
 
-      table.get(element).add(match);
-   }
-   
-   // --------
+		getCreatedElements(match).forEach(elt -> addMatchToCreateTable(elt, matchToInt(match)));
+		getContextElements(match).forEach(elt -> addMatchToContextTable(elt, matchToInt(match)));
 
-   private Collection<M> extendChildrenTable(M match)
-   {
-      return extendTable(match, getCreatedElements(match), contextToMatch, matchToChildren);
-   }
+		TIntHashSet children = extendChildrenTable(match);
+		TIntHashSet parents = extendParentsTable(match);
 
-   private Collection<M> extendParentsTable(M match)
-   {
-      return extendTable(match, getContextElements(match), createToMatch, matchToParents);
-   }
+		children.forEach(c -> {
+			if(matchToParents.contains(c))
+				matchToParents.get(c).add(matchToInt(match));
+			return true;
+		});
 
-   private Collection<M> extendTable(M match, Collection<EObject> elements, HashMap<EObject, Collection<M>> eltToMatches, HashMap<M, Collection<M>> matchTable)
-   {
-      Collection<M> table = new HashSet<>();
-      for (EObject elt : elements){
-         table.addAll(getOrReturnEmpty(elt, eltToMatches));
-         table.remove(match);
-      }
-      matchTable.put(match, table);
-      return table;
-   }
-      
-   protected Collection<M> getOrReturnEmpty(EObject elt, HashMap<EObject, Collection<M>> table)
-   {
-      if(table.containsKey(elt))
-         return table.get(elt);
-      else
-         return Collections.emptySet();
-   }
+		parents.forEach(p -> {
+			if(matchToChildren.contains(p))
+				matchToChildren.get(p).add(matchToInt(match));
+			return true;
+		});
+	}
 
-   // ---------
-   
-   public Collection<M> children(M m)
-   {
-      if(!matchToChildren.containsKey(m))
-         return Collections.emptyList();
-      return matchToChildren.get(m); 
-   }
+	// -------
 
-   public Collection<M> parents(M m)
-   {
-      if (!matchToParents.containsKey(m))
-         return Collections.emptyList();
-      return matchToParents.get(m);
-   }
-   
-   // ----------
+	private void addMatchToContextTable(EObject element, int id) {
+		addMatchToTable(contextToMatch, element, id);
+	}
 
-   public Stream<M> creates(Graph elements)
-   {
-      return elements.stream().flatMap(this::getCreatingMatches);
-   }
+	private void addMatchToCreateTable(EObject element, int id) {
+		addMatchToTable(createToMatch, element, id);
+	}
 
-   public Stream<M> getCreatingMatches(EObject o)
-   {
-      if (createToMatch.containsKey(o))
-         return createToMatch.get(o).stream();
-      else
-         return Stream.<M> empty();
-   }
-   
-   
-   public Stream<M> getContextMatches(EObject o)
-   {
-      if (contextToMatch.containsKey(o))
-         return contextToMatch.get(o).stream();
-      else
-         return Stream.<M> empty();
-   }
-   
-   public Collection<M> getMatches()
-   {
-      return matches;
-   }
+	private void addMatchToTable(HashMap<EObject, TIntArrayList> table, EObject element, int id) {
+		if (!table.containsKey(element))
+			table.put(element, new TIntArrayList());
 
-   public abstract Collection<EObject> getContextElements(M m);
+		table.get(element).add(id);
+	}
 
-   public abstract Collection<EObject> getCreatedElements(M m);
+	// --------
 
-   // ----------
-   
-   public org.moflon.tgg.runtime.PrecedenceStructure save()
-   {
-      org.moflon.tgg.runtime.PrecedenceStructure ps = RuntimeFactory.eINSTANCE.createPrecedenceStructure();
+	private TIntHashSet extendChildrenTable(M match) {
+		return extendTable(match, getCreatedElements(match), contextToMatch, matchToChildren);
+	}
 
-      HashMap<M, org.moflon.tgg.runtime.TripleMatch> conversionTable = convertToMatches();
-      ps.getTripleMatches().addAll(conversionTable.values().stream()
-            .sorted((a,b) -> a.getNumber() - b.getNumber())
-            .collect(Collectors.toList())
-         );
-      
-      matches.forEach(m -> children(m).forEach(child -> {
-         if(conversionTable.containsKey(child))
-            conversionTable.get(m).getChildren().add(conversionTable.get(child));  
-      }));
-      
-      return ps;
-   }
+	private TIntHashSet extendParentsTable(M match) {
+		return extendTable(match, getContextElements(match), createToMatch, matchToParents);
+	}
 
-   private HashMap<M, org.moflon.tgg.runtime.TripleMatch> convertToMatches()
-   {
-      HashMap<M, org.moflon.tgg.runtime.TripleMatch> conversionTable = new HashMap<>();
-      matches.forEach(m -> conversionTable.put(m, toEMF(m)));
-      
-      return conversionTable;
-   }
+	private TIntHashSet extendTable(M match, Collection<EObject> elements,
+			HashMap<EObject, TIntArrayList> eltToMatches, TIntObjectHashMap<TIntHashSet> matchTable) {
+		TIntHashSet table = new TIntHashSet();
+		for (EObject elt : elements) {
+			table.addAll(getOrReturnEmpty(elt, eltToMatches));
+			table.remove(matchToInt(match));
+		}
+		matchTable.put(matchToInt(match), table);
+		return table;
+	}
 
-   protected void addEdges(org.moflon.tgg.runtime.TripleMatch tripleMatch)
-   {
-      tripleMatch.getContextElements().forEach(elt -> {
-         addIfEdge(tripleMatch, elt);
-      });
+	protected TIntArrayList getOrReturnEmpty(EObject elt, HashMap<EObject, TIntArrayList> table) {
+		if (table.containsKey(elt))
+			return table.get(elt);
+		else
+			return new TIntArrayList();
+	}
 
-      tripleMatch.getCreatedElements().forEach(elt -> {
-         addIfEdge(tripleMatch, elt);
-      });
+	// ---------
 
-      tripleMatch.getSourceElements().forEach(elt -> {
-         addIfEdge(tripleMatch, elt);
-      });
+	public TIntCollection children(int m) {
+		if (!matchToChildren.containsKey(m))
+			return new TIntHashSet();
+		return matchToChildren.get(m);
+	}
 
-      tripleMatch.getTargetElements().forEach(elt -> {
-         addIfEdge(tripleMatch, elt);
-      });
+	public TIntCollection parents(int m) {
+		if (!matchToParents.containsKey(m))
+			return new TIntHashSet();
+		return matchToParents.get(m);
+	}
 
-      tripleMatch.getCorrespondenceElements().forEach(elt -> {
-         addIfEdge(tripleMatch, elt);
-      });
-   }
+	// ----------
 
-   private void addIfEdge(org.moflon.tgg.runtime.TripleMatch tripleMatch, EObject elt)
-   {
-      if (elt instanceof EMoflonEdge)
-         tripleMatch.getContainedEdges().add(elt);
-   }
+	public Stream<M> creates(Graph elements) {
+		return elements.stream().flatMap(e -> getCreatingMatches(e).stream());
+	}
+	
+	public Stream<M> creates(EObject elt) {
+		return getCreatingMatches(elt).stream();
+	}
 
-   public Stream<M> creates(EObject createdElt)
-   {
-      return getCreatingMatches(createdElt);
-   }
-   
-   public Collection<M> createsAsCollection(EObject elt){
-      return createToMatch.get(elt);
-   }
-   
-   protected abstract org.moflon.tgg.runtime.TripleMatch toEMF(M m);
+	public Collection<M> getCreatingMatches(EObject o) {
+		if (createToMatch.containsKey(o))
+			return getAsCollection(createToMatch.get(o));
+		else
+			return Collections.emptyList();
+	}
 
-   protected abstract M fromEMF(org.moflon.tgg.runtime.TripleMatch m);
+	public Collection<M> getContextMatches(EObject o) {
+		if (contextToMatch.containsKey(o))
+			return getAsCollection(contextToMatch.get(o));
+		else
+			return Collections.emptyList();
+	}
+
+	public Collection<M> getMatches() {
+		return new ArrayList<M>(matches.valueCollection());
+	}
+	
+	public TIntCollection getMatchIDs(){
+		return new TIntHashSet(matches.keySet());
+	}
+
+	public abstract Collection<EObject> getContextElements(M m);
+
+	public abstract Collection<EObject> getCreatedElements(M m);
+
+	// ----------
+
+	public org.moflon.tgg.runtime.PrecedenceStructure save() {
+		org.moflon.tgg.runtime.PrecedenceStructure ps = RuntimeFactory.eINSTANCE.createPrecedenceStructure();
+
+		HashMap<M, org.moflon.tgg.runtime.TripleMatch> conversionTable = convertToMatches();
+		ps.getTripleMatches().addAll(conversionTable.values().stream().sorted((a, b) -> a.getNumber() - b.getNumber())
+				.collect(Collectors.toList()));
+		
+		getMatchIDs().forEach(m -> {
+			children(m).forEach(child -> {
+				if (conversionTable.containsKey(child))
+					conversionTable.get(intToMatch(m)).getChildren().add(conversionTable.get(intToMatch(child)));
+				return true;
+			});
+			return true;
+		});
+
+		return ps;
+	}
+
+	private HashMap<M, org.moflon.tgg.runtime.TripleMatch> convertToMatches() {
+		HashMap<M, org.moflon.tgg.runtime.TripleMatch> conversionTable = new HashMap<>();
+		getMatches().forEach(m -> conversionTable.put(m, toEMF(m)));
+
+		return conversionTable;
+	}
+
+	protected void addEdges(org.moflon.tgg.runtime.TripleMatch tripleMatch) {
+		tripleMatch.getContextElements().forEach(elt -> {
+			addIfEdge(tripleMatch, elt);
+		});
+
+		tripleMatch.getCreatedElements().forEach(elt -> {
+			addIfEdge(tripleMatch, elt);
+		});
+
+		tripleMatch.getSourceElements().forEach(elt -> {
+			addIfEdge(tripleMatch, elt);
+		});
+
+		tripleMatch.getTargetElements().forEach(elt -> {
+			addIfEdge(tripleMatch, elt);
+		});
+
+		tripleMatch.getCorrespondenceElements().forEach(elt -> {
+			addIfEdge(tripleMatch, elt);
+		});
+	}
+
+	private void addIfEdge(org.moflon.tgg.runtime.TripleMatch tripleMatch, EObject elt) {
+		if (elt instanceof EMoflonEdge)
+			tripleMatch.getContainedEdges().add(elt);
+	}
+
+	public Collection<M> createsAsCollection(EObject elt) {
+		return getAsCollection(createToMatch.get(elt));
+	}
+
+	protected abstract org.moflon.tgg.runtime.TripleMatch toEMF(M m);
+
+	protected abstract M fromEMF(org.moflon.tgg.runtime.TripleMatch m);
+
+	public M intToMatch(int id) {
+		if(!matches.containsKey(id))
+			throw new RuntimeException("never seen that match id before");
+		return matches.get(id);
+	}
+	
+	public int matchToInt(M m){
+		return m.hashCode();
+	}
+
+	public Collection<M> getAsCollection(TIntCollection tIntCollection) {
+		ArrayList<M> result = new ArrayList<>();
+		tIntCollection.forEach(i -> {
+			result.add(intToMatch(i));
+			return true;
+		});
+		return result;
+	}
 }

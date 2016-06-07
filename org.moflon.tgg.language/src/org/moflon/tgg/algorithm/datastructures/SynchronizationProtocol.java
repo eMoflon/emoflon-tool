@@ -3,124 +3,118 @@ package org.moflon.tgg.algorithm.datastructures;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.runtime.TripleMatchNodeMapping;
 
 /**
- * Used to represent the set of triple matches and their precedence dependencies used for a synchronization.
+ * Used to represent the set of triple matches and their precedence dependencies
+ * used for a synchronization.
  * 
  * @author anjorin
  *
  */
-public class SynchronizationProtocol extends PrecedenceStructure<TripleMatch>
-{
-   public Collection<TripleMatch> descendants(TripleMatch m)
-   {
-      Collection<TripleMatch> desc = new HashSet<TripleMatch>(children(m));
-      
-      for (TripleMatch child : children(m))
-         desc.addAll(descendants(child));
+public class SynchronizationProtocol extends PrecedenceStructure<TripleMatch> {
+	public Collection<TripleMatch> descendants(TripleMatch m) {
+		Collection<TripleMatch> children = getAsCollection(children(matchToInt(m)));
+		Collection<TripleMatch> desc = new HashSet<TripleMatch>(children);
 
-      return desc;
-   }
-   
-   public Collection<TripleMatch> ancestors(TripleMatch m)
-   {
-      Collection<TripleMatch> asc = new HashSet<TripleMatch>(parents(m));
-      
-      for(TripleMatch parent : parents(m))
-         asc.addAll(ancestors(parent));
-      
-      return asc;
-   }
+		for (TripleMatch child : children)
+			desc.addAll(descendants(child));
 
-   
-   public void collectPrecedences(TripleMatch match){
-      matches.add(match);
-      calculateTables(match); 
-   }
-   
-   // -------
-   
-   public void revoke(Collection<TripleMatch> allToBeRevoked)
-   {
-      matches.removeAll(allToBeRevoked);
+		return desc;
+	}
 
-      createToMatch.keySet().stream().filter(key -> allToBeRevoked.containsAll(createToMatch.get(key)))
-                                     .collect(Collectors.toSet())
-                                     .forEach(key -> createToMatch.remove(key));
+	public Collection<TripleMatch> ancestors(TripleMatch m) {
+		Collection<TripleMatch> parents = getAsCollection(parents(matchToInt(m)));
+		Collection<TripleMatch> asc = new HashSet<TripleMatch>(parents);
 
-      contextToMatch.values().forEach(matches -> matches.removeAll(allToBeRevoked));
-      
-      allToBeRevoked.forEach(match -> {
-         matchToChildren.get(match).forEach(child -> matchToParents.get(child).remove(match));
-         matchToParents.get(match).forEach(parent -> matchToChildren.get(parent).remove(match));
-         matchToChildren.remove(match);
-         matchToParents.remove(match);
-      });
-   }
+		for (TripleMatch parent : parents)
+			asc.addAll(ancestors(parent));
 
-   // -------
-   
-   @Override
-   public Collection<EObject> getContextElements(TripleMatch m)
-   {
-      return m.getContextElements().getElements();
-   }
+		return asc;
+	}
 
-   @Override
-   public Collection<EObject> getCreatedElements(TripleMatch m)
-   {
-      return m.getCreatedElements().getElements();
-   }
+	public void collectPrecedences(TripleMatch match) {
+		calculateTables(match);
+	}
 
-   // -------
-   
-   public void load(org.moflon.tgg.runtime.PrecedenceStructure ps)
-   {
-      ps.getTripleMatches().forEach(elt -> collectPrecedences(fromEMF(elt)));
-   }
-   
-   @Override
-   public org.moflon.tgg.runtime.TripleMatch toEMF(TripleMatch m)
-   {
-      org.moflon.tgg.runtime.TripleMatch tripleMatch = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE.createTripleMatch();
+	// -------
 
-      tripleMatch.getSourceElements().addAll(m.getSourceElements().getElements());
-      tripleMatch.getTargetElements().addAll(m.getTargetElements().getElements());
-      tripleMatch.getCorrespondenceElements().addAll(m.getCorrespondenceElements().getElements());
+	public void revoke(Collection<TripleMatch> allToBeRevoked) {
+		
+		int[] allTobeRevokedIDs = new int[allToBeRevoked.size()];
+		int i = 0;
+		for(TripleMatch m : allToBeRevoked){
+			allTobeRevokedIDs[i] = matchToInt(m);
+			i++;
+		}
+		
+		createToMatch.keySet().forEach(elt -> createToMatch.get(elt).removeAll(allTobeRevokedIDs));
+		contextToMatch.keySet().forEach(elt -> contextToMatch.get(elt).removeAll(allTobeRevokedIDs));
+		
+		for(int id : allTobeRevokedIDs){
+			matchToChildren.get(id).forEach(child -> matchToParents.get(child).remove(id));
+			matchToParents.get(id).forEach(parent -> matchToChildren.get(parent).remove(id));
+			matchToChildren.remove(id);
+			matchToParents.remove(id);
+			matches.remove(id);
+		}
+	}
 
-      tripleMatch.getContextElements().addAll(m.getContextElements().getElements());
-      tripleMatch.getCreatedElements().addAll(m.getCreatedElements().getElements());
+	// -------
 
-      addEdges(tripleMatch);
+	@Override
+	public Collection<EObject> getContextElements(TripleMatch m) {
+		return m.getContextElements().getElements();
+	}
 
-      tripleMatch.setRuleName(m.getRuleName());
-      tripleMatch.setNumber(m.getID());
+	@Override
+	public Collection<EObject> getCreatedElements(TripleMatch m) {
+		return m.getCreatedElements().getElements();
+	}
 
-      m.getNodeMappings().keySet().stream().forEach(nodeName ->{
-         TripleMatchNodeMapping nodeMapping = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE.createTripleMatchNodeMapping();
-         nodeMapping.setNodeName(nodeName);
-         nodeMapping.setNode(m.getNode(nodeName));
-         tripleMatch.getNodeMappings().add(nodeMapping);});
-   
-      return tripleMatch;
-   }
+	// -------
 
-   @Override
-   protected TripleMatch fromEMF(org.moflon.tgg.runtime.TripleMatch m)
-   {
-      HashMap<String, EObject> nodeMappings = new HashMap<>();
-      m.getNodeMappings().stream().forEach(nm -> nodeMappings.put(nm.getNodeName(), nm.getNode()));
-      
-      return new TripleMatch(m.getRuleName(), 
-             new Graph(m.getSourceElements()), 
-             new Graph(m.getTargetElements()), 
-             new Graph(m.getCorrespondenceElements()),
-             new Graph(m.getCreatedElements()),
-             new Graph(m.getContextElements()),
-             nodeMappings); 
-   }
+	public void load(org.moflon.tgg.runtime.PrecedenceStructure ps) {
+		ps.getTripleMatches().forEach(elt -> collectPrecedences(fromEMF(elt)));
+	}
+
+	@Override
+	public org.moflon.tgg.runtime.TripleMatch toEMF(TripleMatch m) {
+		org.moflon.tgg.runtime.TripleMatch tripleMatch = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE
+				.createTripleMatch();
+
+		tripleMatch.getSourceElements().addAll(m.getSourceElements().getElements());
+		tripleMatch.getTargetElements().addAll(m.getTargetElements().getElements());
+		tripleMatch.getCorrespondenceElements().addAll(m.getCorrespondenceElements().getElements());
+
+		tripleMatch.getContextElements().addAll(m.getContextElements().getElements());
+		tripleMatch.getCreatedElements().addAll(m.getCreatedElements().getElements());
+
+		addEdges(tripleMatch);
+
+		tripleMatch.setRuleName(m.getRuleName());
+		tripleMatch.setNumber(m.getID());
+
+		m.getNodeMappings().keySet().stream().forEach(nodeName -> {
+			TripleMatchNodeMapping nodeMapping = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE
+					.createTripleMatchNodeMapping();
+			nodeMapping.setNodeName(nodeName);
+			nodeMapping.setNode(m.getNode(nodeName));
+			tripleMatch.getNodeMappings().add(nodeMapping);
+		});
+
+		return tripleMatch;
+	}
+
+	@Override
+	protected TripleMatch fromEMF(org.moflon.tgg.runtime.TripleMatch m) {
+		HashMap<String, EObject> nodeMappings = new HashMap<>();
+		m.getNodeMappings().stream().forEach(nm -> nodeMappings.put(nm.getNodeName(), nm.getNode()));
+
+		return new TripleMatch(m.getRuleName(), new Graph(m.getSourceElements()), new Graph(m.getTargetElements()),
+				new Graph(m.getCorrespondenceElements()), new Graph(m.getCreatedElements()),
+				new Graph(m.getContextElements()), nodeMappings);
+	}
 }
