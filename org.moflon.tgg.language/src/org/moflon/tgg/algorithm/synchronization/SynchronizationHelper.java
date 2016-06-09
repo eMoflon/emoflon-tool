@@ -451,9 +451,9 @@ public class SynchronizationHelper
 	   establishBackwardDelta();
 	   Delta trgDelta = delta;
 	   
-	   establishTranslationProtocol();
+	   establishGraphTriple();
 	   
-	   performSynchronization(new ConsistencySynchronizer(corr, srcDelta, trgDelta, protocol, configurator, determineLookupMethods(), tempOutputContainer));
+	   (new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr)).createCorrespondences();;
    }
 
    protected void performSynchronization(final Synchronizer synchronizer)

@@ -192,9 +192,10 @@ import org.eclipse.emf.ecore.EObject;
 
 		// Consistency Check
         <className> helper = new <className>();
-        helper.loadSrc("instances/Employee_PC_FWD.xmi");
-		helper.loadTrg("instances/Employee_PC_BWD.xmi");
+        helper.loadSrc("instances/src.xmi");
+		helper.loadTrg("instances/trg.xmi");
 		helper.createCorrespondences();
+		helper.saveCorr("instances/corr.xmi");
 	}
 }
 >>

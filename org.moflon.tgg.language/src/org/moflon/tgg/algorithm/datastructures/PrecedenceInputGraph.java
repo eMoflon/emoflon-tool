@@ -22,9 +22,8 @@ import gnu.trove.set.hash.TIntHashSet;
  * @author anjorin
  *
  */
-public class PrecedenceInputGraph extends PrecedenceStructure<Match>
+public class PrecedenceInputGraph extends PrecedenceStructureWithSiblingsSupport<Match>
 {
-   protected TIntObjectHashMap<TIntHashSet> matchToSiblings = new TIntObjectHashMap<>();
    
    public void collectAllPrecedences(Collection<Match> inputMatches)
    {
@@ -32,21 +31,6 @@ public class PrecedenceInputGraph extends PrecedenceStructure<Match>
          calculateTables(match);
       
       calculateSiblings();
-   }
-
-   
-   private void calculateSiblings()
-   {
-	  for(Match match : matches.valueCollection()){
-		  TIntHashSet siblings = new TIntHashSet();
-	      getCreatedElements(match).forEach(elt -> siblings.addAll(getOrReturnEmpty(elt, createToMatch)));
-	      matchToSiblings.put(matchToInt(match), siblings);
-	  }
-	  
-   }
-   
-   public TIntCollection siblings(int m){
-      return matchToSiblings.get(m);
    }
    
    // --------
