@@ -5,6 +5,7 @@
 package org.moflon.tgg.mosl.formatting2;
 
 import com.google.inject.Inject
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.moflon.tgg.mosl.services.TGGGrammarAccess
@@ -16,6 +17,8 @@ import org.moflon.tgg.mosl.tgg.AttributeAssignment
 import org.moflon.tgg.mosl.tgg.AttributeConstraint
 import org.moflon.tgg.mosl.tgg.CorrType
 import org.moflon.tgg.mosl.tgg.CorrVariablePattern
+import org.moflon.tgg.mosl.tgg.EnumExpression
+import org.moflon.tgg.mosl.tgg.Expression
 import org.moflon.tgg.mosl.tgg.Import
 import org.moflon.tgg.mosl.tgg.LinkVariablePattern
 import org.moflon.tgg.mosl.tgg.LocalVariable
@@ -28,8 +31,7 @@ import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile
 import org.moflon.tgg.mosl.tgg.Using
 
 import static org.moflon.tgg.mosl.tgg.TggPackage.Literals.*
-import org.moflon.tgg.mosl.tgg.Expression
-import org.moflon.tgg.mosl.tgg.EnumExpression
+import java.util.List
 
 class TGGFormatter extends AbstractFormatter2 {
 
@@ -48,6 +50,39 @@ class TGGFormatter extends AbstractFormatter2 {
 	
 	@Inject extension TGGGrammarAccess
 
+// predefined Styles
+	def private void lineSeparator(List<? extends EObject> items, extension IFormattableDocument document){
+		if(items != null && items.size() > 0){
+			items.get(0).prepend[newLine]
+			for(var index = 0; index < items.size()-1; index++){
+				items.get(index).append[newLines = 2]
+			}
+			items.get(items.size()-1).append[newLine]
+		}
+	}
+
+	def private void singleItemFormat(EObject item, extension IFormattableDocument document){
+		item.surround[indent]
+	}
+
+	def private void singleItemFormatInterior(EObject item, extension IFormattableDocument document){
+		singleItemFormat(item,document);
+		item.interior[indent]
+	}
+
+	def private void attributeFormat(EObject attribute, extension IFormattableDocument document){
+		attribute.surround[newLine];
+		attribute.regionFor.feature(ATTRIBUTE_CONSTRAINT__OP).surround[noSpace]
+	}
+
+	def private void corrFormat(EObject corr, extension IFormattableDocument document){
+		corr.regionFor.keyword(srcArrowKW).prepend[newLine].append[noSpace]
+		corr.regionFor.keyword(trgArrowKW).prepend[newLine].append[noSpace]
+		corr.regionFor.keyword("}").prepend[newLine]
+	}
+	
+	
+// formating
 	def dispatch void format(TripleGraphGrammarFile triplegraphgrammarfile, extension IFormattableDocument document) {
 		format(triplegraphgrammarfile.getSchema(), document);
 		for (Rule rules : triplegraphgrammarfile.getRules()) {
@@ -80,9 +115,13 @@ class TGGFormatter extends AbstractFormatter2 {
 		for (Using using : schema.getUsing()) {
 			using.append[newLine]
 		}
+		
+		lineSeparator(schema.correspondenceTypes, document)
 		for (CorrType correspondenceTypes : schema.getCorrespondenceTypes()) {
 			format(correspondenceTypes, document);
 		}
+		
+		lineSeparator(schema.attributeCondDefs, document)
 		for (AttrCondDef attributeCondDefs : schema.getAttributeCondDefs()) {
 			format(attributeCondDefs, document);
 		}
@@ -107,34 +146,38 @@ class TGGFormatter extends AbstractFormatter2 {
 		for (Using using : rule.getUsing()) {
 			using.append[newLine]
 		}
+		
+		lineSeparator(rule.sourcePatterns, document)
 		for (ObjectVariablePattern sourcePatterns : rule.getSourcePatterns()) {
 			format(sourcePatterns, document);
 		}
+		
+		lineSeparator(rule.targetPatterns, document)
 		for (ObjectVariablePattern targetPatterns : rule.getTargetPatterns()) {
 			format(targetPatterns, document);
 		}
+		
+		lineSeparator(rule.correspondencePatterns,document)
 		for (CorrVariablePattern correspondencePatterns : rule.getCorrespondencePatterns()) {
 			format(correspondencePatterns, document);
 		}
+		
+		lineSeparator(rule.attrConditions,document)
 		for (AttrCond attrConditions : rule.getAttrConditions()) {
 			format(attrConditions, document);
 		}
+		
 	}
 	def dispatch void format(CorrType correspondenceType, extension IFormattableDocument document) {
-		correspondenceType.surround[newLine]
-		correspondenceType.surround[indent]
-		correspondenceType.interior[indent]
+		singleItemFormatInterior(correspondenceType,document);
 		if(correspondenceType instanceof CorrType){
-			correspondenceType.regionFor.keyword(srcArrowKW).prepend[newLine].append[noSpace]
-			correspondenceType.regionFor.keyword(trgArrowKW).prepend[newLine].append[noSpace]
-			correspondenceType.regionFor.keyword("}").prepend[newLine]
+			corrFormat(correspondenceType, document)
 		}
 	}
 
 	def dispatch void format(AttrCond attrcond, extension IFormattableDocument document) {
-		attrcond.surround[newLine]
+		singleItemFormat(attrcond,document)
 		attrcond.regionFor.feature(ATTR_COND__NAME).prepend[newLine]
-		attrcond.surround[indent]
 		var values = attrcond.getValues()
 		for (ParamValue value : values) {
 			if (values.indexOf(value) != 0) {
@@ -156,13 +199,10 @@ class TGGFormatter extends AbstractFormatter2 {
 	}
 
 	def dispatch void format(AttrCondDef attrconddef, extension IFormattableDocument document) {
-		attrconddef.surround[newLine]
-		attrconddef.surround[indent]
-		attrconddef.interior[indent]
+		singleItemFormatInterior(attrconddef,document)		
 		attrconddef.regionFor.keyword("(").surround[noSpace]
 		attrconddef.regionFor.keyword(syncKW).prepend[newLine]
 		attrconddef.regionFor.keyword(genKW).prepend[newLine]
-		attrconddef.regionFor.keyword("}").surround[newLine]
 		for (Param params : attrconddef.getParams()) {
 			params.regionFor.feature(PARAM__INDEX).append[noSpace]
 			params.regionFor.feature(PARAM__TYPE).surround[noSpace]
@@ -176,31 +216,24 @@ class TGGFormatter extends AbstractFormatter2 {
 	}
 
 	def dispatch void format(CorrVariablePattern corrvariablepattern, extension IFormattableDocument document) {
-		corrvariablepattern.surround[newLine]
-		corrvariablepattern.surround[indent]
-		corrvariablepattern.interior[indent]
+		singleItemFormatInterior(corrvariablepattern,document)
 		corrvariablepattern.regionFor.feature(CORR_VARIABLE_PATTERN__TYPE).prepend[noSpace]
-
-		corrvariablepattern.regionFor.keyword(srcArrowKW).prepend[newLine].append[noSpace]
-		corrvariablepattern.regionFor.keyword(trgArrowKW).prepend[newLine].append[noSpace] 
-		corrvariablepattern.regionFor.keyword("}").prepend[newLine]
+		corrFormat(corrvariablepattern, document)
 	}
 
+
+
 	def dispatch void format(ObjectVariablePattern objectvariablepattern, extension IFormattableDocument document) {
-		objectvariablepattern.surround[newLine]
-		objectvariablepattern.surround[indent]
-		objectvariablepattern.interior[indent]
+		singleItemFormatInterior(objectvariablepattern,document)
 		objectvariablepattern.regionFor.feature(NAMED_ELEMENTS__NAME).surround[noSpace]
 		objectvariablepattern.regionFor.feature(OBJECT_VARIABLE_PATTERN__TYPE).prepend[noSpace]
 		
 		for (AttributeAssignment assignment : objectvariablepattern.getAttributeAssignments()) {
-			assignment.surround[newLine]
-			assignment.regionFor.feature(ATTRIBUTE_ASSIGNMENT__OP).surround[noSpace]
+			attributeFormat(assignment,document)
 			format(assignment.valueExp, document)
 		}
 		for (AttributeConstraint constraint : objectvariablepattern.getAttributeConstraints()) {
-			constraint.surround[newLine]
-			constraint.regionFor.feature(ATTRIBUTE_CONSTRAINT__OP).surround[noSpace]
+			attributeFormat(constraint, document)
 			format(constraint.valueExp, document)
 		}
 		for (LinkVariablePattern linkVariablePatterns : objectvariablepattern.getLinkVariablePatterns()) {
@@ -210,7 +243,7 @@ class TGGFormatter extends AbstractFormatter2 {
 
 	def dispatch void format(LinkVariablePattern linkvariablepattern, extension IFormattableDocument document) {
 		linkvariablepattern.surround[newLine]		
-		linkvariablepattern.regionFor.keyword(arrowKW).surround[noSpace]
+		linkvariablepattern.regionFor.keyword(arrowKW).surround[oneSpace]
 	}
 	
 	def dispatch void format(Expression exp, extension IFormattableDocument document){
