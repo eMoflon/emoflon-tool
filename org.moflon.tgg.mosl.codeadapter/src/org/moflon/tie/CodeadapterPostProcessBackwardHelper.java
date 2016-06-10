@@ -201,6 +201,7 @@ public class CodeadapterPostProcessBackwardHelper {
 
 		setSuperCorrType(corrType, corrEClass, schema);
 
+		// Set source and target types
 		if (corrType.getSuper() == null) {
 			for (EReference ref : corrEClass.getEAllReferences()) {
 				if (ref.getName().equals("source")) {
@@ -213,6 +214,19 @@ public class CodeadapterPostProcessBackwardHelper {
 				}
 			}
 		}
+		
+		// Import and add referenced source and target packages
+		EPackage srcPack = corrType.getSource().getEPackage();
+		EPackage trgPack = corrType.getTarget().getEPackage();
+		
+		importEPackage(schema, srcPack);
+		importEPackage(schema, trgPack);
+		
+		if (!schema.getSourceTypes().contains(srcPack))
+			schema.getSourceTypes().add(srcPack);
+
+		if (!schema.getTargetTypes().contains(trgPack))
+			schema.getTargetTypes().add(trgPack);
 	}
 
 	private void postProcessBackward_Rule(RuleToTGGRule corr) {
