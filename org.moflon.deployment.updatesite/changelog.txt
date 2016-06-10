@@ -130,4 +130,5 @@
 2016-06-02	eMoflon 2.16.0 released
 ---
 
-2016-06-03 Fix Ecore-to-EA does not complete #743 
+2016-06-03 Fix Ecore-to-EA does not complete #743
+2016-06-10 Fix: QuickFix or autofix for black edges connected to green object variables #665 
