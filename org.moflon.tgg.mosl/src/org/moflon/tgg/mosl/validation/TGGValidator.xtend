@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject
 import java.util.HashMap
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile
 import org.eclipse.xtext.EcoreUtil2
+import org.moflon.tgg.mosl.tgg.LinkVariablePattern
 
 /**
  * This class contains custom validation rules. 
@@ -32,6 +33,7 @@ class TGGValidator extends AbstractTGGValidator {
   public static val NOT_UNIQUE_NAME = 'notUniqueName'
   public static val TYPE_IS_ABSTRACT = 'typeIsAbstract'
   public static val RULE_REFINEMENT_CREATES_A_CYCLE = 'RuleRefinementCreatesACycle'
+  public static val LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_OBJECT_VARIABLE_PATTERN = 'linkVariableDoesNotHaveSameOeratorLikeObjectVariablePattern'
 
 
 
@@ -155,10 +157,13 @@ class TGGValidator extends AbstractTGGValidator {
 		var foundSuperTypes = new ArrayList<Rule>();
 		if(findCycleInRule(rule, foundSuperTypes)){
 			var refinementName = "<Placeholder>";
-			if(foundSuperTypes.size() >= 2)
+			if(foundSuperTypes.size() >= 2){
 				refinementName = foundSuperTypes.get(1).name;
+			}else{
+				refinementName = rule.name
+			}
+			
 			error("The rule '" + rule.name + "' creates a cycle with the refinement '" + refinementName +"'", TggPackage.Literals.RULE__SUPERTYPES, TGGValidator.RULE_REFINEMENT_CREATES_A_CYCLE);
 		}
 	}
-	
 }
