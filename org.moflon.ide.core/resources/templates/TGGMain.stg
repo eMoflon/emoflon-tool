@@ -180,10 +180,8 @@ import org.moflon.tgg.algorithm.modelgenerator.controller.*;
 }
 >>
 
-TGGMainConcistencyCheck(projects, corrPackage, className) ::= <<
+TGGMainConsistencyCheck(projects, corrPackage, className) ::= <<
 <basicHeader()>
-
-import org.eclipse.emf.ecore.EObject;
 
 <basic()>
 	public static void main(String[] args) throws IOException {

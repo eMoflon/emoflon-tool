@@ -12,12 +12,12 @@ public class RunIntegrationGeneratorCC extends RunIntegrationGeneratorBatch
    @Override
    protected String getTemplateName()
    {
-      return "TGGMainConcistencyCheck";
+      return "TGGMainConsistencyCheck";
    }
 
    @Override
    protected String getClassName()
    {
-      return getRootOfClassName() + "ConcistencyCheck";
+      return getRootOfClassName() + "ConsistencyCheck";
    }
 }
