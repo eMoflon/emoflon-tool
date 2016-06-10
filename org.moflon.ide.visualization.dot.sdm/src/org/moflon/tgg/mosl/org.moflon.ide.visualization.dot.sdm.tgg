@@ -1,0 +1,338 @@
+#import "platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities"
+#import "platform:/plugin/MocaTree/model/MocaTree.ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//calls/callExpressions"
+
+#schema org.moflon.ide.visualization.dot.sdm
+
+#source {
+	language
+	MocaTree 
+}
+
+#target {
+	SDMLanguage
+	SDMLanguage.activities 
+	SDMLanguage.expressions 
+	SDMLanguage.calls.callExpressions 
+}
+
+#correspondence {
+	DirectedGraphToActivity {
+		#src->language.DirectedGraph
+		#trg->SDMLanguage.activities.Activity
+	}
+	NodeToActivityNode {
+		#src->MocaTree.Node
+		#trg->SDMLanguage.activities.ActivityNode
+	}
+	EdgeCommandToActivityEdge {
+		#src->language.EdgeCommand
+		#trg->SDMLanguage.activities.ActivityEdge
+	}
+	NodeCommandToActivityNode {
+		#src->language.NodeCommand
+		#trg->SDMLanguage.activities.ActivityNode
+	}
+	NodeCommandToStopNode #extends NodeCommandToActivityNode
+	
+	NodeToActivityEdge {
+		#src->MocaTree.Node
+		#trg->SDMLanguage.activities.ActivityEdge
+	}
+	RecordToMethodCall {
+		#src->RecordEntry
+		#trg->MethodCallExpression
+	}
+}
+
+#attributeConditions {
+	#userDefined setActivityEdgeLabel(1:SDMLanguage.activities.EdgeGuard, 0:String) {
+		#sync: BB, BF, FB
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#rule NodeToStatementWithLiteral #extends NodeToStatementNodeWithoutExp #with org.moflon.ide.visualization.dot.sdm
+
+#target {
+	++activityNode:SDMLanguage.activities.StatementNode {
+		++ - statementExpression->exp
+	}
+	++exp:SDMLanguage.expressions.LiteralExpression
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#rule NodeToActivityEdgeRule #extends NodeToActivityEdgeBasisRule #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	++edge:language.EdgeCommand {
+		++ - target->trgNode
+		++ - source->srcNode
+	}
+	srcNode:language.NodeCommand
+	trgNode:language.NodeCommand
+}
+
+#target {
+	src:SDMLanguage.activities.ActivityNode {
+		++ - outgoing->activityEdge
+	}
+	trg:SDMLanguage.activities.ActivityNode {
+		++ - incoming->activityEdge
+	}
+	++activityEdge:SDMLanguage.activities.ActivityEdge
+}
+
+#correspondence {
+	++ edgeToActivityEdge :EdgeCommandToActivityEdge {
+		#src->edge
+		#trg->activityEdge
+	}
+	trgNodeToTrg :NodeCommandToActivityNode {
+		#src->trgNode
+		#trg->trg
+	}
+	srcNodeToSrc :NodeCommandToActivityNode {
+		#src->srcNode
+		#trg->src
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#abstract #rule NodeToStatementNodeWithoutExp #extends NodeToActivityNodeRule #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	++node:language.Record {
+		rounded := true
+	}
+	++entry:language.RecordEntry {
+		++ - record->node
+	}
+}
+
+#target {
+	++activityNode:SDMLanguage.activities.StatementNode
+}
+
+#correspondence {
+	++ nodeToActivityNode :NodeCommandToActivityNode {
+		#src->node
+		#trg->activityNode
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#rule GraphToActivityRule #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	++dirGraph:language.DirectedGraph {
+		name := "activity"
+	}
+}
+
+#target {
+	++activity:SDMLanguage.activities.Activity
+}
+
+#correspondence {
+	++ dirGraphToActivity :DirectedGraphToActivity {
+		#src->dirGraph
+		#trg->activity
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#rule NodeToStatementNodeRule #extends NodeToStatementNodeWithoutExp #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	++ entry : RecordEntry
+}
+
+#target {
+	++methodCallExp:SDMLanguage.calls.callExpressions.MethodCallExpression
+	++activityNode:SDMLanguage.activities.StatementNode {
+		++ - statementExpression->methodCallExp
+	}
+}
+
+#correspondence {
+	++ entryToMethodCall : RecordToMethodCall {
+		#src->entry
+		#trg->methodCallExp
+	}
+}
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#rule NodeToStoryNodeRule #extends NodeToActivityNodeRule #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	++node:language.Box
+}
+
+#target {
+	++activityNode:SDMLanguage.activities.StoryNode
+}
+
+#correspondence {
+	++ nodeToActivityNode :NodeCommandToActivityNode {
+		#src->node
+		#trg->activityNode
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#rule NodeToStopNodeRule #extends NodeToActivityNodeRule #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	++node:language.DoubleCircle
+}
+
+#target {
+	++activityNode:SDMLanguage.activities.StopNode
+}
+
+#correspondence {
+	++ nodeToActivityNode :NodeCommandToStopNode {
+		#src->node
+		#trg->activityNode
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#rule NodeToStartNodeRule #extends NodeToActivityNodeRule #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	++node:language.Point
+}
+
+#target {
+	++activityNode:SDMLanguage.activities.StartNode
+}
+
+#correspondence {
+	++ nodeToActivityNode :NodeCommandToActivityNode {
+		#src->node
+		#trg->activityNode
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule NodeToActivityNodeRule #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	driectGraph:language.DirectedGraph
+	++node:language.NodeCommand {
+		++ - graph->driectGraph
+	}
+}
+
+#target {
+	activity:SDMLanguage.activities.Activity
+	++activityNode:SDMLanguage.activities.ActivityNode {
+		++ - owningActivity->activity
+	}
+}
+
+#correspondence {
+	++ nodeToActivityNode :NodeCommandToActivityNode {
+		#src->node
+		#trg->activityNode
+	}
+	driectGraphToActivity :DirectedGraphToActivity {
+		#src->driectGraph
+		#trg->activity
+	}
+}
+
+#attributeConditions {
+	eq(node.label, activityNode.name)
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#abstract #rule NodeToActivityEdgeBasisRule #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	++edge:language.EdgeCommand {
+		++ - graph->rootNode
+	}
+	rootNode:language.DirectedGraph
+}
+
+#target {
+	++activityEdge:SDMLanguage.activities.ActivityEdge {
+		++ - owningActivity->activity
+	}
+	activity:SDMLanguage.activities.Activity
+}
+
+#correspondence {
+	rootNodeToActivity :DirectedGraphToActivity {
+		#src->rootNode
+		#trg->activity
+	}
+	++ edgeToActivityEdge :EdgeCommandToActivityEdge {
+		#src->edge
+		#trg->activityEdge
+	}
+}
+
+#attributeConditions {
+	setActivityEdgeLabel (edge.label, activityEdge.guard)
+}
+
+
+#using org.moflon.ide.visualization.dot.sdm.*
+
+#rule NodeToActivitySelfEdgeRule #extends NodeToActivityEdgeBasisRule #with org.moflon.ide.visualization.dot.sdm
+
+#source {
+	++edge:language.EdgeCommand {
+		++ - target->srcNode
+		++ - source->srcNode
+	}
+	srcNode:language.NodeCommand
+}
+
+#target {
+	src:SDMLanguage.activities.ActivityNode {
+		++ - outgoing->activityEdge
+		++ - incoming->activityEdge
+	}
+	++activityEdge:SDMLanguage.activities.ActivityEdge
+}
+
+#correspondence {
+	srcNodeToSrc :NodeCommandToActivityNode {
+		#src->srcNode
+		#trg->src
+	}
+	++ edgeToActivityEdge :EdgeCommandToActivityEdge {
+		#src->edge
+		#trg->activityEdge
+	}
+}
+
+

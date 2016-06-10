@@ -22,6 +22,7 @@ import org.moflon.ide.visualization.dot.language.DirectedGraph;
 import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
+import org.moflon.tgg.runtime.CorrespondenceModel;
 
 import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
 
@@ -205,12 +206,18 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
       if (directionIsForward())
       {
          helper.integrateForward();
+         postprocess(helper.getCorr());
          return (DirectedGraph) helper.getTrg();
       } else
       {
          helper.integrateBackward();
+         postprocess(helper.getCorr());
          return (DirectedGraph) helper.getSrc();
       }
+   }
+
+   protected void postprocess(CorrespondenceModel corr) {
+	   // Per default no postprocessing
    }
 
    /**
