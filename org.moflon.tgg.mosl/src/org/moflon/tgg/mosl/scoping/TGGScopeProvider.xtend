@@ -16,13 +16,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.EcoreUtil2
-import org.eclipse.xtext.naming.QualifiedName
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 import org.eclipse.xtext.resource.IEObjectDescription
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import org.eclipse.xtext.scoping.impl.FilteringScope
-import org.eclipse.xtext.util.SimpleAttributeResolver
+import org.eclipse.xtext.scoping.impl.SimpleScope
 import org.moflon.tgg.mosl.tgg.AttributeAssignment
 import org.moflon.tgg.mosl.tgg.AttributeConstraint
 import org.moflon.tgg.mosl.tgg.AttributeExpression
@@ -36,8 +36,6 @@ import org.moflon.tgg.mosl.tgg.Rule
 import org.moflon.tgg.mosl.tgg.Schema
 import org.moflon.tgg.mosl.tgg.TggPackage
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile
-import org.eclipse.xtext.scoping.impl.SimpleScope
-import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 
 /**
  * This class contains custom scoping description.

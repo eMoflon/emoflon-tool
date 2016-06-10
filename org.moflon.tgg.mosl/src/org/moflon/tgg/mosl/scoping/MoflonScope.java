@@ -10,8 +10,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
+import org.eclipse.xtext.naming.IQualifiedNameConverter;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
-import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.SimpleScope;
 
@@ -21,7 +22,10 @@ import com.google.inject.Provider;
 public class MoflonScope extends SimpleScope {
 
 	public MoflonScope(List<EObject> objects) {
-		super(IScope.NULLSCOPE, Scopes.scopedElementsFor(accountForSubPackages(objects), new DefaultDeclarativeQualifiedNameProvider()));
+		super(new SimpleScope(Scopes.scopedElementsFor(accountForSubPackages(objects), 
+													   new DefaultDeclarativeQualifiedNameProvider())), 
+			  Scopes.scopedElementsFor(accountForSubPackages(objects), 
+					                   new RootPackageAwareQualifiedNamedProvider()));
 	}
 
 	private static Collection<EObject> accountForSubPackages(List<EObject> objects) {		
@@ -53,4 +57,19 @@ public class MoflonScope extends SimpleScope {
 		return result;
 	}
 
+}
+
+class RootPackageAwareQualifiedNamedProvider extends DefaultDeclarativeQualifiedNameProvider {
+	@Override
+	public QualifiedName getFullyQualifiedName(EObject obj) {
+		if(obj instanceof EPackage){
+			EPackage pack = EPackage.class.cast(obj);
+			if(pack.eContainer() == null){
+				IQualifiedNameConverter converter = new IQualifiedNameConverter.DefaultImpl();
+				return converter.toQualifiedName(pack.getNsPrefix() + "." + pack.getName());
+			}
+		}
+			
+		return super.getFullyQualifiedName(obj);
+	}
 }
