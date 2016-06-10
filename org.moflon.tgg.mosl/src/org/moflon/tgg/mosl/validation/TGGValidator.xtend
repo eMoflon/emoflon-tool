@@ -144,10 +144,8 @@ class TGGValidator extends AbstractTGGValidator {
 				if (findCycleInRule(superType, visited)){
 					return true;
 				}
-				else{
-					visited.remove(superType);	
-				}
-			}			
+			}
+			visited.remove(rule)			
 			return false;
 		}
 	}
