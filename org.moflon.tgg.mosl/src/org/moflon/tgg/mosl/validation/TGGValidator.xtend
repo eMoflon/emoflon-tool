@@ -166,4 +166,16 @@ class TGGValidator extends AbstractTGGValidator {
 			error("The rule '" + rule.name + "' creates a cycle with the refinement '" + refinementName +"'", TggPackage.Literals.RULE__SUPERTYPES, TGGValidator.RULE_REFINEMENT_CREATES_A_CYCLE);
 		}
 	}
+	
+	@Check
+	def checkForMissingOperatorInPatternWithOperator(ObjectVariablePattern ov){
+		if(ov.op != null){
+			var ovOpValue = ov.op.value;
+			for(LinkVariablePattern linkVar : ov.linkVariablePatterns){
+				if(linkVar.op == null || !ovOpValue.equals(linkVar.op.value)){
+					error("Link Variable '" + linkVar.type.name + "' has a diffrent operator", linkVar, TggPackage.Literals.OPERATOR_PATTERN__OP, TGGValidator.LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_OBJECT_VARIABLE_PATTERN)
+				}
+			}
+		}
+	}
 }
