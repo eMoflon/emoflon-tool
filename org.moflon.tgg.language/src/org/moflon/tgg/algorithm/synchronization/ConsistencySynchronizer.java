@@ -2,6 +2,7 @@ package org.moflon.tgg.algorithm.synchronization;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.tgg.algorithm.ccutils.AbstractSATSolver;
 import org.moflon.tgg.algorithm.ccutils.Sat4JSolver;
+import org.moflon.tgg.algorithm.ccutils.ZChaffSolver;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -124,6 +126,7 @@ public class ConsistencySynchronizer {
 
 	private void filter() {
 
+		System.out.println("Preparing clauses");
 		ArrayList<int[]> clauses = new ArrayList<>();
 
 		addClausesForAlternatives(clauses);
@@ -135,6 +138,7 @@ public class ConsistencySynchronizer {
 			satProblem[i] = clause;
 			i++;
 		}
+		System.out.println("Solving");
 		AbstractSATSolver solver = new Sat4JSolver();
 		for (int value : solver.solve(satProblem)) {
 			if (value < 0) {
@@ -147,28 +151,18 @@ public class ConsistencySynchronizer {
 
 	private void addClausesForImplications(ArrayList<int[]> clauses) {
 
-		protocol.calculateSiblings();
-
 		TIntIterator allIterator = protocol.getMatchIDs().iterator();
 		while (allIterator.hasNext()) {
 			int m = allIterator.next();
-			TIntCollection parents = protocol.parents(m);
-			if (parents.size() == 0)
-				continue;
-			if (parents.size() == 1) {
-				clauses.add(new int[] { -m, parents.iterator().next() });
-				continue;
-			}
-			TIntIterator parentIterator = parents.iterator();
-			while (parentIterator.hasNext()) {
-				int p = parentIterator.next();
-				TIntHashSet clauseHashset = (new TIntHashSet(protocol.siblings(p)));
-				clauseHashset.retainAll(parents);
-				clauseHashset.add(-m);
-				clauses.add(clauseHashset.toArray());
+			for(EObject corr : protocol.intToMatch(m).getAllContextElements()){
+				TIntCollection contextCreatingParent = protocol.creates(corr);
+				int[] clause = new int[2];
+				clause[0] = -m;
+				int[] parentAsArray = contextCreatingParent.toArray();
+				clause[1] = parentAsArray[0];
+				clauses.add(clause);
 			}
 		}
-
 	}
 
 	private void addClausesForAlternatives(ArrayList<int[]> clauses) {
@@ -178,12 +172,11 @@ public class ConsistencySynchronizer {
 
 	private ArrayList<int[]> getclausesForAlternatives(Graph graph) {
 		ArrayList<int[]> clauses = new ArrayList<>();
-		for (EObject srcElement : graph.getElements()) {
-			TIntHashSet variables = new TIntHashSet();
-			protocol.creates(srcElement).forEach(ccm -> variables.add(protocol.matchToInt(ccm)));
+		for (EObject obj : graph.getElements()) {
+			TIntCollection variables = protocol.creates(obj);
 
 			if (!variables.isEmpty()) {
-				// get a clause like (a V b V c V d ...)
+				// get a clause like (a V b V c ...)
 				int[] all = variables.toArray();
 				clauses.add(all);
 

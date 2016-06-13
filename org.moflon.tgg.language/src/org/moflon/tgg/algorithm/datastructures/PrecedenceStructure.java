@@ -116,17 +116,20 @@ public abstract class PrecedenceStructure<M> {
 
 	// ----------
 
-	public Stream<M> creates(Graph elements) {
+	public TIntCollection creates(EObject o) {
+		return createToMatch.get(o);
+	}
+	public Stream<M> createsAsStream(Graph elements) {
 		return elements.stream().flatMap(e -> getCreatingMatches(e).stream());
 	}
 	
-	public Stream<M> creates(EObject elt) {
+	public Stream<M> createsAsStream(EObject elt) {
 		return getCreatingMatches(elt).stream();
 	}
 
 	public Collection<M> getCreatingMatches(EObject o) {
 		if (createToMatch.containsKey(o))
-			return getAsCollection(createToMatch.get(o));
+			return getAsCollection(creates(o));
 		else
 			return Collections.emptyList();
 	}

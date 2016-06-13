@@ -146,7 +146,7 @@ public abstract class Synchronizer {
 
 	private Stream<TripleMatch> getTripleMatchesWithDECviolation(Graph graph) {
 		Stream<TripleMatch> tripleMatchesOfTouchedNodes = graph.getEdges().stream()
-				.flatMap(e -> Stream.concat(protocol.creates(e.getTrg()), protocol.creates(e.getSrc())));
+				.flatMap(e -> Stream.concat(protocol.createsAsStream(e.getTrg()), protocol.createsAsStream(e.getSrc())));
 
 		InvokeCheckDEC invokeCheckDEC = new InvokeCheckDEC(lookupMethods);
 
@@ -235,7 +235,7 @@ public abstract class Synchronizer {
 	}
 
 	private Graph revoke(Graph elts) {
-		Stream<TripleMatch> toBeRevokedTripleMatches = protocol.creates(elts);
+		Stream<TripleMatch> toBeRevokedTripleMatches = protocol.createsAsStream(elts);
 		return revokeTripleMatches(toBeRevokedTripleMatches);
 	}
 
@@ -370,7 +370,7 @@ public abstract class Synchronizer {
 	}
 
 	private Stream<Match> getCreatingMatchesFrom(TIntCollection matches, EObject elt) {
-		return pg.creates(elt).filter(m -> matches.contains(pg.matchToInt(m)));
+		return pg.createsAsStream(elt).filter(m -> matches.contains(pg.matchToInt(m)));
 	}
 
 	private void extendReady(TIntCollection candidates) {
@@ -505,7 +505,7 @@ public abstract class Synchronizer {
 			return;
 
 		Graph warningGraph = Graph.getEmptyGraph().addConstructive(
-				toBeTranslated.stream().filter(a -> !pg.creates(a).findAny().isPresent()).collect(Collectors.toList()));
+				toBeTranslated.stream().filter(a -> !pg.createsAsStream(a).findAny().isPresent()).collect(Collectors.toList()));
 
 		if (warningGraph.getElements().isEmpty())
 			return;
