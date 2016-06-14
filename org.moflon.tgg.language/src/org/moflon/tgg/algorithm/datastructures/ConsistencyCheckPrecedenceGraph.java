@@ -9,7 +9,7 @@ import org.moflon.tgg.runtime.TripleMatch;
 
 import gnu.trove.map.hash.TIntIntHashMap;
 
-public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructureWithSiblingsSupport<CCMatch> {
+public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructure<CCMatch> {
 	
 
 	private TIntIntHashMap matchToInt = new TIntIntHashMap();
