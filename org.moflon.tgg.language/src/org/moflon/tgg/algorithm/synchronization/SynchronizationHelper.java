@@ -289,7 +289,11 @@ public class SynchronizationHelper
       DeltaSpecification deltaSpec = (DeltaSpecification) loadModel(pathToDelta);
       EcoreUtil.resolveAll(deltaSpec);
       
-      return (input) -> {
+      return (input) -> {    	  
+    	  // Added edges (nodes are indirectly added)
+    	  for (EMoflonEdge ae : deltaSpec.getAddedEdges())
+    		  performActionOnFeature(ae, (f, o) -> ((EList) ae.getSrc().eGet(f)).add(o), ae.getSrc()::eSet);
+    	  
          // Edge deletion
          for (EMoflonEdge de : deltaSpec.getDeletedEdges())
             performActionOnFeature(de, (f, o) -> ((EList) de.getSrc().eGet(f)).remove(o), (f, o) -> de.getSrc().eUnset(f));
@@ -301,10 +305,6 @@ public class SynchronizationHelper
          // Attribute deltas
          for (AttributeDelta ac : deltaSpec.getAttributeChanges())
             ac.getAffectedNode().eSet(ac.getAffectedAttribute(), EcoreUtil.createFromString(ac.getAffectedAttribute().getEAttributeType(), ac.getNewValue()));
-
-         // Added edges (nodes are indirectly added)
-         for (EMoflonEdge ae : deltaSpec.getAddedEdges())
-            performActionOnFeature(ae, (f, o) -> ((EList) ae.getSrc().eGet(f)).add(o), ae.getSrc()::eSet);
       };
    }
 
@@ -520,6 +520,9 @@ public class SynchronizationHelper
    public void loadCorr(final String path)
    {
       setCorr(loadModel(path));
+      
+      // Resolve to make sure that there are no proxies
+      EcoreUtil.resolveAll(corr);
    }
 
    /**
