@@ -37,7 +37,7 @@ import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
 public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 	private boolean outdated = false;
 	private XtextEditor oldEditor;
-	private HashMap<TGGRule, String> oldValue = new HashMap<>();
+	private HashMap<String, String> oldValue = new HashMap<>();
 	
 	private IPropertyListener listener = (o, p) -> {
 		if (p == IWorkbenchPartConstants.PROP_DIRTY && !oldEditor.isDirty()) {
@@ -71,14 +71,14 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
          ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
          Optional<TGGRule> rule = getTGGRuleForSelection(selection);
 
-         if (oldValue.containsKey(rule) && !outdated)
-            return oldValue.get(rule);
+         if (rule.isPresent() && oldValue.containsKey(rule.get().getName()) && !outdated)
+            return oldValue.get(rule.get().getName());
 
          return rule.map(r -> {
             outdated = false;
             TGGRuleDiagramTextProvider tggTextProvider = new TGGRuleDiagramTextProvider();
             String diagram = new DotUnparserAdapter().unparse(tggTextProvider.modelToDot(r));
-            oldValue.put(r, diagram);
+            oldValue.put(r.getName(), diagram);
             return diagram;
          }).orElse("@startuml @enduml");
          
