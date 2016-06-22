@@ -21,12 +21,30 @@ namespace EAEcoreAddin
     class EcoreDiagramUpdateAdapter
     {
         internal static int serverPort = 30011;
+
+        private bool initialConnectionAvailable;
+
+        internal EcoreDiagramUpdateAdapter() {
+            IPHostEntry ipHostInfo = Dns.GetHostEntry("localhost");
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
+            IPEndPoint ipe = new IPEndPoint(ipAddress, serverPort);
+             try 
+             {
+                 Socket socket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                 socket.Connect(ipe);
+                initialConnectionAvailable = true;
+             } 
+             catch (Exception)
+             {
+                 initialConnectionAvailable = false;
+             }
+        }
         
         internal bool EA_OnPostNewElement(EA.Repository Repository, EA.EventProperties Info)
         {
             EA.Element element = Repository.GetElementByID(int.Parse((string)Info.Get(0).Value));
             CreateElementChange change = new CreateElementChange();
-            change.elementType = ElementType.CLASS;
+            change.elementType = ElementType.ELEMENT;
             change.internalID = element.ElementGUID;
             change.name = element.Name;
             return sendObject(change);
@@ -93,7 +111,7 @@ namespace EAEcoreAddin
         {
             EA.Element element = Repository.GetElementByID(int.Parse((string)Info.Get(0).Value));
             DeleteElementChange change = new DeleteElementChange();
-            change.elementType = ElementType.CLASS;
+            change.elementType = ElementType.ELEMENT;
             change.internalID = element.ElementGUID;
             change.name = element.Name;
             return sendObject(change);
@@ -142,11 +160,9 @@ namespace EAEcoreAddin
             // an item has been modified can subscribe to this broadcast function.
             // See also: http://www.sparxsystems.com/enterprise_architect_user_guide/9.3/automation/ea_onnotifycontextitemmodified.html
 
-            RenameElementChange change = new RenameElementChange();
+            ModificationChange change = new ModificationChange();
             change.internalID = GUID;
             
-            SQLRepository sqlRepository = new SQLRepository(Repository, false);
-
             switch (ot)
             {
                 case EA.ObjectType.otPackage:
@@ -155,8 +171,8 @@ namespace EAEcoreAddin
                     change.name = eaPackage.Name;
                     break;
                 case EA.ObjectType.otElement:
-                    SQLElement eaElement = sqlRepository.GetElementByGuid(GUID);
-                    change.elementType = ElementType.CLASS;
+                    EA.Element eaElement = Repository.GetElementByGuid(GUID);
+                    change.elementType = ElementType.ELEMENT;
                     change.name = eaElement.Name;
                     break;
                 case EA.ObjectType.otConnector:
@@ -165,13 +181,13 @@ namespace EAEcoreAddin
                     change.name = eaConnector.Name;
                     break;
                 case EA.ObjectType.otAttribute:
-                    EA.Method method = Repository.GetMethodByGuid(GUID);
-                    change.elementType = ElementType.METHOD;
+                    EA.Attribute method = Repository.GetAttributeByGuid(GUID);
+                    change.elementType = ElementType.ATTRIBUTE;
                     change.name = method.Name;
                     break;
                 case EA.ObjectType.otMethod:
-                    EA.Attribute attribute = Repository.GetAttributeByGuid(GUID);
-                    change.elementType = ElementType.ATTRIBUTE;
+                    EA.Method attribute = Repository.GetMethodByGuid(GUID);
+                    change.elementType = ElementType.METHOD;
                     change.name = attribute.Name;
                     break;
             }
@@ -181,6 +197,9 @@ namespace EAEcoreAddin
         
         private Boolean sendEvent(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             string str = JsonConvert.SerializeObject(Info);
             sendString(str);
             return true;
@@ -188,6 +207,9 @@ namespace EAEcoreAddin
 
         private Boolean sendObject(Object obj)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             string str = JsonConvert.SerializeObject(obj);
             sendString(str);
             return true;
@@ -195,6 +217,9 @@ namespace EAEcoreAddin
         
         private Boolean sendString(string message)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             IPHostEntry ipHostInfo = Dns.GetHostEntry("localhost");
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint ipe = new IPEndPoint(ipAddress, serverPort);

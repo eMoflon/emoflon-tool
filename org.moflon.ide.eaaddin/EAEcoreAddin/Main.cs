@@ -142,8 +142,8 @@ namespace EAEcoreAddin
             switch (MenuName)
             {
                 case "":
-                    return "-&MOFLON::Ecore Addin";
-                case "-&MOFLON::Ecore Addin":
+                    return "-&eMoflon::Ecore Addin";
+                case "-&eMoflon::Ecore Addin":
                     ArrayList ar = new ArrayList();
 
                     ar.Add("&About....");                   
