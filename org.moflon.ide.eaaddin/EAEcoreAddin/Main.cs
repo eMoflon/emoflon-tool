@@ -94,7 +94,9 @@ namespace EAEcoreAddin
             sdmModeling = new SDMModelingMain();
             ecoreModeling = new ECOREModelingMain();
 
-            tggModeling = new TGGModelingMain(ecoreModeling);        
+            tggModeling = new TGGModelingMain(ecoreModeling);
+
+            incrementalUpdateAdapter = new EcoreDiagramUpdateAdapter();
         }
         
         #region Manage Addin
@@ -290,6 +292,8 @@ namespace EAEcoreAddin
 
             //ecoreModeling.EA_OnContextItemChanged(Repository, GUID, ot);
 
+            incrementalUpdateAdapter.EA_OnContextItemChanged(Repository, GUID, ot);
+
         }
 
         public bool EA_OnPreNewConnector(EA.Repository Repository, EA.EventProperties Info)
@@ -297,7 +301,7 @@ namespace EAEcoreAddin
             bool connectorAllowedByEcore = true;
             bool connectorAllowedBySDM = sdmModeling.EA_OnPreNewConnector(Repository, Info);
             bool connectorAllowedByTGG = tggModeling.EA_OnPreNewConnector(Repository, Info);
-
+            
             return connectorAllowedByEcore && connectorAllowedBySDM && connectorAllowedByTGG;
         }
 
@@ -313,6 +317,8 @@ namespace EAEcoreAddin
             bool modifiedByTGGModeling = tggModeling.EA_OnPostNewConnector(sqlRepository, connector, currentDiagram);
             bool modifiedByECoreModeling = ecoreModeling.EA_OnPostNewConnector(sqlRepository, connector, currentDiagram);
 
+            incrementalUpdateAdapter.EA_OnPostNewConnector(Repository, Info);
+
             preventCascade = false;
             return modifiedBySDMModeling || modifiedByTGGModeling || modifiedByECoreModeling;
         }
@@ -325,6 +331,9 @@ namespace EAEcoreAddin
             {
                 EAEcoreAddin.Util.EAUtil.setTaggedValue(sqlRep, package, MetamodelHelper.MoflonExportTaggedValueName, Main.TrueValue);
             }
+
+            incrementalUpdateAdapter.EA_OnPostNewPackage(Repository, Info);
+
             return false;
         }
 
@@ -355,13 +364,39 @@ namespace EAEcoreAddin
 
             preventCascade = false;
 
+            incrementalUpdateAdapter.EA_OnPostNewElement(Repository, Info);
+
             return true;
         }
 
         public bool EA_OnPreDeleteMethod(EA.Repository Repository, EA.EventProperties Info)
         {
+            bool allowed = true;
             EA.Method meth = Repository.GetMethodByID(int.Parse((string)Info.Get(0).Value));
-            return sdmModeling.EA_OnPreDeleteMethod(Repository, meth) && tggModeling.EA_OnPreDeleteMethod(Repository, meth);
+            allowed = allowed && sdmModeling.EA_OnPreDeleteMethod(Repository, meth);
+            allowed = allowed && tggModeling.EA_OnPreDeleteMethod(Repository, meth);
+
+            incrementalUpdateAdapter.EA_OnPreDeleteMethod(Repository, Info);
+
+            return allowed;
+        }
+
+        public bool EA_OnPreDeleteAttribute(EA.Repository Repository, EA.EventProperties Info)
+        {
+            incrementalUpdateAdapter.EA_OnPreDeleteAttribute(Repository, Info);
+            return true;
+        }
+
+        public bool EA_OnPreDeleteConnector(EA.Repository Repository, EA.EventProperties Info)
+        {
+            incrementalUpdateAdapter.EA_OnPreDeleteConnector(Repository, Info);
+            return true;
+        }
+
+        public bool EA_OnPreDeletePackage(EA.Repository Repository, EA.EventProperties Info)
+        {
+            incrementalUpdateAdapter.EA_OnPreDeletePackage(Repository, Info);
+            return true;
         }
 
         public bool EA_OnPreDeleteDiagramObject(EA.Repository Repository, EA.EventProperties Info)
@@ -369,21 +404,22 @@ namespace EAEcoreAddin
             EA.Element element = Repository.GetElementByID(int.Parse((string)Info.Get(0).Value));
             this.deletedDiagramObjectGUIDQueue.Add(element.ElementGUID);
             this.deletedDiagramObjectsObjectTypesQueue.Add(element.ObjectType);
+            
             return true;
         }
 
         public bool EA_OnPreDeleteElement(EA.Repository Repository, EA.EventProperties Info)
         {
+            incrementalUpdateAdapter.EA_OnPreDeleteElement(Repository, Info);
+
             return true;
         }
-
         
-
         public bool EA_OnPreNewElement(EA.Repository Repository, EA.EventProperties Info)
         {
             Boolean sdmModeling_preNewElement = sdmModeling.EA_OnPreNewElement(Repository, Info);
             Boolean tggModeling_preNewElement = tggModeling.EA_OnPreNewElement(Repository, Info);
-            
+                        
             return sdmModeling_preNewElement && tggModeling_preNewElement;
         }
 
@@ -446,6 +482,7 @@ namespace EAEcoreAddin
                 tggModeling.EA_OnPostNewDiagram(Repository, Info);
                 ecoreModeling.EA_OnPostNewDiagram(Repository, Info);
                 preventCascade = false;
+
             }
         }
 
@@ -453,6 +490,14 @@ namespace EAEcoreAddin
         {
             EA.Method method = Repository.GetMethodByID(int.Parse((string)Info.Get(0).Value));
             consistencyModule.dispatchSingleObject(Repository, method.MethodGUID, method.ObjectType);
+
+            incrementalUpdateAdapter.EA_OnPostNewMethod(Repository, Info);
+            return true;
+        }
+
+        public Boolean EA_OnPostNewAttribute(EA.Repository Repository, EA.EventProperties Info)
+        {
+            incrementalUpdateAdapter.EA_OnPostNewAttribute(Repository, Info);
             return true;
         }
    
@@ -499,6 +544,7 @@ namespace EAEcoreAddin
         }
 
         public bool preventCascade = false;
+        private EcoreDiagramUpdateAdapter incrementalUpdateAdapter;
 
         public void EA_OnNotifyContextItemModified(EA.Repository Repository, String GUID, EA.ObjectType ot)
         {
@@ -525,6 +571,8 @@ namespace EAEcoreAddin
 
                     if (ot != EA.ObjectType.otDiagram)
                         consistencyModule.dispatchSingleObject(Repository, GUID, ot);
+
+                    incrementalUpdateAdapter.EA_OnNotifyContextItemModified(Repository, GUID, ot);
 
                     preventCascade = false;
                 }

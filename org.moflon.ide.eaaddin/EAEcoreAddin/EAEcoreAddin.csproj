@@ -68,6 +68,10 @@
       <HintPath>C:\Program Files (x86)\Sparx Systems\EA\Interop.EA.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -150,6 +154,7 @@
     <Compile Include="ControlPanel\TCPServer.Designer.cs">
       <DependentUpon>TCPServer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modeling\ECOREModeling\EcoreDiagramUpdateAdapter.cs" />
     <Compile Include="Import\GraphPath.cs" />
     <Compile Include="Modeling\CSP\CSPController.cs" />
     <Compile Include="Modeling\CSP\Gui\SDMCSPQuickReferenceDialog.cs">
@@ -223,6 +228,7 @@
     <Compile Include="Refactoring\CachedPackage.cs" />
     <Compile Include="Refactoring\Changes.cs" />
     <Compile Include="Refactoring\ChangesTreeConstants.cs" />
+    <Compile Include="Refactoring\ChangeDAOs.cs" />
     <Compile Include="Server\DataReceiveStrategy.cs" />
     <Compile Include="Server\DataStrategies\AbstractDataReceiveStrategy.cs" />
     <Compile Include="Server\DataStrategies\HighlightObjectReceiveStrategy.cs" />
@@ -566,6 +572,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Aboutbox_EA_Addin_MOFLON.png" />
+    <None Include="packages.config" />
     <None Include="Resources\arrow_up.png" />
     <None Include="Resources\arrow_down.png" />
     <Content Include="Resources\emoflon.png" />
