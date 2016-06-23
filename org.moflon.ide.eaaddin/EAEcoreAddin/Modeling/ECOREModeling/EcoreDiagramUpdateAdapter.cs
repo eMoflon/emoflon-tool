@@ -25,23 +25,31 @@ namespace EAEcoreAddin
         private bool initialConnectionAvailable;
 
         internal EcoreDiagramUpdateAdapter() {
+            checkConnectionToServer();
+        }
+
+        private void checkConnectionToServer()
+        {
             IPHostEntry ipHostInfo = Dns.GetHostEntry("localhost");
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint ipe = new IPEndPoint(ipAddress, serverPort);
-             try 
-             {
-                 Socket socket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                 socket.Connect(ipe);
+            try
+            {
+                Socket socket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                socket.Connect(ipe);
                 initialConnectionAvailable = true;
-             } 
-             catch (Exception)
-             {
-                 initialConnectionAvailable = false;
-             }
+            }
+            catch (Exception)
+            {
+                initialConnectionAvailable = false;
+            }
         }
         
         internal bool EA_OnPostNewElement(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Element element = Repository.GetElementByID(int.Parse((string)Info.Get(0).Value));
             CreateElementChange change = new CreateElementChange();
             change.elementType = ElementType.ELEMENT;
@@ -53,6 +61,9 @@ namespace EAEcoreAddin
 
         internal bool EA_OnPostNewPackage(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Package package = Repository.GetPackageByID(int.Parse((string)Info.Get(0).Value));
             CreateElementChange change = new CreateElementChange();
             change.elementType = ElementType.PACKAGE;
@@ -64,6 +75,9 @@ namespace EAEcoreAddin
         
         internal bool EA_OnPostNewMethod(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Method method = Repository.GetMethodByID(int.Parse((string)Info.Get(0).Value));
             CreateElementChange change = new CreateElementChange();
             change.elementType = ElementType.METHOD;
@@ -75,6 +89,9 @@ namespace EAEcoreAddin
 
         internal bool EA_OnPostNewAttribute(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Attribute attribute = Repository.GetAttributeByID(int.Parse((string)Info.Get(0).Value));
             CreateElementChange change = new CreateElementChange();
             change.elementType = ElementType.PACKAGE;
@@ -86,6 +103,9 @@ namespace EAEcoreAddin
 
         internal bool EA_OnPostNewConnector(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Connector connector = Repository.GetConnectorByID(int.Parse((string)Info.Get(0).Value));
             CreateElementChange change = new CreateElementChange();
             change.elementType = ElementType.CONNECTOR;
@@ -98,6 +118,9 @@ namespace EAEcoreAddin
 
         internal bool EA_OnPreDeletePackage(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Package package = Repository.GetPackageByID(int.Parse((string)Info.Get(0).Value));
             DeleteElementChange change = new DeleteElementChange();
             change.elementType = ElementType.PACKAGE;
@@ -109,6 +132,9 @@ namespace EAEcoreAddin
 
         internal bool EA_OnPreDeleteElement(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Element element = Repository.GetElementByID(int.Parse((string)Info.Get(0).Value));
             DeleteElementChange change = new DeleteElementChange();
             change.elementType = ElementType.ELEMENT;
@@ -120,6 +146,9 @@ namespace EAEcoreAddin
 
         internal bool EA_OnPreDeleteConnector(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Connector connector = Repository.GetConnectorByID(int.Parse((string)Info.Get(0).Value));
             DeleteElementChange change = new DeleteElementChange();
             change.elementType = ElementType.CONNECTOR;
@@ -131,6 +160,9 @@ namespace EAEcoreAddin
 
         internal bool EA_OnPreDeleteMethod(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Method method = Repository.GetMethodByID(int.Parse((string)Info.Get(0).Value));
             DeleteElementChange change = new DeleteElementChange();
             change.elementType = ElementType.METHOD;
@@ -142,6 +174,9 @@ namespace EAEcoreAddin
 
         internal bool EA_OnPreDeleteAttribute(EA.Repository Repository, EA.EventProperties Info)
         {
+            if (!initialConnectionAvailable)
+                return true;
+
             EA.Attribute attribute = Repository.GetAttributeByID(int.Parse((string)Info.Get(0).Value));
             DeleteElementChange change = new DeleteElementChange();
             change.elementType = ElementType.PACKAGE;
@@ -155,6 +190,9 @@ namespace EAEcoreAddin
 
         internal void EA_OnNotifyContextItemModified(EA.Repository Repository, string GUID, EA.ObjectType ot)
         {
+            if (!initialConnectionAvailable)
+                return;
+
             //EA_OnNotifyContextItemModified notifies Add-Ins that the current context item has been modified.
             //This event occurs when a user has modified the context item. Add-Ins that require knowledge of when 
             // an item has been modified can subscribe to this broadcast function.
@@ -197,9 +235,6 @@ namespace EAEcoreAddin
         
         private Boolean sendEvent(EA.Repository Repository, EA.EventProperties Info)
         {
-            if (!initialConnectionAvailable)
-                return true;
-
             string str = JsonConvert.SerializeObject(Info);
             sendString(str);
             return true;
@@ -207,9 +242,6 @@ namespace EAEcoreAddin
 
         private Boolean sendObject(Object obj)
         {
-            if (!initialConnectionAvailable)
-                return true;
-
             string str = JsonConvert.SerializeObject(obj);
             sendString(str);
             return true;
@@ -217,9 +249,6 @@ namespace EAEcoreAddin
         
         private Boolean sendString(string message)
         {
-            if (!initialConnectionAvailable)
-                return true;
-
             IPHostEntry ipHostInfo = Dns.GetHostEntry("localhost");
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint ipe = new IPEndPoint(ipAddress, serverPort);
