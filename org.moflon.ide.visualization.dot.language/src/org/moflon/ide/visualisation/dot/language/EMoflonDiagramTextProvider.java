@@ -187,7 +187,7 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
 
    private static String formatStatistics(final Statistics statistics)
    {
-      return String.format("Visualisation of [%s (E:%d + V:%d = %d] in: %.6fs", eMoflonEMFUtil.getIdentifier(statistics.input), statistics.edgeCount,
+      return String.format("Visualisation of [%s (E:%d + V:%d = %d] in: %.6fms", eMoflonEMFUtil.getIdentifier(statistics.input), statistics.edgeCount,
             statistics.nodeCount, statistics.edgeCount + statistics.nodeCount, statistics.durationInMillis);
    }
 
