@@ -59,7 +59,7 @@ AttrCondDef:
 
 Param:
 	// FIXME This should be: index = INT TypeSeparator type = [ecore::EDataType | QualifiedName]
-	index = INT TypeSeparator type = ParamType
+	index = INT ':' type = ParamType
 ;
 
 // FIXME Get rid of this after fixing Param
@@ -126,14 +126,14 @@ LocalVariable:
 ;
 
 CorrVariablePattern:
-	(op = Operator)? name = ID TypeSeparator type = [CorrType | QualifiedName] '{'
+	(op = Operator)? name = ID ':' type = [CorrType | QualifiedName] '{'
 		'#src->' source = [ObjectVariablePattern]
 		'#trg->' target = [ObjectVariablePattern]
 	'}' 
 ;
 
 ObjectVariablePattern:
-	(op = Operator)? name = ID TypeSeparator type = [ecore::EClass | QualifiedName] ('{'
+	(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName] ('{'
 		attributeAssignments += AttributeAssignment*
 		attributeConstraints += AttributeConstraint*
 		linkVariablePatterns += LinkVariablePattern*
@@ -141,11 +141,11 @@ ObjectVariablePattern:
 ;
 
 AttributeConstraint:
-	attribute = [ecore::EAttribute] op=ComparisonOperator valueExp = Expression
+	attribute = [ecore::EAttribute] op=('==' | '!=' | '<=' | '>=' | '>' | '<') valueExp = Expression
 ;
 
 AttributeAssignment:
-	attribute = [ecore::EAttribute] op=' := ' valueExp = Expression
+	attribute = [ecore::EAttribute] op=':=' valueExp = Expression
 ;
 
 Expression:
@@ -169,7 +169,7 @@ LinkVariablePattern:
 ;
 
 Operator:
-	value = OperationValues
+	value = ('++' | '!' | '--')
 ;
 
 /* ---------------- */
@@ -182,10 +182,6 @@ Import:
 
 Using:
 	'#using' importedNamespace = QualifiedNameWithWildcard
-;
-
-ComparisonOperator:
-	(' == ' | ' != ' | ' <= ' | ' >= ' | ' > ' | ' < ')
 ;
 
 terminal DECIMAL: INT '.' INT;
@@ -206,13 +202,6 @@ QualifiedName returns ecore::EString:
 	ID ('.' ID)*
 ;
 
-TypeSeparator:
-	':' | ' : ' | ' :' | ': '
-;
-
-OperationValues:
-	"++" | "!" | "--"
-;
 
 // some Head classes for better OOP aspects
 
