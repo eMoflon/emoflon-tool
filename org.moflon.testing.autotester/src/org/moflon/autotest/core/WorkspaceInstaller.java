@@ -98,6 +98,7 @@ public class WorkspaceInstaller
       {
          logger.debug("Using PSF files in installed plugin " + PSFPlugin.getDefault().getPluginId() + ".");
          final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(pluginRelativePathToPSF, PSFPlugin.getDefault().getPluginId());
+         logger.debug("Retrieved URL: " + fullPathURL);
          final String absolutePathToPSF = new File(fullPathURL.getPath()).getAbsolutePath();
          return absolutePathToPSF;
       }
