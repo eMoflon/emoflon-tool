@@ -18,7 +18,7 @@ public class EMoflonStandardWorkspaces
     * 
     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!
     */
-   public static final String PSF_FILES_ROOT = "/resources/psf/";
+   public static final String PSF_FILES_ROOT = "resources/psf/";
 
    public static final String TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME = "TransformationZoo_1";
 
