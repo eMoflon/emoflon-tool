@@ -1,6 +1,7 @@
 package org.moflon.ide.deltaeditor;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.presentation.EcoreEditor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
@@ -105,16 +107,50 @@ public class DeltaEditor extends EcoreEditor
       
       DeltaSpecification spec = RuntimeFactory.eINSTANCE.createDeltaSpecification();
       spec.getAddedNodes().addAll(delta.getAddedNodes());
-      spec.getAddedEdges().addAll(mapEdgesToCopy(delta.getAddedEdges()));
+      spec.getAddedEdges().addAll(removeOpposites(mapEdgesToCopy(delta.getAddedEdges())));
       spec.getDeletedNodes().addAll(mapNodesToCopy(delta.getDeletedNodes()));
-      spec.getDeletedEdges().addAll(mapEdgesToCopy(delta.getDeletedEdges()));
+      spec.getDeletedEdges().addAll(removeOpposites(mapEdgesToCopy(delta.getDeletedEdges())));
       spec.getAttributeChanges().addAll(mapAttrDeltaToCopy(delta.getAttributeChanges())
             .stream()
             .map(d -> d.toEMF())
             .filter(d -> d.getAffectedNode() != null)
             .collect(Collectors.toList()));
-
+      
       return spec;
+   }
+
+   private Collection<EMoflonEdge> removeOpposites(Collection<EMoflonEdge> allEdges) {
+	   ArrayList<EMoflonEdge> edges = new ArrayList<>(allEdges);
+	   ArrayList<EMoflonEdge> result = new ArrayList<>();
+	   
+	   for (int i = 0; i < edges.size(); i++) {
+		   boolean noOpposite = true;
+		   for(int j = i+1; j < edges.size(); j++){
+			  if(isOppositeOf(edges.get(i), edges.get(j))){
+				  noOpposite = false;
+				  break;
+			  }
+		   }
+		   
+		   if(noOpposite)
+			   result.add(edges.get(i));
+	   }
+	   
+	   return result;
+   }
+   
+   private boolean isOppositeOf(EMoflonEdge edge1, EMoflonEdge edge2) {
+	   return edge1.getSrc().equals(edge2.getTrg()) &&
+			  edge1.getTrg().equals(edge2.getSrc()) &&
+			  toReference(edge2).equals(toReference(edge1).getEOpposite());
+   }
+
+   private EReference toReference(EMoflonEdge edge){
+	   return edge.getSrc().eClass().getEAllReferences()
+			   .stream()
+			   .filter(r -> r.getName().equals(edge.getName()))
+			   .findAny()
+			   .get();   
    }
 
    private Collection<AttributeDelta> mapAttrDeltaToCopy(Collection<AttributeDelta> attributeChanges)
