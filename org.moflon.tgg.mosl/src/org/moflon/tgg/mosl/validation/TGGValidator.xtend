@@ -169,7 +169,7 @@ class TGGValidator extends AbstractTGGValidator {
 	
 	@Check
 	def checkForMissingOperatorInPatternWithOperator(ObjectVariablePattern ov){
-		if(ov.op != null){
+		if(ov.op != null && "++".equals(ov.op.value)){
 			var ovOpValue = ov.op.value;
 			for(LinkVariablePattern linkVar : ov.linkVariablePatterns){
 				if(linkVar.op == null || !ovOpValue.equals(linkVar.op.value)){
