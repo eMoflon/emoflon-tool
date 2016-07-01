@@ -25,15 +25,14 @@ public class Concat extends TGGConstraintImpl
       {
       case "BBBB":
       {
-         setSatisfied(((String) a.getValue() + separator.getValue() + b.getValue()).equals(c.getValue()));
+         setSatisfied(checkAllValues(separator, a, b, c));
          return;
       }
 
       case "BBBF":
       {
-         c.setValue((String) a.getValue() + separator.getValue() + b.getValue());
-         c.setBound(true);
-         setSatisfied(true);
+         c.bindToValue((String) a.getValue() + separator.getValue() + b.getValue());
+         setSatisfied(checkAllValues(separator, a, b, c));
          return;
       }
 
@@ -45,9 +44,8 @@ public class Concat extends TGGConstraintImpl
             setSatisfied(false);
          } else
          {
-            b.setValue(split[1]);
-            b.setBound(true);
-            setSatisfied(true);
+            b.bindToValue(split[1]);
+            setSatisfied(checkAllValues(separator, a, b, c));
          }
          return;
       }
@@ -55,9 +53,8 @@ public class Concat extends TGGConstraintImpl
       case "BFBB":
       {
          String[] split = c.getValue().toString().split(Pattern.quote((String) separator.getValue()));
-         a.setValue(split[0]);
-         a.setBound(true);
-         setSatisfied(true);
+         a.bindToValue(split[0]);
+         setSatisfied(checkAllValues(separator, a, b, c));
          return;
       }
 
@@ -66,14 +63,13 @@ public class Concat extends TGGConstraintImpl
          String[] split = c.getValue().toString().split(Pattern.quote((String) separator.getValue()));
          if (split.length == 2)
          {
-            a.setValue(split[0]);
-            a.setBound(true);
-            b.setValue(split[1]);
-            b.setBound(true);
-            setSatisfied(true);
+            a.bindToValue(split[0]);
+            b.bindToValue(split[1]);
+            setSatisfied(checkAllValues(separator, a, b, c));
          }
          return;
       }
+      
       // modelgen implementations
       case "BFFF":
       {
@@ -107,4 +103,8 @@ public class Concat extends TGGConstraintImpl
          throw new UnsupportedOperationException("This case in the constraint has not been implemented yet: " + bindingStates);
       }
    }
+
+private boolean checkAllValues(Variable separator, Variable a, Variable b, Variable c) {
+	return ((String) a.getValue() + separator.getValue() + b.getValue()).equals(c.getValue());
+}
 }
