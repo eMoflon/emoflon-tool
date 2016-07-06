@@ -62,6 +62,8 @@ public class SynchronizationHelper
 
    protected Configurator configurator;
 
+   protected DeltaSpecification deltaSpec;
+
    protected Delta delta;
 
    protected SynchronizationProtocol protocol;
@@ -286,7 +288,7 @@ public class SynchronizationHelper
    @SuppressWarnings({ "unchecked", "rawtypes" })
    protected Consumer<EObject> executeDeltaSpec(String pathToDelta)
    {
-      DeltaSpecification deltaSpec = (DeltaSpecification) loadModel(pathToDelta);
+      deltaSpec = (DeltaSpecification) loadModel(pathToDelta);
       EcoreUtil.resolveAll(deltaSpec);
       
       return (input) -> {    	  
@@ -327,6 +329,11 @@ public class SynchronizationHelper
       change.accept(input);
       OnlineChangeDetector.removeDeltaListeners(input);
 
+      sanityCheckDelta();
+      
+      if(verbose)
+    	  logger.info("\nI am going to propagate this as delta: \n" + delta + "\nPlease check and ensure that it is as expected!" );
+      
       if (noChangesWereMade() && protocol == null)
       {
          induceCreateDeltaForBatchTrafo(input);
@@ -335,6 +342,20 @@ public class SynchronizationHelper
       {
          batchMode = false;
       }
+   }
+
+   protected void sanityCheckDelta() {
+	   if(delta != null && deltaSpec != null){
+		   if(deltaSpec.getAddedNodes().size() != delta.getAddedNodes().size()){
+			   logger.warn("The added nodes in your delta specification do not match the added nodes in the resulting delta!");
+		   }else if(deltaSpec.getAddedEdges().size() != delta.getAddedEdges().size()){
+			   logger.warn("The added edges in your delta specification do not match the added edges in the resulting delta!");   
+		   }else if(deltaSpec.getDeletedEdges().size() != delta.getDeletedEdges().size()){
+			   logger.warn("The deleted edges in your delta specification do not match the deleted edges in the resulting delta!");   
+		   }else if(deltaSpec.getDeletedNodes().size() != delta.getDeletedNodes().size()){
+			   logger.warn("The deleted nodes in your delta specification do not match the deleted nodes in the resulting delta!");   
+		   }
+	   }
    }
 
    protected boolean noChangesWereMade()
