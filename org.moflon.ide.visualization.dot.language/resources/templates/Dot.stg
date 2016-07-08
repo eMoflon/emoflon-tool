@@ -41,6 +41,14 @@ EdgeCommandImpl(e) ::= <<
 "<e.source.label>" -> "<e.target.label>" [fontname=Monospace, penwidth=1, color=<e.color.literal>, label="<e.label>", fontsize=8, constraint=<e.constrained>];
 >>
 
+InheritanceImpl(e) ::= <<
+"<e.source.label>" ->  "<e.target.label>" [penwidth=1, arrowtail="none", arrowhead="onormal", color=<e.color.literal>, constraint=true];
+>>
+
+CompositeImpl(e) ::= <<
+"<e.source.label>" ->  "<e.target.label>" [penwidth=1, dir="both", arrowhead="odiamond", arrowtail="vee", label="<e.label>", fontsize=8, color=<e.color.literal>, constraint=true];
+>>
+
 RecordImpl(n) ::= <<
 "<n.label>" [fontsize=9, fontname=Monospace, penwidth=1, shape=record, color=<n.color>, fillcolor=<n.fillcolor>, label="{<n.label> | <n.entries: Entry(); separator="|">}"<if(n.bold)>,penwidth=2<endif><if(n.rounded)>,style=rounded<endif>,style=filled];
 >>
