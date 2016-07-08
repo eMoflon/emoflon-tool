@@ -28,7 +28,9 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.visualisation.dot.language.DotUnparserAdapter;
+import org.moflon.ide.visualization.dot.language.DirectedGraph;
 import org.moflon.ide.visualization.dot.tgg.TGGRuleDiagramTextProvider;
+import org.moflon.ide.visualization.dot.tgg.schema.TGGSchemaDiagramTextProvider;
 import org.moflon.tgg.language.TGGRule;
 import org.moflon.tgg.language.TripleGraphGrammar;
 
@@ -68,19 +70,29 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
    {
       try
       {
+    	 TripleGraphGrammar tgg = getTGG();
          ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
-         Optional<TGGRule> rule = getTGGRuleForSelection(selection);
+         Optional<TGGRule> rule = getTGGRuleForSelection(selection, tgg);
 
          if (rule.isPresent() && oldValue.containsKey(rule.get().getName()) && !outdated)
             return oldValue.get(rule.get().getName());
 
+         TGGSchemaDiagramTextProvider schemaProvider = new TGGSchemaDiagramTextProvider();
+         
+         DirectedGraph graph = schemaProvider.modelToDot(tgg);
+         String schemaDiagram;
+         if(graph != null)
+        	 schemaDiagram = new DotUnparserAdapter().unparse(graph);
+         else
+        	 schemaDiagram = "@startuml @enduml";
+         
          return rule.map(r -> {
             outdated = false;
             TGGRuleDiagramTextProvider tggTextProvider = new TGGRuleDiagramTextProvider();
             String diagram = new DotUnparserAdapter().unparse(tggTextProvider.modelToDot(r));
             oldValue.put(r.getName(), diagram);
             return diagram;
-         }).orElse("@startuml @enduml");
+         }).orElse(schemaDiagram);
          
       } catch (Exception e)
       {
@@ -107,31 +119,39 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 		return false;
 	}
 
-	private Optional<TGGRule> getTGGRuleForSelection(ISelection selection) { 
+	private Optional<TGGRule> getTGGRuleForSelection(ISelection selection, TripleGraphGrammar tgg) { 
 		IPath ruleNamePath = new Path(oldEditor.getEditorInput().getName());
 		ruleNamePath = ruleNamePath.removeFileExtension();
 		String ruleName = ruleNamePath.toString();
 		
 		String selectedRuleName = extractRuleName(selection);
 
-		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
-			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
-			IProject project = file.getProject();
-         IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), ".pre.tgg.xmi"));
-
-			if (tggFile.exists()) {
-				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
-				URI uri = URI.createPlatformResourceURI(tggFile.getFullPath().toString(), true);
-				Resource tggResource = rs.getResource(uri, true);
-				TripleGraphGrammar tgg = (TripleGraphGrammar) tggResource.getContents().get(0);
+		
+			if (tgg!=null) {				
 				return tgg.getTggRule()
 				      .stream()
 				      .filter(r -> r.getName().equals(ruleName) || r.getName().equals(selectedRuleName))
 				      .findAny();
 			}
-		}
+		
 
 		return Optional.empty();
+	}
+	
+	private TripleGraphGrammar getTGG() {
+		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
+			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
+			IProject project = file.getProject();
+			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), ".pre.tgg.xmi"));
+			if (tggFile.exists()) {
+				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
+				URI uri = URI.createPlatformResourceURI(tggFile.getFullPath().toString(), true);
+				Resource tggResource = rs.getResource(uri, true);
+				TripleGraphGrammar tgg = (TripleGraphGrammar) tggResource.getContents().get(0);
+				return tgg;
+			}
+		}
+		return null;
 	}
 
    private String extractRuleName(ISelection selection)
