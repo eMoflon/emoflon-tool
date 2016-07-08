@@ -1,0 +1,40 @@
+#using org.moflon.ide.visualization.dot.tgg.schema.*
+#using AttrCondDefLibrary.*
+
+#rule FillBaseRules #with org.moflon.ide.visualization.dot.tgg.schema
+
+#source {
+	directedGraph : DirectedGraph{
+		++ -nodes -> ruleBox
+	}
+
+
+	++ruleBox : Box
+
+}
+
+#target {
+	tripleGraphGrammar : TripleGraphGrammar{
+		++ -tggRule -> rule
+	}
+
+	++rule : TGGRule
+}
+
+#correspondence {
+	directedGraphToTripleGraphGrammar : DirectedGraphToTripleGraphGrammar{
+		#src->directedGraph
+		#trg->tripleGraphGrammar
+	}
+
+	++ nodeToRule : NodeToRule {
+		#src->ruleBox
+		#trg->rule
+	}
+}
+
+#attributeConditions {
+	eq(ruleBox.label, rule.name)
+}
+
+

@@ -1,0 +1,28 @@
+#using org.moflon.ide.visualization.dot.tgg.schema.*
+#using AttrCondDefLibrary.*
+
+#rule TGGGrammarDirectedGraphAxiom #with org.moflon.ide.visualization.dot.tgg.schema
+
+#source {
+	++directedGraph : DirectedGraph{
+		name := "Schema"
+	}
+	
+}
+
+#target {
+	++tripleGraphGrammar : TripleGraphGrammar
+}
+
+#correspondence {
+	++directedGraphToTripleGraphGrammar : DirectedGraphToTripleGraphGrammar{
+		#src->directedGraph
+		#trg->tripleGraphGrammar
+	}
+}
+
+#attributeConditions {
+	
+}
+
+

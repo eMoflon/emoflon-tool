@@ -1,0 +1,55 @@
+#using org.moflon.ide.visualization.dot.tgg.schema.*
+#using AttrCondDefLibrary.*
+
+#rule ComplementRule #with org.moflon.ide.visualization.dot.tgg.schema
+
+#source {
+	directedGraph : DirectedGraph{
+		-nodes -> ruleBox
+		-nodes -> superRuleBox
+		++ -edges -> complements
+	}
+
+	ruleBox : Box
+
+	superRuleBox : Box
+
+	++complements : Composite{
+		label := "0..*"
+		++- source -> ruleBox
+		++-target -> superRuleBox
+	}
+}
+
+#target {
+	tripleGraphGrammar : TripleGraphGrammar{
+		-tggRule -> rule
+		-tggRule -> superRule
+	}
+
+	rule : TGGRule{
+		++ - kernel -> superRule
+	}
+
+	superRule : TGGRule
+}
+
+#correspondence {
+	directedGraphToTripleGraphGrammar : DirectedGraphToTripleGraphGrammar{
+		#src->directedGraph
+		#trg->tripleGraphGrammar
+	}
+
+	nodeToRule : NodeToRule {
+		#src->ruleBox
+		#trg->rule
+	}
+}
+
+#attributeConditions {
+	eq(ruleBox.label, rule.name)
+
+	eq(superRuleBox.label, superRule.name)
+}
+
+

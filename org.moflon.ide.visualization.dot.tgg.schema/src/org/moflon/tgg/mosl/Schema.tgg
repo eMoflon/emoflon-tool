@@ -1,0 +1,71 @@
+// Add imports here
+#import "platform:/plugin/MocaTree/model/MocaTree.ecore"
+#import "platform:/resource/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
+#import "http://www.eclipse.org/emf/2002/Ecore"
+#import "platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore"
+
+#schema org.moflon.ide.visualization.dot.tgg.schema
+
+#source {
+	MocaTree
+	org.moflon.ide.visualization.dot.language.language
+	
+}
+
+#target {
+	org.moflon.tgg.language.language
+	runtime
+	ecore
+}
+
+#correspondence {
+	DirectedGraphToTripleGraphGrammar{
+		#src->DirectedGraph
+		#trg->TripleGraphGrammar
+	}
+
+	NodeToDomain{
+		#src->NodeCommand
+		#trg->Domain
+	}
+
+	NodeToRule{
+		#src->NodeCommand
+		#trg->TGGRule
+	}
+}
+
+#attributeConditions {
+	#userDefined
+	stringToDomainType(0:EString, 1:DomainType){
+		#sync: BB, FB, BF
+		#gen:
+	}
+
+	#userDefined
+	setDefaultColorForSourceDomain(0:DotColor){
+		#sync: B, F
+		#gen:
+	}
+
+	#userDefined
+	setDefaultColorForTargetDomain(0:DotColor){
+		#sync: B, F
+		#gen:
+	}
+
+	#userDefined
+	setRefinementColor(0:DotColor){
+		#sync: B, F
+		#gen:
+	}
+	
+		#userDefined
+	setKernelColor(0:DotColor){
+		#sync: B, F
+		#gen:
+	}
+}
+
+

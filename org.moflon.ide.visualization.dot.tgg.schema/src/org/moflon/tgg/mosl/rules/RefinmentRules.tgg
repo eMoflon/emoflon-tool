@@ -1,0 +1,54 @@
+#using org.moflon.ide.visualization.dot.tgg.schema.*
+#using AttrCondDefLibrary.*
+
+#rule RefinmentRules #with org.moflon.ide.visualization.dot.tgg.schema
+
+#source {
+	directedGraph : DirectedGraph{
+		-nodes -> ruleBox
+		-nodes -> superRuleBox
+		++ -edges -> refined
+	}
+
+	ruleBox : Box
+
+	superRuleBox : Box
+
+	++refined : Inheritance{
+		++- source -> ruleBox
+		++-target -> superRuleBox
+	}
+}
+
+#target {
+	tripleGraphGrammar : TripleGraphGrammar{
+		-tggRule -> rule
+		-tggRule -> superRule
+	}
+
+	rule : TGGRule{
+		++ - refines -> superRule
+	}
+
+	superRule : TGGRule
+}
+
+#correspondence {
+	directedGraphToTripleGraphGrammar : DirectedGraphToTripleGraphGrammar{
+		#src->directedGraph
+		#trg->tripleGraphGrammar
+	}
+
+	nodeToRule : NodeToRule {
+		#src->ruleBox
+		#trg->rule
+	}
+}
+
+#attributeConditions {
+	eq(ruleBox.label, rule.name)
+
+	eq(superRuleBox.label, superRule.name)
+}
+
+
