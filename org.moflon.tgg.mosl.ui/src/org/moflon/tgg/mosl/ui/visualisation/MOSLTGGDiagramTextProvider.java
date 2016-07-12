@@ -28,6 +28,7 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.visualisation.dot.language.DotUnparserAdapter;
+import org.moflon.ide.visualisation.dot.language.ToggleRefinementHandler;
 import org.moflon.ide.visualization.dot.language.DirectedGraph;
 import org.moflon.ide.visualization.dot.tgg.TGGRuleDiagramTextProvider;
 import org.moflon.ide.visualization.dot.tgg.schema.TGGSchemaDiagramTextProvider;
@@ -142,7 +143,7 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
 			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
 			IProject project = file.getProject();
-			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), ".pre.tgg.xmi"));
+			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), ToggleRefinementHandler.getTGGFileWithRules()));
 			if (tggFile.exists()) {
 				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
 				URI uri = URI.createPlatformResourceURI(tggFile.getFullPath().toString(), true);
