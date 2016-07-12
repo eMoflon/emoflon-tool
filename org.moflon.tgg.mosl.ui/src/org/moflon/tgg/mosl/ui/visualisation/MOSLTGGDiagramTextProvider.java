@@ -26,6 +26,7 @@ import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.visualisation.dot.language.DotUnparserAdapter;
 import org.moflon.ide.visualisation.dot.language.ToggleRefinementHandler;
@@ -41,6 +42,7 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 	private boolean outdated = false;
 	private XtextEditor oldEditor;
 	private HashMap<String, String> oldValue = new HashMap<>();
+	private String currentTggFile = WorkspaceHelper.PRE_TGG_FILE_EXTENSION;
 	
 	private IPropertyListener listener = (o, p) -> {
 		if (p == IWorkbenchPartConstants.PROP_DIRTY && !oldEditor.isDirty()) {
@@ -64,7 +66,8 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 			j.setPriority(Job.LONG);
 			j.schedule();
 		}
-	};
+   };
+	
 	
    @Override
    public String getDiagramText(IEditorPart editorPart, IEditorInput editorInput)
@@ -143,7 +146,7 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
 			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
 			IProject project = file.getProject();
-			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), ToggleRefinementHandler.getTGGFileWithRules()));
+			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), getTGGFileWithRules()));
 			if (tggFile.exists()) {
 				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
 				URI uri = URI.createPlatformResourceURI(tggFile.getFullPath().toString(), true);
@@ -154,6 +157,16 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 		}
 		return null;
 	}
+
+   private String getTGGFileWithRules() {
+	   String tggFile = ToggleRefinementHandler.flattenRefinements()? WorkspaceHelper.TGG_FILE_EXTENSION : WorkspaceHelper.PRE_TGG_FILE_EXTENSION;
+	   if(!currentTggFile.equals(tggFile)){
+		   currentTggFile = tggFile;
+		   outdated = true;
+	   }
+	   
+	   return currentTggFile;
+   }
 
    private String extractRuleName(ISelection selection)
    {

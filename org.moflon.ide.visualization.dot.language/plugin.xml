@@ -7,11 +7,11 @@
   </extension>
   <extension point="org.eclipse.ui.menus">
     <menuContribution allPopups="false" locationURI="menu:net.sourceforge.plantuml.eclipse.views.PlantUmlView">
-      <command commandId="org.moflon.ide.visualization.dot.language.plantuml.view.togglerefinement.command" label="Toggle refinements" style="push"/>
+      <command commandId="org.moflon.ide.visualization.dot.language.plantuml.view.togglerefinement.command" label="Flatten/Show Refinements" style="push"/>
     </menuContribution>
   </extension>
   <extension point="org.eclipse.ui.commands">
-    <command defaultHandler="org.moflon.ide.visualisation.dot.language.ToggleRefinementHandler" description="Switch between view of refinement and flattened resulting rule" id="org.moflon.ide.visualization.dot.language.plantuml.view.togglerefinement.command" name="Toggle Refinement"/>
+    <command defaultHandler="org.moflon.ide.visualisation.dot.language.ToggleRefinementHandler" description="Switch between view of refinement and flattened resulting rule" id="org.moflon.ide.visualization.dot.language.plantuml.view.togglerefinement.command" name="Flatten/Show Refinements"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="org.moflon.ide.visualization.dot.language.LanguagePackage" genModel="model/Language.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"/>
