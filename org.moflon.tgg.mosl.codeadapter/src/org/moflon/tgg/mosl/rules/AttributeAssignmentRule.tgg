@@ -4,7 +4,7 @@
 
 #source {
 	++  attributeAssignment : AttributeAssignment {
-		op := " := "
+		op := ":="
 	}
 	objectVariablePatternSource : ObjectVariablePattern {
 		++   - attributeAssignments->attributeAssignment
