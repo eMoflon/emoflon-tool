@@ -7,6 +7,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.sdmpatterns,org.moflon.ide.visualization.dot.sdmpatterns"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg,org.moflon.ide.visualization.dot.tgg"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.schema,org.moflon.ide.visualization.dot.tgg.schema"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.delta,org.moflon.ide.visualization.dot.tgg.delta"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.runtime,org.moflon.ide.visualization.dot.tgg.runtime"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.runtimepatterns,org.moflon.ide.visualization.dot.tgg.runtimepatterns"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.feature,org.moflon.ide.visualization.feature"/>
@@ -17,6 +18,7 @@
 <item elementID="=org.moflon.ide.visualization.abstractsyntaxviewer" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.tgg" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.tgg.schema" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.moflon.ide.visualization.dot.tgg.delta" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.language" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.sdm" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.tgg.runtime" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
