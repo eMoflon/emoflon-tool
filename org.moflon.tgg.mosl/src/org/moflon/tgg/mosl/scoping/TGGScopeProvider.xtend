@@ -227,7 +227,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def is_equal_or_super_type_of_ov(EClass sup, IEObjectDescription desc){
 		var sub = (desc.EObjectOrProxy as ObjectVariablePattern).type
-		sub.equals(sup) || sub.EAllSuperTypes.contains(sup)
+		sub.equals(sup) || sub.EAllSuperTypes.contains(sup) || sup.equals(EcorePackage.eINSTANCE.EObject)
 	}
 
 	def is_type_of_ov(EObject context, EReference reference) {
@@ -293,7 +293,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 		var ovPattern = lvPattern.eContainer as ObjectVariablePattern
 		var rule = ovPattern.eContainer as Rule
 		
-		// Must be in same domain as source ov
+		// Must be in same domain as ov
 		var IScope allCandidates = null;
 		if(rule.sourcePatterns.contains(ovPattern))
 			allCandidates = Scopes.scopeFor(rule.sourcePatterns)
