@@ -1,0 +1,76 @@
+// Add imports here
+#import "platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore"
+#import "platform:/resource/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "http://www.eclipse.org/emf/2002/Ecore"
+
+#schema org.moflon.ide.visualization.dot.tgg.delta
+
+#source {
+	language
+}
+
+#target {
+	runtime
+	ecore
+}
+
+#correspondence {
+	DirectedGraphToDeltaSpecification{
+		#src->DirectedGraph
+		#trg->DeltaSpecification
+	}
+
+	EdgeCommandToEMoflonEdge{
+		#src->EdgeCommand
+		#trg->EMoflonEdge
+	}
+
+	NodeCommandToEMoflonEdge{
+		#src->NodeCommand
+		#trg->EMoflonEdge
+	}
+
+	NodeCommandToNode{
+		#src->NodeCommand
+		#trg->EObject
+	}
+	
+	RecordEntryToAttributeDelta{
+		#src->RecordEntry
+		#trg->AttributeDelta
+	}
+}
+
+#attributeConditions {
+	#userDefined 
+	setColorForGeneration(0:DotColor){
+		#sync:B,F
+		#gen:
+	}
+
+	#userDefined 
+	setColorForDeletion(0:DotColor){
+		#sync:B,F
+		#gen:
+	}
+
+	#userDefined
+	stringToEObject(0:EString, 1:EObject){
+		#sync:BB, FB, BF
+		#gen:
+	}
+
+	#userDefined
+	setDefaultColorForSourceDomain(0:DotColor){
+		#sync: B, F
+		#gen:
+	}
+
+	#userDefined
+	setDefaultColorForTargetDomain(0:DotColor){
+		#sync: B, F
+		#gen:
+	}
+}
+
+

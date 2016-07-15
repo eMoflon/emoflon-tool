@@ -1,0 +1,50 @@
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#rule AddedEdgesRule #with org.moflon.ide.visualization.dot.tgg.delta
+
+#source {
+	directedGraph:DirectedGraph{
+		++ - nodes -> addedTrgNode
+		++ - nodes -> addedSrcNode
+		++ - edges -> addedEdge
+	}
+
+	++addedEdge:EdgeCommand{
+		++ - source -> addedSrcNode
+		++ - target -> addedTrgNode
+	}
+
+	++addedTrgNode:Record 
+	
+	++addedSrcNode:Record
+}
+
+#target {
+	delta:DeltaSpecification{
+		++ - addedEdges -> eMoflonEdge
+	}
+
+	++eMoflonEdge:EMoflonEdge
+}
+
+#correspondence {
+	graphToDelta :DirectedGraphToDeltaSpecification{
+		#src->directedGraph
+		#trg->delta
+	}
+
+	++ edgeToEdge :EdgeCommandToEMoflonEdge {
+		#src->addedEdge
+		#trg->eMoflonEdge
+	}
+}
+
+#attributeConditions {
+	setColorForGeneration(addedTrgNode.color)
+	setColorForGeneration(addedEdge.color)
+	eq(addedEdge.label, eMoflonEdge.name)	
+}
+
+
+

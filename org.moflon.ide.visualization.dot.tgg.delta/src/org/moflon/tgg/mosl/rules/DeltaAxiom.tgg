@@ -1,0 +1,25 @@
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#rule DeltaAxiom #with org.moflon.ide.visualization.dot.tgg.delta
+
+#source { 
+	++ directedGraph : DirectedGraph{
+		name := "Delta"
+	}
+}
+
+#target {
+	++ delta : DeltaSpecification
+}
+
+#correspondence {
+	++ graphToDelta : DirectedGraphToDeltaSpecification{
+		#src-> directedGraph
+		#trg-> delta
+	}
+}
+
+#attributeConditions {
+	
+}
