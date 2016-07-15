@@ -1,0 +1,562 @@
+#import "platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
+#import "http://www.eclipse.org/emf/2002/Ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions"
+#import "platform:/plugin/MocaTree/model/MocaTree.ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions"
+
+#schema org.moflon.ide.visualization.dot.tgg
+
+#source {
+	org.moflon.ide.visualization.dot.language.language
+	MocaTree.MocaTree }
+
+#target {
+	org.moflon.tgg.language.language
+	org.moflon.tgg.language.language.csp ecore.ecore SDMLanguage.SDMLanguage.patterns SDMLanguage.SDMLanguage.expressions SDMLanguage.SDMLanguage.patterns.patternExpressions }
+
+#correspondence {
+	SubGraphToTGGRule {
+		#src->language.SubGraph
+		#trg->language.TGGRule
+	}
+
+	NodeCommandToTGGObjectVariable {
+		#src->language.NodeCommand
+		#trg->language.TGGObjectVariable
+	}
+
+	EdgeCommandToTGGLinkVariable {
+		#src->language.EdgeCommand
+		#trg->language.TGGLinkVariable
+	}
+
+	FolderToTripleGraphGrammar {
+		#src->MocaTree.Folder
+		#trg->language.TripleGraphGrammar
+	}
+
+	DirectedGraphToCSP {
+		#src->language.DirectedGraph
+		#trg->language.csp.CSP
+	}
+
+	LabelEntryToTGGConstraint {
+		#src->language.LabelEntry
+		#trg->language.csp.TGGConstraint
+	}
+}
+
+#attributeConditions {
+	eq(0: , 1: ) {
+		#sync: BB, BF, FB
+		#gen: FF, BB, FB, BF}
+
+	#userDefined setColor(0:DotLanguage.DotColor, 2:SDMLanguage.patterns.BindingSemantics, 1:SDMLanguage.patterns.BindingOperator) {
+		#sync: FBB}
+
+	#userDefined setDefaultColorForSourceDomain(0:DotColor) {
+		#sync: F}
+
+	concat(2:EString, 1:EString, 3:EString, 0:EString) {
+		#sync: BBBB, BBBF, BFFB, BBFB, BFBB
+		#gen: BFFB, BBFF, BBFB, BBBF, BFBF, BFFF, BBBB, BFBB}
+
+	#userDefined recordEntryFromAssignment(1:EString, 0:EString, 2:EString) {
+		#sync: FBB, BBB}
+
+	#userDefined recordEntryFromConstraint(3:EString, 0:EString, 1:SDMLanguage.expressions.ComparingOperator, 2:EString) {
+		#sync: BBBB, FBBB}
+
+	#userDefined setDefaultColorForTargetDomain(0:DotColor) {
+		#sync: F}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#abstract #rule LinkToLVRule #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	trg:language.NodeCommand
+
+	src:language.NodeCommand
+
+	++edge:language.EdgeCommand {
+		++ - source -> src
+		++ - graph -> domainGraph
+		++ - target -> trg
+	}
+
+	domainGraph:language.SubGraph
+}
+
+#target {
+	rule:language.TGGRule {
+		++ - linkVariable -> lv
+	}
+
+	trgOV:language.TGGObjectVariable {
+		++ - incomingLink -> lv
+	}
+
+	domain:language.Domain
+
+	++lv:language.TGGLinkVariable {
+		++ - domain -> domain
+	}
+
+	srcOV:language.TGGObjectVariable {
+		++ - outgoingLink -> lv
+	}
+}
+
+#correspondence {
+	ruleToDomain :SubGraphToTGGRule {
+		#src->domainGraph
+		#trg->rule
+	}
+
+	srcToSrcOV :NodeCommandToTGGObjectVariable {
+		#src->src
+		#trg->srcOV
+	}
+
+	trgToTrgOV :NodeCommandToTGGObjectVariable {
+		#src->trg
+		#trg->trgOV
+	}
+
+	++ edgeToLv :EdgeCommandToTGGLinkVariable {
+		#src->edge
+		#trg->lv
+	}
+}
+
+#attributeConditions {
+	setColor (edge.color, lv.bindingOperator, lv.bindingSemantics)
+
+	eq (edge.label, lv.name)
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule FileToTGGRuleRule #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	++srcDomain:language.SubGraph {
+		index := 0
+		name := "Source Domain"
+		++ - containingGraph -> directedGraph
+	}
+
+	++directedGraph:language.DirectedGraph
+
+	++corrDomain:language.SubGraph {
+		cluster := false
+		index := 2
+		name := "Correspondence Domain"
+		++ - containingGraph -> directedGraph
+	}
+
+	++trgDomain:language.SubGraph {
+		name := "Target Domain"
+		index := 1
+		++ - containingGraph -> directedGraph
+	}
+}
+
+#target {
+	corr:language.Domain
+
+	++rule:language.TGGRule {
+		++ - correspondence -> corr
+		++ - source -> src
+		++ - target -> trg
+	}
+
+	src:language.Domain
+
+	trg:language.Domain
+}
+
+#correspondence {
+	++ ruleToSrcDomain :SubGraphToTGGRule {
+		#src->srcDomain
+		#trg->rule
+	}
+
+	++ ruleToCorrDomain :SubGraphToTGGRule {
+		#src->corrDomain
+		#trg->rule
+	}
+
+	++ ruleToTrgDomain :SubGraphToTGGRule {
+		#src->trgDomain
+		#trg->rule
+	}
+}
+
+#attributeConditions {
+	eq (directedGraph.name, rule.name)
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule NodeToSrcOV #extends NodeToOVRule, SrcDomain #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	++node:language.Record {
+		++ - graph -> domainGraph
+	}
+
+	domainGraph:language.SubGraph {
+		name=="Source Domain"
+	}
+}
+
+#attributeConditions {
+	setDefaultColorForSourceDomain (node.fillcolor)
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule EdgeToSrcLV #extends LinkToLVRule, SrcDomain #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	domainGraph:language.SubGraph {
+		name=="Source Domain"
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#abstract #rule NodeToOVRule #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	domainGraph:language.SubGraph
+
+	++node:language.NodeCommand {
+		++ - graph -> domainGraph
+	}
+}
+
+#target {
+	rule:language.TGGRule {
+		++ - objectVariable -> ov
+	}
+
+	domain:language.Domain
+
+	++ov:language.TGGObjectVariable {
+		++ - domain -> domain
+		++ - type -> type
+	}
+
+	type:ecore.EClass
+}
+
+#correspondence {
+	ruleToDomain :SubGraphToTGGRule {
+		#src->domainGraph
+		#trg->rule
+	}
+
+	++ nodeToOv :NodeCommandToTGGObjectVariable {
+		#src->node
+		#trg->ov
+	}
+}
+
+#attributeConditions {
+	concat (" : ", ov.name, type.name, node.label)
+
+	setColor (node.color, ov.bindingOperator, ov.bindingSemantics)
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule LabelEntryToConstraint #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	++labelEntry:language.LabelEntry {
+		++ - directedGraph -> directedGraph
+	}
+
+	directedGraph:language.DirectedGraph
+}
+
+#target {
+	++constraint:language.csp.TGGConstraint
+
+	cspOfRule:language.csp.CSP {
+		++ - constraints -> constraint
+	}
+}
+
+#correspondence {
+	++ labelEntryToConstraint :LabelEntryToTGGConstraint {
+		#src->labelEntry
+		#trg->constraint
+	}
+
+	directedGraphToCsp :DirectedGraphToCSP {
+		#src->directedGraph
+		#trg->cspOfRule
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule RecordEntryToAttrAssignment #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	++entry:language.RecordEntry {
+		++ - record -> record
+	}
+
+	record:language.Record
+}
+
+#target {
+	ov:language.TGGObjectVariable {
+		++ - attributeAssignment -> assignment
+	}
+
+	attr:ecore.EAttribute
+
+	++assignment:SDMLanguage.patterns.AttributeAssignment {
+		++ - valueExpression -> literal
+		++ - attribute -> attr
+	}
+
+	++literal:SDMLanguage.expressions.LiteralExpression
+}
+
+#correspondence {
+	nodeToOv :NodeCommandToTGGObjectVariable {
+		#src->record
+		#trg->ov
+	}
+}
+
+#attributeConditions {
+	recordEntryFromAssignment (entry.value, attr.name, literal.value)
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule TGGWithCSP #extends FileToTGGRuleRule #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	++directedGraph:language.DirectedGraph
+}
+
+#target {
+	++cspOfRule:language.csp.CSP
+
+	++rule:language.TGGRule {
+		++ - csp -> cspOfRule
+	}
+}
+
+#correspondence {
+	++ directedGraphToCsp :DirectedGraphToCSP {
+		#src->directedGraph
+		#trg->cspOfRule
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule CorrespondenceRule #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	src:language.NodeCommand
+
+	++edge:language.Taper {
+		++ - target -> trg
+		++ - source -> src
+		++ - graph -> domainGraph
+	}
+
+	trg:language.NodeCommand
+
+	domainGraph:language.SubGraph {
+		name=="Correspondence Domain"
+	}
+}
+
+#target {
+	domain:language.Domain
+
+	type:ecore.EClass
+
+	rule:language.TGGRule {
+		- correspondence -> domain
+		++ - objectVariable -> correspondence
+		++ - linkVariable -> srcLV
+		++ - linkVariable -> trgLV
+	}
+
+	trgOV:language.TGGObjectVariable {
+		++ - incomingLink -> trgLV
+	}
+
+	++trgLV:language.TGGLinkVariable {
+		name := "target"
+		++ - domain -> domain
+	}
+
+	++correspondence:language.TGGObjectVariable {
+		++ - type -> type
+		++ - outgoingLink -> trgLV
+		++ - domain -> domain
+		++ - outgoingLink -> srcLV
+	}
+
+	++srcLV:language.TGGLinkVariable {
+		name := "source"
+		++ - domain -> domain
+	}
+
+	srcOV:language.TGGObjectVariable {
+		++ - incomingLink -> srcLV
+	}
+}
+
+#correspondence {
+	srcToSrcOV :NodeCommandToTGGObjectVariable {
+		#src->src
+		#trg->srcOV
+	}
+
+	domainGraphToRule :SubGraphToTGGRule {
+		#src->domainGraph
+		#trg->rule
+	}
+
+	trgToTrgOV :NodeCommandToTGGObjectVariable {
+		#src->trg
+		#trg->trgOV
+	}
+}
+
+#attributeConditions {
+	setColor (edge.color, correspondence.bindingOperator, correspondence.bindingSemantics)
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule EdgeToTrgLV #extends LinkToLVRule, TargetDomain #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	domainGraph:language.SubGraph {
+		name=="Target Domain"
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#abstract #rule SrcDomain #with org.moflon.ide.visualization.dot.tgg
+
+#target {
+	rule:language.TGGRule {
+		- source -> domain
+	}
+
+	domain:language.Domain
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#abstract #rule TargetDomain #with org.moflon.ide.visualization.dot.tgg
+
+#target {
+	rule:language.TGGRule {
+		- target -> domain
+	}
+
+	domain:language.Domain
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule RecordEntryToInlineConstraint #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	record:language.Record
+
+	++entry:language.RecordEntry {
+		++ - record -> record
+	}
+}
+
+#target {
+	attr:ecore.EAttribute
+
+	++literal:SDMLanguage.expressions.LiteralExpression
+
+	++exp:SDMLanguage.patterns.patternExpressions.AttributeValueExpression {
+		++ - attribute -> attr
+	}
+
+	ov:language.TGGObjectVariable {
+		++ - constraint -> constraint
+	}
+
+	++comparison:SDMLanguage.expressions.ComparisonExpression {
+		++ - rightExpression -> literal
+		++ - leftExpression -> exp
+	}
+
+	++constraint:SDMLanguage.patterns.Constraint {
+		++ - constraintExpression -> comparison
+	}
+}
+
+#correspondence {
+	nodeToOv :NodeCommandToTGGObjectVariable {
+		#src->record
+		#trg->ov
+	}
+}
+
+#attributeConditions {
+	recordEntryFromConstraint (entry.value, comparison.operator, literal.value, attr.name)
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.*
+
+#rule NodeToTrgOV #extends TargetDomain, NodeToOVRule #with org.moflon.ide.visualization.dot.tgg
+
+#source {
+	domainGraph:language.SubGraph {
+		name=="Target Domain"
+	}
+
+	++node:language.Record {
+		++ - graph -> domainGraph
+	}
+}
+
+#attributeConditions {
+	setDefaultColorForTargetDomain (node.fillcolor)
+}
+
+

@@ -1,0 +1,165 @@
+#import "platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore"
+#import "platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "http://www.eclipse.org/emf/2002/Ecore"
+
+#schema org.moflon.ide.visualization.dot.tgg.runtimepatterns
+
+#source {
+	org.moflon.tgg.runtime.runtime
+	ecore.ecore }
+
+#target {
+	org.moflon.ide.visualization.dot.language.language
+}
+
+#correspondence {
+	TripleMatchToDirectedGraph {
+		#src->runtime.TripleMatch
+		#trg->language.DirectedGraph
+	}
+
+	TripleMatchNodeMappingToRecord {
+		#src->runtime.TripleMatchNodeMapping
+		#trg->language.Record
+	}
+	
+	EMoflonEdgeToEdgeCommand {
+		#src->EMoflonEdge
+		#trg->EdgeCommand
+	}
+}
+
+#attributeConditions {
+	eq(0: , 1: ) {
+		#sync: FB, BB, BF
+		#gen: FB, FF, BB, BF}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.runtimepatterns.*
+
+#rule MatchToNodeRule #with org.moflon.ide.visualization.dot.tgg.runtimepatterns
+
+#source {
+	++tripleMatch:runtime.TripleMatch
+}
+
+#target {
+	++patternsGraph:language.DirectedGraph
+}
+
+#correspondence {
+	++ tripleMatchToPatternsGraph :TripleMatchToDirectedGraph {
+		#src->tripleMatch
+		#trg->patternsGraph
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.runtimepatterns.*
+
+#rule EdgeToLVRule #with org.moflon.ide.visualization.dot.tgg.runtimepatterns
+
+#source {
+	trg:ecore.EObject
+
+	srcMapping:runtime.TripleMatchNodeMapping {
+		- node -> src
+	}
+
+	trgMapping:runtime.TripleMatchNodeMapping {
+		- node -> trg
+	}
+
+	src:ecore.EObject
+
+	tripleMatch:runtime.TripleMatch {
+		- nodeMappings -> trgMapping
+		++ - containedEdges -> edge
+		- nodeMappings -> srcMapping
+	}
+
+	edge:runtime.EMoflonEdge {
+		- src -> src
+		- trg -> trg
+	}
+}
+
+#target {
+	srcRecord:language.Record
+
+	++lv:language.EdgeCommand {
+		++ - graph -> patternsGraph
+		++ - source -> srcRecord
+		++ - target -> trgRecord
+	}
+
+	patternsGraph:language.DirectedGraph
+
+	trgRecord:language.Record
+}
+
+#correspondence {
+	srcMappingToSrcRecord :TripleMatchNodeMappingToRecord {
+		#src->srcMapping
+		#trg->srcRecord
+	}
+
+	tripleMatchToPatternsGraph :TripleMatchToDirectedGraph {
+		#src->tripleMatch
+		#trg->patternsGraph
+	}
+
+	trgMappingToTrgRecord :TripleMatchNodeMappingToRecord {
+		#src->trgMapping
+		#trg->trgRecord
+	}
+	
+	++ lv2Edge:EMoflonEdgeToEdgeCommand {
+		#src->edge
+		#trg->lv
+	}
+}
+
+#attributeConditions {
+	eq (edge.name, lv.label)
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.runtimepatterns.*
+
+#rule NodeMappingToOVRule #with org.moflon.ide.visualization.dot.tgg.runtimepatterns
+
+#source {
+	object:ecore.EObject
+
+	++mapping:runtime.TripleMatchNodeMapping {
+		++ - node -> object
+	}
+
+	tripleMatch:runtime.TripleMatch {
+		++ - nodeMappings -> mapping
+	}
+}
+
+#target {
+	patternsGraph:language.DirectedGraph
+
+	++record:language.Record {
+		++ - graph -> patternsGraph
+	}
+}
+
+#correspondence {
+	tripleMatchToPatternsGraph :TripleMatchToDirectedGraph {
+		#src->tripleMatch
+		#trg->patternsGraph
+	}
+
+	++ mappingToRecord :TripleMatchNodeMappingToRecord {
+		#src->mapping
+		#trg->record
+	}
+}
+
+

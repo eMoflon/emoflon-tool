@@ -40,10 +40,10 @@ public class SDMDiagramTextProvider extends EMoflonDiagramTextProvider
    
    @Override
    protected void postprocess(CorrespondenceModel corrs){
-	   corrs.getCorrespondences().forEach(this::postProcess);
+	   corrs.getCorrespondences().forEach(this::postprocess);
    }
    
-   private void postProcess(EObject corr){
+   private void postprocess(EObject corr){
 	   if(corr instanceof NodeCommandToStopNode)
 		   postProcessStopNode(NodeCommandToStopNode.class.cast(corr));
 	   

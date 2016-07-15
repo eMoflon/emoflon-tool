@@ -1,0 +1,304 @@
+#import "platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
+#import "http://www.eclipse.org/emf/2002/Ecore"
+#import "platform:/plugin/MocaTree/model/MocaTree.ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns"
+
+#schema org.moflon.ide.visualization.dot.sdmpatterns
+
+#source {
+	org.moflon.ide.visualization.dot.language.language
+	MocaTree.MocaTree 
+}
+
+#target {
+	SDMLanguage.SDMLanguage
+	org.moflon.tgg.language.language ecore.ecore SDMLanguage.SDMLanguage.patterns 
+}
+
+#correspondence {
+	NodeToObjectVariable {
+		#src->MocaTree.Node
+		#trg->SDMLanguage.patterns.ObjectVariable
+	}
+
+	NodeToStoryPattern {
+		#src->MocaTree.Node
+		#trg->SDMLanguage.patterns.StoryPattern
+	}
+
+	NodeToLinkVariable {
+		#src->MocaTree.Node
+		#trg->SDMLanguage.patterns.LinkVariable
+	}
+
+	NodeCommandToObjectVariable {
+		#src->language.NodeCommand
+		#trg->SDMLanguage.patterns.ObjectVariable
+	}
+
+	EdgeCommandToLinkVariable {
+		#src->language.EdgeCommand
+		#trg->SDMLanguage.patterns.LinkVariable
+	}
+
+	RecordToObjectVariable {
+		#src->language.Record
+		#trg->SDMLanguage.patterns.ObjectVariable
+	}
+
+	DirectedGraphToStoryPattern {
+		#src->language.DirectedGraph
+		#trg->SDMLanguage.patterns.StoryPattern
+	}
+}
+
+#attributeConditions {
+	#userDefined boldToState(1:SDMLanguage.BindingState, 0:EBoolean) {
+		#sync: FB}
+
+	concat(2:EString, 3:EString, 0:EString, 1:EString) {
+		#sync: BBBF, BBFB, BBBB, BFBB, BFFB
+		#gen: BBFF, BBFB, BFBF, BBBB, BBBF, BFFF, BFBB, BFFB}
+
+	#userDefined setColor(1:SDMLanguage.BindingOperator, 2:SDMLanguage.BindingSemantics, 0:DotLanguage.DotColor) {
+		#sync: FBB}
+
+	eq(1: , 0: ) {
+		#sync: BF, BB, FB
+		#gen: FF, BB, BF, FB}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdmpatterns.*
+
+#rule NodeToTGGLinkVariableRule #extends NodeToLinkVariableRule #with org.moflon.ide.visualization.dot.sdmpatterns
+
+#target {
+	++trg__lv:language.TGGLinkVariable
+}
+
+
+#using org.moflon.ide.visualization.dot.sdmpatterns.*
+
+#rule NodeToTGGLinkVariableWithOneOVRule #extends NodeToLinkVariableWithOneOVRule #with org.moflon.ide.visualization.dot.sdmpatterns
+
+#target {
+	++trg__lv:language.TGGLinkVariable
+}
+
+
+#using org.moflon.ide.visualization.dot.sdmpatterns.*
+
+#rule NodeToObjectVariableRule #with org.moflon.ide.visualization.dot.sdmpatterns
+
+#source {
+	++ov:language.Record {
+		++ - graph -> patternGraph
+	}
+
+	patternGraph:language.DirectedGraph
+}
+
+#target {
+	type:ecore.EClass
+
+	pattern:SDMLanguage.patterns.StoryPattern {
+		++ - objectVariable -> trg__ov
+	}
+
+	++trg__ov:SDMLanguage.patterns.ObjectVariable {
+		++ - type -> type
+	}
+}
+
+#correspondence {
+	++ ovToTrg__ov :RecordToObjectVariable {
+		#src->ov
+		#trg->trg__ov
+	}
+
+	patternGraphToTrg__pattern :DirectedGraphToStoryPattern {
+		#src->patternGraph
+		#trg->pattern
+	}
+}
+
+#attributeConditions {
+	boldToState (ov.bold, trg__ov.bindingState)
+
+	concat (" : ", trg__ov.name, type.name, ov.label)
+
+	setColor (ov.color, trg__ov.bindingOperator, trg__ov.bindingSemantics)
+}
+
+
+#using org.moflon.ide.visualization.dot.sdmpatterns.*
+
+#rule NodeToStoryPatternRule #with org.moflon.ide.visualization.dot.sdmpatterns
+
+#source {
+	++patternGraph:language.DirectedGraph
+}
+
+#target {
+	++trg__pattern:SDMLanguage.patterns.StoryPattern
+}
+
+#correspondence {
+	++ patternGraphToTrg__pattern :DirectedGraphToStoryPattern {
+		#src->patternGraph
+		#trg->trg__pattern
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdmpatterns.*
+
+#rule NodeToTGGObjectVariableRule #extends NodeToObjectVariableRule #with org.moflon.ide.visualization.dot.sdmpatterns
+
+#source {
+	++ov:language.Record
+}
+
+#target {
+	++trg__ov:language.TGGObjectVariable
+}
+
+#correspondence {
+	++ ovToTrg__ov :RecordToObjectVariable {
+		#src->ov
+		#trg->trg__ov
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdmpatterns.*
+
+#rule NodeToLinkVariableRule #extends NodeToAbstractLinkVariableRule #with org.moflon.ide.visualization.dot.sdmpatterns
+
+#source {
+	++edge:language.EdgeCommand {
+		++ - source -> src
+		++ - target -> trg
+	}
+
+	trg:language.Record
+
+	src:language.Record
+}
+
+#target {
+	trgOV:SDMLanguage.patterns.ObjectVariable {
+		++ - incomingLink -> trg__lv
+	}
+
+	++trg__lv:SDMLanguage.patterns.LinkVariable
+
+	srcOV:SDMLanguage.patterns.ObjectVariable {
+		++ - outgoingLink -> trg__lv
+	}
+}
+
+#correspondence {
+	srcToSrcOV :RecordToObjectVariable {
+		#src->src
+		#trg->srcOV
+	}
+
+	++ edgeToLv :EdgeCommandToLinkVariable {
+		#src->edge
+		#trg->trg__lv
+	}
+
+	trgToTrgOV :RecordToObjectVariable {
+		#src->trg
+		#trg->trgOV
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.sdmpatterns.*
+
+#abstract #rule NodeToAbstractLinkVariableRule #with org.moflon.ide.visualization.dot.sdmpatterns
+
+#source {
+	++edge:language.EdgeCommand {
+		++ - graph -> patternGraph
+	}
+
+	patternGraph:language.DirectedGraph
+}
+
+#target {
+	pattern:SDMLanguage.patterns.StoryPattern {
+		++ - linkVariable -> trg__lv
+	}
+
+	++trg__lv:SDMLanguage.patterns.LinkVariable
+}
+
+#correspondence {
+	patternGraphToTrg__pattern :DirectedGraphToStoryPattern {
+		#src->patternGraph
+		#trg->pattern
+	}
+
+	++ edgeToLv :EdgeCommandToLinkVariable {
+		#src->edge
+		#trg->trg__lv
+	}
+}
+
+#attributeConditions {
+	setColor (edge.color, trg__lv.bindingOperator, trg__lv.bindingSemantics)
+
+	eq (edge.label, trg__lv.name)
+}
+
+
+#using org.moflon.ide.visualization.dot.sdmpatterns.*
+
+#rule NodeToStoryPatternWithTGGRuleRule #extends NodeToStoryPatternRule #with org.moflon.ide.visualization.dot.sdmpatterns
+
+#target {
+	++trg__pattern:language.TGGRule
+}
+
+
+#using org.moflon.ide.visualization.dot.sdmpatterns.*
+
+#rule NodeToLinkVariableWithOneOVRule #extends NodeToAbstractLinkVariableRule #with org.moflon.ide.visualization.dot.sdmpatterns
+
+#source {
+	src:language.Record
+
+	++edge:language.EdgeCommand {
+		++ - target -> src
+		++ - source -> src
+	}
+}
+
+#target {
+	srcOV:SDMLanguage.patterns.ObjectVariable {
+		++ - outgoingLink -> trg__lv
+		++ - incomingLink -> trg__lv
+	}
+
+	++trg__lv:SDMLanguage.patterns.LinkVariable
+}
+
+#correspondence {
+	++ edgeToLv :EdgeCommandToLinkVariable {
+		#src->edge
+		#trg->trg__lv
+	}
+
+	srcToSrcOV :RecordToObjectVariable {
+		#src->src
+		#trg->srcOV
+	}
+}
+
+

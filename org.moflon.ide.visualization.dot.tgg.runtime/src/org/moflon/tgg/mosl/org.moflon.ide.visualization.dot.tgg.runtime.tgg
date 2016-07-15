@@ -1,0 +1,142 @@
+#import "platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore"
+#import "platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+
+#schema org.moflon.ide.visualization.dot.tgg.runtime
+
+#source {
+	org.moflon.tgg.runtime.runtime
+}
+
+#target {
+	org.moflon.ide.visualization.dot.language.language
+}
+
+#correspondence {
+	PrecedenceStructureToDirectedGraph {
+		#src->runtime.PrecedenceStructure
+		#trg->language.DirectedGraph
+	}
+
+	TripleMatchToDirectedGraph {
+		#src->runtime.TripleMatch
+		#trg->language.DirectedGraph
+	}
+
+	TripleMatchToBox {
+		#src->runtime.TripleMatch
+		#trg->language.Box
+	}
+}
+
+#attributeConditions {
+	concat(3:EString, 1:EString, 0:EString, 2:EString) {
+		#sync: BBBF, BBFB, BBBB, BFFB, BFBB
+		#gen: BBFF, BFFF, BBBB, BFBF, BBBF, BFBB, BFFB, BBFB}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.runtime.*
+
+#rule MatchToNodeRule #with org.moflon.ide.visualization.dot.tgg.runtime
+
+#source {
+	precedenceStructure:runtime.PrecedenceStructure {
+		++ - tripleMatches -> tripleMatch
+	}
+
+	++tripleMatch:runtime.TripleMatch
+}
+
+#target {
+	directedGraph:language.DirectedGraph {
+		name=="precedence structure"
+	}
+
+	++box:language.Box {
+		++ - graph -> directedGraph
+	}
+}
+
+#correspondence {
+	++ tripleMatchToBox :TripleMatchToBox {
+		#src->tripleMatch
+		#trg->box
+	}
+
+	precedenceStructureToDirectedGraph :PrecedenceStructureToDirectedGraph {
+		#src->precedenceStructure
+		#trg->directedGraph
+	}
+}
+
+#attributeConditions {
+	concat (" ", tripleMatch.ruleName, tripleMatch.number, box.label)
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.runtime.*
+
+#rule ChildToEdgeRule #with org.moflon.ide.visualization.dot.tgg.runtime
+
+#source {
+	child:runtime.TripleMatch
+
+	parent:runtime.TripleMatch {
+		++ - children -> child
+	}
+}
+
+#target {
+	parentNode:language.Box {
+		- graph -> graph
+	}
+
+	++childEdge:language.EdgeCommand {
+		label := "child"
+		++ - target -> childNode
+		++ - source -> parentNode
+		++ - graph -> graph
+	}
+
+	childNode:language.Box {
+		- graph -> graph
+	}
+
+	graph:language.DirectedGraph
+}
+
+#correspondence {
+	parentToParentNode :TripleMatchToBox {
+		#src->parent
+		#trg->parentNode
+	}
+
+	childToChildNode :TripleMatchToBox {
+		#src->child
+		#trg->childNode
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.runtime.*
+
+#rule PrecedenceStructureToDirectedGraphRule #with org.moflon.ide.visualization.dot.tgg.runtime
+
+#source {
+	++precedenceStructure:runtime.PrecedenceStructure
+}
+
+#target {
+	++directedGraph:language.DirectedGraph {
+		name := "precedence structure"
+	}
+}
+
+#correspondence {
+	++ precedenceStructureToDirectedGraph :PrecedenceStructureToDirectedGraph {
+		#src->precedenceStructure
+		#trg->directedGraph
+	}
+}
+
+
