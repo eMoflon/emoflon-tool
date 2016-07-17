@@ -30,8 +30,8 @@
 		#trg->EMoflonEdge
 	}
 
-	NodeCommandToNode{
-		#src->NodeCommand
+	RecordToNode{
+		#src->Record
 		#trg->EObject
 	}
 	

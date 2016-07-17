@@ -8,9 +8,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.ide.visualization.dot.language.EdgeCommand;
 import org.moflon.ide.visualization.dot.language.NodeCommand;
+import org.moflon.ide.visualization.dot.language.RecordEntry;
 import org.moflon.ide.visualization.dot.tgg.delta.EdgeCommandToEMoflonEdge;
 import org.moflon.ide.visualization.dot.tgg.delta.NodeCommandToEMoflonEdge;
-import org.moflon.ide.visualization.dot.tgg.delta.NodeCommandToNode;
+import org.moflon.ide.visualization.dot.tgg.delta.RecordEntryToAttributeDelta;
+import org.moflon.ide.visualization.dot.tgg.delta.RecordToNode;
+import org.moflon.tgg.runtime.AttributeDelta;
 import org.moflon.tgg.runtime.EMoflonEdge;
 
 public class DeltaPostProcessingHelper {
@@ -30,8 +33,8 @@ public class DeltaPostProcessingHelper {
 	}
 	
 	public void postProcess(EObject corr){
-		if(corr instanceof NodeCommandToNode){
-			postProcessNode(NodeCommandToNode.class.cast(corr));
+		if(corr instanceof RecordToNode){
+			postProcessNode(RecordToNode.class.cast(corr));
 		}
 		
 		if (corr instanceof NodeCommandToEMoflonEdge){
@@ -41,8 +44,22 @@ public class DeltaPostProcessingHelper {
 		if(corr instanceof EdgeCommandToEMoflonEdge){
 			createLabel(EdgeCommandToEMoflonEdge.class.cast(corr));
 		}
+		
+		if(corr instanceof RecordEntryToAttributeDelta){
+			createEntry(RecordEntryToAttributeDelta.class.cast(corr));
+		}
 	}
 	
+	private void createEntry(RecordEntryToAttributeDelta re2ad) {
+		RecordEntry entry = re2ad.getSource();
+		AttributeDelta attributeDelta = re2ad.getTarget();
+		String changement = attributeDelta.getOldValue() + " -> " + attributeDelta.getNewValue();
+		EAttribute attribute = attributeDelta.getAffectedAttribute();
+		String attributeText = attribute.getEType().getName() + " " + attribute.getName();
+		
+		entry.setValue(attributeText + ": " + changement);		
+	}
+
 	private void createLabel(EdgeCommandToEMoflonEdge ec2ee){
 		EdgeCommand ec = ec2ee.getSource();
 		NodeCommand srcNode = ec.getSource();
@@ -87,7 +104,7 @@ public class DeltaPostProcessingHelper {
 			generatedNames.put(eClass, name);
 		}		
 		
-		return name;
+		return name + " : " + eClassName;
 	}
 	
 	public static void clear(){
@@ -101,10 +118,9 @@ public class DeltaPostProcessingHelper {
 		node.setLabel(ee.getName() + " : " + eClass.getName());
 	}
 	
-	private void postProcessNode(NodeCommandToNode n2N){
+	private void postProcessNode(RecordToNode n2N){
 		NodeCommand srcNode = n2N.getSource();
-		EObject trgNode = n2N.getTarget();
-		EClass eClass = trgNode.eClass();		
-		srcNode.setLabel(eClass.getName());		
+		EObject trgNode = n2N.getTarget();		
+		srcNode.setLabel(createGoodNameToIdentify(trgNode));		
 	}
 }

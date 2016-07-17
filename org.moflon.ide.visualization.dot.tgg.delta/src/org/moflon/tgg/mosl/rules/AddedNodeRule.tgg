@@ -1,0 +1,41 @@
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#rule AddedNodeRule #with org.moflon.ide.visualization.dot.tgg.delta
+
+#source { 
+	directedGraph : DirectedGraph{
+		++ - nodes -> record
+	}
+	
+	++ record : Record {
+		label := "test"
+	}
+}
+
+#target {
+	delta : DeltaSpecification {
+		++ - addedNodes -> addedNode
+	}
+	
+	 addedNode : EObject
+}
+
+#correspondence {
+	graphToDelta : DirectedGraphToDeltaSpecification{
+		#src-> directedGraph
+		#trg-> delta
+	}
+	
+	++ recordToNode : RecordToNode {
+		#src->record
+		#trg->addedNode
+	}
+}
+
+#attributeConditions {
+	setColorForGeneration(record.color)
+}
+
+
+

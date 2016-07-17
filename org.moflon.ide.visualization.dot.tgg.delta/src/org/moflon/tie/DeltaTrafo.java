@@ -14,6 +14,7 @@ public class DeltaTrafo extends SynchronizationHelper{
    public DeltaTrafo()
    {
       super(DeltaPackage.eINSTANCE, ".");
+      this.verbose=true;
    }
 
 	public static void main(String[] args) throws IOException {

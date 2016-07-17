@@ -3,5 +3,5 @@
   <metaModelProject MetaModelProjectName="NO_META_MODEL_PROJECT_NAME_SET_YET"/>
   <replaceGenModel/>
   <sdmCodegeneratorHandlerId value="DEMOCLES_REVERSE_NAVI"/>
-  <tGGBuildMode/>
+  <tGGBuildMode buildMode="BACKWARD"/>
 </MoflonPropertyContainer:MoflonPropertiesContainer>
