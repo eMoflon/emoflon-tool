@@ -53,11 +53,11 @@ public class DeltaPostProcessingHelper {
 	private void createEntry(RecordEntryToAttributeDelta re2ad) {
 		RecordEntry entry = re2ad.getSource();
 		AttributeDelta attributeDelta = re2ad.getTarget();
-		String changement = attributeDelta.getOldValue() + " -> " + attributeDelta.getNewValue();
+		String changement = attributeDelta.getOldValue() + " => " + attributeDelta.getNewValue();
 		EAttribute attribute = attributeDelta.getAffectedAttribute();
-		String attributeText = attribute.getEType().getName() + " " + attribute.getName();
+		String attributeText = attribute.getName() +":" + attribute.getEType().getName();
 		
-		entry.setValue(attributeText + ": " + changement);		
+		entry.setValue(attributeText + " = " + changement);		
 	}
 
 	private void createLabel(EdgeCommandToEMoflonEdge ec2ee){
