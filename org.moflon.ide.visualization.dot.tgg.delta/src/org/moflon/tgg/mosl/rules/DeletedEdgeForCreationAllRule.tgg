@@ -1,12 +1,12 @@
 #using org.moflon.ide.visualization.dot.tgg.delta.*
 #using AttrCondDefLibrary.*
 
-#rule DeletedEdgesRuleForExisting #with org.moflon.ide.visualization.dot.tgg.delta
+#rule DeletedEdgeForCreationAllRule #with org.moflon.ide.visualization.dot.tgg.delta
 
 #source {
 	directedGraph:DirectedGraph{
-		- nodes -> deletedTrgNode
-		- nodes -> deletedSrcNode
+		++ - nodes -> deletedTrgNode
+		++ - nodes -> deletedSrcNode
 		++ - edges -> deletedEdge
 	}
 
@@ -15,15 +15,16 @@
 		++ - target -> deletedTrgNode
 	}
 
-	deletedTrgNode:Record
+	++deletedTrgNode:Record
 
-	deletedSrcNode:Record
+	++deletedSrcNode:Record
 }
 
 #target {
 	delta:DeltaSpecification{
 		++ - deletedEdges -> eMoflonEdge
-		- deletedNodes -> trgNode
+		!- deletedNodes -> trgNode
+		!-deletedNodes -> srcNode
 	}
 
 	++eMoflonEdge:EMoflonEdge{
@@ -31,7 +32,7 @@
 		++ - trg -> trgNode
 	}
 
-	srcNode:EObject
+    srcNode : EObject
 
 	trgNode:EObject
 }
@@ -42,9 +43,14 @@
 		#trg->delta
 	}
 
-	trgRecordToNode :RecordToNode{
+	++ trgRecordToNode :RecordToNode{
 		#src->deletedTrgNode
 		#trg->trgNode
+	}
+	
+	++ srcRecordToNode : RecordToNode{
+		#src->deletedSrcNode
+		#trg->srcNode
 	}
 
 	++ edgeToEdge :EdgeCommandToEMoflonEdge {
@@ -54,11 +60,7 @@
 }
 
 #attributeConditions {
-	eq(deletedEdge.label, eMoflonEdge.name)
-
-	setColorForDeletion(deletedTrgNode.color)
-
 	setColorForDeletion(deletedEdge.color)
+
+	eq(deletedEdge.label, eMoflonEdge.name)
 }
-
-

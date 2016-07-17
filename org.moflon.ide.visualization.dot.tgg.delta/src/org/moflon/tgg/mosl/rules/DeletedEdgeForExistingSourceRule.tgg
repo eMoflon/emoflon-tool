@@ -1,12 +1,12 @@
 #using org.moflon.ide.visualization.dot.tgg.delta.*
 #using AttrCondDefLibrary.*
 
-#rule DeletedEdgeForCreation #with org.moflon.ide.visualization.dot.tgg.delta
+#rule DeletedEdgeForExistingSourceRule #with org.moflon.ide.visualization.dot.tgg.delta
 
 #source {
 	directedGraph:DirectedGraph{
-		- nodes -> deletedTrgNode
-		++ - nodes -> deletedSrcNode
+		++ - nodes -> deletedTrgNode
+		- nodes -> deletedSrcNode
 		++ - edges -> deletedEdge
 	}
 
@@ -15,16 +15,16 @@
 		++ - target -> deletedTrgNode
 	}
 
-	deletedTrgNode:Record
+	++deletedTrgNode:Record
 
-	++deletedSrcNode:Record
+	deletedSrcNode:Record
 }
 
 #target {
 	delta:DeltaSpecification{
 		++ - deletedEdges -> eMoflonEdge
-		- deletedNodes -> trgNode
-		!-deletedNodes -> srcNode
+		!- deletedNodes -> trgNode
+		-deletedNodes -> srcNode
 	}
 
 	++eMoflonEdge:EMoflonEdge{
@@ -43,12 +43,12 @@
 		#trg->delta
 	}
 
-	trgRecordToNode :RecordToNode{
+	++ trgRecordToNode :RecordToNode{
 		#src->deletedTrgNode
 		#trg->trgNode
 	}
 	
-	++ srcRecordToNode : RecordToNode{
+	 srcRecordToNode : RecordToNode{
 		#src->deletedSrcNode
 		#trg->srcNode
 	}

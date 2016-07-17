@@ -1,0 +1,66 @@
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#rule DeletedEdgeForExistingTargetRule #with org.moflon.ide.visualization.dot.tgg.delta
+
+#source {
+	directedGraph:DirectedGraph{
+		- nodes -> deletedTrgNode
+		++ - nodes -> deletedSrcNode
+		++ - edges -> deletedEdge
+	}
+
+	++deletedEdge:EdgeCommand{
+		++ - source -> deletedSrcNode
+		++ - target -> deletedTrgNode
+	}
+
+	deletedTrgNode:Record
+
+	++deletedSrcNode:Record
+}
+
+#target {
+	delta:DeltaSpecification{
+		++ - deletedEdges -> eMoflonEdge
+		- deletedNodes -> trgNode
+		!-deletedNodes -> srcNode
+	}
+
+	++eMoflonEdge:EMoflonEdge{
+		++ - src -> srcNode
+		++ - trg -> trgNode
+	}
+
+    srcNode : EObject
+
+	trgNode:EObject
+}
+
+#correspondence {
+	graphToDelta :DirectedGraphToDeltaSpecification{
+		#src->directedGraph
+		#trg->delta
+	}
+
+	trgRecordToNode :RecordToNode{
+		#src->deletedTrgNode
+		#trg->trgNode
+	}
+	
+	++ srcRecordToNode : RecordToNode{
+		#src->deletedSrcNode
+		#trg->srcNode
+	}
+
+	++ edgeToEdge :EdgeCommandToEMoflonEdge {
+		#src->deletedEdge
+		#trg->eMoflonEdge
+	}
+}
+
+#attributeConditions {
+	setColorForDeletion(deletedEdge.color)
+
+	eq(deletedEdge.label, eMoflonEdge.name)
+}

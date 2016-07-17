@@ -1,11 +1,10 @@
 #using org.moflon.ide.visualization.dot.tgg.delta.*
 #using AttrCondDefLibrary.*
 
-#rule AddedEdgesRuleForCreation #with org.moflon.ide.visualization.dot.tgg.delta
-
+#rule AddedEdgeForCreationAllRule #with org.moflon.ide.visualization.dot.tgg.delta
 #source {
 	directedGraph:DirectedGraph{
-		- nodes -> addedTrgNode
+		++ - nodes -> addedTrgNode
 		++ - nodes -> addedSrcNode
 		++ - edges -> addedEdge
 	}
@@ -15,7 +14,7 @@
 		++ - target -> addedTrgNode
 	}
 
-	addedTrgNode:Record
+	++addedTrgNode:Record
 
 	++addedSrcNode:Record
 }
@@ -23,7 +22,7 @@
 #target {
 	delta:DeltaSpecification{
 		++ - addedEdges -> eMoflonEdge
-		- addedNodes -> trgNode
+		!- addedNodes -> trgNode
 		!-addedNodes -> srcNode
 	}
 
@@ -48,7 +47,7 @@
 		#trg->srcNode
 	}
 	 
-	trgRecordToNode :RecordToNode{
+	++ trgRecordToNode :RecordToNode{
 		#src->addedTrgNode
 		#trg->trgNode
 	}
@@ -64,5 +63,4 @@
 
 	eq(addedEdge.label, eMoflonEdge.name)
 }
-
 
