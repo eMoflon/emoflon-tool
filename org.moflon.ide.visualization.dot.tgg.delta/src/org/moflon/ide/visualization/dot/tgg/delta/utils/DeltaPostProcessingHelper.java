@@ -53,7 +53,7 @@ public class DeltaPostProcessingHelper {
 	private void createEntry(RecordEntryToAttributeDelta re2ad) {
 		RecordEntry entry = re2ad.getSource();
 		AttributeDelta attributeDelta = re2ad.getTarget();
-		String changement ="BEFORE: " + attributeDelta.getOldValue() +" NEW: "  + attributeDelta.getNewValue();
+		String changement ="OLD: " + attributeDelta.getOldValue() +" NEW: "  + attributeDelta.getNewValue();
 		EAttribute attribute = attributeDelta.getAffectedAttribute();
 		String attributeText = attribute.getName() +":" + attribute.getEType().getName();
 		

@@ -203,6 +203,9 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
 
    private DirectedGraph runTrafo(SynchronizationHelper helper)
    {
+      // Remove for testing
+      helper.setMute(true);
+      
       if (directionIsForward())
       {
          helper.integrateForward();
