@@ -53,7 +53,7 @@ public class DeltaPostProcessingHelper {
 	private void createEntry(RecordEntryToAttributeDelta re2ad) {
 		RecordEntry entry = re2ad.getSource();
 		AttributeDelta attributeDelta = re2ad.getTarget();
-		String changement = attributeDelta.getOldValue() + " => " + attributeDelta.getNewValue();
+		String changement ="BEFORE: " + attributeDelta.getOldValue() +" NEW: "  + attributeDelta.getNewValue();
 		EAttribute attribute = attributeDelta.getAffectedAttribute();
 		String attributeText = attribute.getName() +":" + attribute.getEType().getName();
 		
@@ -95,12 +95,12 @@ public class DeltaPostProcessingHelper {
 		String name = generatedNames.get(eClass);
 		String eClassName= eClass.getName();
 		if(name == null){
-			name = eClassName.toLowerCase().charAt(0) + eClassName.substring(1) + "#0";
+			name = eClassName.toLowerCase().charAt(0) + eClassName.substring(1) + ";0";
 			generatedNames.put(eClass, name);
 		}else{
-			int counter = Integer.parseInt(name.substring(name.indexOf("#"+1)));
+			int counter = Integer.parseInt(name.substring(name.indexOf(";"+1)));
 			counter++;
-			name = eClassName.toLowerCase().charAt(0) + eClassName.substring(1) + "#"+counter;
+			name = eClassName.toLowerCase().charAt(0) + eClassName.substring(1) + ";"+counter;
 			generatedNames.put(eClass, name);
 		}		
 		
