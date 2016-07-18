@@ -1,0 +1,12 @@
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule AddedTrgNode #with org.moflon.ide.visualization.dot.tgg.delta
+
+#target {
+	delta:DeltaSpecification{
+		- addedNodes -> trgNode
+	}
+
+	trgNode : EObject	
+}

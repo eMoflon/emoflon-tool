@@ -154,6 +154,7 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
 
       } catch (final Exception e)
       {
+         e.printStackTrace();
          logger.error("Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ": " + MoflonUtil.displayExceptionAsString(e), e);
       } finally
       {
@@ -240,10 +241,16 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
       logger.debug("Running batch...");
 
       final SynchronizationHelper helper = registerSynchronizationHelper(pathToTggRulePlugin, input, rs);
+      registerConfigurator(helper);
       final DirectedGraph result = runTrafo(helper);
       this.registerChangeDetector(input);
 
       return result;
+   }
+
+   protected void registerConfigurator(SynchronizationHelper helper)
+   {
+      // per default standard configurator
    }
 
    private SynchronizationHelper registerSynchronizationHelper(URL pathToPlugin, EObject input, ResourceSet rs)

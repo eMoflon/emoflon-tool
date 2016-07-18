@@ -1,0 +1,12 @@
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule DeletedTrgNode #with org.moflon.ide.visualization.dot.tgg.delta
+
+#target {
+	delta:DeltaSpecification{
+		- deletedNodes -> trgNode
+	}
+
+	trgNode : EObject	
+}

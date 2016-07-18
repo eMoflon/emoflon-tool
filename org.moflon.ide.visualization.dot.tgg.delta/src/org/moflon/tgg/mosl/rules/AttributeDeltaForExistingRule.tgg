@@ -1,49 +1,23 @@
 #using org.moflon.ide.visualization.dot.tgg.delta.*
 #using AttrCondDefLibrary.*
 
-#rule AttributeDeltaForExistingRule #with org.moflon.ide.visualization.dot.tgg.delta
+#rule AttributeDeltaForExistingRule #extends AttributeDeltaForCreationRule #with org.moflon.ide.visualization.dot.tgg.delta
 
 #source { 
 	graph : DirectedGraph{
 		- nodes -> record
 	}
 	
-	record : Record {
-		++ - entries -> entry
-	}
-	
-	++ entry : RecordEntry
+	record : Record 
 }
 
 #target {
-	delta : DeltaSpecification{
-		++ - attributeChanges -> attributeDelta
-	}
-	
-	++ attributeDelta : AttributeDelta{
-		++ - affectedNode -> node
-	}
-	
 	node : EObject
 }
 
-#correspondence {
-	graphToDelta : DirectedGraphToDeltaSpecification{
-		#src-> graph
-		#trg->delta
-	}
-	
+#correspondence {	
 	recordToNode : RecordToNode{
 		#src->record
 		#trg->node
 	}
-	
-	++ entryToAttributeDelta : RecordEntryToAttributeDelta{
-		#src-> entry
-		#trg-> attributeDelta
-	}
-}
-
-#attributeConditions {
-	
 }

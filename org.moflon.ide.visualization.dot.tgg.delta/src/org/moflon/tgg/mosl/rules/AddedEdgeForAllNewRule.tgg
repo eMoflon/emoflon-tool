@@ -1,0 +1,21 @@
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#rule AddedEdgeForAllNewRule #extends HandleEdges #with org.moflon.ide.visualization.dot.tgg.delta
+#source {
+	++edge:EdgeCommand
+}
+
+#target {
+	delta:DeltaSpecification{
+		++ - addedEdges -> eMoflonEdge
+	}
+
+	++eMoflonEdge:EMoflonEdge
+}
+
+
+#attributeConditions {
+	setColorForGeneration(edge.color)
+}
+

@@ -1,30 +1,27 @@
 #using org.moflon.ide.visualization.dot.tgg.delta.*
 #using AttrCondDefLibrary.*
 
-#rule AddedEdgeForCreationAllRule #with org.moflon.ide.visualization.dot.tgg.delta
+#abstract #rule HandleEdges #with org.moflon.ide.visualization.dot.tgg.delta
+
 #source {
 	directedGraph:DirectedGraph{
-		++ - nodes -> addedTrgNode
-		++ - nodes -> addedSrcNode
-		++ - edges -> addedEdge
+		++ - nodes -> trg
+		++ - nodes -> src
+		++ - edges -> edge
 	}
 
-	++addedEdge:EdgeCommand{
-		++ - source -> addedSrcNode
-		++ - target -> addedTrgNode
+	++edge:EdgeCommand{
+		++ - source -> src
+		++ - target -> trg
 	}
 
-	++addedTrgNode:Record
+	++trg:Record
 
-	++addedSrcNode:Record
+	++src:Record
 }
 
 #target {
-	delta:DeltaSpecification{
-		++ - addedEdges -> eMoflonEdge
-		!- addedNodes -> trgNode
-		!-addedNodes -> srcNode
-	}
+	delta:DeltaSpecification
 
 	++eMoflonEdge:EMoflonEdge{
 		++ - src -> srcNode
@@ -43,24 +40,22 @@
 	}
 
 	++ srcRecordToNode : RecordToNode{
-		#src->addedSrcNode
+		#src->src
 		#trg->srcNode
 	}
 	 
 	++ trgRecordToNode :RecordToNode{
-		#src->addedTrgNode
+		#src->trg
 		#trg->trgNode
 	}
 
 	++ edgeToEdge :EdgeCommandToEMoflonEdge {
-		#src->addedEdge
+		#src->edge
 		#trg->eMoflonEdge
 	}
 }
 
 #attributeConditions {
-	setColorForGeneration(addedEdge.color)
-
-	eq(addedEdge.label, eMoflonEdge.name)
+	eq(edge.label, eMoflonEdge.name)
 }
 

@@ -1,0 +1,71 @@
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule HandleNodeRule #with org.moflon.ide.visualization.dot.tgg.delta
+#source { 
+	directedGraph : DirectedGraph{
+		++ - nodes -> record
+	}
+	
+	++ record : Record
+}
+
+#target {
+	delta : DeltaSpecification
+	
+	 node : EObject
+}
+
+#correspondence {
+	graphToDelta : DirectedGraphToDeltaSpecification{
+		#src-> directedGraph
+		#trg-> delta
+	}
+	
+	++ recordToNode : RecordToNode {
+		#src->record
+		#trg->node
+	}
+}
+
+
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#rule DeletedNodeRule #extends HandleNodeRule #with org.moflon.ide.visualization.dot.tgg.delta
+#source { 
+	++ record : Record	
+}
+
+#target {
+	delta : DeltaSpecification {
+		++ - deletedNodes -> node
+	}
+	
+	node : EObject
+}
+
+#attributeConditions {
+	setColorForDeletion(record.color)
+}
+
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#rule AddedNodeRule #extends HandleNodeRule #with org.moflon.ide.visualization.dot.tgg.delta
+
+#source { 
+	++ record : Record
+}
+
+#target {
+	delta : DeltaSpecification {
+		++ - addedNodes -> node
+	}
+	
+	node : EObject
+}
+
+#attributeConditions {
+	setColorForGeneration(record.color)
+}

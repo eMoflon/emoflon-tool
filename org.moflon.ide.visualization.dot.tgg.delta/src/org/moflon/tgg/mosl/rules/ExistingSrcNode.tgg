@@ -1,0 +1,25 @@
+#using org.moflon.ide.visualization.dot.tgg.delta.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule ExistingSrcNode #with org.moflon.ide.visualization.dot.tgg.delta
+
+#source {
+	directedGraph:DirectedGraph{
+		 - nodes -> src
+	}
+
+	src:Record 	
+}
+
+#target {
+	delta:DeltaSpecification
+
+	srcNode : EObject	
+}
+
+#correspondence {
+	srcRecordToNode : RecordToNode {
+		#src->src
+		#trg->srcNode
+	}	
+}
