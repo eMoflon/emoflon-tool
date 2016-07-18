@@ -125,18 +125,18 @@ public class MOSLTGGConversionHelper extends AbstractHandler
 
    private void loadAllRulesToTGGFile(TripleGraphGrammarFile xtextParsedTGG, XtextResourceSet resourceSet, IFolder moslFolder) throws CoreException, IOException
    {
-      IFolder moslRulesFolder = moslFolder.getFolder("rules");
-
-      if (moslRulesFolder.exists())
+      if (moslFolder.exists())
       {
          EList<Rule> rules = new BasicEList<Rule>();
 
-         for (IResource iResource : moslRulesFolder.members())
+         for (IResource iResource : moslFolder.members())
          {
             if (iResource instanceof IFile)
             {
                Collection<Rule> rulesFromFile = loadRules(iResource, resourceSet, moslFolder);
                rules.addAll(rulesFromFile);
+            } else if (iResource instanceof IFolder){
+               loadAllRulesToTGGFile(xtextParsedTGG, resourceSet, IFolder.class.cast(iResource));
             }
          }
          xtextParsedTGG.getRules().addAll(rules);
