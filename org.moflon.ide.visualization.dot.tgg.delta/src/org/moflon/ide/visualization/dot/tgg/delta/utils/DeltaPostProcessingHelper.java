@@ -67,7 +67,7 @@ public class DeltaPostProcessingHelper
 
    private String createGoodNameToIdentify(EObject eObject)
    {
-      return eMoflonEMFUtil.getIdentifier(eObject) + "(" + eObject.hashCode() + ")";
+      return (eMoflonEMFUtil.getIdentifier(eObject) + "(" + eObject.hashCode() + ")").replace("\"", "'");
    }
 
    private void createLabel(NodeCommandToEMoflonEdge nc2ee)
