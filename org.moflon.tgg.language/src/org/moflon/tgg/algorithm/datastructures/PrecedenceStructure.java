@@ -164,7 +164,7 @@ public abstract class PrecedenceStructure<M> {
 		
 		getMatchIDs().forEach(m -> {
 			children(m).forEach(child -> {
-				if (conversionTable.containsKey(child))
+				if (conversionTable.containsKey(intToMatch(m)))
 					conversionTable.get(intToMatch(m)).getChildren().add(conversionTable.get(intToMatch(child)));
 				return true;
 			});

@@ -288,24 +288,25 @@ public class SynchronizationHelper
    @SuppressWarnings({ "unchecked", "rawtypes" })
    protected Consumer<EObject> executeDeltaSpec(String pathToDelta)
    {
-      deltaSpec = (DeltaSpecification) loadModel(pathToDelta);
-      EcoreUtil.resolveAll(deltaSpec);
+      DeltaSpecification localDeltaSpec = (DeltaSpecification) loadModel(pathToDelta);
+      EcoreUtil.resolveAll(localDeltaSpec);
+      deltaSpec = EcoreUtil.copy(localDeltaSpec);
       
       return (input) -> {    	  
     	  // Added edges (nodes are indirectly added)
-    	  for (EMoflonEdge ae : deltaSpec.getAddedEdges())
+    	  for (EMoflonEdge ae : localDeltaSpec.getAddedEdges())
     		  performActionOnFeature(ae, (f, o) -> ((EList) ae.getSrc().eGet(f)).add(o), ae.getSrc()::eSet);
     	  
          // Edge deletion
-         for (EMoflonEdge de : deltaSpec.getDeletedEdges())
+         for (EMoflonEdge de : localDeltaSpec.getDeletedEdges())
             performActionOnFeature(de, (f, o) -> ((EList) de.getSrc().eGet(f)).remove(o), (f, o) -> de.getSrc().eUnset(f));
 
          // Node deletion
-         for (EObject delObj : deltaSpec.getDeletedNodes())
+         for (EObject delObj : localDeltaSpec.getDeletedNodes())
             EcoreUtil.delete(delObj);
 
          // Attribute deltas
-         for (AttributeDelta ac : deltaSpec.getAttributeChanges())
+         for (AttributeDelta ac : localDeltaSpec.getAttributeChanges())
             ac.getAffectedNode().eSet(ac.getAffectedAttribute(), EcoreUtil.createFromString(ac.getAffectedAttribute().getEAttributeType(), ac.getNewValue()));
       };
    }
@@ -320,7 +321,7 @@ public class SynchronizationHelper
 
    protected void establishDelta(final EObject input, final Consumer<EObject> change)
    {  
-	  delta = new Delta();
+	   delta = new Delta();
 	   
       if (input == null)
          throw new IllegalStateException("Why are you trying to backward synchronize an empty input graph?");
@@ -331,9 +332,6 @@ public class SynchronizationHelper
 
       sanityCheckDelta();
       
-      if(verbose)
-    	  logger.info("\nI am going to propagate this as delta: \n" + delta + "\nPlease check and ensure that it is as expected!" );
-      
       if (noChangesWereMade() && protocol == null)
       {
          induceCreateDeltaForBatchTrafo(input);
@@ -342,6 +340,9 @@ public class SynchronizationHelper
       {
          batchMode = false;
       }
+      
+      if(verbose)
+         logger.info("\nI am going to propagate this as delta: \n" + delta + "\nPlease check and ensure that it is as expected!" );
    }
 
    protected void sanityCheckDelta() {
