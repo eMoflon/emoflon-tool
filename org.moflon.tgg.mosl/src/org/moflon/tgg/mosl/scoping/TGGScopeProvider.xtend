@@ -227,7 +227,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def is_equal_or_super_type_of_ov(EClass sup, IEObjectDescription desc){
 		var sub = (desc.EObjectOrProxy as ObjectVariablePattern).type
-		sub.equals(sup) || sub.EAllSuperTypes.contains(sup) || sup.equals(EcorePackage.eINSTANCE.EObject)
+		return sub.equals(sup) || sub.EAllSuperTypes.contains(sup) || EcorePackage.eINSTANCE.EObject.equals(sup)
 	}
 
 	def is_type_of_ov(EObject context, EReference reference) {
