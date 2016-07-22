@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="language" nsURI="platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore" nsPrefix="org.moflon.ide.visualization.dot.language">
-  <eClassifiers xsi:type="ecore:EClass" name="NodeCommand" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" eType="//DirectedGraph" eOpposite="//DirectedGraph/nodes"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillcolor" ordered="false" lowerBound="1" eType="//DotColor" defaultValueLiteral="white"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" ordered="false">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" ordered="false" lowerBound="1" eType="//DotColor" defaultValueLiteral="black"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bold" ordered="false" defaultValueLiteral="false">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </eStructuralFeatures>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="language" nsURI="platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+    nsPrefix="org.moflon.ide.visualization.dot.language">
+  <eClassifiers xsi:type="ecore:EClass" name="NodeCommand" abstract="true" eSuperTypes="#//AbstractNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillcolor" ordered="false"
+        lowerBound="1" eType="#//DotColor" defaultValueLiteral="white"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" ordered="false"
+        lowerBound="1" eType="#//DotColor" defaultValueLiteral="black"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bold" ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RecordEntry">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="record" eType="//Record" eOpposite="//Record/entries"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false" lowerBound="1">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="record" eType="#//Record"
+        eOpposite="#//Record/entries"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Inheritance" eSuperTypes="//EdgeCommand"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Box" eSuperTypes="//NodeCommand">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="href" ordered="false" lowerBound="1">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eStructuralFeatures>
+  <eClassifiers xsi:type="ecore:EClass" name="DInheritance" eSuperTypes="#//EdgeCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Box" eSuperTypes="#//NodeCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="href" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DoubleCircle" eSuperTypes="//NodeCommand"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SubGraph" eSuperTypes="//DirectedGraph">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="containingGraph" eType="//DirectedGraph" eOpposite="//DirectedGraph/subGraphs"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cluster" ordered="false" lowerBound="1" defaultValueLiteral="true">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </eStructuralFeatures>
+  <eClassifiers xsi:type="ecore:EClass" name="DoubleCircle" eSuperTypes="#//NodeCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SubGraph" eSuperTypes="#//DirectedGraph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingGraph" eType="#//DirectedGraph"
+        eOpposite="#//DirectedGraph/subGraphs"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cluster" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DotColor">
     <eLiterals name="LIGHT_YELLOW" value="4" literal="lightyellow"/>
@@ -39,38 +38,117 @@
     <eLiterals name="BLUE" value="2" literal="blue"/>
     <eLiterals name="RED" value="3" literal="red"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DirectedGraph">
-    <eSuperTypes href="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1" eType="//LabelEntry" containment="true" eOpposite="//LabelEntry/directedGraph"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1" eType="//EdgeCommand" containment="true" eOpposite="//EdgeCommand/graph"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subGraphs" upperBound="-1" eType="//SubGraph" containment="true" eOpposite="//SubGraph/containingGraph"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1" eType="//NodeCommand" containment="true" eOpposite="//NodeCommand/graph"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DirectedGraph" eSuperTypes="#//AbstractGraph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+        eType="#//LabelEntry" containment="true" eOpposite="#//LabelEntry/directedGraph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subGraphs" upperBound="-1"
+        eType="#//SubGraph" containment="true" eOpposite="#//SubGraph/containingGraph"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Record" eSuperTypes="//NodeCommand">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1" eType="//RecordEntry" containment="true" eOpposite="//RecordEntry/record"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rounded" ordered="false" lowerBound="1" defaultValueLiteral="false">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </eStructuralFeatures>
+  <eClassifiers xsi:type="ecore:EClass" name="Record" eSuperTypes="#//NodeCommand">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+        eType="#//RecordEntry" containment="true" eOpposite="#//RecordEntry/record"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rounded" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Taper" eSuperTypes="//EdgeCommand"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Point" eSuperTypes="//NodeCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Taper" eSuperTypes="#//EdgeCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Point" eSuperTypes="#//NodeCommand"/>
   <eClassifiers xsi:type="ecore:EClass" name="LabelEntry">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="directedGraph" eType="//DirectedGraph" eOpposite="//DirectedGraph/entries"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="directedGraph" eType="#//DirectedGraph"
+        eOpposite="#//DirectedGraph/entries"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Composite" eSuperTypes="//EdgeCommand"/>
-  <eClassifiers xsi:type="ecore:EClass" name="EdgeCommand">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" eType="//DirectedGraph" eOpposite="//DirectedGraph/edges"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1" eType="//NodeCommand"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1" eType="//NodeCommand"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" ordered="false" lowerBound="1">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" ordered="false" lowerBound="1" eType="//DotColor" defaultValueLiteral="black"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constrained" ordered="false" lowerBound="1" defaultValueLiteral="true">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </eStructuralFeatures>
+  <eClassifiers xsi:type="ecore:EClass" name="DComposite" eSuperTypes="#//EdgeCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EdgeCommand" eSuperTypes="#//AbstractEdge">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" ordered="false"
+        lowerBound="1" eType="#//DotColor" defaultValueLiteral="black"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constrained" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractGraph" abstract="true" eSuperTypes="platform:/plugin/MocaTree/model/MocaTree.ecore#//Node">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//AbstractNode" containment="true" eOpposite="#//AbstractNode/graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
+        eType="#//AbstractEdge" containment="true" eOpposite="#//AbstractEdge/graph"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractNode" abstract="true" eSuperTypes="#//LabeledGraphObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" eType="#//AbstractGraph"
+        eOpposite="#//AbstractGraph/nodes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractEdge" abstract="true" eSuperTypes="#//LabeledGraphObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" eType="#//AbstractGraph"
+        eOpposite="#//AbstractGraph/edges"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//AbstractNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//AbstractNode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LabeledGraphObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractSkinParam" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//DotColor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ClassSkinParamValues">
+    <eLiterals name="CLASS_ARRAOW_COLOR" literal="classArrowColor"/>
+    <eLiterals name="CLASS_BACKGROUND_COLOR" value="1" literal="classBackgroundColor"/>
+    <eLiterals name="CLASS_BORDER_COLOR" value="2" literal="classBorderColor"/>
+    <eLiterals name="PACKAGE_BACKGROUND_COLOR" value="3" literal="packageBackgroundColor"/>
+    <eLiterals name="PACKAGE_BORDER_COLOR" value="4" literal="packageBorderColor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassSkinParam" eSuperTypes="#//AbstractSkinParam">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//ClassSkinParamValues"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassSkinParamFont" eSuperTypes="#//ClassSkinParam">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" eType="#//SkinParamStyles"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassGraph" eSuperTypes="#//AbstractGraph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="skinparams" upperBound="-1"
+        eType="#//ClassSkinParam"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PAbstract" eSuperTypes="#//PClass"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PEnum" eSuperTypes="#//PNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PAssociation" eSuperTypes="#//PEdge">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oppositeLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="srcMultiplicity" eType="#//PMultiplicity"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trgMultiplicity" lowerBound="1"
+        eType="#//PMultiplicity" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PInheritance" eSuperTypes="#//PEdge"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PEdge" abstract="true" eSuperTypes="#//AbstractEdge"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PMultiplicity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PPackage" eSuperTypes="#//PNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PNode" abstract="true" eSuperTypes="#//AbstractNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PInterface" eSuperTypes="#//PClass"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PAttribute" eSuperTypes="#//PNamedObject #//PVisibilityObject #//PTypedObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PMethod" eSuperTypes="#//PNamedObject #//PTypedObject #//PVisibilityObject"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="PVisibilty">
+    <eLiterals name="PRIVATE_VIEW" literal="privateView"/>
+    <eLiterals name="PUBLIC_VIEW" value="1" literal="publicView"/>
+    <eLiterals name="PROTECTED_VIEW" value="2" literal="protectedView"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PNamedObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PVisibilityObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibilty" eType="#//PVisibilty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PTypedObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SkinParamStyles">
+    <eLiterals name="PLAIN" literal="plain"/>
+    <eLiterals name="BOLD" value="1" literal="bold"/>
+    <eLiterals name="ITALIC" value="2" literal="italic"/>
   </eClassifiers>
 </ecore:EPackage>

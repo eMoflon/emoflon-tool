@@ -41,11 +41,11 @@ EdgeCommandImpl(e) ::= <<
 "<e.source.label>" -> "<e.target.label>" [fontname=Monospace, penwidth=1, color=<e.color.literal>, label="<e.label>", fontsize=8, constraint=<e.constrained>];
 >>
 
-InheritanceImpl(e) ::= <<
+DInheritanceImpl(e) ::= <<
 "<e.source.label>" ->  "<e.target.label>" [penwidth=1, arrowtail="none", arrowhead="onormal", color=<e.color.literal>, constraint=true];
 >>
 
-CompositeImpl(e) ::= <<
+DCompositeImpl(e) ::= <<
 "<e.source.label>" ->  "<e.target.label>" [penwidth=1, dir="both", arrowhead="odiamond", arrowtail="vee", label="<e.label>", fontsize=8, color=<e.color.literal>, constraint=true];
 >>
 
@@ -68,3 +68,43 @@ PointImpl(n) ::= <<
 DoubleCircleImpl(n) ::= <<
 "<n.label>" [fontsize=9, fontname=Monospace, shape=doublecircle, color=<n.color>, xlabel=" <n.label>", label="", width=0.2,fixedsize=true];
 >>
+
+
+ClassGraph(classGraph) ::= <<
+@startuml
+<Pattern(classGraph.nodes, classGraph.edges)>
+@enduml
+>>
+
+Multiplicity(m) ::=<<
+<m.lowerBound> .. <m.upperBound>
+>>
+
+PAssociation(e) ::= <<
+<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity> -->"<Multiplicity(e.trgMultiplicity)> <e.label>" : \< <Multiplicity(e.srcMultiplicity)> <e.oppositeLabel> <else> -->"<Multiplicity(e.trgMultiplicity)> <e.label>" <endif> <else> -->"<Multiplicity(e.trgMultiplicity)> <e.label>" <endif><e.target.label>
+>>
+
+PInheritanceImpl(e) ::= <<
+<e.source.label> --|> <e.target.label>
+>>
+
+PCompositeImpl(e) ::= <<
+<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity> *-->"<Multiplicity(e.trgMultiplicity)> <e.label>" : \< <Multiplicity(e.srcMultiplicity)> <e.oppositeLabel> <else> *-->"<Multiplicity(e.trgMultiplicity)> <e.label>" <endif> <else> *-->"<Multiplicity(e.trgMultiplicity)> <e.label>" <endif> <e.target.label>
+>>
+
+PInterfaceImpl(n) ::= <<
+interface "<n.label>"
+>>
+
+PEnumImpl(n) ::= <<
+enum "<n.label>"
+>>
+
+PClassImpl(n) ::= <<
+class "<n.label>"
+>>
+
+PAbstractImpl(n) ::= <<
+abstract "<n.label>"
+>>
+	

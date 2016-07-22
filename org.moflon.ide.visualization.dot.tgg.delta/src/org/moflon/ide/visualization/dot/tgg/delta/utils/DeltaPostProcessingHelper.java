@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.ide.visualization.dot.language.AbstractNode;
 import org.moflon.ide.visualization.dot.language.EdgeCommand;
 import org.moflon.ide.visualization.dot.language.NodeCommand;
 import org.moflon.ide.visualization.dot.language.RecordEntry;
@@ -54,8 +55,8 @@ public class DeltaPostProcessingHelper
    private void createLabel(EdgeCommandToEMoflonEdge ec2ee)
    {
       EdgeCommand ec = ec2ee.getSource();
-      NodeCommand srcNode = ec.getSource();
-      NodeCommand trgNode = ec.getTarget();
+      AbstractNode srcNode = ec.getSource();
+      AbstractNode trgNode = ec.getTarget();
 
       EMoflonEdge ee = ec2ee.getTarget();
       EObject srcEObject = ee.getSrc();

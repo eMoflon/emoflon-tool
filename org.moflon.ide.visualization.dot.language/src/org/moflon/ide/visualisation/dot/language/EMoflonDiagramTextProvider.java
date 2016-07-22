@@ -18,6 +18,7 @@ import org.eclipse.ui.IEditorPart;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.ide.visualization.dot.language.AbstractGraph;
 import org.moflon.ide.visualization.dot.language.DirectedGraph;
 import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
@@ -139,7 +140,7 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
       return deltaCache.containsKey(input) && deltaCache.get(input).isChangeDetected();
    }
 
-   public DirectedGraph modelToDot(final EObject input)
+   public AbstractGraph modelToDot(final EObject input)
    {
       final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", getPluginId());
       final ResourceSet resourceSet = input.eResource().getResourceSet();
@@ -192,17 +193,17 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
             statistics.nodeCount, statistics.edgeCount + statistics.nodeCount, statistics.durationInMillis);
    }
 
-   private DirectedGraph runSync(final EObject input)
+   private AbstractGraph runSync(final EObject input)
    {
       logger.debug("Running synchronization...");
       SynchronizationHelper helper = syncHelperCache.get(input);
       helper.setDelta(deltaCache.get(input));
-      DirectedGraph result = runTrafo(helper);
+      AbstractGraph result = runTrafo(helper);
       deltaCache.get(input).clear();
       return result;
    }
 
-   private DirectedGraph runTrafo(SynchronizationHelper helper)
+   private AbstractGraph runTrafo(SynchronizationHelper helper)
    {
       // Remove for testing
       helper.setMute(true);
@@ -211,12 +212,12 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
       {
          helper.integrateForward();
          postprocess(helper.getCorr());
-         return (DirectedGraph) helper.getTrg();
+         return (AbstractGraph) helper.getTrg();
       } else
       {
          helper.integrateBackward();
          postprocess(helper.getCorr());
-         return (DirectedGraph) helper.getSrc();
+         return (AbstractGraph) helper.getSrc();
       }
    }
 
@@ -236,13 +237,13 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
     *           the resource set to be used by the created {@link SynchronizationHelper}
     * @return
     */
-   private DirectedGraph runBatch(URL pathToTggRulePlugin, EObject input, ResourceSet rs)
+   private AbstractGraph runBatch(URL pathToTggRulePlugin, EObject input, ResourceSet rs)
    {
       logger.debug("Running batch...");
 
       final SynchronizationHelper helper = registerSynchronizationHelper(pathToTggRulePlugin, input, rs);
       registerConfigurator(helper);
-      final DirectedGraph result = runTrafo(helper);
+      final AbstractGraph result = runTrafo(helper);
       this.registerChangeDetector(input);
 
       return result;

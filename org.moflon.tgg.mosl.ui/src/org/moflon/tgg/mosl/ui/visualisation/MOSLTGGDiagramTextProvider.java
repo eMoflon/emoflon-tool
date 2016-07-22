@@ -83,7 +83,7 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 
          TGGSchemaDiagramTextProvider schemaProvider = new TGGSchemaDiagramTextProvider();
          
-         DirectedGraph graph = schemaProvider.modelToDot(tgg);
+         DirectedGraph graph = (DirectedGraph)schemaProvider.modelToDot(tgg);
          String schemaDiagram;
          if(graph != null)
         	 schemaDiagram = new DotUnparserAdapter().unparse(graph);

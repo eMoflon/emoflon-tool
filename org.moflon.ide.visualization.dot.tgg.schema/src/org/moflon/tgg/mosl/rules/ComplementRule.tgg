@@ -14,7 +14,7 @@
 
 	superRuleBox : Box
 
-	++complements : Composite{
+	++complements : DComposite{
 		label := "0..*"
 		++- source -> ruleBox
 		++-target -> superRuleBox

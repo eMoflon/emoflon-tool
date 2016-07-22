@@ -14,7 +14,7 @@
 
 	superRuleBox : Box
 
-	++refined : Inheritance{
+	++refined : DInheritance{
 		++- source -> ruleBox
 		++-target -> superRuleBox
 	}
