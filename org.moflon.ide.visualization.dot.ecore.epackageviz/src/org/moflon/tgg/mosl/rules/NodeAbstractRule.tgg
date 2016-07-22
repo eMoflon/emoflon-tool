@@ -1,0 +1,29 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule NodeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source {
+	graph:ClassGraph
+}
+
+#target {
+	rootPackage:EPackage
+
+	++eClass:EClass{
+		++ - ePackage -> rootPackage
+	}
+}
+
+#correspondence {
+	graphToPackage :ClassGraphToEPackage {
+		#src->graph
+		#trg->rootPackage
+	}
+}
+
+#attributeConditions {
+
+}
+
+

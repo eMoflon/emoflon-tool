@@ -1,0 +1,32 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#rule InterfaceNodeRule #extends NodeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source {
+	graph:ClassGraph
+
+	++pInterface:PInterface{
+		++ - graph -> graph
+	}
+}
+
+#target {
+	++eClass:EClass{
+		interface := true
+		abstract := true
+	}
+}
+
+#correspondence {
+	++ pInterfaceToEClass :PNodeToEClassifier{
+		#src->pInterface
+		#trg->eClass
+	}
+}
+
+#attributeConditions {
+	eq(pInterface.label, eClass.name)
+}
+
+

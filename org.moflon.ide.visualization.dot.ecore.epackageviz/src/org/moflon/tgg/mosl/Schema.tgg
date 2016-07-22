@@ -1,0 +1,29 @@
+// Add imports here
+#import "platform:/resource/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "http://www.eclipse.org/emf/2002/Ecore"
+
+#schema org.moflon.ide.visualization.dot.ecore.epackageviz
+	
+#source {
+	language
+}
+
+#target { 
+	ecore
+} 
+
+#correspondence {
+	ClassGraphToEPackage {
+		#src-> ClassGraph
+		#trg-> EPackage
+	}
+	
+	PNodeToEClassifier{
+		#src-> PNode
+		#trg-> EClassifier
+	}
+}
+
+#attributeConditions {
+	
+}

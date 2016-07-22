@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><plugin>
+  <extension point="net.sourceforge.plantuml.eclipse.diagramTextProvider">
+    <diagramTextProvider providerClass="org.moflon.ide.visualization.dot.ecore.epackageviz.EPackageDiagrammTextProvider"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.ide.visualization.dot.ecore.epackageviz.EpackagevizPackage" genModel="model/Epackageviz.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.ecore.epackageviz/model/Epackageviz.ecore"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.ide.visualization.dot.ecore.epackageviz.Rules.RulesPackage" genModel="model/Epackageviz.genmodel" uri="platform:/plugin/org.moflon.ide.visualization.dot.ecore.epackageviz/model/Epackageviz.ecore#//Rules"/>
+  </extension>
+</plugin>
