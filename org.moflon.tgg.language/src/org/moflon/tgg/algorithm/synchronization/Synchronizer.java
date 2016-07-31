@@ -340,21 +340,19 @@ public abstract class Synchronizer {
 	}
 
 	private IsApplicableMatch chooseOne(Collection<IsApplicableRuleResult> extended) {
-		List<RuleResult> alternatives = extended.stream().filter(isApplRR -> isApplRR.isSuccess()).map(RuleResult::new)
+		List<RuleResult> alternatives = extended.stream()
+		      .filter(isApplRR -> isApplRR.isSuccess())
+		      .map(RuleResult::new)
 				.collect(Collectors.toList());
 
-		if (alternatives.size() == 1)
-			return alternatives.get(0).anyMatch();
-		else
-			return configurator.chooseOne(alternatives).anyMatch();
+		return configurator.chooseOne(alternatives).anyMatch();
 	}
 
 	private Stream<Match> chooseOneMaximalSet() {
 
 		TIntCollection candidatesForChoice = readyWithSiblingKernels.isEmpty() ? readyKernels : readyWithSiblingKernels;
 
-		// find a match which translates something and return its siblings that
-		// are kernel
+		// find a match which translates something and return its siblings that are kernel
 		TIntIterator iterator = candidatesForChoice.iterator();
 		while (iterator.hasNext()) {
 			Match m = pg.intToMatch(iterator.next());
