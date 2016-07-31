@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,7 +23,6 @@ import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 import org.moflon.tgg.algorithm.exceptions.LocalCompletenessException;
 import org.moflon.tgg.language.algorithm.AlgorithmFactory;
 import org.moflon.tgg.language.algorithm.TempOutputContainer;
-import org.moflon.tgg.language.analysis.Rule;
 import org.moflon.tgg.language.analysis.StaticAnalysis;
 import org.moflon.tgg.runtime.AttributeDelta;
 import org.moflon.tgg.runtime.CorrespondenceModel;
@@ -385,16 +383,6 @@ public class SynchronizationHelper
    {
       StaticAnalysis sma = EcoreUtil.copy(rules);
       return sma;
-   }
-
-   protected void reduceToOneEntry(final Rule rule)
-   {
-      if (rule.getIsAppropriateMethods().size() > 1)
-      {
-         EOperation isAppr = rule.getIsAppropriateMethods().get(0);
-         rule.getIsAppropriateMethods().clear();
-         rule.getIsAppropriateMethods().add(isAppr);
-      }
    }
 
    @SuppressWarnings("unchecked")
