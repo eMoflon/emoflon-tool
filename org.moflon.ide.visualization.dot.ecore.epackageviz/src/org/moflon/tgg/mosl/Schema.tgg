@@ -22,6 +22,11 @@
 		#src-> PNode
 		#trg-> EClassifier
 	}
+	
+	PEdgeToERefernce{
+		#src->PEdge
+		#trg->EReference
+	}
 }
 
 #attributeConditions {

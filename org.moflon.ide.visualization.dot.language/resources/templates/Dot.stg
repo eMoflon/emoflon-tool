@@ -72,16 +72,18 @@ DoubleCircleImpl(n) ::= <<
 
 ClassGraph(classGraph) ::= <<
 @startuml
+set namespaceSeparator ::
 <Pattern(classGraph.nodes, classGraph.edges)>
 @enduml
 >>
 
 Multiplicity(m) ::=<<
-<m.lowerBound> .. <m.upperBound>
+<m.lowerBound>..<m.upperBound>
 >>
 
 PAssociation(e) ::= <<
-<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity> -->"<Multiplicity(e.trgMultiplicity)> <e.label>" : \< <Multiplicity(e.srcMultiplicity)> <e.oppositeLabel> <else> -->"<Multiplicity(e.trgMultiplicity)> <e.label>" <endif> <else> -->"<Multiplicity(e.trgMultiplicity)> <e.label>" <endif><e.target.label>
+<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity)> --> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label> :  \< <Multiplicity(e.srcMultiplicity)> <e.oppositeLabel> <else> --> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label><endif> <else> --> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label><endif>
+
 >>
 
 PInheritanceImpl(e) ::= <<
@@ -89,7 +91,7 @@ PInheritanceImpl(e) ::= <<
 >>
 
 PCompositeImpl(e) ::= <<
-<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity> *-->"<Multiplicity(e.trgMultiplicity)> <e.label>" : \< <Multiplicity(e.srcMultiplicity)> <e.oppositeLabel> <else> *-->"<Multiplicity(e.trgMultiplicity)> <e.label>" <endif> <else> *-->"<Multiplicity(e.trgMultiplicity)> <e.label>" <endif> <e.target.label>
+<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity)>  *--> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label> : \< <Multiplicity(e.srcMultiplicity)> <e.oppositeLabel> <else> *-->"<Multiplicity(e.trgMultiplicity)> <e.label>"  <e.target.label><endif> <else> *-->"<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label><endif>
 >>
 
 PInterfaceImpl(n) ::= <<

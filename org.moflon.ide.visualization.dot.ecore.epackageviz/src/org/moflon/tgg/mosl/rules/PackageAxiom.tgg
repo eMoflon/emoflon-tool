@@ -4,10 +4,16 @@
 #rule PackageAxiom #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
+	
+	
 	++graph:ClassGraph
 }
 
 #target {
+//	 superPackage : EPackage{
+//		- eSubpackages -> rootPackage
+//	}
+	
 	++rootPackage:EPackage
 }
 

@@ -22,11 +22,11 @@ public class EpackagevizTrafo extends SynchronizationHelper{
 
 		// Forward Transformation
         EpackagevizTrafo helper = new EpackagevizTrafo();
-		helper.performForward("instances/fwd.src.xmi");
+		//helper.performForward("instances/fwd.src.xmi");
 		
 		// Backward Transformation
-		helper = new EpackagevizTrafo();
-		helper.performBackward("instances/bwd.src.xmi");
+		//helper = new EpackagevizTrafo();
+		helper.performBackward("instances/SimpleClassLanguage.ecore");
 	}
 
 	public void performForward() {

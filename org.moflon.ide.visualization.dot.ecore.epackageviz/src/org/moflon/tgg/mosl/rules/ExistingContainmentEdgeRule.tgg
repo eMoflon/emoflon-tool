@@ -1,0 +1,62 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#rule ExistingContainmentEdgeRule #extends EdgeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source { 
+	graph : ClassGraph
+	
+	srcClassNode : PNode
+	
+	trgClassNode : PNode
+	
+	++ srcMultiplicity : PMultiplicity
+	
+	++ trgMutliplicity : PMultiplicity
+	
+	++ composite : PComposite{
+		++ - graph -> graph
+		++ - source -> srcClassNode
+		++ - target -> trgClassNode
+		++ - srcMultiplicity -> srcMultiplicity
+		++ - trgMultiplicity -> trgMutliplicity
+	}
+}
+
+#target {
+	ePackage : EPackage
+	
+	srcClass : EClass{
+		++ - eReferences -> eReference 
+	}
+	
+	trgClass : EClass{
+		++ - eReferences -> opposite
+	}
+	
+	++ eReference : EReference{
+		containment := true
+		++ - eReferenceType ->trgClass
+		++ - eOpposite -> opposite
+	}
+	
+	++ opposite : EReference{
+		++ - eReferenceType -> srcClass
+	}
+}
+
+#correspondence {
+	++ compositeToEReference : PEdgeToERefernce{
+		#src->composite
+		#trg->eReference
+	}
+}
+
+#attributeConditions {
+	eq(composite.label, eReference.name)
+	eq(composite.oppositeLabel, opposite.name)
+	eq(srcMultiplicity.lowerBound, eReference.lowerBound)
+	eq(srcMultiplicity.upperBound, eReference.upperBound)
+	eq(trgMutliplicity.lowerBound, opposite.lowerBound)
+	eq(trgMutliplicity.upperBound, opposite.upperBound)
+}
