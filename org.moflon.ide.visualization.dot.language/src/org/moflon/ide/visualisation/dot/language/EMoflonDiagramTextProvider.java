@@ -23,6 +23,7 @@ import org.moflon.ide.visualization.dot.language.DirectedGraph;
 import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
+import org.moflon.tgg.language.algorithm.TempOutputContainer;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 
 import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
@@ -205,20 +206,34 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
 
    private AbstractGraph runTrafo(SynchronizationHelper helper)
    {
+	  Object graph = null; 
       // Remove for testing
       helper.setMute(true);
-      
-      if (directionIsForward())
+      try{
+	      if (directionIsForward())
+	      {
+	         helper.integrateForward();
+	         postprocess(helper.getCorr());
+	         graph = helper.getTrg();
+	      } else
+	      {
+	         helper.integrateBackward();
+	         postprocess(helper.getCorr());
+	         graph = helper.getSrc();
+	      }
+	      return (AbstractGraph) graph;
+      } catch (ClassCastException cce)
       {
-         helper.integrateForward();
-         postprocess(helper.getCorr());
-         return (AbstractGraph) helper.getTrg();
-      } else
-      {
-         helper.integrateBackward();
-         postprocess(helper.getCorr());
-         return (AbstractGraph) helper.getSrc();
+    	if(graph instanceof TempOutputContainer)
+    	{
+    		logger.error("The graph has two or more roots");
+    	}
+    	else
+    	{
+    		logger.error(cce.getMessage(), cce);
+    	}
       }
+      return null;
    }
 
    protected void postprocess(CorrespondenceModel corr) {

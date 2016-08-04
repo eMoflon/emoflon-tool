@@ -3,6 +3,7 @@ package org.moflon.ide.visualisation.dot.language;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
+import org.apache.log4j.Logger;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.ide.visualization.dot.language.AbstractGraph;
 import org.moflon.ide.visualization.dot.language.ClassGraph;
@@ -13,6 +14,7 @@ import org.stringtemplate.v4.STGroupFile;
 
 public class DotUnparserAdapter
 {
+	static final private Logger log = Logger.getLogger(DotUnparserAdapter.class); 
 
    public String unparse(AbstractGraph graph)
    {      
@@ -28,8 +30,9 @@ public class DotUnparserAdapter
         	template.add("classGraph", graph);
         }
         return template.render();
-      } catch (FileNotFoundException e)
+      } catch (FileNotFoundException | NullPointerException e)
       {
+    	 log.error("Unable to unparse the Graph", e);
          e.printStackTrace();
       }
       

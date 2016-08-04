@@ -119,6 +119,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="trgMultiplicity" lowerBound="1"
         eType="#//PMultiplicity" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PComposite" eSuperTypes="#//PAssociation"/>
   <eClassifiers xsi:type="ecore:EClass" name="PInheritance" eSuperTypes="#//PEdge"/>
   <eClassifiers xsi:type="ecore:EClass" name="PEdge" abstract="true" eSuperTypes="#//AbstractEdge"/>
   <eClassifiers xsi:type="ecore:EClass" name="PMultiplicity">
