@@ -57,13 +57,13 @@
 
 	eq(association.oppositeLabel, opposite.name)
 
-	eq(srcMultiplicity.lowerBound, eReference.lowerBound)
+	multiplicity(srcMultiplicity.lowerBound, eReference.lowerBound)
 
-	eq(srcMultiplicity.upperBound, eReference.upperBound)
+	multiplicity(srcMultiplicity.upperBound, eReference.upperBound)
 
-	eq(trgMutliplicity.lowerBound, opposite.lowerBound)
+	multiplicity(trgMutliplicity.lowerBound, opposite.lowerBound)
 
-	eq(trgMutliplicity.upperBound, opposite.upperBound)
+	multiplicity(trgMutliplicity.upperBound, opposite.upperBound)
 }
 
 

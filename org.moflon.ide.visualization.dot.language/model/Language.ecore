@@ -123,9 +123,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="PInheritance" eSuperTypes="#//PEdge"/>
   <eClassifiers xsi:type="ecore:EClass" name="PEdge" abstract="true" eSuperTypes="#//AbstractEdge"/>
   <eClassifiers xsi:type="ecore:EClass" name="PMultiplicity">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PPackage" eSuperTypes="#//PNode"/>
