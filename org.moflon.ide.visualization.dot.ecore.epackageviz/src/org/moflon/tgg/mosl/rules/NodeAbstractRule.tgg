@@ -5,12 +5,16 @@
 
 #source {
 	graph:ClassGraph
+
+	++node:PNode{
+		++ - graph -> graph
+	}
 }
 
 #target {
 	rootPackage:EPackage
 
-	++eClass:EClass{
+	++eClassifier:EClassifier{
 		++ - ePackage -> rootPackage
 	}
 }
@@ -20,10 +24,15 @@
 		#src->graph
 		#trg->rootPackage
 	}
+
+	++ nodeToClassifier :PNodeToEClassifier {
+		#src->node
+		#trg->eClassifier
+	}
 }
 
 #attributeConditions {
-
+	eq(node.label, eClassifier.name)
 }
 
 

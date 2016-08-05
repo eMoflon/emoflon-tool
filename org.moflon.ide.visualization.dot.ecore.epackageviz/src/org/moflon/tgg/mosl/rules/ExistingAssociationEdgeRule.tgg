@@ -1,0 +1,24 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#rule ExistingAssociationEdgeRule #extends EdgeEReferenceAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source { 
+	
+}
+
+#target {
+	++ eReference : EReference{
+		containment := false
+	}
+	
+
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

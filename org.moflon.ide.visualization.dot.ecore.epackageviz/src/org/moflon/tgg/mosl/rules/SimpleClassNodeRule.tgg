@@ -4,29 +4,21 @@
 #rule SimpleClassNodeRule #extends NodeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
-	graph:ClassGraph
-
-	++pClass:PClass{
-		++ - graph -> graph
-	}
+	++node:PClass
 }
 
 #target {
-	++eClass:EClass{
+	++eClassifier:EClass{
 		abstract := false
-		interface := false
 	}
 }
 
 #correspondence {
-	++ pClassToEClass :PNodeToEClassifier{
-		#src->pClass
-		#trg->eClass
-	}
+
 }
 
 #attributeConditions {
-	eq(pClass.label, eClass.name)
+	
 }
 
 

@@ -1,36 +1,22 @@
 #using org.moflon.ide.visualization.dot.ecore.epackageviz.*
 #using AttrCondDefLibrary.*
 
-#rule EnumNodeRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+#rule EnumNodeRule #extends NodeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
-#source { 
-	graph : ClassGraph
-	
-	++ pEnum : PEnum{
-		++ - graph -> graph
-	}
+#source {
+	++node:PEnum
 }
 
 #target {
-	ePackage : EPackage
-	
-	++ eEnum : EEnum{
-		++ -ePackage -> ePackage
-	}
+	++eClassifier:EEnum
 }
 
 #correspondence {
-	graphToPackage : ClassGraphToEPackage{
-		#src->graph
-		#trg->ePackage
-	}
-	
-	++ pEnumToEEnum : PNodeToEClassifier {
-		#src->pEnum
-		#trg->eEnum
-	}
+
 }
 
 #attributeConditions {
-	eq(pEnum.label, eEnum.name)
+	
 }
+
+

@@ -1,0 +1,69 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule EdgeEReferenceAbstractRule #extends EdgeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source {
+	graph:ClassGraph
+
+	srcClassNode:PNode
+
+	trgClassNode:PNode
+
+	++srcMultiplicity:PMultiplicity
+
+	++trgMutliplicity:PMultiplicity
+
+	++association:PAssociation{
+		++ - graph -> graph
+		++ - source -> srcClassNode
+		++ - target -> trgClassNode
+		++ - srcMultiplicity -> srcMultiplicity
+		++ - trgMultiplicity -> trgMutliplicity
+	}
+}
+
+#target {
+	ePackage:EPackage
+
+	srcClass:EClass{
+		++ - eReferences -> eReference
+	}
+
+	trgClass:EClass{
+		++ - eReferences -> opposite
+	}
+
+	++eReference:EReference{
+		++ - eReferenceType -> trgClass
+		++ - eOpposite -> opposite
+	}
+
+	++opposite:EReference{
+		containment := false
+		++ - eReferenceType -> srcClass
+	}
+}
+
+#correspondence {
+	++ compositeToEReference :PEdgeToERefernce{
+		#src->association
+		#trg->eReference
+	}
+}
+
+#attributeConditions {
+	eq(association.label, eReference.name)
+
+	eq(association.oppositeLabel, opposite.name)
+
+	eq(srcMultiplicity.lowerBound, eReference.lowerBound)
+
+	eq(srcMultiplicity.upperBound, eReference.upperBound)
+
+	eq(trgMutliplicity.lowerBound, opposite.lowerBound)
+
+	eq(trgMutliplicity.upperBound, opposite.upperBound)
+}
+
+
