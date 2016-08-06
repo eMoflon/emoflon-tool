@@ -113,7 +113,7 @@ public class CodeadapterPostProcessForwardHelper {
 		EEnum eenum = enumExp.getEenum();
 		EEnumLiteral literal = enumExp.getLiteral();
 
-		String fqn = eenum.getName() + "." + literal.getName();
+		String fqn = eenum.getName() + "." + literal.getLiteral();
 		exp.setValue(fqn);
 	}
 

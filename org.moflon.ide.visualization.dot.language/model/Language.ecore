@@ -30,13 +30,13 @@
         defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DotColor">
-    <eLiterals name="LIGHT_YELLOW" value="4" literal="lightyellow"/>
-    <eLiterals name="MISTY_ROSE" value="5" literal="mistyrose"/>
-    <eLiterals name="WHITE" value="6" literal="white"/>
-    <eLiterals name="GREEN" value="1" literal="green"/>
-    <eLiterals name="BLACK" literal="black"/>
-    <eLiterals name="BLUE" value="2" literal="blue"/>
-    <eLiterals name="RED" value="3" literal="red"/>
+    <eLiterals name="lightyellow" value="4" literal="LIGHT_YELLOW"/>
+    <eLiterals name="mistyrose" value="5" literal="MISTY_ROSE"/>
+    <eLiterals name="white" value="6" literal="WHITE"/>
+    <eLiterals name="green" value="1" literal="GREEN"/>
+    <eLiterals name="black" literal="BLACK"/>
+    <eLiterals name="blue" value="2" literal="BLUE"/>
+    <eLiterals name="red" value="3" literal="RED"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DirectedGraph" eSuperTypes="#//AbstractGraph">
     <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"

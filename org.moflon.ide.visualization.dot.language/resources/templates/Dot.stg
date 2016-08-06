@@ -34,23 +34,23 @@ Edge(e) ::= <<
 >>
 
 TaperImpl(e) ::= <<
-"<e.source.label>" ->  "<e.target.label>" [penwidth=7, dir="both", style="tapered", arrowtail="none", arrowhead="none", color=<e.color.literal>, constraint=true];
+"<e.source.label>" ->  "<e.target.label>" [penwidth=7, dir="both", style="tapered", arrowtail="none", arrowhead="none", color=<e.color.name>, constraint=true];
 >>
 
 EdgeCommandImpl(e) ::= <<
-"<e.source.label>" -> "<e.target.label>" [fontname=Monospace, penwidth=1, color=<e.color.literal>, label="<e.label>", fontsize=8, constraint=<e.constrained>];
+"<e.source.label>" -> "<e.target.label>" [fontname=Monospace, penwidth=1, color=<e.color.name>, label="<e.label>", fontsize=8, constraint=<e.constrained>];
 >>
 
 DInheritanceImpl(e) ::= <<
-"<e.source.label>" ->  "<e.target.label>" [penwidth=1, arrowtail="none", arrowhead="onormal", color=<e.color.literal>, constraint=true];
+"<e.source.label>" ->  "<e.target.label>" [penwidth=1, arrowtail="none", arrowhead="onormal", color=<e.color.name>, constraint=true];
 >>
 
 DCompositeImpl(e) ::= <<
-"<e.source.label>" ->  "<e.target.label>" [penwidth=1, dir="both", arrowhead="odiamond", arrowtail="vee", label="<e.label>", fontsize=8, color=<e.color.literal>, constraint=true];
+"<e.source.label>" ->  "<e.target.label>" [penwidth=1, dir="both", arrowhead="odiamond", arrowtail="vee", label="<e.label>", fontsize=8, color=<e.color.name>, constraint=true];
 >>
 
 RecordImpl(n) ::= <<
-"<n.label>" [fontsize=9, fontname=Monospace, penwidth=1, shape=record, color=<n.color>, fillcolor=<n.fillcolor>, label="{<n.label> | <n.entries: Entry(); separator="|">}"<if(n.bold)>,penwidth=2<endif><if(n.rounded)>,style=rounded<endif>,style=filled];
+"<n.label>" [fontsize=9, fontname=Monospace, penwidth=1, shape=record, color=<n.color.name>, fillcolor=<n.fillcolor.name>, label="{<n.label> | <n.entries: Entry(); separator="|">}"<if(n.bold)>,penwidth=2<endif><if(n.rounded)>,style=rounded<endif>,style=filled];
 >>
 
 Entry(entry) ::= <<
@@ -58,15 +58,15 @@ Entry(entry) ::= <<
 >>
 
 BoxImpl(n) ::= <<
-"<n.label>" [fontsize=9, fontname=Monospace, shape=box, color=<n.color>, style=rounded, href="<n.href>"];
+"<n.label>" [fontsize=9, fontname=Monospace, shape=box, color=<n.color.name>, style=rounded, href="<n.href>"];
 >>
 
 PointImpl(n) ::= <<
-"<n.label>" [fontsize=9, fontname=Monospace, shape=point, color=<n.color>, width=0.3];
+"<n.label>" [fontsize=9, fontname=Monospace, shape=point, color=<n.color.name>, width=0.3];
 >>
 
 DoubleCircleImpl(n) ::= <<
-"<n.label>" [fontsize=9, fontname=Monospace, shape=doublecircle, color=<n.color>, xlabel=" <n.label>", label="", width=0.2,fixedsize=true];
+"<n.label>" [fontsize=9, fontname=Monospace, shape=doublecircle, color=<n.color.name>, xlabel=" <n.label>", label="", width=0.2,fixedsize=true];
 >>
 
 
