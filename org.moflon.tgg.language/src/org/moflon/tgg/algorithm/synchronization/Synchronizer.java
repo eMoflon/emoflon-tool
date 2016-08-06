@@ -522,7 +522,10 @@ public abstract class Synchronizer {
 		warning += "Note that local-completeness errors might have something to do with these missing matches!\n";
 		warning += "--------------------------------";
 
-		logger.warn(warning);
+		if(verbose)
+		   logger.warn(warning);
+		else
+		   logger.debug(warning);
 	}
 
 	public SynchronizationProtocol getProtocol() {
