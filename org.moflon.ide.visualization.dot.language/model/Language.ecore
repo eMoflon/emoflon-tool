@@ -30,10 +30,10 @@
         defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DotColor">
+    <eLiterals name="white" value="6" literal="WHITE"/>
     <eLiterals name="black" literal="BLACK"/>
     <eLiterals name="lightyellow" value="4" literal="LIGHT_YELLOW"/>
     <eLiterals name="mistyrose" value="5" literal="MISTY_ROSE"/>
-    <eLiterals name="white" value="6" literal="WHITE"/>
     <eLiterals name="green" value="1" literal="GREEN"/>
     <eLiterals name="blue" value="2" literal="BLUE"/>
     <eLiterals name="red" value="3" literal="RED"/>
