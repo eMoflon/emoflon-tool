@@ -7,7 +7,9 @@
 		++ - nodes -> record
 	}
 	
-	++ record : Record
+	++ record : Record {
+		fillcolor := enum::DotColor::white
+	}
 }
 
 #target {
