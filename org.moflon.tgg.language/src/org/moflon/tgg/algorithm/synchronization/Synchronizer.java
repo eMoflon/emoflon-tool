@@ -345,7 +345,10 @@ public abstract class Synchronizer {
 		      .map(RuleResult::new)
 				.collect(Collectors.toList());
 
-		return configurator.chooseOne(alternatives).anyMatch();
+		if (alternatives.size() == 1 && alternatives.get(0).isUnique())
+         return alternatives.get(0).anyMatch();
+      else
+         return configurator.chooseOne(alternatives).anyMatch();
 	}
 
 	private Stream<Match> chooseOneMaximalSet() {
