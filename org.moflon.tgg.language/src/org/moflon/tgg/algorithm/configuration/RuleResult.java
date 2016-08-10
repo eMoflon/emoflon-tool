@@ -49,4 +49,9 @@ public class RuleResult
    {
       matches = matches.stream().filter(condition).collect(Collectors.toSet());
    }
+
+   public boolean isUnique()
+   {
+      return matches.size() == 1;
+   }
 }
