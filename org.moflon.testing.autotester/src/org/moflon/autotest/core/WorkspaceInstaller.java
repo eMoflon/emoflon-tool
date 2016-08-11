@@ -426,6 +426,7 @@ public class WorkspaceInstaller
          Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_REFRESH, WorkspaceHelper.createSubMonitor(monitor, projectCount));
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
 
+         // TODO@rkluge: Remove
          BuilderHelper.generateCodeInOrder(WorkspaceHelper.createSubMonitor(monitor, projectCount), Arrays.asList(ws.getRoot().getProjects()));
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
       } catch (CoreException | OperationCanceledException e)

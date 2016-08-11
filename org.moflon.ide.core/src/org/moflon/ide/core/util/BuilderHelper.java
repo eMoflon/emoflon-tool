@@ -75,6 +75,11 @@ public class BuilderHelper
       workspace.setDescription(description);
    }
 
+   // TODO@rkluge
+   /**
+    * @deprecated Should be replaced by the new automatic build process (rkluge, 2016-08-11)
+    */
+   @Deprecated
    public static IStatus generateCodeInOrder(final IProgressMonitor monitor, final Collection<IProject> projects)
    {
       try

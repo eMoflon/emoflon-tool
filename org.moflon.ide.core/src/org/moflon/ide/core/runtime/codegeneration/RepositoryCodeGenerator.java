@@ -38,6 +38,11 @@ import org.moflon.ide.core.util.BuilderHelper;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 
+// TODO@rkluge
+/**
+ * @deprecated Should be eliminated by the new automatic build process (rkluge, 2016-08-11)
+ */
+@Deprecated
 @SuppressWarnings("restriction")
 public class RepositoryCodeGenerator
 {

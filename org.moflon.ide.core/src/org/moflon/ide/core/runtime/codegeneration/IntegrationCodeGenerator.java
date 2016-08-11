@@ -64,6 +64,11 @@ import SDMLanguage.SDMLanguagePackage;
 import SDMLanguage.sdmUtil.CompilerInjection;
 import SDMLanguage.sdmUtil.SdmUtilFactory;
 
+//TODO@rkluge
+/**
+ * @deprecated Should be eliminated by the new automatic build process (rkluge, 2016-08-11)
+ */
+@Deprecated
 public class IntegrationCodeGenerator extends RepositoryCodeGenerator
 {
    private static final Logger logger = Logger.getLogger(IntegrationCodeGenerator.class);
