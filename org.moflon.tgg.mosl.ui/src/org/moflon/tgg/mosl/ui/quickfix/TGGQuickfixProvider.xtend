@@ -139,5 +139,24 @@ class TGGQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.DefaultQu
 			}
 		)
 	}
+	
+	@Fix(TGGValidator.LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_TARGET_OBJECT_VARIABLE_PATTERN)
+	def addCorrectTargetOperator(Issue issue, IssueResolutionAcceptor acceptor){
+		acceptor.accept(
+			issue,
+			"add correct Operator", // label
+			"adds the Operator from the Target Object Variable'", // description
+			null, // icon 
+			new ISemanticModification() {
+				override apply(EObject element, IModificationContext context) {
+					var linkVar = element as LinkVariablePattern;
+					var ov = linkVar.target
+					var newOp = TggFactory.eINSTANCE.createOperator();
+					newOp.value = ov.op.value;
+					linkVar.op = newOp;
+				}
+			}
+		)
+	}
 
 }

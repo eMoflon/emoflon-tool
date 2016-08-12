@@ -34,7 +34,7 @@ class TGGValidator extends AbstractTGGValidator {
   public static val TYPE_IS_ABSTRACT = 'typeIsAbstract'
   public static val RULE_REFINEMENT_CREATES_A_CYCLE = 'RuleRefinementCreatesACycle'
   public static val LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_OBJECT_VARIABLE_PATTERN = 'linkVariableDoesNotHaveSameOeratorLikeObjectVariablePattern'
-
+  public static val LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_TARGET_OBJECT_VARIABLE_PATTERN= 'linkVariableDoesNotHaveSameOeratorLikeTargetObjectVariablePattern'
 
 
 	@Check
@@ -69,6 +69,8 @@ class TGGValidator extends AbstractTGGValidator {
 	}
 	
 	Map<String, Map<EObject, Map<Class<? extends EObject>, EObject>>> names = new HashMap<String, Map<EObject, Map<Class<? extends EObject>, EObject>>>();
+	
+	
 	
 	
 	@Check
@@ -177,5 +179,30 @@ class TGGValidator extends AbstractTGGValidator {
 				}
 			}
 		}
+		for(LinkVariablePattern linkVar : ov.linkVariablePatterns){
+			val rule = ov.eContainer as Rule
+			val name = linkVar.target.name;
+			val trgOV = getOV(rule,name);
+			var trgOVOp = trgOV.op;
+			
+			
+			if(trgOVOp !=null && trgOVOp.value.equals("++") && ((linkVar.op!=null && !("++".equals(linkVar.op.value))) || linkVar.op == null)){
+				error("Link Variable '" + linkVar.type.name + "' has a diffrent operator", linkVar, TggPackage.Literals.OPERATOR_PATTERN__OP, TGGValidator.LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_TARGET_OBJECT_VARIABLE_PATTERN);
+			}
+		}
+	}
+	
+	def ObjectVariablePattern getOV(Rule rule, String name){
+		for(ObjectVariablePattern srcOV : rule.sourcePatterns){
+			if(name.equals(srcOV.name)){
+				return srcOV;
+			}
+		}
+		for(ObjectVariablePattern trgOV : rule.targetPatterns){
+			if(name.equals(trgOV.name)){
+				return trgOV;
+			}
+		}
+		return null;
 	}
 }
