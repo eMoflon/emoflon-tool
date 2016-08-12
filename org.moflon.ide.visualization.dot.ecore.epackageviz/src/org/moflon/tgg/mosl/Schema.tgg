@@ -32,6 +32,11 @@
 		#src->PEnumLiteral
 		#trg->EEnumLiteral
 	}
+	
+	PPackageToEPackage{
+		#src->PPackage
+		#trg->EPackage
+	}
 }
 
 #attributeConditions {

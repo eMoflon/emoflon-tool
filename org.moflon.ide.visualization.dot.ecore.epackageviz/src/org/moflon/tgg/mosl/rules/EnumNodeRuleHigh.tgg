@@ -1,7 +1,7 @@
 #using org.moflon.ide.visualization.dot.ecore.epackageviz.*
 #using AttrCondDefLibrary.*
 
-#rule EnumNodeRule #extends NodeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+#rule EnumNodeRuleHigh #extends NodeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
 	++node:PEnum

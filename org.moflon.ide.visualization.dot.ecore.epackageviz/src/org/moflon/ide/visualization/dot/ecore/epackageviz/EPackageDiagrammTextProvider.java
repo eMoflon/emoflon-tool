@@ -1,11 +1,8 @@
 package org.moflon.ide.visualization.dot.ecore.epackageviz;
 
-import java.util.Collection;
-
 import org.eclipse.emf.ecore.EPackage;
 import org.moflon.ide.visualisation.dot.language.EMoflonDiagramTextProvider;
-import org.moflon.tgg.algorithm.configuration.Configurator;
-import org.moflon.tgg.algorithm.configuration.RuleResult;
+
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 
 public class EPackageDiagrammTextProvider extends EMoflonDiagramTextProvider {
@@ -33,16 +30,7 @@ public class EPackageDiagrammTextProvider extends EMoflonDiagramTextProvider {
 
 	@Override
 	protected void registerConfigurator(SynchronizationHelper helper){
-	   helper.setConfigurator(new Configurator() {
-	      @Override
-	      public RuleResult chooseOne(Collection<RuleResult> alternatives)
-	      {
-	         return alternatives.stream()
-	               .filter(rr -> rr.getRule().contains("Existing"))
-	               .findAny()
-	               .orElse(Configurator.super.chooseOne(alternatives));
-	      }
-      });
+	   helper.setConfigurator(new EPackageVisualizationConfigurator());
 	}
 
 }

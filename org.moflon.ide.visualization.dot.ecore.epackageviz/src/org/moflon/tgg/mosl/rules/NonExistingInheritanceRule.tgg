@@ -1,0 +1,41 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule NonExistingInheritanceRule #extends EdgeAbstractSourceOnlyRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source { 
+	graph : ClassGraph
+	
+	srcClassNode : PNode
+	
+	++ trgClassNode : PNode{
+		++ - graph -> graph
+	}
+	
+	++ inherit : PInheritance{
+		++ - graph -> graph
+		++ - source -> srcClassNode
+		++ - target -> trgClassNode
+	}
+}
+
+#target {
+	ePackage : EPackage
+	
+	srcClass : EClass{
+		++ -eSuperTypes-> trgClass
+	}
+	
+	++ trgClass : EClass
+}
+
+#correspondence {
+	++ 	trgNodeToClassifier :PNodeToEClassifier{
+		#src->trgClassNode
+		#trg->trgClass
+	}
+}
+
+#attributeConditions {
+	eq(trgClassNode.label, trgClass.name)
+}

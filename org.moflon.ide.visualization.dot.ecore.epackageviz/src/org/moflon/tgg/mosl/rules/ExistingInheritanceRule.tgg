@@ -1,30 +1,14 @@
 #using org.moflon.ide.visualization.dot.ecore.epackageviz.*
 #using AttrCondDefLibrary.*
 
-#rule ExistingInheritanceRule #extends EdgeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+#rule ExistingInheritanceRule #extends EdgeAbstractRule, NonExistingInheritanceRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
-#source { 
-	graph : ClassGraph
-	
-	srcClassNode : PNode
-	
-	trgClassNode : PNode
-	
-	++ inherit : PInheritance{
-		++ - graph -> graph
-		++ - source -> srcClassNode
-		++ - target -> trgClassNode
-	}
+#source {
+
 }
 
 #target {
-	ePackage : EPackage
-	
-	srcClass : EClass{
-		++ -eSuperTypes-> trgClass
-	}
-	
-	trgClass : EClass
+
 }
 
 #correspondence {
@@ -34,3 +18,5 @@
 #attributeConditions {
 	
 }
+
+

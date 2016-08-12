@@ -137,8 +137,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PPackage" eSuperTypes="#//PNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="PNode" abstract="true" eSuperTypes="#//AbstractNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PPackage" eSuperTypes="#//PNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
+        eType="#//PClass"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PInterface" eSuperTypes="#//PClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="PAttribute" eSuperTypes="#//PNamedObject #//PVisibilityObject #//PTypedObject"/>
   <eClassifiers xsi:type="ecore:EClass" name="PMethod" eSuperTypes="#//PNamedObject #//PTypedObject #//PVisibilityObject"/>

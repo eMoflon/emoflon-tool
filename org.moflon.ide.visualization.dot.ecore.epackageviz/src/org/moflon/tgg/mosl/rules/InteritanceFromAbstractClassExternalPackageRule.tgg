@@ -1,0 +1,23 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#rule InteritanceFromAbstractClassExternalPackageRule #extends NonExistingInheritanceRule, ExternalPackageRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source { 
+	++ trgClassNode : PAbstract
+}
+
+#target {
+	++ trgClass : EClass {
+		interface := false
+		abstract := true
+	}
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

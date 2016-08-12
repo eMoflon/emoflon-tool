@@ -1,12 +1,12 @@
 #using org.moflon.ide.visualization.dot.ecore.epackageviz.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule EdgeAbstractRule #extends EdgeAbstractSourceOnlyRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+#abstract #rule EdgeAbstractSourceOnlyRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
 	graph:ClassGraph
 
-	trgClassNode:PNode{
+	srcClassNode:PNode{
 		- graph -> graph
 	}
 }
@@ -14,7 +14,7 @@
 #target {
 	ePackage:EPackage
 
-	trgClass:EClass{
+	srcClass:EClass{
 		- ePackage -> ePackage
 	}
 }
@@ -25,9 +25,9 @@
 		#trg->ePackage
 	}
 
-	trgNodeToClassifier :PNodeToEClassifier{
-		#src->trgClassNode
-		#trg->trgClass
+	srcNodeToClassifier :PNodeToEClassifier{
+		#src->srcClassNode
+		#trg->srcClass
 	}
 }
 

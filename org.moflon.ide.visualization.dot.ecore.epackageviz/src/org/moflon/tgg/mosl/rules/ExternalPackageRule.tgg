@@ -1,0 +1,36 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule ExternalPackageRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source { 
+	graph : ClassGraph
+	
+	++ pPackage : PPackage{
+		++ - graph -> graph
+		++ - classes -> trgClassNode
+	}
+	
+	++ trgClassNode : PClass
+		
+	
+}
+
+#target {
+	++ externalPackage : EPackage
+	
+	++ trgClass : EClass{
+		++ - ePackage -> externalPackage
+	}
+}
+
+#correspondence {
+	++ pPackageToEPackage : PPackageToEPackage{
+		#src->pPackage
+		#trg->externalPackage
+	}
+}
+
+#attributeConditions {
+	eq(pPackage.label, externalPackage.name)
+}
