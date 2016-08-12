@@ -92,7 +92,7 @@ Multiplicity(m) ::=<<
 >>
 
 PAssociationImpl(e) ::= <<
-<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity)> "<Multiplicity(e.srcMultiplicity)> <e.oppositeLabel>" \<--> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label> <else> --> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label><endif> <else> --> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label><endif>
+<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity)> "<Multiplicity(e.trgMultiplicity)> <e.oppositeLabel>" \<--> "<Multiplicity(e.srcMultiplicity)> <e.label>" <e.target.label> <else> --> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label><endif> <else> --> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label><endif>
 >>
 
 PInheritanceImpl(e) ::= <<
@@ -100,7 +100,7 @@ PInheritanceImpl(e) ::= <<
 >>
 
 PCompositeImpl(e) ::= <<
-<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity)> "<Multiplicity(e.srcMultiplicity)> <e.oppositeLabel>" *-d-> "<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label>  <else> *-d->"<Multiplicity(e.trgMultiplicity)> <e.label>"  <e.target.label><endif> <else> *-d->"<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label><endif>
+<e.source.label> <if(e.oppositeLabel)><if(e.srcMultiplicity)> "<Multiplicity(e.trgMultiplicity)> <e.oppositeLabel>" *-d-> "<Multiplicity(e.srcMultiplicity)> <e.label>" <e.target.label>  <else> *-d->"<Multiplicity(e.trgMultiplicity)> <e.label>"  <e.target.label><endif> <else> *-d->"<Multiplicity(e.trgMultiplicity)> <e.label>" <e.target.label><endif>
 >>
 
 PInterfaceImpl(n) ::= <<
