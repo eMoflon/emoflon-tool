@@ -54,10 +54,15 @@ import org.moflon.ide.workspaceinstaller.psf.PsfFileUtils;
 @SuppressWarnings("restriction")
 public class WorkspaceInstaller
 {
+   private static final String JUNIT_TEST_LAUNCHER_FILE_NAME_PATTERN = "^.*[Test|TestSuite].*[.]launch$";
+
    private static final Logger logger = Logger.getLogger(WorkspaceInstaller.class);
+
    private static final long TIMEOUT = 5000; // 5s
-   private static String getMweLaunchJob(String name) { 
-	   return MessageFormat.format(DebugUIMessages.DebugUIPlugin_25, new Object[] {name});
+
+   private static String getMweLaunchJob(String name)
+   {
+      return MessageFormat.format(DebugUIMessages.DebugUIPlugin_25, new Object[] { name });
    }
 
    public void installWorkspaceByName(final String workspaceName)
@@ -133,20 +138,23 @@ public class WorkspaceInstaller
 
                      logger.info("Great! All model (.ecore) files have been exported ...");
                   }
-                  
+
                   // Wait a bit for MWE jobs to be scheduled, then join them with a timeout
-                  if(!mweJobs.isEmpty()){
-                	  logger.info("Waiting a bit before trying to join all MWE jobs ...");
-                	  Thread.sleep(TIMEOUT);
+                  if (!mweJobs.isEmpty())
+                  {
+                     logger.info("Waiting a bit before trying to join all MWE jobs ...");
+                     Thread.sleep(TIMEOUT);
                   }
-                  
+
                   mweJobs.forEach(j -> {
-                	  try {
-                		logger.info("Joining " + j.getName());
-						j.join(TIMEOUT, WorkspaceHelper.createSubMonitor(monitor, 100)); 
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+                     try
+                     {
+                        logger.info("Joining " + j.getName());
+                        j.join(TIMEOUT, WorkspaceHelper.createSubMonitor(monitor, 100));
+                     } catch (Exception e)
+                     {
+                        e.printStackTrace();
+                     }
                   });
 
                   logger.info("Now refreshing and turning auto build back on to invoke normal code generation (build) process ...");
@@ -154,7 +162,7 @@ public class WorkspaceInstaller
 
                   logger.info("Finished building workspace...");
 
-                  if (runningJUnitTestsRequired(label))
+                  if (isRunningJUnitTestsRequired(label))
                   {
                      logger.info("Running tests if any test projects according to our naming convention exist (*TestSuite*)");
                      // Without this time of waiting, a NPE is thrown
@@ -198,33 +206,58 @@ public class WorkspaceInstaller
 
    }
 
+   /**
+    * Returns true if the JUnit tests in the workspace shall be executed, based on the provided displayed name
+    */
+   private boolean isRunningJUnitTestsRequired(String displayName)
+   {
+      // When installing the 'handbook' workspace, only latex sources are downloaded.
+      if (EMoflonStandardWorkspaces.MODULE_DOCUMENTATION.equals(displayName))
+         return false;
+
+      return true;
+   }
+
+   /**
+    * This method invokes all tests via launchers with an appropriate name (see
+    * {@link #JUNIT_TEST_LAUNCHER_FILE_NAME_PATTERN}).
+    */
    private void runJUnitTests(final IProgressMonitor monitor) throws InterruptedException, CoreException
    {
-      final Collection<IProject> testProjects = collectTestProjects();
-      monitor.beginTask("Running JUnit tests", testProjects.size());
-
-      for (final IProject testProject : testProjects)
+      try
       {
-         List<IFile> selectedLaunchConfigurations = Arrays.asList(testProject.members()).stream().filter(m -> m instanceof IFile)
-               .map(m -> (IFile) m.getAdapter(IFile.class)).filter(f -> f.getName().matches("^.*[Test|TestSuite].*[.]launch$")).collect(Collectors.toList());
-         logger.info(
-               "Launching the following launch configurations: " + selectedLaunchConfigurations.stream().map(f -> f.getName()).collect(Collectors.toList()));
-         selectedLaunchConfigurations.forEach(file -> {
-            ILaunchManager mgr = DebugPlugin.getDefault().getLaunchManager();
-            ILaunchConfiguration launchConfiguration = mgr.getLaunchConfiguration(file);
-            try
-            {
-               launchConfiguration.launch(ILaunchManager.RUN_MODE, new NullProgressMonitor());
-            } catch (Exception e)
-            {
-               logger.error("Failed to run launch configuration " + file.getName() + " in" + file.getProject().getName() + ". Reason: " + e.getMessage() + " ");
-            }
-         });
+         final Collection<IProject> testProjects = collectTestProjects();
+         monitor.beginTask("Running JUnit tests", testProjects.size());
 
-         monitor.worked(1);
-         WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
+         for (final IProject testProject : testProjects)
+         {
+            final List<IFile> selectedLaunchConfigurations = Arrays.asList(testProject.members()).stream()//
+                  .filter(m -> m instanceof IFile) //
+                  .map(m -> (IFile) m.getAdapter(IFile.class))//
+                  .filter(f -> f.getName().matches(JUNIT_TEST_LAUNCHER_FILE_NAME_PATTERN))//
+                  .collect(Collectors.toList());
+            logger.info(
+                  "Launching the following launch configurations: " + selectedLaunchConfigurations.stream().map(IFile::getName).collect(Collectors.toList()));
+            selectedLaunchConfigurations.forEach(file -> {
+               ILaunchManager mgr = DebugPlugin.getDefault().getLaunchManager();
+               ILaunchConfiguration launchConfiguration = mgr.getLaunchConfiguration(file);
+               try
+               {
+                  launchConfiguration.launch(ILaunchManager.RUN_MODE, new NullProgressMonitor());
+               } catch (Exception e)
+               {
+                  logger.error(
+                        "Failed to run launch configuration " + file.getName() + " in" + file.getProject().getName() + ". Reason: " + e.getMessage() + " ");
+               }
+            });
+
+            monitor.worked(1);
+            WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
+         }
+      } finally
+      {
+         monitor.done();
       }
-      monitor.done();
    }
 
    public Collection<IProject> collectTestProjects()
@@ -271,60 +304,55 @@ public class WorkspaceInstaller
     * 
     * @see #collectMwe2Workflows()
     */
-	private Collection<Job> invokeMwe2Workflows(final IProgressMonitor monitor) throws CoreException {
-		try {
-			final ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-			final ILaunchConfigurationType type = manager.getLaunchConfigurationType("org.eclipse.emf.mwe2.launch.Mwe2LaunchConfigurationType");
-			ILaunchConfiguration[] configurations = manager.getLaunchConfigurations(type);
+   private Collection<Job> invokeMwe2Workflows(final IProgressMonitor monitor) throws CoreException
+   {
+      try
+      {
+         final ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+         final ILaunchConfigurationType type = manager.getLaunchConfigurationType("org.eclipse.emf.mwe2.launch.Mwe2LaunchConfigurationType");
+         ILaunchConfiguration[] configurations = manager.getLaunchConfigurations(type);
 
-			Collection<Job> launchJobs = new ArrayList<>();
-			for (int i = 0; i < configurations.length; i++)
-				launchJobs.add(runLaunchConfiguration(configurations[i], ILaunchManager.RUN_MODE, monitor));
-			
-			launchJobs.removeIf(job -> job == null);
-			return launchJobs;
-		} catch (final CoreException e) {
-			e.printStackTrace();
-		} finally {
-			monitor.done();
-		}
-		
-		return Collections.<Job>emptyList();
-	}
-   
-   
-	private Job runLaunchConfiguration(ILaunchConfiguration configuration, String runMode, IProgressMonitor monitor) {		
-		DebugUITools.launch(configuration, runMode);
-		final IJobManager jobManager = Job.getJobManager();
-		try {
-			Job[] allJobs = jobManager.find(null);
-			for(Job job : allJobs){
-				if(job.getName().equals(getMweLaunchJob(configuration.getName())))					
-					return job;
-			}
-		} catch (OperationCanceledException e) {
-			e.printStackTrace();
-		}
-		
-		return null; 
-	}
+         Collection<Job> launchJobs = new ArrayList<>();
+         for (int i = 0; i < configurations.length; i++)
+            launchJobs.add(runLaunchConfiguration(configurations[i], ILaunchManager.RUN_MODE, monitor));
+
+         launchJobs.removeIf(job -> job == null);
+         return launchJobs;
+      } catch (final CoreException e)
+      {
+         e.printStackTrace();
+      } finally
+      {
+         monitor.done();
+      }
+
+      return Collections.<Job> emptyList();
+   }
+
+   private Job runLaunchConfiguration(ILaunchConfiguration configuration, String runMode, IProgressMonitor monitor)
+   {
+      DebugUITools.launch(configuration, runMode);
+      final IJobManager jobManager = Job.getJobManager();
+      try
+      {
+         Job[] allJobs = jobManager.find(null);
+         for (Job job : allJobs)
+         {
+            if (job.getName().equals(getMweLaunchJob(configuration.getName())))
+               return job;
+         }
+      } catch (OperationCanceledException e)
+      {
+         e.printStackTrace();
+      }
+
+      return null;
+   }
 
    /**
     * Returns true if EAP files shall be exported, based on the provided displayed name
     */
    private boolean exportingEapFilesRequired(String displayName)
-   {
-      // When installing the 'handbook' workspace, only latex sources are downloaded.
-      if (EMoflonStandardWorkspaces.MODULE_DOCUMENTATION.equals(displayName))
-         return false;
-
-      return true;
-   }
-
-   /**
-    * Returns true if the JUnit tests in the workspace shall be executed, based on the provided displayed name
-    */
-   private boolean runningJUnitTestsRequired(String displayName)
    {
       // When installing the 'handbook' workspace, only latex sources are downloaded.
       if (EMoflonStandardWorkspaces.MODULE_DOCUMENTATION.equals(displayName))
