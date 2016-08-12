@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.MoflonUtil;
@@ -73,9 +74,9 @@ public class EclipsePluginDeployer
    {
       final String projectName = this.updateSiteProjectName;
       final IProject updateSiteProject = WorkspaceHelper.getProjectByName(projectName);
+      SubMonitor subMon = SubMonitor.convert(monitor, "Deploying eMoflon update site", 60);
       try
       {
-         monitor.beginTask("Deploying eMoflon update site", 60);
          logger.info("Deploying eMoflon update site...");
 
          if (!updateSiteProject.exists())
@@ -86,11 +87,11 @@ public class EclipsePluginDeployer
          // of site.xml
          clearUpdateSiteProject(updateSiteProject.getLocation().toString());
          updateSiteProject.getFile("site.xml.temp").create(getSiteXML(this.updateSiteProjectName).getContents(), true,
-               WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+               subMon.split(1));
 
          // 2. Build MoflonIdeUpdateSite
          IProject source = build(this.updateSiteProjectName);
-         monitor.worked(10);
+         subMon.worked(10);
 
          if (source == null)
             throw new CoreException(
@@ -98,16 +99,16 @@ public class EclipsePluginDeployer
 
          // 3. Delete contents of target
          File target = clearUpdateSite(this.getDeploymentPath());
-         monitor.worked(10);
+         subMon.worked(10);
 
          // 4. Copy folder structure of MoflonIdeUpdateSite to target
          copyNewTarget(source, target);
-         monitor.worked(10);
+         subMon.worked(10);
          final String projectName1 = this.updateSiteProjectName;
 
          // 5. Replace site.xml with copy from (II).2
          getSiteXML(this.updateSiteProjectName).setContents(WorkspaceHelper.getProjectByName(projectName1).getFile("site.xml.temp").getContents(), true, true,
-               WorkspaceHelper.createSubMonitor(monitor, 10));
+               subMon.split(10));
 
          logger.info("Deploying eMoflon IDE Update Site done.");
       } catch (CoreException e)
@@ -116,7 +117,7 @@ public class EclipsePluginDeployer
          ++this.warningCount;
       } finally
       {
-         updateSiteProject.getFile("site.xml.temp").delete(true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         updateSiteProject.getFile("site.xml.temp").delete(true, subMon.split(1));
          monitor.done();
       }
    }

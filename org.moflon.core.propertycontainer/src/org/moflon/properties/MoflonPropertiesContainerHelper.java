@@ -20,10 +20,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.util.plugins.xml.XMLUtils;
@@ -55,35 +57,30 @@ public class MoflonPropertiesContainerHelper
     */
    public static MoflonPropertiesContainer load(final IProject project, final IProgressMonitor monitor)
    {
-      try
-      {
-         monitor.beginTask("Load properties.", 1);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Load properties.", 1);
 
-         removeObsoleteTags(project);
-         
-         final MoflonPropertiesContainer moflonPropertiesCont = loadOrCreatePropertiesContainer(project, project.getFile(MOFLON_CONFIG_FILE));
-         final String projectName = project.getName();
-         moflonPropertiesCont.checkForMissingDefaults();
-         
-         // The TGG build mode is currently set during checkForMissingDefaults, where we cannot distinguish between TGG and SDM projects
-         if (!WorkspaceHelper.isIntegrationProjectNoThrow(project))
-         {
-            moflonPropertiesCont.setTGGBuildMode(null);
-         }
-         
-         if (!projectName.equals(moflonPropertiesCont.getProjectName()))
-         {
-            logger.warn("Project name in Moflon properties file ('" + moflonPropertiesCont.getProjectName()
-                  + "') does not match Project. Setting correct project name to '" + projectName + "'.");
-            moflonPropertiesCont.setProjectName(projectName);
-         }
+      removeObsoleteTags(project);
 
-         MoflonPropertiesContainerHelper.save(moflonPropertiesCont, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-         return moflonPropertiesCont;
-      } finally
+      final MoflonPropertiesContainer moflonPropertiesCont = loadOrCreatePropertiesContainer(project, project.getFile(MOFLON_CONFIG_FILE));
+      final String projectName = project.getName();
+      moflonPropertiesCont.checkForMissingDefaults();
+
+      // The TGG build mode is currently set during checkForMissingDefaults, where we cannot distinguish between TGG and
+      // SDM projects
+      if (!WorkspaceHelper.isIntegrationProjectNoThrow(project))
       {
-         monitor.done();
+         moflonPropertiesCont.setTGGBuildMode(null);
       }
+
+      if (!projectName.equals(moflonPropertiesCont.getProjectName()))
+      {
+         LogUtils.warn(logger, "Project name in Moflon properties file ('%s') does not match Project. Setting correct project name to '%s'.",
+               moflonPropertiesCont.getProjectName(), projectName);
+         moflonPropertiesCont.setProjectName(projectName);
+      }
+
+      MoflonPropertiesContainerHelper.save(moflonPropertiesCont, subMon.split(1));
+      return moflonPropertiesCont;
    }
 
    private static void removeObsoleteTags(final IProject project)
@@ -112,7 +109,7 @@ public class MoflonPropertiesContainerHelper
          }
       } catch (IOException | CoreException e)
       {
-         logger.error("Failed to remove obsolete tags from " + propertiesFile + ". Reason: " + e.getMessage());
+         LogUtils.error(logger, "Failed to remove obsolete tags from %s. Reason: %s", propertiesFile, WorkspaceHelper.printStacktraceToString(e));
       }
    }
 
@@ -132,8 +129,9 @@ public class MoflonPropertiesContainerHelper
 
       } else
       {
-         logger.error("Moflon property file '" + propertyFile + "' not found in project '" + project.getName()
-               + "'. Generating default properties file. Unable to set MetamodelProject. Has to be fixed manually");
+         LogUtils.error(logger,
+               "Moflon property file '%s' not found in project ''. Generating default properties file. Unable to set MetamodelProject. Has to be fixed manually",
+               propertyFile, project.getName());
          moflonPropertiesCont = MoflonPropertyContainerFactory.eINSTANCE.createMoflonPropertiesContainer();
 
       }
@@ -162,12 +160,12 @@ public class MoflonPropertiesContainerHelper
    {
       try
       {
-         monitor.beginTask("Saving eMoflon properties", 1);
-         IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
-         IProject project = workspace.getProject(properties.getProjectName());
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Saving eMoflon properties", 1);
+         final IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
+         final IProject project = workspace.getProject(properties.getProjectName());
          if (project == null)
          {
-            logger.error("Unable to save property file '" + MOFLON_CONFIG_FILE + "' for project \"" + properties.getProjectName() + "\".");
+            LogUtils.error(logger, "Unable to save property file '%s' for project '%s'.", MOFLON_CONFIG_FILE, properties.getProjectName());
          } else
          {
             IFile projectFile = project.getFile(MOFLON_CONFIG_FILE);
@@ -177,15 +175,12 @@ public class MoflonPropertiesContainerHelper
             Resource resource = set.createResource(fileURI);
             resource.getContents().add(normalize(properties));
             resource.save(null);
-            projectFile.refreshLocal(IResource.DEPTH_ZERO, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+            projectFile.refreshLocal(IResource.DEPTH_ZERO, subMon.split(1));
          }
-      } catch (Exception e)
+      } catch (final Exception e)
       {
-         e.printStackTrace();
-         logger.error("Unable to save property file '" + MOFLON_CONFIG_FILE + "' for project \"" + properties.getProjectName() + "\".");
-      } finally
-      {
-         monitor.done();
+         LogUtils.error(logger, "Unable to save property file '%s' for project '%s':\n %s", MOFLON_CONFIG_FILE, properties.getProjectName(),
+               WorkspaceHelper.printStacktraceToString(e));
       }
 
    }
@@ -223,6 +218,5 @@ public class MoflonPropertiesContainerHelper
    {
       return MoflonPropertyContainerFactory.eINSTANCE.createMoflonPropertiesContainer();
    }
-   
 
 }
