@@ -92,11 +92,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//DotColor"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ClassSkinParamValues">
-    <eLiterals name="CLASS_ARRAOW_COLOR" literal="classArrowColor"/>
-    <eLiterals name="CLASS_BACKGROUND_COLOR" value="1" literal="classBackgroundColor"/>
-    <eLiterals name="CLASS_BORDER_COLOR" value="2" literal="classBorderColor"/>
-    <eLiterals name="PACKAGE_BACKGROUND_COLOR" value="3" literal="packageBackgroundColor"/>
-    <eLiterals name="PACKAGE_BORDER_COLOR" value="4" literal="packageBorderColor"/>
+    <eLiterals name="classArrowColor" literal="CLASS_ARRAOW_COLOR"/>
+    <eLiterals name="classBackgroundColor" value="1" literal="CLASS_BACKGROUND_COLOR"/>
+    <eLiterals name="classBorderColor" value="2" literal="CLASS_BORDER_COLOR"/>
+    <eLiterals name="packageBackgroundColor" value="3" literal="PACKAGE_BACKGROUND_COLOR"/>
+    <eLiterals name="packageBorderColor" value="4" literal="PACKAGE_BORDER_COLOR"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClassSkinParam" eSuperTypes="#//AbstractSkinParam">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//ClassSkinParamValues"/>
@@ -107,7 +107,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClassGraph" eSuperTypes="#//AbstractGraph">
     <eStructuralFeatures xsi:type="ecore:EReference" name="skinparams" upperBound="-1"
-        eType="#//ClassSkinParam"/>
+        eType="#//ClassSkinParam" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="PAbstract" eSuperTypes="#//PClass"/>
