@@ -133,3 +133,4 @@
 2016-06-03 Fix Ecore-to-EA does not complete #743
 2016-06-10 Fix: QuickFix or autofix for black edges connected to green object variables #665
 2016-07-08 Fix: Visualisation: Provide a visualisation for the entire TGG #710 
+2016-08-12 Fix validation errors concerning "missing feature name/comment" in SDMLanguage
