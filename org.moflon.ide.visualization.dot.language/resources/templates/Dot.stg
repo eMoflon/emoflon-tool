@@ -72,9 +72,19 @@ DoubleCircleImpl(n) ::= <<
 
 ClassGraph(classGraph) ::= <<
 @startuml
+skinparam shadowing false
+<Skinoptions(classGraph.skinparams)>
 set namespaceSeparator ::
 <Pattern(classGraph.nodes, classGraph.edges)>
 @enduml
+>>
+
+Skinoptions(skins) ::=<<
+<skins: Skinparam(); separator="\n">
+>>
+
+Skinparam(sp) ::=<<
+skinparam <sp.value.name> <sp.color.name>
 >>
 
 Multiplicity(m) ::=<<
@@ -103,6 +113,10 @@ enum "<n.label>"
 
 PClassImpl(n) ::= <<
 class "<n.label>"
+>>
+
+PDataTypeImpl(n) ::= <<
+class "<n.label>"  \<\< (D,#FF7700) \>\>
 >>
 
 PAbstractImpl(n) ::= <<

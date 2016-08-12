@@ -4,16 +4,29 @@
 #rule PackageAxiom #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
+	++graph:ClassGraph{
+		++ -skinparams -> classBackgroundParam
+		++ -skinparams -> classArrowColorParam
+		++ -skinparams -> classBorderColorParam
+	}
+
+	++classBackgroundParam:ClassSkinParam{
+		color :=enum::DotColor::white
+		value :=enum::ClassSkinParamValues::classBackgroundColor
+	}
 	
+	++classBorderColorParam:ClassSkinParam{
+		color :=enum::DotColor::black
+		value :=enum::ClassSkinParamValues::classBorderColor
+	}
 	
-	++graph:ClassGraph
+	++classArrowColorParam:ClassSkinParam{
+		color := enum::DotColor::black
+		value := enum::ClassSkinParamValues::classArrowColor
+	}
 }
 
 #target {
-//	 superPackage : EPackage{
-//		- eSubpackages -> rootPackage
-//	}
-	
 	++rootPackage:EPackage
 }
 

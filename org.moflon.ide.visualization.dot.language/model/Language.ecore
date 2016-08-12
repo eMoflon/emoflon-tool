@@ -92,7 +92,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//DotColor"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ClassSkinParamValues">
-    <eLiterals name="classArrowColor" literal="CLASS_ARRAOW_COLOR"/>
+    <eLiterals name="classArrowColor" literal="CLASS_ARROW_COLOR"/>
     <eLiterals name="classBackgroundColor" value="1" literal="CLASS_BACKGROUND_COLOR"/>
     <eLiterals name="classBorderColor" value="2" literal="CLASS_BORDER_COLOR"/>
     <eLiterals name="packageBackgroundColor" value="3" literal="PACKAGE_BACKGROUND_COLOR"/>
@@ -112,6 +112,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="PAbstract" eSuperTypes="#//PClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="PEnum" eSuperTypes="#//PNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PDataType" eSuperTypes="#//PNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="PAssociation" eSuperTypes="#//PEdge">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="oppositeLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="srcMultiplicity" eType="#//PMultiplicity"
