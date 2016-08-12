@@ -126,7 +126,7 @@ class "<n.label>"
 >>
 
 PDataTypeImpl(n) ::= <<
-class "<n.label>"  \<\< (D,#FF7700) \>\>
+class "<n.label>"  \<\< (D,#FF7700) \>>
 >>
 
 PAbstractImpl(n) ::= <<
