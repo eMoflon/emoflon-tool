@@ -33,10 +33,9 @@ public class DotUnparserAdapter
       } catch (FileNotFoundException | NullPointerException e)
       {
     	 log.error("Unable to unparse the Graph", e);
-         e.printStackTrace();
       }
       
-      return "Unable to unparse: " + graph.getName();
+      return graph==null? "Unable to unparse the Graph is null" : "Unable to unparse: " + graph.getName();
    }
 
    private STGroup getStringTemplateGroup() throws FileNotFoundException
