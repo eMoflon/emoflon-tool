@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.configuration.RuleResult;
-import org.moflon.tgg.runtime.AbstractRule;
+
 
 public class EPackageVisualizationConfigurator implements Configurator{
     private static Map<String, Integer> priorities=new HashMap<>();
