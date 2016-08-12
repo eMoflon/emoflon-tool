@@ -40,7 +40,7 @@
 }
 
 #attributeConditions {
-	eq(pLiteral.label, eEnumLiteral.name)
+	eq(pLiteral.label, eEnumLiteral.literal)
 }
 
 
