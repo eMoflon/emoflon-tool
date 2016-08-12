@@ -1,0 +1,46 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#rule AddLiteralsToEnumRule #extends EnumNodeRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source {
+	graph:ClassGraph
+
+	node:PEnum{
+		-graph -> graph
+	}
+
+	++pLiteral:PEnumLiteral{
+		++ -belongingEnumeration -> node
+	}
+}
+
+#target {
+	rootPackage:EPackage
+
+	eClassifier:EEnum{
+		- ePackage -> rootPackage
+	}
+
+	++eEnumLiteral:EEnumLiteral{
+		++ - eEnum -> eClassifier
+	}
+}
+
+#correspondence {
+	nodeToClassifier :PNodeToEClassifier {
+		#src->node
+		#trg->eClassifier
+	}
+
+	++ pLiteralToELiteral :PEnumLiteralToEEnumLiteral {
+		#src->pLiteral
+		#trg->eEnumLiteral
+	}
+}
+
+#attributeConditions {
+	
+}
+
+

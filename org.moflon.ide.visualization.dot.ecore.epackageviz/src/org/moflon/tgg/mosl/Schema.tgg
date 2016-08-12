@@ -27,6 +27,11 @@
 		#src->PEdge
 		#trg->EReference
 	}
+	
+	PEnumLiteralToEEnumLiteral{
+		#src->PEnumLiteral
+		#trg->EEnumLiteral
+	}
 }
 
 #attributeConditions {

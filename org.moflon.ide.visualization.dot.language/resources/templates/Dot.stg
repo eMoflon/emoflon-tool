@@ -108,7 +108,17 @@ interface "<n.label>"
 >>
 
 PEnumImpl(n) ::= <<
-enum "<n.label>"
+enum "<n.label>" { 
+	<PLiterals(n.literals)>
+}
+>>
+
+PLiterals(literals) ::= <<
+<literals: Literal(); separator="\n">
+>>
+
+Literal(l) ::= <<
+<l.label>
 >>
 
 PClassImpl(n) ::= <<

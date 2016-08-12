@@ -111,7 +111,15 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="PAbstract" eSuperTypes="#//PClass"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PEnum" eSuperTypes="#//PNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PEnum" eSuperTypes="#//PNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" eType="#//PEnumLiteral"
+        containment="true" eOpposite="#//PEnumLiteral/belongingEnumeration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PEnumLiteral">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongingEnumeration" eType="#//PEnum"
+        eOpposite="#//PEnum/literals"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PDataType" eSuperTypes="#//PNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="PAssociation" eSuperTypes="#//PEdge">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="oppositeLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

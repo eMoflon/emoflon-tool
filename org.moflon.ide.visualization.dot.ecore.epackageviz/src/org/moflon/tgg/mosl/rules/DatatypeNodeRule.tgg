@@ -1,0 +1,22 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#rule DatatypeNodeRule #extends NodeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source {
+	++node:PDataType
+}
+
+#target {
+	++eClassifier:EDataType
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}
+
+
