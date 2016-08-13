@@ -1,7 +1,6 @@
 package org.moflon.tgg.mosl.defaults;
 
 import static org.moflon.core.utilities.WorkspaceHelper.addAllFoldersAndFile;
-import static org.moflon.core.utilities.WorkspaceHelper.createSubmonitorWith1Tick;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,10 +25,10 @@ public class AttrCondDefLibraryProvider {
 			String contents = FileUtils.readFileToString(file);
 			if(!contents.equals(defaultLib)){
 				attrLibFile.delete(true, new NullProgressMonitor());
-				addAllFoldersAndFile(project, pathToLib, defaultLib, createSubmonitorWith1Tick(new NullProgressMonitor()));
+            addAllFoldersAndFile(project, pathToLib, defaultLib, new NullProgressMonitor());
 			}
 		} else {
-			addAllFoldersAndFile(project, pathToLib, defaultLib, createSubmonitorWith1Tick(new NullProgressMonitor()));
+         addAllFoldersAndFile(project, pathToLib, defaultLib, new NullProgressMonitor());
 		}
 	}
 }
