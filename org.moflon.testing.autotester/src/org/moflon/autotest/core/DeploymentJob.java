@@ -10,10 +10,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.autotest.AutoTestActivator;
-import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.deployment.EclipsePluginDeployer;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
@@ -43,25 +43,24 @@ public class DeploymentJob extends Job
             EMoflonPreferenceInitializer.getUpdateSiteProject());
       try
       {
-         monitor.beginTask("Deploying eMoflon", 200);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Deploying eMoflon", 200);
          logger.info("Deploying eMoflon [path: " + deploymentRoot + "]");
 
          ensureThatDirectoryIsWritable(new File(deploymentRoot));
 
-         eclipsePluginDeployer.deploy(WorkspaceHelper.createSubMonitor(monitor, 100));
+         eclipsePluginDeployer.deploy(subMon.split(100));
 
          return new Status(IStatus.OK, AutoTestActivator.getModuleID(), "Successfully deployed eMoflon ...");
 
       } catch (final CoreException e)
       {
-         logger.error("I was unable to deploy eMoflon ...");
+         LogUtils.error(logger, e, "I was unable to deploy eMoflon");
          logger.error("Are you sure you have access to all required folders (beta and release destinations have restricted access!)?");
-         logger.error(MoflonUtil.displayExceptionAsString(e));
 
          return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
       } finally
       {
-         final int warningCount = eclipsePluginDeployer.getWarningCount(); // + eaAddinDeployer.getWarningCount() + handbookDeployer.getWarningCount();
+         final int warningCount = eclipsePluginDeployer.getWarningCount();
 
          if (warningCount == 0)
          {
@@ -71,7 +70,6 @@ public class DeploymentJob extends Job
             logger.warn("Deployed eMoflon with " + warningCount + " warnings.");
          }
 
-         monitor.done();
       }
 
    }
