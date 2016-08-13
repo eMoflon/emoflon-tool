@@ -72,7 +72,6 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
          }
       } catch (Exception e)
       {
-         e.printStackTrace();
          return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem in PostMetamodelBuilderHook during refactoring", e);
       }
 

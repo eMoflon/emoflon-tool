@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -21,11 +22,13 @@ import org.moflon.codegen.eclipse.GenericMoflonProcess;
 import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
 
 public class DemoclesValidationProcess extends GenericMoflonProcess
 {
+   private static final Logger logger = Logger.getLogger(DemoclesValidationProcess.class);
 
    public DemoclesValidationProcess(final IFile ecoreFile, final ResourceSet resourceSet)
    {
@@ -135,7 +138,7 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
             adapterResource.save(new HashMap<>());
          } catch (IOException e)
          {
-            e.printStackTrace();
+            LogUtils.error(logger, e);
          } finally
          {
             adapterResource.setURI(oldUri);

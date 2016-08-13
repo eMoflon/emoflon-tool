@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -20,9 +21,11 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.moflon.core.utilities.LogUtils;
 
 public class TextEditorBuilder extends IncrementalProjectBuilder
 {
+   private static final Logger logger = Logger.getLogger(TextEditorBuilder.class);
 
    public static Collection<TextEditorBuilderHelper> activeEditors = new ArrayList<>();
 
@@ -75,13 +78,13 @@ public class TextEditorBuilder extends IncrementalProjectBuilder
 
                   focusEditor(fileToRefresh, 0);
                }
-               
+
                editor.getProblems();
             } catch (Exception e)
             {
-               e.printStackTrace();
+               LogUtils.error(logger, e);
             }
-            
+
             monitor.worked(1);
          }
       } finally
@@ -181,7 +184,7 @@ public class TextEditorBuilder extends IncrementalProjectBuilder
                            Thread.sleep(sleepMs);
                         } catch (InterruptedException e)
                         {
-                           e.printStackTrace();
+                           LogUtils.error(logger, e);
                         }
                      }
                   });

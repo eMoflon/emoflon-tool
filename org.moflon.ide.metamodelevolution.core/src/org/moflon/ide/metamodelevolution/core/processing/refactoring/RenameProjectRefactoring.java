@@ -61,7 +61,6 @@ public class RenameProjectRefactoring implements RenameRefactoring
 
       } catch (CoreException e)
       {
-         e.printStackTrace();
          return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
       }
       return Status.OK_STATUS;

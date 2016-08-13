@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.moflon.core.mocatomoflon.MocaToMoflonUtils;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.metamodelevolution.core.ChangeSequence;
@@ -55,7 +56,7 @@ public class RenameProjectProcessor extends MetamodelDeltaProcessor_ImplBase
                   }
                } catch (CoreException e)
                {
-                  e.printStackTrace();
+                  LogUtils.error(logger, e);
                }
 
                // rename project

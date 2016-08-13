@@ -2,6 +2,7 @@ package org.moflon.ide.metamodelevolution.core.processing.refactoring;
 
 import java.util.Arrays;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -21,10 +22,13 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 
 public class RenameMethodRefactoring implements RenameRefactoring
-{   
+{
+   private static final Logger logger = Logger.getLogger(RenameMethodRefactoring.class);
+
    private final String oldName;
 
    private final String newName;
@@ -76,7 +80,7 @@ public class RenameMethodRefactoring implements RenameRefactoring
                return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No matching method for refactoring found");
          } catch (JavaModelException e)
          {
-            e.printStackTrace();
+            LogUtils.error(logger, e);
          }
       } else
          return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No CompilationUnit for refactoring found");;
@@ -97,7 +101,6 @@ public class RenameMethodRefactoring implements RenameRefactoring
 
       catch (CoreException e)
       {
-         e.printStackTrace();
          return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
       }
    }
@@ -114,7 +117,7 @@ public class RenameMethodRefactoring implements RenameRefactoring
          }
       } catch (JavaModelException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
       return null;
    }

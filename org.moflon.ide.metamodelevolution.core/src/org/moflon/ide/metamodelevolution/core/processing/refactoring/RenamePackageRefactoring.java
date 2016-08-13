@@ -42,7 +42,6 @@ public class RenamePackageRefactoring implements RenameRefactoring
          }
       } catch (CoreException e)
       {
-         e.printStackTrace();
          return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during RenamePackage Refactoring", e);
       }
       return Status.OK_STATUS;
@@ -92,7 +91,6 @@ public class RenamePackageRefactoring implements RenameRefactoring
                     
       } catch (Exception e)
       {
-         e.printStackTrace();
          return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
       }
       return Status.OK_STATUS;     

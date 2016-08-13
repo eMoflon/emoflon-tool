@@ -53,7 +53,6 @@ public class RenameGenmodelRefactoring implements RenameRefactoring
          
       } catch (CoreException e)
       {
-         e.printStackTrace();
          return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during Genmodel refactoring", e);
       }
    }

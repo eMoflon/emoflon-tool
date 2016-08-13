@@ -3,6 +3,7 @@ package org.moflon.ide.texteditor.editors;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -25,12 +26,15 @@ import org.eclipse.jface.text.source.DefaultAnnotationHover;
 import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.ide.texteditor.builders.TextEditorBuilder;
 import org.moflon.ide.texteditor.builders.TextEditorBuilderHelper;
 import org.moflon.ide.texteditor.config.MoflonTextEditorConfigIntern;
 
 public class MoflonSourceViewerConfiguration extends SourceViewerConfiguration
 {
+   private static final Logger logger = Logger.getLogger(MoflonSourceViewerConfiguration.class);
+
    private Object loadedMoflonTextEditorConfiguration;
 
    public MoflonSourceViewerConfiguration(final IProject selectedProject, final IResource resource, final MoflonTextEditorConfigIntern moflonTextEditorConfiguration,
@@ -95,9 +99,9 @@ public class MoflonSourceViewerConfiguration extends SourceViewerConfiguration
       try
       {
          desc = project.getDescription();
-      } catch (CoreException e1)
+      } catch (CoreException e)
       {
-         e1.printStackTrace();
+         LogUtils.error(logger, e);
       }
       ICommand[] commands = desc.getBuildSpec();
       boolean found = false;
@@ -126,7 +130,7 @@ public class MoflonSourceViewerConfiguration extends SourceViewerConfiguration
             project.setDescription(desc, null);
          } catch (CoreException e)
          {
-            e.printStackTrace();
+            LogUtils.error(logger, e);
          }
       }
    }

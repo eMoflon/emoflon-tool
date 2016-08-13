@@ -2,6 +2,7 @@
 import java.io.IOException;
 import org.moflon.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator;
 import org.moflon.sdm.constraints.operationspecification.OperationspecificationPackage;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -63,11 +64,12 @@ partial class AttributeConstraintLibUtilImpl {
    private ResourceSet resourceSet;
 
    private IProject project;
+
+   private static final Logger logger = Logger.getLogger(AttributeConstraintLibUtilImpl.class);
    
 -->
 
 @model saveUserDefinedAttributeConstraintLibrary () <--
-
       userDefinedAttributeConstraintLibrary.setPrefix(project.getName() + "AttributeConstraintsLib");
 
       if (userDefinedAttributeConstraintLibrary.eResource() == null)
@@ -81,7 +83,7 @@ partial class AttributeConstraintLibUtilImpl {
          userDefinedAttributeConstraintLibrary.eResource().save(null);
       } catch (IOException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
 -->
 

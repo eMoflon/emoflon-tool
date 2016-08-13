@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 import org.eclipse.ui.IEditorInput;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.tgg.algorithm.delta.AttributeDelta;
 import org.moflon.tgg.algorithm.delta.Delta;
 import org.moflon.tgg.algorithm.delta.OnlineChangeDetector;
@@ -26,6 +28,8 @@ import org.moflon.tgg.runtime.RuntimeFactory;
 
 public class DeltaEditor extends EcoreEditor
 {
+   private static final Logger logger = Logger.getLogger(DeltaEditor.class);
+
    private Delta delta;
 
    // The user is going to perform changes on this model
@@ -97,7 +101,7 @@ public class DeltaEditor extends EcoreEditor
          deltaResource.save(saveOptions);
       } catch (IOException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
    }
 

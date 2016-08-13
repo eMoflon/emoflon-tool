@@ -8,6 +8,8 @@ import java.net.URL;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.antlr.stringtemplate.language.DefaultTemplateLexer;
+import org.apache.log4j.Logger;
+import org.moflon.core.utilities.LogUtils;
 
 /**
  * This class is used to create injection files
@@ -18,6 +20,9 @@ import org.antlr.stringtemplate.language.DefaultTemplateLexer;
 
 public class InjectionFileWriter
 {
+
+   private static final Logger logger = Logger.getLogger(InjectionFileWriter.class);
+
    private InjectionFileContentModel content;
    
    private final String TEMPLATE_LOC = "platform:/plugin/org.moflon.core.injection/templates/InjectionFileTemplate.stg";
@@ -44,31 +49,10 @@ public class InjectionFileWriter
 
       } catch (FileNotFoundException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
       return null;
    }
-   
-   /*public void createContent() 
-   {     
-      STGroup group;
-      try
-      {
-         group = getSTGroup();
-         
-         ST classTemplate = group.getInstanceOf("class"); 
-         classTemplate.add("imports", content.getImports());
-         classTemplate.add("className", "Name");
-         classTemplate.add("members", content.getMembers());
-         classTemplate.add("models", content.getMethods());
-         
-         System.out.println(classTemplate.toString());
-
-      } catch (FileNotFoundException e)
-      {
-         e.printStackTrace();
-      }
-   }*/
    
    protected StringTemplateGroup getStringTemplateGroup() throws FileNotFoundException
    {   
@@ -80,14 +64,8 @@ public class InjectionFileWriter
           StringTemplateGroup stg = new StringTemplateGroup(reader, DefaultTemplateLexer.class); 
           return stg;
       } catch (Exception e) {
-          e.printStackTrace();
+         LogUtils.error(logger, e);
       }     
       return null;
    }
-   
-   /*protected STGroup getSTGroup() throws FileNotFoundException
-   {
-      URL templateFile = MoflonUtilitiesActivator.getPathRelToPlugIn("templates/InjectionFileTemplate.stg", CoreActivator.getModuleID());
-      return new STGroupFile(templateFile, "UTF-8", '<', '>'); 
-   }*/
 }

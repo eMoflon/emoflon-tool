@@ -4,7 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.apache.log4j.Logger;
+import org.moflon.core.utilities.LogUtils;
+
 public class Mathsat5Solver extends AbstractSATSolver {
+
+   private static final Logger logger = Logger.getLogger(Mathsat5Solver.class);
 
 	int[] result;
 
@@ -38,8 +43,7 @@ public class Mathsat5Solver extends AbstractSATSolver {
 						}
 						input.close();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+                  LogUtils.error(logger, e);
 					}
 				}
 			};

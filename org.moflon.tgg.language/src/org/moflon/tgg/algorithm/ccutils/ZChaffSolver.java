@@ -4,66 +4,84 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ZChaffSolver extends AbstractSATSolver {
+import org.apache.log4j.Logger;
+import org.moflon.core.utilities.LogUtils;
 
-	int[] result;
+public class ZChaffSolver extends AbstractSATSolver
+{
 
-	@Override
-	public int[] solve(DimacFormat problem) {
-		String[] params = new String[2];
+   private static final Logger logger = Logger.getLogger(ZChaffSolver.class);
 
-		params[0] = "solvers\\zChaff";
-		params[1] = problem.getClausesAsFilePath();
+   int[] result;
 
-		result = new int[problem.getNumberOfLiterals()];
+   @Override
+   public int[] solve(DimacFormat problem)
+   {
+      String[] params = new String[2];
 
-		try {
-			final Process p = Runtime.getRuntime().exec(params);
-			Thread thread = new Thread() {
-				public void run() {
-					String line;
-					BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+      params[0] = "solvers\\zChaff";
+      params[1] = problem.getClausesAsFilePath();
 
-					try {
-						boolean nextLineAreVariables = false;
-						while ((line = input.readLine()) != null) {
-							if (line.equals("Instance Satisfiable")) {
-								System.out.println("Satisfiable");
-								nextLineAreVariables = true;
-							} else if (nextLineAreVariables) {
-								result = generateResultArrayFromString(line);
-								nextLineAreVariables = false;
-							}
-						}
-						input.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				};
-			};
-			thread.start();
-			int result = p.waitFor();
-			thread.join();
-			if (result != 0) {
-				System.out.println("Process failed with status: " + result);
-			}
-		} catch (IOException e) {
-			System.out.println(" procccess not read" + e);
-		} catch (InterruptedException e) {
-			System.out.println(" procccess interrupted" + e);
-		}
-		return result;
-	}
+      result = new int[problem.getNumberOfLiterals()];
 
-	private int[] generateResultArrayFromString(String input) {
+      try
+      {
+         final Process p = Runtime.getRuntime().exec(params);
+         Thread thread = new Thread() {
+            public void run()
+            {
+               String line;
+               BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-		String[] strings = input.split(" ");
-		int[] result = new int[strings.length - 3];
+               try
+               {
+                  boolean nextLineAreVariables = false;
+                  while ((line = input.readLine()) != null)
+                  {
+                     if (line.equals("Instance Satisfiable"))
+                     {
+                        System.out.println("Satisfiable");
+                        nextLineAreVariables = true;
+                     } else if (nextLineAreVariables)
+                     {
+                        result = generateResultArrayFromString(line);
+                        nextLineAreVariables = false;
+                     }
+                  }
+                  input.close();
+               } catch (IOException e)
+               {
+                  LogUtils.error(logger, e);
+               }
+            };
+         };
+         thread.start();
+         int result = p.waitFor();
+         thread.join();
+         if (result != 0)
+         {
+            System.out.println("Process failed with status: " + result);
+         }
+      } catch (IOException e)
+      {
+         System.out.println(" procccess not read" + e);
+      } catch (InterruptedException e)
+      {
+         System.out.println(" procccess interrupted" + e);
+      }
+      return result;
+   }
 
-		for (int i = 0; i < result.length; i++) {
-			result[i] = Integer.parseInt(strings[i]);
-		}
-		return result;
-	}
+   private int[] generateResultArrayFromString(String input)
+   {
+
+      String[] strings = input.split(" ");
+      int[] result = new int[strings.length - 3];
+
+      for (int i = 0; i < result.length; i++)
+      {
+         result[i] = Integer.parseInt(strings[i]);
+      }
+      return result;
+   }
 }

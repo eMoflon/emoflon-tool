@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.codegen.ErrorReporter;
 import org.moflon.codegen.eclipse.ValidationStatus;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
@@ -55,8 +56,7 @@ public class EclipseErrorReporter implements ErrorReporter
         					  DemoclesSdmCompilerPlugin.convertStatusSeverityToEclipseMarkerSeverity(status.getSeverity()));
         		  }
         	  } catch (final CoreException e) {
-        	     logger.error("Problem while reporting eMoflon errors in Eclipse: " + MoflonUtil.displayExceptionAsString(e));
-        		  e.printStackTrace();
+               LogUtils.error(logger, e, "Problem while reporting eMoflon errors in Eclipse: " + MoflonUtil.displayExceptionAsString(e));
         	  }
     	  }
       }

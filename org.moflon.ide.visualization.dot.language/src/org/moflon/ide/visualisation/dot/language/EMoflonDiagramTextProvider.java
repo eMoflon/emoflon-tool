@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.eMoflonEMFUtil;
@@ -156,8 +157,8 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
 
       } catch (final Exception e)
       {
-         e.printStackTrace();
-         logger.error("Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ": " + MoflonUtil.displayExceptionAsString(e), e);
+         LogUtils.error(logger, e, "Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ": " + MoflonUtil.displayExceptionAsString(e),
+               e);
       } finally
       {
          final long toc = System.nanoTime();

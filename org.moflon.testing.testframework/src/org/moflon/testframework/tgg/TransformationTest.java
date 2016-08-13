@@ -2,10 +2,12 @@ package org.moflon.testframework.tgg;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Assert;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
@@ -24,6 +26,7 @@ import org.moflon.tgg.language.algorithm.ApplicationTypes;
  */
 public abstract class TransformationTest
 {
+   private static final Logger logger = Logger.getLogger(TransformationTest.class);
 
    protected String expectedPath = "resources/tggLanguageTestData/expected/";
 
@@ -112,11 +115,11 @@ public abstract class TransformationTest
       } catch (IOException e)
       {
          Assert.fail("IOException during Integration!");
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       } catch (InterruptedException e)
       {
          Assert.fail("IOException during compare of created and expected!");
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
    }
 

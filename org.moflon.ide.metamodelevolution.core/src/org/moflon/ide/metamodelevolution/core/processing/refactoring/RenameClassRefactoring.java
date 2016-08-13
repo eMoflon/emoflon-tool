@@ -80,7 +80,6 @@ public class RenameClassRefactoring implements RenameRefactoring
          return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "EClass refactoring successful");
       } catch (CoreException e)
       {
-         e.printStackTrace();
          return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
       }
    }

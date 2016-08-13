@@ -2,15 +2,18 @@ package org.moflon.tgg.algorithm.invocation;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.core.utilities.LogUtils;
 
 public class InvokeUtil
 {
+   private static final Logger logger = Logger.getLogger(InvokeUtil.class);
 
    public static EObject invokeOperationWithSingleArg(EObject target, EOperation operation, EObject singleArgument)
    {
@@ -27,7 +30,7 @@ public class InvokeUtil
          return (EObject) object.eInvoke(operation, parameterValues);
       } catch (InvocationTargetException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
 
       return null;
@@ -44,7 +47,7 @@ public class InvokeUtil
          return object.eInvoke(operation, arguments);
       } catch (InvocationTargetException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
 
       return null;

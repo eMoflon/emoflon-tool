@@ -10,75 +10,87 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
+import org.moflon.core.utilities.LogUtils;
 
 import de.uni_freiburg.informatik.ultimate.logic.Script;
 import de.uni_freiburg.informatik.ultimate.smtinterpol.dimacs.DIMACSParser;
 import de.uni_freiburg.informatik.ultimate.smtinterpol.smtlib2.SMTInterpol;
 
-public class SMTInterpolSolver extends AbstractSATSolver {
+public class SMTInterpolSolver extends AbstractSATSolver
+{
 
-	@Override
-	public int[] solve(DimacFormat problem) {
+   private static final Logger logger = Logger.getLogger(SMTInterpolSolver.class);
 
-		PrintStream originalOut = System.out;
+   @Override
+   public int[] solve(DimacFormat problem)
+   {
 
-		PrintStream stream;
-		try {
-			stream = new PrintStream("smtInterpolResults");
-			System.setOut(stream);
+      PrintStream originalOut = System.out;
 
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+      PrintStream stream;
+      try
+      {
+         stream = new PrintStream("smtInterpolResults");
+         System.setOut(stream);
 
-		Logger log = Logger.getRootLogger();
-		Appender appender;
-		try {
-			appender = new FileAppender(new SimpleLayout(), "smtInterpolResults");
-			log.addAppender(appender);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+      } catch (FileNotFoundException e)
+      {
+         LogUtils.error(logger, e);
+      }
 
-		Script s = new SMTInterpol(log, false);
-		DIMACSParser parser = new DIMACSParser();
+      Logger log = Logger.getRootLogger();
+      Appender appender;
+      try
+      {
+         appender = new FileAppender(new SimpleLayout(), "smtInterpolResults");
+         log.addAppender(appender);
+      } catch (IOException e)
+      {
+         LogUtils.error(logger, e);
+      }
 
-		parser.run(s, problem.getClausesAsFilePath());
+      Script s = new SMTInterpol(log, false);
+      DIMACSParser parser = new DIMACSParser();
 
-		System.setOut(originalOut);
+      parser.run(s, problem.getClausesAsFilePath());
 
-		return getResultFromFile();
-	}
+      System.setOut(originalOut);
 
-	private int[] getResultFromFile() {
-		String[] strings = new String[0];
-		try {
-			BufferedReader br = new BufferedReader(new FileReader("smtInterpolResults"));
-			String line = null;
+      return getResultFromFile();
+   }
 
-			if (br.readLine().equals("s SATISFIABLE")) {
-				System.out.println("Satisfiable");
-			}
-			br.readLine();
-			String input = "";
-			while ((line = br.readLine()).startsWith("v")) {
-				input += line.substring(2) + " ";
-			}
-			strings = input.split(" ");
-			br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+   private int[] getResultFromFile()
+   {
+      String[] strings = new String[0];
+      try
+      {
+         BufferedReader br = new BufferedReader(new FileReader("smtInterpolResults"));
+         String line = null;
 
-		int[] result = new int[strings.length - 1];
+         if (br.readLine().equals("s SATISFIABLE"))
+         {
+            System.out.println("Satisfiable");
+         }
+         br.readLine();
+         String input = "";
+         while ((line = br.readLine()).startsWith("v"))
+         {
+            input += line.substring(2) + " ";
+         }
+         strings = input.split(" ");
+         br.close();
+      } catch (IOException e)
+      {
+         LogUtils.error(logger, e);
+      }
 
-		for (int i = 0; i < strings.length - 1; i++) {
-			result[i] = Integer.parseInt(strings[i]);
-		}
+      int[] result = new int[strings.length - 1];
 
-		return result;
-	}
+      for (int i = 0; i < strings.length - 1; i++)
+      {
+         result[i] = Integer.parseInt(strings[i]);
+      }
+
+      return result;
+   }
 }

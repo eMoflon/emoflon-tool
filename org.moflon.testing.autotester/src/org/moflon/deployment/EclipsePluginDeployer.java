@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.autotest.AutoTestActivator;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 
@@ -30,7 +31,6 @@ public class EclipsePluginDeployer
    private final String deploymentPath;
 
    private static final String SITE_BUILD_OPERATION = "org.eclipse.pde.internal.core.exports.SiteBuildOperation";
-
 
    private String updateSiteProjectName;
 
@@ -86,8 +86,7 @@ public class EclipsePluginDeployer
          // 1. Delete all jars in project MoflonIdeUpdateSite and make copy
          // of site.xml
          clearUpdateSiteProject(updateSiteProject.getLocation().toString());
-         updateSiteProject.getFile("site.xml.temp").create(getSiteXML(this.updateSiteProjectName).getContents(), true,
-               subMon.split(1));
+         updateSiteProject.getFile("site.xml.temp").create(getSiteXML(this.updateSiteProjectName).getContents(), true, subMon.split(1));
 
          // 2. Build MoflonIdeUpdateSite
          IProject source = build(this.updateSiteProjectName);
@@ -227,7 +226,7 @@ public class EclipsePluginDeployer
             return null;
       } catch (InterruptedException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
       return null;
    }
@@ -258,7 +257,7 @@ public class EclipsePluginDeployer
                   clearFlatFolder(file.getCanonicalPath().toString());
                } catch (IOException e)
                {
-                  e.printStackTrace();
+                  LogUtils.error(logger, e);
                }
             }
          } else
@@ -284,7 +283,7 @@ public class EclipsePluginDeployer
                   clearFlatFolder(file.getCanonicalPath().toString());
                } catch (IOException e)
                {
-                  e.printStackTrace();
+                  LogUtils.error(logger, e);
                }
             }
          } else if (!fileToBeRetained(file))

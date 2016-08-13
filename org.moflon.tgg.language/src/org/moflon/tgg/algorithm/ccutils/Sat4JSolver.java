@@ -1,7 +1,7 @@
 package org.moflon.tgg.algorithm.ccutils;
 
-import java.util.concurrent.TimeoutException;
-
+import org.apache.log4j.Logger;
+import org.moflon.core.utilities.LogUtils;
 import org.sat4j.core.VecInt;
 import org.sat4j.minisat.SolverFactory;
 import org.sat4j.specs.ContradictionException;
@@ -9,6 +9,8 @@ import org.sat4j.specs.IProblem;
 import org.sat4j.specs.ISolver;
 
 public class Sat4JSolver extends AbstractSATSolver {
+
+   private static final Logger logger = Logger.getLogger(Sat4JSolver.class);
 
 	@Override
 	public int[] solve(DimacFormat problem) {
@@ -24,7 +26,7 @@ public class Sat4JSolver extends AbstractSATSolver {
 			try {
 				solver.addClause(new VecInt(clauses[i]));
 			} catch (ContradictionException e) {
-				e.printStackTrace();
+            LogUtils.error(logger, e);
 			}
 		}
 
@@ -37,7 +39,7 @@ public class Sat4JSolver extends AbstractSATSolver {
 
 			}
 		} catch (org.sat4j.specs.TimeoutException e) {
-			e.printStackTrace();
+         LogUtils.error(logger, e);
 		}
 		return new int[0];
 	}

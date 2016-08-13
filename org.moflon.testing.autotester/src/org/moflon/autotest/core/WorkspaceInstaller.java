@@ -42,6 +42,7 @@ import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
 import org.moflon.autotest.AutoTestActivator;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -153,7 +154,7 @@ public class WorkspaceInstaller
                         j.join(TIMEOUT, WorkspaceHelper.createSubMonitor(monitor, 100));
                      } catch (Exception e)
                      {
-                        e.printStackTrace();
+                        LogUtils.error(logger, e);
                      }
                   });
 
@@ -320,7 +321,7 @@ public class WorkspaceInstaller
          return launchJobs;
       } catch (final CoreException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       } finally
       {
          monitor.done();
@@ -343,7 +344,7 @@ public class WorkspaceInstaller
          }
       } catch (OperationCanceledException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
 
       return null;
@@ -474,9 +475,9 @@ public class WorkspaceInstaller
       try
       {
          JavaModelManager.getExternalManager().createExternalFoldersProject(new NullProgressMonitor());
-      } catch (final CoreException ex)
+      } catch (final CoreException e)
       {
-         ex.printStackTrace();
+         LogUtils.error(logger, e);
       }
 
    }

@@ -5,7 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.apache.log4j.Logger;
+import org.moflon.core.utilities.LogUtils;
+
 public class MiniSatSolver extends AbstractSATSolver {
+
+   private static final Logger logger = Logger.getLogger(MiniSatSolver.class);
 
 	@Override
 	public int[] solve(DimacFormat problem) {
@@ -30,8 +35,7 @@ public class MiniSatSolver extends AbstractSATSolver {
 						}
 						input.close();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+                  LogUtils.error(logger, e);
 					}
 				};
 			};
@@ -62,8 +66,7 @@ public class MiniSatSolver extends AbstractSATSolver {
 			}
 			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+         LogUtils.error(logger, e);
 		}
 
 		int[] result = new int[strings.length - 1];
