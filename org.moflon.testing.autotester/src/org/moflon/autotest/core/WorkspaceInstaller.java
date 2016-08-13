@@ -291,9 +291,6 @@ public class WorkspaceInstaller
       } catch (final IOException | InvocationTargetException e)
       {
          throw new CoreException(new Status(IStatus.ERROR, AutoTestActivator.getModuleID(), "Importing projects failed", e));
-      } finally
-      {
-         monitor.done();
       }
 
    }
@@ -448,8 +445,8 @@ public class WorkspaceInstaller
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
 
          // TODO@rkluge: Remove
-         BuilderHelper.generateCodeInOrder(subMon.split(projectCount), Arrays.asList(ws.getRoot().getProjects()));
-         WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
+         // BuilderHelper.generateCodeInOrder(subMon.split(projectCount), Arrays.asList(ws.getRoot().getProjects()));
+         // WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
       } catch (CoreException | OperationCanceledException e)
       {
          logger.error("I'm having problems refreshing the workspace.");
