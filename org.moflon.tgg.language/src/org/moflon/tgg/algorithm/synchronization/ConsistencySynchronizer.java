@@ -2,7 +2,6 @@ package org.moflon.tgg.algorithm.synchronization;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -13,7 +12,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.tgg.algorithm.ccutils.AbstractSATSolver;
 import org.moflon.tgg.algorithm.ccutils.Sat4JSolver;
-import org.moflon.tgg.algorithm.ccutils.ZChaffSolver;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;

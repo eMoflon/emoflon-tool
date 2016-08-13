@@ -1,7 +1,5 @@
 package org.moflon.tgg.algorithm.datastructures;
 
-import org.moflon.tgg.runtime.Match;
-
 import gnu.trove.TIntCollection;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;

@@ -1,6 +1,5 @@
 package org.moflon.tgg.algorithm.datastructures;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;

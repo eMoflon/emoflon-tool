@@ -1,19 +1,12 @@
 package org.moflon.tgg.algorithm.datastructures;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.runtime.EMoflonEdge;
 import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.RuntimeFactory;
 import org.moflon.tgg.runtime.TripleMatchNodeMapping;
-
-import gnu.trove.TIntCollection;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.set.hash.TIntHashSet;
 
 /**
  * An on-the-fly collection of source/target matches and their precedence dependencies created and used during
