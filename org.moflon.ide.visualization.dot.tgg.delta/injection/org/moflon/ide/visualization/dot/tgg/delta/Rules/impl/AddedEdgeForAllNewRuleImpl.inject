@@ -1,0 +1,11 @@
+
+import org.moflon.csp.*;
+import csp.constraints.*;
+import org.moflon.tgg.language.csp.*;
+import org.moflon.tgg.algorithm.delta.attribute.CheckAttributeHelper;
+
+partial class AddedEdgeForAllNewRuleImpl {
+
+
+
+}
