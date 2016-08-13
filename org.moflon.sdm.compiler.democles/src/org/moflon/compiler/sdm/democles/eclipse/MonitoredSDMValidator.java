@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.ErrorReporter;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
@@ -38,7 +39,7 @@ public class MonitoredSDMValidator implements IMonitoredJob
    {
       try
       {
-         monitor.beginTask(TASK_NAME + " task", 100);
+         final SubMonitor subMon = SubMonitor.convert(monitor, TASK_NAME + " task", 100);
          logger.info("Validating Ecore file '" + ecoreFile.getProjectRelativePath() + "'.");
 
          // Delete markers
@@ -48,17 +49,17 @@ public class MonitoredSDMValidator implements IMonitoredJob
          ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
          DemoclesMethodBodyHandler.initResourceSetForDemocles(resourceSet);
 
-         monitor.subTask("Validating SDMs for project " + project.getName());
+         subMon.subTask("Validating SDMs for project " + project.getName());
          DemoclesValidationProcess validationProcess = new DemoclesValidationProcess(ecoreFile, resourceSet);
-         IStatus validationStatus = validationProcess.run(WorkspaceHelper.createSubMonitor(monitor, 50));
+         IStatus validationStatus = validationProcess.run(subMon.split(50));
 
          if (!validationStatus.isOK())
          {
             handleErrorsInEnterpriseArchitect(validationStatus, validationProcess.getMoflonProperties());
-            monitor.worked(25);
+            subMon.worked(25);
 
             handleErrorsInEclipse(validationStatus);
-            monitor.worked(25);
+            subMon.worked(25);
          }
 
          logger.info("Validation of Ecore file '" + ecoreFile.getProjectRelativePath() + "' complete.");
@@ -73,9 +74,6 @@ public class MonitoredSDMValidator implements IMonitoredJob
       } catch (CoreException e)
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
-      } finally
-      {
-         monitor.done();
       }
    }
 

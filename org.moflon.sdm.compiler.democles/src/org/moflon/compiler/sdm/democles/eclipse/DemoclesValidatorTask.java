@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -24,7 +25,6 @@ import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.dfs.DFSGraph;
 import org.moflon.core.dfs.DfsFactory;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowPackage;
@@ -75,10 +75,10 @@ public class DemoclesValidatorTask implements IMonitoredJob
       final List<EClass> eClasses = CodeGeneratorPlugin.getEClasses(ePackage);
       try
       {
-         monitor.beginTask("Validating classes in package " + ePackage.getName(), eClasses.size());
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Validating classes in package " + ePackage.getName(), eClasses.size());
          for (final EClass eClass : eClasses)
          {
-            IStatus cancelStatus = validateEClass(eClass, validationStatus, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+            IStatus cancelStatus = validateEClass(eClass, validationStatus, subMon.split(1));
             if (cancelStatus.getSeverity() == Status.CANCEL)
                return cancelStatus;
          }
@@ -90,9 +90,6 @@ public class DemoclesValidatorTask implements IMonitoredJob
                "Internal exception occured (probably caused by a bug in the validation module): " + e.getMessage()
                      + " Please report the bug on https://github.com/eMoflon/emoflon/issues",
                new DemoclesValidationException(e));
-      } finally
-      {
-         monitor.done();
       }
    }
 
@@ -107,19 +104,13 @@ public class DemoclesValidatorTask implements IMonitoredJob
     */
    private IStatus validateEClass(final EClass eClass, final MultiStatus validationStatus, final IProgressMonitor monitor)
    {
-      try
+      final List<EOperation> eOperations = eClass.getEOperations();
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Validating operations in class " + eClass.getName(), eOperations.size());
+      for (final EOperation eOperation : eOperations)
       {
-         final List<EOperation> eOperations = eClass.getEOperations();
-         monitor.beginTask("Validating operations in class " + eClass.getName(), eOperations.size());
-         for (final EOperation eOperation : eOperations)
-         {
-            final IStatus cancelStatus = validateEOperation(eOperation, validationStatus, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-            if (cancelStatus.getSeverity() == IStatus.CANCEL)
-               return cancelStatus;
-         }
-      } finally
-      {
-         monitor.done();
+         final IStatus cancelStatus = validateEOperation(eOperation, validationStatus, subMon.split(1));
+         if (cancelStatus.getSeverity() == IStatus.CANCEL)
+            return cancelStatus;
       }
       return Status.OK_STATUS;
    }

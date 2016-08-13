@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
@@ -23,7 +24,6 @@ import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
 
 public class DemoclesValidationProcess extends GenericMoflonProcess
@@ -46,7 +46,7 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
    {
       try
       {
-         monitor.beginTask("Code generation task", 15);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Code generation task", 15);
          final Resource resource = getEcoreResource();
          final EPackage ePackage = (EPackage) resource.getContents().get(0);
 
@@ -57,16 +57,16 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
          {
             validatorConfig = new DefaultValidatorConfig(getResourceSet());
          }
-         monitor.worked(5);
+         subMon.worked(5);
 
-         if (monitor.isCanceled())
+         if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
 
          final IMonitoredJob validator = new DemoclesValidatorTask(validatorConfig.createScopeValidator(), ePackage);
-         final IStatus validatorStatus = validator.run(WorkspaceHelper.createSubMonitor(monitor, 10));
-         if (monitor.isCanceled())
+         final IStatus validatorStatus = validator.run(subMon.split(10));
+         if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
@@ -75,7 +75,7 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
             return validatorStatus;
          }
 
-         //TODO@rkluge: Move to separate class 
+         //TODO@rkluge: Move to separate class
          boolean outputIntermediateModels = false;
          if (outputIntermediateModels)
          {
@@ -117,9 +117,6 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
       } catch (final Exception e)
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
-      } finally
-      {
-         monitor.done();
       }
    }
 

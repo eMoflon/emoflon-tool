@@ -109,6 +109,7 @@ public abstract class MoflonTextEditor extends TextEditor
       }
    }
 
+   @SuppressWarnings("unchecked")
    @Override
    public Object getAdapter(@SuppressWarnings("rawtypes") final Class key)
    {
