@@ -2,6 +2,7 @@ package org.moflon.ide.workspaceinstaller.psf;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,8 @@ public class EMoflonStandardWorkspaces
    public static final String TEST_WORKSPACE_MISC_NAME = "TestWorkspace_Misc";
 
    public static final String TEST_WORKSPACE_DEMOCLES_0_NAME = "TestWorkspace_Democles_0";
+
+   public static final String TEST_DEMO_HANDBOOK = "TestWorkspace_DemoAndHandbook";
 
    public static final String OLD_DEVELOPER_WORKSPACE_NAME = "DeveloperWorkspace";
 
@@ -77,36 +80,38 @@ public class EMoflonStandardWorkspaces
 
    static
    {
-      // Basic test workspace modules
-      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME, Arrays.asList("tests/TestSuiteZoo0.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME, Arrays.asList("tests/TestSuiteZoo1.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_0_NAME, Arrays.asList("tests/TestSuiteTGG0.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_TGG_1_NAME, Arrays.asList("tests/TestSuiteTGG1.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_MISC_NAME, Arrays.asList("tests/TestSuiteMisc.psf"));
-      PATH_LOOKUP.put(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("tests/TestSuiteDemocles0.psf"));
 
       // Basic developer workspace modules
-      PATH_LOOKUP.put(MODULE_CORE_SDM, Arrays.asList("development/Core_SDM_Modules.psf", "development/TGG_Core_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_META, Arrays.asList("development/Meta_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_IDE, Arrays.asList("development/IDE_Rest_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_TGG_CORE, Arrays.asList("development/TGG_Core_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_TGG_MOSL, Arrays.asList("development/TGG_MOSL_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_VISUALIZATION, Arrays.asList("development/IDE_Vis_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_COEVOLUTION, Arrays.asList("development/IDE_CoEvolution_Modules.psf"));
-      PATH_LOOKUP.put(MODULE_DOCUMENTATION, Arrays.asList("development/Documentation.psf"));
+      addPathLookup(MODULE_CORE_SDM, Arrays.asList("development/Core_SDM_Modules.psf", "development/TGG_Core_Modules.psf"));
+      addPathLookup(MODULE_META, Arrays.asList("development/Meta_Modules.psf"));
+      addPathLookup(MODULE_IDE, Arrays.asList("development/IDE_Rest_Modules.psf"));
+      addPathLookup(MODULE_TGG_CORE, Arrays.asList("development/TGG_Core_Modules.psf"));
+      addPathLookup(MODULE_TGG_MOSL, Arrays.asList("development/TGG_MOSL_Modules.psf"));
+      addPathLookup(MODULE_VISUALIZATION, Arrays.asList("development/IDE_Vis_Modules.psf"));
+      addPathLookup(MODULE_COEVOLUTION, Arrays.asList("development/IDE_CoEvolution_Modules.psf"));
+      addPathLookup(MODULE_DOCUMENTATION, Arrays.asList("development/Documentation.psf"));
 
-      PATH_LOOKUP.put(MODULE_TGG, joinLists(MODULE_TGG_CORE, MODULE_TGG_MOSL));
-      PATH_LOOKUP.put(MODULE_ALL, joinLists(MODULE_META, MODULE_IDE, MODULE_CORE_SDM, MODULE_TGG_CORE, MODULE_VISUALIZATION, MODULE_COEVOLUTION)); // "development/All_Modules.psf"
-      PATH_LOOKUP.put(MODULE_ALL_INCL_MOSL, joinLists(MODULE_ALL, MODULE_TGG_MOSL)); // "development/All_Modules_incl_MOSL.psf"
+      addPathLookup(MODULE_TGG, joinLists(MODULE_TGG_CORE, MODULE_TGG_MOSL));
+      addPathLookup(MODULE_ALL, joinLists(MODULE_META, MODULE_IDE, MODULE_CORE_SDM, MODULE_TGG_CORE, MODULE_VISUALIZATION, MODULE_COEVOLUTION)); // "development/All_Modules.psf"
+      addPathLookup(MODULE_ALL_INCL_MOSL, joinLists(MODULE_ALL, MODULE_TGG_MOSL)); // "development/All_Modules_incl_MOSL.psf"
 
 
       // Handbook workspace modules
-      PATH_LOOKUP.put(DEMO_WORKSPACE_NAME, Arrays.asList("examples/DemoWorkspace.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_FINAL, Arrays.asList("examples/HandbookExample_FinalSolution.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_GUI, Arrays.asList("examples/HandbookExample_LeitnersBoxGui.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART3_START, Arrays.asList("examples/HandbookExample_Part3_Start.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART3_FINAL, Arrays.asList("examples/HandbookExample_Part3_Final.psf"));
-      PATH_LOOKUP.put(HANDBOOK_EXAMPLE_PART4_START, Arrays.asList("examples/HandbookExample_Part4_FreshStart.psf"));
+      addPathLookup(DEMO_WORKSPACE_NAME, Arrays.asList("examples/DemoWorkspace.psf"));
+      addPathLookup(HANDBOOK_EXAMPLE_FINAL, Arrays.asList("examples/HandbookExample_FinalSolution.psf"));
+      addPathLookup(HANDBOOK_EXAMPLE_GUI, Arrays.asList("examples/HandbookExample_LeitnersBoxGui.psf"));
+      addPathLookup(HANDBOOK_EXAMPLE_PART3_START, Arrays.asList("examples/HandbookExample_Part3_Start.psf"));
+      addPathLookup(HANDBOOK_EXAMPLE_PART3_FINAL, Arrays.asList("examples/HandbookExample_Part3_Final.psf"));
+      addPathLookup(HANDBOOK_EXAMPLE_PART4_START, Arrays.asList("examples/HandbookExample_Part4_FreshStart.psf"));
+
+      // Basic test workspace modules
+      addPathLookup(TEST_WORKSPACE_TRANSFORMATION_ZOO_0_NAME, Arrays.asList("tests/TestSuiteZoo0.psf"));
+      addPathLookup(TEST_WORKSPACE_TRANSFORMATION_ZOO_1_NAME, Arrays.asList("tests/TestSuiteZoo1.psf"));
+      addPathLookup(TEST_WORKSPACE_TGG_0_NAME, Arrays.asList("tests/TestSuiteTGG0.psf"));
+      addPathLookup(TEST_WORKSPACE_TGG_1_NAME, Arrays.asList("tests/TestSuiteTGG1.psf"));
+      addPathLookup(TEST_WORKSPACE_MISC_NAME, Arrays.asList("tests/TestSuiteMisc.psf"));
+      addPathLookup(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("tests/TestSuiteDemocles0.psf"));
+      addPathLookup(TEST_DEMO_HANDBOOK, joinLists(DEMO_WORKSPACE_NAME, HANDBOOK_EXAMPLE_FINAL));
    }
 
    /**
@@ -126,11 +131,31 @@ public class EMoflonStandardWorkspaces
       }
    }
 
+   /**
+    * Registers the given list of paths to PSF files for the given module name
+    * 
+    * @param moduleName
+    * @param paths
+    */
+   private static void addPathLookup(String moduleName, List<String> paths)
+   {
+      PATH_LOOKUP.put(moduleName, paths);
+   }
+
+   /**
+    * Joins the paths corresponding to the given module names to a new (flat) list
+    */
    private static List<String> joinLists(final String... moduleNames)
    {
       return Arrays.asList(moduleNames).stream().map(m -> PATH_LOOKUP.get(m)).reduce(new ArrayList<String>(), createListJoiner());
    }
 
+   /**
+    * Creates a binary operator on string lists that uses {@link Collection#addAll(Collection)} to add all elements of
+    * the second operand to the first operand
+    * 
+    * @return
+    */
    private static BinaryOperator<List<String>> createListJoiner()
    {
       return (u, v) -> {

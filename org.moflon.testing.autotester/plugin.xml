@@ -195,6 +195,15 @@
                   value="TransformationZoo_1">
             </parameter>
          </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
+               label="Demo + Handbook"
+               style="push">
+            <parameter
+                  name="org.moflon.devtools.ui.commands.install.workspacename"
+                  value="TestWorkspace_DemoAndHandbook">
+            </parameter>
+         </command>
       </menuContribution>
       
       <menuContribution
