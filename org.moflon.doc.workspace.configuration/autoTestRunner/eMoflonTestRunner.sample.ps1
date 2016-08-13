@@ -46,11 +46,11 @@ $sleepTimeBetweenStartsInSeconds = 120
 [System.Collections.ArrayList]$WORKSPACES = @()
 [void]$WORKSPACES.add("TestWorkspace_Democles_0")
 [void]$WORKSPACES.add("TestWorkspace_Misc")
+[void]$workspaces.add("TestWorkspace_DemoAndHandbook")
 # [void]$WORKSPACES.add("TestWorkspace_TGG_0")
 # [void]$WORKSPACES.add("TestWorkspace_TGG_1")
 # [void]$WORKSPACES.add("TransformationZoo_0")
 # [void]$WORKSPACES.add("TransformationZoo_1")
-# [void]$workspaces.add("DeveloperWorkspace") # OLD
 #[void]$workspaces.add("ModuleAll")
 # [void]$workspaces.add("ModuleAllInclMOSL")
 # [void]$WORKSPACES.add("eMoflonDemoWorkspace")
