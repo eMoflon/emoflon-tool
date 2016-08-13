@@ -30,7 +30,6 @@ public class MoflonUtilitiesActivator extends EMoflonPlugin {
 		try {
 			return FileLocator.resolve(Platform.getBundle(pluginId).getEntry(filePath));
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}

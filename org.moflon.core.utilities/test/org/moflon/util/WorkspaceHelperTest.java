@@ -20,6 +20,19 @@ public class WorkspaceHelperTest
       Assert.assertEquals(expectedName, actualName);
    }
 
+   @Test
+   public void test_printStacktraceToString_null() throws Exception
+   {
+      Assert.assertEquals("", WorkspaceHelper.printStacktraceToString(null));
+   }
+
+   @Test
+   public void test_printStacktraceToString_containsClassName() throws Exception
+   {
+      final IllegalArgumentException ex = new IllegalArgumentException();
+      Assert.assertTrue(WorkspaceHelper.printStacktraceToString(ex).contains(ex.getClass().getName()));
+   }
+
    private class TestFile extends File
    {
 

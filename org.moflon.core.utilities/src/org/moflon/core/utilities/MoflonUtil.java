@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.ENamedElement;
@@ -254,10 +255,11 @@ public class MoflonUtil
 
       return name.substring(startOfLastSegment);
    }
-   
-   public static String allSegmentsButLast(final String name){
-	   int startOfLastSegment = name.lastIndexOf(".");
-	   return startOfLastSegment == -1? "" : name.substring(0, startOfLastSegment);
+
+   public static String allSegmentsButLast(final String name)
+   {
+      int startOfLastSegment = name.lastIndexOf(".");
+      return startOfLastSegment == -1 ? "" : name.substring(0, startOfLastSegment);
    }
 
    public static String lastCapitalizedSegmentOf(final String name)
@@ -310,10 +312,13 @@ public class MoflonUtil
    }
 
    /**
-    * This function replaces the first matching prefix of the given package name with the corresponding value of the package name map
+    * This function replaces the first matching prefix of the given package name with the corresponding value of the
+    * package name map
     * 
-    * @param fullyQualifiedPackageName the package name to be transformed
-    * @param packageNameMap a map from source package name prefix to target package name prefix
+    * @param fullyQualifiedPackageName
+    *           the package name to be transformed
+    * @param packageNameMap
+    *           a map from source package name prefix to target package name prefix
     * @return the transformed package
     */
    public static String transformPackageNameUsingImportMapping(final String fullyQualifiedPackageName, final Map<String, String> packageNameMap)
@@ -329,7 +334,7 @@ public class MoflonUtil
             return packageNameMap.get(currentPrefix) + (suffixToKeep.isEmpty() ? "" : "." + suffixToKeep);
          }
       }
-      
+
       // No prefix match - return input
       return fullyQualifiedPackageName;
    }
@@ -387,20 +392,13 @@ public class MoflonUtil
     */
    public static void writeContentToFile(final String content, final IFile file, final IProgressMonitor monitor) throws CoreException
    {
-      try
+      SubMonitor subMon = SubMonitor.convert(monitor, "Write to file", 1);
+      if (!file.exists())
       {
-
-         monitor.beginTask("Write to file", 1);
-         if (!file.exists())
-         {
-            file.create(new ByteArrayInputStream(content.getBytes()), true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-         } else
-         {
-            file.setContents(new ByteArrayInputStream(content.getBytes()), true, true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-         }
-      } finally
+         file.create(new ByteArrayInputStream(content.getBytes()), true, subMon.split(1));
+      } else
       {
-         monitor.done();
+         file.setContents(new ByteArrayInputStream(content.getBytes()), true, true, subMon.split(1));
       }
    }
 }
