@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugPlugin;
@@ -120,22 +121,22 @@ public class WorkspaceInstaller
             try
             {
                logger.info("Installing " + label + "...");
-               monitor.beginTask("Installing " + label, 500);
+               SubMonitor subMon = SubMonitor.convert(monitor, "Installing " + label, 500);
                if (BuilderHelper.turnOffAutoBuild())
                {
                   logger.info("Ok - I was able to switch off auto build ...");
 
-                  checkOutProjectsWithPsfFiles(psfFiles, label, WorkspaceHelper.createSubMonitor(monitor, 100));
+                  checkOutProjectsWithPsfFiles(psfFiles, label, subMon.split(100));
 
                   logger.info("Invoking MWE2 workflows...");
 
-                  Collection<Job> mweJobs = invokeMwe2Workflows(WorkspaceHelper.createSubMonitor(monitor, 100));
+                  Collection<Job> mweJobs = invokeMwe2Workflows(subMon.split(100));
 
                   if (exportingEapFilesRequired(label))
                   {
                      logger.info("Exporting EAP files...");
 
-                     exportModelsFromEAPFilesInWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
+                     exportModelsFromEAPFilesInWorkspace(subMon.split(100));
 
                      logger.info("Great! All model (.ecore) files have been exported ...");
                   }
@@ -151,7 +152,7 @@ public class WorkspaceInstaller
                      try
                      {
                         logger.info("Joining " + j.getName());
-                        j.join(TIMEOUT, WorkspaceHelper.createSubMonitor(monitor, 100));
+                        j.join(TIMEOUT, subMon.split(100));
                      } catch (Exception e)
                      {
                         LogUtils.error(logger, e);
@@ -159,7 +160,7 @@ public class WorkspaceInstaller
                   });
 
                   logger.info("Now refreshing and turning auto build back on to invoke normal code generation (build) process ...");
-                  refreshAndBuildWorkspace(WorkspaceHelper.createSubMonitor(monitor, 100));
+                  refreshAndBuildWorkspace(subMon.split(100));
 
                   logger.info("Finished building workspace...");
 
@@ -170,7 +171,7 @@ public class WorkspaceInstaller
                      // when launching JUnit.
                      Thread.sleep(TIMEOUT);
 
-                     runJUnitTests(WorkspaceHelper.createSubMonitor(monitor, 100));
+                     runJUnitTests(subMon.split(100));
 
                      logger.info("Finished auto-test process");
                   }
@@ -196,9 +197,6 @@ public class WorkspaceInstaller
                logger.error(message);
                return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(),
                      "Installing workspace failed. Please consult the eMoflon console for further information.", e);
-            } finally
-            {
-               monitor.done();
             }
          }
       };
@@ -272,7 +270,7 @@ public class WorkspaceInstaller
       try
       {
          final String joinedPaths = joinBasenames(psfFiles);
-         monitor.beginTask("Checking out " + joinedPaths, 1 + 20);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Checking out " + joinedPaths, 1 + 20);
 
          // We extract the contents beforehand because the following action may delete them if we load PSF files
          // directly from the workspace
@@ -282,13 +280,13 @@ public class WorkspaceInstaller
          final int numberOfWorkingSets = StringUtils.countMatches(psfContent, "<workingSets ");
          logger.info(String.format("Checking out %d projects and %d working sets in %s.", numberOfProjects, numberOfWorkingSets, joinedPaths));
 
-         removeProjectsIfDesired(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         removeProjectsIfDesired(subMon.split(1));
 
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
 
          final ImportProjectSetOperation op = new ImportProjectSetOperation(null, psfContent, psfFiles.size() > 1 ? null : psfFiles.get(0).getAbsolutePath(),
                new IWorkingSet[0]);
-         op.run(WorkspaceHelper.createSubMonitor(monitor, 20));
+         op.run(subMon.split(20));
 
       } catch (final IOException | InvocationTargetException e)
       {
@@ -364,39 +362,33 @@ public class WorkspaceInstaller
 
    public void removeProjectsIfDesired(final IProgressMonitor monitor)
    {
-      try
+      final List<IProject> projects = WorkspaceHelper.getAllProjectsInWorkspace();
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Deleting projects (if desired)", projects.size());
+      if (projects.size() > 0)
       {
-         final List<IProject> projects = WorkspaceHelper.getAllProjectsInWorkspace();
-         monitor.beginTask("Deleting projects (if desired)", projects.size());
-         if (projects.size() > 0)
-         {
-            Display.getDefault().syncExec(new Runnable() {
-               @Override
-               public void run()
+         Display.getDefault().syncExec(new Runnable() {
+            @Override
+            public void run()
+            {
+               if (MessageDialog.openQuestion(null, "There are projects in the workspace!", "Should I delete them for you?"))
                {
-                  if (MessageDialog.openQuestion(null, "There are projects in the workspace!", "Should I delete them for you?"))
+                  for (final IProject project : projects)
                   {
-                     for (IProject project : projects)
+                     try
                      {
-                        try
-                        {
-                           logger.info("Deleting " + project.getName() + "...");
-                           project.delete(true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-                        } catch (CoreException e)
-                        {
-                           logger.error("Sorry - I was unable to clean up your workspace. I'll continue anyway...");
-                        }
+                        logger.info("Deleting " + project.getName() + "...");
+                        project.delete(true, subMon.split(1));
+                     } catch (CoreException e)
+                     {
+                        logger.error("Sorry - I was unable to clean up your workspace. I'll continue anyway...");
                      }
-                  } else
-                  {
-                     monitor.worked(projects.size());
                   }
+               } else
+               {
+                  monitor.worked(projects.size());
                }
-            });
-         }
-      } finally
-      {
-         monitor.done();
+            }
+         });
       }
    }
 
@@ -441,22 +433,22 @@ public class WorkspaceInstaller
          final List<IProject> projects = Arrays.asList(ws.getRoot().getProjects());
          final int projectCount = projects.size();
 
-         monitor.beginTask("Refreshing workspace", 6 * projectCount);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Refreshing workspace", 6 * projectCount);
 
-         ws.getRoot().refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubMonitor(monitor, projectCount));
-         Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_REFRESH, WorkspaceHelper.createSubMonitor(monitor, projectCount));
+         ws.getRoot().refreshLocal(IResource.DEPTH_INFINITE, subMon.split(projectCount));
+         Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_REFRESH, subMon.split(projectCount));
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
 
          BuilderHelper.turnOnAutoBuild();
-         Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, WorkspaceHelper.createSubMonitor(monitor, projectCount));
+         Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, subMon.split(projectCount));
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
 
-         ws.getRoot().refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubMonitor(monitor, projectCount));
-         Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_REFRESH, WorkspaceHelper.createSubMonitor(monitor, projectCount));
+         ws.getRoot().refreshLocal(IResource.DEPTH_INFINITE, subMon.split(projectCount));
+         Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_REFRESH, subMon.split(projectCount));
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
 
          // TODO@rkluge: Remove
-         BuilderHelper.generateCodeInOrder(WorkspaceHelper.createSubMonitor(monitor, projectCount), Arrays.asList(ws.getRoot().getProjects()));
+         BuilderHelper.generateCodeInOrder(subMon.split(projectCount), Arrays.asList(ws.getRoot().getProjects()));
          WorkspaceHelper.checkCanceledAndThrowInterruptedException(monitor);
       } catch (CoreException | OperationCanceledException e)
       {
