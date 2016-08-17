@@ -4,21 +4,27 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Collections;
 
-import org.apache.log4j.Logger;
-import org.moflon.core.utilities.LogUtils;
+import javax.annotation.Resources;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 public class MiniSatSolver extends AbstractSATSolver {
-
-   private static final Logger logger = Logger.getLogger(MiniSatSolver.class);
 
 	@Override
 	public int[] solve(DimacFormat problem) {
 		String[] params = new String[3];
-
-		params[0] = "solvers\\MiniSat";
+	
+		
+		
+		params[0] = "..\\org.moflon.tgg.language\\lib\\minisat";
 		params[1] = problem.getClausesAsFilePath();
-		params[2] = "minisatResult";
+		params[2] = "..\\org.moflon.tgg.language\\minisatResult";
 
 		try {
 			final Process p = Runtime.getRuntime().exec(params);
@@ -35,7 +41,8 @@ public class MiniSatSolver extends AbstractSATSolver {
 						}
 						input.close();
 					} catch (IOException e) {
-                  LogUtils.error(logger, e);
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				};
 			};
@@ -56,7 +63,7 @@ public class MiniSatSolver extends AbstractSATSolver {
 	private int[] getResultFromFile() {
 		String[] strings = new String[0];
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("minisatResult"));
+			BufferedReader br = new BufferedReader(new FileReader("..\\org.moflon.tgg.language\\minisatResult"));
 			String line = null;
 
 			br.readLine();
@@ -66,7 +73,8 @@ public class MiniSatSolver extends AbstractSATSolver {
 			}
 			br.close();
 		} catch (IOException e) {
-         LogUtils.error(logger, e);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		int[] result = new int[strings.length - 1];

@@ -4,82 +4,64 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.apache.log4j.Logger;
-import org.moflon.core.utilities.LogUtils;
+public class Z3Solver extends AbstractSATSolver {
 
-public class Z3Solver extends AbstractSATSolver
-{
+	int[] result;
 
-   private static final Logger logger = Logger.getLogger(Z3Solver.class);
+	@Override
+	public int[] solve(DimacFormat problem) {
 
-   int[] result;
+		String[] params = new String[2];
 
-   @Override
-   public int[] solve(DimacFormat problem)
-   {
+		params[0] = "solvers\\z3-4.3.2-x64-win\\bin\\z3";
+		params[1] = problem.getClausesAsFilePath();
 
-      String[] params = new String[2];
+		try {
+			final Process p = Runtime.getRuntime().exec(params);
+			Thread thread = new Thread() {
+				public void run() {
+					String line;
+					BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-      params[0] = "solvers\\z3-4.3.2-x64-win\\bin\\z3";
-      params[1] = problem.getClausesAsFilePath();
+					try {
+						while ((line = input.readLine()) != null) {
+							if (line.equals("sat")) {
+								System.out.println("Satisfiable");
+							} else {
+								result = generateResultArrayFromString(line);
+							}
+						}
+						input.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				};
+			};
+			thread.start();
+			int failedStatus = p.waitFor();
+			thread.join();
+			if (failedStatus != 0) {
+				System.out.println("Process failed with status: " + failedStatus);
+			}
+		} catch (IOException e) {
+			System.out.println(" procccess not read" + e);
+		} catch (InterruptedException e) {
+			System.out.println(" procccess interrupted" + e);
+		}
 
-      try
-      {
-         final Process p = Runtime.getRuntime().exec(params);
-         Thread thread = new Thread() {
-            public void run()
-            {
-               String line;
-               BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		return result;
+	}
 
-               try
-               {
-                  while ((line = input.readLine()) != null)
-                  {
-                     if (line.equals("sat"))
-                     {
-                        System.out.println("Satisfiable");
-                     } else
-                     {
-                        result = generateResultArrayFromString(line);
-                     }
-                  }
-                  input.close();
-               } catch (IOException e)
-               {
-                  LogUtils.error(logger, e);
-               }
-            };
-         };
-         thread.start();
-         int failedStatus = p.waitFor();
-         thread.join();
-         if (failedStatus != 0)
-         {
-            System.out.println("Process failed with status: " + failedStatus);
-         }
-      } catch (IOException e)
-      {
-         System.out.println(" procccess not read" + e);
-      } catch (InterruptedException e)
-      {
-         System.out.println(" procccess interrupted" + e);
-      }
+	private int[] generateResultArrayFromString(String input) {
 
-      return result;
-   }
+		String[] strings = input.split(" ");
+		int[] result = new int[strings.length];
 
-   private int[] generateResultArrayFromString(String input)
-   {
-
-      String[] strings = input.split(" ");
-      int[] result = new int[strings.length];
-
-      for (int i = 0; i < strings.length; i++)
-      {
-         result[i] = Integer.parseInt(strings[i]);
-      }
-      return result;
-   }
+		for (int i = 0; i < strings.length; i++) {
+			result[i] = Integer.parseInt(strings[i]);
+		}
+		return result;
+	}
 
 }

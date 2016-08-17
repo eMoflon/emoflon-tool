@@ -4,12 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.log4j.Logger;
-import org.moflon.core.utilities.LogUtils;
-
 public class DimacFormatWriter {
-
-   private static final Logger logger = Logger.getLogger(DimacFormatWriter.class);
 
 	public DimacFormatWriter() {
 
@@ -34,7 +29,8 @@ public class DimacFormatWriter {
 
 			writer.close();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-         LogUtils.error(logger, e);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return "bin\\DimacProblem.cnf";
 	}

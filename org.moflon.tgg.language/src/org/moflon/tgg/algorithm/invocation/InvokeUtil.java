@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.core.utilities.LogUtils;
 
 public class InvokeUtil
 {
@@ -30,7 +29,7 @@ public class InvokeUtil
          return (EObject) object.eInvoke(operation, parameterValues);
       } catch (InvocationTargetException e)
       {
-         LogUtils.error(logger, e);
+         e.printStackTrace();
       }
 
       return null;
@@ -47,7 +46,7 @@ public class InvokeUtil
          return object.eInvoke(operation, arguments);
       } catch (InvocationTargetException e)
       {
-         LogUtils.error(logger, e);
+         e.printStackTrace();
       }
 
       return null;

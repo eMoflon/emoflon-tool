@@ -2,6 +2,7 @@ package org.moflon.tgg.algorithm.synchronization;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -10,8 +11,18 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.gnu.glpk.GLPK;
 import org.moflon.tgg.algorithm.ccutils.AbstractSATSolver;
+import org.moflon.tgg.algorithm.ccutils.AbstractSolver;
+import org.moflon.tgg.algorithm.ccutils.ILPSolver;
+import org.moflon.tgg.algorithm.ccutils.ILP_GLPK_Solver;
+import org.moflon.tgg.algorithm.ccutils.ILP_Gurobi_Solver;
+import org.moflon.tgg.algorithm.ccutils.ILP_Sat4J_Solver;
+import org.moflon.tgg.algorithm.ccutils.ILP_lp_Solver;
+import org.moflon.tgg.algorithm.ccutils.MiniSatSolver;
+import org.moflon.tgg.algorithm.ccutils.Sat4JIncrementalSolver;
 import org.moflon.tgg.algorithm.ccutils.Sat4JSolver;
+import org.moflon.tgg.algorithm.ccutils.ZChaffSolver;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -124,21 +135,10 @@ public class ConsistencySynchronizer {
 
 	private void filter() {
 
-		System.out.println("Preparing clauses");
-		ArrayList<int[]> clauses = new ArrayList<>();
 
-		addClausesForAlternatives(clauses);
-		addClausesForImplications(clauses);
-
-		int[][] satProblem = new int[clauses.size()][];
-		int i = 0;
-		for (int[] clause : clauses) {
-			satProblem[i] = clause;
-			i++;
-		}
 		System.out.println("Solving");
-		AbstractSATSolver solver = new Sat4JSolver();
-		for (int value : solver.solve(satProblem)) {
+		AbstractSolver solver = new ILP_GLPK_Solver();	
+		for (int value : solver.solve(srcElements, trgElements, protocol)) {
 			if (value < 0) {
 				CCMatch excludedMatch = protocol.intToMatch(-value);
 				excludedMatch.getCreateCorr().forEach(e -> graphTriple.getCorrespondences().remove(e));
@@ -147,50 +147,7 @@ public class ConsistencySynchronizer {
 
 	}
 
-	private void addClausesForImplications(ArrayList<int[]> clauses) {
 
-		TIntIterator allIterator = protocol.getMatchIDs().iterator();
-		while (allIterator.hasNext()) {
-			int m = allIterator.next();
-			for(EObject corr : protocol.intToMatch(m).getAllContextElements()){
-				TIntCollection contextCreatingParent = protocol.creates(corr);
-				int[] clause = new int[2];
-				clause[0] = -m;
-				int[] parentAsArray = contextCreatingParent.toArray();
-				clause[1] = parentAsArray[0];
-				clauses.add(clause);
-			}
-		}
-	}
-
-	private void addClausesForAlternatives(ArrayList<int[]> clauses) {
-		clauses.addAll(getclausesForAlternatives(srcElements));
-		clauses.addAll(getclausesForAlternatives(trgElements));
-	}
-
-	private ArrayList<int[]> getclausesForAlternatives(Graph graph) {
-		ArrayList<int[]> clauses = new ArrayList<>();
-		for (EObject obj : graph.getElements()) {
-			TIntCollection variables = protocol.creates(obj);
-
-			if (!variables.isEmpty()) {
-				// get a clause like (a V b V c ...)
-				int[] all = variables.toArray();
-				clauses.add(all);
-
-				// get clauses like (-a V -b), (-a V -c), (-b V -c)....
-				for (int i = 0; i < all.length; i++) {
-					for (int j = i + 1; j < all.length; j++) {
-						int[] clause = new int[2];
-						clause[0] = -(all[i]);
-						clause[1] = -(all[j]);
-						clauses.add(clause);
-					}
-				}
-			}
-		}
-		return clauses;
-	}
 
 	private void extractMatchPairs() {
 		Collection<Match> srcMatches = collectDerivations(srcElements, srcLookupMethods);
@@ -211,7 +168,7 @@ public class ConsistencySynchronizer {
 				trgMatches.add(emptyMatch);
 		});
 
-		// collect precedences
+		// collect precedences 
 		sourcePrecedenceGraph.collectAllPrecedences(srcMatches);
 		targetPrecedenceGraph.collectAllPrecedences(trgMatches);
 
