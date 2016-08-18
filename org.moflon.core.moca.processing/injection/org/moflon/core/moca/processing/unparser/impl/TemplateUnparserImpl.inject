@@ -5,6 +5,7 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.moca.MocaUtil;
 import org.moflon.moca.xml.XMLHandler;
 import org.moflon.moca.xml.XMLTreeGrammar;

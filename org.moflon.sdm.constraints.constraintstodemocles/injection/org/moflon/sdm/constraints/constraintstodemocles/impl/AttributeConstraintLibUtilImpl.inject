@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator;
 import org.moflon.sdm.constraints.operationspecification.OperationspecificationPackage;
 import org.apache.log4j.Logger;
