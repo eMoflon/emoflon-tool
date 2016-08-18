@@ -194,6 +194,7 @@ TGGMainConsistencyCheck(projects, corrPackage, className) ::= <<
 		helper.loadTrg("instances/trg.xmi");
 		helper.createCorrespondences();
 		helper.saveCorr("instances/corr.xmi");
+		helper.saveConsistencyCheckProtocol("instances/protocol.xmi");
 	}
 }
 >>
