@@ -6,13 +6,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
+import org.eclipse.xtext.ide.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfigurationAcceptor;
 import org.eclipse.xtext.ui.editor.utils.TextStyle;
 import org.moflon.tgg.mosl.ui.highlighting.exceptions.IDAlreadyExistException;
 import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLHighlightProviderHelper;
 
-@SuppressWarnings("deprecation")
+
 public abstract class AbstractHighlightingRule <M extends EObject>{
 
 	protected Logger logger;
@@ -48,7 +48,8 @@ public abstract class AbstractHighlightingRule <M extends EObject>{
 	protected abstract TextStyle getTextStyle();
 	
 	public void setHighlightingConfiguration(IHighlightingConfigurationAcceptor acceptor){
-		acceptor.acceptDefaultHighlighting(id, description, getTextStyle());
+		acceptor.
+		acceptDefaultHighlighting(id, description, getTextStyle());
 	}
 	
 	public void provideHighlightingFor(EObject rootObject, IHighlightedPositionAcceptor acceptor) {
