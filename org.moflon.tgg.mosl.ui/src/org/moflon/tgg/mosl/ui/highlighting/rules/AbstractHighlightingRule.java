@@ -2,16 +2,10 @@ package org.moflon.tgg.mosl.ui.highlighting.rules;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.xtext.AbstractRule;
-import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.nodemodel.INode;
-import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.ide.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfigurationAcceptor;
 import org.eclipse.xtext.ui.editor.utils.TextStyle;
-import org.moflon.tgg.mosl.ui.highlighting.MOSLTokenMapper;
 import org.moflon.tgg.mosl.ui.highlighting.exceptions.IDAlreadyExistException;
 import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLHighlightProviderHelper;
 
@@ -60,21 +54,6 @@ public abstract class AbstractHighlightingRule{
 		acceptDefaultHighlighting(id, description, getTextStyle());
 	}
 	
-//	public void provideHighlightingFor(INode rootNode, IHighlightedPositionAcceptor acceptor) {
-//		this.acceptor = acceptor;
-//		for(INode node : rootNode.getLeafNodes()){
-//			EObject moslObject = NodeModelUtils.findActualSemanticObjectFor(node);
-//			//String test = MOSLTokenMapper.mapper.getId(node.getOffset());
-//			provideHighlightingFor(moslObject, node);
-//			
-//			
-//			//INode node = NodeModelUtils.findActualNodeFor(moslObject);
-//				//provideHighlightingFor(moslObject, node);				
-//			
-//		}
-//
-//	}
-	
 	public boolean canProvideHighlighting(EObject moslObject, INode node, IHighlightedPositionAcceptor acceptor){
 		boolean provide = getHighlightingConditions(moslObject, node);
 		if(provide){
@@ -87,22 +66,6 @@ public abstract class AbstractHighlightingRule{
 	public int getPriority(){
 		return prio;
 	}
-	
-//	public void provideHighlightingFor(EObject rootObject, IHighlightedPositionAcceptor acceptor) {
-//		this.acceptor = acceptor;
-//		for(M moslObject: EcoreUtil2.getAllContentsOfType(rootObject, getNodeClass())){
-//			INode node = NodeModelUtils.findActualNodeFor(moslObject);
-//				provideHighlightingFor(moslObject, node);				
-//			
-//		}
-//
-//	}
-	
-	//protected abstract EStructuralFeature getLiteral();
-	
-	//protected abstract Class<M> getNodeClass();
-	
-//	protected abstract void provideHighlightingFor(EObject moslObject, INode node);
 	
 	protected abstract boolean getHighlightingConditions(EObject moslObject, INode node);
 	
