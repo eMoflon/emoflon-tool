@@ -11,7 +11,7 @@ public class NoOperatorPatternHighlightRule extends AbstractOperatorPatternHighl
 	}
 
 	@Override
-	protected boolean getOperatorCondition(Operator op) {
+	public boolean getOperatorCondition(Operator op) {
 		return  op== null || op.getValue() == null || op.getValue().equals("");
 	}
 

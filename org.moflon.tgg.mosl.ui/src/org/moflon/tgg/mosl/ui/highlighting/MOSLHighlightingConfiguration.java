@@ -11,11 +11,13 @@ import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLHighlightProviderHelper;
 
 public class MOSLHighlightingConfiguration extends DefaultHighlightingConfiguration
 {
+	public final static String BOOL_ID = "bool";
 	
 	@Override
 	public void configure(IHighlightingConfigurationAcceptor acceptor) {
 		super.configure(acceptor);
-		for(AbstractHighlightingRule<?> rule : MOSLHighlightProviderHelper.getHighlightRules())
+		acceptor.acceptDefaultHighlighting(BOOL_ID, "Boolean", boolTextStyle());
+		for(AbstractHighlightingRule rule : MOSLHighlightProviderHelper.getHighlightRules())
 			rule.setHighlightingConfiguration(acceptor);
 	}
 	
@@ -40,5 +42,10 @@ public class MOSLHighlightingConfiguration extends DefaultHighlightingConfigurat
 		textStyle.setColor(MOSLColor.LIGHT_BLUE.getColor());
 		return textStyle;
 	}
-
+   
+   public TextStyle boolTextStyle(){
+	   TextStyle ts = super.keywordTextStyle();
+	   ts.setStyle(SWT.BOLD);
+	   return ts;
+   }
 }

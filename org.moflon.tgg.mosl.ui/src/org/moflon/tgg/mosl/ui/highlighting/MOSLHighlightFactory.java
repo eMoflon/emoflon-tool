@@ -1,5 +1,6 @@
 package org.moflon.tgg.mosl.ui.highlighting;
 
+import org.moflon.tgg.mosl.ui.highlighting.rules.CreatedAndRefinedVariablePatternHighlightingRule;
 import org.moflon.tgg.mosl.ui.highlighting.rules.CreationOperatorPatternHighlightRule;
 import org.moflon.tgg.mosl.ui.highlighting.rules.DestructionOperatorPatternHighlightRule;
 import org.moflon.tgg.mosl.ui.highlighting.rules.NegationOperationPatternHighlightRule;
@@ -17,7 +18,7 @@ public class MOSLHighlightFactory {
 		new DestructionOperatorPatternHighlightRule();
 		new NegationOperationPatternHighlightRule();
 		new RefinedVariablePatternHighlightingRule();
-		
+		new CreatedAndRefinedVariablePatternHighlightingRule();
 		
 	}
 }

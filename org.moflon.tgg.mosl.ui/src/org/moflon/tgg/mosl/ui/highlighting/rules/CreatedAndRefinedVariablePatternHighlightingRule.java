@@ -1,13 +1,14 @@
 package org.moflon.tgg.mosl.ui.highlighting.rules;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.xtext.ui.editor.utils.TextStyle;
 import org.moflon.tgg.mosl.tgg.Operator;
 import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLColor;
 
-public class CreationOperatorPatternHighlightRule extends AbstractOperatorPatternHighlightRule {
+public class CreatedAndRefinedVariablePatternHighlightingRule extends AbstractRefinedVariablePatternHighlightingRule {
 
-	public CreationOperatorPatternHighlightRule() {
-		super("CreatePattern", "Create-Operator");
+	public CreatedAndRefinedVariablePatternHighlightingRule() {
+		super("CreatedAndRefined", "Created and Refined VariablePattern", 100);
 	}
 
 	@Override
@@ -19,6 +20,7 @@ public class CreationOperatorPatternHighlightRule extends AbstractOperatorPatter
 	protected TextStyle getTextStyle() {
 	      TextStyle ts = new TextStyle();
 	      ts.setColor(MOSLColor.DARK_GREEN.getColor());
+	      ts.setStyle(SWT.BOLD);
 	      return ts;
 	}
 
