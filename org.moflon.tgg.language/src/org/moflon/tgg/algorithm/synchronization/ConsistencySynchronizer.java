@@ -66,8 +66,8 @@ public class ConsistencySynchronizer {
 	private TIntObjectHashMap<TIntHashSet> appliedSourceToTarget;
 
 	public ConsistencySynchronizer(Delta srcDelta, Delta trgDelta, StaticAnalysis staticAnalysis,
-			CorrespondenceModel graphTriple) {
-		protocol = new ConsistencyCheckPrecedenceGraph();
+			CorrespondenceModel graphTriple, ConsistencyCheckPrecedenceGraph protocol) {
+		this.protocol = protocol;
 		this.graphTriple = graphTriple;
 		srcLookupMethods = staticAnalysis.getSourceRules();
 		trgLookupMethods = staticAnalysis.getTargetRules();
@@ -135,15 +135,20 @@ public class ConsistencySynchronizer {
 
 	private void filter() {
 
-
 		System.out.println("Solving");
+		
+		ArrayList<CCMatch> excluded = new ArrayList<>();
+		
 		AbstractSolver solver = new ILP_GLPK_Solver();	
 		for (int value : solver.solve(srcElements, trgElements, protocol)) {
 			if (value < 0) {
 				CCMatch excludedMatch = protocol.intToMatch(-value);
+				excluded.add(excludedMatch);
 				excludedMatch.getCreateCorr().forEach(e -> graphTriple.getCorrespondences().remove(e));
 			}
 		}
+		
+		protocol.removeMatches(excluded);
 
 	}
 

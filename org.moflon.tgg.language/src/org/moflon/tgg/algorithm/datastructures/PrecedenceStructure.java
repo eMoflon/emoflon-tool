@@ -54,6 +54,28 @@ public abstract class PrecedenceStructure<M> {
 			return true;
 		});
 	}
+	
+	
+	public void removeMatches(Collection<M> toBeRemoved) {
+		
+		int[] allTobeRevokedIDs = new int[toBeRemoved.size()];
+		int i = 0;
+		for(M m : toBeRemoved){
+			allTobeRevokedIDs[i] = matchToInt(m);
+			i++;
+		}
+		
+		createToMatch.keySet().forEach(elt -> createToMatch.get(elt).removeAll(allTobeRevokedIDs));
+		contextToMatch.keySet().forEach(elt -> contextToMatch.get(elt).removeAll(allTobeRevokedIDs));
+		
+		for(int id : allTobeRevokedIDs){
+			matchToChildren.get(id).forEach(child -> matchToParents.get(child).remove(id));
+			matchToParents.get(id).forEach(parent -> matchToChildren.get(parent).remove(id));
+			matchToChildren.remove(id);
+			matchToParents.remove(id);
+			matches.remove(id);
+		}
+	}
 
 	// -------
 

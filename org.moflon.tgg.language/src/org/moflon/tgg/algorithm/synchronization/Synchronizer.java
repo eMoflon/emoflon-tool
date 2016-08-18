@@ -245,7 +245,7 @@ public abstract class Synchronizer {
 			toBeRevokedTripleMatches.addAll(protocol.descendants(m));
 			toBeRevokedTripleMatches.add(m);
 		});
-		protocol.revoke(toBeRevokedTripleMatches);
+		protocol.removeMatches(toBeRevokedTripleMatches);
 		return delete(toBeRevokedTripleMatches);
 	}
 

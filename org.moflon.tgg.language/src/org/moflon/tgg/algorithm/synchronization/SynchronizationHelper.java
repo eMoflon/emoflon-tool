@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.configuration.Configurator;
+import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
 import org.moflon.tgg.algorithm.datastructures.SynchronizationProtocol;
 import org.moflon.tgg.algorithm.delta.Delta;
@@ -65,6 +66,8 @@ public class SynchronizationHelper
    protected Delta delta;
 
    protected SynchronizationProtocol protocol;
+   
+   protected ConsistencyCheckPrecedenceGraph ccProtocol;
 
    protected Consumer<EObject> changeSrc;
 
@@ -463,7 +466,9 @@ public class SynchronizationHelper
 	   
 	   establishGraphTriple();
 	   
-	   (new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr)).createCorrespondences();;
+	   ccProtocol = new ConsistencyCheckPrecedenceGraph();
+	   
+	   (new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr, ccProtocol)).createCorrespondences();;
    }
 
    protected void performSynchronization(final Synchronizer synchronizer)
@@ -631,6 +636,17 @@ public class SynchronizationHelper
       org.moflon.tgg.runtime.PrecedenceStructure ps = protocol.save();
       set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(ps);
       eMoflonEMFUtil.saveModel(ps.eResource().getResourceSet(), ps, path);
+   }
+   
+   public void saveConsistencyCheckProtocol(final String path){
+	      if(ccProtocol == null){
+	          logger.error("Sorry, I don't have a consistency check protocol to save.");
+	          return;
+	       }
+	       
+	       org.moflon.tgg.runtime.PrecedenceStructure ps = ccProtocol.save();
+	       set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(ps);
+	       eMoflonEMFUtil.saveModel(ps.eResource().getResourceSet(), ps, path);
    }
    
    public void savePrecedenceGraph(final PrecedenceInputGraph pg, final String path)

@@ -41,29 +41,6 @@ public class SynchronizationProtocol extends PrecedenceStructure<TripleMatch> {
 
 	// -------
 
-	public void revoke(Collection<TripleMatch> allToBeRevoked) {
-		
-		int[] allTobeRevokedIDs = new int[allToBeRevoked.size()];
-		int i = 0;
-		for(TripleMatch m : allToBeRevoked){
-			allTobeRevokedIDs[i] = matchToInt(m);
-			i++;
-		}
-		
-		createToMatch.keySet().forEach(elt -> createToMatch.get(elt).removeAll(allTobeRevokedIDs));
-		contextToMatch.keySet().forEach(elt -> contextToMatch.get(elt).removeAll(allTobeRevokedIDs));
-		
-		for(int id : allTobeRevokedIDs){
-			matchToChildren.get(id).forEach(child -> matchToParents.get(child).remove(id));
-			matchToParents.get(id).forEach(parent -> matchToChildren.get(parent).remove(id));
-			matchToChildren.remove(id);
-			matchToParents.remove(id);
-			matches.remove(id);
-		}
-	}
-
-	// -------
-
 	@Override
 	public Collection<EObject> getContextElements(TripleMatch m) {
 		return m.getContextElements().getElements();
