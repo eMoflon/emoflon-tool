@@ -180,9 +180,10 @@ class TGGValidator extends AbstractTGGValidator {
 			}
 		}
 		for(LinkVariablePattern linkVar : ov.linkVariablePatterns){
+			
 			val rule = ov.eContainer as Rule
-			val name = linkVar.target.name;
-			val trgOV = getOV(rule,name);
+			val target = linkVar.target;
+			val trgOV = EcoreUtil2.resolve(target,rule) as ObjectVariablePattern;
 			var trgOVOp = trgOV.op;
 			
 			
@@ -190,19 +191,5 @@ class TGGValidator extends AbstractTGGValidator {
 				error("Link Variable '" + linkVar.type.name + "' has a diffrent operator", linkVar, TggPackage.Literals.OPERATOR_PATTERN__OP, TGGValidator.LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_TARGET_OBJECT_VARIABLE_PATTERN);
 			}
 		}
-	}
-	
-	def ObjectVariablePattern getOV(Rule rule, String name){
-		for(ObjectVariablePattern srcOV : rule.sourcePatterns){
-			if(name.equals(srcOV.name)){
-				return srcOV;
-			}
-		}
-		for(ObjectVariablePattern trgOV : rule.targetPatterns){
-			if(name.equals(trgOV.name)){
-				return trgOV;
-			}
-		}
-		return null;
 	}
 }
