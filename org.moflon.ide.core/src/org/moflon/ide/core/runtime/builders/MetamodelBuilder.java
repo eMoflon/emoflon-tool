@@ -70,7 +70,7 @@ public class MetamodelBuilder extends AbstractBuilder
 
          if (WorkspaceHelper.getExportedMocaTree(this.getProject()).exists())
          {
-            final SubProgressMonitor exporterSubMonitor = WorkspaceHelper.createSubMonitor(monitor, 100);
+            final IProgressMonitor exporterSubMonitor = WorkspaceHelper.createSubMonitor(monitor, 100);
             Exporter exporter = null;
             Map<String, MetamodelProperties> properties = null;
             try

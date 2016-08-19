@@ -81,7 +81,7 @@ public class ResourceFillingMocaToMoflonTransformation extends ExporterImpl
    @Override
    public void handleOutermostPackage(final Node node, final EPackage outermostPackage)
    {
-      final SubProgressMonitor subMonitor = WorkspaceHelper.createSubmonitorWith1Tick(this.monitor);
+      final IProgressMonitor subMonitor = WorkspaceHelper.createSubmonitorWith1Tick(this.monitor);
       try
       {
          final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
