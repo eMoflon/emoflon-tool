@@ -42,6 +42,10 @@ partial class TemplateUnparserImpl {
    
 -->
 
+@model canUnparseFile (String fileName) <--
+      throw new UnsupportedOperationException();
+-->
+
 @model unparse (Node node) <--
       try
       {
