@@ -3,7 +3,7 @@ package org.moflon.tgg.mosl.ui.highlighting.utils;
 import org.eclipse.swt.graphics.RGB;
 
 public enum MOSLColor {
-	RED, BLUE, GREEN, YELLOW, VIOLETT, BLACK, WHITE, LIGHT_RED, DARK_RED, LIGHT_BLUE, DARK_BLUE, LIGHT_GREEN, DARK_GREEN, ORANGE, GRAY, BROWN;
+	RED, BLUE, GREEN, YELLOW, VIOLETT, BLACK, WHITE, LIGHT_RED, DARK_RED, LIGHT_BLUE, DARK_BLUE, LIGHT_GREEN, DARK_GREEN, ORANGE, DARK_ORANGE, GRAY, BROWN, GOLD, MISTY_ROSE, DARK_GOLD, LIGHT_YELLOW;
 	
 	public RGB getColor(){
 		switch(this){
@@ -39,9 +39,20 @@ public enum MOSLColor {
 			return new RGB(128,255,128);
 		case GRAY:
 			return new RGB(128,128,128);
+		case DARK_GOLD:
+			return new RGB(205,173,0);
+		case GOLD:
+			return new RGB(255,215,0);
+		case DARK_ORANGE:
+			return new RGB(255, 140, 0);
+		case MISTY_ROSE:
+			return new RGB(255, 228, 225);
+		case LIGHT_YELLOW:
+			return new RGB(255, 255, 224);
 		default:
 			return null;
-	
+
+
 		
 		}
 	}

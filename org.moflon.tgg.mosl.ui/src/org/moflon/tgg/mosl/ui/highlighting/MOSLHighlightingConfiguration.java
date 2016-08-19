@@ -12,11 +12,18 @@ import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLHighlightProviderHelper;
 public class MOSLHighlightingConfiguration extends DefaultHighlightingConfiguration
 {
 	public final static String BOOL_ID = "bool";
+	public final static String ENUM_ID = "enum";
+	public final static String SOURCE_ID = "source";
+	public final static String TARGET_ID = "target";
+	
 	
 	@Override
 	public void configure(IHighlightingConfigurationAcceptor acceptor) {
 		super.configure(acceptor);
 		acceptor.acceptDefaultHighlighting(BOOL_ID, "Boolean", boolTextStyle());
+		acceptor.acceptDefaultHighlighting(ENUM_ID, "Enumeration", stringTextStyle());
+		acceptor.acceptDefaultHighlighting(SOURCE_ID, "Source Design", sourceTextStyle());
+		acceptor.acceptDefaultHighlighting(TARGET_ID, "Target Design", targetTextStyle());		
 		for(AbstractHighlightingRule rule : MOSLHighlightProviderHelper.getHighlightRules())
 			rule.setHighlightingConfiguration(acceptor);
 	}
@@ -39,7 +46,7 @@ public class MOSLHighlightingConfiguration extends DefaultHighlightingConfigurat
    @Override
 	public TextStyle stringTextStyle() {
 		TextStyle textStyle = super.stringTextStyle();
-		textStyle.setColor(MOSLColor.LIGHT_BLUE.getColor());
+		textStyle.setColor(MOSLColor.DARK_ORANGE.getColor());
 		return textStyle;
 	}
    
@@ -48,4 +55,19 @@ public class MOSLHighlightingConfiguration extends DefaultHighlightingConfigurat
 	   ts.setStyle(SWT.BOLD);
 	   return ts;
    }
+   
+   public TextStyle sourceTextStyle(){
+	   TextStyle ts = keywordTextStyle();
+	   ts.setBackgroundColor(MOSLColor.LIGHT_YELLOW.getColor());
+	   ts.setColor(MOSLColor.BLACK.getColor());
+	   return ts;
+   }
+   
+   public TextStyle targetTextStyle(){
+	   TextStyle ts = keywordTextStyle();
+	   ts.setBackgroundColor(MOSLColor.MISTY_ROSE.getColor());
+	   ts.setColor(MOSLColor.BLACK.getColor());
+	   return ts;
+   }
+   
 }
