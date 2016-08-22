@@ -41,7 +41,8 @@ Require-Bundle:
  org.eclipse.jdt.launching;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.jdt.ui;bundle-version="[3.5.0,4.0.0)",
  org.moflon.ide.editor,
- org.moflon.core.ecore2mocaxmi;bundle-version="1.0.0"
+ org.moflon.core.ecore2mocaxmi;bundle-version="1.0.0",
+ org.moflon.core.moca.inject
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.ide.ui,
