@@ -18,7 +18,6 @@ Require-Bundle:
  org.moflon.core.utilities,
  MoflonPropertyContainer,
  MocaTree,
- org.moflon.core.moca.inject,
  org.moflon.core.moca.processing,
  org.moflon.core.mocatomoflon;bundle-version="2.0.0",
  SDMLanguage,
