@@ -5,7 +5,8 @@
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
     language="" usedGenPackages="archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel#//specification archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel#//emf archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel#//relational">
   <foreignModel>Democles.ecore</foreignModel>
-  <genPackages prefix="Democles" disposableProviderFactory="true" ecorePackage="platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore#/">
+  <genPackages prefix="Democles" basePackage="org.moflon.sdm.constraints" disposableProviderFactory="true"
+      ecorePackage="platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore#/">
     <genClasses ecoreClass="platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore#//AttributeVariableConstraint">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore#//AttributeVariableConstraint/predicateSymbol"/>
     </genClasses>
