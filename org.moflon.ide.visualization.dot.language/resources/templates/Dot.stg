@@ -120,7 +120,7 @@ enum "<n.label>" {
 
 PackageImpl(n) ::= <<
 package "<n.label>" { 
-	<Node(n.classes)>
+<n.classes: Node(); separator="\n">
 }
 >>
 
