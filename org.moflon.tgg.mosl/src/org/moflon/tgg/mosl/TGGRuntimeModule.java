@@ -4,7 +4,11 @@
 package org.moflon.tgg.mosl;
 
 import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.validation.CompositeEValidator;
 import org.moflon.tgg.mosl.scoping.TGGScopeProvider;
+
+import com.google.inject.Binder;
+import com.google.inject.name.Names;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
