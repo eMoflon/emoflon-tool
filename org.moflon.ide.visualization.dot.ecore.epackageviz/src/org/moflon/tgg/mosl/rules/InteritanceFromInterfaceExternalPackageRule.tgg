@@ -8,8 +8,8 @@
 }
 
 #target {
-	++ trgClass : EClass {
-		interface := true
+	 trgClass : EClass {
+		interface == true
 	}
 }
 

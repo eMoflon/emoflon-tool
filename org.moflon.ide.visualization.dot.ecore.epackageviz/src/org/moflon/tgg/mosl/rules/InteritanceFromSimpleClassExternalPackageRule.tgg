@@ -8,8 +8,8 @@
 }
 
 #target {
-	++ trgClass : EClass {
-		abstract := false
+	trgClass : EClass {
+		abstract == false
 	}
 }
 

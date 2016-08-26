@@ -17,10 +17,10 @@
 }
 
 #target {
-	++ externalPackage : EPackage
+	 externalPackage : EPackage
 	
-	++ trgClass : EClass{
-		++ - ePackage -> externalPackage
+	 trgClass : EClass{
+		 - ePackage -> externalPackage
 	}
 }
 

@@ -8,9 +8,7 @@
 	
 	srcClassNode : PNode
 	
-	++ trgClassNode : PNode{
-		++ - graph -> graph
-	}
+	++ trgClassNode : PNode
 	
 	++ inherit : PInheritance{
 		++ - graph -> graph
