@@ -1,10 +1,7 @@
 package org.moflon.tgg.mosl.ui.visualisation;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -115,20 +112,14 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 			RefinementPrecompiler rp =PrecompilerFactory.eINSTANCE.createRefinementPrecompiler();
 			PrecompileLog pLog = PrecompilerFactory.eINSTANCE.createPrecompileLog();
 			rp.setPrecompilelog(pLog);
-			Stream<TGGRule> parents=getPatents(rule, preTgg);
-			for(Iterator<TGGRule> iterator = parents.iterator(); iterator.hasNext();){
-				TGGRule parent = handleRule(iterator.next(), preTgg, true);
+			for(TGGRule parent : rule.getRefines()){
+				parent = handleRule(parent, preTgg, true);
 				rp.combineRuleWithParent(rule, parent);
 			}
 		}
 		return rule;
 	}
 	
-	private Stream<TGGRule> getPatents(TGGRule rule, TripleGraphGrammar preTgg){
-		List<TGGRule> rules = preTgg.getTggRule();
-		Stream<TGGRule> parents = rules.stream().filter(r -> r.getRefines().contains(rule));
-		return parents;
-	}
 	
 	@Override
 	public boolean supportsEditor(IEditorPart editorPart) {
