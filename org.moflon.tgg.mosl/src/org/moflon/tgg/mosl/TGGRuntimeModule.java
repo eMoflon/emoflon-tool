@@ -16,4 +16,11 @@ public class TGGRuntimeModule extends org.moflon.tgg.mosl.AbstractTGGRuntimeModu
 		return TGGScopeProvider.class;
 	}
 	
+	@Override
+	public void configure(final Binder binder) {
+		super.configure(binder);
+		// The ugliest hack ever to temporarily solve issue #781 (EObjectValidator has been switched off completely :-))
+		// TODO TGG compiler or specification should be refactored on a long run to avoid the creation of TGG models that are not conform to the metamodel
+		binder.bind(Boolean.class).annotatedWith(Names.named(CompositeEValidator.USE_EOBJECT_VALIDATOR)).toInstance(Boolean.FALSE);
+	}
 }
