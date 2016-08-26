@@ -19,7 +19,10 @@ public class EPackageVisualizationConfigurator implements Configurator{
 	@Override
     public RuleResult chooseOne(Collection<RuleResult> alternatives)
     {
-       return chooseFromHighPriority(alternatives);
+	       return alternatives.stream()
+	               .filter(rr -> rr.getRule().contains("Node"))
+	               .findAny()
+	               .orElse(chooseFromHighPriority(alternatives));
     }
 	
 	private RuleResult chooseFromHighPriority(Collection<RuleResult> alternatives){
