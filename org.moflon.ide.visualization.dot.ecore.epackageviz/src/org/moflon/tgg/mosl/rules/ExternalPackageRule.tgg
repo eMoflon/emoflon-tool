@@ -3,29 +3,28 @@
 
 #abstract #rule ExternalPackageRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
-#source { 
-	graph : ClassGraph
-	
-	++ pPackage : PPackage{
-		++ - graph -> graph
+#source {
+	graph:ClassGraph{
+		++ - packages -> pPackage
+	}
+
+	++pPackage:PPackage{
 		++ - classes -> trgClassNode
 	}
-	
-	++ trgClassNode : PClass
-		
-	
+
+	++trgClassNode:PClass
 }
 
 #target {
-	 externalPackage : EPackage
-	
-	 trgClass : EClass{
-		 - ePackage -> externalPackage
+	externalPackage:EPackage
+
+	trgClass:EClass{
+		- ePackage -> externalPackage
 	}
 }
 
 #correspondence {
-	++ pPackageToEPackage : PPackageToEPackage{
+	++ pPackageToEPackage :PPackageToEPackage{
 		#src->pPackage
 		#trg->externalPackage
 	}
@@ -34,3 +33,5 @@
 #attributeConditions {
 	eq(pPackage.label, externalPackage.name)
 }
+
+

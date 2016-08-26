@@ -75,8 +75,13 @@ ClassGraph(classGraph) ::= <<
 skinparam shadowing false
 <Skinoptions(classGraph.skinparams)>
 set namespaceSeparator ::
+<Packages(classGraph.packages)>
 <Pattern(classGraph.nodes, classGraph.edges)>
 @enduml
+>>
+
+Packages(packages) ::=<<
+<packages: PackageImpl(); separator="\n">
 >>
 
 Skinoptions(skins) ::=<<
@@ -113,7 +118,7 @@ enum "<n.label>" {
 }
 >>
 
-PPackageImpl(n) ::= <<
+PackageImpl(n) ::= <<
 package "<n.label>" { 
 	<Node(n.classes)>
 }
