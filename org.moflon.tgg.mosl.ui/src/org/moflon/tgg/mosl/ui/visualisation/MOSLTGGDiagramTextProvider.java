@@ -1,8 +1,10 @@
 package org.moflon.tgg.mosl.ui.visualisation;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -35,6 +37,10 @@ import org.moflon.ide.visualization.dot.tgg.TGGRuleDiagramTextProvider;
 import org.moflon.ide.visualization.dot.tgg.schema.TGGSchemaDiagramTextProvider;
 import org.moflon.tgg.language.TGGRule;
 import org.moflon.tgg.language.TripleGraphGrammar;
+import org.moflon.tgg.language.precompiler.PrecompileLog;
+import org.moflon.tgg.language.precompiler.PrecompilerFactory;
+import org.moflon.tgg.language.precompiler.RefinementPrecompiler;
+
 
 import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
 
@@ -62,91 +68,110 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 					return Status.OK_STATUS;
 				}
 			};
-			
+
 			j.setPriority(Job.LONG);
 			j.schedule();
 		}
-   };
-	
-	
-   @Override
-   public String getDiagramText(IEditorPart editorPart, IEditorInput editorInput)
-   {
-      try
-      {
-    	 TripleGraphGrammar tgg = getTGG();
-         ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
-         Optional<TGGRule> rule = getTGGRuleForSelection(selection, tgg);
-
-         if (rule.isPresent() && oldValue.containsKey(rule.get().getName()) && !outdated)
-            return oldValue.get(rule.get().getName());
-
-         TGGSchemaDiagramTextProvider schemaProvider = new TGGSchemaDiagramTextProvider();
-         
-         DirectedGraph graph = (DirectedGraph)schemaProvider.modelToDot(tgg);
-         String schemaDiagram;
-         if(graph != null)
-        	 schemaDiagram = new DotUnparserAdapter().unparse(graph);
-         else
-        	 schemaDiagram = "@startuml @enduml";
-         
-         return rule.map(r -> {
-            outdated = false;
-            TGGRuleDiagramTextProvider tggTextProvider = new TGGRuleDiagramTextProvider();
-            String diagram = new DotUnparserAdapter().unparse(tggTextProvider.modelToDot(r));
-            oldValue.put(r.getName(), diagram);
-            return diagram;
-         }).orElse(schemaDiagram);
-         
-      } catch (Exception e)
-      {
-         e.printStackTrace();
-         return "@startuml @enduml";
-      }
-   }
+	};
 
 	@Override
+	public String getDiagramText(IEditorPart editorPart, IEditorInput editorInput) {
+		try {
+			 final TripleGraphGrammar preTgg = getTGG(WorkspaceHelper.PRE_TGG_FILE_EXTENSION);
+			ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
+
+			// look for the correct tggFile
+			TripleGraphGrammar tgg = getTGG();
+			Optional<TGGRule> rule = getTGGRuleForSelection(selection, tgg);
+
+			if (rule.isPresent() && oldValue.containsKey(rule.get().getName()) && !outdated)
+				return oldValue.get(rule.get().getName());
+
+			if (!rule.isPresent()) {
+				rule = getTGGRuleForSelection(selection, preTgg);
+			}
+
+			// Decision for Schema or Rule
+			if (!rule.isPresent()) {
+				TGGSchemaDiagramTextProvider schemaProvider = new TGGSchemaDiagramTextProvider();
+				DirectedGraph graph = (DirectedGraph) schemaProvider.modelToDot(preTgg);
+				return graph != null ? new DotUnparserAdapter().unparse(graph) : "@startuml @enduml";
+			} else
+				return rule.map(r -> {
+					outdated = false;
+					TGGRuleDiagramTextProvider tggTextProvider = new TGGRuleDiagramTextProvider();
+					String diagram = new DotUnparserAdapter().unparse(tggTextProvider.modelToDot(handleRule(r, preTgg, r.isAbstractRule())));
+					oldValue.put(r.getName(), diagram);
+					return diagram;
+				}).orElse("@startuml @enduml");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "@startuml @enduml";
+		}
+	}
+	
+	private TGGRule handleRule(TGGRule rule, TripleGraphGrammar preTgg, boolean condition){
+		if(ToggleRefinementHandler.flattenRefinements() && condition){
+			RefinementPrecompiler rp =PrecompilerFactory.eINSTANCE.createRefinementPrecompiler();
+			PrecompileLog pLog = PrecompilerFactory.eINSTANCE.createPrecompileLog();
+			rp.setPrecompilelog(pLog);
+			Stream<TGGRule> parents=getPatents(rule, preTgg);
+			for(Iterator<TGGRule> iterator = parents.iterator(); iterator.hasNext();){
+				TGGRule parent = handleRule(iterator.next(), preTgg, true);
+				rp.combineRuleWithParent(rule, parent);
+			}
+		}
+		return rule;
+	}
+	
+	private Stream<TGGRule> getPatents(TGGRule rule, TripleGraphGrammar preTgg){
+		List<TGGRule> rules = preTgg.getTggRule();
+		Stream<TGGRule> parents = rules.stream().filter(r -> r.getRefines().contains(rule));
+		return parents;
+	}
+	
+	@Override
 	public boolean supportsEditor(IEditorPart editorPart) {
-		if(oldEditor != null && oldEditor.equals(editorPart))
+		if (oldEditor != null && oldEditor.equals(editorPart))
 			return true;
-		
-		if(editorPart instanceof XtextEditor){
-			XtextEditor ed  = (XtextEditor)editorPart;
-			if("org.moflon.tgg.mosl.TGG".equals(ed.getLanguageName())){
+
+		if (editorPart instanceof XtextEditor) {
+			XtextEditor ed = (XtextEditor) editorPart;
+			if ("org.moflon.tgg.mosl.TGG".equals(ed.getLanguageName())) {
 				oldEditor = ed;
 				oldValue = new HashMap<>();
 				oldEditor.addPropertyListener(listener);
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
-	private Optional<TGGRule> getTGGRuleForSelection(ISelection selection, TripleGraphGrammar tgg) { 
+	private Optional<TGGRule> getTGGRuleForSelection(ISelection selection, TripleGraphGrammar tgg) {
 		IPath ruleNamePath = new Path(oldEditor.getEditorInput().getName());
 		ruleNamePath = ruleNamePath.removeFileExtension();
 		String ruleName = ruleNamePath.toString();
-		
+
 		String selectedRuleName = extractRuleName(selection);
 
-		
-			if (tgg!=null) {				
-				return tgg.getTggRule()
-				      .stream()
-				      .filter(r -> r.getName().equals(ruleName) || r.getName().equals(selectedRuleName))
-				      .findAny();
-			}
-		
+		if (tgg != null) {
+			return tgg.getTggRule().stream()
+					.filter(r -> r.getName().equals(ruleName) || r.getName().equals(selectedRuleName)).findAny();
+		}
 
 		return Optional.empty();
 	}
-	
+
 	private TripleGraphGrammar getTGG() {
+		return getTGG(getTGGFileWithRules());
+	}
+
+	private TripleGraphGrammar getTGG(final String fileExtension) {
 		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
 			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
 			IProject project = file.getProject();
-			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), getTGGFileWithRules()));
+			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), fileExtension));
 			if (tggFile.exists()) {
 				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
 				URI uri = URI.createPlatformResourceURI(tggFile.getFullPath().toString(), true);
@@ -158,23 +183,23 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 		return null;
 	}
 
-   private String getTGGFileWithRules() {
-	   String tggFile = ToggleRefinementHandler.flattenRefinements()? WorkspaceHelper.TGG_FILE_EXTENSION : WorkspaceHelper.PRE_TGG_FILE_EXTENSION;
-	   if(!currentTggFile.equals(tggFile)){
-		   currentTggFile = tggFile;
-		   outdated = true;
-	   }
-	   
-	   return currentTggFile;
-   }
+	private String getTGGFileWithRules() {
+		String tggFile = ToggleRefinementHandler.flattenRefinements() ? WorkspaceHelper.TGG_FILE_EXTENSION : WorkspaceHelper.PRE_TGG_FILE_EXTENSION;
+		if (!currentTggFile.equals(tggFile)) {
+			currentTggFile = tggFile;
+			outdated = true;
+		}
 
-   private String extractRuleName(ISelection selection)
-   {
-      if(selection instanceof ITextSelection){
-         ITextSelection textSelection = (ITextSelection)selection;
-         return textSelection.getText();
-      } else
-         return "";
+		return currentTggFile;
+	}
 
-   }
+	private String extractRuleName(ISelection selection) {
+		if (selection instanceof ITextSelection) {
+			ITextSelection textSelection = (ITextSelection) selection;
+			return textSelection.getText();
+		} else
+			return "";
+
+	}
+
 }
