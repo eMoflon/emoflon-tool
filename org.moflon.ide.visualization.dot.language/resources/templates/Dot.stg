@@ -113,6 +113,12 @@ enum "<n.label>" {
 }
 >>
 
+PPackageImpl(n) ::= <<
+package "<n.label>" { 
+	<Node(n.classes)>
+}
+>>
+
 PLiterals(literals) ::= <<
 <literals: Literal(); separator="\n">
 >>

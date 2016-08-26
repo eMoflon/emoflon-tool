@@ -109,7 +109,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="skinparams" upperBound="-1"
         eType="#//ClassSkinParam" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="#//PPackage"
+        eOpposite="#//PPackage/classes"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PAbstract" eSuperTypes="#//PClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="PEnum" eSuperTypes="#//PNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="literals" upperBound="-1"
@@ -140,7 +143,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="PNode" abstract="true" eSuperTypes="#//AbstractNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="PPackage" eSuperTypes="#//PNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
-        eType="#//PClass"/>
+        eType="#//PClass" containment="true" eOpposite="#//PClass/package"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PInterface" eSuperTypes="#//PClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="PAttribute" eSuperTypes="#//PNamedObject #//PVisibilityObject #//PTypedObject"/>
