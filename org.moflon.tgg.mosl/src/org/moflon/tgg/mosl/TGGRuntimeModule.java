@@ -3,28 +3,91 @@
  */
 package org.moflon.tgg.mosl;
 
+import java.util.Map;
+
+import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.xtext.scoping.IScopeProvider;
-import org.eclipse.xtext.validation.CompositeEValidator;
+import org.moflon.tgg.language.csp.impl.CspPackageImpl;
 import org.moflon.tgg.mosl.scoping.TGGScopeProvider;
 
 import com.google.inject.Binder;
-import com.google.inject.name.Names;
+
+import SDMLanguage.SDMLanguagePackage;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
-public class TGGRuntimeModule extends org.moflon.tgg.mosl.AbstractTGGRuntimeModule {
-	
-	@Override
-	public Class<? extends IScopeProvider> bindIScopeProvider() {
-		return TGGScopeProvider.class;
-	}
-	
-	@Override
-	public void configure(final Binder binder) {
-		super.configure(binder);
-		// The ugliest hack ever to temporarily solve issue #781 (EObjectValidator has been switched off completely :-))
-		// TODO TGG compiler or specification should be refactored on a long run to avoid the creation of TGG models that are not conform to the metamodel
-		binder.bind(Boolean.class).annotatedWith(Names.named(CompositeEValidator.USE_EOBJECT_VALIDATOR)).toInstance(Boolean.FALSE);
-	}
+public class TGGRuntimeModule extends org.moflon.tgg.mosl.AbstractTGGRuntimeModule
+{
+
+   @Override
+   public Class<? extends IScopeProvider> bindIScopeProvider()
+   {
+      return TGGScopeProvider.class;
+   }
+
+   @Override
+   public void configure(final Binder binder)
+   {
+      super.configure(binder);
+      // The ugliest hack ever to temporarily solve issue #781 (EObjectValidator has been switched off completely :-))
+      // TODO TGG compiler or specification should be refactored on a long run to avoid the creation of TGG models that are not conform to the metamodel
+      //binder.bind(Boolean.class).annotatedWith(Names.named(CompositeEValidator.USE_EOBJECT_VALIDATOR)).toInstance(Boolean.FALSE);
+   }
+
+   @Override
+   public org.eclipse.emf.ecore.EValidator.Registry bindEValidatorRegistry()
+   {
+      org.eclipse.emf.ecore.EValidator.Registry registry = super.bindEValidatorRegistry();
+      registry.put(SDMLanguagePackage.eINSTANCE, new NonRequiredFeatureValidatingValidator());
+      registry.put(CspPackageImpl.eINSTANCE, new NonRequiredFeatureValidatingValidator());
+      return registry;
+   }
+   
+
+   private final class NonRequiredFeatureValidatingValidator extends EObjectValidator
+   {
+      @Override
+      protected boolean validate_MultiplicityConforms(EObject eObject, EStructuralFeature eStructuralFeature, DiagnosticChain diagnostics,
+            Map<Object, Object> context)
+      {
+         return true;
+      }
+   }
+
+   //   @Override
+   //   @SingletonBinding
+   //   public Class<? extends Diagnostician> bindDiagnostician()
+   //   {
+   //      return NoOpDiagnostics.class;
+   //   }
+   //   private static class NoOpDiagnostics extends Diagnostician
+   //   {
+   //      @Override
+   //      public Diagnostic validate(EObject eObject)
+   //      {
+   //         return super.createDefaultDiagnostic(eObject);
+   //      }
+   //
+   //      @Override
+   //      public Diagnostic validate(EObject eObject, Map<?, ?> contextEntries)
+   //      {
+   //         return super.createDefaultDiagnostic(eObject);
+   //      }
+   //
+   //      @Override
+   //      public boolean validate(EObject eObject, DiagnosticChain diagnostics)
+   //      {
+   //         return true;
+   //      }
+   //
+   //      @Override
+   //      public boolean validate(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+   //      {
+   //         return true;
+   //      }
+   //   }
 }
