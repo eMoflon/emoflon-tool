@@ -33,11 +33,9 @@ public class TGGRuntimeModule extends org.moflon.tgg.mosl.AbstractTGGRuntimeModu
    public void configure(final Binder binder)
    {
       super.configure(binder);
-      // The ugliest hack ever to temporarily solve issue #781 (EObjectValidator has been switched off completely :-))
-      // TODO TGG compiler or specification should be refactored on a long run to avoid the creation of TGG models that are not conform to the metamodel
-      //binder.bind(Boolean.class).annotatedWith(Names.named(CompositeEValidator.USE_EOBJECT_VALIDATOR)).toInstance(Boolean.FALSE);
    }
 
+   // Temporarily solution issue #781 (EObjectValidator has been switched off completely :-))
    @Override
    public org.eclipse.emf.ecore.EValidator.Registry bindEValidatorRegistry()
    {
@@ -57,37 +55,4 @@ public class TGGRuntimeModule extends org.moflon.tgg.mosl.AbstractTGGRuntimeModu
          return true;
       }
    }
-
-   //   @Override
-   //   @SingletonBinding
-   //   public Class<? extends Diagnostician> bindDiagnostician()
-   //   {
-   //      return NoOpDiagnostics.class;
-   //   }
-   //   private static class NoOpDiagnostics extends Diagnostician
-   //   {
-   //      @Override
-   //      public Diagnostic validate(EObject eObject)
-   //      {
-   //         return super.createDefaultDiagnostic(eObject);
-   //      }
-   //
-   //      @Override
-   //      public Diagnostic validate(EObject eObject, Map<?, ?> contextEntries)
-   //      {
-   //         return super.createDefaultDiagnostic(eObject);
-   //      }
-   //
-   //      @Override
-   //      public boolean validate(EObject eObject, DiagnosticChain diagnostics)
-   //      {
-   //         return true;
-   //      }
-   //
-   //      @Override
-   //      public boolean validate(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
-   //      {
-   //         return true;
-   //      }
-   //   }
 }
