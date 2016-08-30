@@ -18,5 +18,6 @@ Require-Bundle: org.eclipse.core.resources,
  SDMLanguage,
  org.moflon.tgg.language,
  org.moflon.tgg.runtime,
- org.eclipse.jdt.core
+ org.eclipse.jdt.core,
+ org.gervarro.eclipse.workspace.util;bundle-version="[2.0.0,3.0.0)"
 Bundle-Activator: org.moflon.ide.plugins.MoflonPluginsActivator

@@ -10,6 +10,8 @@
       <run class="org.moflon.tgg.mosl.builder.MOSLTGGNature"/>
     </runtime>
     <builder id="org.moflon.tgg.mosl.codeadapter.mosltggbuilder"/>
+    <requires-nature id="org.eclipse.xtext.ui.shared.xtextNature"/>
+    <requires-nature id="org.moflon.ide.core.runtime.natures.IntegrationNature"/>
   </extension>
   <extension point="org.eclipse.ui.commands">
     <category id="org.moflon.tgg.mosl.moslTGGNature.category" name="MOSL TGG Nature commands"/>

@@ -79,7 +79,7 @@ public class MoflonPropertiesContainerHelper
          moflonPropertiesCont.setProjectName(projectName);
       }
 
-      MoflonPropertiesContainerHelper.save(moflonPropertiesCont, subMon.split(1));
+      MoflonPropertiesContainerHelper.save(moflonPropertiesCont, subMon.newChild(1));
       return moflonPropertiesCont;
    }
 
@@ -175,7 +175,7 @@ public class MoflonPropertiesContainerHelper
             Resource resource = set.createResource(fileURI);
             resource.getContents().add(normalize(properties));
             resource.save(null);
-            projectFile.refreshLocal(IResource.DEPTH_ZERO, subMon.split(1));
+            projectFile.refreshLocal(IResource.DEPTH_ZERO, subMon.newChild(1));
          }
       } catch (final Exception e)
       {

@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.moflon.codegen.ErrorReporter;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 
 /**
@@ -81,7 +82,7 @@ public class InjectionErrorReporter implements ErrorReporter
          }
       } catch (final CoreException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
    }
 

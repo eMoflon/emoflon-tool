@@ -8,6 +8,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
@@ -52,13 +53,8 @@ public class BuildOnlyDirtyProjectsHandler extends AbstractCommandHandler
 
    private void cleanAndBuild(final List<IProject> projects)
    {
-      if (!projects.isEmpty())
-      {
-
-         final Job job = new EMoflonBuildJobForDirtyProjects("eMoflon Building (only dirty projects)", projects);
-
-         job.setUser(true);
-         job.schedule();
-      }
+      final Job job = new MoflonBuildJob(projects, IncrementalProjectBuilder.INCREMENTAL_BUILD);
+      job.setUser(true);
+      job.schedule();
    }
 }

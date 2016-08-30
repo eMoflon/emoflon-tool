@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor.DelegatingRegistry;
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
@@ -37,12 +38,15 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.eclipse.genmodel.GeneratorAdapterFactory;
 
 import SDMLanguage.impl.SDMLanguagePackageImpl;
 
 public class StandardCodeGenerationTest
 {
+   private static final Logger logger = Logger.getLogger(StandardCodeGenerationTest.class);
+
    public static final String JAR_SEPARATOR = "!";
 
    // No referred projects
@@ -186,7 +190,7 @@ public class StandardCodeGenerationTest
          genModelResource.save(genModelSaveOptions);
       } catch (IOException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
 
       // (5) Compile template

@@ -11,15 +11,19 @@ import java.util.jar.Attributes.Name;
 import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.plugins.MoflonPluginsActivator;
 
-public class ExportedPackagesInManifestUpdater
+public class ExportedPackagesInManifestUpdater extends WorkspaceTask
 {
 
    public static final String EXPORT_PACKAGE_KEY = "Export-Package";
@@ -30,12 +34,18 @@ public class ExportedPackagesInManifestUpdater
 
    private GenModel genModel;
 
-   public ExportedPackagesInManifestUpdater(final IProject project, final GenModel genModel)
+   private ExportedPackagesInManifestUpdater(final IProject project, final GenModel genModel)
    {
       this.project = project;
       this.genModel = genModel;
    }
 
+   public static final void updateExportedPackageInManifest(final IProject project, final GenModel genModel) throws CoreException {
+	   final ExportedPackagesInManifestUpdater manifestUpdater =
+			   new ExportedPackagesInManifestUpdater(project, genModel);
+	   WorkspaceTask.execute(manifestUpdater, false);
+   }
+   
    public void run(final IProgressMonitor monitor) throws CoreException
    {
       try
@@ -102,5 +112,16 @@ public class ExportedPackagesInManifestUpdater
             exportedPackages.add(classPackageName);
       });
       return exportedPackages;
+   }
+
+   @Override
+   public String getTaskName() {
+	   return "Manifest file export package updater";
+   }
+
+   @Override
+   public final ISchedulingRule getRule() {
+	   final IFile manifestFile = WorkspaceHelper.getManifestFile(project);
+	   return manifestFile.exists() ? manifestFile : manifestFile.getParent();
    }
 }

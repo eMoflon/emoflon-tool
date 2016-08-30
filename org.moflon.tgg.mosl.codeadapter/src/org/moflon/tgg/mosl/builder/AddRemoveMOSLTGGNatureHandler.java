@@ -3,12 +3,13 @@ package org.moflon.tgg.mosl.builder;
 import java.util.Iterator;
 import org.eclipse.core.commands.*;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.ide.core.runtime.ProjectNatureAndBuilderConfiguratorTask;
 
 public class AddRemoveMOSLTGGNatureHandler extends AbstractHandler {
 
@@ -26,39 +27,19 @@ public class AddRemoveMOSLTGGNatureHandler extends AbstractHandler {
 				}
 				if (project != null) {
 					try {
-						toggleNature(project);
+						final boolean hasNature = project.hasNature(MOSLTGGNature.NATURE_ID);
+						final ProjectNatureAndBuilderConfiguratorTask projectConfiguratorTask =
+								new ProjectNatureAndBuilderConfiguratorTask(project, false);
+						final MOSLTGGNature moslTGGProjectConfigurator = new MOSLTGGNature();
+						projectConfiguratorTask.updateNatureIDs(moslTGGProjectConfigurator, !hasNature);
+						projectConfiguratorTask.updateBuildSpecs(moslTGGProjectConfigurator, !hasNature);
+						WorkspaceTask.execute(projectConfiguratorTask, false);
 					} catch (CoreException e) {
 						throw new ExecutionException("Failed to toggle nature", e);
 					}
 				}
 			}
 		}
-
 		return null;
 	}
-
-	private void toggleNature(IProject project) throws CoreException {
-		IProjectDescription description = project.getDescription();
-		String[] natures = description.getNatureIds();
-
-		for (int i = 0; i < natures.length; ++i) {			
-			if (MOSLTGGNature.NATURE_ID.equals(natures[i])) {
-				// Remove the nature
-				String[] newNatures = new String[natures.length - 1];
-				System.arraycopy(natures, 0, newNatures, 0, i);
-				System.arraycopy(natures, i + 1, newNatures, i, natures.length - i - 1);
-				description.setNatureIds(newNatures);
-				project.setDescription(description, null);
-				return;
-			}
-		}
-
-		// Add the nature
-		String[] newNatures = new String[natures.length + 1];
-		System.arraycopy(natures, 0, newNatures, 0, natures.length);
-		newNatures[natures.length] = MOSLTGGNature.NATURE_ID;
-		description.setNatureIds(newNatures);
-		project.setDescription(description, null);
-	}
-
 }

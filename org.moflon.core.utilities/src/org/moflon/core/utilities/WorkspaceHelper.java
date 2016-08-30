@@ -22,6 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -36,6 +37,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
@@ -68,6 +70,10 @@ public class WorkspaceHelper
 
    public final static String DEBUG_FOLDER = "debug";
 
+   public static final String SOURCE_FOLDER = "src";
+   
+   public static final String BIN_FOLDER = "bin";
+   
    public static final String LIB_FOLDER = "lib";
 
    public static final String GEN_FOLDER = "gen";
@@ -93,12 +99,14 @@ public class WorkspaceHelper
    public static final String INSTANCES_FOLDER = "instances";
 
    public static final String GEN_MODEL_EXT = ".genmodel";
+   
+   public static final String MOSL_TGG_NATURE = "org.moflon.tgg.mosl.codeadapter.moslTGGNature";
 
-   public static final String REPOSITORY_NATURE_ID = "org.moflon.ide.ui.runtime.natures.RepositoryNature";
+   public static final String REPOSITORY_NATURE_ID = "org.moflon.ide.core.runtime.natures.RepositoryNature";
 
-   public static final String INTEGRATION_NATURE_ID = "org.moflon.ide.ui.runtime.natures.IntegrationNature";
+   public static final String INTEGRATION_NATURE_ID = "org.moflon.ide.core.runtime.natures.IntegrationNature";
 
-   public static final String METAMODEL_NATURE_ID = "org.moflon.ide.ui.runtime.natures.MetamodelNature";
+   public static final String METAMODEL_NATURE_ID = "org.moflon.ide.core.runtime.natures.MetamodelNature";
 
    public static final String PLUGIN_NATURE_ID = "org.eclipse.pde.PluginNature"; // PDE.NATURE_ID
 
@@ -125,6 +133,9 @@ public class WorkspaceHelper
    public final static String MOFLON_PROBLEM_MARKER_ID = "org.moflon.ide.marker.MOFLONProblem";
 
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
+   
+   public static final String KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT = ".keep";
+
 
    /**
     * Checks if given name is a valid name for a new project in the current workspace.
@@ -147,8 +158,8 @@ public class WorkspaceHelper
          return new Status(IStatus.ERROR, pluginId, validity.getMessage());
 
       // Check if no other project with the same name already exists in workspace
-      IProject[] workspaceProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-      for (IProject project : workspaceProjects)
+      IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+      for (IProject project : projects)
       {
          if (project.getName().equals(projectName))
          {
@@ -335,7 +346,10 @@ public class WorkspaceHelper
     * @param monitor
     *           a progress monitor, or null if progress reporting is not desired
     * @throws JavaModelException
+    * 
+    * @deprecated Each time this method is used, the whole project is manipulated which may cause unnecessary events
     */
+   @Deprecated
    public static void setAsSourceFolderInBuildpath(final IJavaProject javaProject, final IFolder[] folderNames, final IClasspathAttribute[] extraAttributes,
          final IProgressMonitor monitor) throws JavaModelException
    {
@@ -1012,15 +1026,16 @@ public class WorkspaceHelper
    }
 
    /**
-    * Checks whether the given monitor has been canceled and throws an InterruptedException to signal the cancellation.
+    * Checks whether the given monitor has been canceled and throws an OperationCancelledException to signal the cancellation.
     * 
-    * @throws InterruptedException
+    * @throws OperationCancelledException
     *            if the monitor has been cancelled
     */
-   public static void checkCanceledAndThrowInterruptedException(final IProgressMonitor monitor) throws InterruptedException
+   public static void checkCanceledAndThrowException(final IProgressMonitor monitor) 
    {
-      if (monitor.isCanceled())
-         throw new InterruptedException();
+      if (monitor.isCanceled()) {
+    	  throw new OperationCanceledException();
+      }
    }
 
    /**
@@ -1127,9 +1142,29 @@ public class WorkspaceHelper
       String ecoreFileName = MoflonUtil.lastCapitalizedSegmentOf(project.getName());
       return project.getFolder(MODEL_FOLDER).getFile(ecoreFileName + ECORE_FILE_EXTENSION);
    }
+   
+   /**
+    * Returns a handle to the /bin folder of the project
+    * 
+    * @see WorkspaceHelper#BIN_FOLDER
+    */
+   public static IFolder getBinFolder(IProject project)
+   {
+      return project.getFolder(BIN_FOLDER);
+   }
 
    /**
-    * Returns a handle to the gen folder of the project
+    * Returns a handle to the /src folder of the project
+    * 
+    * @see WorkspaceHelper#SOURCE_FOLDER
+    */
+   public static IFolder getSourceFolder(IProject project)
+   {
+      return project.getFolder(SOURCE_FOLDER);
+   }
+   
+   /**
+    * Returns a handle to the /gen folder of the project
     * 
     * @see WorkspaceHelper#GEN_FOLDER
     */
@@ -1139,37 +1174,37 @@ public class WorkspaceHelper
    }
 
    /**
-    * Returns a handle to the model folder of the project
+    * Returns a handle to the /model folder of the project
     * 
     * @see WorkspaceHelper#MODEL_FOLDER
     */
-   public static IFolder getModelFolder(final IProject workspaceProject)
+   public static IFolder getModelFolder(final IProject project)
    {
-      return workspaceProject.getFolder(MODEL_FOLDER);
+      return project.getFolder(MODEL_FOLDER);
    }
 
    /**
-    * Returns a handle to the instances folder of the project
+    * Returns a handle to the /instances folder of the project
     * 
     * @see WorkspaceHelper#INSTANCES_FOLDER
     */
-   public static IFolder getInstancesFolder(final IProject workspaceProject)
+   public static IFolder getInstancesFolder(final IProject project)
    {
-      return workspaceProject.getFolder(INSTANCES_FOLDER);
+      return project.getFolder(INSTANCES_FOLDER);
    }
 
    /**
-    * Returns a handle to the lib folder of the project
+    * Returns a handle to the /lib folder of the project
     * 
     * @see WorkspaceHelper#LIB_FOLDER
     */
-   public static IFolder getLibFolder(final IProject workspaceProject)
+   public static IFolder getLibFolder(final IProject project)
    {
-      return workspaceProject.getFolder(LIB_FOLDER);
+      return project.getFolder(LIB_FOLDER);
    }
 
    /**
-    * Returns a handle to the injection folder of the project
+    * Returns a handle to the /injection folder of the project
     * 
     * @see WorkspaceHelper#INJECTION_FOLDER
     */
@@ -1211,5 +1246,45 @@ public class WorkspaceHelper
       ByteArrayOutputStream stream = new ByteArrayOutputStream();
       t.printStackTrace(new PrintStream(stream));
       return new String(stream.toByteArray());
+   }
+
+   public static void createKeepFile(final IFolder folder, final IProgressMonitor monitor)
+   {
+      final String filename = KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT + folder.getName();
+      try
+      {
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Creating " + filename, 1);
+         final IFile keepFile = folder.getFile(filename);
+         if (!keepFile.exists())
+         {
+            keepFile.create(new ByteArrayInputStream(new String("Dummy file to protect empty folder in Git.\n").getBytes()), true, subMon.newChild(1));
+         }
+      } catch (CoreException e)
+      {
+         LogUtils.warn(logger, "Error during creation of file %s in folder %s .", filename, folder);
+      }
+   }
+
+   public static final String GITIGNORE_FILENAME = ".gitignore";
+
+   /**
+    * Creates the given file with the given content if the file does not exist yet. 
+    * 
+    * If the file already exists, nothing happens.
+    * 
+    * @param gitignoreFile the file to be created
+    * @param lines the contents of the new file
+    * @param monitor the progress monitor
+    * @throws CoreException if creating the file fails
+    */
+   public static void createGitignoreFileIfNotExists(final IFile gitignoreFile, final List<String> lines, final IProgressMonitor monitor) throws CoreException
+   {
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating file " + gitignoreFile, 1);
+   
+      if (!gitignoreFile.exists())
+      {
+         final String genFolderGitIgnoreFileContents = StringUtils.join(lines, "\n");
+         gitignoreFile.create(new ByteArrayInputStream(genFolderGitIgnoreFileContents.getBytes()), true, subMon.newChild(1));
+      }
    }
 }

@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 
 public class PluginURIToResourceURIRemapper
@@ -30,7 +31,7 @@ public class PluginURIToResourceURIRemapper
             createPluginToResourceMap(set, project);
          } catch (IOException e)
          {
-            e.printStackTrace();
+            LogUtils.error(logger, e);
          }
    }
 

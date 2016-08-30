@@ -26,8 +26,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 
 public class AntlrBuilder extends AbstractBuilder
@@ -118,7 +119,6 @@ public class AntlrBuilder extends AbstractBuilder
                compileAntlrResource(resource.getParent().findMember(prefix + "Parser.g"));
          } catch (URISyntaxException e)
          {
-            e.printStackTrace();
             MoflonUtil.throwCoreExceptionAsError(e.getMessage(), CoreActivator.getModuleID(), e);
          }
 
@@ -168,7 +168,7 @@ public class AntlrBuilder extends AbstractBuilder
          antlr.process();
       } catch (Exception e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
       this.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
    }
@@ -197,36 +197,30 @@ public class AntlrBuilder extends AbstractBuilder
 
    private void cleanDirectory(final IContainer container, final IProgressMonitor monitor) throws CoreException
    {
-      try
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Cleaning directory", 3 * container.members().length);
+      Pattern antlrFilePattern = Pattern.compile("(.+)\\.g");
+      for (IResource res : container.members())
       {
-         monitor.beginTask("Cleaning directory", 3 * container.members().length);
-         Pattern antlrFilePattern = Pattern.compile("(.+)\\.g");
-         for (IResource res : container.members())
+         if (res.getType() == IResource.FILE)
          {
-            if (res.getType() == IResource.FILE)
+            Matcher m = antlrFilePattern.matcher(res.getName());
+            if (m.matches())
             {
-               Matcher m = antlrFilePattern.matcher(res.getName());
-               if (m.matches())
-               {
-                  deleteResource(container, m.group(1) + ".tokens", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-                  deleteResource(container, m.group(1) + ".java", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-               } else
-               {
-                  monitor.worked(2);
-               }
-            }
-
-            if (res.getType() == IResource.FOLDER)
-            {
-               cleanDirectory((IFolder) res, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+               deleteResource(container, m.group(1) + ".tokens", subMon.newChild(1));
+               deleteResource(container, m.group(1) + ".java", subMon.newChild(1));
             } else
             {
-               monitor.worked(1);
+               subMon.worked(2);
             }
          }
-      } finally
-      {
-         monitor.done();
+
+         if (res.getType() == IResource.FOLDER)
+         {
+            cleanDirectory((IFolder) res, subMon.newChild(1));
+         } else
+         {
+            subMon.worked(1);
+         }
       }
 
    }
@@ -235,17 +229,15 @@ public class AntlrBuilder extends AbstractBuilder
    {
       logger.debug("Removing file '" + string + "'");
       IResource res = container.findMember(string);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Deleting", 1);
       if (res != null && res.exists())
       {
-         res.delete(true, monitor);
-      } else
-      {
-         monitor.done();
+         res.delete(true, subMon.newChild(1));
       }
    }
 
-   public static int executeCommandLine(final long timeout, final Process process, final IResource resource) throws IOException, InterruptedException,
-         TimeoutException
+   public static int executeCommandLine(final long timeout, final Process process, final IResource resource)
+         throws IOException, InterruptedException, TimeoutException
    {
       Worker worker = new Worker(process, resource);
       worker.start();

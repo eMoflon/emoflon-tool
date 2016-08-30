@@ -7,14 +7,18 @@ import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
+import org.apache.log4j.Logger;
 import org.moflon.core.moca.processing.Problem;
 import org.moflon.core.moca.processing.parser.impl.ParserImpl;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.moca.MocaUtil;
 
 import MocaTree.Node;
 
 public class InjectImplParserAdapter extends ParserImpl
 {
+
+   private static final Logger logger = Logger.getLogger(InjectImplParserAdapter.class);
 
    private String filename;
 
@@ -52,12 +56,9 @@ public class InjectImplParserAdapter extends ParserImpl
          }
 
          return MocaUtil.commonTreeToMocaTree(result);
-      } catch (IOException e)
+      } catch (IOException | RecognitionException e)
       {
-         e.printStackTrace();
-      } catch (RecognitionException e)
-      {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
 
       return null;

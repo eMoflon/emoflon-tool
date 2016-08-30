@@ -1,5 +1,8 @@
 package org.moflon.core.utilities;
 
+import java.util.Arrays;
+import java.util.IllegalFormatException;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -20,9 +23,12 @@ public final class LogUtils
 
    public static void log(final Logger logger, Level level, final String formatString, final Object... arguments)
    {
-      if (logger.getLevel().isGreaterOrEqual(level))
+      if (logger == null)
+         return;
+
+      if (logger.getLevel() == null || logger.getLevel().isGreaterOrEqual(level))
       {
-         logger.log(level, String.format(formatString, arguments));
+         logger.log(level, formatStringFailsafe(formatString, arguments));
       }
    }
 
@@ -33,7 +39,7 @@ public final class LogUtils
 
    public static void error(final Logger logger, final Throwable t, final String formatString, final Object... arguments)
    {
-      log(logger, Level.ERROR, formatString + " Reason:\n%s", arguments, WorkspaceHelper.printStacktraceToString(t));
+      log(logger, Level.ERROR, "%s Reason:\n%s", String.format(formatString, arguments), WorkspaceHelper.printStacktraceToString(t));
    }
 
    /**
@@ -60,5 +66,19 @@ public final class LogUtils
    public static void debug(final Logger logger, final String formatString, final Object... arguments)
    {
       log(logger, Level.DEBUG, formatString, arguments);
+   }
+
+   private static String formatStringFailsafe(final String formatString, final Object... arguments)
+   {
+      String str;
+      try
+      {
+         str = String.format(formatString, arguments);
+      } catch (IllegalFormatException e)
+      {
+         // Fallback in case something is wrong with the formatting string.
+         str = String.format("Malformed format string for error message: formatString='%s', parameters='%s'", formatString, Arrays.deepToString(arguments));
+      }
+      return str;
    }
 }

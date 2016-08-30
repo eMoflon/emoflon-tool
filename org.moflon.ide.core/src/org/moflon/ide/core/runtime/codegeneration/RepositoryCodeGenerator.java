@@ -40,7 +40,8 @@ import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 
 // TODO@rkluge
 /**
- * @deprecated Should be eliminated by the new automatic build process (rkluge, 2016-08-11)
+ * @deprecated Should be eliminated by the new automatic build process (rkluge, 2016-08-11); Use the standard Eclipse build framework 
+ * (ResourcesPlugin.getWorkspace().build())
  */
 @Deprecated
 @SuppressWarnings("restriction")
@@ -86,17 +87,13 @@ public class RepositoryCodeGenerator
          if (genModel != null)
          {
 
-            ExportedPackagesInManifestUpdater exportedPackagesUpdater = new ExportedPackagesInManifestUpdater(project, genModel);
-            exportedPackagesUpdater.run(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+        	 ExportedPackagesInManifestUpdater.updateExportedPackageInManifest(project, genModel);
 
-            new PluginXmlUpdater().updatePluginXml(project, genModel, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+            PluginXmlUpdater.updatePluginXml(project, genModel, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
          }
          ecoreFile.getProject().refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
 
          CoreActivator.addMappingForProject(project);
-
-         CoreActivator.getDefault().setDirty(project, false);
-
       } finally
       {
          monitor.done();

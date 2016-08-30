@@ -12,6 +12,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/memoryBoxToDoubleLinkedList/MemoryBoxToDoubleLinkedListIntegration,MemoryBoxToDoubleLinkedListIntegration"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/memoryBoxToDoubleLinkedList/MemoryBoxToDoubleLinkedListTransformation,MemoryBoxToDoubleLinkedListTransformation"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/MocaToMoflonAttributeConstr,MocaToMoflonAttributeConstr"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/sdmTestSuite/ValidationTest,ValidationTest"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/sdmTestSuite/SDMTestSuite,SDMTestSuite"/>
 </provider>
 </psf>

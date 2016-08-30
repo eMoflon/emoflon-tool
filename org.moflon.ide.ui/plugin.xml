@@ -42,82 +42,23 @@
       <image
             icon="resources/icons/metamodelProject.gif"
             id="org.moflon.ide.ui.MetamodelNatureImage"
-            natureId="org.moflon.ide.ui.runtime.natures.MetamodelNature">
+            natureId="org.moflon.ide.core.runtime.natures.MetamodelNature">
       </image>
       <image
             icon="resources/icons/repositoryProject.gif"
             id="org.moflon.ide.ui.RepositoryNatureImage"
-            natureId="org.moflon.ide.ui.runtime.natures.RepositoryNature">
+            natureId="org.moflon.ide.core.runtime.natures.RepositoryNature">
       </image>
       <image
             icon="resources/icons/integrationProject.gif"
             id="org.moflon.ide.ui.IntegrationNatureImage"
-            natureId="org.moflon.ide.ui.runtime.natures.IntegrationNature">
+            natureId="org.moflon.ide.core.runtime.natures.IntegrationNature">
       </image>
       <image
             icon="resources/icons/addParserAndUnparser.png"
             id="org.moflon.ide.ui.AntlrNatureImage"
-            natureId="org.moflon.ide.ui.runtime.natures.AntlrNature">
+            natureId="org.moflon.ide.core.runtime.natures.AntlrNature">
       </image>
-   </extension>
-   <extension
-         id="org.moflon.ide.ui.runtime.natures.MetamodelNature"
-         name="Metamodel Nature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="org.moflon.ide.ui.runtime.natures.MetamodelNature">
-         </run>
-      </runtime>
-   </extension>
-   <extension
-         id="org.moflon.ide.ui.runtime.natures.RepositoryNature"
-         name="Repository Nature"         
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="org.moflon.ide.ui.runtime.natures.RepositoryNature">
-         </run>
-      </runtime>
-   </extension>
-   <extension
-         id="org.moflon.ide.ui.runtime.natures.IntegrationNature"
-         name="Integration Nature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="org.moflon.ide.ui.runtime.natures.IntegrationNature">
-         </run>
-      </runtime>
-   </extension>
-   <extension
-         id="org.moflon.ide.core.runtime.builders.MetamodelBuilder"
-         name="Metamodel Builder"
-         point="org.eclipse.core.resources.builders">
-      <builder>
-         <run
-               class="org.moflon.ide.core.runtime.builders.MetamodelBuilder">
-         </run>
-      </builder>
-   </extension>
-   <extension
-         id="org.moflon.ide.core.runtime.builders.RepositoryBuilder"
-         name="Repository Builder"
-         point="org.eclipse.core.resources.builders">
-      <builder>
-         <run
-               class="org.moflon.ide.core.runtime.builders.RepositoryBuilder">
-         </run></builder>
-   </extension>
-   <extension
-         id="org.moflon.ide.core.runtime.builders.IntegrationBuilder"
-         name="Integration Builder"
-         point="org.eclipse.core.resources.builders">
-      <builder>
-         <run
-               class="org.moflon.ide.core.runtime.builders.IntegrationBuilder">
-         </run>
-      </builder>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -232,24 +173,6 @@
    </extension>
    
    
-   <extension
-         id="org.moflon.ide.ui.runtime.natures.AntlrNature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="org.moflon.ide.ui.runtime.natures.AntlrNature">
-         </run>
-      </runtime>
-   </extension>
-   <extension
-         id="org.moflon.ide.core.runtime.builders.AntlrBuilder"
-         point="org.eclipse.core.resources.builders">
-      <builder>
-         <run
-               class="org.moflon.ide.core.runtime.builders.AntlrBuilder">
-         </run>
-      </builder>
-   </extension>
    <extension
          id="org.moflon.ide.AntlrEditorProblem"
          name="Antlr Problem"
@@ -377,10 +300,10 @@
             lightweight="true"
             adaptable="true"
             label="%Decorator_name"
-            class="org.moflon.ide.ui.decorators.MoflonDirtyProjectDecorator"
+            class="org.moflon.ide.ui.decorators.MoflonProjectDecorator"
             state="true"
             location="BOTTOM_RIGHT"
-            id="org.moflon.ide.ui.decorators.MoflonDirtyProjectDecorator">
+            id="org.moflon.ide.ui.decorators.MoflonProjectDecorator">
             <enablement>
             	<and>
                 <objectClass
@@ -390,15 +313,15 @@
                      
                      <objectState
                            name="projectNature"
-                           value="org.moflon.ide.ui.runtime.natures.RepositoryNature">
+                           value="org.moflon.ide.core.runtime.natures.RepositoryNature">
                      </objectState>
                      <objectState
                            name="projectNature"
-                           value="org.moflon.ide.ui.runtime.natures.IntegrationNature">
+                           value="org.moflon.ide.core.runtime.natures.IntegrationNature">
                      </objectState>
                      <objectState
                            name="projectNature"
-                           value="org.moflon.ide.ui.runtime.natures.MetamodelNature">
+                           value="org.moflon.ide.core.runtime.natures.MetamodelNature">
                      </objectState>
                   </or>
             	</and>
@@ -787,6 +710,11 @@
             id="org.moflon.ide.ui.moflon"
             name="eMoflon popup">
       </command>
+      <command
+            defaultHandler="org.moflon.ide.ui.admin.handlers.RemoveXTextMarkersHandler"
+            id="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
+            name="Remove XText Validation Markers">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -1013,6 +941,18 @@
                   checkEnabled="false">
             </visibleWhen>
          </command>
+         <command
+               commandId="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
+               label="Remove XText Markers"
+               style="push"
+               tooltip="Removes all XText validation markers from the given resource and its children">
+            <visibleWhen
+                  checkEnabled="true">
+               <reference
+                     definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
+               </reference>
+            </visibleWhen>
+         </command>
       </menuContribution>
    </extension>
    <!--
@@ -1077,6 +1017,12 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M2+M3+E M">
       </key>
+      <key
+            commandId="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+E Y">
+      </key>
    </extension>
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
@@ -1107,7 +1053,7 @@
                type="org.eclipse.core.resources.IResource">
             <test
                   property="org.eclipse.core.resources.projectNature"
-                  value="org.moflon.ide.ui.runtime.natures.RepositoryNature">
+                  value="org.moflon.ide.core.runtime.natures.RepositoryNature">
             </test>
          </adapt>
       </definition>
@@ -1127,7 +1073,7 @@
                type="org.eclipse.core.resources.IResource">
             <test
                   property="org.eclipse.core.resources.projectNature"
-                  value="org.moflon.ide.ui.runtime.natures.MetamodelNature">
+                  value="org.moflon.ide.core.runtime.natures.MetamodelNature">
             </test>
          </adapt>
       </definition>
@@ -1157,7 +1103,7 @@
                type="org.eclipse.core.resources.IResource">
             <test
                   property="org.eclipse.core.resources.projectNature"
-                  value="org.moflon.ide.ui.runtime.natures.IntegrationNature">
+                  value="org.moflon.ide.core.runtime.natures.IntegrationNature">
             </test>
          </adapt>
       </definition>

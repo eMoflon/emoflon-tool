@@ -17,11 +17,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
 
@@ -58,51 +58,45 @@ abstract public class GenericMoflonProcess implements IMonitoredJob
    @Override
    public final IStatus run(final IProgressMonitor monitor)
    {
+      final SubMonitor subMon = SubMonitor.convert(monitor, getTaskName(), 10);
       try
       {
-         monitor.beginTask(getTaskName(), 10);
-         try
-         {
-            // (1) Loads moflon.properties file
-            final IProject project = ecoreFile.getProject();
-            final URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
-            final URI moflonPropertiesURI = URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE).resolve(projectURI);
-            final Resource moflonPropertiesResource = CodeGeneratorPlugin.createDefaultResourceSet().getResource(moflonPropertiesURI, true);
-            this.moflonProperties = (MoflonPropertiesContainer) moflonPropertiesResource.getContents().get(0);
+         // (1) Loads moflon.properties file
+         final IProject project = ecoreFile.getProject();
+         final URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
+         final URI moflonPropertiesURI = URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE).resolve(projectURI);
+         final Resource moflonPropertiesResource = CodeGeneratorPlugin.createDefaultResourceSet().getResource(moflonPropertiesURI, true);
+         this.moflonProperties = (MoflonPropertiesContainer) moflonPropertiesResource.getContents().get(0);
 
-            monitor.worked(1);
-            if (monitor.isCanceled())
-            {
-               return Status.CANCEL_STATUS;
-            }
-         } catch (WrappedException wrappedException)
-         {
-            final Exception exception = wrappedException.exception();
-            return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), exception.getMessage(), exception);
-         } catch (RuntimeException runtimeException)
-         {
-            return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), runtimeException.getMessage(), runtimeException);
-         }
-
-         // (2) Load metamodel
-         final MonitoredMetamodelLoader metamodelLoader = new MonitoredMetamodelLoader(resourceSet, ecoreFile, moflonProperties);
-         final IStatus metamodelLoaderStatus = metamodelLoader.run(WorkspaceHelper.createSubMonitor(monitor, 2));
-         if (monitor.isCanceled())
+         subMon.worked(1);
+         if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
-         if (metamodelLoaderStatus.matches(IStatus.ERROR))
-         {
-            return metamodelLoaderStatus;
-         }
-         this.resources = metamodelLoader.getResources();
-
-         // Delegate to the subclass
-         return processResource(WorkspaceHelper.createSubMonitor(monitor, 7));
-      } finally
+      } catch (WrappedException wrappedException)
       {
-         monitor.done();
+         final Exception exception = wrappedException.exception();
+         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), exception.getMessage(), exception);
+      } catch (RuntimeException runtimeException)
+      {
+         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), runtimeException.getMessage(), runtimeException);
       }
+
+      // (2) Load metamodel
+      final MonitoredMetamodelLoader metamodelLoader = new MonitoredMetamodelLoader(resourceSet, ecoreFile, moflonProperties);
+      final IStatus metamodelLoaderStatus = metamodelLoader.run(subMon.newChild(2));
+      if (subMon.isCanceled())
+      {
+         return Status.CANCEL_STATUS;
+      }
+      if (metamodelLoaderStatus.matches(IStatus.ERROR))
+      {
+         return metamodelLoaderStatus;
+      }
+      this.resources = metamodelLoader.getResources();
+
+      // Delegate to the subclass
+      return processResource(subMon.newChild(7));
    }
 
    abstract public IStatus processResource(final IProgressMonitor monitor);

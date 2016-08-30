@@ -23,7 +23,7 @@ public class StartUp implements IStartup
             try
             {
                final SubMonitor subMon = SubMonitor.convert(monitor, "eMoflon Autostart", 100);
-               AutoTestActivator.getDefault().autoStart(subMon.split(100));
+               AutoTestActivator.getDefault().autoStart(subMon.newChild(100));
             } finally
             {
                monitor.done();

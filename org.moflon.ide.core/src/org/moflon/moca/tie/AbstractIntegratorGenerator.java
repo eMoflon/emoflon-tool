@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -128,7 +129,7 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
                projects.add(projectOnBuildPath.getName());
          } catch (CoreException e)
          {
-            e.printStackTrace();
+            LogUtils.error(logger, e);
          }
       }
 

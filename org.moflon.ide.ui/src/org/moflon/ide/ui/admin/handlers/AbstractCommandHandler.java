@@ -40,22 +40,21 @@ public abstract class AbstractCommandHandler extends org.eclipse.core.commands.A
     * For working sets, the contained projects are returned
     * 
     * @param selectionIterator
-    * @return the containing project (if exists), otherwise null.
+    * @return the containing projects (if exists), otherwise an empty list
     */
    protected static List<IProject> getProjects(final Object element)
    {
-      List<IProject> projects = new ArrayList<>();
-      IProject project = null;
+      final List<IProject> projects = new ArrayList<>();
       if (element instanceof IResource)
       {
          final IResource resource = (IResource) element;
-         project = resource.getProject();
+         final IProject project = resource.getProject();
          projects.add(project);
       }
       else if (element instanceof IJavaElement)
       {
          final IJavaElement javaElement = (IJavaElement) element; 
-         project = javaElement.getJavaProject().getProject();
+         final IProject project = javaElement.getJavaProject().getProject();
          projects.add(project);
       }
       else if (element instanceof IWorkingSet)

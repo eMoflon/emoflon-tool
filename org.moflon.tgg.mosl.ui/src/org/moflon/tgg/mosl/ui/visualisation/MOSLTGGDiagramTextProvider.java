@@ -2,6 +2,7 @@ package org.moflon.tgg.mosl.ui.visualisation;
 
 import java.util.HashMap;
 import java.util.Optional;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -24,6 +25,7 @@ import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.xtext.ui.editor.XtextEditor;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
@@ -42,6 +44,7 @@ import org.moflon.tgg.language.precompiler.RefinementPrecompiler;
 import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
 
 public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
+   private static final Logger logger = Logger.getLogger(MOSLTGGDiagramTextProvider.class);
 	private boolean outdated = false;
 	private XtextEditor oldEditor;
 	private HashMap<String, String> oldValue = new HashMap<>();
@@ -59,7 +62,7 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 						jobManager.join(ResourcesPlugin.FAMILY_AUTO_BUILD, new NullProgressMonitor());
 						outdated = true;
 					} catch (Exception e) {
-						e.printStackTrace();
+                  LogUtils.error(logger, e);
 					}
 
 					return Status.OK_STATUS;

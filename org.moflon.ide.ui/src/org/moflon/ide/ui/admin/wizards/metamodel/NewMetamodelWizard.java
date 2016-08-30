@@ -1,14 +1,19 @@
 package org.moflon.ide.ui.admin.wizards.metamodel;
 
+import java.net.URL;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
+import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.ide.ui.UIActivator;
 import org.moflon.ide.ui.WorkspaceHelperUI;
 
@@ -37,36 +42,29 @@ public class NewMetamodelWizard extends AbstractMoflonWizard
    {
       try
       {
-         monitor.beginTask("Creating metamodel project", 8);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Creating metamodel project", 8);
 
-         String projectName = projectInfo.getProjectName();
-         IPath location = projectInfo.getProjectLocation();
+         final String projectName = projectInfo.getProjectName();
+         final IPath location = projectInfo.getProjectLocation();
 
          // Create project
-         IProject newProjectHandle = WorkspaceHelper.createProject(projectName, UIActivator.getModuleID(), location,
-               WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         final IProject newProjectHandle = WorkspaceHelper.createProject(projectName, UIActivator.getModuleID(), location, subMon.newChild(1));
 
          // generate default files
-         WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap",
-               MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", UIActivator.getModuleID()), UIActivator.getModuleID(),
-               WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         final URL pathToDefaultEapFile = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", UIActivator.getModuleID());
+         WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap", pathToDefaultEapFile, UIActivator.getModuleID(), subMon.newChild(1));
 
-         WorkspaceHelper.addFile(newProjectHandle, ".gitignore", ".temp", WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         MoflonProjectCreator.addGitignoreFileForMetamodelProject(newProjectHandle, subMon.newChild(1));
 
-         // Add Nature and Builders
-         WorkspaceHelper.addNature(newProjectHandle, CoreActivator.METAMODEL_NATURE_ID, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         WorkspaceHelper.addNature(newProjectHandle, CoreActivator.METAMODEL_NATURE_ID, subMon.newChild(1));
 
          WorkspaceHelperUI.moveProjectToWorkingSet(newProjectHandle, SPECIFICATION_WORKINGSET_NAME);
 
-         newProjectHandle.refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         newProjectHandle.refreshLocal(IResource.DEPTH_INFINITE, subMon.newChild(1));
 
       } catch (Exception e)
       {
-         logger.error("Unable to add default EA project file: " + e);
-         e.printStackTrace();
-      } finally
-      {
-         monitor.done();
+         LogUtils.error(logger, e, "Unable to add default EA project file.");
       }
    }
 

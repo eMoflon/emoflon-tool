@@ -48,7 +48,7 @@ public class DeploymentJob extends Job
 
          ensureThatDirectoryIsWritable(new File(deploymentRoot));
 
-         eclipsePluginDeployer.deploy(subMon.split(100));
+         eclipsePluginDeployer.deploy(subMon.newChild(100));
 
          return new Status(IStatus.OK, AutoTestActivator.getModuleID(), "Successfully deployed eMoflon ...");
 

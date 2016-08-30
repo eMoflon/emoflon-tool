@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.moflon.core.moca.processing.MocaPlugin;
 import org.moflon.core.moca.tree.MocaTreePlugin;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -212,8 +213,7 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
             templateFolder.create(true, true, new NullProgressMonitor());
          } catch (CoreException e)
          {
-            logger.debug("unable to create templates directory.");
-            e.printStackTrace();
+            LogUtils.error(logger, e, "Unable to create templates directory.");
          }
       }
    }
@@ -229,15 +229,9 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
          {
             URL url = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/moca/templates/defaultTemplates/XML.stg", UIActivator.getModuleID());
             WorkspaceHelper.addFile(project, "templates/XML.stg", url, UIActivator.getModuleID(), new NullProgressMonitor());
-         } catch (CoreException e)
+         } catch (CoreException | URISyntaxException | IOException e)
          {
-            e.printStackTrace();
-         } catch (URISyntaxException e)
-         {
-            e.printStackTrace();
-         } catch (IOException e)
-         {
-            e.printStackTrace();
+            LogUtils.error(logger, e);
          }
       }
    }
@@ -310,8 +304,7 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
             return WorkspaceHelper.addFolder(project, path, new NullProgressMonitor());
          } catch (CoreException e)
          {
-            logger.debug("error while creating folder: " + path);
-            e.printStackTrace();
+            LogUtils.error(logger, e, "error while creating folder: " + path);
             return null;
          }
       } else

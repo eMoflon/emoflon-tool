@@ -16,6 +16,7 @@ import java.util.jar.Attributes.Name;
 import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -23,6 +24,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.plugins.MoflonPluginsActivator;
 
@@ -32,6 +35,7 @@ import org.moflon.ide.plugins.MoflonPluginsActivator;
  */
 public class ManifestFileUpdater
 {
+   private static final Logger logger = Logger.getLogger(ManifestFileUpdater.class);
 
    public enum AttributeUpdatePolicy {
       FORCE, KEEP;
@@ -65,44 +69,37 @@ public class ManifestFileUpdater
    public void processManifest(final IProject project, final Function<Manifest, Boolean> consumer, final IProgressMonitor monitor)
          throws CoreException, IOException
    {
-      try
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Processing manifest of project " + project.getName(), 100);
+      IFile manifestFile = WorkspaceHelper.getManifestFile(project);
+      Manifest manifest = new Manifest();
+
+      if (manifestFile.exists())
       {
-         monitor.beginTask("Processing manifest of project " + project.getName(), 100);
-         IFile manifestFile = WorkspaceHelper.getManifestFile(project);
-         Manifest manifest = new Manifest();
+         readManifestFile(manifestFile, manifest);
+      }
+      subMon.worked(10);
 
-         if (manifestFile.exists())
+      final boolean hasManifestChanged = consumer.apply(manifest);
+      subMon.worked(80);
+
+      if (hasManifestChanged)
+      {
+         ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+         new ManifestWriter().write(manifest, stream);
+         String formattedManifestString = prettyPrintManifest(stream.toString());
+         if (!manifestFile.exists())
          {
-            readManifestFile(manifestFile, manifest);
-         }
-         monitor.worked(10);
-
-         final boolean hasManifestChanged = consumer.apply(manifest);
-         monitor.worked(80);
-
-         if (hasManifestChanged)
-         {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-            new ManifestWriter().write(manifest, stream);
-            String formattedManifestString = prettyPrintManifest(stream.toString());
-            if (!manifestFile.exists())
-            {
-               WorkspaceHelper.addAllFoldersAndFile(project, manifestFile.getProjectRelativePath(), formattedManifestString,
-                     WorkspaceHelper.createSubMonitor(monitor, 10));
-            } else
-            {
-               final ByteArrayInputStream fileOutputStream = new ByteArrayInputStream(formattedManifestString.getBytes());
-               manifestFile.setContents(fileOutputStream, IFile.FORCE, WorkspaceHelper.createSubMonitor(monitor, 10));
-               stream.close();
-            }
+            WorkspaceHelper.addAllFoldersAndFile(project, manifestFile.getProjectRelativePath(), formattedManifestString, subMon.newChild(10));
          } else
          {
-            monitor.worked(10);
+            final ByteArrayInputStream fileOutputStream = new ByteArrayInputStream(formattedManifestString.getBytes());
+            manifestFile.setContents(fileOutputStream, IFile.FORCE, subMon.newChild(10));
+            stream.close();
          }
-      } finally
+      } else
       {
-         monitor.done();
+         subMon.worked(10);
       }
    }
 
@@ -212,15 +209,15 @@ public class ManifestFileUpdater
       {
          setDependencies(manifest, newDependencies);
          return true;
-      }
-      else {
+      } else
+      {
          return false;
       }
    }
 
    /**
-    * Looks up the dependency in the given map.
-    * If a key exists for the plugin ID of the dependency, the corresponding value is returned, otherwise the original dependency is returned
+    * Looks up the dependency in the given map. If a key exists for the plugin ID of the dependency, the corresponding
+    * value is returned, otherwise the original dependency is returned
     */
    private static String getReplacementCandidate(final String dependency, final Map<String, String> dependencyReplacementMap)
    {
@@ -309,7 +306,7 @@ public class ManifestFileUpdater
          });
       } catch (Exception e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
 
       return dependencies.stream().map(dep -> extractPluginId(dep)).collect(Collectors.toList());
@@ -362,7 +359,8 @@ public class ManifestFileUpdater
          manifestFileContents.close();
       } catch (IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Failed to read existing MANIFEST.MF: " + e.getMessage(), e));
+         throw new CoreException(
+               new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Failed to read existing MANIFEST.MF: " + e.getMessage(), e));
       }
    }
 

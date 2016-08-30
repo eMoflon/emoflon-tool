@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 
@@ -23,13 +24,13 @@ public class BuildPropertiesFileBuilder
    {
       try
       {
-         monitor.beginTask("Creating build.properties", 2);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Creating build.properties", 2);
 
          IFile file = getBuildPropertiesFile(currentProject);
          if (file.exists())
          {
             // Do not touch existing build.properties
-            monitor.worked(2);
+            subMon.worked(2);
          } else
          {
             Properties buildProperties = new Properties();
@@ -37,17 +38,17 @@ public class BuildPropertiesFileBuilder
             buildProperties.put("source..", "src/,gen/");
             buildProperties.put("output..", "bin/");
 
-            monitor.worked(1);
+            subMon.worked(1);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             buildProperties.store(stream, "");
 
             if (!file.exists())
             {
-               WorkspaceHelper.addFile(currentProject, BUILD_PROPERTIES_NAME, stream.toString(), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+               WorkspaceHelper.addFile(currentProject, BUILD_PROPERTIES_NAME, stream.toString(), subMon.newChild(1));
             } else
             {
-               file.setContents(new ByteArrayInputStream(stream.toByteArray()), true, true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+               file.setContents(new ByteArrayInputStream(stream.toByteArray()), true, true, subMon.newChild(1));
             }
          }
       } catch (IOException e)

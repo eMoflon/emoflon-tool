@@ -395,10 +395,10 @@ public class MoflonUtil
       SubMonitor subMon = SubMonitor.convert(monitor, "Write to file", 1);
       if (!file.exists())
       {
-         file.create(new ByteArrayInputStream(content.getBytes()), true, subMon.split(1));
+         file.create(new ByteArrayInputStream(content.getBytes()), true, subMon.newChild(1));
       } else
       {
-         file.setContents(new ByteArrayInputStream(content.getBytes()), true, true, subMon.split(1));
+         file.setContents(new ByteArrayInputStream(content.getBytes()), true, true, subMon.newChild(1));
       }
    }
 }

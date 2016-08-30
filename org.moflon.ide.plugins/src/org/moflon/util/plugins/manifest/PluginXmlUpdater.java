@@ -17,8 +17,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -32,8 +35,23 @@ import org.w3c.dom.NodeList;
 /**
  * This class updates plugin.xml, e.g., with information from the genmodel.
  */
-public class PluginXmlUpdater
+public class PluginXmlUpdater extends WorkspaceTask
 {
+   private final IProject project;
+
+   private final GenModel genModel;
+
+   private PluginXmlUpdater(final IProject project)
+   {
+      this(project, eMoflonEMFUtil.extractGenModelFromProject(project));
+   }
+
+   private PluginXmlUpdater(final IProject project, final GenModel genModel)
+   {
+      this.project = project;
+      this.genModel = genModel;
+   }
+
    private static class GeneratedPackageEntry
    {
       private String uri;
@@ -61,49 +79,45 @@ public class PluginXmlUpdater
     * 
     * @see WorkspaceHelper#getProjectGenmodelFile(IProject)
     */
-   public void updatePluginXml(final IProject currentProject, final IProgressMonitor monitor) throws CoreException
+   public static final void updatePluginXml(final IProject currentProject, final IProgressMonitor monitor) throws CoreException
    {
-      try
-      {
-         monitor.beginTask("Create/update plugin.xml", 1);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Create/update plugin.xml", 1);
 
-         updatePluginXml(currentProject, eMoflonEMFUtil.extractGenModelFromProject(currentProject), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+      updatePluginXml(currentProject, eMoflonEMFUtil.extractGenModelFromProject(currentProject), subMon.newChild(1));
+   }
 
-      } finally
-      {
-         monitor.done();
-      }
+   public static final void updatePluginXml(final IProject currentProject, final GenModel genModel, final IProgressMonitor monitor) throws CoreException
+   {
+      final PluginXmlUpdater pluginXmlUpdater = new PluginXmlUpdater(currentProject, genModel);
+      WorkspaceTask.execute(pluginXmlUpdater, false);
    }
 
    /**
     * Updates plugin.xml from the information in the given project and the given genmodel.
     */
-   public void updatePluginXml(final IProject project, final GenModel genmodel, final IProgressMonitor monitor) throws CoreException
+   public void run(final IProgressMonitor monitor) throws CoreException
    {
       try
       {
-         monitor.beginTask("Updating plugin.xml from Genmodel", 3);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Updating plugin.xml from Genmodel", 3);
          final String content = readOrGetDefaultPluginXmlContent(project);
          final Document doc = XMLUtils.parseXmlDocument(content);
-         monitor.worked(1);
+         subMon.worked(1);
 
          removeExtensionPointsForGeneratedPackages(doc);
 
-         final List<Element> extensionElements = createListOfGeneratedPackageExtensions(doc, project, genmodel);
+         final List<Element> extensionElements = createListOfGeneratedPackageExtensions(doc, project, genModel);
          final Node pluginRootElement = getRootNode(doc);
          extensionElements.forEach(element -> pluginRootElement.appendChild(element));
 
-         String output = XMLUtils.formatXmlString(doc, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         String output = XMLUtils.formatXmlString(doc, subMon.newChild(1));
 
-         MoflonUtil.writeContentToFile(output, getPluginXml(project), WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         MoflonUtil.writeContentToFile(output, getPluginXml(project), subMon.newChild(1));
 
       } catch (IOException | XPathExpressionException e)
       {
          throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.getDefault().getPluginId(),
                "Error reading/writing plugin.xml for project " + project.getName() + ": " + e.getMessage(), e));
-      } finally
-      {
-         monitor.done();
       }
    }
 
@@ -181,4 +195,15 @@ public class PluginXmlUpdater
       return extensionPoints;
    }
 
+   @Override
+   public String getTaskName()
+   {
+      return "Plugin.xml updater";
+   }
+
+   @Override
+   public ISchedulingRule getRule()
+   {
+      return project;
+   }
 }

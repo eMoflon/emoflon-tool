@@ -2,63 +2,73 @@ package org.moflon.tgg.mosl.ui.wizards;
 
 import static org.moflon.core.utilities.WorkspaceHelper.addAllFolders;
 import static org.moflon.core.utilities.WorkspaceHelper.addAllFoldersAndFile;
-import static org.moflon.core.utilities.WorkspaceHelper.addNature;
-import static org.moflon.core.utilities.WorkspaceHelper.createSubmonitorWith1Tick;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubMonitor;
+import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
-//import org.moflon.ide.ui.WorkspaceHelperUI;
+import org.moflon.ide.core.runtime.ProjectNatureAndBuilderConfiguratorTask;
 import org.moflon.tgg.mosl.builder.MOSLTGGNature;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
 import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
 import org.moflon.util.plugins.MetamodelProperties;
 
-public class NewIntegrationWizard extends NewRepositoryWizard {
+public class NewIntegrationWizard extends NewRepositoryWizard
+{
 
-	public static final String NEW_INTEGRATION_PROJECT_WIZARD_ID = "org.moflon.tgg.mosl.newIntegrationProject";
+   private static final Logger logger = Logger.getLogger(NewIntegrationWizard.class);
 
-	@Override
-	public void addPages() {
-		projectInfo = new NewIntegrationProjectInfoPage();
-		addPage(projectInfo);
-	}
+   public static final String NEW_INTEGRATION_PROJECT_WIZARD_ID = "org.moflon.tgg.mosl.newIntegrationProject";
 
-	@Override
-	protected IProject createProject(IProgressMonitor monitor, String projectName) throws CoreException {
-		MoflonProjectCreator createMoflonProject = new MoflonProjectCreator();
-		createMoflonProject.setProjectName(projectName);
-		createMoflonProject.setType(MetamodelProperties.INTEGRATION_KEY);
-		ResourcesPlugin.getWorkspace().run(createMoflonProject, createSubmonitorWith1Tick(monitor));
+   @Override
+   public void addPages()
+   {
+      projectInfo = new NewIntegrationProjectInfoPage();
+      addPage(projectInfo);
+   }
 
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		addNature(project, "org.eclipse.xtext.ui.shared.xtextNature", createSubmonitorWith1Tick(monitor));
-		addNature(project, MOSLTGGNature.NATURE_ID, createSubmonitorWith1Tick(monitor));
+   @Override
+   protected void createProject(IProgressMonitor monitor, IProject project, MetamodelProperties metamodelProperties) throws CoreException
+   {
+      metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.INTEGRATION_KEY);
+      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating project", 1);
+      ResourcesPlugin.getWorkspace().run(createMoflonProject, subMon.newChild(1));
 
-		return project;
-	}
+      final ProjectNatureAndBuilderConfiguratorTask natureAndBuilderConfiguratorTask =
+    		  new ProjectNatureAndBuilderConfiguratorTask(project, false);
+      final MOSLTGGNature natureAndBuilderConfigurator =
+    		  new MOSLTGGNature();
+      natureAndBuilderConfiguratorTask.updateNatureIDs(natureAndBuilderConfigurator, true);
+      natureAndBuilderConfiguratorTask.updateBuildSpecs(natureAndBuilderConfigurator, true);
+      WorkspaceTask.execute(natureAndBuilderConfiguratorTask, false);
+   }
 
-	@Override
-	protected void generateDefaultFiles(final IProgressMonitor monitor, IProject project) throws CoreException {
-		String defaultSchema = DefaultFilesHelper.generateDefaultSchema(project.getName());
-		IPath pathToSchema = new Path("src/org/moflon/tgg/mosl/Schema.tgg");
-		addAllFoldersAndFile(project, pathToSchema, defaultSchema,
-				createSubmonitorWith1Tick(monitor));
-		
-		addAllFolders(project, "src/org/moflon/tgg/mosl/rules", createSubmonitorWith1Tick(monitor));
-		
-		try {
-			AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		//WorkspaceHelperUI.openDefaultEditorForFile(project.getFile(pathToSchema));
-	}
+   @Override
+   protected void generateDefaultFiles(final IProgressMonitor monitor, IProject project) throws CoreException
+   {
+      String defaultSchema = DefaultFilesHelper.generateDefaultSchema(project.getName());
+      IPath pathToSchema = new Path("src/org/moflon/tgg/mosl/Schema.tgg");
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Generating default files", 2);
+      addAllFoldersAndFile(project, pathToSchema, defaultSchema, subMon.newChild(1));
+
+      addAllFolders(project, "src/org/moflon/tgg/mosl/rules", subMon.newChild(1));
+
+      try
+      {
+         AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
+      } catch (IOException e)
+      {
+         LogUtils.error(logger, e);
+      }
+   }
 }

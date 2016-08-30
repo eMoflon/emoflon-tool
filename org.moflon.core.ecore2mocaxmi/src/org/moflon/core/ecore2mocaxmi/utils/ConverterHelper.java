@@ -1,12 +1,10 @@
 package org.moflon.core.ecore2mocaxmi.utils;
 
-
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
@@ -20,8 +18,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.moflon.codegen.eclipse.AbstractMonitoredMetamodelLoader;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.codegen.eclipse.MonitoredMetamodelLoader;
 import org.moflon.core.ecore2mocaxmi.Ecore2MocaXMIConverter;
 import org.moflon.core.ecore2mocaxmi.Ecore2mocaxmiFactory;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -53,38 +50,15 @@ public class ConverterHelper {
 		return getEATree(file, false);
 	}
 
-	private static AbstractMonitoredMetamodelLoader createMetaModelLoader(final ResourceSet resourceSet, final IFile ecoreFile){
-		return new AbstractMonitoredMetamodelLoader(resourceSet, ecoreFile, MoflonPropertiesContainerHelper.createEmptyContainer()) {			
+	private static MonitoredMetamodelLoader createMetaModelLoader(final ResourceSet resourceSet, final IFile ecoreFile){
+		return new MonitoredMetamodelLoader(resourceSet, ecoreFile, MoflonPropertiesContainerHelper.createEmptyContainer()) {			
 			@Override
 			protected void createResourcesForWorkspaceProjects(IProgressMonitor monitor) {
-			      try
-			      {
-			         final IProject[] workspaceProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-			         monitor.beginTask("Loading workspace projects", workspaceProjects.length);
-			         for (IProject workspaceProject : workspaceProjects)
-			         {
-			            try
-			            {
-			               if (isAccessible(workspaceProject))
-			               {
-			                  final URI projectURI = CodeGeneratorPlugin.lookupProjectURI(workspaceProject);
-			                  final URI metamodelURI = CodeGeneratorPlugin.getDefaultProjectRelativeEcoreFileURI(workspaceProject).resolve(projectURI);
-			                  new PackageRemappingDependency(metamodelURI, false, false).getResource(resourceSet, false, true);
-			                  if(workspaceProject.equals(ecoreFile.getProject())){
-			                	  new PackageRemappingDependency(URI.createURI(ecoreFile.getLocation().toOSString()), false, false).getResource(resourceSet, false, true);
-			                  }
-			               }
-			            } catch (Exception e)
-			            {
-			               // Do nothing
-			            }
-			            monitor.worked(1);
-			         }
-			      } finally
-			      {
-			         monitor.done();
-			      }
-			   }
+				super.createResourcesForWorkspaceProjects(monitor);
+				if (isAccessible(ecoreFile.getProject())) {
+              	  new PackageRemappingDependency(URI.createURI(ecoreFile.getLocation().toOSString()), false, false).getResource(resourceSet, false, true);
+				}
+			}
 
 			@Override
 			protected boolean isAccessible(IProject project) {
@@ -96,11 +70,11 @@ public class ConverterHelper {
 	public static Node getEATree(final IFile file, final boolean export){
 		Ecore2MocaXMIConverter converter = Ecore2mocaxmiFactory.eINSTANCE.createEcore2MocaXMIConverter();
 		Node tree = converter.createNewRootNode();
-		AbstractMonitoredMetamodelLoader mmLoader = createMetaModelLoader(new ResourceSetImpl(), file);
+		MonitoredMetamodelLoader mmLoader = createMetaModelLoader(new ResourceSetImpl(), file);
 		try{
 			String fileName = file.getName().replace('.' + file.getFileExtension(), "");
 			mmLoader.run(new NullProgressMonitor());
-			Resource res = mmLoader.getEcoreResource();
+			Resource res = mmLoader.getMainResource();
 			converter.clear();
 			EPackage p = getEPackage(res, fileName);
 			tree = converter.convert(p, "imported "+ file.getName(), export, tree);

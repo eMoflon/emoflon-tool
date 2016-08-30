@@ -11,11 +11,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.ui.statushandlers.StatusManager;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
@@ -51,110 +51,103 @@ public final class MonitoredGenModelBuilder implements IMonitoredJob
    @Override
    public final IStatus run(final IProgressMonitor monitor)
    {
+      final SubMonitor subMon = SubMonitor.convert(monitor, TASK_NAME + " task", 100);
+      IProject project = ecoreFile.getProject();
+      subMon.subTask("Building or loading GenModel for project " + project.getName());
+      subMon.worked(5);
+
+      if (this.moflonProperties == null)
+      {
+         this.moflonProperties = MoflonPropertiesContainerHelper.load(project, subMon.newChild(5));
+
+      }
+      subMon.setWorkRemaining(90);
+
+      if (subMon.isCanceled())
+      {
+         return Status.CANCEL_STATUS;
+      }
+
+      // Create EMFCodegen
+      // TODO@rkluge: Try this sometime in the future.
+      // String basePackage = this.moflonProperties.getProjectName();
+      String basePackage = "";
+      String modelFolder = WorkspaceHelper.GEN_FOLDER;
+      String modelDirectory = project.getFolder(modelFolder).getFullPath().toString();
+
+      MoflonGenModelBuilder genModelBuilder = new MoflonGenModelBuilder(resourceSet, resources, ecoreFile, basePackage, modelDirectory, moflonProperties);
+      genModelBuilder.loadDefaultSettings();
+      subMon.worked(10);
+      if (subMon.isCanceled())
+      {
+         return Status.CANCEL_STATUS;
+      }
+
+      URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
+      URI ecoreURI = URI.createURI(ecoreFile.getProjectRelativePath().toString()).resolve(projectURI);
+      URI genModelURI = MoflonGenModelBuilder.calculateGenModelURI(ecoreURI);
+      final boolean isNewGenModelConstructed = genModelBuilder.isNewGenModelRequired(genModelURI);
       try
       {
-         monitor.beginTask(TASK_NAME + " task", 100);
-         IProject project = ecoreFile.getProject();
-         monitor.subTask("Building or loading GenModel for project " + project.getName());
-         monitor.worked(5);
+         this.genModel = genModelBuilder.buildGenModel(genModelURI);
+      } catch (RuntimeException e)
+      {
+         // StatusManager.getManager().handle(errorStatus, StatusManager.SHOW | StatusManager.LOG);
+         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), e.getMessage(), e);
+      }
+      subMon.worked(30);
+      if (subMon.isCanceled())
+      {
+         return Status.CANCEL_STATUS;
+      }
 
-         if (this.moflonProperties == null)
-         {
-            this.moflonProperties = MoflonPropertiesContainerHelper.load(project, WorkspaceHelper.createSubMonitor(monitor, 5));
+      // Validate resource set
+      IStatus resourceSetStatus = CodeGeneratorPlugin.validateResourceSet(resourceSet, "GenModel building", subMon.newChild(10));
+      if (subMon.isCanceled())
+      {
+         return Status.CANCEL_STATUS;
+      }
+      if (!resourceSetStatus.isOK())
+      {
+         return resourceSetStatus;
+      }
 
-         } else
-         {
-            monitor.worked(5);
-         }
+      // Validate GenModel
+      IStatus genModelValidationStatus = genModel.validate();
+      subMon.worked(30);
+      if (subMon.isCanceled())
+      {
+         return Status.CANCEL_STATUS;
+      }
+      if (!genModelValidationStatus.isOK())
+      {
+         return genModelValidationStatus;
+      }
 
-         if (monitor.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-
-         // Create EMFCodegen
-         String basePackage = "";
-         String modelFolder = WorkspaceHelper.GEN_FOLDER;
-         String modelDirectory = project.getFolder(modelFolder).getFullPath().toString();
-
-         MoflonGenModelBuilder genModelBuilder = new MoflonGenModelBuilder(resourceSet, resources, ecoreFile, basePackage, modelDirectory, moflonProperties);
-         genModelBuilder.loadDefaultSettings();
-         monitor.worked(10);
-         if (monitor.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-
-         URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
-         URI ecoreURI = URI.createURI(ecoreFile.getProjectRelativePath().toString()).resolve(projectURI);
-         URI genModelURI = MoflonGenModelBuilder.calculateGenModelURI(ecoreURI);
-         final boolean isNewGenModelConstructed = genModelBuilder.isNewGenModelRequired(genModelURI);
+      // Save GenModel
+      if (saveGenModel)
+      {
          try
          {
-            this.genModel = genModelBuilder.buildGenModel(genModelURI);
-         } catch (RuntimeException e)
-         {
-            IStatus errorStatus = new Status(IStatus.ERROR, "SDMCompiler", IStatus.ERROR, e.getMessage(), e);
-            StatusManager.getManager().handle(errorStatus, StatusManager.SHOW | StatusManager.LOG);
-            return errorStatus;
-         }
-         monitor.worked(30);
-         if (monitor.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-
-         // Validate resource set
-         IStatus resourceSetStatus = CodeGeneratorPlugin.validateResourceSet(resourceSet, "GenModel building", WorkspaceHelper.createSubMonitor(monitor, 10));
-         if (monitor.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-         if (!resourceSetStatus.isOK())
-         {
-            return resourceSetStatus;
-         }
-
-         // Validate GenModel
-         IStatus genModelValidationStatus = genModel.validate();
-         monitor.worked(30);
-         if (monitor.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-         if (!genModelValidationStatus.isOK())
-         {
-            return genModelValidationStatus;
-         }
-
-         // Save GenModel
-         if (saveGenModel)
-         {
-            try
+            Resource genModelResource = genModel.eResource();
+            if (isNewGenModelConstructed)
             {
-               Resource genModelResource = genModel.eResource();
-               if (isNewGenModelConstructed)
-               {
-                  // Save to file (with no options)
-                  genModelResource.save(Collections.EMPTY_MAP);
-               } else
-               {
-                  // Save to file (if modified)
-                  Map<String, Object> saveOptions = new HashMap<String, Object>();
-                  saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-                  genModelResource.save(saveOptions);
-               }
-            } catch (IOException e)
+               // Save to file (with no options)
+               genModelResource.save(Collections.EMPTY_MAP);
+            } else
             {
-               return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+               // Save to file (if modified)
+               Map<String, Object> saveOptions = new HashMap<String, Object>();
+               saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+               genModelResource.save(saveOptions);
             }
+         } catch (IOException e)
+         {
+            return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
          }
-         monitor.worked(10);
-         return new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), TASK_NAME + " succeeded");
-      } finally
-      {
-         monitor.done();
       }
+      subMon.worked(10);
+      return new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), TASK_NAME + " succeeded");
    }
 
    public final GenModel getGenModel()

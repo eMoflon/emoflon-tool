@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.WorkspaceHelper;
 
 public class MetamodelProjectUtil
@@ -16,24 +17,18 @@ public class MetamodelProjectUtil
    public static void cleanTempFolder(final IProject project, final IProgressMonitor monitor) throws CoreException
    {
       final IFolder folder = project.getFolder(WorkspaceHelper.TEMP_FOLDER);
-      try
+      if (folder.exists())
       {
-         if (folder.exists())
-         {
-            monitor.beginTask("Inspecting " + folder.getName(), folder.members().length);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Inspecting " + folder.getName(), folder.members().length);
 
-            for (IResource resource : folder.members())
-            {
-               if (!resource.getName().startsWith(".") && resource.getType() != IResource.FOLDER
-                     && resource.getName().endsWith(WorkspaceHelper.ECORE_FILE_EXTENSION))
-                  resource.delete(true, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
-               else
-                  monitor.worked(1);
-            }
+         for (IResource resource : folder.members())
+         {
+            if (!resource.getName().startsWith(".") && resource.getType() != IResource.FOLDER
+                  && resource.getName().endsWith(WorkspaceHelper.ECORE_FILE_EXTENSION))
+               resource.delete(true, subMon.newChild(1));
+            else
+               subMon.worked(1);
          }
-      } finally
-      {
-         monitor.done();
       }
    }
 

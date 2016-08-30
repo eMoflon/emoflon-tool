@@ -11,6 +11,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.ui.UIActivator;
 
@@ -148,8 +149,7 @@ public class TextEditorGenerator {
 				return WorkspaceHelper.addFolder(project, path, monitor);
 			} catch (CoreException e)
 			{
-				logger.debug("error while creating folder: " + path);
-				e.printStackTrace();
+            LogUtils.error(logger, e, "error while creating folder: " + path);
 				return null;
 			}
 		} else

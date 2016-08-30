@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -33,9 +34,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.URIHandler;
+import org.moflon.core.utilities.LogUtils;
 
 public class JETTemplateCompiler extends JETCompiler
 {
+   private static final Logger logger = Logger.getLogger(JETTemplateCompiler.class);
+
    /**
     * A stack of sections and whether to start skipping, one from each include with alternative encountered.
     */
@@ -73,8 +77,9 @@ public class JETTemplateCompiler extends JETCompiler
          overriddenSkipSections.push(new SkipSection(sectionDepth + 1, false));
       } else if (!"silent".equals(failType))
       {
-         throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.file.cannot.read",
-               new Object[] { uriString, start.format("jet.mark.file.line.column") }), exception);
+         throw new JETException(
+               CodeGenPlugin.getPlugin().getString("jet.error.file.cannot.read", new Object[] { uriString, start.format("jet.mark.file.line.column") }),
+               exception);
       }
    }
 
@@ -146,8 +151,8 @@ public class JETTemplateCompiler extends JETCompiler
             handleIncludeFailure(failAttribute, fileRelative.toString(), start, exception);
          } else
          {
-            throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.missing.attribute",
-                  new Object[] { "file", start.format("jet.mark.file.line.column") }));
+            throw new JETException(
+                  CodeGenPlugin.getPlugin().getString("jet.error.missing.attribute", new Object[] { "file", start.format("jet.mark.file.line.column") }));
          }
       } else if (directive.equals("start"))
       {
@@ -157,8 +162,8 @@ public class JETTemplateCompiler extends JETCompiler
          SkipSection skipSection = overriddenSkipSections.isEmpty() ? null : (SkipSection) overriddenSkipSections.peek();
          if (skipSection == null || skipSection.depth != sectionDepth)
          {
-            throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.section.noinclude",
-                  new Object[] { start.format("jet.mark.file.line.column") }));
+            throw new JETException(
+                  CodeGenPlugin.getPlugin().getString("jet.error.section.noinclude", new Object[] { start.format("jet.mark.file.line.column") }));
          } else if (skipSection.skip)
          {
             skipping = true;
@@ -263,7 +268,7 @@ public class JETTemplateCompiler extends JETCompiler
                   System.out.println("OK");
                } catch (IOException e)
                {
-                  e.printStackTrace();
+                  LogUtils.error(logger, e);
                }
             }
          }

@@ -13,6 +13,7 @@ import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
 
 public class WorkspaceHelperUI {
@@ -59,8 +60,7 @@ public class WorkspaceHelperUI {
             page.openEditor(new FileEditorInput(file), desc.getId());
          } catch (Exception e)
          {
-            logger.error("Unable to open " + file);
-            e.printStackTrace();
+            LogUtils.error(logger, e, "Unable to open " + file);
          }
       });
    }

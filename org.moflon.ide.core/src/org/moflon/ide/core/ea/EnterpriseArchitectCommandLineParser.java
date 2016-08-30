@@ -4,13 +4,15 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.ide.core.ea.exceptions.EnterpriseArchitectCommandLineException;
 
 public class EnterpriseArchitectCommandLineParser
 {
    private static final Logger logger = Logger.getLogger(EnterpriseArchitectCommandLineParser.class);
 
-   private IProgressMonitor monitor;
+   private IProgressMonitor originalMonitor;
+   private SubMonitor internalMonitor;
 
    private final String ERROR = "ERROR:";
 
@@ -38,7 +40,7 @@ public class EnterpriseArchitectCommandLineParser
 
    public void setMonitor(IProgressMonitor mon)
    {
-      monitor = mon;
+      originalMonitor = mon;
    }
 
    public void parseLine(String line)
@@ -93,7 +95,7 @@ public class EnterpriseArchitectCommandLineParser
    {
       try
       {
-         if (monitor != null)
+         if (originalMonitor != null)
          {
             final String[] progressPartArray = line.split("[%/]");
             final String taskName = progressPartArray[0];
@@ -102,25 +104,20 @@ public class EnterpriseArchitectCommandLineParser
 
             if (current > 0)
             {
-               monitor.setTaskName(taskName);
+               internalMonitor.subTask(taskName);
             } else
             {
-               monitor.beginTask(taskName, max);
+               internalMonitor = SubMonitor.convert(originalMonitor, taskName, max);
             }
 
             if (max > 0 && current < max)
             {
-               monitor.worked(1);
+               internalMonitor.worked(1);
             }
          }
       } catch (final NumberFormatException | ArrayIndexOutOfBoundsException ex)
       {
          logger.error("Problem while parsing output line of EA: '" + line + "'.", ex);
       }
-   }
-
-   public void done()
-   {
-      monitor.done();
    }
 }

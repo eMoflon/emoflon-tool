@@ -17,6 +17,7 @@
 		</buildCommand>
 		<buildCommand>
 			<name>org.moflon.ide.core.runtime.builders.IntegrationBuilder</name>
+			<triggers>clean,full,incremental</triggers>
 			<arguments>
 			</arguments>
 		</buildCommand>

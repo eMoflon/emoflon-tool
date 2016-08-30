@@ -31,6 +31,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
       <import feature="org.moflon.ide.feature" version="2.12.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.xtext.xbase" version="2.9.1" match="greaterOrEqual"/>
       <import feature="org.moflon.ide.visualization.feature" version="2.17.0.qualifier"/>
+      <import plugin="org.eclipse.emf.mwe2.launch"/>
    </requires>
 
    <plugin

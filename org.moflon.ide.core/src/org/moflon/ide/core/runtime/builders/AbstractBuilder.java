@@ -13,7 +13,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.moflon.core.utilities.WorkspaceHelper;
+import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.ide.core.CoreActivator;
 
 public abstract class AbstractBuilder extends IncrementalProjectBuilder implements IResourceVisitor, IResourceDeltaVisitor
@@ -25,17 +25,11 @@ public abstract class AbstractBuilder extends IncrementalProjectBuilder implemen
    @Override
    protected void clean(final IProgressMonitor monitor) throws CoreException
    {
-      try
-      {
-         monitor.beginTask(getProgressBarMessage(), 2);
-         cleanResource(WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+      final SubMonitor subMon = SubMonitor.convert(monitor, getProgressBarMessage(), 2);
+      cleanResource(subMon.newChild(1));
 
-         getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
-         monitor.worked(1);
-      } finally
-      {
-         monitor.done();
-      }
+      getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
+      monitor.worked(1);
    }
 
    @Override
@@ -43,17 +37,17 @@ public abstract class AbstractBuilder extends IncrementalProjectBuilder implemen
    {
       try
       {
-         monitor.beginTask(getProgressBarMessage(), 4);
+         final SubMonitor subMon = SubMonitor.convert(monitor, getProgressBarMessage(), 4);
 
          this.kind = kind;
 
          getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
-         monitor.worked(1);
+         subMon.worked(1);
 
          if (kind == FULL_BUILD)
          {
             // No changes -> perform full build
-            processResource(WorkspaceHelper.createSubMonitor(monitor, 3));
+            processResource(subMon.newChild(3));
          } else
          {
             IResourceDelta delta = getDelta(getProject());
@@ -61,13 +55,11 @@ public abstract class AbstractBuilder extends IncrementalProjectBuilder implemen
             {
                try
                {
-                  progressMonitorForIncrementalChanges = WorkspaceHelper.createSubMonitor(monitor, 3);
-                  progressMonitorForIncrementalChanges.beginTask("Processing incremental changes", IProgressMonitor.UNKNOWN);
+                  progressMonitorForIncrementalChanges = SubMonitor.convert(subMon.newChild(3), "Processing incremental changes", IProgressMonitor.UNKNOWN);
                   // Walk through changes using visitor
                   delta.accept(this);
                } finally
                {
-                  progressMonitorForIncrementalChanges.done();
                   progressMonitorForIncrementalChanges = null;
                }
             }
@@ -86,9 +78,12 @@ public abstract class AbstractBuilder extends IncrementalProjectBuilder implemen
    /**
     * Returns a progress monitor that may be used while processing incremental changes.
     * 
-    * Any user of this method should immediately create a submonitor with an arbitrary number of ticks.
-    * Especially, users should *not* call {@link IProgressMonitor#beginTask(String, int)} or {@link IProgressMonitor#done()} on the returned progress monitor.
-    * @throws CoreException if the progress monitor is currently null
+    * Any user of this method should immediately create a submonitor with an arbitrary number of ticks. Especially,
+    * users should *not* call {@link IProgressMonitor#beginTask(String, int)} or {@link IProgressMonitor#done()} on the
+    * returned progress monitor.
+    * 
+    * @throws CoreException
+    *            if the progress monitor is currently null
     */
    protected final IProgressMonitor getProgressMonitorForIncrementalChanges() throws CoreException
    {

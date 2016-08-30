@@ -6,8 +6,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 
 public class RefreshProjectJob extends Job
@@ -17,7 +17,7 @@ public class RefreshProjectJob extends Job
 
    private IProject project;
 
-   private RefreshProjectJob(final String name) 
+   private RefreshProjectJob(final String name)
    {
       super(name);
    }
@@ -31,16 +31,13 @@ public class RefreshProjectJob extends Job
    @Override
    protected IStatus run(final IProgressMonitor monitor)
    {
-      monitor.beginTask(this.getName(), 1);
+      final SubMonitor subMon = SubMonitor.convert(monitor, this.getName(), 1);
       try
       {
-         project.refreshLocal(IResource.DEPTH_INFINITE, WorkspaceHelper.createSubmonitorWith1Tick(monitor));
+         project.refreshLocal(IResource.DEPTH_INFINITE, subMon.newChild(1));
       } catch (final CoreException e)
       {
          return e.getStatus();
-      }
-      finally {
-         monitor.done();
       }
       return new Status(IStatus.OK, CoreActivator.getModuleID(), null);
    }

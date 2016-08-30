@@ -4,4 +4,110 @@
    <extension-point id="org.moflon.extensionpoints.premetamodelbuilderhook" name="Pre-Metamodel Builder Hook" schema="schema/org.moflon.extensionpoints.premetamodelbuilderhook.exsd"/>
    <extension-point id="org.moflon.extensionpoints.postmetamodelbuilderhook" name="Post-Metamodel Builder Hook" schema="schema/org.moflon.extensionpoints.postmetamodelbuilderhook.exsd"/>
 
+   <extension
+         id="org.moflon.ide.core.runtime.natures.MetamodelNature"
+         name="Metamodel Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.moflon.ide.core.runtime.natures.MetamodelNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.moflon.ide.core.runtime.builders.MetamodelBuilder">
+      </builder>
+   </extension>
+   <extension
+         id="org.moflon.ide.core.runtime.natures.RepositoryNature"
+         name="Repository Nature"         
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.moflon.ide.core.runtime.natures.RepositoryNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.moflon.ide.core.runtime.builders.RepositoryBuilder">
+      </builder>
+      <one-of-nature
+            id="org.moflon.ide.core.runtime.natures.MoflonNature">
+      </one-of-nature>
+      <requires-nature
+            id="org.eclipse.jdt.core.javanature">
+      </requires-nature>
+   </extension>
+   <extension
+         id="org.moflon.ide.core.runtime.natures.IntegrationNature"
+         name="Integration Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="org.moflon.ide.core.runtime.natures.IntegrationNature">
+         </run>
+      </runtime>
+      
+      <requires-nature
+            id="org.eclipse.jdt.core.javanature">
+      </requires-nature><builder
+            id="org.moflon.ide.core.runtime.builders.IntegrationBuilder">
+      </builder>
+      <one-of-nature
+            id="org.moflon.ide.core.runtime.natures.MoflonNature">
+      </one-of-nature>
+   </extension>
+   <extension
+         id="org.moflon.ide.core.runtime.natures.AntlrNature"
+         name="ANTLR Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.moflon.ide.core.runtime.natures.AntlrNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.moflon.ide.core.runtime.builders.AntlrBuilder">
+      </builder>
+      <requires-nature
+            id="org.eclipse.jdt.core.javanature">
+      </requires-nature>
+   </extension>
+   <extension
+         id="org.moflon.ide.core.runtime.builders.MetamodelBuilder"
+         name="Metamodel Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder>
+         <run
+               class="org.moflon.ide.core.runtime.builders.MetamodelBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="org.moflon.ide.core.runtime.builders.RepositoryBuilder"
+         name="Repository Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            isConfigurable="true">
+         <run
+               class="org.moflon.ide.core.runtime.builders.RepositoryBuilder">
+         </run></builder>
+   </extension>
+   <extension
+         id="org.moflon.ide.core.runtime.builders.IntegrationBuilder"
+         name="Integration Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            isConfigurable="true">
+         <run
+               class="org.moflon.ide.core.runtime.builders.IntegrationBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="org.moflon.ide.core.runtime.builders.AntlrBuilder"
+         point="org.eclipse.core.resources.builders">
+      <builder>
+         <run
+               class="org.moflon.ide.core.runtime.builders.AntlrBuilder">
+         </run>
+      </builder>
+   </extension>
 </plugin>

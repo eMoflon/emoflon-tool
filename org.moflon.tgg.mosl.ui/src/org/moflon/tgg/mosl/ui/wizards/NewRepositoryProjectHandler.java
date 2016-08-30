@@ -4,6 +4,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.ide.ui.UIActivator;
 import org.moflon.ide.ui.admin.handlers.AbstractCommandHandler;
 
@@ -15,8 +16,7 @@ public class NewRepositoryProjectHandler extends AbstractCommandHandler {
 		try {
 			UIActivator.openWizard(NewRepositoryWizard.NEW_REPOSITORY_PROJECT_WIZARD_ID, window);
 		} catch (final Exception e) {
-			logger.error("Unable to open 'new repository' wizard", e);
-			e.printStackTrace();
+         LogUtils.error(logger, e, "Unable to open 'new repository' wizard.");
 		}
 
 		return null;

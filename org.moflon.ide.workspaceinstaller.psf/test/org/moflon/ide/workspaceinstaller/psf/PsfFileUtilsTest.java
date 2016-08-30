@@ -51,7 +51,7 @@ public final class PsfFileUtilsTest {
 
 		final String actualContent = PsfFileUtils.joinPsfFile(Arrays.asList(psfFile1, psfFile2));
 
-		FileUtils.write(new File("./tmp.psf"), actualContent);
+		FileUtils.write(File.createTempFile("tmp.psf", ""), actualContent);
 
 		Assert.assertTrue(actualContent
 				.contains("1.0,https://github.com/eMoflon/emoflon-examples.git,master,demo/org.moflon.demo.testsuite"));

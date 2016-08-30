@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -84,9 +85,9 @@ public class BuilderHelper
    {
       try
       {
-         monitor.beginTask("Generating code in order", 100 * projects.size());
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code in order", 1 + 100 * projects.size());
          
-         Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, monitor);
+         Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, subMon.newChild(1));
 
          final List<Status> collectedErrorStatus = new ArrayList<>();
          final ProjectOrder order = ResourcesPlugin.getWorkspace().computeProjectOrder(projects.stream().toArray(IProject[]::new));
@@ -96,7 +97,7 @@ public class BuilderHelper
             
             try
             {
-               if (monitor.isCanceled())
+               if (subMon.isCanceled())
                   throw new OperationCanceledException();
 
                RepositoryCodeGenerator codeGenerator = null;
@@ -110,7 +111,7 @@ public class BuilderHelper
 
                if (codeGenerator != null)
                {
-                  codeGenerator.generateCode(WorkspaceHelper.createSubMonitor(monitor, 100));
+                  codeGenerator.generateCode(subMon.newChild(100));
                }
                
             } catch (final CoreException e)
@@ -130,9 +131,6 @@ public class BuilderHelper
       } catch (final InterruptedException e)
       {
          return new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Code generation interrupted", e);
-      } finally
-      {
-         monitor.done();
       }
    }
 }

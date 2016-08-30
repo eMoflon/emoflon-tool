@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.apache.log4j.Logger;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.moca.MocaUtil;
@@ -18,6 +20,7 @@ import org.moflon.tgg.language.csp.Variable;
 
 public class TGGUserDefinedConstraintUnparserAdapter
 {
+   private static final Logger logger = Logger.getLogger(TGGUserDefinedConstraintUnparserAdapter.class);
 
    public String unparseCspConstraint(final TGGConstraint constraint)
    {
@@ -45,7 +48,7 @@ public class TGGUserDefinedConstraintUnparserAdapter
          return mainTemplate.toString();
       } catch (FileNotFoundException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
       return content;
 
@@ -73,7 +76,7 @@ public class TGGUserDefinedConstraintUnparserAdapter
          reader = new InputStreamReader(templateFile.openStream());
       } catch (IOException e)
       {
-         e.printStackTrace();
+         LogUtils.error(logger, e);
       }
 
       return new StringTemplateGroup(reader);

@@ -1,13 +1,13 @@
 package org.moflon.tgg.mosl.ui.wizards;
 
 import static org.moflon.core.utilities.WorkspaceHelper.addAllFoldersAndFile;
-import static org.moflon.core.utilities.WorkspaceHelper.createSubmonitorWith1Tick;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.ui.INewWizard;
 import org.moflon.ide.ui.WorkspaceHelperUI;
 import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonWizard;
@@ -27,14 +27,14 @@ public class NewTGGRuleWizard extends AbstractMoflonWizard implements INewWizard
 
 	@Override
 	protected void doFinish(IProgressMonitor monitor) throws CoreException {
-	   IProject project = projectInfo.getRuleLocation().getProject();
+		IProject project = projectInfo.getRuleLocation().getProject();
 		String ruleContent = DefaultFilesHelper.generateDefaultRule(projectInfo.getSchema(), projectInfo.getRuleName());
 		IPath pathToFile = projectInfo.getRuleLocation().getProjectRelativePath().append(projectInfo.getRuleName()).addFileExtension("tgg");
-		addAllFoldersAndFile(project, pathToFile, ruleContent, createSubmonitorWith1Tick(monitor));
-		
+		addAllFoldersAndFile(project, pathToFile, ruleContent, SubMonitor.convert(monitor).newChild(1));
+
 		IFile file = project.getFile(pathToFile);
-		
-      WorkspaceHelperUI.openDefaultEditorForFile(file);
+
+		WorkspaceHelperUI.openDefaultEditorForFile(file);
 	}
 
 }

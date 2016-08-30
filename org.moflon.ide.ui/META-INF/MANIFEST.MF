@@ -17,16 +17,6 @@ Require-Bundle:
  org.eclipse.emf.codegen.ecore;bundle-version="[2.5.0,3.0.0)",
  org.eclipse.jdt;bundle-version="[3.8.0,4.0.0)",
  org.eclipse.jdt.core;bundle-version="[3.5.0,4.0.0)",
- org.moflon.core.utilities,
- MoflonPropertyContainer,
- MocaTree,
- org.moflon.core.moca.processing,
- SDMLanguage,
- org.moflon.tgg.runtime,
- org.moflon.sdm.compiler.democles.validation.result,
- org.moflon.sdm.compiler.eclipse,
- org.moflon.ide.core,
- org.moflon.ide.plugins,
  org.eclipse.jdt.junit;bundle-version="[3.7.100,4.0.0)",
  org.eclipse.jdt.junit.core;bundle-version="[3.7.100,4.0.0)",
  org.eclipse.jdt.core.manipulation;bundle-version="[1.5.0,2.0.0)",
@@ -40,8 +30,20 @@ Require-Bundle:
  org.eclipse.e4.ui.model.workbench;bundle-version="[1.0.1,2.0.0)",
  org.eclipse.jdt.launching;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.jdt.ui;bundle-version="[3.5.0,4.0.0)",
+ org.gervarro.eclipse.workspace.util,
+ org.gervarro.eclipse.workspace.autosetup;bundle-version="1.0.0",
+ org.moflon.core.utilities,
+ org.moflon.ide.core,
+ MocaTree,
+ org.moflon.ide.plugins,
  org.moflon.ide.editor,
- org.moflon.core.ecore2mocaxmi;bundle-version="1.0.0"
+ org.moflon.core.ecore2mocaxmi,
+ MoflonPropertyContainer,
+ org.moflon.core.moca.processing,
+ SDMLanguage,
+ org.moflon.tgg.runtime,
+ org.moflon.sdm.compiler.democles.validation.result,
+ org.moflon.sdm.compiler.eclipse
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.ide.ui,
@@ -54,6 +56,5 @@ Export-Package: org.moflon.ide.ui,
  org.moflon.ide.ui.admin.wizards.moca,
  org.moflon.ide.ui.admin.wizards.util,
  org.moflon.ide.ui.preferences,
- org.moflon.ide.ui.propertytesters,
- org.moflon.ide.ui.runtime.natures
+ org.moflon.ide.ui.propertytesters
 Bundle-ClassPath: .
