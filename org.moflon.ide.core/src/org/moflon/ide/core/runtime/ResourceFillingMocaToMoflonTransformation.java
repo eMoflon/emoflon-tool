@@ -7,10 +7,12 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
@@ -45,6 +47,7 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 
 	private void fixPackageNamesRecursively(EPackage ePackage)
    {
+	   EcoreUtil.setAnnotation(ePackage, GenModelPackage.eNS_URI, "basePackage", ePackage.getName());
 	   ePackage.setName(MoflonUtil.lastSegmentOf(ePackage.getName()));
 
       for (final EPackage subPackage : ePackage.getESubpackages())
