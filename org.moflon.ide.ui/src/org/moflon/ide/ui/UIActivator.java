@@ -142,7 +142,9 @@ public class UIActivator extends AbstractUIPlugin
                               {
                                  final MoflonProjectDecorator decorator = (MoflonProjectDecorator) PlatformUI.getWorkbench().getDecoratorManager()
                                        .getBaseLabelProvider(MoflonProjectDecorator.DECORATOR_ID);
-                                 decorator.setMetamodelProjectRequiresRebuild(project, needsRebuild);
+                                 if (decorator != null) {
+                                	 decorator.setMetamodelProjectRequiresRebuild(project, needsRebuild);
+                                 }
                               }
                            });
                         }
@@ -187,7 +189,9 @@ public class UIActivator extends AbstractUIPlugin
                                  {
                                     final MoflonProjectDecorator decorator = (MoflonProjectDecorator) PlatformUI.getWorkbench().getDecoratorManager()
                                           .getBaseLabelProvider(MoflonProjectDecorator.DECORATOR_ID);
-                                    decorator.setAutobuildEnabled(project, autobuildEnabled);
+                                    if (decorator != null) {
+                                    	decorator.setAutobuildEnabled(project, autobuildEnabled);
+                                    }
                                  }
                               });
                            }

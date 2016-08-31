@@ -141,7 +141,12 @@ public class IntegrationBuilder extends RepositoryBuilder
 
       // Precompile rules
       precompiler.setUseNewImpl(true);
-      precompiler.precompileTGG(tgg);
+      try {
+    	  precompiler.precompileTGG(tgg);
+      } catch (final RuntimeException e) {
+    	  // Report error if model transformation fails
+    	  return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+      }
 
       // print refinement precompiling log
       printPrecompilerLog(precompiler.getRefinementPrecompiler().getPrecompilelog());

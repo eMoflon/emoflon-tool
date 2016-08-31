@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -54,7 +55,11 @@ public class GenericMonitoredResourceLoader implements IMonitoredJob
          // Load the file
          URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
          URI uri = URI.createURI(file.getProjectRelativePath().toString()).resolve(projectURI);
-         resource = resourceSet.getResource(uri, true);
+         try {
+             resource = resourceSet.getResource(uri, true);
+         } catch (final WrappedException e) {
+             return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getCause().getMessage(), e.getCause());
+         }
          subMon.worked(5);
          if (subMon.isCanceled())
          {
