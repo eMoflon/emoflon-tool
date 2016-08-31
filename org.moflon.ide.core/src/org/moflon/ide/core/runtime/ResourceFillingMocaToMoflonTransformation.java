@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.properties.MoflonPropertiesContainerHelper;
@@ -37,10 +38,22 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 	@Override
 	public void handleOutermostPackage(final Node node, final EPackage outermostPackage) {
 		super.handleOutermostPackage(node, outermostPackage);
+		//TODO@rkluge: Temporary fix - move to Exporter#handlePackage later
+		fixPackageNamesRecursively(outermostPackage);
 		monitor.worked(1);
 	}
 
-	protected void handleMissingProject(final Node node, final IProject project) {
+	private void fixPackageNamesRecursively(EPackage ePackage)
+   {
+	   ePackage.setName(MoflonUtil.lastSegmentOf(ePackage.getName()));
+
+      for (final EPackage subPackage : ePackage.getESubpackages())
+      {
+         fixPackageNamesRecursively(subPackage);
+      }
+   }
+
+   protected void handleMissingProject(final Node node, final IProject project) {
 		final MetamodelProperties properties = propertiesMap.get(project.getName());
 		final MoflonProjectCreator moflonProjectCreator =
 				new MoflonProjectCreator(project, properties);
