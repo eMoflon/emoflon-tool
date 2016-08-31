@@ -147,8 +147,13 @@ public class IntegrationBuilder extends RepositoryBuilder
       printPrecompilerLog(precompiler.getRefinementPrecompiler().getPrecompilelog());
       subMon.worked(5);
 
-      // this has to be done here because it requires "flat" tgg rules instead of refined ones
-      enrichCspsWithTypeInformation();
+      try {
+          // this has to be done here because it requires "flat" tgg rules instead of refined ones
+    	  enrichCspsWithTypeInformation();
+      } catch (final RuntimeException e) {
+    	  // Report error if model transformation fails
+    	  return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+      }
 
       // Persist tgg model after precompilation
       HashMap<String, Object> saveOptions = new HashMap<String, Object>();
@@ -180,7 +185,12 @@ public class IntegrationBuilder extends RepositoryBuilder
 
          compiler.setProperties(moflonProperties);
          compiler.setInjectionHelper(injectionHelper);
-         compiler.deriveOperationalRules(tgg, ApplicationTypes.get(moflonProperties.getTGGBuildMode().getBuildMode().getValue()));
+         try {
+        	 compiler.deriveOperationalRules(tgg, ApplicationTypes.get(moflonProperties.getTGGBuildMode().getBuildMode().getValue()));
+         } catch (final RuntimeException e) {
+        	 // Report error if model transformation fails
+        	 return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+         }
          StaticAnalysis staticAnalysis = compiler.getStaticAnalysis();
 
          // Persist results of static analysis
@@ -212,7 +222,12 @@ public class IntegrationBuilder extends RepositoryBuilder
             eMoflonEMFUtil.createParentResourceAndInsertIntoResourceSet(compiler, set);
             compiler.setProperties(moflonProperties);
             compiler.setInjectionHelper(injectionHelper);
-            compiler.compileModelgenerationSdms(tgg);
+            try {
+                compiler.compileModelgenerationSdms(tgg);
+            } catch (final RuntimeException e) {
+          	  // Report error if model transformation fails
+          	  return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+            }
             for (RuleAnalyzerResult analyzerResult : compiler.getRuleAnalyzer().getRuleAnalyzerResult())
             {
                logger.warn(analyzerResult.getMessage() + ": " + analyzerResult.getEObject());
