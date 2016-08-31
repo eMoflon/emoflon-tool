@@ -272,6 +272,10 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       URI preEcoreXmiURI = relativePreEcoreXmiURI.resolve(projectURI);
       Resource preEcoreResource = resourceSet.createResource(preEcoreXmiURI);
       preEcoreResource.getContents().add(corrPackage);
+      final String prefix = MoflonUtil.allSegmentsButLast(corrPackage.getNsPrefix());
+      if (prefix != null && prefix.length() > 0) {
+    	  EcoreUtil.setAnnotation(corrPackage, "http://www.eclipse.org/emf/2002/GenModel", "basePackage", prefix);
+      }
       preEcoreResource.save(options);
 
       URI pretggXmiURI = URI.createPlatformResourceURI(saveTargetName + "/" + MoflonUtil.getDefaultPathToFileInProject(file, ".pre.tgg.xmi"), false);

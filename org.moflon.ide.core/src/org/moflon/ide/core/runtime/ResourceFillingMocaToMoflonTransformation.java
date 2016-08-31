@@ -41,20 +41,13 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 	public void handleOutermostPackage(final Node node, final EPackage outermostPackage) {
 		super.handleOutermostPackage(node, outermostPackage);
 		//TODO@rkluge: Temporary fix - move to Exporter#handlePackage later
-		fixPackageNamesRecursively(outermostPackage);
+		final String prefix = MoflonUtil.allSegmentsButLast(outermostPackage.getNsPrefix());
+		if (prefix != null && prefix.length() > 0) {
+			EcoreUtil.setAnnotation(outermostPackage, GenModelPackage.eNS_URI, "basePackage", prefix);
+		}
+		outermostPackage.setName(MoflonUtil.lastSegmentOf(outermostPackage.getName()));
 		monitor.worked(1);
 	}
-
-	private void fixPackageNamesRecursively(EPackage ePackage)
-   {
-	   EcoreUtil.setAnnotation(ePackage, GenModelPackage.eNS_URI, "basePackage", ePackage.getName());
-	   ePackage.setName(MoflonUtil.lastSegmentOf(ePackage.getName()));
-
-      for (final EPackage subPackage : ePackage.getESubpackages())
-      {
-         fixPackageNamesRecursively(subPackage);
-      }
-   }
 
    protected void handleMissingProject(final Node node, final IProject project) {
 		final MetamodelProperties properties = propertiesMap.get(project.getName());
