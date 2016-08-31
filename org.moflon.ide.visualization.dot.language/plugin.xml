@@ -7,10 +7,7 @@
   </extension>
   <extension point="org.eclipse.ui.menus">
     <menuContribution allPopups="false" locationURI="menu:net.sourceforge.plantuml.eclipse.views.PlantUmlView">
-      <command
-            commandId="org.moflon.ide.visualization.dot.language.plantuml.view.togglerefinement.command"
-            label="Do not flatten Refinements"
-            style="toggle"/>
+      <command commandId="org.moflon.ide.visualization.dot.language.plantuml.view.togglerefinement.command" label="Do not flatten Refinements" style="toggle"/>
     </menuContribution>
   </extension>
   <extension point="org.eclipse.ui.commands">
