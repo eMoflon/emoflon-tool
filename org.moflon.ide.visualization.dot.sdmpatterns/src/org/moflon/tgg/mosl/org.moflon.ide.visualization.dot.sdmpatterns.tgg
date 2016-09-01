@@ -95,7 +95,7 @@
 
 #source {
 	++ov:language.Record {
-		fillcolor := enum::DotColor::white
+		fillcolor := enum::DotColor::WHITE
 		++ - graph -> patternGraph
 	}
 

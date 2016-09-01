@@ -146,7 +146,7 @@
 	patternsGraph:language.DirectedGraph
 
 	++record:language.Record {
-		fillcolor := enum::DotColor::white
+		fillcolor := enum::DotColor::WHITE
 		++ - graph -> patternsGraph
 	}
 }

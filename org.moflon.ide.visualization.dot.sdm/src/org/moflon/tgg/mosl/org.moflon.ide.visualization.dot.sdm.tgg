@@ -113,7 +113,7 @@
 #source {
 	++node:language.Record {
 		rounded := true
-		fillcolor := enum::DotColor::white
+		fillcolor := enum::DotColor::WHITE
 	}
 	++entry:language.RecordEntry {
 		++ - record->node
