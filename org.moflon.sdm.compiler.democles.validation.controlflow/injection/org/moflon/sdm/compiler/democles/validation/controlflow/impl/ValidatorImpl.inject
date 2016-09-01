@@ -59,6 +59,8 @@ partial class ValidatorImpl {
 			return "Erroneous loop closing edge";
 		} else if (Errors.THEN_ELSE_BRANCH_INVALID_LOOP_CONTAINMENT == errorID) {
 			return "Edge in a then or else branch can only lead to the closest Loop or ForEach node";
+		} else if (Errors.LOOP_CROSSING_EDGE == errorID) {
+			return "Loop crossing edge found";
 		}
 		return "Unknown error";
 -->
