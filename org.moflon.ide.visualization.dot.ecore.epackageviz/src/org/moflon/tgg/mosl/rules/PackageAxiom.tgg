@@ -11,17 +11,17 @@
 	}
 
 	++classBackgroundParam:ClassSkinParam{
-		color :=enum::DotColor::white
+		color :=enum::DotColor::WHITE
 		value :=enum::ClassSkinParamValues::classBackgroundColor
 	}
 	
 	++classBorderColorParam:ClassSkinParam{
-		color :=enum::DotColor::black
+		color :=enum::DotColor::BLACK
 		value :=enum::ClassSkinParamValues::classBorderColor
 	}
 	
 	++classArrowColorParam:ClassSkinParam{
-		color := enum::DotColor::black
+		color := enum::DotColor::BLACK
 		value := enum::ClassSkinParamValues::classArrowColor
 	}
 }
