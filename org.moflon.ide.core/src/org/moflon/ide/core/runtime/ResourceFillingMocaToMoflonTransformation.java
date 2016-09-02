@@ -40,7 +40,6 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 	@Override
 	public void handleOutermostPackage(final Node node, final EPackage outermostPackage) {
 		super.handleOutermostPackage(node, outermostPackage);
-		//TODO@rkluge: Temporary fix - move to Exporter#handlePackage later
 		final String prefix = MoflonUtil.allSegmentsButLast(outermostPackage.getNsPrefix());
 		if (prefix != null && prefix.length() > 0) {
 			EcoreUtil.setAnnotation(outermostPackage, GenModelPackage.eNS_URI, "basePackage", prefix);
