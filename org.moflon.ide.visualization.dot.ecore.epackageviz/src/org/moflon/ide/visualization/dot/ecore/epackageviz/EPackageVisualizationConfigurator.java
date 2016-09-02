@@ -22,19 +22,19 @@ public class EPackageVisualizationConfigurator implements Configurator{
 	       return alternatives.stream()
 	               .filter(rr -> rr.getRule().contains("Node"))
 	               .findAny()
-	               .orElse(chooseFromHighPriority(alternatives));
+	               .orElse(chooseExistingAndBi(alternatives));
     }
 	
-	private RuleResult chooseFromHighPriority(Collection<RuleResult> alternatives){
+	private RuleResult chooseExistingAndBi(Collection<RuleResult> alternatives){
 	       return alternatives.stream()
-	               .filter(rr -> rr.getRule().contains("High"))
+	               .filter(rr -> rr.getRule().contains("Existing") && rr.getRule().contains("Bi"))
 	               .findAny()
-	               .orElse(chooseFromMediumPriority(alternatives));
+	               .orElse(chooseBiDirectional(alternatives));
 	}
 	
-	private RuleResult chooseFromMediumPriority(Collection<RuleResult> alternatives){
+	private RuleResult chooseBiDirectional(Collection<RuleResult> alternatives){
 		return alternatives.stream()
-	             .filter(rr -> rr.getRule().contains("Medium"))
+	             .filter(rr -> rr.getRule().contains("Bi"))
 	             .findAny()
 	             .orElse(Configurator.super.chooseOne(alternatives));
 	}

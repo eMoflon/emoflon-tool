@@ -1,0 +1,24 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#rule ExternalPackageContainmentBiEdgeRule #extends EdgeEReferenceBiAbstractRule, ExternalPackageRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source {
+	++association:PComposite
+}
+
+#target {
+	++eReference:EReference{
+		containment := true
+	}
+}
+
+#correspondence {
+
+}
+
+#attributeConditions {
+
+}
+
+

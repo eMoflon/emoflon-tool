@@ -16,11 +16,11 @@
 }
 
 #target {
-	externalPackage:EPackage
-
-	trgClass:EClass{
-		- ePackage -> externalPackage
+	externalPackage:EPackage{
+		- eClassifiers -> trgClass
 	}
+
+	trgClass:EClass
 }
 
 #correspondence {
