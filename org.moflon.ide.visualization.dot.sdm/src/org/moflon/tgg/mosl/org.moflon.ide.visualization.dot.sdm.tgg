@@ -1,4 +1,4 @@
-#import "platform:/resource/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"
 #import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"
 #import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//activities"
 #import "platform:/plugin/MocaTree/model/MocaTree.ecore"

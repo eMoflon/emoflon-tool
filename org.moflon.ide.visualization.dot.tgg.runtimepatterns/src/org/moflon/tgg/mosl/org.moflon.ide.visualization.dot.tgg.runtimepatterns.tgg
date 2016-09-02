@@ -1,5 +1,5 @@
 #import "platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore"
-#import "platform:/resource/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"
 #import "http://www.eclipse.org/emf/2002/Ecore"
 
 #schema org.moflon.ide.visualization.dot.tgg.runtimepatterns
