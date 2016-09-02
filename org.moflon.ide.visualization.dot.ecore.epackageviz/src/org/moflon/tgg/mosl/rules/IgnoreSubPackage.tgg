@@ -4,7 +4,9 @@
 #rule IgnoreSubPackage  #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source { 
-
+	graph : ClassGraph
+		
+	
 }
 
 #target {
@@ -16,7 +18,10 @@
 }
 
 #correspondence {
-
+	grapgh2package : ClassGraphToEPackage {
+		#src->graph
+		#trg->rootPackage
+	}
 }
 
 #attributeConditions {

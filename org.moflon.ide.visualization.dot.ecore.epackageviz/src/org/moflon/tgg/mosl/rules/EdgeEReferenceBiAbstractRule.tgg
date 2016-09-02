@@ -1,0 +1,53 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule EdgeEReferenceBiAbstractRule #extends EdgeEReferenceUniAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source {
+
+	++srcMultiplicity:PMultiplicity
+
+	++trgMutliplicity:PMultiplicity
+
+	++association:PAssociation{
+		++ - trgMultiplicity -> trgMutliplicity
+	}
+}
+
+#target {
+
+
+	srcClass:EClass
+
+	trgClass:EClass{
+		++ - eReferences -> opposite
+	}
+
+	++eReference:EReference{
+		++ - eReferenceType -> trgClass
+		++ - eOpposite -> opposite
+	}
+
+	++opposite:EReference{
+		containment := false
+		++ - eReferenceType -> srcClass
+	}
+}
+
+#correspondence {
+
+}
+
+#attributeConditions {
+
+
+	eq(association.oppositeLabel, opposite.name)
+
+
+
+	multiplicity(trgMutliplicity.lowerBound, opposite.lowerBound)
+
+	multiplicity(trgMutliplicity.upperBound, opposite.upperBound)
+}
+
+

@@ -1,7 +1,7 @@
 #using org.moflon.ide.visualization.dot.ecore.epackageviz.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule EdgeEReferenceAbstractRule #extends EdgeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+#abstract #rule EdgeEReferenceUniAbstractRule #extends EdgeAbstractSourceOnlyRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
 	graph:ClassGraph
@@ -12,14 +12,11 @@
 
 	++srcMultiplicity:PMultiplicity
 
-	++trgMutliplicity:PMultiplicity
-
 	++association:PAssociation{
 		++ - graph -> graph
 		++ - source -> srcClassNode
 		++ - target -> trgClassNode
 		++ - srcMultiplicity -> srcMultiplicity
-		++ - trgMultiplicity -> trgMutliplicity
 	}
 }
 
@@ -30,19 +27,12 @@
 		++ - eReferences -> eReference
 	}
 
-	trgClass:EClass{
-		++ - eReferences -> opposite
-	}
+	trgClass:EClass
 
 	++eReference:EReference{
 		++ - eReferenceType -> trgClass
-		++ - eOpposite -> opposite
 	}
 
-	++opposite:EReference{
-		containment := false
-		++ - eReferenceType -> srcClass
-	}
 }
 
 #correspondence {
@@ -55,15 +45,12 @@
 #attributeConditions {
 	eq(association.label, eReference.name)
 
-	eq(association.oppositeLabel, opposite.name)
+
 
 	multiplicity(srcMultiplicity.lowerBound, eReference.lowerBound)
 
 	multiplicity(srcMultiplicity.upperBound, eReference.upperBound)
 
-	multiplicity(trgMutliplicity.lowerBound, opposite.lowerBound)
-
-	multiplicity(trgMutliplicity.upperBound, opposite.upperBound)
 }
 
 

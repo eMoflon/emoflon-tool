@@ -1,7 +1,7 @@
 #using org.moflon.ide.visualization.dot.ecore.epackageviz.*
 #using AttrCondDefLibrary.*
 
-#rule ExistingContainmentEdgeRule #extends EdgeEReferenceAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
+#rule ExistingContainmentUniEdgeRule #extends EdgeEReferenceUniAbstractRule, EdgeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
 	++association:PComposite
