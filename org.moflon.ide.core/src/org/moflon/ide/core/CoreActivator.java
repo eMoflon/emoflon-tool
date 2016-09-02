@@ -322,6 +322,7 @@ public class CoreActivator extends EMoflonPlugin
    //TODO@rkluge: Only during transition
    public static void removeOldStyleGitignoreAndKeepFiles(IProject project) throws CoreException
    {
+      /*
       for (final IFile gitignoreFile : Arrays.asList(//
             WorkspaceHelper.getModelFolder(project).getFile(WorkspaceHelper.GITIGNORE_FILENAME),
             WorkspaceHelper.getGenFolder(project).getFile(WorkspaceHelper.GITIGNORE_FILENAME)))
@@ -337,5 +338,6 @@ public class CoreActivator extends EMoflonPlugin
          if (oldKeepFiles.exists())
             oldKeepFiles.delete(true, new NullProgressMonitor());
       }
+      */
    }
 }

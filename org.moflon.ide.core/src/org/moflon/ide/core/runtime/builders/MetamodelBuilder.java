@@ -110,9 +110,11 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             deleteProblemMarkers();
             
             //TODO@rkluge: Only during transition
+            /*
             IFile gitignore = getProject().getFile(WorkspaceHelper.GITIGNORE_FILENAME);
             if (gitignore.exists())
                gitignore.delete(true, new NullProgressMonitor());
+            */
             
             MoflonProjectCreator.addGitignoreFileForMetamodelProject(getProject(), subMon.newChild(1));
 
