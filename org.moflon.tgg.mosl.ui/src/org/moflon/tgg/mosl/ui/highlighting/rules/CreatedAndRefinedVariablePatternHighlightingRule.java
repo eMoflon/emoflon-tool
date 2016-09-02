@@ -8,7 +8,7 @@ import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLColor;
 public class CreatedAndRefinedVariablePatternHighlightingRule extends AbstractRefinedVariablePatternHighlightingRule {
 
 	public CreatedAndRefinedVariablePatternHighlightingRule() {
-		super("CreatedAndRefined", "Created and Refined VariablePattern", 100);
+		super("CreatedAndRefined", "Created and Refined VariablePattern", 150);
 	}
 
 	@Override

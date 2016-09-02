@@ -25,7 +25,7 @@ public abstract class AbstractRefinedVariablePatternHighlightingRule extends Abs
 			return false;
 		else {
 			rule = Rule.class.cast(eContainer);
-			return isRefined(rule, namePattern);
+			return isRefined(rule, rule.getSourcePatterns().contains(namePattern), namePattern);
 		}
 	}
 
@@ -33,25 +33,26 @@ public abstract class AbstractRefinedVariablePatternHighlightingRule extends Abs
 		return namePattern != null && namePattern.getOp() != null && getOperatorCondition(namePattern.getOp());
 	}
 
-	private boolean isRefined(Rule rule, NamePattern np) {
+	private boolean isRefined(Rule rule, boolean isSource, NamePattern np) {
 		boolean tmp = false;
 		for (Rule supertype : rule.getSupertypes()) {
 			if (tmp)
 				return tmp;
-			tmp = tmp || containsRuleVariablePatternName(supertype, np);
+			tmp = tmp || containsRuleVariablePatternName(supertype, isSource, np);
 
 			if (tmp)
 				return tmp;
-			tmp = tmp || isRefined(supertype, np);
+			tmp = tmp || isRefined(supertype, isSource, np);
 		}
 		return tmp;
 	}
 
-	private boolean containsRuleVariablePatternName(Rule rule, NamePattern origin) {
+	private boolean containsRuleVariablePatternName(Rule rule,boolean isSource, NamePattern origin) {
 		return origin instanceof CorrVariablePattern
 				? containsRuleVariablePatternName(rule.getCorrespondencePatterns(), origin)
-				: (containsRuleVariablePatternName(rule.getSourcePatterns(), origin)
-						|| containsRuleVariablePatternName(rule.getTargetPatterns(), origin));
+				: (isSource?
+						containsRuleVariablePatternName(rule.getSourcePatterns(), origin)
+						: containsRuleVariablePatternName(rule.getTargetPatterns(), origin));
 	}
 
 	private boolean containsRuleVariablePatternName(Collection<? extends NamePattern> patterns, NamePattern origin) {

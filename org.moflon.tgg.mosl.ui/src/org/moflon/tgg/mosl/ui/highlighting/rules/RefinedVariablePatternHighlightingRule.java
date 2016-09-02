@@ -8,7 +8,7 @@ import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLColor;
 public class RefinedVariablePatternHighlightingRule extends AbstractRefinedVariablePatternHighlightingRule {
 
 	public RefinedVariablePatternHighlightingRule() {
-		super("RefinedPattern", "Refined Pattern");
+		super("RefinedPattern", "Refined Pattern", 100);
 	}
 
 	@Override
