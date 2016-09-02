@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
 <MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.sdm.constraints.scopevalidation">
-  <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
-  <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
-  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.compiler.democles.pattern/model/Pattern.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore"/>
+  <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.scope/model/Scope.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.democles.literalexpressionsolver/model/Literalexpressionsolver.ecore"/>
+  <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.runtime.democles/model/Democles.ecore"/>
+  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
   <factoryMappings key="relational" value="RelationalConstraintFactory"/>
   <factoryMappings key="emf" value="EMFTypeFactory"/>
   <factoryMappings key="relational" value="RelationalConstraintFactory"/>

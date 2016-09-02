@@ -12,6 +12,6 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.moflon.ide.ui.runtime.natures.MetamodelNature</nature>
+		<nature>org.moflon.ide.core.runtime.natures.MetamodelNature</nature>
 	</natures>
 </projectDescription>

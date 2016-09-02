@@ -34,6 +34,6 @@
 	<natures>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>org.moflon.ide.ui.runtime.natures.AntlrNature</nature>
+		<nature>org.moflon.ide.core.runtime.natures.AntlrNature</nature>
 	</natures>
 </projectDescription>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ASCII"?>
 <MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.core.mocatomoflon">
-  <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
-  <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
-  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.core.moca.processing/model/Processing.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore"/>
+  <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore"/>
+  <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.tgg.language/model/Language.ecore"/>
+  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
   <additionalDependencies value="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore"/>
   <metaModelProject MetaModelProjectName="org.moflon.core.backend.specification"/>
   <replaceGenModel/>

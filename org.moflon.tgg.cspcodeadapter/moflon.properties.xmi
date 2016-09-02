@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ASCII"?>
 <MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.tgg.cspcodeadapter">
-  <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
   <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
-  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
-  <dependencies value="platform:/plugin/org.moflon.tgg.language/model/Language.ecore"/>
+  <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.tgg.language/model/Language.ecore"/>
+  <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
   <metaModelProject MetaModelProjectName="org.moflon.tgg.specification"/>
   <replaceGenModel/>
   <sdmCodegeneratorHandlerId/>

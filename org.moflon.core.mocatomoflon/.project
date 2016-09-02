@@ -11,12 +11,17 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
+			<name>org.moflon.ide.core.runtime.builders.AntlrBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
 			<name>org.moflon.ide.core.runtime.builders.RepositoryBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -31,18 +36,13 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.moflon.ide.core.runtime.builders.AntlrBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>org.moflon.ide.core.plugins.PluginUpdater</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.moflon.ide.ui.runtime.natures.RepositoryNature</nature>
+		<nature>org.moflon.ide.core.runtime.natures.RepositoryNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
 	</natures>
