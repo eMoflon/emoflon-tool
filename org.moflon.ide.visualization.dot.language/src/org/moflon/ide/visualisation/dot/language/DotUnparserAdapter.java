@@ -29,7 +29,8 @@ public class DotUnparserAdapter
         	template=getStringTemplateGroup().getInstanceOf("ClassGraph");
         	template.add("classGraph", graph);
         }
-        return template.render();
+        String plantUMLCode = template.render();
+        return plantUMLCode;
       } catch (FileNotFoundException | NullPointerException e)
       {
     	 log.error("Unable to unparse the Graph", e);

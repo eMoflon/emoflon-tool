@@ -7,9 +7,9 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="NodeCommand" abstract="true" eSuperTypes="#//AbstractNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillcolor" ordered="false"
-        lowerBound="1" eType="#//DotColor" defaultValueLiteral="white"/>
+        lowerBound="1" eType="#//DotColor" defaultValueLiteral="WHITE"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" ordered="false"
-        lowerBound="1" eType="#//DotColor" defaultValueLiteral="black"/>
+        lowerBound="1" eType="#//DotColor" defaultValueLiteral="BLACK"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bold" ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
@@ -33,13 +33,13 @@
         defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DotColor">
-    <eLiterals name="BLACK" literal="BLACK"/>
-    <eLiterals name="WHITE" value="6" literal="WHITE"/>
-    <eLiterals name="LIGHT_YELLOW" value="4" literal="LIGHT_YELLOW"/>
-    <eLiterals name="MISTY_ROSE" value="5" literal="MISTY_ROSE"/>
-    <eLiterals name="GREEN" value="1" literal="GREEN"/>
-    <eLiterals name="BLUE" value="2" literal="BLUE"/>
-    <eLiterals name="RED" value="3" literal="RED"/>
+    <eLiterals name="BLACK" literal="black"/>
+    <eLiterals name="WHITE" value="6" literal="white"/>
+    <eLiterals name="LIGHT_YELLOW" value="4" literal="lightyellow"/>
+    <eLiterals name="MISTY_ROSE" value="5" literal="mistyrose"/>
+    <eLiterals name="GREEN" value="1" literal="green"/>
+    <eLiterals name="BLUE" value="2" literal="blue"/>
+    <eLiterals name="RED" value="3" literal="red"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DirectedGraph" eSuperTypes="#//AbstractGraph">
     <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
@@ -67,7 +67,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="DComposite" eSuperTypes="#//EdgeCommand"/>
   <eClassifiers xsi:type="ecore:EClass" name="EdgeCommand" eSuperTypes="#//AbstractEdge">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" ordered="false"
-        lowerBound="1" eType="#//DotColor" defaultValueLiteral="black"/>
+        lowerBound="1" eType="#//DotColor" defaultValueLiteral="BLACK"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="constrained" ordered="false"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>

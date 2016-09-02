@@ -1,4 +1,4 @@
-#import "platform:/plugin/org.moflon.ide.visualization.dot.language/model/Language.ecore"
+#import "platform:/resource/org.moflon.ide.visualization.dot.language/model/Language.ecore"
 #import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
 #import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
 #import "http://www.eclipse.org/emf/2002/Ecore"
