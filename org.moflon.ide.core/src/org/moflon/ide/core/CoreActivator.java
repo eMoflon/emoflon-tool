@@ -319,7 +319,7 @@ public class CoreActivator extends EMoflonPlugin
       }
    }
 
-   //TODO@rkluge: Only during transition
+   //TODO@rkluge: Disabled migration routine for Git - remove in the future.
    public static void removeOldStyleGitignoreAndKeepFiles(IProject project) throws CoreException
    {
       /*

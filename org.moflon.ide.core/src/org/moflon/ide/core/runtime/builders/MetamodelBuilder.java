@@ -109,7 +109,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
          {
             deleteProblemMarkers();
             
-            //TODO@rkluge: Only during transition
+            //TODO@rkluge: TODO@rkluge: Disabled migration routine for Git - remove in the future.
             /*
             IFile gitignore = getProject().getFile(WorkspaceHelper.GITIGNORE_FILENAME);
             if (gitignore.exists())
