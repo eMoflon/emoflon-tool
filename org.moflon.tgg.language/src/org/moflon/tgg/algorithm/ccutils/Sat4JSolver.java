@@ -1,7 +1,5 @@
 package org.moflon.tgg.algorithm.ccutils;
 
-import java.util.concurrent.TimeoutException;
-
 import org.sat4j.core.VecInt;
 import org.sat4j.minisat.SolverFactory;
 import org.sat4j.specs.ContradictionException;

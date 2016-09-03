@@ -2,27 +2,15 @@ package org.moflon.tgg.algorithm.synchronization;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
-import org.gnu.glpk.GLPK;
-import org.moflon.tgg.algorithm.ccutils.AbstractSATSolver;
 import org.moflon.tgg.algorithm.ccutils.AbstractSolver;
-import org.moflon.tgg.algorithm.ccutils.ILPSolver;
 import org.moflon.tgg.algorithm.ccutils.ILP_GLPK_Solver;
-import org.moflon.tgg.algorithm.ccutils.ILP_Gurobi_Solver;
-import org.moflon.tgg.algorithm.ccutils.ILP_Sat4J_Solver;
-import org.moflon.tgg.algorithm.ccutils.ILP_lp_Solver;
-import org.moflon.tgg.algorithm.ccutils.MiniSatSolver;
-import org.moflon.tgg.algorithm.ccutils.Sat4JIncrementalSolver;
-import org.moflon.tgg.algorithm.ccutils.Sat4JSolver;
-import org.moflon.tgg.algorithm.ccutils.ZChaffSolver;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -37,7 +25,6 @@ import org.moflon.tgg.runtime.IsApplicableRuleResult;
 import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.RuntimeFactory;
 
-import gnu.trove.TIntCollection;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;

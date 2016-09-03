@@ -3,7 +3,6 @@ package org.moflon.tgg.algorithm.invocation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Function;
 
-import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;

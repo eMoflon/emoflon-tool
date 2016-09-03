@@ -1,17 +1,8 @@
 package org.moflon.tgg.algorithm.ccutils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
-import org.moflon.tgg.runtime.CCMatch;
 
-import gnu.trove.TIntCollection;
-import gnu.trove.map.hash.TIntIntHashMap;
-import net.sf.javailp.Linear;
-import net.sf.javailp.OptType;
 import net.sf.javailp.Problem;
 import net.sf.javailp.Result;
 import net.sf.javailp.Solver;
