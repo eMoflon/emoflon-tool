@@ -29,6 +29,7 @@
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.constraints.validation,org.moflon.sdm.constraints.validation"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.controlflow.reversenavigation,org.moflon.sdm.controlflow.reversenavigation"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.democles.literalexpressionresolver,org.moflon.sdm.democles.literalexpressionsolver"/>
+<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.democles.reachability.javabdd,org.moflon.sdm.democles.reachability.javabdd"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.democles.patternmatcher,org.moflon.sdm.democles.patternmatcher"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.runtime.democles,org.moflon.sdm.runtime.democles"/>
 <project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.sdm.runtime.democles.specification,org.moflon.sdm.runtime.democles.specification"/>
@@ -42,7 +43,6 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.constraints.scopevalidation" type="4"/>
 <item elementID="=org.moflon.sdm.constraints.codegenerator" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.sdm.democles.literalexpressionsolver" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.democles.literalexpressionsolver" type="4"/>
 <item elementID="=org.moflon.core.dfs" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.dfs" type="4"/>
 <item elementID="=org.moflon.core.moca.processing" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
@@ -99,6 +99,8 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.compiler.democles.validation.scope" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.compiler.democles.validation.controlflow" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.democles.literalexpressionsolver" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.democles.reachability.javabdd" type="4"/>
+<item elementID="=org.moflon.sdm.democles.reachability.javabdd" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.constraints.democles" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.constraints.operationspecification" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.constraints.scopevalidation" type="4"/>
