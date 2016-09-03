@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JavaBDD Reachability Analyzer
-Bundle-SymbolicName: org.moflon.democles.reachability.javabdd;singleton:=true
+Bundle-SymbolicName: org.moflon.sdm.democles.reachability.javabdd;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.moflon.democles.reachability.javabdd
 Require-Bundle: org.gervarro.democles.common;bundle-version="1.0.0",
