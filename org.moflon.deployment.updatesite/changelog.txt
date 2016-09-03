@@ -134,3 +134,9 @@
 2016-06-10 Fix: QuickFix or autofix for black edges connected to green object variables #665
 2016-07-08 Fix: Visualisation: Provide a visualisation for the entire TGG #710 
 2016-08-12 Fix validation errors concerning "missing feature name/comment" in SDMLanguage
+2016-08-*  Establish new, Eclipse-conformant build process
+2016-08-*  Improved generation of Git-related files (.gitignore, .keep for empty folders)
+2016-09-01 EPackage visualization (beta version)
+2016-09-03 eMoflon 2.17.0 released
+---
+
