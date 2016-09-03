@@ -143,11 +143,21 @@ public class EMoflonStandardWorkspaces
    }
 
    /**
-    * Joins the paths corresponding to the given module names to a new (flat) list
+    * Joins the paths corresponding to the given module names to a new (flat) list.
+    * 
+    * The resulting list preserves the order of the paths of the given modules (and their corresponding paths) but does not contain duplicates.
+    * Only the first path of a set of duplicates is kept.
     */
    private static List<String> joinLists(final String... moduleNames)
    {
-      return Arrays.asList(moduleNames).stream().map(m -> PATH_LOOKUP.get(m)).reduce(new ArrayList<String>(), createListJoiner());
+      final List<String> intermediateResult = new ArrayList<>(Arrays.asList(moduleNames).stream().map(m -> PATH_LOOKUP.get(m)).reduce(new ArrayList<String>(), createListJoiner()));
+      final List<String> duplicateFilteredList = new ArrayList<String>();
+      for (final String path : intermediateResult)
+      {
+         if (!duplicateFilteredList.contains(path))
+            duplicateFilteredList.add(path);
+      }
+      return duplicateFilteredList;
    }
 
    /**
