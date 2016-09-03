@@ -56,7 +56,7 @@ public class NewMetamodelWizard extends AbstractMoflonWizard
 
          MoflonProjectCreator.addGitignoreFileForMetamodelProject(newProjectHandle, subMon.newChild(1));
 
-         WorkspaceHelper.addNature(newProjectHandle, CoreActivator.METAMODEL_NATURE_ID, subMon.newChild(1));
+         WorkspaceHelper.addNature(newProjectHandle, WorkspaceHelper.METAMODEL_NATURE_ID, subMon.newChild(1));
 
          WorkspaceHelperUI.moveProjectToWorkingSet(newProjectHandle, SPECIFICATION_WORKINGSET_NAME);
 
