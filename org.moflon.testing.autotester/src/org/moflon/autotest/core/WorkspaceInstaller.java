@@ -57,6 +57,8 @@ import org.osgi.framework.FrameworkUtil;
 @SuppressWarnings("restriction")
 public class WorkspaceInstaller
 {
+   private static final String EMOFLON_WORKSPACE_NAME_PREFIX = "eMoflon ";
+
    private static final String JUNIT_TEST_LAUNCHER_FILE_NAME_PATTERN = "^.*[Test|TestSuite].*[.]launch$";
 
    private static final Logger logger = Logger.getLogger(WorkspaceInstaller.class);
@@ -487,7 +489,7 @@ public class WorkspaceInstaller
       IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
       for (IWorkingSet ws : workingSetManager.getAllWorkingSets())
       {
-         if (ws.getName().startsWith("org.moflon") && ws.getElements().length == 0)
+         if (ws.getName().startsWith(EMOFLON_WORKSPACE_NAME_PREFIX) && ws.getElements().length == 0)
          {
             workingSetManager.removeWorkingSet(ws);
          }
