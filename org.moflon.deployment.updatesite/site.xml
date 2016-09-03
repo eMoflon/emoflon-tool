@@ -4,16 +4,16 @@
    <description name="eMoflon central update site" url="http://www.emoflon.org/emoflon/installation/">
       This is the central update site of eMoflon.
    </description>
-   <feature url="features/org.moflon.ide.feature_2.17.0.qualifier.jar" id="org.moflon.ide.feature" version="2.17.0.qualifier">
+   <feature url="features/org.moflon.ide.feature_2.18.0.qualifier.jar" id="org.moflon.ide.feature" version="2.18.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
-   <feature url="features/org.moflon.ide.visualization.feature_2.17.0.qualifier.jar" id="org.moflon.ide.visualization.feature" version="2.17.0.qualifier">
+   <feature url="features/org.moflon.ide.visualization.feature_2.18.0.qualifier.jar" id="org.moflon.ide.visualization.feature" version="2.18.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
-   <feature url="features/org.moflon.ide.metamodelevolution.feature_2.17.0.qualifier.jar" id="org.moflon.ide.metamodelevolution.feature" version="2.17.0.qualifier">
+   <feature url="features/org.moflon.ide.metamodelevolution.feature_2.18.0.qualifier.jar" id="org.moflon.ide.metamodelevolution.feature" version="2.18.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
-   <feature url="features/org.moflon.tgg.mosl.feature_2.17.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="2.17.0.qualifier">
+   <feature url="features/org.moflon.tgg.mosl.feature_2.18.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="2.18.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
    <category-def name="org.moflon.ide" label="eMoflon">
