@@ -12,7 +12,6 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.ide.ui.UIActivator;
 import org.moflon.ide.ui.WorkspaceHelperUI;
