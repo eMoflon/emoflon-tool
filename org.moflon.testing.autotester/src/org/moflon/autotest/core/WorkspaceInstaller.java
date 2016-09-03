@@ -393,6 +393,16 @@ public class WorkspaceInstaller
       };
       moflonProjectExplorerJob.setRule(ResourcesPlugin.getWorkspace().getRoot());
       jobs.add(moflonProjectExplorerJob);
+      jobs.add(new Job("God bye.") {
+
+         @Override
+         protected IStatus run(IProgressMonitor monitor)
+         {
+            logger.info("Code generation jobs completed successfully.");
+            return Status.OK_STATUS;
+         }
+         
+      });
 
       try
       {
