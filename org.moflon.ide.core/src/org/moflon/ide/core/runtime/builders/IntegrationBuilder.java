@@ -29,7 +29,6 @@ import org.moflon.csp.CSPNotSolvableException;
 import org.moflon.dependency.PackageRemappingDependency;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
-import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.moca.MocaUtil;
 import org.moflon.moca.tggUserDefinedConstraint.unparser.TGGUserDefinedConstraintUnparserAdapter;
 import org.moflon.moca.tie.RunIntegrationGeneratorBatch;

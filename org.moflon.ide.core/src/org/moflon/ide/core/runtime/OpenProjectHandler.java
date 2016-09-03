@@ -6,11 +6,9 @@ import java.util.Collection;
 import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.common.util.URI;
@@ -30,8 +28,8 @@ import org.moflon.tgg.runtime.TGGRuntimePlugin;
 import org.moflon.util.plugins.BuildPropertiesFileBuilder;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
-import org.moflon.util.plugins.manifest.PluginManifestConstants;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater.AttributeUpdatePolicy;
+import org.moflon.util.plugins.manifest.PluginManifestConstants;
 
 import MoflonPropertyContainer.Dependencies;
 import MoflonPropertyContainer.MoflonPropertiesContainer;
