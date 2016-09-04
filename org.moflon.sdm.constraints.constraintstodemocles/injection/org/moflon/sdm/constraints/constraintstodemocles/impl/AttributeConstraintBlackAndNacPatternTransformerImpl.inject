@@ -3,8 +3,6 @@ import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 import org.moflon.sdm.compiler.democles.validation.result.Severity;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.constraints.constraintstodemocles.Errors;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
-import org.eclipse.core.resources.IProject;
 import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
 import org.moflon.sdm.constraints.operationspecification.OperationSpecification;
 
