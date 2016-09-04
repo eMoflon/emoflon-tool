@@ -5,6 +5,7 @@ import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.constraints.constraintstodemocles.Errors;
 import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
 import org.moflon.sdm.constraints.operationspecification.OperationSpecification;
+@SuppressWarnings("unchecked")
 
 partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
 
