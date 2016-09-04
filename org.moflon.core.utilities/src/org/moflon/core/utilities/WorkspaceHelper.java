@@ -1,12 +1,7 @@
 package org.moflon.core.utilities;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -21,7 +16,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -133,6 +127,8 @@ public class WorkspaceHelper
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
 
    public static final String KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT = ".keep";
+   
+   public static final String GITIGNORE_FILENAME = ".gitignore";
 
    /**
     * Checks if given name is a valid name for a new project in the current workspace.
@@ -944,39 +940,6 @@ public class WorkspaceHelper
    }
 
    /**
-    * Copies the content of the source file into the target file.
-    * 
-    * @param source
-    *           source file
-    * @param target
-    *           target file
-    * 
-    * @deprecated Use {@link FileUtils#copyFile(File, File)}
-    */
-   @Deprecated
-   public static void copyFile(final File source, final File target)
-   {
-      try
-      {
-         byte[] buffer = new byte[1024];
-         BufferedInputStream origin = new BufferedInputStream(new FileInputStream(source));
-         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(target));
-         int count;
-
-         while ((count = origin.read(buffer)) > 0)
-         {
-            out.write(buffer, 0, count);
-         }
-
-         origin.close();
-         out.close();
-      } catch (IOException e)
-      {
-         LogUtils.error(logger, e);
-      }
-   }
-
-   /**
     * Returns a file handle for the EAP file in the given metamodel project.
     * 
     * The file need not exist and needs to be checked using {@link IFile#exists()}.
@@ -1163,8 +1126,6 @@ public class WorkspaceHelper
          LogUtils.warn(logger, "Error during creation of file %s in folder %s .", filename, folder);
       }
    }
-
-   public static final String GITIGNORE_FILENAME = ".gitignore";
 
    /**
     * Creates the given file with the given content if the file does not exist yet. 
