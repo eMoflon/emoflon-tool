@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.JobGroup;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -22,6 +23,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.CodeGenerator;
 import org.moflon.codegen.MethodBodyHandler;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
 import org.moflon.moca.inject.CodeInjector;
@@ -29,8 +31,6 @@ import org.moflon.moca.inject.CodeInjectorImpl;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.extractors.CompilerInjectionExtractorImpl;
 import org.moflon.moca.inject.extractors.UserInjectionExtractorImpl;
-
-import MoflonPropertyContainer.MoflonPropertiesContainer;
 
 public class MoflonCodeGenerator extends GenericMoflonProcess
 {
@@ -63,7 +63,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    {
       try
       {
-         monitor.beginTask("Code generation task", 100);
+         SubMonitor subMon = SubMonitor.convert(monitor, "Code generation task", 100);
          final MoflonPropertiesContainer moflonProperties = getMoflonProperties();
          logger.info("Generating code for: " + moflonProperties.getMetaModelProject().getMetaModelProjectName() + "::" + moflonProperties.getProjectName());
 
@@ -75,37 +75,30 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          // (1) Instantiate code generation engine
          final String engineID = CodeGeneratorPlugin.getMethodBodyHandler(getMoflonProperties());
          final MethodBodyHandler methodBodyHandler = (MethodBodyHandler) Platform.getAdapterManager().loadAdapter(this, engineID);
-         monitor.worked(5);
+         subMon.worked(5);
          if (methodBodyHandler == null)
          {
             return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), "Unknown method body handler: " + engineID + ". Code generation aborted.");
          }
-         if (monitor.isCanceled())
+         if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
 
          // (2) Validate metamodel (including SDMs)
          final IMonitoredJob validator = methodBodyHandler.createValidator(ePackage);
-         // final IStatus validatorStatus = validator.run(WorkspaceHelper.createSubMonitor(monitor, 10));
          final WorkspaceJob validationJob = new WorkspaceJob(engineID) {
             @Override
-            public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
+            public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException
             {
-               try
-               {
-                  monitor.beginTask("Validation job", 100);
-                  return validator.run(WorkspaceHelper.createSubMonitor(monitor, 100));
-               } 
-               finally {
-                  monitor.done();
-               }
+               final SubMonitor subMon = SubMonitor.convert(monitor, "Validation job", 100);
+               return validator.run(subMon.newChild(100));
             }
          };
          JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
          validationJob.setJobGroup(jobGroup);
          validationJob.schedule();
-         jobGroup.join(timeoutForValidationTaskInMillis, WorkspaceHelper.createSubMonitor(monitor, 10));
+         jobGroup.join(timeoutForValidationTaskInMillis, subMon.newChild(10));
 
          final IStatus validatorStatus = validationJob.getResult();
 
@@ -115,7 +108,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             validationJob.getThread().stop();
             throw new OperationCanceledException("Validation took longer than " + (timeoutForValidationTaskInMillis / 1000)
                   + "seconds. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
-         } else if (monitor.isCanceled())
+         } else if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
@@ -127,8 +120,8 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          // (3) Build or load GenModel
          final MonitoredGenModelBuilder genModelBuilderJob = new MonitoredGenModelBuilder(getResourceSet(), getAllResources(), getEcoreFile(), true,
                getMoflonProperties());
-         final IStatus genModelBuilderStatus = genModelBuilderJob.run(WorkspaceHelper.createSubMonitor(monitor, 15));
-         if (monitor.isCanceled())
+         final IStatus genModelBuilderStatus = genModelBuilderJob.run(subMon.newChild(15));
+         if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
@@ -142,7 +135,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          final IProject project = getEcoreFile().getProject();
 
          final IStatus injectionStatus = createInjections(project, genModel);
-         if (monitor.isCanceled())
+         if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
@@ -152,10 +145,10 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          }
 
          // (5) Process GenModel
-         monitor.subTask("Processing SDMs for project " + project.getName());
+         subMon.subTask("Processing SDMs for project " + project.getName());
          final IMonitoredJob genModelProcessor = methodBodyHandler.createGenModelProcessor(this, resource);
-         final IStatus genModelProcessorStatus = genModelProcessor.run(WorkspaceHelper.createSubMonitor(monitor, 35));
-         if (monitor.isCanceled())
+         final IStatus genModelProcessorStatus = genModelProcessor.run(subMon.newChild(35));
+         if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
@@ -165,11 +158,11 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          }
 
          // (6) Generate code
-         monitor.subTask("Generating code for project " + project.getName());
+         subMon.subTask("Generating code for project " + project.getName());
          final Descriptor codeGenerationEngine = methodBodyHandler.createCodeGenerationEngine(this, resource);
          final CodeGenerator codeGenerator = new CodeGenerator(codeGenerationEngine);
-         final IStatus codeGenerationStatus = codeGenerator.generateCode(genModel, new BasicMonitor.EclipseSubProgress(monitor, 30));
-         if (monitor.isCanceled())
+         final IStatus codeGenerationStatus = codeGenerator.generateCode(genModel, new BasicMonitor.EclipseSubProgress(subMon, 30));
+         if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
@@ -177,7 +170,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          {
             return codeGenerationStatus;
          }
-         monitor.worked(5);
+         subMon.worked(5);
 
          long tic = System.nanoTime();
 
@@ -189,10 +182,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       } catch (final Exception e)
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
-      } finally
-      {
-         monitor.done();
-      }
+      } 
    }
 
    /**
