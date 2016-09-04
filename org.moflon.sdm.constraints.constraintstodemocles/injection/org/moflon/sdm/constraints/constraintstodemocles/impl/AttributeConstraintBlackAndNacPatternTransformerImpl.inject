@@ -13,13 +13,11 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
 
 
 @model callSuperPostprocess (StoryPattern storyPattern, Pattern pattern) <--
-
       super.postprocess(storyPattern, pattern);
 -->
 
 @model validateConstraintLibrary (AttributeConstraintLibrary attributeConstraintLibrary) <--
-
-      ValidationReport validationReport = this.getValidationReport();
+      //ValidationReport validationReport = this.getValidationReport();
       String fileLoc = attributeConstraintLibrary.getPrefix() + "/AttributeConstraintLibrary.xmi";
       if (attributeConstraintLibrary.getPrefix() == null || attributeConstraintLibrary.getPrefix().length() == 0)
       {
@@ -135,13 +133,11 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
 -->
 
 @model validateCspConstraints (AttributeVariableConstraint attributeConstraint, CspConstraint cspConstraint) <--
-
-     
       //Lookup constraint in user defined lib first
 
       AttributeConstraintLibrary userDefLib = this.getAttributeConstraintLibUtil().getUserDefinedAttributeConstraintLibrary();
-     
-      if(userDefLib!=null)
+
+      if (userDefLib != null)
       {
          validateConstraintLibrary(userDefLib);
          if (userDefLib.lookupConstraintType(attributeConstraint) != null)
@@ -155,11 +151,11 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
       {
          return;
       }
-      
+
       //Create user defined lib if not exists
-      if(userDefLib==null)
+      if (userDefLib == null)
       {
-         userDefLib=OperationspecificationFactory.eINSTANCE.createAttributeConstraintLibrary();
+         userDefLib = OperationspecificationFactory.eINSTANCE.createAttributeConstraintLibrary();
          this.getAttributeConstraintLibUtil().setUserDefinedAttributeConstraintLibrary(userDefLib);
       }
       //  create Stub
@@ -177,7 +173,7 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
       }
       errorMsgString.deleteCharAt(errorMsgString.length() - 1);
       errorMsgString.append(")\".");
-      errorMsgString.append("\n    Please complete stub in: \"" +  " /lib/" + userDefLib.getPrefix() + ".xmi\"");
+      errorMsgString.append("\n    Please complete stub in: \"" + " /lib/" + userDefLib.getPrefix() + ".xmi\"");
 
       ValidationReport report = this.getValidationReport();
 
@@ -189,7 +185,6 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
 -->
 
 @model createErrorMessage (EObject location) <--
-
       ErrorMessage errorMsg = ResultFactory.eINSTANCE.createErrorMessage();
       errorMsg.setSeverity(org.moflon.sdm.compiler.democles.validation.result.Severity.ERROR);
       errorMsg.getLocation().add(location);
