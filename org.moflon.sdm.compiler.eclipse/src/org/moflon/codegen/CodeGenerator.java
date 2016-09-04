@@ -48,7 +48,6 @@ public class CodeGenerator
 
    public final IStatus generateCode(final GenModel genModel, final Monitor monitor)
    {
-      //TODO gervarro: Is org.eclipse.emf.common the right ID for this status?
       IStatus status = new Status(IStatus.OK, "org.eclipse.emf.common", "Code generation succeeded");
       if (status.isOK())
       {
