@@ -1,17 +1,16 @@
 
+@SuppressWarnings("unchecked")
+
 partial class AttributeConstraintGreenPatternTransformerImpl {
 
 
 
 @model callSuperPostprocess (StoryPattern storyPattern, Pattern pattern) <--
-
-
-		super.postprocess(storyPattern, pattern);
+      super.postprocess(storyPattern, pattern);
 -->
 
 @model callSuperIsVariableToAdd (ObjectVariable objectVariable) <--
-
-
-		return super.isVariableToAdd(objectVariable);
+      return super.isVariableToAdd(objectVariable);
 -->
+
 }
