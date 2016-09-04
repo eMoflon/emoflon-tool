@@ -37,11 +37,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -337,9 +335,9 @@ public class WorkspaceHelper
                }
             }
          }
-         monitor.worked(1);
+         subMon.worked(1);
 
-         setBuildPath(javaProject, entries, monitor);
+         setBuildPath(javaProject, entries, subMon.newChild(1));
    }
 
    /**
@@ -368,7 +366,7 @@ public class WorkspaceHelper
             description.setNatureIds(natures.toArray(new String[natures.size()]));
          }
 
-         monitor.worked(1);
+         subMon.worked(1);
 
          return description;
    }
@@ -518,7 +516,7 @@ public class WorkspaceHelper
          entries.toArray(newEntries);
 
          // Set new classpath with added entries
-         javaProject.setRawClasspath(newEntries, monitor != null ? subMon.newChild(1) : null);
+         javaProject.setRawClasspath(newEntries, subMon.newChild(1));
    }
 
    private static void setBuildPath(final IJavaProject javaProject, final Collection<IClasspathEntry> entries) throws JavaModelException
@@ -606,7 +604,7 @@ public class WorkspaceHelper
    @Deprecated
    public static IProgressMonitor createSubMonitor(final IProgressMonitor monitor, final int ticks)
    {
-      return new SubProgressMonitor(monitor, ticks);
+      return SubMonitor.convert(monitor, ticks).newChild(ticks);
    }
 
    /**
@@ -942,20 +940,6 @@ public class WorkspaceHelper
       } catch (CoreException e)
       {
          return false;
-      }
-   }
-
-   /**
-    * Checks whether the given monitor has been canceled and throws an OperationCancelledException to signal the cancellation.
-    * 
-    * @throws OperationCancelledException
-    *            if the monitor has been cancelled
-    */
-   public static void checkCanceledAndThrowException(final IProgressMonitor monitor)
-   {
-      if (monitor.isCanceled())
-      {
-         throw new OperationCanceledException();
       }
    }
 
