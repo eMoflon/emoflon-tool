@@ -8,10 +8,8 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.moca.MocaUtil;
 import org.moflon.moca.literalExpression.parser.LiteralExpressionLexer;
 import org.moflon.moca.literalExpression.parser.LiteralExpressionParser;
-import org.eclipse.emf.ecore.EObject;
 import java.io.StringReader;
 import java.io.IOException;
-import org.moflon.sdm.democles.literalexpressionsolver.LiteralexpressionsolverFactory;
 
 partial class ConstantTransformerImpl {
 
