@@ -73,6 +73,7 @@ public class IntegrationBuilder extends RepositoryBuilder
    @Override
    protected void processResource(IResource resource, int kind, Map<String, String> args, IProgressMonitor monitor)
    {
+	   if (resource.getProjectRelativePath().toString().equals(MoflonUtil.getDefaultPathToFileInProject(getProject().getName(), WorkspaceHelper.PRE_ECORE_FILE_EXTENSION))) {
       try
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code", 500);
@@ -91,6 +92,7 @@ public class IntegrationBuilder extends RepositoryBuilder
          final IStatus status = new Status(e.getStatus().getSeverity(), CoreActivator.getModuleID(), e.getMessage(), e);
          handleErrorsInEclipse(status, (IFile) resource);
       }
+	   }
    }
 
    private IStatus processTGG(final IProgressMonitor monitor) throws CoreException
