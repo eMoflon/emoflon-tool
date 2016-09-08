@@ -35,7 +35,6 @@ import org.moflon.moca.tie.RunIntegrationGeneratorBatch;
 import org.moflon.moca.tie.RunIntegrationGeneratorCC;
 import org.moflon.moca.tie.RunIntegrationGeneratorSync;
 import org.moflon.moca.tie.RunModelGenerationGenerator;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
 import org.moflon.tgg.cspcodeadapter.CspcodeadapterFactory;
 import org.moflon.tgg.cspcodeadapter.VariableTypeManager;
 import org.moflon.tgg.language.TGGRule;
@@ -56,7 +55,9 @@ import org.moflon.tgg.language.precompiler.PrecompilerFactory;
 import org.moflon.tgg.language.precompiler.RuleProcessingMessage;
 import org.moflon.tgg.language.precompiler.TGGPrecompiler;
 
-import MoflonPropertyContainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+
 import SDMLanguage.sdmUtil.CompilerInjection;
 import SDMLanguage.sdmUtil.SdmUtilFactory;
 
