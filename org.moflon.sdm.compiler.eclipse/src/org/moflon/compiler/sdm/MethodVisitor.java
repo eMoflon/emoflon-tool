@@ -17,9 +17,8 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
-
-import MoflonPropertyContainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 
 /**
  * A helper class for extracting specified methods from the AST created by parsing the generated code from CodeGen2.

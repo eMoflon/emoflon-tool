@@ -25,19 +25,18 @@ import org.gervarro.eclipse.workspace.autosetup.ProjectConfigurator;
 import org.gervarro.eclipse.workspace.autosetup.WorkspaceAutoSetupModule;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
 import org.moflon.util.plugins.BuildPropertiesFileBuilder;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater.AttributeUpdatePolicy;
 import org.moflon.util.plugins.manifest.PluginManifestConstants;
-
-import MoflonPropertyContainer.MoflonPropertiesContainer;
-import MoflonPropertyContainer.SDMCodeGeneratorIds;
 
 public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfigurator
 {

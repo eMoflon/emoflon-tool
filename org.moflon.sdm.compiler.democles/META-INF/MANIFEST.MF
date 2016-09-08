@@ -15,7 +15,7 @@ Require-Bundle:
  org.moflon.sdm.compiler.eclipse,
  org.moflon.sdm.democles.patternmatcher;bundle-version="[0.3.0,0.4.0)",
  org.moflon.sdm.runtime.democles,
- MoflonPropertyContainer,
+ org.moflon.core.propertycontainer,
  SDMLanguage,
  org.moflon.core.moca.processing,
  org.moflon.sdm.compiler.democles.pattern,

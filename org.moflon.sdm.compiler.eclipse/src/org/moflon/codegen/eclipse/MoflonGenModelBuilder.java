@@ -17,13 +17,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.GenModelBuilder;
+import org.moflon.core.propertycontainer.AdditionalDependencies;
+import org.moflon.core.propertycontainer.AdditionalUsedGenPackages;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.dependency.Dependency;
 import org.moflon.dependency.SimpleDependency;
-
-import MoflonPropertyContainer.AdditionalDependencies;
-import MoflonPropertyContainer.AdditionalUsedGenPackages;
-import MoflonPropertyContainer.MoflonPropertiesContainer;
-
 
 public class MoflonGenModelBuilder extends GenModelBuilder {
 	protected static final Logger logger = Logger.getLogger(MoflonGenModelBuilder.class);

@@ -28,11 +28,11 @@ import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 
-import MoflonPropertyContainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 
 public class RepositoryBuilder extends AbstractVisitorBuilder
 {

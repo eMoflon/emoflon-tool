@@ -13,10 +13,9 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.moflon.core.propertycontainer.AdditionalDependencies;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.dependency.PackageRemappingDependency;
-
-import MoflonPropertyContainer.AdditionalDependencies;
-import MoflonPropertyContainer.MoflonPropertiesContainer;
 
 public class MonitoredMetamodelLoader extends GenericMonitoredResourceLoader
 {

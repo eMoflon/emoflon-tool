@@ -1,10 +1,9 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: MoflonPropertyContainer;singleton:=true
-Export-Package: MoflonPropertyContainer,
- MoflonPropertyContainer.impl,
- MoflonPropertyContainer.util,
- org.moflon.properties
-Bundle-Name: MoflonPropertyContainer
+Bundle-SymbolicName: org.moflon.core.propertycontainer;singleton:=true
+Export-Package: org.moflon.core.propertycontainer.util,
+ org.moflon.core.propertycontainer,
+ org.moflon.core.propertycontainer.impl
+Bundle-Name: org.moflon.core.propertycontainer
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.core.runtime;bundle-version="3.8.0",

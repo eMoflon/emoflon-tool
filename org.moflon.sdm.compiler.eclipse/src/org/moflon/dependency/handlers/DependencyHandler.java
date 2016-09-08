@@ -7,10 +7,9 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.moflon.dependency.Dependency;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
-
-import MoflonPropertyContainer.MoflonPropertiesContainer;
-import MoflonPropertyContainer.PropertiesValue;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.propertycontainer.PropertiesValue;
 
 public interface DependencyHandler
 {

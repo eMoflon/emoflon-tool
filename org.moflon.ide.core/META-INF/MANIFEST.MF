@@ -16,7 +16,7 @@ Require-Bundle:
  org.eclipse.pde;bundle-version="[3.8.100,4.0.0)",
  org.eclipse.pde.core;bundle-version="[3.8.100,4.0.0)",
  org.moflon.core.utilities,
- MoflonPropertyContainer,
+ org.moflon.core.propertycontainer,
  MocaTree,
  org.moflon.core.moca.processing,
  org.moflon.core.mocatomoflon;bundle-version="2.0.0",

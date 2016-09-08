@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.mocatomoflon.impl.ExporterImpl;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
 import org.moflon.tgg.language.TripleGraphGrammar;
 
 import MocaTree.Attribute;
@@ -31,7 +31,7 @@ public class BasicResourceFillingMocaToMoflonTransformation extends
 	public static final String MOCA_TREE_ATTRIBUTE_NS_URI = "Moflon::NsUri";
 	public static final String MOCA_TREE_ATTRIBUTE_EXPORT = "Moflon::Export";
 	public static final String MOFLON_TREE_ATTRIBUTE_NAME = "Moflon::Name";
-	public static final URI MOFLON_PROPERTIES_URI =
+	private static final URI MOFLON_PROPERTIES_URI =
 			URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE);
 
 	protected static final Logger MOCA_TO_MOFLON_TRANSFORMATION_LOGGER =

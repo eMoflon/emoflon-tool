@@ -17,6 +17,10 @@ import org.gervarro.eclipse.workspace.autosetup.PluginProjectConfigurator;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.TGGLanguageActivator;
 import org.moflon.core.moca.tree.MocaTreePlugin;
+import org.moflon.core.propertycontainer.Dependencies;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.PropertiesValue;
+import org.moflon.core.propertycontainer.PropertycontainerFactory;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -30,11 +34,6 @@ import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater.AttributeUpdatePolicy;
 import org.moflon.util.plugins.manifest.PluginManifestConstants;
-
-import MoflonPropertyContainer.Dependencies;
-import MoflonPropertyContainer.MoflonPropertiesContainer;
-import MoflonPropertyContainer.MoflonPropertyContainerFactory;
-import MoflonPropertyContainer.PropertiesValue;
 
 /**
  * This handler is invoked during the build process to update/configure open projects
@@ -211,7 +210,7 @@ public class OpenProjectHandler extends WorkspaceTask
 
    public void addMetamodelDependency(final MoflonPropertiesContainer moflonProperties, final URI metamodelUri)
    {
-      Dependencies dep = MoflonPropertyContainerFactory.eINSTANCE.createDependencies();
+      Dependencies dep = PropertycontainerFactory.eINSTANCE.createDependencies();
       dep.setValue(metamodelUri.toString());
       if (!alreadyContainsDependency(moflonProperties.getDependencies(), dep))
       {

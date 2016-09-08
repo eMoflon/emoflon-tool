@@ -22,10 +22,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
-
-import MoflonPropertyContainer.MoflonPropertiesContainer;
 
 /**
  * This class defines a generic process for processing eMoflon projects.
@@ -63,6 +62,7 @@ abstract public class GenericMoflonProcess implements IMonitoredJob
       {
          // (1) Loads moflon.properties file
          final IProject project = ecoreFile.getProject();
+         MoflonPropertiesContainerHelper.updateMoflonPropertiesToNewBasePackage(project);
          final URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
          final URI moflonPropertiesURI = URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE).resolve(projectURI);
          final Resource moflonPropertiesResource = CodeGeneratorPlugin.createDefaultResourceSet().getResource(moflonPropertiesURI, true);

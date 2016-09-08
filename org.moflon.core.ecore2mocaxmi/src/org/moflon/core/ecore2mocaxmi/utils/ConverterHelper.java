@@ -21,9 +21,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.moflon.codegen.eclipse.MonitoredMetamodelLoader;
 import org.moflon.core.ecore2mocaxmi.Ecore2MocaXMIConverter;
 import org.moflon.core.ecore2mocaxmi.Ecore2mocaxmiFactory;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.dependency.PackageRemappingDependency;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
 
 import MocaTree.Node;
 

@@ -34,8 +34,8 @@ import org.moflon.eclipse.resource.GenModelResourceFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import MoflonPropertyContainer.MoflonPropertiesContainer;
-import MoflonPropertyContainer.SDMCodeGeneratorIds;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 
 public class CodeGeneratorPlugin implements BundleActivator
 {

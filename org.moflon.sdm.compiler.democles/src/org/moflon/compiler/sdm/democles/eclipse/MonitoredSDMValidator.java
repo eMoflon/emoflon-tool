@@ -15,11 +15,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.ErrorReporter;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
+import org.moflon.core.propertycontainer.MetaModelProject;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.job.IMonitoredJob;
-
-import MoflonPropertyContainer.MetaModelProject;
-import MoflonPropertyContainer.MoflonPropertiesContainer;
 
 public class MonitoredSDMValidator implements IMonitoredJob
 {

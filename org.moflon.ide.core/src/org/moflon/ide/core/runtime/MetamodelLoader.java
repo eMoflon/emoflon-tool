@@ -16,12 +16,12 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.dependency.PackageRemappingDependency;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
 
 import MocaTree.Attribute;
 import MocaTree.Node;
@@ -34,7 +34,7 @@ public class MetamodelLoader implements ITask {
 	public static final String MOCA_TREE_ATTRIBUTE_NS_URI = "Moflon::NsUri";
 	public static final String MOCA_TREE_ATTRIBUTE_EXPORT = "Moflon::Export";
 	public static final String MOFLON_TREE_ATTRIBUTE_NAME = "Moflon::Name";
-	public static final URI MOFLON_PROPERTIES_URI =
+	private static final URI MOFLON_PROPERTIES_URI =
 			URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE);
 
 	protected static final Logger MOCA_TO_MOFLON_TRANSFORMATION_LOGGER =

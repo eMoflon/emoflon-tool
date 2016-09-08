@@ -1,8 +1,8 @@
 
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
-import MoflonPropertyContainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.tgg.runtime.impl.RuntimePackageImpl;
 import java.util.regex.Pattern;
 import java.util.Map;

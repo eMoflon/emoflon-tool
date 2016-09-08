@@ -21,7 +21,7 @@ import org.moflon.sdm.compiler.democles.validation.result.Severity;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.validation.info.ValidationChannel;
 
-//import MoflonPropertyContainer.MoflonPropertiesContainer;
+//import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.ActivityEdge;
 import SDMLanguage.activities.StartNode;

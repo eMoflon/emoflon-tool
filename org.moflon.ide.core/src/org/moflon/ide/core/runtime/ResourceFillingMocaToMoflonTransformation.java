@@ -17,11 +17,11 @@ import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
-import org.moflon.properties.MoflonPropertiesContainerHelper;
 import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Node;
-import MoflonPropertyContainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 
 public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFillingMocaToMoflonTransformation {
 	private final Map<String, MetamodelProperties> propertiesMap;
@@ -82,7 +82,9 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 
 	private final MoflonPropertiesContainer createOrLoadMoflonProperties(
 			final IProject project, final String metamodelProject) {
+	   MoflonPropertiesContainerHelper.updateMoflonPropertiesToNewBasePackage(project);
 		final IFile moflonProps = project.getFile(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE);
+		MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
 		if (moflonProps.exists()) {
 			URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
 			URI moflonPropertiesURI = URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE).resolve(projectURI);

@@ -38,7 +38,7 @@ Require-Bundle:
  org.moflon.ide.plugins,
  org.moflon.ide.editor,
  org.moflon.core.ecore2mocaxmi,
- MoflonPropertyContainer,
+ org.moflon.core.propertycontainer,
  org.moflon.core.moca.processing,
  SDMLanguage,
  org.moflon.tgg.runtime,
