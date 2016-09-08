@@ -8,16 +8,13 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.gervarro.eclipse.task.ITask;
-import org.gervarro.eclipse.task.ProgressMonitoringJob;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -62,16 +59,17 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 					interestingProjects.add(project);
 				}
 				projectDependencyAnalyzer.setInterestingProjects(interestingProjects);
-				final IStatus projectDependencyAnalyzerStatus =
-						ProgressMonitoringJob.executeSyncSubTasks(new ITask[] { projectDependencyAnalyzer },
-								new MultiStatus(CoreActivator.getModuleID(), 0, "Dependency analysis failed", null), monitor);
-				if (monitor.isCanceled()) {
-					throw new OperationCanceledException();
-				}
-				if (!projectDependencyAnalyzerStatus.isOK()) {
-					processProblemStatus(projectDependencyAnalyzerStatus, resource);
-					return;
-				}
+				
+				// Project dependency analysis should be carried out on a locked workspace in a separate thread
+				// to avoid inconsistency in the build configuration caused by the analysis process
+				final WorkspaceJob job = new WorkspaceJob(projectDependencyAnalyzer.getTaskName()) {
+					@Override
+					public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
+						return projectDependencyAnalyzer.run(monitor);
+					}
+				};
+				job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+				job.schedule();
 			} else {
 				processProblemStatus(new Status(IStatus.ERROR, CoreActivator.getModuleID(),
 						"Unable to construct the correspondence metamodel from the Xtext specification", null),
