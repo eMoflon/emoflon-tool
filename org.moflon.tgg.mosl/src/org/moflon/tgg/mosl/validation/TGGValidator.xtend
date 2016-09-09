@@ -179,17 +179,22 @@ class TGGValidator extends AbstractTGGValidator {
 				}
 			}
 		}
-		for(LinkVariablePattern linkVar : ov.linkVariablePatterns){
-			
-			val rule = ov.eContainer as Rule
-			val target = linkVar.target;
-			val trgOV = EcoreUtil2.resolve(target,rule) as ObjectVariablePattern;
-			var trgOVOp = trgOV.op;
-			
-			
-			if(trgOVOp !=null && trgOVOp.value.equals("++") && ((linkVar.op!=null && !("++".equals(linkVar.op.value))) || linkVar.op == null)){
-				error("Link Variable '" + linkVar.type.name + "' has a diffrent operator", linkVar, TggPackage.Literals.OPERATOR_PATTERN__OP, TGGValidator.LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_TARGET_OBJECT_VARIABLE_PATTERN);
+		
+		if (ov.op == null || ov.op.equals("")) {
+			for (LinkVariablePattern linkVar : ov.linkVariablePatterns) {
+
+				val rule = ov.eContainer as Rule
+				val target = linkVar.target;
+				val trgOV = EcoreUtil2.resolve(target, rule) as ObjectVariablePattern;
+				var trgOVOp = trgOV.op;
+
+				if (trgOVOp != null && trgOVOp.value.equals("++") &&
+					((linkVar.op != null && !("++".equals(linkVar.op.value))) || linkVar.op == null)) {
+					error("Link Variable '" + linkVar.type.name + "' has a diffrent operator", linkVar,
+						TggPackage.Literals.OPERATOR_PATTERN__OP,
+						TGGValidator.LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_TARGET_OBJECT_VARIABLE_PATTERN);
+					}
+				}
 			}
-		}
 	}
 }
