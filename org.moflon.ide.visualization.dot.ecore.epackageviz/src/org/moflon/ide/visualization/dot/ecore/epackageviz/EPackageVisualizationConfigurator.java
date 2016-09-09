@@ -20,7 +20,7 @@ public class EPackageVisualizationConfigurator implements Configurator{
     public RuleResult chooseOne(Collection<RuleResult> alternatives)
     {
 	       return alternatives.stream()
-	               .filter(rr -> rr.getRule().contains("Node"))
+	               .filter(rr -> rr.getRule().contains("Add"))
 	               .findAny()
 	               .orElse(chooseExistingAndBi(alternatives));
     }

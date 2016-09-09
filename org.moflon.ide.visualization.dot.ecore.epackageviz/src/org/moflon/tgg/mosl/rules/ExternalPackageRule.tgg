@@ -4,7 +4,7 @@
 #abstract #rule ExternalPackageRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
-	graph:ClassGraph{
+	graph:SubClassGraph{
 		++ - packages -> pPackage
 	}
 

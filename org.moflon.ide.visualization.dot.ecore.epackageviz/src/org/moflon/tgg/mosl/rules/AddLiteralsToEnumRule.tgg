@@ -4,7 +4,7 @@
 #rule AddLiteralsToEnumRule #extends EnumNodeRuleHigh #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
-	graph:ClassGraph
+	graph:SubClassGraph
 
 	node:PEnum{
 		-graph -> graph

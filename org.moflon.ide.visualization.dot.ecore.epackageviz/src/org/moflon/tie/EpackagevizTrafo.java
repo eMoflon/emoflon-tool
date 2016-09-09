@@ -26,7 +26,7 @@ public class EpackagevizTrafo extends SynchronizationHelper{
 		
 		// Backward Transformation
 		//helper = new EpackagevizTrafo();
-		helper.performBackward("instances/SimpleClassLanguage.ecore");
+		helper.performBackward("model/Epackageviz.ecore");
 	}
 
 	public void performForward() {

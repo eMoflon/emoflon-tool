@@ -1,0 +1,43 @@
+#using org.moflon.ide.visualization.dot.ecore.epackageviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule IgnoreElementsOfSubpackage #with org.moflon.ide.visualization.dot.ecore.epackageviz
+
+#source { 
+	graph : ClassGraph
+		
+	
+}
+
+#target {
+	 rootPackage : EPackage
+	
+	  subPackage : EPackage{
+		 - eSuperPackage -> rootPackage
+	}
+	
+	++ element : EClass{
+		++ - ePackage -> subPackage 
+	}
+}
+
+#correspondence {
+	graphToRoot : ClassGraphToEPackage{
+		#src->graph
+		#trg->rootPackage
+	}
+	
+	ignorePackage : IgnoreEPackage{
+		#src->graph
+		#trg->subPackage
+	}
+	
+	++ ignoreClass : IgnoreEClassifier{
+		#src->graph
+		#trg->element
+	}
+}
+
+#attributeConditions {
+	
+}

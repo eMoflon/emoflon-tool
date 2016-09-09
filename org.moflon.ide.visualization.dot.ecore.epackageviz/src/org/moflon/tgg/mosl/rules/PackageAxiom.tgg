@@ -4,10 +4,15 @@
 #rule PackageAxiom #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
-	++graph:ClassGraph{
+	++superGraph:ClassGraph{
+		
 		++ -skinparams -> classBackgroundParam
 		++ -skinparams -> classArrowColorParam
 		++ -skinparams -> classBorderColorParam
+	}
+	
+	++graph:SubClassGraph{
+		++ - containingGraph ->superGraph
 	}
 
 	++classBackgroundParam:ClassSkinParam{
@@ -31,14 +36,19 @@
 }
 
 #correspondence {
-	++ grapgToPackage :ClassGraphToEPackage {
+	++ graphToPackage : SubClassGraphToEPackage {
 		#src->graph
+		#trg->rootPackage
+	}
+	
+	++ superGraphPackage : ClassGraphToEPackage{
+		#src->superGraph
 		#trg->rootPackage
 	}
 }
 
 #attributeConditions {
-	
+	eq(graph.name, rootPackage.name)
 }
 
 

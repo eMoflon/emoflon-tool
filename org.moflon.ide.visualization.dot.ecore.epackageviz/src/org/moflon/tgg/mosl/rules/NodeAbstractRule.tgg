@@ -4,7 +4,11 @@
 #abstract #rule NodeAbstractRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
-	graph:ClassGraph
+	superGraph : ClassGraph
+	
+	graph:SubClassGraph{
+		- containingGraph -> superGraph
+	}
 
 	++node:PNode{
 		++ - graph -> graph
@@ -17,10 +21,15 @@
 	++eClassifier:EClassifier{
 		++ - ePackage -> rootPackage
 	}
+	
+//	!subPackage : EPackage {
+//		 !- eClassifiers -> eClassifier	
+//		 !- eSuperPackage -> rootPackage
+//	}
 }
 
 #correspondence {
-	graphToPackage :ClassGraphToEPackage {
+	graphToPackage :SubClassGraphToEPackage {
 		#src->graph
 		#trg->rootPackage
 	}
@@ -33,6 +42,7 @@
 
 #attributeConditions {
 	eq(node.label, eClassifier.name)
+	eq(graph.name, rootPackage.name)
 }
 
 

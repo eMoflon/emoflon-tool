@@ -18,6 +18,21 @@
 		#trg-> EPackage
 	}
 	
+	SubClassGraphToEPackage {
+		#src->SubClassGraph
+		#trg->EPackage
+	}
+	
+	IgnoreEPackage {
+		#src->ClassGraph
+		#trg->EPackage
+	}
+	
+	IgnoreEClassifier {
+		#src->ClassGraph
+		#trg->EClassifier
+	}
+	
 	PNodeToEClassifier{
 		#src-> PNode
 		#trg-> EClassifier
@@ -37,6 +52,7 @@
 		#src->PPackage
 		#trg->EPackage
 	}
+	
 }
 
 #attributeConditions {

@@ -4,7 +4,11 @@
 #abstract #rule EdgeAbstractSourceOnlyRule #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source {
-	graph:ClassGraph
+	superGraph : ClassGraph
+	
+	graph:SubClassGraph{
+		- containingGraph -> superGraph
+	}
 
 	srcClassNode:PNode{
 		- graph -> graph
@@ -20,7 +24,7 @@
 }
 
 #correspondence {
-	graphToPackage :ClassGraphToEPackage {
+	graphToPackage :SubClassGraphToEPackage {
 		#src->graph
 		#trg->ePackage
 	}

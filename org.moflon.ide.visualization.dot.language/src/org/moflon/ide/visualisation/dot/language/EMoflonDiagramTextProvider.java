@@ -76,19 +76,32 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
 		EObject selectedElement = getSelectedObject(editorPart);
 		if (selectedElement != null && isElementValidInput(selectedElement)) {
 			// Extract input object
-			EObject input = selectedElement;
-			if (!diagramTextCache.containsKey(input) || selectionHasBeenChanged(input)) {
-				String dotDiagram = new DotUnparserAdapter().unparse(modelToDot(input));
+			EObject input = getInput(selectedElement);
+			if (!diagramTextCache.containsKey(selectedElement) || selectionHasBeenChanged(selectedElement)) {
+				String dotDiagram = unparse(input, selectedElement);
 				if (dotDiagram == null)
 					return "";
-				diagramTextCache.put(input, dotDiagram);
+				diagramTextCache.put(selectedElement, dotDiagram);
 			}
-
-			return diagramTextCache.get(input);
+			
+			String diagramText = diagramTextCache.get(selectedElement);
+			return diagramText;
 		}
 
 		return "";
 	}
+	
+   protected EObject getInput(EObject selectedElement){
+	   return selectedElement;
+   }
+	
+   protected String unparse(EObject input, EObject selectedElement){
+	   return unparse(modelToDot(input));
+   }
+	
+   protected String unparse(AbstractGraph graph){
+	   return new DotUnparserAdapter().unparse(graph);
+   }
 
    @Override
    public boolean supportsEditor(IEditorPart editorPart)

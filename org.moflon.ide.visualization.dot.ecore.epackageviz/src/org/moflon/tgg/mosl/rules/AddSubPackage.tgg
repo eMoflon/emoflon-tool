@@ -1,10 +1,14 @@
 #using org.moflon.ide.visualization.dot.ecore.epackageviz.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule IgnoreSubPackage  #with org.moflon.ide.visualization.dot.ecore.epackageviz
+#rule AddSubPackage  #with org.moflon.ide.visualization.dot.ecore.epackageviz
 
 #source { 
-		graph : ClassGraph
+		superGraph : ClassGraph
+		
+		++ newGraph : SubClassGraph{
+			++ - containingGraph -> superGraph
+		}
 }
 
 #target {
@@ -17,16 +21,16 @@
 
 #correspondence {
 	graphToPackage : ClassGraphToEPackage {
-		#src->graph
+		#src->superGraph
 		#trg->rootPackage
 	}
 	
-	++ ignoreCorr : IgnoreEPackage {
-		#src->graph
-		#trg->subPackage
-	}
+    ++ addGraph : SubClassGraphToEPackage{
+    	#src->newGraph
+    	#trg->subPackage
+    }
 }
 
 #attributeConditions {
-	
+	eq(newGraph.name, subPackage.name)
 }
