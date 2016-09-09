@@ -1,5 +1,6 @@
 package org.moflon.ide.ui.admin.handlers;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -7,11 +8,15 @@ import java.util.regex.Pattern;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -21,8 +26,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.InjectionFile;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * UI handler that triggers the extraction/update of .inject files.
@@ -33,7 +40,7 @@ public class CreateInjectionHandler extends AbstractCommandHandler
    public Object execute(final ExecutionEvent event) throws ExecutionException
    {
       final ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
-      IFile javaFile = null;
+      final IFile javaFile;
       if (selection instanceof IStructuredSelection)
       {
          javaFile = extractFileFromStructuredSelection(selection);
@@ -41,12 +48,26 @@ public class CreateInjectionHandler extends AbstractCommandHandler
       {
          final IEditorPart editor = HandlerUtil.getActiveEditor(event);
          javaFile = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+      } else
+      {
+         javaFile = null;
       }
 
       if (javaFile != null)
       {
-         extractInjectionInteractively(javaFile);
+         WorkspaceJob job = new WorkspaceJob("Extracting injection from " + javaFile) {
+
+            @Override
+            public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
+            {
+               return extractInjectionInteractively(javaFile, monitor);
+            }
+         };
+         job.setUser(true);
+         job.setRule(javaFile.getProject());
+         job.schedule();
       }
+
       return null;
    }
 
@@ -70,20 +91,21 @@ public class CreateInjectionHandler extends AbstractCommandHandler
       return javaFile;
    }
 
-   public void extractInjectionNonInteractively(final IFile javaFile)
+   public IStatus extractInjectionNonInteractively(final IFile javaFile)
    {
-      this.extractInjection(javaFile, false);
+      return this.extractInjection(javaFile, false, new NullProgressMonitor());
    }
 
-   public void extractInjectionInteractively(final IFile javaFile)
+   public IStatus extractInjectionInteractively(final IFile javaFile, IProgressMonitor monitor)
    {
-      this.extractInjection(javaFile, true);
+      return this.extractInjection(javaFile, true, monitor);
    }
 
-   private void extractInjection(final IFile javaFile, final boolean runsInteractive)
+   private IStatus extractInjection(final IFile javaFile, final boolean runsInteractive, final IProgressMonitor monitor)
    {
       try
       {
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Extracting injection from " + javaFile, 100);
          // Stream needs to be re-opened for each check!
          if (isEmfUtilityClass(javaFile.getContents()) || isEmfUtilityInterface(javaFile.getContents()))
          {
@@ -96,6 +118,7 @@ public class CreateInjectionHandler extends AbstractCommandHandler
             {
                logger.debug(message + ". File: '" + javaFile.getFullPath() + "'.");
             }
+            subMon.worked(100);
          } else
          {
             final IPath fullInjectionPath = WorkspaceHelper.getPathToInjection(javaFile);
@@ -105,24 +128,35 @@ public class CreateInjectionHandler extends AbstractCommandHandler
             final InputStream javaContentStream = javaFile.getContents();
             final String className = javaFile.getName().replace(".java", "");
             final InjectionFile injectionFile = new InjectionFile(javaContentStream, className);
+
+            subMon.worked(50);
+
             if (injectionFile.hasModelsOrImportsOrMembersCode())
             {
                final String injContent = injectionFile.getFileContent();
+               final ByteArrayInputStream contentStream = new ByteArrayInputStream(injContent.getBytes());
 
-               // insert the contents
-               final IProject project = javaFile.getProject();
-               project.getFile(fullInjectionPath).delete(true, new NullProgressMonitor());
-               logger.info(String.format("Created injection file for class %s (FQN='%s').", className, fullyQualifiedClassname));
-
-               WorkspaceHelper.addAllFoldersAndFile(project, fullInjectionPath, injContent, new NullProgressMonitor());
+               final IFile injectionIFile = javaFile.getProject().getFile(fullInjectionPath);
+               LogUtils.info(logger, "Creating injection file for class %s (FQN='%s').", className, fullyQualifiedClassname);
+               if (injectionIFile.exists())
+               {
+                  injectionIFile.setContents(contentStream, true, true, subMon.newChild(50));
+               } else
+               {
+                  injectionIFile.create(contentStream, true, subMon.newChild(50));
+               }
             } else
             {
                logger.debug("Not creating injection file for  " + javaFile.getFullPath() + " because no model code was found.");
+               subMon.worked(50);
             }
          }
+         return Status.OK_STATUS;
       } catch (final CoreException ex)
       {
-         logger.error("Unable to create injection code for file " + javaFile + ". Reason: " + ex);
+         final String message = "Unable to create injection code for file " + javaFile + ". Reason: " + ex;
+         logger.error(message);
+         return new Status(IStatus.ERROR, FrameworkUtil.getBundle(getClass()).getSymbolicName(), message, ex);
       }
    }
 
