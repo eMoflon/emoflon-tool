@@ -25,13 +25,14 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DoubleCircle" eSuperTypes="#//NodeCommand"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SubGraph" eSuperTypes="#//DirectedGraph">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="containingGraph" eType="#//DirectedGraph"
-        eOpposite="#//DirectedGraph/subGraphs"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractSubGraph" abstract="true" eSuperTypes="#//AbstractGraph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingGraph" eType="#//AbstractGraph"
+        eOpposite="#//AbstractGraph/subGraphs"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cluster" ordered="false"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubGraph" eSuperTypes="#//AbstractSubGraph #//DirectedGraph"/>
   <eClassifiers xsi:type="ecore:EEnum" name="DotColor">
     <eLiterals name="BLACK" literal="BLACK"/>
     <eLiterals name="WHITE" value="6" literal="WHITE"/>
@@ -44,10 +45,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="DirectedGraph" eSuperTypes="#//AbstractGraph">
     <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
         eType="#//LabelEntry" containment="true" eOpposite="#//LabelEntry/directedGraph"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subGraphs" upperBound="-1"
-        eType="#//SubGraph" containment="true" eOpposite="#//SubGraph/containingGraph"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="otherPackages" upperBound="-1"
-        eType="#//PPackage" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Record" eSuperTypes="#//NodeCommand">
     <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
@@ -77,6 +74,8 @@
         eType="#//AbstractNode" containment="true" eOpposite="#//AbstractNode/graph"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
         eType="#//AbstractEdge" containment="true" eOpposite="#//AbstractEdge/graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subGraphs" upperBound="-1"
+        eType="#//AbstractSubGraph" containment="true" eOpposite="#//AbstractSubGraph/containingGraph"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractNode" abstract="true" eSuperTypes="#//LabeledGraphObject">
     <eStructuralFeatures xsi:type="ecore:EReference" name="graph" eType="#//AbstractGraph"
@@ -116,6 +115,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
         eType="#//PPackage" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubClassGraph" eSuperTypes="#//AbstractSubGraph #//ClassGraph"/>
   <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="PAbstract" eSuperTypes="#//PClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="PEnum" eSuperTypes="#//PNode">
