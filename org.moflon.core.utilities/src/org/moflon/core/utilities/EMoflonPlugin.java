@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * This is a generic base class for plugins in EMoflon.
@@ -12,7 +13,10 @@ import org.osgi.framework.BundleContext;
  * Its {@link #pluginId} attribute is initialized during
  * {@link #start(BundleContext)} and de-initialized during
  * {@link #stop(BundleContext)}.
+ * 
+ * @deprecated This class was basically introduced to easily and consistently access plugin IDs. In fact, this features is already built into Eclipse using {@link FrameworkUtil#getBundle(Class)}
  */
+@Deprecated
 public abstract class EMoflonPlugin extends Plugin {
 	private String pluginId;
 	private static Map<Class<?>, EMoflonPlugin> typeToPluginMap = new HashMap<>();
