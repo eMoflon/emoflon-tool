@@ -3,7 +3,9 @@ package org.moflon.core.utilities;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Status;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 
@@ -14,7 +16,9 @@ import org.osgi.framework.FrameworkUtil;
  * {@link #start(BundleContext)} and de-initialized during
  * {@link #stop(BundleContext)}.
  * 
- * @deprecated This class was basically introduced to easily and consistently access plugin IDs. In fact, this features is already built into Eclipse using {@link FrameworkUtil#getBundle(Class)}
+ * @deprecated This class was basically introduced to easily and consistently access plugin IDs. 
+ * In fact, this features is already built into Eclipse using {@link FrameworkUtil#getBundle(Class)}
+ * Example: new Status(IStatus.OK, FrameworkUtil.getBundle(getClass()).getSymbolicName(), "My message.");
  */
 @Deprecated
 public abstract class EMoflonPlugin extends Plugin {
