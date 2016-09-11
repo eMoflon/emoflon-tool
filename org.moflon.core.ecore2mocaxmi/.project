@@ -12,7 +12,6 @@
 		</buildCommand>
 		<buildCommand>
 			<name>org.moflon.ide.core.runtime.builders.RepositoryBuilder</name>
-			<triggers>auto,full,clean</triggers>
 			<arguments>
 			</arguments>
 		</buildCommand>
