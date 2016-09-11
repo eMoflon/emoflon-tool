@@ -14,21 +14,4 @@
 <project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/component-analysis-vw.git,master,SoftwareComponentAnalysis"/>
 <project reference="1.0,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/component-analysis-vw.git,master,TextualSyntaxComponentLanguage"/>
 </provider>
-<!-- Old, SVN-based URLs -->
-<!--
-<provider id="org.tigris.subversion.subclipse.core.svnnature">
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git/CAMLanguage,CAMLanguage"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git/CLS2CNC,CLS2CNC"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git/ClsToCAMLanguageTGG,ClsToCAMLanguageTGG"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git/CME,CME"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git/CMEVortragInBerlin,CMEVortragInBerlin"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_vw-software-component-analysis/ComponentLanguage,ComponentLanguage"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_vw-software-component-analysis/ExportToComponentLanguage,ExportToComponentLanguage"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git/MpfToCAMLanguageTGG,MpfToCAMLanguageTGG"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_vw-software-component-analysis/PathAnalysis,PathAnalysis"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_vw-software-component-analysis/SoftwareComponentAnalysis,SoftwareComponentAnalysis"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_vw-software-component-analysis/TextualSyntaxComponentLanguage,TextualSyntaxComponentLanguage"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/gitlab/es-projects/siemens-cme.git/ZooTestSuite1,ZooTestSuite1"/>
-</provider>
--->
 </psf>
