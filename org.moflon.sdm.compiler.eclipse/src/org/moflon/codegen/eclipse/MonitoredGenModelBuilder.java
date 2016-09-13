@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.eclipse.job.IMonitoredJob;
 
-public final class MonitoredGenModelBuilder implements IMonitoredJob
+public final class MonitoredGenModelBuilder implements ITask
 {
    private static final String TASK_NAME = "GenModel building";
 

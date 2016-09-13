@@ -1,4 +1,4 @@
-package org.moflon.compiler.sdm;
+package org.moflon.moca.inject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,9 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.utilities.MoflonUtil;
 
 /**
  * A helper class for extracting specified methods from the AST created by parsing the generated code from CodeGen2.

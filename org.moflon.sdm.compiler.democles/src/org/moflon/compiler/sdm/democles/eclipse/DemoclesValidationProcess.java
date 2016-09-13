@@ -10,11 +10,11 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.GenericMoflonProcess;
 import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
-import org.moflon.eclipse.job.IMonitoredJob;
 
 public class DemoclesValidationProcess extends GenericMoflonProcess
 {
@@ -55,7 +55,7 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
             return Status.CANCEL_STATUS;
          }
 
-         final IMonitoredJob validator = new DemoclesValidatorTask(validatorConfig.createScopeValidator(), ePackage);
+         final ITask validator = new DemoclesValidatorTask(validatorConfig.createScopeValidator(), ePackage);
          final IStatus validatorStatus = validator.run(subMon.newChild(10));
          if (subMon.isCanceled())
          {

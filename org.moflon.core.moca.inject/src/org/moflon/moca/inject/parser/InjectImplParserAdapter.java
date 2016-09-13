@@ -7,36 +7,33 @@ import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
-import org.apache.log4j.Logger;
 import org.moflon.core.moca.processing.Problem;
 import org.moflon.core.moca.processing.parser.impl.ParserImpl;
-import org.moflon.core.utilities.LogUtils;
 import org.moflon.moca.MocaUtil;
 
 import MocaTree.Node;
 
-public class InjectParserAdapter extends ParserImpl
+public class InjectImplParserAdapter extends ParserImpl
 {
-   private static final Logger logger = Logger.getLogger(InjectParserAdapter.class);
 
    private String filename;
 
    @Override
-   public boolean canParseFile(String fileName)
+   public boolean canParseFile(final String fileName)
    {
       this.filename = fileName;
-      return fileName.matches(".*(?<!Impl).inject");
+      return fileName.endsWith("Impl.inject");
    }
 
    @Override
-   public Node parse(Reader reader)
+   public Node parse(final Reader reader)
    {
       try
       {
          InjectLexer lexer = new InjectLexer(new ANTLRReaderStream(reader));
          CommonTokenStream tokens = new CommonTokenStream(lexer);
          InjectParser parser = new InjectParser(tokens);
-         CommonTree result = (CommonTree) parser.nonImplMain().tree;
+         CommonTree result = (CommonTree) parser.implMain().tree;
 
          // Log Lexer Errors
          for (Problem problem : lexer.problems)
@@ -55,9 +52,12 @@ public class InjectParserAdapter extends ParserImpl
          }
 
          return MocaUtil.commonTreeToMocaTree(result);
-      } catch (IOException | RecognitionException e)
+      } catch (IOException e)
       {
-         LogUtils.error(logger, e);
+         e.printStackTrace();
+      } catch (RecognitionException e)
+      {
+         e.printStackTrace();
       }
 
       return null;

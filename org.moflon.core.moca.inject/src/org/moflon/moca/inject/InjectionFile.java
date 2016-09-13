@@ -9,7 +9,6 @@ import java.util.Scanner;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
-import org.moflon.compiler.sdm.MethodVisitor;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.moca.inject.util.InjectionRegions;
 

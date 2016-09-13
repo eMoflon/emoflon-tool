@@ -14,11 +14,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.dependency.PackageRemappingDependency;
-import org.moflon.eclipse.job.IMonitoredJob;
 
-public class GenericMonitoredResourceLoader implements IMonitoredJob
+public class GenericMonitoredResourceLoader implements ITask
 {
    private static final String TASK_NAME = "Resource loading";
 

@@ -16,11 +16,11 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.moca.processing.CodeAdapter;
 import org.moflon.core.moca.processing.ProcessingFactory;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.parser.InjectImplParserAdapter;
 import org.moflon.moca.inject.parser.InjectParser;
 import org.moflon.moca.inject.parser.InjectParserAdapter;
@@ -169,8 +169,8 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
    {
       for (GenClass genClass : genPackage.getGenClasses())
       {
-         fqnToGenClassMap.put(CodeGeneratorPlugin.getInterfaceName(genClass), genClass);
-         fqnToGenClassMap.put(CodeGeneratorPlugin.getClassName(genClass), genClass);
+         fqnToGenClassMap.put(CodeInjectionPlugin.getInterfaceName(genClass), genClass);
+         fqnToGenClassMap.put(CodeInjectionPlugin.getClassName(genClass), genClass);
       }
       for (GenPackage subPackage : genPackage.getSubGenPackages())
       {

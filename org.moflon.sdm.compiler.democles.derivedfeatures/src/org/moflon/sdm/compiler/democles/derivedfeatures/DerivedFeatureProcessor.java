@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
-import org.moflon.codegen.eclipse.ui.LoggingSTErrorListener;
+import org.moflon.compiler.sdm.democles.stringtemplate.LoggingSTErrorListener;
 import org.moflon.eclipse.genmodel.MoflonGenClass;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;

@@ -13,19 +13,19 @@ package org.moflon.codegen;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
-import org.moflon.eclipse.job.IMonitoredJob;
 
 public interface MethodBodyHandler {
    /**
     * Creates a validator job for the given package
     */
-	public IMonitoredJob createValidator(EPackage ePackage);
+	public ITask createValidator(EPackage ePackage);
 	
 	/**
 	 * Creates a job for processing the associated gen model of the given resource.
 	 */
-	public IMonitoredJob createGenModelProcessor(MoflonCodeGenerator codeGenerator, Resource resource);
+	public ITask createGenModelProcessor(MoflonCodeGenerator codeGenerator, Resource resource);
 	
 	/**
 	 * Creates a descriptor for code generator of the method bodies.

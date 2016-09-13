@@ -1,31 +1,16 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.sdm.runtime.democles;singleton:=true
-Export-Package: org.gervarro.democles.common,
- org.gervarro.democles.common.runtime,
- org.gervarro.democles.constraint,
- org.gervarro.democles.constraint.emf,
- org.gervarro.democles.emf.util,
- org.gervarro.democles.event,
- org.gervarro.democles.specification,
- org.gervarro.democles.specification.emf,
- org.gervarro.democles.specification.emf.constraint.emf.emf,
- org.gervarro.democles.specification.emf.constraint.emf.emf.util,
- org.gervarro.democles.specification.emf.constraint.relational,
- org.gervarro.democles.specification.emf.constraint.relational.util,
- org.gervarro.democles.specification.emf.resource,
- org.gervarro.democles.specification.emf.util,
- org.gervarro.democles.specification.impl,
- org.moflon.sdm.runtime.democles,
+Export-Package: org.moflon.sdm.runtime.democles,
  org.moflon.sdm.runtime.democles.impl,
  org.moflon.sdm.runtime.democles.util
 Bundle-Name: ControlFlow
 Bundle-Version: 2.0.0.qualifier
-Bundle-ClassPath: lib/org.gervarro.democles.specification.jar,.
-Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.8.0",
- SDMLanguage,
- org.eclipse.emf.ecore,
+Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
+ org.eclipse.emf.ecore;bundle-version="[2.8.0,3.0.0)",
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.8.0,3.0.0)",
  org.moflon.core.utilities,
- org.apache.log4j;bundle-version="1.2.15"
+ SDMLanguage,
+ org.moflon.sdm.democles.patternmatcher;bundle-version="[0.4.0,0.5.0)"
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

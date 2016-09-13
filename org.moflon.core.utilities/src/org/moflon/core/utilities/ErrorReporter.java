@@ -1,4 +1,4 @@
-package org.moflon.codegen;
+package org.moflon.core.utilities;
 
 import org.eclipse.core.runtime.IStatus;
 

@@ -6,12 +6,12 @@ Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.core.resources;bundle-version="3.8.101",
- org.eclipse.core.runtime;bundle-version="3.9.0",
- org.moflon.sdm.compiler.eclipse,
- org.moflon.sdm.compiler.democles,
- org.moflon.sdm.democles.patternmatcher;bundle-version="0.3.1",
- org.moflon.sdm.compiler.democles.validation.scope,
- org.eclipse.emf.codegen.ecore;bundle-version="2.10.0",
+Require-Bundle: org.eclipse.core.resources;bundle-version="[3.8.101,4.0.0)",
+ org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
+ org.eclipse.emf.codegen.ecore;bundle-version="[2.10.0,3.0.0)",
+ org.stringtemplate;bundle-version="[4.2.1,5.0.0)",
  org.moflon.core.utilities,
- org.moflon.sdm.runtime.democles
+ org.moflon.sdm.democles.patternmatcher;bundle-version="[0.4.0,0.5.0)",
+ org.moflon.sdm.compiler.democles,
+ org.moflon.sdm.compiler.democles.validation.scope,
+ org.moflon.sdm.compiler.eclipse

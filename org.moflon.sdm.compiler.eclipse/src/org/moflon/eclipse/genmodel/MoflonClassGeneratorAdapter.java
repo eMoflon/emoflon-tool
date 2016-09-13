@@ -27,8 +27,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EOperation;
 import org.gervarro.democles.emoflon.templates.JavaClassGenerator;
 import org.moflon.codegen.InjectionHandlingImportManager;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.util.InjectionRegions;
 
@@ -163,7 +163,7 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
       if (injectionManager != null)
       {
          final GenClass genClass = (GenClass) generatingObject;
-         final String fullyQualifiedClassName = isImplementation ? CodeGeneratorPlugin.getClassName(genClass) : CodeGeneratorPlugin.getInterfaceName(genClass);
+         final String fullyQualifiedClassName = isImplementation ? CodeInjectionPlugin.getClassName(genClass) : CodeInjectionPlugin.getInterfaceName(genClass);
 
          final String retrievedMembersCode = injectionManager.getMembersCode(fullyQualifiedClassName);
          if (retrievedMembersCode != null)
@@ -181,7 +181,7 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
       if (injectionManager != null)
       {
          final ImportManager importManager = genClass.getGenModel().getImportManager();
-         final String fullyQualifiedClassName = isImplementation ? CodeGeneratorPlugin.getClassName(genClass) : CodeGeneratorPlugin.getInterfaceName(genClass);
+         final String fullyQualifiedClassName = isImplementation ? CodeInjectionPlugin.getClassName(genClass) : CodeInjectionPlugin.getInterfaceName(genClass);
          for (final String imp : injectionManager.getImports(fullyQualifiedClassName))
          {
             if (importManager instanceof InjectionHandlingImportManager)

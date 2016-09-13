@@ -8,7 +8,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EOperation;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.moca.inject.extractors.InjectionExtractor;
 import org.moflon.moca.inject.util.UnsupportedOperationCodeInjector;
 import org.moflon.moca.inject.validation.InjectionValidationMessage;
@@ -177,7 +176,7 @@ public class InjectionManager
       List<InjectionValidationMessage> errors = this.userInjectionExtractor.getErrors();
       if (errors.size() > 0)
       {
-         final MultiStatus validationStatus = new MultiStatus(CodeGeneratorPlugin.getModuleID(), 0, "Extraction of injections with warnings/errors.", null);
+         final MultiStatus validationStatus = new MultiStatus(CodeInjectionPlugin.getModuleID(), 0, "Extraction of injections with warnings/errors.", null);
          for (final InjectionValidationMessage error : errors)
          {
             validationStatus.add(error.convertToStatus());
@@ -185,6 +184,6 @@ public class InjectionManager
 
          return validationStatus;
       } else
-         return new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Extraction of injections successful.");
+         return new Status(IStatus.OK, CodeInjectionPlugin.getModuleID(), "Extraction of injections successful.");
    }
 }

@@ -23,14 +23,15 @@ import org.gervarro.democles.common.runtime.VariableRuntime;
 import org.gervarro.democles.constraint.emf.EMFVariable;
 import org.gervarro.democles.relational.RelationalConstraintTemplateProvider;
 import org.gervarro.democles.specification.ConstraintVariable;
-import org.moflon.codegen.eclipse.ui.LoggingSTErrorListener;
 import org.moflon.compiler.sdm.democles.stringtemplate.ControlFlowModelAdaptor;
+import org.moflon.compiler.sdm.democles.stringtemplate.LoggingSTErrorListener;
 import org.moflon.compiler.sdm.democles.stringtemplate.PatternMatcherModelAdaptor;
 import org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.VariableReference;
+import org.osgi.framework.FrameworkUtil;
 import org.stringtemplate.v4.STGroup;
 
 public class DefaultTemplateConfiguration implements TemplateConfigurationProvider
@@ -122,7 +123,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
       // final STGroup controlFlowGenerator = new STGroupFile(groupFileURL, "ascii", '<', '>');
       final STGroup group = new STGroup();
       group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/" + CONTROL_FLOW_GENERATOR + "/", getTemplateUriPrefix() + "stringtemplate/ControlFlow.stg");
+      group.loadGroupFile("/" + CONTROL_FLOW_GENERATOR + "/", getCompilerURI() + "templates/stringtemplate/ControlFlow.stg");
 
       final ControlFlowModelAdaptor adaptor = new ControlFlowModelAdaptor();
       group.registerModelAdaptor(PatternInvocation.class, adaptor);
@@ -145,9 +146,9 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    {
       final STGroup group = new STGroup();
       group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
-      group.loadGroupFile("/priority/", getTemplateUriPrefix() + "stringtemplate/PrioritizedPatternCall.stg");
+      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
+      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/RegularPatternMatcher.stg");
+      group.loadGroupFile("/priority/", getCompilerURI() + "templates/stringtemplate/PrioritizedPatternCall.stg");
       final ImportHandler importRenderer = new ImportHandler();
       group.registerModelAdaptor(ImportManager.class, importRenderer);
       group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
@@ -173,12 +174,12 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    {
       final STGroup group = new STGroup();
       group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
-      group.loadGroupFile("/assignment/", getTemplateUriPrefix() + "stringtemplate/Assignment.stg");
-      group.loadGroupFile("/emf/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFConstant.stg");
-      group.loadGroupFile("/democles/", getTemplateUriPrefix() + "stringtemplate/Number.stg");
+      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
+      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/RegularPatternMatcher.stg");
+      group.loadGroupFile("/assignment/", getCompilerURI() + "templates/stringtemplate/Assignment.stg");
+      group.loadGroupFile("/emf/", getDemoclesEMFURI() + "templates/stringtemplate/EMFOperation.stg");
+      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
+      group.loadGroupFile("/democles/", getCompilerURI() + "templates/stringtemplate/Number.stg");
       final ImportHandler importRenderer = new ImportHandler();
       group.registerModelAdaptor(ImportManager.class, importRenderer);
       group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
@@ -204,13 +205,13 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    {
       final STGroup group = new STGroup();
       group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
-      group.loadGroupFile("/core/", getDemoclesJarUri() + "!/templates/stringtemplate/RelationalOperation.stg");
-      group.loadGroupFile("/emf/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFOperation.stg");
-      group.loadGroupFile("/pattern/", getDemoclesJarUri() + "!/templates/stringtemplate/PatternCallOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFConstant.stg");
-      group.loadGroupFile("/democles/", getTemplateUriPrefix() + "stringtemplate/Number.stg");
+      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
+      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/RegularPatternMatcher.stg");
+      group.loadGroupFile("/core/", getDemoclesCoreURI() + "templates/stringtemplate/RelationalOperation.stg");
+      group.loadGroupFile("/emf/", getDemoclesEMFURI() + "templates/stringtemplate/EMFOperation.stg");
+      group.loadGroupFile("/pattern/", getDemoclesCoreURI() + "templates/stringtemplate/PatternCallOperation.stg");
+      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
+      group.loadGroupFile("/democles/", getCompilerURI() + "templates/stringtemplate/Number.stg");
       final ImportHandler importRenderer = new ImportHandler();
       group.registerModelAdaptor(ImportManager.class, importRenderer);
       group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
@@ -235,10 +236,10 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    {
       final STGroup group = new STGroup();
       group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
-      group.loadGroupFile("/emf-delete/", getTemplateUriPrefix() + "stringtemplate/EMFDeleteOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFConstant.stg");
+      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
+      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/RegularPatternMatcher.stg");
+      group.loadGroupFile("/emf-delete/", getCompilerURI() + "templates/stringtemplate/EMFDeleteOperation.stg");
+      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
       final ImportHandler importRenderer = new ImportHandler();
       group.registerModelAdaptor(ImportManager.class, importRenderer);
       group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
@@ -263,13 +264,13 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    {
       final STGroup group = new STGroup();
       group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getTemplateUriPrefix() + "stringtemplate/RegularPatternMatcher.stg");
-      group.loadGroupFile("/assignment/", getTemplateUriPrefix() + "stringtemplate/Assignment.stg");
-      group.loadGroupFile("/emf-create/", getTemplateUriPrefix() + "stringtemplate/EMFCreateOperation.stg");
-      group.loadGroupFile("/emf/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFConstant.stg");
-      group.loadGroupFile("/democles/", getTemplateUriPrefix() + "stringtemplate/Number.stg");
+      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
+      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/RegularPatternMatcher.stg");
+      group.loadGroupFile("/assignment/", getCompilerURI() + "templates/stringtemplate/Assignment.stg");
+      group.loadGroupFile("/emf-create/", getCompilerURI() + "templates/stringtemplate/EMFCreateOperation.stg");
+      group.loadGroupFile("/emf/", getDemoclesEMFURI() + "templates/stringtemplate/EMFOperation.stg");
+      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
+      group.loadGroupFile("/democles/", getCompilerURI() + "templates/stringtemplate/Number.stg");
       final ImportHandler importRenderer = new ImportHandler();
       group.registerModelAdaptor(ImportManager.class, importRenderer);
       group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
@@ -294,12 +295,12 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
    {
       final STGroup group = new STGroup();
       group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/expression/", getTemplateUriPrefix() + "stringtemplate/ExpressionPatternMatcher.stg");
-      group.loadGroupFile("/assignment/", getTemplateUriPrefix() + "stringtemplate/Assignment.stg");
-      group.loadGroupFile("/emf/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesJarUri() + "!/templates/stringtemplate/EMFConstant.stg");
-      group.loadGroupFile("/democles/", getTemplateUriPrefix() + "stringtemplate/Number.stg");
+      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
+      group.loadGroupFile("/expression/", getCompilerURI() + "templates/stringtemplate/ExpressionPatternMatcher.stg");
+      group.loadGroupFile("/assignment/", getCompilerURI() + "templates/stringtemplate/Assignment.stg");
+      group.loadGroupFile("/emf/", getDemoclesEMFURI() + "templates/stringtemplate/EMFOperation.stg");
+      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
+      group.loadGroupFile("/democles/", getCompilerURI() + "templates/stringtemplate/Number.stg");
       final ImportHandler importRenderer = new ImportHandler();
       group.registerModelAdaptor(ImportManager.class, importRenderer);
       group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
@@ -314,13 +315,18 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
       return group;
    }
 
-   private static String getTemplateUriPrefix()
+   private static String getCompilerURI()
    {
-      return "platform:/plugin/" + DemoclesSdmCompilerPlugin.getModuleID() + "/templates/";
+      return "platform:/plugin/" + FrameworkUtil.getBundle(DemoclesSdmCompilerPlugin.class).getSymbolicName() + "/";
    }
 
-   private static String getDemoclesJarUri()
+   private static String getDemoclesCoreURI()
    {
-      return "platform:/plugin/" + "org.moflon.sdm.democles.patternmatcher" + "/lib/org.gervarro.democles.emoflon_0.3.1.qualifier.jar";
+      return "platform:/plugin/org.gervarro.democles.codegen.stringtemplate/";
+   }
+
+   private static String getDemoclesEMFURI()
+   {
+      return "platform:/plugin/org.gervarro.democles.codegen.emf/";
    }
 }

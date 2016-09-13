@@ -3,9 +3,9 @@ package org.moflon.codegen.eclipse;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.moflon.eclipse.job.IMonitoredJob;
+import org.gervarro.eclipse.task.ITask;
 
-public final class NoOperationTask implements IMonitoredJob {
+public final class NoOperationTask implements ITask {
 	
 	private final String taskName;
 	

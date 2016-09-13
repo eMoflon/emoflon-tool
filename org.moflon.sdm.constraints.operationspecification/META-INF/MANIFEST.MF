@@ -8,17 +8,17 @@ Export-Package: org.moflon.sdm.constraints.operationspecification,
  org.moflon.sdm.constraints.operationspecification.util
 Bundle-Name: DemoclesAttributeConstraintSpecification
 Bundle-Version: 2.0.0.qualifier
-Require-Bundle: org.eclipse.core.resources,
- org.eclipse.core.runtime;bundle-version="3.9.0",
- org.eclipse.emf.ecore,
- org.eclipse.emf.ecore.xmi,
- SDMLanguage,
+Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
+ org.eclipse.core.resources;bundle-version="[3.9.0,4.0.0)",
+ org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
+ org.eclipse.emf.ecore;bundle-version="[2.8.1,3.0.0)",
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.8.1,3.0.0)",
  org.moflon.core.utilities,
- org.moflon.sdm.runtime.democles,
- org.moflon.sdm.constraints.democles,
- org.moflon.sdm.compiler.eclipse,
+ SDMLanguage,
+ org.moflon.sdm.democles.patternmatcher;bundle-version="[0.4.0,0.5.0)",
  org.moflon.sdm.compiler.democles.validation.result,
- org.apache.log4j;bundle-version="1.2.15"
+ org.moflon.sdm.compiler.eclipse,
+ org.moflon.sdm.constraints.democles
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

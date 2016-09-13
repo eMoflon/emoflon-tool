@@ -15,9 +15,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.eclipse.job.IMonitoredJob;
+import org.gervarro.eclipse.task.ITask;
 
-public class CrossReferenceResolver implements IMonitoredJob {
+public class CrossReferenceResolver implements ITask {
 	private static final String TASK_NAME = "Cross-reference resolving";
 
 	private final Resource resource;

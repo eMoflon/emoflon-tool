@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.MethodBodyHandler;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.codegen.eclipse.NoOperationTask;
@@ -34,7 +35,6 @@ import org.moflon.compiler.sdm.democles.eclipse.MethodBodyResourceFactory;
 import org.moflon.compiler.sdm.democles.eclipse.PatternResourceFactory;
 import org.moflon.core.dfs.DFSGraph;
 import org.moflon.core.dfs.DfsFactory;
-import org.moflon.eclipse.job.IMonitoredJob;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.InefficientBootstrappingBuilder;
 import org.moflon.sdm.compiler.democles.validation.controlflow.SDMActivityGraphBuilder;
@@ -112,7 +112,7 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 	}
 
 	@Override
-   public IMonitoredJob createValidator(final EPackage ePackage) {
+   public ITask createValidator(final EPackage ePackage) {
 		return new DemoclesValidatorTask(scopeValidatorConfiguration.createScopeValidator(), ePackage);
 	}
 	
@@ -120,7 +120,7 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 	 * Default null implementation 
 	 */
 	@Override
-	public IMonitoredJob createGenModelProcessor(final MoflonCodeGenerator codeGenerator, final Resource resource) {
+	public ITask createGenModelProcessor(final MoflonCodeGenerator codeGenerator, final Resource resource) {
 		return new NoOperationTask("GenModel processing");
 	}
 

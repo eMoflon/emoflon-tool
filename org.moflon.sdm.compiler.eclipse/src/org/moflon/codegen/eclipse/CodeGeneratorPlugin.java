@@ -11,7 +11,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -125,16 +124,6 @@ public class CodeGeneratorPlugin implements BundleActivator
    {
       SDMCodeGeneratorIds handlerId = moflonProperties.getSdmCodegeneratorHandlerId().getValue();
       return handlerId.getLiteral();
-   }
-
-   public static final String getInterfaceName(final GenClass genClass)
-   {
-      return genClass.getGenPackage().getInterfacePackageName() + "." + genClass.getInterfaceName();
-   }
-
-   public static final String getClassName(final GenClass genClass)
-   {
-      return genClass.getGenPackage().getClassPackageName() + "." + genClass.getClassName();
    }
 
    public static final List<EClass> getEClasses(final EPackage ePackage)

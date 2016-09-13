@@ -22,16 +22,17 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
-import org.moflon.eclipse.job.IMonitoredJob;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 /**
  * This class defines a generic process for processing eMoflon projects.
  * 
  * @see #run(IProgressMonitor)
  */
-abstract public class GenericMoflonProcess implements IMonitoredJob
+abstract public class GenericMoflonProcess implements ITask
 {
    private final IFile ecoreFile;
 

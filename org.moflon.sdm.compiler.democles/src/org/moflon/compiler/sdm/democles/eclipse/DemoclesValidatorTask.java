@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.dfs.DFSGraph;
 import org.moflon.core.dfs.DfsFactory;
-import org.moflon.eclipse.job.IMonitoredJob;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowPackage;
 import org.moflon.sdm.compiler.democles.validation.controlflow.InefficientBootstrappingBuilder;
@@ -48,7 +48,7 @@ import SDMLanguage.activities.MoflonEOperation;
  * This job calls during its {@link #run(IProgressMonitor)} the stored validator method for all EClasses contained in
  * its stored EPackage (see {@link #DemoclesValidatorTask(ScopeValidator, EPackage)}.
  */
-public class DemoclesValidatorTask implements IMonitoredJob
+public class DemoclesValidatorTask implements ITask
 {
    public static final String TASK_NAME = "SDM validation";
 

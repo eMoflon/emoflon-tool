@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.moflon.sdm.constraints.democles/gen" modelPluginID="org.moflon.sdm.constraints.democles"
     modelName="Democles" updateClasspath="false" suppressInterfaces="true" codeFormatting="true"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
-    language="" usedGenPackages="archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel#//specification archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel#//emf archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel#//relational">
+    language="" usedGenPackages="platform:/plugin/org.gervarro.democles.specification.emf/model/specification.genmodel#//specification platform:/plugin/org.gervarro.democles.specification.emf/model/emf.genmodel#//emf platform:/plugin/org.gervarro.democles.specification.emf/model/relational.genmodel#//relational">
   <foreignModel>Democles.ecore</foreignModel>
   <genPackages prefix="Democles" basePackage="org.moflon.sdm.constraints" disposableProviderFactory="true"
       ecorePackage="platform:/plugin/org.moflon.sdm.constraints.democles/model/Democles.ecore#/">

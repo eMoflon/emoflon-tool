@@ -2,13 +2,13 @@
 <MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.sdm.runtime.democles">
   <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
   <dependencies value="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"/>
-  <additionalDependencies value="archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/specification.ecore"/>
-  <additionalDependencies value="archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/emf.ecore"/>
-  <additionalDependencies value="archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/relational.ecore"/>
+  <additionalDependencies value="platform:/plugin/org.gervarro.democles.specification.emf/model/specification.ecore"/>
+  <additionalDependencies value="platform:/plugin/org.gervarro.democles.specification.emf/model/emf.ecore"/>
+  <additionalDependencies value="platform:/plugin/org.gervarro.democles.specification.emf/model/relational.ecore"/>
   <metaModelProject MetaModelProjectName="org.moflon.sdm.runtime.democles.specification"/>
   <replaceGenModel/>
   <sdmCodegeneratorHandlerId/>
-  <additionalUsedGenPackages value="archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/specification.genmodel"/>
-  <additionalUsedGenPackages value="archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/emf.genmodel"/>
-  <additionalUsedGenPackages value="archive:platform:/resource/org.moflon.sdm.runtime.democles/lib/org.gervarro.democles.specification.jar!/model/relational.genmodel"/>
+  <additionalUsedGenPackages value="platform:/plugin/org.gervarro.democles.specification.emf/model/specification.genmodel"/>
+  <additionalUsedGenPackages value="platform:/plugin/org.gervarro.democles.specification.emf/model/emf.genmodel"/>
+  <additionalUsedGenPackages value="platform:/plugin/org.gervarro.democles.specification.emf/model/relational.genmodel"/>
 </MoflonPropertyContainer:MoflonPropertiesContainer>

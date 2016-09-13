@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.validation.InjectionValidationMessage;
 
 import SDMLanguage.sdmUtil.CompilerInjection;
@@ -98,7 +98,7 @@ public class CompilerInjectionExtractorImpl implements InjectionExtractor
       for (GenClass genClass : genPackage.getGenClasses())
       {
          EClass eClass = genClass.getEcoreClass();
-         genClassNameToEClass.put(eClass, CodeGeneratorPlugin.getClassName(genClass));
+         genClassNameToEClass.put(eClass, CodeInjectionPlugin.getClassName(genClass));
       }
    }
 

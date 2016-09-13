@@ -9,9 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.moflon.core.utilities.LogUtils;
 import org.moflon.moca.inject.util.InjectionRegions;
+
 
 /**
  * This class is responsible for dirty injection of members and imports code.
@@ -19,8 +18,6 @@ import org.moflon.moca.inject.util.InjectionRegions;
  */
 public class CodeInjectorImpl implements CodeInjector
 {
-   private static final Logger logger = Logger.getLogger(CodeInjectorImpl.class);
-
    private final String projectPath;
 
    public CodeInjectorImpl(final String projectPath)
@@ -36,6 +33,7 @@ public class CodeInjectorImpl implements CodeInjector
       injectCodeToFile(file, code);
    }
 
+
    @Override
    public void injectImports(final String relativePath, final List<String> imports)
    {
@@ -43,7 +41,7 @@ public class CodeInjectorImpl implements CodeInjector
       final java.io.File file = new java.io.File(filePath);
       injectImportsToFile(file, imports);
    }
-
+   
    /**
     * Converts a relative path to an absolute path
     */
@@ -79,7 +77,7 @@ public class CodeInjectorImpl implements CodeInjector
          writeVectorToFile(fileContent, file);
       } catch (final Exception e)
       {
-         LogUtils.error(logger, e);
+         e.printStackTrace();
       }
    }
 
@@ -236,7 +234,7 @@ public class CodeInjectorImpl implements CodeInjector
          writeVectorToFile(fileContent, file);
       } catch (final Exception e)
       {
-         LogUtils.error(logger, e);
+         e.printStackTrace();
       }
    }
 
