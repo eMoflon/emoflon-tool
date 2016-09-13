@@ -3,6 +3,8 @@ package org.moflon.ide.core.runtime;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
@@ -62,8 +64,6 @@ public class OpenProjectHandler extends WorkspaceTask
 
    private MoflonPropertiesContainer moflonProperties;
 
-   private ManifestFileUpdater manifestFileBuilder = new ManifestFileUpdater();
-
    private BuildPropertiesFileBuilder buildPropertiesFileBuilder = new BuildPropertiesFileBuilder();
 
    public OpenProjectHandler(final IProject project, final MetamodelProperties metamodelProperties, final MoflonPropertiesContainer moflonProperties)
@@ -110,7 +110,7 @@ public class OpenProjectHandler extends WorkspaceTask
       {
 
          // TODO Plugin dependency handling should be updated by Repository/IntegrationBuilders
-         updatePluginDependencies(monitor);
+         updatePluginDependencies(monitor, project);
 
          moflonProperties.getDependencies().clear();
          for (final URI dependencyURI : metamodelProperties.getDependenciesAsURIs())
@@ -134,11 +134,12 @@ public class OpenProjectHandler extends WorkspaceTask
       }
    }
 
-   private void updatePluginDependencies(final IProgressMonitor monitor) throws CoreException, IOException
+   private void updatePluginDependencies(final IProgressMonitor monitor, IProject project) throws CoreException, IOException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Updating plugin project " + project.getName(), 2);
 
       logger.debug("Updating MANIFEST.MF in " + project.getName());
+      final ManifestFileUpdater manifestFileBuilder = new ManifestFileUpdater();
       manifestFileBuilder.processManifest(project, manifest -> {
          boolean changed = false;
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.MANIFEST_VERSION, DEFAULT_MANIFEST_VERSION,
@@ -197,13 +198,15 @@ public class OpenProjectHandler extends WorkspaceTask
       changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.tgg.debug.language");
 
       // Refactoring of plugin IDs in August 2015
-      // Map<String, String> replacementMap = new HashMap<>();
+      Map<String, String> replacementMap = new HashMap<>();
+      replacementMap.put("MoflonPropertyContainer", "org.moflon.core.propertycontainer");
       // replacementMap.put("org.moflon.testframework",
       // "org.moflon.testing.testframework");
       // replacementMap.put("org.moflon.validation",
       // "org.moflon.validation.validationplugin");
       // changed |= ManifestFileUpdater.replaceDependencies(manifest,
       // replacementMap);
+      changed |= ManifestFileUpdater.replaceDependencies(manifest, replacementMap);
 
       return changed;
    }
