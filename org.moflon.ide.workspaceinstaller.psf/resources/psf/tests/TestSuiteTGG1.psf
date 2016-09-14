@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
-<provider id="org.tigris.subversion.subclipse.core.svnnature">
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/BlockDiagramEdgeRules/BlockDiagramCodeAdapter_EdgeRules,BlockDiagramCodeAdapter_EdgeRules"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/EdgeRulesTestSuite,EdgeRulesTestSuite"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/folksonomy/FolksonomyCodeAdapter,FolksonomyCodeAdapter"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/folksonomy/FolksonomyDataGenerator,FolksonomyDataGenerator"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/libraryToBibliographyExample/LibraryToBibliography,LibraryToBibliography"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/libraryToBibliographyExample/LibraryToBibliographyCSP,LibraryToBibliographyCSP"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/libraryToBibliographyExample/LibraryToBibliographyIntegration,LibraryToBibliographyIntegration"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/libraryToBibliographyExample/LibraryToBibliographyIntegrationCSP,LibraryToBibliographyIntegrationCSP"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/MDAE,MDAE"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/OSCAx,OSCAx"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/ProcessLanguageEdgeRules/ProcessCodeAdapter_EdgeRules,ProcessCodeAdapter_EdgeRules"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/productrequirementsToSimulinkproject/ProductrequirementsToSimulinkproject,ProductrequirementsToSimulinkproject"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/ProductRequirementsToSimulink/ProductrequirementsToSimulinkprojectIntegration,ProductrequirementsToSimulinkprojectIntegration"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/SimpleEcoreToHTML/SimpleEcoreToHTML,SimpleEcoreToHTML"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/SimpleEcoreToHTMLExample,SimpleEcoreToHTMLExample"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/test_suite/TGGTestSuite_1,TGGTestSuite_1"/>
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/BlockDiagramEdgeRules/BlockDiagramCodeAdapter_EdgeRules"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/EdgeRulesTestSuite"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/folksonomy/FolksonomyCodeAdapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/folksonomy/FolksonomyDataGenerator"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/libraryToBibliographyExample/LibraryToBibliography"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/libraryToBibliographyExample/LibraryToBibliographyCSP,"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/libraryToBibliographyExample/LibraryToBibliographyIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/libraryToBibliographyExample/LibraryToBibliographyIntegrationCSP"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/MDAE"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/OSCAx"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/ProcessLanguageEdgeRules/ProcessCodeAdapter_EdgeRules"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/productrequirementsToSimulinkproject/ProductrequirementsToSimulinkproject"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/ProductRequirementsToSimulink/ProductrequirementsToSimulinkprojectIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/SimpleEcoreToHTML/SimpleEcoreToHTML"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/SimpleEcoreToHTMLExample"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,test_suite/TGGTestSuite_1"/>
 </provider>
 </psf>

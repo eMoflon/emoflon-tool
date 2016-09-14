@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
-<provider id="org.tigris.subversion.subclipse.core.svnnature">
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/Democles_0,Democles_0"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/test_suite/DemoclesTestSuite_0,DemoclesTestSuite_0"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/specifications/OnlineShop,OnlineShop"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/OnlineShopLang,OnlineShopLang"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/test_suite/OnlineShopLangTestGen,OnlineShopLangTestGen"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/OnlineSocialNetwork,OnlineSocialNetwork"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon-tests/trunk/language_suite/RailwayControl,RailwayControl"/>
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/Democles_0"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,test_suite/DemoclesTestSuite_0"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/OnlineShop"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/OnlineShopLang"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,test_suite/OnlineShopLangTestGen"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/OnlineSocialNetwork"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/RailwayControl"/>
 </provider>
 </psf>
