@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
-<MoflonPropertyContainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:MoflonPropertyContainer="platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore" projectName="org.moflon.ide.visualization.dot.tgg.schema">
+<org.moflon.core.propertycontainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.moflon.core.propertycontainer="platform:/plugin/org.moflon.core.propertycontainer/model/Propertycontainer.ecore" projectName="org.moflon.ide.visualization.dot.tgg.schema">
   <metaModelProject MetaModelProjectName="NO_META_MODEL_PROJECT_NAME_SET_YET"/>
   <replaceGenModel/>
   <sdmCodegeneratorHandlerId value="DEMOCLES_REVERSE_NAVI"/>
   <tGGBuildMode/>
-</MoflonPropertyContainer:MoflonPropertiesContainer>
+</org.moflon.core.propertycontainer:MoflonPropertiesContainer>
