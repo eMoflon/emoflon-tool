@@ -87,7 +87,7 @@ public class MoflonPropertiesContainerHelper
     *
     * Only during transition (rkluge, 2016-09-07)
     */
-   //@Deprecated //TODO@rkluge
+   //TODO@rkluge
    public static void updateMoflonPropertiesToNewBasePackage(IProject project)
    {
       final IFile propertiesFile = project.getFile(MOFLON_CONFIG_FILE);
