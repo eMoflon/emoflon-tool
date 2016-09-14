@@ -31,8 +31,6 @@ public class BasicResourceFillingMocaToMoflonTransformation extends
 	public static final String MOCA_TREE_ATTRIBUTE_NS_URI = "Moflon::NsUri";
 	public static final String MOCA_TREE_ATTRIBUTE_EXPORT = "Moflon::Export";
 	public static final String MOFLON_TREE_ATTRIBUTE_NAME = "Moflon::Name";
-	private static final URI MOFLON_PROPERTIES_URI =
-			URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE);
 
 	protected static final Logger MOCA_TO_MOFLON_TRANSFORMATION_LOGGER =
 			Logger.getLogger(ResourceFillingMocaToMoflonTransformation.class);
