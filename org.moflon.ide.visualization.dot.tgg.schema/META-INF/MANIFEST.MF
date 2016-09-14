@@ -8,7 +8,7 @@ Export-Package: org.moflon.ide.visualization.dot.tgg.schema.impl,
  org.moflon.ide.visualization.dot.tgg.schema.Rules.util,
  org.moflon.ide.visualization.dot.tgg.schema
 Bundle-Name: org.moflon.ide.visualization.dot.tgg.shema
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
@@ -25,4 +25,3 @@ Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: TU Darmstadt
-Bundle-Activator: org.moflon.ide.visualization.dot.tgg.schema.SchemaVisualizationPlugin

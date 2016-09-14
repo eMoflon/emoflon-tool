@@ -14,11 +14,6 @@ import org.moflon.tgg.runtime.CorrespondenceModel;
 
 public class TGGRuleDiagramTextProvider extends EMoflonDiagramTextProvider {
 	@Override
-	protected String getPluginId() {
-		return TGGVisualizationPlugin.getDefault().getPluginId();
-	}
-
-	@Override
 	protected boolean directionIsForward() {
 		return false;
 	}

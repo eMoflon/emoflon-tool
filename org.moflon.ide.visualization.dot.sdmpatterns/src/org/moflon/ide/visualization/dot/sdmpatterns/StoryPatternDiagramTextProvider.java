@@ -28,12 +28,6 @@ public class StoryPatternDiagramTextProvider extends EMoflonDiagramTextProvider
    }
 
    @Override
-   protected String getPluginId()
-   {
-      return StoryPatternVisualizationPlugin.getDefault().getPluginId();
-   }
-
-   @Override
    protected boolean directionIsForward()
    {
       return false;

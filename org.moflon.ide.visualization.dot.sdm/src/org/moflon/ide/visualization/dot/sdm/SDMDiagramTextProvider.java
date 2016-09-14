@@ -15,12 +15,6 @@ import SDMLanguage.calls.callExpressions.MethodCallExpression;
 public class SDMDiagramTextProvider extends EMoflonDiagramTextProvider
 {
    @Override
-   protected String getPluginId()
-   {
-      return SDMVisualizationPlugin.getDefault().getPluginId();
-   }
-
-   @Override
    protected boolean directionIsForward()
    {
       return false;

@@ -7,12 +7,6 @@ import org.moflon.tgg.runtime.PrecedenceStructure;
 public class DotTGGRuntimeDiagramTextProvider extends EMoflonDiagramTextProvider
 {
    @Override
-   protected String getPluginId()
-   {
-      return DotTggRuntimePlugin.getDefault().getPluginId();
-   }
-
-   @Override
    protected boolean directionIsForward()
    {
       return true;

@@ -9,7 +9,7 @@ Export-Package: org.moflon.ide.visualization.dot.tgg.runtimepatterns.u
  org.moflon.ide.visualization.dot.tgg.runtimepatterns.Rules.impl,
  org.moflon.ide.visualization.dot.tgg.runtimepatterns
 Bundle-Name: org.moflon.ide.visualization.dot.tgg.runtimepatterns
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
@@ -27,6 +27,4 @@ Require-Bundle: org.eclipse.emf.ecore,
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Activator: org.moflon.ide.visualization.dot.tgg.runtimepatterns
- .DotTGGRuntimePatternsPlugin
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt

@@ -13,11 +13,6 @@ public class TGGSchemaDiagramTextProvider extends EMoflonDiagramTextProvider {
 	}
 
 	@Override
-	protected String getPluginId() {
-		return SchemaVisualizationPlugin.getDefault().getPluginId();
-	}
-
-	@Override
 	protected boolean directionIsForward() {
 		return false;
 	}

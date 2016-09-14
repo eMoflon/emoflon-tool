@@ -15,12 +15,6 @@ import org.moflon.tgg.runtime.TripleMatchNodeMapping;
 public class DotTGGRuntimePatternsDiagramTextProvider extends EMoflonDiagramTextProvider
 {
    @Override
-   protected String getPluginId()
-   {
-      return DotTGGRuntimePatternsPlugin.getDefault().getPluginId();
-   }
-
-   @Override
    protected boolean directionIsForward()
    {
       return true;

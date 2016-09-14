@@ -6,7 +6,7 @@ Export-Package: org.moflon.ide.visualisation.dot.language,
  org.moflon.ide.visualization.dot.language.impl,
  org.moflon.ide.visualization.dot.language.util
 Bundle-Name: DotLanguage
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.1.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
@@ -23,4 +23,3 @@ Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
-Bundle-Activator: org.moflon.ide.visualisation.dot.language.DotVisualisationPlugin

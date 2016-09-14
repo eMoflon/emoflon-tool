@@ -16,11 +16,6 @@ public class EPackageDiagrammTextProvider extends EMoflonDiagramTextProvider {
 	}
 
 	@Override
-	protected String getPluginId() {
-		return EPackageVisualizationPlugin.getDefault().getPluginId();
-	}
-
-	@Override
 	protected boolean directionIsForward() {
 		return false;
 	}
