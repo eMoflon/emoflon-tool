@@ -46,6 +46,8 @@ import org.eclipse.pde.core.plugin.PluginRegistry;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * A collection of useful helper methods when dealing with a workspace in an eclipse plugin.
@@ -1146,5 +1148,16 @@ public class WorkspaceHelper
          final String genFolderGitIgnoreFileContents = StringUtils.join(lines, "\n");
          gitignoreFile.create(new ByteArrayInputStream(genFolderGitIgnoreFileContents.getBytes()), true, subMon.newChild(1));
       }
+   }
+
+   /**
+    * Returns the symbolic name (aka. plugin ID) of the bundle containing the given class.
+    * @param clazz the class whose bundle is searched
+    * @return the symbolic name or null if the class does not belong to a bundle
+    */
+   public static String getPluginId(Class<?> clazz)
+   {
+      Bundle bundle = FrameworkUtil.getBundle(clazz);
+      return bundle == null ? null : bundle.getSymbolicName();
    }
 }
