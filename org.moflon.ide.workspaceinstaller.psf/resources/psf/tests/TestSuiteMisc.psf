@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
 <provider id="org.eclipse.egit.core.GitProvider">
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/sdmTestSuite/BooleanStatementNodes"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/DemoLanguages"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/DoubleContainer"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/doubleLinkedList/DoubleLinkedListLanguage"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,test_suite/EclipseTestSuite"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/injectionTestCases/InjectionTest"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/injectionTestCases/InjectionTestSpecification"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/memoryBox/MemoryBoxLanguage"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/memoryBoxToDoubleLinkedList/MemoryBoxToDoubleLinkedListIntegration"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/memoryBoxToDoubleLinkedList/MemoryBoxToDoubleLinkedListTransformation"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/MocaToMoflonAttributeConstr"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/sdmTestSuite/ValidationTest"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/sdmTestSuite/SDMTestSuite"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,BooleanStatementNodes"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DemoLanguages"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DoubleContainer"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DoubleLinkedListLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,EclipseTestSuite"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,InjectionTest"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,InjectionTestSpecification"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MemoryBoxLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MemoryBoxToDoubleLinkedListIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MemoryBoxToDoubleLinkedListTransformation"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MocaToMoflonAttributeConstr"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ValidationTest"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SDMTestSuite"/>
 </provider>
 </psf>

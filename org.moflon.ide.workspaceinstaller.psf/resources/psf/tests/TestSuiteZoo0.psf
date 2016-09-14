@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
 <provider id="org.eclipse.egit.core.GitProvider">
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/BoardGame/BoardGameTGG_eMoflonTutorial"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/Amalgamation/CDtoDoc_ToolPaperExample"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/Amalgamation/CDtoDocTGG"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/Amalgamation/CDtoDocumentation"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/ClassDiagramToDocumentation/ClassDiagramToDocumentationIntegration"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/eMoflonTutorialEAVersion"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/Fixml/fixmlTGG"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/fixmlTransformation"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/OpenstreetMap"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/OpenStreetMap/OSMLanguage"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/OpenStreetMap/OSMTGG"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/PetriNet2Statechart"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/PetriNetToStatechart/PetriNetToStatechartIntegration"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/modellingWizards/ProcessCodeAdapterWizard"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/ProcessLanguage"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/Sokoban/SokobanImportExport"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/SokobanTutorial"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/StatechartLanguage"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,test_suite/ZooTestSuite0"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,BoardGameTGG_eMoflonTutorial"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CDtoDoc_ToolPaperExample"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CDtoDocTGG"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CDtoDocumentation"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ClassDiagramToDocumentationIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,eMoflonTutorialEAVersion"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,fixmlTGG"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,fixmlTransformation"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OpenstreetMap"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OSMLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OSMTGG"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,PetriNet2Statechart"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,PetriNetToStatechartIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ProcessCodeAdapterWizard"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ProcessLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SokobanImportExport"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SokobanTutorial"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,StatechartLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ZooTestSuite0"/>
 </provider>
 </psf>
