@@ -3,6 +3,7 @@ package org.moflon.ide.visualization.dot.tgg.delta;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EPackage;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.visualisation.dot.language.EMoflonDiagramTextProvider;
 import org.moflon.ide.visualization.dot.tgg.delta.utils.DeltaPostProcessingHelper;
 import org.moflon.tgg.algorithm.configuration.Configurator;
@@ -20,7 +21,7 @@ public class DeltaDiagrammTextProvider extends EMoflonDiagramTextProvider {
 
 	@Override
 	protected String getPluginId() {
-		return DeltaVisualizationPlugin.getDefault().getPluginId();
+		return WorkspaceHelper.getPluginId(getClass());
 	}
 
 	@Override
