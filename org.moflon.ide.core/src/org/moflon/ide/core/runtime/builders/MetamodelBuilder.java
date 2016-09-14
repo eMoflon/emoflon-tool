@@ -172,10 +172,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             taskArray = exporter.getMetamodelLoaderTasks().toArray(taskArray);
             final IStatus metamodelLoaderStatus = ProgressMonitoringJob.executeSyncSubTasks(taskArray,
                   new MultiStatus(CoreActivator.getModuleID(), 0, "Resource loading failed", null), subMon.newChild(5));
-            if (subMon.isCanceled())
-            {
-               throw new OperationCanceledException();
-            }
+            CoreActivator.checkCancellation(subMon);
             if (!metamodelLoaderStatus.isOK())
             {
                if (kind == IncrementalProjectBuilder.FULL_BUILD && !triggerProjects.isEmpty())
@@ -196,10 +193,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             triggerProjects.clear();
             final IStatus projectDependencyAnalyzerStatus = ProgressMonitoringJob.executeSyncSubTasks(dependencyAnalyzers,
                   new MultiStatus(CoreActivator.getModuleID(), 0, "Dependency analysis failed", null), subMon.newChild(5));
-            if (subMon.isCanceled())
-            {
-               throw new OperationCanceledException();
-            }
+            CoreActivator.checkCancellation(subMon);
             if (!projectDependencyAnalyzerStatus.isOK())
             {
                processProblemStatus(projectDependencyAnalyzerStatus, mocaFile);
