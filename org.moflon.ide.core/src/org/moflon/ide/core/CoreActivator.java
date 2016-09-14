@@ -26,7 +26,6 @@ import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
-import org.moflon.core.utilities.EMoflonPlugin;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
