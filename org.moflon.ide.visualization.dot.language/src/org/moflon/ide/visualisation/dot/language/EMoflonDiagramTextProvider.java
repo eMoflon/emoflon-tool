@@ -18,6 +18,7 @@ import org.eclipse.ui.IEditorPart;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.visualization.dot.language.AbstractGraph;
 import org.moflon.ide.visualization.dot.language.DirectedGraph;
@@ -51,9 +52,13 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
    /**
     * Returns the plugin ID of the plugin that provides the rules for visualizing the supported elements
     * 
+    * By default, this method retrieves the plugin ID via {@link WorkspaceHelper#getPluginId(Class)} 
+    * using the dynamic class of this object via {@link Object#getClass()}
     * @return
     */
-   protected abstract String getPluginId();
+   protected String getPluginId() {
+      return WorkspaceHelper.getPluginId(getClass());
+   }
 
    /**
     * Returns whether to invoke the TGG in forward (true) or backward (false) direction to obtain an instance of
