@@ -54,18 +54,4 @@ public class AntlrNature extends ProjectConfiguratorNature {
 		}
 		return natureIDs;
 	}
-
-	// TODO@rkluge: Remove in a future release
-//	@Override
-//	public void configure() throws CoreException {
-//		super.configure();
-//
-//		IJavaProject javaProject = JavaCore.create(getProject());
-//		Collection<IClasspathEntry> classpathEntries = new HashSet<IClasspathEntry>();
-//		classpathEntries.addAll(Arrays.asList(javaProject.getRawClasspath()));
-//		IPath antlrPath = new Path(AntlrUtil.getAntrlPathUrl().toExternalForm().substring(5));
-//		classpathEntries.add(JavaCore.newLibraryEntry(antlrPath, null, null, null,
-//				new IClasspathAttribute[] { JavaCore.newClasspathAttribute("plugin_id", MoflonUtilitiesActivator.getDefault().getPluginId()) }, true));
-//		javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[] {}), null);
-//	}
 }
