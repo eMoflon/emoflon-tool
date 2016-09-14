@@ -139,4 +139,5 @@
 2016-09-01 EPackage visualization (beta version)
 2016-09-04 eMoflon 2.17.0 released
 ---
-
+2016-09-13 Democles pluginization complete (integration of Democles via Eclipse plugins, no more fat jar)
+2016-09-14 eMoflon 2.18.0 released
