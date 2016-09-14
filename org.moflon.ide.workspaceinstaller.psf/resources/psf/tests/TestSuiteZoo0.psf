@@ -14,7 +14,7 @@
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/OpenStreetMap/OSMTGG"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/PetriNet2Statechart"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/PetriNetToStatechart/PetriNetToStatechartIntegration"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/modellingWizards/ProcessCodeAdapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/modellingWizards/ProcessCodeAdapterWizard"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/ProcessLanguage"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/Sokoban/SokobanImportExport"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,language_suite/specifications/SokobanTutorial"/>
