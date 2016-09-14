@@ -27,7 +27,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.plugins.MoflonPluginsActivator;
 
 /**
  * This class provides functionality to modify manifest files.
@@ -360,7 +359,7 @@ public class ManifestFileUpdater
       } catch (IOException e)
       {
          throw new CoreException(
-               new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Failed to read existing MANIFEST.MF: " + e.getMessage(), e));
+               new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(ManifestFileUpdater.class), "Failed to read existing MANIFEST.MF: " + e.getMessage(), e));
       }
    }
 

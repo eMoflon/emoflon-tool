@@ -31,7 +31,6 @@ import org.moflon.ide.core.injection.JavaFileInjectionExtractor;
 import org.moflon.ide.metamodelevolution.core.ChangeSequence;
 import org.moflon.ide.metamodelevolution.core.CoreFactory;
 import org.moflon.ide.metamodelevolution.core.EModelElementChange;
-import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 import org.moflon.ide.metamodelevolution.core.TaggedValueChange;
 import org.moflon.ide.metamodelevolution.core.impl.RenameChangeImpl;
@@ -107,7 +106,7 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
             findAndProcessInjections(renameChange);
          }
       }
-      return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Refactoring successfull");
+      return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "Refactoring successfull");
    }
 
    private RenameChange createNewRenameChange(String previous, String current, RenameChange old)

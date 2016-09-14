@@ -23,7 +23,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public class RenameMethodRefactoring implements RenameRefactoring
 {
@@ -77,13 +77,13 @@ public class RenameMethodRefactoring implements RenameRefactoring
             if (method != null)
                descriptor.setJavaElement(method);
             else
-               return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No matching method for refactoring found");
+               return new Status(IStatus.CANCEL, WorkspaceHelper.getPluginId(getClass()), "No matching method for refactoring found");
          } catch (JavaModelException e)
          {
             LogUtils.error(logger, e);
          }
       } else
-         return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No CompilationUnit for refactoring found");;
+         return new Status(IStatus.CANCEL, WorkspaceHelper.getPluginId(getClass()), "No CompilationUnit for refactoring found");;
 
       RefactoringStatus status = new RefactoringStatus();
       try
@@ -96,12 +96,12 @@ public class RenameMethodRefactoring implements RenameRefactoring
 
          Change change = refactoring.createChange(monitor);
          change.perform(monitor);
-         return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Method Refactoring successfull");
+         return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "Method Refactoring successfull");
       }
 
       catch (CoreException e)
       {
-         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem during refactoring", e);
       }
    }
 

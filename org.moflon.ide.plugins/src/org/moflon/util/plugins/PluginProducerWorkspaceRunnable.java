@@ -93,7 +93,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
                properties.get(MetamodelProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
 
          changed |= ManifestFileUpdater.updateDependencies(manifest, Arrays.asList(
-               new String[] { WorkspaceHelper.PLUGIN_ID_ECORE, WorkspaceHelper.PLUGIN_ID_ECORE_XMI, MoflonUtilitiesActivator.getDefault().getPluginId() }));
+               new String[] { WorkspaceHelper.PLUGIN_ID_ECORE, WorkspaceHelper.PLUGIN_ID_ECORE_XMI, WorkspaceHelper.getPluginId(MoflonUtilitiesActivator.class) }));
 
          changed |= ManifestFileUpdater.updateDependencies(manifest,
                ManifestFileUpdater.extractDependencies(properties.get(MetamodelProperties.DEPENDENCIES_KEY)));
@@ -102,9 +102,9 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
          {
             if (currentProject.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
                changed |= ManifestFileUpdater.updateDependencies(manifest,
-                     Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, MocaTreePlugin.getDefault().getPluginId(),
-                           WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, SDMLanguagePlugin.getDefault().getPluginId(),
-                           TGGLanguageActivator.getDefault().getPluginId(), TGGRuntimePlugin.getDefault().getPluginId() }));
+                     Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, WorkspaceHelper.getPluginId(MocaTreePlugin.class),
+                           WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, WorkspaceHelper.getPluginId(SDMLanguagePlugin.class),
+                           WorkspaceHelper.getPluginId(TGGLanguageActivator.class), WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) }));
          } catch (Exception e)
          {
             LogUtils.error(logger, e);

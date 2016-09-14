@@ -15,7 +15,7 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public class RenameProjectRefactoring implements RenameRefactoring
 {
@@ -38,7 +38,7 @@ public class RenameProjectRefactoring implements RenameRefactoring
       IJavaProject oldProject = JavaCore.create(project);
 
       if (!oldProject.exists())
-         return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No Project for refactoring found");
+         return new Status(IStatus.CANCEL, WorkspaceHelper.getPluginId(getClass()), "No Project for refactoring found");
 
       RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(IJavaRefactorings.RENAME_JAVA_PROJECT);
       RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
@@ -61,7 +61,7 @@ public class RenameProjectRefactoring implements RenameRefactoring
 
       } catch (CoreException e)
       {
-         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem during refactoring", e);
       }
       return Status.OK_STATUS;
    }

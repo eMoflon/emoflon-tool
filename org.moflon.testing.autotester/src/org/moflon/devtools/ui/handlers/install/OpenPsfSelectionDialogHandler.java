@@ -28,7 +28,6 @@ import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.workspaceinstaller.psf.PSFPlugin;
 
 public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
 {
@@ -64,10 +63,10 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
    private List<File> collectPSFFiles() throws CoreException, IOException
    {
       final List<File> collectedPsfFiles = new ArrayList<>();
-      final IProject workspaceProject = WorkspaceHelper.getProjectByPluginId(PSFPlugin.getDefault().getPluginId());
+      final IProject workspaceProject = WorkspaceHelper.getProjectByPluginId(getPluginId());
       if (workspaceProject != null)
       {
-         logger.debug("Using project with id " + PSFPlugin.getDefault().getPluginId() + " in workspace to retrieve PSF files.");
+         logger.debug("Using project with id " + getPluginId() + " in workspace to retrieve PSF files.");
          IFolder psfRootFolder = workspaceProject.getFolder(PSF_ROOT_FOLDER_NAME);
          PSFFileCollectingResourceVisitor psfFileCollector = new PSFFileCollectingResourceVisitor();
          psfRootFolder.accept(psfFileCollector);
@@ -75,7 +74,7 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
       } else
       {
          logger.debug("Using installed plugin to retrieve PSF files.");
-         final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(PSF_ROOT_FOLDER_NAME, PSFPlugin.getDefault().getPluginId());
+         final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(PSF_ROOT_FOLDER_NAME, getPluginId());
          final File psfRootFolder = new File(fullPathURL.getPath());
          Files.walkFileTree(psfRootFolder.toPath(), new SimpleFileVisitor<java.nio.file.Path>() {
             @Override
@@ -91,6 +90,11 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
 
       }
       return collectedPsfFiles;
+   }
+
+   private String getPluginId()
+   {
+      return WorkspaceHelper.getPluginId(getClass());
    }
 
    private final class PsfFileContentProvider implements IStructuredContentProvider

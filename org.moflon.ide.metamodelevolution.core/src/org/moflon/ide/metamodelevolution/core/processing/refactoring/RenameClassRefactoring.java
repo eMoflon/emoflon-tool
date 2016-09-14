@@ -18,7 +18,6 @@ import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 
 public class RenameClassRefactoring implements RenameRefactoring
 {
@@ -51,7 +50,7 @@ public class RenameClassRefactoring implements RenameRefactoring
       ICompilationUnit cu = JavaCore.createCompilationUnitFrom(file);
 
       if (!cu.exists())
-         return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No EClass for refactoring found");
+         return new Status(IStatus.CANCEL, WorkspaceHelper.getPluginId(getClass()), "No EClass for refactoring found");
 
       RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(IJavaRefactorings.RENAME_COMPILATION_UNIT);
       RenameJavaElementDescriptor descriptor = (RenameJavaElementDescriptor) contribution.createDescriptor();
@@ -77,10 +76,10 @@ public class RenameClassRefactoring implements RenameRefactoring
          {
             processInjections(project, file);
          }
-         return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "EClass refactoring successful");
+         return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "EClass refactoring successful");
       } catch (CoreException e)
       {
-         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem during refactoring", e);
       }
    }
 

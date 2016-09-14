@@ -13,7 +13,6 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.metamodelevolution.core.ChangeSequence;
 import org.moflon.ide.metamodelevolution.core.EModelElementChange;
-import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 import org.moflon.ide.metamodelevolution.core.RenameChange;
 import org.moflon.ide.metamodelevolution.core.impl.RenameChangeImpl;
 import org.moflon.ide.metamodelevolution.core.processing.refactoring.RenameGenmodelRefactoring;
@@ -68,7 +67,7 @@ public class RenameProjectProcessor extends MetamodelDeltaProcessor_ImplBase
             }
          }
       }
-      return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Project refactoring done");
+      return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "Project refactoring done");
    }
 
    private IProject getProject(String projectName)

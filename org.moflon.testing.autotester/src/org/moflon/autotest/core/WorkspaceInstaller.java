@@ -50,7 +50,6 @@ import org.moflon.ide.core.runtime.ProjectNatureAndBuilderConfiguratorTask;
 import org.moflon.ide.core.tasks.ProjectBuilderTask;
 import org.moflon.ide.core.tasks.TaskUtilities;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
-import org.moflon.ide.workspaceinstaller.psf.PSFPlugin;
 import org.moflon.ide.workspaceinstaller.psf.PsfFileUtils;
 import org.osgi.framework.FrameworkUtil;
 
@@ -90,20 +89,25 @@ public class WorkspaceInstaller
 
    private static String mapToAbsolutePath(final String pluginRelativePathToPSF)
    {
-      final IProject workspaceProject = WorkspaceHelper.getProjectByPluginId(PSFPlugin.getDefault().getPluginId());
+      final IProject workspaceProject = WorkspaceHelper.getProjectByPluginId(getPluginId());
       if (workspaceProject != null)
       {
-         logger.debug("Using PSF files from workspace project with plugin ID " + PSFPlugin.getDefault().getPluginId() + ".");
+         logger.debug("Using PSF files from workspace project with plugin ID " + getPluginId() + ".");
          final File fullPath = new File(workspaceProject.getLocation().toOSString(), pluginRelativePathToPSF);
          return fullPath.getAbsolutePath();
       } else
       {
-         logger.debug("Using PSF files in installed plugin " + PSFPlugin.getDefault().getPluginId() + ".");
-         final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(pluginRelativePathToPSF, PSFPlugin.getDefault().getPluginId());
+         logger.debug("Using PSF files in installed plugin " + getPluginId() + ".");
+         final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(pluginRelativePathToPSF, getPluginId());
          logger.debug("Retrieved URL: " + fullPathURL);
          final String absolutePathToPSF = new File(fullPathURL.getPath()).getAbsolutePath();
          return absolutePathToPSF;
       }
+   }
+
+   private static String getPluginId()
+   {
+      return WorkspaceHelper.getPluginId(WorkspaceInstaller.class);
    }
 
    public void installPsfFiles(final List<File> psfFiles, final String label)
@@ -127,8 +131,7 @@ public class WorkspaceInstaller
             {
                super.run(monitor);
 
-               // TODO@rkluge: Remove this later
-               // Enforce nature migration
+               // TODO@rkluge: Remove this later - Enforce nature migration
                final NatureMigrator natureMigrator = new NatureMigrator();
                for (final IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects())
                {
@@ -140,7 +143,7 @@ public class WorkspaceInstaller
                      WorkspaceTask.execute(task, false);
                   } catch (final CoreException e)
                   {
-                     e.printStackTrace();
+                     LogUtils.error(logger, e);
                   }
                }
             }

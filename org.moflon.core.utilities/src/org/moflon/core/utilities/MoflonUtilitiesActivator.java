@@ -4,15 +4,9 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Plugin;
 
-public class MoflonUtilitiesActivator extends EMoflonPlugin {
-
-	public static MoflonUtilitiesActivator getDefault() {
-		MoflonUtilitiesActivator plugin = getPlugin(MoflonUtilitiesActivator.class);
-		if (plugin == null)
-			throw new IllegalStateException("Plugin has not yet been set!");
-		return plugin;
-	}
+public class MoflonUtilitiesActivator extends Plugin {
 
 	/**
 	 * Used to retrieve resources embedded in the plugin (jar files when

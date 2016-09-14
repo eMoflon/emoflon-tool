@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.plugins.MoflonPluginsActivator;
 
 public class ExportedPackagesInManifestUpdater extends WorkspaceTask
 {
@@ -57,7 +56,7 @@ public class ExportedPackagesInManifestUpdater extends WorkspaceTask
          monitor.worked(1);
       } catch (IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonPluginsActivator.getDefault().getPluginId(), "Problem while updating exportedPackages extension", e));
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem while updating exportedPackages extension", e));
       } finally
       {
          monitor.done();

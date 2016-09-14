@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -31,6 +32,7 @@ import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * The Activator controls the plug-in life cycle and contains state and functionality that can be used throughout the
@@ -38,7 +40,7 @@ import org.osgi.framework.BundleContext;
  * 
  * Core (non gui) functionality that can be useful for other Moflon eclipse plugins should be implemented here.
  */
-public class CoreActivator extends EMoflonPlugin
+public class CoreActivator extends Plugin
 {
    private static final Logger logger = Logger.getLogger(CoreActivator.class);
 
@@ -71,17 +73,9 @@ public class CoreActivator extends EMoflonPlugin
 
    private NatureMigrator natureMigrator;
 
-   public static CoreActivator getDefault()
-   {
-      CoreActivator plugin = getPlugin(CoreActivator.class);
-      if (plugin == null)
-         throw new IllegalStateException("Plugin has not yet been set!");
-      return plugin;
-   }
-
    public static final String getModuleID()
    {
-      return getDefault().getPluginId();
+      return FrameworkUtil.getBundle(CoreActivator.class).getSymbolicName();
    }
 
    /**

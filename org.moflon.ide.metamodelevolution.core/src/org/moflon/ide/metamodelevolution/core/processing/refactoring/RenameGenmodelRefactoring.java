@@ -13,7 +13,6 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.resource.RenameResourceDescriptor;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
 
 public class RenameGenmodelRefactoring implements RenameRefactoring
 {
@@ -30,7 +29,7 @@ public class RenameGenmodelRefactoring implements RenameRefactoring
       IResource genmodelResource = getGenmodelFile(project);
       
       if (!genmodelResource.exists())
-         return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No Genmodel for refactoring found");
+         return new Status(IStatus.CANCEL, WorkspaceHelper.getPluginId(getClass()), "No Genmodel for refactoring found");
             
       RenameResourceDescriptor descriptor = new RenameResourceDescriptor();
       descriptor.setUpdateReferences(true);
@@ -49,11 +48,11 @@ public class RenameGenmodelRefactoring implements RenameRefactoring
 
          Change change = refactoring.createChange(monitor);
          change.perform(monitor);
-         return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Genmodel refactoring successful");
+         return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "Genmodel refactoring successful");
          
       } catch (CoreException e)
       {
-         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during Genmodel refactoring", e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem during Genmodel refactoring", e);
       }
    }
 

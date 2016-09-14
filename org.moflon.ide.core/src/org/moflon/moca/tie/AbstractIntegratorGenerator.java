@@ -64,7 +64,7 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
          fileNameToContent.put(fileName, renderTemplate(getTemplateName(), attributes));
       } catch (FileNotFoundException e)
       {
-         MoflonUtil.throwCoreExceptionAsError(e.getMessage(), MoflonUtilitiesActivator.getDefault().getPluginId(), e);
+         MoflonUtil.throwCoreExceptionAsError(e.getMessage(), WorkspaceHelper.getPluginId(getClass()), e);
       }
 
       return fileNameToContent;

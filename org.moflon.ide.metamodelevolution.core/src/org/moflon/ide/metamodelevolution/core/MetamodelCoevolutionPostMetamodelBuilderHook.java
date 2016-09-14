@@ -36,7 +36,7 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
          Node changesTree = MetamodelCoevolutionHelper.getMocaTree(postMetamodelBuilderHookDTO.metamodelproject);
          if (changesTree == null)
          {
-            return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No Changes detected");
+            return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "No Changes detected");
          }
 
          MetamodelChangeCalculator changeCalculator = new ChangesTreeCalculator();
@@ -72,7 +72,7 @@ public class MetamodelCoevolutionPostMetamodelBuilderHook implements PostMetamod
          }
       } catch (Exception e)
       {
-         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem in PostMetamodelBuilderHook during refactoring", e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem in PostMetamodelBuilderHook during refactoring", e);
       }
 
       return Status.OK_STATUS;

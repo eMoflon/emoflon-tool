@@ -116,7 +116,7 @@ public class PluginXmlUpdater extends WorkspaceTask
 
       } catch (IOException | XPathExpressionException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.getDefault().getPluginId(),
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
                "Error reading/writing plugin.xml for project " + project.getName() + ": " + e.getMessage(), e));
       }
    }

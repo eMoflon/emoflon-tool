@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.plugins.MoflonPluginsActivator;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 
 /**
@@ -217,7 +216,7 @@ public class MetamodelProperties
 
          createMarkerForMissingExportedFiles(propertyFile);
          throw new CoreException(
-               new Status(IStatus.WARNING, MoflonPluginsActivator.getDefault().getPluginId(), "Unable to load properties file or file not existing: " + e));
+               new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(MetamodelProperties.class), "Unable to load properties file or file not existing: " + e));
       }
 
       Map<String, MetamodelProperties> projectMap = createPropertiesMap(properties);

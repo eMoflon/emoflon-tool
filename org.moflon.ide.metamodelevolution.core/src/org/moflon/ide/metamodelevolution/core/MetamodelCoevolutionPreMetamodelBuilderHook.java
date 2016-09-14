@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHookDTO;
@@ -33,7 +34,7 @@ public class MetamodelCoevolutionPreMetamodelBuilderHook implements PreMetamodel
          Node changesTree = MetamodelCoevolutionHelper.getMocaTree(preMetamodelBuilderHookDTO.metamodelproject);
          if (changesTree == null)
          {
-            return new Status(IStatus.OK, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No Changes detected");
+            return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "No Changes detected");
          }
 
          MetamodelChangeCalculator changeCalculator = new ChangesTreeCalculator();
@@ -62,7 +63,7 @@ public class MetamodelCoevolutionPreMetamodelBuilderHook implements PreMetamodel
          return Status.OK_STATUS;
       } catch (final CoreException e)
       {
-         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem in PreMetamodelBuilderHook during refactoring", e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem in PreMetamodelBuilderHook during refactoring", e);
       }
 
    }

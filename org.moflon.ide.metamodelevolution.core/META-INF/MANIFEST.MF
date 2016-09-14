@@ -5,7 +5,7 @@ Export-Package: org.moflon.ide.metamodelevolution.core,
  org.moflon.ide.metamodelevolution.core.util,
  org.moflon.ide.metamodelevolution.core.impl
 Bundle-Name: org.moflon.ide.metamodelevolution.core
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.1.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
@@ -38,4 +38,3 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Import-Package: org.eclipse.team.core.diff.provider,
  org.eclipse.ui.handlers
-Bundle-Activator: org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin

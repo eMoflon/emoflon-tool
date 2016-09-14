@@ -1,14 +1,13 @@
 package org.moflon.tgg.mosl.builder;
 
 import org.eclipse.core.resources.IWorkspace;
-
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Plugin;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
-import org.moflon.core.utilities.EMoflonPlugin;
 import org.moflon.ide.core.WorkspaceObservationLifecycleManager;
 import org.osgi.framework.BundleContext;
 
-public class MOSLTGGPlugin extends EMoflonPlugin{
+public class MOSLTGGPlugin extends Plugin{
 	private IWorkspace workspace;
 	private MOSLTGGProjectMigrator migrator;
 	
@@ -29,15 +28,4 @@ public class MOSLTGGPlugin extends EMoflonPlugin{
 		workspace = null;
 		super.stop(context);
 	}
-	
-	public static MOSLTGGPlugin getDefault(){
-		// TODO@rkluge: Refactor to use the following code.
-		// return FrameworkUtil.getBundle(MOSLTGGPlugin.class);
-		MOSLTGGPlugin plugin = getPlugin(MOSLTGGPlugin.class);
-		if (plugin == null)
-			throw new IllegalStateException("Plugin has not yet been set!");
-		return plugin;
-	}
-
-
 }

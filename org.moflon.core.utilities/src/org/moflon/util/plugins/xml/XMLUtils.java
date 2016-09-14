@@ -25,7 +25,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -51,7 +51,7 @@ public class XMLUtils {
 			monitor.worked(1);
 			return output;
 		} catch (TransformerFactoryConfigurationError | TransformerException ex) {
-			throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.getDefault().getPluginId(),
+			throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(XMLUtils.class),
 					"Formatting XML failed", ex));
 		} finally {
 			monitor.done();
@@ -69,7 +69,7 @@ public class XMLUtils {
 
 			return doc;
 		} catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException ex) {
-			throw new CoreException(new Status(IStatus.ERROR, MoflonUtilitiesActivator.getDefault().getPluginId(),
+			throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(XMLUtils.class),
 					"Formatting XML failed", ex));
 		}
 	}

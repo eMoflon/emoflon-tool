@@ -104,9 +104,9 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
                            WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, //
                            WorkspaceHelper.PLUGIN_ID_ECORE, //
                            WorkspaceHelper.PLUGIN_ID_EMF_COMMON, //
-                           MoflonUtilitiesActivator.getDefault().getPluginId(), //
-                           MocaTreePlugin.getDefault().getPluginId(), //
-                           MocaPlugin.getDefault().getPluginId() })));
+                           WorkspaceHelper.getPluginId(MoflonUtilitiesActivator.class), //
+                           WorkspaceHelper.getPluginId(MocaTreePlugin.class), //
+                           WorkspaceHelper.getPluginId(MocaPlugin.class) })));
       } catch (Exception e)
       {
          logger.error("Unable to add MOCA as dependency to project: " + e.getMessage());

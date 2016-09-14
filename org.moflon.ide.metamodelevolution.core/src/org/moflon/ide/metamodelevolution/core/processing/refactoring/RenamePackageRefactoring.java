@@ -17,7 +17,7 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.moflon.ide.metamodelevolution.core.MetamodelCoevolutionPlugin;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public class RenamePackageRefactoring implements RenameRefactoring
 {
@@ -42,7 +42,7 @@ public class RenamePackageRefactoring implements RenameRefactoring
          }
       } catch (CoreException e)
       {
-         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during RenamePackage Refactoring", e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem during RenamePackage Refactoring", e);
       }
       return Status.OK_STATUS;
    }
@@ -74,7 +74,7 @@ public class RenamePackageRefactoring implements RenameRefactoring
             }
          }
          if (!hasElement)
-        	 return new Status(IStatus.CANCEL, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "No EPackage for refactoring found");
+        	 return new Status(IStatus.CANCEL, WorkspaceHelper.getPluginId(getClass()), "No EPackage for refactoring found");
         
          RefactoringStatus status = new RefactoringStatus();
          Refactoring refactoring = descriptor.createRefactoring(status);
@@ -91,7 +91,7 @@ public class RenamePackageRefactoring implements RenameRefactoring
                     
       } catch (Exception e)
       {
-         return new Status(IStatus.ERROR, MetamodelCoevolutionPlugin.getDefault().getPluginId(), "Problem during refactoring", e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem during refactoring", e);
       }
       return Status.OK_STATUS;     
    }

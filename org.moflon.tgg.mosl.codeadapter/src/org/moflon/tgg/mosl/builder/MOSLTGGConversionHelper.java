@@ -38,6 +38,7 @@ import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.language.TripleGraphGrammar;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
@@ -91,7 +92,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
             options.put(XMLResource.OPTION_URI_HANDLER, new MyURIHandler());
 
             // Invoke TGG forward transformation to produce TGG model
-            String pathToThisPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", MOSLTGGPlugin.getDefault().getPluginId()).getFile();
+            String pathToThisPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
 
             CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin);
             helper.getResourceSet().getResources().add(xtextParsedTGG.eResource());
@@ -221,7 +222,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
                ResourceSet resourceSet = eMoflonEMFUtil.createDefaultResourceSet();
                TGGProject tggProject = createTGGProject(tggFile, resourceSet);
 
-               String pathToThisPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", MOSLTGGPlugin.getDefault().getPluginId()).getFile();
+               String pathToThisPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
                CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin, resourceSet);
 
                helper.setTrg(tggProject);
