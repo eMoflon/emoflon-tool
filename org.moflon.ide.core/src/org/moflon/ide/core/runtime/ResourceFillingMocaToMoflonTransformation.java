@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -53,7 +54,7 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 		final MoflonProjectCreator moflonProjectCreator =
 				new MoflonProjectCreator(project, properties);
 		try {
-			WorkspaceTask.execute(moflonProjectCreator, false);
+			WorkspaceTask.executeInCurrentThread(moflonProjectCreator, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
 		} catch (CoreException e) {
 			reportError(e);
 		}
@@ -74,7 +75,7 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 		final OpenProjectHandler openProjectHandler =
 				new OpenProjectHandler(project, properties, moflonProps);
 		try {
-			WorkspaceTask.execute(openProjectHandler, false);
+			WorkspaceTask.executeInCurrentThread(openProjectHandler, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
 		} catch (final CoreException e) {
 			reportError(e);
 		}
