@@ -109,13 +109,6 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
          {
             deleteProblemMarkers();
             
-            //TODO@rkluge: TODO@rkluge: Disabled migration routine for Git - remove in the future.
-            /*
-            IFile gitignore = getProject().getFile(WorkspaceHelper.GITIGNORE_FILENAME);
-            if (gitignore.exists())
-               gitignore.delete(true, new NullProgressMonitor());
-            */
-            
             MoflonProjectCreator.addGitignoreFileForMetamodelProject(getProject(), subMon.newChild(1));
 
             final URI workspaceURI = URI.createPlatformResourceURI("/", true);
