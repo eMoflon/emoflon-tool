@@ -141,3 +141,6 @@
 ---
 2016-09-13 Democles pluginization complete (integration of Democles via Eclipse plugins, no more fat jar)
 2016-09-14 eMoflon 2.18.0 released
+---
+
+2016-??-?? eMoflon 2.18.0 released
