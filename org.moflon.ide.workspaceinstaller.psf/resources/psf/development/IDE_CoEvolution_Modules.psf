@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
-<provider id="org.tigris.subversion.subclipse.core.svnnature">
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.metamodelevolution.core,org.moflon.ide.metamodelevolution.core"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.metamodelevolution.feature,org.moflon.ide.metamodelevolution.feature"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.metamodelevolution.specification,org.moflon.ide.metamodelevolution.specification"/>
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.metamodelevolution.core"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.metamodelevolution.feature"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.metamodelevolution.specification"/>
 </provider>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1450098480007_13" label="eMoflon IDE Co-Evolution" name="eMoflon IDE Co-Evolution">
 <item elementID="=org.moflon.ide.metamodelevolution.core" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
 
-<provider id="org.tigris.subversion.subclipse.core.svnnature">
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.cspcodeadapter,org.moflon.tgg.cspcodeadapter"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.language,org.moflon.tgg.language"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.runtime,org.moflon.tgg.runtime"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.specification,org.moflon.tgg.specification"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.tgg.tggproject,org.moflon.tgg.tggproject"/>
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.cspcodeadapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.language"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.runtime"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.specification"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.tggproject"/>
 </provider>
 
 

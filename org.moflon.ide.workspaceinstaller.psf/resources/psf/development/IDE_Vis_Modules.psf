@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
-<provider id="org.tigris.subversion.subclipse.core.svnnature">
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.abstractsyntaxviewer,org.moflon.ide.visualization.abstractsyntaxviewer"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.language,org.moflon.ide.visualization.dot.language"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.sdm,org.moflon.ide.visualization.dot.sdm"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.sdmpatterns,org.moflon.ide.visualization.dot.sdmpatterns"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg,org.moflon.ide.visualization.dot.tgg"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.schema,org.moflon.ide.visualization.dot.tgg.schema"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.delta,org.moflon.ide.visualization.dot.tgg.delta"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.ecore.epackageviz,org.moflon.ide.visualization.dot.ecore.epackageviz"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.runtime,org.moflon.ide.visualization.dot.tgg.runtime"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.dot.tgg.runtimepatterns,org.moflon.ide.visualization.dot.tgg.runtimepatterns"/>
-<project reference="0.9.3,https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.ide.visualization.feature,org.moflon.ide.visualization.feature"/>
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.abstractsyntaxviewer"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.language"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.sdm"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.sdmpatterns"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.schema"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.delta"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.ecore.epackageviz"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.runtime"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.runtimepatterns"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.feature"/>
 </provider>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1450098542341_15" label="eMoflon IDE Visualization" name="eMoflon IDE Visualization">
 <item elementID="=org.moflon.ide.visualization.dot.sdmpatterns" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
