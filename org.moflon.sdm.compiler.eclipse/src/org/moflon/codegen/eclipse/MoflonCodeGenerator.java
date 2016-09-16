@@ -63,9 +63,18 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    {
       try
       {
-         SubMonitor subMon = SubMonitor.convert(monitor, "Code generation task", 100);
          final MoflonPropertiesContainer moflonProperties = getMoflonProperties();
-         logger.info("Generating code for: " + moflonProperties.getMetaModelProject().getMetaModelProjectName() + "::" + moflonProperties.getProjectName());
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Code generation task for " + moflonProperties.getProjectName(), 100);
+         final String metaModelProjectName = moflonProperties.getMetaModelProject().getMetaModelProjectName();
+         final String fullProjectName;
+         if ("NO_META_MODEL_PROJECT_NAME_SET_YET".equals(metaModelProjectName))
+         {
+            fullProjectName = moflonProperties.getProjectName();
+         }
+         else {
+            fullProjectName = metaModelProjectName + "::" + moflonProperties.getProjectName();
+         }
+         logger.info("Generating code for: " + fullProjectName);
 
          long toc = System.nanoTime();
 
