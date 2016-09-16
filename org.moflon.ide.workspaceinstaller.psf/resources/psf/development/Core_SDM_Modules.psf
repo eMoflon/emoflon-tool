@@ -10,6 +10,7 @@
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.ecoreutils"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.injection"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.languages.specification"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.moca.inject"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.moca.processing"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.mocatomoflon"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.utilities"/>
@@ -45,7 +46,9 @@
 <item elementID="=org.moflon.sdm.democles.literalexpressionsolver" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.core.dfs" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.dfs" type="4"/>
+<item elementID="=org.moflon.core.moca.inject" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.core.moca.processing" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.moca.inject" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.moca.processing" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.languages.specification" type="4"/>
 <item elementID="=org.moflon.core.injection" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
@@ -61,8 +64,8 @@
 <item elementID="=org.moflon.sdm.runtime.democles" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.runtime.democles.specification" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.runtime.democles" type="4"/>
-<item elementID="=MoflonPropertyContainer" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/MoflonPropertyContainer" type="4"/>
+<item elementID="=org.moflon.core.propertycontainer" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.propertycontainer" type="4"/>
 <item elementID="=org.moflon.sdm.compiler.democles.validation.result" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.core.utilities" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.compiler.democles.validation.result" type="4"/>
@@ -87,11 +90,12 @@
 <item elementID="=MocaTree" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/MocaTree" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.backend.specification" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/MoflonPropertyContainer" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.propertycontainer" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.mocatomoflon" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.ecore2mocaxmi" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/MocaTree" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/SDMLanguage" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.moca.inject" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.moca.processing" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.compiler.democles.validation.result" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.dfs" type="4"/>
