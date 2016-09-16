@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import org.moflon.core.utilities.LogUtils;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator;
 import org.moflon.sdm.constraints.operationspecification.OperationspecificationPackage;
 import org.apache.log4j.Logger;
@@ -53,7 +54,7 @@ partial class AttributeConstraintLibUtilImpl {
    {
 
       return URI.createPlatformPluginURI(
-            "/" + AttributeConstraintsOperationActivator.getBundleId() + "/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi", true);
+            "/" + WorkspaceHelper.getPluginId(getClass()) + "/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi", true);
    }
 
    private URI getURIOfUserDefinedLibrary()
