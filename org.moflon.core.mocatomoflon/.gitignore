@@ -4,3 +4,7 @@
 /model/*.genmodel
 /model/*.xmi
 !/**/.keep*
+/**/*Lexer.java
+/**/*Lexer.tokens
+/**/*Parser.java
+/**/*Parser.tokens

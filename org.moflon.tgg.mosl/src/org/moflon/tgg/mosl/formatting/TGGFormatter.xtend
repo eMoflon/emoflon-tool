@@ -19,7 +19,7 @@ import org.moflon.tgg.mosl.services.TGGGrammarAccess
  */
 class TGGFormatter extends AbstractDeclarativeFormatter {
 
-	@Inject extension TGGGrammarAccess 
+	@Inject extension TGGGrammarAccess
 
 	override protected void configureFormatting(FormattingConfig c) {
 		c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)
