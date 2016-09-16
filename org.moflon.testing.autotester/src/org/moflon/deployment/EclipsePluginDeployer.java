@@ -297,6 +297,6 @@ public class EclipsePluginDeployer
    {
       return file.getName().equals(".project") || file.getName().equals(".svn") || file.getName().equals("site.xml")
             || file.getName().equals("associateSites.xml") || file.getName().equals("index.html") || file.getName().equals("moflon.target")
-            || file.getName().equals("ea-ecore-addin.zip") || file.getName().equals("changelog.txt");
+            || file.getName().equals("ea-ecore-addin.zip") || file.getName().equals("changelog.txt") || file.getName().equals(".gitignore");
    }
 }
