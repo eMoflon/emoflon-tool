@@ -13,6 +13,7 @@ import org.antlr.stringtemplate.language.AngleBracketTemplateLexer;
 import org.moflon.TGGLanguageActivator;
 import org.moflon.tgg.language.csp.Adornment;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.csp.codegenerator.BasicFormatRenderer;
 import SDMLanguage.patterns.BindingOperator;
 import SDMLanguage.patterns.BindingSemantics;
@@ -257,7 +258,7 @@ partial class CspCodeGeneratorImpl {
    {
       try
       {
-         URL templateURL = MoflonUtilitiesActivator.getPathRelToPlugIn("/templates/Csp.stg", TGGLanguageActivator.getDefault().getPluginId());
+         URL templateURL = MoflonUtilitiesActivator.getPathRelToPlugIn("/templates/Csp.stg", WorkspaceHelper.getPluginId(getClass()));
          BufferedReader reader = new BufferedReader(new InputStreamReader(templateURL.openStream()));
          stg = new StringTemplateGroup(reader, AngleBracketTemplateLexer.class);
       } catch (IOException e)
@@ -287,12 +288,10 @@ partial class CspCodeGeneratorImpl {
 -->
 
 @model getSolveCSPCode () <--
-
       return result.toString();
 -->
 
 @model performCodeGen (ApplicationTypes direction, OperationalCSPType operationalRule) <--
-
       OperationalCSP csp = getCspCodeGeneratorHelper().getOperationalCSP(direction, operationalRule);
       result = new StringBuilder();
       // always create csp object because the method must not return null
@@ -321,7 +320,6 @@ partial class CspCodeGeneratorImpl {
 -->
 
 @model getCheckCode (ApplicationTypes direction, OperationalCSPType operationalRule) <--
-
       // return empty string, if there is no CSP in this rule.
       if (getCspCodeGeneratorHelper().getOperationalCSP(direction, operationalRule) == null)
       {
@@ -333,7 +331,6 @@ partial class CspCodeGeneratorImpl {
 -->
 
 @model computeUsedAdornments (ApplicationTypes direction, CSP csp) <--
-
       if (direction == ApplicationTypes.SIMULTANEOUS)
       {
          for (TGGConstraint constraint : csp.getConstraints())
