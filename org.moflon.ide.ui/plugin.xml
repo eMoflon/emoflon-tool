@@ -1225,7 +1225,7 @@
       <cleanUpConfigurationUI
             class="org.moflon.ide.ui.saveaction.CreateInjectionsConfigurationUI"
             cleanUpKind="saveAction"
-            name="eMoflon Injections">
+            name="%cleanup.createInjectionName">
       </cleanUpConfigurationUI>
    </extension>
    <extension

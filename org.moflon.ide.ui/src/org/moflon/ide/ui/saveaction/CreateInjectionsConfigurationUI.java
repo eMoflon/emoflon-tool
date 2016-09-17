@@ -132,13 +132,15 @@ public class CreateInjectionsConfigurationUI implements ICleanUpConfigurationUI
    @Override
    public int getCleanUpCount()
    {
-      return 0;
+      return 1;
    }
 
    @Override
    public int getSelectedCleanUpCount()
    {
-      return 0;
+      int count = 0;
+      count += CleanUpOptions.TRUE.equals(options.getValue(CreateInjectionsSaveAction.KEY_CREATE_INJECTIONS)) ? 1 : 0;
+      return count;
    }
 
    @Override
