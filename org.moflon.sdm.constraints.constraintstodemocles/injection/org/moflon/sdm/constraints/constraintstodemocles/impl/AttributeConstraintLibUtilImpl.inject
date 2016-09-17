@@ -54,7 +54,7 @@ partial class AttributeConstraintLibUtilImpl {
    {
 
       return URI.createPlatformPluginURI(
-            "/" + WorkspaceHelper.getPluginId(getClass()) + "/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi", true);
+            "/" + WorkspaceHelper.getPluginId(AttributeConstraintsOperationActivator.class) + "/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi", true);
    }
 
    private URI getURIOfUserDefinedLibrary()
