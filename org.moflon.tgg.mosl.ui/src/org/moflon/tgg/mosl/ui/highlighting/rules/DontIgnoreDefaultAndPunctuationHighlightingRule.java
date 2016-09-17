@@ -3,8 +3,6 @@ package org.moflon.tgg.mosl.ui.highlighting.rules;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.nodemodel.INode;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfigurationAcceptor;
-import org.eclipse.xtext.ui.editor.utils.TextStyle;
 import org.moflon.tgg.mosl.ui.highlighting.MOSLHighlightingConfiguration;
 import org.moflon.tgg.mosl.ui.highlighting.MOSLTokenMapper;
 
