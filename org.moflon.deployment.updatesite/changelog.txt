@@ -218,6 +218,10 @@
 2016-09-16 Migrate eMoflon to GitHub (https://github.com/eMoflon/emoflon-tool/)
 2016-09-17 eMoflon 2.19.0 released
 	Developer Notes:
+	* Build data:
+		* eMoflon 2.18.0 (https://emoflon.github.io/eclipse-plugin/emoflon_2.18.0/update-site2/)
+		* Eclipse Neon (4.6.0) 
+		* Tag: https://github.com/eMoflon/emoflon-tool/releases/tag/emoflon_2.19.0
 	* Performed a lot of cleanup 
 		- Mainly pure refactoring to avoid using deprecated methods.
 		- Get rid of EMoflonPlugin (emoflon/emoflon#775)
