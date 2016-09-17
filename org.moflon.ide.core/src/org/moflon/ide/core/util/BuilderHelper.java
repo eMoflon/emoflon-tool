@@ -24,6 +24,8 @@ import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.codegeneration.IntegrationCodeGenerator;
 import org.moflon.ide.core.runtime.codegeneration.RepositoryCodeGenerator;
 
+//TODO@rkluge: Remove in future releases
+@Deprecated
 public class BuilderHelper
 {
    private static final Logger logger = Logger.getLogger(BuilderHelper.class);
