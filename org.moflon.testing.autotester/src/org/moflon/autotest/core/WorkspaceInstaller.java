@@ -89,25 +89,26 @@ public class WorkspaceInstaller
 
    private static String mapToAbsolutePath(final String pluginRelativePathToPSF)
    {
-      final IProject workspaceProject = WorkspaceHelper.getProjectByPluginId(getPluginId());
+      final String pluginIdOfPsfFilesProject = getPluginIdOfPsfFilesProject();
+      final IProject workspaceProject = WorkspaceHelper.getProjectByPluginId(pluginIdOfPsfFilesProject);
       if (workspaceProject != null)
       {
-         logger.debug("Using PSF files from workspace project with plugin ID " + getPluginId() + ".");
+         logger.debug("Using PSF files from workspace project with plugin ID " + pluginIdOfPsfFilesProject + ".");
          final File fullPath = new File(workspaceProject.getLocation().toOSString(), pluginRelativePathToPSF);
          return fullPath.getAbsolutePath();
       } else
       {
-         logger.debug("Using PSF files in installed plugin " + getPluginId() + ".");
-         final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(pluginRelativePathToPSF, getPluginId());
+         logger.debug("Using PSF files in installed plugin " + pluginIdOfPsfFilesProject + ".");
+         final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(pluginRelativePathToPSF, pluginIdOfPsfFilesProject);
          logger.debug("Retrieved URL: " + fullPathURL);
          final String absolutePathToPSF = new File(fullPathURL.getPath()).getAbsolutePath();
          return absolutePathToPSF;
       }
    }
 
-   private static String getPluginId()
+   private static String getPluginIdOfPsfFilesProject()
    {
-      return WorkspaceHelper.getPluginId(WorkspaceInstaller.class);
+      return WorkspaceHelper.getPluginId(EMoflonStandardWorkspaces.class);
    }
 
    public void installPsfFiles(final List<File> psfFiles, final String label)
