@@ -43,8 +43,6 @@ public class CoreActivator extends Plugin
 {
    private static final Logger logger = Logger.getLogger(CoreActivator.class);
 
-   // The plug-in ID
-
    // Nature and builder IDs
    /**
     * @deprecated Use JavaCore.NATURE_ID directly (since eMoflon 2.2.1)
@@ -58,7 +56,7 @@ public class CoreActivator extends Plugin
     * @deprecated Use {@link WorkspaceHelper#METAMODEL_NATURE_ID} directly
     */
    @Deprecated
-   public static final String METAMODEL_NATURE_ID = "org.moflon.ide.core.runtime.natures.MetamodelNature";
+   public static final String METAMODEL_NATURE_ID = WorkspaceHelper.METAMODEL_NATURE_ID;
 
    public static final String METAMODEL_BUILDER_ID = "org.moflon.ide.core.runtime.builders.MetamodelBuilder";
 
