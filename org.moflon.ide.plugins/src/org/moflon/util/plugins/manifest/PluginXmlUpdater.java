@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -23,7 +24,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.util.plugins.xml.XMLUtils;
@@ -89,12 +89,13 @@ public class PluginXmlUpdater extends WorkspaceTask
    public static final void updatePluginXml(final IProject currentProject, final GenModel genModel, final IProgressMonitor monitor) throws CoreException
    {
       final PluginXmlUpdater pluginXmlUpdater = new PluginXmlUpdater(currentProject, genModel);
-      WorkspaceTask.execute(pluginXmlUpdater, false);
+      WorkspaceTask.executeInCurrentThread(pluginXmlUpdater, IWorkspace.AVOID_UPDATE, monitor);
    }
 
    /**
     * Updates plugin.xml from the information in the given project and the given genmodel.
     */
+   @Override
    public void run(final IProgressMonitor monitor) throws CoreException
    {
       try

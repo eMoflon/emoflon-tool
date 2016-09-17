@@ -13,9 +13,11 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -42,9 +44,10 @@ public class ExportedPackagesInManifestUpdater extends WorkspaceTask
    public static final void updateExportedPackageInManifest(final IProject project, final GenModel genModel) throws CoreException {
 	   final ExportedPackagesInManifestUpdater manifestUpdater =
 			   new ExportedPackagesInManifestUpdater(project, genModel);
-	   WorkspaceTask.execute(manifestUpdater, false);
+	   WorkspaceTask.executeInCurrentThread(manifestUpdater, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
    }
    
+   @Override
    public void run(final IProgressMonitor monitor) throws CoreException
    {
       try

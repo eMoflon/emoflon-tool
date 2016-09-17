@@ -7,10 +7,12 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubMonitor;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
@@ -41,7 +43,7 @@ public class NewIntegrationWizard extends NewRepositoryWizard
    {
       metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.INTEGRATION_KEY);
       MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties);
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating project", 1);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating project", 2);
       ResourcesPlugin.getWorkspace().run(createMoflonProject, subMon.newChild(1));
 
       final ProjectNatureAndBuilderConfiguratorTask natureAndBuilderConfiguratorTask =
@@ -50,7 +52,7 @@ public class NewIntegrationWizard extends NewRepositoryWizard
     		  new MOSLTGGNature();
       natureAndBuilderConfiguratorTask.updateNatureIDs(natureAndBuilderConfigurator, true);
       natureAndBuilderConfiguratorTask.updateBuildSpecs(natureAndBuilderConfigurator, true);
-      WorkspaceTask.execute(natureAndBuilderConfiguratorTask, false);
+      WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.newChild(1));
    }
 
    @Override

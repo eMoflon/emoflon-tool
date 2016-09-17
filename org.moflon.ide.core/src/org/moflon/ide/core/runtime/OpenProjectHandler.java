@@ -9,6 +9,7 @@ import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
@@ -76,7 +77,7 @@ public class OpenProjectHandler extends WorkspaceTask
    @Override
    public void run(final IProgressMonitor monitor) throws CoreException
    {
-      SubMonitor subMon = SubMonitor.convert(monitor, "Configure open project", 4);
+      SubMonitor subMon = SubMonitor.convert(monitor, "Configure open project", 5);
       
       final JavaProjectConfigurator javaProjectConfigurator = new JavaProjectConfigurator();
       final MoflonProjectConfigurator moflonProjectConfigurator = new MoflonProjectConfigurator(
@@ -90,7 +91,7 @@ public class OpenProjectHandler extends WorkspaceTask
       natureAndBuilderConfiguratorTask.updateBuildSpecs(moflonProjectConfigurator, true);
       natureAndBuilderConfiguratorTask.updateNatureIDs(pluginProjectConfigurator, true);
       natureAndBuilderConfiguratorTask.updateBuildSpecs(pluginProjectConfigurator, true);
-      WorkspaceTask.execute(natureAndBuilderConfiguratorTask, false);
+      WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.newChild(1));
       // Last line to be removed
 
       subMon.worked(1);

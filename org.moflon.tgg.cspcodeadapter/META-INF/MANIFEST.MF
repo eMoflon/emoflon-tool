@@ -5,7 +5,7 @@ Export-Package: org.moflon,
  org.moflon.tgg.cspcodeadapter.util,
  org.moflon.tgg.cspcodeadapter.impl
 Bundle-Name: org.moflon.tgg.cspcodeadapter
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.0.1.qualifier
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0",
  org.moflon.core.utilities,
  org.eclipse.emf.codegen.ecore;bundle-version="2.9.1",

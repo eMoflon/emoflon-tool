@@ -6,7 +6,9 @@ import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.JavaCore;
 import org.gervarro.eclipse.workspace.autosetup.JavaProjectConfigurator;
 import org.gervarro.eclipse.workspace.autosetup.PluginProjectConfigurator;
@@ -27,14 +29,15 @@ public class NatureMigrator extends ProjectStateObserver implements ProjectConfi
 	private static final String XTEXT_BUILDER_ID = "org.eclipse.xtext.ui.shared.xtextBuilder";
 
 	
-	protected void handleResourceChange(final IResource resource, final boolean added) {
+	@Override
+   protected void handleResourceChange(final IResource resource, final boolean added) {
 		if (added && resource.getType() == IResource.PROJECT) {
 			try {
 				final ProjectNatureAndBuilderConfiguratorTask task =
 						new ProjectNatureAndBuilderConfiguratorTask((IProject) resource, false);
 				task.updateNatureIDs(this, added);
 				task.updateBuildSpecs(this, added);
-				WorkspaceTask.execute(task, false);
+				WorkspaceTask.executeInCurrentThread(task, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
 			} catch (CoreException e) {
 				// Do nothing
 			}

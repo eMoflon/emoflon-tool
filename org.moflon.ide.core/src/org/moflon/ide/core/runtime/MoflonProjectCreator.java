@@ -58,7 +58,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
       if (!project.exists())
       {
          final String projectName = metamodelProperties.getProjectName();
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Creating project " + projectName, 12);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Creating project " + projectName, 13);
 
          // (1) Create project
          final IProjectDescription description = ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
@@ -77,7 +77,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
          natureAndBuilderConfiguratorTask.updateBuildSpecs(moflonProjectConfigurator, true);
          natureAndBuilderConfiguratorTask.updateNatureIDs(pluginProjectConfigurator, true);
          natureAndBuilderConfiguratorTask.updateBuildSpecs(pluginProjectConfigurator, true);
-         WorkspaceTask.execute(natureAndBuilderConfiguratorTask, false);
+         WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.newChild(1));
 
          // (3) Create folders and files in project
          createFoldersIfNecessary(project, subMon.newChild(4));

@@ -4,7 +4,9 @@ import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.gervarro.eclipse.workspace.autosetup.ProjectConfigurator;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.ide.core.runtime.ProjectNatureAndBuilderConfiguratorTask;
@@ -28,7 +30,7 @@ abstract public class ProjectConfiguratorNature implements IProjectNature, Proje
 		final ProjectNatureAndBuilderConfiguratorTask configuratorTask =
 				new ProjectNatureAndBuilderConfiguratorTask(project, false);
 		configuratorTask.updateBuildSpecs(this, true);
-		WorkspaceTask.execute(configuratorTask, false);
+		WorkspaceTask.executeInCurrentThread(configuratorTask, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
 	}
 
 	@Override
@@ -36,7 +38,7 @@ abstract public class ProjectConfiguratorNature implements IProjectNature, Proje
 		final ProjectNatureAndBuilderConfiguratorTask configuratorTask =
 				new ProjectNatureAndBuilderConfiguratorTask(project, false);
 		configuratorTask.updateBuildSpecs(this, false);
-		WorkspaceTask.execute(configuratorTask, false);
+		WorkspaceTask.executeInCurrentThread(configuratorTask, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
 	}
 
 	@Override

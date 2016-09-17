@@ -3,8 +3,10 @@ package org.moflon.tgg.mosl.builder;
 import java.util.Iterator;
 import org.eclipse.core.commands.*;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -33,7 +35,7 @@ public class AddRemoveMOSLTGGNatureHandler extends AbstractHandler {
 						final MOSLTGGNature moslTGGProjectConfigurator = new MOSLTGGNature();
 						projectConfiguratorTask.updateNatureIDs(moslTGGProjectConfigurator, !hasNature);
 						projectConfiguratorTask.updateBuildSpecs(moslTGGProjectConfigurator, !hasNature);
-						WorkspaceTask.execute(projectConfiguratorTask, false);
+						WorkspaceTask.executeInCurrentThread(projectConfiguratorTask, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
 					} catch (CoreException e) {
 						throw new ExecutionException("Failed to toggle nature", e);
 					}

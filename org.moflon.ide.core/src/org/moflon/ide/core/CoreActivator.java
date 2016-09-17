@@ -11,11 +11,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
@@ -86,13 +88,13 @@ public class CoreActivator extends Plugin
       super.start(context);
 
       natureMigrator = new NatureMigrator();
-      WorkspaceTask.execute(new WorkspaceObservationLifecycleManager(ResourcesPlugin.getWorkspace(), natureMigrator, true), false);
+      WorkspaceTask.executeInCurrentThread(new WorkspaceObservationLifecycleManager(ResourcesPlugin.getWorkspace(), natureMigrator, true), IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
    }
 
    @Override
    public void stop(final BundleContext context) throws Exception
    {
-      WorkspaceTask.execute(new WorkspaceObservationLifecycleManager(ResourcesPlugin.getWorkspace(), natureMigrator, false), false);
+      WorkspaceTask.executeInCurrentThread(new WorkspaceObservationLifecycleManager(ResourcesPlugin.getWorkspace(), natureMigrator, false), IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
       super.stop(context);
    }
 

@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -141,7 +142,7 @@ public class WorkspaceInstaller
                      final ProjectNatureAndBuilderConfiguratorTask task = new ProjectNatureAndBuilderConfiguratorTask(project, false);
                      task.updateNatureIDs(natureMigrator, true);
                      task.updateBuildSpecs(natureMigrator, true);
-                     WorkspaceTask.execute(task, false);
+                     WorkspaceTask.executeInCurrentThread(task, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
                   } catch (final CoreException e)
                   {
                      LogUtils.error(logger, e);
