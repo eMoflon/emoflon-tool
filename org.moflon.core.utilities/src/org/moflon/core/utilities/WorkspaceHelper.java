@@ -129,7 +129,7 @@ public class WorkspaceHelper
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
 
    public static final String KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT = ".keep";
-   
+
    public static final String GITIGNORE_FILENAME = ".gitignore";
 
    /**
@@ -233,12 +233,12 @@ public class WorkspaceHelper
     */
    public static IFolder addFolder(final IProject project, final String folderName, final IProgressMonitor monitor) throws CoreException
    {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
 
-         IFolder projFolder = project.getFolder(folderName);
-         if (!projFolder.exists())
-            projFolder.create(true, true, subMon.newChild(1));
-         return projFolder;
+      final IFolder projFolder = project.getFolder(folderName);
+      if (!projFolder.exists())
+         projFolder.create(true, true, subMon.newChild(1));
+      return projFolder;
    }
 
    /**
@@ -261,21 +261,21 @@ public class WorkspaceHelper
    public static void addFile(final IProject project, final String fileName, final URL pathToContent, final String pluginID, final IProgressMonitor monitor)
          throws CoreException, URISyntaxException, IOException
    {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
 
-         IFile projectFile = project.getFile(fileName);
-         InputStream contents = pathToContent.openStream();
-         projectFile.create(contents, true, subMon.newChild(1));
+      IFile projectFile = project.getFile(fileName);
+      InputStream contents = pathToContent.openStream();
+      projectFile.create(contents, true, subMon.newChild(1));
    }
 
    public static void clearFolder(final IProject project, final String folder, final IProgressMonitor monitor)
          throws CoreException, URISyntaxException, IOException
    {
-         IFolder folderInProject = project.getFolder(folder);
-         final SubMonitor subMon = SubMonitor.convert(monitor, "", folderInProject.members().length);
+      IFolder folderInProject = project.getFolder(folder);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "", folderInProject.members().length);
 
-         for (IResource member : folderInProject.members())
-            member.delete(true, subMon.newChild(1));
+      for (IResource member : folderInProject.members())
+         member.delete(true, subMon.newChild(1));
    }
 
    /**
@@ -293,10 +293,10 @@ public class WorkspaceHelper
     */
    public static void addFile(final IProject project, final String fileName, final String contents, final IProgressMonitor monitor) throws CoreException
    {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
-         IFile projectFile = project.getFile(fileName);
-         ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
-         projectFile.create(source, true, subMon.newChild(1));
+      final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
+      IFile projectFile = project.getFile(fileName);
+      ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
+      projectFile.create(source, true, subMon.newChild(1));
    }
 
    /**
@@ -317,25 +317,25 @@ public class WorkspaceHelper
    public static void setAsSourceFolderInBuildpath(final IJavaProject javaProject, final IFolder[] folderNames, final IClasspathAttribute[] extraAttributes,
          final IProgressMonitor monitor) throws JavaModelException
    {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "", 2);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "", 2);
 
-         Collection<IClasspathEntry> entries = getClasspathEntries(javaProject);
+      Collection<IClasspathEntry> entries = getClasspathEntries(javaProject);
 
-         // Add new entries for the classpath
-         if (folderNames != null)
+      // Add new entries for the classpath
+      if (folderNames != null)
+      {
+         for (IFolder folder : folderNames)
          {
-            for (IFolder folder : folderNames)
+            if (folder != null)
             {
-               if (folder != null)
-               {
-                  IClasspathEntry prjEntry = JavaCore.newSourceEntry(folder.getFullPath(), null, null, null, extraAttributes);
-                  entries.add(prjEntry);
-               }
+               IClasspathEntry prjEntry = JavaCore.newSourceEntry(folder.getFullPath(), null, null, null, extraAttributes);
+               entries.add(prjEntry);
             }
          }
-         subMon.worked(1);
+      }
+      subMon.worked(1);
 
-         setBuildPath(javaProject, entries, subMon.newChild(1));
+      setBuildPath(javaProject, entries, subMon.newChild(1));
    }
 
    /**
@@ -352,21 +352,21 @@ public class WorkspaceHelper
    public static IProjectDescription getDescriptionWithAddedNature(final IProject project, final String natureId, final IProgressMonitor monitor)
          throws CoreException
    {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Create description with added natures", 1);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Create description with added natures", 1);
 
-         IProjectDescription description = project.getDescription();
+      IProjectDescription description = project.getDescription();
 
-         List<String> natures = new ArrayList<>(Arrays.asList(description.getNatureIds()));
+      List<String> natures = new ArrayList<>(Arrays.asList(description.getNatureIds()));
 
-         if (!natures.contains(natureId))
-         {
-            natures.add(natureId);
-            description.setNatureIds(natures.toArray(new String[natures.size()]));
-         }
+      if (!natures.contains(natureId))
+      {
+         natures.add(natureId);
+         description.setNatureIds(natures.toArray(new String[natures.size()]));
+      }
 
-         subMon.worked(1);
+      subMon.worked(1);
 
-         return description;
+      return description;
    }
 
    /**
@@ -383,10 +383,10 @@ public class WorkspaceHelper
     */
    public static void addNature(final IProject project, final String natureId, final IProgressMonitor monitor) throws CoreException
    {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Add nature to project", 2);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Add nature to project", 2);
 
-         IProjectDescription description = getDescriptionWithAddedNature(project, natureId, subMon.newChild(1));
-         project.setDescription(description, subMon.newChild(1));
+      IProjectDescription description = getDescriptionWithAddedNature(project, natureId, subMon.newChild(1));
+      project.setDescription(description, subMon.newChild(1));
    }
 
    /**
@@ -400,27 +400,27 @@ public class WorkspaceHelper
     */
    public static IJavaProject setUpAsJavaProject(final IProject project, final IProgressMonitor monitor)
    {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Set up Java project", 1);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Set up Java project", 1);
 
-         final JavaCapabilityConfigurationPage jcpage = new JavaCapabilityConfigurationPage();
-         final IJavaProject javaProject = JavaCore.create(project);
+      final JavaCapabilityConfigurationPage jcpage = new JavaCapabilityConfigurationPage();
+      final IJavaProject javaProject = JavaCore.create(project);
 
-         PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-            @Override
-            public void run()
+      PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+         @Override
+         public void run()
+         {
+            jcpage.init(javaProject, null, null, true);
+            try
             {
-               jcpage.init(javaProject, null, null, true);
-               try
-               {
-                  jcpage.configureJavaProject(subMon.newChild(1));
-               } catch (final Exception e)
-               {
-                  logger.error("Exception during setup of Java project", e);
-               }
+               jcpage.configureJavaProject(subMon.newChild(1));
+            } catch (final Exception e)
+            {
+               logger.error("Exception during setup of Java project", e);
             }
-         });
+         }
+      });
 
-         return javaProject;
+      return javaProject;
    }
 
    /**
@@ -508,13 +508,13 @@ public class WorkspaceHelper
    private static void setBuildPath(final IJavaProject javaProject, final Collection<IClasspathEntry> entries, final IProgressMonitor monitor)
          throws JavaModelException
    {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Set build path", 1);
-         // Create new buildpath
-         IClasspathEntry[] newEntries = new IClasspathEntry[entries.size()];
-         entries.toArray(newEntries);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Set build path", 1);
+      // Create new buildpath
+      IClasspathEntry[] newEntries = new IClasspathEntry[entries.size()];
+      entries.toArray(newEntries);
 
-         // Set new classpath with added entries
-         javaProject.setRawClasspath(newEntries, subMon.newChild(1));
+      // Set new classpath with added entries
+      javaProject.setRawClasspath(newEntries, subMon.newChild(1));
    }
 
    private static void setBuildPath(final IJavaProject javaProject, final Collection<IClasspathEntry> entries) throws JavaModelException
@@ -533,18 +533,20 @@ public class WorkspaceHelper
     */
    public static void addAllFolders(final IProject project, final String path, final IProgressMonitor monitor) throws CoreException
    {
-      String[] folders = path.split(PATH_SEPARATOR);
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Add folders", folders.length);
-         StringBuilder currentFolder = new StringBuilder();
-         for (String folder : folders)
-         {
-            currentFolder.append(PATH_SEPARATOR).append(folder);
-            addFolder(project, currentFolder.toString(), subMon.newChild(1));
-         }
+      final String[] folders = path.split(PATH_SEPARATOR);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Add folders", folders.length);
+      StringBuilder currentFolder = new StringBuilder();
+      for (String folder : folders)
+      {
+         currentFolder.append(PATH_SEPARATOR).append(folder);
+         addFolder(project, currentFolder.toString(), subMon.newChild(1));
+      }
    }
 
    /**
-    * Creates the given file and stores the given contents in it.
+    * Creates the given file (if not exists) and stores the given contents in it.
+    * 
+    * If the file exists, its content is replaced with the given content.
     * 
     * @param file
     * @param contents
@@ -554,9 +556,15 @@ public class WorkspaceHelper
     */
    private static void addFile(final IFile file, final String contents, final IProgressMonitor monitor) throws CoreException
    {
-      SubMonitor subMon = SubMonitor.convert(monitor, "Add file", 1);
-      ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
-      file.create(source, true, subMon.newChild(1));
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Add file", 1);
+      final ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
+      if (file.exists())
+      {
+         file.setContents(source, IFile.FORCE | IFile.KEEP_HISTORY, subMon.newChild(1));
+      } else
+      {
+         file.create(source, true, subMon.newChild(1));
+      }
    }
 
    /**
@@ -575,14 +583,11 @@ public class WorkspaceHelper
    public static void addAllFoldersAndFile(final IProject project, final IPath pathToFile, final String fileContent, final IProgressMonitor monitor)
          throws CoreException
    {
-      SubMonitor subMon = SubMonitor.convert(monitor, "Adding file " + pathToFile + " to project " + project, 2);
-      // Remove file segment
-      IPath folders = pathToFile.removeLastSegments(1);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Adding file " + pathToFile + " to project " + project, 2);
+      final IPath pathWithoutFileSegment = pathToFile.removeLastSegments(1);
 
-      // Create all necessary folders
-      addAllFolders(project, folders.toString(), subMon.newChild(1));
+      addAllFolders(project, pathWithoutFileSegment.toString(), subMon.newChild(1));
 
-      // Create file
       addFile(project.getFile(pathToFile), fileContent, subMon.newChild(1));
    }
 
