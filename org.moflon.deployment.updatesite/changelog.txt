@@ -54,10 +54,18 @@
 2015-10-17	Remove Codegen2: from MoflonPropertyContainer, from developerWorkspace.psf,...
 2015-10-17	When loading moflon.properties.xmi, all obsolete elements are now automatically removed.
 2015-10-18	eMoflon 2.3.0 released
+	User Notes:
+	* New features:
+ 		- We no longer support CodeGen2 as code generator. The respective feature has been removed from the update site. Please uninstall eMoflon CodeGen2 before updating (https://github.com/eMoflon/emoflon/issues/597)
+ 		- We have cleaned up the moflon.properties.xmi files (https://github.com/eMoflon/emoflon/issues/449).
+
 ---
 2015-10-23	Add project org.moflon.core.injection
 2015-10-26	Issue #574: NPEs during TGG build.
 2015-10-26	eMoflon 2.4.0 released
+	User Notes:
+ 	* Issue 574, which caused regular NPEs during TGG builds, is fixed now.
+	
 ---
 2015-10-30	Meta-model-Model Co-Evolution is available as a separate feature
 2015-10-30  Issue #603: Allow to ignore StoryNodes in SDMs using the tagged value "Moflon::Ignored"
@@ -68,20 +76,41 @@
 ---
 2015-11-24	Rename projects: org.moflon.doc.{WorkspaceConfiguration -> workspace.configuration}, org.moflon.sdm.compiler.democles.{ValidationResult -> validation.result}, AttributeConstraintScopeValidation -> org.moflon.sdm.constraints.scopevalidation, AttributeConstraintToDemocles -> org.moflon.sdm.constraints.constraintstodemocles, DemoclesAttributeConstraintSpecification -> org.moflon.sdm.constraints.operationspecification, DemoclesAttributeConstraints -> org.moflon.sdm.constraints.democles
 2015-11-27	eMoflon 2.6.0 released
+	This is a **maintenance beta release**, which means that we restructured some projects and improved the Ecore importer, which is now in its testing phase.
+	Therefore, an update to the new eMoflon beta is not necessary.
+	
 ---
 2015-12-01	New visualization based on PlantUML; available as separate feature
 2015-12-01	Build, export, and validate are now available on working sets (#559)
 2015-12-01	Rename projects: ControlFlow -> org.moflon.sdm.runtime.democles
 2015-12-02	eMoflon 2.7.0 released
+	User Notes:
+	* This is a bugfix release. We strongly recommend to update to this beta.
+	* The following issues have been solved:
+ 		- the old visualization components have been removed
+ 		- the TGG debugger has been removed
+ 		- the paths to the handbook example projects in the GitHub repository has changed
+	Developer Notes:
+	- the developer workspace has been restructured; you either need to update to 2.7.0 or checkout and use the current developerWorkspace.psf file
+
 ---
 2015-12-08	Allow to automatically install PlantUML
 2015-12-09	Remove TGGBuildMode if it is empty (so it is only created on demand by the user) #614
 2015-12-09	Separate specification project for org.moflon.ide.visualization (was in org.moflon.core.backend.specification before)
 2015-12-09	eMoflon 2.8.0 released 
+	User Notes:
+	* You may want to update to this version of eMoflon if you plan to use the new visualization feature.
+	* PlantUML, which is required for installing the eMoflon visualization feature, ist now installed automatically if necessary
+ 	* TGGBuildMode flag is now only added to moflon.properties.xmi files that are within a Integration/TGG project
+
 ---
 2015-12-10  Improved handling of new projects in eMoflon #602
 2015-12-19	Correct handling of project names: "." is disallowed inside projects names. 
 2015-12-22	eMoflon 2.9.0 released
+	User Notes:
+	* Nothing particular
+	Developer Notes:
+	* Updating to this beta is mandatory for everybody working with the developer workspace because the current workspace will not build with earlier versions of eMoflon.
 ---
 2015-12-25	Renaming metamodel project should trigger a renaming of the contained EAP file #457 
 2015-12-25	Create .gitignore files when generating parsers/unparsers #466
@@ -97,13 +126,32 @@
 2016-01-23  Introduce org.moflon.core.ecoreutils
 2016-01-23  Initial version of eMoflon data type library #653 
 2016-01-23  eMoflon 2.10.0 released
+	User Notes:
+	* We implemented a number of usability features:
+	* bugfixes in parser/unparser generator templates + generation of appropriate .gitignore files
+	* generated method names now contain the name of their original SDM story node (if the node consists only of blanks, letters, digits, '-'s, and '_'s)
+	* An initial library with auxiliary data types for working with Ecore is now integrated in all new meta-models (https://github.com/eMoflon/emoflon/issues/653)
+	Developer notes:
+	* A new project has been added to the workspace (https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/trunk/org.moflon.core.ecoreutils) Please update your PSF files or upgrade to eMoflon 2.10.0 to avoid problems during deployment.
+	* (As usual,) a tag of this version is available here: https://dev.kom.e-technik.tu-darmstadt.de/svn/es_emoflon/tags/emoflon_2.10.0 
+
 ---
 2016-02-07	Add org.moflon.sdm.compiler.democles.derivedfeatures
 2016-02-06	Beta version of Ecore-to-EAP importer ready
 2016-02-11	eMoflon 2.11.0 released
+	User Notes:
+	* This version contains a critical bug fix for EA, so users of eMoflon 2.10.0 are strongly encouraged to upgrade.
+	Developer notes: 
+	* A new project (org.moflon.sdm.compiler.democles.derivedfeatures) has been added to the work space.
+	
 ---
 2016-02-13	Fix "Sort order" bug in EA
 2016-02-22	eMoflon 2.12.0 released
+	User Notes:
+	* This is a **bugfix** release that solves issues in EA ("OV sorting bug") and TGG ("parallel streams bug") and brings improvements in the GUI.
+	Developer notes:
+	* Nothing special.
+	
 ---
 2016-02-27	Bugfix: Errors in validation are not reported properly #668
 2016-02-27	Build process: A single failure should not stop the whole build process #670 
@@ -111,6 +159,17 @@
 2016-03-16	Redundant rebuilds when manually building multiple projects #677
 2016-03-XX	New syntax for SDM-CSPs: "importPackage Ecore;", "::" notation for literals, support for EEnum types 
 2016-04-05	eMoflon 2.13.0 released
+	User Notes:
+	* Performance improvements in the build process (now using Eclipse "WorkspaceJobs")
+	* The syntax for complex attribute constraints has been updated to support importing "external" meta-models.
+	* The textual syntax for TGGs is now available (documentation coming soon).
+
+	Developer Notes:
+	* The developer workspace has several new projects due to the integration of MOSL-TGG.
+	When checking out the developer workspace, the automatic build procedure will fail because some XText-specific artefacts cannot currently be built automatically.
+	For this reason: Run you need to run the Mwe2 workflow in project org.moflon.tgg.mosl manually ("Run as...") and re-build " org.moflon.tgg.mosl.specification" (only a rebuild is required, no re-export).
+	We are working on this issue.
+
 ---
 
 2016-04-26  Downgraded PlantUML from 1.1.11 to 1.1.8 as the update site we were using ceased to work.  The current update site appears to be more stable and directly from the PlantUML developers.
@@ -122,12 +181,26 @@
 2016-04-28	Documenation of new features in SDM CPSs
 2016-05-03	More selective export during workspace installation #706
 2016-05-03	eMoflon 2.15.0 released
+	User Notes:
+	* For your information: From today on, we host our update sites on GitHub Pages ( https://emoflon.github.io/ ). We adjusted all links in the handbook and on www.emoflon.org .
+	* During our hacker days last week, we have fixed a huge number of bugs and pushed MOSL-TGG - the new textual syntax for TGGs.
+	* We had to downgrade to the 'more official' version of PlantUML for our visualization. In case of problems, please uninstall PlanUML and re-install from the following update site: http://plantuml.sourceforge.net/updatesitejuno/
+	
+	Developer Notes:
+	* All tests are green, tags have been created for the current state of the handbook (/tags/Handbook/emoflon_2.15.0) and the developer workspace (/tags/emoflon_2.15.0).
+	* We have modularized the eMoflon workspace. Please note that 'All Modules' does currently NOT contain MOSL TGG for performance reasons.
+	* The XText SDK (>=2.9.1) is now a mandatory prerequisite of eMoflon.
+
+
 ---
 2016-05-08	Fix critical bugs in MOSL-TGG that break the bootstrapping
 2016-05-14	Implement merge algorithm for PSFs in WorkspaceInstaller #715
 2016-05-14	Disable automatic suppression of warnings for projects #718
 2016-05-14	Get rid of managed EAP files #708  
 2016-06-02	eMoflon 2.16.0 released
+	User Notes:
+	* Please mind that we have recently moved our website and Eclipse update site to GitHub (https://emoflon.github.io ).
+	* This version mainly contains bugfixes (especially in the new textual TGG syntax MOSL-TGG).
 ---
 
 2016-06-03 Fix Ecore-to-EA does not complete #743
@@ -142,5 +215,18 @@
 2016-09-13 Democles pluginization complete (integration of Democles via Eclipse plugins, no more fat jar)
 2016-09-14 eMoflon 2.18.0 released
 ---
-
-2016-??-?? eMoflon 2.18.0 released
+2016-09-16 Migrate eMoflon to GitHub (https://github.com/eMoflon/emoflon-tool/)
+2016-09-17 eMoflon 2.19.0 released
+	Developer Notes:
+	* Performed a lot of cleanup 
+		- Mainly pure refactoring to avoid using deprecated methods.
+		- Get rid of EMoflonPlugin (emoflon/emoflon#775)
+		- ...
+	* All PSF files now point to the new repositories - migration complete.
+	* All **open** issues have been migrated to emoflon/emoflon-tool. All **closed** issues remain in emoflon/emoflon due to otherwise excessive administrative effort.
+	* The old TGG.eap files (and corresponding renamed ones) could not be moved to GitHub because their size exceeded 100MB.
+	  To avoid using GitHub LFS for these very outdated files, I completely removed them.
+	* The hierarchical branch structure in the SVN repository could not be migrated, i.e., each of the imported branches represents a set of SVN branches - sorry.
+	User Notes:
+	* Nothing particular - this is an interal release.
+---
