@@ -12,6 +12,7 @@
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MemoryBoxToDoubleLinkedListIntegration"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MemoryBoxToDoubleLinkedListTransformation"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MocaToMoflonAttributeConstr"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MocaToMoflonAttributeConstrTestGenerator"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ValidationTest"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SDMTestSuite"/>
 </provider>
