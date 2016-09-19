@@ -29,7 +29,6 @@ public class TaskUtilities
    {
       new UtilityClassNotInstantiableException();
    }
-   
 
    /**
     * Processes the given queue of jobs (in order) by scheduling one job after the other.
@@ -58,7 +57,7 @@ public class TaskUtilities
     */
    public static void processJobQueueInBackground(final List<Job> jobs) throws CoreException
    {
-      processJobQueueInternal(jobs, false); 
+      processJobQueueInternal(jobs, false);
    }
 
    /**
@@ -77,45 +76,47 @@ public class TaskUtilities
 
             // Number of completed jobs (no matter which status was returned).
             private int completedJobs = 0;
-            
+
             @Override
             public void done(final IJobChangeEvent event)
             {
                ++completedJobs;
-               final int numRemainingJobs = jobs.size() - completedJobs;
                final IStatus result = event.getResult();
-               LogUtils.debug(logger, "Job %s completed with status %s.", event.getJob().toString(), result);
-               LogUtils.info(logger, "%d jobs remaining.", numRemainingJobs);
-               if (result.isOK() && jobs.isEmpty())
+               if (result.isOK() && !jobs.isEmpty())
                {
+                  final int numRemainingJobs = jobs.size() - completedJobs;
                   final Job nextJob = jobs.remove(0);
+                  LogUtils.debug(logger, "Job %s completed with status %s.", event.getJob().toString(), result);
+                  LogUtils.info(logger, "%d job(s) remaining.", numRemainingJobs);
                   LogUtils.debug(logger, "Scheduling job %s", nextJob);
                   nextJob.addJobChangeListener(this);
                   nextJob.setUser(runAsUserJobs);
                   nextJob.schedule();
-                  return;
-               }
-               try
+               } else
                {
-                  final boolean isSwitchingAutoBuildModeRequired = isAutoBuilding != ResourcesPlugin.getWorkspace().isAutoBuilding();
-                  if (isSwitchingAutoBuildModeRequired)
+                  LogUtils.info(logger, "All jobs complete. Last status: %s", result);
+                  try
                   {
-                     TaskUtilities.switchAutoBuilding(isAutoBuilding);
+                     final boolean isSwitchingAutoBuildModeRequired = isAutoBuilding != ResourcesPlugin.getWorkspace().isAutoBuilding();
+                     if (isSwitchingAutoBuildModeRequired)
+                     {
+                        TaskUtilities.switchAutoBuilding(isAutoBuilding);
+                     }
+                  } catch (CoreException e)
+                  {
+                     LogUtils.error(logger, e);
                   }
-               } catch (CoreException e)
-               {
-                  LogUtils.error(logger, e);
                }
             }
          };
+         LogUtils.info(logger, "%d job(s) remaining.", jobs.size());
          final Job firstJob = jobs.remove(0);
          LogUtils.debug(logger, "Scheduling job %s", firstJob);
          firstJob.addJobChangeListener(jobExecutor);
          firstJob.setUser(runAsUserJobs);
          firstJob.schedule();
-      }      
+      }
    }
-   
 
    /**
     * Tries to set the Auto Build flag of the workspace to newAutoBuildValue.
