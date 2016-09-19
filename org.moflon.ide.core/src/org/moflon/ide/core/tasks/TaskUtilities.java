@@ -68,20 +68,28 @@ public class TaskUtilities
     * @param jobs the sequence of jobs to run (in order)
     * @throws CoreException
     */
-   private static void processJobQueueInternal(List<Job> jobs, boolean runAsUserJobs) throws CoreException
+   private static void processJobQueueInternal(final List<Job> jobs, final boolean runAsUserJobs) throws CoreException
    {
       if (jobs.size() > 0)
       {
          final boolean isAutoBuilding = TaskUtilities.switchAutoBuilding(false);
          final JobChangeAdapter jobExecutor = new JobChangeAdapter() {
 
+            // Number of completed jobs (no matter which status was returned).
+            private int completedJobs = 0;
+            
             @Override
             public void done(final IJobChangeEvent event)
             {
+               ++completedJobs;
+               final int numRemainingJobs = jobs.size() - completedJobs;
                final IStatus result = event.getResult();
-               if (result.isOK() && !jobs.isEmpty())
+               LogUtils.debug(logger, "Job %s completed with status %s.", event.getJob().toString(), result);
+               LogUtils.info(logger, "%d jobs remaining.", numRemainingJobs);
+               if (result.isOK() && jobs.isEmpty())
                {
                   final Job nextJob = jobs.remove(0);
+                  LogUtils.debug(logger, "Scheduling job %s", nextJob);
                   nextJob.addJobChangeListener(this);
                   nextJob.setUser(runAsUserJobs);
                   nextJob.schedule();
@@ -101,6 +109,7 @@ public class TaskUtilities
             }
          };
          final Job firstJob = jobs.remove(0);
+         LogUtils.debug(logger, "Scheduling job %s", firstJob);
          firstJob.addJobChangeListener(jobExecutor);
          firstJob.setUser(runAsUserJobs);
          firstJob.schedule();
