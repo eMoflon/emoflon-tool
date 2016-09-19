@@ -74,17 +74,13 @@ public class TaskUtilities
          final boolean isAutoBuilding = TaskUtilities.switchAutoBuilding(false);
          final JobChangeAdapter jobExecutor = new JobChangeAdapter() {
 
-            // Number of completed jobs (no matter which status was returned).
-            private int completedJobs = 0;
-
             @Override
             public void done(final IJobChangeEvent event)
             {
-               ++completedJobs;
                final IStatus result = event.getResult();
                if (result.isOK() && !jobs.isEmpty())
                {
-                  final int numRemainingJobs = jobs.size() - completedJobs;
+                  final int numRemainingJobs = jobs.size();
                   final Job nextJob = jobs.remove(0);
                   LogUtils.debug(logger, "Job %s completed with status %s.", event.getJob().toString(), result);
                   LogUtils.info(logger, "%d job(s) remaining.", numRemainingJobs);
