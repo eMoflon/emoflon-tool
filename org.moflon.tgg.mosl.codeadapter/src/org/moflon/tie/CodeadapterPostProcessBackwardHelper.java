@@ -68,7 +68,7 @@ public class CodeadapterPostProcessBackwardHelper {
 			if (corr instanceof CorrTypeToEClass)
 				postProcessBackward_CorrType((CorrTypeToEClass) corr);
 
-			if (corr instanceof RuleToTGGRule)
+			if (corr instanceof RuleToTGGRule) 
 				postProcessBackward_Rule((RuleToTGGRule) corr);
 
 			if (corr instanceof ObjectVariablePatternToTGGObjectVariable)
@@ -165,16 +165,20 @@ public class CodeadapterPostProcessBackwardHelper {
 		EPackage packageOfOVType = ovType.getEPackage();
 		Schema schema = ((Rule) corr.getSource().eContainer()).getSchema();
 
-		if (!tggOV.getDomain().getType().equals(DomainType.CORRESPONDENCE))
-			importEPackage(schema, packageOfOVType);
+		if (packageOfOVType != null) {
+			if (!tggOV.getDomain().getType().equals(DomainType.CORRESPONDENCE))
+				importEPackage(schema, packageOfOVType);
 
-		if (tggOV.getDomain().getType().equals(DomainType.SOURCE) && !schema.getSourceTypes().contains(packageOfOVType))
-			schema.getSourceTypes().add(packageOfOVType);
+			if (tggOV.getDomain().getType().equals(DomainType.SOURCE)
+					&& !schema.getSourceTypes().contains(packageOfOVType))
+				schema.getSourceTypes().add(packageOfOVType);
 
-		if (tggOV.getDomain().getType().equals(DomainType.TARGET) && !schema.getTargetTypes().contains(packageOfOVType))
-			schema.getTargetTypes().add(packageOfOVType);
+			if (tggOV.getDomain().getType().equals(DomainType.TARGET)
+					&& !schema.getTargetTypes().contains(packageOfOVType))
+				schema.getTargetTypes().add(packageOfOVType);
 
-		corr.getSource().setType(ovType);
+			corr.getSource().setType(ovType);
+		}
 	}
 
 	private void postProcessBackward_Expression(ExpressionToExpression corr) {
@@ -256,15 +260,23 @@ public class CodeadapterPostProcessBackwardHelper {
 
 	}
 
-	private void importEPackage(Schema schema, EPackage epackage) {
-		String ePackageNsURI = epackage.getNsURI();
-		if (!addedImports.contains(ePackageNsURI)) {
-			addedImports.add(ePackageNsURI);
-			Import packageImport = TggFactory.eINSTANCE.createImport();
-			packageImport.setName(ePackageNsURI);
-			schema.getImports().add(packageImport);
-		}
-	}
+   private void importEPackage(Schema schema, EPackage epackage)
+   {
+      if (epackage != null)
+      {
+         String ePackageNsURI = epackage.getNsURI();
+         if (ePackageNsURI != null)
+         {
+            if (!addedImports.contains(ePackageNsURI))
+            {
+               addedImports.add(ePackageNsURI);
+               Import packageImport = TggFactory.eINSTANCE.createImport();
+               packageImport.setName(ePackageNsURI);
+               schema.getImports().add(packageImport);
+            }
+         }
+      }
+   }
 
 	private void setSuperCorrType(CorrType corrType, EClass corrEClass, Schema schema) {
 		for (EClass trgSuperCorrType : corrEClass.getEAllSuperTypes()) {

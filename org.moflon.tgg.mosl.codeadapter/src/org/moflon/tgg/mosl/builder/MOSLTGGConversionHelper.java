@@ -40,6 +40,7 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.tgg.algorithm.configuration.PGSavingConfigurator;
 import org.moflon.tgg.language.TripleGraphGrammar;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
 import org.moflon.tgg.mosl.tgg.AttrCond;
@@ -51,6 +52,7 @@ import org.moflon.tgg.tggproject.TggprojectFactory;
 import org.moflon.tie.CodeadapterPostProcessBackwardHelper;
 import org.moflon.tie.CodeadapterPostProcessForwardHelper;
 import org.moflon.tie.CodeadapterTrafo;
+import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 public class MOSLTGGConversionHelper extends AbstractHandler
 {
@@ -220,11 +222,24 @@ public class MOSLTGGConversionHelper extends AbstractHandler
                IFile tggFile = (IFile) file;
 
                ResourceSet resourceSet = eMoflonEMFUtil.createDefaultResourceSet();
+               PluginURIToResourceURIRemapper.createPluginToResourceMap(resourceSet);
                TGGProject tggProject = createTGGProject(tggFile, resourceSet);
+               resourceSet.getResources().forEach(r -> {
+                  try
+                  {
+                     r.load(null);
+                  } catch (IOException e)
+                  {
+                     e.printStackTrace();
+                  }
+               });
+               EcoreUtil.resolveAll(resourceSet);
 
                String pathToThisPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
                CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin, resourceSet);
 
+               helper.setVerbose(true);
+               helper.setConfigurator(new PGSavingConfigurator(helper, tggFile.getProject().getLocation().toString() + "/instances/PG.xmi"));
                helper.setTrg(tggProject);
                helper.integrateBackward();
 
@@ -234,12 +249,12 @@ public class MOSLTGGConversionHelper extends AbstractHandler
                TripleGraphGrammarFile tggModel = (TripleGraphGrammarFile) helper.getSrc();
                String projectPath = tggFile.getProject().getFullPath().toString();
 
-               saveXtextTGGModelToTGGFile(tggModel, tggFile.getProject(), "/src/org/moflon/tgg/mosl" + projectPath + ".tgg");
-
                Resource resource = resourceSet
                      .createResource(URI.createPlatformResourceURI(projectPath + "/src/org/moflon/tgg/mosl" + projectPath + ".xmi", true));
                resource.getContents().add(tggModel);
                resource.save(null);
+
+               saveXtextTGGModelToTGGFile(tggModel, tggFile.getProject(), "/src/org/moflon/tgg/mosl" + projectPath + ".tgg");
             }
          }
       } catch (Exception e)
