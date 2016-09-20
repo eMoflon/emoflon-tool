@@ -36,10 +36,21 @@ abstract public class AbstractVisitorBuilder extends RelevantElementCollectingBu
    {
       super(condition);
    }
-
-   protected void postprocess(final RelevantElementCollector buildVisitor, final int kind, final Map<String, String> args, final IProgressMonitor monitor)
+   
+   protected int correctBuildTrigger(final int kind) {
+	   if (kind == INCREMENTAL_BUILD && getContext().getRequestedConfigs().length == 0) {
+		   return AUTO_BUILD;
+	   } else {
+		   return kind;
+	   }
+   }
+   
+   protected void postprocess(final RelevantElementCollector buildVisitor, int kind, final Map<String, String> args, final IProgressMonitor monitor)
    {
-      super.postprocess(buildVisitor, kind, args, monitor);
+	   kind = correctBuildTrigger(kind);
+	   if (getCommand().isBuilding(kind)) {
+		   super.postprocess(buildVisitor, kind, args, monitor);
+	   }
       if (buildVisitor.getRelevantDeltas().isEmpty() && (kind == INCREMENTAL_BUILD || kind == AUTO_BUILD))
       {
          final SubMonitor subMonitor = SubMonitor.convert(monitor, triggerProjects.size());

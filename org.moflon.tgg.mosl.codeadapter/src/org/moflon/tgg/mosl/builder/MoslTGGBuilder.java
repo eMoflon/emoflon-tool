@@ -5,17 +5,22 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
+import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
@@ -28,7 +33,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 	public static final String BUILDER_ID = "org.moflon.tgg.mosl.codeadapter.mosltggbuilder";
 
 	public MoslTGGBuilder() {
-		super(new AntPatternCondition(new String[] { "src/org/moflon/tgg/mosl" }));
+		super(new AntPatternCondition(new String[] { "src/org/moflon/tgg/mosl/*.tgg", "src/org/moflon/tgg/mosl/**/*.tgg" }));
 	}
 
 	@Override
@@ -42,6 +47,55 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 			// Do nothing
 		}
 		return new AntPatternCondition(new String[0]);
+	}
+	
+	protected void postprocess(final RelevantElementCollector buildVisitor, int kind,
+			final Map<String, String> args, final IProgressMonitor monitor) {
+		kind = correctBuildTrigger(kind);
+		if (getCommand().isBuilding(kind)) {
+			final IFolder moslFolder = getProject().getFolder(new Path("src/org/moflon/tgg/mosl"));
+			if (kind == INCREMENTAL_BUILD || kind == AUTO_BUILD) {
+				if (!buildVisitor.getRelevantDeltas().isEmpty()) {
+					processResource(moslFolder, kind, args, monitor);
+				}
+			} else if (kind == FULL_BUILD) {
+				if (!buildVisitor.getRelevantResources().isEmpty()) {
+					processResource(moslFolder, kind, args, monitor);
+				}
+			}
+		}		
+		if (buildVisitor.getRelevantDeltas().isEmpty() && (kind == INCREMENTAL_BUILD || kind == AUTO_BUILD)) {
+			final SubMonitor subMonitor = SubMonitor.convert(monitor, triggerProjects.size());
+			try {
+				for (final IProject project : triggerProjects) {
+					final RelevantElementCollector relevantElementCollector = new RelevantElementCollector(project, getTriggerCondition(project)) {
+						public boolean handleResourceDelta(final IResourceDelta delta) {
+							final int deltaKind = delta.getKind();
+							if (deltaKind == IResourceDelta.ADDED || deltaKind == IResourceDelta.CHANGED) {
+								super.handleResourceDelta(delta);
+							}
+							return false;
+						}
+					};
+					final IResourceDelta delta = getDelta(project);
+					if (delta != null) {
+
+						delta.accept(relevantElementCollector, IResource.NONE);
+						if (!relevantElementCollector.getRelevantDeltas().isEmpty()) {
+							// Perform a full build if a triggering project changed
+							build(FULL_BUILD, args, subMonitor.newChild(1));
+							return;
+						} else {
+							subMonitor.worked(1);
+						}
+					} else {
+						subMonitor.worked(1);
+					}
+				}
+			} catch (final CoreException e) {
+				throw new RuntimeException(e.getMessage(), e);
+			}
+		}
 	}
 
 	@Override
