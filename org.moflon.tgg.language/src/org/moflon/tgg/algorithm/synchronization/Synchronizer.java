@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -112,11 +113,18 @@ public abstract class Synchronizer {
 		this.readyButUnreadySiblingsKernels = new TIntHashSet();
 		this.readyComplements = new TIntHashSet();
 		this.createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch> getCollection();
-		this.lookupMethods = getLookupMethods(rules);
+		this.lookupMethods = determineLookupMethods(rules);
 		this.amalgamationUtil = new AmalgamationUtil(lookupMethods);
 	}
 
-	protected abstract RulesTable getLookupMethods(StaticAnalysis rules);
+	private RulesTable determineLookupMethods(StaticAnalysis rules) {
+		RulesTable rulesTable = getRulesTable(rules);
+		Collection<Rule> ignoreRules = rulesTable.getRules().stream().filter(r -> r.isIgnore()).collect(Collectors.toSet());
+		rulesTable.getRules().removeAll(ignoreRules);
+		return rulesTable;
+	}
+
+	protected abstract RulesTable getRulesTable(StaticAnalysis rules);
 
 	public void synchronize() throws InputLocalCompletenessException, TranslationLocalCompletenessException {
 		handleDeletions();

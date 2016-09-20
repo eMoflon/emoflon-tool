@@ -68,7 +68,7 @@ public class ForwardSynchronizer extends Synchronizer {
 	}
 
 	@Override
-	protected RulesTable getLookupMethods(StaticAnalysis rules) {
+	protected RulesTable getRulesTable(StaticAnalysis rules) {
 
 		return rules.getSourceRules();
 	}
