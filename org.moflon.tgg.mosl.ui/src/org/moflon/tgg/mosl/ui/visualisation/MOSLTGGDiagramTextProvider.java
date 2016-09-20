@@ -39,7 +39,7 @@ import org.moflon.tgg.language.TripleGraphGrammar;
 import org.moflon.tgg.language.precompiler.PrecompileLog;
 import org.moflon.tgg.language.precompiler.PrecompilerFactory;
 import org.moflon.tgg.language.precompiler.RefinementPrecompiler;
-
+import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
 
@@ -168,6 +168,7 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), fileExtension));
 			if (tggFile.exists()) {
 				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
+				PluginURIToResourceURIRemapper.createPluginToResourceMap(rs);
 				URI uri = URI.createPlatformResourceURI(tggFile.getFullPath().toString(), true);
 				Resource tggResource = rs.getResource(uri, true);
 				TripleGraphGrammar tgg = (TripleGraphGrammar) tggResource.getContents().get(0);
