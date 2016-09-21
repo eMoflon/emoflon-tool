@@ -234,3 +234,12 @@
 	User Notes:
 	* Nothing particular - this is an interal release.
 ---
+2016-09-19 Avoid deletion of .keep files
+2016-09-20 Improve auto-build behavior (to avoid XText's creative usage of the Eclipse build infrastructure)
+2016-09-21 Avoid NPEs during dependency analysis
+2016-09-21 eMoflon 2.20.0 released
+	Developer Notes:
+	* Bugfixes and performance improvements in build process
+	User Notes:
+	* Nothing particular - this is an interal release.
+---
