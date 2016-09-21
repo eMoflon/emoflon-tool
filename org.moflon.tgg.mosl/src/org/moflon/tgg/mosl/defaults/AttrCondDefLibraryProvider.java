@@ -24,7 +24,6 @@ public class AttrCondDefLibraryProvider {
 			File file = new File(attrLibFile.getLocation().toString());
 			String contents = FileUtils.readFileToString(file);
 			if(!contents.equals(defaultLib)){
-				attrLibFile.delete(true, new NullProgressMonitor());
             addAllFoldersAndFile(project, pathToLib, defaultLib, new NullProgressMonitor());
 			}
 		} else {
