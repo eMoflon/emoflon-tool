@@ -126,6 +126,8 @@ public class BasicResourceFillingMocaToMoflonTransformation extends
 		return MoflonUtil.lastCapitalizedSegmentOf(name);
 	}
 
+	/**@deprecated Appears to be unused (rkluge) **/
+	@Deprecated 
 	protected URI getProjectRelativeMetamodelURI(final Node node) {
 		URI uri = URI.createURI("model/" + getEcoreFileName(node) + ".ecore");
 		if (MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT.equals(node.getName())) {
