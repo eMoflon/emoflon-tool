@@ -10,10 +10,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
@@ -77,7 +75,7 @@ public class MetamodelLoader implements ITask {
 					Resource resource =
 							new PackageRemappingDependency(metamodelURI, false, false).getResource(set, false, true);
 					resource.getContents().add(outermostPackage);
-					setEPackageURI(outermostPackage);
+					CoreActivator.setEPackageURI(outermostPackage);
 				} else {
 					return new Status(IStatus.ERROR, CoreActivator.getModuleID(),
 							"Project " + projectName + " has unknown type " + node.getName());
@@ -222,17 +220,6 @@ public class MetamodelLoader implements ITask {
 			}
 		}
 		return null;
-	}
-
-	private final void setEPackageURI(final EPackage ePackage) {
-		URI uri = EcoreUtil.getURI(ePackage);
-		if (ePackage instanceof InternalEObject && ((InternalEObject) ePackage).eDirectResource() != null) {
-			uri = uri.trimFragment();
-		}
-		ePackage.setNsURI(uri.toString());
-		for (final EPackage subPackage : ePackage.getESubpackages()) {
-			setEPackageURI(subPackage);
-		}
 	}
 
 	private final void copyEPackageURI(final EPackage source,

@@ -22,7 +22,10 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
@@ -284,6 +287,17 @@ public class CoreActivator extends Plugin
    {
       return getDefaultBuildConfigurations(Arrays.asList(projects));
 
+   }
+   
+   public static final void setEPackageURI(final EPackage ePackage) {
+	   URI uri = EcoreUtil.getURI(ePackage);
+	   if (ePackage instanceof InternalEObject && ((InternalEObject) ePackage).eDirectResource() != null) {
+		   uri = uri.trimFragment();
+	   }
+	   ePackage.setNsURI(uri.toString());
+	   for (final EPackage subPackage : ePackage.getESubpackages()) {
+		   setEPackageURI(subPackage);
+	   }
    }
 
    public static final void checkCancellation(final IProgressMonitor monitor)

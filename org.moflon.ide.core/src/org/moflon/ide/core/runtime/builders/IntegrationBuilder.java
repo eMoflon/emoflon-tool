@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
@@ -125,6 +126,7 @@ public class IntegrationBuilder extends RepositoryBuilder
       metamodelLoader.run(subMon.newChild(10));
       final Resource tggResource = metamodelLoader.getMainResource();
       final Resource ecoreResource = set.getResource(ecoreFileURI, false);
+      CoreActivator.setEPackageURI((EPackage) ecoreResource.getContents().get(0));
       tgg = (TripleGraphGrammar) tggResource.getContents().get(0);
       uriMapping.remove(tggFileURI);
       uriMapping.remove(ecoreFileURI);
