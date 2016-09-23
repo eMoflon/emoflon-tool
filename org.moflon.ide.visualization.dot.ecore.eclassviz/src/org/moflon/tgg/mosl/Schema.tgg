@@ -21,6 +21,21 @@
 		#src->PNode
 		#trg->EClass
 	}
+	
+	PMethodToEOperation {
+		#src->PMethod
+		#trg->EOperation
+	}
+	
+	PAttributeToEAttribute {
+		#src->PAttribute
+		#trg->EAttribute
+	}
+	
+	PTypedObjectToETypedElememt{
+		#src->PTypedObject
+		#trg->ETypedElement
+	}
 }
 
 #attributeConditions {

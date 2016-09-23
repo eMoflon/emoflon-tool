@@ -1,0 +1,46 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#rule AddMethodToClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	graph : ClassGraph
+	
+	pClass : PClass{
+		- graph -> graph
+	}
+	
+	++ pMethod : PMethod{
+		visibilty := enum::PVisibilty::PUBLIC_VIEW
+		++ - belongingClass -> pClass
+	}
+}
+
+#target {
+	eClass : EClass{
+		++ - eOperations -> eOperation
+	}
+	
+	++ eOperation : EOperation
+}
+
+#correspondence {
+	pClassToEClass : PNodeToEClass{
+		#src->pClass
+		#trg->eClass
+	}
+	
+	++ methodToClass : PMethodToEOperation{
+		#src->pMethod
+		#trg->eOperation
+	}
+	
+	++ pTypeToEType : PTypedObjectToETypedElememt {
+		#src->pMethod
+		#trg->eOperation
+	}
+}
+
+#attributeConditions {
+	eq(pMethod.name, eOperation.name)
+}

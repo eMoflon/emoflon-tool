@@ -118,9 +118,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="SubClassGraph" eSuperTypes="#//AbstractSubGraph #//ClassGraph"/>
   <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
-        eType="#//PAttribute" eOpposite="#//PAttribute/belongingClass"/>
+        eType="#//PAttribute" containment="true" eOpposite="#//PAttribute/belongingClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
-        eType="#//PMethod" eOpposite="#//PMethod/belongingClass"/>
+        eType="#//PMethod" containment="true" eOpposite="#//PMethod/belongingClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PAbstract" eSuperTypes="#//PClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="PEnum" eSuperTypes="#//PNode">
@@ -162,17 +162,25 @@
   <eClassifiers xsi:type="ecore:EClass" name="PMethod" eSuperTypes="#//PNamedObject #//PTypedObject #//PVisibilityObject">
     <eStructuralFeatures xsi:type="ecore:EReference" name="belongingClass" eType="#//PClass"
         eOpposite="#//PClass/methods"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//PParameter" containment="true" eOpposite="#//PParameter/method"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PParameter" eSuperTypes="#//PTypedObject #//PNamedObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="method" eType="#//PMethod"
+        eOpposite="#//PMethod/parameters"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PVisibilty">
-    <eLiterals name="PRIVATE_VIEW" literal="privateView"/>
-    <eLiterals name="PUBLIC_VIEW" value="1" literal="publicView"/>
-    <eLiterals name="PROTECTED_VIEW" value="2" literal="protectedView"/>
+    <eLiterals name="PRIVATE_VIEW" literal="PRIVATE_VIEW"/>
+    <eLiterals name="PUBLIC_VIEW" value="1" literal="PUBLIC_VIEW"/>
+    <eLiterals name="PROTECTED_VIEW" value="2" literal="PROTECTED_VIEW"/>
+    <eLiterals name="PACKAGE_ONLY" value="3" literal="PACKAGE_ONLY"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PNamedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PVisibilityObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibilty" eType="#//PVisibilty"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sign" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PTypedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
