@@ -14,11 +14,11 @@
 }
 
 #target {
-	eClass : EClass{
-		++ - eOperations -> eOperation
-	}
+	eClass : EClass
 	
-	++ eOperation : EOperation
+	++ eOperation : EOperation{
+		++ - eContainingClass -> eClass
+	}
 }
 
 #correspondence {

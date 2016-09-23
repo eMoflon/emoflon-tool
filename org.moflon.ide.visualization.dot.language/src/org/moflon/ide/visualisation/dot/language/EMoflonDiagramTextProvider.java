@@ -227,7 +227,7 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
    {
 	  Object graph = null; 
       // Remove for testing
-      helper.setMute(true);
+      //helper.setMute(true);
       try{
 	      if (directionIsForward())
 	      {

@@ -1,7 +1,7 @@
 #using org.moflon.ide.visualization.dot.ecore.eclassviz.*
 #using AttrCondDefLibrary.*
 
-#rule AddParametersToMethodRule #extends AbstractExistingGraphAndClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+#abstract #rule AddParametersToMethodRule #extends AbstractExistingGraphAndClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
 
 #source {
 	pClass:PClass
@@ -9,18 +9,18 @@
 	pMethod:PMethod{
 		- belongingClass -> pClass
 	}
-	
-	++ pParameter:PParameter{
+
+	++pParameter:PParameter{
 		++ - method -> pMethod
 	}
 }
 
 #target {
-	eClass:EClass{
-		- eOperations -> eOperation
-	}
+	eClass:EClass
 
-	eOperation:EOperation
+	eOperation:EOperation{
+		- eContainingClass -> eClass
+	}
 
 	++eParameter:EParameter {
 		++ - eOperation -> eOperation
@@ -32,13 +32,13 @@
 		#src->pMethod
 		#trg->eOperation
 	}
-	
-	++ pParameterToEParameter : PParameterToEParameter {
+
+	++ pParameterToEParameter :PParameterToEParameter {
 		#src->pParameter
 		#trg->eParameter
 	}
-	
-	++ pTypeToEType : PTypedObjectToETypedElememt{
+
+	++ pTypeToEType :PTypedObjectToETypedElememt{
 		#src->pParameter
 		#trg->eParameter
 	}
