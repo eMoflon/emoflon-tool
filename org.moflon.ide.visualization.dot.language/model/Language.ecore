@@ -116,7 +116,12 @@
         eType="#//PPackage" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SubClassGraph" eSuperTypes="#//AbstractSubGraph #//ClassGraph"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PClass" eSuperTypes="#//PNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//PAttribute" eOpposite="#//PAttribute/belongingClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
+        eType="#//PMethod" eOpposite="#//PMethod/belongingClass"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PAbstract" eSuperTypes="#//PClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="PEnum" eSuperTypes="#//PNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="literals" upperBound="-1"
@@ -150,8 +155,14 @@
         eType="#//PClass" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PInterface" eSuperTypes="#//PClass"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PAttribute" eSuperTypes="#//PNamedObject #//PVisibilityObject #//PTypedObject"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PMethod" eSuperTypes="#//PNamedObject #//PTypedObject #//PVisibilityObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PAttribute" eSuperTypes="#//PNamedObject #//PVisibilityObject #//PTypedObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongingClass" eType="#//PClass"
+        eOpposite="#//PClass/attributes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PMethod" eSuperTypes="#//PNamedObject #//PTypedObject #//PVisibilityObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongingClass" eType="#//PClass"
+        eOpposite="#//PClass/methods"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PVisibilty">
     <eLiterals name="PRIVATE_VIEW" literal="privateView"/>
     <eLiterals name="PUBLIC_VIEW" value="1" literal="publicView"/>
