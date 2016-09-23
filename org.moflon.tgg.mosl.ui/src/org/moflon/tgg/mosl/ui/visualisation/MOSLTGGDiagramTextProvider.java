@@ -49,6 +49,7 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 	private XtextEditor oldEditor;
 	private HashMap<String, String> oldValue = new HashMap<>();
 	private String currentTggFile = WorkspaceHelper.PRE_TGG_FILE_EXTENSION;
+	private IProject project;
 	
 	private IPropertyListener listener = (o, p) -> {
 		if (p == IWorkbenchPartConstants.PROP_DIRTY && !oldEditor.isDirty()) {
@@ -84,30 +85,43 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 			TripleGraphGrammar tgg = getTGG();
 			Optional<TGGRule> rule = getTGGRuleForSelection(selection, tgg);
 
-			if (rule.isPresent() && oldValue.containsKey(rule.get().getName()) && !outdated)
-				return oldValue.get(rule.get().getName());
-
 			if (!rule.isPresent()) {
 				rule = getTGGRuleForSelection(selection, preTgg);
 			}
 
+			String ruleKeyName = getKeyName(rule.get().getName());
+			
+			if (rule.isPresent() && oldValue.containsKey(ruleKeyName) && !outdated)
+				return oldValue.get(ruleKeyName);
+			
 			// Decision for Schema or Rule
 			if (!rule.isPresent()) {
-				TGGSchemaDiagramTextProvider schemaProvider = new TGGSchemaDiagramTextProvider();
-				DirectedGraph graph = (DirectedGraph) schemaProvider.modelToDot(preTgg);
-				return graph != null ? new DotUnparserAdapter().unparse(graph) : "@startuml @enduml";
+				String schemaKeyName= getKeyName("Schema");
+				String diagram = oldValue.get(schemaKeyName);
+				if(diagram == null){
+					TGGSchemaDiagramTextProvider schemaProvider = new TGGSchemaDiagramTextProvider();
+					DirectedGraph graph = (DirectedGraph) schemaProvider.modelToDot(preTgg);
+					diagram = graph != null ? new DotUnparserAdapter().unparse(graph) : "@startuml @enduml";
+				}
+				return diagram;
 			} else
 				return rule.map(r -> {
 					outdated = false;
 					TGGRuleDiagramTextProvider tggTextProvider = new TGGRuleDiagramTextProvider();
 					String diagram = new DotUnparserAdapter().unparse(tggTextProvider.modelToDot(handleRule(r, preTgg, r.isAbstractRule())));
-					oldValue.put(r.getName(), diagram);
+					oldValue.put(getKeyName(r.getName()), diagram);
 					return diagram;
 				}).orElse("@startuml @enduml");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "@startuml @enduml";
 		}
+	}
+	
+	private String getKeyName(String name){
+		StringBuilder sb = new StringBuilder();
+		sb.append(project.getLocation().toOSString()).append('/').append(name);
+		return sb.toString();
 	}
 	
 	private TGGRule handleRule(TGGRule rule, TripleGraphGrammar preTgg, boolean condition){
@@ -164,7 +178,7 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 	private TripleGraphGrammar getTGG(final String fileExtension) {
 		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
 			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
-			IProject project = file.getProject();
+			project = file.getProject();
 			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), fileExtension));
 			if (tggFile.exists()) {
 				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
