@@ -22,10 +22,10 @@ public class EclassvizTrafo extends SynchronizationHelper{
 
 		// Forward Transformation
         EclassvizTrafo helper = new EclassvizTrafo();
-		helper.performForward("instances/fwd.src.xmi");
+		//helper.performForward("instances/fwd.src.xmi");
 		
 		// Backward Transformation
-		helper = new EclassvizTrafo();
+		//helper = new EclassvizTrafo();
 		helper.performBackward("instances/bwd.src.xmi");
 	}
 

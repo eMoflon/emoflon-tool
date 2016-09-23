@@ -1,0 +1,37 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#rule AddAttributesToClassRule #extends AbstractExistingGraphAndClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	pClass : PClass
+	
+	++ pAttribute : PAttribute{
+		visibilty := enum::PVisibilty::PRIVATE_VIEW
+		++ -belongingClass -> pClass
+	}
+}
+
+#target {
+	eClass : EClass
+	
+	++ eAttribute : EAttribute{
+		++ - eContainingClass -> eClass 
+	}
+}
+
+#correspondence {
+	++ pAttributeToEAttribute : PAttributeToEAttribute{
+		#src->pAttribute
+		#trg->eAttribute
+	}
+	
+	++ pTypeToEType : PTypedObjectToETypedElememt{
+		#src->pAttribute
+		#trg->eAttribute
+	}
+}
+
+#attributeConditions {
+	eq(pAttribute.name, eAttribute.name)
+}
