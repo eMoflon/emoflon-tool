@@ -1,14 +1,11 @@
 #using org.moflon.ide.visualization.dot.ecore.eclassviz.*
 #using AttrCondDefLibrary.*
 
-#rule AddMethodToClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+#rule AddMethodToClassRule #extends AbstractExistingGraphAndClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
 
-#source { 
-	graph : ClassGraph
+#source {
 	
-	pClass : PClass{
-		- graph -> graph
-	}
+	pClass : PClass
 	
 	++ pMethod : PMethod{
 		visibilty := enum::PVisibilty::PUBLIC_VIEW
@@ -25,10 +22,7 @@
 }
 
 #correspondence {
-	pClassToEClass : PNodeToEClass{
-		#src->pClass
-		#trg->eClass
-	}
+
 	
 	++ methodToClass : PMethodToEOperation{
 		#src->pMethod

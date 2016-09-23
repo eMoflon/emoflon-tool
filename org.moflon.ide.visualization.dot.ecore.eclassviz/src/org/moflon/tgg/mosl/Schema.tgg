@@ -32,6 +32,11 @@
 		#trg->EAttribute
 	}
 	
+	PParameterToEParameter {
+		#src->PParameter
+		#trg->EParameter
+	}
+	
 	PTypedObjectToETypedElememt{
 		#src->PTypedObject
 		#trg->ETypedElement
