@@ -30,7 +30,7 @@ public abstract class AbstractRefinedVariablePatternHighlightingRule extends Abs
 	}
 
 	private boolean operatorCondition(NamePattern namePattern) {
-		return namePattern != null && namePattern.getOp() != null && getOperatorCondition(namePattern.getOp());
+		return namePattern != null && getOperatorCondition(namePattern.getOp());
 	}
 
 	private boolean isRefined(Rule rule, boolean isSource, NamePattern np) {
