@@ -1,0 +1,53 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule BaseClassAxiom #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source {
+	++graph:ClassGraph {
+		++ - skinparams -> classArrowColorParam
+		++ - skinparams -> classBackgroundParam
+		++ - skinparams -> classBorderColorParam
+	}
+
+	++classBackgroundParam:ClassSkinParam{
+		color :=enum::DotColor::WHITE
+		value :=enum::ClassSkinParamValues::classBackgroundColor
+	}
+
+	++classBorderColorParam:ClassSkinParam{
+		color :=enum::DotColor::BLACK
+		value :=enum::ClassSkinParamValues::classBorderColor
+	}
+
+	++classArrowColorParam:ClassSkinParam{
+		color :=enum::DotColor::BLACK
+		value :=enum::ClassSkinParamValues::classArrowColor
+	}
+
+	++mainClassNode:PNode{
+		++ - graph -> graph
+	}
+}
+
+#target {
+	++mainClass:EClass
+}
+
+#correspondence {
+	++ graphToMainClass :ClassGraphToEClass{
+		#src->graph
+		#trg->mainClass
+	}
+
+	++ mainNodeToMainClass :PNodeToEClass{
+		#src->mainClassNode
+		#trg->mainClass
+	}
+}
+
+#attributeConditions {
+	eq (mainClassNode.label, mainClass.name)
+}
+
+

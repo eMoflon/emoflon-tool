@@ -1,0 +1,23 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#rule InterfaceAxiom #extends BaseClassAxiom  #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	++ mainClassNode : PInterface
+}
+
+#target {
+	++ mainClass : EClass {
+		abstract := true
+		interface := true
+	}
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}
