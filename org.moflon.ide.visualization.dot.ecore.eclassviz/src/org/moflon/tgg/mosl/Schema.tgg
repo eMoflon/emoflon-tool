@@ -1,0 +1,19 @@
+// Add imports here
+
+#schema org.moflon.ide.visualization.dot.ecore.eclassviz
+	
+#source {
+	
+}
+
+#target { 
+	
+} 
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

@@ -1,0 +1,10 @@
+/bin
+/gen/*
+/model/*.ecore
+/model/*.genmodel
+/model/*.xmi
+/instances/*.xmi
+/instances/*.ecore
+!/**/.keep*
+/gen/
+/model/
