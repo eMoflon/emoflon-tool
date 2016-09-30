@@ -26,7 +26,7 @@ public class EclassvizTrafo extends SynchronizationHelper{
 		
 		// Backward Transformation
 		//helper = new EclassvizTrafo();
-		helper.performBackward("instances/bwd.src.xmi");
+		helper.performBackward("instances/test.xmi");
 	}
 
 	public void performForward() {

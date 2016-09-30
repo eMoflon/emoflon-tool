@@ -1,5 +1,7 @@
 #import "platform:/resource/org.moflon.ide.visualization.dot.language/model/Language.ecore"
 #import "http://www.eclipse.org/emf/2002/Ecore"
+#import "platform:/resource/SDMLanguage/model/SDMLanguage.ecore"
+#import "platform:/resource/SDMLanguage/model/SDMLanguage.ecore#//activities"
 
 #schema org.moflon.ide.visualization.dot.ecore.eclassviz
 	
@@ -9,6 +11,8 @@
 
 #target { 
 	ecore
+	SDMLanguage
+	SDMLanguage.activities
 } 
 
 #correspondence {

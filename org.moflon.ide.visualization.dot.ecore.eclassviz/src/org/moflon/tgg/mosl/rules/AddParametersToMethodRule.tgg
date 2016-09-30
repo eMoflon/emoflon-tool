@@ -1,7 +1,7 @@
 #using org.moflon.ide.visualization.dot.ecore.eclassviz.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule AddParametersToMethodRule #extends AbstractExistingGraphAndClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+#rule AddParametersToMethodRule #extends AbstractExistingGraphAndClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
 
 #source {
 	pClass:PClass
@@ -45,7 +45,7 @@
 }
 
 #attributeConditions {
-	
+	eq(pParameter.name, eParameter.name)
 }
 
 
