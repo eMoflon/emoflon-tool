@@ -1,0 +1,29 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule ExistingGraphAndClassAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source {
+	graph:ClassGraph
+
+	pClass:PClass{
+		- graph -> graph
+	}
+}
+
+#target {
+	eClass:EClass
+}
+
+#correspondence {
+	pClassToEClass :PNodeToEClass{
+		#src->pClass
+		#trg->eClass
+	}
+}
+
+#attributeConditions {
+	
+}
+
+

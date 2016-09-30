@@ -1,0 +1,20 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#rule AddMethodToClassRuleFromEMoflonEOperation #extends AddMethodToClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	
+}
+
+#target {
+	++ eOperation : MoflonEOperation
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

@@ -1,0 +1,20 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule InterfaceBiCompositeRule #extends BiEReferenceAbstractRule, InterfaceRelationAbstractRule, CompositeAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	
+}
+
+#target {
+	
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

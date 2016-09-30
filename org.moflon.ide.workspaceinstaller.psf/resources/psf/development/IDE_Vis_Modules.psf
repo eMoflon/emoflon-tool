@@ -9,6 +9,7 @@
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.schema"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.delta"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.ecore.epackageviz"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.ecore.eclassviz"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.runtime"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.runtimepatterns"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.feature"/>
@@ -21,6 +22,7 @@
 <item elementID="=org.moflon.ide.visualization.dot.tgg.schema" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.tgg.delta" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.ecore.epackageviz" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.moflon.ide.visualization.dot.ecore.eclassviz" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.language" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.sdm" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.ide.visualization.dot.tgg.runtime" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>

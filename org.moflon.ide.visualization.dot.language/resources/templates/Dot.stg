@@ -133,7 +133,34 @@ Literal(l) ::= <<
 >>
 
 PClassImpl(n) ::= <<
-class "<n.label>"
+class "<n.label>" { 
+<Attributes(n.attributes)>
+<Methods(n.methods)>
+}
+>>
+
+Methods(methods) ::= <<
+<methods: PMethod(); separator="\n">
+>>
+
+PMethod(method) ::= <<
+<method.sign> <method.type> <method.name> (<Parameters(method.parameters)>)
+>>
+
+Parameters(parameters) ::= <<
+<parameters: PParameter(); separator=", ">
+>>
+
+PParameter(param) ::= <<
+<param.name>:<param.type>
+>>
+
+Attributes(attributes) ::= <<
+<attributes: PAttribute(); separator="\n">
+>>
+
+PAttribute(attr) ::= <<
+<attr.sign> <attr.name> : <attr.type>
 >>
 
 PDataTypeImpl(n) ::= <<
