@@ -1,7 +1,7 @@
 #using org.moflon.ide.visualization.dot.ecore.eclassviz.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule AbstractExistingGraphAndClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+#abstract #rule ExistingGraphAndClassAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
 
 #source {
 	graph:ClassGraph

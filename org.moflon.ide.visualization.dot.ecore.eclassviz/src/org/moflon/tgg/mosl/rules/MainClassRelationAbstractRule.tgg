@@ -1,0 +1,43 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule MainClassRelationAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	graph : ClassGraph
+	
+	mainClassNode : PNode{
+		- graph ->graph
+	}
+	
+	++ relationClassNode : PNode{
+		++ -graph -> graph
+	}
+}
+
+#target {
+	mainClass : EClass
+	
+	++ relationClass : EClass
+}
+
+#correspondence {
+	graphToMainClass :ClassGraphToEClass{
+		#src->graph
+		#trg->mainClass
+	}
+
+	mainNodeToMainClass :PNodeToEClass{
+		#src->mainClassNode
+		#trg->mainClass
+	}
+	
+	++ relationNodeToRelationClass : PNodeToEClass {
+		#src->relationClassNode
+		#trg->relationClass
+	}
+}
+
+#attributeConditions {
+	eq(relationClassNode.label, relationClass.name)	
+}

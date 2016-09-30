@@ -1,0 +1,23 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule AbstractRelationAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	++ relationClassNode : PAbstract
+}
+
+#target {
+	++ relationClass : EClass {
+		abstract := true
+		interface := false
+	}
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

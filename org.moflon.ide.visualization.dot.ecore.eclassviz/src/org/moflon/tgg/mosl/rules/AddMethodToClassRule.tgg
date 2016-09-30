@@ -1,7 +1,7 @@
 #using org.moflon.ide.visualization.dot.ecore.eclassviz.*
 #using AttrCondDefLibrary.*
 
-#rule AddMethodToClassRule #extends AbstractExistingGraphAndClassRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+#rule AddMethodToClassRule #extends ExistingGraphAndClassAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
 
 #source {
 	

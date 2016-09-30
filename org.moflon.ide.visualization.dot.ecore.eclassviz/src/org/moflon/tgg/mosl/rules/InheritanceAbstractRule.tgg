@@ -1,0 +1,36 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule InheritanceAbstractRule #extends MainClassRelationAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	graph : ClassGraph
+	
+	mainClassNode : PNode 
+	
+	++ relationClassNode : PNode
+	
+	++ inheritanceEdge : PInheritance{
+		++ - graph -> graph
+		++ - source -> mainClassNode
+		++ - target -> relationClassNode
+	}
+	
+	
+}
+
+#target {
+	mainClass : EClass {
+		++ - eSuperTypes -> relationClass
+	}
+	
+	++ relationClass : EClass
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}
