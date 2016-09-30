@@ -1,0 +1,41 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule BiEReferenceAbstractRule #extends UniERefernceAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	++ referenceEdge : PAssociation{
+		++ - trgMultiplicity -> trgMultiplicity
+	}
+	
+	++ trgMultiplicity : PMultiplicity 
+}
+
+#target {
+	mainClass : EClass
+	
+	++ relationClass : EClass
+	
+	++ eReference : EReference{
+		++ - eOpposite -> opposite
+	}
+	
+	++ opposite : EReference{
+		++ - eContainingClass -> relationClass
+		++ - eType -> mainClass		
+	}
+	
+}
+
+#correspondence {
+	++ refernceToOpposite : PEdgeToEOpposite {
+		#src->referenceEdge
+		#trg->opposite
+	}
+}
+
+#attributeConditions {
+	eq(referenceEdge.oppositeLabel, opposite.name)
+	multiplicity(trgMultiplicity.lowerBound, opposite.lowerBound)
+	multiplicity(trgMultiplicity.upperBound, opposite.upperBound)
+}

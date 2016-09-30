@@ -1,0 +1,45 @@
+#using org.moflon.ide.visualization.dot.ecore.eclassviz.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule UniERefernceAbstractRule #extends MainClassRelationAbstractRule  #with org.moflon.ide.visualization.dot.ecore.eclassviz
+
+#source { 
+	graph : ClassGraph
+	
+	mainClassNode : PNode
+	
+	++ relationClassNode : PNode
+	
+	++ srcMultiplicity : PMultiplicity
+	
+	++ referenceEdge : PAssociation{
+		++ - graph -> graph
+		++ - source -> mainClassNode
+		++ - target -> relationClassNode
+		++ - srcMultiplicity -> srcMultiplicity
+	}
+}
+
+#target {
+	mainClass : EClass
+	
+	++ eReference : EReference{
+		++ - eContainingClass -> mainClass
+		++ - eType -> relationClass
+	}
+	
+	++ relationClass : EClass
+}
+
+#correspondence {
+	++ associationToRefernce : PEdgeToERefernce{
+		#src->referenceEdge
+		#trg->eReference
+	}
+}
+
+#attributeConditions {
+	multiplicity(srcMultiplicity.lowerBound, eReference.lowerBound)
+	multiplicity(srcMultiplicity.upperBound, eReference.upperBound)
+	eq(referenceEdge.label, eReference.name)
+}

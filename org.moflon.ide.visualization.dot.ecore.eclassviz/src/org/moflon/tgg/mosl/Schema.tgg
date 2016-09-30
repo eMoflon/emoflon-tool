@@ -4,43 +4,53 @@
 #import "platform:/resource/SDMLanguage/model/SDMLanguage.ecore#//activities"
 
 #schema org.moflon.ide.visualization.dot.ecore.eclassviz
-	
+
 #source {
 	language
 }
 
-#target { 
+#target {
 	ecore
 	SDMLanguage
 	SDMLanguage.activities
-} 
+}
 
 #correspondence {
 	ClassGraphToEClass {
 		#src->ClassGraph
 		#trg->EClass
 	}
-	
+
 	PNodeToEClass{
 		#src->PNode
 		#trg->EClass
 	}
-	
+
+	PEdgeToERefernce {
+		#src->PEdge
+		#trg->EReference
+	}
+
+	PEdgeToEOpposite {
+		#src->PEdge
+		#trg->EReference
+	}
+
 	PMethodToEOperation {
 		#src->PMethod
 		#trg->EOperation
 	}
-	
+
 	PAttributeToEAttribute {
 		#src->PAttribute
 		#trg->EAttribute
 	}
-	
+
 	PParameterToEParameter {
 		#src->PParameter
 		#trg->EParameter
 	}
-	
+
 	PTypedObjectToETypedElememt{
 		#src->PTypedObject
 		#trg->ETypedElement
@@ -48,5 +58,11 @@
 }
 
 #attributeConditions {
-	
+	#userDefined
+	multiplicity(0:EString, 1:EInt){
+		#sync: BB, FB
+		#gen:
+	}
 }
+
+
