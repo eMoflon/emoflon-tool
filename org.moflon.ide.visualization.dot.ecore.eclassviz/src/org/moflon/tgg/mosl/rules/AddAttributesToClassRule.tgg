@@ -3,30 +3,30 @@
 
 #rule AddAttributesToClassRule #extends ExistingGraphAndClassAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
 
-#source { 
-	pClass : PClass
-	
-	++ pAttribute : PAttribute{
-		visibilty := enum::PVisibilty::PRIVATE_VIEW
+#source {
+	pClass:PClass
+
+	++pAttribute:PAttribute{
+		visibilty :=enum::PVisibilty::PRIVATE_VIEW
 		++ -belongingClass -> pClass
 	}
 }
 
 #target {
-	eClass : EClass
-	
-	++ eAttribute : EAttribute{
-		++ - eContainingClass -> eClass 
+	eClass:EClass
+
+	++eAttribute:EAttribute{
+		++ - eContainingClass -> eClass
 	}
 }
 
 #correspondence {
-	++ pAttributeToEAttribute : PAttributeToEAttribute{
+	++ pAttributeToEAttribute :PAttributeToEAttribute{
 		#src->pAttribute
 		#trg->eAttribute
 	}
-	
-	++ pTypeToEType : PTypedObjectToETypedElememt{
+
+	++ pTypeToEType :PTypedObjectToETypedElememt{
 		#src->pAttribute
 		#trg->eAttribute
 	}
@@ -35,3 +35,5 @@
 #attributeConditions {
 	eq(pAttribute.name, eAttribute.name)
 }
+
+

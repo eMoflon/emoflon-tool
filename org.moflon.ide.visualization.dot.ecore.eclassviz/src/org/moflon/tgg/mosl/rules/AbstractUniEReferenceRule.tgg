@@ -1,7 +1,7 @@
 #using org.moflon.ide.visualization.dot.ecore.eclassviz.*
 #using AttrCondDefLibrary.*
 
-#rule AbstractUniEReferenceRule #extends BaseEReferenceAbstractRule, AssociationAbstractRule, AbstractRelationAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+#abstract #rule AbstractUniEReferenceRule #extends BaseEReferenceAbstractRule, AssociationAbstractRule, AbstractRelationAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
 
 #source { 
 	
