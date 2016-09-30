@@ -1,7 +1,7 @@
 #using org.moflon.ide.visualization.dot.ecore.eclassviz.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule InterfaceUniCompositeRule #extends BaseEReferenceAbstractRule, InterfaceRelationAbstractRule, CompositeAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
+#rule InterfaceUniCompositeRule #extends BaseEReferenceAbstractRule, InterfaceRelationAbstractRule, CompositeAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
 
 #source { 
 	
