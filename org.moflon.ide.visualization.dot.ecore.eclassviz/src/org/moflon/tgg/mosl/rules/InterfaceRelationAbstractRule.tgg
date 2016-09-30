@@ -4,12 +4,11 @@
 #abstract #rule InterfaceRelationAbstractRule #with org.moflon.ide.visualization.dot.ecore.eclassviz
 
 #source { 
-	++ relationClassNode : PAbstract
+	++ relationClassNode : PInterface
 }
 
 #target {
 	++ relationClass : EClass {
-		abstract := true
 		interface := true
 	}
 }
