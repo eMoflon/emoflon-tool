@@ -47,22 +47,28 @@ namespace EAEcoreAddin.Consistency.RuleHandling
                 float sum = 0;
                 for (int i = 0; i < this.dataTable.Columns.Count; i++)
                 {
-                    SizeF maxStringLenght = new SizeF();
+                    SizeF maxStringLength = new SizeF();
 
                     foreach (DataRow row in this.dataTable.Rows)
                     {   
                         SizeF size = MeasureString(row[i] as String, this.Font);
-                        if (size.Width > maxStringLenght.Width)
-                            maxStringLenght = size;
+                        if (size.Width > maxStringLength.Width)
+                            maxStringLength = size;
                     }
 
                 
 
-                    if (maxStringLenght.Width > 2)
+                    if (maxStringLength.Width > 2)
                     {
-                        float weight = maxStringLenght.Width / parent.Width;
-                        sum += weight;
-                        this.Columns[i].FillWeight = weight;
+                        if (parent.Width == 0)
+                        {
+                            this.Columns[i].FillWeight = 1;    
+                        }
+                        else { 
+                            float weight = maxStringLength.Width / parent.Width;
+                            sum += weight;
+                            this.Columns[i].FillWeight = weight;
+                        }
                     }
                     if (sum > 1)
                     {
