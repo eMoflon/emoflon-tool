@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 /**
  * This class contains utility methods related Eclipse workspace tasks.
@@ -90,7 +91,7 @@ public class TaskUtilities
                   nextJob.schedule();
                } else
                {
-                  LogUtils.info(logger, "All jobs complete. Last status: %s", result);
+                  LogUtils.info(logger, "All jobs complete. Last status: %s", WorkspaceHelper.getSeverityAsString(result));
                   try
                   {
                      final boolean isSwitchingAutoBuildModeRequired = isAutoBuilding != ResourcesPlugin.getWorkspace().isAutoBuilding();
@@ -104,6 +105,7 @@ public class TaskUtilities
                   }
                }
             }
+
          };
          LogUtils.info(logger, "%d job(s) remaining.", jobs.size());
          final Job firstJob = jobs.remove(0);

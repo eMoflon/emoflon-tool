@@ -1165,4 +1165,36 @@ public class WorkspaceHelper
       Bundle bundle = FrameworkUtil.getBundle(clazz);
       return bundle == null ? null : bundle.getSymbolicName();
    }
+
+   /**
+    * Returns a string that represents the severity of the given status object
+    * 
+    * The code of this method has been extracted from {@link Status#toString()}.
+    * @param status the status
+    * @return the severity (as string)
+    * @see IStatus#getSeverity()
+    */
+   public static String getSeverityAsString(final IStatus status)
+   {
+      final int severity = status.getSeverity();
+      if (severity == IStatus.OK)
+      {
+         return "OK";
+      } else if (severity == IStatus.ERROR)
+      {
+         return "ERROR";
+      } else if (severity == IStatus.WARNING)
+      {
+         return "WARNING";
+      } else if (severity == IStatus.INFO)
+      {
+         return "INFO";
+      } else if (severity == IStatus.CANCEL)
+      {
+         return "CANCEL";
+      } else
+      {
+         return "severity=" + severity;
+      }
+   }
 }
