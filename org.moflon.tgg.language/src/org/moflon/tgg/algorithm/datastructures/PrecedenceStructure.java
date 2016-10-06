@@ -14,6 +14,7 @@ import org.moflon.tgg.runtime.RuntimeFactory;
 import gnu.trove.TIntCollection;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.set.hash.TIntHashSet;
 
 /**
@@ -32,9 +33,17 @@ public abstract class PrecedenceStructure<M> {
 	protected TIntObjectHashMap<TIntHashSet> matchToChildren = new TIntObjectHashMap<>();
 	protected TIntObjectHashMap<TIntHashSet> matchToParents = new TIntObjectHashMap<>();
 
+	protected TObjectIntHashMap<M> matchToInt = new TObjectIntHashMap<>();
+	
+	private int counter = 1;
+	
 	protected void calculateTables(M match) {
 		
-		matches.put(matchToInt(match), match);
+		matchToInt.put(match, counter);
+		
+		matches.put(counter, match);
+		
+		counter++;
 
 		getCreatedElements(match).forEach(elt -> addMatchToCreateTable(elt, matchToInt(match)));
 		getContextElements(match).forEach(elt -> addMatchToContextTable(elt, matchToInt(match)));
@@ -245,7 +254,7 @@ public abstract class PrecedenceStructure<M> {
 	}
 	
 	public int matchToInt(M m){
-		return m.hashCode();
+		return matchToInt.get(m);
 	}
 
 	public Collection<M> getAsCollection(TIntCollection tIntCollection) {

@@ -12,11 +12,6 @@ import gnu.trove.map.hash.TIntIntHashMap;
 
 public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructure<CCMatch> {
 	
-
-	private TIntIntHashMap matchToInt = new TIntIntHashMap();
-	
-	private int counter = 1;
-	
 	@Override
 	public Collection<EObject> getContextElements(CCMatch m) {
 		return m.getContextHashSet();
@@ -78,13 +73,6 @@ public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructure<CCMatch
 		});
 	}
 	
-	@Override
-	public int matchToInt(CCMatch m){
-		int hashCode = m.hashCode();
-		if(!matchToInt.containsKey(hashCode)){
-			matchToInt.put(hashCode, counter++);
-		}
-		return matchToInt.get(hashCode);
-	}
+
 
 }
