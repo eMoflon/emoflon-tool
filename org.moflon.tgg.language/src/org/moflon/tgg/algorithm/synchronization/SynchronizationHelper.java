@@ -1,5 +1,7 @@
 package org.moflon.tgg.algorithm.synchronization;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -62,6 +64,10 @@ public class SynchronizationHelper
    protected Configurator configurator;
 
    protected DeltaSpecification deltaSpec;
+   
+   protected DeltaSpecification sourceInconsistency;
+   
+   protected DeltaSpecification targetInconsistency;
 
    protected Delta delta;
 
@@ -74,6 +80,7 @@ public class SynchronizationHelper
    protected Consumer<EObject> changeTrg;
 
    protected TempOutputContainer tempOutputContainer;
+   
 
    protected boolean batchMode = false;
    
@@ -314,10 +321,13 @@ public class SynchronizationHelper
 
 	private void performActionOnFeature(EMoflonEdge e, BiConsumer<EStructuralFeature, EObject> actionMany, BiConsumer<EStructuralFeature, EObject> actionOne) {
 		EStructuralFeature feature = e.getSrc().eClass().getEStructuralFeature(e.getName());
-		if (feature.isMany()) {
-			actionMany.accept(feature, e.getTrg());
-		} else
-			actionOne.accept(feature, e.getTrg());
+		if(!feature.isDerived()){
+			if (feature.isMany()) {
+				actionMany.accept(feature, e.getTrg());
+			} else
+				actionOne.accept(feature, e.getTrg());
+		}
+
 	}
 
    protected void establishDelta(final EObject input, final Consumer<EObject> change)
@@ -409,34 +419,37 @@ public class SynchronizationHelper
       // Iterate through all references
       for (EStructuralFeature reference : references)
       {
-         // Check if the reference to be handled is a containment edge (i.e.,
-         // node contains s.th.)
-         if (reference.getUpperBound() != 1)
-            // Edge is n-ary: edge exists only once, but points to many
-            // contained EObjects
-            for (EObject containedObject : (EList<EObject>) node.eGet(reference, true))
-            {
-               // Create the wrapper and set the appropriate values
-               EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
-               edge.setName(reference.getName());
-               edge.setSrc(node);
-               edge.setTrg(containedObject);
+    	 if(!reference.isDerived()){
+    		// Check if the reference to be handled is a containment edge (i.e.,
+             // node contains s.th.)
+             if (reference.getUpperBound() != 1)
+                // Edge is n-ary: edge exists only once, but points to many
+                // contained EObjects
+                for (EObject containedObject : (EList<EObject>) node.eGet(reference, true))
+                {
+                   // Create the wrapper and set the appropriate values
+                   EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
+                   edge.setName(reference.getName());
+                   edge.setSrc(node);
+                   edge.setTrg(containedObject);
 
-               // Save edge as unprocessed
-               delta.addEdge(edge);
-            }
-         // else a standard reference was found
-         else
-         {
-            // Create the wrapper and set the appropriate values
-            EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
-            edge.setName(reference.getName());
-            edge.setSrc(node);
-            edge.setTrg((EObject) node.eGet(reference, true));
+                   // Save edge as unprocessed
+                   delta.addEdge(edge);
+                }
+             // else a standard reference was found
+             else
+             {
+                // Create the wrapper and set the appropriate values
+                EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
+                edge.setName(reference.getName());
+                edge.setSrc(node);
+                edge.setTrg((EObject) node.eGet(reference, true));
 
-            // Save edge as unprocessed
-            delta.addEdge(edge);
-         }
+                // Save edge as unprocessed
+                delta.addEdge(edge);
+             }
+    	 }
+         
       }
    }
 
@@ -468,7 +481,26 @@ public class SynchronizationHelper
 	   
 	   ccProtocol = new ConsistencyCheckPrecedenceGraph();
 	   
-	   (new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr, ccProtocol)).createCorrespondences();;
+	   ConsistencySynchronizer cs = new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr, ccProtocol);
+	   cs.createCorrespondences();	   	   
+	   
+	   sourceInconsistency = prepareDelta(cs.getInconsistentSourceElements());
+	   sourceInconsistency.setTargetModel(src);
+	   
+	   targetInconsistency = prepareDelta(cs.getInconsistentTargetElements());
+	   targetInconsistency.setTargetModel(trg);
+	   
+	   int inconsistentElementCount = 0;
+	   inconsistentElementCount += sourceInconsistency.getAddedNodes().size();
+	   inconsistentElementCount += sourceInconsistency.getAddedEdges().size();
+	   inconsistentElementCount += targetInconsistency.getAddedNodes().size();
+	   inconsistentElementCount += targetInconsistency.getAddedEdges().size();
+	   
+	   if(inconsistentElementCount != 0)
+		   logger.info("Your models are inconsistent! Please save and check the source and target deltas.");
+	   else
+		   logger.info("Your models are consistent!");
+	   
    }
 
    protected void performSynchronization(final Synchronizer synchronizer)
@@ -660,4 +692,40 @@ public class SynchronizationHelper
       set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(pgAsPSs);
       eMoflonEMFUtil.saveModel(pgAsPSs.eResource().getResourceSet(), pgAsPSs, path);
    }
+   
+   public void saveInconsistentSourceDelta(final String path){
+
+	   set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(sourceInconsistency);
+	   eMoflonEMFUtil.saveModel(sourceInconsistency.eResource().getResourceSet(), sourceInconsistency, path);
+   }
+   
+   public void saveInconsistentTargetDelta(final String path){
+ 
+	   set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(targetInconsistency);
+	   eMoflonEMFUtil.saveModel(targetInconsistency.eResource().getResourceSet(), targetInconsistency, path);
+   }
+   
+   private DeltaSpecification prepareDelta(Collection<EObject> elements){
+	   DeltaSpecification ds = RuntimeFactory.eINSTANCE.createDeltaSpecification();
+	   ArrayList<EObject> nodes = new ArrayList<>();
+	   for(EObject elt : elements){
+		   if(elt instanceof EMoflonEdge){
+			   EMoflonEdge edge = (EMoflonEdge) elt;
+			   ds.getAddedEdges().add(edge);
+			   try{
+				   performActionOnFeature(edge, (f, o) -> ((EList) edge.getSrc().eGet(f)).remove(o), (f, o) -> edge.getSrc().eUnset(f));
+			   }
+			   catch (Exception e) {
+			   }
+ 
+		   }
+			   
+		   else
+			   nodes.add(elt);
+	   }
+	   ds.getAddedNodes().addAll(nodes);
+	   return ds;
+   }
+   
+   
 }

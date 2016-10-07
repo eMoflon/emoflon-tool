@@ -2,13 +2,18 @@ package org.moflon.tgg.algorithm.synchronization;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.moflon.tgg.algorithm.ccutils.AbstractSolver;
 import org.moflon.tgg.algorithm.ccutils.ILP_GLPK_Solver;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
@@ -21,6 +26,7 @@ import org.moflon.tgg.language.analysis.RulesTable;
 import org.moflon.tgg.language.analysis.StaticAnalysis;
 import org.moflon.tgg.runtime.CCMatch;
 import org.moflon.tgg.runtime.CorrespondenceModel;
+import org.moflon.tgg.runtime.EMoflonEdge;
 import org.moflon.tgg.runtime.IsApplicableRuleResult;
 import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.RuntimeFactory;
@@ -67,11 +73,21 @@ public class ConsistencySynchronizer {
 
 	protected void createCorrespondences() {
 
+		long tic = System.currentTimeMillis();
+		
 		extractMatchPairs();
 
 		applyAllMatchPairs();
+		
+		long toc1 = System.currentTimeMillis();
 
 		filter();
+		
+		long toc2 = System.currentTimeMillis();
+		
+		Measurement.patternMatching = toc1 - tic;
+		Measurement.solving = toc2 - toc1;
+		
 	}
 
 	private void applyAllMatchPairs() {
@@ -90,7 +106,6 @@ public class ConsistencySynchronizer {
 			while (sourceReadyIterator.hasNext()) {
 				int sourceMatchID = sourceReadyIterator.next();
 				Match sourceMatch = sourcePrecedenceGraph.intToMatch(sourceMatchID);
-				EOperation isApplCC = sourceMatch.getIsApplicableCCOperation();
 				TIntIterator targetReadyIterator = readyTargetMatches.iterator();
 				while (targetReadyIterator.hasNext()) {
 					int targetMatchID = targetReadyIterator.next();
@@ -101,6 +116,9 @@ public class ConsistencySynchronizer {
 						EList<Match> arguments = new BasicEList<Match>();
 						arguments.add(sourceMatch);
 						arguments.add(targetMatch);
+						EOperation isApplCC = sourceMatch.getIsApplicableCCOperation();
+						if(isApplCC == null)
+							isApplCC = targetMatch.getIsApplicableCCOperation();
 						IsApplicableRuleResult isApplRR = (IsApplicableRuleResult) InvokeUtil
 								.invokeOperationWithNArguments(isApplCC.getEContainingClass(), isApplCC, arguments);
 						if (isApplRR.isSuccess()) {
@@ -121,12 +139,13 @@ public class ConsistencySynchronizer {
 	}
 
 	private void filter() {
-
-		System.out.println("Solving");
 		
 		ArrayList<CCMatch> excluded = new ArrayList<>();
 		
-		AbstractSolver solver = new ILP_GLPK_Solver();	
+		AbstractSolver solver = new ILP_GLPK_Solver();
+		
+		Measurement.all = protocol.getMatches().size();
+		
 		for (int value : solver.solve(srcElements, trgElements, protocol)) {
 			if (value < 0) {
 				CCMatch excludedMatch = protocol.intToMatch(-value);
@@ -136,6 +155,8 @@ public class ConsistencySynchronizer {
 		}
 		
 		protocol.removeMatches(excluded);
+		
+		Measurement.eliminated = Measurement.all - protocol.getMatches().size();
 
 	}
 
@@ -144,7 +165,7 @@ public class ConsistencySynchronizer {
 	private void extractMatchPairs() {
 		Collection<Match> srcMatches = collectDerivations(srcElements, srcLookupMethods);
 		Collection<Match> trgMatches = collectDerivations(trgElements, trgLookupMethods);
-
+		
 		Set<String> ruleNames = Stream
 				.concat(srcLookupMethods.getRules().stream(), trgLookupMethods.getRules().stream())
 				.map(r -> r.getRuleName()).collect(Collectors.toSet());
@@ -154,9 +175,9 @@ public class ConsistencySynchronizer {
 		ruleNames.forEach(n -> {
 			Match emptyMatch = RuntimeFactory.eINSTANCE.createMatch();
 			emptyMatch.setRuleName(n);
-			if (isIgnored(n, srcLookupMethods))
+			if (noIsApprMethod(n, srcLookupMethods))
 				srcMatches.add(emptyMatch);
-			else if (isIgnored(n, trgLookupMethods))
+			else if (noIsApprMethod(n, trgLookupMethods))
 				trgMatches.add(emptyMatch);
 		});
 
@@ -164,15 +185,15 @@ public class ConsistencySynchronizer {
 		sourcePrecedenceGraph.collectAllPrecedences(srcMatches);
 		targetPrecedenceGraph.collectAllPrecedences(trgMatches);
 
-		srcMatches.forEach(m -> appliedSourceToTarget.put(m.hashCode(), new TIntHashSet()));
+		srcMatches.forEach(m -> appliedSourceToTarget.put(sourcePrecedenceGraph.matchToInt(m), new TIntHashSet()));
 	}
 
 	private Collection<Match> collectDerivations(Graph elements, RulesTable lookupMethods) {
 		return elements.stream().flatMap(new InvokeIsAppropriate(lookupMethods)).collect(Collectors.toSet());
 	}
 
-	private boolean isIgnored(String ruleName, RulesTable lookupMethods) {
-		return lookupMethods.getRules().stream().noneMatch(r -> r.getRuleName().equals(ruleName));
+	private boolean noIsApprMethod(String ruleName, RulesTable lookupMethods) {
+		return lookupMethods.getRules().stream().filter(r -> r.getRuleName().equals(ruleName)).findAny().get().getIsAppropriateMethods().isEmpty();
 	}
 
 	private void extendReady(TIntHashSet readyMatches, PrecedenceInputGraph pg) {
@@ -194,6 +215,40 @@ public class ConsistencySynchronizer {
 			});
 			readyMatches.addAll(newReady);
 		}
+	}
+	
+	public Collection<EObject> getInconsistentSourceElements(){
+		return getInconsistentElements(srcElements);
+		
+	}
+	
+	public Collection<EObject> getInconsistentTargetElements(){
+		return getInconsistentElements(trgElements);
+	}
+	
+	private Collection<EObject> getInconsistentElements(Graph graph){
+		
+		Graph unmarked = new Graph(graph.getElements());
+
+		Collection<EObject> consistent = protocol.getMatches().stream().flatMap(m -> m.getCreatedHashSet().stream()).collect(Collectors.toSet());
+		unmarked.removeDestructive(consistent);
+		
+		//remove opposite edges as well
+		Collection<EObject> consistentOppositeEdges = new HashSet<>();
+		for(EMoflonEdge edge : unmarked.getEdges()){
+			EReference feature = (EReference) edge.getSrc().eClass().getEStructuralFeature(edge.getName());
+			if(feature.getEOpposite() != null){
+				EMoflonEdge oppositeEdge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
+				oppositeEdge.setName(feature.getEOpposite().getName());
+				oppositeEdge.setSrc(edge.getTrg());
+				oppositeEdge.setTrg(edge.getSrc());
+				if(consistent.contains(oppositeEdge))
+					consistentOppositeEdges.add(edge);					
+			}
+		}
+		unmarked.removeDestructive(consistentOppositeEdges);
+		
+		return unmarked.getElements();
 	}
 
 }
