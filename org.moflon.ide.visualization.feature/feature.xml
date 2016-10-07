@@ -100,7 +100,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          id="org.moflon.ide.visualization.dot.ecore.eclassviz"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>
