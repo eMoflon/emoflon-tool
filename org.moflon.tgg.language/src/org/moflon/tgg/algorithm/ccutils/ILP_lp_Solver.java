@@ -11,24 +11,11 @@ import net.sf.javailp.SolverFactoryLpSolve;
 
 public class ILP_lp_Solver extends AbstractILPSolver{
 
-	
 	@Override
-	public int[] solve(Graph sourceGraph, Graph targetGraph, ConsistencyCheckPrecedenceGraph protocol) {
+	protected SolverFactory getSolverFactory() {
 		
-		SolverFactory factory = new SolverFactoryLpSolve();
-		factory.setParameter(Solver.VERBOSE, 0);
-
-		Problem ilpProblem = createIlpProblemFromGraphs(sourceGraph, targetGraph, protocol);
-		
-		Solver solver = factory.get();
-		
-		long startTime = System.currentTimeMillis();
-		
-		// solve
-		Result result = solver.solve(ilpProblem);
-		
-		long endTime = System.currentTimeMillis();
-
-		return getArrayFromResult(result);
+		return new SolverFactoryLpSolve();
 	}
+
+	
 }

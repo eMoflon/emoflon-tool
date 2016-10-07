@@ -10,27 +10,12 @@ import net.sf.javailp.SolverFactory;
 import net.sf.javailp.SolverFactoryGurobi;
 
 public class ILP_Gurobi_Solver extends AbstractILPSolver{
-	
-	
+
 	@Override
-	public int[] solve(Graph sourceGraph, Graph targetGraph, ConsistencyCheckPrecedenceGraph protocol) {
-		
-		SolverFactory factory = new SolverFactoryGurobi();
-		factory.setParameter(Solver.VERBOSE, 0);
-
-		Problem ilpProblem = createIlpProblemFromGraphs(sourceGraph, targetGraph, protocol);
-		
-		Solver solver = factory.get();
-		
-		long startTime = System.currentTimeMillis();
-		
-		// solve
-		Result result = solver.solve(ilpProblem);
-
-		long endTime = System.currentTimeMillis();
-		
-
-		return getArrayFromResult(result);
+	protected SolverFactory getSolverFactory() {
+		return new SolverFactoryGurobi();
 	}
+	
+	
 
 }

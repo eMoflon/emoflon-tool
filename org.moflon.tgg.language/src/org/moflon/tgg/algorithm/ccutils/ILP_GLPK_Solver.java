@@ -11,24 +11,13 @@ import net.sf.javailp.SolverFactoryGLPK;
 
 public class ILP_GLPK_Solver extends AbstractILPSolver{
 
-	
 	@Override
-	public int[] solve(Graph sourceGraph, Graph targetGraph, ConsistencyCheckPrecedenceGraph protocol) {
-		
-		SolverFactory factory = new SolverFactoryGLPK();
-		factory.setParameter(Solver.VERBOSE, 0);
-
-		Problem ilpProblem = createIlpProblemFromGraphs(sourceGraph, targetGraph, protocol);
-		
-		Solver solver = factory.get();
-		
-		
-		// solve
-		Result result = solver.solve(ilpProblem);
-		
-
-		return getArrayFromResult(result);
+	protected SolverFactory getSolverFactory() {
+		return new SolverFactoryGLPK();
 	}
+
+	
+
 
 
 

@@ -7,6 +7,4 @@ public abstract class AbstractSolver {
 
 	public abstract int[] solve(Graph sourceGraph, Graph targetGraph, ConsistencyCheckPrecedenceGraph protocol);
 
-		
-		
 }

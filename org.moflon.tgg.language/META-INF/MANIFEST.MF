@@ -19,8 +19,6 @@ Import-Package: org.antlr.runtime,org.antlr.runtime.tree,org.antlr.str
  ingtemplate,org.antlr.stringtemplate.language,org.antlr.stringtemplat
  e.misc
 Export-Package: .,
- com.microsoft.z3,
- com.microsoft.z3.enumerations,
  convenience,
  csp.constraints,
  csp.constraints.generator,
@@ -87,12 +85,8 @@ Bundle-ClassPath: .,
  lib/democles.jar,
  lib/javabdd-1.0b2.jar,
  lib/RTED_v1.1.jar,
- lib/com.microsoft.z3.jar,
- lib/org.sat4j.core.jar,
- lib/smtinterpol.jar,
  lib/trove-3.1a1.jar,
  lib/glpk-java.jar,
- lib/javailp-1.2a.jar,
- lib/org.sat4j.pb.jar
+ lib/javailp-1.2a.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.TGGLanguageActivator

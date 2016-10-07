@@ -14,6 +14,9 @@ import net.sf.javailp.Linear;
 import net.sf.javailp.OptType;
 import net.sf.javailp.Problem;
 import net.sf.javailp.Result;
+import net.sf.javailp.Solver;
+import net.sf.javailp.SolverFactory;
+import net.sf.javailp.SolverFactoryGLPK;
 
 public abstract class AbstractILPSolver extends AbstractSolver {
 	
@@ -22,8 +25,25 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 	
 	// this list keeps a record of all variables that appear in the clausels. this is needed to define them as ilp variables later
 	protected ArrayList<Integer> variables = new ArrayList<>();
+	
+	
+	@Override
+	public int[] solve(Graph sourceGraph, Graph targetGraph, ConsistencyCheckPrecedenceGraph protocol) {
+		
+		SolverFactory factory = getSolverFactory();
+		factory.setParameter(Solver.VERBOSE, 0);
 
+		Problem ilpProblem = createIlpProblemFromGraphs(sourceGraph, targetGraph, protocol);
+		
+		Solver solver = factory.get();
 
+		// solve
+		Result result = solver.solve(ilpProblem);
+		
+		return getArrayFromResult(result);
+	}
+	
+	protected abstract SolverFactory getSolverFactory();
 	
 	protected Problem createIlpProblemFromGraphs(Graph sourceGraph, Graph targetGraph, ConsistencyCheckPrecedenceGraph protocol){
 		Problem ilpProblem = new Problem();
