@@ -296,7 +296,7 @@ public class SynchronizationHelper
    @SuppressWarnings({ "unchecked", "rawtypes" })
    protected Consumer<EObject> executeDeltaSpec(String pathToDelta)
    {
-      DeltaSpecification localDeltaSpec = (DeltaSpecification) loadModel(pathToDelta);
+      DeltaSpecification localDeltaSpec = (DeltaSpecification) this.loadModelFromFile(pathToDelta);
       EcoreUtil.resolveAll(localDeltaSpec);
       deltaSpec = EcoreUtil.copy(localDeltaSpec);
       
@@ -543,35 +543,92 @@ public class SynchronizationHelper
 
    /* Persistency */
 
-   private EObject loadModel(final String path)
+   /**
+    * Loads the first content item of the resource referred to the given path
+    * 
+    * The referenced resource must contain at least one item in {@link Resource#getContents()}.
+    * 
+    * @param path the path to the resource to be loaded
+    * @return the first content item of the resource
+    * @see eMoflonEMFUtil#createFileURI(String, boolean)
+    * @see #loadModelFromURI(URI)
+    */
+   private EObject loadModelFromFile(final String path)
    {
-      Resource r = set.getResource(eMoflonEMFUtil.createFileURI(path, true), true);
-      return r.getContents().get(0);
+      final URI uri = eMoflonEMFUtil.createFileURI(path, true);
+      return loadModelFromURI(uri);
    }
-   
+
+   /**
+    * Loads the first content item of the resource referred to the given path pathToResource inside the jar file referred to by pathToJar
+    * 
+    * The referenced resource must contain at least one item in {@link Resource#getContents()}.
+    * 
+    * @param pathToJar the path to the jar file
+    * @param pathToResource the path relative/inside the jar file
+    * @return the first content item of the resource
+    * @see eMoflonEMFUtil#createInJarURI(String, String)
+    * @see #loadModelFromURI(URI)
+    */
    private EObject loadModelFromJar(final String pathToJar, final String pathToResource)
    {
-      return set.getResource(eMoflonEMFUtil.createInJarURI(pathToJar, pathToResource), true).getContents().get(0);
+      final URI uri = eMoflonEMFUtil.createInJarURI(pathToJar, pathToResource);
+      return this.loadModelFromURI(uri);
+   }
+
+
+   /**
+    * Loads the first content item of the resource referred to by the given URI
+    * 
+    * The referenced resource must contain at least one item in {@link Resource#getContents()}.
+    * 
+    * The loaded resource is added to this instance's {@link ResourceSet}
+    * 
+    * @param uri the URI
+    * @return the first content item of the resource
+    * @see #getResourceSet()
+    */
+   private EObject loadModelFromURI(final URI uri)
+   {
+      final Resource r = set.getResource(uri, true);
+
+      if (r.getContents().isEmpty())
+         throw new IllegalArgumentException("Resource " + r.getURI() + " is empty.");
+
+      return r.getContents().get(0);
    }
    
    public void loadTrg(final String path)
    {
-      setTrg(loadModel(path));
+      setTrg(this.loadModelFromFile(path));
    }
 
    public void loadSrc(final String path)
    {
-      setSrc(loadModel(path));
+      setSrc(this.loadModelFromFile(path));
    }
 
    public void loadCorr(final String path)
    {
-      setCorr(loadModel(path));
+      setCorr(this.loadModelFromFile(path));
       
       // Resolve to make sure that there are no proxies
       EcoreUtil.resolveAll(corr);
    }
 
+   /**
+    * Loads the rules for the given project, located at the given path.
+    * 
+    * The rules are loaded from the following location: '[pathToProject]/model/[CorrespondencePackageName].sma.xmi' .
+    * 
+    * @param pathToProject
+    *           path that contains the project
+    */
+   public void loadRulesFromProject(final String pathToProject)
+   {
+      loadRulesFromProject(pathToProject, projectName);
+   }
+   
    /**
     * Loads the rules for the given project, located at the given path.
     * 
@@ -584,7 +641,8 @@ public class SynchronizationHelper
     */
    private void loadRulesFromProject(final String pathToProject, final String rulesFileBaseName)
    {
-      setRules((StaticAnalysis) loadModel(pathToProject + "/model/" + MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi"));
+      setRules((StaticAnalysis) loadModelFromFile(
+            pathToProject + "/model/" + MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi"));
    }
 
    /**
@@ -600,23 +658,20 @@ public class SynchronizationHelper
       setRules((StaticAnalysis) loadModelFromJar(pathToJarArchive, pathToResourceInJar));
    }
 
-
    /**
-    * Loads the rules for the given project, located at the given path.
+    * Loads TGG rules from the given URI
     * 
-    * The rules are loaded from the following location: '[pathToProject]/model/[CorrespondencePackageName].sma.xmi' .
-    * 
-    * @param pathToProject
-    *           path that contains the project
+    * @param uri
+    *           the URI to the resource containing the TGG rules as first content item
     */
-   private void loadRulesFromProject(final String pathToProject)
+   public void loadRulesFromURI(final URI uri)
    {
-      loadRulesFromProject(pathToProject, projectName);
+      setRules((StaticAnalysis) loadModelFromURI(uri));
    }
-
+   
    public void loadSynchronizationProtocol(final String path)
    {
-      org.moflon.tgg.runtime.PrecedenceStructure ps = (org.moflon.tgg.runtime.PrecedenceStructure) loadModel(path);
+      org.moflon.tgg.runtime.PrecedenceStructure ps = (org.moflon.tgg.runtime.PrecedenceStructure) this.loadModelFromFile(path);
       
       // Resolve to make sure that there are no proxies
       EcoreUtil.resolveAll(ps);
@@ -713,7 +768,7 @@ public class SynchronizationHelper
 			   EMoflonEdge edge = (EMoflonEdge) elt;
 			   ds.getAddedEdges().add(edge);
 			   try{
-				   performActionOnFeature(edge, (f, o) -> ((EList) edge.getSrc().eGet(f)).remove(o), (f, o) -> edge.getSrc().eUnset(f));
+				   performActionOnFeature(edge, (f, o) -> ((EList<?>) edge.getSrc().eGet(f)).remove(o), (f, o) -> edge.getSrc().eUnset(f));
 			   }
 			   catch (Exception e) {
 			   }
