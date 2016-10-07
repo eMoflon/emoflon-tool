@@ -244,3 +244,9 @@
 	User Notes:
 	* Nothing particular - this is an interal release.
 ---
+2016-10-06 eMoflon 2.21.0 released
+	Fixed Issues:
+	* Visualization of EPackages and EClasses in .ecore #85
+	* Refined context (black) variables are not bold #87
+	* Caching not working for visualisation of abstract rules #88
+---
