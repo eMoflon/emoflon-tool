@@ -250,3 +250,8 @@
 	* Refined context (black) variables are not bold #87
 	* Caching not working for visualisation of abstract rules #88
 ---
+2016-10-07 eMoflon 2.22.0 released
+	Fixed issues:
+	* Hidden exception due to hidden, removed preferences nodes #108 [Hotfix]
+	* ECore Visualization doesnot work in deployment #110
+	* CC just gives an NPE for this simple example #109
