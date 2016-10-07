@@ -468,7 +468,7 @@ public class SynchronizationHelper
          trg = corr.getTarget();
    }
    
-   public void createCorrespondences()
+   public void createCorrespondences(boolean prepareDeltas)
    {
 	   init();
 	   
@@ -484,22 +484,22 @@ public class SynchronizationHelper
 	   ConsistencySynchronizer cs = new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr, ccProtocol);
 	   cs.createCorrespondences();	   	   
 	   
-	   sourceInconsistency = prepareDelta(cs.getInconsistentSourceElements());
-	   sourceInconsistency.setTargetModel(src);
-	   
-	   targetInconsistency = prepareDelta(cs.getInconsistentTargetElements());
-	   targetInconsistency.setTargetModel(trg);
-	   
 	   int inconsistentElementCount = 0;
-	   inconsistentElementCount += sourceInconsistency.getAddedNodes().size();
-	   inconsistentElementCount += sourceInconsistency.getAddedEdges().size();
-	   inconsistentElementCount += targetInconsistency.getAddedNodes().size();
-	   inconsistentElementCount += targetInconsistency.getAddedEdges().size();
-	   
+	   inconsistentElementCount += cs.getInconsistentSourceElements().size();
+	   inconsistentElementCount += cs.getInconsistentTargetElements().size();
+
 	   if(inconsistentElementCount != 0)
 		   logger.info("Your models are inconsistent! Please save and check the source and target deltas.");
 	   else
 		   logger.info("Your models are consistent!");
+	   
+	   if(prepareDeltas){
+		   sourceInconsistency = prepareDelta(cs.getInconsistentSourceElements());
+		   sourceInconsistency.setTargetModel(src);
+		   
+		   targetInconsistency = prepareDelta(cs.getInconsistentTargetElements());
+		   targetInconsistency.setTargetModel(trg);
+	   }
 	   
    }
 
