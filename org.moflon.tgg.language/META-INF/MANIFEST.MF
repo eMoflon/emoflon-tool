@@ -82,7 +82,7 @@ Export-Package: .,
  org.moflon.tgg.language.util,
  util
 Bundle-Name: TGGLanguage (MOFLON)
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.1.0.qualifier
 Bundle-ClassPath: .,
  lib/democles.jar,
  lib/javabdd-1.0b2.jar,

@@ -522,18 +522,21 @@ public class eMoflonEMFUtil
     */
 
    /**
-    * Create and return a file URI for the given path.
+    * Create and return a file:// URI for the given path
     * 
-    * @param pathToXMIFile
+    * If mustExist is true, the file refered to by the path must exist
+    * 
+    * @param path the path to the file to be loaded
     * @param mustExist
     *           Set true when loading (the file must exist) and false when saving (file can be newly created).
-    * @return
+    *           
+    * @return the file:// URI that refers to the given file
     */
-   static public URI createFileURI(final String pathToXMIFile, final boolean mustExist)
+   public static URI createFileURI(final String path, final boolean mustExist)
    {
-      File filePath = new File(pathToXMIFile);
+      File filePath = new File(path);
       if (!filePath.exists() && mustExist)
-         throw new IllegalArgumentException(pathToXMIFile + " does not exist.");
+         throw new IllegalArgumentException(path + " does not exist.");
 
       return URI.createFileURI(filePath.getAbsolutePath());
    }
