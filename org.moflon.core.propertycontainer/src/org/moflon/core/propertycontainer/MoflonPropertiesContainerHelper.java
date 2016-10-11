@@ -122,7 +122,9 @@ public class MoflonPropertiesContainerHelper
       IFile propertiesFile = project.getFile(MOFLON_CONFIG_FILE);
       try
       {
-         String content = IOUtils.toString(propertiesFile.getContents());
+         final InputStream inputStream = propertiesFile.getContents();
+         final String content = IOUtils.toString(inputStream);
+         IOUtils.closeQuietly(inputStream);
          // Make sure that we need to do anything at all
          if (OBSOLETE_TAGNAMES.stream().anyMatch(tagname -> {
             return content.contains(tagname.toString());
