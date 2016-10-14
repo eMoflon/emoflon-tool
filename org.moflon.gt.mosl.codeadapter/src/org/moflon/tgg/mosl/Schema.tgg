@@ -1,0 +1,19 @@
+// Add imports here
+
+#schema org.moflon.gt.mosl.codeadapter
+	
+#source {
+	
+}
+
+#target { 
+	
+} 
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}
