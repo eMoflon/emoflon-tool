@@ -9,3 +9,6 @@ Require-Bundle: org.moflon.gt.mosl,
  org.eclipse.xtext.ide,
  org.eclipse.xtext.xbase.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.moflon.gt.mosl.ide.contentassist.antlr.internal,
+ org.moflon.gt.mosl.ide.contentassist.antlr
+
