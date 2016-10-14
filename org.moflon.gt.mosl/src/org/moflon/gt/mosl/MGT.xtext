@@ -1,0 +1,68 @@
+grammar org.moflon.gt.mosl.MOSLGT with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate moslgt "http://www.moflon.org/gt/mosl/MOSLGT"
+
+GraphTransformationFile:
+	Base | Extension	
+;
+
+Extension:
+	using = Using
+	eClasses += EClassDef 
+;
+
+Base:
+	imports += Import*
+	'#package' name = QualifiedName
+	
+	eClasses += EClassDef 
+;
+
+EClassDef:
+	'#class' name = [ecore::EClass | QualifiedName] '{'
+	operations += MethodDec*
+	'}'
+;
+
+MethodDec:
+	'#operation' name = [ecore::EOperation | ID] '(' parameters+=MethodParameter* ')' type=[ecore::EClassifier | MethodTypeName] '{'
+	
+	'}'
+;
+
+MethodParameter: name = [ecore::EParameter] ':' type=[ecore::EClassifier | QualifiedName];
+
+MethodTypeName returns ecore::EString: 'void' | QualifiedName;
+
+
+/* ---------------- */
+/*    Auxiliaries   */
+/* ---------------- */
+
+Import:
+	'#import' name = STRING
+;
+
+Using:
+	'#using' importedNamespace = [Base]
+;
+
+terminal DECIMAL: INT '.' INT;
+
+LiteralValue:
+	(STRING | ('-')?INT | ('-')?DECIMAL | BOOL)
+;
+
+terminal BOOL:
+	'true' | 'false'
+;
+
+QualifiedNameWithWildcard:
+	QualifiedName '.*'
+;
+
+QualifiedName returns ecore::EString:
+	ID ('.' ID)*
+;
