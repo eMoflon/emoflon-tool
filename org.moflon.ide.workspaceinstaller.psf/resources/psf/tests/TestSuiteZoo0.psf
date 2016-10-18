@@ -20,5 +20,10 @@
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SokobanTutorial"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,StatechartLanguage"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ZooTestSuite0"/>
+<!-- MAKI-related stuff -->
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,de.tudarmstadt.maki.modeling.graphmodel.specification"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,de.tudarmstadt.maki.modeling.jvlc.specification"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,de.tudarmstadt.maki.modeling.graphmodel"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,de.tudarmstadt.maki.modeling.jvlc"/>
 </provider>
 </psf>
