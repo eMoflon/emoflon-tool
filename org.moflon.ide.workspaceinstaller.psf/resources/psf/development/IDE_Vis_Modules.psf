@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
 <provider id="org.eclipse.egit.core.GitProvider">
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.abstractsyntaxviewer"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.language"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.sdm"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.sdmpatterns"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.schema"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.delta"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.ecore.epackageviz"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.ecore.eclassviz"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.runtime"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.dot.tgg.runtimepatterns"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.visualization.feature"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.abstractsyntaxviewer"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.language"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.sdm"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.sdmpatterns"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.tgg"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.tgg.schema"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.tgg.delta"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.ecore.epackageviz"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.ecore.eclassviz"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.tgg.runtime"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.dot.tgg.runtimepatterns"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.visualization.feature"/>
 </provider>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1450098542341_15" label="eMoflon IDE Visualization" name="eMoflon IDE Visualization">
 <item elementID="=org.moflon.ide.visualization.dot.sdmpatterns" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>

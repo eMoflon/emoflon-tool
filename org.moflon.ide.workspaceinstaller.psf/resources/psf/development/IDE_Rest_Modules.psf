@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
 <provider id="org.eclipse.egit.core.GitProvider">
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.core"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.eaaddin"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.editor"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.plugins"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.ui"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.workspaceinstaller.psf"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.testing.autotester"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.testing.testframework"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.core"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.eaaddin"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.editor"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.plugins"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.ui"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.ide.workspaceinstaller.psf"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.testing.autotester"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.testing.testframework"/>
 </provider>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1450098428699_11" label="eMoflon IDE" name="eMoflon IDE">
 <item elementID="=org.moflon.ide.editor" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
