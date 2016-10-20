@@ -9,6 +9,7 @@ import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.runtime.CCMatch;
 
 import gnu.trove.TIntCollection;
+import gnu.trove.set.hash.TIntHashSet;
 import net.sf.javailp.Constraint;
 import net.sf.javailp.Linear;
 import net.sf.javailp.OptType;
@@ -16,15 +17,11 @@ import net.sf.javailp.Problem;
 import net.sf.javailp.Result;
 import net.sf.javailp.Solver;
 import net.sf.javailp.SolverFactory;
-import net.sf.javailp.SolverFactoryGLPK;
 
 public abstract class AbstractILPSolver extends AbstractSolver {
 	
-	protected HashSet<Integer> num_correspondences = new HashSet<Integer>();
-	protected HashSet<Integer> num_decissionPoints = new HashSet<Integer>();
-	
 	// this list keeps a record of all variables that appear in the clausels. this is needed to define them as ilp variables later
-	protected ArrayList<Integer> variables = new ArrayList<>();
+	protected TIntHashSet variables = new TIntHashSet();
 	
 	
 	@Override
@@ -34,13 +31,15 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 		factory.setParameter(Solver.VERBOSE, 0);
 
 		Problem ilpProblem = createIlpProblemFromGraphs(sourceGraph, targetGraph, protocol);
-		
+
 		Solver solver = factory.get();
 
 		// solve
 		Result result = solver.solve(ilpProblem);
 		
-		return getArrayFromResult(result);
+		int[] arrayResult = getArrayFromResult(result);
+		
+		return arrayResult;
 	}
 	
 	protected abstract SolverFactory getSolverFactory();
@@ -54,15 +53,7 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 			TIntCollection variables = protocol.creates(elm);
 			if(variables != null && !variables.isEmpty()){
 				int[] alternatives = variables.toArray();
-				ilpProblem.add(new Constraint(String.valueOf(elm.hashCode()), getAlternativeLinearFromArray(alternatives), "<=", 1));
-				
-				//for evaluation only
-				for(Integer myInt : alternatives){
-					num_correspondences.add(myInt);
-					if(alternatives.length > 1){
-						num_decissionPoints.add(myInt);
-					}
-				}
+				ilpProblem.add(new Constraint(String.valueOf(elm.hashCode()), getAlternativeLinearFromArray(alternatives), "<=", 1));				
 			}
 		}
 		
@@ -71,14 +62,6 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 			if(variables != null && !variables.isEmpty()){
 				int[] alternatives = variables.toArray();		
 				ilpProblem.add(new Constraint (String.valueOf(elm.hashCode()), getAlternativeLinearFromArray(alternatives), "<=", 1));
-				
-				//for evaluation only
-				for(Integer myInt : alternatives){
-					num_correspondences.add(myInt);
-					if(alternatives.length > 1){
-						num_decissionPoints.add(myInt);
-					}
-				}
 			}
 		}
 		
@@ -106,9 +89,9 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 		ilpProblem.setObjective(objective, OptType.MAX);
 		
 		// define variables as ilp boolean variables
-		variables.forEach(variable -> ilpProblem.setVarType(variable, Boolean.class));
-		
-		long endTime = System.currentTimeMillis();
+		variables.forEach(variable -> {ilpProblem.setVarType(variable, Boolean.class);
+			return true;
+		});
 		
 		return ilpProblem;
 	}
@@ -127,17 +110,11 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 		Linear linear = new Linear();
 		linear.add(1, implication[0]);
 		linear.add(-1, implication[1]);
-		if(!variables.contains(implication[0]))
-			variables.add(implication[0]);
-		if(!variables.contains(implication[1]))
-			variables.add(implication[1]);
 		return linear;
 	}
 	
 	// Transforms the output of the ILP Solver (one long string) into a result array
 	protected int[] getArrayFromResult(Result result) {
-		if (result != null)
-			System.out.println("Satisfiable!");
 		
 		String[] resultPartials = result.toString().split(", ");
 		

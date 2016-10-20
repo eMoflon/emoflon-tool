@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.moflon.tgg.algorithm.ccutils.AbstractSolver;
-import org.moflon.tgg.algorithm.ccutils.ILP_GLPK_Solver;
+import org.moflon.tgg.algorithm.ccutils.ILP_Gurobi_Solver;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -71,21 +71,12 @@ public class ConsistencySynchronizer {
 
 	protected void createCorrespondences() {
 
-		long tic = System.currentTimeMillis();
-		
 		extractMatchPairs();
 
 		applyAllMatchPairs();
-		
-		long toc1 = System.currentTimeMillis();
 
 		filter();
-		
-		long toc2 = System.currentTimeMillis();
-		
-		Measurement.patternMatching = toc1 - tic;
-		Measurement.solving = toc2 - toc1;
-		
+	
 	}
 
 	private void applyAllMatchPairs() {
@@ -137,25 +128,29 @@ public class ConsistencySynchronizer {
 	}
 
 	private void filter() {
+
+		AbstractSolver solver = new ILP_Gurobi_Solver();
+
+		int[] solvingResult = solver.solve(srcElements, trgElements, protocol);
 		
+		removeMatches(solvingResult);
+
+
+	}
+
+	private void removeMatches(int[] matches) {
 		ArrayList<CCMatch> excluded = new ArrayList<>();
-		
-		AbstractSolver solver = new ILP_GLPK_Solver();
-		
-		Measurement.all = protocol.getMatches().size();
-		
-		for (int value : solver.solve(srcElements, trgElements, protocol)) {
+		for (int value : matches) {
 			if (value < 0) {
 				CCMatch excludedMatch = protocol.intToMatch(-value);
 				excluded.add(excludedMatch);
 				excludedMatch.getCreateCorr().forEach(e -> graphTriple.getCorrespondences().remove(e));
 			}
 		}
+
 		
 		protocol.removeMatches(excluded);
 		
-		Measurement.eliminated = Measurement.all - protocol.getMatches().size();
-
 	}
 
 
