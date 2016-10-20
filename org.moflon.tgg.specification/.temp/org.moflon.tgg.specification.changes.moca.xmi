@@ -1,0 +1,217 @@
+<MocaTree:Node xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MocaTree="platform:/plugin/MocaTree/model/MocaTree.ecore">
+  <children name="changesTree" index="0" xsi:type="MocaTree:Node">
+    <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node">
+        <children name="EClass" index="0" xsi:type="MocaTree:Node">
+          <attribute name="name" value="DeltaSpecification" index="0" />
+          <attribute name="previousName" value="DeltaSpecification" index="1" />
+          <attribute name="packageName" value="org.moflon.tgg.runtime" index="2" />
+          <attribute name="projectName" value="org.moflon.tgg.runtime" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="1" xsi:type="MocaTree:Node">
+          <attribute name="name" value="CCMatch" index="0" />
+          <attribute name="previousName" value="CCMatch" index="1" />
+          <attribute name="packageName" value="org.moflon.tgg.runtime" index="2" />
+          <attribute name="projectName" value="org.moflon.tgg.runtime" index="3" />
+          <attribute name="baseClasses" value="{76B602DF-1B3C-41c0-92F6-F072241F6FDD} " index="4" />
+        </children>
+        <children name="EClass" index="2" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Edge" index="0" />
+          <attribute name="previousName" value="Edge" index="1" />
+          <attribute name="packageName" value="org.moflon.tgg.runtime" index="2" />
+          <attribute name="projectName" value="org.moflon.tgg.runtime" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+      </children>
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{A1ED3E51-C904-4567-B6E7-657A6C6DA749}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.tgg.runtime" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.tgg.runtime" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.tgg.runtime/model/Runtime.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.tgg.runtime" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="TGG" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node">
+        <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node">
+            <children name="EClass" index="0" xsi:type="MocaTree:Node">
+              <attribute name="name" value="CCHelper" index="0" />
+              <attribute name="previousName" value="CCHelper" index="1" />
+              <attribute name="packageName" value="org.moflon.tgg.language.consistencycheck" index="2" />
+              <attribute name="projectName" value="org.moflon.tgg.language" index="3" />
+              <attribute name="baseClasses" value="" index="4" />
+            </children>
+            <children name="EClass" index="1" xsi:type="MocaTree:Node">
+              <attribute name="name" value="ConsistencyCheckCompiler" index="0" />
+              <attribute name="previousName" value="ConsistencyCheckCompiler" index="1" />
+              <attribute name="packageName" value="org.moflon.tgg.language.consistencycheck" index="2" />
+              <attribute name="projectName" value="org.moflon.tgg.language" index="3" />
+              <attribute name="baseClasses" value="" index="4" />
+            </children>
+          </children>
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{2A5D3BEB-503B-409c-BC90-F8CE5EA6F35B}" index="0" />
+          <attribute name="Moflon::Name" value="consistencycheck" index="1" />
+          <attribute name="Moflon::NsPrefix" value="consistencycheck" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/consistencycheck/model/Consistencycheck.ecore#//consistencycheck" index="3" />
+        </children>
+        <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node">
+            <children name="EClass" index="0" xsi:type="MocaTree:Node">
+              <attribute name="name" value="TGGConstraint" index="0" />
+              <attribute name="previousName" value="TGGConstraint" index="1" />
+              <attribute name="packageName" value="org.moflon.tgg.language.csp" index="2" />
+              <attribute name="projectName" value="org.moflon.tgg.language" index="3" />
+              <attribute name="baseClasses" value="" index="4" />
+            </children>
+          </children>
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{6B91C565-0C02-4bbe-834A-1FD1E46D058E}" index="1" />
+          <attribute name="Moflon::Name" value="csp" index="4" />
+          <attribute name="Moflon::NsPrefix" value="csp" index="5" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/csp/model/Csp.ecore#//csp" index="6" />
+        </children>
+        <children name="EPackage" index="2" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{98FA3CDA-80C5-462d-BD0A-C8B4108B4D3A}" index="0" />
+          <attribute name="Moflon::Name" value="modelgenerator" index="1" />
+          <attribute name="Moflon::NsPrefix" value="modelgenerator" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/modelgenerator/model/Modelgenerator.ecore#//modelgenerator" index="3" />
+        </children>
+        <children name="EPackage" index="3" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{B5A49EA0-5267-4117-A4C6-9CEF95933478}" index="1" />
+          <attribute name="Moflon::Name" value="precompiler" index="4" />
+          <attribute name="Moflon::NsPrefix" value="precompiler" index="5" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/precompiler/model/Precompiler.ecore#//precompiler" index="6" />
+        </children>
+        <children name="EPackage" index="4" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{C2D39E2B-4D12-4db8-BDF6-04AD2C7465AF}" index="1" />
+          <attribute name="Moflon::Name" value="algorithm" index="4" />
+          <attribute name="Moflon::NsPrefix" value="algorithm" index="5" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/algorithm/model/Algorithm.ecore#//algorithm" index="6" />
+        </children>
+        <children name="EPackage" index="5" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node">
+            <children name="EClass" index="0" xsi:type="MocaTree:Node">
+              <attribute name="name" value="Rule" index="0" />
+              <attribute name="previousName" value="Rule" index="1" />
+              <attribute name="packageName" value="org.moflon.tgg.language.analysis" index="2" />
+              <attribute name="projectName" value="org.moflon.tgg.language" index="3" />
+              <attribute name="baseClasses" value="" index="4" />
+            </children>
+          </children>
+          <children name="packages" index="1" xsi:type="MocaTree:Node">
+            <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+              <children name="classes" index="0" xsi:type="MocaTree:Node">
+                <children name="EClass" index="0" xsi:type="MocaTree:Node">
+                  <attribute name="name" value="DECNACAnalysis" index="0" />
+                  <attribute name="previousName" value="DECNACAnalysis" index="1" />
+                  <attribute name="packageName" value="decNACs" index="2" />
+                  <attribute name="baseClasses" value="" index="3" />
+                </children>
+              </children>
+              <children name="packages" index="1" xsi:type="MocaTree:Node" />
+              <attribute name="guid" value="{1B0E8A2E-A3DF-415a-B1E0-8555357FCA98}" index="1" />
+              <attribute name="Moflon::Name" value="decNACs" index="9" />
+              <attribute name="Moflon::NsPrefix" value="decNACs" index="10" />
+              <attribute name="Moflon::NsUri" value="platform:/plugin/decNACs/model/DecNACs.ecore#//analysis/decNACs" index="11" />
+            </children>
+          </children>
+          <attribute name="guid" value="{71E858CB-35E3-4e60-B22F-97A2A0EEF4CC}" index="1" />
+          <attribute name="Moflon::Name" value="analysis" index="4" />
+          <attribute name="Moflon::NsPrefix" value="analysis" index="5" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/analysis/model/Analysis.ecore#//analysis" index="6" />
+        </children>
+        <children name="EPackage" index="6" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node">
+            <children name="EClass" index="0" xsi:type="MocaTree:Node">
+              <attribute name="name" value="TGGCompiler" index="0" />
+              <attribute name="previousName" value="TGGCompiler" index="1" />
+              <attribute name="packageName" value="org.moflon.tgg.language.compiler" index="2" />
+              <attribute name="baseClasses" value="" index="3" />
+            </children>
+          </children>
+          <children name="packages" index="1" xsi:type="MocaTree:Node">
+            <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+              <children name="classes" index="0" xsi:type="MocaTree:Node">
+                <children name="EClass" index="0" xsi:type="MocaTree:Node">
+                  <attribute name="name" value="StoryPatternHelper" index="0" />
+                  <attribute name="previousName" value="StoryPatternHelper" index="1" />
+                  <attribute name="packageName" value="compilerfacade" index="2" />
+                  <attribute name="projectName" value="compilerfacade" index="3" />
+                  <attribute name="baseClasses" value="" index="4" />
+                </children>
+                <children name="EClass" index="1" xsi:type="MocaTree:Node">
+                  <attribute name="name" value="Helper" index="0" />
+                  <attribute name="previousName" value="Helper" index="1" />
+                  <attribute name="packageName" value="compilerfacade" index="2" />
+                  <attribute name="projectName" value="compilerfacade" index="3" />
+                  <attribute name="baseClasses" value="" index="4" />
+                </children>
+              </children>
+              <children name="packages" index="1" xsi:type="MocaTree:Node" />
+              <attribute name="guid" value="{7B4942E5-4922-4bbb-B687-03CA7D4D0200}" index="0" />
+              <attribute name="Moflon::Name" value="compilerfacade" index="1" />
+              <attribute name="Moflon::NsPrefix" value="compilerfacade" index="2" />
+              <attribute name="Moflon::NsUri" value="platform:/plugin/compilerfacade/model/Compilerfacade.ecore#//compiler/compilerfacade" index="3" />
+            </children>
+          </children>
+          <attribute name="guid" value="{D618067B-F0BF-4f17-9689-8D351C36E1C4}" index="0" />
+          <attribute name="Moflon::Name" value="compiler" index="1" />
+          <attribute name="Moflon::NsPrefix" value="compiler" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/compiler/model/Compiler.ecore#//compiler" index="3" />
+        </children>
+      </children>
+      <attribute name="guid" value="{950F1DDB-0E25-411b-8077-2B09CB139F43}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.tgg.language" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.tgg.language" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.tgg.language/model/Language.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.tgg.language" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="TGG" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="2" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{02F81F6E-3899-4a3a-8EDC-9643E8CEB65E}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.tgg.cspcodeadapter" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.tgg.cspcodeadapter" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.tgg.cspcodeadapter" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="TGG" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="3" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{04ED47D8-D62B-474f-8F27-C478EF005074}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.tgg.tggproject" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.tgg.tggproject" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.tgg.tggproject/model/Tggproject.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.tgg.tggproject" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="TGG" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+  </children>
+</MocaTree:Node>

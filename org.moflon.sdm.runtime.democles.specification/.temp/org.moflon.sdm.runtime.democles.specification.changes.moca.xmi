@@ -1,0 +1,18 @@
+<MocaTree:Node xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MocaTree="platform:/plugin/MocaTree/model/MocaTree.ecore">
+  <children name="changesTree" index="0" xsi:type="MocaTree:Node">
+    <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{F92D6D3F-271F-4d17-AB43-8CC28B5F4CF5}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.sdm.runtime.democles" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.sdm.runtime.democles" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.sdm.runtime.democles/model/Democles.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.sdm.runtime.democles" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+  </children>
+</MocaTree:Node>

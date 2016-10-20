@@ -1,0 +1,38 @@
+Ecore [type=r, exported=false, nsUri=platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore]
+MocaTree [type=r, exported=false, nsUri=platform:/plugin/MocaTree/model/MocaTree.ecore]
+SDMLanguage [type=r, exported=false, nsUri=platform:/plugin/SDMLanguage/model/SDMLanguage.ecore]
+__ignore__ [type=r, exported=false, nsUri=platform:/plugin/org.gervarro.democles.specification.emf/model/emf.ecore]
+		dependency0=__ignore__
+org.moflon.core.dfs [type=r, exported=true, nsUri=platform:/plugin/org.moflon.core.dfs/model/Dfs.ecore]
+org.moflon.sdm.compiler.democles.pattern [type=r, exported=true, nsUri=platform:/plugin/org.moflon.sdm.compiler.democles.pattern/model/Pattern.ecore]
+		dependency0=MocaTree
+		dependency1=SDMLanguage
+		dependency2=__ignore__
+		dependency3=__ignore__
+		dependency4=__ignore__
+		dependency5=org.moflon.sdm.compiler.democles.validation.result
+		dependency6=org.moflon.sdm.democles.literalexpressionsolver
+org.moflon.sdm.compiler.democles.validation.controlflow [type=r, exported=true, nsUri=platform:/plugin/org.moflon.sdm.compiler.democles.validation.controlflow/model/Controlflow.ecore]
+		dependency0=SDMLanguage
+		dependency1=__ignore__
+		dependency2=org.moflon.core.dfs
+		dependency3=org.moflon.sdm.compiler.democles.validation.result
+		dependency4=org.moflon.sdm.runtime.democles
+org.moflon.sdm.compiler.democles.validation.result [type=r, exported=true, nsUri=platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore]
+org.moflon.sdm.compiler.democles.validation.scope [type=r, exported=true, nsUri=platform:/plugin/org.moflon.sdm.compiler.democles.validation.scope/model/Scope.ecore]
+		dependency0=MocaTree
+		dependency1=SDMLanguage
+		dependency2=__ignore__
+		dependency3=__ignore__
+		dependency4=__ignore__
+		dependency5=org.moflon.sdm.compiler.democles.pattern
+		dependency6=org.moflon.sdm.compiler.democles.validation.result
+		dependency7=org.moflon.sdm.democles.literalexpressionsolver
+		dependency8=org.moflon.sdm.runtime.democles
+org.moflon.sdm.democles.literalexpressionsolver [type=r, exported=true, nsUri=platform:/plugin/org.moflon.sdm.democles.literalexpressionsolver/model/Literalexpressionsolver.ecore]
+		dependency0=MocaTree
+		dependency1=SDMLanguage
+		dependency2=__ignore__
+org.moflon.sdm.runtime.democles [type=r, exported=false, nsUri=platform:/plugin/org.moflon.sdm.runtime.democles/model/Democles.ecore]
+		dependency0=SDMLanguage
+		dependency1=__ignore__
