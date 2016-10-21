@@ -3,6 +3,14 @@
  */
 package org.moflon.gt.mosl.scoping
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EReference
+import org.moflon.gt.mosl.moslgt.EClassDef
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.moflon.codegen.eclipse.CodeGeneratorPlugin
+import org.moflon.gt.mosl.moslgt.GraphTransformationFile
+import org.eclipse.emf.common.util.URI
+import org.moflon.ide.mosl.core.scoping.MoflonScope
 
 /**
  * This class contains custom scoping description.
@@ -11,5 +19,22 @@ package org.moflon.gt.mosl.scoping
  * on how and when to use it.
  */
 class MOSLGTScopeProvider extends AbstractMOSLGTScopeProvider {
-
+	override getScope(EObject context, EReference reference) {
+		if(isClassDef(context,reference)){
+			return potentialClassDef(context as EClassDef)
+		}
+		super.getScope(context, reference);
+	}
+	
+	def boolean isClassDef(EObject context, EReference refernce){
+		return context instanceof EClassDef 
+	}
+	
+	def potentialClassDef(EClassDef classDef){
+		val set = new ResourceSetImpl()
+		CodeGeneratorPlugin.createPluginToResourceMapping(set);
+		var gtf = classDef.eContainer as GraphTransformationFile
+		var resources = gtf.imports.map[u | set.getResource(URI.createURI(u.name), true)]
+		return new MoflonScope(resources.map[r | r.contents.get(0)])
+	}
 }

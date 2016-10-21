@@ -23,14 +23,12 @@ EClassDef:
 ;
 
 MethodDec:
-	'#operation' name = [ecore::EOperation | ID] '(' parameters+=MethodParameter* ')' type=[ecore::EClassifier | MethodTypeName] '{'
-		startStatement=Statement
-	'}'
+	'#operation' name = [ecore::EOperation | ID] '(' parameters+=MethodParameter* ')' type=[ecore::EClassifier | MethodTypeName] ('{'
+		statements += Statement+
+	'}')?
 ;
 
-Statement: InternalStatement (next = Statement)?;
-
-InternalStatement:PatternStatement | ConditionStatement;
+Statement: PatternStatement | ConditionStatement | ObjectVariable | ReturnStatement;
 
 PatternStatement:'#invoke' pattern=[Pattern];
 
@@ -39,16 +37,31 @@ ConditionStatement:'#if(' pattern=[Pattern] ')''{'
 	'}'
 ;
 
+ReturnStatement: "#return" returnObject=[ObjectVariable];
+
+ObjectVariable: (op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName];
+
+ObjectVariablePattern: ObjectVariable (":=" assignment=ObjectVariable)? ('{' 
+	
+	
+'}')?;
+
 Pattern:name=ID;
 
-MethodParameter: name = [ecore::EParameter] ':' type=[ecore::EClassifier | QualifiedName];
+MethodParameter: name = ID ':' type=[ecore::EClassifier | QualifiedName];
 
 MethodTypeName returns ecore::EString: 'void' | QualifiedName;
+
+Operator:
+	value = OPERATOR_VALUE
+;
 
 
 /* ---------------- */
 /*    Auxiliaries   */
 /* ---------------- */
+
+
 
 Import:
 	'#import' name = STRING
@@ -57,6 +70,8 @@ Import:
 Using:
 	'#using' importedNamespace = QualifiedNameWithWildcard
 ;
+
+terminal OPERATOR_VALUE: '++' | '!' | '--';
 
 terminal DECIMAL: INT '.' INT;
 
