@@ -90,3 +90,14 @@ QualifiedNameWithWildcard:
 QualifiedName returns ecore::EString:
 	ID ('.' ID)*
 ;
+
+
+// some OO stuff
+
+AbstractGraphTransformationFile:
+	GraphTransformationFile ecoreFiles += EcoreFileContainer*
+;
+
+EcoreFileContainer:
+	ecoreFile= [ecore::EPackage]
+;
