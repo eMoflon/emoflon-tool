@@ -102,16 +102,4 @@ public class RenameClassRefactoring implements RenameRefactoring
          previousInjectionFile.move(Path.fromPortableString(newLastSegmentOfInjectionFile), true, new NullProgressMonitor());
       }
    }
-
-   /*
-    * Determines the path of a Java file after performing the given RenameChange.
-    */
-   // TODO@fstallmeyer: Do you need this method?
-   // private IFile getCurrentJavaFile(IProject project, IFile previousJavaFile)
-   // {
-   // final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(oldName, newName);
-   // final IPath newJavaFilePath =
-   // previousJavaFile.getProjectRelativePath().removeLastSegments(1).append(newLastSegment);
-   // return project.getFile(newJavaFilePath);
-   // }
 }
