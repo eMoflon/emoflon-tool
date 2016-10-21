@@ -23,7 +23,7 @@ EClassDef:
 ;
 
 MethodDec:
-	'#operation' name = [ecore::EOperation | ID] '(' parameters+=MethodParameter* ')' type=[ecore::EClassifier | MethodTypeName] ('{'
+	'#operation' name = ID '(' parameters+=MethodParameter* ')' ':' type=[ecore::EClassifier | MethodTypeName] ('{'
 		statements += Statement+
 	'}')?
 ;
