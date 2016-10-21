@@ -83,10 +83,7 @@ public class RenameClassRefactoring implements RenameRefactoring
       }
    }
 
-	// TODO@fstallmeyer: I believe this is correct now, but this method may only
-	// handle renamings WITHIN one package! ->
-   // lastSegment (RK)
-   /*
+   /**
     * Updates the injections for the given original JavaFile.
     * 
     * The original injection file is first renamed to give version control a chance to record that this is NOT a

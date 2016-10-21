@@ -86,9 +86,6 @@ public class RenamePackageRefactoring implements RenameRefactoring
          Change change = refactoring.createChange(monitor);
          change.perform(monitor);
 
-			// TODO@fstallmeyer: Return an appropriate status and/or log if
-            // status.severity() == IStatus.ERROR (RK)
-                    
       } catch (Exception e)
       {
          return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem during refactoring", e);
