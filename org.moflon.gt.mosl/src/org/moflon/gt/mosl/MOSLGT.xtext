@@ -1,0 +1,112 @@
+grammar org.moflon.gt.mosl.MOSLGT with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate moslgt "http://www.moflon.org/gt/mosl/MOSLGT"
+
+GraphTransformationFile:
+	imports += Import*
+	using += Using*	'#package' name = QualifiedName
+	
+	(eClasses += EClassDef | patterns += PatternDef)
+	eClasses += EClassDef*
+	patterns += PatternDef*
+	
+;
+
+PatternDef:"#pattern" Pattern;
+
+EClassDef:
+	'#class' name = [ecore::EClass | QualifiedName] '{'
+	operations += MethodDec*
+	'}'
+;
+
+MethodDec:
+	'#operation' name = ID '(' parameters+=MethodParameter* ')' ':' (type=[ecore::EClassifier | QualifiedName] | 'void') ('{'
+		statements += Statement*
+	'}')?
+;
+
+Statement: PatternStatement | ConditionContainingStatement| ObjectVariable | ReturnStatement;
+
+PatternStatement:'#invoke' pattern=[Pattern];
+
+ConditionStatement:'#if' '(' cond=Condition ')''{'
+	thenStmts += Statement+
+	'}'
+	('#else' '{'
+		elseStmts += Statement+
+	'}')?
+;
+
+Condition:pattern=[Pattern];
+
+ConditionContainingStatement:ConditionStatement | LoopStatement;
+
+LoopStatement:DoLoopStatement | WhileLoopStatement;
+
+WhileLoopStatement: '#while''(' cond=Condition ')''{'
+		loopStmts += Statement+
+	'}'
+;
+
+DoLoopStatement: '#Do' '{'
+	loopStmts += Statement+
+	'}' '#while' '(' cond=Condition ')'
+;
+
+ReturnStatement: "#return" (returnObject=[ObjectVariable])?;
+
+ObjectVariable: (op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName];
+
+ObjectVariablePattern: ObjectVariable (":=" assignment=ObjectVariable)? ('{' 
+	
+	
+'}')?;
+
+Pattern:name=ID;
+
+MethodParameter: name = ID ':' type=[ecore::EClassifier | QualifiedName];
+
+MethodTypeName returns ecore::EString: 'void' | QualifiedName;
+
+Operator:
+	value = OPERATOR_VALUE
+;
+
+
+/* ---------------- */
+/*    Auxiliaries   */
+/* ---------------- */
+
+
+
+Import:
+	'#import' name = STRING
+;
+
+Using:
+	'#using' importedNamespace = QualifiedNameWithWildcard
+;
+
+terminal OPERATOR_VALUE: '++' | '!' | '--';
+
+terminal DECIMAL: INT '.' INT;
+
+LiteralValue:
+	(STRING | ('-')?INT | ('-')?DECIMAL | BOOL)
+;
+
+terminal BOOL:
+	'true' | 'false'
+;
+
+QualifiedNameWithWildcard:
+	QualifiedName '.*'
+;
+
+QualifiedName returns ecore::EString:
+	ID ('.' ID)*
+;
+

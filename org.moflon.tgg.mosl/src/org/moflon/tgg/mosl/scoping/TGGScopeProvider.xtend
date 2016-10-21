@@ -37,6 +37,7 @@ import org.moflon.tgg.mosl.tgg.Schema
 import org.moflon.tgg.mosl.tgg.TggPackage
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin
+import org.moflon.ide.mosl.core.scoping.MoflonScope
 
 /**
  * This class contains custom scoping description.
