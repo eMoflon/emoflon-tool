@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -17,7 +19,7 @@ import org.eclipse.xtext.scoping.Scopes;
 
 public class ScopeProviderHelper <E extends EObject> {
 	private Map<URI, E> existingScopingRoots;
-	private Map<Class<EClass>, List<EClass>> oldCandidates;
+	private Map<String, List<EObject>> oldCandidates;
 	private ResourceSet resourceSet;
 	
 	public ScopeProviderHelper(ResourceSet resSet) {
@@ -50,19 +52,27 @@ public class ScopeProviderHelper <E extends EObject> {
 		}
 	}	
 	
-	public IScope createScope(List<URI> uris, Class<E> clazz, Class<EClass> type){
-		List<EClass> candidates=null;
-		if(oldCandidates.containsKey(type)){
-			candidates=oldCandidates.get(candidates);
+	public IScope createScope(List<URI> uris, Class<E> clazz, Class<? extends EObject> type){
+		List<EObject> candidates=null;
+		if(oldCandidates.containsKey(type.toGenericString())){
+			candidates=oldCandidates.get(type.toGenericString());
 		}
 		else {		
 			candidates = new ArrayList<>();
 			
 			for(URI uri : uris){
 				E scopingObject=getScopingObject(uri, clazz);
-				candidates.addAll(EcoreUtil2.getAllContentsOfType(scopingObject, type));
+				List<EObject> tmpCandidates = new ArrayList<EObject>(scopingObject.eContents());
+				//tmpCandidates.removeIf(c -> (!c.getClass().isAssignableFrom(clazz)));
+				candidates.addAll(tmpCandidates.stream().filter(isAssignable(type)).collect(Collectors.<EObject>toList()));
 			}
+			oldCandidates.put(type.toGenericString(), candidates);
 		}
 		return Scopes.scopeFor(candidates);
+	}
+	
+	
+	private Predicate<? super EObject> isAssignable(Class<? extends EObject> type){
+		return c -> type.isAssignableFrom(c.getClass());
 	}
 }
