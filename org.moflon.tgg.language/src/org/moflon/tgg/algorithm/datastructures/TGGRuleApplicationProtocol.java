@@ -17,6 +17,12 @@ import net.sf.javailp.Solver;
 import net.sf.javailp.SolverFactory;
 import net.sf.javailp.SolverFactoryGurobi;
 
+/**
+ * 
+ * @author leblebici
+ *
+ */
+
 public class TGGRuleApplicationProtocol extends PrecedenceStructure<TGGRuleApplication> {
 
 	private int name = 0;
