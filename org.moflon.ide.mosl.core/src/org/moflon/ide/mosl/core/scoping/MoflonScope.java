@@ -1,4 +1,4 @@
-package org.moflon.tgg.mosl.scoping;
+package org.moflon.ide.mosl.core.scoping;
 
 import java.util.Collection;
 import java.util.List;
