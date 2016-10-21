@@ -22,7 +22,6 @@ import org.moflon.ide.core.runtime.natures.AntlrNature;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
-//TODO@rkluge Disable later - only during transition to new build process
 public class NatureMigrator extends ProjectStateObserver implements ProjectConfigurator {
 	private static final String MOSL_TGG_NATURE_ID = "org.moflon.tgg.mosl.codeadapter.moslTGGNature";
 	private static final String MOSL_TGG_BUILDER_ID = "org.moflon.tgg.mosl.codeadapter.mosltggbuilder";

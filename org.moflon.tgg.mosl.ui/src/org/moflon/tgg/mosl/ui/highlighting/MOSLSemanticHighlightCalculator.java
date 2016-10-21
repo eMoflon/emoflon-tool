@@ -1,13 +1,12 @@
 package org.moflon.tgg.mosl.ui.highlighting;
 
+import java.util.Collection;
+
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.ide.editor.syntaxcoloring.DefaultSemanticHighlightingCalculator;
 import org.eclipse.xtext.ide.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
-
-import java.util.Collection;
-
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.moflon.tgg.mosl.services.TGGGrammarAccess;

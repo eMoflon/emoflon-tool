@@ -1,7 +1,6 @@
 package org.moflon.core.propertycontainer;
 
 import org.eclipse.emf.ecore.EDataType;
-import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.propertycontainer.impl.PropertycontainerFactoryImpl;
 
 /**

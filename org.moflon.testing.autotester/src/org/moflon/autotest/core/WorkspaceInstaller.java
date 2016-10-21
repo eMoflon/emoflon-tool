@@ -133,7 +133,6 @@ public class WorkspaceInstaller
             {
                super.run(monitor);
 
-               // TODO@rkluge: Remove this later - Enforce nature migration
                final NatureMigrator natureMigrator = new NatureMigrator();
                for (final IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects())
                {
