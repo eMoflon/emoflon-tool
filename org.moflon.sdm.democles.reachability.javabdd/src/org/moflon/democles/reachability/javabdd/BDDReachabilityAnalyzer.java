@@ -14,7 +14,7 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
 	private BDDFactory bddFactory;
 	BDDPairing fwdPairing;
 	BDDPairing revPairing;
-	BDD[][] bdd;
+	BDD[][][] bdd;
 	BDDDomain domain1;
 	BDDDomain domain2;
 	boolean calculated = false;
@@ -23,7 +23,7 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
 
 	public BDDReachabilityAnalyzer(List<WeightedOperation<U,W>> operations, Adornment inputAdornment){
 		int cacheSize = 1000;
-		int v = inputAdornment.size();
+		int v = inputAdornment.size()*2;
 		int numberOfNodes = (int) Math.max((Math.pow(v, 3))*20, cacheSize);
 
 		bddFactory = BDDFactory.init("java", numberOfNodes, cacheSize);
@@ -33,12 +33,15 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
 		revPairing = bddFactory.makePair();
 		domain1 = bddFactory.extDomain((long)Math.pow(2, v));
 		domain2 = bddFactory.extDomain((long)Math.pow(2, v));
-		bdd = new BDD[2][v];
+		bdd = new BDD[2][v][2];
 		bddFactory.setVarOrder(getVarOrder(v));
 		
+		int uniqueID = 0;
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < v; j++) {
-				bdd[i][j] = bddFactory.ithVar(i * v + j);
+				for(int k=0; k < 2; k++){
+					bdd[i][j][k] = bddFactory.ithVar(uniqueID++);
+				}
 			}
 		}
 		
@@ -61,17 +64,38 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
 				//TODO This process has to be updated
 				Adornment precondition = operation.getOperation().getPrecondition();
 				for (int i = 0; i < precondition.size(); i++) {
+					
+					BDD vp_1 = bdd[0][i][0];
+					BDD vp_2 = bdd[0][i][1];
+					
+					BDD vp_1prime = bdd[1][i][0];
+					BDD vp_2prime = bdd[1][i][1];
+					
 					if (Adornment.FREE == precondition.get(i)) {
-						// Required to be free
-						cube.andWith(bdd[0][i].id());
-						cube.andWith(bdd[1][i].not());
+						// Required to be free						
+						cube.andWith(vp_1.id());
+						cube.andWith(vp_2.id());
+						cube.andWith(vp_1prime.not());
+						cube.andWith(vp_2prime.not());
+
 					} else if(Adornment.BOUND == precondition.get(i)) {
 						// Required to be bound
-						cube.andWith(bdd[0][i].not());
-						cube.andWith(bdd[1][i].not());
-					} else {
+						cube.andWith(vp_1.not());
+						cube.andWith(vp_2.not());
+						cube.andWith(vp_1prime.not());
+						cube.andWith(vp_2prime.not());
+					} 
+					else if(Adornment.NOT_TYPECHECKED == precondition.get(i)) {
+						// Required to be not typechecked
+						cube.andWith(vp_1.not());
+						cube.andWith(vp_2.id());
+						cube.andWith(vp_1prime.not());
+						cube.andWith(vp_2prime.not());
+					} 
+					else {
 						// Not defined
-						cube.andWith(bdd[0][i].biimp(bdd[1][i]));
+						cube.andWith(vp_1.biimp(vp_1prime));
+						cube.andWith(vp_2.biimp(vp_2prime));
 					}
 				}
 				transitionRelation.orWith(cube);
