@@ -1,0 +1,7 @@
+Ecore [type=r, exported=false, nsUri=platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore]
+SDMLanguage [type=r, exported=false, nsUri=platform:/plugin/SDMLanguage/model/SDMLanguage.ecore]
+__ignore__ [type=r, exported=false, nsUri=platform:/plugin/org.gervarro.democles.specification.emf/model/relational.ecore]
+		dependency0=__ignore__
+org.moflon.sdm.runtime.democles [type=r, exported=true, nsUri=platform:/plugin/org.moflon.sdm.runtime.democles/model/Democles.ecore]
+		dependency0=SDMLanguage
+		dependency1=__ignore__

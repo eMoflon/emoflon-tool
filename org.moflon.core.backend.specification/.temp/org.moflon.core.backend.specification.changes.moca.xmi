@@ -1,0 +1,161 @@
+<MocaTree:Node xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MocaTree="platform:/plugin/MocaTree/model/MocaTree.ecore">
+  <children name="changesTree" index="0" xsi:type="MocaTree:Node">
+    <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node">
+        <children name="EClass" index="0" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ECharContainer" index="0" />
+          <attribute name="previousName" value="ECharContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="1" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EStringContainer" index="0" />
+          <attribute name="previousName" value="EStringContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="2" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EBigIntegerContainer" index="0" />
+          <attribute name="previousName" value="EBigIntegerContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="3" xsi:type="MocaTree:Node">
+          <attribute name="name" value="MoflonListItem" index="0" />
+          <attribute name="previousName" value="MoflonListItem" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="4" xsi:type="MocaTree:Node">
+          <attribute name="name" value="MoflonList" index="0" />
+          <attribute name="previousName" value="MoflonList" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="5" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EDoubleContainer" index="0" />
+          <attribute name="previousName" value="EDoubleContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="6" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EShortContainer" index="0" />
+          <attribute name="previousName" value="EShortContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="7" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EByteContainer" index="0" />
+          <attribute name="previousName" value="EByteContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="8" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EFloatContainer" index="0" />
+          <attribute name="previousName" value="EFloatContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="9" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ELongContainer" index="0" />
+          <attribute name="previousName" value="ELongContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="10" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EIntContainer" index="0" />
+          <attribute name="previousName" value="EIntContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="11" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EBooleanContainer" index="0" />
+          <attribute name="previousName" value="EBooleanContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="12" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EDateContainer" index="0" />
+          <attribute name="previousName" value="EDateContainer" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecoreutils" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+      </children>
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{4A9919A8-C367-434f-BF18-D08E72EC8E43}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.core.ecoreutils" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.core.ecoreutils" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.core.ecoreutils/model/Ecoreutils.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.core.ecoreutils" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node">
+        <children name="EClass" index="0" xsi:type="MocaTree:Node">
+          <attribute name="name" value="MoflonPropertiesContainer" index="0" />
+          <attribute name="previousName" value="MoflonPropertiesContainer" index="1" />
+          <attribute name="packageName" value="MoflonPropertyContainer" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+      </children>
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{F4BABF62-AA08-4be8-8DB5-21947D2DCA96}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.core.propertycontainer" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.core.propertycontainer" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.core.propertycontainer/model/Propertycontainer.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.core.propertycontainer" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::Name" value="org.moflon.core.propertycontainer" index="8" />
+      <attribute name="Changes::PreviousName" value="org.moflon.core.propertycontainer" index="9" />
+      <attribute name="Changes::PackageName" value="org.moflon.core.propertycontainer" index="10" />
+      <attribute name="Changes::ProjectName" value="org.moflon.core.propertycontainer" index="11" />
+      <attribute name="Changes::IsTLP" value="true" index="12" />
+      <attribute name="Moflon::Changes" value="true" index="13" />
+    </children>
+    <children name="EPackage" index="2" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node">
+        <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node">
+            <children name="EClass" index="0" xsi:type="MocaTree:Node">
+              <attribute name="name" value="AttributeConstraintsExporter" index="0" />
+              <attribute name="previousName" value="AttributeConstraintsExporter" index="1" />
+              <attribute name="packageName" value="org.moflon.core.mocatomoflon.sdm" index="2" />
+              <attribute name="projectName" value="org.moflon.core.mocatomoflon" index="3" />
+              <attribute name="baseClasses" value="{79244A90-A8DA-4ad9-92D8-9E309CB5735B} " index="4" />
+            </children>
+          </children>
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{6D6BD9A8-531D-407c-BB33-CFCE7D6B5F5F}" index="0" />
+          <attribute name="Moflon::Name" value="sdm" index="1" />
+          <attribute name="Moflon::NsPrefix" value="sdm" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/sdm/model/Sdm.ecore#//sdm" index="3" />
+        </children>
+        <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{B966F443-F999-4a6f-9B2E-E21CCB987827}" index="0" />
+          <attribute name="Moflon::Name" value="tgg" index="1" />
+          <attribute name="Moflon::NsPrefix" value="tgg" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/tgg/model/Tgg.ecore#//tgg" index="3" />
+        </children>
+      </children>
+      <attribute name="guid" value="{4359E4AD-9E72-4491-A53E-309923327E7A}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.core.mocatomoflon" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.core.mocatomoflon" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.core.mocatomoflon/model/Mocatomoflon.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.core.mocatomoflon" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+  </children>
+</MocaTree:Node>

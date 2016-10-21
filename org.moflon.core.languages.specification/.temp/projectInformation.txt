@@ -1,0 +1,5 @@
+Ecore [type=r, exported=false, nsUri=platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore]
+MocaTree [type=r, exported=true, nsUri=platform:/plugin/MocaTree/model/MocaTree.ecore]
+SDMLanguage [type=r, exported=true, nsUri=platform:/plugin/SDMLanguage/model/SDMLanguage.ecore]
+org.moflon.core.moca.processing [type=r, exported=true, nsUri=platform:/plugin/org.moflon.core.moca.processing/model/Processing.ecore]
+		dependency0=MocaTree

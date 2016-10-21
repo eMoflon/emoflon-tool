@@ -1,0 +1,88 @@
+<MocaTree:Node xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MocaTree="platform:/plugin/MocaTree/model/MocaTree.ecore">
+  <children name="changesTree" index="0" xsi:type="MocaTree:Node">
+    <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{FB72423E-43D4-4384-9E0D-B8CFA16E7559}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.sdm.compiler.democles.validation.result" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.sdm.compiler.democles.validation.result" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.sdm.compiler.democles.validation.result" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{016808FC-9807-4c08-A7AA-5F59CB614922}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.core.dfs" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.core.dfs" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.core.dfs/model/Dfs.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.core.dfs" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="2" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{8C42534A-B2E7-4487-9A1E-641E7F4E6363}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.sdm.compiler.democles.pattern" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.sdm.compiler.democles.pattern" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.sdm.compiler.democles.pattern/model/Pattern.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.sdm.compiler.democles.pattern" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="3" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{E0FFC881-1972-487a-89FE-8092B12E0858}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.sdm.compiler.democles.validation.scope" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.sdm.compiler.democles.validation.scope" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.scope/model/Scope.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.sdm.compiler.democles.validation.scope" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="4" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{380F96C1-75F5-4dfa-B320-4920B8FB38D7}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.sdm.compiler.democles.validation.controlflow" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.sdm.compiler.democles.validation.controlflow" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.controlflow/model/Controlflow.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.sdm.compiler.democles.validation.controlflow" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="5" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{3FD65DF1-A703-48d1-ACFC-FD50D68970E9}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.sdm.democles.literalexpressionsolver" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.sdm.democles.literalexpressionsolver" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.sdm.democles.literalexpressionsolver/model/Literalexpressionsolver.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.sdm.democles.literalexpressionsolver" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+  </children>
+</MocaTree:Node>

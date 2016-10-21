@@ -1,0 +1,3 @@
+Ecore [type=r, exported=false, nsUri=platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore]
+MocaTree [type=r, exported=false, nsUri=platform:/plugin/MocaTree/model/MocaTree.ecore]
+org.moflon.ide.metamodelevolution.core [type=r, exported=true, nsUri=platform:/plugin/org.moflon.ide.metamodelevolution.core/model/Core.ecore]

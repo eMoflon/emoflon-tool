@@ -1,0 +1,4 @@
+Ecore [type=r, exported=false, nsUri=platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore]
+MocaTree [type=r, exported=false, nsUri=platform:/plugin/MocaTree/model/MocaTree.ecore]
+org.moflon.core.ecore2mocaxmi [type=r, exported=true, nsUri=platform:/plugin/org.moflon.core.ecore2mocaxmi/model/Ecore2mocaxmi.ecore]
+		dependency0=MocaTree

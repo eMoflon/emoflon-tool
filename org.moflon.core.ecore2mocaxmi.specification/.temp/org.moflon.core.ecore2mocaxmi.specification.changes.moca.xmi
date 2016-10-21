@@ -1,0 +1,37 @@
+<MocaTree:Node xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MocaTree="platform:/plugin/MocaTree/model/MocaTree.ecore">
+  <children name="changesTree" index="0" xsi:type="MocaTree:Node">
+    <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node">
+        <children name="EClass" index="0" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Ecore2MocaXMIConverterAdapter" index="0" />
+          <attribute name="previousName" value="Ecore2MocaXMIConverterAdapter" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecore2mocaxmi" index="2" />
+          <attribute name="baseClasses" value="" index="3" />
+        </children>
+        <children name="EClass" index="1" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Ecore2MocaXMIConverterHelper" index="0" />
+          <attribute name="previousName" value="Ecore2MocaXMIConverterHelper" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecore2mocaxmi" index="2" />
+          <attribute name="baseClasses" value="{CD1E1FA2-FF7A-4d60-B2FD-96C3183F74DC} " index="3" />
+        </children>
+        <children name="EClass" index="2" xsi:type="MocaTree:Node">
+          <attribute name="name" value="Ecore2MocaXMIConverter" index="0" />
+          <attribute name="previousName" value="Ecore2MocaXMIConverter" index="1" />
+          <attribute name="packageName" value="org.moflon.core.ecore2mocaxmi" index="2" />
+          <attribute name="baseClasses" value="{4792BE45-7515-4e10-9E39-0CD1BC18371B} " index="3" />
+        </children>
+      </children>
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{3D6A7E26-22C1-4b45-B69E-27B4AEF216BE}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.core.ecore2mocaxmi" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.core.ecore2mocaxmi" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.core.ecore2mocaxmi/model/Ecore2mocaxmi.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.core.ecore2mocaxmi" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+  </children>
+</MocaTree:Node>
