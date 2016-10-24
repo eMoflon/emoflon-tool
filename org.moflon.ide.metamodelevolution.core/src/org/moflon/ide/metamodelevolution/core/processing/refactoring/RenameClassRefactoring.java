@@ -83,10 +83,7 @@ public class RenameClassRefactoring implements RenameRefactoring
       }
    }
 
-	// TODO@fstallmeyer: I believe this is correct now, but this method may only
-	// handle renamings WITHIN one package! ->
-   // lastSegment (RK)
-   /*
+   /**
     * Updates the injections for the given original JavaFile.
     * 
     * The original injection file is first renamed to give version control a chance to record that this is NOT a
@@ -102,16 +99,4 @@ public class RenameClassRefactoring implements RenameRefactoring
          previousInjectionFile.move(Path.fromPortableString(newLastSegmentOfInjectionFile), true, new NullProgressMonitor());
       }
    }
-
-   /*
-    * Determines the path of a Java file after performing the given RenameChange.
-    */
-   // TODO@fstallmeyer: Do you need this method?
-   // private IFile getCurrentJavaFile(IProject project, IFile previousJavaFile)
-   // {
-   // final String newLastSegment = previousJavaFile.getProjectRelativePath().lastSegment().replace(oldName, newName);
-   // final IPath newJavaFilePath =
-   // previousJavaFile.getProjectRelativePath().removeLastSegments(1).append(newLastSegment);
-   // return project.getFile(newJavaFilePath);
-   // }
 }

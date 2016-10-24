@@ -26,15 +26,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl.URIMap;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.eclipse.resource.GenModelResourceFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-
-import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
-import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 
 public class CodeGeneratorPlugin implements BundleActivator
 {

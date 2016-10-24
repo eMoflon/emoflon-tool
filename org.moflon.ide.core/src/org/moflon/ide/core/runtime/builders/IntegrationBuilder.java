@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MonitoredMetamodelLoader;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
@@ -55,9 +57,6 @@ import org.moflon.tgg.language.precompiler.PrecompileMessage;
 import org.moflon.tgg.language.precompiler.PrecompilerFactory;
 import org.moflon.tgg.language.precompiler.RuleProcessingMessage;
 import org.moflon.tgg.language.precompiler.TGGPrecompiler;
-
-import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
-import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 
 import SDMLanguage.sdmUtil.CompilerInjection;
 import SDMLanguage.sdmUtil.SdmUtilFactory;

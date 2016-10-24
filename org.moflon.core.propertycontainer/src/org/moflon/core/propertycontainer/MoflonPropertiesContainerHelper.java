@@ -26,11 +26,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.core.propertycontainer.Dependencies;
-import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
-import org.moflon.core.propertycontainer.PropertiesMapping;
-import org.moflon.core.propertycontainer.PropertiesValue;
-import org.moflon.core.propertycontainer.PropertycontainerFactory;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
@@ -87,7 +82,6 @@ public class MoflonPropertiesContainerHelper
     *
     * Only during transition (rkluge, 2016-09-07)
     */
-   //TODO@rkluge
    public static void updateMoflonPropertiesToNewBasePackage(IProject project)
    {
       final IFile propertiesFile = project.getFile(MOFLON_CONFIG_FILE);

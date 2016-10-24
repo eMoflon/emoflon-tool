@@ -324,26 +324,4 @@ public class CoreActivator extends Plugin
          return "Unknown build type: " + buildType;
       }
    }
-
-   //TODO@rkluge: Disabled migration routine for Git - remove in the future.
-   public static void removeOldStyleGitignoreAndKeepFiles(IProject project) throws CoreException
-   {
-      /*
-      for (final IFile gitignoreFile : Arrays.asList(//
-            WorkspaceHelper.getModelFolder(project).getFile(WorkspaceHelper.GITIGNORE_FILENAME),
-            WorkspaceHelper.getGenFolder(project).getFile(WorkspaceHelper.GITIGNORE_FILENAME)))
-      {
-         if (gitignoreFile.exists())
-            gitignoreFile.delete(true, new NullProgressMonitor());
-      }
-      for (final IFile oldKeepFiles : Arrays.asList(//
-            WorkspaceHelper.getModelFolder(project).getFile(".keep"),
-            WorkspaceHelper.getGenFolder(project).getFile(".keep"), //
-            WorkspaceHelper.getSourceFolder(project).getFile(".keep")))
-      {
-         if (oldKeepFiles.exists())
-            oldKeepFiles.delete(true, new NullProgressMonitor());
-      }
-      */
-   }
 }

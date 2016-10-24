@@ -8,8 +8,6 @@ import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.TripleMatch;
 import org.moflon.tgg.runtime.TripleMatchNodeMapping;
 
-import gnu.trove.map.hash.TIntIntHashMap;
-
 public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructure<CCMatch> {
 	
 	@Override

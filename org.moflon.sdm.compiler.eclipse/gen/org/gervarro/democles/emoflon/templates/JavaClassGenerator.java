@@ -8658,7 +8658,6 @@ public class JavaClassGenerator
       generatorAdapter.handleImports(isImplementation);
       stringBuffer.append(TEXT_1757);
       stringBuffer.append(isInterface ? " " + genClass.getInterfaceName() : genClass.getClassName());
-      // TODO fix the space above
       genModel.emitSortedImports();
       stringBuffer.append(TEXT_1758);
       return stringBuffer.toString();

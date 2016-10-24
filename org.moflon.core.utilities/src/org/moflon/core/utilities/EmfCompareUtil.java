@@ -17,13 +17,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 
-//TODO anjorin: TransformationTest is the only user of this class. Will you still need it?
 /**
  * Collection of useful methods for EMFCompare
  * 
- * @author anjorin
- * @author (last editor) $Author$
- * @version $Revision$ $Date$
+ * @author Anthony Anjorin
  */
 public class EmfCompareUtil
 {
