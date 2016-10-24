@@ -21,12 +21,10 @@ public class EMoflonStandardWorkspaces
    public static final String BRANCH_NAME_SEPARATOR = "@";
 
    /*
-    * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!
+    * !!! Danger Zone !!!   !!! Danger Zone !!!   !!! Danger Zone !!!   !!! Danger Zone !!!   !!! Danger Zone !!!   
     * 
     * ATTENTION: The following names are also used in the plugin.xml and in the autotest script to load the correct
     * workspaces.
-    * 
-    * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!
     */
    public static final String PSF_FILES_ROOT = "resources/psf/";
 
@@ -81,6 +79,9 @@ public class EMoflonStandardWorkspaces
    private static final String MODULE_IDE = "ModuleIDE";
 
    private static final String MODULE_META = "ModuleMeta";
+   /*
+    * End of Danger Zone
+    */
 
    /**
     * This is a mapping from module names (see above) to {@link #PSF_FILES_ROOT}-relative paths.
