@@ -720,11 +720,6 @@
             name="eMoflon popup">
       </command>
       <command
-            defaultHandler="org.moflon.ide.ui.admin.handlers.RemoveXTextMarkersHandler"
-            id="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
-            name="Remove XText Validation Markers">
-      </command>
-      <command
             defaultHandler="org.moflon.ide.ui.admin.handlers.GitResetProjectHandler"
             id="org.moflon.ide.ui.commands.git.GitResetCommand"
             name="Git-Reset Project">
@@ -958,18 +953,6 @@
                   checkEnabled="false">
             </visibleWhen>
          </command>
-         <command
-               commandId="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
-               label="Remove XText Markers"
-               style="push"
-               tooltip="Removes all XText validation markers from the given resource and its children">
-            <visibleWhen
-                  checkEnabled="true">
-               <reference
-                     definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
-               </reference>
-            </visibleWhen>
-         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -1046,12 +1029,6 @@
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M2+M3+E M">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E Y">
       </key>
    </extension>
    <extension
