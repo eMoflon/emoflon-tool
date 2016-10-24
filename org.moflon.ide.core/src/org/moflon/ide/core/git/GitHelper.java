@@ -44,12 +44,14 @@ public class GitHelper
       File gitFolder = null;
       do
       {
-         if (path.isEmpty())
-         {
-            logger.error("Could not find any Git repository");
-            return new Status(IStatus.WARNING, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(), String.format("Could not find any .git folder in %s or its parents", project.getLocation().makeAbsolute()));
-         }
          gitFolder = new File(path + GIT_FOLDER);
+         
+         if (path.isRoot() && !gitFolder.exists())
+         {
+            return new Status(IStatus.WARNING, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(),
+                  String.format("Could not find any .git folder in %s or its parents", project.getLocation().makeAbsolute()));
+         }
+         
          path = path.removeLastSegments(1);
       } while (!gitFolder.exists());
       subMon.worked(1);
@@ -60,7 +62,8 @@ public class GitHelper
          rep = FileRepositoryBuilder.create(gitFolder);
       } catch (IOException e)
       {
-         return new Status(IStatus.WARNING, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(), String.format("Exception while opening git repository in %s", gitFolder), e);
+         return new Status(IStatus.WARNING, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(),
+               String.format("Exception while opening git repository in %s", gitFolder), e);
       }
       subMon.worked(1);
       CoreActivator.checkCancellation(subMon);
@@ -78,7 +81,7 @@ public class GitHelper
 
          try
          {
-            logger.debug("Resetting repository " + rep);
+            logger.debug("Resetting " + rep);
             resetCmd.call();
          } catch (final Exception e)
          {
@@ -89,7 +92,7 @@ public class GitHelper
 
          try
          {
-            logger.debug("Cleaning repository " + rep);
+            logger.debug("Cleaning " + rep);
             cleanCmd.call();
          } catch (Exception e)
          {
@@ -97,13 +100,13 @@ public class GitHelper
          }
          subMon.worked(1);
          CoreActivator.checkCancellation(subMon);
-         
+
          LogUtils.info(logger, "Resetting and cleaning of %s successful", rep);
       } finally
       {
          git.close();
       }
 
-      return Status.OK_STATUS;
+      return new Status(IStatus.OK, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(), String.format("Resetting and cleaning of %s successful", rep));
    }
 }

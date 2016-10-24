@@ -9,6 +9,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -16,6 +17,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.git.GitHelper;
+import org.osgi.framework.FrameworkUtil;
 
 public class GitResetProjectHandler extends AbstractCommandHandler
 {
@@ -29,27 +31,27 @@ public class GitResetProjectHandler extends AbstractCommandHandler
       if (projects.size() == 0)
       {
          MessageDialog.openInformation(null, "Selection must contain a project",
-               "You need at least one selection within your workspace for Git-Reset to find the repository.");
+               "You need at least one selection within your workspace to find the repository.");
          return null;
       }
 
       if (!showWarningDialog())
          return null;
 
-      WorkspaceJob job = new WorkspaceJob("Git-Reset selected Projects") {
+      WorkspaceJob job = new WorkspaceJob("Reset and clean Git repositories") {
          @Override
          public IStatus runInWorkspace(final IProgressMonitor monitor)
          {
             SubMonitor subMon = SubMonitor.convert(monitor, "Resetting and cleaning Git repositories", projects.size());
+            MultiStatus status = new MultiStatus(FrameworkUtil.getBundle(getClass()).getSymbolicName(), 0, "Problems during resetting and cleaning", null);
             for (final IProject project : projects)
             {
                final IStatus resetStatus = GitHelper.resetAndCleanContainingGitRepository(project, subMon);
                subMon.worked(1);
+               status.add(resetStatus);
                CoreActivator.checkCancellation(subMon);
-               if (resetStatus.matches(Status.ERROR))
-                  return resetStatus;
             }
-            return Status.OK_STATUS;
+            return status.isOK() ? Status.OK_STATUS : status;
          }
       };
       job.setUser(true);
