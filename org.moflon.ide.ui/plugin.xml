@@ -168,6 +168,15 @@
             <separator
                   name="moflonGroupNavigation">
             </separator>
+            <separator
+                  name="moflonSeperator">
+            </separator>
+            <separator
+                  name="moflonSeperator">
+            </separator>
+            <separator
+                  name="moflonGroupGit">
+            </separator>
          </menu>
       </menuContribution>
    </extension>
@@ -715,6 +724,11 @@
             id="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
             name="Remove XText Validation Markers">
       </command>
+      <command
+            defaultHandler="org.moflon.ide.ui.admin.handlers.GitResetProjectHandler"
+            id="org.moflon.ide.ui.commands.git.GitResetCommand"
+            name="Git-Reset Project">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -744,6 +758,9 @@
             </separator>
             <separator
                   name="moflonGroupTesting">
+            </separator>
+            <separator
+                  name="moflonGroupGit">
             </separator>
       </menuContribution>
       <menuContribution
@@ -951,6 +968,19 @@
                <reference
                      definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
                </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupGit">
+         <command
+               commandId="org.moflon.ide.ui.commands.git.GitResetCommand"
+               label="Git-Reset Project(s)"
+               style="push"
+               tooltip="Resets and cleans all selected Git Projects">
+            <visibleWhen
+                  checkEnabled="false">
             </visibleWhen>
          </command>
       </menuContribution>
