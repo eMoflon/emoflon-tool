@@ -722,7 +722,7 @@
       <command
             defaultHandler="org.moflon.ide.ui.admin.handlers.GitResetProjectHandler"
             id="org.moflon.ide.ui.commands.git.GitResetCommand"
-            name="Git-Reset Project">
+            name="Reset and clean Git Repo">
       </command>
    </extension>
    <extension
@@ -959,9 +959,9 @@
             locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupGit">
          <command
                commandId="org.moflon.ide.ui.commands.git.GitResetCommand"
-               label="Git-Reset Project(s)"
+               label="Reset and Clean Git Repos"
                style="push"
-               tooltip="Resets and cleans all selected Git Projects">
+               tooltip="Resets and cleans all selected Git projects">
             <visibleWhen
                   checkEnabled="false">
             </visibleWhen>

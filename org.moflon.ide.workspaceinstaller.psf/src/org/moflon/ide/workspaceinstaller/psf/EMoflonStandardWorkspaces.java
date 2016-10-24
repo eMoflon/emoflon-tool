@@ -7,10 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BinaryOperator;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class EMoflonStandardWorkspaces
 {
+   /**
+    * This string separates the name of a workspace from the name of the branch to be used
+    * If this separator is missing from a workspace name, a sensible default choice is not to modify the branch name in the PSF file.
+    * 
+    * Important: the separator must be a valid character within directory names (NOT: /, \, #,...)
+    */
+   public static final String BRANCH_NAME_SEPARATOR = "@";
+
    /*
     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!
     * 
@@ -121,7 +130,8 @@ public class EMoflonStandardWorkspaces
     */
    public static List<String> getPathToPsfFileForWorkspace(final String workspaceName)
    {
-      final List<String> psfPaths = PATH_LOOKUP.get(workspaceName);
+      final String basicWorkspaceName = extractBasicWorkspaceName(workspaceName);
+      final List<String> psfPaths = PATH_LOOKUP.get(basicWorkspaceName);
       if (psfPaths == null)
          return Arrays.asList();
       else
@@ -172,6 +182,35 @@ public class EMoflonStandardWorkspaces
          u.addAll(v);
          return u;
       };
+   }
+
+   /**
+    * Extracts the component of the workspace name that describes the desired branch to use
+    * 
+    * Anything beyond the {@link #BRANCH_NAME_SEPARATOR} is interpreted as branch name.
+    * If {@link #BRANCH_NAME_SEPARATOR} does not appear within the workspaceName, then null is returned
+    * If {@link #BRANCH_NAME_SEPARATOR} is the last character, then the result is also null.
+    * 
+    * @param workspaceName the raw workspace name
+    * @return the branch specificator as described above
+    */
+   public static String extractCustomBranchName(String workspaceName)
+   {
+      String[] segments = workspaceName.split(Pattern.quote(BRANCH_NAME_SEPARATOR), 2);
+      if (segments.length == 2 && !segments[1].isEmpty())
+         return segments[1];
+      return null;
+   }
+   
+   /**
+    * Returns the name part of the workspace name (i.e., without the branch specificator)
+    * 
+    * @param workspaceName the raw workspace name
+    * @return the name part
+    */
+   public static String extractBasicWorkspaceName(final String workspaceName)
+   {
+      return workspaceName.replaceAll(Pattern.quote(BRANCH_NAME_SEPARATOR) + ".*", "");
    }
 
 }
