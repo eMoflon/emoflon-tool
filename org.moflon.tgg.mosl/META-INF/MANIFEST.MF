@@ -18,11 +18,11 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.core.commands,
- org.moflon.core.utilities;bundle-version="1.1.0",
+ org.moflon.core.utilities,
  org.moflon.sdm.compiler.eclipse,
  SDMLanguage,
  org.moflon.tgg.language,
- org.moflon.ide.mosl.core;bundle-version="1.0.0",
+ org.moflon.ide.mosl.core,
  org.eclipse.emf.mwe2.launch
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

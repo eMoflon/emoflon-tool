@@ -173,6 +173,8 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
                   "/bin", //
                   "/gen/*", //
                   "/model/*.ecore", "/model/*.genmodel", "/model/*.xmi", //
+                  "# The file AttrCondDefLibrary.tgg is not meant to be edited", //
+                  "/**/AttrCondDefLibrary.tgg", 
                   "!/**/.keep*"), subMon.newChild(1));
    }
    /**

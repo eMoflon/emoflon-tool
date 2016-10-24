@@ -180,7 +180,8 @@ public class UIActivator extends AbstractUIPlugin
                         ICommand[] buildSpec = project.getDescription().getBuildSpec();
                         for (final ICommand builder : buildSpec)
                         {
-                           if (CoreActivator.INTEGRATION_BUILDER_ID.equals(builder.getBuilderName()))
+                           if (CoreActivator.REPOSITORY_BUILDER_ID.equals(builder.getBuilderName()) || 
+                                 CoreActivator.INTEGRATION_BUILDER_ID.equals(builder.getBuilderName()))
                            {
                               boolean autobuildEnabled = builder.isBuilding(IncrementalProjectBuilder.AUTO_BUILD);
                               Display.getDefault().asyncExec(new Runnable() {

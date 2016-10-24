@@ -3,6 +3,7 @@ package org.moflon.core.ecore2mocaxmi.utils;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import org.eclipse.emf.ecore.ENamedElement;
 
 public class GuidGenerator {

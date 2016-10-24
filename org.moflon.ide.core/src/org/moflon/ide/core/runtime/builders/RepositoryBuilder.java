@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
@@ -30,9 +32,6 @@ import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
-
-import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
-import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 
 public class RepositoryBuilder extends AbstractVisitorBuilder
 {
@@ -61,7 +60,6 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 13);
 
             final IProject project = getProject();
-            CoreActivator.removeOldStyleGitignoreAndKeepFiles(project);
             MoflonProjectCreator.createFoldersIfNecessary(project, subMon.newChild(1));
             MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.newChild(1));
             MoflonProjectCreator.addGitKeepFiles(project, subMon.newChild(1));

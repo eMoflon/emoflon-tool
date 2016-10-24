@@ -1,13 +1,12 @@
 package org.moflon.tie;
 
 import java.io.IOException;
+
 import org.apache.log4j.BasicConfigurator;
-
-
 import org.eclipse.emf.common.util.URI;
-import org.moflon.tgg.runtime.CorrespondenceModel;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.tgg.mosl.codeadapter.CodeadapterPackage;
+import org.moflon.tgg.runtime.CorrespondenceModel;
 
 
 public class CodeadapterSync extends SynchronizationHelper{

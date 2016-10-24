@@ -168,6 +168,15 @@
             <separator
                   name="moflonGroupNavigation">
             </separator>
+            <separator
+                  name="moflonSeperator">
+            </separator>
+            <separator
+                  name="moflonSeperator">
+            </separator>
+            <separator
+                  name="moflonGroupGit">
+            </separator>
          </menu>
       </menuContribution>
    </extension>
@@ -711,9 +720,9 @@
             name="eMoflon popup">
       </command>
       <command
-            defaultHandler="org.moflon.ide.ui.admin.handlers.RemoveXTextMarkersHandler"
-            id="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
-            name="Remove XText Validation Markers">
+            defaultHandler="org.moflon.ide.ui.admin.handlers.GitResetProjectHandler"
+            id="org.moflon.ide.ui.commands.git.GitResetCommand"
+            name="Reset and clean Git Repo">
       </command>
    </extension>
    <extension
@@ -744,6 +753,9 @@
             </separator>
             <separator
                   name="moflonGroupTesting">
+            </separator>
+            <separator
+                  name="moflonGroupGit">
             </separator>
       </menuContribution>
       <menuContribution
@@ -941,16 +953,17 @@
                   checkEnabled="false">
             </visibleWhen>
          </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupGit">
          <command
-               commandId="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
-               label="Remove XText Markers"
+               commandId="org.moflon.ide.ui.commands.git.GitResetCommand"
+               label="Reset and Clean Git Repos"
                style="push"
-               tooltip="Removes all XText validation markers from the given resource and its children">
+               tooltip="Resets and cleans all selected Git projects">
             <visibleWhen
-                  checkEnabled="true">
-               <reference
-                     definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
-               </reference>
+                  checkEnabled="false">
             </visibleWhen>
          </command>
       </menuContribution>
@@ -1016,12 +1029,6 @@
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M2+M3+E M">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E Y">
       </key>
    </extension>
    <extension
