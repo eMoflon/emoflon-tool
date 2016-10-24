@@ -10,11 +10,12 @@ import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.git.GitHelper;
-import org.moflon.ide.ui.UIActivator;
 
 public class GitResetProjectHandler extends AbstractCommandHandler
 {
@@ -39,15 +40,16 @@ public class GitResetProjectHandler extends AbstractCommandHandler
          @Override
          public IStatus runInWorkspace(final IProgressMonitor monitor)
          {
-            Status status = new Status(IStatus.OK, UIActivator.getModuleID(), IStatus.OK, "", null);
-
+            SubMonitor subMon = SubMonitor.convert(monitor, "Resetting and cleaning Git repositories", projects.size());
             for (final IProject project : projects)
             {
-               final IStatus resetStatus = GitHelper.resetAndCleanContainingGitRepository(project);
+               final IStatus resetStatus = GitHelper.resetAndCleanContainingGitRepository(project, subMon);
+               subMon.worked(1);
+               CoreActivator.checkCancellation(subMon);
                if (resetStatus.matches(Status.ERROR))
                   return resetStatus;
             }
-            return status;
+            return Status.OK_STATUS;
          }
       };
       job.setUser(true);
