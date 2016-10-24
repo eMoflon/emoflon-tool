@@ -1,13 +1,6 @@
 package org.moflon.ide.ui.admin.handlers;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.swing.JOptionPane;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -17,12 +10,10 @@ import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.git.GitResetProjectHelper;
+import org.moflon.ide.core.git.GitHelper;
 import org.moflon.ide.ui.UIActivator;
 
 public class GitResetProjectHandler extends AbstractCommandHandler
@@ -32,59 +23,43 @@ public class GitResetProjectHandler extends AbstractCommandHandler
    {
       final IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getCurrentSelectionChecked(event);
 
-      final Collection<IProject> projects = getProjectsFromSelection(selection);
+      final Collection<IProject> projects = AbstractCommandHandler.getProjectsFromSelection(selection);
+
+      if (projects.size() == 0)
+      {
+         MessageDialog.openInformation(null, "Selection must contain a project",
+               "You need at least one selection within your workspace for Git-Reset to find the repository.");
+         return null;
+      }
 
       if (!showWarningDialog())
-    	  return null;
-      
-      try
-      {
-         WorkspaceJob job = new WorkspaceJob("Git-Reset selected Projects") {
-            @Override
-            public IStatus runInWorkspace(final IProgressMonitor monitor)
+         return null;
+
+      WorkspaceJob job = new WorkspaceJob("Git-Reset selected Projects") {
+         @Override
+         public IStatus runInWorkspace(final IProgressMonitor monitor)
+         {
+            Status status = new Status(IStatus.OK, UIActivator.getModuleID(), IStatus.OK, "", null);
+
+            for (final IProject project : projects)
             {
-               Status status = new Status(IStatus.OK, UIActivator.getModuleID(), IStatus.OK, "", null);
-               if (projects.size() == 0) 
-            	   logger.debug("You need at least one selection within your workspace for Git-Reset to find the repository.");
-                              
-               for (final IProject project : projects)
-               {
-                  if(GitResetProjectHelper.resetAndCleanWorkspace(project));
-                  	break;
-               }
-               return status;
+               final IStatus resetStatus = GitHelper.resetAndCleanContainingGitRepository(project);
+               if (resetStatus.matches(Status.ERROR))
+                  return resetStatus;
             }
-         };
-         job.setUser(true);
-         job.setRule(ResourcesPlugin.getWorkspace().getRoot());
-         job.schedule();
-      } catch (Exception e)
-      {
-         throw new ExecutionException("Could not git-reset project", e);
-      }
+            return status;
+         }
+      };
+      job.setUser(true);
+      job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+      job.schedule();
 
       return null;
    }
 
-   private static Collection<IProject> getProjectsFromSelection(final IStructuredSelection selection)
+   private static boolean showWarningDialog()
    {
-      final List<IProject> projects = new ArrayList<>();
-      if (selection instanceof StructuredSelection)
-      {
-         final StructuredSelection structuredSelection = (StructuredSelection) selection;
-         for (final Iterator<?> selectionIterator = structuredSelection.iterator(); selectionIterator.hasNext();)
-         {
-            projects.addAll(getProjects(selectionIterator.next()));
-         }
-      }
-
-      return projects;
-   }
-   
-   private static boolean showWarningDialog() {
-	   int n = JOptionPane.showConfirmDialog(null, "This will undo all changes and reset the project to HEAD. Proceed?", "Warning", JOptionPane.YES_NO_OPTION);
-	   if (n == 0) 
-		   return true;
-	   return false;
+      final boolean userHasConfirmed = MessageDialog.openConfirm(null, "Confirm reset", "This will undo all changes and reset the project to HEAD. Proceed?");
+      return userHasConfirmed;
    }
 }
