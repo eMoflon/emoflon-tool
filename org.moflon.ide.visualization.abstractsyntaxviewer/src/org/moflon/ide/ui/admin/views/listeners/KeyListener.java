@@ -27,7 +27,6 @@ public class KeyListener implements org.eclipse.swt.events.KeyListener
    @Override
    public void keyPressed(KeyEvent e)
    {
-      System.out.println(e.keyCode);
       switch (e.keyCode)
       {
       case java.awt.event.KeyEvent.VK_DELETE:
@@ -60,7 +59,6 @@ public class KeyListener implements org.eclipse.swt.events.KeyListener
    @Override
    public void keyReleased(KeyEvent e)
    {
-      // TODO Auto-generated method stub
    }
 
 }

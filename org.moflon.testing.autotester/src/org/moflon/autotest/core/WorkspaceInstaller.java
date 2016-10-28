@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -63,12 +64,15 @@ public class WorkspaceInstaller
 
    private static final Logger logger = Logger.getLogger(WorkspaceInstaller.class);
 
+   private static final String MASTER_BRANCH = "master";
+
    public void installWorkspaceByName(final String workspaceName)
    {
       final List<String> path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
+      final String branchName = EMoflonStandardWorkspaces.extractCustomBranchName(workspaceName);
       if (!path.isEmpty())
       {
-         this.installPluginRelativePsfFiles(path, workspaceName);
+         this.installPluginRelativePsfFiles(path, workspaceName, branchName);
       } else
       {
          logger.debug("Not a recognized workspace: " + workspaceName);
@@ -81,11 +85,11 @@ public class WorkspaceInstaller
       installPsfFiles(psfFiles, label);
    }
 
-   private void installPluginRelativePsfFiles(final Collection<String> pluginRelativePsfFiles, final String label)
+   private void installPluginRelativePsfFiles(final Collection<String> pluginRelativePsfFiles, final String label, final String branchName)
    {
       prepareWorkspace();
 
-      installPsfFiles(mapToAbsoluteFiles(pluginRelativePsfFiles), label);
+      installPsfFiles(mapToAbsoluteFiles(pluginRelativePsfFiles), label, branchName);
    }
 
    private static String mapToAbsolutePath(final String pluginRelativePathToPSF)
@@ -114,16 +118,27 @@ public class WorkspaceInstaller
 
    public void installPsfFiles(final List<File> psfFiles, final String label)
    {
+      installPsfFiles(psfFiles, label, MASTER_BRANCH);
+   }
+
+   public void installPsfFiles(final List<File> psfFiles, final String label, final String customBranch)
+   {
       try
       {
-         final String joinedPaths = joinBasenames(psfFiles);
-
          // We extract the contents beforehand because the following action may delete them if we load PSF files
          // directly from the workspace
-         final String psfContent = PsfFileUtils.joinPsfFile(psfFiles);
+         final String psfContent;
+         if (customBranch == null || MASTER_BRANCH.equals(customBranch))
+         {
+            psfContent = PsfFileUtils.joinPsfFile(psfFiles);
+         } else
+         {
+            psfContent = PsfFileUtils.joinPsfFile(psfFiles).replaceAll(Pattern.quote("," + MASTER_BRANCH + ","), "," + customBranch + ",");
+         }
 
          final int numberOfProjects = StringUtils.countMatches(psfContent, "<project ");
          final int numberOfWorkingSets = StringUtils.countMatches(psfContent, "<workingSets ");
+         final String joinedPaths = joinBasenames(psfFiles);
          logger.info(String.format("Checking out %d projects and %d working sets in %s.", numberOfProjects, numberOfWorkingSets, joinedPaths));
 
          final ImportProjectSetOperation importProjectSetOperation = new ImportProjectSetOperation(null, psfContent,
@@ -133,7 +148,6 @@ public class WorkspaceInstaller
             {
                super.run(monitor);
 
-               // TODO@rkluge: Remove this later - Enforce nature migration
                final NatureMigrator natureMigrator = new NatureMigrator();
                for (final IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects())
                {
@@ -205,13 +219,12 @@ public class WorkspaceInstaller
       {
          final String message = "Sorry, I was unable to check out the projects in the PSF file.\n"//
                + "  If you did not explicitly cancel then please check the following (most probable first):\n"//
-               + "      (1) SVN: Ensure you have switched to SVNKit (Window/Preferences/Team/SVN) or make sure JavaHL is working.\n"//
-               + "      (2) Git: Ensure that the Git repositories appearing in the error message below are clean or do not exist (Window/Perspective/Open Perspective/Other.../Git)\n" //
-               + "      (3) If possible, start with an empty, fresh workspace. Although the PSF import offers to delete the projects this may fail, especially on Windows.\n"//
-               + "      (4) Are you sure you have access to all the projects (if they do not support anonymous access)?\n"//
-               + "      (5) The PSF file might be outdated - please check for an update of the test plugin\n"//
-               + "      (6) If it's quite late in the night, our server might be down performing a back-up - try again in a few hours.\n"//
-               + "      (7) If none of these helped, write us a mail to contact@emoflon.org :)\n" //
+               + "      (1) Git: Ensure that the Git repositories appearing in the error message below are clean or do not exist (Window/Perspective/Open Perspective/Other.../Git)\n" //
+               + "      (2) If possible, start with an empty, fresh workspace. Although the PSF import offers to delete the projects this may fail, especially on Windows.\n"//
+               + "      (3) Are you sure you have access to all the projects (if they do not support anonymous access)?\n"//
+               + "      (4) The PSF file might be outdated - please check for an update of the test plugin\n"//
+               + "      (5) If it's quite late in the night, our server might be down performing a back-up - try again in a few hours.\n"//
+               + "      (6) If none of these helped, write us a mail to contact@emoflon.org :)\n" //
                + "\n" //
                + "Exception of type " + e.getClass().getName() + ", Message: " + MoflonUtil.displayExceptionAsString(e);
          logger.error(message);
@@ -408,7 +421,7 @@ public class WorkspaceInstaller
             logger.info("Code generation jobs completed successfully.");
             return Status.OK_STATUS;
          }
-         
+
       });
 
       try

@@ -2,6 +2,7 @@ package org.moflon.tgg.mosl.ui.visualisation;
 
 import java.util.HashMap;
 import java.util.Optional;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;

@@ -256,3 +256,15 @@
 	* Hidden exception due to hidden, removed preferences nodes #108 [Hotfix]
 	* CC just gives an NPE for this simple example #109
 	* ECore Visualization doesnot work in deployment #110
+---
+2016-10-25 eMoflon 2.23.0 released
+	User notes:
+	* eMoflon is on its way to a stable release. 2.23.0 can be considered a promising release candidate
+	Fixed issues:
+	* Allow zero correspondence types in MOSL-TGG eMoflon-TGG feature-request #113
+	* moflon.properties.xmi appears to be locked sometimes bug eMoflon-IDE medium-priority #111
+	* ECore Visualization doesnot work in deployment #110
+	* CC just gives an NPE for this simple example #109
+	* Hidden exception due to hidden, removed preferences node #108
+	* Missing source in plugin #103
+	* [TGG] consistency check with ignore rules #61

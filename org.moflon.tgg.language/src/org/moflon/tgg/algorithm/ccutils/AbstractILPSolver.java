@@ -1,8 +1,5 @@
 package org.moflon.tgg.algorithm.ccutils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;

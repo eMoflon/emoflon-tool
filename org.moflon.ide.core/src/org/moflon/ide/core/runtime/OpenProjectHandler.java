@@ -28,7 +28,6 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
 import org.moflon.sdm.language.SDMLanguagePlugin;
 import org.moflon.tgg.runtime.TGGRuntimePlugin;
@@ -98,7 +97,6 @@ public class OpenProjectHandler extends WorkspaceTask
       
       try
       {
-         CoreActivator.removeOldStyleGitignoreAndKeepFiles(project);
          MoflonProjectCreator.createFoldersIfNecessary(project, subMon.newChild(1));
          MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.newChild(1));
          MoflonProjectCreator.addGitKeepFiles(project, subMon.newChild(1));

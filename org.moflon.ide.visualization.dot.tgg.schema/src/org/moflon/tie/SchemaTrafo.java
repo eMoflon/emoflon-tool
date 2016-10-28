@@ -1,12 +1,11 @@
 package org.moflon.tie;
 
 import java.io.IOException;
+
 import org.apache.log4j.BasicConfigurator;
-import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.moflon.ide.visualization.dot.tgg.schema.SchemaPackage;
+import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 
 
 public class SchemaTrafo extends SynchronizationHelper{

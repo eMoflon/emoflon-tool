@@ -744,20 +744,6 @@ public class WorkspaceHelper
       return resource != null && isFile(resource) && resource.getName().endsWith(".java");
    }
 
-   /**
-    * Returns the project in the workspace with the given project name.
-    * 
-    * The returned project has to be checked for existence
-    * 
-    * @deprecated Use {@link #getProjectByName(String)}
-    */
-   // TODO Remove on next release
-   @Deprecated
-   public static IProject getProjectRoot(final String projectName)
-   {
-      return getProjectByName(projectName);
-   }
-
    public static IProject getProjectByName(final String projectName)
    {
       return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);

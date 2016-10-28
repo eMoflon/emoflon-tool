@@ -72,12 +72,8 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
 
                if (renameChange.getElementType().equals(MocaToMoflonUtils.ECLASS_NODE_NAME))
                {
-                  // TODO@fstallmeyer: Check why this "triangle exchange" does not work. Maybe even remove it.
-                  String tmpName = createTmpName(renameChange);
-                  RenameChange firstRC = createNewRenameChange(renameChange.getPreviousValue(), tmpName, renameChange);
-                  RenameChange secondRC = createNewRenameChange(tmpName, renameChange.getCurrentValue(), renameChange);
+                  RenameChange firstRC = createNewRenameChange(renameChange.getPreviousValue(), renameChange.getCurrentValue(), renameChange);
 
-                  postChanges.add(secondRC);
                   if (createClassRefactorings(firstRC).isOK())
                   {
                      findAndProcessInjections(firstRC);
