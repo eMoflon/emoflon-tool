@@ -8,14 +8,13 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
+import org.moflon.ide.mosl.core.exceptions.CannotFindScopeException;
 
 public class ScopeProviderHelper <E extends EObject> {
 	private Map<URI, E> existingScopingRoots;
@@ -52,23 +51,27 @@ public class ScopeProviderHelper <E extends EObject> {
 		}
 	}	
 	
-	public IScope createScope(List<URI> uris, Class<E> clazz, Class<? extends EObject> type){
-		List<EObject> candidates=null;
-		if(oldCandidates.containsKey(type.toGenericString())){
-			candidates=oldCandidates.get(type.toGenericString());
-		}
-		else {		
-			candidates = new ArrayList<>();
-			
-			for(URI uri : uris){
-				E scopingObject=getScopingObject(uri, clazz);
-				List<EObject> tmpCandidates = new ArrayList<EObject>(scopingObject.eContents());
-				//tmpCandidates.removeIf(c -> (!c.getClass().isAssignableFrom(clazz)));
-				candidates.addAll(tmpCandidates.stream().filter(isAssignable(type)).collect(Collectors.<EObject>toList()));
+	public IScope createScope(List<URI> uris, Class<E> clazz, Class<? extends EObject> type) throws CannotFindScopeException{
+		try {
+			List<EObject> candidates=null;
+			if(oldCandidates.containsKey(type.toGenericString())){
+				candidates=oldCandidates.get(type.toGenericString());
 			}
-			oldCandidates.put(type.toGenericString(), candidates);
+			else {		
+				candidates = new ArrayList<>();
+				
+				for(URI uri : uris){
+					E scopingObject=getScopingObject(uri, clazz);
+					List<EObject> tmpCandidates = new ArrayList<EObject>(scopingObject.eContents());
+					//tmpCandidates.removeIf(c -> (!c.getClass().isAssignableFrom(clazz)));
+					candidates.addAll(tmpCandidates.stream().filter(isAssignable(type)).collect(Collectors.<EObject>toList()));
+				}
+				oldCandidates.put(type.toGenericString(), candidates);
+			}
+			return Scopes.scopeFor(candidates);
+		}catch (IndexOutOfBoundsException ioobe){
+			throw new CannotFindScopeException("Cannot find Resource");
 		}
-		return Scopes.scopeFor(candidates);
 	}
 	
 	
