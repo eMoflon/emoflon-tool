@@ -1,4 +1,5 @@
 /bin/
-/model/
-/src-gen/
-/xtend-gen/
+/src-gen/*
+/xtend-gen/*
+!/**/.keep*
+/model/generated
