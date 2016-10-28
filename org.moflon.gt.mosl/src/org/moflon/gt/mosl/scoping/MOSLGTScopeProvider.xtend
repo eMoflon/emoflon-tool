@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.EClass
 import org.moflon.ide.mosl.core.scoping.ScopeProviderHelper
 import org.moflon.gt.mosl.moslgt.MethodDec
 import org.eclipse.emf.ecore.EClassifier
+import org.moflon.ide.mosl.core.exceptions.CannotFindScopeException
+import org.apache.log4j.Logger
 
 /**
  * This class contains custom scoping description.
@@ -23,23 +25,28 @@ import org.eclipse.emf.ecore.EClassifier
  */
 class MOSLGTScopeProvider extends AbstractMOSLGTScopeProvider {
 	private ScopeProviderHelper<EPackage> helper = new ScopeProviderHelper();
+	private Logger log = Logger.getLogger(MOSLGTScopeProvider.getClass());
 	
 	override getScope(EObject context, EReference reference) {
+	try{
 		if(searchForEClass(context,reference)){
 			return getScopeByType(context, EClass)
 		}
 		if(searchForEClassifier(context,reference)){
 			return getScopeByType(context, EClassifier)
 		}
+	}catch (CannotFindScopeException e){
+		log.debug("Cannot find Scope",e)
+	}
 		super.getScope(context, reference);
 	}
 	
-	def getScopeByType(EObject context, Class<? extends EObject> type){
+	def getScopeByType(EObject context, Class<? extends EObject> type)throws CannotFindScopeException{
 		val set = helper.resourceSet
 		CodeGeneratorPlugin.createPluginToResourceMapping(set);		
 		var gtf = getGraphTransformationFile(context)
 		var uris = gtf.imports.map[importValue | URI.createURI(importValue.name)];
-		return helper.createScope(uris, EPackage, type);
+		return helper.createScope(uris, EPackage, type);		 
 	}
 	
 	def GraphTransformationFile getGraphTransformationFile(EObject context){
