@@ -5,4 +5,5 @@ Bundle-SymbolicName: org.moflon.ide.mosl.core
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.xtext
-Export-Package: org.moflon.ide.mosl.core.scoping
+Export-Package: org.moflon.ide.mosl.core.exceptions,
+ org.moflon.ide.mosl.core.scoping
