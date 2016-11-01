@@ -23,21 +23,40 @@ EClassDef:
 ;
 
 MethodDec:
-	'#operation' name = ID '(' parameters+=MethodParameter* ')' ':' type=[ecore::EClassifier | MethodTypeName] ('{'
-		statements += Statement+
+	'#operation' name = ID '(' parameters+=MethodParameter* ')' ':' (type=[ecore::EClassifier | QualifiedName] | 'void') ('{'
+		statements += Statement*
 	'}')?
 ;
 
-Statement: PatternStatement | ConditionStatement | ObjectVariable | ReturnStatement;
+Statement: PatternStatement | ConditionContainingStatement| ObjectVariable | ReturnStatement;
 
 PatternStatement:'#invoke' pattern=[Pattern];
 
-ConditionStatement:'#if(' pattern=[Pattern] ')''{'
-	startStatement=Statement
+ConditionStatement:'#if' '(' cond=Condition ')''{'
+	thenStmts += Statement+
+	'}'
+	('#else' '{'
+		elseStmts += Statement+
+	'}')?
+;
+
+Condition:pattern=[Pattern];
+
+ConditionContainingStatement:ConditionStatement | LoopStatement;
+
+LoopStatement:DoLoopStatement | WhileLoopStatement;
+
+WhileLoopStatement: '#while''(' cond=Condition ')''{'
+		loopStmts += Statement+
 	'}'
 ;
 
-ReturnStatement: "#return" returnObject=[ObjectVariable];
+DoLoopStatement: '#Do' '{'
+	loopStmts += Statement+
+	'}' '#while' '(' cond=Condition ')'
+;
+
+ReturnStatement: "#return" (returnObject=[ObjectVariable])?;
 
 ObjectVariable: (op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName];
 
@@ -91,13 +110,3 @@ QualifiedName returns ecore::EString:
 	ID ('.' ID)*
 ;
 
-
-// some OO stuff
-
-AbstractGraphTransformationFile:
-	GraphTransformationFile ecoreFiles += EcoreFileContainer*
-;
-
-EcoreFileContainer:
-	ecoreFile= [ecore::EPackage]
-;
