@@ -14,7 +14,12 @@ GraphTransformationFile:
 	
 ;
 
-PatternDef:"#pattern" Pattern;
+PatternDef:"#pattern" name=ID '(' parameters += PatternParameters* ')' '{'
+	objectVariables += ObjectVariablePattern*
+	'}'
+;
+
+PatternParameters:ObjectVariableDefinition;
 
 EClassDef:
 	'#class' name = [ecore::EClass | QualifiedName] '{'
@@ -28,9 +33,9 @@ MethodDec:
 	'}')?
 ;
 
-Statement: PatternStatement | ConditionContainingStatement| ObjectVariable | ReturnStatement;
+Statement: PatternStatement | ConditionContainingStatement| ObjectVariableDefinition | ReturnStatement;
 
-PatternStatement:'#invoke' pattern=[Pattern];
+PatternStatement:'#invoke' pattern=[PatternDef];
 
 ConditionStatement:'#if' '(' cond=Condition ')''{'
 	thenStmts += Statement+
@@ -40,7 +45,7 @@ ConditionStatement:'#if' '(' cond=Condition ')''{'
 	'}')?
 ;
 
-Condition:pattern=[Pattern];
+Condition:pattern=[PatternDef];
 
 ConditionContainingStatement:ConditionStatement | LoopStatement;
 
@@ -56,16 +61,44 @@ DoLoopStatement: '#Do' '{'
 	'}' '#while' '(' cond=Condition ')'
 ;
 
-ReturnStatement: "#return" (returnObject=[ObjectVariable])?;
+ReturnStatement:{ReturnStatement} "#return" (returnObject=[ObjectVariablePattern])?;
 
-ObjectVariable: (op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName];
+ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName];
 
-ObjectVariablePattern: ObjectVariable (":=" assignment=ObjectVariable)? ('{' 
-	
-	
-'}')?;
+ObjectVariablePattern: ObjectVariableDefinition (":=" assignment=[ObjectVariablePattern | QualifiedName])? ('{' 
+		attributeAssignments += AttributeAssignment*
+		attributeConstraints += AttributeConstraint*
+		linkVariablePatterns += LinkVariablePattern*	
+'}')?	
+;
 
-Pattern:name=ID;
+AttributeConstraint:
+	attribute = [ecore::EAttribute] op=('==' | '!=' | '<=' | '>=' | '>' | '<') valueExp = Expression
+;
+
+AttributeAssignment:
+	attribute = [ecore::EAttribute] op=':=' valueExp = Expression
+;
+
+Expression:
+	(LiteralExpression | AttributeExpression | EnumExpression)
+;
+
+EnumExpression:
+	 'enum::' eenum=[ecore::EEnum | QualifiedName] '::' literal = [ecore::EEnumLiteral | QualifiedName]  
+;
+
+AttributeExpression:
+	objectVar = [ObjectVariablePattern] '.' attribute = [ecore::EAttribute]
+;
+
+LiteralExpression:
+	value = LiteralValue
+;
+
+LinkVariablePattern:
+	(op = Operator)? '-' type = [ecore::EReference] '->' target = [ObjectVariablePattern]
+;
 
 MethodParameter: name = ID ':' type=[ecore::EClassifier | QualifiedName];
 
