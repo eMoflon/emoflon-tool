@@ -22,29 +22,9 @@ public class ValidationChannel
 
    private final static String URL = "localhost";
 
-   private static final int BACKLOG = 10;
-
-   private static final int TIMEOUT = 5000;
-
    public static final int DEFAULT_PORT = 3333;
 
-   private static ValidationChannel DEFAULT_CHANNEL;
-
    private final int port;
-
-   public static final ValidationChannel getDefaultChannel()
-   {
-      if (DEFAULT_CHANNEL == null)
-      {
-         DEFAULT_CHANNEL = new ValidationChannel();
-      }
-      return DEFAULT_CHANNEL;
-   }
-
-   public ValidationChannel()
-   {
-      this(DEFAULT_PORT);
-   }
 
    public ValidationChannel(final int port)
    {
