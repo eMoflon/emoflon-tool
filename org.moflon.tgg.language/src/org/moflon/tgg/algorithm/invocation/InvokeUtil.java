@@ -12,8 +12,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class InvokeUtil
 {
-   private static final Logger logger = Logger.getLogger(InvokeUtil.class);
-
    public static EObject invokeOperationWithSingleArg(EObject target, EOperation operation, EObject singleArgument)
    {
       EClass targetClass = (EClass) target;
