@@ -20,6 +20,7 @@ import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition
 import org.moflon.gt.mosl.moslgt.PatternStatement
 import org.moflon.gt.mosl.moslgt.PatternDef
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern
+import org.moflon.gt.mosl.moslgt.MethodParameter
 
 /**
  * This class contains custom scoping description.
@@ -80,7 +81,8 @@ class MOSLGTScopeProvider extends AbstractMOSLGTScopeProvider {
 	}
 	
 	def boolean searchForEClassifier(EObject context, EReference reference){
-		return context instanceof MethodDec || context instanceof ObjectVariableDefinition
+		return context instanceof MethodDec || context instanceof ObjectVariableDefinition 
+		|| (context instanceof MethodParameter && reference.name.equals("type"))
 	}
 	
 }
