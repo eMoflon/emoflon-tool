@@ -1,17 +1,26 @@
-// Add imports here
+#import "platform:/resource/org.moflon.gt.mosl/model/generated/MOSLGT.ecore"
+#import "platform:/resource/org.moflon.sdm.compiler.democles.validation.controlflow/model/Controlflow.ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
+#import "http://www.eclipse.org/emf/2002/Ecore"
 
 #schema org.moflon.gt.mosl.codeadapter
 	
 #source {
-	
+	moslgt
 }
 
 #target { 
-	
+	controlflow
 } 
 
 #correspondence {
-	
+	MethodDecToMoflonOperation{
+		#src->MethodDec
+		#trg->MoflonOperation
+	}
 }
 
 #attributeConditions {
