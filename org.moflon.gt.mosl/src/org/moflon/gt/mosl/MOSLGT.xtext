@@ -34,9 +34,11 @@ MethodDec:
 	'}')?
 ;
 
+CalledPatternParameter:(definingOV=ObjectVariableDefinition) | (existingOV=[ObjectVariablePattern | QualifiedName]);
+
 Statement: PatternStatement | ConditionContainingStatement| ObjectVariableDefinition | ReturnStatement;
 
-PatternStatement:'#invoke' pattern=[PatternDef]'('')';
+PatternStatement:'#invoke' pattern=[PatternDef]'('(parameters+=CalledPatternParameter)? (',' parameters+=CalledPatternParameter)*')';
 
 ConditionStatement:'#if' '(' cond=Condition ')''{'
 	thenStmts += Statement+
