@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 
-@Deprecated // Appears to be unused, Marked since 2016-11-08
 public class TGGRuleApplication {
 	
 	private HashSet<EObject> createdSrc = new HashSet<>();
