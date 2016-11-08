@@ -2,6 +2,7 @@ package org.moflon.ide.mosl.core.scoping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -62,9 +63,12 @@ public class ScopeProviderHelper <E extends EObject> {
 				
 				for(URI uri : uris){
 					E scopingObject=getScopingObject(uri, clazz);
-					List<EObject> tmpCandidates = new ArrayList<EObject>(scopingObject.eContents());
-					//tmpCandidates.removeIf(c -> (!c.getClass().isAssignableFrom(clazz)));
-					candidates.addAll(tmpCandidates.stream().filter(isAssignable(type)).collect(Collectors.<EObject>toList()));
+					Iterator<EObject> candidateIterator = scopingObject.eAllContents();
+					while(candidateIterator.hasNext()){
+						EObject candidate = candidateIterator.next();
+						if(type.isAssignableFrom(candidate.getClass()))
+							candidates.add(candidate);
+					}
 				}
 				oldCandidates.put(type.toGenericString(), candidates);
 			}

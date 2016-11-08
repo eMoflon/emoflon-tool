@@ -9,12 +9,13 @@ GraphTransformationFile:
 	using += Using*	'#package' name = QualifiedName
 	
 	(eClasses += EClassDef | patterns += PatternDef)
-	eClasses += EClassDef*
 	patterns += PatternDef*
+	eClasses += EClassDef*
+	
 	
 ;
 
-PatternDef:"#pattern" name=ID '(' parameters += PatternParameters* ')' '{'
+PatternDef:"#pattern" name=ID '(' (parameters += PatternParameters)? (',' parameters += PatternParameters)* ')' '{'
 	objectVariables += ObjectVariablePattern*
 	'}'
 ;
@@ -35,7 +36,7 @@ MethodDec:
 
 Statement: PatternStatement | ConditionContainingStatement| ObjectVariableDefinition | ReturnStatement;
 
-PatternStatement:'#invoke' pattern=[PatternDef];
+PatternStatement:'#invoke' pattern=[PatternDef]'('')';
 
 ConditionStatement:'#if' '(' cond=Condition ')''{'
 	thenStmts += Statement+

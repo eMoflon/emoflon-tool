@@ -17,6 +17,9 @@ import org.eclipse.emf.ecore.EClassifier
 import org.moflon.ide.mosl.core.exceptions.CannotFindScopeException
 import org.apache.log4j.Logger
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition
+import org.moflon.gt.mosl.moslgt.PatternStatement
+import org.moflon.gt.mosl.moslgt.PatternDef
+import org.moflon.gt.mosl.moslgt.LinkVariablePattern
 
 /**
  * This class contains custom scoping description.
@@ -33,13 +36,26 @@ class MOSLGTScopeProvider extends AbstractMOSLGTScopeProvider {
 		if(searchForEClass(context,reference)){
 			return getScopeByType(context, EClass)
 		}
-		if(searchForEClassifier(context,reference)){
+		else if(searchForEClassifier(context,reference)){
 			return getScopeByType(context, EClassifier)
+		}
+//		else if(searchForPattern(context, reference))
+//			return getScopeByType(context, PatternDef)
+		else if(searchForEReferences(context, reference)){
+			return getScopeByType(context, EReference)
 		}
 	}catch (CannotFindScopeException e){
 		log.debug("Cannot find Scope",e)
 	}
 		super.getScope(context, reference);
+	}
+	
+	def boolean searchForEReferences(EObject context, EReference reference) {
+		return context instanceof LinkVariablePattern && reference.name.equals("type")
+	}
+	
+	def boolean searchForPattern(EObject context, EReference reference) {
+		return context instanceof PatternStatement
 	}
 	
 	def getScopeByType(EObject context, Class<? extends EObject> type)throws CannotFindScopeException{
