@@ -1,0 +1,22 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule MethodToMoflonOperationAxiomRule #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	graphTransformation : GraphTransformationFile {
+		
+	}
+}
+
+#target {
+	
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

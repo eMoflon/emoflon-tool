@@ -10,7 +10,10 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.core.runtime,
  SDMLanguage,
  org.moflon.tgg.language,
- org.moflon.tgg.runtime
+ org.moflon.tgg.runtime,
+ org.moflon.sdm.compiler.democles.validation.controlflow;bundle-version="2.0.0",
+ org.moflon.tgg.mosl.codeadapter;bundle-version="1.0.0",
+ org.moflon.gt.mosl;bundle-version="1.0.0"
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

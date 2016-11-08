@@ -1,0 +1,23 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule GraphTranformationRule #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	++ gtf : GraphTransformationFile
+}
+
+#target {
+	ePackage : EPackage
+}
+
+#correspondence {
+	++ graphToPackage : GraphTransformationToEPackage{
+		#src->gtf
+		#trg->ePackage
+	}
+}
+
+#attributeConditions {
+	
+}

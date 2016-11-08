@@ -14,12 +14,23 @@
 
 #target { 
 	controlflow
+	ecore
 } 
 
 #correspondence {
 	MethodDecToMoflonOperation{
 		#src->MethodDec
 		#trg->MoflonOperation
+	}
+	
+	ClassDefToEClass{
+		#src->EClassDef
+		#trg->EClass
+	}
+	
+	GraphTransformationToEPackage{
+		#src->GraphTransformationFile
+		#trg->EPackage
 	}
 }
 
