@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 
+@Deprecated // Appears to be unused, Marked since 2016-11-08
 public class TGGRuleApplication {
 	
 	private HashSet<EObject> createdSrc = new HashSet<>();
@@ -23,7 +24,7 @@ public class TGGRuleApplication {
 	private Map<String,EObject> nodeMappings = new HashMap<>();
 
 
-	private String name;
+	private final String name;
 	
 	public TGGRuleApplication(String name){
 		this.name = name;
@@ -56,5 +57,10 @@ public class TGGRuleApplication {
 	public Map<String, EObject> getNodeMappings() {
 		return nodeMappings;
 	}
+	
+	public String getName()
+   {
+      return name;
+   }
 	
 }
