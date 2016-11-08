@@ -16,6 +16,7 @@ import org.moflon.gt.mosl.moslgt.MethodDec
 import org.eclipse.emf.ecore.EClassifier
 import org.moflon.ide.mosl.core.exceptions.CannotFindScopeException
 import org.apache.log4j.Logger
+import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition
 
 /**
  * This class contains custom scoping description.
@@ -63,7 +64,7 @@ class MOSLGTScopeProvider extends AbstractMOSLGTScopeProvider {
 	}
 	
 	def boolean searchForEClassifier(EObject context, EReference reference){
-		return context instanceof MethodDec
+		return context instanceof MethodDec || context instanceof ObjectVariableDefinition
 	}
 	
 }
