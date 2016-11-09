@@ -122,7 +122,7 @@
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 5;
             this.buttonCancel.TabStop = false;
-            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.Text = "&Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // bttOk
@@ -133,7 +133,7 @@
             this.bttOk.Size = new System.Drawing.Size(75, 23);
             this.bttOk.TabIndex = 4;
             this.bttOk.TabStop = false;
-            this.bttOk.Text = "OK";
+            this.bttOk.Text = "&OK";
             this.bttOk.UseVisualStyleBackColor = true;
             this.bttOk.Click += new System.EventHandler(this.OKButton_Click);
             // 

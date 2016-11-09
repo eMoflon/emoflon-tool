@@ -105,7 +105,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.bttRemove.Name = "bttRemove";
             this.bttRemove.Size = new System.Drawing.Size(69, 23);
             this.bttRemove.TabIndex = 12;
-            this.bttRemove.Text = "Remove";
+            this.bttRemove.Text = "&Remove";
             this.bttRemove.UseVisualStyleBackColor = true;
             this.bttRemove.Click += new System.EventHandler(this.bttRemove_Click);
             // 
@@ -116,7 +116,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.bttEdit.Name = "bttEdit";
             this.bttEdit.Size = new System.Drawing.Size(69, 23);
             this.bttEdit.TabIndex = 11;
-            this.bttEdit.Text = "Edit";
+            this.bttEdit.Text = "&Edit";
             this.bttEdit.UseVisualStyleBackColor = true;
             this.bttEdit.Click += new System.EventHandler(this.bttEdit_Click);
             // 
@@ -127,7 +127,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.bttAdd.Name = "bttAdd";
             this.bttAdd.Size = new System.Drawing.Size(69, 23);
             this.bttAdd.TabIndex = 10;
-            this.bttAdd.Text = "Add";
+            this.bttAdd.Text = "&Add";
             this.bttAdd.UseVisualStyleBackColor = true;
             this.bttAdd.Click += new System.EventHandler(this.bttAdd_Click);
             // 
@@ -188,7 +188,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.Attribute.Size = new System.Drawing.Size(138, 40);
             this.Attribute.TabIndex = 35;
             this.Attribute.TabStop = false;
-            this.Attribute.Text = "Attribute";
+            this.Attribute.Text = "A&ttribute";
             // 
             // cmbAttributes
             // 
@@ -227,7 +227,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(205, 50);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(205, 46);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // radioSet
@@ -235,7 +235,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.radioSet.AutoSize = true;
             this.radioSet.Location = new System.Drawing.Point(3, 3);
             this.radioSet.Name = "radioSet";
-            this.radioSet.Size = new System.Drawing.Size(38, 19);
+            this.radioSet.Size = new System.Drawing.Size(34, 17);
             this.radioSet.TabIndex = 2;
             this.radioSet.TabStop = true;
             this.radioSet.Text = ":=";
@@ -244,9 +244,9 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             // radioEqual
             // 
             this.radioEqual.AutoSize = true;
-            this.radioEqual.Location = new System.Drawing.Point(47, 3);
+            this.radioEqual.Location = new System.Drawing.Point(43, 3);
             this.radioEqual.Name = "radioEqual";
-            this.radioEqual.Size = new System.Drawing.Size(42, 19);
+            this.radioEqual.Size = new System.Drawing.Size(37, 17);
             this.radioEqual.TabIndex = 1;
             this.radioEqual.TabStop = true;
             this.radioEqual.Text = "==";
@@ -255,9 +255,9 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             // radioNotEqual
             // 
             this.radioNotEqual.AutoSize = true;
-            this.radioNotEqual.Location = new System.Drawing.Point(95, 3);
+            this.radioNotEqual.Location = new System.Drawing.Point(86, 3);
             this.radioNotEqual.Name = "radioNotEqual";
-            this.radioNotEqual.Size = new System.Drawing.Size(38, 19);
+            this.radioNotEqual.Size = new System.Drawing.Size(34, 17);
             this.radioNotEqual.TabIndex = 2;
             this.radioNotEqual.TabStop = true;
             this.radioNotEqual.Text = "!=";
@@ -266,9 +266,9 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             // radioLessEqual
             // 
             this.radioLessEqual.AutoSize = true;
-            this.radioLessEqual.Location = new System.Drawing.Point(139, 3);
+            this.radioLessEqual.Location = new System.Drawing.Point(126, 3);
             this.radioLessEqual.Name = "radioLessEqual";
-            this.radioLessEqual.Size = new System.Drawing.Size(42, 19);
+            this.radioLessEqual.Size = new System.Drawing.Size(37, 17);
             this.radioLessEqual.TabIndex = 3;
             this.radioLessEqual.TabStop = true;
             this.radioLessEqual.Text = "<=";
@@ -277,9 +277,9 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             // radioGreaterEqual
             // 
             this.radioGreaterEqual.AutoSize = true;
-            this.radioGreaterEqual.Location = new System.Drawing.Point(3, 28);
+            this.radioGreaterEqual.Location = new System.Drawing.Point(3, 26);
             this.radioGreaterEqual.Name = "radioGreaterEqual";
-            this.radioGreaterEqual.Size = new System.Drawing.Size(42, 19);
+            this.radioGreaterEqual.Size = new System.Drawing.Size(37, 17);
             this.radioGreaterEqual.TabIndex = 3;
             this.radioGreaterEqual.TabStop = true;
             this.radioGreaterEqual.Text = ">=";
@@ -288,9 +288,9 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             // radioGreater
             // 
             this.radioGreater.AutoSize = true;
-            this.radioGreater.Location = new System.Drawing.Point(51, 28);
+            this.radioGreater.Location = new System.Drawing.Point(46, 26);
             this.radioGreater.Name = "radioGreater";
-            this.radioGreater.Size = new System.Drawing.Size(35, 19);
+            this.radioGreater.Size = new System.Drawing.Size(31, 17);
             this.radioGreater.TabIndex = 3;
             this.radioGreater.TabStop = true;
             this.radioGreater.Text = ">";
@@ -299,9 +299,9 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             // radioLess
             // 
             this.radioLess.AutoSize = true;
-            this.radioLess.Location = new System.Drawing.Point(92, 28);
+            this.radioLess.Location = new System.Drawing.Point(83, 26);
             this.radioLess.Name = "radioLess";
-            this.radioLess.Size = new System.Drawing.Size(35, 19);
+            this.radioLess.Size = new System.Drawing.Size(31, 17);
             this.radioLess.TabIndex = 3;
             this.radioLess.TabStop = true;
             this.radioLess.Text = "<";

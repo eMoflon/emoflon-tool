@@ -524,7 +524,6 @@
     <Compile Include="Util\EAUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PerformanceMeasure\Measurements.txt" />
     <Content Include="Profiles\Images\anchorIcon.bmp" />
     <Content Include="Profiles\Images\emoflon.bmp" />
     <Content Include="Profiles\Images\emoflon.png" />
@@ -827,12 +826,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Consistency\Rules\DiagramRules\" />
-    <Folder Include="Profiles\.svn\prop-base\" />
-    <Folder Include="Profiles\.svn\props\" />
-    <Folder Include="Profiles\.svn\text-base\" />
-    <Folder Include="Profiles\.svn\tmp\prop-base\" />
-    <Folder Include="Profiles\.svn\tmp\props\" />
-    <Folder Include="Profiles\.svn\tmp\text-base\" />
     <Folder Include="Profiles\Images\.svn\prop-base\" />
     <Folder Include="Profiles\Images\.svn\props\" />
     <Folder Include="Profiles\Images\.svn\text-base\" />

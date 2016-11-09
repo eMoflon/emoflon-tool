@@ -122,7 +122,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
                     addClassifier(classifier);
                 }
             }
-            if (classifierId != 0)
+            if (classifierId > 0)
             {
                 this.Text = this.Items[this.ClassifierIDs.IndexOf(classifierId)] as String;
             }
