@@ -268,3 +268,9 @@
 	* Hidden exception due to hidden, removed preferences node #108
 	* Missing source in plugin #103
 	* [TGG] consistency check with ignore rules #61
+---
+2016-11-11 eMoflon 2.24.0 release
+	User notes:
+	
+	Developer notes:
+	* GraViTY has been added to the test suite (requires MoDisco, accessible via the menu Test Workspaces and as auto-test config 'TestWorkspace_Gravity') 

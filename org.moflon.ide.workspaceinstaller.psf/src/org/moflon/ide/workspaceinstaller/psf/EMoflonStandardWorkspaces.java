@@ -41,6 +41,8 @@ public class EMoflonStandardWorkspaces
    public static final String TEST_WORKSPACE_DEMOCLES_0_NAME = "TestWorkspace_Democles_0";
 
    public static final String TEST_DEMO_HANDBOOK = "TestWorkspace_DemoAndHandbook";
+   
+   public static final String TEST_GRAVITY = "TestWorkspace_Gravity";
 
    public static final String OLD_DEVELOPER_WORKSPACE_NAME = "DeveloperWorkspace";
 
@@ -122,6 +124,7 @@ public class EMoflonStandardWorkspaces
       addPathLookup(TEST_WORKSPACE_MISC_NAME, Arrays.asList("tests/TestSuiteMisc.psf"));
       addPathLookup(TEST_WORKSPACE_DEMOCLES_0_NAME, Arrays.asList("tests/TestSuiteDemocles0.psf"));
       addPathLookup(TEST_DEMO_HANDBOOK, joinLists(DEMO_WORKSPACE_NAME, HANDBOOK_EXAMPLE_FINAL));
+      addPathLookup(TEST_GRAVITY, Arrays.asList("tests/TestSuiteGravity.psf"));
    }
 
    /**
