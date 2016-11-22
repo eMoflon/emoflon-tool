@@ -18,7 +18,6 @@ import org.moflon.ide.mosl.core.exceptions.CannotFindScopeException
 import org.apache.log4j.Logger
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition
 import org.moflon.gt.mosl.moslgt.PatternStatement
-import org.moflon.gt.mosl.moslgt.PatternDef
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern
 import org.moflon.gt.mosl.moslgt.MethodParameter
 
