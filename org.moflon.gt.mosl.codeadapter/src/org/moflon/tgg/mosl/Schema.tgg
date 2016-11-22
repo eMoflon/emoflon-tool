@@ -5,6 +5,7 @@
 #import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions"
 #import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
 #import "http://www.eclipse.org/emf/2002/Ecore"
+#import "platform:/plugin/org.moflon.sdm.runtime.democles/model/Democles.ecore"
 
 #schema org.moflon.gt.mosl.codeadapter
 	
