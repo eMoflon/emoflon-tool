@@ -10,9 +10,11 @@
    <feature url="features/org.moflon.ide.visualization.feature_2.24.0.qualifier.jar" id="org.moflon.ide.visualization.feature" version="2.24.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
+   <!--
    <feature url="features/org.moflon.ide.metamodelevolution.feature_2.24.0.qualifier.jar" id="org.moflon.ide.metamodelevolution.feature" version="2.24.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
+   -->
    <feature url="features/org.moflon.tgg.mosl.feature_2.24.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="2.24.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
