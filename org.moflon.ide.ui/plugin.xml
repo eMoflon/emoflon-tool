@@ -724,6 +724,11 @@
             id="org.moflon.ide.ui.commands.git.GitResetCommand"
             name="Reset and clean Git Repo">
       </command>
+      <command
+            defaultHandler="org.moflon.ide.ui.admin.handlers.TouchResourceHandler"
+            id="org.moflon.ide.ui.commands.git.TouchResourceCommand"
+            name="Touch Resource">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -966,6 +971,15 @@
                   checkEnabled="false">
             </visibleWhen>
          </command>
+         <command
+               commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand"
+               label="Touch Selected Resource(s)"
+               style="push"
+               tooltip="Marks the selected resoures as modified (even if they have not changed)">
+            <visibleWhen
+                  checkEnabled="false">
+            </visibleWhen>
+         </command>
       </menuContribution>
    </extension>
    <!--
@@ -1029,6 +1043,12 @@
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M2+M3+E M">
+      </key>
+      <key
+            commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+E C">
       </key>
    </extension>
    <extension
