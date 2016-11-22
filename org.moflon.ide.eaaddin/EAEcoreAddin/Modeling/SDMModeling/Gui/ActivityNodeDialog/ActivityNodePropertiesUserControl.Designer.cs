@@ -51,12 +51,13 @@
             this.smoothTableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
             this.smoothTableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.smoothTableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.smoothTableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.smoothTableLayoutPanel1.Name = "smoothTableLayoutPanel1";
             this.smoothTableLayoutPanel1.RowCount = 3;
-            this.smoothTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.smoothTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.smoothTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.smoothTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             this.smoothTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.smoothTableLayoutPanel1.Size = new System.Drawing.Size(331, 209);
+            this.smoothTableLayoutPanel1.Size = new System.Drawing.Size(441, 257);
             this.smoothTableLayoutPanel1.TabIndex = 26;
             // 
             // groupBox3
@@ -65,19 +66,22 @@
             this.groupBox3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox3.Controls.Add(this.buttonEvacuate);
             this.groupBox3.Controls.Add(this.chkThis);
-            this.groupBox3.Location = new System.Drawing.Point(3, 103);
+            this.groupBox3.Location = new System.Drawing.Point(4, 128);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(132, 84);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Size = new System.Drawing.Size(176, 103);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Features";
             // 
             // buttonEvacuate
             // 
-            this.buttonEvacuate.Location = new System.Drawing.Point(6, 42);
+            this.buttonEvacuate.Location = new System.Drawing.Point(8, 52);
+            this.buttonEvacuate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonEvacuate.Name = "buttonEvacuate";
             this.buttonEvacuate.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.buttonEvacuate.Size = new System.Drawing.Size(120, 23);
+            this.buttonEvacuate.Size = new System.Drawing.Size(160, 28);
             this.buttonEvacuate.TabIndex = 4;
             this.buttonEvacuate.Text = "Extract Story Pattern";
             this.buttonEvacuate.UseVisualStyleBackColor = true;
@@ -86,11 +90,12 @@
             // chkThis
             // 
             this.chkThis.AutoSize = true;
-            this.chkThis.Location = new System.Drawing.Point(6, 19);
+            this.chkThis.Location = new System.Drawing.Point(8, 23);
+            this.chkThis.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkThis.Name = "chkThis";
-            this.chkThis.Size = new System.Drawing.Size(110, 17);
+            this.chkThis.Size = new System.Drawing.Size(143, 21);
             this.chkThis.TabIndex = 3;
-            this.chkThis.Text = "Create this Object";
+            this.chkThis.Text = "Create &this Object";
             this.chkThis.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -98,31 +103,36 @@
             this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox1.Controls.Add(this.txtName);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Location = new System.Drawing.Point(4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(325, 44);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(433, 54);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Name";
+            this.groupBox1.Text = "&Name";
             // 
             // txtName
             // 
             this.txtName.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtName.Location = new System.Drawing.Point(3, 16);
+            this.txtName.Location = new System.Drawing.Point(4, 19);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(319, 20);
+            this.txtName.Size = new System.Drawing.Size(425, 22);
             this.txtName.TabIndex = 1;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.comboTypes);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(3, 53);
+            this.groupBox2.Location = new System.Drawing.Point(4, 66);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(325, 44);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Size = new System.Drawing.Size(433, 54);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Type";
+            this.groupBox2.Text = "T&ype";
             // 
             // comboTypes
             // 
@@ -133,20 +143,22 @@
             "StoryNode",
             "ForEach",
             "StatementNode"});
-            this.comboTypes.Location = new System.Drawing.Point(3, 16);
+            this.comboTypes.Location = new System.Drawing.Point(4, 19);
+            this.comboTypes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboTypes.Name = "comboTypes";
-            this.comboTypes.Size = new System.Drawing.Size(319, 21);
+            this.comboTypes.Size = new System.Drawing.Size(425, 24);
             this.comboTypes.TabIndex = 2;
             this.comboTypes.SelectedIndexChanged += new System.EventHandler(this.comboTypes_TextChanged);
             this.comboTypes.TextChanged += new System.EventHandler(this.comboTypes_TextChanged);
             // 
             // ActivityNodePropertiesUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.smoothTableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ActivityNodePropertiesUserControl";
-            this.Size = new System.Drawing.Size(331, 209);
+            this.Size = new System.Drawing.Size(441, 257);
             this.smoothTableLayoutPanel1.ResumeLayout(false);
             this.smoothTableLayoutPanel1.PerformLayout();
             this.groupBox3.ResumeLayout(false);

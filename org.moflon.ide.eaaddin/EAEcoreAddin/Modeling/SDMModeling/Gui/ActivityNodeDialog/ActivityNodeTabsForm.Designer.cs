@@ -110,11 +110,11 @@
             // btnOK
             // 
             this.btnOK.Location = new System.Drawing.Point(4, 4);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(93, 28);
             this.btnOK.TabIndex = 1;
-            this.btnOK.Text = "OK";
+            this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
@@ -122,11 +122,11 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(105, 4);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(93, 28);
             this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -138,7 +138,7 @@
             this.smoothTableLayoutPanel1.Controls.Add(this.smoothTableLayoutPanel2, 0, 1);
             this.smoothTableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.smoothTableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.smoothTableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.smoothTableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.smoothTableLayoutPanel1.Name = "smoothTableLayoutPanel1";
             this.smoothTableLayoutPanel1.RowCount = 2;
             this.smoothTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -152,7 +152,7 @@
             this.tabControl.Controls.Add(this.statementTabPage);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(4, 4);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(444, 361);
@@ -165,9 +165,9 @@
             this.activityPropertiesTab.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.activityPropertiesTab.Controls.Add(this.activityNodePropertiesUserControl1);
             this.activityPropertiesTab.Location = new System.Drawing.Point(4, 25);
-            this.activityPropertiesTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.activityPropertiesTab.Margin = new System.Windows.Forms.Padding(4);
             this.activityPropertiesTab.Name = "activityPropertiesTab";
-            this.activityPropertiesTab.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.activityPropertiesTab.Padding = new System.Windows.Forms.Padding(4);
             this.activityPropertiesTab.Size = new System.Drawing.Size(436, 332);
             this.activityPropertiesTab.TabIndex = 0;
             this.activityPropertiesTab.Text = "Properties";
@@ -176,7 +176,7 @@
             // 
             this.activityNodePropertiesUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.activityNodePropertiesUserControl1.Location = new System.Drawing.Point(4, 4);
-            this.activityNodePropertiesUserControl1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.activityNodePropertiesUserControl1.Margin = new System.Windows.Forms.Padding(5);
             this.activityNodePropertiesUserControl1.Name = "activityNodePropertiesUserControl1";
             this.activityNodePropertiesUserControl1.Size = new System.Drawing.Size(428, 324);
             this.activityNodePropertiesUserControl1.TabIndex = 0;
@@ -185,10 +185,10 @@
             // 
             this.statementTabPage.Controls.Add(this.statementExpressionControl);
             this.statementTabPage.Location = new System.Drawing.Point(4, 25);
-            this.statementTabPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.statementTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.statementTabPage.Name = "statementTabPage";
-            this.statementTabPage.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.statementTabPage.Size = new System.Drawing.Size(436, 333);
+            this.statementTabPage.Padding = new System.Windows.Forms.Padding(4);
+            this.statementTabPage.Size = new System.Drawing.Size(436, 332);
             this.statementTabPage.TabIndex = 1;
             this.statementTabPage.Text = "Statement";
             this.statementTabPage.UseVisualStyleBackColor = true;
@@ -197,9 +197,9 @@
             // 
             this.statementExpressionControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.statementExpressionControl.Location = new System.Drawing.Point(4, 4);
-            this.statementExpressionControl.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.statementExpressionControl.Margin = new System.Windows.Forms.Padding(5);
             this.statementExpressionControl.Name = "statementExpressionControl";
-            this.statementExpressionControl.Size = new System.Drawing.Size(428, 325);
+            this.statementExpressionControl.Size = new System.Drawing.Size(428, 324);
             this.statementExpressionControl.TabIndex = 0;
             // 
             // smoothTableLayoutPanel2
@@ -227,7 +227,7 @@
             this.ClientSize = new System.Drawing.Size(452, 406);
             this.Controls.Add(this.smoothTableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(313, 366);
