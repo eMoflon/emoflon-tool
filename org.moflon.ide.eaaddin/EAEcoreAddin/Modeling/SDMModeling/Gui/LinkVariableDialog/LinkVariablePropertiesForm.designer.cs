@@ -55,7 +55,7 @@
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 9;
-            this.btnOK.Text = "OK";
+            this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
@@ -80,7 +80,7 @@
             // 
             this.complexNAC1.Enabled = false;
             this.complexNAC1.Location = new System.Drawing.Point(268, 7);
-            this.complexNAC1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.complexNAC1.Margin = new System.Windows.Forms.Padding(4);
             this.complexNAC1.MinimumSize = new System.Drawing.Size(155, 64);
             this.complexNAC1.Name = "complexNAC1";
             this.complexNAC1.Size = new System.Drawing.Size(155, 93);
@@ -139,7 +139,7 @@
             this.radioButtonCreate.Name = "radioButtonCreate";
             this.radioButtonCreate.Size = new System.Drawing.Size(56, 17);
             this.radioButtonCreate.TabIndex = 7;
-            this.radioButtonCreate.Text = "Create";
+            this.radioButtonCreate.Text = "C&reate";
             this.radioButtonCreate.UseVisualStyleBackColor = true;
             this.radioButtonCreate.CheckedChanged += new System.EventHandler(this.radioButtonCreate_CheckedChanged);
             // 
@@ -150,7 +150,7 @@
             this.radioButtonDestroy.Name = "radioButtonDestroy";
             this.radioButtonDestroy.Size = new System.Drawing.Size(61, 17);
             this.radioButtonDestroy.TabIndex = 6;
-            this.radioButtonDestroy.Text = "Destroy";
+            this.radioButtonDestroy.Text = "&Destroy";
             this.radioButtonDestroy.UseVisualStyleBackColor = true;
             this.radioButtonDestroy.CheckedChanged += new System.EventHandler(this.radioButtonDestroy_CheckedChanged);
             // 
@@ -163,7 +163,7 @@
             this.radioButtonCheckOnly.Size = new System.Drawing.Size(80, 17);
             this.radioButtonCheckOnly.TabIndex = 5;
             this.radioButtonCheckOnly.TabStop = true;
-            this.radioButtonCheckOnly.Text = "Check Only";
+            this.radioButtonCheckOnly.Text = "Chec&k Only";
             this.radioButtonCheckOnly.UseVisualStyleBackColor = true;
             // 
             // listboxLinks
@@ -189,7 +189,7 @@
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 22;
-            this.cancelButton.Text = "Cancel";
+            this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // LinkVariablePropertiesForm
@@ -198,7 +198,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(439, 336);
+            this.ClientSize = new System.Drawing.Size(439, 337);
             this.ControlBox = false;
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.panel1);

@@ -2,10 +2,23 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="src-gen"/>
-	<classpathentry kind="src" path="xtend-gen"/>
+	<classpathentry kind="src" path="xtend-gen">
+		<attributes>
+			<attribute name="ignore_optional_problems" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins">
+		<!--  Added by rkluge on 2016-11-08 to reduce the number of false positive warnings. 
+			The following classes ARE actually meant to be publicly accessible but appear as discouraged/restricted. 
+		-->
+		<accessrules>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/formatting2/AbstractFormatter2"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/formatting2/IFormattableDocument"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/formatting2/IHiddenRegionFormatter"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

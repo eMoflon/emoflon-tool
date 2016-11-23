@@ -204,6 +204,15 @@
                   value="TestWorkspace_DemoAndHandbook">
             </parameter>
          </command>
+         <command
+               commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand"
+               label="GraViTY Tests (needs MoDisco)"
+               style="push">
+            <parameter
+                  name="org.moflon.devtools.ui.commands.install.workspacename"
+                  value="TestWorkspace_Gravity">
+            </parameter>
+         </command>
       </menuContribution>
       
       <menuContribution

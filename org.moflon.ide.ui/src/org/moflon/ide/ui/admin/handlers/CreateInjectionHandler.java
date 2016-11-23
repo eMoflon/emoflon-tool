@@ -143,7 +143,9 @@ public class CreateInjectionHandler extends AbstractCommandHandler
                   injectionIFile.setContents(contentStream, true, true, subMon.newChild(50));
                } else
                {
-                  injectionIFile.create(contentStream, true, subMon.newChild(50));
+                  final IPath pathToParentOfInjectionFile = injectionIFile.getProjectRelativePath().removeLastSegments(1);
+                  WorkspaceHelper.createFolderIfNotExists(javaFile.getProject().getFolder(pathToParentOfInjectionFile), subMon.newChild(20));
+                  injectionIFile.create(contentStream, true, subMon.newChild(30));
                }
             } else
             {

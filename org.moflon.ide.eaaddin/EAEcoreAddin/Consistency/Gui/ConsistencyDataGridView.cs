@@ -125,6 +125,7 @@ namespace EAEcoreAddin.Consistency.RuleHandling
             this.AllowUserToAddRows = false;
             DataGridViewRow templateRow = new DataGridViewRow();
             templateRow.Height = 30;
+            this.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.RowTemplate = templateRow;
             this.GridColor = System.Drawing.SystemColors.ControlLight;
             this.AllowUserToAddRows = false;

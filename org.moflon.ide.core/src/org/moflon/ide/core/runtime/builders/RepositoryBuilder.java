@@ -200,9 +200,9 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
    /**
     * Handles errors and warning produced by the code generation task
     * 
-    * @param status
+    * @param status the {@link IStatus} that contains the errors and warnings
     */
-   private void handleErrorsAndWarnings(final IStatus status, final IFile ecoreFile) throws CoreException
+   protected void handleErrorsAndWarnings(final IStatus status, final IFile ecoreFile) throws CoreException
    {
       if (indicatesThatValidationCrashed(status))
       {

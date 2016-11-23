@@ -48,7 +48,7 @@ namespace EAEcoreAddin
         {
             get
             {
-                return "2.10.0.0";
+                return "2.24.0.0";
             }
 
         }
