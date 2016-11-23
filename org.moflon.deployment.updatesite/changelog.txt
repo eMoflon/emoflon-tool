@@ -1,10 +1,22 @@
 ---
-2016-11-11 eMoflon 2.24.0 release
+2016-11-23 eMoflon 2.24.0 release
+	
 	User notes:
+	* From 2.24.0 on, we discontinue the support for the co-evolution feature.
 	
 	Developer notes:
 	* GraViTY has been added to the test suite (requires MoDisco, accessible via the menu Test Workspaces and as auto-test config 'TestWorkspace_Gravity') 
 
+	Fixed issues:
+	* Remove Co-Evolution Feature from eMoflon Update Site #147
+		* The feature has never gained stability, and with the planned MOSL-GT, the refactoring framework needs to be rebuilt, anyway.
+	* Add Touch command to eMoflon menu #146
+		* This entry in the eMoflon context menu allows you to selectively trigger an incremental build.
+	* Folders for namespaces aren't created in injection exporter
+	* Discouraged access in TGGFormatter #141
+	* Simplify structure of handbook #128
+	* Add menu entry to reset the Git repository of a project completely #93
+	 
 ---
 2016-10-25 eMoflon 2.23.0 released
 	User notes:
