@@ -25,7 +25,8 @@ Require-Bundle:
  org.moflon.sdm.compiler.democles.validation.scope,
  org.moflon.sdm.compiler.democles.validation.result,
  org.moflon.sdm.compiler.democles.validation.controlflow,
- org.moflon.sdm.compiler.eclipse
+ org.moflon.sdm.compiler.eclipse,
+ org.moflon.sdm.democles.reachability.javabdd
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.compiler.sdm.democles,
  org.moflon.compiler.sdm.democles.eclipse,

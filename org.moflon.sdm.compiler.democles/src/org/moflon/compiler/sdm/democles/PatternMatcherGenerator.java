@@ -8,6 +8,7 @@ import org.gervarro.democles.compiler.CompilerPattern;
 import org.gervarro.democles.compiler.CompilerPatternBody;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
+import org.moflon.democles.reachability.javabdd.BDDReachabilityAnalyzer;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 import org.moflon.sdm.compiler.democles.validation.result.Severity;
@@ -31,6 +32,9 @@ abstract public class PatternMatcherGenerator extends PatternMatcherImpl {
 
 			CompilerPattern compilerPattern = patternMatcher.compilePattern(pattern, adornment);
 			CompilerPatternBody body = compilerPattern.getBodies().get(0);
+			BDDReachabilityAnalyzer<?,?> reachabilityAnalyzer = new BDDReachabilityAnalyzer(body.getOperations(), adornment);
+//			reachabilityAnalyzer.analyzeReachability();
+//			final boolean isReachable = reachabilityAnalyzer.isReachable(adornment);
 			Chain<GeneratorOperation> searchPlan = PatternMatcherCompiler.generateSearchPlan(body, adornment);
 			SearchPlanAdapter adapter = createSearchPlanAdapter(body, adornment, searchPlan, isMultipleMatch);
 			eClass.eAdapters().add(adapter);
