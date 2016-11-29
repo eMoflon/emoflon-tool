@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="ASCII"?>
 <org.moflon.core.propertycontainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.moflon.core.propertycontainer="platform:/plugin/org.moflon.core.propertycontainer/model/Propertycontainer.ecore" projectName="org.moflon.gt.mosl.codeadapter">
+  <factoryMappings key="relational" value="RelationalConstraintFactory"/>
+  <factoryMappings key="emf" value="EMFTypeFactory"/>
   <additionalDependencies value="platform:/resource/org.moflon.gt.mosl/model/generated/MOSLGT.ecore"/>
+  <additionalDependencies value="platform:/plugin/org.gervarro.democles.specification.emf/model/specification.ecore"/>
+  <additionalDependencies value="platform:/plugin/org.gervarro.democles.specification.emf/model/emf.ecore"/>
+  <additionalDependencies value="platform:/plugin/org.gervarro.democles.specification.emf/model/relational.ecore"/>
   <metaModelProject MetaModelProjectName="NO_META_MODEL_PROJECT_NAME_SET_YET"/>
   <replaceGenModel/>
   <sdmCodegeneratorHandlerId value="DEMOCLES_REVERSE_NAVI"/>
   <tGGBuildMode/>
   <importMappings key="gt" value="org.moflon.gt.mosl.gt"/>
   <additionalUsedGenPackages value="platform:/resource/org.moflon.gt.mosl/model/generated/MOSLGT.genmodel"/>
+  <additionalUsedGenPackages value="platform:/plugin/org.gervarro.democles.specification.emf/model/specification.genmodel"/>
+  <additionalUsedGenPackages value="platform:/plugin/org.gervarro.democles.specification.emf/model/emf.genmodel"/>
+  <additionalUsedGenPackages value="platform:/plugin/org.gervarro.democles.specification.emf/model/relational.genmodel"/>
 </org.moflon.core.propertycontainer:MoflonPropertiesContainer>

@@ -4,39 +4,30 @@
 #rule MethodToMoflonOperationAxiomRule #with org.moflon.gt.mosl.codeadapter
 
 #source { 
-	gtf : GraphTransformationFile {
-		- eClasses -> classDef
-	}
+//	gtf : GraphTransformationFile {
+//		- eClasses -> classDef
+//	}
 	
-	classDef : EClassDef{
-		++ -operations->method
-	}
-	
+//	classDef : EClassDef{
+//		++ -operations->method
+//	}
+//	
 	++ method : MethodDec
 }
 
 #target {
-	ePackage : EPackage{
-		- eClassifiers -> eClass
-	}
+//	ePackage : EPackage{
+//		- eClassifiers -> eClass
+//	}
 	
-	eClass : EClass
+//	eClass : EClass
 	
 	++ operation : MoflonOperation{
-		++ - eContainingClass -> eClass
+//		++ - eContainingClass -> eClass
 	}
 }
 
 #correspondence {
-	graphToPackage : GraphTransformationToEPackage{
-		#src->gtf
-		#trg->ePackage
-	}
-	
-	classToClass : ClassDefToEClass {
-		#src->classDef
-		#trg->eClass
-	}
 	
 	++ methodToOperation : MethodDecToMoflonOperation {
 		#src->method

@@ -1,7 +1,7 @@
 #using org.moflon.gt.mosl.codeadapter.*
 #using AttrCondDefLibrary.*
 
-#rule ClassToClassRule #with org.moflon.gt.mosl.codeadapter
+#abstract #rule ClassToClassRule #with org.moflon.gt.mosl.codeadapter
 
 #source { 
 	gtf : GraphTransformationFile{
