@@ -62,6 +62,16 @@
    </extension>
    <extension
          point="org.eclipse.ui.menus">
+         <menuContribution
+            allPopups="true"
+            locationURI="popup:#TextEditorContext?after=additions">
+            <menu
+               icon="resources/icons/moflonSmall.png"
+               id="org.moflon.ide.ui.moflon"
+               label="eMoflon">
+               
+           </menu>
+            </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
@@ -565,6 +575,9 @@
             </and>
             <reference
                   definitionId="org.moflon.ide.ui.definitions.hasJavaEditor">
+            </reference>
+            <reference
+                  definitionId="org.moflon.ide.ui.definitions.hasInjectionEditor">
             </reference>
             </or>
          </enabledWhen>
@@ -1224,6 +1237,23 @@
             <reference
                   definitionId="org.moflon.ide.ui.definitions.isCompilationUnitEditor">
             </reference>
+         </and>
+      </definition>
+      <definition
+            id="org.moflon.ide.ui.definitions.hasInjectionEditor">
+         <and>
+            <with
+                  variable="activeEditorInput">
+               <reference
+                     definitionId="org.moflon.ide.ui.definitions.hasAnyMoflonNature">
+               </reference>
+            </with>
+            <with
+               variable="activeEditorId">
+            <equals
+                  value="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor">
+            </equals>
+         </with>
          </and>
       </definition>
       <definition
