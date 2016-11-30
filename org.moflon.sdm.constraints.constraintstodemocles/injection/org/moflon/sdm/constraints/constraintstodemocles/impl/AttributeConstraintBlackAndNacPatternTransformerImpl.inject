@@ -5,7 +5,6 @@ import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.constraints.constraintstodemocles.Errors;
 import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
 import org.moflon.sdm.constraints.operationspecification.OperationSpecification;
-@SuppressWarnings("unchecked")
 
 partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
 
@@ -166,9 +165,9 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
       errorMsgString.append(": ");
       errorMsgString.append("\"" + cspConstraint.getName());
       errorMsgString.append("(");
-      for (AttributeConstraintVariable var : cspConstraint.getParameters())
+      for (CspConstraintVariableReference var : cspConstraint.getParameters())
       {
-         errorMsgString.append(var.getType().getName() + ",");
+         errorMsgString.append(var.getAttributeConstraintVariable().getType().getName() + ",");
       }
       errorMsgString.deleteCharAt(errorMsgString.length() - 1);
       errorMsgString.append(")\".");
