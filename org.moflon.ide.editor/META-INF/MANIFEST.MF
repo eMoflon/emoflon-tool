@@ -4,30 +4,20 @@ Bundle-Name: org.moflon.ide.editor
 Bundle-SymbolicName: org.moflon.ide.editor;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: 
- org.apache.log4j;bundle-version="1.2.15",
- org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.core.runtime,
  org.eclipse.jface.text;bundle-version="3.7.0",
  org.eclipse.ui.editors;bundle-version="3.7.0",
  org.eclipse.emf.ecore.xmi;bundle-version="2.7.0",
  org.eclipse.core.resources;bundle-version="3.7.100",
- org.eclipse.jdt.core;bundle-version="3.7.0",
- org.eclipse.jdt.launching;bundle-version="3.6.100",
  org.moflon.core.utilities,
  org.eclipse.emf.codegen.ecore;bundle-version="2.7.0",
- org.moflon.ide.core,
- org.eclipse.ui.views;bundle-version="3.6.100",
  org.eclipse.jdt.ui,
  MocaTree,
  org.moflon.core.moca.processing,
- org.eclipse.emf.edit,
- org.eclipse.emf.common.ui,
  org.eclipse.emf.edit.ui,
  org.moflon.tgg.runtime;bundle-version="2.0.0",
- org.moflon.tgg.language;bundle-version="2.0.0",
- org.moflon.sdm.compiler.eclipse,
- org.eclipse.emf.ecore
+ org.moflon.tgg.language;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: 

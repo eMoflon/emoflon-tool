@@ -5,13 +5,10 @@ Bundle-SymbolicName: org.moflon.testing.testframework
 Bundle-Version: 2.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: 
- org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.emf.ecore.xmi,
- org.eclipse.core.resources;bundle-version="3.8.101",
  org.eclipse.emf.compare,
  org.moflon.core.utilities,
  org.junit;bundle-version="4.11.0",
- org.moflon.ide.ui,
  org.moflon.tgg.language,
  org.moflon.core.moca.processing,
  MocaTree

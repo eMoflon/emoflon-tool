@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -76,10 +74,5 @@ public class ScopeProviderHelper <E extends EObject> {
 		}catch (IndexOutOfBoundsException ioobe){
 			throw new CannotFindScopeException("Cannot find Resource");
 		}
-	}
-	
-	
-	private Predicate<? super EObject> isAssignable(Class<? extends EObject> type){
-		return c -> type.isAssignableFrom(c.getClass());
-	}
+	}	
 }

@@ -22,7 +22,6 @@ import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.CoreActivator;
-import org.moflon.moca.MocaUtil;
 import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Attribute;
