@@ -49,19 +49,21 @@ abstract public class PatternMatcherGenerator extends PatternMatcherImpl
          }
          else 
          {
-            final ErrorMessage error = ResultFactory.eINSTANCE.createErrorMessage();
-            report.getErrorMessages().add(error);
-            error.setId("No search plan found for pattern (according to reachability analysis)");
-            error.setSeverity(Severity.ERROR);
+            createAndAddErrorMessage(pattern, report);
          }
       } catch (RuntimeException e)
       {
-         ErrorMessage error = ResultFactory.eINSTANCE.createErrorMessage();
-         report.getErrorMessages().add(error);
-         error.setId("No search plan found for pattern");
-         error.setSeverity(Severity.ERROR);
+         createAndAddErrorMessage(pattern, report);
       }
       return report;
+   }
+
+   private void createAndAddErrorMessage(Pattern pattern, ValidationReport report)
+   {
+      final ErrorMessage error = ResultFactory.eINSTANCE.createErrorMessage();
+      report.getErrorMessages().add(error);
+      error.setId(String.format("No search plan found for pattern '%s'", pattern.getName()));
+      error.setSeverity(Severity.ERROR);
    }
 
    abstract public SearchPlanAdapter createSearchPlanAdapter(CompilerPatternBody body, Adornment adornment, Chain<GeneratorOperation> searchPlan,

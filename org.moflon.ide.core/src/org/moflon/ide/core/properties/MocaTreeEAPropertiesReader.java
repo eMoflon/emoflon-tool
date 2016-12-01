@@ -3,8 +3,10 @@ package org.moflon.ide.core.properties;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -20,6 +22,7 @@ import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.CoreActivator;
+import org.moflon.moca.MocaUtil;
 import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Attribute;
@@ -89,6 +92,7 @@ public class MocaTreeEAPropertiesReader
       properties.put(MetamodelProperties.EXPORT_FLAG_KEY, getValueForProperty("Moflon::Export", rootNode));
       properties.put(MetamodelProperties.VALIDATED_FLAG_KEY, getValueForProperty("Moflon::Validated", rootNode));
       properties.put(MetamodelProperties.WORKING_SET_KEY, getValueForProperty("Moflon::WorkingSet", rootNode));
+      properties.setHasAttributeConstraints(containsAttributeConstraintsNode(rootNode));
 
       switch (rootNode.getName())
       {
@@ -107,6 +111,21 @@ public class MocaTreeEAPropertiesReader
       properties.setDefaultValues();
 
       return properties;
+   }
+
+   private boolean containsAttributeConstraintsNode(Node rootNode)
+   {
+      final Queue<Node> unvisitedNodes = new LinkedList<>();
+      unvisitedNodes.add(rootNode);
+      while(!unvisitedNodes.isEmpty())
+      {
+         Node nextNode = unvisitedNodes.poll();
+         if ("AttributeConstraints".equals(nextNode.getName()))
+            return true;
+         
+         nextNode.getChildren().stream().filter(t -> t instanceof Node).map(t -> (Node)t).forEach(n -> unvisitedNodes.add(n));
+      }        
+      return false;
    }
 
    public List<String> extractDependencies(final Node rootPackage) throws CoreException
