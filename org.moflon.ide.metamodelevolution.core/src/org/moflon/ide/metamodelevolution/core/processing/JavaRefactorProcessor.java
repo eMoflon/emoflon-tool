@@ -1,8 +1,5 @@
 package org.moflon.ide.metamodelevolution.core.processing;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -113,34 +110,6 @@ public class JavaRefactorProcessor extends MetamodelDeltaProcessor_ImplBase
       newRenameChange.setPreviousValue(previous);
       newRenameChange.setElementType(old.getElementType());
       return newRenameChange;
-   }
-
-   private String createTmpName(RenameChange renameChange)
-   {
-      StringBuilder sb = new StringBuilder();
-      sb.append(renameChange.getElementType()).append(createHash(renameChange.getPreviousValue(), renameChange.getCurrentValue()));
-      return sb.toString();
-   }
-
-   private String createHash(String previousName, String newName)
-   {
-      StringBuilder sb = new StringBuilder();
-      sb.append(previousName).append(newName);
-      return sha1(sb.toString());
-   }
-
-   private String sha1(String s)
-   {
-      try
-      {
-         MessageDigest md = MessageDigest.getInstance("SHA1");
-         md.update(s.getBytes());
-         return new BigInteger(1, md.digest()).toString(16);
-      } catch (NoSuchAlgorithmException e)
-      {
-         logger.error("An Exception has been Thrown", e);
-         return s;
-      }
    }
 
    private IStatus createPackageRefactorings(RenameChange renameChange)
