@@ -122,7 +122,7 @@ public class WorkspaceHelper
 
    public static final String PLUGIN_ID_APACHE_COMMONS_IO = "org.apache.commons.io;bundle-version=\"[2.2.0,3)\"";
 
-   public static final String ISSUE_TRACKER_URL = "https://github.com/eMoflon/emoflon-issue-tracking-system/issues";
+   public static final String ISSUE_TRACKER_URL = "https://github.com/eMoflon/emoflon-tool/issues";
 
    public final static String MOFLON_PROBLEM_MARKER_ID = "org.moflon.ide.marker.MOFLONProblem";
 

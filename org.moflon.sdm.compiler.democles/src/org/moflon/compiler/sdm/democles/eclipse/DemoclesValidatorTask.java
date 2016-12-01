@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -26,6 +27,8 @@ import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.dfs.DFSGraph;
 import org.moflon.core.dfs.DfsFactory;
+import org.moflon.core.utilities.LogUtils;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowPackage;
 import org.moflon.sdm.compiler.democles.validation.controlflow.InefficientBootstrappingBuilder;
@@ -50,6 +53,8 @@ import SDMLanguage.activities.MoflonEOperation;
  */
 public class DemoclesValidatorTask implements ITask
 {
+   private static final Logger logger = Logger.getLogger(DemoclesValidatorTask.class);
+   
    public static final String TASK_NAME = "SDM validation";
 
    private final ScopeValidator scopeValidator;
@@ -86,9 +91,10 @@ public class DemoclesValidatorTask implements ITask
          return validationStatus.isOK() ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), TASK_NAME + " succeeded") : validationStatus;
       } catch (final RuntimeException e)
       {
+         LogUtils.error(logger, e, "Stacktrace of failed validation:\n%s", WorkspaceHelper.printStacktraceToString(e));
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR,
-               "Internal exception occured (probably caused by a bug in the validation module): " + e.getMessage()
-                     + " Please report the bug on https://github.com/eMoflon/emoflon/issues",
+               "Internal exception occured (probably caused by a bug in the validation module): " + e
+                     + " Please report the bug on " + WorkspaceHelper.ISSUE_TRACKER_URL,
                new DemoclesValidationException(e));
       }
    }
