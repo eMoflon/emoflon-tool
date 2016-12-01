@@ -23,3 +23,4 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="[3.9.0,4.0.0)",
  org.moflon.sdm.constraints.scopevalidation,
  org.moflon.sdm.constraints.constraintstodemocles,
  org.moflon.sdm.constraints.operationspecification
+Export-Package: org.moflon.compiler.sdm.democles.attributes
