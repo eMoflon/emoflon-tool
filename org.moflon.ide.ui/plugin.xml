@@ -201,7 +201,7 @@
       </super>
    </extension>
    <extension
-         id="org.moflon.ide.marker.MOFLONProblem"
+         id="org.moflon.ide.marker.EMoflonProblem"
          name="eMoflon Problem"
          point="org.eclipse.core.resources.markers">
       <super
@@ -220,9 +220,6 @@
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="org.moflon.ide.ui.perspective">
-            
-         
-         
       </perspectiveExtension>
    </extension>
    <extension
@@ -1303,12 +1300,12 @@
       <page
             class="org.moflon.ide.ui.propertypages.EMoflonPropertyPage"
             id="org.moflon.ide.ui.errorspropertypage"
-            name="eMoflon Error">
+            name="Marker (eMoflon View)"
+            >
             <enabledWhen>
-            <adapt
-                  type="org.eclipse.core.resources.IMarker">
-            </adapt>
-         </enabledWhen>
+        		<adapt type="org.eclipse.core.resources.IMarker">
+        		</adapt>
+            </enabledWhen>
       </page>
    </extension>
 </plugin>
