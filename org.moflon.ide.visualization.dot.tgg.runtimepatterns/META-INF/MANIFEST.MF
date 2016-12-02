@@ -10,19 +10,13 @@ Export-Package: org.moflon.ide.visualization.dot.tgg.runtimepatterns.u
  org.moflon.ide.visualization.dot.tgg.runtimepatterns
 Bundle-Name: org.moflon.ide.visualization.dot.tgg.runtimepatterns
 Bundle-Version: 1.1.0.qualifier
-Require-Bundle: org.eclipse.emf.ecore,
- org.eclipse.emf.ecore.xmi,
- org.moflon.core.utilities,
+Require-Bundle: org.moflon.core.utilities,
  org.moflon.ide.visualization.dot.language,
  MocaTree,
  org.moflon.tgg.runtime,
- org.apache.log4j;bundle-version="1.2.15",
- org.eclipse.core.runtime,
  SDMLanguage,
  org.moflon.tgg.language,
  net.sourceforge.plantuml.eclipse,
- org.eclipse.ui.workbench,
- org.eclipse.jface,
  org.eclipse.emf.ecore.editor
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy

@@ -2,6 +2,7 @@
 <org.moflon.core.propertycontainer:MoflonPropertiesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.moflon.core.propertycontainer="platform:/plugin/org.moflon.core.propertycontainer/model/Propertycontainer.ecore" projectName="org.moflon.core.mocatomoflon">
   <dependencies value="platform:/plugin/org.moflon.core.moca.processing/model/Processing.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.sdm.compiler.democles.validation.result/model/Result.ecore"/>
+  <dependencies value="platform:/plugin/org.moflon.core.ecoreutils/model/Ecoreutils.ecore"/>
   <dependencies value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore"/>
   <dependencies value="platform:/plugin/org.moflon.tgg.cspcodeadapter/model/Cspcodeadapter.ecore"/>
   <dependencies value="platform:/plugin/MocaTree/model/MocaTree.ecore"/>

@@ -1,0 +1,932 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2016-11-29 22:48:49">
+	<XMI.header>
+		<XMI.documentation>
+			<XMI.exporter>Enterprise Architect</XMI.exporter>
+			<XMI.exporterVersion>2.5</XMI.exporterVersion>
+		</XMI.documentation>
+	</XMI.header>
+	<XMI.content>
+		<UML:Model name="EA Model" xmi.id="MX_EAID_4A9919A8_C367_434f_BF18_D08E72EC8E43">
+			<UML:Namespace.ownedElement>
+				<UML:Class name="EARootClass" xmi.id="EAID_11111111_5487_4080_A7F4_41526CB0AA00" isRoot="true" isLeaf="false" isAbstract="false"/>
+				<UML:Package name="org.moflon.core.ecoreutils" xmi.id="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" visibility="public">
+					<UML:ModelElement.stereotype>
+						<UML:Stereotype xmi.idref="EAID_076BD54E_E239_4cfe_BF5E_77CF2B4747E3"/>
+					</UML:ModelElement.stereotype>
+					<UML:ModelElement.taggedValue>
+						<UML:TaggedValue tag="parent" value="EAPK_DC55E0CE_1831_461e_A4C5_ABB08FC9FCD2"/>
+						<UML:TaggedValue tag="created" value="2016-01-23 16:21:14"/>
+						<UML:TaggedValue tag="modified" value="2016-01-23 16:21:19"/>
+						<UML:TaggedValue tag="iscontrolled" value="FALSE"/>
+						<UML:TaggedValue tag="lastloaddate" value="2016-01-23 16:29:24"/>
+						<UML:TaggedValue tag="lastsavedate" value="2016-01-23 16:29:24"/>
+						<UML:TaggedValue tag="version" value="1.0"/>
+						<UML:TaggedValue tag="isprotected" value="FALSE"/>
+						<UML:TaggedValue tag="usedtd" value="FALSE"/>
+						<UML:TaggedValue tag="logxml" value="FALSE"/>
+						<UML:TaggedValue tag="tpos" value="0"/>
+						<UML:TaggedValue tag="packageFlags" value="isModel=1;VICON=3;CRC=0;"/>
+						<UML:TaggedValue tag="batchsave" value="0"/>
+						<UML:TaggedValue tag="batchload" value="0"/>
+						<UML:TaggedValue tag="phase" value="1.0"/>
+						<UML:TaggedValue tag="status" value="Proposed"/>
+						<UML:TaggedValue tag="author" value="rkluge"/>
+						<UML:TaggedValue tag="complexity" value="1"/>
+						<UML:TaggedValue tag="stereotype" value="EPackage"/>
+						<UML:TaggedValue tag="ea_stype" value="Public"/>
+						<UML:TaggedValue tag="tpos" value="0"/>
+						<UML:TaggedValue tag="gentype" value="Ecore"/>
+					</UML:ModelElement.taggedValue>
+					<UML:Namespace.ownedElement>
+						<UML:Class name="ECharContainer" xmi.id="EAID_09C65229_89FF_457c_859D_25950F31B907" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2016-01-21 15:41:29"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30252"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={2C14691B-356C-4e98-BCF3-D034054FF5E0}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={09C65229-89FF-457c-859D-25950F31B907}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid0"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EChar"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{D94C1A29-8FB5-464f-9214-A31B2F499740}"/>
+										<UML:TaggedValue tag="ea_localid" value="1907"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="EStringContainer" xmi.id="EAID_1CC2C772_7A78_4aaf_801D_C12E9CCCB739" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2015-11-29 16:22:40"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30253"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={8B0E9E43-1C97-4009-BA27-4A22385B9456}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={1CC2C772-7A78-4aaf-801D-C12E9CCCB739}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid1"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EString"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{AE856304-2AB8-4d62-AB27-60C1B85F0DD7}"/>
+										<UML:TaggedValue tag="ea_localid" value="1908"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="EBigIntegerContainer" xmi.id="EAID_31113AD5_0C5B_494b_89FA_CC2C34BC38B5" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2016-01-21 15:40:42"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30254"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={80E37513-EF62-4913-8383-65D472F9D7B5}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={31113AD5-0C5B-494b-89FA-CC2C34BC38B5}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid2"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EBigInteger"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{484F4399-D796-4008-8CA2-405545997CED}"/>
+										<UML:TaggedValue tag="ea_localid" value="1909"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="MoflonListItem" xmi.id="EAID_41684374_8FC3_49fc_8178_0FB94F27788B" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2015-11-29 19:49:14"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:26:15"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30255"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={AAED3CAD-198F-4d5a-AC2D-EA73362A9207}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={41684374-8FC3-49fc-8178-0FB94F27788B}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Class>
+						<UML:Association xmi.id="EAID_06FFB15C_21BA_4528_A2A4_DF55E3DD73B9" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="2"/>
+								<UML:TaggedValue tag="ea_type" value="Association"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="25241"/>
+								<UML:TaggedValue tag="ea_sourceName" value="MoflonList"/>
+								<UML:TaggedValue tag="ea_targetName" value="MoflonListItem"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="30256"/>
+								<UML:TaggedValue tag="ea_targetID" value="30255"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="rb" value="0..*"/>
+								<UML:TaggedValue tag="rt" value="+items"/>
+								<UML:TaggedValue tag="Moflon::ExportTree" value="&lt;memo&gt;" xmi.id="EAID_B18C36C4_A676_48be_8B58_469F9F2BEAAE">
+									<XMI.extension xmi.extender="Enterprise Architect 2.5">
+										<UML:Comment name="&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EAReferences&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;ClientReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;SupplierReference&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{41684374-8FC3-49fc-8178-0FB94F27788B}&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;items&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{06FFB15C-21BA-4528-A2A4-DF55E3DD73B9}Supplier&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;0&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;-1&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;containment&quot; value=&quot;True&quot; index=&quot;5&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;"/>
+									</XMI.extension>
+								</UML:TaggedValue>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" aggregation="composite" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_6A11DC0C_E3B5_4808_853A_D92895ADFFB5">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Unspecified;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" multiplicity="0..*" name="items" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_41684374_8FC3_49fc_8178_0FB94F27788B">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Association xmi.id="EAID_26D08B5D_86A1_4e3a_9450_F8228E387BD5" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="2"/>
+								<UML:TaggedValue tag="ea_type" value="Association"/>
+								<UML:TaggedValue tag="direction" value="Bi-Directional"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="conditional" value=" &#xA;«uniSingle»"/>
+								<UML:TaggedValue tag="ea_localid" value="25240"/>
+								<UML:TaggedValue tag="ea_sourceName" value="MoflonListItem"/>
+								<UML:TaggedValue tag="ea_targetName" value="MoflonListItem"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="30255"/>
+								<UML:TaggedValue tag="ea_targetID" value="30255"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="lb" value="0..1"/>
+								<UML:TaggedValue tag="lt" value="+previous"/>
+								<UML:TaggedValue tag="rb" value="0..1"/>
+								<UML:TaggedValue tag="rt" value="+next"/>
+								<UML:TaggedValue tag="Moflon::ExportTree" value="&lt;memo&gt;" xmi.id="EAID_1C264907_5F92_496e_9F54_2938FC9831F3">
+									<XMI.extension xmi.extender="Enterprise Architect 2.5">
+										<UML:Comment name="&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EAReferences&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;ClientReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{41684374-8FC3-49fc-8178-0FB94F27788B}&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;previous&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{26D08B5D-86A1-4e3a-9450-F8228E387BD5}Client&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;0&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;containment&quot; value=&quot;false&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;oppositeGuid&quot; value=&quot;{26D08B5D-86A1-4e3a-9450-F8228E387BD5}Supplier&quot; index=&quot;6&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;SupplierReference&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{41684374-8FC3-49fc-8178-0FB94F27788B}&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;next&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{26D08B5D-86A1-4e3a-9450-F8228E387BD5}Supplier&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;0&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;containment&quot; value=&quot;false&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;oppositeGuid&quot; value=&quot;{26D08B5D-86A1-4e3a-9450-F8228E387BD5}Client&quot; index=&quot;6&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;"/>
+									</XMI.extension>
+								</UML:TaggedValue>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" multiplicity="0..1" name="previous" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_41684374_8FC3_49fc_8178_0FB94F27788B">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" multiplicity="0..1" name="next" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_41684374_8FC3_49fc_8178_0FB94F27788B">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Association xmi.id="EAID_A825A0F8_88CE_4f1a_AB76_DA0210CD7DC7" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="2"/>
+								<UML:TaggedValue tag="ea_type" value="Association"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="2"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="conditional" value=" &#xA;«uniSingle»"/>
+								<UML:TaggedValue tag="ea_localid" value="25239"/>
+								<UML:TaggedValue tag="ea_sourceName" value="MoflonListItem"/>
+								<UML:TaggedValue tag="ea_targetName" value="EObject"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="30255"/>
+								<UML:TaggedValue tag="ea_targetID" value="25091"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="rb" value="1"/>
+								<UML:TaggedValue tag="rt" value="+content"/>
+								<UML:TaggedValue tag="Moflon::ExportTree" value="&lt;memo&gt;" xmi.id="EAID_F3F5D44B_DC41_4ba4_AE28_AA90C96EFCA8">
+									<XMI.extension xmi.extender="Enterprise Architect 2.5">
+										<UML:Comment name="&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EAReferences&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;ClientReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;SupplierReference&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EReference&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{C6CC4CAD-B740-4719-B364-7CA47F0F0B3B}&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{A825A0F8-88CE-4f1a-AB76-DA0210CD7DC7}Supplier&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;containment&quot; value=&quot;false&quot; index=&quot;5&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;"/>
+									</XMI.extension>
+								</UML:TaggedValue>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_41684374_8FC3_49fc_8178_0FB94F27788B">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="content" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_C6CC4CAD_B740_4719_B364_7CA47F0F0B3B">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Class name="MoflonList" xmi.id="EAID_6A11DC0C_E3B5_4808_853A_D92895ADFFB5" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2015-11-29 19:49:06"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:26:19"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30256"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={D1CF6389-72D4-40de-85A7-00917281F39B}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={6A11DC0C-E3B5-4808-853A-D92895ADFFB5}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Class>
+						<UML:Class name="EDoubleContainer" xmi.id="EAID_776EC678_3B1A_4c43_99E0_C77AC69AD0E6" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2015-11-29 16:22:11"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30257"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={3D58F50F-41F1-43b3-B787-9ACE9218AE53}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={776EC678-3B1A-4c43-99E0-C77AC69AD0E6}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid3"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EDouble"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{5D27B2BE-DB0D-4def-94F8-D2370BA6EC46}"/>
+										<UML:TaggedValue tag="ea_localid" value="1910"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="EShortContainer" xmi.id="EAID_7C723139_A8A1_407b_95C3_9A800B760722" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2016-01-21 15:41:57"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30258"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={2733C0D0-5ED3-49ea-99DD-8C20DFEC224E}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={7C723139-A8A1-407b-95C3-9A800B760722}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid4"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EShort"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{69646479-B678-4f90-B4D9-7D0BFE295EDF}"/>
+										<UML:TaggedValue tag="ea_localid" value="1911"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="EByteContainer" xmi.id="EAID_85C363C3_B680_460d_93D1_D899E6A245B4" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2016-01-21 15:42:10"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30259"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={424F8412-B3FD-4995-B4F0-8CE92D4D28D3}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={85C363C3-B680-460d-93D1-D899E6A245B4}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid5"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EByte"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{EDA036F8-DE90-450a-84BD-21941180B057}"/>
+										<UML:TaggedValue tag="ea_localid" value="1912"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="EFloatContainer" xmi.id="EAID_8722BD23_7C55_4185_A7BA_B6D61A729A83" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2016-01-21 15:40:26"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30260"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={B4EF756E-84A7-474b-9288-8B216AEAE791}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={8722BD23-7C55-4185-A7BA-B6D61A729A83}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid6"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EFloat"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{AA31F1F8-D9E3-4281-BA2B-4D1D359EAC03}"/>
+										<UML:TaggedValue tag="ea_localid" value="1913"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="ELongContainer" xmi.id="EAID_88E1A97B_DEDA_44c8_B44F_EEFC235D2D14" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2016-01-21 15:41:47"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30261"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={74C922AF-DCCF-4591-ADEF-3958E372221D}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={88E1A97B-DEDA-44c8-B44F-EEFC235D2D14}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid7"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="ELong"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{E05E8507-B4C6-417c-89BF-4E17DAC2ECEF}"/>
+										<UML:TaggedValue tag="ea_localid" value="1914"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="EIntContainer" xmi.id="EAID_A0E7162A_2F7B_4150_82A6_F57C8A05B33A" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2015-11-29 16:21:59"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30262"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={A0E51A59-42B0-48eb-B8F1-9F23D30F0F6C}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={A0E7162A-2F7B-4150-82A6-F57C8A05B33A}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid8"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EInt"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{C7CC60E4-F99E-4c92-B636-A1FE9543DCAF}"/>
+										<UML:TaggedValue tag="ea_localid" value="1915"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="EDateContainer" xmi.id="EAID_DF5FC587_74A0_41a0_B5F1_7BE7D897D63F" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2016-01-23 16:30:46"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="rkluge"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30264"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={63B452B8-F57B-4207-8D1A-56780713F5F3}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={DF5FC587-74A0-41a0-B5F1-7BE7D897D63F}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="EAID_AB3B8405_40FD_438c_B25F_C3ABD8D04214"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EDate"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{C63B2404-7619-4d49-A127-DB011D627B92}"/>
+										<UML:TaggedValue tag="ea_localid" value="1917"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+						<UML:Class name="EBooleanContainer" xmi.id="EAID_F775334B_A6E6_449a_9370_5E5A14DBBF59" visibility="public" namespace="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="EClass"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Class"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+								<UML:TaggedValue tag="date_created" value="2015-11-29 16:22:32"/>
+								<UML:TaggedValue tag="date_modified" value="2016-01-23 16:32:08"/>
+								<UML:TaggedValue tag="gentype" value="Ecore"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="org.moflon.core.ecoreutils"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="Home"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="product_name" value="Ecore"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="EClass"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="30263"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={CCAA97CD-F515-44ae-9F7C-ACDF0D2D1660}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=EClass;FQName=ECORE_Elements::EClass;@ENDSTEREO;$DES;$CLT={F775334B-A6E6-449a-9370-5E5A14DBBF59}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Classifier.feature>
+								<UML:Attribute name="content" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid9"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="EBoolean"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="length" value="0"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="precision" value="0"/>
+										<UML:TaggedValue tag="scale" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="0"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{A9376F0D-152F-4ca5-914B-C168C474F1C5}"/>
+										<UML:TaggedValue tag="ea_localid" value="1916"/>
+										<UML:TaggedValue tag="styleex" value="volatile=0;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+							</UML:Classifier.feature>
+						</UML:Class>
+					</UML:Namespace.ownedElement>
+				</UML:Package>
+				<UML:Stereotype xmi.id="EAID_076BD54E_E239_4cfe_BF5E_77CF2B4747E3" name="EPackage" isRoot="false" isLeaf="false" isAbstract="false">
+					<UML:Stereotype.baseClass>Package</UML:Stereotype.baseClass>
+				</UML:Stereotype>
+				<UML:DataType xmi.id="eaxmiid0" name="EChar" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid7" name="ELong" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid6" name="EFloat" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid4" name="EShort" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid2" name="EBigInteger" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid8" name="EInt" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid9" name="EBoolean" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid5" name="EByte" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid1" name="EString" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid3" name="EDouble" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+			</UML:Namespace.ownedElement>
+		</UML:Model>
+		<UML:TaggedValue tag="Moflon::Export" xmi.id="EAID_4658EB26_0210_4e66_8CC7_440EE737D038" value="__default__" modelElement="MX_EAID_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_C8FDD57B_ABA4_4259_803D_B9303B85976B" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EPackage&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;classes&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;packages&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{4A9919A8-C367-434f-BF18-D08E72EC8E43}&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::Name&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::NsPrefix&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::NsUri&quot; value=&quot;platform:/plugin/org.moflon.core.ecoreutils/model/Ecoreutils.ecore&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::PluginID&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;4&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::Export&quot; value=&quot;true&quot; index=&quot;5&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::Validated&quot; value=&quot;false&quot; index=&quot;6&quot; /&gt;&#xA;    &lt;attribute name=&quot;Moflon::WorkingSet&quot; value=&quot;My Working Set&quot; index=&quot;7&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="MX_EAID_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+		<UML:TaggedValue tag="Moflon::Name" xmi.id="EAID_B33BF5E9_8B16_4948_854C_8FCC644E9623" value="__default__" modelElement="MX_EAID_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+		<UML:TaggedValue tag="Moflon::NsPrefix" xmi.id="EAID_9ED431D1_9097_491e_850A_BC9285042958" value="__default__" modelElement="MX_EAID_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+		<UML:TaggedValue tag="Moflon::NsUri" xmi.id="EAID_66E1AE3E_1BC5_4c21_A090_0493B3178D87" value="__default__" modelElement="MX_EAID_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+		<UML:TaggedValue tag="Moflon::PluginID" xmi.id="EAID_04DF789B_E4C3_4896_A834_40CF9AC7A578" value="__default__" modelElement="MX_EAID_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+		<UML:TaggedValue tag="Moflon::Validated" xmi.id="EAID_259B5E36_A82E_4f56_96E4_DE0ACADC1BF5" value="__default__" modelElement="MX_EAID_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_6DCDCDC2_A53A_4c2f_A969_4A4A162E5A22" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;ECharContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;ECharContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_09C65229_89FF_457c_859D_25950F31B907"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_119A6C66_6E27_47ca_B8DB_36F5B2DC0E36" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EChar&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{D94C1A29-8FB5-464f-9214-A31B2F499740}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;ECharContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{09C65229-89FF-457c-859D-25950F31B907}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_09C65229_89FF_457c_859D_25950F31B907"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_2DF89583_AB61_4aea_B50B_4FCF5255FAE5" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EStringContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;EStringContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_1CC2C772_7A78_4aaf_801D_C12E9CCCB739"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_1312A53E_F29F_42c1_B8C5_97098F1C89F6" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EString&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{AE856304-2AB8-4d62-AB27-60C1B85F0DD7}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EStringContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{1CC2C772-7A78-4aaf-801D-C12E9CCCB739}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_1CC2C772_7A78_4aaf_801D_C12E9CCCB739"/>
+		<UML:TaggedValue tag="Moflon::RefactorTree" xmi.id="EAID_7735C9F4_FD2D_415b_8944_E6857ED3C881" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClassRefactored&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EStringContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;oldName&quot; value=&quot;EStringContainer&quot; index=&quot;1&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_1CC2C772_7A78_4aaf_801D_C12E9CCCB739"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_FFFABD5A_F546_4eb3_B920_BBF3E672348E" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EBigIntegerContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;EBigIntegerContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_31113AD5_0C5B_494b_89FA_CC2C34BC38B5"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_BE48F42E_E921_409e_A7B4_04295548ED9D" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EBigInteger&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{484F4399-D796-4008-8CA2-405545997CED}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EBigIntegerContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{31113AD5-0C5B-494b-89FA-CC2C34BC38B5}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_31113AD5_0C5B_494b_89FA_CC2C34BC38B5"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_9226F541_07E6_4e55_B3DC_A35A16C41A25" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;MoflonListItem&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;MoflonListItem&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_41684374_8FC3_49fc_8178_0FB94F27788B"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_E9EA5428_0EAA_4a9f_A74C_111BA7EE5E28" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;MoflonListItem&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{41684374-8FC3-49fc-8178-0FB94F27788B}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_41684374_8FC3_49fc_8178_0FB94F27788B"/>
+		<UML:TaggedValue tag="Moflon::RefactorTree" xmi.id="EAID_4C54E207_2924_44f4_B2AD_19CAF2B13CA4" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClassRefactored&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;MItem&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;oldName&quot; value=&quot;EClass1&quot; index=&quot;1&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_41684374_8FC3_49fc_8178_0FB94F27788B"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_DB8EF9EC_D0B5_4612_811B_C41F84D773EF" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;MoflonList&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;MoflonList&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_6A11DC0C_E3B5_4808_853A_D92895ADFFB5"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_21F2E1D7_BA7A_4913_AE37_B1DCA00EBE93" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;MoflonList&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{6A11DC0C-E3B5-4808-853A-D92895ADFFB5}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_6A11DC0C_E3B5_4808_853A_D92895ADFFB5"/>
+		<UML:TaggedValue tag="Moflon::RefactorTree" xmi.id="EAID_D6F25FCB_38DF_49c9_A362_7A573A489DA2" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClassRefactored&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;MList&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;oldName&quot; value=&quot;EClass1&quot; index=&quot;1&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_6A11DC0C_E3B5_4808_853A_D92895ADFFB5"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_03749370_2E47_4f3c_9230_63A3726121DB" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EDoubleContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;EDoubleContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_776EC678_3B1A_4c43_99E0_C77AC69AD0E6"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_C33E6F3E_DEEA_4725_910E_1E8748EFF0F4" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EDouble&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{5D27B2BE-DB0D-4def-94F8-D2370BA6EC46}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EDoubleContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{776EC678-3B1A-4c43-99E0-C77AC69AD0E6}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_776EC678_3B1A_4c43_99E0_C77AC69AD0E6"/>
+		<UML:TaggedValue tag="Moflon::RefactorTree" xmi.id="EAID_DDA387D1_FF10_46fc_A9AB_A81AEE22D93D" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClassRefactored&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EDoubleContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;oldName&quot; value=&quot;EDoubleContainer&quot; index=&quot;1&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_776EC678_3B1A_4c43_99E0_C77AC69AD0E6"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_B8CE66DE_8E41_4e63_935C_9D2C23C91680" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EShortContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;EShortContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_7C723139_A8A1_407b_95C3_9A800B760722"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_842A3EEE_261A_4f5c_9C91_80BBBCBB08BA" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EShort&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{69646479-B678-4f90-B4D9-7D0BFE295EDF}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EShortContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{7C723139-A8A1-407b-95C3-9A800B760722}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_7C723139_A8A1_407b_95C3_9A800B760722"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_9B45FB98_08C6_4578_8280_30EE2C216229" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EByteContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;EByteContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_85C363C3_B680_460d_93D1_D899E6A245B4"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_03B3688F_3F3C_4d45_8A28_2B339273A4C0" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EByte&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{EDA036F8-DE90-450a-84BD-21941180B057}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EByteContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{85C363C3-B680-460d-93D1-D899E6A245B4}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_85C363C3_B680_460d_93D1_D899E6A245B4"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_DE1F549F_2BA1_4615_BC86_0A1A4A35B78C" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EFloatContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;EFloatContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_8722BD23_7C55_4185_A7BA_B6D61A729A83"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_925FC915_5826_42f2_A105_BCEDEC628F67" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EFloat&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{AA31F1F8-D9E3-4281-BA2B-4D1D359EAC03}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EFloatContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{8722BD23-7C55-4185-A7BA-B6D61A729A83}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_8722BD23_7C55_4185_A7BA_B6D61A729A83"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_9F16A091_A2EF_4bf5_AEC3_9849497EB1DA" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;ELongContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;ELongContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_88E1A97B_DEDA_44c8_B44F_EEFC235D2D14"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_628D4691_430F_485f_8863_3C4DA4E0270D" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;ELong&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{E05E8507-B4C6-417c-89BF-4E17DAC2ECEF}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;ELongContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{88E1A97B-DEDA-44c8-B44F-EEFC235D2D14}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_88E1A97B_DEDA_44c8_B44F_EEFC235D2D14"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_E942DB5A_B996_4e07_A786_6359136001DB" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EIntContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;EIntContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_A0E7162A_2F7B_4150_82A6_F57C8A05B33A"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_2A4CA0DC_15DB_4089_9BEF_BF24B5C7D518" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EInt&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{C7CC60E4-F99E-4c92-B636-A1FE9543DCAF}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EIntContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{A0E7162A-2F7B-4150-82A6-F57C8A05B33A}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_A0E7162A_2F7B_4150_82A6_F57C8A05B33A"/>
+		<UML:TaggedValue tag="Moflon::RefactorTree" xmi.id="EAID_9AAAA66C_9944_4e2a_9488_DE76A183AA8C" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClassRefactored&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EIntContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;oldName&quot; value=&quot;EIntContainer&quot; index=&quot;1&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_A0E7162A_2F7B_4150_82A6_F57C8A05B33A"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_5D07C9F5_3F92_4329_9E15_4B7A25B87A06" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EDateContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;EDateContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_DF5FC587_74A0_41a0_B5F1_7BE7D897D63F"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_65173F2A_2883_42c9_80FE_D66BDDD7FCC5" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EDate&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;{AB3B8405-40FD-438c-B25F-C3ABD8D04214}&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{C63B2404-7619-4d49-A127-DB011D627B92}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EDateContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{DF5FC587-74A0-41a0-B5F1-7BE7D897D63F}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_DF5FC587_74A0_41a0_B5F1_7BE7D897D63F"/>
+		<UML:TaggedValue tag="Moflon::ChangesTree" xmi.id="EAID_1B355D06_B916_4ae2_AA5C_3A2083C98AFB" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EBooleanContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;previousName&quot; value=&quot;EBooleanContainer&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;packageName&quot; value=&quot;org.moflon.core.ecoreutils&quot; index=&quot;2&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_F775334B_A6E6_449a_9370_5E5A14DBBF59"/>
+		<UML:TaggedValue tag="Moflon::ExportTree" xmi.id="EAID_35A1CE37_4E27_4759_9F07_DF3393427CA7" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClass&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;children name=&quot;references&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;children name=&quot;attributes&quot; index=&quot;1&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;      &lt;children name=&quot;EAttribute&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;        &lt;attribute name=&quot;type&quot; value=&quot;EBoolean&quot; index=&quot;0&quot; /&gt;&#xA;        &lt;attribute name=&quot;typeGuid&quot; value=&quot;&quot; index=&quot;1&quot; /&gt;&#xA;        &lt;attribute name=&quot;name&quot; value=&quot;content&quot; index=&quot;2&quot; /&gt;&#xA;        &lt;attribute name=&quot;guid&quot; value=&quot;{A9376F0D-152F-4ca5-914B-C168C474F1C5}&quot; index=&quot;3&quot; /&gt;&#xA;        &lt;attribute name=&quot;ordered&quot; value=&quot;false&quot; index=&quot;4&quot; /&gt;&#xA;        &lt;attribute name=&quot;lowerBound&quot; value=&quot;1&quot; index=&quot;5&quot; /&gt;&#xA;        &lt;attribute name=&quot;upperBound&quot; value=&quot;1&quot; index=&quot;6&quot; /&gt;&#xA;        &lt;attribute name=&quot;isId&quot; value=&quot;false&quot; index=&quot;7&quot; /&gt;&#xA;        &lt;attribute name=&quot;isDerived&quot; value=&quot;false&quot; index=&quot;8&quot; /&gt;&#xA;      &lt;/children&gt;&#xA;    &lt;/children&gt;&#xA;    &lt;children name=&quot;operations&quot; index=&quot;2&quot; xsi:type=&quot;MocaTree:Node&quot; /&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EBooleanContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;isAbstract&quot; value=&quot;false&quot; index=&quot;1&quot; /&gt;&#xA;    &lt;attribute name=&quot;isInterface&quot; value=&quot;false&quot; index=&quot;2&quot; /&gt;&#xA;    &lt;attribute name=&quot;guid&quot; value=&quot;{F775334B-A6E6-449a-9370-5E5A14DBBF59}&quot; index=&quot;3&quot; /&gt;&#xA;    &lt;attribute name=&quot;alias&quot; value=&quot;&quot; index=&quot;4&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_F775334B_A6E6_449a_9370_5E5A14DBBF59"/>
+		<UML:TaggedValue tag="Moflon::RefactorTree" xmi.id="EAID_F21C6D92_DCCD_4612_B9B3_04DC20659FE2" value="&lt;memo&gt;#NOTES#&lt;MocaTree:Node xmlns:xmi=&quot;http://www.omg.org/XMI&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:MocaTree=&quot;platform:/plugin/MocaTree/model/MocaTree.ecore&quot;&gt;&#xA;  &lt;children name=&quot;EClassRefactored&quot; index=&quot;0&quot; xsi:type=&quot;MocaTree:Node&quot;&gt;&#xA;    &lt;attribute name=&quot;name&quot; value=&quot;EBooleanContainer&quot; index=&quot;0&quot; /&gt;&#xA;    &lt;attribute name=&quot;oldName&quot; value=&quot;EBooleanContainer&quot; index=&quot;1&quot; /&gt;&#xA;  &lt;/children&gt;&#xA;&lt;/MocaTree:Node&gt;" modelElement="EAID_F775334B_A6E6_449a_9370_5E5A14DBBF59"/>
+		<UML:Diagram name="org.moflon.core.ecoreutils" xmi.id="EAID_736B5CE7_7778_420c_A5BF_17A0FD27BE42" diagramType="ClassDiagram" owner="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43" toolName="Enterprise Architect 2.5">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="version" value="1.0"/>
+				<UML:TaggedValue tag="author" value="rkluge"/>
+				<UML:TaggedValue tag="created_date" value="2016-01-23 16:21:18"/>
+				<UML:TaggedValue tag="modified_date" value="2016-01-23 16:37:23"/>
+				<UML:TaggedValue tag="package" value="EAPK_4A9919A8_C367_434f_BF18_D08E72EC8E43"/>
+				<UML:TaggedValue tag="type" value="Logical"/>
+				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=-1;bold=false;fcol=0;tcol=-1;ofCol=-1;hl=1;cls=0;"/>
+				<UML:TaggedValue tag="matrixitems" value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;"/>
+				<UML:TaggedValue tag="ea_localid" value="3543"/>
+				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=2;PPgs.cy=1;DocSize.cx=827;DocSize.cy=1169;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<UML:TaggedValue tag="styleex" value="SaveTag=4668EDF9;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=eMoflon Ecore Diagrams::Ecore Diagram;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
+			</UML:ModelElement.taggedValue>
+			<UML:Diagram.element>
+				<UML:DiagramElement geometry="Left=460;Top=390;Right=723;Bottom=631;" subject="EAID_C6CC4CAD_B740_4719_B364_7CA47F0F0B3B" seqno="1" style="DUID=EA073DDC;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=560;Top=20;Right=684;Bottom=100;" subject="EAID_DF5FC587_74A0_41a0_B5F1_7BE7D897D63F" seqno="2" style="DUID=E3B16731;HideIcon=0;AttPub=1;"/>
+				<UML:DiagramElement geometry="Left=360;Top=240;Right=460;Bottom=320;" subject="EAID_6A11DC0C_E3B5_4808_853A_D92895ADFFB5" seqno="3" style="DUID=19849DB9;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=540;Top=240;Right=640;Bottom=320;" subject="EAID_41684374_8FC3_49fc_8178_0FB94F27788B" seqno="4" style="DUID=C6309ED4;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=310;Top=120;Right=434;Bottom=200;" subject="EAID_1CC2C772_7A78_4aaf_801D_C12E9CCCB739" seqno="5" style="DUID=B8595C4A;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=450;Top=120;Right=574;Bottom=200;" subject="EAID_7C723139_A8A1_407b_95C3_9A800B760722" seqno="6" style="DUID=7956E59E;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=170;Top=120;Right=294;Bottom=200;" subject="EAID_88E1A97B_DEDA_44c8_B44F_EEFC235D2D14" seqno="7" style="DUID=07B65E0D;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=30;Top=120;Right=154;Bottom=200;" subject="EAID_A0E7162A_2F7B_4150_82A6_F57C8A05B33A" seqno="8" style="DUID=985F5F04;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=830;Top=20;Right=954;Bottom=100;" subject="EAID_8722BD23_7C55_4185_A7BA_B6D61A729A83" seqno="9" style="DUID=1152692B;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=690;Top=20;Right=814;Bottom=100;" subject="EAID_776EC678_3B1A_4c43_99E0_C77AC69AD0E6" seqno="10" style="DUID=21B151DE;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=430;Top=20;Right=554;Bottom=100;" subject="EAID_09C65229_89FF_457c_859D_25950F31B907" seqno="11" style="DUID=F733265D;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=300;Top=20;Right=424;Bottom=100;" subject="EAID_85C363C3_B680_460d_93D1_D899E6A245B4" seqno="12" style="DUID=3848B82D;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=160;Top=20;Right=284;Bottom=100;" subject="EAID_F775334B_A6E6_449a_9370_5E5A14DBBF59" seqno="13" style="DUID=D64C3569;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=20;Top=20;Right=144;Bottom=100;" subject="EAID_31113AD5_0C5B_494b_89FA_CC2C34BC38B5" seqno="14" style="DUID=A7260E99;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="EDGE=2;SCTR=1;SCME=1;SX=0;SY=0;EX=0;EY=0;SCTR.LEFT=639;SCTR.TOP=-297;SCTR.RIGHT=725;SCTR.BOTTOM=-250;$LLB=;LLT=CX=66:CY=13:OX=30:OY=26:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LMT=;LMB=;LRT=CX=47:CY=13:OX=55:OY=-3:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LRB=;IRHS=;ILHS=;Path=640:-297$725:-297$725:-250$640:-250$;" subject="EAID_26D08B5D_86A1_4e3a_9450_F8228E387BD5" style="Mode=1;EOID=C6309ED4;SOID=C6309ED4;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="EDGE=3;$LLB=;LLT=;LMT=;LMB=;LRT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LRB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_A825A0F8_88CE_4f1a_AB76_DA0210CD7DC7" style="Mode=1;EOID=EA073DDC;SOID=C6309ED4;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="EDGE=2;$LLB=;LLT=;LMT=;LMB=;LRT=CX=31:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LRB=CX=16:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_06FFB15C_21BA_4528_A2A4_DF55E3DD73B9" style="Mode=1;EOID=C6309ED4;SOID=19849DB9;Color=-1;LWidth=0;Hidden=0;"/>
+			</UML:Diagram.element>
+		</UML:Diagram>
+	</XMI.content>
+	<XMI.difference/>
+	<XMI.extensions xmi.extender="Enterprise Architect 2.5">
+		<EAModel.paramSub/>
+		<EAStub xmi.id="EAID_C6CC4CAD_B740_4719_B364_7CA47F0F0B3B" name="EObject" UMLType="Class"/>
+		<EAStub xmi.id="EAID_AB3B8405_40FD_438c_B25F_C3ABD8D04214" name="EDate" UMLType="Class"/>
+	</XMI.extensions>
+</XMI>

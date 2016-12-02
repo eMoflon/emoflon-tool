@@ -4,10 +4,8 @@ Bundle-Name: org.moflon.sdm.compiler.democles
 Bundle-SymbolicName: org.moflon.sdm.compiler.democles;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Require-Bundle: 
- org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.core.resources;bundle-version="[3.8.101,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
- org.eclipse.emf.ecore;bundle-version="[2.9.1,3.0.0)",
  org.eclipse.emf.ecore.xmi;bundle-version="[2.9.1,3.0.0)",
  org.eclipse.emf.codegen.ecore;bundle-version="[2.9.1,3.0.0)",
  org.stringtemplate;bundle-version="[4.2.1,5.0.0)",
@@ -15,7 +13,6 @@ Require-Bundle:
  org.moflon.sdm.democles.patternmatcher;bundle-version="[0.4.0,0.5.0)",
  org.moflon.core.utilities,
  org.moflon.core.propertycontainer,
- org.moflon.core.moca.processing,
  SDMLanguage,
  org.moflon.core.moca.inject,
  org.moflon.sdm.runtime.democles,
@@ -25,7 +22,8 @@ Require-Bundle:
  org.moflon.sdm.compiler.democles.validation.scope,
  org.moflon.sdm.compiler.democles.validation.result,
  org.moflon.sdm.compiler.democles.validation.controlflow,
- org.moflon.sdm.compiler.eclipse
+ org.moflon.sdm.compiler.eclipse,
+ org.moflon.sdm.democles.reachability.javabdd
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.compiler.sdm.democles,
  org.moflon.compiler.sdm.democles.eclipse,

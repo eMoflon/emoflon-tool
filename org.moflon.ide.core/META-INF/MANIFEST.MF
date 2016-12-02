@@ -6,15 +6,16 @@ Bundle-Version: 2.1.2.qualifier
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: 
- org.apache.log4j;bundle-version="1.2.15",
- org.apache.commons.lang3;bundle-version="3.1.0",
  org.eclipse.core.resources;bundle-version="[3.5.2,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.emf.ecore.xmi;bundle-version="[2.5.0,3.0.0)",
  org.eclipse.emf.codegen.ecore;bundle-version="[2.5.0,3.0.0)",
  org.eclipse.jdt.core;bundle-version="[3.5.2,4.0.0)",
- org.eclipse.pde;bundle-version="[3.8.100,4.0.0)",
  org.eclipse.pde.core;bundle-version="[3.8.100,4.0.0)",
+ org.eclipse.jgit;bundle-version="4.4",
+ org.gervarro.eclipse.task;bundle-version="[1.0.1,2.0.0)",
+ org.gervarro.eclipse.workspace.util;bundle-version="[2.0.0,3.0.0)",
+ org.gervarro.eclipse.workspace.autosetup;bundle-version="[1.0.0,2.0.0)",
  org.moflon.core.utilities,
  org.moflon.core.propertycontainer,
  MocaTree,
@@ -27,11 +28,7 @@ Require-Bundle:
  org.moflon.tgg.cspcodeadapter,
  org.moflon.tgg.runtime,
  org.moflon.tgg.language,
- org.moflon.ide.plugins,
- org.gervarro.eclipse.task;bundle-version="[1.0.1,2.0.0)",
- org.gervarro.eclipse.workspace.util;bundle-version="[2.0.0,3.0.0)",
- org.gervarro.eclipse.workspace.autosetup;bundle-version="[1.0.0,2.0.0)",
- org.eclipse.jgit;bundle-version="4.4"
+ org.moflon.ide.plugins
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.ea,
  org.moflon.ide.core.git,

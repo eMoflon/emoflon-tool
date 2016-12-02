@@ -5,11 +5,11 @@ Export-Package: org.moflon.tgg.tggproject,
  org.moflon.tgg.tggproject.util
 Bundle-Name: org.moflon.tgg.tggproject
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.emf.ecore,
- org.eclipse.emf.ecore.xmi,
- org.moflon.core.utilities,
+Require-Bundle: org.eclipse.emf.ecore.xmi,
  org.moflon.tgg.language,
- SDMLanguage,
+ SDMLanguage;bundle-version="2.0.0",
+ org.eclipse.emf.ecore,
+ org.moflon.core.utilities,
  MocaTree,
  org.moflon.tgg.runtime
 Bundle-ManifestVersion: 2

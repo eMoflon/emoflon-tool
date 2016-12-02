@@ -6,35 +6,22 @@ Export-Package: org.moflon.ide.metamodelevolution.core,
  org.moflon.ide.metamodelevolution.core.impl
 Bundle-Name: org.moflon.ide.metamodelevolution.core
 Bundle-Version: 2.1.0.qualifier
-Require-Bundle: org.eclipse.emf.ecore,
- org.eclipse.emf.ecore.xmi,
+Require-Bundle: org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
  org.eclipse.core.resources,
  org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.jdt.core,
  org.eclipse.emf.compare,
- org.eclipse.jdt.ui,
- org.eclipse.text,
- org.junit,
- org.eclipse.pde.core,
+ org.eclipse.ltk.core.refactoring,
  org.moflon.ide.core;bundle-version="2.0.0",
- org.moflon.ide.ui,
- org.eclipse.core.commands;bundle-version="3.6.100",
- org.eclipse.jface,
- org.eclipse.jface.text;bundle-version="3.9.0",
- org.eclipse.ui,
  org.moflon.sdm.compiler.eclipse,
  org.eclipse.emf.codegen.ecore,
- org.moflon.core.propertycontainer,
- org.moflon.core.injection,
  MocaTree,
- org.eclipse.ltk.core.refactoring,
  org.eclipse.jdt.core.manipulation,
  org.moflon.ide.plugins,
- org.moflon.core.mocatomoflon
+ org.moflon.core.mocatomoflon,
+ org.eclipse.emf.ecore
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
-Import-Package: org.eclipse.team.core.diff.provider,
- org.eclipse.ui.handlers

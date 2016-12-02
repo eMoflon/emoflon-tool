@@ -33,9 +33,9 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
 
    private static final String DEFAULT_MANIFEST_VERSION = "1.0";
 
-   private static final String DEFAULT_BUNDLE_VENDOR = "TU Darmstadt";
+   private static final String DEFAULT_BUNDLE_VENDOR = "";
 
-   private static final String DEFAULT_BUNDLE_VERSION = "1.0.0.qualifier";
+   private static final String DEFAULT_BUNDLE_VERSION = "0.0.1.qualifier";
 
    private static final String SCHEMA_BUILDER_NAME = "org.eclipse.pde.SchemaBuilder";
 

@@ -129,19 +129,25 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
          // (7) Create Moflon properties file (moflon.properties.xmi)
          MoflonPropertiesContainer moflonProperties = MoflonPropertiesContainerHelper.createDefaultPropertiesContainer(project.getName(),
                metamodelProperties.getMetamodelProjectName());
-         moflonProperties.getSdmCodegeneratorHandlerId().setValue(getCodeGeneratorHandler(metamodelProperties.getType()));
+         moflonProperties.getSdmCodegeneratorHandlerId().setValue(getCodeGeneratorHandler(metamodelProperties));
          MoflonPropertiesContainerHelper.save(moflonProperties, subMon.newChild(1));
       }
    }
 
-   private final SDMCodeGeneratorIds getCodeGeneratorHandler(final String type)
+   private final SDMCodeGeneratorIds getCodeGeneratorHandler(final MetamodelProperties metamodelProperties)
    {
-      switch (type)
+      switch (metamodelProperties.getType())
       {
       case MetamodelProperties.INTEGRATION_KEY:
          return SDMCodeGeneratorIds.DEMOCLES_REVERSE_NAVI;
       default:
-         return SDMCodeGeneratorIds.DEMOCLES;
+         if (metamodelProperties.hasAttributeConstraints())
+         {
+            return SDMCodeGeneratorIds.DEMOCLES_ATTRIBUTES;
+         }
+         else {
+            return SDMCodeGeneratorIds.DEMOCLES;
+         }
       }
    }
 

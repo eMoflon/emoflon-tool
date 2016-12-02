@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.OperationRuntime;
-import org.gervarro.democles.plan.ReachabilityAnalyzer;
 import org.gervarro.democles.plan.WeightedOperation;
 
 import net.sf.javabdd.BDD;
@@ -71,6 +70,7 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
       this.inputAdornment = inputAdornment;
    }
 
+   @Override
    public void analyzeReachability()
    {
       final int cacheSize = 1000;

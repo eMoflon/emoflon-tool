@@ -1,13 +1,10 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.core.moca.processing;singleton:=true
-Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
- org.eclipse.emf.ecore,
- org.eclipse.core.runtime;bundle-version="3.9.0",
- org.eclipse.jdt.core;bundle-version="3.9.1",
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.emf.ecore.xmi,
- org.apache.commons.lang3;bundle-version="3.1.0",
  org.moflon.core.utilities,
- MocaTree
+ MocaTree,
+ org.eclipse.emf.ecore
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

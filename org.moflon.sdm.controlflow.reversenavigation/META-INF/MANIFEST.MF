@@ -13,5 +13,5 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="[3.8.101,4.0.0)",
  org.moflon.core.utilities,
  org.moflon.sdm.democles.patternmatcher;bundle-version="[0.4.0,0.5.0)",
  org.moflon.sdm.compiler.democles,
- org.moflon.sdm.compiler.democles.validation.scope,
- org.moflon.sdm.compiler.eclipse
+ org.moflon.sdm.compiler.eclipse,
+ org.moflon.sdm.compiler.democles.validation.scope

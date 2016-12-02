@@ -105,9 +105,11 @@ partial class AttributeConstraintsExporterImpl {
 -->
 
 @model createUnknownVariableError (StoryPattern storyPattern, Attribute ovNameNode, Attribute attrVarNode) <--
+      final Attribute cspConstraintName = ovNameNode.getNode().getParentNode().getAttribute("name").iterator().next();
       ErrorMessage errMessage = ResultFactory.eINSTANCE.createErrorMessage();
       errMessage.setSeverity(Severity.ERROR);
-      errMessage.setId("Attribute Constraint Error: Variable " + ovNameNode.getValue() + "." + attrVarNode.getValue() + " is unknown");
+      errMessage.setId("Attribute Constraint Error: Variable '" + ovNameNode.getValue() + "." + attrVarNode.getValue() + "' is unknown. Dropping constraint '"
+            + cspConstraintName.getValue() + "'.");
       errMessage.getLocation().add(storyPattern);
       this.getExporter().getMocaToMoflonReport().getErrorMessages().add(errMessage);
 -->

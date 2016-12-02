@@ -62,6 +62,16 @@
    </extension>
    <extension
          point="org.eclipse.ui.menus">
+         <menuContribution
+            allPopups="true"
+            locationURI="popup:#TextEditorContext?after=additions">
+            <menu
+               icon="resources/icons/moflonSmall.png"
+               id="org.moflon.ide.ui.moflon"
+               label="eMoflon">
+               
+           </menu>
+            </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
@@ -191,8 +201,8 @@
       </super>
    </extension>
    <extension
-         id="org.moflon.ide.marker.MOFLONProblem"
-         name="MOFLON Problem"
+         id="org.moflon.ide.marker.EMoflonProblem"
+         name="eMoflon Problem"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.core.resources.problemmarker">
@@ -210,9 +220,6 @@
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="org.moflon.ide.ui.perspective">
-            
-         
-         
       </perspectiveExtension>
    </extension>
    <extension
@@ -565,6 +572,9 @@
             </and>
             <reference
                   definitionId="org.moflon.ide.ui.definitions.hasJavaEditor">
+            </reference>
+            <reference
+                  definitionId="org.moflon.ide.ui.definitions.hasInjectionEditor">
             </reference>
             </or>
          </enabledWhen>
@@ -1227,6 +1237,23 @@
          </and>
       </definition>
       <definition
+            id="org.moflon.ide.ui.definitions.hasInjectionEditor">
+         <and>
+            <with
+                  variable="activeEditorInput">
+               <reference
+                     definitionId="org.moflon.ide.ui.definitions.hasAnyMoflonNature">
+               </reference>
+            </with>
+            <with
+               variable="activeEditorId">
+            <equals
+                  value="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor">
+            </equals>
+         </with>
+         </and>
+      </definition>
+      <definition
             id="org.moflon.ide.ui.definitions.isInProjectExplorer">
         <with variable="activePartId">
         	<equals value="org.eclipse.ui.navigator.ProjectExplorer"/>
@@ -1273,12 +1300,12 @@
       <page
             class="org.moflon.ide.ui.propertypages.EMoflonPropertyPage"
             id="org.moflon.ide.ui.errorspropertypage"
-            name="eMoflon Error">
+            name="Marker (eMoflon View)"
+            >
             <enabledWhen>
-            <adapt
-                  type="org.eclipse.core.resources.IMarker">
-            </adapt>
-         </enabledWhen>
+        		<adapt type="org.eclipse.core.resources.IMarker">
+        		</adapt>
+            </enabledWhen>
       </page>
    </extension>
 </plugin>

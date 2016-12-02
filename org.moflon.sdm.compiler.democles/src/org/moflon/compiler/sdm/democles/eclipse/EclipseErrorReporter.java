@@ -37,7 +37,7 @@ public class EclipseErrorReporter implements ErrorReporter
 
    @Override
    public void report(final IStatus status) {
-      if (status != null && !status.isOK()) {
+      if (status != null && !status.matches(IStatus.OK)) {
     	  if (status.isMultiStatus()) {
               for (final IStatus childStatus : status.getChildren()) {
             	  report(childStatus);
