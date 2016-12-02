@@ -2,7 +2,8 @@ Manifest-Version: 1.0
 Bundle-SymbolicName: SDMLanguage;singleton:=true
 Require-Bundle: org.eclipse.core.runtime,
  org.moflon.core.utilities,
- org.eclipse.emf.ecore.xmi
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.ecore
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

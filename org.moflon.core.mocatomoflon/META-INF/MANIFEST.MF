@@ -12,7 +12,8 @@ Export-Package: org.moflon.moca.AttributeConstraint.parser,
  org.moflon.core.mocatomoflon.sdm.impl
 Bundle-Name: org.moflon.core.mocatomoflon
 Bundle-Version: 2.0.0.qualifier
-Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="[2.8.1,3.0.0)",
+Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="[2.8.1,
+ 3.0.0)",
  org.moflon.core.utilities,
  SDMLanguage,
  MocaTree,
@@ -21,7 +22,8 @@ Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="[2.8.1,3.0.0)",
  org.moflon.tgg.runtime,
  org.moflon.tgg.cspcodeadapter,
  org.moflon.tgg.language,
- org.moflon.core.ecoreutils
+ org.moflon.core.ecoreutils,
+ org.eclipse.emf.ecore
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

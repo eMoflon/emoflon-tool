@@ -7,13 +7,14 @@ Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.9.1",
  SDMLanguage,
  org.moflon.tgg.runtime,
  org.moflon.core.propertycontainer,
- MocaTree
+ MocaTree,
+ org.eclipse.emf.ecore
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
-Import-Package: org.antlr.stringtemplate,
- org.antlr.stringtemplate.language
+Import-Package: org.antlr.stringtemplate,org.antlr.stringtemplate.lang
+ uage
 Export-Package: .,
  convenience,
  csp.constraints,
@@ -77,12 +78,7 @@ Export-Package: .,
  util
 Bundle-Name: TGGLanguage (MOFLON)
 Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: .,
- lib/democles.jar,
- lib/javabdd-1.0b2.jar,
- lib/RTED_v1.1.jar,
- lib/trove-3.1a1.jar,
- lib/glpk-java.jar,
- lib/javailp-1.2a.jar
+Bundle-ClassPath: .,lib/democles.jar,lib/javabdd-1.0b2.jar,lib/RTED_v1
+ .1.jar,lib/trove-3.1a1.jar,lib/glpk-java.jar,lib/javailp-1.2a.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.TGGLanguageActivator
