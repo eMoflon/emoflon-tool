@@ -1,5 +1,6 @@
 
 import java.util.Comparator;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 partial class ValidatorImpl {
 
@@ -20,7 +21,7 @@ partial class ValidatorImpl {
          return "Activity edge end nodes in same activity";
       } else if (Errors.FOR_EACH_EDGE_FORWARD == errorID)
       {
-         return "Invalid ForEach edge (This might be a bug in the control flow validation. Please report here: " + WorkspaceHelper.ISSUE_TRACKER_URL +".)";
+         return "Invalid ForEach edge (This might be a bug in the control flow validation. Please report here: " + WorkspaceHelper.ISSUE_TRACKER_URL + ".)";
       } else if (Errors.ONE_EDGE_BACK_FROM_FOREACH_COMPONENT == errorID)
       {
          return "At least one edge must lead from a ForEach component to the corresponding ForEach node";
