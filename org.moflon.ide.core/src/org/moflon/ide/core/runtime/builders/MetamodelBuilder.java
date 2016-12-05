@@ -142,10 +142,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             } catch (final Exception e)
             {
                throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Exception during export: " + e.toString(), e));
-            } finally
-            {
-               exporterSubMonitor.done();
-            }
+            } 
 
             for (final ErrorMessage message : exporter.getMocaToMoflonReport().getErrorMessages())
             {
@@ -223,10 +220,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
          } catch (CoreException e)
          {
             LogUtils.error(logger, e, "Unable to update created projects.");
-         } finally
-         {
-            subMon.done();
-         }
+         } 
       }
    }
 

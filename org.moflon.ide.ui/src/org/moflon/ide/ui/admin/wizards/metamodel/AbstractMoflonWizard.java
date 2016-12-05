@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -28,16 +29,14 @@ public abstract class AbstractMoflonWizard extends Wizard implements IWorkbenchW
          @Override
          public void run(final IProgressMonitor monitor) throws InvocationTargetException
          {
+            final SubMonitor subMon = SubMonitor.convert(monitor, "Completing wizard", 1);
             try
             {
-               doFinish(monitor);
+               doFinish(subMon.split(1));
             } catch (CoreException e)
             {
                throw new InvocationTargetException(e);
-            } finally
-            {
-               monitor.done();
-            }
+            } 
          }
       };
 

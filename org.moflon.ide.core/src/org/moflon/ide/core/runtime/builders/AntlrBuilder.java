@@ -183,9 +183,11 @@ public class AntlrBuilder extends AbstractBuilder
    protected boolean processResource(final IProgressMonitor monitor) throws CoreException
    {
       logger.debug("Process resource.");
+      
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Process resource", 1);
       getProject().accept(this);
-
-      monitor.done();
+      subMon.worked(1);
+      
       return true;
    }
 

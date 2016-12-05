@@ -117,7 +117,6 @@ public class EclipsePluginDeployer
       } finally
       {
          updateSiteProject.getFile("site.xml.temp").delete(true, subMon.newChild(1));
-         monitor.done();
       }
    }
 
