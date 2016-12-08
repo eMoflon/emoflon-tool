@@ -86,7 +86,7 @@ public class EclipsePluginDeployer
          // 1. Delete all jars in project MoflonIdeUpdateSite and make copy
          // of site.xml
          clearUpdateSiteProject(updateSiteProject.getLocation().toString());
-         updateSiteProject.getFile("site.xml.temp").create(getSiteXML(this.updateSiteProjectName).getContents(), true, subMon.newChild(1));
+         updateSiteProject.getFile("site.xml.temp").create(getSiteXML(this.updateSiteProjectName).getContents(), true, subMon.split(1));
 
          // 2. Build MoflonIdeUpdateSite
          IProject source = build(this.updateSiteProjectName);
@@ -107,7 +107,7 @@ public class EclipsePluginDeployer
 
          // 5. Replace site.xml with copy from (II).2
          getSiteXML(this.updateSiteProjectName).setContents(WorkspaceHelper.getProjectByName(projectName1).getFile("site.xml.temp").getContents(), true, true,
-               subMon.newChild(10));
+               subMon.split(10));
 
          logger.info("Deploying eMoflon IDE Update Site done.");
       } catch (CoreException e)
@@ -116,8 +116,7 @@ public class EclipsePluginDeployer
          ++this.warningCount;
       } finally
       {
-         updateSiteProject.getFile("site.xml.temp").delete(true, subMon.newChild(1));
-         monitor.done();
+         updateSiteProject.getFile("site.xml.temp").delete(true, subMon.split(1));
       }
    }
 

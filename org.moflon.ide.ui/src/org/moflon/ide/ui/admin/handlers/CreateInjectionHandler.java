@@ -140,12 +140,12 @@ public class CreateInjectionHandler extends AbstractCommandHandler
                LogUtils.info(logger, "Creating injection file for class %s (FQN='%s').", className, fullyQualifiedClassname);
                if (injectionIFile.exists())
                {
-                  injectionIFile.setContents(contentStream, true, true, subMon.newChild(50));
+                  injectionIFile.setContents(contentStream, true, true, subMon.split(50));
                } else
                {
                   final IPath pathToParentOfInjectionFile = injectionIFile.getProjectRelativePath().removeLastSegments(1);
-                  WorkspaceHelper.createFolderIfNotExists(javaFile.getProject().getFolder(pathToParentOfInjectionFile), subMon.newChild(20));
-                  injectionIFile.create(contentStream, true, subMon.newChild(30));
+                  WorkspaceHelper.createFolderIfNotExists(javaFile.getProject().getFolder(pathToParentOfInjectionFile), subMon.split(20));
+                  injectionIFile.create(contentStream, true, subMon.split(30));
                }
             } else
             {

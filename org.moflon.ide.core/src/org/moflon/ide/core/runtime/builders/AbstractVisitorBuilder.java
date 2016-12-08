@@ -77,7 +77,7 @@ abstract public class AbstractVisitorBuilder extends RelevantElementCollectingBu
                   if (!relevantElementCollector.getRelevantDeltas().isEmpty())
                   {
                      // Perform a full build if a triggering project changed
-                     build(FULL_BUILD, args, subMonitor.newChild(1));
+                     build(FULL_BUILD, args, subMonitor.split(1));
                      return;
                   } else
                   {

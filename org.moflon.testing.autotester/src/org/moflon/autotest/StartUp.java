@@ -20,14 +20,8 @@ public class StartUp implements IStartup
          @Override
          protected IStatus run(final IProgressMonitor monitor)
          {
-            try
-            {
-               final SubMonitor subMon = SubMonitor.convert(monitor, "eMoflon Autostart", 100);
-               AutoTestActivator.getDefault().autoStart(subMon.newChild(100));
-            } finally
-            {
-               monitor.done();
-            }
+            final SubMonitor subMon = SubMonitor.convert(monitor, "eMoflon Autostart", 100);
+            AutoTestActivator.getDefault().autoStart(subMon.split(100));
             return new Status(IStatus.OK, AutoTestActivator.getModuleID(), IStatus.OK, "", null);
 
          }

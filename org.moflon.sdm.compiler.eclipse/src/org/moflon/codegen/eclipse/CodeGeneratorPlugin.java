@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -96,24 +97,18 @@ public class CodeGeneratorPlugin implements BundleActivator
 
    static final IStatus validateResourceSet(final ResourceSet resourceSet, final String taskName, final IProgressMonitor monitor)
    {
-      try
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Checking errors in the " + taskName + " task", resourceSet.getResources().size());
+      MultiStatus status = new MultiStatus(CodeGeneratorPlugin.getModuleID(), IStatus.OK, taskName + " failed", null);
+      for (Resource resource : resourceSet.getResources())
       {
-         monitor.beginTask("Checking errors in the " + taskName + " task", resourceSet.getResources().size());
-         MultiStatus status = new MultiStatus(CodeGeneratorPlugin.getModuleID(), IStatus.OK, taskName + " failed", null);
-         for (Resource resource : resourceSet.getResources())
+         for (Diagnostic diagnostic : resource.getErrors())
          {
-            for (Diagnostic diagnostic : resource.getErrors())
-            {
-               Exception exception = diagnostic instanceof Exception ? (Exception) diagnostic : null;
-               status.add(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, diagnostic.getMessage(), exception));
-            }
-            monitor.worked(1);
+            Exception exception = diagnostic instanceof Exception ? (Exception) diagnostic : null;
+            status.add(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, diagnostic.getMessage(), exception));
          }
-         return status;
-      } finally
-      {
-         monitor.done();
+         subMon.worked(1);
       }
+      return status;
    }
 
    /**
@@ -167,24 +162,22 @@ public class CodeGeneratorPlugin implements BundleActivator
       }
    }
 
-   public static final void createPluginToResourceMapping(final ResourceSet set, final IProgressMonitor monitor) throws CoreException {
-	   final IProject[] workspaceProjects =
-			   ResourcesPlugin.getWorkspace().getRoot().getProjects();
-	   try {
-		   monitor.beginTask("Register plugin to resource mapping", workspaceProjects.length);
-		   for (final IProject project : workspaceProjects) {
-			   createPluginToResourceMapping(set, project);
-			   monitor.worked(1);
-		   }
-	   } finally {
-		   monitor.done();
-	   }
+   public static final void createPluginToResourceMapping(final ResourceSet set, final IProgressMonitor monitor) throws CoreException
+   {
+      final IProject[] workspaceProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Register plugin to resource mapping", workspaceProjects.length);
+      for (final IProject project : workspaceProjects)
+      {
+         createPluginToResourceMapping(set, project);
+         subMon.worked(1);
+      }
    }
-   
-   public static final void createPluginToResourceMapping(final ResourceSet set) throws CoreException {
-	   createPluginToResourceMapping(set, new NullProgressMonitor());
+
+   public static final void createPluginToResourceMapping(final ResourceSet set) throws CoreException
+   {
+      createPluginToResourceMapping(set, new NullProgressMonitor());
    }
-   
+
    public static final URI lookupProjectURI(final IProject project)
    {
       IPluginModelBase pluginModel = PluginRegistry.findModel(project);

@@ -1,27 +1,25 @@
 @echo off
-:: location to store the Certificates
-set "key_store=%cd%\resources\certificate\moflonCerts.keystore"
 
-:: Find the Java JRE Home
-for /f "tokens=* USEBACKQ" %%i in (`java -jar .\dependencies\homefinder.jar`) do set "java_jre_home=%%i"
+call config.bat
 
-:: Find the Java JDK Home
-for /d %%d in ("%java_jre_home%\..\jdk*") do set "java_jdk_home=%%d"
+cd "%deployment_directory%"
 
-:: Set jarsigner variable
-set "jarsigner=%java_jdk_home%\bin\jarsigner.exe"
-
-:: the store password
-set "store_pass=moflon"
-
-:: the Alias
-set "alias=eMoflon"
-
-:: Timestampserver
-set "timestamp=http://timestamp.comodoca.com/rfc3161"
+date /T
+time /T
 
 :: Generates a Certificate
 for /r %%f in (*.jar) do "%jarsigner%" -keystore "%key_store%" -storepass "%store_pass%" -tsa %timestamp%  -verbose %%f %alias%
+
+date /T
+time /T
+
+:: Verify a Certificate
+for /r %%f in (*.jar) do "%jarsigner%" -keystore "%key_store%" -storepass "%store_pass%" -verify -verbose -certs %%f
+
+date /T
+time /T
+
+cd %original_directory%
 
 echo all Jars are signed
 pause

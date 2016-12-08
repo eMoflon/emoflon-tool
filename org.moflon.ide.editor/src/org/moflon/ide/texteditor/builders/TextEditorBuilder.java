@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -33,63 +34,57 @@ public class TextEditorBuilder extends IncrementalProjectBuilder
    protected IProject[] build(final int kind, final Map<String, String> args, final IProgressMonitor monitor) throws CoreException
    {
 
-      try
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Building text editor changes", activeEditors.size());
+      for (TextEditorBuilderHelper editor : activeEditors)
       {
-         monitor.beginTask("Building text editor changes", activeEditors.size());
-         for (TextEditorBuilderHelper editor : activeEditors)
+         try
          {
-            try
+            IResourceDelta delta = getDelta(getProject());
+            Vector<IResourceDelta> changedDeltas = getChangedDeltaLeaves(delta, editor);
+
+            // Default behavior
+            if (delta != null && changedDeltas.size() == 0)
             {
-               IResourceDelta delta = getDelta(getProject());
-               Vector<IResourceDelta> changedDeltas = getChangedDeltaLeaves(delta, editor);
-
-               // Default behavior
-               if (delta != null && changedDeltas.size() == 0)
-               {
-                  for (IResourceDelta change : getAllDeltaLeaves(delta, editor))
-                     editor.onSave(change.getResource().getLocation().toString());
-               }
-
-               for (IResourceDelta change : changedDeltas)
-               {
-                  IResource resource = change.getResource();
-                  IPath path = resource.getLocation();
-
-                  IProject project = resource.getProject();
-                  String projectPath = project.getLocation().toString();
-
-                  String modelPath = getPathOfModelToSync(path, editor);
-                  String textPath = getPathOfTextToSync(path, editor);
-                  String pathToRefresh = null;
-                  if (modelPath != null)
-                  {
-                     editor.onSave(path.toString());
-                     pathToRefresh = modelPath.substring(projectPath.length() + 1);
-                  } else if (textPath != null)
-                  {
-                     editor.syncText(path.toString());
-                     pathToRefresh = textPath.substring(projectPath.length() + 1);
-                  }
-
-                  IFile fileToRefresh = project.getFile(pathToRefresh);
-                  // IFile textFile = project.getFile(path);
-
-                  fileToRefresh.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-
-                  focusEditor(fileToRefresh, 0);
-               }
-
-               editor.getProblems();
-            } catch (Exception e)
-            {
-               LogUtils.error(logger, e);
+               for (IResourceDelta change : getAllDeltaLeaves(delta, editor))
+                  editor.onSave(change.getResource().getLocation().toString());
             }
 
-            monitor.worked(1);
+            for (IResourceDelta change : changedDeltas)
+            {
+               IResource resource = change.getResource();
+               IPath path = resource.getLocation();
+
+               IProject project = resource.getProject();
+               String projectPath = project.getLocation().toString();
+
+               String modelPath = getPathOfModelToSync(path, editor);
+               String textPath = getPathOfTextToSync(path, editor);
+               String pathToRefresh = null;
+               if (modelPath != null)
+               {
+                  editor.onSave(path.toString());
+                  pathToRefresh = modelPath.substring(projectPath.length() + 1);
+               } else if (textPath != null)
+               {
+                  editor.syncText(path.toString());
+                  pathToRefresh = textPath.substring(projectPath.length() + 1);
+               }
+
+               IFile fileToRefresh = project.getFile(pathToRefresh);
+               // IFile textFile = project.getFile(path);
+
+               fileToRefresh.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+
+               focusEditor(fileToRefresh, 0);
+            }
+
+            editor.getProblems();
+         } catch (Exception e)
+         {
+            LogUtils.error(logger, e);
          }
-      } finally
-      {
-         monitor.done();
+
+         subMon.worked(1);
       }
 
       return null;

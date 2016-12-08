@@ -28,18 +28,11 @@ public class CreateInjectionFix implements ICleanUpFix
    @Override
    public CompilationUnitChange createChange(final IProgressMonitor monitor) throws CoreException
    {
-      try
-      {
-         CompilationUnitChange change = new CompilationUnitChange(CreateInjectionsSaveAction.DESCRIPTION, this.compilationUnit);
-         change.setEdit(new MultiTextEdit());
-         final WorkspaceJob job = new CreateInjectionJob("Creating injections job", compilationUnit);
-         job.schedule();
-         return change;
-      } finally
-      {
-         if (monitor != null)
-            monitor.done();
-      }
+      CompilationUnitChange change = new CompilationUnitChange(CreateInjectionsSaveAction.DESCRIPTION, this.compilationUnit);
+      change.setEdit(new MultiTextEdit());
+      final WorkspaceJob job = new CreateInjectionJob("Creating injections job", compilationUnit);
+      job.schedule();
+      return change;
    }
 
    private static final class CreateInjectionJob extends WorkspaceJob
@@ -61,19 +54,13 @@ public class CreateInjectionFix implements ICleanUpFix
       @Override
       public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException
       {
-         try
-         {
-            final CreateInjectionHandler handler = new CreateInjectionHandler();
-            final IFile javaFile = (IFile) compilationUnit.getResource();
+         final CreateInjectionHandler handler = new CreateInjectionHandler();
+         final IFile javaFile = (IFile) compilationUnit.getResource();
 
-            if (javaFile != null)
-               handler.extractInjectionNonInteractively(javaFile);
+         if (javaFile != null)
+            handler.extractInjectionNonInteractively(javaFile);
 
-            return Status.OK_STATUS;
-         } finally
-         {
-            monitor.done();
-         }
+         return Status.OK_STATUS;
       }
    }
 }

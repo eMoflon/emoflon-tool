@@ -73,7 +73,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating/updating plugin project " + currentProject.getName(), 2);
 
-      registerPluginBuildersAndAddNature(currentProject, subMon.newChild(1));
+      registerPluginBuildersAndAddNature(currentProject, subMon.split(1));
 
       logger.debug("Adding MANIFEST.MF to " + currentProject.getName());
       manifestFileBuilder.processManifest(currentProject, manifest -> {
@@ -116,7 +116,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
       });
 
       logger.debug("Adding build.properties " + currentProject.getName());
-      buildPropertiesFileBuilder.createBuildProperties(currentProject, subMon.newChild(1));
+      buildPropertiesFileBuilder.createBuildProperties(currentProject, subMon.split(1));
    }
 
    /**
@@ -149,7 +149,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Registering plugin builders and add plugin nature", 2);
 
-      IProjectDescription description = WorkspaceHelper.getDescriptionWithAddedNature(currentProject, WorkspaceHelper.PLUGIN_NATURE_ID, subMon.newChild(1));
+      IProjectDescription description = WorkspaceHelper.getDescriptionWithAddedNature(currentProject, WorkspaceHelper.PLUGIN_NATURE_ID, subMon.split(1));
 
       List<ICommand> oldBuilders = new ArrayList<>();
       oldBuilders.addAll(Arrays.asList(description.getBuildSpec()));
@@ -174,7 +174,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
       newBuilders.addAll(oldBuilders);
 
       description.setBuildSpec(newBuilders.toArray(new ICommand[newBuilders.size()]));
-      currentProject.setDescription(description, subMon.newChild(1));
+      currentProject.setDescription(description, subMon.split(1));
    }
 
    private static boolean containsBuilder(final List<ICommand> builders, final String name)

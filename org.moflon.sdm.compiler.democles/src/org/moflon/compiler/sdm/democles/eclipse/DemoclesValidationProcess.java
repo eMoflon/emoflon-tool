@@ -56,7 +56,7 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
          }
 
          final ITask validator = new DemoclesValidatorTask(validatorConfig.createScopeValidator(), ePackage);
-         final IStatus validatorStatus = validator.run(subMon.newChild(10));
+         final IStatus validatorStatus = validator.run(subMon.split(10));
          if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;

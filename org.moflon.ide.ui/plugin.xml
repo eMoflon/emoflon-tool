@@ -1055,6 +1055,12 @@
             sequence="M2+M3+E M">
       </key>
       <key
+            commandId="org.moflon.ide.ui.commands.git.GitResetCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+E 0">
+      </key>
+      <key
             commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand"
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"

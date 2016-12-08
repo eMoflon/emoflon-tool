@@ -43,7 +43,7 @@ public class NewIntegrationWizard extends NewRepositoryWizard
       metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.INTEGRATION_KEY);
       MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties);
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating project", 2);
-      ResourcesPlugin.getWorkspace().run(createMoflonProject, subMon.newChild(1));
+      ResourcesPlugin.getWorkspace().run(createMoflonProject, subMon.split(1));
 
       final ProjectNatureAndBuilderConfiguratorTask natureAndBuilderConfiguratorTask =
     		  new ProjectNatureAndBuilderConfiguratorTask(project, false);
@@ -51,7 +51,7 @@ public class NewIntegrationWizard extends NewRepositoryWizard
     		  new MOSLTGGNature();
       natureAndBuilderConfiguratorTask.updateNatureIDs(natureAndBuilderConfigurator, true);
       natureAndBuilderConfiguratorTask.updateBuildSpecs(natureAndBuilderConfigurator, true);
-      WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.newChild(1));
+      WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.split(1));
    }
 
    @Override
@@ -60,9 +60,9 @@ public class NewIntegrationWizard extends NewRepositoryWizard
       String defaultSchema = DefaultFilesHelper.generateDefaultSchema(project.getName());
       IPath pathToSchema = new Path("src/org/moflon/tgg/mosl/Schema.tgg");
       final SubMonitor subMon = SubMonitor.convert(monitor, "Generating default files", 2);
-      addAllFoldersAndFile(project, pathToSchema, defaultSchema, subMon.newChild(1));
+      addAllFoldersAndFile(project, pathToSchema, defaultSchema, subMon.split(1));
 
-      addAllFolders(project, "src/org/moflon/tgg/mosl/rules", subMon.newChild(1));
+      addAllFolders(project, "src/org/moflon/tgg/mosl/rules", subMon.split(1));
 
       try
       {

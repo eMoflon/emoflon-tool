@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
@@ -52,17 +53,14 @@ public class ExportedPackagesInManifestUpdater extends WorkspaceTask
    {
       try
       {
-         monitor.beginTask("Update exported packages extension", 1);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Update exported packages extension", 1);
          new ManifestFileUpdater().processManifest(project, manifest -> {
             return updateExportedPackages(manifest);
          });
-         monitor.worked(1);
+         subMon.worked(1);
       } catch (IOException e)
       {
          throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem while updating exportedPackages extension", e));
-      } finally
-      {
-         monitor.done();
       }
 
    }

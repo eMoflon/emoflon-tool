@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -47,8 +46,6 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
-import org.moflon.ide.core.NatureMigrator;
-import org.moflon.ide.core.runtime.ProjectNatureAndBuilderConfiguratorTask;
 import org.moflon.ide.core.tasks.ProjectBuilderTask;
 import org.moflon.ide.core.tasks.TaskUtilities;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
@@ -143,26 +140,7 @@ public class WorkspaceInstaller
 
          final ImportProjectSetOperation importProjectSetOperation = new ImportProjectSetOperation(null, psfContent,
                psfFiles.size() > 1 ? null : psfFiles.get(0).getAbsolutePath(), new IWorkingSet[0]) {
-            @Override
-            public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
-            {
-               super.run(monitor);
-
-               final NatureMigrator natureMigrator = new NatureMigrator();
-               for (final IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects())
-               {
-                  try
-                  {
-                     final ProjectNatureAndBuilderConfiguratorTask task = new ProjectNatureAndBuilderConfiguratorTask(project, false);
-                     task.updateNatureIDs(natureMigrator, true);
-                     task.updateBuildSpecs(natureMigrator, true);
-                     WorkspaceTask.executeInCurrentThread(task, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
-                  } catch (final CoreException e)
-                  {
-                     LogUtils.error(logger, e);
-                  }
-               }
-            }
+            
 
             @Override
             public String getJobName()
@@ -278,7 +256,7 @@ public class WorkspaceInstaller
                            {
                               for (int i = 0; i < textualMoflonProjects.length; i++)
                               {
-                                 textualMoflonProjects[i].close(closingMonitor.newChild(1));
+                                 textualMoflonProjects[i].close(closingMonitor.split(1));
                                  CoreActivator.checkCancellation(closingMonitor);
                               }
                            } catch (final CoreException e)
@@ -307,7 +285,7 @@ public class WorkspaceInstaller
                               {
                                  final ILaunchConfiguration config = configurations[i];
                                  final LaunchInvocationTask launchInvocationTask = new LaunchInvocationTask(config);
-                                 launchInvocationTask.run(mweWorkflowExecutionMonitor.newChild(1));
+                                 launchInvocationTask.run(mweWorkflowExecutionMonitor.split(1));
                                  CoreActivator.checkCancellation(mweWorkflowExecutionMonitor);
                               }
                            } finally
@@ -332,7 +310,7 @@ public class WorkspaceInstaller
                            {
                               for (int i = 0; i < textualMoflonProjects.length; i++)
                               {
-                                 textualMoflonProjects[i].open(openingMonitor.newChild(1));
+                                 textualMoflonProjects[i].open(openingMonitor.split(1));
                                  CoreActivator.checkCancellation(openingMonitor);
                               }
                            } catch (final CoreException e)
@@ -398,7 +376,7 @@ public class WorkspaceInstaller
                         {
                            final ILaunchConfiguration config = mgr.getLaunchConfiguration(file);
                            final LaunchInvocationTask launchInvocationTask = new LaunchInvocationTask(config);
-                           result.add(launchInvocationTask.run(subMonitor.newChild(1)));
+                           result.add(launchInvocationTask.run(subMonitor.split(1)));
                            CoreActivator.checkCancellation(subMonitor);
                         }
                         return result;

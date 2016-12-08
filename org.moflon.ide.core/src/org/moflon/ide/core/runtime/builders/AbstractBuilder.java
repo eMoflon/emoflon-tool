@@ -26,7 +26,7 @@ public abstract class AbstractBuilder extends IncrementalProjectBuilder implemen
    protected void clean(final IProgressMonitor monitor) throws CoreException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, getProgressBarMessage(), 2);
-      cleanResource(subMon.newChild(1));
+      cleanResource(subMon.split(1));
 
       getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
       monitor.worked(1);
@@ -35,39 +35,32 @@ public abstract class AbstractBuilder extends IncrementalProjectBuilder implemen
    @Override
    protected IProject[] build(final int kind, final Map<String, String> args, final IProgressMonitor monitor) throws CoreException
    {
-      try
+      final SubMonitor subMon = SubMonitor.convert(monitor, getProgressBarMessage(), 4);
+
+      this.kind = kind;
+
+      getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
+      subMon.worked(1);
+
+      if (kind == FULL_BUILD)
       {
-         final SubMonitor subMon = SubMonitor.convert(monitor, getProgressBarMessage(), 4);
-
-         this.kind = kind;
-
-         getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
-         subMon.worked(1);
-
-         if (kind == FULL_BUILD)
+         // No changes -> perform full build
+         processResource(subMon.split(3));
+      } else
+      {
+         IResourceDelta delta = getDelta(getProject());
+         if (delta != null)
          {
-            // No changes -> perform full build
-            processResource(subMon.newChild(3));
-         } else
-         {
-            IResourceDelta delta = getDelta(getProject());
-            if (delta != null)
+            try
             {
-               try
-               {
-                  progressMonitorForIncrementalChanges = SubMonitor.convert(subMon.newChild(3), "Processing incremental changes", IProgressMonitor.UNKNOWN);
-                  // Walk through changes using visitor
-                  delta.accept(this);
-               } finally
-               {
-                  progressMonitorForIncrementalChanges = null;
-               }
+               progressMonitorForIncrementalChanges = SubMonitor.convert(subMon.split(3), "Processing incremental changes", IProgressMonitor.UNKNOWN);
+               // Walk through changes using visitor
+               delta.accept(this);
+            } finally
+            {
+               progressMonitorForIncrementalChanges = null;
             }
          }
-      } finally
-      {
-         monitor.done();
-
       }
       // We could return a list of projects for which the builder may want to
       // request resource deltas in the next invocation. E.g. referenced

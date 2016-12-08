@@ -5,37 +5,27 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.pde.core.plugin.PluginRegistry;
-import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
-import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 
 /**
@@ -46,22 +36,7 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class CoreActivator extends Plugin
 {
-   private static final Logger logger = Logger.getLogger(CoreActivator.class);
-
-   // Nature and builder IDs
-   /**
-    * @deprecated Use JavaCore.NATURE_ID directly (since eMoflon 2.2.1)
-    */
-   @Deprecated
-   public static final String JAVA_NATURE_ID = JavaCore.NATURE_ID;
-
    public static final String REPOSITORY_BUILDER_ID = "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
-
-   /**
-    * @deprecated Use {@link WorkspaceHelper#METAMODEL_NATURE_ID} directly
-    */
-   @Deprecated
-   public static final String METAMODEL_NATURE_ID = WorkspaceHelper.METAMODEL_NATURE_ID;
 
    public static final String METAMODEL_BUILDER_ID = "org.moflon.ide.core.runtime.builders.MetamodelBuilder";
 
@@ -73,32 +48,10 @@ public class CoreActivator extends Plugin
 
    public static final String JAVA_WORKING_SET_ID = "org.eclipse.jdt.ui.JavaWorkingSetPage";
 
-   private NatureMigrator natureMigrator;
 
    public static final String getModuleID()
    {
       return FrameworkUtil.getBundle(CoreActivator.class).getSymbolicName();
-   }
-
-   /**
-    * Executed during plugin startup.
-    * 
-    * @see org.eclipse.core.runtime.Plugin#start(org.osgi.framework.BundleContext)
-    */
-   @Override
-   public void start(final BundleContext context) throws Exception
-   {
-      super.start(context);
-
-      natureMigrator = new NatureMigrator();
-      WorkspaceTask.executeInCurrentThread(new WorkspaceObservationLifecycleManager(ResourcesPlugin.getWorkspace(), natureMigrator, true), IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
-   }
-
-   @Override
-   public void stop(final BundleContext context) throws Exception
-   {
-      WorkspaceTask.executeInCurrentThread(new WorkspaceObservationLifecycleManager(ResourcesPlugin.getWorkspace(), natureMigrator, false), IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
-      super.stop(context);
    }
 
    /**
@@ -113,39 +66,6 @@ public class CoreActivator extends Plugin
    public IPath getPathInStateLocation(final String filename)
    {
       return getStateLocation().append(filename);
-   }
-
-   /**
-    * Adds a plugin-to-resource mapping to the global {@link URIConverter#URI_MAP}.
-    * 
-    * More precisely: If the given project is a plugin project, the following mapping is added to the map
-    * 
-    * platform:/plugin/[project-plugin-ID]/ to platform:/resource/[project-name]
-    * 
-    * @param project the project to be added
-    */
-   @Deprecated
-   public static void addMappingForProject(final IProject project)
-   {
-      if (project.isAccessible())
-      {
-         final IPluginModelBase pluginModel = PluginRegistry.findModel(project);
-         if (pluginModel != null)
-         {
-            String pluginID = project.getName();
-
-            if (pluginModel.getBundleDescription() != null)
-               pluginID = pluginModel.getBundleDescription().getSymbolicName();
-
-            final URI pluginURI = URI.createPlatformPluginURI(pluginID + "/", true);
-            final URI resourceURI = URI.createPlatformResourceURI(project.getName() + "/", true);
-
-            URIConverter.URI_MAP.put(pluginURI, resourceURI);
-
-            logger.debug("Add mapping for project " + project.getName() + ": " + pluginURI + " -> " + resourceURI);
-         }
-      }
-
    }
 
    public static void createProblemMarker(final IResource resource, final String message, final int severity, final String location)

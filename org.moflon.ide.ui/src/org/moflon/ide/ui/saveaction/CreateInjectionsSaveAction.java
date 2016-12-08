@@ -62,8 +62,6 @@ public class CreateInjectionsSaveAction implements ICleanUp
    public RefactoringStatus checkPreConditions(final IJavaProject project, final ICompilationUnit[] compilationUnits, final IProgressMonitor monitor)
          throws CoreException
    {
-      monitor.done();
-      
       if (isEnabled())
       {
          status = new RefactoringStatus();
@@ -74,8 +72,6 @@ public class CreateInjectionsSaveAction implements ICleanUp
    @Override
    public RefactoringStatus checkPostConditions(final IProgressMonitor monitor) throws CoreException
    {
-      monitor.done();
-      
       if (status == null || status.isOK())
       {
          return new RefactoringStatus();

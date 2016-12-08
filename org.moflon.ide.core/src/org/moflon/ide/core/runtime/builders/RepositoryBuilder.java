@@ -60,9 +60,9 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 13);
 
             final IProject project = getProject();
-            MoflonProjectCreator.createFoldersIfNecessary(project, subMon.newChild(1));
-            MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.newChild(1));
-            MoflonProjectCreator.addGitKeepFiles(project, subMon.newChild(1));
+            MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
+            MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
+            MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
 
             // Compute project dependencies
             final IBuildConfiguration[] referencedBuildConfigs = project.getReferencedBuildConfigs(project.getActiveBuildConfig().getName(), false);
@@ -86,7 +86,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet);
             codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
 
-            final IStatus status = codeGenerationTask.run(subMon.newChild(1));
+            final IStatus status = codeGenerationTask.run(subMon.split(1));
             handleErrorsAndWarnings(status, ecoreFile);
             subMon.worked(3);
 
@@ -95,7 +95,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             {
                ExportedPackagesInManifestUpdater.updateExportedPackageInManifest(project, genModel);
 
-               PluginXmlUpdater.updatePluginXml(project, genModel, subMon.newChild(1));
+               PluginXmlUpdater.updatePluginXml(project, genModel, subMon.split(1));
                ResourcesPlugin.getWorkspace().checkpoint(false);
             }
 
@@ -148,7 +148,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
 
       // Remove generated model files
-      cleanModels(WorkspaceHelper.getModelFolder(project), subMon.newChild(1));
+      cleanModels(WorkspaceHelper.getModelFolder(project), subMon.split(1));
    }
 
    // Delete generated models within model folder
@@ -168,10 +168,10 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             // only delete generated models directly in folder 'model'
             if (!WorkspaceHelper.isFolder(resource))
             {
-               MoflonPropertiesContainer properties = MoflonPropertiesContainerHelper.load(getProject(), subMon.newChild(1));
+               MoflonPropertiesContainer properties = MoflonPropertiesContainerHelper.load(getProject(), subMon.split(1));
                if (properties.getReplaceGenModel().isBool() && resource.getName().endsWith(WorkspaceHelper.GEN_MODEL_EXT))
                {
-                  resource.delete(true, subMon.newChild(1));
+                  resource.delete(true, subMon.split(1));
                } else
                {
                   monitor.worked(1);
@@ -179,7 +179,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
                if (WorkspaceHelper.isIntegrationProject(getProject()) && isAGeneratedFileInIntegrationProject(resource))
                {
-                  resource.delete(true, subMon.newChild(1));
+                  resource.delete(true, subMon.split(1));
                } else
                {
                   monitor.worked(1);

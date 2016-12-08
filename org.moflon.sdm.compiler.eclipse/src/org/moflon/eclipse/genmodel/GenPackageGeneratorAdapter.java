@@ -36,7 +36,6 @@ public class GenPackageGeneratorAdapter extends org.eclipse.emf.codegen.ecore.ge
    @Override
    protected void ensureProjectExists(String workspacePath, Object object, Object projectType, boolean force, Monitor monitor)
    {
-      monitor.done();
    }
 
    // FIXME [greg]: This is a bug fix for EMF and should be removed if the latest version of EMF/Eclipse contains it,

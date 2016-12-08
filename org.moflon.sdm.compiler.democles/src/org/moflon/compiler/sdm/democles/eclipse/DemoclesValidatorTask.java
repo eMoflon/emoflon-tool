@@ -54,7 +54,7 @@ import SDMLanguage.activities.MoflonEOperation;
 public class DemoclesValidatorTask implements ITask
 {
    private static final Logger logger = Logger.getLogger(DemoclesValidatorTask.class);
-   
+
    public static final String TASK_NAME = "SDM validation";
 
    private final ScopeValidator scopeValidator;
@@ -83,7 +83,7 @@ public class DemoclesValidatorTask implements ITask
          final SubMonitor subMon = SubMonitor.convert(monitor, "Validating classes in package " + ePackage.getName(), eClasses.size());
          for (final EClass eClass : eClasses)
          {
-            IStatus cancelStatus = validateEClass(eClass, validationStatus, subMon.newChild(1));
+            IStatus cancelStatus = validateEClass(eClass, validationStatus, subMon.split(1));
             if (cancelStatus.getSeverity() == Status.CANCEL)
                return cancelStatus;
          }
@@ -93,8 +93,8 @@ public class DemoclesValidatorTask implements ITask
       {
          LogUtils.error(logger, e, "Stacktrace of failed validation:\n%s", WorkspaceHelper.printStacktraceToString(e));
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR,
-               "Internal exception occured (probably caused by a bug in the validation module): " + e
-                     + " Please report the bug on " + WorkspaceHelper.ISSUE_TRACKER_URL,
+               "Internal exception occured (probably caused by a bug in the validation module): " + e + " Please report the bug on "
+                     + WorkspaceHelper.ISSUE_TRACKER_URL + ".\n\nDetailed information:\n" + WorkspaceHelper.printStacktraceToString(e),
                new DemoclesValidationException(e));
       }
    }
@@ -114,7 +114,7 @@ public class DemoclesValidatorTask implements ITask
       final SubMonitor subMon = SubMonitor.convert(monitor, "Validating operations in class " + eClass.getName(), eOperations.size());
       for (final EOperation eOperation : eOperations)
       {
-         final IStatus cancelStatus = validateEOperation(eOperation, validationStatus, subMon.newChild(1));
+         final IStatus cancelStatus = validateEOperation(eOperation, validationStatus, subMon.split(1));
          if (cancelStatus.getSeverity() == IStatus.CANCEL)
             return cancelStatus;
       }
@@ -133,64 +133,59 @@ public class DemoclesValidatorTask implements ITask
     */
    private IStatus validateEOperation(final EOperation eOperation, final MultiStatus validationStatus, final IProgressMonitor monitor)
    {
-      try
+      final SubMonitor subMon = SubMonitor.convert(monitor,
+            String.format("Validating %s::%s", eOperation.getEContainingClass().getName(), eOperation.getName()), 1);
+
+      // Lookup activity in EOperation
+      final Activity activity = lookupRootActivity(eOperation);
+      if (activity != null)
       {
-         monitor.beginTask(String.format("Validating %s::%s", eOperation.getEContainingClass().getName(), eOperation.getName()), 1);
+         /*
+          * (1) Perform control flow validation
+          */
+         final ValidationReport controlFlowValidationReport = performControlFlowValidation(eOperation, activity);
 
-         // Lookup activity in EOperation
-         final Activity activity = lookupRootActivity(eOperation);
-         if (activity != null)
+         final EObject scopeCandidate = controlFlowValidationReport.getResult();
+         if (controlFlowValidationReport.getErrorMessages().size() == 0 && scopeCandidate == null)
          {
-            /*
-             * (1) Perform control flow validation
-             */
-            final ValidationReport controlFlowValidationReport = performControlFlowValidation(eOperation, activity);
+            throw new RuntimeException(
+                  "Control flow validation produced no result and reported no errors while analyzing " + getReportableEOperationName(eOperation));
+         }
+         for (final ErrorMessage message : controlFlowValidationReport.getErrorMessages())
+         {
+            validationStatus.add(ValidationStatus.createValidationStatus(message));
+         }
+         if (subMon.isCanceled())
+         {
+            return Status.CANCEL_STATUS;
+         }
 
-            final EObject scopeCandidate = controlFlowValidationReport.getResult();
-            if (controlFlowValidationReport.getErrorMessages().size() == 0 && scopeCandidate == null)
-            {
-               throw new RuntimeException(
-                     "Control flow validation produced no result and reported no errors while analyzing " + getReportableEOperationName(eOperation));
-            }
-            for (final ErrorMessage message : controlFlowValidationReport.getErrorMessages())
+         /*
+          * (2) Perform scope validation
+          */
+         if (isSuccessful(controlFlowValidationReport, Severity.ERROR) && scopeCandidate instanceof Scope)
+         {
+            final Scope scope = (Scope) scopeCandidate;
+            // Assign unique identifiers to control flow nodes
+            scope.accept(ControlflowPackage.eINSTANCE.getControlflowFactory().createIdentifierAllocator());
+
+            // Perform scope validation
+            final ValidationReport scopeValidationReport = ResultFactory.eINSTANCE.createValidationReport();
+            scopeValidator.setValidationReport(scopeValidationReport);
+            performScopeValidation(scopeValidator, eOperation, scope);
+
+            for (final ErrorMessage message : scopeValidationReport.getErrorMessages())
             {
                validationStatus.add(ValidationStatus.createValidationStatus(message));
             }
-            if (monitor.isCanceled())
+
+            if (subMon.isCanceled())
             {
                return Status.CANCEL_STATUS;
             }
-
-            /*
-             * (2) Perform scope validation
-             */
-            if (isSuccessful(controlFlowValidationReport, Severity.ERROR) && scopeCandidate instanceof Scope)
-            {
-               final Scope scope = (Scope) scopeCandidate;
-               // Assign unique identifiers to control flow nodes
-               scope.accept(ControlflowPackage.eINSTANCE.getControlflowFactory().createIdentifierAllocator());
-
-               // Perform scope validation
-               final ValidationReport scopeValidationReport = ResultFactory.eINSTANCE.createValidationReport();
-               scopeValidator.setValidationReport(scopeValidationReport);
-               performScopeValidation(scopeValidator, eOperation, scope);
-
-               for (final ErrorMessage message : scopeValidationReport.getErrorMessages())
-               {
-                  validationStatus.add(ValidationStatus.createValidationStatus(message));
-               }
-
-               if (monitor.isCanceled())
-               {
-                  return Status.CANCEL_STATUS;
-               }
-            }
          }
-         monitor.worked(1);
-      } finally
-      {
-         monitor.done();
       }
+      subMon.worked(1);
       return Status.OK_STATUS;
    }
 

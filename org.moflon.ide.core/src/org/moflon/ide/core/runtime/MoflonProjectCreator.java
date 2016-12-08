@@ -62,8 +62,8 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
 
          // (1) Create project
          final IProjectDescription description = ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
-         project.create(description, IWorkspace.AVOID_UPDATE, subMon.newChild(1));
-         project.open(IWorkspace.AVOID_UPDATE, subMon.newChild(1));
+         project.create(description, IWorkspace.AVOID_UPDATE, subMon.split(1));
+         project.open(IWorkspace.AVOID_UPDATE, subMon.split(1));
 
          // (2) Configure natures and builders (.project file)
          final JavaProjectConfigurator javaProjectConfigurator = new JavaProjectConfigurator();
@@ -77,12 +77,12 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
          natureAndBuilderConfiguratorTask.updateBuildSpecs(moflonProjectConfigurator, true);
          natureAndBuilderConfiguratorTask.updateNatureIDs(pluginProjectConfigurator, true);
          natureAndBuilderConfiguratorTask.updateBuildSpecs(pluginProjectConfigurator, true);
-         WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.newChild(1));
+         WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.split(1));
 
          // (3) Create folders and files in project
-         createFoldersIfNecessary(project, subMon.newChild(4));
-         addGitignoreFileForRepositoryProject(project, subMon.newChild(2));
-         addGitKeepFiles(project, subMon.newChild(2));
+         createFoldersIfNecessary(project, subMon.split(4));
+         addGitignoreFileForRepositoryProject(project, subMon.split(2));
+         addGitKeepFiles(project, subMon.split(2));
 
          // (4) Create MANIFEST.MF file
          try
@@ -110,7 +110,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
 
          // (5) Create build.properties file
          logger.debug("Adding build.properties");
-         new BuildPropertiesFileBuilder().createBuildProperties(project, subMon.newChild(1));
+         new BuildPropertiesFileBuilder().createBuildProperties(project, subMon.split(1));
 
          // (6) Configure Java settings (.classpath file)
          final IJavaProject javaProject = JavaCore.create(project);
@@ -124,13 +124,13 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
          final IClasspathEntry jreContainerEntry = JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER"));
          final IClasspathEntry pdeContainerEntry = JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins"));
          javaProject.setRawClasspath(new IClasspathEntry[] { srcFolderEntry, genFolderEntry, jreContainerEntry, pdeContainerEntry },
-               WorkspaceHelper.getBinFolder(project).getFullPath(), true, subMon.newChild(1));
+               WorkspaceHelper.getBinFolder(project).getFullPath(), true, subMon.split(1));
 
          // (7) Create Moflon properties file (moflon.properties.xmi)
          MoflonPropertiesContainer moflonProperties = MoflonPropertiesContainerHelper.createDefaultPropertiesContainer(project.getName(),
                metamodelProperties.getMetamodelProjectName());
          moflonProperties.getSdmCodegeneratorHandlerId().setValue(getCodeGeneratorHandler(metamodelProperties));
-         MoflonPropertiesContainerHelper.save(moflonProperties, subMon.newChild(1));
+         MoflonPropertiesContainerHelper.save(moflonProperties, subMon.split(1));
       }
    }
 
@@ -155,13 +155,13 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating folders within project " + project, 9);
 
-      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getSourceFolder(project), subMon.newChild(1));
-      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getBinFolder(project), subMon.newChild(1));
-      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getGenFolder(project), subMon.newChild(1));
-      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getLibFolder(project), subMon.newChild(1));
-      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getModelFolder(project), subMon.newChild(1));
-      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getInstancesFolder(project), subMon.newChild(1));
-      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getInjectionFolder(project), subMon.newChild(1));
+      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getSourceFolder(project), subMon.split(1));
+      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getBinFolder(project), subMon.split(1));
+      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getGenFolder(project), subMon.split(1));
+      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getLibFolder(project), subMon.split(1));
+      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getModelFolder(project), subMon.split(1));
+      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getInstancesFolder(project), subMon.split(1));
+      WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getInjectionFolder(project), subMon.split(1));
    }
 
    /**
@@ -181,7 +181,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
                   "/model/*.ecore", "/model/*.genmodel", "/model/*.xmi", //
                   "# The file AttrCondDefLibrary.tgg is not meant to be edited", //
                   "/**/AttrCondDefLibrary.tgg", 
-                  "!/**/.keep*"), subMon.newChild(1));
+                  "!/**/.keep*"), subMon.split(1));
    }
    /**
     * Adds a default .gitignore file to the given metamodel project to prevent adding generated files to the repository
@@ -196,7 +196,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
       WorkspaceHelper.createGitignoreFileIfNotExists(project.getFile(WorkspaceHelper.GITIGNORE_FILENAME), //
             Arrays.asList(//
                   "/.temp", //
-                  "/*.ldb"), subMon.newChild(1));
+                  "/*.ldb"), subMon.split(1));
    }
 
    /**
@@ -211,9 +211,9 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating .keep* files for Git within project " + project, 3);
 
-      WorkspaceHelper.createKeepFile(WorkspaceHelper.getSourceFolder(project), subMon.newChild(1));
-      WorkspaceHelper.createKeepFile(WorkspaceHelper.getGenFolder(project), subMon.newChild(1));
-      WorkspaceHelper.createKeepFile(WorkspaceHelper.getModelFolder(project), subMon.newChild(1));
+      WorkspaceHelper.createKeepFile(WorkspaceHelper.getSourceFolder(project), subMon.split(1));
+      WorkspaceHelper.createKeepFile(WorkspaceHelper.getGenFolder(project), subMon.split(1));
+      WorkspaceHelper.createKeepFile(WorkspaceHelper.getModelFolder(project), subMon.split(1));
    }
 
    @Override
