@@ -83,7 +83,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 						delta.accept(relevantElementCollector, IResource.NONE);
 						if (!relevantElementCollector.getRelevantDeltas().isEmpty()) {
 							// Perform a full build if a triggering project changed
-							build(FULL_BUILD, args, subMonitor.newChild(1));
+							build(FULL_BUILD, args, subMonitor.split(1));
 							return;
 						} else {
 							subMonitor.worked(1);

@@ -90,16 +90,16 @@ public class OpenProjectHandler extends WorkspaceTask
       natureAndBuilderConfiguratorTask.updateBuildSpecs(moflonProjectConfigurator, true);
       natureAndBuilderConfiguratorTask.updateNatureIDs(pluginProjectConfigurator, true);
       natureAndBuilderConfiguratorTask.updateBuildSpecs(pluginProjectConfigurator, true);
-      WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.newChild(1));
+      WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.split(1));
       // Last line to be removed
 
       subMon.worked(1);
       
       try
       {
-         MoflonProjectCreator.createFoldersIfNecessary(project, subMon.newChild(1));
-         MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.newChild(1));
-         MoflonProjectCreator.addGitKeepFiles(project, subMon.newChild(1));
+         MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
+         MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
+         MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
       } catch (final CoreException e)
       {
          logger.warn("Failed to create folders: " + e.getMessage());
@@ -180,7 +180,7 @@ public class OpenProjectHandler extends WorkspaceTask
       subMon.worked(1);
 
       logger.debug("Adding build.properties " + project.getName());
-      buildPropertiesFileBuilder.createBuildProperties(project, subMon.newChild(1));
+      buildPropertiesFileBuilder.createBuildProperties(project, subMon.split(1));
    }
 
    /**

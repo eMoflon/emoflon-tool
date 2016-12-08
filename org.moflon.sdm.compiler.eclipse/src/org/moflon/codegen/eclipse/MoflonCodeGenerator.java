@@ -99,13 +99,13 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException
             {
                final SubMonitor subMon = SubMonitor.convert(monitor, "Validation job", 100);
-               return validator.run(subMon.newChild(100));
+               return validator.run(subMon.split(100));
             }
          };
 //         JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
 //         validationJob.setJobGroup(jobGroup);
-         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.newChild(100));
-//         jobGroup.join(timeoutForValidationTaskInMillis, subMon.newChild(10));
+         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.split(100));
+//         jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
 
 //         final IStatus validatorStatus = validationJob.getResult();
 
@@ -127,7 +127,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          // (3) Build or load GenModel
          final MonitoredGenModelBuilder genModelBuilderJob = new MonitoredGenModelBuilder(getResourceSet(), getAllResources(), getEcoreFile(), true,
                getMoflonProperties());
-         final IStatus genModelBuilderStatus = genModelBuilderJob.run(subMon.newChild(15));
+         final IStatus genModelBuilderStatus = genModelBuilderJob.run(subMon.split(15));
          if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
@@ -154,7 +154,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          // (5) Process GenModel
          subMon.subTask("Processing SDMs for project " + project.getName());
          final ITask genModelProcessor = methodBodyHandler.createGenModelProcessor(this, resource);
-         final IStatus genModelProcessorStatus = genModelProcessor.run(subMon.newChild(35));
+         final IStatus genModelProcessorStatus = genModelProcessor.run(subMon.split(35));
          if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;

@@ -89,7 +89,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
          final CleanMocaToMoflonTransformation transformation = new CleanMocaToMoflonTransformation(set, this, getProject());
          transformation.mocaToEcore(mocaTree);
 
-         mocaFile.touch(subMon.newChild(1));
+         mocaFile.touch(subMon.split(1));
       }
       subMon.setWorkRemaining(0);
    }
@@ -109,7 +109,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
          {
             deleteProblemMarkers();
             
-            MoflonProjectCreator.addGitignoreFileForMetamodelProject(getProject(), subMon.newChild(1));
+            MoflonProjectCreator.addGitignoreFileForMetamodelProject(getProject(), subMon.split(1));
 
             final URI workspaceURI = URI.createPlatformResourceURI("/", true);
             final URI projectURI = URI.createURI(getProject().getName() + "/", true).resolve(workspaceURI);
@@ -130,7 +130,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             callPreBuildHooks(properties, mocaTreeReader);
 
             // Create and run exporter on Moca tree
-            final SubMonitor exporterSubMonitor = SubMonitor.convert(subMon.newChild(10), "Running MOCA-to-eMoflon transformation", properties.keySet().size());
+            final SubMonitor exporterSubMonitor = SubMonitor.convert(subMon.split(10), "Running MOCA-to-eMoflon transformation", properties.keySet().size());
             final ResourceFillingMocaToMoflonTransformation exporter = new ResourceFillingMocaToMoflonTransformation(set, this, getProject(), properties,
                   exporterSubMonitor);
             try
@@ -168,7 +168,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             ITask[] taskArray = new ITask[exporter.getMetamodelLoaderTasks().size()];
             taskArray = exporter.getMetamodelLoaderTasks().toArray(taskArray);
             final IStatus metamodelLoaderStatus = ProgressMonitoringJob.executeSyncSubTasks(taskArray,
-                  new MultiStatus(CoreActivator.getModuleID(), 0, "Resource loading failed", null), subMon.newChild(5));
+                  new MultiStatus(CoreActivator.getModuleID(), 0, "Resource loading failed", null), subMon.split(5));
             CoreActivator.checkCancellation(subMon);
             if (!metamodelLoaderStatus.isOK())
             {
@@ -189,7 +189,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             }
             triggerProjects.clear();
             final IStatus projectDependencyAnalyzerStatus = ProgressMonitoringJob.executeSyncSubTasks(dependencyAnalyzers,
-                  new MultiStatus(CoreActivator.getModuleID(), 0, "Dependency analysis failed", null), subMon.newChild(5));
+                  new MultiStatus(CoreActivator.getModuleID(), 0, "Dependency analysis failed", null), subMon.split(5));
             CoreActivator.checkCancellation(subMon);
             if (!projectDependencyAnalyzerStatus.isOK())
             {

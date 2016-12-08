@@ -44,7 +44,7 @@ public class GenericMonitoredResourceLoader implements ITask
       subMon.subTask("Loading metamodel for project " + project.getName());
 
       // Preprocess resource set
-      final IStatus preprocessingStatus = preprocessResourceSet(subMon.newChild(5));
+      final IStatus preprocessingStatus = preprocessResourceSet(subMon.split(5));
       if (preprocessingStatus.matches(IStatus.ERROR | IStatus.CANCEL))
       {
          return preprocessingStatus;
@@ -67,13 +67,13 @@ public class GenericMonitoredResourceLoader implements ITask
          }
 
          // Postprocess resource set
-         final IStatus postprocessingStatus = postprocessResourceSet(subMon.newChild(5));
+         final IStatus postprocessingStatus = postprocessResourceSet(subMon.split(5));
          if (postprocessingStatus.matches(IStatus.ERROR | IStatus.CANCEL))
          {
             return postprocessingStatus;
          }
 
-         return CodeGeneratorPlugin.validateResourceSet(resourceSet, TASK_NAME, subMon.newChild(5));
+         return CodeGeneratorPlugin.validateResourceSet(resourceSet, TASK_NAME, subMon.split(5));
       } else
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), "Project " + project.getName() + " is not accessible");
@@ -102,14 +102,14 @@ public class GenericMonitoredResourceLoader implements ITask
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Preprocessing resource set", 15);
          // Prepare plugin to resource URI mapping
-         CodeGeneratorPlugin.createPluginToResourceMapping(resourceSet, subMon.newChild(5));
+         CodeGeneratorPlugin.createPluginToResourceMapping(resourceSet, subMon.split(5));
          if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
 
          // Create (unloaded) resources for all possibly dependent metamodels in workspace projects
-         createResourcesForWorkspaceProjects(subMon.newChild(10));
+         createResourcesForWorkspaceProjects(subMon.split(10));
          if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
@@ -126,7 +126,7 @@ public class GenericMonitoredResourceLoader implements ITask
       final SubMonitor subMon = SubMonitor.convert(monitor, "Postprocessing resource set", 5);
       // Resolve cross-references
       final CrossReferenceResolver crossReferenceResolver = new CrossReferenceResolver(resource);
-      crossReferenceResolver.run(subMon.newChild(5));
+      crossReferenceResolver.run(subMon.split(5));
       resources = crossReferenceResolver.getResources();
 
       // Remove unloaded resources from resource set

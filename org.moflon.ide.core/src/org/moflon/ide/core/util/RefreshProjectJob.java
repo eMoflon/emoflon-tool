@@ -34,7 +34,7 @@ public class RefreshProjectJob extends Job
       final SubMonitor subMon = SubMonitor.convert(monitor, this.getName(), 1);
       try
       {
-         project.refreshLocal(IResource.DEPTH_INFINITE, subMon.newChild(1));
+         project.refreshLocal(IResource.DEPTH_INFINITE, subMon.split(1));
       } catch (final CoreException e)
       {
          return e.getStatus();

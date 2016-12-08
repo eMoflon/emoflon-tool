@@ -78,7 +78,7 @@ public class IntegrationBuilder extends RepositoryBuilder
       try
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code", 500);
-         final IStatus tggCompilationStatus = processTGG(subMon.newChild(250));
+         final IStatus tggCompilationStatus = processTGG(subMon.split(250));
          if (tggCompilationStatus.matches(IStatus.ERROR))
          {
             handleErrorsInEclipse(tggCompilationStatus, (IFile) resource);
@@ -87,7 +87,7 @@ public class IntegrationBuilder extends RepositoryBuilder
          final IFile ecoreFile = WorkspaceHelper.getModelFolder(getProject())
                .getFile(MoflonUtil.lastCapitalizedSegmentOf(getProject().getName()) + WorkspaceHelper.ECORE_FILE_EXTENSION);
 
-         super.processResource(ecoreFile, kind, args, subMon.newChild(250));
+         super.processResource(ecoreFile, kind, args, subMon.split(250));
       } catch (final CoreException e)
       {
          final IStatus status = new Status(e.getStatus().getSeverity(), CoreActivator.getModuleID(), e.getMessage(), e);
@@ -102,7 +102,7 @@ public class IntegrationBuilder extends RepositoryBuilder
 
       final ResourceSet set = CodeGeneratorPlugin.createDefaultResourceSet();
       eMoflonEMFUtil.installCrossReferencers(set);
-      final MoflonPropertiesContainer moflonProperties = MoflonPropertiesContainerHelper.load(getProject(), subMon.newChild(5));
+      final MoflonPropertiesContainer moflonProperties = MoflonPropertiesContainerHelper.load(getProject(), subMon.split(5));
 
       // Load TGG file
       final IFolder modelFolder = getProject().getFolder(WorkspaceHelper.MODEL_FOLDER);
@@ -122,7 +122,7 @@ public class IntegrationBuilder extends RepositoryBuilder
       uriMapping.put(ecoreFileURI, preEcoreFileURI);
 
       final MonitoredMetamodelLoader metamodelLoader = new MonitoredMetamodelLoader(set, tggFile, moflonProperties);
-      metamodelLoader.run(subMon.newChild(10));
+      metamodelLoader.run(subMon.split(10));
       final Resource tggResource = metamodelLoader.getMainResource();
       final Resource ecoreResource = set.getResource(ecoreFileURI, false);
       CoreActivator.setEPackageURI((EPackage) ecoreResource.getContents().get(0));

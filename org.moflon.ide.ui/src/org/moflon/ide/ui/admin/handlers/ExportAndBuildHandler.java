@@ -47,7 +47,7 @@ public class ExportAndBuildHandler extends AbstractCommandHandler
                   subMon.worked(1);
                   try
                   {
-                     EnterpriseArchitectHelper.delegateToEnterpriseArchitect(project, subMon.newChild(1));
+                     EnterpriseArchitectHelper.delegateToEnterpriseArchitect(project, subMon.split(1));
                   } catch (IOException | InterruptedException e)
                   {
                      status = new Status(IStatus.ERROR, UIActivator.getModuleID(), e.getMessage());

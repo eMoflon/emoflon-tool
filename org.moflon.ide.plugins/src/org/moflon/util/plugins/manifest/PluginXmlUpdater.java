@@ -83,7 +83,7 @@ public class PluginXmlUpdater extends WorkspaceTask
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Create/update plugin.xml", 1);
 
-      updatePluginXml(currentProject, eMoflonEMFUtil.extractGenModelFromProject(currentProject), subMon.newChild(1));
+      updatePluginXml(currentProject, eMoflonEMFUtil.extractGenModelFromProject(currentProject), subMon.split(1));
    }
 
    public static final void updatePluginXml(final IProject currentProject, final GenModel genModel, final IProgressMonitor monitor) throws CoreException
@@ -111,9 +111,9 @@ public class PluginXmlUpdater extends WorkspaceTask
          final Node pluginRootElement = getRootNode(doc);
          extensionElements.forEach(element -> pluginRootElement.appendChild(element));
 
-         String output = XMLUtils.formatXmlString(doc, subMon.newChild(1));
+         String output = XMLUtils.formatXmlString(doc, subMon.split(1));
 
-         MoflonUtil.writeContentToFile(output, getPluginXml(project), subMon.newChild(1));
+         MoflonUtil.writeContentToFile(output, getPluginXml(project), subMon.split(1));
 
       } catch (IOException | XPathExpressionException e)
       {

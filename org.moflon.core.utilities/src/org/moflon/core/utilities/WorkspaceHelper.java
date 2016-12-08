@@ -198,8 +198,8 @@ public class WorkspaceHelper
       }
 
       // Create project
-      newProject.create(description, subMon.newChild(1));
-      newProject.open(subMon.newChild(1));
+      newProject.create(description, subMon.split(1));
+      newProject.open(subMon.split(1));
 
       return newProject;
    }
@@ -237,7 +237,7 @@ public class WorkspaceHelper
 
       final IFolder projFolder = project.getFolder(folderName);
       if (!projFolder.exists())
-         projFolder.create(true, true, subMon.newChild(1));
+         projFolder.create(true, true, subMon.split(1));
       return projFolder;
    }
 
@@ -265,7 +265,7 @@ public class WorkspaceHelper
 
       IFile projectFile = project.getFile(fileName);
       InputStream contents = pathToContent.openStream();
-      projectFile.create(contents, true, subMon.newChild(1));
+      projectFile.create(contents, true, subMon.split(1));
    }
 
    public static void clearFolder(final IProject project, final String folder, final IProgressMonitor monitor)
@@ -275,7 +275,7 @@ public class WorkspaceHelper
       final SubMonitor subMon = SubMonitor.convert(monitor, "", folderInProject.members().length);
 
       for (IResource member : folderInProject.members())
-         member.delete(true, subMon.newChild(1));
+         member.delete(true, subMon.split(1));
    }
 
    /**
@@ -296,7 +296,7 @@ public class WorkspaceHelper
       final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
       IFile projectFile = project.getFile(fileName);
       ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
-      projectFile.create(source, true, subMon.newChild(1));
+      projectFile.create(source, true, subMon.split(1));
    }
 
    /**
@@ -335,7 +335,7 @@ public class WorkspaceHelper
       }
       subMon.worked(1);
 
-      setBuildPath(javaProject, entries, subMon.newChild(1));
+      setBuildPath(javaProject, entries, subMon.split(1));
    }
 
    /**
@@ -385,8 +385,8 @@ public class WorkspaceHelper
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Add nature to project", 2);
 
-      IProjectDescription description = getDescriptionWithAddedNature(project, natureId, subMon.newChild(1));
-      project.setDescription(description, subMon.newChild(1));
+      IProjectDescription description = getDescriptionWithAddedNature(project, natureId, subMon.split(1));
+      project.setDescription(description, subMon.split(1));
    }
 
    /**
@@ -412,7 +412,7 @@ public class WorkspaceHelper
             jcpage.init(javaProject, null, null, true);
             try
             {
-               jcpage.configureJavaProject(subMon.newChild(1));
+               jcpage.configureJavaProject(subMon.split(1));
             } catch (final Exception e)
             {
                logger.error("Exception during setup of Java project", e);
@@ -514,7 +514,7 @@ public class WorkspaceHelper
       entries.toArray(newEntries);
 
       // Set new classpath with added entries
-      javaProject.setRawClasspath(newEntries, subMon.newChild(1));
+      javaProject.setRawClasspath(newEntries, subMon.split(1));
    }
 
    private static void setBuildPath(final IJavaProject javaProject, final Collection<IClasspathEntry> entries) throws JavaModelException
@@ -539,7 +539,7 @@ public class WorkspaceHelper
       for (String folder : folders)
       {
          currentFolder.append(PATH_SEPARATOR).append(folder);
-         addFolder(project, currentFolder.toString(), subMon.newChild(1));
+         addFolder(project, currentFolder.toString(), subMon.split(1));
       }
    }
 
@@ -560,10 +560,10 @@ public class WorkspaceHelper
       final ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
       if (file.exists())
       {
-         file.setContents(source, IFile.FORCE | IFile.KEEP_HISTORY, subMon.newChild(1));
+         file.setContents(source, IFile.FORCE | IFile.KEEP_HISTORY, subMon.split(1));
       } else
       {
-         file.create(source, true, subMon.newChild(1));
+         file.create(source, true, subMon.split(1));
       }
    }
 
@@ -586,9 +586,9 @@ public class WorkspaceHelper
       final SubMonitor subMon = SubMonitor.convert(monitor, "Adding file " + pathToFile + " to project " + project, 2);
       final IPath pathWithoutFileSegment = pathToFile.removeLastSegments(1);
 
-      addAllFolders(project, pathWithoutFileSegment.toString(), subMon.newChild(1));
+      addAllFolders(project, pathWithoutFileSegment.toString(), subMon.split(1));
 
-      addFile(project.getFile(pathToFile), fileContent, subMon.newChild(1));
+      addFile(project.getFile(pathToFile), fileContent, subMon.split(1));
    }
 
    /**
@@ -607,7 +607,7 @@ public class WorkspaceHelper
    @Deprecated
    public static IProgressMonitor createSubMonitor(final IProgressMonitor monitor, final int ticks)
    {
-      return SubMonitor.convert(monitor, ticks).newChild(ticks);
+      return SubMonitor.convert(monitor, ticks).split(ticks);
    }
 
    /**
@@ -1089,7 +1089,7 @@ public class WorkspaceHelper
       {
          final IFolder subFolder = folder.getProject().getFolder(projectRelativePath.removeLastSegments(i));
          if (!subFolder.exists())
-            subFolder.create(true, true, subMon.newChild(1));
+            subFolder.create(true, true, subMon.split(1));
       }
    }
 
@@ -1117,7 +1117,7 @@ public class WorkspaceHelper
          final IFile keepFile = folder.getFile(filename);
          if (!keepFile.exists())
          {
-            keepFile.create(new ByteArrayInputStream(new String("Dummy file to protect empty folder in Git.\n").getBytes()), true, subMon.newChild(1));
+            keepFile.create(new ByteArrayInputStream(new String("Dummy file to protect empty folder in Git.\n").getBytes()), true, subMon.split(1));
          }
       } catch (CoreException e)
       {
@@ -1142,7 +1142,7 @@ public class WorkspaceHelper
       if (!gitignoreFile.exists())
       {
          final String genFolderGitIgnoreFileContents = StringUtils.join(lines, "\n");
-         gitignoreFile.create(new ByteArrayInputStream(genFolderGitIgnoreFileContents.getBytes()), true, subMon.newChild(1));
+         gitignoreFile.create(new ByteArrayInputStream(genFolderGitIgnoreFileContents.getBytes()), true, subMon.split(1));
       }
    }
 

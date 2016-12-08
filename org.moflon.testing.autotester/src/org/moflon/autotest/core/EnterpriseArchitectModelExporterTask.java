@@ -58,15 +58,15 @@ public final class EnterpriseArchitectModelExporterTask extends WorkspaceTask
       {
          for (final IProject project : metamodelProjects)
          {
-            final SubMonitor loopMonitor = SubMonitor.convert(subMonitor.newChild(1), "Exporting from Enterprise Architect in project " + project.getName(),
+            final SubMonitor loopMonitor = SubMonitor.convert(subMonitor.split(1), "Exporting from Enterprise Architect in project " + project.getName(),
                   11);
             if (shouldExport(project))
             {
-               EnterpriseArchitectHelper.exportEcoreFilesFromEAP(project, loopMonitor.newChild(10));
+               EnterpriseArchitectHelper.exportEcoreFilesFromEAP(project, loopMonitor.split(10));
                CoreActivator.checkCancellation(loopMonitor);
             }
             loopMonitor.setWorkRemaining(1);
-            project.refreshLocal(IResource.DEPTH_INFINITE, loopMonitor.newChild(1));
+            project.refreshLocal(IResource.DEPTH_INFINITE, loopMonitor.split(1));
          }
       } finally
       {

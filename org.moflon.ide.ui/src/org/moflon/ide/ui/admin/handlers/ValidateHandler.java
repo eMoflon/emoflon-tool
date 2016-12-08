@@ -78,7 +78,7 @@ public class ValidateHandler extends AbstractCommandHandler
 
       for (final IProject project : projects)
       {
-         this.validateProject(project, subMon.newChild(1));
+         this.validateProject(project, subMon.split(1));
       }
    }
 

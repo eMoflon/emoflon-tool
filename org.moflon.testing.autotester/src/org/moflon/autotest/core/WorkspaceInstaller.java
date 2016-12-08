@@ -278,7 +278,7 @@ public class WorkspaceInstaller
                            {
                               for (int i = 0; i < textualMoflonProjects.length; i++)
                               {
-                                 textualMoflonProjects[i].close(closingMonitor.newChild(1));
+                                 textualMoflonProjects[i].close(closingMonitor.split(1));
                                  CoreActivator.checkCancellation(closingMonitor);
                               }
                            } catch (final CoreException e)
@@ -307,7 +307,7 @@ public class WorkspaceInstaller
                               {
                                  final ILaunchConfiguration config = configurations[i];
                                  final LaunchInvocationTask launchInvocationTask = new LaunchInvocationTask(config);
-                                 launchInvocationTask.run(mweWorkflowExecutionMonitor.newChild(1));
+                                 launchInvocationTask.run(mweWorkflowExecutionMonitor.split(1));
                                  CoreActivator.checkCancellation(mweWorkflowExecutionMonitor);
                               }
                            } finally
@@ -332,7 +332,7 @@ public class WorkspaceInstaller
                            {
                               for (int i = 0; i < textualMoflonProjects.length; i++)
                               {
-                                 textualMoflonProjects[i].open(openingMonitor.newChild(1));
+                                 textualMoflonProjects[i].open(openingMonitor.split(1));
                                  CoreActivator.checkCancellation(openingMonitor);
                               }
                            } catch (final CoreException e)
@@ -398,7 +398,7 @@ public class WorkspaceInstaller
                         {
                            final ILaunchConfiguration config = mgr.getLaunchConfiguration(file);
                            final LaunchInvocationTask launchInvocationTask = new LaunchInvocationTask(config);
-                           result.add(launchInvocationTask.run(subMonitor.newChild(1)));
+                           result.add(launchInvocationTask.run(subMonitor.split(1)));
                            CoreActivator.checkCancellation(subMonitor);
                         }
                         return result;

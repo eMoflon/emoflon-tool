@@ -84,7 +84,7 @@ abstract public class GenericMoflonProcess implements ITask
 
       // (2) Load metamodel
       final MonitoredMetamodelLoader metamodelLoader = new MonitoredMetamodelLoader(resourceSet, ecoreFile, moflonProperties);
-      final IStatus metamodelLoaderStatus = metamodelLoader.run(subMon.newChild(2));
+      final IStatus metamodelLoaderStatus = metamodelLoader.run(subMon.split(2));
       if (subMon.isCanceled())
       {
          return Status.CANCEL_STATUS;
@@ -96,7 +96,7 @@ abstract public class GenericMoflonProcess implements ITask
       this.resources = metamodelLoader.getResources();
 
       // Delegate to the subclass
-      return processResource(subMon.newChild(7));
+      return processResource(subMon.split(7));
    }
 
    abstract public IStatus processResource(final IProgressMonitor monitor);

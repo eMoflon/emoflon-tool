@@ -39,7 +39,7 @@ public class TouchResourceHandler extends AbstractCommandHandler
             {
                try
                {
-                  resource.touch(subMon.newChild(1));
+                  resource.touch(subMon.split(1));
                } catch (CoreException e)
                {
                   status.add(new Status(IStatus.WARNING, FrameworkUtil.getBundle(TouchResourceHandler.class).getSymbolicName(), "Problem while touching " + resource));

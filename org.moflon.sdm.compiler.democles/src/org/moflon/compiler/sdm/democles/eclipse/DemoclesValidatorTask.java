@@ -83,7 +83,7 @@ public class DemoclesValidatorTask implements ITask
          final SubMonitor subMon = SubMonitor.convert(monitor, "Validating classes in package " + ePackage.getName(), eClasses.size());
          for (final EClass eClass : eClasses)
          {
-            IStatus cancelStatus = validateEClass(eClass, validationStatus, subMon.newChild(1));
+            IStatus cancelStatus = validateEClass(eClass, validationStatus, subMon.split(1));
             if (cancelStatus.getSeverity() == Status.CANCEL)
                return cancelStatus;
          }
@@ -114,7 +114,7 @@ public class DemoclesValidatorTask implements ITask
       final SubMonitor subMon = SubMonitor.convert(monitor, "Validating operations in class " + eClass.getName(), eOperations.size());
       for (final EOperation eOperation : eOperations)
       {
-         final IStatus cancelStatus = validateEOperation(eOperation, validationStatus, subMon.newChild(1));
+         final IStatus cancelStatus = validateEOperation(eOperation, validationStatus, subMon.split(1));
          if (cancelStatus.getSeverity() == IStatus.CANCEL)
             return cancelStatus;
       }

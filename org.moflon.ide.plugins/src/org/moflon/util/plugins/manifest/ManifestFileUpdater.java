@@ -89,11 +89,11 @@ public class ManifestFileUpdater
          String formattedManifestString = prettyPrintManifest(stream.toString());
          if (!manifestFile.exists())
          {
-            WorkspaceHelper.addAllFoldersAndFile(project, manifestFile.getProjectRelativePath(), formattedManifestString, subMon.newChild(10));
+            WorkspaceHelper.addAllFoldersAndFile(project, manifestFile.getProjectRelativePath(), formattedManifestString, subMon.split(10));
          } else
          {
             final ByteArrayInputStream fileOutputStream = new ByteArrayInputStream(formattedManifestString.getBytes());
-            manifestFile.setContents(fileOutputStream, IFile.FORCE, subMon.newChild(10));
+            manifestFile.setContents(fileOutputStream, IFile.FORCE, subMon.split(10));
             stream.close();
          }
       } else
