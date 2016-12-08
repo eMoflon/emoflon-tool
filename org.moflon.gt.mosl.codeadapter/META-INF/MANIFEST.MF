@@ -8,29 +8,14 @@ Export-Package: org.moflon.gt.mosl.codeadapter,
  org.moflon.gt.mosl.codeadapter.Rules.util
 Bundle-Name: org.moflon.gt.mosl.codeadapter
 Bundle-Version: 1.0
-Require-Bundle: org.eclipse.emf.ecore,
- org.eclipse.emf.ecore.xmi,
+Require-Bundle: org.eclipse.emf.ecore.xmi,
  org.moflon.core.utilities,
- org.apache.log4j;bundle-version="1.2.15",
- MocaTree,
- org.eclipse.core.runtime,
  SDMLanguage,
  org.moflon.tgg.language,
  org.moflon.tgg.runtime,
- org.moflon.sdm.compiler.democles.validation.controlflow;bundle-versio
- n="2.0.0",
- org.moflon.tgg.mosl.codeadapter;bundle-version="1.0.0",
+ org.moflon.sdm.compiler.democles.validation.controlflow;bundle-version="2.0.0",
  org.moflon.gt.mosl;bundle-version="1.0.0",
- org.gervarro.democles.specification.emf;bundle-version="2.0.0",
- org.moflon.sdm.runtime.democles;bundle-version="2.0.0",
- org.gervarro.democles.codegen.emf;bundle-version="1.1.0",
- org.gervarro.democles.codegen.stringtemplate;bundle-version="1.1.0",
- org.gervarro.democles.codegen.stringtemplate.emf;bundle-version="1.1.
- 0",
- org.gervarro.democles.common;bundle-version="2.0.0",
- org.gervarro.democles.compiler;bundle-version="1.1.0",
- org.gervarro.democles.emf;bundle-version="2.0.0",
- org.gervarro.democles.plan;bundle-version="2.0.0"
+ org.moflon.sdm.runtime.democles;bundle-version="2.0.0"
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
