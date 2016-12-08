@@ -1,0 +1,27 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule MethodToMethodContext #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	
+	 method : MethodDec
+}
+
+#target {
+	
+	operation : MoflonOperation
+}
+
+#correspondence {
+	
+	  methodToOperation : MethodDecToMoflonOperation {
+		#src->method
+		#trg->operation
+	}
+	
+}
+
+#attributeConditions {
+	
+}
