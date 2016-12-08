@@ -1,3 +1,13 @@
+2016-12-XX eMoflon 2.25.0 release
+
+	User notes:
+	* From 2.25.0 on, we disable all migration routines, which automatically transform eMoflon projects prior to eMoflon 2.17.0.
+	  If you intend to update to eMoflon 2.25.0 or newer, please proceed as follows:
+		+ First update to eMoflon 2.24.0 (https://github.com/eMoflon/emoflon-tool/releases/tag/emoflon_2.24.0)
+		+ Re-build all your projects
+		+ Check and save/commit/... all modifications performed by the automatic migration routines
+		+ Update to the desired eMoflon (2.25.0 or newer). 
+
 ---
 2016-11-23 eMoflon 2.24.0 release
 	
