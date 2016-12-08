@@ -8,13 +8,13 @@
 }
 
 #target {
-	ePackage : EPackage
+	trgEPackage : EPackage
 }
 
 #correspondence {
 	++ graphToPackage : GraphTransformationToEPackage{
 		#src->gtf
-		#trg->ePackage
+		#trg->trgEPackage
 	}
 }
 

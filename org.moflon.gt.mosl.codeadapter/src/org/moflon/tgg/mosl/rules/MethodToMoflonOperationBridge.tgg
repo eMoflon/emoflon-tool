@@ -15,7 +15,7 @@
 
 #target {
 	
-	_eClass : EClass{
+	trgEClass : EClass{
 		++ - eOperations -> operation
 	}
 	
@@ -33,7 +33,7 @@
 	
 	classToClass : ClassDefToEClass {
 		#src->classDef
-		#trg->_eClass
+		#trg->trgEClass
 	}
 	
 	

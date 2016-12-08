@@ -14,22 +14,22 @@
 }
 
 #target {
-	ePackage : EPackage{
-		- eClassifiers -> eClass
+	trgEPackage : EPackage{
+		- eClassifiers -> trgEClass
 	} 
 	
-	eClass : EClass
+	trgEClass : EClass
 }
 
 #correspondence {
 	graphToPackage : GraphTransformationToEPackage{
 		#src->gtf
-		#trg->ePackage
+		#trg->trgEPackage
 	}
 	
 	++ classToClass : ClassDefToEClass {
 		#src->classDef
-		#trg->eClass
+		#trg->trgEClass
 	}
 }
 
