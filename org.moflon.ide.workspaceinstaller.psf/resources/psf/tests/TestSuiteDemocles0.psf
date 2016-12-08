@@ -3,6 +3,7 @@
 <provider id="org.eclipse.egit.core.GitProvider">
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,Democles_0"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DemoclesTestSuite_0"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,my.enumtest.x.y"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OnlineShop"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OnlineShopLang"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OnlineShopLangTestGen"/>
