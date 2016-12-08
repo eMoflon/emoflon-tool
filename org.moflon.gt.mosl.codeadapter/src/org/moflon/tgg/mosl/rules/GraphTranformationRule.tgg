@@ -1,10 +1,10 @@
 #using org.moflon.gt.mosl.codeadapter.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule GraphTranformationRule #with org.moflon.gt.mosl.codeadapter
+#rule GraphTranformationRule #with org.moflon.gt.mosl.codeadapter
 
 #source { 
-	++ gtf : GraphTransformationFile
+	gtf : GraphTransformationFile
 }
 
 #target {

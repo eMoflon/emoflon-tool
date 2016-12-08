@@ -1,14 +1,14 @@
 #using org.moflon.gt.mosl.codeadapter.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule ClassToClassRule #with org.moflon.gt.mosl.codeadapter
+#rule ClassToClassRule #with org.moflon.gt.mosl.codeadapter
 
 #source { 
 	gtf : GraphTransformationFile{
-		++ - eClasses -> classDef
+		 - eClasses -> classDef
 	}
 	
-	++ classDef : EClassDef{
+	 classDef : EClassDef{
 		
 	}
 }

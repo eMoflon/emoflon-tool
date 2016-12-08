@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.gt.mosl.codeadapter.CodeadapterPackage" genModel="model/Codeadapter.genmodel" uri="platform:/plugin/org.moflon.gt.mosl.codeadapter/model/Codeadapter.ecore"/>
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package class="org.moflon.gt.mosl.codeadapter.Rules.RulesPackage" genModel="model/Codeadapter.genmodel" uri="platform:/plugin/org.moflon.gt.mosl.codeadapter/model/Codeadapter.ecore#//Rules"/>
+  </extension>
+</plugin>
