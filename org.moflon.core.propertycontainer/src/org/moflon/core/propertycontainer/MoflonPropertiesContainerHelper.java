@@ -55,7 +55,6 @@ public class MoflonPropertiesContainerHelper
 
       removeObsoleteTags(project);
       
-      MoflonPropertiesContainerHelper.updateMoflonPropertiesToNewBasePackage(project);
       final MoflonPropertiesContainer moflonPropertiesCont = loadOrCreatePropertiesContainer(project, project.getFile(MOFLON_CONFIG_FILE));
       final String projectName = project.getName();
       moflonPropertiesCont.checkForMissingDefaults();
@@ -76,39 +75,6 @@ public class MoflonPropertiesContainerHelper
 
       MoflonPropertiesContainerHelper.save(moflonPropertiesCont, subMon.split(1));
       return moflonPropertiesCont;
-   }
-
-   /**
-    *
-    * Only during transition (rkluge, 2016-09-07)
-    */
-   public static void updateMoflonPropertiesToNewBasePackage(IProject project)
-   {
-      final IFile propertiesFile = project.getFile(MOFLON_CONFIG_FILE);
-      try
-      {
-         propertiesFile.refreshLocal(1, new NullProgressMonitor());
-         final InputStream inputStream = propertiesFile.getContents();
-         final String content = IOUtils.toString(inputStream);
-         IOUtils.closeQuietly(inputStream);
-         final String newContent = content.replaceAll(//
-               "xmlns:MoflonPropertyContainer=\"platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore\"", //
-               "xmlns:org.moflon.core.propertycontainer=\"platform:/plugin/org.moflon.core.propertycontainer/model/Propertycontainer.ecore\"")//
-               .replaceAll(//
-                     "<MoflonPropertyContainer:MoflonPropertiesContainer", //
-                     "<org.moflon.core.propertycontainer:MoflonPropertiesContainer")//
-               .replaceAll(//
-                     "</MoflonPropertyContainer:MoflonPropertiesContainer>", //
-                     "</org.moflon.core.propertycontainer:MoflonPropertiesContainer>");
-
-         if (!newContent.equals(content))
-         {
-            propertiesFile.setContents(new ByteArrayInputStream(newContent.getBytes()), true, true, new NullProgressMonitor());
-         }
-      } catch (IOException | CoreException e)
-      {
-         LogUtils.error(logger, "Failed to update base package of file %s. Reason: %s", propertiesFile, WorkspaceHelper.printStacktraceToString(e));
-      }
    }
 
    private static void removeObsoleteTags(final IProject project)

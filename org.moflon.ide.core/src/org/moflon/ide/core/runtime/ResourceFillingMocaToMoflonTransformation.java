@@ -114,7 +114,6 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 
    private final MoflonPropertiesContainer createOrLoadMoflonProperties(final IProject project, final String metamodelProject)
    {
-      MoflonPropertiesContainerHelper.updateMoflonPropertiesToNewBasePackage(project);
       final IFile moflonProps = project.getFile(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE);
       MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
       if (moflonProps.exists())
