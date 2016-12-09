@@ -5,3 +5,5 @@
 /model/*.genmodel
 /model/*.xmi
 !/**/.keep*
+/**/org/moflon/tgg/mosl/csp/lib/
+/**/AttrCondDefLibrary.tgg
