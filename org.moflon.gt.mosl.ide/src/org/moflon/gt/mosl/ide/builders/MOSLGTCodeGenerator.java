@@ -1,29 +1,28 @@
-package org.moflon.codegen.eclipse;
+package org.moflon.gt.mosl.ide.builders;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.core.runtime.jobs.JobGroup;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.BasicMonitor;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.CodeGenerator;
 import org.moflon.codegen.MethodBodyHandler;
+import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.codegen.eclipse.MoflonCodeGenerator;
+import org.moflon.codegen.eclipse.MonitoredGenModelBuilder;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.CodeInjector;
@@ -32,25 +31,19 @@ import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.extractors.CompilerInjectionExtractorImpl;
 import org.moflon.moca.inject.extractors.UserInjectionExtractorImpl;
 
-public class MoflonCodeGenerator extends GenericMoflonProcess
+public class MOSLGTCodeGenerator extends MoflonCodeGenerator
 {
-   private int timeoutForValidationTaskInMillis = 0;
-
-   private static final Logger logger = Logger.getLogger(MoflonCodeGenerator.class);
+   private static final Logger logger = Logger.getLogger(MOSLGTCodeGenerator.class);
 
    private InjectionManager injectionManager;
 
    private GenModel genModel;
 
-   public MoflonCodeGenerator(final IFile ecoreFile, final ResourceSet resourceSet)
+   public MOSLGTCodeGenerator(final IFile ecoreFile, final ResourceSet resourceSet)
    {
       super(ecoreFile, resourceSet);
    }
    
-   public void setValidationTimeout(final int timeoutInMillis) {
-      this.timeoutForValidationTaskInMillis = timeoutInMillis;
-   }
-
    @Override
    public String getTaskName()
    {
@@ -78,7 +71,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          long toc = System.nanoTime();
 
          final Resource resource = getEcoreResource();
-         final EPackage ePackage = (EPackage) resource.getContents().get(0);
+//         final EPackage ePackage = (EPackage) resource.getContents().get(0);
 
          // (1) Instantiate code generation engine
          final String engineID = CodeGeneratorPlugin.getMethodBodyHandler(getMoflonProperties());
@@ -94,37 +87,36 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          }
 
          // (2) Validate metamodel (including SDMs)
-         final ITask validator = methodBodyHandler.createValidator(ePackage);
-         final WorkspaceJob validationJob = new WorkspaceJob(engineID) {
-            @Override
-            public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException
-            {
-               final SubMonitor subMon = SubMonitor.convert(monitor, "Validation job", 100);
-               return validator.run(subMon.split(100));
-            }
-         };
-         JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
-         validationJob.setJobGroup(jobGroup);
-         validationJob.schedule();
+//         final ITask validator = methodBodyHandler.createValidator(ePackage);
+//         final WorkspaceJob validationJob = new WorkspaceJob(engineID) {
+//            @Override
+//            public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException
+//            {
+//               final SubMonitor subMon = SubMonitor.convert(monitor, "Validation job", 100);
+//               return validator.run(subMon.split(100));
+//            }
+//         };
+//         JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
+//         validationJob.setJobGroup(jobGroup);
 //         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.split(100));
-         jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
-
-         final IStatus validatorStatus = validationJob.getResult();
-
-         if (validatorStatus == null)
-         {
-            //TODO@rkluge: This is a really ugly hack that should be removed as soon as a more elegant solution is available
-            //validationJob.getThread().stop();
-            throw new OperationCanceledException("Validation took longer than " + (timeoutForValidationTaskInMillis / 1000)
-                  + "seconds. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
-         } else if (subMon.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-         if (validatorStatus.matches(IStatus.ERROR))
-         {
-            return validatorStatus;
-         }
+//         jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
+//
+//         final IStatus validatorStatus = validationJob.getResult();
+//
+//         if (validatorStatus == null)
+//         {
+//            //TODO@rkluge: This is a really ugly hack that should be removed as soon as a more elegant solution is available
+//            //validationJob.getThread().stop();
+//            throw new OperationCanceledException("Validation took longer than " + (timeoutForValidationTaskInMillis / 1000)
+//                  + "seconds. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
+//         } else if (subMon.isCanceled())
+//         {
+//            return Status.CANCEL_STATUS;
+//         }
+//         if (validatorStatus.matches(IStatus.ERROR))
+//         {
+//            return validatorStatus;
+//         }
 
          // (3) Build or load GenModel
          final MonitoredGenModelBuilder genModelBuilderJob = new MonitoredGenModelBuilder(getResourceSet(), getAllResources(), getEcoreFile(), true,
@@ -185,8 +177,8 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
          logger.info("Completed in " + (tic - toc) / 1e9 + "s");
 
-         return validatorStatus.isOK() && injectionStatus.isOK() ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Code generation succeeded")
-               : new MultiStatus(CodeGeneratorPlugin.getModuleID(), validatorStatus.getCode(), new IStatus[] { validatorStatus, injectionStatus },
+         return injectionStatus.isOK() ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Code generation succeeded")
+               : new MultiStatus(CodeGeneratorPlugin.getModuleID(), 0, new IStatus[] { injectionStatus },
                      "Code generation warnings/errors", null);
       } catch (final Exception e)
       {
@@ -207,15 +199,5 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
       injectionManager = new InjectionManager(injectionExtractor, compilerInjectionExtractor, injector);
       return injectionManager.extractInjections();
-   }
-
-   public final GenModel getGenModel()
-   {
-      return genModel;
-   }
-
-   public final InjectionManager getInjectorManager()
-   {
-      return injectionManager;
    }
 }

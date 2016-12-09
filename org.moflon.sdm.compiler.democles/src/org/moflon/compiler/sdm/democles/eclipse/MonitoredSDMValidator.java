@@ -49,7 +49,7 @@ public class MonitoredSDMValidator implements ITask
          DemoclesMethodBodyHandler.initResourceSetForDemocles(resourceSet);
 
          subMon.subTask("Validating SDMs for project " + project.getName());
-         DemoclesValidationProcess validationProcess = new DemoclesValidationProcess(ecoreFile, resourceSet);
+         DemoclesValidationProcess validationProcess = createValidationProcess(resourceSet);
          IStatus validationStatus = validationProcess.run(subMon.split(50));
 
          if (!validationStatus.isOK())
@@ -74,6 +74,16 @@ public class MonitoredSDMValidator implements ITask
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
       }
+   }
+
+   protected DemoclesValidationProcess createValidationProcess(ResourceSet resourceSet)
+   {
+      return new DemoclesValidationProcess(ecoreFile, resourceSet);
+   }
+   
+   protected IFile getEcoreFile()
+   {
+      return ecoreFile;
    }
 
    public void handleErrorsInEnterpriseArchitect(final IStatus validationStatus, final MoflonPropertiesContainer moflonProperties)

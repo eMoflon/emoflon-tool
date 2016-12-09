@@ -257,6 +257,51 @@
             name="StringTemplate files"
             priority="high">
       </content-type>
+      <content-type id="org.moflon.contenttype.sdm" name="eMoflon SDM" file-extensions="sdm" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <content-type id="org.moflon.contenttype.cf" name="eMoflon CF" file-extensions="cf" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <content-type id="org.moflon.contenttype.dfs" name="eMoflon DFS" file-extensions="dfs" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <content-type id="org.moflon.contenttype.binding" name="eMoflon Binding" file-extensions="binding" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <content-type id="org.moflon.contenttype.black" name="eMoflon Black" file-extensions="black" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <content-type id="org.moflon.contenttype.bindingAndBlack" name="eMoflon Binding and Black" file-extensions="bindingAndBlack" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <content-type id="org.moflon.contenttype.expression" name="eMoflon Expression" file-extensions="expression" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <content-type id="org.moflon.contenttype.red" name="eMoflon Red" file-extensions="red" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <content-type id="org.moflon.contenttype.green" name="eMoflon Green" file-extensions="gren" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <file-association
+            content-type="org.moflon.contenttype.sdm"
+            file-extensions="sdm">
+      </file-association>
+      <file-association
+            content-type="org.moflon.contenttype.cf"
+            file-extensions="cf">
+      </file-association>
+      <file-association
+            content-type="org.moflon.contenttype.dfs"
+            file-extensions="dfs">
+      </file-association>
+      <file-association
+            content-type="org.moflon.contenttype.binding"
+            file-extensions="binding">
+      </file-association>
+      <file-association
+            content-type="org.moflon.contenttype.black"
+            file-extensions="black">
+      </file-association>
+      <file-association
+            content-type="org.moflon.contenttype.bindingAndBlack"
+            file-extensions="bindingAndBlack">
+      </file-association>
+      <file-association
+            content-type="org.moflon.contenttype.expression"
+            file-extensions="expression">
+      </file-association>
+      <file-association
+            content-type="org.moflon.contenttype.red"
+            file-extensions="red">
+      </file-association>
+      <file-association
+            content-type="org.moflon.contenttype.green"
+            file-extensions="green">
+      </file-association>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -537,6 +582,40 @@
          </enabledWhen>
       </handler>
       <handler
+            class="org.moflon.ide.ui.admin.handlers.ValidateWithDumpingHandler"
+            commandId="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand">
+         <enabledWhen>
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false">
+                  <or>
+                     <and>
+                        <or>
+                           <reference
+                                 definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
+                           </reference>
+                           <reference
+                                 definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
+                           </reference>
+                        </or>
+                        <reference
+                              definitionId="org.moflon.ide.ui.definitions.isEcoreFile">
+                        </reference>
+                     </and>
+                     <reference
+                           definitionId="org.moflon.ide.ui.definitions.isProject">
+                     </reference>
+                     <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
+                     </reference>
+                     <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
+                     </reference>
+                  </or>
+               </iterate>
+            </with>
+         </enabledWhen>
+      </handler>
+      <handler
             class="org.moflon.ide.ui.admin.handlers.EditLoggingConfigurationHandler"
             commandId="org.moflon.ide.ui.commands.admin.EditLoggingConfigFile">
       </handler>
@@ -656,6 +735,11 @@
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.validation.ValidateCommand"
+            name="Validate">
+      </command>
+      <command
+            categoryId="org.moflon.ide.ui.commands.MainCategory"
+            id="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand"
             name="Validate">
       </command>
       <command
@@ -780,6 +864,15 @@
                commandId="org.moflon.ide.ui.commands.validation.ValidateCommand"
                icon="resources/icons/validate.gif"
                label="Validate"
+               style="push">
+               <visibleWhen
+                     checkEnabled="false">
+               </visibleWhen>
+         </command>
+         <command
+               commandId="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand"
+               icon="resources/icons/validate.gif"
+               label="Validate (with CF dump)"
                style="push">
                <visibleWhen
                      checkEnabled="false">
@@ -1029,6 +1122,12 @@
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M2+M3+E V">
+      </key>
+      <key
+            commandId="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+E L">
       </key>
       <key
             commandId="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject"
