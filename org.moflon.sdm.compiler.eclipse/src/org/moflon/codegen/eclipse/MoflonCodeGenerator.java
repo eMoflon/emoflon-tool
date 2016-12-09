@@ -105,6 +105,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          };
          JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
          validationJob.setJobGroup(jobGroup);
+         validationJob.schedule();
 //         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.split(100));
          jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
 
