@@ -65,7 +65,7 @@ DoLoopStatement: '#Do' '{'
 ;
 
 ForLoopStatement: '#For' '('
-	pattern = Condition
+	cond = Condition
 	')''{'
 		loopStmts += Statement*
 	'}'
