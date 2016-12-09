@@ -1,17 +1,50 @@
-// Add imports here
+#import "platform:/resource/org.moflon.gt.mosl/model/generated/MOSLGT.ecore"
+#import "platform:/plugin/org.moflon.sdm.compiler.democles.validation.controlflow/model/Controlflow.ecore"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
+#import "http://www.eclipse.org/emf/2002/Ecore"
+#import "platform:/plugin/org.moflon.sdm.runtime.democles/model/Democles.ecore"
+#import "http://gervarro.org/democles/specification.ecore"
 
 #schema org.moflon.gt.mosl.codeadapter
 	
 #source {
-	
+	moslgt
 }
 
 #target { 
-	
+	controlflow
+	ecore
+	democles
+	specification
 } 
 
 #correspondence {
+
 	
+	MethodDecToMoflonOperation{
+		#src->MethodDec
+		#trg->MoflonOperation
+	}
+	
+	ClassDefToEClass{
+		#src->EClassDef
+		#trg->EClass
+	}
+	
+	GraphTransformationToEPackage{
+		#src->GraphTransformationFile
+		#trg->EPackage
+	}
+	
+	ParameterToParameter{
+		#src->MethodParameter
+		#trg->EParameter
+	}
+	
+	WhileStatementToHeadLoop{
+		#src->WhileLoopStatement
+		#trg->HeadControlledLoop
+	}
 }
 
 #attributeConditions {
