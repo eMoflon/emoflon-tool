@@ -48,11 +48,11 @@ ConditionStatement:'#if' '(' cond=Condition ')''{'
 	'}')?
 ;
 
-Condition:pattern=[PatternDef];
+Condition:pattern=[PatternDef] '('(parameters+=CalledPatternParameter)? (',' parameters+=CalledPatternParameter)*')';
 
 ConditionContainingStatement:ConditionStatement | LoopStatement;
 
-LoopStatement:DoLoopStatement | WhileLoopStatement;
+LoopStatement:DoLoopStatement | WhileLoopStatement| ForLoopStatement;
 
 WhileLoopStatement: '#while''(' cond=Condition ')''{'
 		loopStmts += Statement+
@@ -62,6 +62,13 @@ WhileLoopStatement: '#while''(' cond=Condition ')''{'
 DoLoopStatement: '#Do' '{'
 	loopStmts += Statement+
 	'}' '#while' '(' cond=Condition ')'
+;
+
+ForLoopStatement: '#For' '('
+	pattern = Condition
+	')''{'
+		loopStmts += Statement*
+	'}'
 ;
 
 ReturnStatement:{ReturnStatement} "#return" (returnObject=[ObjectVariablePattern])?;
