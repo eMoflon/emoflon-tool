@@ -16,11 +16,12 @@ import org.moflon.core.utilities.UtilityClassNotInstantiableException;
 
 /**
  * Useful utilities for the democles validation process
- * @author (original) R. Kluge
+ * @author Roland Kluge - Original implementation
  */
 public final class DemoclesValidationUtils
 {
-   private DemoclesValidationUtils(){
+   private DemoclesValidationUtils()
+   {
       throw new UtilityClassNotInstantiableException();
    }
 
@@ -32,29 +33,28 @@ public final class DemoclesValidationUtils
    {
       for (final EClass eClass : CodeGeneratorPlugin.getEClasses(ePackage))
       {
-   
+
          for (final EOperation eOperation : eClass.getEOperations())
          {
             final AdapterResource controlFlowResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation,
                   DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
             AdapterResource sdmFileResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation, DemoclesMethodBodyHandler.SDM_FILE_EXTENSION);
             AdapterResource dfsFileResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation, DemoclesMethodBodyHandler.DFS_FILE_EXTENSION);
-   
+
             for (AdapterResource adapterResource : Arrays.asList(controlFlowResource, dfsFileResource, sdmFileResource))
             {
                saveResource(adapterResource);
             }
          }
-   
+
          AdapterResource bindingAndBlackResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eClass,
                DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION);
          AdapterResource redResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eClass, DemoclesMethodBodyHandler.RED_FILE_EXTENSION);
          AdapterResource greenResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eClass, DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
          AdapterResource bindingFileResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eClass, DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION);
          AdapterResource blackFileResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eClass, DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
-         AdapterResource expressionResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eClass,
-               DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION);
-   
+         AdapterResource expressionResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eClass, DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION);
+
          for (AdapterResource adapterResource : Arrays.asList(bindingAndBlackResource, blackFileResource, redResource, greenResource, bindingFileResource,
                blackFileResource, expressionResource))
          {
@@ -74,13 +74,22 @@ public final class DemoclesValidationUtils
       if (adapterResource != null)
       {
          final URI oldUri = adapterResource.getURI();
+         final URI resolved;
+         if (oldUri.isPlatformPlugin())
+         {
+            final URI deresolve = oldUri.deresolve(URI.createPlatformPluginURI("", false));
+            resolved = deresolve.resolve(URI.createPlatformResourceURI("", false));
+         } else 
+         {
+            resolved = oldUri;
+         }
          try
          {
-            adapterResource.setURI(oldUri.appendFileExtension("xmi"));
+            adapterResource.setURI(resolved.appendFileExtension("xmi"));
             adapterResource.save(new HashMap<>());
-            
+
             // Save with old URI to allow for navigation between models
-            adapterResource.setURI(oldUri);
+            adapterResource.setURI(resolved);
             adapterResource.save(new HashMap<>());
          } catch (IOException e)
          {
@@ -91,6 +100,5 @@ public final class DemoclesValidationUtils
          }
       }
    }
-   
-   
+
 }

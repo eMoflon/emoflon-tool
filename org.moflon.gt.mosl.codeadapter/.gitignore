@@ -1,4 +1,5 @@
 /bin
+/src/org/moflon/tgg/mosl/csp
 /gen/*
 /model/*.ecore
 /model/*.genmodel
