@@ -28,7 +28,6 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
 import org.moflon.sdm.language.SDMLanguagePlugin;
 import org.moflon.tgg.runtime.TGGRuntimePlugin;
@@ -91,17 +90,16 @@ public class OpenProjectHandler extends WorkspaceTask
       natureAndBuilderConfiguratorTask.updateBuildSpecs(moflonProjectConfigurator, true);
       natureAndBuilderConfiguratorTask.updateNatureIDs(pluginProjectConfigurator, true);
       natureAndBuilderConfiguratorTask.updateBuildSpecs(pluginProjectConfigurator, true);
-      WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.newChild(1));
+      WorkspaceTask.executeInCurrentThread(natureAndBuilderConfiguratorTask, IWorkspace.AVOID_UPDATE, subMon.split(1));
       // Last line to be removed
 
       subMon.worked(1);
       
       try
       {
-         CoreActivator.removeOldStyleGitignoreAndKeepFiles(project);
-         MoflonProjectCreator.createFoldersIfNecessary(project, subMon.newChild(1));
-         MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.newChild(1));
-         MoflonProjectCreator.addGitKeepFiles(project, subMon.newChild(1));
+         MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
+         MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
+         MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
       } catch (final CoreException e)
       {
          logger.warn("Failed to create folders: " + e.getMessage());
@@ -182,7 +180,7 @@ public class OpenProjectHandler extends WorkspaceTask
       subMon.worked(1);
 
       logger.debug("Adding build.properties " + project.getName());
-      buildPropertiesFileBuilder.createBuildProperties(project, subMon.newChild(1));
+      buildPropertiesFileBuilder.createBuildProperties(project, subMon.split(1));
    }
 
    /**

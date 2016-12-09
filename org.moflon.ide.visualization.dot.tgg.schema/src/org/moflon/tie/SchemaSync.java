@@ -1,14 +1,12 @@
 package org.moflon.tie;
 
 import java.io.IOException;
-import org.apache.log4j.BasicConfigurator;
-import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
-
-
-import org.moflon.tgg.runtime.CorrespondenceModel;
 import java.util.function.BiConsumer;
 
+import org.apache.log4j.BasicConfigurator;
 import org.moflon.ide.visualization.dot.tgg.schema.SchemaPackage;
+import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
+import org.moflon.tgg.runtime.CorrespondenceModel;
 
 
 public class SchemaSync extends SynchronizationHelper{

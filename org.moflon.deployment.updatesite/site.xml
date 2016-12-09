@@ -4,21 +4,26 @@
    <description name="eMoflon central update site" url="http://www.emoflon.org/emoflon/installation/">
       This is the central update site of eMoflon.
    </description>
-   <feature url="features/org.moflon.ide.feature_2.22.0.qualifier.jar" id="org.moflon.ide.feature" version="2.22.0.qualifier">
+   <feature url="features/org.moflon.ide.feature_2.24.0.qualifier.jar" id="org.moflon.ide.feature" version="2.24.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
-   <feature url="features/org.moflon.ide.visualization.feature_2.22.0.qualifier.jar" id="org.moflon.ide.visualization.feature" version="2.22.0.qualifier">
+   <feature url="features/org.moflon.ide.visualization.feature_2.24.0.qualifier.jar" id="org.moflon.ide.visualization.feature" version="2.24.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
-   <feature url="features/org.moflon.ide.metamodelevolution.feature_2.22.0.qualifier.jar" id="org.moflon.ide.metamodelevolution.feature" version="2.22.0.qualifier">
+   <feature url="features/org.moflon.tgg.mosl.feature_2.24.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="2.24.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
-   <feature url="features/org.moflon.tgg.mosl.feature_2.22.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="2.22.0.qualifier">
-      <category name="org.moflon.ide"/>
+   <feature url="features/org.moflon.gt.mosl.feature_1.0.0.qualifier.jar" id="org.moflon.gt.mosl.feature" version="1.0.0.qualifier">
+      <category name="org.moflon.experimental"/>
    </feature>
    <category-def name="org.moflon.ide" label="eMoflon">
       <description>
          eMoflon is a tool environment the model-based software development. The structure of systems is described using Ecore-compliant meta-models in Enterprise Architect. A code generator translates the system meta-model into EMF-compliant Java code. Afterwards, instances of the meta-model may be transformed undirectionally (using Story Driven Modeling (SDM)) or bidirectionally (using Triple Graph Grammars (TGGs)).
+      </description>
+   </category-def>
+   <category-def name="org.moflon.experimental" label="eMoflon (experimental)">
+      <description>
+         Area for experimental features
       </description>
    </category-def>
 </site>

@@ -3,9 +3,9 @@
 ###
 
 # 0.  Copy eMoflonTestRunner.sample.ps1 to a folder of your choice (test workspaces will be checked out here!)
-# 1.  Correct the variable $ECLIPSE_HOME in the script to fit to your Eclipse installation, i.e., the folder containing "eclipse.exe"
-# 2.  Set the variable $OUTPUT_DIRECTORY to a suitable temporary directory.
-# 3.  Select the test workspaces to run by (un)commenting the corresponding lines (e.g., [void]$WORKSPACES.add("TestWorkspace_Democles_0")) 
+# 1.  Correct the variable $eclipseHome in the script to fit to your Eclipse installation, i.e., the folder containing "eclipse.exe"
+# 2.  Set the variable $outputDirectory to a suitable temporary directory.
+# 3.  Select the test workspaces to run by (un)commenting the corresponding lines (e.g., [void]$workspaces.add("TestWorkspace_Democles_0")) 
 # 4.  (If necessary,) open Powershell (press Windows button, type in powershell, hit enter), and enter the following command in the shell.
 #       As normal user:
 #           Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -33,47 +33,45 @@
 #$OLD_DIR = $(get-location).Path
 
 # Directory for temporarily storing the checked out projects
-$OUTPUT_DIRECTORY="[set output directory]"
+$outputDirectory="[set output directory]"
 
 # Path to eclipse - must contain eclipse.exe
-$ECLIPSE_HOME = "[set Eclipse home]"
+$eclipseHome = "[set Eclipse home]"
 
 # Time between two executions of Eclipse
 $sleepTimeBetweenStartsInSeconds = 120
 
 # Array of all test workspaces (see EMoflonStandardWorkspaces)
 # (N.B. The cast to [void] avoids that the current size is printed.)
-[System.Collections.ArrayList]$WORKSPACES = @()
-[void]$WORKSPACES.add("TestWorkspace_Democles_0")
-[void]$WORKSPACES.add("TestWorkspace_Misc")
-[void]$workspaces.add("TestWorkspace_DemoAndHandbook")
-# [void]$WORKSPACES.add("TestWorkspace_TGG_0")
-# [void]$WORKSPACES.add("TestWorkspace_TGG_1")
-# [void]$WORKSPACES.add("TransformationZoo_0")
-# [void]$WORKSPACES.add("TransformationZoo_1")
-#[void]$workspaces.add("ModuleAll")
+[System.Collections.ArrayList]$workspaces = @()
+[void]$workspaces.add("TestWorkspace_Democles_0") # small
+[void]$workspaces.add("TestWorkspace_DemoAndHandbook") # small
+[void]$workspaces.add("TestWorkspace_Misc")
+[void]$workspaces.add("TestWorkspace_TGG_0")
+[void]$workspaces.add("TestWorkspace_TGG_1")
+[void]$workspaces.add("TransformationZoo_0")
+[void]$workspaces.add("TransformationZoo_1")
 # [void]$workspaces.add("ModuleAllInclMOSL")
-# [void]$WORKSPACES.add("eMoflonDemoWorkspace")
-# [void]$WORKSPACES.add("HandbookFinal")
-# [void]$WORKSPACES.add("HandbookGUI")
-# [void]$WORKSPACES.add("HandbookPart3Start")
-# [void]$WORKSPACES.add("HandbookPart3Final")
-# [void]$WORKSPACES.add("HandbookPart4Start")
+
+# Using the following line, you can checkout a workspace using a specific branch ('rkluge-dev')
+# This may not work if the corresponding repository already exists.
+# Therefore, start in a clean state!
+#[void]$workspaces.add("ModuleAllInclMOSL#rkluge-dev")
  
 
 # Whether to spawn a new console for each Eclipse instance, showing standard output/standard error messages
-$USE_CONSOLE = $FALSE # either $TRUE or $FALSE
+$shallUseConsole = $FALSE # either $TRUE or $FALSE
 
 
 # Number of trials to clean the output directory
-$NUM_TRIALS_FOR_CLEANING_OUTPUT_DIRECTORY = 5
+$numberOfAttemptsForCleaningOutputDirectory = 5
 
-echo "OUTPUT_DIRECTORY:         $OUTPUT_DIRECTORY"
-echo "ECLIPSE_HOME:             $ECLIPSE_HOME"
-echo "Use console?              $USE_CONSOLE"
+echo "outputDirectory:         $outputDirectory"
+echo "eclipseHome:             $eclipseHome"
+echo "Use console?              $shallUseConsole"
 echo "Interval between starts:  $sleepTimeBetweenStartsInSeconds"
-echo "Feature version:          $(Get-ChildItem -Name "$ECLIPSE_HOME/features/org.moflon.*")"
-echo "Workspaces to be run:     $WORKSPACES" 
+echo "Feature version:          $(Get-ChildItem -Name "$eclipseHome/features/org.moflon.*")"
+echo "Workspaces to be run:     $workspaces" 
 echo ""
 $confirmed = Read-Host "Continue? [Y/n]"
 if($confirmed -ne "" -and ($confirmed -ne "y" -or $confirmed -ne "Y")) {
@@ -85,13 +83,13 @@ if($confirmed -ne "" -and ($confirmed -ne "y" -or $confirmed -ne "Y")) {
 echo "Cleaning output directory (possibly with multiple runs)..."
 Write-Host -NoNewline "    "
 $i=1
-while(Test-Path $OUTPUT_DIRECTORY) {
+while(Test-Path $outputDirectory) {
 	
 	Write-Host -NoNewline "Trial $i.."
 	
-	Remove-Item -Recurse -Force "$OUTPUT_DIRECTORY"
+	Remove-Item -Recurse -Force "$outputDirectory"
 	$i = $i + 1
-	if($i -gt $NUM_TRIALS_FOR_CLEANING_OUTPUT_DIRECTORY) {
+	if($i -gt $numberOfAttemptsForCleaningOutputDirectory) {
 		echo "Maximum number of trials reached. Please try to clean the output directory, manually."
 		echo "Will now stop."
 		exit
@@ -101,28 +99,28 @@ echo ""
 echo "Cleaning output directory done."
 
 echo "Creating output directory"
-mkdir $OUTPUT_DIRECTORY | out-null
+mkdir $outputDirectory | out-null
 
 echo "Starting Eclipse instances..."
 # Start Eclipse for all workspaces
 $firstIteration = $TRUE
-foreach ($WORKSPACE in $WORKSPACES) {
-    if (!($WORKSPACE -eq $WORKSPACES[0]) ) {
+foreach ($workspace in $workspaces) {
+    if (!($workspace -eq $workspaces[0]) ) {
         $firstIteration = $FALSE
         echo "    Sleeping for $sleepTimeBetweenStartsInSeconds seconds..."
         Start-Sleep -s $sleepTimeBetweenStartsInSeconds
     }
     
-    [System.Collections.ArrayList]$argumentList = '-data',$WORKSPACE,'-application','org.moflon.testapplication','-showLocation','-perspective','org.moflon.ide.ui.perspective'
-    if($USE_CONSOLE) {
+    [System.Collections.ArrayList]$argumentList = '-data',$workspace,'-application','org.moflon.testapplication','-showLocation','-perspective','org.moflon.ide.ui.perspective'
+    if($shallUseConsole) {
         [void]$argumentList.Add('-console')
         [void]$argumentList.Add('-consoleLog')
     }
     
-  	$eclipse = Start-Process -WorkingDirectory $OUTPUT_DIRECTORY -FilePath $ECLIPSE_HOME\eclipse.exe -ArgumentList $argumentList   -PassThru
+  	$eclipse = Start-Process -WorkingDirectory $outputDirectory -FilePath $eclipseHome\eclipse.exe -ArgumentList $argumentList   -PassThru
     $eclipsePid = $eclipse.Id
-  	echo "    [$($eclipsePid)] Workspace '$WORKSPACE'"
-  	$eclipsePid >> "$OUTPUT_DIRECTORY\pids.txt"
+  	echo "    [$($eclipsePid)] Workspace '$workspace'"
+  	$eclipsePid >> "$outputDirectory\pids.txt"
     
     # The following lines may be enabled to reduce the process priority of the launched Eclipse instance (64=Idle, 16384=Low, 32=Normal, 32768=High, 128=Higher, 256=Real-time)
     # For more information see: http://blogs.technet.com/b/heyscriptingguy/archive/2010/04/12/hey-scripting-guy-april-12-2010.aspx

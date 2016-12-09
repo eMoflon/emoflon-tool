@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -37,8 +38,8 @@ import org.xml.sax.SAXException;
 public class XMLUtils {
 
 	public static String formatXmlString(final Document doc, final IProgressMonitor monitor) throws CoreException {
-		try {
-			monitor.beginTask("Formatting XML string", 1);
+	   try {
+			final SubMonitor subMon = SubMonitor.convert(monitor, "Formatting XML string", 1);
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
@@ -48,14 +49,12 @@ public class XMLUtils {
 			transformer.transform(source, result);
 			String output = result.getWriter().toString();
 
-			monitor.worked(1);
+		   subMon.worked(1);
 			return output;
 		} catch (TransformerFactoryConfigurationError | TransformerException ex) {
 			throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(XMLUtils.class),
 					"Formatting XML failed", ex));
-		} finally {
-			monitor.done();
-		}
+		} 
 	}
 
 	public static Document parseXmlDocument(final String content) throws CoreException {

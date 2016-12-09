@@ -4,11 +4,11 @@
  */
 package org.moflon.tgg.mosl.formatting2;
 
-import com.google.inject.Inject
+//import com.google.inject.Inject
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
-import org.moflon.tgg.mosl.services.TGGGrammarAccess
+//import org.moflon.tgg.mosl.services.TGGGrammarAccess
 import org.moflon.tgg.mosl.tgg.Adornment
 import org.moflon.tgg.mosl.tgg.AttrCond
 import org.moflon.tgg.mosl.tgg.AttrCondDef
@@ -48,7 +48,7 @@ class TGGFormatter extends AbstractFormatter2 {
     val genKW 		= "#gen:"
     val arrowKW		= "->"
 	
-	@Inject extension TGGGrammarAccess
+	//@Inject extension TGGGrammarAccess
 
 // predefined Styles
 	def private void lineSeparator(List<? extends EObject> items, extension IFormattableDocument document){

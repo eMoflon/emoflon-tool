@@ -2,8 +2,9 @@
 <feature
       id="org.moflon.ide.feature"
       label="eMoflon Core (required)"
-      version="2.22.0.qualifier"
-      provider-name="Real-Time Systems Lab, TU Darmstadt">
+      version="2.24.0.qualifier"
+      provider-name="Real-Time Systems Lab, TU Darmstadt"
+      plugin="org.moflon.ide.ui">
 
    <description url="http://www.emoflon.org/">
       This plugin provides the eMoflon toolsuite consisting of project
@@ -32,7 +33,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
    </license>
 
    <url>
-      <update label="eMoflon @ GitHub" url="https://emoflon.github.io/eclipse-plugin/beta/update-site2"/>
+      <update label="eMoflon at GitHub" url="https://emoflon.github.io/eclipse-plugin/beta/update-site2"/>
    </url>
 
    <requires>
@@ -400,6 +401,20 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.core.moca.inject"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.ide.mosl.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.sdm.democles.reachability.javabdd"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -24,8 +26,6 @@ import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Node;
-import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
-import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 
 public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFillingMocaToMoflonTransformation
 {
@@ -114,7 +114,6 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 
    private final MoflonPropertiesContainer createOrLoadMoflonProperties(final IProject project, final String metamodelProject)
    {
-      MoflonPropertiesContainerHelper.updateMoflonPropertiesToNewBasePackage(project);
       final IFile moflonProps = project.getFile(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE);
       MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
       if (moflonProps.exists())

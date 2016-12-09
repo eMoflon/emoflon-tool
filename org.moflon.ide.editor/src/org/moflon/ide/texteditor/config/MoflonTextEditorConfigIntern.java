@@ -514,8 +514,6 @@ public abstract class MoflonTextEditorConfigIntern implements ITokenScanner, Tex
       
    }
 
-   // TODO:  Implement some helpful default strategy
-   // TODO:  Create action to invoke strategy in editor as follows:  sourceViewer.doOperation(ISourceViewer.FORMAT);
    public String format(String content, boolean isLineStart, String indentation, int[] positions){
       return content;
    }

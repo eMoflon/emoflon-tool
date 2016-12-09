@@ -26,11 +26,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.core.propertycontainer.Dependencies;
-import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
-import org.moflon.core.propertycontainer.PropertiesMapping;
-import org.moflon.core.propertycontainer.PropertiesValue;
-import org.moflon.core.propertycontainer.PropertycontainerFactory;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
@@ -60,7 +55,6 @@ public class MoflonPropertiesContainerHelper
 
       removeObsoleteTags(project);
       
-      MoflonPropertiesContainerHelper.updateMoflonPropertiesToNewBasePackage(project);
       final MoflonPropertiesContainer moflonPropertiesCont = loadOrCreatePropertiesContainer(project, project.getFile(MOFLON_CONFIG_FILE));
       final String projectName = project.getName();
       moflonPropertiesCont.checkForMissingDefaults();
@@ -79,42 +73,8 @@ public class MoflonPropertiesContainerHelper
          moflonPropertiesCont.setProjectName(projectName);
       }
 
-      MoflonPropertiesContainerHelper.save(moflonPropertiesCont, subMon.newChild(1));
+      MoflonPropertiesContainerHelper.save(moflonPropertiesCont, subMon.split(1));
       return moflonPropertiesCont;
-   }
-
-   /**
-    *
-    * Only during transition (rkluge, 2016-09-07)
-    */
-   //TODO@rkluge
-   public static void updateMoflonPropertiesToNewBasePackage(IProject project)
-   {
-      final IFile propertiesFile = project.getFile(MOFLON_CONFIG_FILE);
-      try
-      {
-         propertiesFile.refreshLocal(1, new NullProgressMonitor());
-         final InputStream inputStream = propertiesFile.getContents();
-         final String content = IOUtils.toString(inputStream);
-         IOUtils.closeQuietly(inputStream);
-         final String newContent = content.replaceAll(//
-               "xmlns:MoflonPropertyContainer=\"platform:/plugin/MoflonPropertyContainer/model/MoflonPropertyContainer.ecore\"", //
-               "xmlns:org.moflon.core.propertycontainer=\"platform:/plugin/org.moflon.core.propertycontainer/model/Propertycontainer.ecore\"")//
-               .replaceAll(//
-                     "<MoflonPropertyContainer:MoflonPropertiesContainer", //
-                     "<org.moflon.core.propertycontainer:MoflonPropertiesContainer")//
-               .replaceAll(//
-                     "</MoflonPropertyContainer:MoflonPropertiesContainer>", //
-                     "</org.moflon.core.propertycontainer:MoflonPropertiesContainer>");
-
-         if (!newContent.equals(content))
-         {
-            propertiesFile.setContents(new ByteArrayInputStream(newContent.getBytes()), true, true, new NullProgressMonitor());
-         }
-      } catch (IOException | CoreException e)
-      {
-         LogUtils.error(logger, "Failed to update base package of file %s. Reason: %s", propertiesFile, WorkspaceHelper.printStacktraceToString(e));
-      }
    }
 
    private static void removeObsoleteTags(final IProject project)
@@ -211,7 +171,7 @@ public class MoflonPropertiesContainerHelper
             Resource resource = set.createResource(fileURI);
             resource.getContents().add(normalize(properties));
             resource.save(null);
-            projectFile.refreshLocal(IResource.DEPTH_ZERO, subMon.newChild(1));
+            projectFile.refreshLocal(IResource.DEPTH_ZERO, subMon.split(1));
          }
       } catch (final Exception e)
       {

@@ -67,6 +67,13 @@ public class AttributeConstraintParserAdapterTest
       ValidationReport validationReport = this.adapter.parse("!=(this.x, ACTIVE::LinkState);");
       assertHasNoErrorMessages(validationReport);
    }
+   
+   @Test
+   public void testParamterExpression() throws Exception
+   {
+      ValidationReport validationReport = this.adapter.parse("!=(this.x, k);");
+      assertHasNoErrorMessages(validationReport);
+   }
 
    private static void assertHasNoErrorMessages(ValidationReport validationReport)
    {

@@ -5,7 +5,6 @@ import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.constraints.constraintstodemocles.Errors;
 import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
 import org.moflon.sdm.constraints.operationspecification.OperationSpecification;
-@SuppressWarnings("unchecked")
 
 partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
 
@@ -150,6 +149,15 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
       {
          return;
       }
+      
+      /*
+       * Something went wrong with the constraint construction.
+       * We do not want to add constraint stubs to the user-defined constraint libary in this case.
+       */
+      if (cspConstraint.getParameters().stream().anyMatch(var -> var.getAttributeConstraintVariable() == null))
+      {
+         return;
+      }
 
       //Create user defined lib if not exists
       if (userDefLib == null)
@@ -166,9 +174,13 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
       errorMsgString.append(": ");
       errorMsgString.append("\"" + cspConstraint.getName());
       errorMsgString.append("(");
-      for (AttributeConstraintVariable var : cspConstraint.getParameters())
+      for (CspConstraintVariableReference var : cspConstraint.getParameters())
       {
-         errorMsgString.append(var.getType().getName() + ",");
+         AttributeConstraintVariable attributeConstraintVariable = var.getAttributeConstraintVariable();
+         if (attributeConstraintVariable != null)
+            errorMsgString.append(attributeConstraintVariable.getType().getName() + ",");
+         else 
+            errorMsgString.append("?,");
       }
       errorMsgString.deleteCharAt(errorMsgString.length() - 1);
       errorMsgString.append(")\".");

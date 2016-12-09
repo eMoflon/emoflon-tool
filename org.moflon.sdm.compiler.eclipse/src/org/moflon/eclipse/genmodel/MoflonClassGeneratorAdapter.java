@@ -204,27 +204,21 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
    @Override
    protected void ensureContainerExists(final URI workspacePath, final Monitor monitor)
    {
-      try
+      if (EMFPlugin.IS_ECLIPSE_RUNNING)
       {
-         if (EMFPlugin.IS_ECLIPSE_RUNNING)
+         super.ensureContainerExists(workspacePath, monitor);
+      } else
+      {
+         URI platformResourceURI = URI.createPlatformResourceURI(workspacePath.toString(), true);
+         URI normalizedURI = getURIConverter().normalize(platformResourceURI);
+         if (normalizedURI.isFile())
          {
-            super.ensureContainerExists(workspacePath, monitor);
-         } else
-         {
-            URI platformResourceURI = URI.createPlatformResourceURI(workspacePath.toString(), true);
-            URI normalizedURI = getURIConverter().normalize(platformResourceURI);
-            if (normalizedURI.isFile())
+            File file = new File(normalizedURI.toString());
+            if (!file.exists())
             {
-               File file = new File(normalizedURI.toString());
-               if (!file.exists())
-               {
-                  file.mkdirs();
-               }
+               file.mkdirs();
             }
          }
-      } finally
-      {
-         monitor.done();
       }
    }
 
@@ -262,7 +256,6 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
    @Override
    protected void ensureProjectExists(final String workspacePath, final Object object, final Object projectType, final boolean force, final Monitor monitor)
    {
-      monitor.done();
    }
 
    @Override

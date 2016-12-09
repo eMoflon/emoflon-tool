@@ -713,7 +713,7 @@ public class SynchronizationHelper
 			   EMoflonEdge edge = (EMoflonEdge) elt;
 			   ds.getAddedEdges().add(edge);
 			   try{
-				   performActionOnFeature(edge, (f, o) -> ((EList) edge.getSrc().eGet(f)).remove(o), (f, o) -> edge.getSrc().eUnset(f));
+				   performActionOnFeature(edge, (f, o) -> ((EList<?>) edge.getSrc().eGet(f)).remove(o), (f, o) -> edge.getSrc().eUnset(f));
 			   }
 			   catch (Exception e) {
 			   }

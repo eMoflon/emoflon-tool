@@ -23,7 +23,7 @@ public class TGGRuleApplication {
 	private Map<String,EObject> nodeMappings = new HashMap<>();
 
 
-	private String name;
+	private final String name;
 	
 	public TGGRuleApplication(String name){
 		this.name = name;
@@ -56,5 +56,10 @@ public class TGGRuleApplication {
 	public Map<String, EObject> getNodeMappings() {
 		return nodeMappings;
 	}
+	
+	public String getName()
+   {
+      return name;
+   }
 	
 }

@@ -3,8 +3,6 @@
  */
 package org.moflon.tgg.mosl;
 
-import org.moflon.tgg.mosl.TGGStandaloneSetupGenerated;
-
 /**
  * Initialization support for running Xtext languages 
  * without equinox extension registry

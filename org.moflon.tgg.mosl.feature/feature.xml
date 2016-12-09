@@ -2,8 +2,9 @@
 <feature
       id="org.moflon.tgg.mosl.feature"
       label="eMoflon MOSL-TGG"
-      version="2.22.0.qualifier"
-      provider-name="Real-Time Systems Lab, TU Darmstadt">
+      version="2.24.0.qualifier"
+      provider-name="Real-Time Systems Lab, TU Darmstadt"
+      plugin="org.moflon.ide.ui">
 
    <description url="http://www.emoflon.org/">
       This features contains plugins related to MOSL-TGG, the textual syntax

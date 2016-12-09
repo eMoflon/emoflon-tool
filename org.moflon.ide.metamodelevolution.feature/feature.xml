@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.moflon.ide.metamodelevolution.feature"
-      label="eMoflon Metamodel-Code Co-Evolution Support (optional)"
-      version="2.22.0.qualifier"
-      provider-name="Real-Time Systems Lab, TU Darmstadt">
+      label="eMoflon Metamodel-Code Co-Evolution Support (optional, unstable/alpha)"
+      version="2.24.0.qualifier"
+      provider-name="Real-Time Systems Lab, TU Darmstadt"
+      plugin="org.moflon.ide.ui">
 
    <description url="http://www.emoflon.org/">
       This feature aggregates plugins that support the automatic co-evolution of meta-models and the code generated from them.

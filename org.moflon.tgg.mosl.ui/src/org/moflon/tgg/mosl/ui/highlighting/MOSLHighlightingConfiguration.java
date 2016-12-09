@@ -2,7 +2,6 @@ package org.moflon.tgg.mosl.ui.highlighting;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultHighlightingConfiguration;
-
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfigurationAcceptor;
 import org.eclipse.xtext.ui.editor.utils.TextStyle;
 import org.moflon.tgg.mosl.ui.highlighting.rules.AbstractHighlightingRule;

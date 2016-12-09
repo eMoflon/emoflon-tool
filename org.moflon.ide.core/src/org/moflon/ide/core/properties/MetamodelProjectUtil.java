@@ -25,7 +25,7 @@ public class MetamodelProjectUtil
          {
             if (!resource.getName().startsWith(".") && resource.getType() != IResource.FOLDER
                   && resource.getName().endsWith(WorkspaceHelper.ECORE_FILE_EXTENSION))
-               resource.delete(true, subMon.newChild(1));
+               resource.delete(true, subMon.split(1));
             else
                subMon.worked(1);
          }

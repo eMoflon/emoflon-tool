@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.core.runtime.jobs.JobGroup;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -57,7 +56,6 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       return "Generating code";
    }
 
-   @SuppressWarnings("deprecation")
    @Override
    public IStatus processResource(final IProgressMonitor monitor)
    {
@@ -101,20 +99,20 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException
             {
                final SubMonitor subMon = SubMonitor.convert(monitor, "Validation job", 100);
-               return validator.run(subMon.newChild(100));
+               return validator.run(subMon.split(100));
             }
          };
-         JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
-         validationJob.setJobGroup(jobGroup);
-         validationJob.schedule();
-         jobGroup.join(timeoutForValidationTaskInMillis, subMon.newChild(10));
+//         JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
+//         validationJob.setJobGroup(jobGroup);
+         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.split(100));
+//         jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
 
-         final IStatus validatorStatus = validationJob.getResult();
+//         final IStatus validatorStatus = validationJob.getResult();
 
          if (validatorStatus == null)
          {
             //TODO@rkluge: This is a really ugly hack that should be removed as soon as a more elegant solution is available
-            validationJob.getThread().stop();
+            //validationJob.getThread().stop();
             throw new OperationCanceledException("Validation took longer than " + (timeoutForValidationTaskInMillis / 1000)
                   + "seconds. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
          } else if (subMon.isCanceled())
@@ -129,7 +127,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          // (3) Build or load GenModel
          final MonitoredGenModelBuilder genModelBuilderJob = new MonitoredGenModelBuilder(getResourceSet(), getAllResources(), getEcoreFile(), true,
                getMoflonProperties());
-         final IStatus genModelBuilderStatus = genModelBuilderJob.run(subMon.newChild(15));
+         final IStatus genModelBuilderStatus = genModelBuilderJob.run(subMon.split(15));
          if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
@@ -156,7 +154,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          // (5) Process GenModel
          subMon.subTask("Processing SDMs for project " + project.getName());
          final ITask genModelProcessor = methodBodyHandler.createGenModelProcessor(this, resource);
-         final IStatus genModelProcessorStatus = genModelProcessor.run(subMon.newChild(35));
+         final IStatus genModelProcessorStatus = genModelProcessor.run(subMon.split(35));
          if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;

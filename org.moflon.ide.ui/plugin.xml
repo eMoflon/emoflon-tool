@@ -62,6 +62,16 @@
    </extension>
    <extension
          point="org.eclipse.ui.menus">
+         <menuContribution
+            allPopups="true"
+            locationURI="popup:#TextEditorContext?after=additions">
+            <menu
+               icon="resources/icons/moflonSmall.png"
+               id="org.moflon.ide.ui.moflon"
+               label="eMoflon">
+               
+           </menu>
+            </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
@@ -168,6 +178,15 @@
             <separator
                   name="moflonGroupNavigation">
             </separator>
+            <separator
+                  name="moflonSeperator">
+            </separator>
+            <separator
+                  name="moflonSeperator">
+            </separator>
+            <separator
+                  name="moflonGroupGit">
+            </separator>
          </menu>
       </menuContribution>
    </extension>
@@ -182,8 +201,8 @@
       </super>
    </extension>
    <extension
-         id="org.moflon.ide.marker.MOFLONProblem"
-         name="MOFLON Problem"
+         id="org.moflon.ide.marker.EMoflonProblem"
+         name="eMoflon Problem"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.core.resources.problemmarker">
@@ -201,9 +220,6 @@
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="org.moflon.ide.ui.perspective">
-            
-         
-         
       </perspectiveExtension>
    </extension>
    <extension
@@ -557,6 +573,9 @@
             <reference
                   definitionId="org.moflon.ide.ui.definitions.hasJavaEditor">
             </reference>
+            <reference
+                  definitionId="org.moflon.ide.ui.definitions.hasInjectionEditor">
+            </reference>
             </or>
          </enabledWhen>
       </handler>
@@ -711,9 +730,14 @@
             name="eMoflon popup">
       </command>
       <command
-            defaultHandler="org.moflon.ide.ui.admin.handlers.RemoveXTextMarkersHandler"
-            id="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
-            name="Remove XText Validation Markers">
+            defaultHandler="org.moflon.ide.ui.admin.handlers.GitResetProjectHandler"
+            id="org.moflon.ide.ui.commands.git.GitResetCommand"
+            name="Reset and clean Git Repo">
+      </command>
+      <command
+            defaultHandler="org.moflon.ide.ui.admin.handlers.TouchResourceHandler"
+            id="org.moflon.ide.ui.commands.git.TouchResourceCommand"
+            name="Touch Resource">
       </command>
    </extension>
    <extension
@@ -744,6 +768,9 @@
             </separator>
             <separator
                   name="moflonGroupTesting">
+            </separator>
+            <separator
+                  name="moflonGroupGit">
             </separator>
       </menuContribution>
       <menuContribution
@@ -941,16 +968,26 @@
                   checkEnabled="false">
             </visibleWhen>
          </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupGit">
          <command
-               commandId="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
-               label="Remove XText Markers"
+               commandId="org.moflon.ide.ui.commands.git.GitResetCommand"
+               label="Reset and Clean Git Repos"
                style="push"
-               tooltip="Removes all XText validation markers from the given resource and its children">
+               tooltip="Resets and cleans all selected Git projects">
             <visibleWhen
-                  checkEnabled="true">
-               <reference
-                     definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
-               </reference>
+                  checkEnabled="false">
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand"
+               label="Touch Selected Resource(s)"
+               style="push"
+               tooltip="Marks the selected resoures as modified (even if they have not changed)">
+            <visibleWhen
+                  checkEnabled="false">
             </visibleWhen>
          </command>
       </menuContribution>
@@ -1018,10 +1055,16 @@
             sequence="M2+M3+E M">
       </key>
       <key
-            commandId="org.moflon.ide.ui.commands.util.RemoveXTextValidationMarkers"
+            commandId="org.moflon.ide.ui.commands.git.GitResetCommand"
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E Y">
+            sequence="M2+M3+E 0">
+      </key>
+      <key
+            commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+E C">
       </key>
    </extension>
    <extension
@@ -1200,6 +1243,23 @@
          </and>
       </definition>
       <definition
+            id="org.moflon.ide.ui.definitions.hasInjectionEditor">
+         <and>
+            <with
+                  variable="activeEditorInput">
+               <reference
+                     definitionId="org.moflon.ide.ui.definitions.hasAnyMoflonNature">
+               </reference>
+            </with>
+            <with
+               variable="activeEditorId">
+            <equals
+                  value="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor">
+            </equals>
+         </with>
+         </and>
+      </definition>
+      <definition
             id="org.moflon.ide.ui.definitions.isInProjectExplorer">
         <with variable="activePartId">
         	<equals value="org.eclipse.ui.navigator.ProjectExplorer"/>
@@ -1246,12 +1306,12 @@
       <page
             class="org.moflon.ide.ui.propertypages.EMoflonPropertyPage"
             id="org.moflon.ide.ui.errorspropertypage"
-            name="eMoflon Error">
+            name="Marker (eMoflon View)"
+            >
             <enabledWhen>
-            <adapt
-                  type="org.eclipse.core.resources.IMarker">
-            </adapt>
-         </enabledWhen>
+        		<adapt type="org.eclipse.core.resources.IMarker">
+        		</adapt>
+            </enabledWhen>
       </page>
    </extension>
 </plugin>

@@ -7,17 +7,11 @@ Export-Package: org.moflon.ide.visualisation.dot.language,
  org.moflon.ide.visualization.dot.language.util
 Bundle-Name: DotLanguage
 Bundle-Version: 2.1.0.qualifier
-Require-Bundle: org.eclipse.emf.ecore,
- org.eclipse.emf.ecore.xmi,
- org.moflon.core.utilities,
- org.apache.log4j;bundle-version="1.2.15",
- org.eclipse.core.runtime;bundle-version="3.8.0",
+Require-Bundle: org.moflon.core.utilities,
  MocaTree;bundle-version="2.0.0",
- org.eclipse.ui;bundle-version="3.106.0",
  org.eclipse.emf.ecore.editor,
  net.sourceforge.plantuml.eclipse,
  org.moflon.tgg.language,
- SDMLanguage,
  org.moflon.tgg.runtime
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy

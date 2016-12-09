@@ -16,9 +16,9 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
-import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.utilities.WorkspaceHelper;
 
 public final class MonitoredGenModelBuilder implements ITask
@@ -57,7 +57,7 @@ public final class MonitoredGenModelBuilder implements ITask
 
       if (this.moflonProperties == null)
       {
-         this.moflonProperties = MoflonPropertiesContainerHelper.load(project, subMon.newChild(5));
+         this.moflonProperties = MoflonPropertiesContainerHelper.load(project, subMon.split(5));
 
       }
       subMon.setWorkRemaining(90);
@@ -99,7 +99,7 @@ public final class MonitoredGenModelBuilder implements ITask
       }
 
       // Validate resource set
-      IStatus resourceSetStatus = CodeGeneratorPlugin.validateResourceSet(resourceSet, "GenModel building", subMon.newChild(10));
+      IStatus resourceSetStatus = CodeGeneratorPlugin.validateResourceSet(resourceSet, "GenModel building", subMon.split(10));
       if (subMon.isCanceled())
       {
          return Status.CANCEL_STATUS;

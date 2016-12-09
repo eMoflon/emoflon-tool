@@ -37,7 +37,6 @@ class SDMEnhancedResourceHelper extends XMIHelperImpl {
 		}
 	}
 
-//	TODO gervarro: Uncomment this method when the new metamodel builder is ready (absolute URIs will always be saved)
 	public URI deresolve(URI uri) {
 		return uri;
 	}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,GRaViTY/org.gravity.eclipse"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,GRaViTY/org.gravity.metamodels.modisco"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,GRaViTY/org.gravity.metamodels.typegraph"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,GRaViTY/org.gravity.modisco"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,GRaViTY/org.gravity.tgg.modisco"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,GRaViTY/org.gravity.tgg.modisco.test"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,GRaViTY/org.gravity.typegraph.basic"/>
+</provider>
+</psf>

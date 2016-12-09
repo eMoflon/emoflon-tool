@@ -74,7 +74,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.groupBox4.Size = new System.Drawing.Size(363, 40);
             this.groupBox4.TabIndex = 39;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Classifier";
+            this.groupBox4.Text = "Classi&fier";
             // 
             // comboTypes
             // 
@@ -100,7 +100,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.groupBox3.Size = new System.Drawing.Size(363, 45);
             this.groupBox3.TabIndex = 38;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Name";
+            this.groupBox3.Text = "&Name";
             // 
             // comboNames
             // 
@@ -136,7 +136,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.radioButtonDestroy.Name = "radioButtonDestroy";
             this.radioButtonDestroy.Size = new System.Drawing.Size(61, 17);
             this.radioButtonDestroy.TabIndex = 5;
-            this.radioButtonDestroy.Text = "Destroy";
+            this.radioButtonDestroy.Text = "&Destroy";
             this.radioButtonDestroy.UseVisualStyleBackColor = true;
             // 
             // radioButtonCreate
@@ -147,7 +147,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.radioButtonCreate.Name = "radioButtonCreate";
             this.radioButtonCreate.Size = new System.Drawing.Size(56, 17);
             this.radioButtonCreate.TabIndex = 4;
-            this.radioButtonCreate.Text = "Create";
+            this.radioButtonCreate.Text = "C&reate";
             this.radioButtonCreate.UseVisualStyleBackColor = true;
             // 
             // radioButtonCheckonly
@@ -160,7 +160,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.radioButtonCheckonly.Size = new System.Drawing.Size(80, 17);
             this.radioButtonCheckonly.TabIndex = 3;
             this.radioButtonCheckonly.TabStop = true;
-            this.radioButtonCheckonly.Text = "Check Only";
+            this.radioButtonCheckonly.Text = "Chec&k Only";
             this.radioButtonCheckonly.UseVisualStyleBackColor = true;
             // 
             // gbxConstraint
@@ -183,7 +183,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.radioButtonNegative.Name = "radioButtonNegative";
             this.radioButtonNegative.Size = new System.Drawing.Size(68, 17);
             this.radioButtonNegative.TabIndex = 8;
-            this.radioButtonNegative.Text = "Negative";
+            this.radioButtonNegative.Text = "Negati&ve";
             this.radioButtonNegative.UseVisualStyleBackColor = true;
             this.radioButtonNegative.CheckedChanged += new System.EventHandler(this.radioButtonNegative_CheckedChanged);
             // 
@@ -197,7 +197,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.radioButtonMandatory.Size = new System.Drawing.Size(75, 17);
             this.radioButtonMandatory.TabIndex = 7;
             this.radioButtonMandatory.TabStop = true;
-            this.radioButtonMandatory.Text = "Mandatory";
+            this.radioButtonMandatory.Text = "&Mandatory";
             this.radioButtonMandatory.UseVisualStyleBackColor = true;
             // 
             // groupBox2
@@ -219,7 +219,7 @@ namespace EAEcoreAddin.Modeling.SDMModeling.ObjectVariableDialog
             this.checkBoxBound.Name = "checkBoxBound";
             this.checkBoxBound.Size = new System.Drawing.Size(57, 17);
             this.checkBoxBound.TabIndex = 19;
-            this.checkBoxBound.Text = "Bound";
+            this.checkBoxBound.Text = "&Bound";
             this.checkBoxBound.UseVisualStyleBackColor = true;
             this.checkBoxBound.CheckStateChanged += new System.EventHandler(this.cbxBound_CheckedChanged);
             // 

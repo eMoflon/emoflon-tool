@@ -78,7 +78,7 @@ public class ValidateHandler extends AbstractCommandHandler
 
       for (final IProject project : projects)
       {
-         this.validateProject(project, subMon.newChild(1));
+         this.validateProject(project, subMon.split(1));
       }
    }
 
@@ -99,7 +99,7 @@ public class ValidateHandler extends AbstractCommandHandler
             + "ms. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page";
       try
       {
-         monitor.beginTask("Validating " + ecoreFile.getName(), 1);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Validating " + ecoreFile.getName(), 1);
 
 			final ITask validationTask = (ITask) Platform.getAdapterManager().loadAdapter(ecoreFile,
 					"org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator");
@@ -130,13 +130,10 @@ public class ValidateHandler extends AbstractCommandHandler
             }
          }
 
-         monitor.worked(1);
+			subMon.worked(1);
       } catch (InterruptedException e)
       {
          throw new OperationCanceledException(validationTimeoutMessage);
-      } finally
-      {
-         monitor.done();
-      }
+      } 
    }
 }

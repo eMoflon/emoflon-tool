@@ -50,7 +50,7 @@ public class MonitoredSDMValidator implements ITask
 
          subMon.subTask("Validating SDMs for project " + project.getName());
          DemoclesValidationProcess validationProcess = new DemoclesValidationProcess(ecoreFile, resourceSet);
-         IStatus validationStatus = validationProcess.run(subMon.newChild(50));
+         IStatus validationStatus = validationProcess.run(subMon.split(50));
 
          if (!validationStatus.isOK())
          {

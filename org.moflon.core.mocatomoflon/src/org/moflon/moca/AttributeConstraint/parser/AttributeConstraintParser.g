@@ -75,7 +75,8 @@ parameter:
 	attrVar=attrLookupPrimitiveVar -> $attrVar | 
 	attrVar1=attrAssignPrimitiveVar -> $attrVar1 |
 	tempVar=tempPrimtiveVar -> $tempVar | 
-	litVar=literalVar -> $litVar;
+	litVar=literalVar -> $litVar |
+	objectVar=objectVariable -> $objectVar;
 	
 
 
@@ -102,5 +103,11 @@ literalVar:
 													^(ATTRIBUTE T["datatype"] $type) 
 														$pack*);  
 													
-											 	
+objectVariable:
+	name=ID
+	-> 
+	^(ATTR_CONST_VAR
+	^(ATTRIBUTE T["name"] $name) 
+	^(ATTRIBUTE T["type"] T["PrimitiveParameterVariable" ])	
+	);				 	
 													

@@ -5,7 +5,7 @@
     <extension
             point="org.eclipse.ui.editors">
         <editor
-              class="org.moflon.tgg.mosl.ui.TGGExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+              class="org.moflon.tgg.mosl.ui.TGGExecutableExtensionFactory:org.moflon.tgg.mosl.ui.editor.PackageExplorerEnabledXtextEditor"
               contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
               default="true"
               extensions="tgg"
