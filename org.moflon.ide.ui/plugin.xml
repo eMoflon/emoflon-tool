@@ -261,6 +261,7 @@
       <content-type id="org.moflon.contenttype.cf" name="eMoflon CF" file-extensions="cf" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
       <content-type id="org.moflon.contenttype.dfs" name="eMoflon DFS" file-extensions="dfs" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
       <content-type id="org.moflon.contenttype.binding" name="eMoflon Binding" file-extensions="binding" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
+      <content-type id="org.moflon.contenttype.black" name="eMoflon Black" file-extensions="black" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
       <content-type id="org.moflon.contenttype.bindingAndBlack" name="eMoflon Binding and Black" file-extensions="bindingAndBlack" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
       <content-type id="org.moflon.contenttype.expression" name="eMoflon Expression" file-extensions="expression" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
       <content-type id="org.moflon.contenttype.red" name="eMoflon Red" file-extensions="red" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
@@ -280,6 +281,10 @@
       <file-association
             content-type="org.moflon.contenttype.binding"
             file-extensions="binding">
+      </file-association>
+      <file-association
+            content-type="org.moflon.contenttype.black"
+            file-extensions="black">
       </file-association>
       <file-association
             content-type="org.moflon.contenttype.bindingAndBlack"
