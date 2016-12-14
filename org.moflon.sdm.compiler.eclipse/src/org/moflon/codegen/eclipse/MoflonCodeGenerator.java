@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.core.runtime.jobs.JobGroup;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -102,12 +103,12 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
                return validator.run(subMon.split(100));
             }
          };
-//         JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
-//         validationJob.setJobGroup(jobGroup);
-         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.split(100));
-//         jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
+         final JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
+         validationJob.setJobGroup(jobGroup);
+//         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.split(100));
+         jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
 
-//         final IStatus validatorStatus = validationJob.getResult();
+         final IStatus validatorStatus = validationJob.getResult();
 
          if (validatorStatus == null)
          {
