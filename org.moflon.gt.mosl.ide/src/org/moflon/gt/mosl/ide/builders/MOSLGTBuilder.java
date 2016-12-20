@@ -15,7 +15,6 @@ import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 public class MOSLGTBuilder extends AbstractVisitorBuilder
 {
    public static final Logger logger = Logger.getLogger(MOSLGTBuilder.class);
-   public static final String BUILDER_ID = "org.moflon.gt.mosl.ide.MOSLGTBuilder";
 
    /**
     * Specification of files whose changes will trigger in invocation of this builder

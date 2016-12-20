@@ -32,6 +32,7 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
+import org.moflon.ide.core.runtime.natures.MOSLGTNature;
 import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.moflon.util.plugins.BuildPropertiesFileBuilder;
@@ -143,6 +144,8 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
          return new IntegrationNature();
       case MetamodelProperties.REPOSITORY_KEY:
          return new RepositoryNature();
+      case MetamodelProperties.MOSLGT_REPOSITORY_KEY:
+         return new MOSLGTNature();
       default:
          return null;
       }

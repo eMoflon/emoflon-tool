@@ -6,7 +6,7 @@ import org.moflon.ide.core.CoreActivator;
 public class IntegrationNature extends MoflonProjectConfigurator {
 	
 	public IntegrationNature() {
-		super(true);
+		super();
 	}
 
    @Override

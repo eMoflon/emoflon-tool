@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.ide.builders;
+package org.moflon.ide.core.runtime.natures;
 
 import java.util.Arrays;
 
@@ -6,10 +6,10 @@ import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
-import org.moflon.ide.core.runtime.natures.ProjectConfiguratorNature;
+import org.moflon.ide.core.CoreActivator;
 
-public class MOSLGTNature extends ProjectConfiguratorNature {
-	public static final String NATURE_ID = "org.moflon.gt.ide.natures.MOSLGTNature";
+public class MOSLGTNature extends MoflonProjectConfigurator {
+
 	public static final String XTEXT_BUILDER_ID = "org.eclipse.xtext.ui.shared.xtextBuilder";
 	public static final String XTEXT_NATURE_ID = "org.eclipse.xtext.ui.shared.xtextNature";
 
@@ -27,10 +27,10 @@ public class MOSLGTNature extends ProjectConfiguratorNature {
 				buildSpecs[xtextBuilderPosition] = xtextBuilder;
 			}
 			// Insert or move MOSL-GT builder before IntegrationBuilder and after Xtext builder
-			int moslBuilderPosition = ProjectUtil.indexOf(buildSpecs, MOSLGTBuilder.BUILDER_ID);
+			int moslBuilderPosition = ProjectUtil.indexOf(buildSpecs, CoreActivator.MOSL_GT_BUILDER_ID);
 			if (moslBuilderPosition < 0) {
 				final ICommand moslTGGBuilder = description.newCommand();
-				moslTGGBuilder.setBuilderName(MOSLGTBuilder.BUILDER_ID);
+				moslTGGBuilder.setBuilderName(CoreActivator.MOSL_GT_BUILDER_ID);
 				buildSpecs = Arrays.copyOf(buildSpecs, buildSpecs.length + 1);
 				moslBuilderPosition = buildSpecs.length - 1;
 				buildSpecs[moslBuilderPosition] = moslTGGBuilder;
@@ -47,7 +47,7 @@ public class MOSLGTNature extends ProjectConfiguratorNature {
 			if (xtextBuilderPosition >= 0) {
 				buildSpecs = ProjectUtil.remove(buildSpecs, xtextBuilderPosition);
 			}
-			int moslBuilderPosition = ProjectUtil.indexOf(buildSpecs, MOSLGTBuilder.BUILDER_ID);
+			int moslBuilderPosition = ProjectUtil.indexOf(buildSpecs, CoreActivator.MOSL_GT_BUILDER_ID);
 			if (moslBuilderPosition >= 0) {
 				buildSpecs = ProjectUtil.remove(buildSpecs, moslBuilderPosition);
 			}
@@ -62,20 +62,32 @@ public class MOSLGTNature extends ProjectConfiguratorNature {
 				natureIDs = Arrays.copyOf(natureIDs, natureIDs.length + 1);
 				natureIDs[natureIDs.length - 1] = XTEXT_NATURE_ID;
 			}
-			if (ProjectUtil.indexOf(natureIDs, NATURE_ID) < 0) {
+			if (ProjectUtil.indexOf(natureIDs, getNatureId()) < 0) {
 				natureIDs = Arrays.copyOf(natureIDs, natureIDs.length + 1);
-				natureIDs[natureIDs.length - 1] = NATURE_ID;
+				natureIDs[natureIDs.length - 1] = getNatureId();
 			}
 		} else {
 			int xtextNaturePosition = ProjectUtil.indexOf(natureIDs, XTEXT_NATURE_ID);
 			if (xtextNaturePosition >= 0) {
 				natureIDs = ProjectUtil.remove(natureIDs, xtextNaturePosition);
 			}
-			int moslTGGNaturePosition = ProjectUtil.indexOf(natureIDs, NATURE_ID);
+			int moslTGGNaturePosition = ProjectUtil.indexOf(natureIDs, getNatureId());
 			if (xtextNaturePosition >= 0) {
 				natureIDs = ProjectUtil.remove(natureIDs, moslTGGNaturePosition);
 			}
 		}
 		return natureIDs;
 	}
+
+   @Override
+   protected String getBuilderId()
+   {
+      return CoreActivator.MOSL_GT_BUILDER_ID;
+   }
+
+   @Override
+   protected String getNatureId()
+   {
+      return CoreActivator.MOSL_GT_NATURE_ID;
+   }
 }

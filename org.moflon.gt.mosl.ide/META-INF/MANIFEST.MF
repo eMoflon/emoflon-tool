@@ -24,6 +24,7 @@ Require-Bundle: org.apache.log4j,
  org.moflon.sdm.compiler.eclipse,
  org.moflon.core.propertycontainer
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.moflon.gt.mosl.ide.contentassist.antlr.internal,
- org.moflon.gt.mosl.ide.contentassist.antlr
+Export-Package: org.moflon.gt.mosl.ide.builders,
+ org.moflon.gt.mosl.ide.contentassist.antlr,
+ org.moflon.gt.mosl.ide.contentassist.antlr.internal
 

@@ -6,7 +6,7 @@ import org.moflon.ide.core.CoreActivator;
 public class RepositoryNature extends MoflonProjectConfigurator {
 	
 	public RepositoryNature() {
-		super(false);
+		super();
 	}
 
    @Override
