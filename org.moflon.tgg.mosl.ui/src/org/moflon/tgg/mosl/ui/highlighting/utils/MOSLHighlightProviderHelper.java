@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.moflon.tgg.mosl.ui.highlighting.MOSLHighlightFactory;
+import org.moflon.tgg.mosl.ui.highlighting.MOSLHighlightingConfiguration;
 import org.moflon.tgg.mosl.ui.highlighting.exceptions.IDAlreadyExistException;
 import org.moflon.tgg.mosl.ui.highlighting.rules.AbstractHighlightingRule;
 
@@ -19,6 +20,7 @@ public class MOSLHighlightProviderHelper {
 	public static void init(){
 		rules.clear();
 		ruleNames.clear();
+		MOSLColor.setConfig(MOSLHighlightingConfiguration.getInstance());
 		MOSLHighlightFactory.createAllInstances();
 		rules.sort(getComparator());
 	}

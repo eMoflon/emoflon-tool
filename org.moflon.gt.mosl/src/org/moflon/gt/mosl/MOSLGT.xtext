@@ -30,38 +30,47 @@ EClassDef:
 
 MethodDec:
 	'#operation' name = ID '(' (parameters+=MethodParameter)? (',' parameters+=MethodParameter)* ')' ':' (type=[ecore::EClassifier | QualifiedName] | 'void') ('{'
-		statements += Statement*
+		startStatement = Statement
 	'}')?
 ;
 
 CalledPatternParameter:(definingOV=ObjectVariableDefinition) | (existingOV=[ObjectVariablePattern | QualifiedName]);
 
-Statement: PatternStatement | ConditionContainingStatement| ObjectVariableDefinition | ReturnStatement;
+Statement: NextStatement | ReturnStatement;
+
+NextStatement:(PatternStatement | ConditionContainingStatement| ObjectVariableDefinition) (next = Statement)?;
 
 PatternStatement:'#invoke' pattern=[PatternDef]'('(parameters+=CalledPatternParameter)? (',' parameters+=CalledPatternParameter)*')';
 
 ConditionStatement:'#if' '(' cond=Condition ')''{'
-	thenStmts += Statement+
+	thenStartStatement = Statement
 	'}'
 	('#else' '{'
-		elseStmts += Statement+
+		elseStartStatement = Statement
 	'}')?
 ;
 
-Condition:pattern=[PatternDef];
+Condition:pattern=[PatternDef] '('(parameters+=CalledPatternParameter)? (',' parameters+=CalledPatternParameter)*')';
 
 ConditionContainingStatement:ConditionStatement | LoopStatement;
 
-LoopStatement:DoLoopStatement | WhileLoopStatement;
+LoopStatement:DoLoopStatement | WhileLoopStatement| ForLoopStatement;
 
 WhileLoopStatement: '#while''(' cond=Condition ')''{'
-		loopStmts += Statement+
+		loopStartStatement = Statement
 	'}'
 ;
 
 DoLoopStatement: '#Do' '{'
-	loopStmts += Statement+
+	loopStartStatement = Statement
 	'}' '#while' '(' cond=Condition ')'
+;
+
+ForLoopStatement: '#For' '('
+	cond = Condition
+	')''{'
+		loopStartStatement = Statement
+	'}'
 ;
 
 ReturnStatement:{ReturnStatement} "#return" (returnObject=[ObjectVariablePattern])?;

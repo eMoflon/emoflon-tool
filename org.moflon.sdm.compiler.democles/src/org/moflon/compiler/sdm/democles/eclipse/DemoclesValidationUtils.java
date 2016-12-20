@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
@@ -20,6 +22,8 @@ import org.moflon.core.utilities.UtilityClassNotInstantiableException;
  */
 public final class DemoclesValidationUtils
 {
+   private static final Logger logger = Logger.getLogger(DemoclesValidationUtils.class);
+   
    private DemoclesValidationUtils()
    {
       throw new UtilityClassNotInstantiableException();
@@ -74,26 +78,28 @@ public final class DemoclesValidationUtils
       if (adapterResource != null)
       {
          final URI oldUri = adapterResource.getURI();
-         final URI resolved;
+         final URI inWorkspaceUri;
          if (oldUri.isPlatformPlugin())
          {
             final URI deresolve = oldUri.deresolve(URI.createPlatformPluginURI("", false));
-            resolved = deresolve.resolve(URI.createPlatformResourceURI("", false));
+            inWorkspaceUri = deresolve.resolve(URI.createPlatformResourceURI("", false));
          } else 
          {
-            resolved = oldUri;
+            inWorkspaceUri = oldUri;
          }
          try
          {
-            adapterResource.setURI(resolved.appendFileExtension("xmi"));
-            adapterResource.save(new HashMap<>());
+            URI newUri = inWorkspaceUri;
+//            adapterResource.setURI(inWorkspaceUri.appendFileExtension("xmi"));
+//            adapterResource.save(new HashMap<>());
 
             // Save with old URI to allow for navigation between models
-            adapterResource.setURI(resolved);
+            adapterResource.setURI(newUri);
             adapterResource.save(new HashMap<>());
+            URIConverter.URI_MAP.put(oldUri, newUri);
          } catch (IOException e)
          {
-            LogUtils.error(DemoclesValidationProcess.logger, e);
+            LogUtils.error(logger, e);
          } finally
          {
             adapterResource.setURI(oldUri);
