@@ -31,7 +31,9 @@ import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.moflon.util.plugins.BuildPropertiesFileBuilder;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
@@ -67,8 +69,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
 
          // (2) Configure natures and builders (.project file)
          final JavaProjectConfigurator javaProjectConfigurator = new JavaProjectConfigurator();
-         final MoflonProjectConfigurator moflonProjectConfigurator = new MoflonProjectConfigurator(
-               MetamodelProperties.INTEGRATION_KEY.equals(metamodelProperties.getType()));
+         final MoflonProjectConfigurator moflonProjectConfigurator = getProjectConfigurator(this.metamodelProperties);
          final PluginProjectConfigurator pluginProjectConfigurator = new PluginProjectConfigurator();
          final ProjectNatureAndBuilderConfiguratorTask natureAndBuilderConfiguratorTask = new ProjectNatureAndBuilderConfiguratorTask(project, false);
          natureAndBuilderConfiguratorTask.updateNatureIDs(moflonProjectConfigurator, true);
@@ -131,6 +132,19 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
                metamodelProperties.getMetamodelProjectName());
          moflonProperties.getSdmCodegeneratorHandlerId().setValue(getCodeGeneratorHandler(metamodelProperties));
          MoflonPropertiesContainerHelper.save(moflonProperties, subMon.split(1));
+      }
+   }
+
+   private MoflonProjectConfigurator getProjectConfigurator(final MetamodelProperties metamodelProperties)
+   {
+      switch(metamodelProperties.getType())
+      {
+      case MetamodelProperties.INTEGRATION_KEY:
+         return new IntegrationNature();
+      case MetamodelProperties.REPOSITORY_KEY:
+         return new RepositoryNature();
+      default:
+         return null;
       }
    }
 

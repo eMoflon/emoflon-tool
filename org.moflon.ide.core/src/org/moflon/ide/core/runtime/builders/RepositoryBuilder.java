@@ -44,13 +44,14 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       super(new AntPatternCondition(new String[] { "model/*.ecore" }));
    }
 
+   @Override
    public ISchedulingRule getRule(final int kind, final Map<String, String> args)
    {
       return getProject();
    }
 
    @Override
-   protected void processResource(IResource ecoreResource, int kind, Map<String, String> args, IProgressMonitor monitor)
+   protected void processResource(final IResource ecoreResource, final int kind, Map<String, String> args, final IProgressMonitor monitor)
    {
       if (isEcoreFile(ecoreResource))
       {
