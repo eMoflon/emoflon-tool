@@ -296,7 +296,13 @@ public class WorkspaceHelper
       final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
       IFile projectFile = project.getFile(fileName);
       ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
-      projectFile.create(source, true, subMon.split(1));
+      if (projectFile.exists())
+      {
+         projectFile.setContents(source, true, true, subMon.split(1));
+      } else
+      {
+         projectFile.create(source, true, subMon.split(1));
+      }
    }
 
    /**
