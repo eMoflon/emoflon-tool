@@ -5,7 +5,7 @@
 
 #source {
 	method:MethodDec {
-		++ - statements -> statement
+		++ - startStatement -> statement
 	}
 
 	++statement:Statement
