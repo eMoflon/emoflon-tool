@@ -102,7 +102,6 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 	protected void processResource(IResource resource, int kind, Map<String, String> args, IProgressMonitor monitor) {
 		try {
 			final Resource ecoreResource = new MOSLTGGConversionHelper().generateTGGModel(resource);
-			removeXtextMarkers();
 			if (ecoreResource != null && ecoreResource.getContents().get(0) instanceof EPackage) {
 				final ProjectDependencyAnalyzer projectDependencyAnalyzer =
 						new ProjectDependencyAnalyzer(this, getProject(), getProject(),
@@ -133,14 +132,5 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 			LogUtils.error(logger, e, "Unable to update created projects: " + e.getMessage());
 		}
 
-	}
-
-   // Hack related to Issue #781 (see https://github.com/eMoflon/emoflon-issues/issues/781) (rkluge)
-	private final void removeXtextMarkers() {
-		try {
-			getProject().deleteMarkers(org.eclipse.xtext.ui.MarkerTypes.FAST_VALIDATION, true, IResource.DEPTH_INFINITE);
-		} catch (final CoreException e) {
-         LogUtils.error(logger, e);
-		}
 	}
 }
