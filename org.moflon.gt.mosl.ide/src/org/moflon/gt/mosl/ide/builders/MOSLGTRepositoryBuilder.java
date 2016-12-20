@@ -36,6 +36,8 @@ import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 
 public class MOSLGTRepositoryBuilder extends AbstractVisitorBuilder
 {
+   public static final String ID = MOSLGTRepositoryBuilder.class.getName();
+   
    public static final Logger logger = Logger.getLogger(MOSLGTRepositoryBuilder.class);
 
    protected boolean generateSDMs = true;

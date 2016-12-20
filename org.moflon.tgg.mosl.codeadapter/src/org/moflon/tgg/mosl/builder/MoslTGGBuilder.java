@@ -1,5 +1,6 @@
 package org.moflon.tgg.mosl.builder;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -29,13 +30,24 @@ import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 
 public class MoslTGGBuilder extends AbstractVisitorBuilder {
-	public static final Logger logger = Logger.getLogger(MoslTGGBuilder.class);
-	public static final String BUILDER_ID = "org.moflon.tgg.mosl.codeadapter.mosltggbuilder";
+
+
+   public static final Logger logger = Logger.getLogger(MoslTGGBuilder.class);
+   
+   public static final String BUILDER_ID = "org.moflon.tgg.mosl.codeadapter.mosltggbuilder";
+   
+   /**
+    * Specification of files whose changes will trigger in invocation of this builder
+    */
+   private static final String[] PROJECT_INTERNAL_TRIGGERS = new String[] { "src/org/moflon/tgg/mosl/*.tgg", "src/org/moflon/tgg/mosl/**/*.tgg" };
 
 	public MoslTGGBuilder() {
-		super(new AntPatternCondition(new String[] { "src/org/moflon/tgg/mosl/*.tgg", "src/org/moflon/tgg/mosl/**/*.tgg" }));
+		super(new AntPatternCondition(PROJECT_INTERNAL_TRIGGERS));
 	}
 
+	/**
+	 * Specifies changes in *other* projects that should trigger a build of this project
+	 */
 	@Override
 	protected AntPatternCondition getTriggerCondition(IProject project) {
 		try {
@@ -49,26 +61,26 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 		return new AntPatternCondition(new String[0]);
 	}
 	
-	protected void postprocess(final RelevantElementCollector buildVisitor, int kind,
+	@Override
+	protected void postprocess(final RelevantElementCollector buildVisitor, int originalKind,
 			final Map<String, String> args, final IProgressMonitor monitor) {
-		kind = correctBuildTrigger(kind);
+		
+	   final int kind = correctBuildTrigger(originalKind);
+      final SubMonitor subMonitor = SubMonitor.convert(monitor, triggerProjects.size() + 1);
+		
 		if (getCommand().isBuilding(kind)) {
 			final IFolder moslFolder = getProject().getFolder(new Path("src/org/moflon/tgg/mosl"));
-			if (kind == INCREMENTAL_BUILD || kind == AUTO_BUILD) {
-				if (!buildVisitor.getRelevantDeltas().isEmpty()) {
-					processResource(moslFolder, kind, args, monitor);
-				}
-			} else if (kind == FULL_BUILD) {
-				if (!buildVisitor.getRelevantResources().isEmpty()) {
-					processResource(moslFolder, kind, args, monitor);
-				}
+			if ((isAutoOrIncrementalBuild(kind) && hasRelevantDeltas(buildVisitor)) || (isFullBuild(kind) && hasRelevantResources(buildVisitor))) {
+					processResource(moslFolder, kind, args, subMonitor.split(1));
 			}
-		}		
-		if (buildVisitor.getRelevantDeltas().isEmpty() && (kind == INCREMENTAL_BUILD || kind == AUTO_BUILD)) {
-			final SubMonitor subMonitor = SubMonitor.convert(monitor, triggerProjects.size());
+		}
+		
+		if (!hasRelevantDeltas(buildVisitor) && this.isAutoOrIncrementalBuild(kind)) {
 			try {
 				for (final IProject project : triggerProjects) {
-					final RelevantElementCollector relevantElementCollector = new RelevantElementCollector(project, getTriggerCondition(project)) {
+					
+				   final RelevantElementCollector relevantElementCollector = new RelevantElementCollector(project, getTriggerCondition(project)) {
+					   @Override
 						public boolean handleResourceDelta(final IResourceDelta delta) {
 							final int deltaKind = delta.getKind();
 							if (deltaKind == IResourceDelta.ADDED || deltaKind == IResourceDelta.CHANGED) {
@@ -77,11 +89,12 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 							return false;
 						}
 					};
+					
 					final IResourceDelta delta = getDelta(project);
 					if (delta != null) {
 
 						delta.accept(relevantElementCollector, IResource.NONE);
-						if (!relevantElementCollector.getRelevantDeltas().isEmpty()) {
+						if (hasRelevantDeltas(relevantElementCollector)) {
 							// Perform a full build if a triggering project changed
 							build(FULL_BUILD, args, subMonitor.split(1));
 							return;
@@ -91,6 +104,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 					} else {
 						subMonitor.worked(1);
 					}
+					
 				}
 			} catch (final CoreException e) {
 				throw new RuntimeException(e.getMessage(), e);
@@ -98,39 +112,47 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 		}
 	}
 
+   private boolean hasRelevantResources(final RelevantElementCollector buildVisitor)
+   {
+      return !buildVisitor.getRelevantResources().isEmpty();
+   }
+
+   private boolean hasRelevantDeltas(final RelevantElementCollector buildVisitor)
+   {
+      return !buildVisitor.getRelevantDeltas().isEmpty();
+   }
+
 	@Override
 	protected void processResource(IResource resource, int kind, Map<String, String> args, IProgressMonitor monitor) {
 		try {
-			final Resource ecoreResource = new MOSLTGGConversionHelper().generateTGGModel(resource);
-			if (ecoreResource != null && ecoreResource.getContents().get(0) instanceof EPackage) {
-				final ProjectDependencyAnalyzer projectDependencyAnalyzer =
-						new ProjectDependencyAnalyzer(this, getProject(), getProject(),
-								(EPackage) ecoreResource.getContents().get(0));
+			
+		   final Resource ecoreResource = new MOSLTGGConversionHelper().generateTGGModel(resource);
+			
+			if (ecoreResource != null && !ecoreResource.getContents().isEmpty() && ecoreResource.getContents().get(0) instanceof EPackage) {
+				
+			   final EPackage ePackage = (EPackage) ecoreResource.getContents().get(0);
+				
+            final ProjectDependencyAnalyzer projectDependencyAnalyzer =
+						new ProjectDependencyAnalyzer(this, getProject(), getProject(), ePackage);
+				
 				final Set<IProject> interestingProjects =
-						new TreeSet<IProject>(MetamodelBuilder.PROJECT_COMPARATOR);
-				for (final IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-					interestingProjects.add(project);
-				}
+						new TreeSet<>(MetamodelBuilder.PROJECT_COMPARATOR);
+				interestingProjects.addAll(Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects()));
 				projectDependencyAnalyzer.setInterestingProjects(interestingProjects);
 				
-				// Project dependency analysis should be carried out on a locked workspace in a separate thread
-				// to avoid inconsistency in the build configuration caused by the analysis process
-				final WorkspaceJob job = new WorkspaceJob(projectDependencyAnalyzer.getTaskName()) {
-					@Override
-					public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
-						return projectDependencyAnalyzer.run(monitor);
-					}
-				};
+				final WorkspaceJob job = new ProjectDependencyAnalyzerWorkspaceJob(projectDependencyAnalyzer);
 				job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 				job.schedule();
+				
 			} else {
+			   
 				processProblemStatus(new Status(IStatus.ERROR, CoreActivator.getModuleID(),
-						"Unable to construct the correspondence metamodel from the Xtext specification", null),
+						"Unable to construct the correspondence metamodel from the Xtext specification in " + resource, null),
 				      resource);
+				
 			}
 		} catch (CoreException e) {
 			LogUtils.error(logger, e, "Unable to update created projects: " + e.getMessage());
 		}
-
 	}
 }
