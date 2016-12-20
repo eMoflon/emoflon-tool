@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.ide.builders;
+package org.moflon.ide.core.runtime.builders;
 
 import java.util.Map;
 
@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 
 public class MOSLGTBuilder extends AbstractVisitorBuilder
 {
@@ -21,7 +20,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
     */
    private static final String[] PROJECT_INTERNAL_TRIGGERS = new String[] { "src/**/*.mgt"};
    
-   protected MOSLGTBuilder()
+   public MOSLGTBuilder()
    {
       super(new AntPatternCondition(PROJECT_INTERNAL_TRIGGERS));
    }
@@ -60,6 +59,11 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
        * 2. Read CF model from .mgt files
        * 3. Connect .mgt files to EOperations
        * 4. Trigger code generation
+       * 
+       * Gather parts from 
+       * * MoflonCodeGenerator
+       * * RepositoryBuilder
+       * * MoslTGGBuilder
        */
    }
 

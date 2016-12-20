@@ -10,9 +10,13 @@ import org.moflon.ide.core.CoreActivator;
 
 public class MOSLGTNature extends MoflonProjectConfigurator {
 
+   //TODO@rkluge: Redundant code 
 	public static final String XTEXT_BUILDER_ID = "org.eclipse.xtext.ui.shared.xtextBuilder";
 	public static final String XTEXT_NATURE_ID = "org.eclipse.xtext.ui.shared.xtextNature";
 
+	
+	
+	//TODO@rkluge: This code is really error-prone and could be simplified by using a topological sorting with minimal adjustment condition and initial positions
 	@Override
 	public ICommand[] updateBuildSpecs(final IProjectDescription description,
 			ICommand[] buildSpecs, final boolean added) throws CoreException {
@@ -35,13 +39,23 @@ public class MOSLGTNature extends MoflonProjectConfigurator {
 				moslBuilderPosition = buildSpecs.length - 1;
 				buildSpecs[moslBuilderPosition] = moslTGGBuilder;
 			}
+			int javaBuilderPosition = ProjectUtil.indexOf(buildSpecs, "org.eclipse.jdt.core.javabuilder");
+			int moflonBuilderPosition = ProjectUtil.indexOf(buildSpecs, CoreActivator.MOSL_GT_BUILDER_ID);
+			if (javaBuilderPosition >= 0 && javaBuilderPosition < moflonBuilderPosition) {
+            final ICommand moflonBuilder = buildSpecs[moflonBuilderPosition];
+            System.arraycopy(buildSpecs, javaBuilderPosition, buildSpecs, javaBuilderPosition+1, moflonBuilderPosition-javaBuilderPosition);
+            moflonBuilderPosition = javaBuilderPosition++;
+            buildSpecs[moflonBuilderPosition] = moflonBuilder;
+         }
+			
+			moslBuilderPosition = ProjectUtil.indexOf(buildSpecs, CoreActivator.MOSL_GT_BUILDER_ID);
+			xtextBuilderPosition = ProjectUtil.indexOf(buildSpecs, XTEXT_BUILDER_ID);
 			if (xtextBuilderPosition > moslBuilderPosition) {
-				final ICommand moslTGGBuilder = buildSpecs[moslBuilderPosition];
-				System.arraycopy(buildSpecs, moslBuilderPosition + 1, buildSpecs, moslBuilderPosition,
-						xtextBuilderPosition - moslBuilderPosition);
-				moslBuilderPosition = xtextBuilderPosition--;
-				buildSpecs[moslBuilderPosition] = moslTGGBuilder;
-			}
+            final ICommand xtextBuilderCommand = buildSpecs[xtextBuilderPosition];
+            System.arraycopy(buildSpecs, moslBuilderPosition, buildSpecs, moslBuilderPosition + 1,
+                  xtextBuilderPosition - moslBuilderPosition);
+            buildSpecs[moslBuilderPosition] = xtextBuilderCommand;
+         }
 		} else {
 			int xtextBuilderPosition = ProjectUtil.indexOf(buildSpecs, XTEXT_BUILDER_ID);
 			if (xtextBuilderPosition >= 0) {
@@ -76,7 +90,7 @@ public class MOSLGTNature extends MoflonProjectConfigurator {
 				natureIDs = ProjectUtil.remove(natureIDs, moslTGGNaturePosition);
 			}
 		}
-		return natureIDs;
+		return super.updateNatureIDs(natureIDs, added);
 	}
 
    @Override
