@@ -8,7 +8,11 @@
 }
 
 #target {
-	++ cfNode : HeadControlledLoop
+	++ cfNode : HeadControlledLoop {
+		++ - scopes -> innerScope
+	}
+	
+	++ innerScope : Scope
 }
 
 #correspondence {

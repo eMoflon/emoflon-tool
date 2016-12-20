@@ -8,11 +8,24 @@
 }
 
 #target {
-	++ cfNode : IfStatement
+	++ cfNode : IfStatement{
+		++ - scopes -> thenScope
+		++ - scopes -> elseScope
+	}
+	
+	++ thenScope : Scope{
+		++ - nextScope -> elseScope
+	}
+	
+	++ elseScope : Scope
+	
 }
 
 #correspondence {
-	
+	++ conditionToIf : ConditionStatementToIfStatement {
+		#src->statement
+		#trg->cfNode
+	}
 }
 
 #attributeConditions {

@@ -8,7 +8,11 @@
 }
 
 #target {
-	++ cfNode : ForEach
+	++ cfNode : ForEach{
+		++ - scopes -> innerScope
+	}
+	
+	++ innerScope : Scope
 }
 
 #correspondence {

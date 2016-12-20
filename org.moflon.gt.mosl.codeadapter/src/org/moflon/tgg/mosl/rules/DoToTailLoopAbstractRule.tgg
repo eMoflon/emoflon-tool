@@ -8,7 +8,11 @@
 }
 
 #target {
-	++ cfNode : TailControlledLoop
+	++ cfNode : TailControlledLoop{
+		++ - scopes -> innerScope
+	}
+	
+	++ innerScope : Scope
 }
 
 #correspondence {
