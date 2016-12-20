@@ -22,13 +22,7 @@ import org.moflon.ide.core.CoreActivator;
 
 abstract public class AbstractVisitorBuilder extends RelevantElementCollectingBuilder
 {
-   public static final Comparator<IProject> PROJECT_COMPARATOR = new Comparator<IProject>() {
-      @Override
-      public int compare(IProject left, IProject right)
-      {
-         return left.getName().compareTo(right.getName());
-      }
-   };
+   public static final Comparator<IProject> PROJECT_COMPARATOR = new NameBasedProjectComparator();
 
    protected final TreeSet<IProject> triggerProjects = new TreeSet<IProject>(PROJECT_COMPARATOR);
 
@@ -45,13 +39,19 @@ abstract public class AbstractVisitorBuilder extends RelevantElementCollectingBu
 	   }
    }
    
-   protected void postprocess(final RelevantElementCollector buildVisitor, int kind, final Map<String, String> args, final IProgressMonitor monitor)
+   /**
+    * This method is invoked after processing all resources (or changes in incremental mode)
+    */
+   @Override
+   protected void postprocess(final RelevantElementCollector buildVisitor, int originalKind, final Map<String, String> args, final IProgressMonitor monitor)
    {
-	   kind = correctBuildTrigger(kind);
+	   final int kind = correctBuildTrigger(originalKind);
+	   
 	   if (getCommand().isBuilding(kind)) {
 		   super.postprocess(buildVisitor, kind, args, monitor);
 	   }
-      if (buildVisitor.getRelevantDeltas().isEmpty() && (kind == INCREMENTAL_BUILD || kind == AUTO_BUILD))
+	   
+      if (buildVisitor.getRelevantDeltas().isEmpty() && isAutoOrIncrementalBuild(kind))
       {
          final SubMonitor subMonitor = SubMonitor.convert(monitor, triggerProjects.size());
          try
@@ -83,7 +83,7 @@ abstract public class AbstractVisitorBuilder extends RelevantElementCollectingBu
                   {
                      subMonitor.worked(1);
                   }
-               }else
+               } else
                {
                   subMonitor.worked(1);
                }
@@ -93,6 +93,16 @@ abstract public class AbstractVisitorBuilder extends RelevantElementCollectingBu
             throw new RuntimeException(e.getMessage(), e);
          }
       }
+   }
+
+   protected final boolean isAutoOrIncrementalBuild(int kind)
+   {
+      return kind == INCREMENTAL_BUILD || isFullBuild(kind);
+   }
+
+   protected final boolean isFullBuild(int kind)
+   {
+      return kind == AUTO_BUILD;
    }
 
    abstract protected AntPatternCondition getTriggerCondition(final IProject project);
