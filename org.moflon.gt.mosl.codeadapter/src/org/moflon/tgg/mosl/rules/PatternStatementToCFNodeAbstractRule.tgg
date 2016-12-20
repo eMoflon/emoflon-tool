@@ -1,0 +1,23 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule PatternStatementToCFNodeAbstractRule #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	++ statement : PatternStatement
+}
+
+#target {
+	++ cfNode : CFNode
+}
+
+#correspondence {
+	++ invokeToCFNode : InvokeToCFNode{
+		#src->statement
+		#trg->cfNode
+	}
+}
+
+#attributeConditions {
+	
+}
