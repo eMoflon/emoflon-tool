@@ -1,14 +1,14 @@
 #using org.moflon.gt.mosl.codeadapter.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule ForToForAbstractRule #with org.moflon.gt.mosl.codeadapter
+#rule ForToForInMethodRule #extends StatementToCompoundNodeInMethodAbstractNode, ForToForAbstractRule #with org.moflon.gt.mosl.codeadapter
 
 #source { 
-	++ statement : ForLoopStatement
+	
 }
 
 #target {
-	++ cfNode : ForEach
+	
 }
 
 #correspondence {

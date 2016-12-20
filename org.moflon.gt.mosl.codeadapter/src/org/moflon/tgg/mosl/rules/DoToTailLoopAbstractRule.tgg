@@ -1,14 +1,14 @@
 #using org.moflon.gt.mosl.codeadapter.*
 #using AttrCondDefLibrary.*
 
-#abstract #rule ForToForAbstractRule #with org.moflon.gt.mosl.codeadapter
+#abstract #rule DoToTailLoopAbstractRule #with org.moflon.gt.mosl.codeadapter
 
 #source { 
-	++ statement : ForLoopStatement
+	++ statement : DoLoopStatement
 }
 
 #target {
-	++ cfNode : ForEach
+	++ cfNode : TailControlledLoop
 }
 
 #correspondence {

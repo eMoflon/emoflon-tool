@@ -1,0 +1,20 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule WhileToHeadLoopInMethodRule #extends WhileToHeadLoopAbstractRule, StatementToCompoundNodeInMethodAbstractNode #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	
+}
+
+#target {
+	
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}
