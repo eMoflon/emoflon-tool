@@ -598,25 +598,6 @@ public class WorkspaceHelper
    }
 
    /**
-    * @deprecated See {@link #createSubMonitor(IProgressMonitor, int)}
-    */
-   public static IProgressMonitor createSubmonitorWith1Tick(final IProgressMonitor monitor)
-   {
-      return createSubMonitor(monitor, 1);
-   }
-
-   /**
-    * Creates a sub-monitor of the given monitor with the given number of ticks.
-    * 
-    * @deprecated The API suggests to to switch to {@link SubMonitor}. Instructions are given {@link SubMonitor}.
-    */
-   @Deprecated
-   public static IProgressMonitor createSubMonitor(final IProgressMonitor monitor, final int ticks)
-   {
-      return SubMonitor.convert(monitor, ticks).split(ticks);
-   }
-
-   /**
     * Checks whether the given project has the {@link #PLUGIN_NATURE_ID}. If the check throws an exception,
     * <code>false</code> is returned gracefully.
     */
@@ -1194,4 +1175,6 @@ public class WorkspaceHelper
          return "severity=" + severity;
       }
    }
+
+   public static final String MOSL_GT_NATURE_ID = "org.moflon.gt.ide.natures.MOSLGTNature";
 }
