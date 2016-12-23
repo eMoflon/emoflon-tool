@@ -74,17 +74,6 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    @Override
    protected void processResource(final IResource resource, final int kind, final Map<String, String> args, final IProgressMonitor monitor)
    {
-      //TODO@rkluge: Steps of this builder (wrap them into something similar to the 
-      /*
-       * 1. Read input Ecore file
-       * 2. Read CF model from .mgt files
-       * 3. Connect .mgt files to EOperations
-       * 4. Trigger code generation
-       * 
-       * Gather parts from 
-       * * RepositoryBuilder
-       * * MoslTGGBuilder
-       */
       final IFile ecoreFile = Platform.getAdapterManager().getAdapter(resource, IFile.class);
       try
       {
@@ -115,7 +104,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
          final ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
          eMoflonEMFUtil.installCrossReferencers(resourceSet);
          subMon.worked(1);
-
+         
          final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet);
          codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
 
