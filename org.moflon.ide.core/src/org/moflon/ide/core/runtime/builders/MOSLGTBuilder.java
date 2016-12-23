@@ -23,6 +23,7 @@ import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
@@ -81,64 +82,71 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
        * 4. Trigger code generation
        * 
        * Gather parts from 
-       * * MoflonCodeGenerator
        * * RepositoryBuilder
        * * MoslTGGBuilder
        */
-      if (resource.getName().endsWith(".ecore"))
+      final IFile ecoreFile = Platform.getAdapterManager().getAdapter(resource, IFile.class);
+      try
       {
-         final IFile ecoreFile = Platform.getAdapterManager().getAdapter(resource, IFile.class);
-         try
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 10);
+
+         final IProject project = getProject();
+         MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
+         MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
+         MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
+
+         // Compute project dependencies
+         final IBuildConfiguration[] referencedBuildConfigs = project.getReferencedBuildConfigs(project.getActiveBuildConfig().getName(), false);
+         for (final IBuildConfiguration referencedConfig : referencedBuildConfigs)
          {
-            //TODO@rkluge: Adjust amount of work to do
-            final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 1);
-
-            final IProject project = getProject();
-            MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
-            MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
-            MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
-
-            // Compute project dependencies
-            final IBuildConfiguration[] referencedBuildConfigs = project.getReferencedBuildConfigs(project.getActiveBuildConfig().getName(), false);
-            for (final IBuildConfiguration referencedConfig : referencedBuildConfigs)
-            {
-               addTriggerProject(referencedConfig.getProject());
-            }
-
-            // Remove markers and delete generated code
-            deleteProblemMarkers();
-            final CleanVisitor cleanVisitor = new CleanVisitor(project, //
-                  new AntPatternCondition(new String[] { "gen/**" }), //
-                  new AntPatternCondition(new String[] { "gen/.keep*" }));
-            project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
-
-            // Build
-            final ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
-            eMoflonEMFUtil.installCrossReferencers(resourceSet);
-            subMon.worked(1);
-
-            final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet);
-            codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
-
-            final IStatus status = codeGenerationTask.run(subMon.split(1));
-            handleErrorsAndWarnings(status, ecoreFile);
-            subMon.worked(3);
-
-            final GenModel genModel = codeGenerationTask.getGenModel();
-            if (genModel != null)
-            {
-               ExportedPackagesInManifestUpdater.updateExportedPackageInManifest(project, genModel);
-
-               PluginXmlUpdater.updatePluginXml(project, genModel, subMon.split(1));
-               ResourcesPlugin.getWorkspace().checkpoint(false);
-            }
-         } catch (CoreException e)
-         {
-
+            addTriggerProject(referencedConfig.getProject());
          }
-      } else if (resource.getName().endsWith(".mgt"))
-      {
+         subMon.worked(1);
 
+         // Remove markers and delete generated code
+         deleteProblemMarkers();
+         final CleanVisitor cleanVisitor = new CleanVisitor(project, //
+               new AntPatternCondition(new String[] { "gen/**" }), //
+               new AntPatternCondition(new String[] { "gen/.keep*" }));
+         project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
+         subMon.worked(1);
+
+         // Build
+         final ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
+         eMoflonEMFUtil.installCrossReferencers(resourceSet);
+         subMon.worked(1);
+
+         final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet);
+         codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
+
+         final IStatus status = codeGenerationTask.run(subMon.split(1));
+         handleErrorsAndWarnings(status, ecoreFile);
+         subMon.worked(3);
+
+         postprocessAfterCodeGeneration(codeGenerationTask.getGenModel(), subMon.split(1));
+      } catch (final CoreException e)
+      {
+         final IStatus status = new Status(e.getStatus().getSeverity(), CoreActivator.getModuleID(), e.getMessage(), e);
+         handleErrorsInEclipse(status, ecoreFile);
+      }
+   }
+
+   /**
+    * Updates resources in the project after completing the code generation
+    * @param genModel
+    * @throws CoreException
+    */
+   private void postprocessAfterCodeGeneration(final GenModel genModel, final IProgressMonitor monitor) throws CoreException
+   {
+      if (genModel != null)
+      {
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Postprocessing after code generation", 2);
+         IProject project = getProject();
+         ExportedPackagesInManifestUpdater.updateExportedPackageInManifest(project, genModel);
+         subMon.worked(1);
+
+         PluginXmlUpdater.updatePluginXml(project, genModel, subMon.split(1));
+         ResourcesPlugin.getWorkspace().checkpoint(false);
       }
    }
 

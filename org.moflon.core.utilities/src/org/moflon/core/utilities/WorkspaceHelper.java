@@ -613,11 +613,19 @@ public class WorkspaceHelper
    }
 
    /**
-    * Returns whether the given project is (1) a repository project or (2) an integration project
+    * Returns whether the given project is (1) a repository project or (2) an integration project or (3) a MOSL-GT project
     */
    public static boolean isMoflonProject(final IProject project) throws CoreException
    {
-      return isRepositoryProject(project) || isIntegrationProject(project);
+      return isRepositoryProject(project) || isIntegrationProject(project) || isMOSLGTProject(project);
+   }
+
+   /**
+    * Returns true if the given project has the {@link #MOSL_GT_NATURE_ID}.
+    */
+   private static boolean isMOSLGTProject(IProject project) throws CoreException
+   {
+      return project != null && project.hasNature(MOSL_GT_NATURE_ID);
    }
 
    /**
