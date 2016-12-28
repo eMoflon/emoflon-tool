@@ -23,25 +23,61 @@ import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 
+/**
+ * This builder triggers the build process for MOSL-GT projects
+ * 
+ * The main parts of such projects are 
+ * * A plain Ecore file that describes the structure of a metamodel
+ * * A set of MOSL-GT files (*.mgt), which specify the implementation of operations in a platform-independent way
+ * * A set of injection files (*.inject), which store the  implementation of operations in Java
+ *   
+ * @author Roland Kluge - Initial implementation
+ *
+ */
 public class MOSLGTBuilder extends AbstractVisitorBuilder
 {
-   public static final Logger logger = Logger.getLogger(MOSLGTBuilder.class);
+
+   private static final Logger logger = Logger.getLogger(MOSLGTBuilder.class);
 
    /**
-    * Specification of files whose changes will trigger in invocation of this builder
+    * Specification of files whose changes will trigger the invocation of this builder
     */
    private static final String[] PROJECT_INTERNAL_TRIGGERS = new String[] { "src/**/*.mgt", "model/*.ecore" };
+
+   private static final String[] PROJECT_EXTERNAL_TRIGGERS = new String[] { "gen/**" };
 
    public MOSLGTBuilder()
    {
       super(new AntPatternCondition(PROJECT_INTERNAL_TRIGGERS));
+   }
+
+   @Override
+   protected void processResource(final IResource resource, final int kind, final Map<String, String> args, final IProgressMonitor monitor)
+   {
+      try
+      {
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 20);
+
+         updateProjectStructure(subMon.split(1));
+
+         computeBuildDependencies(subMon.split(1));
+
+         performClean(subMon.split(1));
+
+         final MoflonCodeGenerator codeGenerationTask = generateCode(subMon.split(16));
+
+         postprocessAfterCodeGeneration(codeGenerationTask.getGenModel(), subMon.split(1));
+      } catch (final CoreException e)
+      {
+         final IStatus status = new Status(e.getStatus().getSeverity(), WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
+         handleErrorsInEclipse(status);
+      }
    }
 
    @Override
@@ -51,7 +87,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       {
          if (project.hasNature(WorkspaceHelper.REPOSITORY_NATURE_ID) || project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
          {
-            return new AntPatternCondition(new String[] { "gen/**" });
+            return new AntPatternCondition(PROJECT_EXTERNAL_TRIGGERS);
          }
       } catch (final CoreException e)
       {
@@ -71,53 +107,63 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       }
    }
 
-   @Override
-   protected void processResource(final IResource resource, final int kind, final Map<String, String> args, final IProgressMonitor monitor)
+   private MoflonCodeGenerator generateCode(final IProgressMonitor monitor) throws CoreException
    {
-      final IFile ecoreFile = Platform.getAdapterManager().getAdapter(resource, IFile.class);
-      try
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Generate code", 10);
+      final ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
+      eMoflonEMFUtil.installCrossReferencers(resourceSet);
+      subMon.worked(1);
+
+      final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
+      codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
+
+      final IStatus status = codeGenerationTask.run(subMon.split(7));
+
+      handleErrorsAndWarnings(status);
+      subMon.worked(2);
+
+      return codeGenerationTask;
+   }
+
+   private IProject updateProjectStructure(final IProgressMonitor monitor) throws CoreException
+   {
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Update project structure", 3);
+      final IProject project = getProject();
+
+      MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
+      MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
+      MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
+
+      return project;
+   }
+
+   private void performClean(final IProgressMonitor monitor) throws CoreException
+   {
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Perform clean", 2);
+      final IProject project = getProject();
+
+      deleteProblemMarkers();
+      subMon.worked(1);
+
+      final CleanVisitor cleanVisitor = new CleanVisitor(project, //
+            new AntPatternCondition(new String[] { "gen/**" }), //
+            new AntPatternCondition(new String[] { "gen/.keep*" }));
+
+      project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
+
+      subMon.worked(1);
+   }
+
+   private void computeBuildDependencies(IProgressMonitor monitor) throws CoreException
+   {
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Registering build dependencies", 1);
+      final IProject project = getProject();
+      final IBuildConfiguration[] referencedBuildConfigs = project.getReferencedBuildConfigs(project.getActiveBuildConfig().getName(), false);
+      for (final IBuildConfiguration referencedConfig : referencedBuildConfigs)
       {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 10);
-
-         final IProject project = getProject();
-         MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
-         MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
-         MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
-
-         // Compute project dependencies
-         final IBuildConfiguration[] referencedBuildConfigs = project.getReferencedBuildConfigs(project.getActiveBuildConfig().getName(), false);
-         for (final IBuildConfiguration referencedConfig : referencedBuildConfigs)
-         {
-            addTriggerProject(referencedConfig.getProject());
-         }
-         subMon.worked(1);
-
-         // Remove markers and delete generated code
-         deleteProblemMarkers();
-         final CleanVisitor cleanVisitor = new CleanVisitor(project, //
-               new AntPatternCondition(new String[] { "gen/**" }), //
-               new AntPatternCondition(new String[] { "gen/.keep*" }));
-         project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
-         subMon.worked(1);
-
-         // Build
-         final ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
-         eMoflonEMFUtil.installCrossReferencers(resourceSet);
-         subMon.worked(1);
-         
-         final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet);
-         codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
-
-         final IStatus status = codeGenerationTask.run(subMon.split(1));
-         handleErrorsAndWarnings(status, ecoreFile);
-         subMon.worked(3);
-
-         postprocessAfterCodeGeneration(codeGenerationTask.getGenModel(), subMon.split(1));
-      } catch (final CoreException e)
-      {
-         final IStatus status = new Status(e.getStatus().getSeverity(), CoreActivator.getModuleID(), e.getMessage(), e);
-         handleErrorsInEclipse(status, ecoreFile);
+         addTriggerProject(referencedConfig.getProject());
       }
+      subMon.worked(1);
    }
 
    /**
@@ -139,8 +185,6 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       }
    }
 
-   // The following code is duplicated from RepositoryBuilder to keep dependencies minimal
-
    private boolean indicatesThatValidationCrashed(IStatus status)
    {
       return status.getException() != null;
@@ -151,16 +195,18 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
     * 
     * @param status the {@link IStatus} that contains the errors and warnings
     */
-   protected void handleErrorsAndWarnings(final IStatus status, final IFile ecoreFile) throws CoreException
+   private void handleErrorsAndWarnings(final IStatus status) throws CoreException
    {
       if (indicatesThatValidationCrashed(status))
       {
          throw new CoreException(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), status.getMessage(), status.getException().getCause()));
       }
+
       if (status.matches(IStatus.ERROR))
       {
-         handleErrorsInEclipse(status, ecoreFile);
+         handleErrorsInEclipse(status);
       }
+
       if (status.matches(IStatus.WARNING))
       {
          handleInjectionWarningsAndErrors(status);
@@ -180,8 +226,9 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       }
    }
 
-   public void handleErrorsInEclipse(final IStatus status, final IFile ecoreFile)
+   public void handleErrorsInEclipse(final IStatus status)
    {
+      final IFile ecoreFile = WorkspaceHelper.getDefaultEcoreFile(getProject());
       final String reporterClass = "org.moflon.compiler.sdm.democles.eclipse.EclipseErrorReporter";
       final ErrorReporter eclipseErrorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(ecoreFile, reporterClass);
       if (eclipseErrorReporter != null)

@@ -1146,9 +1146,9 @@ public class WorkspaceHelper
     * @param clazz the class whose bundle is searched
     * @return the symbolic name or null if the class does not belong to a bundle
     */
-   public static String getPluginId(Class<?> clazz)
+   public static String getPluginId(final Class<?> clazz)
    {
-      Bundle bundle = FrameworkUtil.getBundle(clazz);
+      final Bundle bundle = FrameworkUtil.getBundle(clazz);
       return bundle == null ? null : bundle.getSymbolicName();
    }
 

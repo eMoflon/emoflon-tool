@@ -30,6 +30,7 @@ import org.moflon.codegen.MethodBodyHandler;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.codegen.eclipse.NoOperationTask;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
+import org.moflon.compiler.sdm.democles.eclipse.DemoclesValidatorTask;
 import org.moflon.compiler.sdm.democles.eclipse.MethodBodyResourceFactory;
 import org.moflon.compiler.sdm.democles.eclipse.PatternResourceFactory;
 import org.moflon.core.dfs.DFSGraph;
@@ -113,8 +114,13 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 
 	@Override
    public ITask createValidator(final EPackage ePackage) {
+      return new DemoclesValidatorTask(scopeValidatorConfiguration.createScopeValidator(), ePackage);
+	}
+	
+	@Override
+	public ITask createControlFlowWeaver(EPackage ePackage)
+	{
 	   return new MOSLGTWeavingTask(ePackage);
-//      return new DemoclesValidatorTask(scopeValidatorConfiguration.createScopeValidator(), ePackage);
 	}
 	
 	/**
