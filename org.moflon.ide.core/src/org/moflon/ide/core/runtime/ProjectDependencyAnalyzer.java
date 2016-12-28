@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl.URIMap;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
-import org.moflon.ide.core.CoreActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 
@@ -63,7 +63,7 @@ public class ProjectDependencyAnalyzer implements ITask {
 							if (project != null) {
 								projectReferences.add(project);
 							} else {
-								status.add(new Status(IStatus.ERROR, CoreActivator.getModuleID(),
+								status.add(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(ProjectDependencyAnalyzer.class),
 										"Project " + uri.segment(1) + " cannot be found in the workspace"));
 							}
 						}
@@ -80,7 +80,7 @@ public class ProjectDependencyAnalyzer implements ITask {
 	@Override
 	public IStatus run(IProgressMonitor monitor) {
 		final MultiStatus status =
-				new MultiStatus(CoreActivator.getModuleID(), 0, "Project dependency analysis failed", null);
+				new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Project dependency analysis failed", null);
 		final TreeSet<IProject> projectReferences =
 				new TreeSet<IProject>(MetamodelBuilder.PROJECT_COMPARATOR);
 		analyzeDependencies(status, projectReferences, metamodelRoot.eResource());
@@ -111,7 +111,7 @@ public class ProjectDependencyAnalyzer implements ITask {
 			description.setBuildConfigReferences(IBuildConfiguration.DEFAULT_CONFIG_NAME, buildConfigArray);
 			moflonProject.setDescription(description, monitor);
 		} catch (CoreException e) {
-			return new Status(IStatus.WARNING, CoreActivator.getModuleID(), 
+			return new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(getClass()), 
 					"Unable to set build configuration references for project " + moflonProject.getName(), e);
 		}
 		return Status.OK_STATUS;

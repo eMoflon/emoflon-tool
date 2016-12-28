@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.moflon.ide.core.CoreActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public abstract class AbstractBuilder extends IncrementalProjectBuilder implements IResourceVisitor, IResourceDeltaVisitor
 {
@@ -82,7 +82,7 @@ public abstract class AbstractBuilder extends IncrementalProjectBuilder implemen
    {
       if (this.progressMonitorForIncrementalChanges == null)
       {
-         throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Missing progress monitor for processing incremental changes"));
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Missing progress monitor for processing incremental changes"));
       }
       return this.progressMonitorForIncrementalChanges;
    }

@@ -7,7 +7,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaCore;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
-import org.moflon.ide.core.CoreActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public class AntlrNature extends ProjectConfiguratorNature {
 
@@ -16,10 +16,10 @@ public class AntlrNature extends ProjectConfiguratorNature {
 			ICommand[] buildSpecs, final boolean added) throws CoreException {
 		if (added) {
 			int javaBuilderPosition = ProjectUtil.indexOf(buildSpecs, JavaCore.BUILDER_ID);
-			int antlrBuilderPosition = ProjectUtil.indexOf(buildSpecs, CoreActivator.ANTLR_BUILDER_ID);
+			int antlrBuilderPosition = ProjectUtil.indexOf(buildSpecs, WorkspaceHelper.ANTLR_BUILDER_ID);
 			if (antlrBuilderPosition < 0) {
 				final ICommand antlrBuilder = description.newCommand();
-				antlrBuilder.setBuilderName(CoreActivator.ANTLR_BUILDER_ID);
+				antlrBuilder.setBuilderName(WorkspaceHelper.ANTLR_BUILDER_ID);
 				buildSpecs = Arrays.copyOf(buildSpecs, buildSpecs.length + 1);
 				antlrBuilderPosition = buildSpecs.length - 1;
 				buildSpecs[antlrBuilderPosition] = antlrBuilder;
@@ -31,7 +31,7 @@ public class AntlrNature extends ProjectConfiguratorNature {
 				buildSpecs[antlrBuilderPosition] = antlrBuilder;
 			}
 		} else {
-			int antlrBuilderPosition = ProjectUtil.indexOf(buildSpecs, CoreActivator.ANTLR_BUILDER_ID);
+			int antlrBuilderPosition = ProjectUtil.indexOf(buildSpecs, WorkspaceHelper.ANTLR_BUILDER_ID);
 			if (antlrBuilderPosition >= 0) {
 				buildSpecs = ProjectUtil.remove(buildSpecs, antlrBuilderPosition);
 			}
@@ -42,12 +42,12 @@ public class AntlrNature extends ProjectConfiguratorNature {
 	@Override
 	public String[] updateNatureIDs(String[] natureIDs, final boolean added) throws CoreException {
 		if (added) {
-			if (ProjectUtil.indexOf(natureIDs, CoreActivator.ANTLR_NATURE_ID) < 0) {
+			if (ProjectUtil.indexOf(natureIDs, WorkspaceHelper.ANTLR_NATURE_ID) < 0) {
 				natureIDs = Arrays.copyOf(natureIDs, natureIDs.length + 1);
-				natureIDs[natureIDs.length - 1] = CoreActivator.ANTLR_NATURE_ID;
+				natureIDs[natureIDs.length - 1] = WorkspaceHelper.ANTLR_NATURE_ID;
 			}
 		} else {
-			int antlrNaturePosition = ProjectUtil.indexOf(natureIDs, CoreActivator.ANTLR_NATURE_ID);
+			int antlrNaturePosition = ProjectUtil.indexOf(natureIDs, WorkspaceHelper.ANTLR_NATURE_ID);
 			if (antlrNaturePosition >= 0) {
 				natureIDs = ProjectUtil.remove(natureIDs, antlrNaturePosition);
 			}

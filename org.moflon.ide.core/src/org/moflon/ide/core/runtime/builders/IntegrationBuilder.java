@@ -90,7 +90,7 @@ public class IntegrationBuilder extends RepositoryBuilder
          super.processResource(ecoreFile, kind, args, subMon.split(250));
       } catch (final CoreException e)
       {
-         final IStatus status = new Status(e.getStatus().getSeverity(), CoreActivator.getModuleID(), e.getMessage(), e);
+         final IStatus status = new Status(e.getStatus().getSeverity(), WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
          handleErrorsInEclipse(status, (IFile) resource);
       }
 	   }
@@ -133,7 +133,7 @@ public class IntegrationBuilder extends RepositoryBuilder
 
       if (tgg.getTggRule().isEmpty())
       {
-         return new Status(IStatus.WARNING, CoreActivator.getModuleID(), IStatus.WARNING,
+         return new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(getClass()), IStatus.WARNING,
                "Your TGG does not contain any rules, aborting attempt to generate code...", null);
       }
 
@@ -148,7 +148,7 @@ public class IntegrationBuilder extends RepositoryBuilder
     	  precompiler.precompileTGG(tgg);
       } catch (final RuntimeException e) {
     	  // Report error if model transformation fails
-    	  return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+    	  return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
       }
 
       // print refinement precompiling log
@@ -160,7 +160,7 @@ public class IntegrationBuilder extends RepositoryBuilder
     	  enrichCspsWithTypeInformation();
       } catch (final RuntimeException e) {
     	  // Report error if model transformation fails
-    	  return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+    	  return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
       }
 
       // Persist tgg model after precompilation
@@ -173,7 +173,7 @@ public class IntegrationBuilder extends RepositoryBuilder
          tggResource.save(saveOptions);
       } catch (final IOException e)
       {
-         return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
       }
       subMon.worked(5);
 
@@ -197,7 +197,7 @@ public class IntegrationBuilder extends RepositoryBuilder
         	 compiler.deriveOperationalRules(tgg, ApplicationTypes.get(moflonProperties.getTGGBuildMode().getBuildMode().getValue()));
          } catch (final RuntimeException e) {
         	 // Report error if model transformation fails
-        	 return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+        	 return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
          }
          StaticAnalysis staticAnalysis = compiler.getStaticAnalysis();
 
@@ -214,7 +214,7 @@ public class IntegrationBuilder extends RepositoryBuilder
             smaResource.save(saveOptions);
          } catch (final IOException e)
          {
-            return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+            return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
          }
 
          // Persist compiler injections
@@ -234,7 +234,7 @@ public class IntegrationBuilder extends RepositoryBuilder
                 compiler.compileModelgenerationSdms(tgg);
             } catch (final RuntimeException e) {
           	  // Report error if model transformation fails
-          	  return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+          	  return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
             }
             for (RuleAnalyzerResult analyzerResult : compiler.getRuleAnalyzer().getRuleAnalyzerResult())
             {
@@ -256,7 +256,7 @@ public class IntegrationBuilder extends RepositoryBuilder
          ecoreResource.save(saveOptions);
       } catch (final IOException e)
       {
-         return new Status(IStatus.ERROR, CoreActivator.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
       }
       subMon.worked(5);
 

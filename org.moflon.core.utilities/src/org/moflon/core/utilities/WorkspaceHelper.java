@@ -44,10 +44,12 @@ public class WorkspaceHelper
    private static final Logger logger = Logger.getLogger(WorkspaceHelper.class);
 
    public final static String PATH_SEPARATOR = "/";
+   
+   /**
+    * Constants for project structure
+    */
 
    public final static String MODEL_FOLDER = "model";
-
-   public final static String DEBUG_FOLDER = "debug";
 
    public static final String SOURCE_FOLDER = "src";
 
@@ -57,41 +59,60 @@ public class WorkspaceHelper
 
    public static final String GEN_FOLDER = "gen";
 
-   public final static String TEMP_FOLDER = ".temp";
-
-   public static final String MOCA_XMI_FILE_EXTENSION = ".moca.xmi";
-
-   public static final String ECORE_FILE_EXTENSION = ".ecore";
-
-   public static final String PRE_ECORE_FILE_EXTENSION = ".pre.ecore";
-
-   public static final String TGG_FILE_EXTENSION = ".tgg.xmi";
-
-   public static final String PRE_TGG_FILE_EXTENSION = ".pre.tgg.xmi";
-
    public static final String INJECTION_FOLDER = "injection";
 
    public static final String INJECTION_FILE_EXTENSION = "inject";
 
-   public static final String JAVA_FILE_EXTENSION = "java";
-
    public static final String INSTANCES_FOLDER = "instances";
+   
+   private static final String KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT = ".keep";
 
-   public static final String GEN_MODEL_EXT = ".genmodel";
+   public static final String GITIGNORE_FILENAME = ".gitignore";
 
    /**
-    * Extension for files containing a MOSL-GT specification
+    * Constants for Ecore
     */
-   public static final String MOSL_GT_EXTENSION = "mgt";
+   public static final String GEN_MODEL_EXT = ".genmodel";
 
-   public static final String MOSL_GT_NATURE_ID = "org.moflon.gt.ide.natures.MOSLGTNature";
+   public static final String ECORE_FILE_EXTENSION = ".ecore";
+   
+   public static final String PLUGIN_ID_ECORE = "org.eclipse.emf.ecore";
+
+   public static final String PLUGIN_ID_EMF_COMMON = "org.eclipse.emf.common";
+
+   public static final String PLUGIN_ID_ECORE_XMI = "org.eclipse.emf.ecore.xmi";
+
+   /**
+    * Constants for Java
+    */
+
+   public static final String JAVA_WORKING_SET_ID = "org.eclipse.jdt.ui.JavaWorkingSetPage";
+
+   public static final String JAVA_FILE_EXTENSION = "java";
+
+   /**
+    * Constants for EA/SDM
+    */
 
    public static final String METAMODEL_NATURE_ID = "org.moflon.ide.core.runtime.natures.MetamodelNature";
 
    public static final String REPOSITORY_NATURE_ID = "org.moflon.ide.core.runtime.natures.RepositoryNature";
 
+   public final static String TEMP_FOLDER = ".temp";
+
+   public static final String MOCA_XMI_FILE_EXTENSION = ".moca.xmi";
+
    /**
-    * Extension for files containing a MOSL-TGG specification
+    * Constants for MOSL-GT
+    */
+   public static final String MOSL_GT_EXTENSION = "mgt";
+
+   public static final String MOSL_GT_NATURE_ID = "org.moflon.gt.ide.natures.MOSLGTNature";
+
+   public static final String MOSL_GT_BUILDER_ID = "org.moflon.gt.mosl.ide.MOSLGTBuilder";
+
+   /**
+    * Constants for MOSL-TGG
     */
    public static final String MOSL_TGG_EXTENSION = "tgg";
 
@@ -99,29 +120,43 @@ public class WorkspaceHelper
 
    public static final String INTEGRATION_NATURE_ID = "org.moflon.ide.core.runtime.natures.IntegrationNature";
 
+   public static final String REPOSITORY_BUILDER_ID = "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
+
+   public static final String METAMODEL_BUILDER_ID = "org.moflon.ide.core.runtime.builders.MetamodelBuilder";
+
+   public static final String INTEGRATION_BUILDER_ID = "org.moflon.ide.core.runtime.builders.IntegrationBuilder";
+
+   public static final String TGG_FILE_EXTENSION = ".tgg.xmi";
+
+   public static final String PRE_TGG_FILE_EXTENSION = ".pre.tgg.xmi";
+
+   public static final String PRE_ECORE_FILE_EXTENSION = ".pre.ecore";
+
+   /**
+    * Constants for ANTLR
+    */
+   public static final String ANTLR_NATURE_ID = "org.moflon.ide.core.runtime.natures.AntlrNature";
+
+   public static final String ANTLR_BUILDER_ID = "org.moflon.ide.core.runtime.builders.AntlrBuilder";
+
+   public static final String ANTLR_3 = "/lib/antlr-3.5.2-complete.jar";
+   
+   /**
+    * Constants for XText
+    */
    public static final String XTEXT_BUILDER_ID = "org.eclipse.xtext.ui.shared.xtextBuilder";
 
    public static final String XTEXT_NATURE_ID = "org.eclipse.xtext.ui.shared.xtextNature";
+
+   /**
+    * Constants misc
+    */
    
    public static final String PLUGIN_NATURE_ID = "org.eclipse.pde.PluginNature"; // PDE.NATURE_ID
 
-   public static final String ANTLR_3 = "/lib/antlr-3.5.2-complete.jar";
-
-   public static final String PLUGIN_ID_ECORE = "org.eclipse.emf.ecore";
-
-   public static final String PLUGIN_ID_EMF_COMMON = "org.eclipse.emf.common";
-
-   public static final String PLUGIN_ID_ECORE_XMI = "org.eclipse.emf.ecore.xmi";
-
    public static final String PLUGIN_ID_ECLIPSE_RUNTIME = "org.eclipse.core.runtime";
 
-   public static final String PLUGIN_ID_LOG4J = "org.apache.log4j";
-
-   public static final String DEFAULT_LOG4J_DEPENDENCY = PLUGIN_ID_LOG4J + ";bundle-version=\"1.2.15\"";
-
-   public static final String PLUGIN_ID_APACHE_COMMONS_LANG3 = "org.apache.commons.lang3;bundle-version=\"3.1.0\"";
-
-   public static final String PLUGIN_ID_APACHE_COMMONS_IO = "org.apache.commons.io;bundle-version=\"[2.2.0,3)\"";
+   public static final String DEFAULT_LOG4J_DEPENDENCY = "org.apache.log4j" + ";bundle-version=\"1.2.15\"";
 
    public static final String ISSUE_TRACKER_URL = "https://github.com/eMoflon/emoflon-tool/issues";
 
@@ -129,9 +164,6 @@ public class WorkspaceHelper
 
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
 
-   private static final String KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT = ".keep";
-
-   public static final String GITIGNORE_FILENAME = ".gitignore";
 
    /**
     * Adds a new folder with name 'folderName' to project
@@ -892,4 +924,5 @@ public class WorkspaceHelper
          return "severity=" + severity;
       }
    }
+
 }

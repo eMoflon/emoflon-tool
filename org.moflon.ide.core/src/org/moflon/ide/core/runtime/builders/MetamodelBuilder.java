@@ -97,7 +97,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
    @Override
    protected void processResource(IResource mocaFile, int kind, Map<String, String> args, IProgressMonitor monitor)
    {
-      final MultiStatus mocaToMoflonStatus = new MultiStatus(CoreActivator.getModuleID(), 0, getClass().getName() + " failed", null);
+      final MultiStatus mocaToMoflonStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, getClass().getName() + " failed", null);
 
       final String mocaFilePath = WorkspaceHelper.TEMP_FOLDER + "/" + getProject().getName() + WorkspaceHelper.MOCA_XMI_FILE_EXTENSION;
       if (mocaFile instanceof IFile && mocaFilePath.equals(mocaFile.getProjectRelativePath().toString()) && mocaFile.isAccessible())
@@ -141,7 +141,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
                throw e;
             } catch (final Exception e)
             {
-               throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Exception during export: " + e.toString(), e));
+               throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Exception during export: " + e.toString(), e));
             } 
 
             for (final ErrorMessage message : exporter.getMocaToMoflonReport().getErrorMessages())
@@ -168,7 +168,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             ITask[] taskArray = new ITask[exporter.getMetamodelLoaderTasks().size()];
             taskArray = exporter.getMetamodelLoaderTasks().toArray(taskArray);
             final IStatus metamodelLoaderStatus = ProgressMonitoringJob.executeSyncSubTasks(taskArray,
-                  new MultiStatus(CoreActivator.getModuleID(), 0, "Resource loading failed", null), subMon.split(5));
+                  new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Resource loading failed", null), subMon.split(5));
             CoreActivator.checkCancellation(subMon);
             if (!metamodelLoaderStatus.isOK())
             {
@@ -189,7 +189,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             }
             triggerProjects.clear();
             final IStatus projectDependencyAnalyzerStatus = ProgressMonitoringJob.executeSyncSubTasks(dependencyAnalyzers,
-                  new MultiStatus(CoreActivator.getModuleID(), 0, "Dependency analysis failed", null), subMon.split(5));
+                  new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Dependency analysis failed", null), subMon.split(5));
             CoreActivator.checkCancellation(subMon);
             if (!projectDependencyAnalyzerStatus.isOK())
             {

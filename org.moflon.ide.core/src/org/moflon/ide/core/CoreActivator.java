@@ -26,7 +26,6 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
-import org.osgi.framework.FrameworkUtil;
 
 /**
  * The Activator controls the plug-in life cycle and contains state and functionality that can be used throughout the
@@ -36,27 +35,6 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class CoreActivator extends Plugin
 {
-   public static final String MOSL_GT_BUILDER_ID = "org.moflon.gt.mosl.ide.MOSLGTBuilder";
-
-   public static final String REPOSITORY_BUILDER_ID = "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
-
-   public static final String METAMODEL_BUILDER_ID = "org.moflon.ide.core.runtime.builders.MetamodelBuilder";
-
-   public static final String INTEGRATION_BUILDER_ID = "org.moflon.ide.core.runtime.builders.IntegrationBuilder";
-
-   public static final String ANTLR_NATURE_ID = "org.moflon.ide.core.runtime.natures.AntlrNature";
-
-   public static final String ANTLR_BUILDER_ID = "org.moflon.ide.core.runtime.builders.AntlrBuilder";
-
-   public static final String JAVA_WORKING_SET_ID = "org.eclipse.jdt.ui.JavaWorkingSetPage";
-
-
-
-   public static final String getModuleID()
-   {
-      return FrameworkUtil.getBundle(CoreActivator.class).getSymbolicName();
-   }
-
    /**
     * Used when the plugin has to store resources on the client machine and eclipse installation + current workspace.
     * This location reserved for the plugin is called the "state location" and is usually in

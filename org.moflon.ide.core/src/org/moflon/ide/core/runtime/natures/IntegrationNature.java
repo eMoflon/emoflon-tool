@@ -1,7 +1,6 @@
 package org.moflon.ide.core.runtime.natures;
 
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 
 public class IntegrationNature extends MoflonProjectConfigurator {
 	
@@ -12,7 +11,7 @@ public class IntegrationNature extends MoflonProjectConfigurator {
    @Override
    protected String getBuilderId()
    {
-      return CoreActivator.INTEGRATION_BUILDER_ID;
+      return WorkspaceHelper.INTEGRATION_BUILDER_ID;
    }
 
    @Override
