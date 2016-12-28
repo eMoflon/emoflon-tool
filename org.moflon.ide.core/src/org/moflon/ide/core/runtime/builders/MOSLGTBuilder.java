@@ -48,7 +48,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    /**
     * Specification of files whose changes will trigger the invocation of this builder
     */
-   private static final String[] PROJECT_INTERNAL_TRIGGERS = new String[] { "src/**/*.mgt", "model/*.ecore" };
+   private static final String[] PROJECT_INTERNAL_TRIGGERS = new String[] { "src/**/*." + WorkspaceHelper.MOSL_GT_EXTENSION, "model/*.ecore" };
 
    private static final String[] PROJECT_EXTERNAL_TRIGGERS = new String[] { "gen/**" };
 
@@ -70,9 +70,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
 
          performClean(subMon.split(1));
 
-         final MoflonCodeGenerator codeGenerationTask = generateCode(subMon.split(16));
-
-         postprocessAfterCodeGeneration(codeGenerationTask.getGenModel(), subMon.split(1));
+         generateCode(subMon.split(17));
       } catch (final CoreException e)
       {
          final IStatus status = new Status(e.getStatus().getSeverity(), WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
@@ -107,7 +105,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       }
    }
 
-   private MoflonCodeGenerator generateCode(final IProgressMonitor monitor) throws CoreException
+   private void generateCode(final IProgressMonitor monitor) throws CoreException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Generate code", 10);
       final ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
@@ -122,7 +120,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       handleErrorsAndWarnings(status);
       subMon.worked(2);
 
-      return codeGenerationTask;
+      postprocessAfterCodeGeneration(codeGenerationTask.getGenModel(), subMon.split(1));
    }
 
    private IProject updateProjectStructure(final IProgressMonitor monitor) throws CoreException
