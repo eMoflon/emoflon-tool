@@ -56,7 +56,6 @@ import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 public class MOSLTGGConversionHelper extends AbstractHandler
 {
-   private static final String MOSL_TGG_EXTENSION = "tgg";
    private static Logger logger = Logger.getLogger(MOSLTGGConversionHelper.class);
 
    /**
@@ -175,7 +174,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
    private Collection<Rule> loadRules(IResource iResource, XtextResourceSet resourceSet, IFolder moslFolder) throws IOException
    {
       IFile ruleFile = (IFile) iResource;
-      if (ruleFile.getFileExtension().equals(MOSL_TGG_EXTENSION))
+      if (ruleFile.getFileExtension().equals(WorkspaceHelper.MOSL_TGG_EXTENSION))
       {
          XtextResource ruleRes = (XtextResource) resourceSet.getResource(URI.createPlatformResourceURI(ruleFile.getFullPath().toString(), true), true);
          EcoreUtil.resolveAll(resourceSet);
@@ -202,7 +201,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
     */
    private TripleGraphGrammarFile createTGGFileAndLoadSchema(XtextResourceSet resourceSet, IFolder moslFolder) throws IOException, CoreException
    {
-      final IFile schemaFile = moslFolder.getFile("Schema." + MOSL_TGG_EXTENSION);
+      final IFile schemaFile = moslFolder.getFile("Schema." + WorkspaceHelper.MOSL_TGG_EXTENSION);
 
       if (schemaFile.exists())
       {
@@ -214,7 +213,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
             if (resource instanceof IFile)
             {
                final IFile otherSchemaFile = IFile.class.cast(resource);
-               if (otherSchemaFile.getFileExtension().equals(MOSL_TGG_EXTENSION))
+               if (otherSchemaFile.getFileExtension().equals(WorkspaceHelper.MOSL_TGG_EXTENSION))
                {
                   TripleGraphGrammarFile tgg = loadTggFromFile(resourceSet, otherSchemaFile);
                   if (tgg.getSchema() != null)
