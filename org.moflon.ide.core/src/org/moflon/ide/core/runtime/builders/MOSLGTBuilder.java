@@ -1,5 +1,8 @@
 package org.moflon.ide.core.runtime.builders;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -7,6 +10,7 @@ import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -15,7 +19,11 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
@@ -112,6 +120,8 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       eMoflonEMFUtil.installCrossReferencers(resourceSet);
       subMon.worked(1);
 
+      loadMGTFiles();
+
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
       codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
 
@@ -121,6 +131,45 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       subMon.worked(2);
 
       postprocessAfterCodeGeneration(codeGenerationTask.getGenModel(), subMon.split(1));
+   }
+
+   private IStatus loadMGTFiles()
+   {
+      try
+      {
+         final XtextResourceSet resourceSet = new XtextResourceSet();
+         for (final IFile moslGTFile : collectMOSLGTFiles())
+         {
+            XtextResource schemaResource = (XtextResource) resourceSet.createResource(URI.createPlatformResourceURI(moslGTFile.getFullPath().toString(), false));
+            schemaResource.load(null);
+         }
+         EcoreUtil.resolveAll(resourceSet);
+      } catch (IOException | CoreException e)
+      {
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e);
+      } 
+      return Status.OK_STATUS;
+   }
+
+   private Collection<IFile> collectMOSLGTFiles() throws CoreException
+   {
+      final Collection<IFile> moslGTFiles = new ArrayList<>();
+      getProject().accept(new IResourceVisitor() {
+
+         @Override
+         public boolean visit(IResource resource) throws CoreException
+         {
+            if (isMOSLGTFile(resource))
+               moslGTFiles.add(IFile.class.cast(resource));
+            return true;
+         }
+
+         private boolean isMOSLGTFile(IResource resource)
+         {
+            return resource != null && resource.exists() && resource instanceof IFile && resource.getName().endsWith("." + WorkspaceHelper.MOSL_GT_EXTENSION);
+         }
+      });
+      return moslGTFiles;
    }
 
    private IProject updateProjectStructure(final IProgressMonitor monitor) throws CoreException

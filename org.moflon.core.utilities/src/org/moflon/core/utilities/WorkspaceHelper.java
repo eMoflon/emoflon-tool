@@ -99,6 +99,10 @@ public class WorkspaceHelper
 
    public static final String INTEGRATION_NATURE_ID = "org.moflon.ide.core.runtime.natures.IntegrationNature";
 
+   public static final String XTEXT_BUILDER_ID = "org.eclipse.xtext.ui.shared.xtextBuilder";
+
+   public static final String XTEXT_NATURE_ID = "org.eclipse.xtext.ui.shared.xtextNature";
+   
    public static final String PLUGIN_NATURE_ID = "org.eclipse.pde.PluginNature"; // PDE.NATURE_ID
 
    public static final String ANTLR_3 = "/lib/antlr-3.5.2-complete.jar";
