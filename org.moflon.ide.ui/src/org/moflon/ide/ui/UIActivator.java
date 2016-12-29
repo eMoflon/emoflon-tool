@@ -41,7 +41,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.ui.console.MoflonConsole;
 import org.moflon.ide.ui.decorators.MoflonProjectDecorator;
 import org.osgi.framework.BundleContext;
@@ -180,8 +179,8 @@ public class UIActivator extends AbstractUIPlugin
                         ICommand[] buildSpec = project.getDescription().getBuildSpec();
                         for (final ICommand builder : buildSpec)
                         {
-                           if (CoreActivator.REPOSITORY_BUILDER_ID.equals(builder.getBuilderName()) || 
-                                 CoreActivator.INTEGRATION_BUILDER_ID.equals(builder.getBuilderName()))
+                           if (WorkspaceHelper.REPOSITORY_BUILDER_ID.equals(builder.getBuilderName()) || 
+                                 WorkspaceHelper.INTEGRATION_BUILDER_ID.equals(builder.getBuilderName()))
                            {
                               boolean autobuildEnabled = builder.isBuilding(IncrementalProjectBuilder.AUTO_BUILD);
                               Display.getDefault().asyncExec(new Runnable() {

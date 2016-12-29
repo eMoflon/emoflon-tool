@@ -28,7 +28,8 @@ Require-Bundle:
  org.moflon.tgg.cspcodeadapter,
  org.moflon.tgg.runtime,
  org.moflon.tgg.language,
- org.moflon.ide.plugins
+ org.moflon.ide.plugins,
+ org.eclipse.xtext
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.ea,
  org.moflon.ide.core.git,

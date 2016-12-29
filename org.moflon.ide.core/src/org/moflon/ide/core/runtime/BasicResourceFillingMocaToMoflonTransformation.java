@@ -16,7 +16,6 @@ import org.moflon.core.mocatomoflon.impl.ExporterImpl;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.tgg.language.TripleGraphGrammar;
 
@@ -180,7 +179,7 @@ public class BasicResourceFillingMocaToMoflonTransformation extends
 	}
 
 	protected final void reportError(final String errorMessage, final Object... arguments) {
-		throw new UncheckedCoreException(String.format(errorMessage, arguments), CoreActivator.getModuleID());
+		throw new UncheckedCoreException(String.format(errorMessage, arguments), WorkspaceHelper.getPluginId(getClass()));
 	}
 
 	protected void reportError(final CoreException e) {

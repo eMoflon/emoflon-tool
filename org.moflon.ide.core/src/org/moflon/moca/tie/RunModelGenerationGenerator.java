@@ -5,7 +5,6 @@ import java.net.URL;
 import org.eclipse.core.resources.IProject;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 
 public class RunModelGenerationGenerator extends AbstractIntegratorGenerator
 {
@@ -41,7 +40,7 @@ public class RunModelGenerationGenerator extends AbstractIntegratorGenerator
    @Override
    protected URL getTemplateFileURL()
    {
-      return MoflonUtilitiesActivator.getPathRelToPlugIn("/resources/templates/TGGMain.stg", CoreActivator.getModuleID());
+      return MoflonUtilitiesActivator.getPathRelToPlugIn("/resources/templates/TGGMain.stg", WorkspaceHelper.getPluginId(getClass()));
    }
 
    @Override

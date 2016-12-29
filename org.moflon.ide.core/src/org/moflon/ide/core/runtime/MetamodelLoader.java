@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.dependency.PackageRemappingDependency;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
@@ -77,12 +78,12 @@ public class MetamodelLoader implements ITask {
 					resource.getContents().add(outermostPackage);
 					CoreActivator.setEPackageURI(outermostPackage);
 				} else {
-					return new Status(IStatus.ERROR, CoreActivator.getModuleID(),
+					return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
 							"Project " + projectName + " has unknown type " + node.getName());
 				}
 			} else {
 				if (!MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT.equals(node.getName())) {
-					return new Status(IStatus.ERROR, CoreActivator.getModuleID(),
+					return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
 							"Project " + getProjectName(node) + " must always be exported");
 				}
 
@@ -133,20 +134,20 @@ public class MetamodelLoader implements ITask {
 						} else {
 							// Open project without ecore file
 							builder.addTriggerProject(project);
-							return new Status(IStatus.ERROR, CoreActivator.getModuleID(),
+							return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
 									"The project cannot be built until its prerequisite " + projectName + " is built. Cleaning and building all projects is recommended");
 						}
 					} else {
-						return new Status(IStatus.ERROR, CoreActivator.getModuleID(),
+						return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
 								"Project " + projectName + " is closed and no deployed plugin can be found with URI " + namespaceURI);
 					}
 				} else {
-					return new Status(IStatus.ERROR, CoreActivator.getModuleID(),
+					return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
 							"Project " + projectName + " has unknown type " + node.getName());
 				}
 			}
 		} catch (CoreException e) {
-			return new Status(IStatus.ERROR, CoreActivator.getModuleID(), e.getMessage(), e);
+			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
 		}
 		return Status.OK_STATUS;
 	}
@@ -246,7 +247,7 @@ public class MetamodelLoader implements ITask {
 		if (cause instanceof CoreException) {
 			throw e;
 		} else {
-			return new Status(IStatus.ERROR, CoreActivator.getModuleID(), 
+			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), 
 					"Error while loading resource at " + namespaceURI.toString(), cause);
 		}
 	}

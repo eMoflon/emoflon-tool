@@ -33,6 +33,8 @@ public class MetamodelProperties
    public static final String REPOSITORY_KEY = "repository";
 
    public static final String INTEGRATION_KEY = "integration";
+   
+   public static final String MOSLGT_REPOSITORY_KEY = "moslgt";
 
    public static final String NAME_KEY = "name";
 
