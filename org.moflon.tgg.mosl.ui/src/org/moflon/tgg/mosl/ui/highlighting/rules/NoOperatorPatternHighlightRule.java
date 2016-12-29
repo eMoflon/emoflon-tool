@@ -18,7 +18,7 @@ public class NoOperatorPatternHighlightRule extends AbstractOperatorPatternHighl
 	@Override
 	protected TextStyle getTextStyle() {
 	      TextStyle ts = new TextStyle();
-	      ts.setColor(MOSLColor.BLACK.getColor());
+	      ts.setColor(MOSLColor.DEFAULT.getColor());
 	      return ts;
 	}
 

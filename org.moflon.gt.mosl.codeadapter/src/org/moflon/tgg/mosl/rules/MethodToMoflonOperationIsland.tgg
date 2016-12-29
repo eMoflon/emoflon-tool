@@ -1,0 +1,31 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule MethodToMoflonOperationIsland #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	
+	++ method : MethodDec
+}
+
+#target {
+	
+	++ operation : MoflonOperation{
+		++ - rootScope -> scope
+	}
+	
+	++ scope : Scope
+}
+
+#correspondence {
+	
+	 ++ methodToOperation : MethodDecToMoflonOperation {
+		#src->method
+		#trg->operation
+	}
+	
+}
+
+#attributeConditions {
+	
+}

@@ -15,6 +15,16 @@ public class MOSLHighlightingConfiguration extends DefaultHighlightingConfigurat
 	public final static String SOURCE_ID = "source";
 	public final static String TARGET_ID = "target";
 	
+	private static MOSLHighlightingConfiguration instance;
+	
+	public static MOSLHighlightingConfiguration getInstance(){
+		return instance;
+	}
+	
+	public MOSLHighlightingConfiguration(){
+		super();
+		instance = this;
+	}
 	
 	@Override
 	public void configure(IHighlightingConfigurationAcceptor acceptor) {

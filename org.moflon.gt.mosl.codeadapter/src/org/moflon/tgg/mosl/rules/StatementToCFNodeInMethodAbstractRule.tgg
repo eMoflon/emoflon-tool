@@ -1,0 +1,33 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule StatementToCFNodeInMethodAbstractRule #extendsMethodToMethodWithScopeContext #with org.moflon.gt.mosl.codeadapter
+
+#source {
+	method:MethodDec {
+		++ - startStatement -> statement
+	}
+
+	++statement:Statement
+}
+
+#target {
+	scope:Scope {
+		++ - contents -> cfNode
+	}
+
+	++cfNode:CFNode
+}
+
+#correspondence {
+	++ stmntToCFNode : StatementToCFNode{
+		#src->statement
+		#trg->cfNode
+	}
+}
+
+#attributeConditions {
+	
+}
+
+

@@ -9,12 +9,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -23,28 +19,18 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.jdt.core.IClasspathAttribute;
-import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.ui.workingsets.IWorkingSetIDs;
 import org.eclipse.jdt.ui.wizards.JavaCapabilityConfigurationPage;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
-import org.eclipse.ui.IWorkingSet;
-import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
@@ -52,17 +38,18 @@ import org.osgi.framework.FrameworkUtil;
 /**
  * A collection of useful helper methods when dealing with a workspace in an eclipse plugin.
  */
-@SuppressWarnings("restriction")
 public class WorkspaceHelper
 {
 
    private static final Logger logger = Logger.getLogger(WorkspaceHelper.class);
 
    public final static String PATH_SEPARATOR = "/";
+   
+   /**
+    * Constants for project structure
+    */
 
    public final static String MODEL_FOLDER = "model";
-
-   public final static String DEBUG_FOLDER = "debug";
 
    public static final String SOURCE_FOLDER = "src";
 
@@ -72,55 +59,104 @@ public class WorkspaceHelper
 
    public static final String GEN_FOLDER = "gen";
 
-   public final static String TEMP_FOLDER = ".temp";
-
-   public static final String MOCA_XMI_FILE_EXTENSION = ".moca.xmi";
-
-   public static final String ECORE_FILE_EXTENSION = ".ecore";
-
-   public static final String PRE_ECORE_FILE_EXTENSION = ".pre.ecore";
-
-   public static final String TGG_FILE_EXTENSION = ".tgg.xmi";
-
-   public static final String PRE_TGG_FILE_EXTENSION = ".pre.tgg.xmi";
-
    public static final String INJECTION_FOLDER = "injection";
 
    public static final String INJECTION_FILE_EXTENSION = "inject";
 
-   public static final String JAVA_FILE_EXTENSION = "java";
-
    public static final String INSTANCES_FOLDER = "instances";
+   
+   private static final String KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT = ".keep";
 
+   public static final String GITIGNORE_FILENAME = ".gitignore";
+
+   /**
+    * Constants for Ecore
+    */
    public static final String GEN_MODEL_EXT = ".genmodel";
 
-   public static final String MOSL_TGG_NATURE = "org.moflon.tgg.mosl.codeadapter.moslTGGNature";
-
-   public static final String REPOSITORY_NATURE_ID = "org.moflon.ide.core.runtime.natures.RepositoryNature";
-
-   public static final String INTEGRATION_NATURE_ID = "org.moflon.ide.core.runtime.natures.IntegrationNature";
-
-   public static final String METAMODEL_NATURE_ID = "org.moflon.ide.core.runtime.natures.MetamodelNature";
-
-   public static final String PLUGIN_NATURE_ID = "org.eclipse.pde.PluginNature"; // PDE.NATURE_ID
-
-   public static final String ANTLR_3 = "/lib/antlr-3.5.2-complete.jar";
-
+   public static final String ECORE_FILE_EXTENSION = ".ecore";
+   
    public static final String PLUGIN_ID_ECORE = "org.eclipse.emf.ecore";
 
    public static final String PLUGIN_ID_EMF_COMMON = "org.eclipse.emf.common";
 
    public static final String PLUGIN_ID_ECORE_XMI = "org.eclipse.emf.ecore.xmi";
 
+   /**
+    * Constants for Java
+    */
+
+   public static final String JAVA_WORKING_SET_ID = "org.eclipse.jdt.ui.JavaWorkingSetPage";
+
+   public static final String JAVA_FILE_EXTENSION = "java";
+
+   /**
+    * Constants for EA/SDM
+    */
+
+   public static final String METAMODEL_NATURE_ID = "org.moflon.ide.core.runtime.natures.MetamodelNature";
+
+   public static final String REPOSITORY_NATURE_ID = "org.moflon.ide.core.runtime.natures.RepositoryNature";
+
+   public final static String TEMP_FOLDER = ".temp";
+
+   public static final String MOCA_XMI_FILE_EXTENSION = ".moca.xmi";
+
+   /**
+    * Constants for MOSL-GT
+    */
+   public static final String MOSL_GT_EXTENSION = "mgt";
+
+   public static final String MOSL_GT_NATURE_ID = "org.moflon.gt.ide.natures.MOSLGTNature";
+
+   public static final String MOSL_GT_BUILDER_ID = "org.moflon.gt.mosl.ide.MOSLGTBuilder";
+
+   /**
+    * Constants for MOSL-TGG
+    */
+   public static final String MOSL_TGG_EXTENSION = "tgg";
+
+   public static final String MOSL_TGG_NATURE = "org.moflon.tgg.mosl.codeadapter.moslTGGNature";
+
+   public static final String INTEGRATION_NATURE_ID = "org.moflon.ide.core.runtime.natures.IntegrationNature";
+
+   public static final String REPOSITORY_BUILDER_ID = "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
+
+   public static final String METAMODEL_BUILDER_ID = "org.moflon.ide.core.runtime.builders.MetamodelBuilder";
+
+   public static final String INTEGRATION_BUILDER_ID = "org.moflon.ide.core.runtime.builders.IntegrationBuilder";
+
+   public static final String TGG_FILE_EXTENSION = ".tgg.xmi";
+
+   public static final String PRE_TGG_FILE_EXTENSION = ".pre.tgg.xmi";
+
+   public static final String PRE_ECORE_FILE_EXTENSION = ".pre.ecore";
+
+   /**
+    * Constants for ANTLR
+    */
+   public static final String ANTLR_NATURE_ID = "org.moflon.ide.core.runtime.natures.AntlrNature";
+
+   public static final String ANTLR_BUILDER_ID = "org.moflon.ide.core.runtime.builders.AntlrBuilder";
+
+   public static final String ANTLR_3 = "/lib/antlr-3.5.2-complete.jar";
+   
+   /**
+    * Constants for XText
+    */
+   public static final String XTEXT_BUILDER_ID = "org.eclipse.xtext.ui.shared.xtextBuilder";
+
+   public static final String XTEXT_NATURE_ID = "org.eclipse.xtext.ui.shared.xtextNature";
+
+   /**
+    * Constants misc
+    */
+   
+   public static final String PLUGIN_NATURE_ID = "org.eclipse.pde.PluginNature"; // PDE.NATURE_ID
+
    public static final String PLUGIN_ID_ECLIPSE_RUNTIME = "org.eclipse.core.runtime";
 
-   public static final String PLUGIN_ID_LOG4J = "org.apache.log4j";
-
-   public static final String DEFAULT_LOG4J_DEPENDENCY = PLUGIN_ID_LOG4J + ";bundle-version=\"1.2.15\"";
-
-   public static final String PLUGIN_ID_APACHE_COMMONS_LANG3 = "org.apache.commons.lang3;bundle-version=\"3.1.0\"";
-
-   public static final String PLUGIN_ID_APACHE_COMMONS_IO = "org.apache.commons.io;bundle-version=\"[2.2.0,3)\"";
+   public static final String DEFAULT_LOG4J_DEPENDENCY = "org.apache.log4j" + ";bundle-version=\"1.2.15\"";
 
    public static final String ISSUE_TRACKER_URL = "https://github.com/eMoflon/emoflon-tool/issues";
 
@@ -128,96 +164,6 @@ public class WorkspaceHelper
 
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
 
-   public static final String KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT = ".keep";
-
-   public static final String GITIGNORE_FILENAME = ".gitignore";
-
-   /**
-    * Checks if given name is a valid name for a new project in the current workspace.
-    * 
-    * @param projectName
-    *           Name of project to be created in current workspace
-    * @param pluginId
-    *           ID of bundle
-    * @return A status object indicating success or failure and a relevant message.
-    */
-   public static IStatus validateProjectName(final String projectName, final String pluginId)
-   {
-      // Check if anything was entered at all
-      if (projectName.length() == 0)
-         return new Status(IStatus.ERROR, pluginId, "Name must be specified");
-
-      // Check if name is a valid path for current platform
-      IStatus validity = ResourcesPlugin.getWorkspace().validateName(projectName, IResource.PROJECT);
-      if (!validity.isOK())
-         return new Status(IStatus.ERROR, pluginId, validity.getMessage());
-
-      // Check if no other project with the same name already exists in workspace
-      IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-      for (IProject project : projects)
-      {
-         if (project.getName().equals(projectName))
-         {
-            return new Status(IStatus.ERROR, pluginId, "A project with this name exists already.");
-         }
-      }
-
-      // Everything was fine
-      return new Status(IStatus.OK, pluginId, "Project name is valid");
-   }
-
-   /**
-    * Creates a new project in current workspace
-    * 
-    * @param projectName
-    *           name of the new project
-    * @param monitor
-    *           a progress monitor, or null if progress reporting is not desired
-    * @param location
-    *           the file system location where the project should be placed
-    * @return handle to newly created project
-    * @throws CoreException
-    */
-   public static IProject createProject(final String projectName, final String pluginId, final IPath location, final IProgressMonitor monitor)
-         throws CoreException
-   {
-      SubMonitor subMon = SubMonitor.convert(monitor, "", 2);
-
-      // Get project handle
-      IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-      IProject newProject = root.getProject(projectName);
-
-      // Use default location (in workspace)
-      final IProjectDescription description = ResourcesPlugin.getWorkspace().newProjectDescription(newProject.getName());
-      description.setLocation(location);
-
-      // Complain if project already exists
-      if (newProject.exists())
-      {
-         throw new CoreException(new Status(IStatus.ERROR, pluginId, projectName + " exists already!"));
-      }
-
-      // Create project
-      newProject.create(description, subMon.split(1));
-      newProject.open(subMon.split(1));
-
-      return newProject;
-   }
-
-   /**
-    * Creates a new project in current workspace
-    * 
-    * @param projectName
-    *           name of the new project
-    * @param monitor
-    *           a progress monitor, or null if progress reporting is not desired
-    * @return handle to newly created project
-    * @throws CoreException
-    */
-   public static IProject createProject(final String projectName, final String pluginId, final IProgressMonitor monitor) throws CoreException
-   {
-      return createProject(projectName, pluginId, null, monitor);
-   }
 
    /**
     * Adds a new folder with name 'folderName' to project
@@ -296,54 +242,13 @@ public class WorkspaceHelper
       final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
       IFile projectFile = project.getFile(fileName);
       ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
-      projectFile.create(source, true, subMon.split(1));
-   }
-
-   /**
-    * Sets the folderNames as source-folders in java build path of java project javaProject
-    * 
-    * @param javaProject
-    *           java project whose build path will be modified
-    * @param folderNames
-    *           source folder names to add to build path of project javaProject
-    * @param extraAttributes
-    * @param monitor
-    *           a progress monitor, or null if progress reporting is not desired
-    * @throws JavaModelException
-    * 
-    * @deprecated Each time this method is used, the whole project is manipulated which may cause unnecessary events
-    */
-   @Deprecated
-   public static void setAsSourceFolderInBuildpath(final IJavaProject javaProject, final IFolder[] folderNames, final IClasspathAttribute[] extraAttributes,
-         final IProgressMonitor monitor) throws JavaModelException
-   {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "", 2);
-
-      Collection<IClasspathEntry> entries = getClasspathEntries(javaProject);
-
-      // Add new entries for the classpath
-      if (folderNames != null)
+      if (projectFile.exists())
       {
-         for (IFolder folder : folderNames)
-         {
-            if (folder != null)
-            {
-               IClasspathEntry prjEntry = JavaCore.newSourceEntry(folder.getFullPath(), null, null, null, extraAttributes);
-               entries.add(prjEntry);
-            }
-         }
+         projectFile.setContents(source, true, true, subMon.split(1));
+      } else
+      {
+         projectFile.create(source, true, subMon.split(1));
       }
-      subMon.worked(1);
-
-      setBuildPath(javaProject, entries, subMon.split(1));
-   }
-
-   /**
-    * Returns the set of classpath entries of the given Java project
-    */
-   private static Collection<IClasspathEntry> getClasspathEntries(final IJavaProject javaProject) throws JavaModelException
-   {
-      return new HashSet<>(Arrays.asList(javaProject.getRawClasspath()));
    }
 
    /**
@@ -424,105 +329,6 @@ public class WorkspaceHelper
    }
 
    /**
-    * Reversed list of {@link #getProjectsOnBuildPath(IProject)}
-    */
-   public static List<IProject> getProjectsOnBuildPathInReversedOrder(final IProject project)
-   {
-      List<IProject> result = getProjectsOnBuildPath(project);
-      Collections.reverse(result);
-      return result;
-   }
-
-   /**
-    * Returns a list of all classpath entries of type {@link IClasspathEntry#CPE_PROJECT} of the given project.
-    */
-   public static List<IProject> getProjectsOnBuildPath(final IProject project)
-   {
-      // Fetch or create java project view of the given project
-      IJavaProject javaProject = JavaCore.create(project);
-
-      // Get current entries on the classpath
-      ArrayList<IProject> projectsOnBuildPath = new ArrayList<>();
-      try
-      {
-         for (IClasspathEntry entry : javaProject.getRawClasspath())
-         {
-            if (entry.getEntryKind() == IClasspathEntry.CPE_PROJECT)
-            {
-               projectsOnBuildPath.add(ResourcesPlugin.getWorkspace().getRoot().getProject(entry.getPath().lastSegment()));
-            }
-         }
-      } catch (JavaModelException e)
-      {
-         LogUtils.error(logger, e, "Unable to determine projects on buildpath for: " + project.getName());
-      }
-
-      return projectsOnBuildPath;
-   }
-
-   /**
-    * Adds the given container to the list of build path entries (if not included, yet)
-    */
-   private static void addContainerToBuildPath(final Collection<IClasspathEntry> classpathEntries, final String container)
-   {
-      IClasspathEntry entry = JavaCore.newContainerEntry(new Path(container));
-      for (IClasspathEntry iClasspathEntry : classpathEntries)
-      {
-         if (iClasspathEntry.getPath().equals(entry.getPath()))
-         {
-            // No need to add variable - already on classpath
-            return;
-         }
-      }
-
-      classpathEntries.add(entry);
-   }
-
-   /**
-    * Adds the given container to the build path of the given project if it contains no entry with the same name, yet.
-    */
-   public static void addContainerToBuildPath(final IProject project, final String container)
-   {
-      addContainerToBuildPath(JavaCore.create(project), container);
-   }
-
-   /**
-    * Adds the given container to the build path of the given java project.
-    */
-   private static void addContainerToBuildPath(final IJavaProject iJavaProject, final String container)
-   {
-      try
-      {
-         // Get current entries on the classpath
-         Collection<IClasspathEntry> classpathEntries = new ArrayList<>(Arrays.asList(iJavaProject.getRawClasspath()));
-
-         addContainerToBuildPath(classpathEntries, container);
-
-         setBuildPath(iJavaProject, classpathEntries);
-      } catch (JavaModelException e)
-      {
-         LogUtils.error(logger, e, "Unable to set classpath variable");
-      }
-   }
-
-   private static void setBuildPath(final IJavaProject javaProject, final Collection<IClasspathEntry> entries, final IProgressMonitor monitor)
-         throws JavaModelException
-   {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Set build path", 1);
-      // Create new buildpath
-      IClasspathEntry[] newEntries = new IClasspathEntry[entries.size()];
-      entries.toArray(newEntries);
-
-      // Set new classpath with added entries
-      javaProject.setRawClasspath(newEntries, subMon.split(1));
-   }
-
-   private static void setBuildPath(final IJavaProject javaProject, final Collection<IClasspathEntry> entries) throws JavaModelException
-   {
-      setBuildPath(javaProject, entries, new NullProgressMonitor());
-   }
-
-   /**
     * Creates a folder denoted by the path inside the given project.
     * 
     * @param project
@@ -592,25 +398,6 @@ public class WorkspaceHelper
    }
 
    /**
-    * @deprecated See {@link #createSubMonitor(IProgressMonitor, int)}
-    */
-   public static IProgressMonitor createSubmonitorWith1Tick(final IProgressMonitor monitor)
-   {
-      return createSubMonitor(monitor, 1);
-   }
-
-   /**
-    * Creates a sub-monitor of the given monitor with the given number of ticks.
-    * 
-    * @deprecated The API suggests to to switch to {@link SubMonitor}. Instructions are given {@link SubMonitor}.
-    */
-   @Deprecated
-   public static IProgressMonitor createSubMonitor(final IProgressMonitor monitor, final int ticks)
-   {
-      return SubMonitor.convert(monitor, ticks).split(ticks);
-   }
-
-   /**
     * Checks whether the given project has the {@link #PLUGIN_NATURE_ID}. If the check throws an exception,
     * <code>false</code> is returned gracefully.
     */
@@ -626,11 +413,19 @@ public class WorkspaceHelper
    }
 
    /**
-    * Returns whether the given project is (1) a repository project or (2) an integration project
+    * Returns whether the given project is (1) a repository project or (2) an integration project or (3) a MOSL-GT project
     */
    public static boolean isMoflonProject(final IProject project) throws CoreException
    {
-      return isRepositoryProject(project) || isIntegrationProject(project);
+      return isRepositoryProject(project) || isIntegrationProject(project) || isMOSLGTProject(project);
+   }
+
+   /**
+    * Returns true if the given project has the {@link #MOSL_GT_NATURE_ID}.
+    */
+   private static boolean isMOSLGTProject(IProject project) throws CoreException
+   {
+      return project != null && project.hasNature(MOSL_GT_NATURE_ID);
    }
 
    /**
@@ -736,12 +531,20 @@ public class WorkspaceHelper
 
    public static boolean isInjectionFile(final IResource resource)
    {
-      return resource != null && isFile(resource) && resource.getName().endsWith(INJECTION_FILE_EXTENSION);
+      return resource != null && isFile(resource) && resource.getName().endsWith("." + INJECTION_FILE_EXTENSION);
    }
 
    public static boolean isJavaFile(final IResource resource)
    {
-      return resource != null && isFile(resource) && resource.getName().endsWith(".java");
+      return resource != null && isFile(resource) && resource.getName().endsWith("." + JAVA_FILE_EXTENSION);
+   }
+
+   /**
+    * Returns whether the given resource is of type {@link IResource#FILE}
+    */
+   private static boolean isFile(final IResource resource)
+   {
+      return resource != null && resource.getType() == IResource.FILE;
    }
 
    public static IProject getProjectByName(final String projectName)
@@ -784,22 +587,6 @@ public class WorkspaceHelper
    public static List<IProject> getAllProjectsInWorkspace()
    {
       return Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects());
-   }
-
-   /**
-    * Returns whether the given file has a name that ends with 'pdf'
-    */
-   public static boolean isPdfFile(final IResource resource)
-   {
-      return isFile(resource) && resource.getName().endsWith(".pdf");
-   }
-
-   /**
-    * Returns whether the given resource is of type {@link IResource#FILE}
-    */
-   public static boolean isFile(final IResource resource)
-   {
-      return resource != null && resource.getType() == IResource.FILE;
    }
 
    /**
@@ -876,60 +663,9 @@ public class WorkspaceHelper
       return packagePath;
    }
 
-   public static void moveProjectToWorkingSet(final IProject project, final String workingSetName)
-   {
-      // Move project to appropriate working set
-      IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
-      IWorkingSet workingSet = workingSetManager.getWorkingSet(workingSetName);
-      if (workingSet == null)
-      {
-         workingSet = workingSetManager.createWorkingSet(workingSetName, new IAdaptable[] { project });
-         workingSet.setId(IWorkingSetIDs.JAVA);
-         workingSetManager.addWorkingSet(workingSet);
-      } else
-      {
-         // Add current contents of WorkingSet
-         ArrayList<IAdaptable> newElements = new ArrayList<IAdaptable>();
-         for (IAdaptable element : workingSet.getElements())
-            newElements.add(element);
-
-         // Add newly created project
-         newElements.add(project);
-
-         // Set updated contents
-         IAdaptable[] newElementsArray = new IAdaptable[newElements.size()];
-         workingSet.setElements(newElements.toArray(newElementsArray));
-      }
-   }
-
    public static IFile getManifestFile(final IProject project)
    {
       return project.getFolder("META-INF").getFile("MANIFEST.MF");
-   }
-
-   public static boolean allProjectsExist(final Collection<IProject> projects)
-   {
-      return projects.stream().allMatch(project -> project.exists());
-   }
-
-   public static Collection<IProject> getProjectsByNatureID(final String natureID) throws CoreException
-   {
-      return Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects()).stream()//
-            .filter(p -> p.isOpen())//
-            .filter(p -> hasNatureSafe(p, natureID))//
-            .collect(Collectors.toList());
-   }
-
-   // This method ignores the checked CoreException to make it usable inside streams
-   public static boolean hasNatureSafe(final IProject project, final String natureId)
-   {
-      try
-      {
-         return project.hasNature(natureId);
-      } catch (CoreException e)
-      {
-         return false;
-      }
    }
 
    /**
@@ -1151,9 +887,9 @@ public class WorkspaceHelper
     * @param clazz the class whose bundle is searched
     * @return the symbolic name or null if the class does not belong to a bundle
     */
-   public static String getPluginId(Class<?> clazz)
+   public static String getPluginId(final Class<?> clazz)
    {
-      Bundle bundle = FrameworkUtil.getBundle(clazz);
+      final Bundle bundle = FrameworkUtil.getBundle(clazz);
       return bundle == null ? null : bundle.getSymbolicName();
    }
 
@@ -1188,4 +924,5 @@ public class WorkspaceHelper
          return "severity=" + severity;
       }
    }
+
 }

@@ -17,10 +17,20 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 
 public interface MethodBodyHandler {
+   
    /**
     * Creates a validator job for the given package
+    * 
+    * The purpose of the validator is to turn an SDM-based specification of a method into a proper control flow 
     */
 	public ITask createValidator(EPackage ePackage);
+	
+	/**
+	 * Creates a MOSL-GT control flow weaver
+	 * 
+	 * The purpose of a control flow weaver is to extract the control plow/patterns from a MOSL-GT specification and connect them to a plain Ecore file 
+	 */
+	public ITask createControlFlowWeaver(EPackage ePackage);
 	
 	/**
 	 * Creates a job for processing the associated gen model of the given resource.

@@ -50,7 +50,7 @@ public class GenericMonitoredResourceLoader implements ITask
          return preprocessingStatus;
       }
 
-      if (isAccessible(project))
+      if (isValidProject(project))
       {
          // Load the file
          URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
@@ -148,7 +148,7 @@ public class GenericMonitoredResourceLoader implements ITask
       final SubMonitor subMon = SubMonitor.convert(monitor, "Loading workspace projects", workspaceProjects.length);
       for (final IProject workspaceProject : workspaceProjects)
       {
-         if (isAccessible(workspaceProject))
+         if (isValidProject(workspaceProject))
          {
             final URI projectURI = CodeGeneratorPlugin.lookupProjectURI(workspaceProject);
             final URI metamodelURI = CodeGeneratorPlugin.getDefaultProjectRelativeEcoreFileURI(workspaceProject).resolve(projectURI);
@@ -158,11 +158,16 @@ public class GenericMonitoredResourceLoader implements ITask
       }
    }
 
-   protected boolean isAccessible(IProject project)
+   /**
+    * Returns true if the given project can be handled by the {@link GenericMonitoredResourceLoader}
+    * @param project
+    * @return
+    */
+   protected boolean isValidProject(final IProject project)
    {
       try
       {
-         return project.isAccessible() && (project.hasNature(WorkspaceHelper.REPOSITORY_NATURE_ID) || project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID));
+         return project.isAccessible() && WorkspaceHelper.isMoflonProject(project);
       } catch (final CoreException e)
       {
          return false;

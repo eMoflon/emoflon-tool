@@ -7,19 +7,19 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.gervarro.eclipse.workspace.autosetup.WorkspaceAutoSetupModule;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
-import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 
-public class MoflonProjectConfigurator extends ProjectConfiguratorNature {
+public abstract class MoflonProjectConfigurator extends ProjectConfiguratorNature {
 	private final String natureID;
 	private final String builderID;
 
-	public MoflonProjectConfigurator(final boolean isIntegrationProject) {
-		this.natureID = isIntegrationProject ? 
-				WorkspaceHelper.INTEGRATION_NATURE_ID : WorkspaceHelper.REPOSITORY_NATURE_ID;
-		this.builderID = isIntegrationProject ?
-				CoreActivator.INTEGRATION_BUILDER_ID : CoreActivator.REPOSITORY_BUILDER_ID;
+	public MoflonProjectConfigurator() {
+		this.natureID = getNatureId();
+		this.builderID = getBuilderId();
 	}
+
+	abstract protected String getBuilderId();
+
+   abstract protected String getNatureId();
 
 	@Override
 	public String[] updateNatureIDs(String[] natureIDs, final boolean added) throws CoreException {
