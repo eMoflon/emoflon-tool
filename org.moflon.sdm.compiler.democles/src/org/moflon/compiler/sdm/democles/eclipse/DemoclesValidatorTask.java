@@ -63,7 +63,7 @@ public class DemoclesValidatorTask implements ITask
 
    private final ResourceSet resourceSet;
 
-   private boolean loadIntoResourceSet;
+   private boolean loadIntoResourceSet; // Whether to load the validation result into resourceSet
 
    public DemoclesValidatorTask(final ScopeValidator scopeValidator, final EPackage ePackage)
    {

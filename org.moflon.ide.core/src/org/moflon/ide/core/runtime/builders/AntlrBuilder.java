@@ -29,7 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.ide.core.CoreActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public class AntlrBuilder extends AbstractBuilder
 {
@@ -119,7 +119,7 @@ public class AntlrBuilder extends AbstractBuilder
                compileAntlrResource(resource.getParent().findMember(prefix + "Parser.g"));
          } catch (URISyntaxException e)
          {
-            MoflonUtil.throwCoreExceptionAsError(e.getMessage(), CoreActivator.getModuleID(), e);
+            MoflonUtil.throwCoreExceptionAsError(e.getMessage(), WorkspaceHelper.getPluginId(getClass()), e);
          }
 
       }

@@ -1,0 +1,44 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule MethodToMoflonOperationBridge #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+
+	
+	classDef : EClassDef{
+		++ -operations->method
+	}
+	
+	method : MethodDec
+}
+
+#target {
+	
+	trgEClass : EClass{
+		++ - eOperations -> operation
+	}
+	
+	 operation : MoflonOperation{
+
+	}
+}
+
+#correspondence {
+	
+	 methodToOperation : MethodDecToMoflonOperation {
+		#src->method
+		#trg->operation
+	}
+	
+	classToClass : ClassDefToEClass {
+		#src->classDef
+		#trg->trgEClass
+	}
+	
+	
+}
+
+#attributeConditions {
+	
+}

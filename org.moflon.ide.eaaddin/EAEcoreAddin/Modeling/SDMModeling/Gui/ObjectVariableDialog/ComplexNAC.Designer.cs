@@ -48,12 +48,14 @@
             // 
             // comboBoxComplexNacIndex
             // 
+            this.comboBoxComplexNacIndex.Enabled = false;
             this.comboBoxComplexNacIndex.FormattingEnabled = true;
             this.comboBoxComplexNacIndex.Location = new System.Drawing.Point(79, 18);
             this.comboBoxComplexNacIndex.MaxLength = 3;
             this.comboBoxComplexNacIndex.Name = "comboBoxComplexNacIndex";
             this.comboBoxComplexNacIndex.Size = new System.Drawing.Size(61, 21);
             this.comboBoxComplexNacIndex.TabIndex = 2;
+            this.comboBoxComplexNacIndex.Text = "-1";
             this.comboBoxComplexNacIndex.TextChanged += new System.EventHandler(this.comboBoxComplexNacIndex_TextChanged);
             // 
             // label1
