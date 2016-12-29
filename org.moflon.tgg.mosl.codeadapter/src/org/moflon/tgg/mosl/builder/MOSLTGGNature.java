@@ -6,24 +6,20 @@ import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
-import org.moflon.ide.core.CoreActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.natures.ProjectConfiguratorNature;
 
 public class MOSLTGGNature extends ProjectConfiguratorNature {
-	public static final String NATURE_ID = "org.moflon.tgg.mosl.codeadapter.moslTGGNature";
-	public static final String XTEXT_BUILDER_ID = "org.eclipse.xtext.ui.shared.xtextBuilder";
-	public static final String XTEXT_NATURE_ID = "org.eclipse.xtext.ui.shared.xtextNature";
-
 	@Override
 	public ICommand[] updateBuildSpecs(final IProjectDescription description,
 			ICommand[] buildSpecs, final boolean added) throws CoreException {
 		if (added) {
-			int integrationBuilderPosition = ProjectUtil.indexOf(buildSpecs, CoreActivator.INTEGRATION_BUILDER_ID);
+			int integrationBuilderPosition = ProjectUtil.indexOf(buildSpecs, WorkspaceHelper.INTEGRATION_BUILDER_ID);
 			// Insert or move Xtext builder before IntegrationBuilder
-			int xtextBuilderPosition = ProjectUtil.indexOf(buildSpecs, XTEXT_BUILDER_ID);
+			int xtextBuilderPosition = ProjectUtil.indexOf(buildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID);
 			if (xtextBuilderPosition < 0) {
 				final ICommand xtextBuilder = description.newCommand();
-				xtextBuilder.setBuilderName(XTEXT_BUILDER_ID);
+				xtextBuilder.setBuilderName(WorkspaceHelper.XTEXT_BUILDER_ID);
 				buildSpecs = Arrays.copyOf(buildSpecs, buildSpecs.length + 1);
 				xtextBuilderPosition = buildSpecs.length - 1;
 				buildSpecs[xtextBuilderPosition] = xtextBuilder;
@@ -60,7 +56,7 @@ public class MOSLTGGNature extends ProjectConfiguratorNature {
 				buildSpecs[moslTGGBuilderPosition] = moslTGGBuilder;
 			}
 		} else {
-			int xtextBuilderPosition = ProjectUtil.indexOf(buildSpecs, XTEXT_BUILDER_ID);
+			int xtextBuilderPosition = ProjectUtil.indexOf(buildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID);
 			if (xtextBuilderPosition >= 0) {
 				buildSpecs = ProjectUtil.remove(buildSpecs, xtextBuilderPosition);
 			}
@@ -75,20 +71,18 @@ public class MOSLTGGNature extends ProjectConfiguratorNature {
 	@Override
 	public String[] updateNatureIDs(String[] natureIDs, final boolean added) throws CoreException {
 		if (added) {
-			if (ProjectUtil.indexOf(natureIDs, XTEXT_NATURE_ID) < 0) {
-				natureIDs = Arrays.copyOf(natureIDs, natureIDs.length + 1);
-				natureIDs[natureIDs.length - 1] = XTEXT_NATURE_ID;
+			if (!containsNatureID(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID)) {
+			   natureIDs = insertAtEnd(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
 			}
-			if (ProjectUtil.indexOf(natureIDs, NATURE_ID) < 0) {
-				natureIDs = Arrays.copyOf(natureIDs, natureIDs.length + 1);
-				natureIDs[natureIDs.length - 1] = NATURE_ID;
+			if (!containsNatureID(natureIDs, WorkspaceHelper.MOSL_TGG_NATURE)) {
+			   natureIDs = insertAtEnd(natureIDs, WorkspaceHelper.MOSL_TGG_NATURE);
 			}
 		} else {
-			int xtextNaturePosition = ProjectUtil.indexOf(natureIDs, XTEXT_NATURE_ID);
+			int xtextNaturePosition = ProjectUtil.indexOf(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
 			if (xtextNaturePosition >= 0) {
 				natureIDs = ProjectUtil.remove(natureIDs, xtextNaturePosition);
 			}
-			int moslTGGNaturePosition = ProjectUtil.indexOf(natureIDs, NATURE_ID);
+			int moslTGGNaturePosition = ProjectUtil.indexOf(natureIDs, WorkspaceHelper.MOSL_TGG_NATURE);
 			if (xtextNaturePosition >= 0) {
 				natureIDs = ProjectUtil.remove(natureIDs, moslTGGNaturePosition);
 			}

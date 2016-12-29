@@ -55,13 +55,13 @@ public class ConverterHelper {
 			@Override
 			protected void createResourcesForWorkspaceProjects(IProgressMonitor monitor) {
 				super.createResourcesForWorkspaceProjects(monitor);
-				if (isAccessible(ecoreFile.getProject())) {
+				if (isValidProject(ecoreFile.getProject())) {
               	  new PackageRemappingDependency(URI.createURI(ecoreFile.getLocation().toOSString()), false, false).getResource(resourceSet, false, true);
 				}
 			}
 
 			@Override
-			protected boolean isAccessible(IProject project) {
+			protected boolean isValidProject(IProject project) {
 				return project.isAccessible();
 			}
 		};

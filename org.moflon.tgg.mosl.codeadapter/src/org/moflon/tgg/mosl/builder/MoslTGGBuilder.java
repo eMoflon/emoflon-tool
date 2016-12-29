@@ -29,6 +29,7 @@ import org.moflon.ide.core.runtime.ProjectDependencyAnalyzer;
 import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 
+@SuppressWarnings("unused")
 public class MoslTGGBuilder extends AbstractVisitorBuilder {
 
 
@@ -146,7 +147,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 				
 			} else {
 			   
-				processProblemStatus(new Status(IStatus.ERROR, CoreActivator.getModuleID(),
+				processProblemStatus(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
 						"Unable to construct the correspondence metamodel from the Xtext specification in " + resource, null),
 				      resource);
 				

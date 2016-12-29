@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Attribute;
@@ -58,7 +57,7 @@ public class MocaTreeEAPropertiesReader
          return properties;
       } else
       {
-         throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Cannot extract project properties, since Moca tree is missing."));
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Cannot extract project properties, since Moca tree is missing."));
       }
    }
 
@@ -133,7 +132,7 @@ public class MocaTreeEAPropertiesReader
 
       if (dependenciesNodes.size() != 1)
       {
-         throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Missing dependencies nodes for project " + rootPackage.getName()));
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Missing dependencies nodes for project " + rootPackage.getName()));
       }
 
       final List<String> dependencies = new ArrayList<>();
@@ -157,7 +156,7 @@ public class MocaTreeEAPropertiesReader
          value = attributes.iterator().next().getValue();
       } else
       {
-         throw new CoreException(new Status(IStatus.ERROR, CoreActivator.getModuleID(), "Missing property " + property + " for project " + rootPackage.getName()));
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Missing property " + property + " for project " + rootPackage.getName()));
       }
       return value;
    }

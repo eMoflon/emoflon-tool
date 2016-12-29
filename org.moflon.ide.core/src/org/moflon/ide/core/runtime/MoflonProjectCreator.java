@@ -30,8 +30,8 @@ import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
+import org.moflon.ide.core.runtime.natures.MOSLGTNature;
 import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.moflon.util.plugins.BuildPropertiesFileBuilder;
@@ -143,6 +143,8 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
          return new IntegrationNature();
       case MetamodelProperties.REPOSITORY_KEY:
          return new RepositoryNature();
+      case MetamodelProperties.MOSLGT_REPOSITORY_KEY:
+         return new MOSLGTNature();
       default:
          return null;
       }
@@ -266,8 +268,8 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
 
    public ICommand[] updateBuildSpecs(final IProjectDescription description, ICommand[] buildSpecs, final boolean added) throws CoreException
    {
-      final String builderID = MetamodelProperties.REPOSITORY_KEY.equals(metamodelProperties.getType()) ? CoreActivator.REPOSITORY_BUILDER_ID
-            : CoreActivator.INTEGRATION_BUILDER_ID;
+      final String builderID = MetamodelProperties.REPOSITORY_KEY.equals(metamodelProperties.getType()) ? WorkspaceHelper.REPOSITORY_BUILDER_ID
+            : WorkspaceHelper.INTEGRATION_BUILDER_ID;
       if (added)
       {
          int javaBuilderPosition = ProjectUtil.indexOf(buildSpecs, "org.eclipse.jdt.core.javabuilder");

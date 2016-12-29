@@ -7,7 +7,6 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 
 public class MetamodelNature extends ProjectConfiguratorNature {
 
@@ -15,16 +14,16 @@ public class MetamodelNature extends ProjectConfiguratorNature {
 	public ICommand[] updateBuildSpecs(final IProjectDescription description,
 			ICommand[] buildSpecs, final boolean added) throws CoreException {
 		if (added) {
-			int metamodelBuilderPosition = ProjectUtil.indexOf(buildSpecs, CoreActivator.METAMODEL_BUILDER_ID);
+			int metamodelBuilderPosition = ProjectUtil.indexOf(buildSpecs, WorkspaceHelper.METAMODEL_BUILDER_ID);
 			if (metamodelBuilderPosition < 0) {
 				final ICommand metamodelBuilder = description.newCommand();
-				metamodelBuilder.setBuilderName(CoreActivator.METAMODEL_BUILDER_ID);
+				metamodelBuilder.setBuilderName(WorkspaceHelper.METAMODEL_BUILDER_ID);
 				buildSpecs = Arrays.copyOf(buildSpecs, buildSpecs.length + 1);
 				metamodelBuilderPosition = buildSpecs.length - 1;
 				buildSpecs[metamodelBuilderPosition] = metamodelBuilder;
 			} 
 		} else {
-			int metamodelBuilderPosition = ProjectUtil.indexOf(buildSpecs, CoreActivator.METAMODEL_BUILDER_ID);
+			int metamodelBuilderPosition = ProjectUtil.indexOf(buildSpecs, WorkspaceHelper.METAMODEL_BUILDER_ID);
 			if (metamodelBuilderPosition >= 0) {
 				buildSpecs = ProjectUtil.remove(buildSpecs, metamodelBuilderPosition);
 			}

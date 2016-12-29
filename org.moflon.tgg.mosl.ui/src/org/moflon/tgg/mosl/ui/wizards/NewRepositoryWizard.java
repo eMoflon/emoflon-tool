@@ -71,7 +71,7 @@ public class NewRepositoryWizard extends AbstractMoflonWizard
    // The monitor is allowed to perform 1 tick
    protected void createProject(IProgressMonitor monitor, IProject project, MetamodelProperties metamodelProperties) throws CoreException
    {
-      metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.REPOSITORY_KEY);
+      metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.MOSLGT_REPOSITORY_KEY);
       MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties);
       ResourcesPlugin.getWorkspace().run(createMoflonProject, SubMonitor.convert(monitor).split(1));
    }
