@@ -1,5 +1,7 @@
 2016-12-29 eMoflon 2.25.0 release
 
+	This is a minor release. An update from 2.24.0 ist not necessary.
+
 	User notes:
 	* From 2.25.0 on, eMoflon requires Eclipse Neon. We discontinue support for all previous versions of Eclipse.
 	* From 2.25.0 on, we disable all migration routines, which automatically transform eMoflon projects prior to eMoflon 2.17.0.
