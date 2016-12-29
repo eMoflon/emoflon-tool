@@ -1,12 +1,24 @@
-2016-12-XX eMoflon 2.25.0 release
+2016-12-29 eMoflon 2.25.0 release
 
 	User notes:
+	* From 2.25.0 on, eMoflon requires Eclipse Neon. We discontinue support for all previous versions of Eclipse.
 	* From 2.25.0 on, we disable all migration routines, which automatically transform eMoflon projects prior to eMoflon 2.17.0.
 	  If you intend to update to eMoflon 2.25.0 or newer, please proceed as follows:
 		+ First update to eMoflon 2.24.0 (https://github.com/eMoflon/emoflon-tool/releases/tag/emoflon_2.24.0)
 		+ Re-build all your projects
 		+ Check and save/commit/... all modifications performed by the automatic migration routines
 		+ Update to the desired eMoflon (2.25.0 or newer). 
+	* Cannot switch from within Injection editor to original Java file #154
+	* TGG Rules aren't readable for Dark Themes in Eclipse #142
+	* Restrict eMoflon property page to only eMoflon problem markers #42
+		+ The order of tabs in the property view has changed.
+
+	Developer notes:
+	* Add facility for dumping control flow structure #161
+		+ Accessible from the eMoflon context menu as "Validate (with CF dump)"
+	
+	Further fixed/solved issues:
+	* Set default method body handler to DEMOCLES_ATTRIBUTES if a metamodel contains CSP constraints #156
 
 ---
 2016-11-23 eMoflon 2.24.0 release
