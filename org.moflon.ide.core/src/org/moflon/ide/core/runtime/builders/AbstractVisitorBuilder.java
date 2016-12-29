@@ -97,12 +97,12 @@ abstract public class AbstractVisitorBuilder extends RelevantElementCollectingBu
 
    protected final boolean isAutoOrIncrementalBuild(int kind)
    {
-      return kind == INCREMENTAL_BUILD || isFullBuild(kind);
+      return kind == INCREMENTAL_BUILD || kind == AUTO_BUILD;
    }
 
    protected final boolean isFullBuild(int kind)
    {
-      return kind == AUTO_BUILD;
+      return kind == FULL_BUILD;
    }
 
    abstract protected AntPatternCondition getTriggerCondition(final IProject project);
