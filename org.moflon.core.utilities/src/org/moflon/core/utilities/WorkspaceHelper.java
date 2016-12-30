@@ -86,6 +86,8 @@ public class WorkspaceHelper
     * Constants for Java
     */
 
+   public static final String JAVA_BUILDER_ID = "org.eclipse.jdt.core.javabuilder";
+   
    public static final String JAVA_WORKING_SET_ID = "org.eclipse.jdt.ui.JavaWorkingSetPage";
 
    public static final String JAVA_FILE_EXTENSION = "java";
