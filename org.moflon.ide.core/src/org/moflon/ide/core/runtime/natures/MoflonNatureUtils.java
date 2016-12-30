@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
-import org.moflon.core.utilities.WorkspaceHelper;
 
 public final class MoflonNatureUtils
 {
@@ -19,12 +18,12 @@ public final class MoflonNatureUtils
     * @param natureID the nature ID to add if missing
     * @return the new list of nature IDs
     */
-   public static String[] insertAtEndIfMissing(final String[] natureIDs, final String natureID)
+   public static String[] appendIfMissing(final String[] natureIDs, final String natureID)
    {
       if (ProjectUtil.indexOf(natureIDs, natureID) < 0)
       {
          final String[] newNatureIDs = Arrays.copyOf(natureIDs, natureIDs.length + 1);
-         newNatureIDs[newNatureIDs.length - 1] = WorkspaceHelper.XTEXT_NATURE_ID;
+         newNatureIDs[newNatureIDs.length - 1] = natureID;
          return newNatureIDs;
       } else
       {
@@ -43,7 +42,11 @@ public final class MoflonNatureUtils
       final int positionInInputIDs = ProjectUtil.indexOf(inputNatureIDs, natureID);
       if (positionInInputIDs >= 0)
       {
-         return ProjectUtil.remove(inputNatureIDs, positionInInputIDs);
+         final Object[] newNatureIDsTmp = ProjectUtil.remove(inputNatureIDs, positionInInputIDs);
+         // Workaround for https://github.com/eMoflon/emoflon-tool/issues/177
+         final String[] newNatureIDs = Arrays.copyOf(inputNatureIDs, newNatureIDsTmp.length);
+         System.arraycopy(newNatureIDsTmp, 0, newNatureIDs, 0, newNatureIDsTmp.length);
+         return newNatureIDs;
       } else
       {
          return inputNatureIDs;

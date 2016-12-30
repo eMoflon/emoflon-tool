@@ -21,7 +21,7 @@ public final class MoflonBuilderUtils
     * @param projectDescription the {@link IProjectDescription} that shall be used to construct the builder command
     * @return the updated build specification
     */
-   public static ICommand[] insertAtEndIfMissing(final ICommand[] buildSpecification, final String builderID, final IProjectDescription projectDescription)
+   public static ICommand[] appendIfMissing(final ICommand[] buildSpecification, final String builderID, final IProjectDescription projectDescription)
    {
       if (ProjectUtil.indexOf(buildSpecification, builderID) < 0)
       {
@@ -48,6 +48,7 @@ public final class MoflonBuilderUtils
       if (builderPosition >= 0)
       {
          final Object[] newBuildSpecificationTmp = ProjectUtil.remove(inputBuildSpecs, builderPosition);
+         // Workaround for https://github.com/eMoflon/emoflon-tool/issues/177
          final ICommand[] newBuildSpecification = Arrays.copyOf(inputBuildSpecs, newBuildSpecificationTmp.length);
          System.arraycopy(newBuildSpecificationTmp, 0, newBuildSpecification, 0, newBuildSpecificationTmp.length);
          return newBuildSpecification;

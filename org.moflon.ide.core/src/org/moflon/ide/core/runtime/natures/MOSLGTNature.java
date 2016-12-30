@@ -12,17 +12,12 @@ public class MOSLGTNature extends MoflonProjectConfigurator
    public ICommand[] updateBuildSpecs(final IProjectDescription description, final ICommand[] buildSpecs, final boolean shallAddBuilders) throws CoreException
    {
 
-      /*
-       * Interesting builders:
-       * * WorkspaceHelper.XTEXT_BUILDER_ID
-       * * CoreActivator.MOSL_GT_BUILDER_ID
-       */
       ICommand[] newBuildSpecs = buildSpecs;
 
       if (shallAddBuilders)
       {
-         newBuildSpecs = MoflonBuilderUtils.insertAtEndIfMissing(newBuildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID, description);
-         newBuildSpecs = MoflonBuilderUtils.insertAtEndIfMissing(newBuildSpecs, WorkspaceHelper.MOSL_GT_BUILDER_ID, description);
+         newBuildSpecs = MoflonBuilderUtils.appendIfMissing(newBuildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID, description);
+         newBuildSpecs = MoflonBuilderUtils.appendIfMissing(newBuildSpecs, WorkspaceHelper.MOSL_GT_BUILDER_ID, description);
 
          {
             int javaBuilderPosition = ProjectUtil.indexOf(newBuildSpecs, WorkspaceHelper.JAVA_BUILDER_ID);
@@ -61,8 +56,8 @@ public class MOSLGTNature extends MoflonProjectConfigurator
       String[] newNatureIDs = natureIDs;
       if (shallAddNature)
       {
-         newNatureIDs = MoflonNatureUtils.insertAtEndIfMissing(newNatureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
-         newNatureIDs = MoflonNatureUtils.insertAtEndIfMissing(newNatureIDs, getNatureId());
+         newNatureIDs = MoflonNatureUtils.appendIfMissing(newNatureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
+         newNatureIDs = MoflonNatureUtils.appendIfMissing(newNatureIDs, getNatureId());
       } else
       {
          newNatureIDs = MoflonNatureUtils.removeNatureID(newNatureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
