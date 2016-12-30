@@ -5,9 +5,16 @@ import java.util.Arrays;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
 
+/**
+ * Utility class for manipulating the project nature
+ * 
+ * @author Roland Kluge - Initial implementation
+ *
+ */
 public final class MoflonNatureUtils
 {
-   public MoflonNatureUtils()
+   // Disabled constructor of utility class
+   private MoflonNatureUtils()
    {
       throw new UtilityClassNotInstantiableException();
    }

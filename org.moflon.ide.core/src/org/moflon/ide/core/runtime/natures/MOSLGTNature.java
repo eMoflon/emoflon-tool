@@ -1,9 +1,10 @@
 package org.moflon.ide.core.runtime.natures;
 
+import java.util.Arrays;
+
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
-import org.gervarro.eclipse.workspace.util.ProjectUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 
 public class MOSLGTNature extends MoflonProjectConfigurator
@@ -11,7 +12,6 @@ public class MOSLGTNature extends MoflonProjectConfigurator
    @Override
    public ICommand[] updateBuildSpecs(final IProjectDescription description, final ICommand[] buildSpecs, final boolean shallAddBuilders) throws CoreException
    {
-
       ICommand[] newBuildSpecs = buildSpecs;
 
       if (shallAddBuilders)
@@ -19,28 +19,7 @@ public class MOSLGTNature extends MoflonProjectConfigurator
          newBuildSpecs = MoflonBuilderUtils.appendIfMissing(newBuildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID, description);
          newBuildSpecs = MoflonBuilderUtils.appendIfMissing(newBuildSpecs, WorkspaceHelper.MOSL_GT_BUILDER_ID, description);
 
-         {
-            int javaBuilderPosition = ProjectUtil.indexOf(newBuildSpecs, WorkspaceHelper.JAVA_BUILDER_ID);
-            int moflonBuilderPosition = ProjectUtil.indexOf(newBuildSpecs, WorkspaceHelper.MOSL_GT_BUILDER_ID);
-            if (javaBuilderPosition >= 0 && javaBuilderPosition < moflonBuilderPosition)
-            {
-               final ICommand moflonBuilder = newBuildSpecs[moflonBuilderPosition];
-               System.arraycopy(newBuildSpecs, javaBuilderPosition, newBuildSpecs, javaBuilderPosition + 1, moflonBuilderPosition - javaBuilderPosition);
-               moflonBuilderPosition = javaBuilderPosition++;
-               newBuildSpecs[moflonBuilderPosition] = moflonBuilder;
-            }
-         }
-
-         {
-            int moslBuilderPosition = ProjectUtil.indexOf(newBuildSpecs, WorkspaceHelper.MOSL_GT_BUILDER_ID);
-            int xtextBuilderPosition = ProjectUtil.indexOf(newBuildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID);
-            if (xtextBuilderPosition > moslBuilderPosition)
-            {
-               final ICommand xtextBuilderCommand = newBuildSpecs[xtextBuilderPosition];
-               System.arraycopy(newBuildSpecs, moslBuilderPosition, newBuildSpecs, moslBuilderPosition + 1, xtextBuilderPosition - moslBuilderPosition);
-               newBuildSpecs[moslBuilderPosition] = xtextBuilderCommand;
-            }
-         }
+         MoflonBuilderUtils.ensureBuilderOrder(newBuildSpecs, Arrays.asList(WorkspaceHelper.XTEXT_BUILDER_ID, WorkspaceHelper.MOSL_GT_BUILDER_ID, WorkspaceHelper.JAVA_BUILDER_ID));
       } else
       {
          newBuildSpecs = MoflonBuilderUtils.removeBuilderID(newBuildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID);

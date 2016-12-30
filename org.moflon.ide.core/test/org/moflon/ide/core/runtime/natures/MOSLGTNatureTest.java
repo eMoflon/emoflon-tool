@@ -1,5 +1,7 @@
 package org.moflon.ide.core.runtime.natures;
 
+import java.util.Arrays;
+
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProjectDescription;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
@@ -7,8 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.runtime.natures.MOSLGTNature;
-import org.moflon.ide.core.runtime.natures.MoflonBuilderUtils;
 
 public class MOSLGTNatureTest
 {
@@ -31,12 +31,11 @@ public class MOSLGTNatureTest
       buildSpecification = MoflonBuilderUtils.appendIfMissing(buildSpecification, WorkspaceHelper.JAVA_BUILDER_ID, projectDescription);
       buildSpecification = nature.updateBuildSpecs(projectDescription, buildSpecification, true);
 
-      assertBuilderIsPresent(buildSpecification, WorkspaceHelper.XTEXT_BUILDER_ID);
-      assertBuilderIsPresent(buildSpecification, WorkspaceHelper.MOSL_GT_BUILDER_ID);
-      assertBuilderIsPresent(buildSpecification, WorkspaceHelper.JAVA_BUILDER_ID);
-
-      assertBuilderOrder(buildSpecification, WorkspaceHelper.XTEXT_BUILDER_ID, WorkspaceHelper.MOSL_GT_BUILDER_ID);
-      assertBuilderOrder(buildSpecification, WorkspaceHelper.MOSL_GT_BUILDER_ID, WorkspaceHelper.JAVA_BUILDER_ID);
+      MoflonBuilderUtilsTest.assertBuilderIsPresent(buildSpecification, WorkspaceHelper.XTEXT_BUILDER_ID);
+      MoflonBuilderUtilsTest.assertBuilderIsPresent(buildSpecification, WorkspaceHelper.MOSL_GT_BUILDER_ID);
+      MoflonBuilderUtilsTest.assertBuilderIsPresent(buildSpecification, WorkspaceHelper.JAVA_BUILDER_ID);
+      
+      MoflonBuilderUtilsTest.assertBuilderOrder(buildSpecification, Arrays.asList(WorkspaceHelper.XTEXT_BUILDER_ID, WorkspaceHelper.MOSL_GT_BUILDER_ID, WorkspaceHelper.JAVA_BUILDER_ID));
    }
 
    @Test
@@ -48,8 +47,8 @@ public class MOSLGTNatureTest
       
       // Now, remove the nature-specific builders
       buildSpecification = nature.updateBuildSpecs(projectDescription, buildSpecification, false);
-      assertBuilderIsMissing(buildSpecification, WorkspaceHelper.XTEXT_BUILDER_ID);
-      assertBuilderIsMissing(buildSpecification, WorkspaceHelper.MOSL_GT_BUILDER_ID);
+      MoflonBuilderUtilsTest.assertBuilderIsMissing(buildSpecification, WorkspaceHelper.XTEXT_BUILDER_ID);
+      MoflonBuilderUtilsTest.assertBuilderIsMissing(buildSpecification, WorkspaceHelper.MOSL_GT_BUILDER_ID);
    }
    
    @Test
@@ -75,26 +74,6 @@ public class MOSLGTNatureTest
       assertNatureIDIsMissing(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
    }
 
-   private static void assertBuilderOrder(ICommand[] buildSpecification, final String firstBuilder, final String secondBuilder)
-   {
-      final int firstBuildersPosition = ProjectUtil.indexOf(buildSpecification, firstBuilder);
-      final int secondBuildersPosition = ProjectUtil.indexOf(buildSpecification, secondBuilder);
-      if (firstBuildersPosition >= 0 && secondBuildersPosition >= 0)
-      {
-         Assert.assertTrue(firstBuildersPosition < secondBuildersPosition);
-      }
-   }
-
-   private static void assertBuilderIsPresent(final ICommand[] buildSpecification, final String builderID)
-   {
-      Assert.assertTrue(ProjectUtil.indexOf(buildSpecification, builderID) >= 0);
-   }
-   
-   private static void assertBuilderIsMissing(final ICommand[] buildSpecification, final String builderID)
-   {
-      Assert.assertTrue(ProjectUtil.indexOf(buildSpecification, builderID) < 0);
-   }
-   
    private static void assertNatureIDIsPresent(final String[] natureIDs, final String natureID)
    {
       Assert.assertTrue(ProjectUtil.indexOf(natureIDs, natureID) >= 0);
