@@ -9,9 +9,9 @@ public class EMoflonStandardWorkspacesTest
    public void testExtractBasicWorkspaceName() throws Exception
    {
       Assert.assertEquals("abc", EMoflonStandardWorkspaces.extractBasicWorkspaceName("abc"));
-      Assert.assertEquals("abc", EMoflonStandardWorkspaces.extractBasicWorkspaceName("abc|"));
-      Assert.assertEquals("abc", EMoflonStandardWorkspaces.extractBasicWorkspaceName("abc|master"));
-      Assert.assertEquals("abc", EMoflonStandardWorkspaces.extractBasicWorkspaceName("abc|master|master"));
+      Assert.assertEquals("abc", EMoflonStandardWorkspaces.extractBasicWorkspaceName("abc@"));
+      Assert.assertEquals("abc", EMoflonStandardWorkspaces.extractBasicWorkspaceName("abc@master"));
+      Assert.assertEquals("abc", EMoflonStandardWorkspaces.extractBasicWorkspaceName("abc@master|master"));
    }
    
    @Test
@@ -19,7 +19,7 @@ public class EMoflonStandardWorkspacesTest
    {
       Assert.assertEquals(null, EMoflonStandardWorkspaces.extractCustomBranchName("abc"));
       Assert.assertEquals(null, EMoflonStandardWorkspaces.extractCustomBranchName("abc|"));
-      Assert.assertEquals("master", EMoflonStandardWorkspaces.extractCustomBranchName("abc|master"));
-      Assert.assertEquals("master|master", EMoflonStandardWorkspaces.extractCustomBranchName("abc|master|master"));
+      Assert.assertEquals("master", EMoflonStandardWorkspaces.extractCustomBranchName("abc@master"));
+      Assert.assertEquals("master|master", EMoflonStandardWorkspaces.extractCustomBranchName("abc@master|master"));
    }
 }
