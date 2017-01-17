@@ -139,6 +139,7 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
       }
 
       attributes.put("projects", projects);
+      attributes.put("projectName", project.getName());
       attributes.put("corrPackage", getRootOfClassName() + "Package.eINSTANCE");
       attributes.put("className", getClassName());
       

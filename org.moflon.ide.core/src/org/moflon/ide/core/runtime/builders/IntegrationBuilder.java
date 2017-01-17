@@ -316,7 +316,7 @@ public class IntegrationBuilder extends RepositoryBuilder
 
          for (TGGConstraint constraint : userDefinedConstraints)
          {
-            String content = unparser.unparseCspConstraint(constraint);
+            String content = unparser.unparseCspConstraint(getProject().getName(), constraint);
 
             String nameInUpperCase = MocaUtil.firstToUpper(constraint.getName());
             String path = pkgPath + nameInUpperCase + ".java";
