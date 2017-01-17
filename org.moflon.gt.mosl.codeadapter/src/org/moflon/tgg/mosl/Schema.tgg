@@ -1,67 +1,110 @@
-#import "platform:/resource/org.moflon.gt.mosl/model/generated/MOSLGT.ecore"
-#import "platform:/resource/org.moflon.sdm.compiler.democles.validation.controlflow/model/Controlflow.ecore"
-#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
-#import "http://www.eclipse.org/emf/2002/Ecore"
-#import "platform:/plugin/org.moflon.sdm.runtime.democles/model/Democles.ecore"
-#import "http://gervarro.org/democles/specification.ecore"
 
-#schema org.moflon.gt.mosl.codeadapter
-	
+// Switch to http before trying the backward transformation
+//#import "http://www.moflon.org/ide/tgg/mosl/TGG"
+
+#import "platform:/resource/org.moflon.tgg.mosl/model/generated/TGG.ecore"
+
+#import "platform:/plugin/org.moflon.tgg.tggproject/model/Tggproject.ecore"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//expressions"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns"
+#import "platform:/plugin/SDMLanguage/model/SDMLanguage.ecore#//patterns/patternExpressions"
+#import "platform:/plugin/org.moflon.tgg.language/model/Language.ecore#//csp"
+
+#import "http://www.eclipse.org/emf/2002/Ecore"
+
+#schema org.moflon.tgg.mosl.codeadapter
+
 #source {
-	moslgt
+	tgg
 }
 
-#target { 
-	controlflow
+#target {
+	tggproject
+	language
+	SDMLanguage.expressions
+	SDMLanguage.patterns
+	SDMLanguage.patterns.patternExpressions
+	language.csp
 	ecore
-	democles
-	specification
-} 
+}
 
 #correspondence {
-
-	
-	MethodDecToMoflonOperation{
-		#src->MethodDec
-		#trg->MoflonOperation
-	}
-	
-	ClassDefToEClass{
-		#src->EClassDef
+	CorrTypeToEClass {
+		#src->CorrType
 		#trg->EClass
 	}
-	
-	GraphTransformationToEPackage{
-		#src->GraphTransformationFile
-		#trg->EPackage
+	AttributeAssignmentToAttributeAssignment {
+		#src->AttributeAssignment
+		#trg->AttributeAssignment
+	}
+	ParamValueToVariable {
+		#src->ParamValue
+		#trg->Variable
+	}
+	AttributeConstraintToConstraint {
+		#src->AttributeConstraint
+		#trg->Constraint
+	}
+	ObjectVariablePatternToTGGObjectVariable {
+		#src->ObjectVariablePattern
+		#trg->TGGObjectVariable
+	}
+	ExpressionToExpression { 
+		#src->Expression
+		#trg->Expression
+	}
+	LinkVariablePatternToTGGLinkVariable {
+		#src->LinkVariablePattern
+		#trg->TGGLinkVariable
+	}
+	CorrVariablePatternToTGGObjectVariable {
+		#src->CorrVariablePattern
+		#trg->TGGObjectVariable
+	}
+	ParamToSignatureElement {
+		#src->Param
+		#trg->SignatureElement
+	}
+	AdornmentToAdornment {
+		#src->Adornment
+		#trg->Adornment
+	}
+	TripleGraphGrammarFileToTripleGraphGrammar {
+		#src->TripleGraphGrammarFile
+		#trg->TripleGraphGrammar
+	}
+	RuleToTGGRule {
+		#src->Rule
+		#trg->TGGRule
+	}
+	AttrCondToTGGConstraint {
+		#src->AttrCond
+		#trg->TGGConstraint
 	}
 	
-	ParameterToParameter{
-		#src->MethodParameter
-		#trg->EParameter
-	}
-	
-	WhileStatementToHeadLoop{
-		#src->WhileLoopStatement
-		#trg->HeadControlledLoop
-	}
-	
-	StatementToCFNode{
-		#src->Statement
-		#trg->CFNode
-	}
-	
-	InvokeToCFNode{
-		#src->PatternStatement
-		#trg->CFNode
-	}
-	
-	OVDefinitionToCFVariable{
-		#src->ObjectVariableDefinition
-		#trg->CFVariable
-	}
+	EnumExpressionToLiteralExpression #extends ExpressionToExpression 
 }
 
 #attributeConditions {
 	
+	#userDefined MoslToTggLiteral(1:EString, 0:EString) {
+		#sync: BF, BB, FB
+		#gen:
+	}
+
+	#userDefined ParamTypeToSignatureElementType(0:EString, 1:EString) {
+		#sync: BB, BF, FB
+		#gen:
+	}
+	
+	#userDefined isReallyEnum(0:EString){
+		#sync: B, F
+		#gen:
+	}
+	
+	#userDefined isNotEnum(0:EString){
+		#sync: B, F	
+		#gen:
+	}
 }

@@ -1,7 +1,7 @@
 #using org.moflon.gt.mosl.codeadapter.*
 #using AttrCondDefLibrary.*
 
-#rule PatternStatementToCFNodeRule #extends StatementToCFNodeInMethodAbstractRule #with org.moflon.gt.mosl.codeadapter
+#abstract #rule PatternStatementToCFNodeAbstractRule #with org.moflon.gt.mosl.codeadapter
 
 #source { 
 	++ statement : PatternStatement

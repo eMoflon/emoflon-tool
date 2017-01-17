@@ -1,0 +1,24 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule WhileToHeadLoopAbstractRule #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	++ statement : WhileLoopStatement
+}
+
+#target {
+	++ cfNode : HeadControlledLoop {
+		++ - scopes -> innerScope
+	}
+	
+	++ innerScope : Scope
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

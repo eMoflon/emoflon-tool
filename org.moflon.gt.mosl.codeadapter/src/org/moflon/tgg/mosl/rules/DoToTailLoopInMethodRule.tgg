@@ -1,0 +1,20 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule DoToTailLoopInMethodRule #extends DoToTailLoopAbstractRule, StatementToCompoundNodeInMethodAbstractNode #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	
+}
+
+#target {
+	
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}
