@@ -260,7 +260,7 @@ public class IntegrationBuilder extends RepositoryBuilder
       }
       subMon.worked(5);
 
-      generateUserDefinedConstraints(defaultFileName,userDefinedConstraints);
+      generateUserDefinedConstraints(userDefinedConstraints);
 
       new RunIntegrationGeneratorBatch(getProject()).doFinish();
       new RunIntegrationGeneratorSync(getProject()).doFinish();
@@ -303,10 +303,10 @@ public class IntegrationBuilder extends RepositoryBuilder
     * 
     * @throws CoreException
     */
-   private void generateUserDefinedConstraints(final String projectName, final List<TGGConstraint> userDefinedConstraints) throws CoreException
+   private void generateUserDefinedConstraints(final List<TGGConstraint> userDefinedConstraints) throws CoreException
    {
       TGGUserDefinedConstraintUnparserAdapter unparser = new TGGUserDefinedConstraintUnparserAdapter();
-      String pkgPath = "src/" + projectName+ "/csp/constraints/";
+      String pkgPath = "src/" + getProject().getName() + "/csp/constraints/";
       
       // Create required folder structure
       WorkspaceHelper.addAllFolders(getProject(), pkgPath, new NullProgressMonitor());
