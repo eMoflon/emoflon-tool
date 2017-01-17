@@ -33,12 +33,12 @@ Schema:
 	'}')? 
 
 	('#correspondence' '{'
-		correspondenceTypes += CorrType+
+		correspondenceTypes += CorrType*
 	'}')?	
 	
 	('#attributeConditions' '{'
 		attributeCondDefs += AttrCondDef*
-	'}')? 
+	'}')?
 ;
 
 CorrType:

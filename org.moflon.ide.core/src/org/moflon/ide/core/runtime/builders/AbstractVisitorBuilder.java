@@ -97,12 +97,12 @@ abstract public class AbstractVisitorBuilder extends RelevantElementCollectingBu
 
    protected final boolean isAutoOrIncrementalBuild(int kind)
    {
-      return kind == INCREMENTAL_BUILD || isFullBuild(kind);
+      return kind == INCREMENTAL_BUILD || kind == AUTO_BUILD;
    }
 
    protected final boolean isFullBuild(int kind)
    {
-      return kind == AUTO_BUILD;
+      return kind == FULL_BUILD;
    }
 
    abstract protected AntPatternCondition getTriggerCondition(final IProject project);
@@ -115,11 +115,25 @@ abstract public class AbstractVisitorBuilder extends RelevantElementCollectingBu
       }
    }
 
-   public final boolean addTriggerProject(IProject project)
+   /**
+    * Add a trigger project.
+    * 
+    * @param project the new trigger project
+    * @return whether the list of trigger projects has changed, i.e., whether the given project was *not* registered as a trigger project
+    * 
+    * @see #calculateInterestingProjects()
+    */
+   public final boolean addTriggerProject(final IProject project)
    {
       return triggerProjects.add(project);
    }
 
+   /**
+    * Returns the list of trigger projects.
+    * 
+    * A trigger project is also called interesting project and will be part of the list of projects returned by {@link #build(int, Map, IProgressMonitor)}
+    */
+   @Override
    protected final IProject[] calculateInterestingProjects()
    {
       IProject[] result = new IProject[triggerProjects.size()];

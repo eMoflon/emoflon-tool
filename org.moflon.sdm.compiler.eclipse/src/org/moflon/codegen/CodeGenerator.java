@@ -48,22 +48,18 @@ public class CodeGenerator
 
    public final IStatus generateCode(final GenModel genModel, final Monitor monitor)
    {
-      IStatus status = new Status(IStatus.OK, "org.eclipse.emf.common", "Code generation succeeded");
-      if (status.isOK())
-      {
-         final Generator generator = new Generator();
-         generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, descriptor);
-         generator.setInput(genModel);
-         genModel.setCanGenerate(true);
+      final Generator generator = new Generator();
+      generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, descriptor);
+      generator.setInput(genModel);
+      genModel.setCanGenerate(true);
 
-         final Diagnostic diagnostic = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, "EMoflon Code Generation", monitor);
-         final int severity = diagnostic.getSeverity();
-         if (Diagnostic.OK != severity)
-         {
-            status = new Status(severity, "org.eclipse.emf.common", severity, diagnostic.getMessage(), diagnostic.getException());
-         }
+      final Diagnostic diagnostic = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, "EMoflon Code Generation", monitor);
+      final int severity = diagnostic.getSeverity();
+      if (Diagnostic.OK != severity)
+      {
+         return new Status(severity, "org.eclipse.emf.common", severity, diagnostic.getMessage(), diagnostic.getException());
       }
-      return status;
+      return new Status(IStatus.OK, "org.eclipse.emf.common", "Code generation succeeded");
    }
 
    public static final URI getClassURI(final EClass eClass)

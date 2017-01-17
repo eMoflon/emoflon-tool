@@ -1,5 +1,7 @@
 package org.moflon.ide.core.runtime.natures;
 
+import java.util.Arrays;
+
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -8,10 +10,11 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.gervarro.eclipse.workspace.autosetup.ProjectConfigurator;
+import org.gervarro.eclipse.workspace.util.ProjectUtil;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.ide.core.runtime.ProjectNatureAndBuilderConfiguratorTask;
 
-abstract public class ProjectConfiguratorNature implements IProjectNature, ProjectConfigurator {
+public abstract class ProjectConfiguratorNature implements IProjectNature, ProjectConfigurator {
 	private IProject project;
 
 	@Override
@@ -50,4 +53,17 @@ abstract public class ProjectConfiguratorNature implements IProjectNature, Proje
 	public final void setProject(final IProject project) {
 		this.project = project;
 	}
+	
+	// Utility methods
+   protected String[] insertAtEnd(String[] ids, String interestingID)
+   {
+      ids = Arrays.copyOf(ids, ids.length + 1);
+      ids[ids.length - 1] = interestingID;
+      return ids;
+   }
+
+   protected boolean containsNatureID(String[] ids, String interestingID)
+   {
+      return ProjectUtil.indexOf(ids, interestingID) >= 0;
+   }
 }

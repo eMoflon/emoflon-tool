@@ -12,7 +12,7 @@ public abstract class MoflonProjectConfigurator extends ProjectConfiguratorNatur
 	private final String natureID;
 	private final String builderID;
 
-	public MoflonProjectConfigurator(final boolean isIntegrationProject) {
+	public MoflonProjectConfigurator() {
 		this.natureID = getNatureId();
 		this.builderID = getBuilderId();
 	}

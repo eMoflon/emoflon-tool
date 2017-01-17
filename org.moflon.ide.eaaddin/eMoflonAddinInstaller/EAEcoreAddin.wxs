@@ -7,7 +7,7 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="MyFilesGroup">
-            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{A3C80382-7218-4F3B-8FEA-868B0B6F2673}">
+            <Component Id="cmpDB0EF26FDD94FC28F4B1280EEFCAAFD1" Directory="dir4F15D8EA243D075A11CF3E9A5845024E" Guid="{4979F30D-F227-41D5-8940-58694BAC45C4}">
                 <Class Id="{0042042D-DB1D-315F-8108-2B3F2A445B0E}" Context="InprocServer32" Description="EAEcoreAddin.Consistency.ConsistencyModule" ThreadingModel="both" ForeignServer="mscoree.dll">
                     <ProgId Id="EAEcoreAddin.Consistency.ConsistencyModule" Description="EAEcoreAddin.Consistency.ConsistencyModule" />
                 </Class>

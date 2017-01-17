@@ -95,15 +95,22 @@ public class CodeGeneratorPlugin implements BundleActivator
       }
    }
 
+   /**
+    * Transforms each {@link Diagnostic} message to an {@link IStatus} message and returns all of them as result
+    * @param resourceSet the {@link ResourceSet} from which to collect the {@link Diagnostic}s
+    * @param taskName the current task
+    * @param monitor
+    * @return
+    */
    static final IStatus validateResourceSet(final ResourceSet resourceSet, final String taskName, final IProgressMonitor monitor)
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Checking errors in the " + taskName + " task", resourceSet.getResources().size());
-      MultiStatus status = new MultiStatus(CodeGeneratorPlugin.getModuleID(), IStatus.OK, taskName + " failed", null);
-      for (Resource resource : resourceSet.getResources())
+      final MultiStatus status = new MultiStatus(CodeGeneratorPlugin.getModuleID(), IStatus.OK, taskName + " failed", null);
+      for (final Resource resource : resourceSet.getResources())
       {
-         for (Diagnostic diagnostic : resource.getErrors())
+         for (final Diagnostic diagnostic : resource.getErrors())
          {
-            Exception exception = diagnostic instanceof Exception ? (Exception) diagnostic : null;
+            final Exception exception = diagnostic instanceof Exception ? (Exception) diagnostic : null;
             status.add(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, diagnostic.getMessage(), exception));
          }
          subMon.worked(1);

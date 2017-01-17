@@ -4,10 +4,15 @@ import java.net.URL;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -47,7 +52,7 @@ public class NewMetamodelWizard extends AbstractMoflonWizard
          final IPath location = projectInfo.getProjectLocation();
 
          // Create project
-         final IProject newProjectHandle = WorkspaceHelper.createProject(projectName, UIActivator.getModuleID(), location, subMon.split(1));
+         final IProject newProjectHandle = createProject(projectName, UIActivator.getModuleID(), location, subMon.split(1));
 
          // generate default files
          final URL pathToDefaultEapFile = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", UIActivator.getModuleID());
@@ -67,4 +72,41 @@ public class NewMetamodelWizard extends AbstractMoflonWizard
       }
    }
 
+   /**
+    * Creates a new project in current workspace
+    * 
+    * @param projectName
+    *           name of the new project
+    * @param monitor
+    *           a progress monitor, or null if progress reporting is not desired
+    * @param location
+    *           the file system location where the project should be placed
+    * @return handle to newly created project
+    * @throws CoreException
+    */
+   private static IProject createProject(final String projectName, final String pluginId, final IPath location, final IProgressMonitor monitor)
+         throws CoreException
+   {
+      SubMonitor subMon = SubMonitor.convert(monitor, "", 2);
+
+      // Get project handle
+      IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+      IProject newProject = root.getProject(projectName);
+
+      // Use default location (in workspace)
+      final IProjectDescription description = ResourcesPlugin.getWorkspace().newProjectDescription(newProject.getName());
+      description.setLocation(location);
+
+      // Complain if project already exists
+      if (newProject.exists())
+      {
+         throw new CoreException(new Status(IStatus.ERROR, pluginId, projectName + " exists already!"));
+      }
+
+      // Create project
+      newProject.create(description, subMon.split(1));
+      newProject.open(subMon.split(1));
+
+      return newProject;
+   }
 }

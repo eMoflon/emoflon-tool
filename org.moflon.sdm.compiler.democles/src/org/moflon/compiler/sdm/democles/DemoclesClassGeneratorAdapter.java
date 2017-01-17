@@ -71,7 +71,7 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 		} else {
 			final AdapterResource cfResource = (AdapterResource) EcoreUtil.getExistingAdapter(eOperation,
 					DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
-			if (cfResource != null) {
+			if (cfResource != null && !cfResource.getContents().isEmpty() && cfResource.getContents().get(0) instanceof Scope) {
 				final Scope scope = (Scope) cfResource.getContents().get(0);
 
 				final TemplateConfigurationProvider templateProvider =
