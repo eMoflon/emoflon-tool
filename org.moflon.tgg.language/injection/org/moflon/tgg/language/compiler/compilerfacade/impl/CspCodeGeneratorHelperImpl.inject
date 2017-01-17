@@ -99,12 +99,13 @@ partial class CspCodeGeneratorHelperImpl {
 @model addCspImportInjections (CompilerInjection compilerInjection, EClass ruleClass) <--
 
 		EPackage container = (EPackage) ruleClass.eContainer();
-		while(container.eContainer() != null) {		
+		while (container.eContainer() != null) {
 			container = (EPackage) container.eContainer();
 		}
 		String projectName = container.getName();
-		
-		String[] imports = new String[] { "org.moflon.csp.*", projectName + ".csp.constraints.*", "org.moflon.tgg.language.csp.*" };
+
+		String[] imports = new String[] { "org.moflon.csp.*", projectName + ".csp.constraints.*", "csp.constraints.*",
+				"org.moflon.tgg.language.csp.*" };
 
 		for (String importEntry : imports) {
 			if (compilerInjection.getImportInjectionEntries().stream().noneMatch(
