@@ -2,6 +2,7 @@ package org.moflon.ide.core.runtime.builders;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -162,9 +163,8 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    {
       try
       {
-         CodeadapterTrafo helper = new CodeadapterTrafo(URI.createPlatformPluginURI(
-               WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true),
-               getResourceSet());
+         CodeadapterTrafo helper = new CodeadapterTrafo(
+               URI.createPlatformPluginURI(WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true), getResourceSet());
          for (final IFile moslGTFile : collectMOSLGTFiles())
          {
             Resource schemaResource = (Resource) this.getResourceSet()
@@ -174,7 +174,8 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
             helper.setSrc(gtf);
             helper.setVerbose(false);
             helper.integrateForward();
-
+            
+            //TODO@szander: Need to add postprocessing (as in MOSLTGGConversionHelper:120)
          }
          EcoreUtil.resolveAll(this.getResourceSet());
       } catch (IOException | CoreException e)
@@ -199,7 +200,9 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
 
          private boolean isMOSLGTFile(IResource resource)
          {
-            return resource != null && resource.exists() && resource instanceof IFile && resource.getName().endsWith("." + WorkspaceHelper.MOSL_GT_EXTENSION);
+            return resource != null && resource.exists() && resource instanceof IFile
+                  && Arrays.asList(resource.getFullPath().segments()).stream().anyMatch(s -> "src".equals(s))
+                  && resource.getName().endsWith("." + WorkspaceHelper.MOSL_GT_EXTENSION);
          }
       });
       return moslGTFiles;
