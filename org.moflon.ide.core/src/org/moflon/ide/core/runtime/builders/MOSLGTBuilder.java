@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.resource.XtextResourceFactory;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
@@ -34,6 +33,8 @@ import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
+import org.moflon.gt.mosl.codeadapter.tie.CodeadapterTrafo;
+import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
@@ -119,7 +120,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
          super.postprocess(buildVisitor, kind, args, monitor);
       }
    }
-   
+
    public ResourceSet getResourceSet()
    {
       return resourceSet;
@@ -151,7 +152,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       this.resourceSet = injector.getInstance(XtextResourceSet.class);
       //eMoflonEMFUtil.initializeDefault(this.resourceSet);
       this.resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-      eMoflonEMFUtil.installCrossReferencers(this.resourceSet);      
+      eMoflonEMFUtil.installCrossReferencers(this.resourceSet);
    }
 
    /**
@@ -161,16 +162,25 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    {
       try
       {
+         CodeadapterTrafo helper = new CodeadapterTrafo(URI.createPlatformPluginURI(
+               WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true),
+               getResourceSet());
          for (final IFile moslGTFile : collectMOSLGTFiles())
          {
-            Resource schemaResource = (Resource) this.getResourceSet().createResource(URI.createPlatformResourceURI(moslGTFile.getFullPath().toString(), false));
+            Resource schemaResource = (Resource) this.getResourceSet()
+                  .createResource(URI.createPlatformResourceURI(moslGTFile.getFullPath().toString(), false));
             schemaResource.load(null);
+            final GraphTransformationFile gtf = GraphTransformationFile.class.cast(schemaResource.getContents().get(0));
+            helper.setSrc(gtf);
+            helper.setVerbose(false);
+            helper.integrateForward();
+
          }
          EcoreUtil.resolveAll(this.getResourceSet());
       } catch (IOException | CoreException e)
       {
          return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e);
-      } 
+      }
       return Status.OK_STATUS;
    }
 
