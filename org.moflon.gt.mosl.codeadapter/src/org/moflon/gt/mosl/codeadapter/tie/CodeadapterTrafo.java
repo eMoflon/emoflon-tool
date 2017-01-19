@@ -1,16 +1,32 @@
-package org.moflon.tie;
+package org.moflon.gt.mosl.codeadapter.tie;
 
 import java.io.IOException;
 import org.apache.log4j.BasicConfigurator;
+import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
-
+import org.moflon.tgg.language.analysis.StaticAnalysis;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.gt.mosl.codeadapter.CodeadapterPackage;
 
 
 public class CodeadapterTrafo extends SynchronizationHelper{
 
+   public CodeadapterTrafo(final URI rulesUri, final ResourceSet resourceSet)
+   {
+      this.set = resourceSet;
+      this.setRules((StaticAnalysis) set.getResource(rulesUri, true).getContents().get(0));
+      this.setCorrPackage(CodeadapterPackage.eINSTANCE);
+      
+      configurator = new Configurator() {
+      };
+      changeSrc = (root -> {
+      });
+      changeTrg = (root -> {
+      });
+   }
+   
    public CodeadapterTrafo()
    {
       super(CodeadapterPackage.eINSTANCE, ".");

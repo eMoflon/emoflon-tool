@@ -1,11 +1,12 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.gt.mosl.codeadapter;singleton:=true
 Export-Package: org.moflon.gt.mosl.codeadapter,
- org.moflon.gt.mosl.codeadapter.Rules.impl,
- org.moflon.gt.mosl.codeadapter.impl,
- org.moflon.gt.mosl.codeadapter.util,
  org.moflon.gt.mosl.codeadapter.Rules,
- org.moflon.gt.mosl.codeadapter.Rules.util
+ org.moflon.gt.mosl.codeadapter.Rules.impl,
+ org.moflon.gt.mosl.codeadapter.Rules.util,
+ org.moflon.gt.mosl.codeadapter.impl,
+ org.moflon.gt.mosl.codeadapter.tie,
+ org.moflon.gt.mosl.codeadapter.util
 Bundle-Name: org.moflon.gt.mosl.codeadapter
 Bundle-Version: 1.0
 Require-Bundle: org.eclipse.emf.ecore.xmi,
