@@ -4,7 +4,7 @@ group TGGUserDefinedConstraint;
 main(projectName, constraintName, adornments, parameters) ::= <<
 package <projectName>.csp.constraints;
 
-import csp.constraints.*
+import csp.constraints.*;
 import org.moflon.tgg.language.csp.Variable;
 import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
 
