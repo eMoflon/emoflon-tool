@@ -42,6 +42,9 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.configuration.PGSavingConfigurator;
 import org.moflon.tgg.language.TripleGraphGrammar;
+import org.moflon.tgg.mosl.codeadapter.org.moflon.tie.CodeadapterPostProcessBackwardHelper;
+import org.moflon.tgg.mosl.codeadapter.org.moflon.tie.CodeadapterPostProcessForwardHelper;
+import org.moflon.tgg.mosl.codeadapter.org.moflon.tie.CodeadapterTrafo;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
 import org.moflon.tgg.mosl.tgg.AttrCond;
 import org.moflon.tgg.mosl.tgg.AttrCondDef;
@@ -49,9 +52,6 @@ import org.moflon.tgg.mosl.tgg.Rule;
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile;
 import org.moflon.tgg.tggproject.TGGProject;
 import org.moflon.tgg.tggproject.TggprojectFactory;
-import org.moflon.tie.CodeadapterPostProcessBackwardHelper;
-import org.moflon.tie.CodeadapterPostProcessForwardHelper;
-import org.moflon.tie.CodeadapterTrafo;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 public class MOSLTGGConversionHelper extends AbstractHandler

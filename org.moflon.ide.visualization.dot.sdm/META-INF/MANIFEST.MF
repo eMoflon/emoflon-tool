@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.ide.visualization.dot.sdm;singleton:=t
  rue
-Export-Package: csp.constraints,
+Export-Package: org.moflon.ide.visualization.dot.sdm.csp.constraints,
  org.moflon.ide.visualization.dot.sdm,
  org.moflon.ide.visualization.dot.sdm.Rules,
  org.moflon.ide.visualization.dot.sdm.Rules.impl,
