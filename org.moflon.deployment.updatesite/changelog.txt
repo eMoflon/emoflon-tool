@@ -1,3 +1,14 @@
+2017-01-20 eMoflon 2.26.0 released
+
+This release fixes problems with name clashes of generated packages and eMoflon-internal packages
+
+User notes:
+* After eMoflon 2.25.0 was the first eMoflon to be signed, we discovered that some of the generated packages in user projects clash with the signed packages, which yielded a SecurityException.
+  This is fixed in the current release.
+  * Solved: Ensure unique package prefix for packages in eMoflon developer workspace #181
+  * Solved: Security exception due to signer information #180
+
+---
 2016-12-29 eMoflon 2.25.0 release
 
 	This is a minor release. An update from 2.24.0 ist not necessary.
