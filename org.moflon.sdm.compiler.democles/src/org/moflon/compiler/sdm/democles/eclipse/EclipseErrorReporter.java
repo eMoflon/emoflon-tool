@@ -54,6 +54,7 @@ public class EclipseErrorReporter implements ErrorReporter
         			  validationMarker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
         			  validationMarker.setAttribute(IMarker.SEVERITY,
         					  DemoclesSdmCompilerPlugin.convertStatusSeverityToEclipseMarkerSeverity(status.getSeverity()));
+        			  LogUtils.error(logger, status.getMessage());
         		  }
         	  } catch (final CoreException e) {
                LogUtils.error(logger, e, "Problem while reporting eMoflon errors in Eclipse: " + MoflonUtil.displayExceptionAsString(e));

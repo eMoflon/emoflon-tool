@@ -1,0 +1,33 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule ParameterToParemeterRule #extends MethodToMethodContext #with org.moflon.gt.mosl.codeadapter
+
+#source {
+	method:MethodDec {
+		++ - parameters -> mParameter
+	}
+
+	++mParameter:MethodParameter
+}
+
+#target {
+	operation:MoflonOperation {
+		++ - eParameters -> trgEParameter
+	}
+
+	++trgEParameter:EParameter
+}
+
+#correspondence {
+	++ p2p :ParameterToParameter{
+		#src->mParameter
+		#trg->trgEParameter
+	}
+}
+
+#attributeConditions {
+	
+}
+
+

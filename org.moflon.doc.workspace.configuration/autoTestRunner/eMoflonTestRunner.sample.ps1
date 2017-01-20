@@ -51,12 +51,12 @@ $sleepTimeBetweenStartsInSeconds = 120
 [void]$workspaces.add("TestWorkspace_TGG_1")
 [void]$workspaces.add("TransformationZoo_0")
 [void]$workspaces.add("TransformationZoo_1")
-# [void]$workspaces.add("ModuleAllInclMOSL")
+[void]$workspaces.add("ModuleAllInclMOSL")
 
 # Using the following line, you can checkout a workspace using a specific branch ('rkluge-dev')
 # This may not work if the corresponding repository already exists.
 # Therefore, start in a clean state!
-#[void]$workspaces.add("ModuleAllInclMOSL#rkluge-dev")
+#[void]$workspaces.add("ModuleAllInclMOSL@rkluge-dev")
  
 
 # Whether to spawn a new console for each Eclipse instance, showing standard output/standard error messages

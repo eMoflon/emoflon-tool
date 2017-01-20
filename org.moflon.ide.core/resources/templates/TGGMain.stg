@@ -1,7 +1,7 @@
 group TGGMain;
 
-basicHeader() ::= <<
-package org.moflon.tie;
+basicHeader(projectName) ::= <<
+package <projectName>.org.moflon.tie;
 
 import java.io.IOException;
 import org.apache.log4j.BasicConfigurator;
@@ -20,8 +20,8 @@ public class <className> extends SynchronizationHelper{
    }
 >>
 
-TGGMainBatch(projects, corrPackage, className) ::= <<
-<basicHeader()>
+TGGMainBatch(projects, corrPackage, projectName, className) ::= <<
+<basicHeader(projectName)>
 import org.eclipse.emf.ecore.EObject;
 
 <basic()>
@@ -94,8 +94,8 @@ import org.eclipse.emf.ecore.EObject;
 >>
 
 
-TGGMainSync(projects, corrPackage, className) ::= <<
-<basicHeader()>
+TGGMainSync(projects, corrPackage, projectName, className) ::= <<
+<basicHeader(projectName)>
 
 import org.moflon.tgg.runtime.CorrespondenceModel;
 import java.util.function.BiConsumer;
@@ -157,8 +157,8 @@ import java.util.function.BiConsumer;
 >>
 
 
-TGGMainModelGen(projects, corrPackage, className) ::= <<
-<basicHeader()>
+TGGMainModelGen(projects, corrPackage, projectName, className) ::= <<
+<basicHeader(projectName)>
 
 import org.moflon.tgg.algorithm.modelgenerator.ModelGenerator;
 import org.moflon.tgg.algorithm.modelgenerator.controller.*;
@@ -180,8 +180,8 @@ import org.moflon.tgg.algorithm.modelgenerator.controller.*;
 }
 >>
 
-TGGMainConsistencyCheck(projects, corrPackage, className) ::= <<
-<basicHeader()>
+TGGMainConsistencyCheck(projects, corrPackage, projectName, className) ::= <<
+<basicHeader(projectName)>
 
 <basic()>
 	public static void main(String[] args) throws IOException {

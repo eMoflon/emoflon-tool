@@ -25,8 +25,7 @@ Require-Bundle: org.eclipse.xtext,
  org.moflon.ide.mosl.core,
  org.eclipse.emf.mwe2.launch
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: 
- org.moflon.tgg.mosl,
+Export-Package: org.moflon.tgg.mosl,
  org.moflon.tgg.mosl.defaults,
  org.moflon.tgg.mosl.formatting,
  org.moflon.tgg.mosl.formatting2,
@@ -40,4 +39,4 @@ Export-Package:
  org.moflon.tgg.mosl.tgg.impl,
  org.moflon.tgg.mosl.tgg.util,
  org.moflon.tgg.mosl.validation
-
+Import-Package: org.apache.log4j

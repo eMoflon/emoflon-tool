@@ -1,9 +1,22 @@
 package org.moflon.tgg.mosl.ui.highlighting.utils;
 
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultHighlightingConfiguration;
 
 public enum MOSLColor {
-	RED, BLUE, GREEN, YELLOW, VIOLETT, BLACK, WHITE, LIGHT_RED, DARK_RED, LIGHT_BLUE, DARK_BLUE, LIGHT_GREEN, DARK_GREEN, ORANGE, DARK_ORANGE, GRAY, BROWN, GOLD, MISTY_ROSE, DARK_GOLD, LIGHT_YELLOW;
+	RED, BLUE, GREEN, YELLOW, VIOLETT, BLACK, WHITE, LIGHT_RED, DARK_RED, LIGHT_BLUE, DARK_BLUE, LIGHT_GREEN, DARK_GREEN, ORANGE, DARK_ORANGE, GRAY, BROWN, GOLD, MISTY_ROSE, DARK_GOLD, LIGHT_YELLOW, DEFAULT;
+	
+	private static DefaultHighlightingConfiguration config;
+	
+	public static void setConfig(DefaultHighlightingConfiguration _config){
+		config = _config;
+	}
+	
+	private static DefaultHighlightingConfiguration getConfig(){
+		if(config == null)
+			config = new DefaultHighlightingConfiguration();
+		return config;
+	}
 	
 	public RGB getColor(){
 		switch(this){
@@ -49,8 +62,11 @@ public enum MOSLColor {
 			return new RGB(255, 228, 225);
 		case LIGHT_YELLOW:
 			return new RGB(255, 255, 224);
+		case DEFAULT:
+			return getConfig().defaultTextStyle().getColor();
 		default:
 			return null;
+
 
 
 		

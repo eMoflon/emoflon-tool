@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
-import org.moflon.ide.core.CoreActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public class RefreshProjectJob extends Job
 {
@@ -39,6 +39,6 @@ public class RefreshProjectJob extends Job
       {
          return e.getStatus();
       }
-      return new Status(IStatus.OK, CoreActivator.getModuleID(), null);
+      return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), null);
    }
 }

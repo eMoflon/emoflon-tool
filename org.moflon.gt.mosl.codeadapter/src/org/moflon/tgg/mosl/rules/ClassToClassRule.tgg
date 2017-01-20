@@ -1,0 +1,38 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule ClassToClassRule #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	gtf : GraphTransformationFile{
+		 - eClasses -> classDef
+	}
+	
+	 classDef : EClassDef{
+		
+	}
+}
+
+#target {
+	trgEPackage : EPackage{
+		- eClassifiers -> trgEClass
+	} 
+	
+	trgEClass : EClass
+}
+
+#correspondence {
+	graphToPackage : GraphTransformationToEPackage{
+		#src->gtf
+		#trg->trgEPackage
+	}
+	
+	++ classToClass : ClassDefToEClass {
+		#src->classDef
+		#trg->trgEClass
+	}
+}
+
+#attributeConditions {
+	
+}

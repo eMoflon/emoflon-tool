@@ -34,22 +34,7 @@ public class StandalonePackageDescriptor implements Descriptor
          Field eInstanceField = clazz.getField("eINSTANCE");
          Object result = eInstanceField.get(null);
          return (EPackage) result;
-      } catch (ClassNotFoundException e)
-      {
-         // Do nothing
-      } catch (SecurityException e)
-      {
-         // Do nothing
-      } catch (IllegalArgumentException e)
-      {
-         // Do nothing
-      } catch (IllegalAccessException e)
-      {
-         // Do nothing
-      } catch (ClassCastException e)
-      {
-         // Do nothing
-      } catch (NoSuchFieldException e)
+      } catch (ClassNotFoundException | SecurityException | IllegalArgumentException | IllegalAccessException | ClassCastException | NoSuchFieldException e)
       {
          // Do nothing
       }

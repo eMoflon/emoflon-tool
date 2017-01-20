@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,13 @@ import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -120,7 +126,7 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
       ArrayList<String> projects = new ArrayList<String>();
       projects.add(project.getName());
 
-      for (IProject projectOnBuildPath : WorkspaceHelper.getProjectsOnBuildPathInReversedOrder(project))
+      for (IProject projectOnBuildPath : getProjectsOnBuildPathInReversedOrder(project))
       {
          try
          {
@@ -133,6 +139,7 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
       }
 
       attributes.put("projects", projects);
+      attributes.put("projectName", project.getName());
       attributes.put("corrPackage", getRootOfClassName() + "Package.eINSTANCE");
       attributes.put("className", getClassName());
       
@@ -146,4 +153,32 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
    }
    
    protected abstract String getClassName();
+   
+   /**
+    * Reversed list of {@link #getProjectsOnBuildPath(IProject)}
+    */
+   private static List<IProject> getProjectsOnBuildPathInReversedOrder(final IProject project)
+   {
+      // Fetch or create java project view of the given project
+      IJavaProject javaProject = JavaCore.create(project);
+      
+      // Get current entries on the classpath
+      ArrayList<IProject> projectsOnBuildPath = new ArrayList<>();
+      try
+      {
+         for (IClasspathEntry entry : javaProject.getRawClasspath())
+         {
+            if (entry.getEntryKind() == IClasspathEntry.CPE_PROJECT)
+            {
+               projectsOnBuildPath.add(ResourcesPlugin.getWorkspace().getRoot().getProject(entry.getPath().lastSegment()));
+            }
+         }
+      } catch (JavaModelException e)
+      {
+         LogUtils.error(logger, e, "Unable to determine projects on buildpath for: " + project.getName());
+      }
+      List<IProject> result = projectsOnBuildPath;
+      Collections.reverse(result);
+      return result;
+   }
 }

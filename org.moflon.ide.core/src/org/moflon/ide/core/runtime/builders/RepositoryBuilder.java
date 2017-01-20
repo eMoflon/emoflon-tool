@@ -26,7 +26,6 @@ import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
@@ -44,13 +43,14 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       super(new AntPatternCondition(new String[] { "model/*.ecore" }));
    }
 
+   @Override
    public ISchedulingRule getRule(final int kind, final Map<String, String> args)
    {
       return getProject();
    }
 
    @Override
-   protected void processResource(IResource ecoreResource, int kind, Map<String, String> args, IProgressMonitor monitor)
+   protected void processResource(final IResource ecoreResource, final int kind, Map<String, String> args, final IProgressMonitor monitor)
    {
       if (isEcoreFile(ecoreResource))
       {
@@ -101,7 +101,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
          } catch (final CoreException e)
          {
-            final IStatus status = new Status(e.getStatus().getSeverity(), CoreActivator.getModuleID(), e.getMessage(), e);
+            final IStatus status = new Status(e.getStatus().getSeverity(), WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
             handleErrorsInEclipse(status, ecoreFile);
          }
       }

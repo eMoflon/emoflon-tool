@@ -5,7 +5,6 @@ import java.net.URL;
 import org.eclipse.core.resources.IProject;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 
 public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
 {
@@ -17,7 +16,7 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
    @Override
    protected String getPackagePrefix()
    {
-      return "org.moflon.tie";
+      return project.getName() + ".org.moflon.tie";
    }
 
    @Override
@@ -29,7 +28,7 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
    @Override
    protected String getPathToFileToBeGenerated()
    {
-      return "/src/org/moflon/tie/" + getClassName() + ".java";
+      return "/src/" + project.getName().replace(".", "/") + "/org/moflon/tie/" + getClassName() + ".java";
    }
 
    @Override
@@ -41,7 +40,7 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
    @Override
    protected URL getTemplateFileURL()
    {
-      return MoflonUtilitiesActivator.getPathRelToPlugIn("/resources/templates/TGGMain.stg", CoreActivator.getModuleID());
+      return MoflonUtilitiesActivator.getPathRelToPlugIn("/resources/templates/TGGMain.stg", WorkspaceHelper.getPluginId(getClass()));
    }
 
    @Override

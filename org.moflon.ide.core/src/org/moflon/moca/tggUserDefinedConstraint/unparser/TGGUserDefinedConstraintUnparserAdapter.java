@@ -12,7 +12,7 @@ import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.log4j.Logger;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
-import org.moflon.ide.core.CoreActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.MocaUtil;
 import org.moflon.tgg.language.csp.Adornment;
 import org.moflon.tgg.language.csp.TGGConstraint;
@@ -22,7 +22,7 @@ public class TGGUserDefinedConstraintUnparserAdapter
 {
    private static final Logger logger = Logger.getLogger(TGGUserDefinedConstraintUnparserAdapter.class);
 
-   public String unparseCspConstraint(final TGGConstraint constraint)
+   public String unparseCspConstraint(final String projectName, final TGGConstraint constraint)
    {
       String content = "";
       try
@@ -32,6 +32,7 @@ public class TGGUserDefinedConstraintUnparserAdapter
          // StringTemplate parameterNameTemplate = group.getInstanceOf("parameterName");
          // StringTemplate parameterTypeTemplate = group.getInstanceOf("parameterType");
 
+         mainTemplate.setAttribute("projectName", projectName);
          mainTemplate.setAttribute("constraintName", MocaUtil.firstToUpper(constraint.getName()));
 
          List<StringTemplate> adornmentTemplates = computeAdornmentTemplates(constraint, group);
@@ -68,7 +69,7 @@ public class TGGUserDefinedConstraintUnparserAdapter
 
    protected StringTemplateGroup getStringTemplateGroup() throws FileNotFoundException
    {
-      URL templateFile = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/templates/TGGUserDefinedConstraint.stg", CoreActivator.getModuleID());
+      URL templateFile = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/templates/TGGUserDefinedConstraint.stg", WorkspaceHelper.getPluginId(getClass()));
 
       InputStreamReader reader = null;
       try

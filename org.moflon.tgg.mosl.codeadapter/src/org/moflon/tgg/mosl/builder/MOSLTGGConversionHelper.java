@@ -42,6 +42,9 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.configuration.PGSavingConfigurator;
 import org.moflon.tgg.language.TripleGraphGrammar;
+import org.moflon.tgg.mosl.codeadapter.org.moflon.tie.CodeadapterPostProcessBackwardHelper;
+import org.moflon.tgg.mosl.codeadapter.org.moflon.tie.CodeadapterPostProcessForwardHelper;
+import org.moflon.tgg.mosl.codeadapter.org.moflon.tie.CodeadapterTrafo;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
 import org.moflon.tgg.mosl.tgg.AttrCond;
 import org.moflon.tgg.mosl.tgg.AttrCondDef;
@@ -49,37 +52,49 @@ import org.moflon.tgg.mosl.tgg.Rule;
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile;
 import org.moflon.tgg.tggproject.TGGProject;
 import org.moflon.tgg.tggproject.TggprojectFactory;
-import org.moflon.tie.CodeadapterPostProcessBackwardHelper;
-import org.moflon.tie.CodeadapterPostProcessForwardHelper;
-import org.moflon.tie.CodeadapterTrafo;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 public class MOSLTGGConversionHelper extends AbstractHandler
 {
    private static Logger logger = Logger.getLogger(MOSLTGGConversionHelper.class);
 
-   public class MyURIHandler extends URIHandlerImpl
+   /**
+    * The purpose of this {@link URIHandlerImpl} is to handle "pre.ecore" files in the same way as "ecore" files.
+    */
+   public class PreEcoreHidingURIHandler extends URIHandlerImpl
    {
       @Override
       public URI deresolve(URI uri)
       {
-         String fileExt = uri.trimFileExtension().fileExtension();
-         if (fileExt != null && fileExt.equals("pre"))
+         if (hasLastButOnePrefix(uri, "pre"))
          {
+            // Trim ".pre .ecore" and add ".ecore"
             return uri.trimFileExtension().trimFileExtension().appendFileExtension("ecore");
          }
+         
          return uri;
+      }
+
+      /**
+       * Returns true if the last but one suffix equals lastButOneSuffix
+       * @param uri the URI to check
+       * @param lastButOneSuffix the expected suffix
+       * @return
+       */
+      private boolean hasLastButOnePrefix(URI uri, String lastButOneSuffix)
+      {
+         return uri.trimFileExtension().fileExtension() != null && uri.trimFileExtension().fileExtension().equals(lastButOneSuffix);
       }
    }
 
-   public Resource generateTGGModel(IResource resource)
+   Resource generateTGGModel(IResource resource)
    {
       try
       {
-         IProject project = resource.getProject();
+         final IProject project = resource.getProject();
 
-         IFolder moslFolder = IFolder.class.cast(resource);
-         XtextResourceSet resourceSet = new XtextResourceSet();
+         final IFolder moslFolder = IFolder.class.cast(resource);
+         final XtextResourceSet resourceSet = new XtextResourceSet();
 
          AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
 
@@ -89,9 +104,9 @@ public class MOSLTGGConversionHelper extends AbstractHandler
             loadAllRulesToTGGFile(xtextParsedTGG, resourceSet, moslFolder);
             addAttrCondDefLibraryReferencesToSchema(xtextParsedTGG);
 
-            // Save intermediate result of Xtext parsing
+            // Save intermediate result of XText parsing
             Map<Object, Object> options = new HashMap<Object, Object>();
-            options.put(XMLResource.OPTION_URI_HANDLER, new MyURIHandler());
+            options.put(XMLResource.OPTION_URI_HANDLER, new PreEcoreHidingURIHandler());
 
             // Invoke TGG forward transformation to produce TGG model
             String pathToThisPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
@@ -159,7 +174,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
    private Collection<Rule> loadRules(IResource iResource, XtextResourceSet resourceSet, IFolder moslFolder) throws IOException
    {
       IFile ruleFile = (IFile) iResource;
-      if (ruleFile.getFileExtension().equals("tgg"))
+      if (ruleFile.getFileExtension().equals(WorkspaceHelper.MOSL_TGG_EXTENSION))
       {
          XtextResource ruleRes = (XtextResource) resourceSet.getResource(URI.createPlatformResourceURI(ruleFile.getFullPath().toString(), true), true);
          EcoreUtil.resolveAll(resourceSet);
@@ -174,30 +189,33 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       return Collections.<Rule> emptyList();
    }
 
+   /**
+    * Loads a TGG grammar from the given folder.
+    * 
+    * The method first searches for a file named 'Schema.tgg' or else uses some other file with a ".tgg" extension 
+    * @param resourceSet
+    * @param moslFolder
+    * @return
+    * @throws IOException
+    * @throws CoreException
+    */
    private TripleGraphGrammarFile createTGGFileAndLoadSchema(XtextResourceSet resourceSet, IFolder moslFolder) throws IOException, CoreException
    {
-      IFile schemaFile = moslFolder.getFile("Schema.tgg");
+      final IFile schemaFile = moslFolder.getFile("Schema." + WorkspaceHelper.MOSL_TGG_EXTENSION);
 
       if (schemaFile.exists())
       {
-         XtextResource schemaResource = (XtextResource) resourceSet.createResource(URI.createPlatformResourceURI(schemaFile.getFullPath().toString(), false));
-         schemaResource.load(null);
-         EcoreUtil.resolveAll(resourceSet);
-         return (TripleGraphGrammarFile) schemaResource.getContents().get(0);
+         return loadTggFromFile(resourceSet, schemaFile);
       } else
       {
-         for (IResource iResource : moslFolder.members())
+         for (IResource resource : moslFolder.members())
          {
-            if (iResource instanceof IFile)
+            if (resource instanceof IFile)
             {
-               schemaFile = (IFile) iResource;
-               if (schemaFile.getFileExtension().equals("tgg"))
+               final IFile otherSchemaFile = IFile.class.cast(resource);
+               if (otherSchemaFile.getFileExtension().equals(WorkspaceHelper.MOSL_TGG_EXTENSION))
                {
-                  XtextResource schemaResource = (XtextResource) resourceSet
-                        .createResource(URI.createPlatformResourceURI(schemaFile.getFullPath().toString(), false));
-                  schemaResource.load(null);
-                  EcoreUtil.resolveAll(resourceSet);
-                  TripleGraphGrammarFile tgg = (TripleGraphGrammarFile) schemaResource.getContents().get(0);
+                  TripleGraphGrammarFile tgg = loadTggFromFile(resourceSet, otherSchemaFile);
                   if (tgg.getSchema() != null)
                      return tgg;
                }
@@ -207,6 +225,18 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       }
    }
 
+   private TripleGraphGrammarFile loadTggFromFile(XtextResourceSet resourceSet, IFile schemaFile) throws IOException
+   {
+      XtextResource schemaResource = (XtextResource) resourceSet.createResource(URI.createPlatformResourceURI(schemaFile.getFullPath().toString(), false));
+      schemaResource.load(null);
+      EcoreUtil.resolveAll(resourceSet);
+      TripleGraphGrammarFile tgg = (TripleGraphGrammarFile) schemaResource.getContents().get(0);
+      return tgg;
+   }
+
+   /**
+    * Tries to convert the first selected item from a "tgg.xmi" file to a MOSL-TGG specification
+    */
    @Override
    public Object execute(ExecutionEvent event) throws ExecutionException
    {

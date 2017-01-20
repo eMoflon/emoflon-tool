@@ -1,0 +1,24 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule MethodToMethodWithScopeContext #extends MethodToMethodContext #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	
+}
+
+#target {
+	operation : MoflonOperation {
+		- rootScope -> scope
+	}
+	
+	scope : Scope
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

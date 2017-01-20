@@ -1,0 +1,31 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#rule ObjectVarianleDefinitionToCFVariableRule #extends MethodToMethodWithScopeContext  #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	method : MethodDec {
+		++ - startStatement -> ovdef
+	}
+	
+	++ ovdef : ObjectVariableDefinition
+}
+
+#target {
+	scope : Scope{
+		++ - variables -> cfVariable
+	}
+	
+	++ cfVariable : CFVariable
+}
+
+#correspondence {
+	++ ovToCfv : OVDefinitionToCFVariable{
+		#src->ovdef
+		#trg->cfVariable
+	}
+}
+
+#attributeConditions {
+	
+}

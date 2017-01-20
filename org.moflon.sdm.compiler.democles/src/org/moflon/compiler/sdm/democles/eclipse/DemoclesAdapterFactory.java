@@ -22,6 +22,8 @@ public class DemoclesAdapterFactory implements IAdapterFactory {
 			return new DemoclesMethodBodyHandler(process.getResourceSet(), defaultCodeGeneratorConfig);
 		} else if (adaptableObject instanceof IFile && MonitoredSDMValidator.class == adapterType) {
 			return new MonitoredSDMValidator((IFile) adaptableObject);
+		} else if (adaptableObject instanceof IFile && MonitoredSDMValidatorWithDumping.class == adapterType) {
+		   return new MonitoredSDMValidatorWithDumping((IFile) adaptableObject);
 		} else if (adaptableObject instanceof IFile && EclipseErrorReporter.class == adapterType) {
 			return new EclipseErrorReporter((IFile) adaptableObject);
 		}

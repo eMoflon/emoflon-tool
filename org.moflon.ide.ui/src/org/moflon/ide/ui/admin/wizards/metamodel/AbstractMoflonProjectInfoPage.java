@@ -2,10 +2,13 @@ package org.moflon.ide.ui.admin.wizards.metamodel;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -20,7 +23,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.ui.UIActivator;
 
 public abstract class AbstractMoflonProjectInfoPage extends WizardPage
@@ -236,12 +238,46 @@ public abstract class AbstractMoflonProjectInfoPage extends WizardPage
 
    private void dialogChanged()
    {
-      IStatus validity = WorkspaceHelper.validateProjectName(projectName, UIActivator.getModuleID());
+      IStatus validity = validateProjectName(projectName, UIActivator.getModuleID());
 
       if (validity.isOK())
          updateStatus(null);
       else
          updateStatus(validity.getMessage());
+   }
+
+   /**
+    * Checks if given name is a valid name for a new project in the current workspace.
+    * 
+    * @param projectName
+    *           Name of project to be created in current workspace
+    * @param pluginId
+    *           ID of bundle
+    * @return A status object indicating success or failure and a relevant message.
+    */
+   private static IStatus validateProjectName(final String projectName, final String pluginId)
+   {
+      // Check if anything was entered at all
+      if (projectName.length() == 0)
+         return new Status(IStatus.ERROR, pluginId, "Name must be specified");
+
+      // Check if name is a valid path for current platform
+      IStatus validity = ResourcesPlugin.getWorkspace().validateName(projectName, IResource.PROJECT);
+      if (!validity.isOK())
+         return new Status(IStatus.ERROR, pluginId, validity.getMessage());
+
+      // Check if no other project with the same name already exists in workspace
+      IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+      for (IProject project : projects)
+      {
+         if (project.getName().equals(projectName))
+         {
+            return new Status(IStatus.ERROR, pluginId, "A project with this name exists already.");
+         }
+      }
+
+      // Everything was fine
+      return new Status(IStatus.OK, pluginId, "Project name is valid");
    }
 
 }

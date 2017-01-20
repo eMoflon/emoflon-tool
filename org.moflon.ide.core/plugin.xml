@@ -55,6 +55,24 @@
       </one-of-nature>
    </extension>
    <extension
+         id="org.moflon.gt.ide.natures.MOSLGTNature"
+         name="MOSL GT Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="org.moflon.ide.core.runtime.natures.MOSLGTNature">
+         </run>
+      </runtime>
+      
+      <requires-nature
+            id="org.eclipse.jdt.core.javanature">
+      </requires-nature><builder
+            id="org.moflon.gt.mosl.ide.MOSLGTBuilder">
+      </builder>
+      <one-of-nature
+            id="org.moflon.ide.core.runtime.natures.MoflonNature">
+      </one-of-nature>
+   </extension>
+   <extension
          id="org.moflon.ide.core.runtime.natures.AntlrNature"
          name="ANTLR Nature"
          point="org.eclipse.core.resources.natures">
@@ -81,13 +99,13 @@
       </builder>
    </extension>
    <extension
-         id="org.moflon.ide.core.runtime.builders.RepositoryBuilder"
-         name="Repository Builder"
+         id="org.moflon.gt.mosl.ide.MOSLGTBuilder"
+         name="MOSL GT Builder"
          point="org.eclipse.core.resources.builders">
       <builder
             isConfigurable="true">
          <run
-               class="org.moflon.ide.core.runtime.builders.RepositoryBuilder">
+               class="org.moflon.ide.core.runtime.builders.MOSLGTBuilder">
          </run></builder>
    </extension>
    <extension
@@ -98,6 +116,17 @@
             isConfigurable="true">
          <run
                class="org.moflon.ide.core.runtime.builders.IntegrationBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="org.moflon.ide.core.runtime.builders.RepositoryBuilder"
+         name="Repository Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            isConfigurable="true">
+         <run
+               class="org.moflon.ide.core.runtime.builders.RepositoryBuilder">
          </run>
       </builder>
    </extension>
