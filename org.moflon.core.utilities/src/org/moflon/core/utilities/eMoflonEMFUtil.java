@@ -52,14 +52,24 @@ public class eMoflonEMFUtil
 
    private static Map<EClassifier, String> clazzNames = new HashMap<EClassifier, String>();
 
-   /*
-    * Initialization Methods
+   /**
+    * Creates a {@link ResourceSetImpl} and performs {@link #initializeDefault(ResourceSetImpl)} on it.
+    * @return the resource set
     */
    public static final ResourceSet createDefaultResourceSet()
    {
       final ResourceSetImpl set = new ResourceSetImpl();
-      set.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+      initializeDefault(set);
       return set;
+   }
+
+   /**
+    * Performs the default initialization of the given {@link ResourceSet}
+    * @param set the {@link ResourceSet} to initialize
+    */
+   public static void initializeDefault(final ResourceSet set)
+   {
+      set.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
    }
 
    /**

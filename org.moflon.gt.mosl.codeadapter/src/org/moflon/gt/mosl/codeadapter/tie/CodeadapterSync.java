@@ -1,4 +1,4 @@
-package org.moflon.tie;
+package org.moflon.gt.mosl.codeadapter.tie;
 
 import java.io.IOException;
 import org.apache.log4j.BasicConfigurator;

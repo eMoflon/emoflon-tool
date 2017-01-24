@@ -22,7 +22,7 @@ public class TGGUserDefinedConstraintUnparserAdapter
 {
    private static final Logger logger = Logger.getLogger(TGGUserDefinedConstraintUnparserAdapter.class);
 
-   public String unparseCspConstraint(final TGGConstraint constraint)
+   public String unparseCspConstraint(final String projectName, final TGGConstraint constraint)
    {
       String content = "";
       try
@@ -32,6 +32,7 @@ public class TGGUserDefinedConstraintUnparserAdapter
          // StringTemplate parameterNameTemplate = group.getInstanceOf("parameterName");
          // StringTemplate parameterTypeTemplate = group.getInstanceOf("parameterType");
 
+         mainTemplate.setAttribute("projectName", projectName);
          mainTemplate.setAttribute("constraintName", MocaUtil.firstToUpper(constraint.getName()));
 
          List<StringTemplate> adornmentTemplates = computeAdornmentTemplates(constraint, group);

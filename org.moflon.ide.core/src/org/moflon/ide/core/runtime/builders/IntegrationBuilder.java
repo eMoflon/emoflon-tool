@@ -306,18 +306,20 @@ public class IntegrationBuilder extends RepositoryBuilder
    private void generateUserDefinedConstraints(final List<TGGConstraint> userDefinedConstraints) throws CoreException
    {
       TGGUserDefinedConstraintUnparserAdapter unparser = new TGGUserDefinedConstraintUnparserAdapter();
+      String pkgPath = "src/" + getProject().getName() + "/csp/constraints/";
+      
+      // Create required folder structure
+      WorkspaceHelper.addAllFolders(getProject(), pkgPath, new NullProgressMonitor());
 
       if (userDefinedConstraints.size() != 0)
       {
-         // Create required folder structure
-         WorkspaceHelper.addAllFolders(getProject(), "src/csp/constraints", new NullProgressMonitor());
 
          for (TGGConstraint constraint : userDefinedConstraints)
          {
-            String content = unparser.unparseCspConstraint(constraint);
+            String content = unparser.unparseCspConstraint(getProject().getName(), constraint);
 
             String nameInUpperCase = MocaUtil.firstToUpper(constraint.getName());
-            String path = "src/csp/constraints/" + nameInUpperCase + ".java";
+            String path = pkgPath + nameInUpperCase + ".java";
 
             // Ignore existing files
             if (!getProject().getFile(path).exists())

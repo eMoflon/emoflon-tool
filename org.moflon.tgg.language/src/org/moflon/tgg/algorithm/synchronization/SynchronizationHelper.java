@@ -120,7 +120,7 @@ public class SynchronizationHelper
       this.corr = (CorrespondenceModel) corrModell;
    }
 
-   private void setCorrPackage(final EPackage corrPackage)
+   protected void setCorrPackage(final EPackage corrPackage)
    {
       projectName = corrPackage.getName();
 
@@ -280,7 +280,11 @@ public class SynchronizationHelper
       }
       
       tempOutputContainer = AlgorithmFactory.eINSTANCE.createTempOutputContainer();
-      set.createResource(eMoflonEMFUtil.createFileURI(projectName + "/tempOutputContainer.xmi", false)).getContents().add(tempOutputContainer);
+      final URI uri = eMoflonEMFUtil.createFileURI(projectName + "/tempOutputContainer.xmi", false);
+      Resource resource = set.getResource(uri, false);
+      if (resource == null)
+         resource = set.createResource(uri);
+      resource.getContents().add(tempOutputContainer);
    }
 
    protected void establishForwardDelta()
