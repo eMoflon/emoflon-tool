@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -44,7 +45,7 @@ public class WorkspaceHelper
    private static final Logger logger = Logger.getLogger(WorkspaceHelper.class);
 
    public final static String PATH_SEPARATOR = "/";
-   
+
    /**
     * Constants for project structure
     */
@@ -64,7 +65,7 @@ public class WorkspaceHelper
    public static final String INJECTION_FILE_EXTENSION = "inject";
 
    public static final String INSTANCES_FOLDER = "instances";
-   
+
    private static final String KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT = ".keep";
 
    public static final String GITIGNORE_FILENAME = ".gitignore";
@@ -75,7 +76,7 @@ public class WorkspaceHelper
    public static final String GEN_MODEL_EXT = ".genmodel";
 
    public static final String ECORE_FILE_EXTENSION = ".ecore";
-   
+
    public static final String PLUGIN_ID_ECORE = "org.eclipse.emf.ecore";
 
    public static final String PLUGIN_ID_EMF_COMMON = "org.eclipse.emf.common";
@@ -140,7 +141,7 @@ public class WorkspaceHelper
    public static final String ANTLR_BUILDER_ID = "org.moflon.ide.core.runtime.builders.AntlrBuilder";
 
    public static final String ANTLR_3 = "/lib/antlr-3.5.2-complete.jar";
-   
+
    /**
     * Constants for XText
     */
@@ -151,7 +152,7 @@ public class WorkspaceHelper
    /**
     * Constants misc
     */
-   
+
    public static final String PLUGIN_NATURE_ID = "org.eclipse.pde.PluginNature"; // PDE.NATURE_ID
 
    public static final String PLUGIN_ID_ECLIPSE_RUNTIME = "org.eclipse.core.runtime";
@@ -163,7 +164,6 @@ public class WorkspaceHelper
    public final static String MOFLON_PROBLEM_MARKER_ID = "org.moflon.ide.marker.EMoflonProblem";
 
    public static final String INJECTION_PROBLEM_MARKER_ID = "org.moflon.ide.marker.InjectionProblem";
-
 
    /**
     * Adds a file to project root, retrieving its contents from the specified location
@@ -187,9 +187,14 @@ public class WorkspaceHelper
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
 
-      IFile projectFile = project.getFile(fileName);
-      InputStream contents = pathToContent.openStream();
-      projectFile.create(contents, true, subMon.split(1));
+      final IFile projectFile = project.getFile(fileName);
+      final InputStream contents = pathToContent.openStream();
+      try
+      {
+         projectFile.create(contents, true, subMon.split(1));
+      } finally {
+         IOUtils.closeQuietly(contents);
+      }
    }
 
    /**
@@ -273,7 +278,7 @@ public class WorkspaceHelper
    public static void createGitignoreFileIfNotExists(final IFile gitignoreFile, final List<String> lines, final IProgressMonitor monitor) throws CoreException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating file " + gitignoreFile, 1);
-   
+
       if (!gitignoreFile.exists())
       {
          final String genFolderGitIgnoreFileContents = StringUtils.join(lines, "\n");
@@ -296,7 +301,7 @@ public class WorkspaceHelper
    public static IFolder addFolder(final IProject project, final String folderName, final IProgressMonitor monitor) throws CoreException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
-   
+
       final IFolder projFolder = project.getFolder(folderName);
       if (!projFolder.exists())
          projFolder.create(true, true, subMon.split(1));
