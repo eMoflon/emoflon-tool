@@ -63,6 +63,7 @@ public class MocaTreeEAPropertiesReader
 
    public Map<String, MetamodelProperties> getProperties(final Node rootNode) throws CoreException
    {
+      this.mocaTree = rootNode;
       Map<String, MetamodelProperties> propertiesMap = new HashMap<>();
       Node exportedTree = (Node) rootNode.getChildren().get(0);
 
