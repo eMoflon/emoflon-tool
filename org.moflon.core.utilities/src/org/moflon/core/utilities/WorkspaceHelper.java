@@ -166,28 +166,6 @@ public class WorkspaceHelper
 
 
    /**
-    * Adds a new folder with name 'folderName' to project
-    * 
-    * @param project
-    *           the project on which the folder will be added
-    * @param folderName
-    *           name of the new folder
-    * @param monitor
-    *           a progress monitor, or null if progress reporting is not desired
-    * @return newly created folder
-    * @throws CoreException
-    */
-   public static IFolder addFolder(final IProject project, final String folderName, final IProgressMonitor monitor) throws CoreException
-   {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
-
-      final IFolder projFolder = project.getFolder(folderName);
-      if (!projFolder.exists())
-         projFolder.create(true, true, subMon.split(1));
-      return projFolder;
-   }
-
-   /**
     * Adds a file to project root, retrieving its contents from the specified location
     * 
     * @param project
@@ -214,16 +192,6 @@ public class WorkspaceHelper
       projectFile.create(contents, true, subMon.split(1));
    }
 
-   public static void clearFolder(final IProject project, final String folder, final IProgressMonitor monitor)
-         throws CoreException, URISyntaxException, IOException
-   {
-      IFolder folderInProject = project.getFolder(folder);
-      final SubMonitor subMon = SubMonitor.convert(monitor, "", folderInProject.members().length);
-
-      for (IResource member : folderInProject.members())
-         member.delete(true, subMon.split(1));
-   }
-
    /**
     * Adds a file to project root, containing specified contents as a string
     * 
@@ -248,6 +216,218 @@ public class WorkspaceHelper
       } else
       {
          projectFile.create(source, true, subMon.split(1));
+      }
+   }
+
+   /**
+    * Creates the given file (if not exists) and stores the given contents in it.
+    * 
+    * If the file exists, its content is replaced with the given content.
+    * 
+    * @param file
+    * @param contents
+    * @param monitor
+    *           the monitor that reports on the progress
+    * @throws CoreException
+    */
+   private static void addFile(final IFile file, final String contents, final IProgressMonitor monitor) throws CoreException
+   {
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Add file", 1);
+      final ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
+      if (file.exists())
+      {
+         file.setContents(source, IFile.FORCE | IFile.KEEP_HISTORY, subMon.split(1));
+      } else
+      {
+         file.create(source, true, subMon.split(1));
+      }
+   }
+
+   public static void createKeepFile(final IFolder folder, final IProgressMonitor monitor)
+   {
+      final String filename = KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT + folder.getName();
+      try
+      {
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Creating " + filename, 1);
+         final IFile keepFile = folder.getFile(filename);
+         if (!keepFile.exists())
+         {
+            keepFile.create(new ByteArrayInputStream(new String("Dummy file to protect empty folder in Git.\n").getBytes()), true, subMon.split(1));
+         }
+      } catch (CoreException e)
+      {
+         LogUtils.warn(logger, "Error during creation of file %s in folder %s .", filename, folder);
+      }
+   }
+
+   /**
+    * Creates the given file with the given content if the file does not exist yet. 
+    * 
+    * If the file already exists, nothing happens.
+    * 
+    * @param gitignoreFile the file to be created
+    * @param lines the contents of the new file
+    * @param monitor the progress monitor
+    * @throws CoreException if creating the file fails
+    */
+   public static void createGitignoreFileIfNotExists(final IFile gitignoreFile, final List<String> lines, final IProgressMonitor monitor) throws CoreException
+   {
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating file " + gitignoreFile, 1);
+   
+      if (!gitignoreFile.exists())
+      {
+         final String genFolderGitIgnoreFileContents = StringUtils.join(lines, "\n");
+         gitignoreFile.create(new ByteArrayInputStream(genFolderGitIgnoreFileContents.getBytes()), true, subMon.split(1));
+      }
+   }
+
+   /**
+    * Adds a new folder with name 'folderName' to project
+    * 
+    * @param project
+    *           the project on which the folder will be added
+    * @param folderName
+    *           name of the new folder
+    * @param monitor
+    *           a progress monitor, or null if progress reporting is not desired
+    * @return newly created folder
+    * @throws CoreException
+    */
+   public static IFolder addFolder(final IProject project, final String folderName, final IProgressMonitor monitor) throws CoreException
+   {
+      final SubMonitor subMon = SubMonitor.convert(monitor, "", 1);
+   
+      final IFolder projFolder = project.getFolder(folderName);
+      if (!projFolder.exists())
+         projFolder.create(true, true, subMon.split(1));
+      return projFolder;
+   }
+
+   /**
+    * Creates a folder denoted by the path inside the given project.
+    * 
+    * @param project
+    * @param path
+    *           the path, separated with {@link WorkspaceHelper#PATH_SEPARATOR}
+    * @param monitor
+    * @throws CoreException
+    */
+   public static void addAllFolders(final IProject project, final String path, final IProgressMonitor monitor) throws CoreException
+   {
+      final String[] folders = path.split(PATH_SEPARATOR);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Add folders", folders.length);
+      StringBuilder currentFolder = new StringBuilder();
+      for (String folder : folders)
+      {
+         currentFolder.append(PATH_SEPARATOR).append(folder);
+         addFolder(project, currentFolder.toString(), subMon.split(1));
+      }
+   }
+
+   /**
+    * Returns whether the given resource is of type {@link IResource#FOLDER}
+    */
+   public static boolean isFolder(final IResource resource)
+   {
+      return resource.getType() == IResource.FOLDER;
+   }
+
+   public static void clearFolder(final IProject project, final String folder, final IProgressMonitor monitor)
+         throws CoreException, URISyntaxException, IOException
+   {
+      IFolder folderInProject = project.getFolder(folder);
+      final SubMonitor subMon = SubMonitor.convert(monitor, "", folderInProject.members().length);
+
+      for (IResource member : folderInProject.members())
+         member.delete(true, subMon.split(1));
+   }
+
+   /**
+    * Returns a handle to the /bin folder of the project
+    * 
+    * @see WorkspaceHelper#BIN_FOLDER
+    */
+   public static IFolder getBinFolder(IProject project)
+   {
+      return project.getFolder(BIN_FOLDER);
+   }
+
+   /**
+    * Returns a handle to the /src folder of the project
+    * 
+    * @see WorkspaceHelper#SOURCE_FOLDER
+    */
+   public static IFolder getSourceFolder(IProject project)
+   {
+      return project.getFolder(SOURCE_FOLDER);
+   }
+
+   /**
+    * Returns a handle to the /gen folder of the project
+    * 
+    * @see WorkspaceHelper#GEN_FOLDER
+    */
+   public static IFolder getGenFolder(final IProject project)
+   {
+      return project.getFolder(GEN_FOLDER);
+   }
+
+   /**
+    * Returns a handle to the /model folder of the project
+    * 
+    * @see WorkspaceHelper#MODEL_FOLDER
+    */
+   public static IFolder getModelFolder(final IProject project)
+   {
+      return project.getFolder(MODEL_FOLDER);
+   }
+
+   /**
+    * Returns a handle to the /instances folder of the project
+    * 
+    * @see WorkspaceHelper#INSTANCES_FOLDER
+    */
+   public static IFolder getInstancesFolder(final IProject project)
+   {
+      return project.getFolder(INSTANCES_FOLDER);
+   }
+
+   /**
+    * Returns a handle to the /lib folder of the project
+    * 
+    * @see WorkspaceHelper#LIB_FOLDER
+    */
+   public static IFolder getLibFolder(final IProject project)
+   {
+      return project.getFolder(LIB_FOLDER);
+   }
+
+   /**
+    * Returns a handle to the /injection folder of the project
+    * 
+    * @see WorkspaceHelper#INJECTION_FOLDER
+    */
+   public static IFolder getInjectionFolder(final IProject project)
+   {
+      return project.getFolder(INJECTION_FOLDER);
+   }
+
+   /**
+    * Creates the given folder (and any missing intermediate folders) if it does not exist yet.
+    * 
+    * @param folder
+    * @param monitor
+    */
+   public static void createFolderIfNotExists(final IFolder folder, final IProgressMonitor monitor) throws CoreException
+   {
+      final IPath projectRelativePath = folder.getProjectRelativePath();
+      final int segmentCount = projectRelativePath.segmentCount();
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating " + folder, segmentCount);
+      for (int i = segmentCount - 1; i >= 0; --i)
+      {
+         final IFolder subFolder = folder.getProject().getFolder(projectRelativePath.removeLastSegments(i));
+         if (!subFolder.exists())
+            subFolder.create(true, true, subMon.split(1));
       }
    }
 
@@ -326,51 +506,6 @@ public class WorkspaceHelper
       });
 
       return javaProject;
-   }
-
-   /**
-    * Creates a folder denoted by the path inside the given project.
-    * 
-    * @param project
-    * @param path
-    *           the path, separated with {@link WorkspaceHelper#PATH_SEPARATOR}
-    * @param monitor
-    * @throws CoreException
-    */
-   public static void addAllFolders(final IProject project, final String path, final IProgressMonitor monitor) throws CoreException
-   {
-      final String[] folders = path.split(PATH_SEPARATOR);
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Add folders", folders.length);
-      StringBuilder currentFolder = new StringBuilder();
-      for (String folder : folders)
-      {
-         currentFolder.append(PATH_SEPARATOR).append(folder);
-         addFolder(project, currentFolder.toString(), subMon.split(1));
-      }
-   }
-
-   /**
-    * Creates the given file (if not exists) and stores the given contents in it.
-    * 
-    * If the file exists, its content is replaced with the given content.
-    * 
-    * @param file
-    * @param contents
-    * @param monitor
-    *           the monitor that reports on the progress
-    * @throws CoreException
-    */
-   private static void addFile(final IFile file, final String contents, final IProgressMonitor monitor) throws CoreException
-   {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Add file", 1);
-      final ByteArrayInputStream source = new ByteArrayInputStream(contents.getBytes());
-      if (file.exists())
-      {
-         file.setContents(source, IFile.FORCE | IFile.KEEP_HISTORY, subMon.split(1));
-      } else
-      {
-         file.create(source, true, subMon.split(1));
-      }
    }
 
    /**
@@ -590,14 +725,6 @@ public class WorkspaceHelper
    }
 
    /**
-    * Returns whether the given resource is of type {@link IResource#FOLDER}
-    */
-   public static boolean isFolder(final IResource resource)
-   {
-      return resource.getType() == IResource.FOLDER;
-   }
-
-   /**
     * Returns the file name of the injection file for a given Java file.
     * 
     * This method assumes that the first segment in the path is the source folder (e.g.,"/src"). The injection file name
@@ -741,95 +868,6 @@ public class WorkspaceHelper
    }
 
    /**
-    * Returns a handle to the /bin folder of the project
-    * 
-    * @see WorkspaceHelper#BIN_FOLDER
-    */
-   public static IFolder getBinFolder(IProject project)
-   {
-      return project.getFolder(BIN_FOLDER);
-   }
-
-   /**
-    * Returns a handle to the /src folder of the project
-    * 
-    * @see WorkspaceHelper#SOURCE_FOLDER
-    */
-   public static IFolder getSourceFolder(IProject project)
-   {
-      return project.getFolder(SOURCE_FOLDER);
-   }
-
-   /**
-    * Returns a handle to the /gen folder of the project
-    * 
-    * @see WorkspaceHelper#GEN_FOLDER
-    */
-   public static IFolder getGenFolder(final IProject project)
-   {
-      return project.getFolder(GEN_FOLDER);
-   }
-
-   /**
-    * Returns a handle to the /model folder of the project
-    * 
-    * @see WorkspaceHelper#MODEL_FOLDER
-    */
-   public static IFolder getModelFolder(final IProject project)
-   {
-      return project.getFolder(MODEL_FOLDER);
-   }
-
-   /**
-    * Returns a handle to the /instances folder of the project
-    * 
-    * @see WorkspaceHelper#INSTANCES_FOLDER
-    */
-   public static IFolder getInstancesFolder(final IProject project)
-   {
-      return project.getFolder(INSTANCES_FOLDER);
-   }
-
-   /**
-    * Returns a handle to the /lib folder of the project
-    * 
-    * @see WorkspaceHelper#LIB_FOLDER
-    */
-   public static IFolder getLibFolder(final IProject project)
-   {
-      return project.getFolder(LIB_FOLDER);
-   }
-
-   /**
-    * Returns a handle to the /injection folder of the project
-    * 
-    * @see WorkspaceHelper#INJECTION_FOLDER
-    */
-   public static IFolder getInjectionFolder(final IProject project)
-   {
-      return project.getFolder(INJECTION_FOLDER);
-   }
-
-   /**
-    * Creates the given folder (and any missing intermediate folders) if it does not exist yet.
-    * 
-    * @param folder
-    * @param monitor
-    */
-   public static void createFolderIfNotExists(final IFolder folder, final IProgressMonitor monitor) throws CoreException
-   {
-      final IPath projectRelativePath = folder.getProjectRelativePath();
-      final int segmentCount = projectRelativePath.segmentCount();
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating " + folder, segmentCount);
-      for (int i = segmentCount - 1; i >= 0; --i)
-      {
-         final IFolder subFolder = folder.getProject().getFolder(projectRelativePath.removeLastSegments(i));
-         if (!subFolder.exists())
-            subFolder.create(true, true, subMon.split(1));
-      }
-   }
-
-   /**
     * Prints the stacktrace of the given {@link Throwable} to a string.
     * 
     * If t is null, then the result is the empty string.
@@ -842,44 +880,6 @@ public class WorkspaceHelper
       ByteArrayOutputStream stream = new ByteArrayOutputStream();
       t.printStackTrace(new PrintStream(stream));
       return new String(stream.toByteArray());
-   }
-
-   public static void createKeepFile(final IFolder folder, final IProgressMonitor monitor)
-   {
-      final String filename = KEEP_EMPTY_FOLDER_FILE_NAME_FOR_GIT + folder.getName();
-      try
-      {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Creating " + filename, 1);
-         final IFile keepFile = folder.getFile(filename);
-         if (!keepFile.exists())
-         {
-            keepFile.create(new ByteArrayInputStream(new String("Dummy file to protect empty folder in Git.\n").getBytes()), true, subMon.split(1));
-         }
-      } catch (CoreException e)
-      {
-         LogUtils.warn(logger, "Error during creation of file %s in folder %s .", filename, folder);
-      }
-   }
-
-   /**
-    * Creates the given file with the given content if the file does not exist yet. 
-    * 
-    * If the file already exists, nothing happens.
-    * 
-    * @param gitignoreFile the file to be created
-    * @param lines the contents of the new file
-    * @param monitor the progress monitor
-    * @throws CoreException if creating the file fails
-    */
-   public static void createGitignoreFileIfNotExists(final IFile gitignoreFile, final List<String> lines, final IProgressMonitor monitor) throws CoreException
-   {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating file " + gitignoreFile, 1);
-
-      if (!gitignoreFile.exists())
-      {
-         final String genFolderGitIgnoreFileContents = StringUtils.join(lines, "\n");
-         gitignoreFile.create(new ByteArrayInputStream(genFolderGitIgnoreFileContents.getBytes()), true, subMon.split(1));
-      }
    }
 
    /**
