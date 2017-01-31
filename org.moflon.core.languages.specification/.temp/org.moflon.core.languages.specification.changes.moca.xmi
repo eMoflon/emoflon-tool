@@ -1,0 +1,139 @@
+<MocaTree:Node xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MocaTree="platform:/plugin/MocaTree/model/MocaTree.ecore">
+  <children name="changesTree" index="0" xsi:type="MocaTree:Node">
+    <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node" />
+      <children name="packages" index="1" xsi:type="MocaTree:Node">
+        <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{F58D88CB-974C-4908-BEBD-B9A7CF29ED6C}" index="0" />
+          <attribute name="Moflon::Name" value="compare" index="1" />
+          <attribute name="Moflon::NsPrefix" value="compare" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/compare/model/Compare.ecore#//compare" index="3" />
+        </children>
+        <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{F9D2F20D-8A23-447d-8F34-DDE7401E4A9C}" index="0" />
+          <attribute name="Moflon::Name" value="parser" index="1" />
+          <attribute name="Moflon::NsPrefix" value="parser" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/parser/model/Parser.ecore#//parser" index="3" />
+        </children>
+        <children name="EPackage" index="2" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{0756C3CF-0C37-4b65-93FA-3AE389FFEDF0}" index="0" />
+          <attribute name="Moflon::Name" value="unparser" index="1" />
+          <attribute name="Moflon::NsPrefix" value="unparser" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/unparser/model/Unparser.ecore#//unparser" index="3" />
+        </children>
+      </children>
+      <attribute name="guid" value="{BB94D4F8-7ED9-411e-8A5E-3FD94F851B2A}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.core.moca.processing" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.core.moca.processing" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.core.moca.processing/model/Processing.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.core.moca.processing" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+    <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node">
+        <children name="EClass" index="0" xsi:type="MocaTree:Node">
+          <attribute name="name" value="CommentableElement" index="0" />
+          <attribute name="previousName" value="CommentableElement" index="1" />
+          <attribute name="packageName" value="SDMLanguage" index="2" />
+          <attribute name="projectName" value="SDMLanguage" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="1" xsi:type="MocaTree:Node">
+          <attribute name="name" value="NamedElement" index="0" />
+          <attribute name="previousName" value="NamedElement" index="1" />
+          <attribute name="packageName" value="SDMLanguage" index="2" />
+          <attribute name="projectName" value="SDMLanguage" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+      </children>
+      <children name="packages" index="1" xsi:type="MocaTree:Node">
+        <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{8D341A6E-B50D-42a8-96BD-139E77BD8836}" index="0" />
+          <attribute name="Moflon::Name" value="activities" index="1" />
+          <attribute name="Moflon::NsPrefix" value="activities" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/activities/model/Activities.ecore#//activities" index="3" />
+        </children>
+        <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{1A0512B4-CB62-4782-BC3C-245DA2950612}" index="0" />
+          <attribute name="Moflon::Name" value="sdmUtil" index="1" />
+          <attribute name="Moflon::NsPrefix" value="sdmUtil" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/sdmUtil/model/SdmUtil.ecore#//sdmUtil" index="3" />
+        </children>
+        <children name="EPackage" index="2" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node">
+            <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+              <children name="classes" index="0" xsi:type="MocaTree:Node" />
+              <children name="packages" index="1" xsi:type="MocaTree:Node" />
+              <attribute name="guid" value="{453E2A49-875C-44d1-A8B6-58C7B4940E4D}" index="0" />
+              <attribute name="Moflon::Name" value="callExpressions" index="1" />
+              <attribute name="Moflon::NsPrefix" value="callExpressions" index="2" />
+              <attribute name="Moflon::NsUri" value="platform:/plugin/callExpressions/model/CallExpressions.ecore#//calls/callExpressions" index="3" />
+            </children>
+          </children>
+          <attribute name="guid" value="{07A28FF1-9489-486a-9FEF-2B8CF38BDB8C}" index="0" />
+          <attribute name="Moflon::Name" value="calls" index="1" />
+          <attribute name="Moflon::NsPrefix" value="calls" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/calls/model/Calls.ecore#//calls" index="3" />
+        </children>
+        <children name="EPackage" index="3" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node" />
+          <attribute name="guid" value="{E7E354FD-82C0-4f1a-B112-3AC189C3EFFD}" index="0" />
+          <attribute name="Moflon::Name" value="expressions" index="1" />
+          <attribute name="Moflon::NsPrefix" value="expressions" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/expressions/model/Expressions.ecore#//expressions" index="3" />
+        </children>
+        <children name="EPackage" index="4" xsi:type="MocaTree:Node">
+          <children name="classes" index="0" xsi:type="MocaTree:Node" />
+          <children name="packages" index="1" xsi:type="MocaTree:Node">
+            <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+              <children name="classes" index="0" xsi:type="MocaTree:Node" />
+              <children name="packages" index="1" xsi:type="MocaTree:Node" />
+              <attribute name="guid" value="{B8442341-D4B4-4b9d-AC47-B6A34F3C167A}" index="0" />
+              <attribute name="Moflon::Name" value="AttributeConstraints" index="1" />
+              <attribute name="Moflon::NsPrefix" value="AttributeConstraints" index="2" />
+              <attribute name="Moflon::NsUri" value="platform:/plugin/AttributeConstraints/model/AttributeConstraints.ecore#//patterns/AttributeConstraints" index="3" />
+            </children>
+            <children name="EPackage" index="1" xsi:type="MocaTree:Node">
+              <children name="classes" index="0" xsi:type="MocaTree:Node" />
+              <children name="packages" index="1" xsi:type="MocaTree:Node" />
+              <attribute name="guid" value="{EB8447D7-2B43-4c86-A3F7-23FD2F987294}" index="0" />
+              <attribute name="Moflon::Name" value="patternExpressions" index="1" />
+              <attribute name="Moflon::NsPrefix" value="patternExpressions" index="2" />
+              <attribute name="Moflon::NsUri" value="platform:/plugin/patternExpressions/model/PatternExpressions.ecore#//patterns/patternExpressions" index="3" />
+            </children>
+          </children>
+          <attribute name="guid" value="{639C4AB3-C3D1-4d6d-826A-66985AED7115}" index="0" />
+          <attribute name="Moflon::Name" value="patterns" index="1" />
+          <attribute name="Moflon::NsPrefix" value="patterns" index="2" />
+          <attribute name="Moflon::NsUri" value="platform:/plugin/patterns/model/Patterns.ecore#//patterns" index="3" />
+        </children>
+      </children>
+      <attribute name="guid" value="{5BB678F1-07CF-4905-91F1-C0478CDCEE23}" index="0" />
+      <attribute name="Moflon::Name" value="SDMLanguage" index="1" />
+      <attribute name="Moflon::NsPrefix" value="SDMLanguage" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/SDMLanguage/model/SDMLanguage.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="SDMLanguage" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon Core + SDM" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+  </children>
+</MocaTree:Node>

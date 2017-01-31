@@ -1,0 +1,82 @@
+<MocaTree:Node xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MocaTree="platform:/plugin/MocaTree/model/MocaTree.ecore">
+  <children name="changesTree" index="0" xsi:type="MocaTree:Node">
+    <children name="EPackage" index="0" xsi:type="MocaTree:Node">
+      <children name="classes" index="0" xsi:type="MocaTree:Node">
+        <children name="EClass" index="0" xsi:type="MocaTree:Node">
+          <attribute name="name" value="EModelElementChange" index="0" />
+          <attribute name="previousName" value="EModelElementChange" index="1" />
+          <attribute name="packageName" value="org.moflon.ide.metamodelevolution.core" index="2" />
+          <attribute name="projectName" value="org.moflon.ide.metamodelevolution.core" index="3" />
+          <attribute name="baseClasses" value="" index="4" />
+        </children>
+        <children name="EClass" index="1" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ExistanceChange" index="0" />
+          <attribute name="previousName" value="ExistanceChange" index="1" />
+          <attribute name="packageName" value="org.moflon.ide.metamodelevolution.core" index="2" />
+          <attribute name="projectName" value="org.moflon.ide.metamodelevolution.core" index="3" />
+          <attribute name="baseClasses" value="{8E8B13D8-234A-4c3a-8DCB-F81FEFDD8ED8} " index="4" />
+        </children>
+        <children name="EClass" index="2" xsi:type="MocaTree:Node">
+          <attribute name="name" value="TaggedValueChange" index="0" />
+          <attribute name="previousName" value="TaggedValueChange" index="1" />
+          <attribute name="packageName" value="org.moflon.ide.metamodelevolution.core" index="2" />
+          <attribute name="projectName" value="org.moflon.ide.metamodelevolution.core" index="3" />
+          <attribute name="baseClasses" value="{8E8B13D8-234A-4c3a-8DCB-F81FEFDD8ED8} " index="4" />
+        </children>
+        <children name="EClass" index="3" xsi:type="MocaTree:Node">
+          <attribute name="name" value="AggregationTypeChange" index="0" />
+          <attribute name="previousName" value="AggregationTypeChange" index="1" />
+          <attribute name="packageName" value="org.moflon.ide.metamodelevolution.core" index="2" />
+          <attribute name="projectName" value="org.moflon.ide.metamodelevolution.core" index="3" />
+          <attribute name="baseClasses" value="{4CB4C96C-1DB2-486b-ACA1-38D1E846B7D2} " index="4" />
+        </children>
+        <children name="EClass" index="4" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ContainmentTypeChange" index="0" />
+          <attribute name="previousName" value="ContainmentTypeChange" index="1" />
+          <attribute name="packageName" value="org.moflon.ide.metamodelevolution.core" index="2" />
+          <attribute name="projectName" value="org.moflon.ide.metamodelevolution.core" index="3" />
+          <attribute name="baseClasses" value="{4CB4C96C-1DB2-486b-ACA1-38D1E846B7D2} " index="4" />
+        </children>
+        <children name="EClass" index="5" xsi:type="MocaTree:Node">
+          <attribute name="name" value="MoveChange" index="0" />
+          <attribute name="previousName" value="MoveChange" index="1" />
+          <attribute name="packageName" value="org.moflon.ide.metamodelevolution.core" index="2" />
+          <attribute name="projectName" value="org.moflon.ide.metamodelevolution.core" index="3" />
+          <attribute name="baseClasses" value="{FC8DBB95-EFD2-400a-8E9C-36D6E7FAF70A} " index="4" />
+        </children>
+        <children name="EClass" index="6" xsi:type="MocaTree:Node">
+          <attribute name="name" value="ScopeChange" index="0" />
+          <attribute name="previousName" value="ScopeChange" index="1" />
+          <attribute name="packageName" value="org.moflon.ide.metamodelevolution.core" index="2" />
+          <attribute name="projectName" value="org.moflon.ide.metamodelevolution.core" index="3" />
+          <attribute name="baseClasses" value="{897CDEA1-3538-4d44-B4ED-9B45662A09FB} " index="4" />
+        </children>
+        <children name="EClass" index="7" xsi:type="MocaTree:Node">
+          <attribute name="name" value="AttributeTypeChange" index="0" />
+          <attribute name="previousName" value="AttributeTypeChange" index="1" />
+          <attribute name="packageName" value="org.moflon.ide.metamodelevolution.core" index="2" />
+          <attribute name="projectName" value="org.moflon.ide.metamodelevolution.core" index="3" />
+          <attribute name="baseClasses" value="{897CDEA1-3538-4d44-B4ED-9B45662A09FB} " index="4" />
+        </children>
+        <children name="EClass" index="8" xsi:type="MocaTree:Node">
+          <attribute name="name" value="MultiyplicityTypeChange" index="0" />
+          <attribute name="previousName" value="MultiyplicityTypeChange" index="1" />
+          <attribute name="packageName" value="org.moflon.ide.metamodelevolution.core" index="2" />
+          <attribute name="projectName" value="org.moflon.ide.metamodelevolution.core" index="3" />
+          <attribute name="baseClasses" value="{897CDEA1-3538-4d44-B4ED-9B45662A09FB} " index="4" />
+        </children>
+      </children>
+      <children name="packages" index="1" xsi:type="MocaTree:Node" />
+      <attribute name="guid" value="{B510EC25-DAA1-423e-8251-B40FD8E65516}" index="0" />
+      <attribute name="Moflon::Name" value="org.moflon.ide.metamodelevolution.core" index="1" />
+      <attribute name="Moflon::NsPrefix" value="org.moflon.ide.metamodelevolution.core" index="2" />
+      <attribute name="Moflon::NsUri" value="platform:/plugin/org.moflon.ide.metamodelevolution.core/model/Core.ecore" index="3" />
+      <attribute name="Moflon::PluginID" value="org.moflon.ide.metamodelevolution.core" index="4" />
+      <attribute name="Moflon::Export" value="true" index="5" />
+      <attribute name="Moflon::Validated" value="false" index="6" />
+      <attribute name="Moflon::WorkingSet" value="eMoflon IDE Co-Evolution" index="7" />
+      <attribute name="Changes::IsTLP" value="true" index="8" />
+      <attribute name="Moflon::Changes" value="true" index="9" />
+    </children>
+  </children>
+</MocaTree:Node>

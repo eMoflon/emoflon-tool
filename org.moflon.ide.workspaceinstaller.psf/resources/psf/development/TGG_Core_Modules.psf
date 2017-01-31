@@ -2,11 +2,11 @@
 <psf version="2.0">
 
 <provider id="org.eclipse.egit.core.GitProvider">
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.cspcodeadapter"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.language"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.runtime"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.specification"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.tgg.tggproject"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.tgg.cspcodeadapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.tgg.language"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.tgg.runtime"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.tgg.specification"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,szander-linux_unix-patch,org.moflon.tgg.tggproject"/>
 </provider>
 
 
