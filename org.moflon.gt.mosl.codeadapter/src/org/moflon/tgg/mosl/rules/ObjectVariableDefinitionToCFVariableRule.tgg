@@ -1,7 +1,7 @@
 #using org.moflon.gt.mosl.codeadapter.*
 #using AttrCondDefLibrary.*
 
-#rule ObjectVarianleDefinitionToCFVariableRule #extends MethodToMethodWithScopeContext  #with org.moflon.gt.mosl.codeadapter
+#abstract #rule ObjectVariableDefinitionToCFVariableRule #extends MethodToMethodWithScopeContext  #with org.moflon.gt.mosl.codeadapter
 
 #source { 
 	method : MethodDec {
