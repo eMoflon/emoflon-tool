@@ -7,7 +7,7 @@ Export-Package: org.moflon.tgg.mosl.builder,
  org.moflon.tgg.mosl.codeadapter.Rules.util,
  org.moflon.tgg.mosl.codeadapter.impl,
  org.moflon.tgg.mosl.codeadapter.util,
- org.moflon.tie
+ org.moflon.tgg.mosl.codeadapter.org.moflon.tie
 Bundle-Name: org.moflon.tgg.mosl.codeadapter
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.moflon.core.utilities,

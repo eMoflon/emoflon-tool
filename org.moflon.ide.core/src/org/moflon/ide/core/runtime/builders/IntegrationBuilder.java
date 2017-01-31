@@ -306,7 +306,7 @@ public class IntegrationBuilder extends RepositoryBuilder
    private void generateUserDefinedConstraints(final List<TGGConstraint> userDefinedConstraints) throws CoreException
    {
       TGGUserDefinedConstraintUnparserAdapter unparser = new TGGUserDefinedConstraintUnparserAdapter();
-      String pkgPath = "src/" + getProject().getName() + "/csp/constraints/";
+      String pkgPath = "src/" + getProject().getName().replace(".", "/") + "/csp/constraints/";
       
       // Create required folder structure
       WorkspaceHelper.addAllFolders(getProject(), pkgPath, new NullProgressMonitor());

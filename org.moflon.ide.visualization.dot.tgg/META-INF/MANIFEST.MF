@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.moflon.ide.visualization.dot.tgg;singleton:=t
  rue
-Export-Package: csp.constraints,
+Export-Package: org.moflon.ide.visualization.dot.tgg.csp.constraints,
  org.moflon.ide.visualization.dot.tgg,
  org.moflon.ide.visualization.dot.tgg.Rules,
  org.moflon.ide.visualization.dot.tgg.Rules.impl,

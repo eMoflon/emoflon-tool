@@ -29,6 +29,9 @@ public class BasicResourceFillingMocaToMoflonTransformation extends
 	public static final String MOCA_TREE_ATTRIBUTE_NS_URI = "Moflon::NsUri";
 	public static final String MOCA_TREE_ATTRIBUTE_EXPORT = "Moflon::Export";
 	public static final String MOFLON_TREE_ATTRIBUTE_NAME = "Moflon::Name";
+   public static final String MOCA_TREE_ATTRIBUTE_NS_PREFIX = "Moflon::NsPrefix";
+   public static final String MOCA_TREE_ATTRIBUTE_PLUGINID = "Moflon::PluginID";
+   public static final String MOCA_TREE_ATTRIBUTE_WORKINGSET = "Moflon::WorkingSet";
 
 	protected static final Logger MOCA_TO_MOFLON_TRANSFORMATION_LOGGER =
 			Logger.getLogger(ResourceFillingMocaToMoflonTransformation.class);
@@ -39,9 +42,9 @@ public class BasicResourceFillingMocaToMoflonTransformation extends
 	private final IProject metamodelProject;
 	
 	private final LinkedList<ITask> metamodelLoaderTasks =
-			new LinkedList<ITask>();
+			new LinkedList<>();
 	private final LinkedList<ProjectDependencyAnalyzer> projectDependencyAnalyzerTasks =
-			new LinkedList<ProjectDependencyAnalyzer>();
+			new LinkedList<>();
 
 	public BasicResourceFillingMocaToMoflonTransformation(
 			final ResourceSet set,
@@ -59,6 +62,15 @@ public class BasicResourceFillingMocaToMoflonTransformation extends
 	public final LinkedList<ProjectDependencyAnalyzer> getProjectDependencyAnalyzerTasks() {
 		return projectDependencyAnalyzerTasks;
 	}
+	
+	public final MetamodelBuilder getMetamodelBuilder() {
+	   return this.metamodelBuilder;
+	}
+	
+	public final IProject getMetamodelProject()
+   {
+      return metamodelProject;
+   }
 
 	@Override
 	public void handleOutermostPackage(final Node node,
@@ -96,7 +108,7 @@ public class BasicResourceFillingMocaToMoflonTransformation extends
 		}
 	}
 
-	static final boolean isExported(final String exported) {
+	protected static final boolean isExported(final String exported) {
 		return !"false".equals(exported);
 	}
 	

@@ -28,7 +28,7 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
    @Override
    protected String getPathToFileToBeGenerated()
    {
-      return "/src/" + project.getName() + "/org/moflon/tie/" + getClassName() + ".java";
+      return "/src/" + project.getName().replace(".", "/") + "/org/moflon/tie/" + getClassName() + ".java";
    }
 
    @Override
