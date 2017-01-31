@@ -19,5 +19,5 @@
 }
 
 #attributeConditions {
-	
+	eq(gtf.name, trgEPackage.name)
 }

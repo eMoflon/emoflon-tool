@@ -9,8 +9,10 @@
 	}
 	
 	 classDef : EClassDef{
-		
+		- name -> srcClass
 	}
+	
+	srcClass : EClass
 }
 
 #target {
@@ -34,5 +36,5 @@
 }
 
 #attributeConditions {
-	
+	eq(srcClass.name, trgEClass.name)
 }
