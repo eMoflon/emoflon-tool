@@ -155,3 +155,8 @@ QualifiedName returns ecore::EString:
 	ID ('.' ID)*
 ;
 
+
+// additional declarations for typing
+AbstractClass: EClassDef className=ID;
+ 
+
