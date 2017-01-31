@@ -40,11 +40,10 @@ public class CodeadpterPerformer {
 	
 	private void performPostprocessing(final Collection<EObject> corrs){
 		for(EObject obj : corrs){
-			AbstractCorrespondence corr = AbstractCorrespondence.class.cast(obj);
-			Class<? extends AbstractCorrespondence> corrClass = corr.getClass();
 			for(Class<? extends AbstractCorrespondence> postProcessorClass : postProcessorCache.keySet()){
-				if(postProcessorClass.isAssignableFrom(corrClass)){
+				if(postProcessorClass.isInstance(obj)){
 					Consumer<AbstractCorrespondence> consumer =postProcessorCache.get(postProcessorClass);
+					AbstractCorrespondence corr = AbstractCorrespondence.class.cast(obj);
 					consumer.accept(corr);
 				}
 			}
