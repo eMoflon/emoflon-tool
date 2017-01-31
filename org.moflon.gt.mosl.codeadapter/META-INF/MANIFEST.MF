@@ -5,6 +5,8 @@ Export-Package: org.moflon.gt.mosl.codeadapter,
  org.moflon.gt.mosl.codeadapter.Rules.impl,
  org.moflon.gt.mosl.codeadapter.Rules.util,
  org.moflon.gt.mosl.codeadapter.impl,
+ org.moflon.gt.mosl.codeadapter.performer,
+ org.moflon.gt.mosl.codeadapter.performer.postrules,
  org.moflon.gt.mosl.codeadapter.tie,
  org.moflon.gt.mosl.codeadapter.util
 Bundle-Name: org.moflon.gt.mosl.codeadapter
