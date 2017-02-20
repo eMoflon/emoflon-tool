@@ -1,0 +1,33 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule ConditionToIfStatementAbstractRule  #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	++ statement : ConditionStatement
+}
+
+#target {
+	++ cfNode : IfStatement{
+		++ - scopes -> thenScope
+		++ - scopes -> elseScope
+	}
+	
+	++ thenScope : Scope{
+		++ - nextScope -> elseScope
+	}
+	
+	++ elseScope : Scope
+	
+}
+
+#correspondence {
+	++ conditionToIf : ConditionStatementToIfStatement {
+		#src->statement
+		#trg->cfNode
+	}
+}
+
+#attributeConditions {
+	
+}

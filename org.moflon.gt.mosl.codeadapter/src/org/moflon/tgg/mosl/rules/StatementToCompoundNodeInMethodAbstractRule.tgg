@@ -1,0 +1,20 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule StatementToCompoundNodeInMethodAbstractNode #extends StatementToCFNodeInMethodAbstractRule #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	
+}
+
+#target {
+	++ cfNode : CompoundNode
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

@@ -1,0 +1,20 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule ReturnStatementToStatementAbstractRule #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	++ statement : moslgt.ReturnStatement
+}
+
+#target {
+	++ cfNode : democles.ReturnStatement
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}

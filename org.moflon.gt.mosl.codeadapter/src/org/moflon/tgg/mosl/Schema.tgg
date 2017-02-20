@@ -46,10 +46,20 @@
 		#trg->HeadControlledLoop
 	}
 	
+	ConditionStatementToIfStatement{
+		#src->ConditionStatement
+		#trg->IfStatement
+	}
+	
 	StatementToCFNode{
 		#src->Statement
 		#trg->CFNode
 	}
+	
+	StatementToScope{
+		#src->Statement
+		#trg->Scope
+	}	
 	
 	InvokeToCFNode{
 		#src->PatternStatement
