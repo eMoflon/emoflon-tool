@@ -50,6 +50,52 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
    }
 
    @Override
+   protected void clean(final IProgressMonitor monitor) throws CoreException
+   {
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Cleaning " + getProject(), 4);
+   
+      final IProject project = getProject();
+   
+      deleteProblemMarkers();
+      subMon.worked(1);
+   
+      final CleanVisitor cleanVisitor = new CleanVisitor(getProject(), //
+            new AntPatternCondition(new String[] { "gen/**", "debug/**" }), //
+            new AntPatternCondition(new String[] { "gen/.keep*" }));
+      // Remove generated code
+      project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
+   
+      // Remove generated model files
+      cleanModels(WorkspaceHelper.getModelFolder(project), subMon.split(1));
+   }
+
+   public void handleErrorsInEclipse(final IStatus status, final IFile ecoreFile)
+   {
+      final String reporterClass = "org.moflon.compiler.sdm.democles.eclipse.EclipseErrorReporter";
+      final ErrorReporter eclipseErrorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(ecoreFile, reporterClass);
+      if (eclipseErrorReporter != null)
+      {
+         eclipseErrorReporter.report(status);
+      } else
+      {
+         logger.debug("Could not load error reporter '" + reporterClass + "'");
+      }
+   }
+
+   public void handleErrorsInEA(final IStatus status)
+   {
+      final String reporterClass = "org.moflon.validation.EnterpriseArchitectValidationHelper";
+      final ErrorReporter errorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(getProject(), reporterClass);
+      if (errorReporter != null)
+      {
+         errorReporter.report(status);
+      } else
+      {
+         logger.debug("Could not load error reporter '" + reporterClass + "'");
+      }
+   }
+
+   @Override
    protected void processResource(final IResource ecoreResource, final int kind, Map<String, String> args, final IProgressMonitor monitor)
    {
       if (isEcoreFile(ecoreResource))
@@ -131,24 +177,26 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       return new AntPatternCondition(new String[0]);
    }
 
-   public void clean(final IProgressMonitor monitor) throws CoreException
+   /**
+    * Handles errors and warning produced by the code generation task
+    * 
+    * @param status the {@link IStatus} that contains the errors and warnings
+    */
+   protected void handleErrorsAndWarnings(final IStatus status, final IFile ecoreFile) throws CoreException
    {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Cleaning " + getProject(), 4);
-
-      final IProject project = getProject();
-
-      // Remove all problem markers
-      deleteProblemMarkers();
-      subMon.worked(1);
-
-      final CleanVisitor cleanVisitor = new CleanVisitor(getProject(), //
-            new AntPatternCondition(new String[] { "gen/**", "debug/**" }), //
-            new AntPatternCondition(new String[] { "gen/.keep*" }));
-      // Remove generated code
-      project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
-
-      // Remove generated model files
-      cleanModels(WorkspaceHelper.getModelFolder(project), subMon.split(1));
+      if (indicatesThatValidationCrashed(status))
+      {
+         throw new CoreException(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), status.getMessage(), status.getException().getCause()));
+      }
+      if (status.matches(IStatus.ERROR))
+      {
+         handleErrorsInEA(status);
+         handleErrorsInEclipse(status, ecoreFile);
+      }
+      if (status.matches(IStatus.WARNING))
+      {
+         handleInjectionWarningsAndErrors(status);
+      }
    }
 
    // Delete generated models within model folder
@@ -197,28 +245,6 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       return !(resource.getName().endsWith(WorkspaceHelper.PRE_ECORE_FILE_EXTENSION) || resource.getName().endsWith(WorkspaceHelper.PRE_TGG_FILE_EXTENSION));
    }
 
-   /**
-    * Handles errors and warning produced by the code generation task
-    * 
-    * @param status the {@link IStatus} that contains the errors and warnings
-    */
-   protected void handleErrorsAndWarnings(final IStatus status, final IFile ecoreFile) throws CoreException
-   {
-      if (indicatesThatValidationCrashed(status))
-      {
-         throw new CoreException(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), status.getMessage(), status.getException().getCause()));
-      }
-      if (status.matches(IStatus.ERROR))
-      {
-         handleErrorsInEA(status);
-         handleErrorsInEclipse(status, ecoreFile);
-      }
-      if (status.matches(IStatus.WARNING))
-      {
-         handleInjectionWarningsAndErrors(status);
-      }
-   }
-
    private boolean indicatesThatValidationCrashed(IStatus status)
    {
       return status.getException() != null;
@@ -227,32 +253,6 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
    private void handleInjectionWarningsAndErrors(final IStatus status)
    {
       final String reporterClass = "org.moflon.moca.inject.validation.InjectionErrorReporter";
-      final ErrorReporter errorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(getProject(), reporterClass);
-      if (errorReporter != null)
-      {
-         errorReporter.report(status);
-      } else
-      {
-         logger.debug("Could not load error reporter '" + reporterClass + "'");
-      }
-   }
-
-   public void handleErrorsInEclipse(final IStatus status, final IFile ecoreFile)
-   {
-      final String reporterClass = "org.moflon.compiler.sdm.democles.eclipse.EclipseErrorReporter";
-      final ErrorReporter eclipseErrorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(ecoreFile, reporterClass);
-      if (eclipseErrorReporter != null)
-      {
-         eclipseErrorReporter.report(status);
-      } else
-      {
-         logger.debug("Could not load error reporter '" + reporterClass + "'");
-      }
-   }
-
-   public void handleErrorsInEA(final IStatus status)
-   {
-      final String reporterClass = "org.moflon.validation.EnterpriseArchitectValidationHelper";
       final ErrorReporter errorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(getProject(), reporterClass);
       if (errorReporter != null)
       {
