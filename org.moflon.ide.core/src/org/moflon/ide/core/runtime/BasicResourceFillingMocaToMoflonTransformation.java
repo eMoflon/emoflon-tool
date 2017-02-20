@@ -21,8 +21,8 @@ import org.moflon.tgg.language.TripleGraphGrammar;
 import MocaTree.Attribute;
 import MocaTree.Node;
 
-public class BasicResourceFillingMocaToMoflonTransformation extends
-		ExporterImpl {
+public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl {
+   
 	public static final String MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT = "TGG";
 	public static final String MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT = "EPackage";
 	public static final String MOCA_TREE_ATTRIBUTE_NS_URI = "Moflon::NsUri";
