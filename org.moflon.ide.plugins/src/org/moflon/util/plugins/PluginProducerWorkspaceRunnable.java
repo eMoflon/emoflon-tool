@@ -1,6 +1,5 @@
 package org.moflon.util.plugins;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -65,18 +64,11 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
    @Override
    public void run(final IProgressMonitor monitor) throws CoreException
    {
-      try
-      {
-         addPluginFeatures(project, projectProperties, monitor);
-         addContainerToBuildPath(project, "org.eclipse.pde.core.requiredPlugins");
-      } catch (IOException e)
-      {
-         LogUtils.error(logger, e);
-      }
+      configureManifest(project, projectProperties, monitor);
+      addContainerToBuildPath(project, "org.eclipse.pde.core.requiredPlugins");
    }
 
-   private void addPluginFeatures(final IProject currentProject, final MetamodelProperties properties, final IProgressMonitor monitor)
-         throws CoreException, IOException
+   protected void configureManifest(final IProject currentProject, final MetamodelProperties properties, final IProgressMonitor monitor) throws CoreException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating/updating plugin project " + currentProject.getName(), 2);
 
@@ -112,7 +104,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
                      Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, WorkspaceHelper.getPluginId(MocaTreePlugin.class),
                            WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, WorkspaceHelper.getPluginId(SDMLanguagePlugin.class),
                            WorkspaceHelper.getPluginId(TGGLanguageActivator.class), WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) }));
-         } catch (Exception e)
+         } catch (final Exception e)
          {
             LogUtils.error(logger, e);
          }
@@ -133,22 +125,6 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
    private boolean migrateOldManifests(final Manifest manifest)
    {
       boolean changed = false;
-
-      // Old ID of the "Moflon Utilities" plugin
-      changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.dependencies");
-
-      // [Dec 2015] Remove TGG debugger
-      changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.tgg.debug.language");
-
-      // Refactoring of plugin IDs in August 2015
-      // Map<String, String> replacementMap = new HashMap<>();
-      // replacementMap.put("org.moflon.testframework",
-      // "org.moflon.testing.testframework");
-      // replacementMap.put("org.moflon.validation",
-      // "org.moflon.validation.validationplugin");
-      // changed |= ManifestFileUpdater.replaceDependencies(manifest,
-      // replacementMap);
-
       return changed;
    }
 
@@ -210,16 +186,16 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
    /**
     * Adds the given container to the build path of the given project if it contains no entry with the same name, yet.
     */
-   private static void addContainerToBuildPath(final IProject project, final String container)
+   protected static void addContainerToBuildPath(final IProject project, final String container)
    {
       final IJavaProject iJavaProject = JavaCore.create(project);
       try
       {
          // Get current entries on the classpath
          Collection<IClasspathEntry> classpathEntries = new ArrayList<>(Arrays.asList(iJavaProject.getRawClasspath()));
-      
+
          addContainerToBuildPath(classpathEntries, container);
-      
+
          setBuildPath(iJavaProject, classpathEntries);
       } catch (JavaModelException e)
       {
@@ -233,7 +209,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
       // Create new buildpath
       IClasspathEntry[] newEntries = new IClasspathEntry[entries.size()];
       entries.toArray(newEntries);
-      
+
       // Set new classpath with added entries
       javaProject.setRawClasspath(newEntries, subMon.split(1));
    }

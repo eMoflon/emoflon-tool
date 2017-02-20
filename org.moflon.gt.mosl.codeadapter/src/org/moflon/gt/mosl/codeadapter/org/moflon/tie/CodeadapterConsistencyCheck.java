@@ -1,11 +1,10 @@
 package org.moflon.gt.mosl.codeadapter.org.moflon.tie;
 
 import java.io.IOException;
+
 import org.apache.log4j.BasicConfigurator;
-import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
-
-
 import org.moflon.gt.mosl.codeadapter.CodeadapterPackage;
+import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 
 
 public class CodeadapterConsistencyCheck extends SynchronizationHelper{

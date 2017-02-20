@@ -1,6 +1,5 @@
 package org.moflon.util.plugins.manifest;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,9 +15,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -42,27 +39,20 @@ public class ExportedPackagesInManifestUpdater extends WorkspaceTask
       this.genModel = genModel;
    }
 
-   public static final void updateExportedPackageInManifest(final IProject project, final GenModel genModel) throws CoreException {
-	   final ExportedPackagesInManifestUpdater manifestUpdater =
-			   new ExportedPackagesInManifestUpdater(project, genModel);
-	   WorkspaceTask.executeInCurrentThread(manifestUpdater, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
+   public static final void updateExportedPackageInManifest(final IProject project, final GenModel genModel) throws CoreException
+   {
+      final ExportedPackagesInManifestUpdater manifestUpdater = new ExportedPackagesInManifestUpdater(project, genModel);
+      WorkspaceTask.executeInCurrentThread(manifestUpdater, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
    }
-   
+
    @Override
    public void run(final IProgressMonitor monitor) throws CoreException
    {
-      try
-      {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Update exported packages extension", 1);
-         new ManifestFileUpdater().processManifest(project, manifest -> {
-            return updateExportedPackages(manifest);
-         });
-         subMon.worked(1);
-      } catch (IOException e)
-      {
-         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem while updating exportedPackages extension", e));
-      }
-
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Update exported packages extension", 1);
+      new ManifestFileUpdater().processManifest(project, manifest -> {
+         return updateExportedPackages(manifest);
+      });
+      subMon.worked(1);
    }
 
    private boolean updateExportedPackages(final Manifest manifest)
@@ -115,13 +105,15 @@ public class ExportedPackagesInManifestUpdater extends WorkspaceTask
    }
 
    @Override
-   public String getTaskName() {
-	   return "Manifest file export package updater";
+   public String getTaskName()
+   {
+      return "Manifest file export package updater";
    }
 
    @Override
-   public final ISchedulingRule getRule() {
-	   final IFile manifestFile = WorkspaceHelper.getManifestFile(project);
-	   return manifestFile.exists() ? manifestFile : manifestFile.getParent();
+   public final ISchedulingRule getRule()
+   {
+      final IFile manifestFile = WorkspaceHelper.getManifestFile(project);
+      return manifestFile.exists() ? manifestFile : manifestFile.getParent();
    }
 }
