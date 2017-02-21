@@ -1,15 +1,16 @@
 <project name="org.cmoflon.updatesite" default="clean" basedir=".">
   <description>
-    Helper ant file for the update site project of eMoflon
+    Helper ant file for the update site of eMoflon
   </description>
+  <!--
+  This target creates an archive that contains a ready-to-upload update site for eMoflon
+  -->
   <target name="createArchive">
-  	<!--
-  	This task creates an archive that contains a ready-to-upload update site for eMoflon
-  	-->
+  	<delete file="build/updatesite.zip"/>
   	<zip destfile="build/updatesite.zip"
   		update="false">
-	    <fileset dir="." includes="features"/>
-	    <fileset dir="." includes="plugins"/>
+	    <fileset dir="." includes="features/*" excludes="**/*.signedjar"/>
+	    <fileset dir="." includes="plugins/*" excludes="**/*.signedjar"/>
 	    <fileset dir="." includes="artifacts.jar"/>
 	    <fileset dir="." includes="associateSites.xml"/>
 	    <fileset dir="." includes="changelog.txt"/>
@@ -21,7 +22,7 @@
   </target>
 	
   <!--
-  This task removes all generated artefacts  
+  This target removes all generated artefacts  
   -->
   <target name="clean" description="Remove generated artifacts">
     <delete dir="features"/>

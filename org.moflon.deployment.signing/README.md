@@ -1,15 +1,18 @@
 ##Requirements
 - eMoflon.keystore (in this folder)
 - Internet connection (for time stamp)
+- make (e.g., within Cygwin)
 
 ##How to use it
 
-- Run eMoflon-Deployment_signer.bat (if your PC is not very fast take a coffee)
-- The script will sign all jars contained in the provided deployment directory (e.g., update-site2) in-place and recursively.
+- Copy *MakefileConfig.sample* to *MakefileConfig* and adjust the marked settings to your plattform
+- Invoke the Makefile (from within this directory):
+    - ```make -j4``` (for 4 parallel threads)
+- The Makefile will sign all jars contained in the provided deployment directory in-place and recursively.
 - If no Errors are shown, you're done.
 
 ## Additional scripts
-- *config.bat* contains general configuration properties
+- *include/config.bat* contains general configuration properties
 - *eMoflon-Deployment_createKeystore.bat* can be used to create a new key store
 - *eMoflon-Deployment_listKeystore.bat* lists the certificates in the key store
 - *dependencies/homefinder.jar* extracts the *java.home* property of the active Java runtime environment
