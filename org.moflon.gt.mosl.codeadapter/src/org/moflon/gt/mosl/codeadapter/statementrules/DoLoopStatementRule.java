@@ -1,9 +1,10 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
 import org.moflon.gt.mosl.moslgt.DoLoopStatement;
-import org.moflon.sdm.runtime.democles.Scope;
+import org.moflon.sdm.runtime.democles.CompoundNode;
+import org.moflon.sdm.runtime.democles.DemoclesFactory;
 
-public class DoLoopStatementRule extends AbstractStatementRule<DoLoopStatement> {
+public class DoLoopStatementRule extends AbstractLoopStatementRule<DoLoopStatement> {
 
 	@Override
 	protected Class<DoLoopStatement> getStatementClass() {
@@ -11,9 +12,8 @@ public class DoLoopStatementRule extends AbstractStatementRule<DoLoopStatement> 
 	}
 
 	@Override
-	protected void transformStatement(DoLoopStatement stmnt, Scope scope) {
-		// TODO Auto-generated method stub
-		
+	protected CompoundNode createCurrentCompoundNode() {
+		return DemoclesFactory.eINSTANCE.createTailControlledLoop();
 	}
 
 }

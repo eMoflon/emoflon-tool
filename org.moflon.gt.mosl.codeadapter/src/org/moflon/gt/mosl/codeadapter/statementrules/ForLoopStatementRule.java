@@ -1,9 +1,10 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
 import org.moflon.gt.mosl.moslgt.ForLoopStatement;
-import org.moflon.sdm.runtime.democles.Scope;
+import org.moflon.sdm.runtime.democles.CompoundNode;
+import org.moflon.sdm.runtime.democles.DemoclesFactory;
 
-public class ForLoopStatementRule extends AbstractStatementRule<ForLoopStatement> {
+public class ForLoopStatementRule extends AbstractLoopStatementRule<ForLoopStatement> {
 
 	@Override
 	protected Class<ForLoopStatement> getStatementClass() {
@@ -11,9 +12,8 @@ public class ForLoopStatementRule extends AbstractStatementRule<ForLoopStatement
 	}
 
 	@Override
-	protected void transformStatement(ForLoopStatement stmnt, Scope scope) {
-		// TODO Auto-generated method s
-		
+	protected CompoundNode createCurrentCompoundNode() {
+		return DemoclesFactory.eINSTANCE.createForEach();
 	}
 
 }

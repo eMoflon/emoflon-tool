@@ -1,9 +1,10 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
 import org.moflon.gt.mosl.moslgt.WhileLoopStatement;
-import org.moflon.sdm.runtime.democles.Scope;
+import org.moflon.sdm.runtime.democles.CompoundNode;
+import org.moflon.sdm.runtime.democles.DemoclesFactory;
 
-public class WhileLoopStatementRule extends AbstractStatementRule<WhileLoopStatement> {
+public class WhileLoopStatementRule extends AbstractLoopStatementRule<WhileLoopStatement> {
 
 	@Override
 	protected Class<WhileLoopStatement> getStatementClass() {
@@ -11,9 +12,10 @@ public class WhileLoopStatementRule extends AbstractStatementRule<WhileLoopState
 	}
 
 	@Override
-	protected void transformStatement(WhileLoopStatement stmnt, Scope scope) {
-		// TODO Auto-generated method stub
-		
+	protected CompoundNode createCurrentCompoundNode() {
+		return DemoclesFactory.eINSTANCE.createHeadControlledLoop();
 	}
+
+
 
 }

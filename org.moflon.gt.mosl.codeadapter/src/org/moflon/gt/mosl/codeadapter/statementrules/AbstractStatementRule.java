@@ -13,8 +13,19 @@ public abstract class AbstractStatementRule <S extends Statement>{
 	
 	protected abstract Class<S> getStatementClass();
 	protected abstract void transformStatement(S stmnt, Scope scope);
-	private void castStatement(final Statement stmnt, Scope scope){
-		transformStatement(getStatementClass().cast(stmnt), scope);
+	
+	protected void preTransformStatement(S stmnt, Scope scope){
+		transformStatement(stmnt, scope);
+		postTransformStatement(stmnt, scope);
 	}
+	
+	protected void postTransformStatement(S stmnt, Scope scope){
+		//default do nothing
+	}
+	
+	private void castStatement(final Statement stmnt, Scope scope){
+		preTransformStatement(getStatementClass().cast(stmnt), scope);
+	}
+	
 	
 }
