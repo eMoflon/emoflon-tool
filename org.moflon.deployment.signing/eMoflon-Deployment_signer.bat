@@ -1,6 +1,6 @@
 @echo off
 
-call config.bat
+call include/config.bat
 
 cd "%deployment_directory%"
 
