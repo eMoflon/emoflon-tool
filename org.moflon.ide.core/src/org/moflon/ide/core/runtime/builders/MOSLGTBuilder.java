@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -165,13 +166,20 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       {
         CodeadapterTrafo helper = CodeadapterTrafo.getInstance();
         		//new CodeadapterTrafo(
-//               URI.createPlatformPluginURI(WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true), getResourceSet());
+               //URI.createPlatformPluginURI(WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true), getResourceSet());
          for (final IFile moslGTFile : collectMOSLGTFiles())
          {
             Resource schemaResource = (Resource) this.getResourceSet()
                   .createResource(URI.createPlatformResourceURI(moslGTFile.getFullPath().toString(), false));
             schemaResource.load(null);
             final GraphTransformationFile gtf = GraphTransformationFile.class.cast(schemaResource.getContents().get(0));
+            if(gtf.getImports().size() > 0){
+            	String contextEcorePath = gtf.getImports().get(0).getName().replaceFirst("platform:/resource", "").replaceFirst("platform:/plugin", "");
+            	Resource ecoreRes= (Resource) getResourceSet().createResource(URI.createPlatformResourceURI(contextEcorePath, false));
+            	ecoreRes.load(null);
+            	final EPackage contextEPackage = (EPackage) ecoreRes.getContents().get(0);
+            	helper.transform(contextEPackage, gtf);            	
+            }
             //helper.transform(contextEPackage, gtf);
 //            
             //TODO@szander: Need to add postprocessing (as in MOSLTGGConversionHelper:120)
