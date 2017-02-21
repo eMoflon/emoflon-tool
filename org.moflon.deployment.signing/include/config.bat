@@ -29,7 +29,7 @@ set "alias=eMoflon"
 set "timestamp=http://timestamp.comodoca.com/rfc3161"
 
 
-set /p deployment_directory="Please provide deployment directory: "
+::set /p deployment_directory="Please provide deployment directory: "
 
 :: Read %store_pass% variable
 set /p store_pass="Please enter eMoflon store password: "
@@ -38,6 +38,6 @@ set /p store_pass="Please enter eMoflon store password: "
 cls
 
 echo JRE home '%java_jre_home%'
-echo Deployment directory: '%deployment_directory%'
+::echo Deployment directory: '%deployment_directory%'
 
 
