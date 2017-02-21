@@ -34,7 +34,7 @@ import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
-import org.moflon.gt.mosl.codeadapter.tie.CodeadapterTrafo;
+import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
@@ -163,18 +163,17 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    {
       try
       {
-         CodeadapterTrafo helper = new CodeadapterTrafo(
-               URI.createPlatformPluginURI(WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true), getResourceSet());
+        CodeadapterTrafo helper = CodeadapterTrafo.getInstance();
+        		//new CodeadapterTrafo(
+//               URI.createPlatformPluginURI(WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true), getResourceSet());
          for (final IFile moslGTFile : collectMOSLGTFiles())
          {
             Resource schemaResource = (Resource) this.getResourceSet()
                   .createResource(URI.createPlatformResourceURI(moslGTFile.getFullPath().toString(), false));
             schemaResource.load(null);
             final GraphTransformationFile gtf = GraphTransformationFile.class.cast(schemaResource.getContents().get(0));
-            helper.setSrc(gtf);
-            helper.setVerbose(false);
-            helper.integrateForward();
-            
+            //helper.transform(contextEPackage, gtf);
+//            
             //TODO@szander: Need to add postprocessing (as in MOSLTGGConversionHelper:120)
          }
          EcoreUtil.resolveAll(this.getResourceSet());
