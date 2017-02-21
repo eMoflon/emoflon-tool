@@ -16,7 +16,7 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
    @Override
    protected String getPackagePrefix()
    {
-      return "org.moflon.tie";
+      return project.getName() + ".org.moflon.tie";
    }
 
    @Override
@@ -28,7 +28,7 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
    @Override
    protected String getPathToFileToBeGenerated()
    {
-      return "/src/org/moflon/tie/" + getClassName() + ".java";
+      return "/src/" + project.getName().replace(".", "/") + "/org/moflon/tie/" + getClassName() + ".java";
    }
 
    @Override

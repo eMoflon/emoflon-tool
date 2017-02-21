@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import org.moflon.gt.mosl.moslgt.EClassDef
 
 /**
  * Generates code from your model files on save.
@@ -16,10 +17,8 @@ import org.eclipse.xtext.generator.IGeneratorContext
 class MOSLGTGenerator extends AbstractGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(typeof(Greeting))
-//				.map[name]
-//				.join(', '))
+		for(EClassDef classDef : resource.allContents.filter(typeof(EClassDef)).toIterable){
+			classDef.className = classDef.name.name;
+		}
 	}
 }
