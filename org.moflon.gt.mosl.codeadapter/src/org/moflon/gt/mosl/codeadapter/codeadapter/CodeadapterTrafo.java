@@ -19,6 +19,7 @@ import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.gt.mosl.moslgt.MethodDec;
 import org.moflon.gt.mosl.moslgt.MethodParameter;
+import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.MoflonOperation;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
@@ -29,8 +30,10 @@ public class CodeadapterTrafo {
 	
 	private static CodeadapterTrafo instance;
 	
+	private StatementAdapter statementTrafo;
+	
 	private CodeadapterTrafo(){
-		
+		statementTrafo = StatementAdapter.getInstance();
 	}
 	
 	public static CodeadapterTrafo getInstance(){
@@ -94,6 +97,10 @@ public class CodeadapterTrafo {
 	
 	private void transformMethodStructure(final MethodDec methodDec, MoflonOperation mofOp){
 		Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
+		mofOp.setRootScope(rootScope);
+		
+		Statement startStatement = methodDec.getStartStatement();
+		statementTrafo.transformStatement(startStatement, rootScope);
 		
 	}
 	
