@@ -25,6 +25,7 @@
   This target removes all generated artefacts  
   -->
   <target name="clean" description="Remove generated artifacts">
+    <delete dir="build"/>
     <delete dir="features"/>
     <delete dir="plugins"/>
     <delete file="artifacts.jar"/>
