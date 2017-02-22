@@ -1,6 +1,6 @@
 @echo off
 
-call config.bat
+call include/config.bat
 
 "%keytool%" -genkey -alias "%alias%" ^
 			-keyalg RSA ^
@@ -8,6 +8,6 @@ call config.bat
 			-keypass "%store_pass%" ^
 			-storepass "%store_pass%" ^
 			-validity 7300 ^
-			-dname "OU=Real-Time Systems Lab, O=TU Darmstadt, L=Darmstadt, ST=Hesse, C=DE"
+			-dname "CN=eMoflon Core Developers, OU=Real-Time Systems Lab, O=TU Darmstadt, L=Darmstadt, ST=Hesse, C=DE"
 
 pause

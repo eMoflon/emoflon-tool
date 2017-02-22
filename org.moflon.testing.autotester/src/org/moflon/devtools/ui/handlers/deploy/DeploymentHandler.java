@@ -6,6 +6,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.moflon.autotest.core.DeploymentJob;
@@ -22,6 +23,9 @@ public class DeploymentHandler extends AbstractCommandHandler
    public Object execute(final ExecutionEvent event) throws ExecutionException
    {
       final IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+
+      MessageDialog.openInformation(window.getShell(), "Deprecation warning",
+            "We are planning to deprecate using the custom deployment process for eMoflon. Please use the standard Eclipse build process by right-clicking the 'site.xml' file in 'org.moflon.deployment.updatesite' and selecting 'Plug-in tools -> Build Site'.");
 
       DeploymentDialog dialog = new DeploymentDialog(window.getShell());
       dialog.setDeploymentDirectory(getDefaultDeploymentPath());

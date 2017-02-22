@@ -14,7 +14,7 @@
 		++ - rootScope -> scope
 	}
 	
-	++ scope : Scope
+	++ scope : democles.Scope
 }
 
 #correspondence {

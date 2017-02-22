@@ -2,7 +2,6 @@ package org.moflon.ide.core.runtime;
 
 import java.util.LinkedList;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -22,8 +21,8 @@ import org.moflon.tgg.language.TripleGraphGrammar;
 import MocaTree.Attribute;
 import MocaTree.Node;
 
-public class BasicResourceFillingMocaToMoflonTransformation extends
-		ExporterImpl {
+public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl {
+   
 	public static final String MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT = "TGG";
 	public static final String MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT = "EPackage";
 	public static final String MOCA_TREE_ATTRIBUTE_NS_URI = "Moflon::NsUri";
@@ -33,14 +32,11 @@ public class BasicResourceFillingMocaToMoflonTransformation extends
    public static final String MOCA_TREE_ATTRIBUTE_PLUGINID = "Moflon::PluginID";
    public static final String MOCA_TREE_ATTRIBUTE_WORKINGSET = "Moflon::WorkingSet";
 
-	protected static final Logger MOCA_TO_MOFLON_TRANSFORMATION_LOGGER =
-			Logger.getLogger(ResourceFillingMocaToMoflonTransformation.class);
-	   
 	protected final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 	protected final ResourceSet set;
+	
 	private final MetamodelBuilder metamodelBuilder;
 	private final IProject metamodelProject;
-	
 	private final LinkedList<ITask> metamodelLoaderTasks =
 			new LinkedList<>();
 	private final LinkedList<ProjectDependencyAnalyzer> projectDependencyAnalyzerTasks =

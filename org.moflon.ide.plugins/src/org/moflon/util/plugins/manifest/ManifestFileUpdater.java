@@ -16,6 +16,7 @@ import java.util.jar.Attributes.Name;
 import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -49,7 +50,7 @@ public class ManifestFileUpdater
    /**
     * Delegates to {@link #processManifest(IProject, Function, IProgressMonitor)} using a {@link NullProgressMonitor}
     */
-   public void processManifest(final IProject project, final Function<Manifest, Boolean> consumer) throws CoreException, IOException
+   public void processManifest(final IProject project, final Function<Manifest, Boolean> consumer) throws CoreException
    {
       this.processManifest(project, consumer, new NullProgressMonitor());
    }
@@ -65,8 +66,7 @@ public class ManifestFileUpdater
     * @throws CoreException
     * @throws IOException
     */
-   public void processManifest(final IProject project, final Function<Manifest, Boolean> consumer, final IProgressMonitor monitor)
-         throws CoreException, IOException
+   public void processManifest(final IProject project, final Function<Manifest, Boolean> consumer, final IProgressMonitor monitor) throws CoreException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Processing manifest of project " + project.getName(), 100);
       IFile manifestFile = WorkspaceHelper.getManifestFile(project);
@@ -83,18 +83,26 @@ public class ManifestFileUpdater
 
       if (hasManifestChanged)
       {
-         ByteArrayOutputStream stream = new ByteArrayOutputStream();
+         final ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-         new ManifestWriter().write(manifest, stream);
-         String formattedManifestString = prettyPrintManifest(stream.toString());
-         if (!manifestFile.exists())
+         try
          {
-            WorkspaceHelper.addAllFoldersAndFile(project, manifestFile.getProjectRelativePath(), formattedManifestString, subMon.split(10));
-         } else
+            new ManifestWriter().write(manifest, stream);
+            String formattedManifestString = prettyPrintManifest(stream.toString());
+            if (!manifestFile.exists())
+            {
+               WorkspaceHelper.addAllFoldersAndFile(project, manifestFile.getProjectRelativePath(), formattedManifestString, subMon.split(10));
+            } else
+            {
+               final ByteArrayInputStream fileOutputStream = new ByteArrayInputStream(formattedManifestString.getBytes());
+               manifestFile.setContents(fileOutputStream, IFile.FORCE, subMon.split(10));
+            }
+         } catch (final IOException e)
          {
-            final ByteArrayInputStream fileOutputStream = new ByteArrayInputStream(formattedManifestString.getBytes());
-            manifestFile.setContents(fileOutputStream, IFile.FORCE, subMon.split(10));
-            stream.close();
+            throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problem while stream Manifest file: " + e.getMessage(), e));
+         } finally
+         {
+            IOUtils.closeQuietly(stream);
          }
       } else
       {

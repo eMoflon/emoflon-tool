@@ -1,3 +1,18 @@
+2017-02-?? eMoflon 2.28.0 released
+
+This release is a maintenance release with several internal refactorings.
+No need for eMoflon users to update immediately.
+
+Closed issues:
+* Source code still missing from deployed eMoflon #195
+* Parallelize signing script #191
+* Disable Ecore visualization until it is more stable #188
+
+Developer notes:
+* We will switch to the standard Eclipse build process in the near future. The "Deploy eMoflon..." button is deprecated fron now on.
+* For signing the eMoflon features and plugins, we switched from a batch script to a Makefile to simplify parallel processing.
+
+---
 2017-01-20 eMoflon 2.26.0 released
 
 This release fixes problems with name clashes of generated packages and eMoflon-internal packages

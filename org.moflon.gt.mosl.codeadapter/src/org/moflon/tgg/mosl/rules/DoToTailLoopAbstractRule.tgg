@@ -1,0 +1,24 @@
+#using org.moflon.gt.mosl.codeadapter.*
+#using AttrCondDefLibrary.*
+
+#abstract #rule DoToTailLoopAbstractRule #with org.moflon.gt.mosl.codeadapter
+
+#source { 
+	++ statement : DoLoopStatement
+}
+
+#target {
+	++ cfNode : TailControlledLoop{
+		++ - scopes -> innerScope
+	}
+	
+	++ innerScope : Scope
+}
+
+#correspondence {
+	
+}
+
+#attributeConditions {
+	
+}
