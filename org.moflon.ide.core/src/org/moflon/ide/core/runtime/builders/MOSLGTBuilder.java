@@ -32,6 +32,7 @@ import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.utilities.ErrorReporter;
+import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
@@ -178,7 +179,9 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
             	Resource ecoreRes= (Resource) getResourceSet().createResource(URI.createPlatformResourceURI(contextEcorePath, false));
             	ecoreRes.load(null);
             	final EPackage contextEPackage = (EPackage) ecoreRes.getContents().get(0);
-            	helper.transform(contextEPackage, gtf);            	
+            	EPackage enrichedEPackage = helper.transform(contextEPackage, gtf);
+            	String path = moslGTFile.getProject().getLocation().toOSString()+"\\instances\\debug.ecore";
+            	eMoflonEMFUtil.saveModel(getResourceSet(), enrichedEPackage, path);
             }
             //helper.transform(contextEPackage, gtf);
 //            

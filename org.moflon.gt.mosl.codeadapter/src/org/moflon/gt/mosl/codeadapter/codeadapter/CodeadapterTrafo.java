@@ -6,7 +6,9 @@ package org.moflon.gt.mosl.codeadapter.codeadapter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -45,10 +47,12 @@ public class CodeadapterTrafo {
 	
 	public EPackage transform (final EPackage contextEPackage, final GraphTransformationFile gtf){
 		EPackage cpyContextEPackage =EcoreUtil.copy(contextEPackage);
+		String name = gtf.getName();
+		String[] domain=name.split(Pattern.quote( "." ));
 		
-		if(contextEPackage.getName().equals(gtf.getName())){
+		if(contextEPackage.getName().compareToIgnoreCase(gtf.getName())==0 || domain.length > 0 && contextEPackage.getName().compareToIgnoreCase(domain[domain.length-1])==0){
 			for(EClassDef classDef : gtf.getEClasses()){
-				EClass cpyContextEClass = (EClass)cpyContextEPackage.getEClassifier(classDef.getClassName());
+				EClass cpyContextEClass = (EClass)cpyContextEPackage.getEClassifier(classDef.getName().getName());
 				EClass eClassContext = classDef.getName();
 				transformMethodsToEOperations(eClassContext, classDef, cpyContextEClass);
 			}
@@ -62,9 +66,10 @@ public class CodeadapterTrafo {
 			// this is a closure which will test if an EOperation with its EParameters already exist
 			Predicate<? super EOperation> eOpTest=(eo -> eo.getName().equals(methodDec.getName()) 
 					&& methodDec.getParameters().stream().allMatch(param -> eo.getEParameters().stream().anyMatch(eParam -> eParam.getEType().equals(param.getType()))));
+			Optional<EOperation> opt = changeableContext.getEOperations().stream().filter(eOpTest).findFirst();
 			
-			if(contextEClass.getEAllOperations().stream().anyMatch(eOpTest)){
-				changeableContext.getEAllOperations().remove(changeableContext.getEAllOperations().stream().filter(eOpTest));
+			if(opt.isPresent()){
+				changeableContext.getEOperations().remove(opt.get());
 			}
 			
 			MoflonOperation mofOp = ControlflowFactory.eINSTANCE.createMoflonOperation();
