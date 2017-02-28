@@ -64,8 +64,11 @@ public class CodeadapterTrafo {
 	private void transformMethodsToEOperations(final EClass contextEClass, final EClassDef eclassDef, EClass changeableContext){
 		for(final MethodDec methodDec :  eclassDef.getOperations()){
 			// this is a closure which will test if an EOperation with its EParameters already exist
-			Predicate<? super EOperation> eOpTest=(eo -> eo.getName().equals(methodDec.getName()) 
-					&& methodDec.getParameters().stream().allMatch(param -> eo.getEParameters().stream().anyMatch(eParam -> eParam.getEType().equals(param.getType()))));
+			Predicate<? super EOperation> eOpTest=(
+					eo -> eo.getName().equals(methodDec.getName()) 
+					&& methodDec.getParameters().stream().allMatch(
+							param -> eo.getEParameters().stream().anyMatch(
+									eParam -> eParam.getEType().getName().equals(param.getType().getName()))));
 			Optional<EOperation> opt = changeableContext.getEOperations().stream().filter(eOpTest).findFirst();
 			
 			if(opt.isPresent()){
