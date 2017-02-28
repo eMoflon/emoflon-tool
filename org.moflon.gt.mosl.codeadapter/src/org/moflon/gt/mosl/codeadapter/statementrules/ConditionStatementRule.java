@@ -18,6 +18,8 @@ public class ConditionStatementRule extends AbstractConditionStatementRule<Condi
 		IfStatement ifStatement = DemoclesFactory.eINSTANCE.createIfStatement();
 		scope.getContents().add(ifStatement);
 		
+		handlePattern(ifStatement);
+		
 		Scope thenScope = DemoclesFactory.eINSTANCE.createScope();
 		thenScope.setParent(ifStatement);		
 		StatementAdapter.getInstance().transformStatement(stmnt.getThenStartStatement(), thenScope);

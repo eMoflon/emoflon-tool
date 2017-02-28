@@ -11,6 +11,7 @@ public abstract class AbstractLoopStatementRule<S extends LoopStatement> extends
 	protected void transformStatement(S stmnt, Scope scope) {
 		Scope innerScope = DemoclesFactory.eINSTANCE.createScope();
 		CompoundNode parent = createCurrentCompoundNode();
+		handlePattern(parent);
 		innerScope.setParent(parent);
 		parent.setScope(scope);
 		StatementAdapter.getInstance().transformStatement(stmnt.getLoopStartStatement(), innerScope);
