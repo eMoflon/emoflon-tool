@@ -1,14 +1,14 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
 
-import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
+import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 
 import org.moflon.gt.mosl.moslgt.ReturnStatement;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
 
-public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement> {
+public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement> implements IHandlePatternsInStatement{
 
 	@Override
 	protected Class<ReturnStatement> getStatementClass() {
@@ -20,7 +20,8 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement> 
 		org.moflon.sdm.runtime.democles.ReturnStatement rs = DemoclesFactory.eINSTANCE.createReturnStatement();
 		scope.getContents().add(rs);
 		
-		//ObjectVariablePattern returnValue = stmnt.getReturnObject();
+		
+		ObjectVariableDefinition returnValue = stmnt.getReturnObject();
 
 	}
 

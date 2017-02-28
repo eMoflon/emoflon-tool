@@ -23,11 +23,12 @@ public class ConditionStatementRule extends AbstractConditionStatementRule<Condi
 		
 		Scope thenScope = DemoclesFactory.eINSTANCE.createScope();
 		thenScope.setParent(ifStatement);		
-		StatementAdapter.getInstance().transformStatement(stmnt.getThenStartStatement(), thenScope, previosCFNode);
+		StatementAdapter.getInstance().transformStatement(stmnt.getThenStartStatement(), thenScope, null);
 		
 		if(stmnt.getElseStartStatement() != null){
 			Scope elseScope = DemoclesFactory.eINSTANCE.createScope();
 			elseScope.setParent(ifStatement);
+			StatementAdapter.getInstance().transformStatement(stmnt.getElseStartStatement(), elseScope, null);
 		}		
 	}
 

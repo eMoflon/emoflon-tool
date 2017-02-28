@@ -1,7 +1,5 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
-import java.util.function.Function;
-
 import org.eclipse.emf.ecore.EClassifier;
 import org.moflon.gt.mosl.codeadapter.codeadapter.StatementAdapter;
 import org.moflon.gt.mosl.exceptions.MissingReturnException;
@@ -25,6 +23,9 @@ public abstract class AbstractNextStatementRule<S extends NextStatement> extends
 		 
 		if(previosCFNode != null)
 			previosCFNode.setNext(currentNode);
+		
+		if(currentNode == null)
+			currentNode = previosCFNode;
 		
 		StatementAdapter.getInstance().transformStatement(nextStmnt, scope, currentNode);
 	}

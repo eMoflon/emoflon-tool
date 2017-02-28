@@ -2,11 +2,9 @@ package org.moflon.gt.mosl.codeadapter.statementrules;
 
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.sdm.runtime.democles.CFNode;
-import org.moflon.sdm.runtime.democles.CFVariable;
-import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
 
-public class ObjectVariableDefinitionRule extends AbstractNextStatementRule<ObjectVariableDefinition> {
+public class ObjectVariableDefinitionRule extends AbstractNextStatementRule<ObjectVariableDefinition> implements IHandleCFVariable{
 
 	@Override
 	protected Class<ObjectVariableDefinition> getStatementClass() {
@@ -15,15 +13,7 @@ public class ObjectVariableDefinitionRule extends AbstractNextStatementRule<Obje
 
 	@Override
 	protected void transformStatement(ObjectVariableDefinition stmnt, Scope scope, CFNode previosCFNode) {
-		this.updateCurrentNode(DemoclesFactory.eINSTANCE.createCFNode()).setScope(scope);
-		CFVariable variable = DemoclesFactory.eINSTANCE.createCFVariable();
-		variable.setScope(scope);
-		
-		variable.setName(stmnt.getName());
-		variable.setType(stmnt.getType());
-		
-		//TODO
-		
+		this.getOrCreateVariable(scope, stmnt.getName(), stmnt.getType());		
 	}
 
 }

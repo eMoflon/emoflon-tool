@@ -17,7 +17,6 @@ public class PatternStatementRule extends AbstractNextStatementRule<PatternState
 		CFNode cfNode = this.updateCurrentNode(DemoclesFactory.eINSTANCE.createCFNode());
 		cfNode.setScope(scope);
 		this.handlePattern(stmnt.getParameters(), stmnt.getPattern(), cfNode, scope);
-		// TODO Auto-generated method stub
 		
 	}
 

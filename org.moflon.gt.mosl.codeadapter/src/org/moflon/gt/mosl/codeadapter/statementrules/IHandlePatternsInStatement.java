@@ -1,7 +1,6 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
 import java.util.List;
-
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.Variable;
 import org.moflon.gt.mosl.codeadapter.codeadapter.PatternGenerator;
@@ -18,7 +17,7 @@ import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.Scope;
 import org.moflon.sdm.runtime.democles.VariableReference;
 
-public interface IHandlePatternsInStatement {
+public interface IHandlePatternsInStatement extends IHandleCFVariable{
 	default void handlePattern(List<CalledPatternParameter> cpps, PatternDef patternDef, CFNode cfNode, Scope scope){
 		PatternInvocation invocation = DemoclesFactory.eINSTANCE.createRegularPatternInvocation(); //TODO find correct Pattern invocation
 		Pattern pattern = PatternGenerator.getInstance().getPattern(patternDef.getName());
@@ -39,19 +38,15 @@ public interface IHandlePatternsInStatement {
 				throw new NoMatchingVariableFound();
 			vr.setTo(var);
 			
-			CFVariable cfVar = DemoclesFactory.eINSTANCE.createCFVariable();
-			cfVar.setScope(scope);
-			vr.setFrom(cfVar);
-			
 			ObjectVariableDefinition ovRef = cpps.get(index).getDefiningOV();
 			if(ovRef == null){
 				 ovRef = cpps.get(index).getExistingOV();
 			}
-			cfVar.setName(ovRef.getName());
-			cfVar.setType(ovRef.getType());
 			
-		}
-		
-
+			CFVariable cfVar = getOrCreateVariable(scope, ovRef.getName(), ovRef.getType());
+			vr.setFrom(cfVar);	
+		}	
 	}
+	
+
 }

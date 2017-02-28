@@ -73,7 +73,7 @@ ForLoopStatement: '#For' '('
 	'}'
 ;
 
-ReturnStatement:{ReturnStatement} "#return" (returnObject=[ObjectVariablePattern])?;
+ReturnStatement:{ReturnStatement} "#return" (returnObject=[ObjectVariableDefinition])?;
 
 ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName];
 

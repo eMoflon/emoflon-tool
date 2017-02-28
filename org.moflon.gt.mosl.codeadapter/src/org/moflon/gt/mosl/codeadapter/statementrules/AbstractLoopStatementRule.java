@@ -15,7 +15,7 @@ public abstract class AbstractLoopStatementRule<S extends LoopStatement> extends
 		handlePattern(parent);
 		innerScope.setParent(parent);
 		parent.setScope(scope);
-		StatementAdapter.getInstance().transformStatement(stmnt.getLoopStartStatement(), innerScope, previosCFNode);
+		StatementAdapter.getInstance().transformStatement(stmnt.getLoopStartStatement(), innerScope, null);
 	}
 	
 	protected abstract CompoundNode createCurrentCompoundNode();
