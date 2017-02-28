@@ -1,8 +1,5 @@
 package org.moflon.gt.mosl.codeadapter.codeadapter;
 
-
-
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,8 +31,11 @@ public class CodeadapterTrafo {
 	
 	private StatementAdapter statementTrafo;
 	
+	private PatternGenerator patternGen;
+	
 	private CodeadapterTrafo(){
 		statementTrafo = StatementAdapter.getInstance();
+		patternGen = PatternGenerator.getInstance();
 	}
 	
 	public static CodeadapterTrafo getInstance(){
@@ -49,6 +49,8 @@ public class CodeadapterTrafo {
 		EPackage cpyContextEPackage =EcoreUtil.copy(contextEPackage);
 		String name = gtf.getName();
 		String[] domain=name.split(Pattern.quote( "." ));
+		
+		patternGen.createPatterns(gtf.getPatterns());
 		
 		if(contextEPackage.getName().compareToIgnoreCase(gtf.getName())==0 || domain.length > 0 && contextEPackage.getName().compareToIgnoreCase(domain[domain.length-1])==0){
 			for(EClassDef classDef : gtf.getEClasses()){
@@ -103,8 +105,7 @@ public class CodeadapterTrafo {
 		return paramLst;
 	}
 	
-	private void transformMethodStructure(final MethodDec methodDec, MoflonOperation mofOp){
-		
+	private void transformMethodStructure(final MethodDec methodDec, MoflonOperation mofOp){		
 		Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
 		mofOp.setRootScope(rootScope);
 		
@@ -113,9 +114,4 @@ public class CodeadapterTrafo {
 		statementTrafo.transformStatement(startStatement, rootScope);
 		
 	}
-	
-	
-	
-	
-
 }

@@ -50,6 +50,9 @@ public class StatementAdapter {
 		}
 	}
 	
+	/*
+	 * load the currentMethod before using transformStatement !!!!!!
+	 */
 	public void loadCurrentMethod(MethodDec method){
 		currentMethod=method;
 	}
