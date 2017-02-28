@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.moflon.gt.mosl.moslgt.MethodDec;
 import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.runtime.democles.Scope;
 
@@ -17,6 +18,8 @@ public class StatementAdapter {
 	private static Map<Class<? extends Statement>, Function<Statement, Consumer<Scope>>> statementRuleCache = new HashMap<>();
 	
 	private static StatementAdapter instance;
+	
+	private MethodDec currentMethod;
 	
 	private StatementAdapter(){
 		statementRuleCache.clear();
@@ -47,5 +50,11 @@ public class StatementAdapter {
 		}
 	}
 	
+	public void loadCurrentMethod(MethodDec method){
+		currentMethod=method;
+	}
 	
+	public MethodDec getCurrentMethod(){
+		return currentMethod;
+	}
 }

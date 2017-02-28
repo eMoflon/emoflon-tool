@@ -104,9 +104,11 @@ public class CodeadapterTrafo {
 	}
 	
 	private void transformMethodStructure(final MethodDec methodDec, MoflonOperation mofOp){
+		
 		Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
 		mofOp.setRootScope(rootScope);
 		
+		statementTrafo.loadCurrentMethod(methodDec);
 		Statement startStatement = methodDec.getStartStatement();
 		statementTrafo.transformStatement(startStatement, rootScope);
 		

@@ -12,6 +12,7 @@ public class PatternStatementRule extends AbstractNextStatementRule<PatternState
 
 	@Override
 	protected void transformStatement(PatternStatement stmnt, Scope scope) {
+		
 		// TODO Auto-generated method stub
 		
 	}
