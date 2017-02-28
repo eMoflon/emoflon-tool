@@ -11,10 +11,10 @@ public abstract class AbstractConditionStatementRule<S extends ConditionContaini
 	
 	
 	@Override
-	protected void preTransformStatement(S stmnt, Scope scope) {
+	protected void preTransformStatement(S stmnt, Scope scope, CFNode previosCFNode) {
 		Condition cond = stmnt.getCond();
 		handlePattern = c -> this.handlePattern(cond.getParameters(), cond.getPattern(), c, scope);		
-		super.preTransformStatement(stmnt, scope);
+		super.preTransformStatement(stmnt, scope, previosCFNode);
 	}
 	
 	private Consumer<CFNode> handlePattern;

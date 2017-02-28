@@ -111,7 +111,7 @@ public class CodeadapterTrafo {
 		
 		statementTrafo.loadCurrentMethod(methodDec);
 		Statement startStatement = methodDec.getStartStatement();
-		statementTrafo.transformStatement(startStatement, rootScope);
+		statementTrafo.transformStatement(startStatement, rootScope, null);
 		
 	}
 }
