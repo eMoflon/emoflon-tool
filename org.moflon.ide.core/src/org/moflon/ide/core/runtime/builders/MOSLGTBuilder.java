@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -32,7 +33,6 @@ import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.utilities.ErrorReporter;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
@@ -135,7 +135,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       subMon.worked(1);
       initializeResourceSet();
 
-      loadMGTFiles();
+      loadMGTFiles(monitor);
 
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
       codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
@@ -161,7 +161,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    /**
     * Adds all MOSL-GT files in this project to the resource set (see {@link #getResourceSet()}) 
     */
-   private IStatus loadMGTFiles()
+   private IStatus loadMGTFiles(final IProgressMonitor monitor)
    {
       try
       {
@@ -170,7 +170,9 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
                //URI.createPlatformPluginURI(WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true), getResourceSet());
          for (final IFile moslGTFile : collectMOSLGTFiles())
          {
-            Resource schemaResource = (Resource) this.getResourceSet()
+        	 final URI workspaceURI = URI.createPlatformResourceURI("/", true);
+            final URI projectURI = URI.createURI(getProject().getName() + "/", true).resolve(workspaceURI);
+        	 Resource schemaResource = (Resource) this.getResourceSet()
                   .createResource(URI.createPlatformResourceURI(moslGTFile.getFullPath().toString(), false));
             schemaResource.load(null);
             final GraphTransformationFile gtf = GraphTransformationFile.class.cast(schemaResource.getContents().get(0));
@@ -180,10 +182,12 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
             	ecoreRes.load(null);
             	final EPackage contextEPackage = (EPackage) ecoreRes.getContents().get(0);
             	EPackage enrichedEPackage = helper.transform(contextEPackage, gtf);
-            	String path = moslGTFile.getProject().getLocation().toOSString()+"\\instances\\debug.ecore";
-            	eMoflonEMFUtil.saveModel(getResourceSet(), enrichedEPackage, path);
+            	IFile enrichedEcoreFile = getProject().getFile(WorkspaceHelper.INSTANCES_FOLDER + "/debug"+WorkspaceHelper.ECORE_FILE_EXTENSION);
+            	URI enrichedEcoreURI = URI.createURI(enrichedEcoreFile.getProjectRelativePath().toString(), true).resolve(projectURI);
+            	Resource enrichedEcoreResource = getResourceSet().createResource(enrichedEcoreURI);
+            	enrichedEcoreResource.getContents().add(enrichedEPackage);
+            	enrichedEcoreResource.save(Collections.EMPTY_MAP);
             }
-            //helper.transform(contextEPackage, gtf);
 //            
             //TODO@szander: Need to add postprocessing (as in MOSLTGGConversionHelper:120)
          }
