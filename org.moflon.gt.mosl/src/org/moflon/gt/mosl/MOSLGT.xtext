@@ -34,7 +34,7 @@ MethodDec:
 	'}')?
 ;
 
-CalledPatternParameter:(definingOV=ObjectVariableDefinition) | (existingOV=[ObjectVariablePattern | QualifiedName]);
+CalledPatternParameter:(definingOV=ObjectVariableDefinition) | (existingOV=[ObjectVariableDefinition | QualifiedName]);
 
 Statement: NextStatement | ReturnStatement;
 
