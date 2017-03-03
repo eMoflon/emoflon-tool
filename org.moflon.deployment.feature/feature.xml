@@ -33,7 +33,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
    </license>
 
    <url>
-      <update label="eMoflon at GitHub" url="https://emoflon.github.io/eclipse-plugin/beta/update-site2"/>
+      <update label="eMoflon at GitHub" url="https://emoflon.github.io/eclipse-plugin/beta/updatesite"/>
    </url>
 
    <requires>
