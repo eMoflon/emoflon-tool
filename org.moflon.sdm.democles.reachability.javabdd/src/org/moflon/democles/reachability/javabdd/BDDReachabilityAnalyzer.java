@@ -57,7 +57,6 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
 
    private BDD reachableStates;
 
-
    /**
     * Creates the BDD analyzer.
     * 
@@ -186,27 +185,28 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
       return transitionRelation;
    }
 
-   private boolean isReachable(Adornment adornment, BDD r)
+   private boolean isReachable(final Adornment adornment, final BDD r)
    {
       //TODO@rkluge: Adjust to new variable mapping
+      final BDD rPrime;
       if (adornment.get(r.var()) > Adornment.BOUND)
       {
-         r = r.high();
+         rPrime = r.high();
       } else
       {
-         r = r.low();
+         rPrime = r.low();
       }
-      if (r.equals(bddFactory.one()))
+      if (rPrime.equals(bddFactory.one()))
       {
          //System.out.println("State "+adornment.toString()+" is Reachable");
          return true;
       }
-      if (r.equals(bddFactory.zero()))
+      if (rPrime.equals(bddFactory.zero()))
       {
          //System.out.println("State "+adornment.toString()+" is NOT Reachable");
          return false;
       }
-      return isReachable(adornment, r);
+      return isReachable(adornment, rPrime);
    }
 
    public void calculateReachableStates(BDD transitionRelation)
