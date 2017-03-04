@@ -33,21 +33,21 @@ abstract public class PatternMatcherGenerator extends PatternMatcherImpl
       ValidationReport report = ResultFactory.eINSTANCE.createValidationReport();
       try
       {
-         EClass eClass = (EClass) ((AdapterResource) pattern.eResource()).getTarget();
-
-         CompilerPattern compilerPattern = patternMatcher.compilePattern(pattern, adornment);
-         CompilerPatternBody body = compilerPattern.getBodies().get(0);
-         //			final ReachabilityAnalyzer reachabilityAnalyzer = new BDDReachabilityAnalyzer(body.getOperations(), adornment);
+         final EClass eClass = (EClass) ((AdapterResource) pattern.eResource()).getTarget();
+         final CompilerPattern compilerPattern = patternMatcher.compilePattern(pattern, adornment);
+         final CompilerPatternBody body = compilerPattern.getBodies().get(0);
+         //final List<GeneratorOperation> operations = body.getOperations();
+         // final ReachabilityAnalyzer reachabilityAnalyzer = new BDDReachabilityAnalyzer<>(operations, adornment);
          final ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
+         //         final ReachabilityAnalyzer reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer<>(operations, adornment);
          reachabilityAnalyzer.analyzeReachability();
          final boolean isReachable = reachabilityAnalyzer.isReachable(adornment);
          if (isReachable)
          {
-            Chain<GeneratorOperation> searchPlan = PatternMatcherCompiler.generateSearchPlan(body, adornment);
-            SearchPlanAdapter adapter = createSearchPlanAdapter(body, adornment, searchPlan, isMultipleMatch);
+            final Chain<GeneratorOperation> searchPlan = PatternMatcherCompiler.generateSearchPlan(body, adornment);
+            final SearchPlanAdapter adapter = createSearchPlanAdapter(body, adornment, searchPlan, isMultipleMatch);
             eClass.eAdapters().add(adapter);
-         }
-         else 
+         } else
          {
             createAndAddErrorMessage(pattern, report);
          }

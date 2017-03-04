@@ -29,10 +29,10 @@ import net.sf.javabdd.BDDPairing;
  * @author Erhan Leblebici
  * @author Roland Kluge
  */
-public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Comparable<W>> implements ReachabilityAnalyzer
+public class BDDReachabilityAnalyzer<U extends OperationRuntime> implements ReachabilityAnalyzer
 {
 
-   private final List<WeightedOperation<U, W>> operations;
+   private final List<U> operations;
 
    private final Adornment inputAdornment;
 
@@ -63,7 +63,7 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
     * @param operations the available operations to build up a search plan for the pattern
     * @param inputAdornment the adornment of the pattern to be analyzed
     */
-   public BDDReachabilityAnalyzer(List<WeightedOperation<U, W>> operations, Adornment inputAdornment)
+   public BDDReachabilityAnalyzer(final List<U> operations, Adornment inputAdornment)
    {
       this.operations = operations;
       this.inputAdornment = inputAdornment;
@@ -112,9 +112,7 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
       transitionRelation.free();
    }
 
-   /**
-    * Returns whether the given adornment can in principle be fulfilled using the provided operations
-    */
+   @Override
    public final boolean isReachable(Adornment adornment)
    {
       if (reachableStates == null)
@@ -123,17 +121,17 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
       return isReachable(adornment, reachableStates);
    }
 
-   private BDD calculateTransitionRelation(List<WeightedOperation<U, W>> operations)
+   private BDD calculateTransitionRelation(List<U> operations)
    {
       // long time = System.currentTimeMillis();
       BDD transitionRelation = bddFactory.zero();
 
-      for (WeightedOperation<U, W> operation : operations)
+      for (OperationRuntime operation : operations)
       {
-         if (operation != null && (operation.getOperation().getPrecondition().cardinality() != 0))
+         if (operation != null && (operation.getPrecondition().cardinality() != 0))
          {
             BDD cube = bddFactory.one();
-            Adornment precondition = operation.getOperation().getPrecondition();
+            Adornment precondition = operation.getPrecondition();
             for (int i = 0; i < precondition.size(); i++)
             {
 

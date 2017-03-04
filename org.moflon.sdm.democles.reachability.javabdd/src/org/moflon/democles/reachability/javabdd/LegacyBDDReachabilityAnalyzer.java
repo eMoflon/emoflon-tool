@@ -4,15 +4,20 @@ import java.util.List;
 
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.OperationRuntime;
-import org.gervarro.democles.plan.WeightedOperation;
 
-import net.sf.javabdd.*;
+import net.sf.javabdd.BDD;
+import net.sf.javabdd.BDDDomain;
+import net.sf.javabdd.BDDFactory;
+import net.sf.javabdd.BDDPairing;
 
 /**
- * This is the original BDD reachability analysis (modulo refactoring) from snapshot from 
+ * This is the original BDD reachability analysis (modulo refactoring) 
+ * 
+ * Taken from  
  * gervarro.org/democles/trunk/org.moflon.democles.reachability.javabdd  
+ * on 2016-09-03
  */
-public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime, W extends Comparable<W>> implements ReachabilityAnalyzer {
+public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implements ReachabilityAnalyzer {
 
 	private BDDFactory bddFactory;
 	BDDPairing fwdPairing;
@@ -23,12 +28,12 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime, W extends
 	boolean calculated = false;
 	
 	BDD reachableStates;
-   private List<WeightedOperation<U, W>> operations;
+   private List<U> operations;
    private Adornment inputAdornment;
 
-	public LegacyBDDReachabilityAnalyzer(List<WeightedOperation<U,W>> operations2, Adornment inputAdornment2){
-	   this.operations = operations2;
-	   this.inputAdornment = inputAdornment2;
+	public LegacyBDDReachabilityAnalyzer(final List<U> operations, final Adornment inputAdornment){
+	   this.operations = operations;
+	   this.inputAdornment = inputAdornment;
 	}
 	
 	@Override
@@ -70,15 +75,15 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime, W extends
    	return isReachable(adornment, reachableStates);
    }
 
-   private BDD calculateTransitionRelation(List<WeightedOperation<U,W>> operations) {
+   private BDD calculateTransitionRelation(List<U> operations) {
    	// long time = System.currentTimeMillis();
    	BDD transitionRelation = bddFactory.zero();
    	
-   	for (WeightedOperation<U,W> operation : operations){
-   		if (operation != null && (operation.getOperation().getPrecondition().cardinality() != 0)){
+   	for (OperationRuntime operation : operations){
+   		if (operation != null && (operation.getPrecondition().cardinality() != 0)){
    			BDD cube = bddFactory.one();
    			//TODO This process has to be updated
-   			Adornment precondition = operation.getOperation().getPrecondition();
+   			Adornment precondition = operation.getPrecondition();
    			for (int i = 0; i < precondition.size(); i++) {
    				if (Adornment.FREE == precondition.get(i)) {
    					// Required to be free
