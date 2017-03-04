@@ -1,5 +1,7 @@
 package org.moflon.compiler.sdm.democles;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
 import org.gervarro.democles.codegen.Chain;
 import org.gervarro.democles.codegen.GeneratorOperation;
@@ -8,7 +10,7 @@ import org.gervarro.democles.compiler.CompilerPattern;
 import org.gervarro.democles.compiler.CompilerPatternBody;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
-import org.moflon.democles.reachability.javabdd.NullReachabilityAnalyzer;
+import org.moflon.democles.reachability.javabdd.LegacyBDDReachabilityAnalyzer;
 import org.moflon.democles.reachability.javabdd.ReachabilityAnalyzer;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
@@ -36,10 +38,10 @@ abstract public class PatternMatcherGenerator extends PatternMatcherImpl
          final EClass eClass = (EClass) ((AdapterResource) pattern.eResource()).getTarget();
          final CompilerPattern compilerPattern = patternMatcher.compilePattern(pattern, adornment);
          final CompilerPatternBody body = compilerPattern.getBodies().get(0);
-         //final List<GeneratorOperation> operations = body.getOperations();
+         final List<GeneratorOperation> operations = body.getOperations();
          // final ReachabilityAnalyzer reachabilityAnalyzer = new BDDReachabilityAnalyzer<>(operations, adornment);
-         final ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
-         //         final ReachabilityAnalyzer reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer<>(operations, adornment);
+         //         final ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
+         final ReachabilityAnalyzer reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer<>(operations, adornment);
          reachabilityAnalyzer.analyzeReachability();
          final boolean isReachable = reachabilityAnalyzer.isReachable(adornment);
          if (isReachable)
