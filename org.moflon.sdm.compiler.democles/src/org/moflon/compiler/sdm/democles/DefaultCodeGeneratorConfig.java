@@ -8,18 +8,21 @@ import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
 
 
 public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
+   // Start of pattern types
 	public static final String BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR = "BindingAndBlackPatternMatcherGenerator";
 	public static final String BINDING_PATTERN_MATCHER_GENERATOR = "BindingPatternMatcherGenerator";
 	public static final String BLACK_PATTERN_MATCHER_GENERATOR = "BlackPatternMatcherGenerator";
 	public static final String RED_PATTERN_MATCHER_GENERATOR = "RedPatternMatcherGenerator";
 	public static final String GREEN_PATTERN_MATCHER_GENERATOR = "GreenPatternMatcherGenerator";
 	public static final String EXPRESSION_PATTERN_MATCHER_GENERATOR = "ExpressionPatternMatcherGenerator";
+   // End of pattern types
 
 	public DefaultCodeGeneratorConfig(ResourceSet resourceSet) {
 		super(resourceSet);
 	}
 
-	protected PatternMatcher configureBindingAndBlackPatternMatcher(Resource resource) throws IOException {
+	@Override
+	protected PatternMatcher configureBindingAndBlackPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler bindingAndBlackPatternMatcherCompiler =
 				configureBindingAndBlackPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator bindingAndBlackPatternMatcherGenerator =
@@ -27,8 +30,9 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		resource.getContents().add(bindingAndBlackPatternMatcherGenerator);
 		return bindingAndBlackPatternMatcherGenerator;
 	}
-	
-	protected PatternMatcher configureBindingPatternMatcher(Resource resource) throws IOException {
+
+   @Override
+	protected PatternMatcher configureBindingPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler bindingPatternMatcherCompiler =
 				configureBindingPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator bindingPatternMatcherGenerator =
@@ -37,7 +41,8 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		return bindingPatternMatcherGenerator;
 	}
 
-	protected PatternMatcher configureBlackPatternMatcher(Resource resource) throws IOException {
+   @Override
+	protected PatternMatcher configureBlackPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler blackPatternMatcherCompiler =
 				configureBlackPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator blackPatternMatcherGenerator =
@@ -46,7 +51,8 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		return blackPatternMatcherGenerator;
 	}
 
-	protected PatternMatcher configureRedPatternMatcher(Resource resource) throws IOException {
+   @Override
+	protected PatternMatcher configureRedPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler redPatternMatcherCompiler =
 				configureRedPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator redPatternMatcherGenerator =
@@ -55,7 +61,8 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		return redPatternMatcherGenerator;
 	}
 
-	protected PatternMatcher configureGreenPatternMatcher(Resource resource) throws IOException {
+   @Override
+	protected PatternMatcher configureGreenPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler greenPatternMatcherCompiler =
 				configureGreenPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator greenPatternMatcherGenerator =
@@ -64,7 +71,8 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		return greenPatternMatcherGenerator;
 	}
 
-	protected PatternMatcher configureExpressionPatternMatcher(Resource resource) throws IOException {
+   @Override
+	protected PatternMatcher configureExpressionPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler expressionPatternMatcherCompiler =
 				configureExpressionPatternMatcherCompiler(resource);
 		final ExpressionPatternMatcherGenerator expressionPatternMatcherGenerator =

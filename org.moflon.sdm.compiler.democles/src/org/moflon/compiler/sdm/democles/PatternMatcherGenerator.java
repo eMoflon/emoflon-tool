@@ -18,21 +18,41 @@ import org.moflon.sdm.compiler.democles.validation.result.Severity;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.compiler.democles.validation.scope.impl.PatternMatcherImpl;
 
-abstract public class PatternMatcherGenerator extends PatternMatcherImpl
+/**
+ * This class is responsible for generating a search plan for patterns
+ * 
+ * @author Gergely Varró - Initial implementation
+ * @author Roland Kluge - Integration of reachability analysis
+ *
+ */
+public abstract class PatternMatcherGenerator extends PatternMatcherImpl
 {
-   PatternMatcherCompiler patternMatcher;
+   protected PatternMatcherCompiler patternMatcher;
 
-   String patternType;
+   protected String patternType;
 
-   public PatternMatcherGenerator(PatternMatcherCompiler delegate, final String patternType)
+   /**
+    * Configures which serach plan generator to use ('patternMatcher') and which pattern type is supported 
+    * @param patternMatcher the search plan generator to use
+    * @param patternType the pattern type to use (cf. e.g., {@link DefaultCodeGeneratorConfig#BLACK_PATTERN_MATCHER_GENERATOR})
+    */
+   public PatternMatcherGenerator(final PatternMatcherCompiler patternMatcher, final String patternType)
    {
-      this.patternMatcher = delegate;
+      this.patternMatcher = patternMatcher;
       this.patternType = patternType;
    }
 
-   public ValidationReport generateSearchPlan(Pattern pattern, Adornment adornment, boolean isMultipleMatch)
+   /**
+    * This method generates a search plan for the given pattern invocations (consisting of a {@link Pattern} and an input {@link Adornment})
+    * @param pattern the pattern of the pattern invocation
+    * @param adornment the adornment of the pattern invocation
+    * @param isMultipleMatch if true, the search plan shall return all matches, if false the search plan shall return any match
+    * @return a validation report that may contain errors occurred during the search plan generation 
+    */
+   @Override
+   public ValidationReport generateSearchPlan(final Pattern pattern, final Adornment adornment, final boolean isMultipleMatch)
    {
-      ValidationReport report = ResultFactory.eINSTANCE.createValidationReport();
+      final ValidationReport report = ResultFactory.eINSTANCE.createValidationReport();
       try
       {
          final EClass eClass = (EClass) ((AdapterResource) pattern.eResource()).getTarget();
@@ -53,14 +73,30 @@ abstract public class PatternMatcherGenerator extends PatternMatcherImpl
          {
             createAndAddErrorMessage(pattern, report);
          }
-      } catch (RuntimeException e)
+      } catch (final RuntimeException e)
       {
          createAndAddErrorMessage(pattern, report);
       }
       return report;
    }
 
-   private void createAndAddErrorMessage(Pattern pattern, ValidationReport report)
+   /**
+    * Search plan adapter generation strategy to be implemented by subclasses.
+    * @param body the body of the processed {@link Pattern}
+    * @param adornment the input {@link Adornment} 
+    * @param searchPlan the search plan generated from the {@link CompilerPatternBody} and the {@link Adornment}
+    * @param multipleMatches (see isMultipleMatch in {@link #generateSearchPlan(Pattern, Adornment, boolean)})
+    * @return
+    */
+   abstract public SearchPlanAdapter createSearchPlanAdapter(final CompilerPatternBody body, final Adornment adornment, final Chain<GeneratorOperation> searchPlan,
+         final boolean multipleMatches);
+   
+   /**
+    * Creates a 'no search plan found' error for the given {@link Pattern} and attaches it to the {@link ValidationReport}.
+    * @param pattern the pattern
+    * @param report the report
+    */
+   private void createAndAddErrorMessage(final Pattern pattern, final ValidationReport report)
    {
       final ErrorMessage error = ResultFactory.eINSTANCE.createErrorMessage();
       report.getErrorMessages().add(error);
@@ -68,6 +104,4 @@ abstract public class PatternMatcherGenerator extends PatternMatcherImpl
       error.setSeverity(Severity.ERROR);
    }
 
-   abstract public SearchPlanAdapter createSearchPlanAdapter(CompilerPatternBody body, Adornment adornment, Chain<GeneratorOperation> searchPlan,
-         boolean multipleMatches);
 }

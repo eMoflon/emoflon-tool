@@ -24,6 +24,9 @@ public class ExpressionPatternMatcher extends SearchPlanAdapter {
 	public TemplateInvocation prepareTemplateInvocation(
 			final OperationSequenceCompiler operationSequenceCompiler,
 			final ImportManager importManager) {
+	   final Adornment adornment = getAdornment();
+	   final Chain<GeneratorOperation> searchPlan = getSearchPlan();
+	   final CompilerPatternBody body = getBody();
 		Chain<TemplateController> templateChain = null;
 		if (searchPlan != null) {
 			if (adornment.get(0) == Adornment.FREE) {
