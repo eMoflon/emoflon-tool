@@ -20,8 +20,6 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
 
    private static final Color DEFAULT_BACKGROUND_COLOR = null;
 
-   private Text updateSiteProjectTextBox;
-
    private Text validationTimeoutTextBox;
 
    public EMoflonPreferencesPage()
@@ -54,21 +52,6 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
          pageDescriptionLabel.setBackground(DEFAULT_BACKGROUND_COLOR);
          final GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
          pageDescriptionLabel.setLayoutData(gd1);
-      }
-
-      {
-         final Composite updateSiteComponent = toolkit.createComposite(parent);
-         updateSiteComponent.setBackground(DEFAULT_BACKGROUND_COLOR);
-         final GridData gd2 = new GridData(GridData.FILL_HORIZONTAL);
-         updateSiteComponent.setLayoutData(gd2);
-
-         updateSiteComponent.setLayout(new GridLayout(2, false));
-         final Label updateProjectSiteLabel = toolkit.createLabel(updateSiteComponent, "Update site project name: ");
-         updateProjectSiteLabel.setBackground(DEFAULT_BACKGROUND_COLOR);
-
-         updateSiteProjectTextBox = toolkit.createText(updateSiteComponent, "");
-         final GridData gd3 = new GridData(GridData.FILL_HORIZONTAL);
-         updateSiteProjectTextBox.setLayoutData(gd3);
       }
 
       {
@@ -141,13 +124,11 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
     */
    private void storeValues()
    {
-      EMoflonPreferenceInitializer.setUpdateSiteProject(updateSiteProjectTextBox.getText());
       EMoflonPreferenceInitializer.setValidationTimeoutMillis(Integer.parseInt(validationTimeoutTextBox.getText()) * 1000);
    }
 
    private void initializeValues()
    {
-      updateSiteProjectTextBox.setText(EMoflonPreferenceInitializer.getUpdateSiteProject());
       validationTimeoutTextBox.setText(Integer.toString(EMoflonPreferenceInitializer.getValidationTimeoutMillis() / 1000));
    }
 
