@@ -1,9 +1,15 @@
 package org.moflon.democles.reachability.javabdd;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.List;
 
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.OperationRuntime;
+import org.gervarro.democles.common.runtime.VariableRuntime;
+import org.gervarro.democles.specification.Pattern;
+import org.gervarro.democles.specification.Variable;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDDomain;
@@ -19,6 +25,8 @@ import net.sf.javabdd.BDDPairing;
  */
 public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implements ReachabilityAnalyzer
 {
+
+   private static final int ADORNMENT_UNDEFINED = -1;
 
    private BDDFactory bddFactory;
 
@@ -40,9 +48,12 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
 
    private Adornment inputAdornment;
 
-   public LegacyBDDReachabilityAnalyzer(final List<U> operations, final Adornment inputAdornment)
+   private Pattern pattern;
+
+   public LegacyBDDReachabilityAnalyzer(final List<U> operations, final Pattern pattern, final Adornment inputAdornment)
    {
       this.operations = operations;
+      this.pattern = pattern;
       this.inputAdornment = inputAdornment;
    }
 
@@ -64,7 +75,19 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
       domain1 = bddFactory.extDomain((long) Math.pow(2, v));
       domain2 = bddFactory.extDomain((long) Math.pow(2, v));
       bdd = new BDD[2][v];
-      bddFactory.setVarOrder(getVarOrder(v));
+      
+      final PrintStream originalStdout = System.out;
+      final PrintStream originalStderr = System.err;
+      try
+      {
+         muteStdoutAndStderr();
+         // The following code fragment tends to write to stdout and stderr
+         bddFactory.setVarOrder(getVarOrder(v));
+      } finally
+      {
+         System.setOut(originalStdout);
+         System.setErr(originalStderr);
+      }
 
       for (int i = 0; i < 2; i++)
       {
@@ -82,6 +105,18 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
       BDD transitionRelation = calculateTransitionRelation(operations);
       calculateReachableStates(transitionRelation);
       transitionRelation.free();
+   }
+
+   private void muteStdoutAndStderr()
+   {
+      PrintStream mutedStream = new PrintStream(new OutputStream() {
+         @Override
+         public void write(int b) throws IOException
+         { // nop
+         }
+      });
+      System.setOut(mutedStream);
+      System.setErr(mutedStream);
    }
 
    @Override
@@ -123,25 +158,58 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
          {
             BDD cube = bddFactory.one(); // Represents R_o
             //TODO This process has to be updated
-            Adornment precondition = operation.getPrecondition();
-            for (int i = 0; i < precondition.size(); i++)
+
+            final List<? extends Variable> symbolicParameters = this.pattern.getSymbolicParameters();
+            for (int i = 0; i < symbolicParameters.size(); ++i)
             {
-               if (Adornment.FREE == precondition.get(i))
+               int posInOperationParameters = -1;
+               for (int j = 0; j < operation.getParameters().size(); ++j)
                {
+                  VariableRuntime opVariable = operation.getParameters().get(j);
+                  if (opVariable.getIndex() == i)
+                  {
+                     posInOperationParameters = j;
+                     break;
+                  }
+
+               }
+               int preconditionAdornment = posInOperationParameters != -1 ? operation.getPrecondition().get(posInOperationParameters) : ADORNMENT_UNDEFINED;
+               switch (preconditionAdornment)
+               {
+               case Adornment.FREE:
                   // Required to be free
                   cube.andWith(bdd[0][i].id());
                   cube.andWith(bdd[1][i].not());
-               } else if (Adornment.BOUND == precondition.get(i))
-               {
+                  break;
+               case Adornment.BOUND:
                   // Required to be bound
                   cube.andWith(bdd[0][i].not());
                   cube.andWith(bdd[1][i].not());
-               } else
-               {
+               default:
                   // Not defined
                   cube.andWith(bdd[0][i].biimp(bdd[1][i]));
                }
             }
+            // Original code by Fred:
+            // Problem: The index i is relative to the precondition adornment of the operation, not to the adornment of the pattern
+            //            for (int i = 0; i < precondition.size(); i++)
+            //            {
+            //               if (Adornment.FREE == precondition.get(i))
+            //               {
+            //                  // Required to be free
+            //                  cube.andWith(bdd[0][i].id());
+            //                  cube.andWith(bdd[1][i].not());
+            //               } else if (Adornment.BOUND == precondition.get(i))
+            //               {
+            //                  // Required to be bound
+            //                  cube.andWith(bdd[0][i].not());
+            //                  cube.andWith(bdd[1][i].not());
+            //               } else
+            //               {
+            //                  // Not defined
+            //                  cube.andWith(bdd[0][i].biimp(bdd[1][i]));
+            //               }
+            //            }
             transitionRelation.orWith(cube);
          }
       }

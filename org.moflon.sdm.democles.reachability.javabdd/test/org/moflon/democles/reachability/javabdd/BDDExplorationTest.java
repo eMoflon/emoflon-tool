@@ -1,11 +1,13 @@
 package org.moflon.democles.reachability.javabdd;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
 public class BDDExplorationTest
 {
+   @Ignore("Just for testing the undocumented toString behavior of JavaBDD")
    @Test
    public void testBiimp() 
    {
