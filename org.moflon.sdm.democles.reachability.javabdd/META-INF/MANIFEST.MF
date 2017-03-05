@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.moflon.sdm.democles.reachability.javabdd;singleton:=tru
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.moflon.democles.reachability.javabdd
 Require-Bundle: org.gervarro.democles.common;bundle-version="1.0.0",
- org.gervarro.democles.plan;bundle-version="0.3.2"
+ org.gervarro.democles.plan;bundle-version="0.3.2",
+ org.gervarro.democles.compiler
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab

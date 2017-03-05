@@ -24,6 +24,9 @@ public class RegularPatternMatcher extends SearchPlanAdapter {
 	public TemplateInvocation prepareTemplateInvocation(
 			OperationSequenceCompiler operationSequenceCompiler,
 			ImportManager importManager) {
+      final Adornment adornment = getAdornment();
+      final Chain<GeneratorOperation> searchPlan = getSearchPlan();
+      final CompilerPatternBody body = getBody();
 		Chain<TemplateController> templateChain = null;
 		if (searchPlan != null) {
 			templateChain = new Chain<TemplateController>(new TemplateController(isMultiMatch() ? "/regular/AllMatches" : "/regular/SingleMatch"));

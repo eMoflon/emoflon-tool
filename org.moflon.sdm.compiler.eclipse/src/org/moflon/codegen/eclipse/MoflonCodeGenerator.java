@@ -89,12 +89,14 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
          // (2.1) Validate SDMs
          final ITask validator = methodBodyHandler.createValidator(ePackage);
+         StatusHolder validationStatusHolder = new StatusHolder();
          final WorkspaceJob validationJob = new WorkspaceJob(engineID) {
             @Override
             public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException
             {
                final SubMonitor subMon = SubMonitor.convert(monitor, "Validation job", 100);
-               return validator.run(subMon.split(100));
+               validationStatusHolder.status = validator.run(subMon.split(100));
+               return Status.OK_STATUS;
             }
          };
          JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
@@ -103,22 +105,23 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          //         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.split(10));
          jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
 
-         final IStatus validatorStatus = validationJob.getResult();
-
-         if (validatorStatus == null)
+         if (validationJob.getResult() == null)
          {
             //TODO@rkluge: This is a really ugly hack that should be removed as soon as a more elegant solution is available
             //validationJob.getThread().stop();
             throw new OperationCanceledException("Validation took longer than " + (timeoutForValidationTaskInMillis / 1000)
                   + "seconds. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
-         } else if (subMon.isCanceled())
+         }
+         
+         if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
          }
 
-         if (validatorStatus.matches(IStatus.ERROR))
+         final IStatus validationStatus = validationStatusHolder.status;
+         if (validationStatus.matches(IStatus.ERROR))
          {
-            return validatorStatus;
+            return validationStatus;
          }
 
          // (2.2) Weave MOSL-GT control flow
@@ -194,9 +197,9 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
          logger.info("Completed in " + (tic - toc) / 1e9 + "s");
 
-         final boolean everythingOK = validatorStatus.isOK() && injectionStatus.isOK() && weaverStatus.isOK();
+         final boolean everythingOK = validationStatus.isOK() && injectionStatus.isOK() && weaverStatus.isOK();
          return everythingOK ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Code generation succeeded")
-               : new MultiStatus(CodeGeneratorPlugin.getModuleID(), validatorStatus.getCode(), new IStatus[] { validatorStatus, weaverStatus, injectionStatus },
+               : new MultiStatus(CodeGeneratorPlugin.getModuleID(), validationStatus.getCode(), new IStatus[] { validationStatus, weaverStatus, injectionStatus },
                      "Code generation warnings/errors", null);
       } catch (final Exception e)
       {
@@ -241,5 +244,10 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    public final InjectionManager getInjectorManager()
    {
       return injectionManager;
+   }
+   
+   private static class StatusHolder
+   {
+      IStatus status;
    }
 }
