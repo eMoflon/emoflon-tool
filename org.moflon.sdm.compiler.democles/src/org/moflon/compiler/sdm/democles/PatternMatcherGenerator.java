@@ -10,7 +10,7 @@ import org.gervarro.democles.compiler.CompilerPattern;
 import org.gervarro.democles.compiler.CompilerPatternBody;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
-import org.moflon.democles.reachability.javabdd.LegacyBDDReachabilityAnalyzer;
+import org.moflon.democles.reachability.javabdd.NullReachabilityAnalyzer;
 import org.moflon.democles.reachability.javabdd.ReachabilityAnalyzer;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
@@ -58,11 +58,11 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
          final EClass eClass = (EClass) ((AdapterResource) pattern.eResource()).getTarget();
          final CompilerPattern compilerPattern = patternMatcher.compilePattern(pattern, adornment);
          final CompilerPatternBody body = compilerPattern.getBodies().get(0);
-         final List<GeneratorOperation> operations = body.getOperations();
+         //         final List<GeneratorOperation> operations = body.getOperations();
          // final ReachabilityAnalyzer reachabilityAnalyzer = new BDDReachabilityAnalyzer<>(operations, adornment);
-         //         final ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
-         final ReachabilityAnalyzer reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer<>(operations, adornment);
-         reachabilityAnalyzer.analyzeReachability();
+         final ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
+         //         final ReachabilityAnalyzer reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer<>(operations, adornment);
+         //         reachabilityAnalyzer.analyzeReachability();
          final boolean isReachable = reachabilityAnalyzer.isReachable(adornment);
          if (isReachable)
          {
@@ -88,9 +88,9 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
     * @param multipleMatches (see isMultipleMatch in {@link #generateSearchPlan(Pattern, Adornment, boolean)})
     * @return
     */
-   abstract public SearchPlanAdapter createSearchPlanAdapter(final CompilerPatternBody body, final Adornment adornment, final Chain<GeneratorOperation> searchPlan,
-         final boolean multipleMatches);
-   
+   abstract public SearchPlanAdapter createSearchPlanAdapter(final CompilerPatternBody body, final Adornment adornment,
+         final Chain<GeneratorOperation> searchPlan, final boolean multipleMatches);
+
    /**
     * Creates a 'no search plan found' error for the given {@link Pattern} and attaches it to the {@link ValidationReport}.
     * @param pattern the pattern

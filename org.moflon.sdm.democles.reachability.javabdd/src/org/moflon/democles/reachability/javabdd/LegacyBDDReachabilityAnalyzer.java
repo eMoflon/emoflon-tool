@@ -119,7 +119,7 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
 
       for (OperationRuntime operation : operations)
       {
-         if (operation != null && (operation.getPrecondition().cardinality() != 0))
+         if (operation != null) // This was here before: operation != null && (operation.getPrecondition().cardinality() != 0)
          {
             BDD cube = bddFactory.one(); // Represents R_o
             //TODO This process has to be updated
