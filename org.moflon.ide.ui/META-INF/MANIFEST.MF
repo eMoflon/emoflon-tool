@@ -33,8 +33,7 @@ Require-Bundle:
  org.moflon.ide.editor,
  org.moflon.core.ecore2mocaxmi,
  org.moflon.core.propertycontainer,
- org.moflon.core.moca.processing,
- org.moflon.sdm.compiler.democles
+ org.moflon.core.moca.processing
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.ide.ui,
