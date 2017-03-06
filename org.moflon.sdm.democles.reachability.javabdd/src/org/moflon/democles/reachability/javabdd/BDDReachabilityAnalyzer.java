@@ -2,8 +2,10 @@ package org.moflon.democles.reachability.javabdd;
 
 import java.util.List;
 
+import org.gervarro.democles.codegen.GeneratorOperation;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.OperationRuntime;
+import org.gervarro.democles.compiler.CompilerPattern;
 import org.gervarro.democles.plan.WeightedOperation;
 
 import net.sf.javabdd.BDD;
@@ -29,12 +31,8 @@ import net.sf.javabdd.BDDPairing;
  * @author Erhan Leblebici
  * @author Roland Kluge
  */
-public class BDDReachabilityAnalyzer<U extends OperationRuntime> implements ReachabilityAnalyzer
+public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
 {
-
-   private final List<U> operations;
-
-   private final Adornment inputAdornment;
 
    private BDDFactory bddFactory;
 
@@ -57,20 +55,8 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime> implements Reac
 
    private BDD reachableStates;
 
-   /**
-    * Creates the BDD analyzer.
-    * 
-    * @param operations the available operations to build up a search plan for the pattern
-    * @param inputAdornment the adornment of the pattern to be analyzed
-    */
-   public BDDReachabilityAnalyzer(final List<U> operations, Adornment inputAdornment)
-   {
-      this.operations = operations;
-      this.inputAdornment = inputAdornment;
-   }
-
    @Override
-   public void analyzeReachability()
+   public void analyzeReachability(final CompilerPattern pattern, final Adornment inputAdornment)
    {
       final int cacheSize = 1000;
       final int numberOfBitsPerVariable = 2;
@@ -107,7 +93,7 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime> implements Reac
          revPairing.set(variableCount + j, j);
       }
 
-      BDD transitionRelation = calculateTransitionRelation(operations);
+      BDD transitionRelation = calculateTransitionRelation(pattern.getBodies().get(0).getOperations());
       calculateReachableStates(transitionRelation);
       transitionRelation.free();
    }
@@ -121,7 +107,7 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime> implements Reac
       return isReachable(adornment, reachableStates);
    }
 
-   private BDD calculateTransitionRelation(List<U> operations)
+   private BDD calculateTransitionRelation(List<GeneratorOperation> operations)
    {
       // long time = System.currentTimeMillis();
       BDD transitionRelation = bddFactory.zero();

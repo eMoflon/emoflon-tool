@@ -1,14 +1,14 @@
 package org.moflon.democles.reachability.javabdd;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
+import org.gervarro.democles.codegen.GeneratorOperation;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.OperationRuntime;
 import org.gervarro.democles.common.runtime.VariableRuntime;
-import org.gervarro.democles.specification.Pattern;
+import org.gervarro.democles.compiler.CompilerPattern;
 import org.gervarro.democles.specification.Variable;
 
 import net.sf.javabdd.BDD;
@@ -22,73 +22,63 @@ import net.sf.javabdd.BDDPairing;
  * Taken from  
  * gervarro.org/democles/trunk/org.moflon.democles.reachability.javabdd  
  * on 2016-09-03
+ * 
+ * Limitations:
+ * The analysis is only application for patterns whose operations have {@link Adornment#FREE} or {@link Adornment#BOUND} as pre-/postconditions.
+ * {@link Adornment#NOT_TYPECHECKED} is not supported.
  */
-public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implements ReachabilityAnalyzer
+public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
 {
+   private static final Logger logger = Logger.getLogger(LegacyBDDReachabilityAnalyzer.class);
+
+   private static final int INDEX_NOT_FOUND = -1;
 
    private static final int ADORNMENT_UNDEFINED = -1;
 
    private BDDFactory bddFactory;
 
-   BDDPairing fwdPairing;
+   private BDDPairing fwdPairing;
 
-   BDDPairing revPairing;
+   private BDDPairing revPairing;
 
-   BDD[][] bdd;
+   private BDD[][] bdd;
 
-   BDDDomain domain1;
+   private BDDDomain domain1;
 
-   BDDDomain domain2;
+   private BDDDomain domain2;
 
-   boolean calculated = false;
+   private BDD reachableStates;
 
-   BDD reachableStates;
-
-   private List<U> operations;
-
-   private Adornment inputAdornment;
-
-   private Pattern pattern;
-
-   public LegacyBDDReachabilityAnalyzer(final List<U> operations, final Pattern pattern, final Adornment inputAdornment)
-   {
-      this.operations = operations;
-      this.pattern = pattern;
-      this.inputAdornment = inputAdornment;
-   }
+   private boolean reachabilityAnalysisPossible;
 
    @Override
-   public void analyzeReachability()
+   public void analyzeReachability(final CompilerPattern pattern, final Adornment inputAdornment)
    {
-      if (this.hasOperationWithUncheckedAdornment())
+      final List<GeneratorOperation> operations = ReachabilityUtils.extractOperations(pattern);
+      this.reachabilityAnalysisPossible = !hasOperationWithUncheckedAdornment(operations ); 
+      if (!reachabilityAnalysisPossible)
+      {
+         final List<GeneratorOperation> operationsWithUncheckedAdornment = getOperationsWithUncheckedAdornment(operations);
+         logger.debug(String.format("Cannot analyze reachability of pattern '%s' because it contains an operation with 'NOT_TYPECHECKED' adornment: '%s'", pattern.getName(), operationsWithUncheckedAdornment));
          return;
+      }
 
-      int cacheSize = 1000;
-      int v = inputAdornment.size();
+      final int cacheSize = 1000;
+      final int v = inputAdornment.size();
+      final int bddVariableCount = v * 2;
       int numberOfNodes = (int) Math.max((Math.pow(v, 3)) * 20, cacheSize);
 
       bddFactory = BDDFactory.init("java", numberOfNodes, cacheSize);
-      bddFactory.setVarNum(v * 2);
+      bddFactory.setVarNum(bddVariableCount);
       bddFactory.setCacheRatio(1);
       fwdPairing = bddFactory.makePair();
       revPairing = bddFactory.makePair();
       domain1 = bddFactory.extDomain((long) Math.pow(2, v));
       domain2 = bddFactory.extDomain((long) Math.pow(2, v));
       bdd = new BDD[2][v];
+      final int[] newVariableOrder = getVarOrder(v);
+      ReachabilityUtils.executeWithMutedStderrAndStdout(() -> {bddFactory.setVarOrder(newVariableOrder);});
       
-      final PrintStream originalStdout = System.out;
-      final PrintStream originalStderr = System.err;
-      try
-      {
-         muteStdoutAndStderr();
-         // The following code fragment tends to write to stdout and stderr
-         bddFactory.setVarOrder(getVarOrder(v));
-      } finally
-      {
-         System.setOut(originalStdout);
-         System.setErr(originalStderr);
-      }
-
       for (int i = 0; i < 2; i++)
       {
          for (int j = 0; j < v; j++)
@@ -102,42 +92,35 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
          fwdPairing.set(j, v + j);
          revPairing.set(v + j, j);
       }
-      BDD transitionRelation = calculateTransitionRelation(operations);
+      BDD transitionRelation = calculateTransitionRelation(pattern);
       calculateReachableStates(transitionRelation);
       transitionRelation.free();
    }
 
-   private void muteStdoutAndStderr()
-   {
-      PrintStream mutedStream = new PrintStream(new OutputStream() {
-         @Override
-         public void write(int b) throws IOException
-         { // nop
-         }
-      });
-      System.setOut(mutedStream);
-      System.setErr(mutedStream);
-   }
-
    @Override
-   public boolean isReachable(Adornment adornment)
+   public boolean isReachable(final Adornment adornment)
    {
-      if (hasOperationWithUncheckedAdornment())
-         return true;
-
-      if (reachableStates == null)
+      if (this.reachableStates == null)
          throw new IllegalStateException("Reachability analysis has not been executed, yet. Please invoke 'analyzeReachability' prior to this method.");
+      
+      if (!reachabilityAnalysisPossible)
+         return true;
 
       return isReachable(adornment, reachableStates);
    }
-
-   private boolean hasOperationWithUncheckedAdornment()
+   
+   private static <U  extends OperationRuntime> List<U> getOperationsWithUncheckedAdornment(final List<U> operations)
    {
-      return this.operations.stream()
+      return operations.stream().filter(operation -> hasUncheckedAdornment(operation.getPrecondition())).collect(Collectors.toList());
+   }
+
+   private static <U extends OperationRuntime> boolean hasOperationWithUncheckedAdornment(final List<U> operations)
+   {
+      return operations.stream()
             .anyMatch(operation -> hasUncheckedAdornment(operation.getPrecondition()) || hasUncheckedAdornment(operation.getPostcondition()));
    }
 
-   private boolean hasUncheckedAdornment(Adornment adornment)
+   private static boolean hasUncheckedAdornment(Adornment adornment)
    {
       for (int i = 0; i < adornment.cardinality(); ++i)
       {
@@ -147,25 +130,23 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
       return false;
    }
 
-   private BDD calculateTransitionRelation(List<U> operations)
+   private BDD calculateTransitionRelation(final CompilerPattern pattern)
    {
-      // long time = System.currentTimeMillis();
-      BDD transitionRelation = bddFactory.zero(); // represents R_O
+      final BDD transitionRelation = bddFactory.zero(); // represents R_O
 
-      for (OperationRuntime operation : operations)
+      for (final OperationRuntime operation : ReachabilityUtils.extractOperations(pattern))
       {
          if (operation != null) // This was here before: operation != null && (operation.getPrecondition().cardinality() != 0)
          {
-            BDD cube = bddFactory.one(); // Represents R_o
-            //TODO This process has to be updated
+            final BDD cube = bddFactory.one(); // Represents R_o
 
-            final List<? extends Variable> symbolicParameters = this.pattern.getSymbolicParameters();
+            final List<? extends Variable> symbolicParameters = pattern.getSymbolicParameters();
             for (int i = 0; i < symbolicParameters.size(); ++i)
             {
-               int posInOperationParameters = -1;
+               int posInOperationParameters = INDEX_NOT_FOUND;
                for (int j = 0; j < operation.getParameters().size(); ++j)
                {
-                  VariableRuntime opVariable = operation.getParameters().get(j);
+                  final VariableRuntime opVariable = operation.getParameters().get(j);
                   if (opVariable.getIndex() == i)
                   {
                      posInOperationParameters = j;
@@ -173,20 +154,18 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
                   }
 
                }
-               int preconditionAdornment = posInOperationParameters != -1 ? operation.getPrecondition().get(posInOperationParameters) : ADORNMENT_UNDEFINED;
+               final int preconditionAdornment = posInOperationParameters != INDEX_NOT_FOUND ? operation.getPrecondition().get(posInOperationParameters) : ADORNMENT_UNDEFINED;
                switch (preconditionAdornment)
                {
                case Adornment.FREE:
-                  // Required to be free
                   cube.andWith(bdd[0][i].id());
                   cube.andWith(bdd[1][i].not());
                   break;
                case Adornment.BOUND:
-                  // Required to be bound
                   cube.andWith(bdd[0][i].not());
                   cube.andWith(bdd[1][i].not());
+               case ADORNMENT_UNDEFINED:
                default:
-                  // Not defined
                   cube.andWith(bdd[0][i].biimp(bdd[1][i]));
                }
             }
@@ -213,37 +192,35 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
             transitionRelation.orWith(cube);
          }
       }
-      // System.out.println("\nTransition Relation generated in: "+(System.currentTimeMillis()-time)+"ms");
       return transitionRelation;
    }
 
-   private boolean isReachable(Adornment adornment, BDD r)
+   private boolean isReachable(final Adornment adornment, final BDD tree)
    {
-      if (r.equals(bddFactory.one()))
+      // We have arrived at '1', i.e., 'adornment' is reachable.
+      if (tree.equals(bddFactory.one()))
       {
-         //System.out.println("State "+adornment.toString()+" is Reachable");
          return true;
       }
-      if (r.equals(bddFactory.zero()))
+      if (tree.equals(bddFactory.zero()))
       {
-         //System.out.println("State "+adornment.toString()+" is NOT Reachable");
          return false;
       }
 
-      if (adornment.get(r.var()) > Adornment.BOUND)
+      final BDD subtree;
+      if (adornment.get(tree.var()) > Adornment.BOUND)
       {
-         r = r.high();
+         subtree = tree.high();
       } else
       {
-         r = r.low();
+         subtree = tree.low();
       }
 
-      return isReachable(adornment, r);
+      return isReachable(adornment, subtree);
    }
 
    private void calculateReachableStates(BDD transitionRelation)
    {
-      // long time = System.currentTimeMillis();
       BDD old = domain1.ithVar(0);
       BDD nu = old;
       do
@@ -253,15 +230,11 @@ public class LegacyBDDReachabilityAnalyzer<U extends OperationRuntime> implement
          nu = old.or(z);
       } while (!old.equals(nu));
       reachableStates = nu;
-      // long outtime = (System.currentTimeMillis()-time);
-      //System.out.println("\nGenerate all Reachable States in: "+outtime+"ms Nodecount is:"+nu.nodeCount());
-      //System.out.println("Reachable States:");
-      //nu.printSet();
    }
 
-   private int[] getVarOrder(int varNr)
+   private int[] getVarOrder(final int varNr)
    {
-      int[] varorder = new int[2 * varNr];
+      final int[] varorder = new int[2 * varNr];
       for (int j = 0; j < varNr; j++)
       {
          varorder[2 * j] = j;

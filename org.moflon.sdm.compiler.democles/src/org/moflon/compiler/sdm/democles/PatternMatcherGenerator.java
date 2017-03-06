@@ -1,7 +1,5 @@
 package org.moflon.compiler.sdm.democles;
 
-import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.gervarro.democles.codegen.Chain;
 import org.gervarro.democles.codegen.GeneratorOperation;
@@ -58,11 +56,10 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
          final EClass eClass = (EClass) ((AdapterResource) pattern.eResource()).getTarget();
          final CompilerPattern compilerPattern = patternMatcher.compilePattern(pattern, adornment);
          final CompilerPatternBody body = compilerPattern.getBodies().get(0);
-         final List<GeneratorOperation> operations = body.getOperations();
-         // final ReachabilityAnalyzer reachabilityAnalyzer = new BDDReachabilityAnalyzer<>(operations, adornment);
+         // final ReachabilityAnalyzer reachabilityAnalyzer = new BDDReachabilityAnalyzer<>();
          //final ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
-         final ReachabilityAnalyzer reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer<>(operations, compilerPattern, adornment);
-         reachabilityAnalyzer.analyzeReachability();
+         final ReachabilityAnalyzer reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer();
+         reachabilityAnalyzer.analyzeReachability(compilerPattern, adornment);
          final boolean isReachable = reachabilityAnalyzer.isReachable(adornment);
          if (isReachable)
          {

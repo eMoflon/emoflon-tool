@@ -1,6 +1,7 @@
 package org.moflon.democles.reachability.javabdd;
 
 import org.gervarro.democles.common.Adornment;
+import org.gervarro.democles.compiler.CompilerPattern;
 
 /**
  * Implementation of {@link ReachabilityAnalyzer} that always returns true.
@@ -18,9 +19,9 @@ public class NullReachabilityAnalyzer implements ReachabilityAnalyzer
    }
 
    @Override
-   public void analyzeReachability()
+   public void analyzeReachability(final CompilerPattern pattern, final Adornment inputAdornment)
    {
-      //nop
+      // nop
    }
 
 }
