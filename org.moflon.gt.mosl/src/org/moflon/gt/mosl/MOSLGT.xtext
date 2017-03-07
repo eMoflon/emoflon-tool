@@ -6,13 +6,8 @@ generate moslgt "http://www.moflon.org/gt/mosl/MOSLGT"
 
 GraphTransformationFile:
 	imports += Import*
-	using += Using*	'#package' name = QualifiedName
-	
-	(eClasses += EClassDef | patterns += PatternDef)
-	patterns += PatternDef*
-	eClasses += EClassDef*
-	
-	
+	using += Using*	'#package' name = QualifiedName	
+	eClasses += EClassDef+
 ;
 
 PatternDef:"#pattern" name=ID '(' (parameters += PatternParameters)? (',' parameters += PatternParameters)* ')' '{'
@@ -24,7 +19,9 @@ PatternParameters:ObjectVariableDefinition;
 
 EClassDef:
 	'#class' name = [ecore::EClass | QualifiedName] '{'
+	(operations += MethodDec | patterns += PatternDef)
 	operations += MethodDec*
+	patterns += PatternDef*
 	'}'
 ;
 

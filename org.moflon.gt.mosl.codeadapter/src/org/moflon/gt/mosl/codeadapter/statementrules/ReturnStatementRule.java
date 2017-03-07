@@ -18,6 +18,12 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement> 
 	@Override
 	protected void transformStatement(ReturnStatement stmnt, Scope scope, CFNode previosCFNode) {
 		org.moflon.sdm.runtime.democles.ReturnStatement rs = DemoclesFactory.eINSTANCE.createReturnStatement();
+		if(previosCFNode != null){
+			previosCFNode.setNext(rs);
+			rs.setId(previosCFNode.getId() + 1);
+		}
+		else
+			rs.setId(1);
 		scope.getContents().add(rs);
 		
 		

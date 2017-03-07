@@ -21,8 +21,14 @@ public abstract class AbstractNextStatementRule<S extends NextStatement> extends
 				throw new MissingReturnException(StatementAdapter.getInstance().getCurrentMethod());
 		}
 		 
-		if(previosCFNode != null)
+		if(previosCFNode != null){
 			previosCFNode.setNext(currentNode);
+			if(currentNode!=null)
+				currentNode.setId(previosCFNode.getId()+1);
+		}else {
+			if(currentNode != null)
+				currentNode.setId(1);
+		}
 		
 		if(currentNode == null)
 			currentNode = previosCFNode;
