@@ -13,11 +13,10 @@ public class PatternStatementRule extends AbstractNextStatementRule<PatternState
 	}
 
 	@Override
-	protected void transformStatement(PatternStatement stmnt, Scope scope) {
-		CFNode cfNode = DemoclesFactory.eINSTANCE.createCFNode();
+	protected void transformStatement(PatternStatement stmnt, Scope scope, CFNode previosCFNode) {
+		CFNode cfNode = this.updateCurrentNode(DemoclesFactory.eINSTANCE.createCFNode());
 		cfNode.setScope(scope);
 		this.handlePattern(stmnt.getParameters(), stmnt.getPattern(), cfNode, scope);
-		// TODO Auto-generated method stub
 		
 	}
 

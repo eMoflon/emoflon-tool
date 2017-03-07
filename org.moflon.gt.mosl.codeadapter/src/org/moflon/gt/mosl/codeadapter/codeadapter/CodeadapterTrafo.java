@@ -50,10 +50,11 @@ public class CodeadapterTrafo {
 		String name = gtf.getName();
 		String[] domain=name.split(Pattern.quote( "." ));
 		
-		patternGen.createPatterns(gtf.getPatterns());
+		
 		
 		if(contextEPackage.getName().compareToIgnoreCase(gtf.getName())==0 || domain.length > 0 && contextEPackage.getName().compareToIgnoreCase(domain[domain.length-1])==0){
 			for(EClassDef classDef : gtf.getEClasses()){
+				patternGen.createPatterns(classDef.getPatterns());
 				EClass cpyContextEClass = (EClass)cpyContextEPackage.getEClassifier(classDef.getName().getName());
 				EClass eClassContext = classDef.getName();
 				transformMethodsToEOperations(eClassContext, classDef, cpyContextEClass);
@@ -111,7 +112,7 @@ public class CodeadapterTrafo {
 		
 		statementTrafo.loadCurrentMethod(methodDec);
 		Statement startStatement = methodDec.getStartStatement();
-		statementTrafo.transformStatement(startStatement, rootScope);
+		statementTrafo.transformStatement(startStatement, rootScope, null);
 		
 	}
 }
