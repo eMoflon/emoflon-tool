@@ -10,13 +10,13 @@ import org.moflon.gt.mosl.codeadapter.codeadapter.PatternGenerator;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.sdm.runtime.democles.CFVariable;
 
-public abstract class PatternTransformer {
+public abstract class PatternTransformerRule {
 	
-	public PatternTransformer(){
+	public PatternTransformerRule(){
 		PatternGenerator.getInstance().addPatternTransformer(this);
 	}
 	
-	public abstract Pattern transformPattern(PatternDef patternDef, Map<CFVariable, Boolean> bindings);
+	public abstract void transformPattern(PatternDef patternDef, CFVariable cfVar, Map<CFVariable, Boolean> bindings, Pattern pattern);
 	public abstract boolean isTransformable(PatternDef patternDef, Map<CFVariable, Boolean> bindings);
 	
 }

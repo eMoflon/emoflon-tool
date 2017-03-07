@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.Variable;
+import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.codeadapter.codeadapter.PatternGenerator;
 import org.moflon.gt.mosl.exceptions.NoMatchingVariableFound;
 import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
@@ -28,12 +30,15 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 		Map<CFVariable, Boolean> bindings = new HashMap<>();
 		List<Consumer<PatternInvocation>> setInvocations = new ArrayList<>();
 		List<Consumer<PatternInvocation>> setConstructors = new ArrayList<>();
+		String patternName = patternDef.getName();
 		
 		List<PatternParameters> patternParameters = patternDef.getParameters(); 
 		int size = patternParameters.size();
 		if(size!=cpps.size())
 			throw new PatternParameterSizeIsNotMatching();
 		
+		
+		//Binding Handling
 		for(int index = 0; index < size; index++ ){
 
 			VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
@@ -56,12 +61,16 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 			}
 		}
 		
-		PatternInvocation invocation = DemoclesFactory.eINSTANCE.createRegularPatternInvocation(); //TODO find correct Pattern invocation
+		//Pattern Handling
+		Function<String, String> nameGenerator= suffix -> {return CodeadapterTrafo.getInstance().getPatternName(cfNode, patternDef, suffix);};
+		PatternGenerator.getInstance().createPattern(patternDef, bindings, nameGenerator);
+		
+		PatternInvocation invocation = PatternGenerator.getInstance().getPatternInvocation(patternName);
 		
 		cfNode.setMainAction(invocation);
 		invocation.setCfNode(cfNode);
-		
-		Pattern pattern = PatternGenerator.getInstance().getPattern(patternDef.getName(), bindings);
+
+		Pattern pattern = invocation.getPattern();
 		if(size != pattern.getSymbolicParameters().size())
 			throw new PatternParameterSizeIsNotMatching();
 		

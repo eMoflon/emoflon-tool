@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -20,9 +21,11 @@ import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.gt.mosl.moslgt.MethodDec;
 import org.moflon.gt.mosl.moslgt.MethodParameter;
+import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.MoflonOperation;
+import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
 
@@ -33,11 +36,10 @@ public class CodeadapterTrafo {
 	
 	private StatementAdapter statementTrafo;
 	
-	private PatternGenerator patternGen;
+	private Function<CFNode, Function< PatternDef, Function<String, String>>> currentEOperationNameConstructor;
 	
 	private CodeadapterTrafo(){
 		statementTrafo = StatementAdapter.getInstance();
-		patternGen = PatternGenerator.getInstance();
 		new CodeadapterAutofactory();
 	}
 	
@@ -47,6 +49,9 @@ public class CodeadapterTrafo {
 		return instance;
 	}
 	
+	public String getPatternName(CFNode node, PatternDef patternDef, String suffix){
+		return currentEOperationNameConstructor.apply(node).apply(patternDef).apply(suffix);
+	}
 	
 	public EPackage transform (final EPackage contextEPackage, final GraphTransformationFile gtf){
 		EPackage cpyContextEPackage =EcoreUtil.copy(contextEPackage);
@@ -57,7 +62,6 @@ public class CodeadapterTrafo {
 		
 		if(contextEPackage.getName().compareToIgnoreCase(gtf.getName())==0 || domain.length > 0 && contextEPackage.getName().compareToIgnoreCase(domain[domain.length-1])==0){
 			for(EClassDef classDef : gtf.getEClasses()){
-				patternGen.createPatterns(classDef.getPatterns());
 				EClass cpyContextEClass = (EClass)cpyContextEPackage.getEClassifier(classDef.getName().getName());
 				EClass eClassContext = classDef.getName();
 				transformMethodsToEOperations(eClassContext, classDef, cpyContextEClass);
@@ -86,6 +90,15 @@ public class CodeadapterTrafo {
 			mofOp.setName(methodDec.getName());
 			mofOp.getEParameters().addAll(createEParameters(methodDec.getParameters()));
 			mofOp.setEType(methodDec.getType());
+			
+			currentEOperationNameConstructor = node -> patternDef -> suffix-> {
+			      final EOperation eOperation = mofOp;
+			      String storyNodeName = patternDef.getName() != null ? patternDef.getName().trim() : "";
+			      storyNodeName = storyNodeName.replaceAll("\\s+", "");
+			      final EClass eClass = eOperation.getEContainingClass();
+			      final int operationIndex = eClass.getEOperations().indexOf(eOperation);
+			      return "pattern_" + eClass.getName() + "_" + operationIndex + "_" + node.getId() + "_" + storyNodeName + "_" + suffix;
+			};
 			transformMethodStructure(methodDec, mofOp);
 		}
 	}
