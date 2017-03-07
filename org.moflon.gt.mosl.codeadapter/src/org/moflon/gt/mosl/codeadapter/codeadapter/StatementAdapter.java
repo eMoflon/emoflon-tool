@@ -24,7 +24,6 @@ public class StatementAdapter {
 	
 	private StatementAdapter(){
 		statementRuleCache.clear();
-		new StatementRuleAutofactory();
 	}
 	
 	public static StatementAdapter getInstance(){

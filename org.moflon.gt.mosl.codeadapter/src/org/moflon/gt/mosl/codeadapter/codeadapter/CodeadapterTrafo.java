@@ -2,6 +2,8 @@ package org.moflon.gt.mosl.codeadapter.codeadapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -36,6 +38,7 @@ public class CodeadapterTrafo {
 	private CodeadapterTrafo(){
 		statementTrafo = StatementAdapter.getInstance();
 		patternGen = PatternGenerator.getInstance();
+		new CodeadapterAutofactory();
 	}
 	
 	public static CodeadapterTrafo getInstance(){
