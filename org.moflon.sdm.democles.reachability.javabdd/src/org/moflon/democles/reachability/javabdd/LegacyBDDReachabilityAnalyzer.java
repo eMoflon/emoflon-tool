@@ -1,8 +1,5 @@
 package org.moflon.democles.reachability.javabdd;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.List;
 
 import org.gervarro.democles.codegen.GeneratorOperation;
@@ -54,7 +51,7 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
    @Override
    public void analyzeReachability(final CompilerPattern pattern, final Adornment inputAdornment)
    {
-      this.reachabilityAnalysisPossible = this.hasOperationWithUncheckedAdornment(ReachabilityUtils.extractOperations(pattern));
+      this.reachabilityAnalysisPossible = !hasOperationWithUncheckedAdornment(ReachabilityUtils.extractOperations(pattern));
       if (!this.reachabilityAnalysisPossible)
       {
          return;
@@ -73,18 +70,7 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
       domain2 = bddFactory.extDomain((long) Math.pow(2, v));
       bdd = new BDD[2][v];
 
-      final PrintStream originalStdout = System.out;
-      final PrintStream originalStderr = System.err;
-      try
-      {
-         muteStdoutAndStderr();
-         // The following code fragment tends to write to stdout and stderr
-         bddFactory.setVarOrder(getVarOrder(v));
-      } finally
-      {
-         System.setOut(originalStdout);
-         System.setErr(originalStderr);
-      }
+      ReachabilityUtils.executeWithMutedStderrAndStdout(() ->  bddFactory.setVarOrder(getVarOrder(v)));
 
       for (int i = 0; i < 2; i++)
       {
@@ -104,18 +90,6 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
       transitionRelation.free();
    }
 
-   private void muteStdoutAndStderr()
-   {
-      PrintStream mutedStream = new PrintStream(new OutputStream() {
-         @Override
-         public void write(int b) throws IOException
-         { // nop
-         }
-      });
-      System.setOut(mutedStream);
-      System.setErr(mutedStream);
-   }
-
    @Override
    public boolean isReachable(Adornment adornment)
    {
@@ -128,13 +102,13 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
       return isReachable(adornment, reachableStates);
    }
 
-   private boolean hasOperationWithUncheckedAdornment(final List<GeneratorOperation> operations)
+   static boolean hasOperationWithUncheckedAdornment(final List<GeneratorOperation> operations)
    {
       return operations.stream()
             .anyMatch(operation -> hasUncheckedAdornment(operation.getPrecondition()) || hasUncheckedAdornment(operation.getPostcondition()));
    }
 
-   private boolean hasUncheckedAdornment(Adornment adornment)
+   private static boolean hasUncheckedAdornment(Adornment adornment)
    {
       for (int i = 0; i < adornment.cardinality(); ++i)
       {
@@ -151,7 +125,7 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
 
       for (final OperationRuntime operation : operations)
       {
-         if (operation != null)
+         if (operation != null && !ReachabilityUtils.isCheckOperation(operation))
          {
             final BDD cube = bddFactory.one(); // Represents R_o
             final List<? extends Variable> symbolicParameters = pattern.getSymbolicParameters();
@@ -224,18 +198,18 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
       }
 
       final BDD subtree;
-      if (adornment.get(r.var()) > Adornment.BOUND)
+      if (adornment.get(r.var()) > Adornment.BOUND) // Adornment.FREE
       {
-         subtree = r.high();
-      } else
+         subtree = r.high(); // high = 1 = Free
+      } else // Adornment.BOUND
       {
-         subtree = r.low();
+         subtree = r.low(); // low = 0 = Not free = bound
       }
 
       return isReachable(adornment, subtree);
    }
 
-   private void calculateReachableStates(BDD transitionRelation)
+   private void calculateReachableStates(final BDD transitionRelation)
    {
       BDD old = domain1.ithVar(0);
       BDD nu = old;
@@ -248,13 +222,13 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
       reachableStates = nu;
    }
 
-   private int[] getVarOrder(int varNr)
+   private int[] getVarOrder(final int adornmentSize)
    {
-      int[] varorder = new int[2 * varNr];
-      for (int j = 0; j < varNr; j++)
+      int[] varorder = new int[2 * adornmentSize];
+      for (int j = 0; j < adornmentSize; j++)
       {
-         varorder[2 * j] = j;
-         varorder[2 * j + 1] = varNr + j;
+         varorder[2 * j] = j; // pre-variable
+         varorder[2 * j + 1] = adornmentSize + j; // post-variable
       }
       return varorder;
    }

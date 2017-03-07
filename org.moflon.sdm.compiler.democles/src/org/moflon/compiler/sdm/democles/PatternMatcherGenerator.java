@@ -8,7 +8,8 @@ import org.gervarro.democles.compiler.CompilerPattern;
 import org.gervarro.democles.compiler.CompilerPatternBody;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
-import org.moflon.democles.reachability.javabdd.LegacyBDDReachabilityAnalyzer;
+import org.moflon.democles.reachability.javabdd.BDDReachabilityAnalyzer;
+import org.moflon.democles.reachability.javabdd.NullReachabilityAnalyzer;
 import org.moflon.democles.reachability.javabdd.ReachabilityAnalyzer;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
@@ -56,9 +57,9 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
          final EClass eClass = (EClass) ((AdapterResource) pattern.eResource()).getTarget();
          final CompilerPattern compilerPattern = patternMatcher.compilePattern(pattern, adornment);
          final CompilerPatternBody body = compilerPattern.getBodies().get(0);
-         // final ReachabilityAnalyzer reachabilityAnalyzer = new BDDReachabilityAnalyzer<>();
-         //final ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
-         final ReachabilityAnalyzer reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer();
+         ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
+         reachabilityAnalyzer = new BDDReachabilityAnalyzer();
+         //reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer();
          reachabilityAnalyzer.analyzeReachability(compilerPattern, adornment);
          final boolean isReachable = reachabilityAnalyzer.isReachable(adornment);
          if (isReachable)
