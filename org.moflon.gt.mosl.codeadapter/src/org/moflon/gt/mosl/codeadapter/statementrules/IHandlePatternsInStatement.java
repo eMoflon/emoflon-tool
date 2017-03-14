@@ -25,6 +25,7 @@ import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.Scope;
 
 public interface IHandlePatternsInStatement extends IHandleCFVariable{
+   //TODO@rkluge: Same as for IHandleCFVariable
 	default void handlePattern(List<CalledPatternParameter> cpps, PatternDef patternDef, CFNode cfNode, Scope scope){
 		Map<String, Boolean> bindings = new HashMap<>();
 		Map<String, CFVariable> env = new HashMap<>();

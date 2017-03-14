@@ -8,6 +8,7 @@ import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
 
 public interface IHandleCFVariable {
+   //TODO@rkluge: Using a default method here is not necessary to my opinion. This logic represents a purely functional behavior. Why not put it in a MOSLGTUtilities class?
 	default CFVariable getOrCreateVariable(Scope scope, String name, EClassifier type){
 		Optional<CFVariable> opt= scope.getVariables().stream().filter(
 				var -> var.getName().compareTo(name)==0 

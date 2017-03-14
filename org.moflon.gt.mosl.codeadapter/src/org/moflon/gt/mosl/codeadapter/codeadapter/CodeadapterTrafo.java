@@ -52,6 +52,7 @@ public class CodeadapterTrafo {
 	}
 	
 	public EPackage transform (final EPackage contextEPackage, final GraphTransformationFile gtf){
+	   //TODO@rkluge: Why is the EPackage copied?
 		EPackage cpyContextEPackage =EcoreUtil.copy(contextEPackage);
 		String name = gtf.getName();
 		String[] domain=name.split(Pattern.quote( "." ));
@@ -72,11 +73,14 @@ public class CodeadapterTrafo {
 	private void transformMethodsToEOperations(final EClass contextEClass, final EClassDef eclassDef, EClass changeableContext){
 		for(final MethodDec methodDec :  eclassDef.getOperations()){
 			// this is a closure which will test if an EOperation with its EParameters already exist
+		   //TODO@rkluge (ref.) This could be extracted into a method.
 			Predicate<? super EOperation> eOpTest=(
 					eo -> eo.getName().equals(methodDec.getName()) 
 					&& methodDec.getParameters().stream().allMatch(
 							param -> eo.getEParameters().stream().anyMatch(
 									eParam -> eParam.getEType().getName().equals(param.getType().getName()))));
+			
+			//TODO@rkluge (ref.) We could just remove each identified EOperaiton
 			Optional<EOperation> opt = changeableContext.getEOperations().stream().filter(eOpTest).findFirst();
 			
 			if(opt.isPresent()){
@@ -89,6 +93,7 @@ public class CodeadapterTrafo {
 			mofOp.getEParameters().addAll(createEParameters(methodDec.getParameters()));
 			mofOp.setEType(methodDec.getType());
 			
+			//TODO@rkluge (ref.) It could be easier to just store or pass the current EOperation - all other parts are static, aren't they? 
 			currentEOperationNameConstructor = node -> patternDef -> suffix-> {
 			      final EOperation eOperation = mofOp;
 			      String storyNodeName = patternDef.getName() != null ? patternDef.getName().trim() : "";
@@ -105,6 +110,7 @@ public class CodeadapterTrafo {
 	 * If we provide List as Parameters this Function must be changed
 	 * 
 	 */
+	//TODO@rkluge: Is the comment obsolete? We actually get a list of parameters.
 	private Collection<? extends EParameter> createEParameters(final EList<MethodParameter> parameters) {
 		List<EParameter> paramLst= new ArrayList<>();
 		for(MethodParameter mParam : parameters){
@@ -124,6 +130,7 @@ public class CodeadapterTrafo {
 		Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
 		mofOp.setRootScope(rootScope);
 		
+		//TODO@rkluge: It could be more robust to create and invoke a statementTrafo for each to-be-transformed MoflonOperation
 		statementTrafo.loadCurrentMethod(methodDec);
 		Statement startStatement = methodDec.getStartStatement();
 		statementTrafo.transformStatement(startStatement, rootScope, null);
