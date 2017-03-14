@@ -1,6 +1,6 @@
 package org.moflon.gt.mosl.codeadapter.codeadapter;
 
-import org.moflon.gt.mosl.codeadapter.patterngeneration.MatchingUnboundPatternTransformer;
+import org.moflon.gt.mosl.codeadapter.patterngeneration.MatchingUnboundOVTransformerRule;
 import org.moflon.gt.mosl.codeadapter.statementrules.*;
 
 public class CodeadapterAutofactory {
@@ -11,7 +11,7 @@ public class CodeadapterAutofactory {
 	}
 
 	private void createAllPatterTransformers() {
-		new MatchingUnboundPatternTransformer();
+		new MatchingUnboundOVTransformerRule();
 	}
 
 	private void createAllStatementInstances() {

@@ -10,7 +10,7 @@ import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.Scope;
 
-public class StatementAdapter {
+public class StatementBuilder {
 	
 	/* 
 	 * using currying like Haskell so the function look like Statement->Scope->Nothing
@@ -18,17 +18,17 @@ public class StatementAdapter {
 	 */
 	private static Map<Class<? extends Statement>, Function<Statement, Function<Scope, Consumer<CFNode>>>> statementRuleCache = new HashMap<>();
 	
-	private static StatementAdapter instance;
+	private static StatementBuilder instance;
 	
 	private MethodDec currentMethod;
 	
-	private StatementAdapter(){
+	private StatementBuilder(){
 		statementRuleCache.clear();
 	}
 	
-	public static StatementAdapter getInstance(){
+	public static StatementBuilder getInstance(){
 		if(instance == null)
-			instance = new StatementAdapter();
+			instance = new StatementBuilder();
 		return instance;
 	}
 	

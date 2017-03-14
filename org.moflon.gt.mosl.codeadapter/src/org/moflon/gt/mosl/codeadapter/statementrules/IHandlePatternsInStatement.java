@@ -10,7 +10,7 @@ import java.util.function.Function;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.Variable;
 import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
-import org.moflon.gt.mosl.codeadapter.codeadapter.PatternGenerator;
+import org.moflon.gt.mosl.codeadapter.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.exceptions.NoMatchingVariableFound;
 import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;
@@ -27,7 +27,8 @@ import org.moflon.sdm.runtime.democles.VariableReference;
 
 public interface IHandlePatternsInStatement extends IHandleCFVariable{
 	default void handlePattern(List<CalledPatternParameter> cpps, PatternDef patternDef, CFNode cfNode, Scope scope){
-		Map<CFVariable, Boolean> bindings = new HashMap<>();
+		Map<String, Boolean> bindings = new HashMap<>();
+		Map<String, CFVariable> env = new HashMap<>();
 		List<Consumer<PatternInvocation>> setInvocations = new ArrayList<>();
 		List<Consumer<PatternInvocation>> setConstructors = new ArrayList<>();
 		String patternName = patternDef.getName();
@@ -54,19 +55,24 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 			Action constructor = cfVar.getConstructor();
 			if(constructor == null){
 				setConstructors.add(invocation ->{ cfVar.setConstructor(invocation);});
-				bindings.put(cfVar, false);
+				bindings.put(cfVar.getName(), false);
+				env.put(cfVar.getName(), cfVar);
 			}
 			else{
-				bindings.put(cfVar,true);
+				bindings.put(cfVar.getName(), true);
+				env.put(cfVar.getName(), cfVar);
 			}
 		}
 		
 		//Pattern Handling
 		Function<String, String> nameGenerator= suffix -> {return CodeadapterTrafo.getInstance().getPatternName(cfNode, patternDef, suffix);};
-		PatternGenerator.getInstance().createPattern(patternDef, bindings, nameGenerator);
+		PatternBuilder.getInstance().createPattern(patternDef, bindings, env, nameGenerator);
 		
-		PatternInvocation invocation = PatternGenerator.getInstance().getPatternInvocation(patternName);
-		
+		PatternInvocation invocation = PatternBuilder.getInstance().getPatternInvocation(patternName);
+		int actionSize=cfNode.getActions().size();
+		if(actionSize > 0){
+			cfNode.getActions().get(actionSize-1).setNext(invocation);
+		}
 		cfNode.setMainAction(invocation);
 		invocation.setCfNode(cfNode);
 
@@ -83,8 +89,6 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 			Variable var = pattern.getSymbolicParameters().get(index);
 			if(var.getName().compareTo(patternParOV.getName())!= 0)
 				throw new NoMatchingVariableFound();			
-			VariableReference vr = invocation.getParameters().get(index);
-			vr.setTo(var);
 		}
 	}
 	

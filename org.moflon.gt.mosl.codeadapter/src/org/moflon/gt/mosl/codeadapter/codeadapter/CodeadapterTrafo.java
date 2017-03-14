@@ -34,12 +34,12 @@ public class CodeadapterTrafo {
 	
 	private static CodeadapterTrafo instance;
 	
-	private StatementAdapter statementTrafo;
+	private StatementBuilder statementTrafo;
 	
 	private Function<CFNode, Function< PatternDef, Function<String, String>>> currentEOperationNameConstructor;
 	
 	private CodeadapterTrafo(){
-		statementTrafo = StatementAdapter.getInstance();
+		statementTrafo = StatementBuilder.getInstance();
 		new CodeadapterAutofactory();
 	}
 	
