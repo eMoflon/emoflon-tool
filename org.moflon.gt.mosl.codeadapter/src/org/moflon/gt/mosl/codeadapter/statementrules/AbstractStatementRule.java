@@ -1,6 +1,6 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
-import org.moflon.gt.mosl.codeadapter.codeadapter.StatementAdapter;
+import org.moflon.gt.mosl.codeadapter.codeadapter.StatementBuilder;
 import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.Scope;
@@ -8,7 +8,7 @@ import org.moflon.sdm.runtime.democles.Scope;
 public abstract class AbstractStatementRule <S extends Statement>{
 
 	public AbstractStatementRule() {
-		StatementAdapter.setStatementRule(getStatementClass(), 
+		StatementBuilder.setStatementRule(getStatementClass(), 
 				stmnt -> scope -> previosCFNode ->{castStatement(stmnt, scope, previosCFNode);}); // using currying here
 	}
 	

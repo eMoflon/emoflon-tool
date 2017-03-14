@@ -1,9 +1,16 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.Variable;
-import org.moflon.gt.mosl.codeadapter.codeadapter.PatternGenerator;
+import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
+import org.moflon.gt.mosl.codeadapter.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.exceptions.NoMatchingVariableFound;
 import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;
@@ -14,29 +21,29 @@ import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
+import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.Scope;
 import org.moflon.sdm.runtime.democles.VariableReference;
 
 public interface IHandlePatternsInStatement extends IHandleCFVariable{
 	default void handlePattern(List<CalledPatternParameter> cpps, PatternDef patternDef, CFNode cfNode, Scope scope){
-		PatternInvocation invocation = DemoclesFactory.eINSTANCE.createRegularPatternInvocation(); //TODO find correct Pattern invocation
-		Pattern pattern = PatternGenerator.getInstance().getPattern(patternDef.getName());
-		cfNode.setMainAction(invocation);
-		invocation.setCfNode(cfNode);
-		invocation.setPattern(pattern);
+		Map<String, Boolean> bindings = new HashMap<>();
+		Map<String, CFVariable> env = new HashMap<>();
+		List<Consumer<PatternInvocation>> setInvocations = new ArrayList<>();
+		List<Consumer<PatternInvocation>> setConstructors = new ArrayList<>();
+		String patternName = patternDef.getName();
+		
 		List<PatternParameters> patternParameters = patternDef.getParameters(); 
 		int size = patternParameters.size();
-		if(size != pattern.getSymbolicParameters().size() || size!=cpps.size())
+		if(size!=cpps.size())
 			throw new PatternParameterSizeIsNotMatching();
 		
+		
+		//Binding Handling
 		for(int index = 0; index < size; index++ ){
-			ObjectVariableDefinition patternParOV = ObjectVariableDefinition.class.cast(patternParameters.get(index));
+
 			VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
-			vr.setInvocation(invocation);
-			Variable var = pattern.getSymbolicParameters().get(index);
-			if(var.getName().compareTo(patternParOV.getName())!= 0)
-				throw new NoMatchingVariableFound();
-			vr.setTo(var);
+			setInvocations.add(invocation -> {vr.setInvocation(invocation);});
 			
 			ObjectVariableDefinition ovRef = cpps.get(index).getDefiningOV();
 			if(ovRef == null){
@@ -44,8 +51,45 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 			}
 			
 			CFVariable cfVar = getOrCreateVariable(scope, ovRef.getName(), ovRef.getType());
-			vr.setFrom(cfVar);	
-		}	
+			vr.setFrom(cfVar);
+			Action constructor = cfVar.getConstructor();
+			if(constructor == null){
+				setConstructors.add(invocation ->{ cfVar.setConstructor(invocation);});
+				bindings.put(cfVar.getName(), false);
+				env.put(cfVar.getName(), cfVar);
+			}
+			else{
+				bindings.put(cfVar.getName(), true);
+				env.put(cfVar.getName(), cfVar);
+			}
+		}
+		
+		//Pattern Handling
+		Function<String, String> nameGenerator= suffix -> {return CodeadapterTrafo.getInstance().getPatternName(cfNode, patternDef, suffix);};
+		PatternBuilder.getInstance().createPattern(patternDef, bindings, env, nameGenerator);
+		
+		PatternInvocation invocation = PatternBuilder.getInstance().getPatternInvocation(patternName);
+		int actionSize=cfNode.getActions().size();
+		if(actionSize > 0){
+			cfNode.getActions().get(actionSize-1).setNext(invocation);
+		}
+		cfNode.setMainAction(invocation);
+		invocation.setCfNode(cfNode);
+
+		Pattern pattern = invocation.getPattern();
+		if(size != pattern.getSymbolicParameters().size())
+			throw new PatternParameterSizeIsNotMatching();
+		
+		invocation.setPattern(pattern);		
+		
+		for(int index = 0; index < size; index++ ){
+			setInvocations.get(index).accept(invocation);
+			setConstructors.get(index).accept(invocation);
+			ObjectVariableDefinition patternParOV = ObjectVariableDefinition.class.cast(patternParameters.get(index));
+			Variable var = pattern.getSymbolicParameters().get(index);
+			if(var.getName().compareTo(patternParOV.getName())!= 0)
+				throw new NoMatchingVariableFound();			
+		}
 	}
 	
 
