@@ -23,13 +23,11 @@ import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.Scope;
-import org.moflon.sdm.runtime.democles.VariableReference;
 
 public interface IHandlePatternsInStatement extends IHandleCFVariable{
 	default void handlePattern(List<CalledPatternParameter> cpps, PatternDef patternDef, CFNode cfNode, Scope scope){
 		Map<String, Boolean> bindings = new HashMap<>();
 		Map<String, CFVariable> env = new HashMap<>();
-		List<Consumer<PatternInvocation>> setInvocations = new ArrayList<>();
 		List<Consumer<PatternInvocation>> setConstructors = new ArrayList<>();
 		String patternName = patternDef.getName();
 		
@@ -41,9 +39,6 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 		
 		//Binding Handling
 		for(int index = 0; index < size; index++ ){
-
-			VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
-			setInvocations.add(invocation -> {vr.setInvocation(invocation);});
 			
 			ObjectVariableDefinition ovRef = cpps.get(index).getDefiningOV();
 			if(ovRef == null){
@@ -51,7 +46,6 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 			}
 			
 			CFVariable cfVar = getOrCreateVariable(scope, ovRef.getName(), ovRef.getType());
-			vr.setFrom(cfVar);
 			Action constructor = cfVar.getConstructor();
 			if(constructor == null){
 				cfVar.setConstructor(DemoclesFactory.eINSTANCE.createAction()); //DummyAction
@@ -81,10 +75,8 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 		if(size != pattern.getSymbolicParameters().size())
 			throw new PatternParameterSizeIsNotMatching();
 		
-		invocation.setPattern(pattern);		
-		
+				
 		for(int index = 0; index < size; index++ ){
-			setInvocations.get(index).accept(invocation);
 			setConstructors.get(index).accept(invocation);
 			ObjectVariableDefinition patternParOV = ObjectVariableDefinition.class.cast(patternParameters.get(index));
 			Variable var = pattern.getSymbolicParameters().get(index);
