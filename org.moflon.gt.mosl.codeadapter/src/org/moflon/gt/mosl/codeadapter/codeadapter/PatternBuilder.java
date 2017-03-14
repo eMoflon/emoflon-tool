@@ -1,18 +1,17 @@
 package org.moflon.gt.mosl.codeadapter.codeadapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.function.Function;
-
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.SpecificationFactory;
+import org.gervarro.democles.specification.emf.Variable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypeFactory;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
-import org.moflon.gt.mosl.codeadapter.objectvariablerules.OVTransformerRule;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.PatternParameters;
@@ -24,13 +23,14 @@ import org.moflon.sdm.runtime.democles.VariableReference;
 public class PatternBuilder {
 	private static PatternBuilder instance;
 	
-	
+	private Map<String, List<Consumer<Variable>>> unfinishedLinkVariables; 
 	
 	private Map<String, Pattern> patternCache;
 	
 	private Map<String, PatternInvocation> patternInvocationCache;
 	
 	private PatternBuilder(){
+		unfinishedLinkVariables = new HashMap<>();
 		patternCache = new HashMap<>();
 		patternInvocationCache = new HashMap<>();
 	}
@@ -58,6 +58,8 @@ public class PatternBuilder {
 			
 			patternVariable.setName(ov.getName());
 			patternVariable.setEClassifier(ov.getType());
+
+			finishLinkVariables(patternVariable);
 			
 			CFVariable cfVar = env.get(ov.getName());
 			
@@ -78,10 +80,24 @@ public class PatternBuilder {
 		pattern.setName(patternNameGenerator.apply(suffix));
 	}
 	
+	private void finishLinkVariables(Variable var){
+		List<Consumer<Variable>> toFinishLst = unfinishedLinkVariables.get(var.getName());
+		if(toFinishLst != null)
+			toFinishLst.stream().forEach(finisher -> {finisher.accept(var);});
+	}
 	
+	
+	public void addUnfinishedLinkVaraible(String targetName, Consumer<Variable> lvFinisher){
+		List<Consumer<Variable>> toFinishLst = unfinishedLinkVariables.get(targetName);
+		if(toFinishLst == null){
+			toFinishLst = new ArrayList<>();
+			unfinishedLinkVariables.put(targetName, toFinishLst);
+		}
+		toFinishLst.add(lvFinisher);
+	}
 	
 	private PatternInvocation createPatternInvocation(String readAblePatternName, Pattern pattern){
-		PatternInvocation invocation = DemoclesFactory.eINSTANCE.createRegularPatternInvocation(); //TODO find correct Pattern invocation
+		PatternInvocation invocation = DemoclesFactory.eINSTANCE.createRegularPatternInvocation();
 		invocation.setPattern(pattern);
 		patternInvocationCache.put(readAblePatternName, invocation);
 		return invocation;

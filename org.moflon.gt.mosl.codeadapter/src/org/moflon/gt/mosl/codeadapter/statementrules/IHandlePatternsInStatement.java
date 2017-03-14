@@ -54,6 +54,7 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 			vr.setFrom(cfVar);
 			Action constructor = cfVar.getConstructor();
 			if(constructor == null){
+				cfVar.setConstructor(DemoclesFactory.eINSTANCE.createAction()); //DummyAction
 				setConstructors.add(invocation ->{ cfVar.setConstructor(invocation);});
 				bindings.put(cfVar.getName(), false);
 				env.put(cfVar.getName(), cfVar);

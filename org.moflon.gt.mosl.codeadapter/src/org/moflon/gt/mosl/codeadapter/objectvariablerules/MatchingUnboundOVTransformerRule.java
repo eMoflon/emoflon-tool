@@ -1,13 +1,16 @@
 package org.moflon.gt.mosl.codeadapter.objectvariablerules;
 
 import java.util.Map;
-
-import org.gervarro.democles.specification.emf.Pattern;
+import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.Variable;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 
 public class MatchingUnboundOVTransformerRule extends OVTransformerRule {
 
+
+	public MatchingUnboundOVTransformerRule() {
+		super("Black");
+	}
 
 	@Override
 	public boolean isTransformable(ObjectVariableDefinition ov, Variable variable) {		
@@ -16,7 +19,7 @@ public class MatchingUnboundOVTransformerRule extends OVTransformerRule {
 
 	@Override
 	public void transformOV(ObjectVariableDefinition ov, Variable variable, Map<String, Boolean> bindings,
-			Pattern pattern) {
+			PatternBody pattern) {
 		// TODO Auto-generated method stub
 	
 	}
