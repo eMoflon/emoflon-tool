@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.Variable;
-import org.moflon.gt.mosl.codeadapter.patterngeneration.OVTransformerRule;
+import org.moflon.gt.mosl.codeadapter.objectvariablerules.OVTransformerRule;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.sdm.runtime.democles.CFVariable;
 
@@ -31,11 +31,7 @@ public class ObjectVariableBuilder {
 		transformersRules.add(transformer);
 	}
 	
-	public void transformObjectVariable(ObjectVariableDefinition ov, Variable variable, Map<CFVariable, Boolean> bindings, Pattern pattern){
-		transformersRules.stream().forEachOrdered(transformerRule -> {
-			if(transformerRule.isTransformable(ov, variable, bindings)){
-				transformerRule.transformOV(ov, variable, bindings, pattern);
-			}
-		});
+	public void transformObjectVariable(ObjectVariableDefinition ov, Variable variable, Map<String, Boolean> bindings, Pattern pattern){
+		transformersRules.stream().forEachOrdered(transformerRule -> {transformerRule.transforming(ov, variable, bindings, pattern);});
 	}
 }

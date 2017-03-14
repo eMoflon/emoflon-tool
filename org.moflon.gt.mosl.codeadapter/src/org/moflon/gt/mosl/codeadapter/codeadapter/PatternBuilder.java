@@ -12,7 +12,7 @@ import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.SpecificationFactory;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypeFactory;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
-import org.moflon.gt.mosl.codeadapter.patterngeneration.OVTransformerRule;
+import org.moflon.gt.mosl.codeadapter.objectvariablerules.OVTransformerRule;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.PatternParameters;

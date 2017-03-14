@@ -1,16 +1,22 @@
 package org.moflon.gt.mosl.codeadapter.codeadapter;
 
-import org.moflon.gt.mosl.codeadapter.patterngeneration.MatchingUnboundOVTransformerRule;
+import org.moflon.gt.mosl.codeadapter.objectvariablerules.MatchingUnboundOVTransformerRule;
 import org.moflon.gt.mosl.codeadapter.statementrules.*;
 
 public class CodeadapterAutofactory {
 
 	public CodeadapterAutofactory(){
 		createAllStatementInstances();
-		createAllPatterTransformers();
+		createAllObjectVariableTransformers();
+		createAllLinkVariableTransformers();
 	}
 
-	private void createAllPatterTransformers() {
+	private void createAllLinkVariableTransformers() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void createAllObjectVariableTransformers() {
 		new MatchingUnboundOVTransformerRule();
 	}
 
