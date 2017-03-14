@@ -22,7 +22,8 @@ public class ConditionStatementRule extends AbstractConditionStatementRule<Condi
 		handlePattern(ifStatement);
 		
 		Scope thenScope = DemoclesFactory.eINSTANCE.createScope();
-		thenScope.setParent(ifStatement);		
+		thenScope.setParent(ifStatement);	
+		//TODO@rkluge (ref.) I would create a transformStatement class with only two parameters in the parent class
 		StatementBuilder.getInstance().transformStatement(stmnt.getThenStartStatement(), thenScope, null);
 		
 		if(stmnt.getElseStartStatement() != null){

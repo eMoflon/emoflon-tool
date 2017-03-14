@@ -23,9 +23,11 @@ public class StatementBuilder {
 	private MethodDec currentMethod;
 	
 	private StatementBuilder(){
+	   //TODO@rkluge: This mix of instance-level and type-level operations is really(!) confusing me.
 		statementRuleCache.clear();
 	}
 	
+	//TODO@rkluge: I would refrain from using singletons. Often, singletons preclude a proper initialization sequence of the whole build process. I claim that in most cases you can replace the singletons with fresh instances or reuse instances throughout the whole process. Do not(!) worry for performance here.
 	public static StatementBuilder getInstance(){
 		if(instance == null)
 			instance = new StatementBuilder();
@@ -53,6 +55,7 @@ public class StatementBuilder {
 	/*
 	 * load the currentMethod before using transformStatement !!!!!!
 	 */
+	//TODO@rkluge: Comment does not match behavior - setCurrentMethod would be more appropriate for it.
 	public void loadCurrentMethod(MethodDec method){
 		currentMethod=method;
 	}
