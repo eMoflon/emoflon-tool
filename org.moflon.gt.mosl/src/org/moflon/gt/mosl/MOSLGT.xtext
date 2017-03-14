@@ -106,7 +106,7 @@ LiteralExpression:
 ;
 
 LinkVariablePattern:
-	(op = Operator)? '-' type = [ecore::EReference] '->' target = [ObjectVariablePattern]
+	(op = Operator)? '-' type = [ecore::EReference] '->' target = [ObjectVariableDefinition]
 ;
 
 MethodParameter: name = ID ':' type=[ecore::EClassifier | QualifiedName];
