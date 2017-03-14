@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import org.gervarro.democles.specification.emf.Pattern;
@@ -52,7 +53,7 @@ public class PatternBuilder {
 		patternCache.put(patternName, pattern);
 		PatternInvocation invocation = createPatternInvocation(patternName, pattern);
 		for(PatternParameters pp : patternDef.getParameters()){
-			ObjectVariableDefinition ov = ObjectVariableDefinition.class.cast(pp);
+			ObjectVariableDefinition ov = pp.getOv();
 			EMFVariable patternVariable = EMFTypeFactory.eINSTANCE.createEMFVariable();
 			pattern.getSymbolicParameters().add(patternVariable);
 			
@@ -69,15 +70,24 @@ public class PatternBuilder {
 				suffix += "F";
 			}
 			
+			ObjectVariableBuilder.getInstance().transformObjectVariable(getCorrespondingOV(pp, patternDef), patternVariable, bindings, patternBody);
+			
 			VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
 			vr.setInvocation(invocation);
 			vr.setFrom(cfVar);
-			vr.setTo(patternVariable);
-			
+			vr.setTo(patternVariable);			
 			
 		}
 		
 		pattern.setName(patternNameGenerator.apply(suffix));
+	}
+	
+	private ObjectVariableDefinition getCorrespondingOV(PatternParameters pp, PatternDef patternDef){
+		Optional<ObjectVariableDefinition> optOV = patternDef.getObjectVariables().stream().filter(ov -> ov.getName().compareTo(pp.getOv().getName())==0).findAny();
+		if(optOV.isPresent())
+			return optOV.get();
+		else
+			return pp.getOv();
 	}
 	
 	private void finishLinkVariables(Variable var){

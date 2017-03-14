@@ -11,11 +11,11 @@ GraphTransformationFile:
 ;
 
 PatternDef:"#pattern" name=ID '(' (parameters += PatternParameters)? (',' parameters += PatternParameters)* ')' '{'
-	objectVariables += ObjectVariablePattern*
+	objectVariables += ObjectVariableDefinition*
 	'}'
 ;
 
-PatternParameters:ObjectVariableDefinition;
+PatternParameters:ov=ObjectVariableDefinition;
 
 EClassDef:
 	'#class' name = [ecore::EClass | QualifiedName] '{'
@@ -72,9 +72,7 @@ ForLoopStatement: '#For' '('
 
 ReturnStatement:{ReturnStatement} "#return" (returnObject=[ObjectVariableDefinition])?;
 
-ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName];
-
-ObjectVariablePattern: ObjectVariableDefinition (":=" assignment=[ObjectVariablePattern | QualifiedName])? ('{' 
+ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName] (":=" assignment=[ObjectVariableDefinition | QualifiedName])? ('{' 
 		attributeAssignments += AttributeAssignment*
 		attributeConstraints += AttributeConstraint*
 		linkVariablePatterns += LinkVariablePattern*	
@@ -98,7 +96,7 @@ EnumExpression:
 ;
 
 AttributeExpression:
-	objectVar = [ObjectVariablePattern] '.' attribute = [ecore::EAttribute]
+	objectVar = [ObjectVariableDefinition] '.' attribute = [ecore::EAttribute]
 ;
 
 LiteralExpression:
