@@ -78,7 +78,7 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable{
 				
 		for(int index = 0; index < size; index++ ){
 			setConstructors.get(index).accept(invocation);
-			ObjectVariableDefinition patternParOV = ObjectVariableDefinition.class.cast(patternParameters.get(index));
+			ObjectVariableDefinition patternParOV = patternParameters.get(index).getOv();
 			Variable var = pattern.getSymbolicParameters().get(index);
 			if(var.getName().compareTo(patternParOV.getName())!= 0)
 				throw new NoMatchingVariableFound();			
