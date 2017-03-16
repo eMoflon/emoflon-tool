@@ -98,7 +98,7 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
    {
       final ErrorMessage error = ResultFactory.eINSTANCE.createErrorMessage();
       report.getErrorMessages().add(error);
-      error.setId(String.format("No search plan found for pattern '%s'", pattern.getName()));
+      error.setId(String.format("No search plan found for pattern '%s'. Please ensure that your patterns are not disjunct.", pattern.getName()));
       error.setSeverity(Severity.ERROR);
    }
 
