@@ -61,19 +61,18 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
          return;
       }
       
-      final int cacheSize = 4000; // OLD cacheSize = 1000 
+      final int cacheSize = 4000;
       final int v = inputAdornment.size();
-      final int numberOfBddVariables = v * 4; // OLD v*2
-      final int numberOfNodes = (int) Math.max((Math.pow(2 * v, 3)) * 20, cacheSize); // OLD (Math.pow(v, 3))
+      final int numberOfBddVariables = v * 4;
+      final int numberOfNodes = (int) Math.max((Math.pow(2 * v, 3)) * 20, cacheSize);
 
       bddFactory = BDDFactory.init("java", numberOfNodes, cacheSize);
       bddFactory.setVarNum(numberOfBddVariables);
       bddFactory.setCacheRatio(1);
       fwdPairing = bddFactory.makePair();
       revPairing = bddFactory.makePair();
-      domain1 = bddFactory.extDomain((long) Math.pow(4, v)); //OLD (long) Math.pow(2, v) 
-      domain2 = bddFactory.extDomain((long) Math.pow(4, v )); //OLD (long) Math.pow(2, v)
-      //OLD bdd = new BDD[2][v];
+      domain1 = bddFactory.extDomain((long) Math.pow(4, v));
+      domain2 = bddFactory.extDomain((long) Math.pow(4, v ));
       bdd = new BDD[2][2 * v]; // v_p => v_p1, v_p2 | v'_p => v'_p1, v'_p2 reside next to each other
 
       ReachabilityUtils.executeWithMutedStderrAndStdout(() -> bddFactory.setVarOrder(getVarOrder(v)));
@@ -84,17 +83,13 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
       {
          for (int j = 0; j < 2 * v; j += 2)
          {
-            //OLD bdd[i][j] = bddFactory.ithVar(i * v + j);
             bdd[i][j] = bddFactory.ithVar(i * 2 * v + j);
             bdd[i][j + 1] = bddFactory.ithVar(i * 2 * v + j + 1);
          }
       }
 
-      // OLD for (int j = 0; j < v; j++)
       for (int j = 0; j < 2 * v; ++j)
       {
-         //OLD fwdPairing.set(j, v + j);
-         //OLD revPairing.set(v + j, j);
          fwdPairing.set(j, 2 * v + j);
          revPairing.set(2 * v + j, j);
       }
