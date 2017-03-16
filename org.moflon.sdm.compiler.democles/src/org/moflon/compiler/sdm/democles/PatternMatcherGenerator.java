@@ -26,9 +26,9 @@ import org.moflon.sdm.compiler.democles.validation.scope.impl.PatternMatcherImpl
  */
 public abstract class PatternMatcherGenerator extends PatternMatcherImpl
 {
-   protected PatternMatcherCompiler patternMatcher;
+   protected final PatternMatcherCompiler patternMatcher;
 
-   protected String patternType;
+   protected final String patternType;
 
    /**
     * Configures which serach plan generator to use ('patternMatcher') and which pattern type is supported 
@@ -60,8 +60,7 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
          ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
          reachabilityAnalyzer = new BDDReachabilityAnalyzer();
          //reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer();
-         reachabilityAnalyzer.analyzeReachability(compilerPattern);
-         final boolean isReachable = reachabilityAnalyzer.isReachable(adornment);
+         final boolean isReachable = reachabilityAnalyzer.analyzeReachability(compilerPattern, adornment);
          if (isReachable)
          {
             final Chain<GeneratorOperation> searchPlan = PatternMatcherCompiler.generateSearchPlan(body, adornment);
@@ -86,7 +85,7 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
     * @param multipleMatches (see isMultipleMatch in {@link #generateSearchPlan(Pattern, Adornment, boolean)})
     * @return
     */
-   abstract public SearchPlanAdapter createSearchPlanAdapter(final CompilerPatternBody body, final Adornment adornment,
+   public abstract SearchPlanAdapter createSearchPlanAdapter(final CompilerPatternBody body, final Adornment adornment,
          final Chain<GeneratorOperation> searchPlan, final boolean multipleMatches);
 
    /**

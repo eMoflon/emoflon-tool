@@ -57,15 +57,15 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
    private BDD reachableStates;
 
    @Override
-   public void analyzeReachability(final CompilerPattern pattern)
+   public boolean analyzeReachability(final CompilerPattern pattern, final Adornment adornment)
    {
       final int v = pattern.getSymbolicParameters().size();
-      if (v >= MAX_ADORNMENT_SIZE)
+      if (v > MAX_ADORNMENT_SIZE)
       {
          LogUtils.debug(logger, //
                "Adornment of pattern '%s' too large for reachability analysis. Maximum: '%d', actual: '%d'.", //
                pattern.getName(), MAX_ADORNMENT_SIZE, v);
-         return;
+         return true;
       }
 
       final int cacheSize = 4000;
@@ -79,8 +79,13 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
       revPairing = bddFactory.makePair();
       domain1 = bddFactory.extDomain((long) Math.pow(4, v));
       domain2 = bddFactory.extDomain((long) Math.pow(4, v));
-      bdd = new BDD[2][2 * v]; // v_p => v_p1, v_p2 | v'_p => v'_p1, v'_p2 reside next to each other
+      /*
+       * First dimension: i=0: pre-variables, i=1: post-variables
+       * Second dimension: Each parameter of the pattern is represented by two BDD variables, which reside next to each other
+       */
+      bdd = new BDD[2][2 * v];
 
+      // After the sorting, the pre- and post-variables of one pattern parameter reside next to each other: v_i1,v_i2,v'_i1,v'_i2
       ReachabilityUtils.executeWithMutedStderrAndStdout(() -> bddFactory.setVarOrder(getVarOrder(v)));
 
       // i = 0: pre-variables
@@ -102,17 +107,7 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
       final BDD transitionRelation = calculateTransitionRelation(pattern);
       this.reachableStates = calculateReachableStates(transitionRelation);
       transitionRelation.free();
-   }
-
-   @Override
-   public boolean isReachable(Adornment adornment)
-   {
-      if (adornment.size() > MAX_ADORNMENT_SIZE)
-         return true;
-
-      if (reachableStates == null)
-         throw new IllegalStateException("Reachability analysis has not been executed, yet. Please invoke 'analyzeReachability' prior to this method.");
-
+      
       return isReachable(adornment, reachableStates);
    }
 

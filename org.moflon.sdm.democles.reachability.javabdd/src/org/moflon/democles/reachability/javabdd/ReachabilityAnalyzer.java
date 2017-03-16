@@ -8,19 +8,12 @@ import org.gervarro.democles.compiler.CompilerPattern;
  * 
  * @author Roland Kluge - Initial implementation
  */
-public interface ReachabilityAnalyzer extends org.gervarro.democles.plan.ReachabilityAnalyzer
+public interface ReachabilityAnalyzer
 {
    /**
-    * This method performs the reachability analysis.
-    */
-   void analyzeReachability(final CompilerPattern compilerPattern);
-
-   /**
-    * Returns whether the given adornment can in principle be fulfilled using the provided operations
+    * Returns whether the given adornment can in principle be fulfilled using the operations of the given {@link CompilerPattern}
     * 
-    * @precondition Call {@link #analyzeReachability()} before.
+    * @return whether a search plan for the given pattern exists
     */
-   @Override
-   boolean isReachable(final Adornment adornment);
-
+   boolean analyzeReachability(final CompilerPattern compilerPattern, final Adornment adornment);
 }

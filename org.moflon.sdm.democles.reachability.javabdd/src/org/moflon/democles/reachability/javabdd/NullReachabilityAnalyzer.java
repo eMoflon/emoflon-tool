@@ -12,16 +12,13 @@ import org.gervarro.democles.compiler.CompilerPattern;
 public class NullReachabilityAnalyzer implements ReachabilityAnalyzer
 {
 
+   /**
+    * Always true.
+    */
    @Override
-   public boolean isReachable(Adornment adornment)
+   public boolean analyzeReachability(final CompilerPattern pattern, final Adornment adornment)
    {
       return true;
-   }
-
-   @Override
-   public void analyzeReachability(final CompilerPattern pattern)
-   {
-      // nop
    }
 
 }

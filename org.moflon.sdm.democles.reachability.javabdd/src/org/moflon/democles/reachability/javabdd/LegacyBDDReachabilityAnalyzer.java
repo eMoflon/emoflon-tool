@@ -49,12 +49,12 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
    private boolean reachabilityAnalysisPossible;
 
    @Override
-   public void analyzeReachability(final CompilerPattern pattern)
+   public boolean analyzeReachability(final CompilerPattern pattern, final Adornment adornment)
    {
       this.reachabilityAnalysisPossible = !hasOperationWithUncheckedAdornment(ReachabilityUtils.extractOperations(pattern));
       if (!this.reachabilityAnalysisPossible)
       {
-         return;
+         return true;
       }
 
       int cacheSize = 1000;
@@ -88,21 +88,11 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
       final BDD transitionRelation = calculateTransitionRelation(pattern);
       calculateReachableStates(transitionRelation);
       transitionRelation.free();
-   }
-
-   @Override
-   public boolean isReachable(Adornment adornment)
-   {
-      if (!this.reachabilityAnalysisPossible)
-         return true;
-
-      if (reachableStates == null)
-         throw new IllegalStateException("Reachability analysis has not been executed, yet. Please invoke 'analyzeReachability' prior to this method.");
-
+      
       return isReachable(adornment, reachableStates);
    }
 
-   static boolean hasOperationWithUncheckedAdornment(final List<GeneratorOperation> operations)
+   private static boolean hasOperationWithUncheckedAdornment(final List<GeneratorOperation> operations)
    {
       return operations.stream()
             .anyMatch(operation -> hasUncheckedAdornment(operation.getPrecondition()) || hasUncheckedAdornment(operation.getPostcondition()));
