@@ -2,12 +2,14 @@ package org.moflon.democles.reachability.javabdd;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.gervarro.democles.codegen.GeneratorOperation;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.OperationRuntime;
 import org.gervarro.democles.common.runtime.VariableRuntime;
 import org.gervarro.democles.compiler.CompilerPattern;
 import org.gervarro.democles.specification.Variable;
+import org.moflon.core.utilities.LogUtils;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDDomain;
@@ -32,6 +34,10 @@ import net.sf.javabdd.BDDPairing;
 //TODO@rkluge reduce size of transition relation by ignoring e.g., 0:1,1:0
 public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
 {
+   private static final Logger logger = Logger.getLogger(BDDReachabilityAnalyzer.class);
+
+   private static final int MAX_ADORNMENT_SIZE = 31;
+
    private static final int ADORNMENT_UNDEFINED = -1;
 
    private static final int VARIABLE_NOT_FOUND = -1;
@@ -53,8 +59,16 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
    @Override
    public void analyzeReachability(final CompilerPattern pattern)
    {
-      final int cacheSize = 4000;
       final int v = pattern.getSymbolicParameters().size();
+      if (v >= MAX_ADORNMENT_SIZE)
+      {
+         LogUtils.debug(logger, //
+               "Adornment of pattern '%s' too large for reachability analysis. Maximum: '%d', actual: '%d'.", //
+               pattern.getName(), MAX_ADORNMENT_SIZE, v);
+         return;
+      }
+
+      final int cacheSize = 4000;
       final int numberOfBddVariables = v * 4;
       final int numberOfNodes = (int) Math.max((Math.pow(2 * v, 3)) * 20, cacheSize);
 
@@ -93,6 +107,9 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
    @Override
    public boolean isReachable(Adornment adornment)
    {
+      if (adornment.size() > MAX_ADORNMENT_SIZE)
+         return true;
+
       if (reachableStates == null)
          throw new IllegalStateException("Reachability analysis has not been executed, yet. Please invoke 'analyzeReachability' prior to this method.");
 
@@ -160,7 +177,6 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
                case ADORNMENT_UNDEFINED:
                   // nop because previous switch-case has cared about this
                   break;
-               default:
                }
             }
             transitionRelation.orWith(cube);
@@ -214,11 +230,11 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
             break;
          }
       }
-      
+
       // Create conjunction with transition relation
       cube.impWith(r.id());
       final boolean isReachable = cube.equals(bddFactory.one());
-      
+
       // Check whether transition relation AND adornment relation == TRUE
       return isReachable;
    }

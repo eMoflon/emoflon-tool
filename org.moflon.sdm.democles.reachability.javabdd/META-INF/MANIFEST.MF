@@ -7,7 +7,8 @@ Export-Package: org.moflon.democles.reachability.javabdd
 Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.gervarro.democles.common;bundle-version="1.0.0",
  org.gervarro.democles.plan;bundle-version="0.3.2",
- org.gervarro.democles.compiler
+ org.gervarro.democles.compiler,
+ org.moflon.core.utilities;bundle-version="1.2.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab
