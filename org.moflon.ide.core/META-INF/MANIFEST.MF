@@ -29,7 +29,9 @@ Require-Bundle:
  org.moflon.tgg.runtime,
  org.moflon.tgg.language,
  org.moflon.ide.plugins,
- org.eclipse.xtext
+ org.eclipse.xtext,
+ org.moflon.gt.mosl,
+ org.moflon.gt.mosl.codeadapter
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.ea,
  org.moflon.ide.core.git,

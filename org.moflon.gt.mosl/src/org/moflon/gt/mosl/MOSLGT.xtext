@@ -6,25 +6,22 @@ generate moslgt "http://www.moflon.org/gt/mosl/MOSLGT"
 
 GraphTransformationFile:
 	imports += Import*
-	using += Using*	'#package' name = QualifiedName
-	
-	(eClasses += EClassDef | patterns += PatternDef)
-	patterns += PatternDef*
-	eClasses += EClassDef*
-	
-	
+	using += Using*	'#package' name = QualifiedName	
+	eClasses += EClassDef+
 ;
 
 PatternDef:"#pattern" name=ID '(' (parameters += PatternParameters)? (',' parameters += PatternParameters)* ')' '{'
-	objectVariables += ObjectVariablePattern*
+	objectVariables += ObjectVariableDefinition*
 	'}'
 ;
 
-PatternParameters:ObjectVariableDefinition;
+PatternParameters:ov=ObjectVariableDefinition;
 
 EClassDef:
 	'#class' name = [ecore::EClass | QualifiedName] '{'
+	(operations += MethodDec | patterns += PatternDef)
 	operations += MethodDec*
+	patterns += PatternDef*
 	'}'
 ;
 
@@ -34,7 +31,7 @@ MethodDec:
 	'}')?
 ;
 
-CalledPatternParameter:(definingOV=ObjectVariableDefinition) | (existingOV=[ObjectVariablePattern | QualifiedName]);
+CalledPatternParameter:(definingOV=ObjectVariableDefinition) | (existingOV=[ObjectVariableDefinition | QualifiedName]);
 
 Statement: NextStatement | ReturnStatement;
 
@@ -73,11 +70,9 @@ ForLoopStatement: '#For' '('
 	'}'
 ;
 
-ReturnStatement:{ReturnStatement} "#return" (returnObject=[ObjectVariablePattern])?;
+ReturnStatement:{ReturnStatement} "#return" (returnObject=[ObjectVariableDefinition])?;
 
-ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName];
-
-ObjectVariablePattern: ObjectVariableDefinition (":=" assignment=[ObjectVariablePattern | QualifiedName])? ('{' 
+ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName] (":=" assignment=[ObjectVariableDefinition | QualifiedName])? ('{' 
 		attributeAssignments += AttributeAssignment*
 		attributeConstraints += AttributeConstraint*
 		linkVariablePatterns += LinkVariablePattern*	
@@ -101,7 +96,7 @@ EnumExpression:
 ;
 
 AttributeExpression:
-	objectVar = [ObjectVariablePattern] '.' attribute = [ecore::EAttribute]
+	objectVar = [ObjectVariableDefinition] '.' attribute = [ecore::EAttribute]
 ;
 
 LiteralExpression:
@@ -109,7 +104,7 @@ LiteralExpression:
 ;
 
 LinkVariablePattern:
-	(op = Operator)? '-' type = [ecore::EReference] '->' target = [ObjectVariablePattern]
+	(op = Operator)? '-' type = [ecore::EReference] '->' target = [ObjectVariableDefinition]
 ;
 
 MethodParameter: name = ID ':' type=[ecore::EClassifier | QualifiedName];
@@ -154,4 +149,9 @@ QualifiedNameWithWildcard:
 QualifiedName returns ecore::EString:
 	ID ('.' ID)*
 ;
+
+
+// additional declarations for typing
+AbstractClass: EClassDef className=ID;
+ 
 
