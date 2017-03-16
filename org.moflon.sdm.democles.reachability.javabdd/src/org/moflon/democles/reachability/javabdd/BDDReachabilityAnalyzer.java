@@ -48,18 +48,9 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
 
    private BDD reachableStates;
 
-   private boolean reachabilityAnalysisPossible;
-
    @Override
    public void analyzeReachability(final CompilerPattern pattern)
    {
-      this.reachabilityAnalysisPossible = true;
-      //      this.reachabilityAnalysisPossible = !LegacyBDDReachabilityAnalyzer.hasOperationWithUncheckedAdornment(ReachabilityUtils.extractOperations(pattern));
-      //      if (!this.reachabilityAnalysisPossible)
-      //      {
-      //         return;
-      //      }
-      
       final int cacheSize = 4000;
       final int v = pattern.getSymbolicParameters().size();
       final int numberOfBddVariables = v * 4;
@@ -93,16 +84,13 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
          revPairing.set(2 * v + j, j);
       }
       final BDD transitionRelation = calculateTransitionRelation(pattern);
-      calculateReachableStates(transitionRelation);
+      this.reachableStates = calculateReachableStates(transitionRelation);
       transitionRelation.free();
    }
 
    @Override
    public boolean isReachable(Adornment adornment)
    {
-      if (!this.reachabilityAnalysisPossible)
-         return true;
-      
       if (reachableStates == null)
          throw new IllegalStateException("Reachability analysis has not been executed, yet. Please invoke 'analyzeReachability' prior to this method.");
 
@@ -234,7 +222,7 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
       return isReachable(adornment, subtree);
    }
 
-   private void calculateReachableStates(final BDD transitionRelation)
+   private BDD calculateReachableStates(final BDD transitionRelation)
    {
       BDD old = domain1.ithVar(0); // Target adornment: everything is 0 -> 
       BDD nu = old;
@@ -244,7 +232,7 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
          BDD z = (transitionRelation.and(old.replace(fwdPairing))).exist(bddFactory.makeSet(domain2.vars()));
          nu = old.or(z);
       } while (!old.equals(nu));
-      reachableStates = nu;
+      return nu;
    }
 
    private int[] getVarOrder(int adornmentSize)
