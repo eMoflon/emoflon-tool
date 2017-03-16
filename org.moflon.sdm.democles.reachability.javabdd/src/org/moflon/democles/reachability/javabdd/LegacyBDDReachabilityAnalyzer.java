@@ -49,7 +49,7 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
    private boolean reachabilityAnalysisPossible;
 
    @Override
-   public void analyzeReachability(final CompilerPattern pattern, final Adornment inputAdornment)
+   public void analyzeReachability(final CompilerPattern pattern)
    {
       this.reachabilityAnalysisPossible = !hasOperationWithUncheckedAdornment(ReachabilityUtils.extractOperations(pattern));
       if (!this.reachabilityAnalysisPossible)
@@ -58,7 +58,7 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
       }
 
       int cacheSize = 1000;
-      int v = inputAdornment.size();
+      int v = pattern.getSymbolicParameters().size();
       int numberOfNodes = (int) Math.max((Math.pow(v, 3)) * 20, cacheSize);
 
       bddFactory = BDDFactory.init("java", numberOfNodes, cacheSize);

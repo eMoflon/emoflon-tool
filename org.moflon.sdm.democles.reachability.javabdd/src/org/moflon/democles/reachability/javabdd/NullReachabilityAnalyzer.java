@@ -19,7 +19,7 @@ public class NullReachabilityAnalyzer implements ReachabilityAnalyzer
    }
 
    @Override
-   public void analyzeReachability(final CompilerPattern pattern, final Adornment inputAdornment)
+   public void analyzeReachability(final CompilerPattern pattern)
    {
       // nop
    }

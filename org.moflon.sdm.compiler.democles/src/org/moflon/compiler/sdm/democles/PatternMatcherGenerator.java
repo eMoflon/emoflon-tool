@@ -60,7 +60,7 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
          ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
          reachabilityAnalyzer = new BDDReachabilityAnalyzer();
          //reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer();
-         reachabilityAnalyzer.analyzeReachability(compilerPattern, adornment);
+         reachabilityAnalyzer.analyzeReachability(compilerPattern);
          final boolean isReachable = reachabilityAnalyzer.isReachable(adornment);
          if (isReachable)
          {

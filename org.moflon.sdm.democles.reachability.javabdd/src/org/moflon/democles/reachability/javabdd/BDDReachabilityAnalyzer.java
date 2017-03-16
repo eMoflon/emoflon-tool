@@ -23,7 +23,7 @@ import net.sf.javabdd.BDDPairing;
  * See also {@link BDDReachabilityAnalyzer} for an implementation of this algorithm.
  * 
  * Short explanations:
- * - Each operation has a pre-condition and a post-condition adornment
+ * - Each operation has a precondition and a postcondition adornment
  * - Each pattern has a set of symbolic parameters. The size of the {@link Adornment} equals the number of symbolic parameters.
  * 
  * @author Roland Kluge - Reimplementation of {@link LegacyBDDReachabilityAnalyzer} with support for {@link Adornment#NOT_TYPECHECKED} 
@@ -36,33 +36,32 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
 
    private BDDFactory bddFactory;
 
-   BDDPairing fwdPairing;
+   private BDDPairing fwdPairing;
 
-   BDDPairing revPairing;
+   private BDDPairing revPairing;
 
-   BDD[][] bdd;
+   private BDD[][] bdd;
 
-   BDDDomain domain1;
+   private BDDDomain domain1;
 
-   BDDDomain domain2;
+   private BDDDomain domain2;
 
-   boolean calculated = false;
-
-   BDD reachableStates;
+   private BDD reachableStates;
 
    private boolean reachabilityAnalysisPossible;
 
    @Override
-   public void analyzeReachability(final CompilerPattern pattern, final Adornment inputAdornment)
+   public void analyzeReachability(final CompilerPattern pattern)
    {
-      this.reachabilityAnalysisPossible = !LegacyBDDReachabilityAnalyzer.hasOperationWithUncheckedAdornment(ReachabilityUtils.extractOperations(pattern));
-      if (!this.reachabilityAnalysisPossible)
-      {
-         return;
-      }
+      this.reachabilityAnalysisPossible = true;
+      //      this.reachabilityAnalysisPossible = !LegacyBDDReachabilityAnalyzer.hasOperationWithUncheckedAdornment(ReachabilityUtils.extractOperations(pattern));
+      //      if (!this.reachabilityAnalysisPossible)
+      //      {
+      //         return;
+      //      }
       
       final int cacheSize = 4000;
-      final int v = inputAdornment.size();
+      final int v = pattern.getSymbolicParameters().size();
       final int numberOfBddVariables = v * 4;
       final int numberOfNodes = (int) Math.max((Math.pow(2 * v, 3)) * 20, cacheSize);
 

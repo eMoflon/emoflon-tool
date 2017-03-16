@@ -13,7 +13,7 @@ public interface ReachabilityAnalyzer extends org.gervarro.democles.plan.Reachab
    /**
     * This method performs the reachability analysis.
     */
-   void analyzeReachability(final CompilerPattern compilerPattern, final Adornment inputAdornment);
+   void analyzeReachability(final CompilerPattern compilerPattern);
 
    /**
     * Returns whether the given adornment can in principle be fulfilled using the provided operations
