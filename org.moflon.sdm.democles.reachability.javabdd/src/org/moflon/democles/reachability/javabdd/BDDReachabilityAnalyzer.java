@@ -28,6 +28,8 @@ import net.sf.javabdd.BDDPairing;
  * 
  * @author Roland Kluge - Reimplementation of {@link LegacyBDDReachabilityAnalyzer} with support for {@link Adornment#NOT_TYPECHECKED} 
  */
+//TODO@rkluge: Analyze reachability of desired adornment immediately without building the whole reachable state space 
+//TODO@rkluge reduce size of transition relation by ignoring e.g., 0:1,1:0
 public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
 {
    private static final int ADORNMENT_UNDEFINED = -1;
@@ -62,7 +64,7 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
       fwdPairing = bddFactory.makePair();
       revPairing = bddFactory.makePair();
       domain1 = bddFactory.extDomain((long) Math.pow(4, v));
-      domain2 = bddFactory.extDomain((long) Math.pow(4, v ));
+      domain2 = bddFactory.extDomain((long) Math.pow(4, v));
       bdd = new BDD[2][2 * v]; // v_p => v_p1, v_p2 | v'_p => v'_p1, v'_p2 reside next to each other
 
       ReachabilityUtils.executeWithMutedStderrAndStdout(() -> bddFactory.setVarOrder(getVarOrder(v)));
@@ -111,11 +113,10 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
             for (int i = 0; i < symbolicParameters.size(); ++i)
             {
                final int posInOperationParameters = findVariableWithIndex(operation, i);
-               
+
                final int preconditionAdornment = posInOperationParameters != VARIABLE_NOT_FOUND //
                      ? operation.getPrecondition().get(posInOperationParameters) //
                      : ADORNMENT_UNDEFINED;
-              
 
                // Handle precondition
                switch (preconditionAdornment)
@@ -133,8 +134,8 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
                   cube.andWith(bdd[0][2 * i + 1].id());
                   break;
                case ADORNMENT_UNDEFINED:
-                  cube.andWith(bdd[0][2 * i].biimp(bdd[1][2*i]));
-                  cube.andWith(bdd[0][2 * i + 1].biimp(bdd[1][2*i + 1]));
+                  cube.andWith(bdd[0][2 * i].biimp(bdd[1][2 * i]));
+                  cube.andWith(bdd[0][2 * i + 1].biimp(bdd[1][2 * i + 1]));
                   break;
                }
 
@@ -192,34 +193,34 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
 
    private boolean isReachable(final Adornment adornment, final BDD r)
    {
-      // We have arrived at '1', i.e., 'adornment' is reachable.
-      if (r.equals(bddFactory.one()))
-      {
-         return true;
-      }
-      if (r.equals(bddFactory.zero()))
-      {
-         return false;
-      }
 
-      final BDD subtree;
-      final int positionInAdornment = r.var() / 2;
-      switch(adornment.get(positionInAdornment))
+      final BDD cube = bddFactory.one();
+      for (int i = 0; i < adornment.size(); ++i)
       {
-      case Adornment.FREE:
-         subtree = r.high().high();
-         break;
-      case Adornment.BOUND:
-         subtree = r.low().low();
-         break;
-      case Adornment.NOT_TYPECHECKED:
-         subtree = r.low().high();
-         break;
-      default:
-         throw new IllegalArgumentException(String.format("Unsupported adornment specification i=%d in %s", positionInAdornment, adornment));
+         // Handle precondition
+         switch (adornment.get(i))
+         {
+         case Adornment.FREE:
+            cube.andWith(bdd[0][2 * i].id());
+            cube.andWith(bdd[0][2 * i + 1].id());
+            break;
+         case Adornment.BOUND:
+            cube.andWith(bdd[0][2 * i].not());
+            cube.andWith(bdd[0][2 * i + 1].not());
+            break;
+         case Adornment.NOT_TYPECHECKED:
+            cube.andWith(bdd[0][2 * i].not());
+            cube.andWith(bdd[0][2 * i + 1].id());
+            break;
+         }
       }
-
-      return isReachable(adornment, subtree);
+      
+      // Create conjunction with transition relation
+      cube.impWith(r.id());
+      final boolean isReachable = cube.equals(bddFactory.one());
+      
+      // Check whether transition relation AND adornment relation == TRUE
+      return isReachable;
    }
 
    private BDD calculateReachableStates(final BDD transitionRelation)
@@ -237,7 +238,7 @@ public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
 
    private int[] getVarOrder(int adornmentSize)
    {
-      //TODO@rkluge: was new int[2*adornmentSize]
+
       int[] varorder = new int[4 * adornmentSize];
       for (int j = 0; j < adornmentSize; ++j)
       {
