@@ -1,5 +1,7 @@
 package org.moflon.codegen.eclipse;
 
+import java.util.Locale;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -34,8 +36,6 @@ import org.moflon.moca.inject.extractors.UserInjectionExtractorImpl;
 
 public class MoflonCodeGenerator extends GenericMoflonProcess
 {
-   private int timeoutForValidationTaskInMillis = 0;
-
    private static final Logger logger = Logger.getLogger(MoflonCodeGenerator.class);
 
    private InjectionManager injectionManager;
@@ -45,11 +45,6 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    public MoflonCodeGenerator(final IFile ecoreFile, final ResourceSet resourceSet)
    {
       super(ecoreFile, resourceSet);
-   }
-
-   public void setValidationTimeout(final int timeoutInMillis)
-   {
-      this.timeoutForValidationTaskInMillis = timeoutInMillis;
    }
 
    @Override
@@ -103,6 +98,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          validationJob.setJobGroup(jobGroup);
          validationJob.schedule();
          //         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.split(10));
+         int timeoutForValidationTaskInMillis = getPreferencesStorage().getValidationTimeout();
          jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
 
          if (validationJob.getResult() == null)
@@ -195,7 +191,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
          long tic = System.nanoTime();
 
-         logger.info("Completed in " + (tic - toc) / 1e9 + "s");
+         logger.info(String.format(Locale.US, "Completed in %.3fs", (tic - toc) / 1e9));
 
          final boolean everythingOK = validationStatus.isOK() && injectionStatus.isOK() && weaverStatus.isOK();
          return everythingOK ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Code generation succeeded")
@@ -207,6 +203,16 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       }
    }
 
+   public final GenModel getGenModel()
+   {
+      return genModel;
+   }
+
+   public final InjectionManager getInjectorManager()
+   {
+      return injectionManager;
+   }
+   
    protected String getFullProjectName(final MoflonPropertiesContainer moflonProperties)
    {
       final String metaModelProjectName = moflonProperties.getMetaModelProject().getMetaModelProjectName();
@@ -228,24 +234,14 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    {
       IFolder injectionFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
       CodeInjector injector = new CodeInjectorImpl(project.getLocation().toOSString());
-
+   
       UserInjectionExtractorImpl injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
       CompilerInjectionExtractorImpl compilerInjectionExtractor = new CompilerInjectionExtractorImpl(project, genModel);
-
+   
       injectionManager = new InjectionManager(injectionExtractor, compilerInjectionExtractor, injector);
       return injectionManager.extractInjections();
    }
 
-   public final GenModel getGenModel()
-   {
-      return genModel;
-   }
-
-   public final InjectionManager getInjectorManager()
-   {
-      return injectionManager;
-   }
-   
    private static class StatusHolder
    {
       IStatus status;
