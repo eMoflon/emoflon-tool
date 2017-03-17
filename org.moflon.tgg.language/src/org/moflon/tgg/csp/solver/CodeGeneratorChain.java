@@ -18,7 +18,7 @@
  * Contributors:
  * 		Gergely Varro <gervarro@cs.bme.hu> - initial API and implementation and/or initial documentation
  */
-package org.moflon.csp.solver;
+package org.moflon.tgg.csp.solver;
 
 public class CodeGeneratorChain<T> {
 	private final CodeGeneratorChain<T> next;

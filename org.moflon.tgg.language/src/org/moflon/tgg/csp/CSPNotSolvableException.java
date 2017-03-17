@@ -1,4 +1,4 @@
-package org.moflon.csp;
+package org.moflon.tgg.csp;
 
 import org.moflon.tgg.language.csp.OperationalCSP;
 

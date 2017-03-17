@@ -1,4 +1,4 @@
-package csp.constraints.generator;
+package org.moflon.tgg.csp.constraints.generator;
 
 import java.util.Random;
 

@@ -1,22 +1,22 @@
-package org.moflon.csp.codegenerator;
+package org.moflon.tgg.csp.codegenerator;
 
-import org.antlr.stringtemplate.AttributeRenderer;
+import java.util.Locale;
 
-/**
- * A basic format renderer, which provides String operation for StringTemplates.
- * 
- * @author david
- * 
- */
-public class BasicFormatRenderer implements AttributeRenderer
+import org.stringtemplate.v4.AttributeRenderer;
+
+
+
+public class MyBasicFormatRenderer implements AttributeRenderer
 {
    public String toString(Object o)
    {
       return o.toString();
    }
 
-   public String toString(Object o, String formatName)
+   public String toString(Object o, String formatName, Locale l)
    {
+	  l = Locale.getDefault();
+	  if ( formatName==null ) return o.toString();
       if (formatName.equals("firstToUpper"))
       {
          return firstToUpper(o.toString());
@@ -41,5 +41,7 @@ public class BasicFormatRenderer implements AttributeRenderer
    {
       return s.substring(0, 1).toLowerCase() + s.substring(1);
    }
+
+
 
 }

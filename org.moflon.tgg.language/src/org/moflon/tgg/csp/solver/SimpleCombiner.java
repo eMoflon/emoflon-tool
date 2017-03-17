@@ -18,7 +18,7 @@
  * Contributors:
  * 		Gergely Varro <gervarro@cs.bme.hu> - initial API and implementation and/or initial documentation
  */
-package org.moflon.csp.solver;
+package org.moflon.tgg.csp.solver;
 
 import org.gervarro.democles.common.Combiner;
 import org.moflon.tgg.language.csp.TGGConstraint;

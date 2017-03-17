@@ -4,6 +4,7 @@ import static org.moflon.core.utilities.WorkspaceHelper.addAllFolders;
 import static org.moflon.core.utilities.WorkspaceHelper.addAllFoldersAndFile;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
@@ -58,11 +59,12 @@ public class NewIntegrationWizard extends NewRepositoryWizard
    protected void generateDefaultFiles(final IProgressMonitor monitor, IProject project) throws CoreException
    {
       String defaultSchema = DefaultFilesHelper.generateDefaultSchema(project.getName());
-      IPath pathToSchema = new Path("src/org/moflon/tgg/mosl/Schema.tgg");
+      String projectName = project.getProject().getName().replaceAll(Pattern.quote("."), "/");
+      IPath pathToSchema = new Path("src/" + projectName + "/org/moflon/tgg/mosl/Schema.tgg");
       final SubMonitor subMon = SubMonitor.convert(monitor, "Generating default files", 2);
       addAllFoldersAndFile(project, pathToSchema, defaultSchema, subMon.split(1));
 
-      addAllFolders(project, "src/org/moflon/tgg/mosl/rules", subMon.split(1));
+      addAllFolders(project, "src/" + projectName + "org/moflon/tgg/mosl/rules", subMon.split(1));
 
       try
       {

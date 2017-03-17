@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -278,13 +279,14 @@ public class MOSLTGGConversionHelper extends AbstractHandler
 
                TripleGraphGrammarFile tggModel = (TripleGraphGrammarFile) helper.getSrc();
                String projectPath = tggFile.getProject().getFullPath().toString();
-
+               String projectName = tggFile.getProject().getName().replaceAll(Pattern.quote("."), "/");
+               
                Resource resource = resourceSet
-                     .createResource(URI.createPlatformResourceURI(projectPath + "/src/org/moflon/tgg/mosl" + projectPath + ".xmi", true));
+                     .createResource(URI.createPlatformResourceURI(projectPath + "/src/" + projectName + "/org/moflon/tgg/mosl" + projectPath + ".xmi", true));
                resource.getContents().add(tggModel);
                resource.save(null);
 
-               saveXtextTGGModelToTGGFile(tggModel, tggFile.getProject(), "/src/org/moflon/tgg/mosl" + projectPath + ".tgg");
+               saveXtextTGGModelToTGGFile(tggModel, tggFile.getProject(), "/src/" + projectName + "/org/moflon/tgg/mosl" + projectPath + ".tgg");
             }
          }
       } catch (Exception e)

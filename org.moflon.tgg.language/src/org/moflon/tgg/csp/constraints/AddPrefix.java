@@ -1,9 +1,8 @@
-package csp.constraints;
+package org.moflon.tgg.csp.constraints;
 
+import org.moflon.tgg.csp.constraints.generator.Generator;
 import org.moflon.tgg.language.csp.Variable;
 import org.moflon.tgg.language.csp.impl.TGGConstraintImpl;
-
-import csp.constraints.generator.Generator;
 
 public class AddPrefix extends TGGConstraintImpl
 {

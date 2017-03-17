@@ -1,4 +1,4 @@
-package org.moflon.csp.solver;
+package org.moflon.tgg.csp.solver;
 
 import java.io.IOException;
 import java.io.OutputStream;
