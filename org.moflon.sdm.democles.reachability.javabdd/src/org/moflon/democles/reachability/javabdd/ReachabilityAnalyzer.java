@@ -1,24 +1,19 @@
 package org.moflon.democles.reachability.javabdd;
 
 import org.gervarro.democles.common.Adornment;
+import org.gervarro.democles.compiler.CompilerPattern;
 
 /**
  * Parent interface for all reachability analyzers in eMoflon.
  * 
  * @author Roland Kluge - Initial implementation
  */
-public interface ReachabilityAnalyzer extends org.gervarro.democles.plan.ReachabilityAnalyzer
+public interface ReachabilityAnalyzer
 {
    /**
-    * This method performs the reachability analysis.
-    */
-   void analyzeReachability();
-   
-   /**
-    * Returns whether the given adornment can in principle be fulfilled using the provided operations
+    * Returns whether the given adornment can in principle be fulfilled using the operations of the given {@link CompilerPattern}
     * 
-    * @precondition Call {@link #analyzeReachability()} before.
+    * @return whether a search plan for the given pattern exists
     */
-   @Override
-   boolean isReachable(Adornment adornment);
+   boolean analyzeReachability(final CompilerPattern compilerPattern, final Adornment adornment);
 }

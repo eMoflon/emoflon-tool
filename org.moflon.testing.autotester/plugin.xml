@@ -19,7 +19,7 @@
                   commandId="org.moflon.ide.ui.commands.MoflonDevtoolsMenuCommand"
                   icon="icons/junitmoflon.png"
                   id="org.moflon.devtools.ui.commands.toolbar.MoflonDevtoolsMenuCommand"
-                  label="Install, Configure and Deploy eMoflon"
+                  label="Install and Configure eMoflon"
                   style="pulldown">
                <visibleWhen
                      checkEnabled="false">
@@ -37,12 +37,6 @@
                id="org.moflon.devtools.ui.menus.InstallAndConfigureMenu"
                label="Install Workspace">
          </menu>
-          <command
-               commandId="org.moflon.devtools.ui.commands.deploy.DeployCommand"
-               label="Deploy eMoflon..."
-               style="push">
-         </command>
-         
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -262,7 +256,7 @@
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleIDE">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Deployment and Configuration Modules" style="push">
+            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Configuration Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleMeta">
@@ -276,7 +270,7 @@
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.DoNothingHandler"
             id="org.moflon.ide.ui.commands.MoflonDevtoolsMenuCommand"
-            name="Install, configure, and deploy Moflon">
+            name="Install and Configure eMoflon">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
@@ -287,12 +281,6 @@
             id="org.moflon.ide.ui.commands.DevelopmentCategory"
             name="Development commands">
       </category>
-      <command
-            categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
-            defaultHandler="org.moflon.devtools.ui.handlers.deploy.DeploymentHandler"
-            id="org.moflon.devtools.ui.commands.deploy.DeployCommand"
-            name="Deploy local">
-      </command>
       <command
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.install.InstallPsfFileHandler"

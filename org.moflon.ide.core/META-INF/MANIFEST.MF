@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.ide.core
 Bundle-SymbolicName: org.moflon.ide.core;singleton:=true
-Bundle-Version: 2.1.2.qualifier
+Bundle-Version: 2.2.0.qualifier
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: 
@@ -16,25 +16,26 @@ Require-Bundle:
  org.gervarro.eclipse.task;bundle-version="[1.0.1,2.0.0)",
  org.gervarro.eclipse.workspace.util;bundle-version="[2.0.0,3.0.0)",
  org.gervarro.eclipse.workspace.autosetup;bundle-version="[1.0.0,2.0.0)",
- org.moflon.core.utilities,
- org.moflon.core.propertycontainer,
- MocaTree,
- org.moflon.core.moca.inject,
- org.moflon.core.moca.processing,
+ org.moflon.core.utilities;bundle-version="1.3.0",
+ org.moflon.core.propertycontainer;bundle-version="2.1.0",
+ MocaTree;bundle-version="2.0.0",
+ org.moflon.core.moca.inject;bundle-version="2.0.0",
+ org.moflon.core.moca.processing;bundle-version="2.0.0",
  org.moflon.core.mocatomoflon;bundle-version="2.0.0",
- SDMLanguage,
- org.moflon.sdm.compiler.eclipse,
- org.moflon.sdm.compiler.democles.validation.result,
- org.moflon.tgg.cspcodeadapter,
- org.moflon.tgg.runtime,
- org.moflon.tgg.language,
- org.moflon.ide.plugins,
- org.eclipse.xtext
+ SDMLanguage;bundle-version="2.0.0",
+ org.moflon.sdm.compiler.eclipse;bundle-version="3.0.0",
+ org.moflon.sdm.compiler.democles.validation.result;bundle-version="2.0.0",
+ org.moflon.tgg.cspcodeadapter;bundle-version="2.0.1",
+ org.moflon.tgg.runtime;bundle-version="2.0.0",
+ org.moflon.tgg.language;bundle-version="2.1.0",
+ org.moflon.ide.plugins;bundle-version="2.1.1",
+ org.eclipse.xtext;bundle-version="2.9.0",
+ org.moflon.gt.mosl;bundle-version="1.0.0",
+ org.moflon.gt.mosl.codeadapter;bundle-version="1.0.0"
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.ea,
  org.moflon.ide.core.git,
  org.moflon.ide.core.injection,
- org.moflon.ide.core.preferences,
  org.moflon.ide.core.properties,
  org.moflon.ide.core.runtime,
  org.moflon.ide.core.runtime.builders,
