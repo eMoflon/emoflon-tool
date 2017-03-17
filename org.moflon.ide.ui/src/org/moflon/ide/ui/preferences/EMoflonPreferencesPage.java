@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.ide.ui.UIActivator;
 
 /**
  * This {@link PreferencePage} holds the eMoflon-specific configuration options
@@ -270,7 +270,7 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
       EMoflonPreferenceInitializer.setReachabilityEnabled(this.reachabilityAnalysisEnabledButton.getSelection());
       EMoflonPreferenceInitializer.setReachabilityMaxAdornmentSize(Integer.parseInt(this.reachabilityAnalysisMaxAdornmentSizeTextBox.getText()));
 
-      synchronizeEMoflonPreferencesStorage();
+      UIActivator.synchronizeEMoflonPreferencesStorage();
    }
 
    /**
@@ -282,14 +282,6 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
       this.reachabilityAnalysisEnabledButton.setSelection(EMoflonPreferenceInitializer.getReachabilityEnabled());
       this.reachabilityAnalysisMaxAdornmentSizeTextBox.setText(Integer.toString(EMoflonPreferenceInitializer.getReachabilityMaxAdornmentSize()));
 
-      synchronizeEMoflonPreferencesStorage();
-   }
-
-   private void synchronizeEMoflonPreferencesStorage()
-   {
-      final EMoflonPreferencesStorage preferencesStorage = EMoflonPreferencesStorage.getInstance();
-      preferencesStorage.setValidationTimeout(EMoflonPreferenceInitializer.getValidationTimeoutMillis());
-      preferencesStorage.setReachabilityEnabled(EMoflonPreferenceInitializer.getReachabilityEnabled());
-      preferencesStorage.setReachabilityMaximumAdornmentSize(EMoflonPreferenceInitializer.getReachabilityMaxAdornmentSize());
+      UIActivator.synchronizeEMoflonPreferencesStorage();
    }
 }
