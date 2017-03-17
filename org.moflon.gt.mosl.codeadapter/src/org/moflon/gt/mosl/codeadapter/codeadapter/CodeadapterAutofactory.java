@@ -4,30 +4,42 @@ import org.moflon.gt.mosl.codeadapter.linkvariablerules.MatchingUnboundLVTransfo
 import org.moflon.gt.mosl.codeadapter.objectvariablerules.MatchingUnboundOVTransformerRule;
 import org.moflon.gt.mosl.codeadapter.statementrules.*;
 
-public class CodeadapterAutofactory {
+public class CodeadapterAutofactory
+{
 
-	public CodeadapterAutofactory(){
-		createAllStatementInstances();
-		createAllObjectVariableTransformers();
-		createAllLinkVariableTransformers();
-	}
+   public CodeadapterAutofactory()
+   {
+      createAllStatementInstances();
+      createAllObjectVariableTransformers();
+      createAllLinkVariableTransformers();
+      createAllExpressionRules();
+   }
 
-	private void createAllLinkVariableTransformers() {
-		new MatchingUnboundLVTransformingRule();		
-	}
+   private void createAllExpressionRules()
+   {
+      // TODO Auto-generated method stub
 
-	private void createAllObjectVariableTransformers() {
-		new MatchingUnboundOVTransformerRule();
-	}
+   }
 
-	private void createAllStatementInstances() {
-		new ReturnStatementRule();
-		new PatternStatementRule();
-		new ConditionStatementRule();
-		new WhileLoopStatementRule();
-		new ForLoopStatementRule();
-		new DoLoopStatementRule();
-		new ObjectVariableDefinitionRule();
-	}
-	
+   private void createAllLinkVariableTransformers()
+   {
+      new MatchingUnboundLVTransformingRule();
+   }
+
+   private void createAllObjectVariableTransformers()
+   {
+      new MatchingUnboundOVTransformerRule();
+   }
+
+   private void createAllStatementInstances()
+   {
+      new ReturnStatementRule();
+      new PatternStatementRule();
+      new ConditionStatementRule();
+      new WhileLoopStatementRule();
+      new ForLoopStatementRule();
+      new DoLoopStatementRule();
+      new ObjectVariableDefinitionRule();
+   }
+
 }
