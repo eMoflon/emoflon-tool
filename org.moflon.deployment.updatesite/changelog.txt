@@ -1,3 +1,35 @@
+2017-03-?? eMoflon 2.29.0 released
+
+User notes:
+* TODO
+
+Developer notes:
+* Work on reachability analysis is on its way! We already support all patterns whose operations have no "NOT_TYPECKED" adornment
+
+Closed issues: 
+* TODO
+* To obtain the full list, use the following:
+ * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-01-20..2017-02-22
+ * GitHub issues query: is:issue closed:2017-01-20..2017-02-22 
+
+2017-02-22 eMoflon 2.28.0 released
+
+This release is a maintenance release with several internal refactorings.
+No need for eMoflon users to update immediately.
+
+Closed issues (excerpt):
+* To obtain a full list, use the following:
+ * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-01-20..2017-02-22
+ * GitHub issues query: is:issue closed:2017-01-20..2017-02-22 
+* Source code still missing from deployed eMoflon #195
+* Parallelize signing script #191
+* Disable Ecore visualization until it is more stable #188
+
+Developer notes:
+* We will switch to the standard Eclipse build process in the near future. The "Deploy eMoflon..." button is deprecated fron now on.
+* For signing the eMoflon features and plugins, we switched from a batch script to a Makefile to simplify parallel processing.
+
+---
 2017-01-20 eMoflon 2.26.0 released
 
 This release fixes problems with name clashes of generated packages and eMoflon-internal packages

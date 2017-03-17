@@ -1,11 +1,9 @@
 package org.moflon.util.plugins;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.ICommand;
@@ -36,17 +34,17 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
 {
    private static final Logger logger = Logger.getLogger(PluginProducerWorkspaceRunnable.class);
 
-   private static final String DEFAULT_BUNDLE_MANIFEST_VERSION = "2";
+   protected static final String DEFAULT_BUNDLE_MANIFEST_VERSION = "2";
 
-   private static final String DEFAULT_MANIFEST_VERSION = "1.0";
+   protected static final String DEFAULT_MANIFEST_VERSION = "1.0";
 
-   private static final String DEFAULT_BUNDLE_VENDOR = "";
+   protected static final String DEFAULT_BUNDLE_VENDOR = "";
 
-   private static final String DEFAULT_BUNDLE_VERSION = "0.0.1.qualifier";
+   protected static final String DEFAULT_BUNDLE_VERSION = "0.0.1.qualifier";
 
-   private static final String SCHEMA_BUILDER_NAME = "org.eclipse.pde.SchemaBuilder";
+   protected static final String SCHEMA_BUILDER_NAME = "org.eclipse.pde.SchemaBuilder";
 
-   private static final String MANIFEST_BUILDER_NAME = "org.eclipse.pde.ManifestBuilder";
+   protected static final String MANIFEST_BUILDER_NAME = "org.eclipse.pde.ManifestBuilder";
 
    private ManifestFileUpdater manifestFileBuilder = new ManifestFileUpdater();
 
@@ -65,112 +63,85 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
    @Override
    public void run(final IProgressMonitor monitor) throws CoreException
    {
-      try
-      {
-         addPluginFeatures(project, projectProperties, monitor);
-         addContainerToBuildPath(project, "org.eclipse.pde.core.requiredPlugins");
-      } catch (IOException e)
-      {
-         LogUtils.error(logger, e);
-      }
+      configureManifest(monitor);
+      addContainerToBuildPath(project, "org.eclipse.pde.core.requiredPlugins");
    }
 
-   private void addPluginFeatures(final IProject currentProject, final MetamodelProperties properties, final IProgressMonitor monitor)
-         throws CoreException, IOException
+   /**
+    * Returns the project, configured in the constructor
+    * @return
+    */
+   protected IProject getProject()
    {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating/updating plugin project " + currentProject.getName(), 2);
+      return this.project;
+   }
 
-      registerPluginBuildersAndAddNature(currentProject, subMon.split(1));
+   /**
+    * Returns the project properties as configured in the constructor
+    * @return
+    */
+   protected MetamodelProperties getProjectProperties()
+   {
+      return this.projectProperties;
+   }
 
-      logger.debug("Adding MANIFEST.MF to " + currentProject.getName());
-      manifestFileBuilder.processManifest(currentProject, manifest -> {
+   protected void configureManifest(final IProgressMonitor monitor) throws CoreException
+   {
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Setup plugin project " + getProject().getName(), 2);
+
+      registerPluginBuildersAndAddNature(getProject(), subMon.split(1));
+
+      manifestFileBuilder.processManifest(getProject(), manifest -> {
          boolean changed = false;
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.MANIFEST_VERSION, DEFAULT_MANIFEST_VERSION,
                AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_MANIFEST_VERSION, DEFAULT_BUNDLE_MANIFEST_VERSION,
                AttributeUpdatePolicy.KEEP);
-         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME, properties.get(MetamodelProperties.NAME_KEY),
+         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME, getProjectProperties().get(MetamodelProperties.NAME_KEY),
                AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_SYMBOLIC_NAME,
-               properties.get(MetamodelProperties.PLUGIN_ID_KEY) + ";singleton:=true", AttributeUpdatePolicy.KEEP);
+               getProjectProperties().get(MetamodelProperties.PLUGIN_ID_KEY) + ";singleton:=true", AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VERSION, DEFAULT_BUNDLE_VERSION, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VENDOR, DEFAULT_BUNDLE_VENDOR, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_ACTIVATION_POLICY, "lazy", AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_EXECUTION_ENVIRONMENT,
-               properties.get(MetamodelProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
+               getProjectProperties().get(MetamodelProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
 
          changed |= ManifestFileUpdater.updateDependencies(manifest, Arrays.asList(new String[] { WorkspaceHelper.PLUGIN_ID_ECORE,
                WorkspaceHelper.PLUGIN_ID_ECORE_XMI, WorkspaceHelper.getPluginId(MoflonUtilitiesActivator.class) }));
 
          changed |= ManifestFileUpdater.updateDependencies(manifest,
-               ManifestFileUpdater.extractDependencies(properties.get(MetamodelProperties.DEPENDENCIES_KEY)));
+               ManifestFileUpdater.extractDependencies(getProjectProperties().get(MetamodelProperties.DEPENDENCIES_KEY)));
 
-         try
-         {
-            if (currentProject.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
-               changed |= ManifestFileUpdater.updateDependencies(manifest,
-                     Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, WorkspaceHelper.getPluginId(MocaTreePlugin.class),
-                           WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, WorkspaceHelper.getPluginId(SDMLanguagePlugin.class),
-                           WorkspaceHelper.getPluginId(TGGLanguageActivator.class), WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) }));
-         } catch (Exception e)
-         {
-            LogUtils.error(logger, e);
-         }
-
-         changed |= migrateOldManifests(manifest);
+         if (WorkspaceHelper.isIntegrationProjectNoThrow(getProject()))
+            changed |= ManifestFileUpdater.updateDependencies(manifest,
+                  Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, WorkspaceHelper.getPluginId(MocaTreePlugin.class),
+                        WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, WorkspaceHelper.getPluginId(SDMLanguagePlugin.class),
+                        WorkspaceHelper.getPluginId(TGGLanguageActivator.class), WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) }));
 
          return changed;
       });
 
-      logger.debug("Adding build.properties " + currentProject.getName());
-      buildPropertiesFileBuilder.createBuildProperties(currentProject, subMon.split(1));
+      buildPropertiesFileBuilder.createBuildProperties(getProject(), subMon.split(1));
    }
 
-   /**
-    * This method removes old dependencies and replaces old plugin ids with new ones.
-    * 
-    */
-   private boolean migrateOldManifests(final Manifest manifest)
-   {
-      boolean changed = false;
-
-      // Old ID of the "Moflon Utilities" plugin
-      changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.dependencies");
-
-      // [Dec 2015] Remove TGG debugger
-      changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.tgg.debug.language");
-
-      // Refactoring of plugin IDs in August 2015
-      // Map<String, String> replacementMap = new HashMap<>();
-      // replacementMap.put("org.moflon.testframework",
-      // "org.moflon.testing.testframework");
-      // replacementMap.put("org.moflon.validation",
-      // "org.moflon.validation.validationplugin");
-      // changed |= ManifestFileUpdater.replaceDependencies(manifest,
-      // replacementMap);
-
-      return changed;
-   }
-
-   private static void registerPluginBuildersAndAddNature(final IProject currentProject, final IProgressMonitor monitor) throws CoreException
+   protected static void registerPluginBuildersAndAddNature(final IProject currentProject, final IProgressMonitor monitor) throws CoreException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Registering plugin builders and add plugin nature", 2);
 
-      IProjectDescription description = WorkspaceHelper.getDescriptionWithAddedNature(currentProject, WorkspaceHelper.PLUGIN_NATURE_ID, subMon.split(1));
+      final IProjectDescription description = WorkspaceHelper.getDescriptionWithAddedNature(currentProject, WorkspaceHelper.PLUGIN_NATURE_ID, subMon.split(1));
 
-      List<ICommand> oldBuilders = new ArrayList<>();
-      oldBuilders.addAll(Arrays.asList(description.getBuildSpec()));
+      final List<ICommand> oldBuilders = new ArrayList<>(Arrays.asList(description.getBuildSpec()));
 
-      List<ICommand> newBuilders = new ArrayList<>();
-
-      if (!containsBuilder(oldBuilders, MANIFEST_BUILDER_NAME))
+      final List<ICommand> newBuilders = new ArrayList<>();
+      if (!containsBuilder(description, MANIFEST_BUILDER_NAME))
       {
          final ICommand manifestBuilder = description.newCommand();
          manifestBuilder.setBuilderName(MANIFEST_BUILDER_NAME);
          newBuilders.add(manifestBuilder);
       }
 
-      if (!containsBuilder(oldBuilders, SCHEMA_BUILDER_NAME))
+      if (!containsBuilder(description, SCHEMA_BUILDER_NAME))
       {
          final ICommand schemaBuilder = description.newCommand();
          schemaBuilder.setBuilderName(SCHEMA_BUILDER_NAME);
@@ -184,9 +155,35 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
       currentProject.setDescription(description, subMon.split(1));
    }
 
-   private static boolean containsBuilder(final List<ICommand> builders, final String name)
+   /**
+    * Returns whether the given description contains a builder with the given name
+    * @param description the description to analyze
+    * @param name the name of the builder to look for
+    * @return whether description contains a builder with the given name
+    */
+   protected static boolean containsBuilder(final IProjectDescription description, final String name)
    {
-      return builders.stream().anyMatch(c -> c.getBuilderName().equals(name));
+      return Arrays.asList(description.getBuildSpec()).stream().anyMatch(c -> c.getBuilderName().equals(name));
+   }
+
+   /**
+    * Adds the given container to the build path of the given project if it contains no entry with the same name, yet.
+    */
+   protected static void addContainerToBuildPath(final IProject project, final String container)
+   {
+      final IJavaProject iJavaProject = JavaCore.create(project);
+      try
+      {
+         // Get current entries on the classpath
+         Collection<IClasspathEntry> classpathEntries = new ArrayList<>(Arrays.asList(iJavaProject.getRawClasspath()));
+
+         addContainerToBuildPath(classpathEntries, container);
+
+         setBuildPath(iJavaProject, classpathEntries);
+      } catch (JavaModelException e)
+      {
+         LogUtils.error(logger, e, "Unable to set classpath variable");
+      }
    }
 
    /**
@@ -207,33 +204,13 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
       classpathEntries.add(entry);
    }
 
-   /**
-    * Adds the given container to the build path of the given project if it contains no entry with the same name, yet.
-    */
-   private static void addContainerToBuildPath(final IProject project, final String container)
-   {
-      final IJavaProject iJavaProject = JavaCore.create(project);
-      try
-      {
-         // Get current entries on the classpath
-         Collection<IClasspathEntry> classpathEntries = new ArrayList<>(Arrays.asList(iJavaProject.getRawClasspath()));
-      
-         addContainerToBuildPath(classpathEntries, container);
-      
-         setBuildPath(iJavaProject, classpathEntries);
-      } catch (JavaModelException e)
-      {
-         LogUtils.error(logger, e, "Unable to set classpath variable");
-      }
-   }
-
    private static void setBuildPath(final IJavaProject javaProject, final Collection<IClasspathEntry> entries) throws JavaModelException
    {
       final SubMonitor subMon = SubMonitor.convert(new NullProgressMonitor(), "Set build path", 1);
       // Create new buildpath
       IClasspathEntry[] newEntries = new IClasspathEntry[entries.size()];
       entries.toArray(newEntries);
-      
+
       // Set new classpath with added entries
       javaProject.setRawClasspath(newEntries, subMon.split(1));
    }

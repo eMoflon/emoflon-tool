@@ -24,7 +24,6 @@ import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.ProjectDependencyAnalyzer;
 import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;

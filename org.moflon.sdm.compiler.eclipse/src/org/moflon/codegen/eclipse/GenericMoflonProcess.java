@@ -26,6 +26,7 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 
 /**
  * This class defines a generic process for processing eMoflon projects.
@@ -41,11 +42,14 @@ public abstract class GenericMoflonProcess implements ITask
    private List<Resource> resources;
 
    private MoflonPropertiesContainer moflonProperties;
+   
+   private EMoflonPreferencesStorage preferencesStorage;
 
    public GenericMoflonProcess(final IFile ecoreFile, final ResourceSet resourceSet)
    {
       this.ecoreFile = ecoreFile;
       this.resourceSet = resourceSet;
+      this.preferencesStorage = EMoflonPreferencesStorage.getInstance();
    }
 
    /**
@@ -59,7 +63,7 @@ public abstract class GenericMoflonProcess implements ITask
    public final IStatus run(final IProgressMonitor monitor)
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, getTaskName(), 10);
-      
+    
       if (!ecoreFile.exists())
          return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Ecore file does not exist. Expected location: " + ecoreFile);
       
@@ -113,6 +117,11 @@ public abstract class GenericMoflonProcess implements ITask
    public final ResourceSet getResourceSet()
    {
       return resourceSet;
+   }
+   
+   protected EMoflonPreferencesStorage getPreferencesStorage()
+   {
+      return preferencesStorage;
    }
 
    /**

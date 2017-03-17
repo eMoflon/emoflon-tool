@@ -128,8 +128,8 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       initializeResourceSet();
 
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
+
       codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
-      // collectMOSLGTFiles();
 
       MOSLGTUtil.getInstance().setMGTGetter(new MGTCallbackGetter() {
 
@@ -139,6 +139,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
             return collectMOSLGTFiles();
          }
       });
+
 
       final IStatus status = codeGenerationTask.run(subMon.split(7));
 

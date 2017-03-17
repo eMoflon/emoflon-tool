@@ -32,7 +32,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.gervarro.eclipse.workspace.util.IWorkspaceTask;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
-import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
@@ -125,16 +124,18 @@ public class ValidateWithDumpingHandler extends AbstractCommandHandler
                      @Override
                      public boolean visit(IResource resource) throws CoreException
                      {
+                        // TODO@rkluge: Re-esablish a (loose) dependency to org.moflon.sdm.compiler.democles
                         final String trimmedResourceName = resource.getName().replaceAll(".xmi", "");
                         if (resource instanceof IFile &&
-                              (trimmedResourceName.endsWith(DemoclesMethodBodyHandler.RED_FILE_EXTENSION)
-                              || trimmedResourceName.endsWith(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION)
-                              || trimmedResourceName.endsWith(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION)
-                              || trimmedResourceName.endsWith(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION)
-                              || trimmedResourceName.endsWith(DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION)
-                              || trimmedResourceName.endsWith(DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION)
-                              || trimmedResourceName.endsWith(DemoclesMethodBodyHandler.DFS_FILE_EXTENSION)
-                              || trimmedResourceName.endsWith(DemoclesMethodBodyHandler.SDM_FILE_EXTENSION))
+                              (trimmedResourceName.endsWith("red") // DemoclesMethodBodyHandler.RED_FILE_EXTENSION
+                              || trimmedResourceName.endsWith("green") // DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION
+                              || trimmedResourceName.endsWith("binding") // DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION
+                              || trimmedResourceName.endsWith("bindingAndBlack") // DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION
+                              || trimmedResourceName.endsWith("black") // DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION
+                              || trimmedResourceName.endsWith("expression") // DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION
+                              || trimmedResourceName.endsWith("cf") // DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION
+                              || trimmedResourceName.endsWith("dfs") // DemoclesMethodBodyHandler.DFS_FILE_EXTENSION
+                              || trimmedResourceName.endsWith("sdm")) // DemoclesMethodBodyHandler.SDM_FILE_EXTENSION
                         )
                         {
                            resource.delete(true, new NullProgressMonitor());

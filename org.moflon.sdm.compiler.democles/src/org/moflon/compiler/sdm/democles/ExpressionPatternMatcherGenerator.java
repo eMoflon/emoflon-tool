@@ -4,12 +4,13 @@ import org.gervarro.democles.codegen.Chain;
 import org.gervarro.democles.codegen.GeneratorOperation;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.compiler.CompilerPatternBody;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 
 public class ExpressionPatternMatcherGenerator extends PatternMatcherGenerator {
 
 	public ExpressionPatternMatcherGenerator(PatternMatcherCompiler delegate,
-			String patternType) {
-		super(delegate, patternType);
+			String patternType, EMoflonPreferencesStorage preferencesStorage) {
+		super(delegate, patternType, preferencesStorage);
 	}
 
 	@Override
