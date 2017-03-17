@@ -106,7 +106,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             //TODO@rkluge: This is a really ugly hack that should be removed as soon as a more elegant solution is available
             //validationJob.getThread().stop();
             throw new OperationCanceledException("Validation took longer than " + (timeoutForValidationTaskInMillis / 1000)
-                  + "seconds. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
+                  + "s. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
          }
          
          if (subMon.isCanceled())
