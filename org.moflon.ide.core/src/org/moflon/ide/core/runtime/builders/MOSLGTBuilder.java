@@ -1,12 +1,9 @@
 package org.moflon.ide.core.runtime.builders;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
@@ -21,11 +18,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
@@ -38,8 +31,6 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
 import org.moflon.gt.mosl.codeadapter.MOSLGTUtil;
 import org.moflon.gt.mosl.codeadapter.MOSLGTUtil.MGTCallbackGetter;
-import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
-import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
@@ -51,11 +42,10 @@ import com.google.inject.Injector;
 /**
  * This builder triggers the build process for MOSL-GT projects
  * 
- * The main parts of such projects are 
- * * A plain Ecore file that describes the structure of a metamodel
- * * A set of MOSL-GT files (*.mgt), which specify the implementation of operations in a platform-independent way
- * * A set of injection files (*.inject), which store the  implementation of operations in Java
- *   
+ * The main parts of such projects are * A plain Ecore file that describes the structure of a metamodel * A set of
+ * MOSL-GT files (*.mgt), which specify the implementation of operations in a platform-independent way * A set of
+ * injection files (*.inject), which store the implementation of operations in Java
+ * 
  * @author Roland Kluge - Initial implementation
  *
  */
@@ -137,23 +127,22 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       subMon.worked(1);
       initializeResourceSet();
 
-     
-
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
       codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
-      //collectMOSLGTFiles();
-      
+      // collectMOSLGTFiles();
+
       MOSLGTUtil.getInstance().setMGTGetter(new MGTCallbackGetter() {
-		
-		@Override
-		public Collection<IFile> getMOSLGTFiles() throws CoreException {
-			return collectMOSLGTFiles();
-		}
-	});
-      
+
+         @Override
+         public Collection<IFile> getMOSLGTFiles() throws CoreException
+         {
+            return collectMOSLGTFiles();
+         }
+      });
+
       final IStatus status = codeGenerationTask.run(subMon.split(7));
-      
-     // loadMGTFiles(monitor);
+
+      // loadMGTFiles(monitor);
       handleErrorsAndWarnings(status);
       subMon.worked(2);
 
@@ -165,50 +154,9 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       // See also: https://wiki.eclipse.org/Xtext/FAQ#How_do_I_load_my_model_in_a_standalone_Java_application.C2.A0.3F
       Injector injector = new MOSLGTStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
       this.resourceSet = injector.getInstance(XtextResourceSet.class);
-      //eMoflonEMFUtil.initializeDefault(this.resourceSet);
+      // eMoflonEMFUtil.initializeDefault(this.resourceSet);
       this.resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
       eMoflonEMFUtil.installCrossReferencers(this.resourceSet);
-   }
-
-   /**
-    * Adds all MOSL-GT files in this project to the resource set (see {@link #getResourceSet()}) 
-    */
-   private IStatus loadMGTFiles(final IProgressMonitor monitor)
-   {
-      try
-      {
-        CodeadapterTrafo helper = CodeadapterTrafo.getInstance();
-        		//new CodeadapterTrafo(
-               //URI.createPlatformPluginURI(WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true), getResourceSet());
-         for (final IFile moslGTFile : collectMOSLGTFiles())
-         {
-        	 final URI workspaceURI = URI.createPlatformResourceURI("/", true);
-            final URI projectURI = URI.createURI(getProject().getName() + "/", true).resolve(workspaceURI);
-        	 Resource schemaResource = (Resource) this.getResourceSet()
-                  .createResource(URI.createPlatformResourceURI(moslGTFile.getFullPath().toString(), false));
-            schemaResource.load(null);
-            final GraphTransformationFile gtf = GraphTransformationFile.class.cast(schemaResource.getContents().get(0));
-            if(gtf.getImports().size() > 0){
-            	String contextEcorePath = gtf.getImports().get(0).getName().replaceFirst("platform:/resource", "").replaceFirst("platform:/plugin", "");
-            	Resource ecoreRes= (Resource) getResourceSet().createResource(URI.createPlatformResourceURI(contextEcorePath, false));
-            	ecoreRes.load(null);
-            	final EPackage contextEPackage = (EPackage) ecoreRes.getContents().get(0);
-            	EPackage enrichedEPackage = helper.transform(contextEPackage, gtf);
-            	IFile enrichedEcoreFile = getProject().getFile(WorkspaceHelper.INSTANCES_FOLDER + "/debug"+WorkspaceHelper.ECORE_FILE_EXTENSION);
-            	URI enrichedEcoreURI = URI.createURI(enrichedEcoreFile.getProjectRelativePath().toString(), true).resolve(projectURI);
-            	Resource enrichedEcoreResource = getResourceSet().createResource(enrichedEcoreURI);
-            	enrichedEcoreResource.getContents().add(enrichedEPackage);
-            	enrichedEcoreResource.save(Collections.EMPTY_MAP);
-            }
-//            
-            //TODO@szander: Need to add postprocessing (as in MOSLTGGConversionHelper:120)
-         }
-         EcoreUtil.resolveAll(this.getResourceSet());
-      } catch (IOException | CoreException e)
-      {
-         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e);
-      }
-      return Status.OK_STATUS;
    }
 
    private Collection<IFile> collectMOSLGTFiles() throws CoreException
@@ -231,9 +179,10 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
                   && resource.getName().endsWith("." + WorkspaceHelper.MOSL_GT_EXTENSION);
          }
       });
-      
-     // moslGTFiles.stream().forEach(mgtFile -> {resourceSet.createResource(URI.createFileURI(mgtFile.getLocation().toString()));});
-      
+
+      // moslGTFiles.stream().forEach(mgtFile ->
+      // {resourceSet.createResource(URI.createFileURI(mgtFile.getLocation().toString()));});
+
       return moslGTFiles;
    }
 
@@ -280,6 +229,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
 
    /**
     * Updates resources in the project after completing the code generation
+    * 
     * @param genModel
     * @throws CoreException
     */
@@ -305,7 +255,8 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    /**
     * Handles errors and warning produced by the code generation task
     * 
-    * @param status the {@link IStatus} that contains the errors and warnings
+    * @param status
+    *           the {@link IStatus} that contains the errors and warnings
     */
    private void handleErrorsAndWarnings(final IStatus status) throws CoreException
    {

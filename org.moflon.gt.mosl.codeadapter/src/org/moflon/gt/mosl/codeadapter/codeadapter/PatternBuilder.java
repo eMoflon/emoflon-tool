@@ -1,6 +1,8 @@
 package org.moflon.gt.mosl.codeadapter.codeadapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,10 +90,17 @@ public class PatternBuilder {
 		pattern.setName(patternNameGenerator.apply(patternKind+suffix));
 		
 	      EClass eClass = EClassDef.class.cast(StatementBuilder.getInstance().getCurrentMethod().eContainer()).getName();
-	      Resource patternResource = (Resource) EcoreUtil.getRegisteredAdapter(eClass, patternKind+suffix);
+	      CodeadapterTrafo.getInstance().loadResourceSet(eClass.eResource().getResourceSet());
+	      Resource patternResource = (Resource) EcoreUtil.getRegisteredAdapter(eClass, patternKind);
 	      if (patternResource != null)
 	      {
 	         patternResource.getContents().add(pattern);
+	         try {
+				pattern.eResource().save(Collections.EMPTY_MAP);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	      }
 	}
 	
