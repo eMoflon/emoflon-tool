@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
 
 
@@ -16,9 +17,11 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 	public static final String GREEN_PATTERN_MATCHER_GENERATOR = "GreenPatternMatcherGenerator";
 	public static final String EXPRESSION_PATTERN_MATCHER_GENERATOR = "ExpressionPatternMatcherGenerator";
    // End of pattern types
+   private final EMoflonPreferencesStorage preferencesStorage;
 
 	public DefaultCodeGeneratorConfig(ResourceSet resourceSet) {
 		super(resourceSet);
+		this.preferencesStorage = EMoflonPreferencesStorage.getInstance();
 	}
 
 	@Override
@@ -26,7 +29,7 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		final PatternMatcherCompiler bindingAndBlackPatternMatcherCompiler =
 				configureBindingAndBlackPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator bindingAndBlackPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(bindingAndBlackPatternMatcherCompiler, BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR);
+				new RegularPatternMatcherGenerator(bindingAndBlackPatternMatcherCompiler, BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR, preferencesStorage);
 		resource.getContents().add(bindingAndBlackPatternMatcherGenerator);
 		return bindingAndBlackPatternMatcherGenerator;
 	}
@@ -36,7 +39,7 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		final PatternMatcherCompiler bindingPatternMatcherCompiler =
 				configureBindingPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator bindingPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(bindingPatternMatcherCompiler, BINDING_PATTERN_MATCHER_GENERATOR);
+				new RegularPatternMatcherGenerator(bindingPatternMatcherCompiler, BINDING_PATTERN_MATCHER_GENERATOR, preferencesStorage);
 		resource.getContents().add(bindingPatternMatcherGenerator);
 		return bindingPatternMatcherGenerator;
 	}
@@ -46,7 +49,7 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		final PatternMatcherCompiler blackPatternMatcherCompiler =
 				configureBlackPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator blackPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(blackPatternMatcherCompiler, BLACK_PATTERN_MATCHER_GENERATOR);
+				new RegularPatternMatcherGenerator(blackPatternMatcherCompiler, BLACK_PATTERN_MATCHER_GENERATOR, preferencesStorage);
 		resource.getContents().add(blackPatternMatcherGenerator);
 		return blackPatternMatcherGenerator;
 	}
@@ -56,7 +59,7 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		final PatternMatcherCompiler redPatternMatcherCompiler =
 				configureRedPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator redPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(redPatternMatcherCompiler, RED_PATTERN_MATCHER_GENERATOR);
+				new RegularPatternMatcherGenerator(redPatternMatcherCompiler, RED_PATTERN_MATCHER_GENERATOR, preferencesStorage);
 		resource.getContents().add(redPatternMatcherGenerator);
 		return redPatternMatcherGenerator;
 	}
@@ -66,7 +69,7 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		final PatternMatcherCompiler greenPatternMatcherCompiler =
 				configureGreenPatternMatcherCompiler(resource);
 		final RegularPatternMatcherGenerator greenPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(greenPatternMatcherCompiler, GREEN_PATTERN_MATCHER_GENERATOR);
+				new RegularPatternMatcherGenerator(greenPatternMatcherCompiler, GREEN_PATTERN_MATCHER_GENERATOR, preferencesStorage);
 		resource.getContents().add(greenPatternMatcherGenerator);
 		return greenPatternMatcherGenerator;
 	}
@@ -76,7 +79,7 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 		final PatternMatcherCompiler expressionPatternMatcherCompiler =
 				configureExpressionPatternMatcherCompiler(resource);
 		final ExpressionPatternMatcherGenerator expressionPatternMatcherGenerator =
-				new ExpressionPatternMatcherGenerator(expressionPatternMatcherCompiler, EXPRESSION_PATTERN_MATCHER_GENERATOR);
+				new ExpressionPatternMatcherGenerator(expressionPatternMatcherCompiler, EXPRESSION_PATTERN_MATCHER_GENERATOR, preferencesStorage);
 		resource.getContents().add(expressionPatternMatcherGenerator);
 		return expressionPatternMatcherGenerator;
 	}

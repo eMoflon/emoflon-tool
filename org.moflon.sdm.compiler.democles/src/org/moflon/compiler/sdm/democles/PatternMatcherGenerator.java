@@ -8,6 +8,7 @@ import org.gervarro.democles.compiler.CompilerPattern;
 import org.gervarro.democles.compiler.CompilerPatternBody;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.democles.reachability.javabdd.BDDReachabilityAnalyzer;
 import org.moflon.democles.reachability.javabdd.NullReachabilityAnalyzer;
 import org.moflon.democles.reachability.javabdd.ReachabilityAnalyzer;
@@ -30,15 +31,18 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
 
    protected final String patternType;
 
+   private final EMoflonPreferencesStorage preferencesStorage;
+
    /**
-    * Configures which serach plan generator to use ('patternMatcher') and which pattern type is supported 
+    * Configures which search plan generator to use ({@link PatternMatcherCompiler}) and which pattern type is supported 
     * @param patternMatcher the search plan generator to use
-    * @param patternType the pattern type to use (cf. e.g., {@link DefaultCodeGeneratorConfig#BLACK_PATTERN_MATCHER_GENERATOR})
+    * @param patternType the pattern type to use (see e.g., {@link DefaultCodeGeneratorConfig#BLACK_PATTERN_MATCHER_GENERATOR})
     */
-   public PatternMatcherGenerator(final PatternMatcherCompiler patternMatcher, final String patternType)
+   public PatternMatcherGenerator(final PatternMatcherCompiler patternMatcher, final String patternType, final EMoflonPreferencesStorage preferencesStorage)
    {
       this.patternMatcher = patternMatcher;
       this.patternType = patternType;
+      this.preferencesStorage = preferencesStorage;
    }
 
    /**
@@ -57,9 +61,17 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
          final EClass eClass = (EClass) ((AdapterResource) pattern.eResource()).getTarget();
          final CompilerPattern compilerPattern = patternMatcher.compilePattern(pattern, adornment);
          final CompilerPatternBody body = compilerPattern.getBodies().get(0);
-         ReachabilityAnalyzer reachabilityAnalyzer = new NullReachabilityAnalyzer();
-         reachabilityAnalyzer = new BDDReachabilityAnalyzer();
-         //reachabilityAnalyzer = new LegacyBDDReachabilityAnalyzer();
+         final ReachabilityAnalyzer reachabilityAnalyzer;
+         if (preferencesStorage.getReachabilityEnabled())
+         {
+            final int maximumAdornmentSize = preferencesStorage.getMaximumAdornmentSize();
+            reachabilityAnalyzer = maximumAdornmentSize == EMoflonPreferencesStorage.REACHABILITY_MAX_ADORNMENT_SIZE_INFINITY //
+                  ? new BDDReachabilityAnalyzer() //
+                  : new BDDReachabilityAnalyzer(maximumAdornmentSize);
+         } else
+         {
+            reachabilityAnalyzer = new NullReachabilityAnalyzer();
+         }
          final boolean isReachable = reachabilityAnalyzer.analyzeReachability(compilerPattern, adornment);
          if (isReachable)
          {
@@ -68,11 +80,11 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
             eClass.eAdapters().add(adapter);
          } else
          {
-            createAndAddErrorMessage(pattern, report);
+            createAndAddErrorMessage(pattern, report, "Reachability analysis was negative.");
          }
       } catch (final RuntimeException e)
       {
-         createAndAddErrorMessage(pattern, report);
+         createAndAddErrorMessage(pattern, report, "An " + e.getClass() + " occured: " + e.getMessage());
       }
       return report;
    }
@@ -92,12 +104,13 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
     * Creates a 'no search plan found' error for the given {@link Pattern} and attaches it to the {@link ValidationReport}.
     * @param pattern the pattern
     * @param report the report
+    * @param details details about the error message
     */
-   private void createAndAddErrorMessage(final Pattern pattern, final ValidationReport report)
+   private void createAndAddErrorMessage(final Pattern pattern, final ValidationReport report, final String details)
    {
       final ErrorMessage error = ResultFactory.eINSTANCE.createErrorMessage();
       report.getErrorMessages().add(error);
-      error.setId(String.format("No search plan found for pattern '%s'. Please ensure that your patterns are not disjunct.", pattern.getName()));
+      error.setId(String.format("No search plan found for pattern '%s'. Please ensure that your patterns are not disjunct. Details: '%s'.", pattern.getName(), details));
       error.setSeverity(Severity.ERROR);
    }
 

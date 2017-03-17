@@ -38,7 +38,6 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
 import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
-import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
@@ -138,7 +137,6 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       loadMGTFiles(monitor);
 
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
-      codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
 
       final IStatus status = codeGenerationTask.run(subMon.split(7));
 

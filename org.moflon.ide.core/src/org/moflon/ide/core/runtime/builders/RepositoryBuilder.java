@@ -26,7 +26,6 @@ import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
@@ -130,7 +129,6 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             subMon.worked(1);
 
             final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet);
-            codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
 
             final IStatus status = codeGenerationTask.run(subMon.split(1));
             handleErrorsAndWarnings(status, ecoreFile);
