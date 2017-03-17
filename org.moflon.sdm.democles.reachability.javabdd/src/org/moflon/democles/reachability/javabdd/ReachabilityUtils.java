@@ -8,7 +8,7 @@ import java.util.List;
 import org.gervarro.democles.codegen.GeneratorOperation;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.OperationRuntime;
-import org.gervarro.democles.compiler.CompilerPattern;
+import org.gervarro.democles.compiler.CompilerPatternBody;
 
 public class ReachabilityUtils
 {
@@ -33,14 +33,14 @@ public class ReachabilityUtils
    }
 
    /**
-    * Returns the set of operations to analyze for the given pattern
+    * Returns the set of operations to analyze for the given pattern body
     * 
     * @param pattern
     * @return
     */
-   public static List<GeneratorOperation> extractOperations(final CompilerPattern pattern)
+   static List<GeneratorOperation> extractOperations(final CompilerPatternBody compilerPatternBody)
    {
-      return pattern.getBodies().get(0).getOperations();
+      return compilerPatternBody.getOperations();
    }
 
    /**
@@ -53,9 +53,33 @@ public class ReachabilityUtils
     */
    public static boolean isCheckOperation(final OperationRuntime operation)
    {
-      return operation.getPrecondition().numberOfBound() == operation.getPrecondition().size();
+      final Adornment precondition = operation.getPrecondition();
+      return isCheckOperation(precondition);
+   }
+   
+   /**
+    * Returns whether the given adornment belongs to a 'check' operation.
+    * 
+    * Check operations have a precondition consisting only of {@link Adornment#BOUND}
+    * 
+    * @param operation the operation to analyze
+    * @return whether the precondition adornment consists of {@link Adornment#BOUND} only
+    */
+   public static boolean isCheckOperation(final Adornment precondition)
+   {
+      return precondition.numberOfBound() + numberOfDontCare(precondition)  == precondition.size();
    }
 
+   private static int numberOfDontCare(Adornment precondition)
+   {
+      int count = 0;
+      for (int a : precondition.getRawBindingInformation())
+      {
+         if (a == ADORNMENT_UNDEFINED)
+            count++;
+      }
+      return count;
+   }
 
    private static void muteStdoutAndStderr()
    {
@@ -68,4 +92,6 @@ public class ReachabilityUtils
       System.setOut(mutedStream);
       System.setErr(mutedStream);
    }
+
+   static final int ADORNMENT_UNDEFINED = -1;
 }
