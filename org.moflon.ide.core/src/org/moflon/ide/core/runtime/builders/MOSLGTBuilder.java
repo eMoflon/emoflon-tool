@@ -36,6 +36,8 @@ import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
+import org.moflon.gt.mosl.codeadapter.MOSLGTUtil;
+import org.moflon.gt.mosl.codeadapter.MOSLGTUtil.MGTCallbackGetter;
 import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
@@ -135,13 +137,23 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       subMon.worked(1);
       initializeResourceSet();
 
-      loadMGTFiles(monitor);
+     
 
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
       codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
-
+      //collectMOSLGTFiles();
+      
+      MOSLGTUtil.getInstance().setMGTGetter(new MGTCallbackGetter() {
+		
+		@Override
+		public Collection<IFile> getMOSLGTFiles() throws CoreException {
+			return collectMOSLGTFiles();
+		}
+	});
+      
       final IStatus status = codeGenerationTask.run(subMon.split(7));
-
+      
+     // loadMGTFiles(monitor);
       handleErrorsAndWarnings(status);
       subMon.worked(2);
 
@@ -219,6 +231,9 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
                   && resource.getName().endsWith("." + WorkspaceHelper.MOSL_GT_EXTENSION);
          }
       });
+      
+     // moslGTFiles.stream().forEach(mgtFile -> {resourceSet.createResource(URI.createFileURI(mgtFile.getLocation().toString()));});
+      
       return moslGTFiles;
    }
 

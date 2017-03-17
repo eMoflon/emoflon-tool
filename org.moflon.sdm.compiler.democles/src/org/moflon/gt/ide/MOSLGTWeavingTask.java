@@ -1,25 +1,45 @@
 package org.moflon.gt.ide;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
+import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.gt.mosl.codeadapter.MOSLGTUtil;
+import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
+import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
+//import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
+import org.moflon.util.eMoflonSDMUtil;
 
 /**
  * This task weaves the control flow and pattern matching models stored in textual syntax with the plain metamodel
@@ -66,17 +86,88 @@ public class MOSLGTWeavingTask implements ITask
       // This status collects all information about the weaving process for 'ePackage'
       final MultiStatus weavingMultiStatus = new MultiStatus(CodeGeneratorPlugin.getModuleID(), 0, getTaskName() + " failed", null);
       final List<EClass> eClasses = CodeGeneratorPlugin.getEClasses(this.ePackage);
+      
       final SubMonitor subMon = SubMonitor.convert(monitor, getTaskName() + " in " + ePackage.getName(), eClasses.size());
-      for (final EClass eClass : eClasses)
-      {
-         final IStatus cancelStatus = weaveEClass(eClass, weavingMultiStatus, subMon.split(1));
-         if (cancelStatus.getSeverity() == Status.CANCEL)
-            return cancelStatus;
-      }
+      loadMGTFiles(subMon);
+//      for (final EClass eClass : eClasses)
+//      {
+//         final IStatus cancelStatus = weaveEClass(eClass, weavingMultiStatus, subMon.split(1));
+//         if (cancelStatus.getSeverity() == Status.CANCEL)
+//            return cancelStatus;
+//      }
 
       return weavingMultiStatus.isOK() ? Status.OK_STATUS : weavingMultiStatus;
    }
 
+
+   
+
+   
+   private IStatus loadMGTFiles(final IProgressMonitor monitor)
+   {
+      try
+      {
+        CodeadapterTrafo helper = CodeadapterTrafo.getInstance();
+        		//new CodeadapterTrafo(
+               //URI.createPlatformPluginURI(WorkspaceHelper.getPluginId(CodeadapterTrafo.class) + "/model/Codeadapter.sma.xmi", true), getResourceSet());
+         for (final IFile moslGTFile : MOSLGTUtil.getInstance().getMGTFiles())
+         {
+        	 final IProject project = moslGTFile.getProject();
+        	 final URI workspaceURI = URI.createPlatformResourceURI("/", true);
+            final URI projectURI = URI.createURI(project.getName() + "/", true).resolve(workspaceURI);
+        	 Resource schemaResource = (Resource) this.resourceSet.createResource(URI.createPlatformResourceURI(moslGTFile.getFullPath().toString(), false));
+            schemaResource.load(null);
+            final GraphTransformationFile gtf = GraphTransformationFile.class.cast(schemaResource.getContents().get(0));
+            if(gtf.getImports().size() > 0){
+            	String contextEcorePath = gtf.getImports().get(0).getName().replaceFirst("platform:/resource", "").replaceFirst("platform:/plugin", "");
+            	Resource ecoreRes= (Resource) this.resourceSet.createResource(URI.createPlatformResourceURI(contextEcorePath, false));
+            	ecoreRes.load(null);
+            	final EPackage contextEPackage = (EPackage) ecoreRes.getContents().get(0);
+            	EPackage enrichedEPackage = helper.transform(contextEPackage, gtf);
+            	//IFile enrichedEcoreFile = project.getFile(WorkspaceHelper.INSTANCES_FOLDER + "/debug"+WorkspaceHelper.ECORE_FILE_EXTENSION);
+            	//URI enrichedEcoreURI = URI.createURI(enrichedEcoreFile.getProjectRelativePath().toString(), true).resolve(projectURI);
+            	Resource enrichedEcoreResource = this.ePackage.eResource();//this.resourceSet.createResource(enrichedEcoreURI);
+            	enrichedEcoreResource.getContents().clear();
+            	enrichedEcoreResource.getContents().add(enrichedEPackage);
+            	enrichedEcoreResource.save(Collections.EMPTY_MAP);
+            }
+//            
+            //TODO@szander: Need to add postprocessing (as in MOSLTGGConversionHelper:120)
+         }
+         EcoreUtil.resolveAll(this.resourceSet);
+      } catch (IOException e)
+      {
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e);
+      }
+      return Status.OK_STATUS;
+   }
+//   
+//   private Collection<IFile> collectMOSLGTFiles() throws CoreException
+//   {
+//      resourceSet.getResources();
+//	   
+//	   
+//	   final Collection<IFile> moslGTFiles = new ArrayList<>();
+//      getProject().accept(new IResourceVisitor() {
+//
+//         @Override
+//         public boolean visit(IResource resource) throws CoreException
+//         {
+//            if (isMOSLGTFile(resource))
+//               moslGTFiles.add(IFile.class.cast(resource));
+//            return true;
+//         }
+//
+//         private boolean isMOSLGTFile(IResource resource)
+//         {
+//            return resource != null && resource.exists() && resource instanceof IFile
+//                  && Arrays.asList(resource.getFullPath().segments()).stream().anyMatch(s -> "src".equals(s))
+//                  && resource.getName().endsWith("." + WorkspaceHelper.MOSL_GT_EXTENSION);
+//         }
+//      });
+//      return moslGTFiles;
+//   }
+   
    /**
     * Performs the weaving for all {@link EOperation}s in the given {@link EClass} eClass.
     * 

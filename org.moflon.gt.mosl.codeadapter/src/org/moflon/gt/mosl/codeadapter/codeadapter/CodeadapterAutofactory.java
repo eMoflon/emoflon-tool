@@ -10,6 +10,12 @@ public class CodeadapterAutofactory {
 		createAllStatementInstances();
 		createAllObjectVariableTransformers();
 		createAllLinkVariableTransformers();
+		createAllExpressionRules();
+	}
+
+	private void createAllExpressionRules() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void createAllLinkVariableTransformers() {

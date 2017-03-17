@@ -29,7 +29,11 @@ public class ObjectVariableBuilder {
 		transformersRules.add(transformer);
 	}
 	
-	public void transformObjectVariable(ObjectVariableDefinition ov, Variable variable, Map<String, Boolean> bindings, PatternBody patternBody){
-		transformersRules.stream().forEachOrdered(transformerRule -> {transformerRule.transforming(ov, variable, bindings, patternBody);});
+	public String transformObjectVariable(ObjectVariableDefinition ov, Variable variable, Map<String, Boolean> bindings, PatternBody patternBody){
+		String suffix="";
+		for(OVTransformerRule transformerRule : transformersRules){
+			suffix+=transformerRule.transforming(ov, variable, bindings, patternBody, suffix);
+		}
+		return suffix;
 	}
 }
