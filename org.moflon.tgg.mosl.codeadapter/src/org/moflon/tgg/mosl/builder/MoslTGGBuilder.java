@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
@@ -69,7 +70,8 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
       final SubMonitor subMonitor = SubMonitor.convert(monitor, triggerProjects.size() + 1);
 		
 		if (getCommand().isBuilding(kind)) {
-			final IFolder moslFolder = getProject().getFolder(new Path("src/org/moflon/tgg/mosl"));
+			String projectName = getProject().getName().replaceAll(Pattern.quote("."), "/");
+			final IFolder moslFolder = getProject().getFolder(new Path("src/" + projectName + "/org/moflon/tgg/mosl"));
 			if ((isAutoOrIncrementalBuild(kind) && hasRelevantDeltas(buildVisitor)) || (isFullBuild(kind) && hasRelevantResources(buildVisitor))) {
 					processResource(moslFolder, kind, args, subMonitor.split(1));
 			}

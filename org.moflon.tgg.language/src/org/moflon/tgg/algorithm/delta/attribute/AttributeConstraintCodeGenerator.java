@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.csp.codegenerator.MyBasicFormatRenderer;
+import org.moflon.tgg.csp.codegenerator.MyBasicFormatRenderer;
 import org.moflon.tgg.language.DomainType;
 import org.moflon.tgg.language.TGGObjectVariable;
 import org.moflon.tgg.language.TGGRule;
