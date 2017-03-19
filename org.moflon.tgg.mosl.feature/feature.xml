@@ -2,7 +2,7 @@
 <feature
       id="org.moflon.tgg.mosl.feature"
       label="eMoflon MOSL-TGG"
-      version="2.28.0.qualifier"
+      version="2.29.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt"
       plugin="org.moflon.ide.ui">
 
