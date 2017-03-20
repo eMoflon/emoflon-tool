@@ -124,7 +124,6 @@ public class ValidateWithDumpingHandler extends AbstractCommandHandler
                      @Override
                      public boolean visit(IResource resource) throws CoreException
                      {
-                        // TODO@rkluge: Re-esablish a (loose) dependency to org.moflon.sdm.compiler.democles
                         final String trimmedResourceName = resource.getName().replaceAll(".xmi", "");
                         if (resource instanceof IFile &&
                               (trimmedResourceName.endsWith("red") // DemoclesMethodBodyHandler.RED_FILE_EXTENSION
