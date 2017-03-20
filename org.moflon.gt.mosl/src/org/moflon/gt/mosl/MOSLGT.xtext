@@ -153,5 +153,7 @@ QualifiedName returns ecore::EString:
 
 // additional declarations for typing
 AbstractClass: EClassDef className=ID;
+
+AbstractAttribute: AttributeConstraint | AttributeAssignment;
  
 

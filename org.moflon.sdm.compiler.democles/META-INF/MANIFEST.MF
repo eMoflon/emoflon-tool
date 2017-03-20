@@ -23,7 +23,9 @@ Require-Bundle:
  org.moflon.sdm.compiler.democles.validation.result,
  org.moflon.sdm.compiler.democles.validation.controlflow,
  org.moflon.sdm.compiler.eclipse,
- org.moflon.sdm.democles.reachability.javabdd
+ org.moflon.sdm.democles.reachability.javabdd,
+ org.moflon.gt.mosl.codeadapter,
+ org.moflon.gt.mosl
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.compiler.sdm.democles,
  org.moflon.compiler.sdm.democles.eclipse,
@@ -31,3 +33,4 @@ Export-Package: org.moflon.compiler.sdm.democles,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Bundle-Activator: org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin
+Import-Package: org.moflon.gt.mosl.codeadapter.codeadapter
