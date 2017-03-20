@@ -29,7 +29,6 @@ import org.moflon.ide.core.runtime.ProjectDependencyAnalyzer;
 import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 
-@SuppressWarnings("unused")
 public class MoslTGGBuilder extends AbstractVisitorBuilder {
 
 
@@ -40,7 +39,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
    /**
     * Specification of files whose changes will trigger in invocation of this builder
     */
-   private static final String[] PROJECT_INTERNAL_TRIGGERS = new String[] { "src/org/moflon/tgg/mosl/*.tgg", "src/org/moflon/tgg/mosl/**/*.tgg" };
+   private static final String[] PROJECT_INTERNAL_TRIGGERS = new String[] { "src/**/*.tgg" };
 
 	public MoslTGGBuilder() {
 		super(new AntPatternCondition(PROJECT_INTERNAL_TRIGGERS));

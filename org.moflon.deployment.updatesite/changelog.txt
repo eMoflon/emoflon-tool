@@ -3,7 +3,9 @@
 User notes:
 * eMoflon now provides an efficient analysis for determining whether a search plan for a pattern may exist.
   This avoids that the build process for invalid patterns runs indefinitely.
+* Most plugins should now ship with the source code, only plugins that are extracted during installation will not conveneniently provide the source code (e.g., org.moflon.ide.workspaceinstaller.psf).
 * The Schema.tgg file of MOSL-TGG projects is now located in /src/[project-name].org.moflon.tgg.mosl/Schema.tgg
+ * Old specifications remain compatible: The MOSL-TGG builder searches for any file named Schema.tgg in the /src folder.
 
 Developer notes:
 * Work on reachability analysis is on its way! We already support all patterns whose operations have no "NOT_TYPECKED" adornment

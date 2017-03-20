@@ -113,6 +113,10 @@ public abstract class GenericMoflonProcess implements ITask
    {
       return ecoreFile;
    }
+   
+   public final IProject getProject() {
+      return this.ecoreFile.getProject();
+   }
 
    public final ResourceSet getResourceSet()
    {

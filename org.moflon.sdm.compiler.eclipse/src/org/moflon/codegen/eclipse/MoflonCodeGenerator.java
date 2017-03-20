@@ -1,11 +1,14 @@
 package org.moflon.codegen.eclipse;
 
+import java.io.IOException;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -20,9 +23,11 @@ import org.eclipse.core.runtime.jobs.JobGroup;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.CodeGenerator;
 import org.moflon.codegen.MethodBodyHandler;
@@ -108,7 +113,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             throw new OperationCanceledException("Validation took longer than " + (timeoutForValidationTaskInMillis / 1000)
                   + "s. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
          }
-         
+
          if (subMon.isCanceled())
          {
             return Status.CANCEL_STATUS;
@@ -121,6 +126,17 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          }
 
          // (2.2) Weave MOSL-GT control flow
+         final IStatus mgtLoadStatus = this.loadMgtFiles();
+         if (subMon.isCanceled())
+         {
+            return Status.CANCEL_STATUS;
+         }
+
+         if (mgtLoadStatus.matches(IStatus.ERROR))
+         {
+            return mgtLoadStatus;
+         }
+
          final ITask weaver = methodBodyHandler.createControlFlowWeaver(ePackage);
          final IStatus weaverStatus = weaver.run(subMon.split(10));
 
@@ -195,12 +211,54 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
          final boolean everythingOK = validationStatus.isOK() && injectionStatus.isOK() && weaverStatus.isOK();
          return everythingOK ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Code generation succeeded")
-               : new MultiStatus(CodeGeneratorPlugin.getModuleID(), validationStatus.getCode(), new IStatus[] { validationStatus, weaverStatus, injectionStatus },
-                     "Code generation warnings/errors", null);
+               : new MultiStatus(CodeGeneratorPlugin.getModuleID(), validationStatus.getCode(),
+                     new IStatus[] { validationStatus, weaverStatus, injectionStatus }, "Code generation warnings/errors", null);
       } catch (final Exception e)
       {
          return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
       }
+   }
+
+   /**
+    * This routine identifies and loads all .mgt files in the current project.
+    * 
+    * For each .mgt file, an appropriate resource is created in this generator's resource set ({@link #getResourceSet()}
+    */
+   private IStatus loadMgtFiles() throws CoreException
+   {
+      getProject().accept(new IResourceVisitor() {
+
+         @Override
+         public boolean visit(IResource resource) throws CoreException
+         {
+            if (resource.getName().equals("bin"))
+               return false;
+            
+            if (isMOSLGTFile(resource))
+            {
+               final Resource schemaResource = (Resource) getResourceSet()
+                     .createResource(URI.createPlatformResourceURI(resource.getAdapter(IFile.class).getFullPath().toString(), false));
+               try
+               {
+                  schemaResource.load(null);
+               } catch (final IOException e)
+               {
+                  throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e));
+               }
+            }
+            return true;
+         }
+
+         private boolean isMOSLGTFile(IResource resource)
+         {
+            return resource != null && resource.exists() && resource instanceof IFile
+                  && resource.getAdapter(IFile.class).getFileExtension().equals(WorkspaceHelper.MOSL_GT_EXTENSION);
+         }
+
+      });
+      EcoreUtil.resolveAll(this.getResourceSet());
+
+      return Status.OK_STATUS;
    }
 
    public final GenModel getGenModel()
@@ -212,7 +270,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    {
       return injectionManager;
    }
-   
+
    protected String getFullProjectName(final MoflonPropertiesContainer moflonProperties)
    {
       final String metaModelProjectName = moflonProperties.getMetaModelProject().getMetaModelProjectName();
@@ -234,10 +292,10 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    {
       IFolder injectionFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
       CodeInjector injector = new CodeInjectorImpl(project.getLocation().toOSString());
-   
+
       UserInjectionExtractorImpl injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
       CompilerInjectionExtractorImpl compilerInjectionExtractor = new CompilerInjectionExtractorImpl(project, genModel);
-   
+
       injectionManager = new InjectionManager(injectionExtractor, compilerInjectionExtractor, injector);
       return injectionManager.extractInjections();
    }

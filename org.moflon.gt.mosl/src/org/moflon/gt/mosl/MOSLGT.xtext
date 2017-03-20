@@ -4,13 +4,13 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 generate moslgt "http://www.moflon.org/gt/mosl/MOSLGT"
 
-GraphTransformationFile:
+GraphTransformationFile: 
 	imports += Import*
-	using += Using*	'#package' name = QualifiedName	
+	using += Using*	'package' name = QualifiedName	
 	eClasses += EClassDef+
 ;
 
-PatternDef:"#pattern" name=ID '(' (parameters += PatternParameters)? (',' parameters += PatternParameters)* ')' '{'
+PatternDef:"pattern" name=ID '(' (parameters += PatternParameters)? (',' parameters += PatternParameters)* ')' '{'
 	objectVariables += ObjectVariableDefinition*
 	'}'
 ;
@@ -18,7 +18,7 @@ PatternDef:"#pattern" name=ID '(' (parameters += PatternParameters)? (',' parame
 PatternParameters:ov=ObjectVariableDefinition;
 
 EClassDef:
-	'#class' name = [ecore::EClass | QualifiedName] '{'
+	'class' name = [ecore::EClass | QualifiedName] '{'
 	(operations += MethodDec | patterns += PatternDef)
 	operations += MethodDec*
 	patterns += PatternDef*
@@ -26,7 +26,7 @@ EClassDef:
 ;
 
 MethodDec:
-	'#operation' name = ID '(' (parameters+=MethodParameter)? (',' parameters+=MethodParameter)* ')' ':' (type=[ecore::EClassifier | QualifiedName] | 'void') ('{'
+	'operation' name = ID '(' (parameters+=MethodParameter)? (',' parameters+=MethodParameter)* ')' ':' (type=[ecore::EClassifier | QualifiedName] | 'void') ('{'
 		startStatement = Statement
 	'}')?
 ;
@@ -37,12 +37,12 @@ Statement: NextStatement | ReturnStatement;
 
 NextStatement:(PatternStatement | ConditionContainingStatement| ObjectVariableDefinition) (next = Statement)?;
 
-PatternStatement:'#invoke' pattern=[PatternDef]'('(parameters+=CalledPatternParameter)? (',' parameters+=CalledPatternParameter)*')';
+PatternStatement:'invoke' pattern=[PatternDef]'('(parameters+=CalledPatternParameter)? (',' parameters+=CalledPatternParameter)*')';
 
-ConditionStatement:'#if' '(' cond=Condition ')''{'
+ConditionStatement:'if' '(' cond=Condition ')''{'
 	thenStartStatement = Statement
 	'}'
-	('#else' '{'
+	('else' '{'
 		elseStartStatement = Statement
 	'}')?
 ;
@@ -53,24 +53,24 @@ ConditionContainingStatement:ConditionStatement | LoopStatement;
 
 LoopStatement:DoLoopStatement | WhileLoopStatement| ForLoopStatement;
 
-WhileLoopStatement: '#while''(' cond=Condition ')''{'
+WhileLoopStatement: 'while''(' cond=Condition ')''{'
 		loopStartStatement = Statement
 	'}'
 ;
 
-DoLoopStatement: '#Do' '{'
+DoLoopStatement: 'do' '{'
 	loopStartStatement = Statement
-	'}' '#while' '(' cond=Condition ')'
+	'}' 'while' '(' cond=Condition ')'
 ;
 
-ForLoopStatement: '#For' '('
+ForLoopStatement: 'for' '('
 	cond = Condition
 	')''{'
 		loopStartStatement = Statement
 	'}'
 ;
 
-ReturnStatement:{ReturnStatement} "#return" (returnObject=[ObjectVariableDefinition])?;
+ReturnStatement:{ReturnStatement} "return" (returnObject=[ObjectVariableDefinition])?;
 
 ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName] (":=" assignment=[ObjectVariableDefinition | QualifiedName])? ('{' 
 		attributeAssignments += AttributeAssignment*
@@ -123,11 +123,11 @@ Operator:
 
 
 Import:
-	'#import' name = STRING
+	'import' name = STRING
 ;
 
 Using:
-	'#using' importedNamespace = QualifiedNameWithWildcard
+	'using' importedNamespace = QualifiedNameWithWildcard
 ;
 
 terminal OPERATOR_VALUE: '++' | '!' | '--';
