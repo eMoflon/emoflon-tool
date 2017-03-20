@@ -56,9 +56,9 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    /**
     * Specification of files whose changes will trigger the invocation of this builder
     */
-   private static final String[] PROJECT_INTERNAL_TRIGGERS = new String[] { "src/**/*." + WorkspaceHelper.MOSL_GT_EXTENSION, "model/*.ecore" };
+   private static final String[] PROJECT_INTERNAL_TRIGGERS = { "src/*." + WorkspaceHelper.MOSL_GT_EXTENSION, "src/**/*." + WorkspaceHelper.MOSL_GT_EXTENSION, "model/*.ecore" };
 
-   private static final String[] PROJECT_EXTERNAL_TRIGGERS = new String[] { "gen/**" };
+   private static final String[] PROJECT_EXTERNAL_TRIGGERS = { "gen/**" };
 
    private XtextResourceSet resourceSet;
 
