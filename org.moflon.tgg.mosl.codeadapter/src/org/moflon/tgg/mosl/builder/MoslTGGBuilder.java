@@ -171,7 +171,14 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder
          }
       } catch (CoreException e)
       {
-         LogUtils.error(logger, e, "Unable to update created projects: " + e.getMessage());
+         try
+         {
+            processProblemStatus(e.getStatus(), resource);
+            LogUtils.error(logger, e, "Unable to update created projects: " + e.getMessage());
+         } catch (CoreException e1)
+         {
+            LogUtils.error(logger, e, "Unable to update created projects: " + e.getMessage());
+         }
       }
    }
 }

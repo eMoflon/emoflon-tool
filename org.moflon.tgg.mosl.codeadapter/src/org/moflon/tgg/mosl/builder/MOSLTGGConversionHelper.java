@@ -19,6 +19,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -72,7 +74,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
             // Trim ".pre .ecore" and add ".ecore"
             return uri.trimFileExtension().trimFileExtension().appendFileExtension("ecore");
          }
-         
+
          return uri;
       }
 
@@ -88,48 +90,42 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       }
    }
 
-   Resource generateTGGModel(IResource resource)
+   public Resource generateTGGModel(final IResource resource) throws CoreException
    {
-      try
+      final IProject project = resource.getProject();
+
+      final IFolder moslFolder = IFolder.class.cast(resource);
+      final XtextResourceSet resourceSet = new XtextResourceSet();
+
+      AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
+
+      TripleGraphGrammarFile xtextParsedTGG = createTGGFileAndLoadSchema(resourceSet, moslFolder);
+      if (xtextParsedTGG != null)
       {
-         final IProject project = resource.getProject();
+         loadAllRulesToTGGFile(xtextParsedTGG, resourceSet, moslFolder);
+         addAttrCondDefLibraryReferencesToSchema(xtextParsedTGG);
 
-         final IFolder moslFolder = IFolder.class.cast(resource);
-         final XtextResourceSet resourceSet = new XtextResourceSet();
+         // Save intermediate result of XText parsing
+         Map<Object, Object> options = new HashMap<Object, Object>();
+         options.put(XMLResource.OPTION_URI_HANDLER, new PreEcoreHidingURIHandler());
 
-         AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
+         // Invoke TGG forward transformation to produce TGG model
+         String pathToThisPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
 
-         TripleGraphGrammarFile xtextParsedTGG = createTGGFileAndLoadSchema(resourceSet, moslFolder);
-         if (xtextParsedTGG != null)
+         CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin);
+         helper.getResourceSet().getResources().add(xtextParsedTGG.eResource());
+         helper.setSrc(xtextParsedTGG);
+         helper.setVerbose(false);
+         helper.integrateForward();
+
+         CodeadapterPostProcessForwardHelper postProcessHelper = new CodeadapterPostProcessForwardHelper();
+         postProcessHelper.postProcessForward(helper);
+
+         TGGProject tggProject = (TGGProject) helper.getTrg();
+         if (tggProject != null)
          {
-            loadAllRulesToTGGFile(xtextParsedTGG, resourceSet, moslFolder);
-            addAttrCondDefLibraryReferencesToSchema(xtextParsedTGG);
-
-            // Save intermediate result of XText parsing
-            Map<Object, Object> options = new HashMap<Object, Object>();
-            options.put(XMLResource.OPTION_URI_HANDLER, new PreEcoreHidingURIHandler());
-
-            // Invoke TGG forward transformation to produce TGG model
-            String pathToThisPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
-
-            CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin);
-            helper.getResourceSet().getResources().add(xtextParsedTGG.eResource());
-            helper.setSrc(xtextParsedTGG);
-            helper.setVerbose(false);
-            helper.integrateForward();
-
-            CodeadapterPostProcessForwardHelper postProcessHelper = new CodeadapterPostProcessForwardHelper();
-            postProcessHelper.postProcessForward(helper);
-
-            TGGProject tggProject = (TGGProject) helper.getTrg();
-            if (tggProject != null)
-            {
-               return saveInternalTGGModelToXMI(tggProject, resourceSet, options, project.getName());
-            }
+            return saveInternalTGGModelToXMI(tggProject, resourceSet, options, project.getName());
          }
-      } catch (Exception e)
-      {
-         LogUtils.error(logger, e);
       }
       return null;
    }
@@ -150,7 +146,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       xtextParsedTGG.getSchema().getAttributeCondDefs().addAll(usedAttrCondDefs);
    }
 
-   private void loadAllRulesToTGGFile(TripleGraphGrammarFile xtextParsedTGG, XtextResourceSet resourceSet, IFolder moslFolder) throws CoreException, IOException
+   private void loadAllRulesToTGGFile(TripleGraphGrammarFile xtextParsedTGG, XtextResourceSet resourceSet, IFolder moslFolder) throws CoreException
    {
       if (moslFolder.exists())
       {
@@ -172,7 +168,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
 
    }
 
-   private Collection<Rule> loadRules(IResource iResource, XtextResourceSet resourceSet, IFolder moslFolder) throws IOException
+   private Collection<Rule> loadRules(IResource iResource, XtextResourceSet resourceSet, IFolder moslFolder) throws CoreException
    {
       IFile ruleFile = (IFile) iResource;
       if (ruleFile.getFileExtension().equals(WorkspaceHelper.MOSL_TGG_EXTENSION))
@@ -200,8 +196,12 @@ public class MOSLTGGConversionHelper extends AbstractHandler
     * @throws IOException
     * @throws CoreException
     */
-   private TripleGraphGrammarFile createTGGFileAndLoadSchema(XtextResourceSet resourceSet, IFolder moslFolder) throws IOException, CoreException
+   private TripleGraphGrammarFile createTGGFileAndLoadSchema(XtextResourceSet resourceSet, IFolder moslFolder) throws CoreException
    {
+      if (!moslFolder.exists())
+         throw new CoreException(
+               new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Required folder for MOSL-TGG specification is missing: " + moslFolder));
+
       final IFile schemaFile = moslFolder.getFile("Schema." + WorkspaceHelper.MOSL_TGG_EXTENSION);
 
       if (schemaFile.exists())
@@ -209,7 +209,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
          return loadTggFromFile(resourceSet, schemaFile);
       } else
       {
-         for (IResource resource : moslFolder.members())
+         for (final IResource resource : moslFolder.members())
          {
             if (resource instanceof IFile)
             {
@@ -226,10 +226,17 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       }
    }
 
-   private TripleGraphGrammarFile loadTggFromFile(XtextResourceSet resourceSet, IFile schemaFile) throws IOException
+   private TripleGraphGrammarFile loadTggFromFile(XtextResourceSet resourceSet, IFile schemaFile) throws CoreException
    {
       XtextResource schemaResource = (XtextResource) resourceSet.createResource(URI.createPlatformResourceURI(schemaFile.getFullPath().toString(), false));
-      schemaResource.load(null);
+      try
+      {
+         schemaResource.load(null);
+      } catch (IOException e)
+      {
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
+               "Problem while loading TGG schema from '" + schemaResource + "'. Reason: " + e.getMessage(), e));
+      }
       EcoreUtil.resolveAll(resourceSet);
       TripleGraphGrammarFile tgg = (TripleGraphGrammarFile) schemaResource.getContents().get(0);
       return tgg;
@@ -280,7 +287,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler
                TripleGraphGrammarFile tggModel = (TripleGraphGrammarFile) helper.getSrc();
                String projectPath = tggFile.getProject().getFullPath().toString();
                String projectName = tggFile.getProject().getName().replaceAll(Pattern.quote("."), "/");
-               
+
                Resource resource = resourceSet
                      .createResource(URI.createPlatformResourceURI(projectPath + "/src/" + projectName + "/org/moflon/tgg/mosl" + projectPath + ".xmi", true));
                resource.getContents().add(tggModel);
@@ -292,13 +299,14 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       } catch (Exception e)
       {
          LogUtils.error(logger, e);
+         throw new ExecutionException("MOSL-TGG conversion failed", e);
       }
 
       return null;
    }
 
    private Resource saveInternalTGGModelToXMI(TGGProject tggProject, XtextResourceSet resourceSet, Map<Object, Object> options, String saveTargetName)
-         throws IOException, CoreException
+         throws CoreException
    {
       TripleGraphGrammar tgg = tggProject.getTgg();
       EPackage corrPackage = tggProject.getCorrPackage();
@@ -321,15 +329,31 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       Resource preEcoreResource = resourceSet.createResource(preEcoreXmiURI);
       preEcoreResource.getContents().add(corrPackage);
       final String prefix = MoflonUtil.allSegmentsButLast(corrPackage.getNsPrefix());
-      if (prefix != null && prefix.length() > 0) {
-    	  EcoreUtil.setAnnotation(corrPackage, "http://www.eclipse.org/emf/2002/GenModel", "basePackage", prefix);
+      if (prefix != null && prefix.length() > 0)
+      {
+         EcoreUtil.setAnnotation(corrPackage, "http://www.eclipse.org/emf/2002/GenModel", "basePackage", prefix);
       }
-      preEcoreResource.save(options);
+      
+      try
+      {
+         preEcoreResource.save(options);
+      } catch (IOException e)
+      {
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
+               "Problem while saving PreEcore resource '" + preEcoreResource + "'. Reason: " + e.getMessage(), e));
+      }
 
       URI pretggXmiURI = URI.createPlatformResourceURI(saveTargetName + "/" + MoflonUtil.getDefaultPathToFileInProject(file, ".pre.tgg.xmi"), false);
       Resource pretggXmiResource = resourceSet.createResource(pretggXmiURI);
       pretggXmiResource.getContents().add(tgg);
-      pretggXmiResource.save(options);
+      try
+      {
+         pretggXmiResource.save(options);
+      } catch (IOException e)
+      {
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
+               "Problem while saving Pre-TGG XMI resource '" + pretggXmiResource + "'. Reason: " + e.getMessage(), e));
+      }
       return preEcoreResource;
    }
 
@@ -350,13 +374,27 @@ public class MOSLTGGConversionHelper extends AbstractHandler
       xtextResource.save(options.getOptions().toOptionsMap());
    }
 
-   private TGGProject createTGGProject(IFile tggFile, ResourceSet resourceSet) throws IOException
+   private TGGProject createTGGProject(IFile tggFile, ResourceSet resourceSet) throws CoreException
    {
       String tggFilePath = tggFile.getFullPath().toString();
       Resource tggEcoreResource = resourceSet.createResource(URI.createPlatformResourceURI(tggFilePath.replace(".tgg.xmi", ".ecore"), true));
-      tggEcoreResource.load(null);
+      try
+      {
+         tggEcoreResource.load(null);
+      } catch (IOException e)
+      {
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
+               "Problem while loading TGG Ecore resource '" + tggEcoreResource + "'. Reason: " + e.getMessage(), e));
+      }
       Resource tggModelResource = resourceSet.createResource(URI.createPlatformResourceURI(tggFilePath, true));
-      tggModelResource.load(null);
+      try
+      {
+         tggModelResource.load(null);
+      } catch (IOException e)
+      {
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
+               "Problem while loading TGG model resource '" + tggModelResource + "'. Reason: " + e.getMessage(), e));
+      }
       EcoreUtil.resolveAll(resourceSet);
 
       TGGProject tggProject = TggprojectFactory.eINSTANCE.createTGGProject();
