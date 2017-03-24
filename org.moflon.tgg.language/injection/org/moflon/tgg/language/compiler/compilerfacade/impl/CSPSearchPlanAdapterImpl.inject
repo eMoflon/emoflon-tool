@@ -1,10 +1,10 @@
 
 import java.util.List;
 import java.util.ArrayList;
-import org.moflon.csp.CSPNotSolvableException;
-import org.moflon.csp.solver.CodeGeneratorChain;
-import org.moflon.csp.solver.SearchPlanAction;
-import org.moflon.csp.solver.SimpleCombiner;
+import org.moflon.tgg.csp.CSPNotSolvableException;
+import org.moflon.tgg.csp.solver.CodeGeneratorChain;
+import org.moflon.tgg.csp.solver.SearchPlanAction;
+import org.moflon.tgg.csp.solver.SimpleCombiner;
 import org.moflon.tgg.language.csp.TGGConstraint;
 
 partial class CSPSearchPlanAdapterImpl {

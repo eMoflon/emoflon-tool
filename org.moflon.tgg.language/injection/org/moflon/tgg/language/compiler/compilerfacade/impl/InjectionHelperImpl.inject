@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.csp.codegenerator.MyBasicFormatRenderer;
+import org.moflon.tgg.csp.codegenerator.MyBasicFormatRenderer;
 import org.moflon.tgg.algorithm.delta.AttributeDelta;
 import org.moflon.tgg.algorithm.delta.attribute.AttributConstraintContainer;
 import org.moflon.tgg.algorithm.delta.attribute.AttributeConstraintCodeGenerator;

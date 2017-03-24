@@ -51,7 +51,7 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
    @Override
    public boolean analyzeReachability(final CompilerPattern pattern, final Adornment adornment)
    {
-      this.reachabilityAnalysisPossible = !hasOperationWithUncheckedAdornment(ReachabilityUtils.extractOperations(pattern));
+      this.reachabilityAnalysisPossible = !hasOperationWithUncheckedAdornment(ReachabilityUtils.extractOperations(pattern.getBodies().get(0)));
       if (!this.reachabilityAnalysisPossible)
       {
          return true;
@@ -110,7 +110,7 @@ public class LegacyBDDReachabilityAnalyzer implements ReachabilityAnalyzer
 
    private BDD calculateTransitionRelation(final CompilerPattern pattern)
    {
-      final List<GeneratorOperation> operations = ReachabilityUtils.extractOperations(pattern);
+      final List<GeneratorOperation> operations = ReachabilityUtils.extractOperations(pattern.getBodies().get(0));
       final BDD transitionRelation = bddFactory.zero(); // represents R_O
 
       for (final OperationRuntime operation : operations)

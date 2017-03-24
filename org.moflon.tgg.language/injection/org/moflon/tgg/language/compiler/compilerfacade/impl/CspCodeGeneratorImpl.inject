@@ -14,7 +14,7 @@ import org.moflon.TGGLanguageActivator;
 import org.moflon.tgg.language.csp.Adornment;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.csp.codegenerator.BasicFormatRenderer;
+import org.moflon.tgg.csp.codegenerator.BasicFormatRenderer;
 import SDMLanguage.patterns.BindingOperator;
 import SDMLanguage.patterns.BindingSemantics;
 import SDMLanguage.patterns.ObjectVariable;

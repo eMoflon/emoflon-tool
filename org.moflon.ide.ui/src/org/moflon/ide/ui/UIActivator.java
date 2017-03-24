@@ -41,8 +41,10 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.ui.console.MoflonConsole;
 import org.moflon.ide.ui.decorators.MoflonProjectDecorator;
+import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -102,6 +104,8 @@ public class UIActivator extends AbstractUIPlugin
 
       registerDecoratorListeners();
       registerListenerForMetaModelProjectRenaming();
+      
+      synchronizeEMoflonPreferencesStorage();
    }
 
    /**
@@ -455,5 +459,13 @@ public class UIActivator extends AbstractUIPlugin
    public IPath getPathInStateLocation(final String filename)
    {
       return getStateLocation().append(filename);
+   }
+
+   public static void synchronizeEMoflonPreferencesStorage()
+   {
+      final EMoflonPreferencesStorage preferencesStorage = EMoflonPreferencesStorage.getInstance();
+      preferencesStorage.setValidationTimeout(EMoflonPreferenceInitializer.getValidationTimeoutMillis());
+      preferencesStorage.setReachabilityEnabled(EMoflonPreferenceInitializer.getReachabilityEnabled());
+      preferencesStorage.setReachabilityMaximumAdornmentSize(EMoflonPreferenceInitializer.getReachabilityMaxAdornmentSize());
    }
 }

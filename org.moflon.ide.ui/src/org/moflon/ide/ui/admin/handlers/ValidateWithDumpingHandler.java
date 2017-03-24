@@ -101,8 +101,8 @@ public class ValidateWithDumpingHandler extends AbstractCommandHandler
    private void validateFile(final IFile ecoreFile, final IProgressMonitor monitor) throws CoreException
    {
       final long validationTimeoutMillis = EMoflonPreferenceInitializer.getValidationTimeoutMillis();
-      final String validationTimeoutMessage = "Validation took longer than " + validationTimeoutMillis
-            + "ms. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page";
+      final String validationTimeoutMessage = "Validation took longer than " + validationTimeoutMillis/1000
+            + "s. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page";
       try
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Validating " + ecoreFile.getName(), 1);
@@ -124,7 +124,6 @@ public class ValidateWithDumpingHandler extends AbstractCommandHandler
                      @Override
                      public boolean visit(IResource resource) throws CoreException
                      {
-                        // TODO@rkluge: Re-esablish a (loose) dependency to org.moflon.sdm.compiler.democles
                         final String trimmedResourceName = resource.getName().replaceAll(".xmi", "");
                         if (resource instanceof IFile &&
                               (trimmedResourceName.endsWith("red") // DemoclesMethodBodyHandler.RED_FILE_EXTENSION
