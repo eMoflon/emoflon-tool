@@ -215,7 +215,10 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
                      new IStatus[] { validationStatus, weaverStatus, injectionStatus }, "Code generation warnings/errors", null);
       } catch (final Exception e)
       {
-         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+         logger.debug(WorkspaceHelper.printStacktraceToString(e));
+         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR,
+               e.getClass().getName() + " occurred during eMoflon code generation. Message: '" + e.getMessage() + "'. (Stacktrace is logged with level debug)",
+               e);
       }
    }
 
@@ -233,7 +236,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          {
             if (resource.getName().equals("bin"))
                return false;
-            
+
             if (isMOSLGTFile(resource))
             {
                final Resource schemaResource = (Resource) getResourceSet()
@@ -243,7 +246,8 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
                   schemaResource.load(null);
                } catch (final IOException e)
                {
-                  throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e));
+                  throw new CoreException(
+                        new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e));
                }
             }
             return true;
@@ -251,8 +255,8 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
          private boolean isMOSLGTFile(IResource resource)
          {
-            return resource != null && resource.exists() && resource instanceof IFile
-                  && resource.getAdapter(IFile.class).getFileExtension().equals(WorkspaceHelper.MOSL_GT_EXTENSION);
+            final IFile file = resource.getAdapter(IFile.class);
+            return resource != null && resource.exists() && file != null && WorkspaceHelper.MOSL_GT_EXTENSION.equals(file.getFileExtension());
          }
 
       });
