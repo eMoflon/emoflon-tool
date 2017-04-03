@@ -31,6 +31,8 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
+import org.moflon.gt.mosl.codeadapter.MOSLGTUtil;
+import org.moflon.gt.mosl.codeadapter.MOSLGTUtil.MGTCallbackGetter;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
@@ -128,15 +130,15 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
 
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
       // collectMOSLGTFiles();
+     
+      MOSLGTUtil.getInstance().setMGTGetter(new MGTCallbackGetter() {
 
-      //      MOSLGTUtil.getInstance().setMGTGetter(new MGTCallbackGetter() {
-      //
-      //         @Override
-      //         public Collection<IFile> getMOSLGTFiles() throws CoreException
-      //         {
-      //            return collectMOSLGTFiles();
-      //         }
-      //      });
+         @Override
+         public Collection<IFile> getMOSLGTFiles() throws CoreException
+         {
+            return collectMOSLGTFiles();
+         }
+      });
 
       final IStatus status = codeGenerationTask.run(subMon.split(7));
 
