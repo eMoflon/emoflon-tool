@@ -95,8 +95,8 @@ public class ValidateHandler extends AbstractCommandHandler
    private void validateFile(final IFile ecoreFile, final IProgressMonitor monitor)
    {
       final long validationTimeoutMillis = EMoflonPreferenceInitializer.getValidationTimeoutMillis();
-      final String validationTimeoutMessage = "Validation took longer than " + validationTimeoutMillis
-            + "ms. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page";
+      final String validationTimeoutMessage = "Validation took longer than " + validationTimeoutMillis/1000
+            + "s. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page";
       try
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Validating " + ecoreFile.getName(), 1);

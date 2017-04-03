@@ -2,8 +2,8 @@
 import org.eclipse.emf.ecore.EPackage;
 import org.apache.commons.lang3.StringUtils;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.csp.CSPNotSolvableException;
-import org.moflon.csp.codegenerator.BasicFormatRenderer;
+import org.moflon.tgg.csp.CSPNotSolvableException;
+import org.moflon.tgg.csp.codegenerator.BasicFormatRenderer;
 import org.moflon.tgg.language.csp.CSP;
 import SDMLanguage.sdmUtil.*;
 import net.sf.javabdd.BDDException;
@@ -100,7 +100,7 @@ partial class CspCodeGeneratorHelperImpl {
       }
       final String projectName = container.getNsPrefix();
 
-      final String[] imports = new String[] { "org.moflon.csp.*", projectName + ".csp.constraints.*", "csp.constraints.*", "org.moflon.tgg.language.csp.*" };
+      final String[] imports = new String[] { "org.moflon.tgg.csp.*", projectName + ".csp.constraints.*", "org.moflon.tgg.csp.constraints.*", "org.moflon.tgg.language.csp.*" };
 
       for (String importEntry : imports)
       {

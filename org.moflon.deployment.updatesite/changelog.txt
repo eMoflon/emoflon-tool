@@ -1,16 +1,32 @@
-2017-03-?? eMoflon 2.29.0 released
+2017-03-24 eMoflon 2.29.0 released
 
 User notes:
-* TODO
+* eMoflon now provides an efficient analysis for determining whether a search plan for a pattern may exist.
+  This avoids that the build process for invalid patterns runs indefinitely.
+* Most plugins should now ship with the source code, only plugins that are extracted during installation will not conveneniently provide the source code (e.g., org.moflon.ide.workspaceinstaller.psf).
+* The Schema.tgg file of MOSL-TGG projects is now located in /src/[project-name].org.moflon.tgg.mosl/Schema.tgg
+ * Old specifications remain compatible: The MOSL-TGG builder searches for any file named Schema.tgg in the /src folder.
 
 Developer notes:
 * Work on reachability analysis is on its way! We already support all patterns whose operations have no "NOT_TYPECKED" adornment
+* The syntax of MOSL-GT now contains no more '#s'
+* The signing script is now a Makefile -> parallelization support
 
 Closed issues: 
-* TODO
+* MOSL-GT: Get rid of all these #'s #215
+* Reachability: Consider local variables as well? #210
+* Reachability analysis: Proper creation of transition relation? #207
+* Rename csp.constraints package in org.moflon.tgg.language feature-request medium-priority #202
+* Eliminate custom deployment procedure of eMoflon completely #201
+* Source code still missing from deployed eMoflon #195
+* Parallelize signing script #191
+* Disable Ecore visualization until it is more stable #188
+* The generated package for Schema.tgg should be renamed #185
+* Integrate reachability analysis into build process #120
+* Refactor MOSL-TGG TGG with refinements #57
 * To obtain the full list, use the following:
- * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-01-20..2017-02-22
- * GitHub issues query: is:issue closed:2017-01-20..2017-02-22 
+ * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-02-22..2017-03-20
+ * GitHub issues query: is:issue closed:2017-02-22..2017-03-20 
 
 2017-02-22 eMoflon 2.28.0 released
 

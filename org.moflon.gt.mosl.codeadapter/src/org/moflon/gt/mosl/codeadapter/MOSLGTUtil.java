@@ -14,6 +14,7 @@ public class MOSLGTUtil
 
    }
 
+   @Deprecated
    public static MOSLGTUtil getInstance()
    {
       if (instance == null)
@@ -21,6 +22,7 @@ public class MOSLGTUtil
       return instance;
    }
 
+   @Deprecated
    public interface MGTCallbackGetter
    {
       Collection<IFile> getMOSLGTFiles() throws CoreException;
@@ -28,11 +30,13 @@ public class MOSLGTUtil
 
    private MGTCallbackGetter mgtGetter;
 
+   @Deprecated
    public void setMGTGetter(MGTCallbackGetter mgtGetter)
    {
       this.mgtGetter = mgtGetter;
    }
 
+   @Deprecated
    public Collection<IFile> getMGTFiles()
    {
       try
