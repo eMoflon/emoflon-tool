@@ -1,6 +1,8 @@
 package org.moflon.gt.ide;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +21,7 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
+import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 
 /**
@@ -44,6 +46,11 @@ public class MOSLGTWeavingTask implements ITask
    private ResourceSet resourceSet;
 
    /**
+    * The {@link URI} prefix to save the enrichedEpackage
+    */
+   private String projecPrefixURI;
+
+   /**
     * Preconfigures this task with the top-level {@link EPackage} of the metamodel to be processed
     * 
     * @param ePackage
@@ -52,6 +59,13 @@ public class MOSLGTWeavingTask implements ITask
    {
       this.ePackage = ePackage;
       this.resourceSet = ePackage.eResource().getResourceSet();
+      List<String> uriParts = Arrays.asList(ePackage.eResource().getURI().toString().split("/")).subList(0, 3);
+      projecPrefixURI = "";
+      for (String uriPart : uriParts)
+      {
+         projecPrefixURI += uriPart + "/";
+      }
+
       DemoclesMethodBodyHandler.initResourceSetForDemocles(resourceSet);
    }
 
@@ -82,31 +96,37 @@ public class MOSLGTWeavingTask implements ITask
       try
       {
          CodeadapterTrafo helper = CodeadapterTrafo.getInstance();
+
          final List<Resource> mgtResources = this.resourceSet.getResources().stream()
-               .filter(resource -> resource.getURI().lastSegment().equals(WorkspaceHelper.MOSL_GT_EXTENSION)).collect(Collectors.toList());
+               .filter(resource -> resource.getURI().lastSegment().endsWith('.' + WorkspaceHelper.MOSL_GT_EXTENSION)).collect(Collectors.toList());
 
          for (final Resource schemaResource : mgtResources)
          {
             final GraphTransformationFile gtf = GraphTransformationFile.class.cast(schemaResource.getContents().get(0));
             if (gtf.getImports().size() > 0)
             {
-               //TODO@rkluge: Probably, we will have to translate the .mgt files "package-by-package" and load the appropriate packages
-               
+               // TODO@rkluge: Probably, we will have to translate the .mgt files "package-by-package" and load the
+               // appropriate packages
+
                String contextEcorePath = gtf.getImports().get(0).getName().replaceFirst("platform:/resource", "").replaceFirst("platform:/plugin", "");
                Resource ecoreRes = (Resource) this.resourceSet.createResource(URI.createPlatformResourceURI(contextEcorePath, false));
                ecoreRes.load(null);
                final EPackage contextEPackage = (EPackage) ecoreRes.getContents().get(0);
                final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, DemoclesMethodBodyHandler::initResourceSetForDemocles);
-               
-               //TODO@szander: You do not need the project here, I suggest to use an adjusted URI (because we can rely on the fact that the first segment after platform:/resource is the project name:
-               // Debug URI = platform:resource/[first-segment-from-context-ecore-URI]/debug/[Ecore-file-basedname].ecore
-               
-               //               IFile enrichedEcoreFile = project.getFile(WorkspaceHelper.INSTANCES_FOLDER + "/debug" + WorkspaceHelper.ECORE_FILE_EXTENSION);
-               //                     URI enrichedEcoreURI = URI.createURI(enrichedEcoreFile.getProjectRelativePath().toString(), true).resolve(projectURI);
-               //                     Resource enrichedEcoreResource = this.resourceSet.createResource(enrichedEcoreURI);
-               //                     enrichedEcoreResource.getContents().clear();
-               //                     enrichedEcoreResource.getContents().add(enrichedEPackage);
-               //                     enrichedEcoreResource.save(Collections.EMPTY_MAP);
+
+               // TODO@szander: You do not need the project here, I suggest to use an adjusted URI (because we can rely
+               // on the fact that the first segment after platform:/resource is the project name:
+               // Debug URI =
+               // platform:resource/[first-segment-from-context-ecore-URI]/debug/[Ecore-file-basedname].ecore
+               // TODO@rkluge: The contextEcorePath may in another project then the mgt project. So we must not try to
+               // get the project path from the context URI.
+
+               String enrichedEcoreURIString = projecPrefixURI + WorkspaceHelper.INSTANCES_FOLDER + "/debug" + WorkspaceHelper.ECORE_FILE_EXTENSION;
+               URI enrichedEcoreURI = URI.createURI(enrichedEcoreURIString, true);
+               Resource enrichedEcoreResource = this.resourceSet.createResource(enrichedEcoreURI);
+               enrichedEcoreResource.getContents().clear();
+               enrichedEcoreResource.getContents().add(enrichedEPackage);
+               enrichedEcoreResource.save(Collections.EMPTY_MAP);
             }
 
          }

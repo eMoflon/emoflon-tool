@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.codeadapter.codeadapter;
+package org.moflon.gt.mosl.codeadapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,13 +19,16 @@ import org.gervarro.democles.specification.emf.SpecificationFactory;
 import org.gervarro.democles.specification.emf.Variable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypeFactory;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
+import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.gt.mosl.moslgt.PatternDef;
-import org.moflon.gt.mosl.moslgt.PatternParameters;
+import org.moflon.gt.mosl.moslgt.PatternObject;
+import org.moflon.gt.mosl.moslgt.PatternParameter;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
+import org.moflon.sdm.runtime.democles.Scope;
 import org.moflon.sdm.runtime.democles.VariableReference;
 
 public class PatternBuilder {
@@ -34,6 +37,8 @@ public class PatternBuilder {
 	private Map<String, List<Consumer<Variable>>> unfinishedLinkVariables; 
 	
 	private Map<String, Pattern> patternCache;
+	
+	private Map<String, Map<PatternKind, List<PatternObject>>> transformPlan;
 	
 	private Map<String, PatternInvocation> patternInvocationCache;
 	
@@ -49,6 +54,11 @@ public class PatternBuilder {
 		return instance;
 	}
 	
+	private void createTransformPlan(){
+	   
+	}
+	
+	
 	public void createPattern(PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env, Function<String, String> patternNameGenerator){
 		Pattern pattern = SpecificationFactory.eINSTANCE.createPattern();
 		String suffix = "";
@@ -60,7 +70,7 @@ public class PatternBuilder {
 		String patternName = patternDef.getName();
 		patternCache.put(patternName, pattern);
 		PatternInvocation invocation = createPatternInvocation(patternName, pattern);
-		for(PatternParameters pp : patternDef.getParameters()){
+		for(PatternParameter pp : patternDef.getParameters()){
 			ObjectVariableDefinition ov = pp.getOv();
 			EMFVariable patternVariable = EMFTypeFactory.eINSTANCE.createEMFVariable();
 			pattern.getSymbolicParameters().add(patternVariable);
@@ -104,7 +114,7 @@ public class PatternBuilder {
 	      }
 	}
 	
-	private ObjectVariableDefinition getCorrespondingOV(PatternParameters pp, PatternDef patternDef){
+	private ObjectVariableDefinition getCorrespondingOV(PatternParameter pp, PatternDef patternDef){
 		Optional<ObjectVariableDefinition> optOV = patternDef.getObjectVariables().stream().filter(ov -> ov.getName().compareTo(pp.getOv().getName())==0).findAny();
 		if(optOV.isPresent())
 			return optOV.get();
@@ -139,6 +149,9 @@ public class PatternBuilder {
 		return patternInvocationCache.get(patternName);
 	}
 	
+	public void createResultPattern(ObjectVariableDefinition ov, Scope scope){
+	   
+	}
 	
 
 }

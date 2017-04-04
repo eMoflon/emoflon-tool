@@ -127,20 +127,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       initializeResourceSet();
 
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
-      // collectMOSLGTFiles();
-
-      //      MOSLGTUtil.getInstance().setMGTGetter(new MGTCallbackGetter() {
-      //
-      //         @Override
-      //         public Collection<IFile> getMOSLGTFiles() throws CoreException
-      //         {
-      //            return collectMOSLGTFiles();
-      //         }
-      //      });
-
       final IStatus status = codeGenerationTask.run(subMon.split(7));
-
-      // loadMGTFiles(monitor);
       handleErrorsAndWarnings(status);
       subMon.worked(2);
 
@@ -156,31 +143,6 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       this.resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
       eMoflonEMFUtil.installCrossReferencers(this.resourceSet);
    }
-
-   //   @Deprecated
-   //   private Collection<IFile> collectMOSLGTFiles() throws CoreException
-   //   {
-   //      final Collection<IFile> moslGTFiles = new ArrayList<>();
-   //      getProject().accept(new IResourceVisitor() {
-   //
-   //         @Override
-   //         public boolean visit(IResource resource) throws CoreException
-   //         {
-   //            if (isMOSLGTFile(resource))
-   //               moslGTFiles.add(IFile.class.cast(resource));
-   //            return true;
-   //         }
-   //
-   //         private boolean isMOSLGTFile(IResource resource)
-   //         {
-   //            return resource != null && resource.exists() && resource instanceof IFile
-   //                  && Arrays.asList(resource.getFullPath().segments()).stream().anyMatch(s -> "src".equals(s))
-   //                  && resource.getName().endsWith("." + WorkspaceHelper.MOSL_GT_EXTENSION);
-   //         }
-   //      });
-   //
-   //      return moslGTFiles;
-   //   }
 
    private IProject updateProjectStructure(final IProgressMonitor monitor) throws CoreException
    {

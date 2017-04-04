@@ -8,9 +8,9 @@ import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.SpecificationFactory;
 import org.gervarro.democles.specification.emf.Variable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.Reference;
+import org.moflon.gt.mosl.codeadapter.LinkVariableBuilder;
+import org.moflon.gt.mosl.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.codeadapter.abstractutils.IOperatorRule;
-import org.moflon.gt.mosl.codeadapter.codeadapter.LinkVariableBuilder;
-import org.moflon.gt.mosl.codeadapter.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 

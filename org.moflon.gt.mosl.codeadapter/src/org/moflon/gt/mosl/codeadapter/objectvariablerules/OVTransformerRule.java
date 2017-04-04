@@ -4,10 +4,10 @@ import java.util.Map;
 import java.util.function.Function;
 import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.Variable;
+import org.moflon.gt.mosl.codeadapter.ExpressionBuilder;
+import org.moflon.gt.mosl.codeadapter.LinkVariableBuilder;
+import org.moflon.gt.mosl.codeadapter.ObjectVariableBuilder;
 import org.moflon.gt.mosl.codeadapter.abstractutils.IOperatorRule;
-import org.moflon.gt.mosl.codeadapter.codeadapter.ExpressionBuilder;
-import org.moflon.gt.mosl.codeadapter.codeadapter.LinkVariableBuilder;
-import org.moflon.gt.mosl.codeadapter.codeadapter.ObjectVariableBuilder;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 
 public abstract class OVTransformerRule implements IOperatorRule

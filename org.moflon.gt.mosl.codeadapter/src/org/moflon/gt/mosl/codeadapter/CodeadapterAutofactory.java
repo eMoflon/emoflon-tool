@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.codeadapter.codeadapter;
+package org.moflon.gt.mosl.codeadapter;
 
 import org.moflon.gt.mosl.codeadapter.linkvariablerules.MatchingUnboundLVTransformingRule;
 import org.moflon.gt.mosl.codeadapter.objectvariablerules.MatchingUnboundOVTransformerRule;
