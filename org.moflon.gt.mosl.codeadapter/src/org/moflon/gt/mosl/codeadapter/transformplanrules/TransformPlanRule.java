@@ -6,10 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.moflon.gt.mosl.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
+import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.AbstractAttribute;
 import org.moflon.gt.mosl.moslgt.Expression;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
@@ -37,8 +39,10 @@ public abstract class TransformPlanRule
       return filterConditionExpression(aa.getValueExp(), bindings, env);
    }
    public boolean isTransformable(PatternKind patternKind, PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env){
-      patternObjectIndex.clear(); 
-      patternObjectIndex.addAll(patternDef.getObjectVariables().stream().filter(ov -> filterConditionObjectVariable(ov, bindings, env)).collect(Collectors.toSet()));
+      patternObjectIndex.clear();
+      Predicate<? super ObjectVariableDefinition> ovFilter = ov -> filterConditionObjectVariable(ov, bindings, env);
+      patternObjectIndex.addAll(patternDef.getParameters().stream().map(pp -> {return PatternUtil.getCorrespondingOV(pp, patternDef);}).filter(ovFilter).collect(Collectors.toSet()));
+      patternObjectIndex.addAll(patternDef.getObjectVariables().stream().filter(ovFilter).collect(Collectors.toSet()));
       patternDef.getObjectVariables().stream().forEach(ov -> {indexObjectVariable(ov, bindings, env);});
       return patternObjectIndex.size() > 0;
    }
