@@ -21,7 +21,7 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
+import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 
 /**

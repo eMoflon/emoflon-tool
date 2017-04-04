@@ -9,8 +9,8 @@ import java.util.function.Function;
 
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.Variable;
-import org.moflon.gt.mosl.codeadapter.codeadapter.CodeadapterTrafo;
-import org.moflon.gt.mosl.codeadapter.codeadapter.PatternBuilder;
+import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
+import org.moflon.gt.mosl.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.exceptions.NoMatchingVariableFound;
 import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;

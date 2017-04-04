@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.codeadapter.codeadapter;
+package org.moflon.gt.mosl.codeadapter;
 
 import java.io.IOException;
 import java.util.ArrayList;

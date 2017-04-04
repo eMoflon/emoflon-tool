@@ -33,4 +33,3 @@ Export-Package: org.moflon.compiler.sdm.democles,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Bundle-Activator: org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin
-Import-Package: org.moflon.gt.mosl.codeadapter.codeadapter

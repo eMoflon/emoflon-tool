@@ -1,7 +1,7 @@
 package org.moflon.gt.mosl.codeadapter.expressionrules;
 
 import org.gervarro.democles.specification.emf.PatternBody;
-import org.moflon.gt.mosl.codeadapter.codeadapter.ExpressionBuilder;
+import org.moflon.gt.mosl.codeadapter.ExpressionBuilder;
 import org.moflon.gt.mosl.moslgt.AbstractAttribute;
 import org.moflon.gt.mosl.moslgt.Expression;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;

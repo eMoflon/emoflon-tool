@@ -1,6 +1,6 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
-import org.moflon.gt.mosl.codeadapter.codeadapter.StatementBuilder;
+import org.moflon.gt.mosl.codeadapter.StatementBuilder;
 import org.moflon.gt.mosl.moslgt.ConditionStatement;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
