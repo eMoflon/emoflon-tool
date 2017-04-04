@@ -1,5 +1,6 @@
 package org.moflon.compiler.sdm.democles;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
 import org.gervarro.democles.codegen.Chain;
 import org.gervarro.democles.codegen.GeneratorOperation;
@@ -56,6 +57,7 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
    public ValidationReport generateSearchPlan(final Pattern pattern, final Adornment adornment, final boolean isMultipleMatch)
    {
       final ValidationReport report = ResultFactory.eINSTANCE.createValidationReport();
+      Logger.getLogger(getClass()).debug("Generating search plan for " + pattern);
       try
       {
          final EClass eClass = (EClass) ((AdapterResource) pattern.eResource()).getTarget();
@@ -106,7 +108,7 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
     * @param report the report
     * @param details details about the error message
     */
-   private void createAndAddErrorMessage(final Pattern pattern, final ValidationReport report, final String details)
+   static void createAndAddErrorMessage(final Pattern pattern, final ValidationReport report, final String details)
    {
       final ErrorMessage error = ResultFactory.eINSTANCE.createErrorMessage();
       report.getErrorMessages().add(error);
