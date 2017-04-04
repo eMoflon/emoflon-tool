@@ -19,6 +19,7 @@ import org.gervarro.democles.specification.emf.SpecificationFactory;
 import org.gervarro.democles.specification.emf.Variable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypeFactory;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
+import org.moflon.gt.mosl.codeadapter.transformplanrules.TransformPlanRule;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
@@ -38,14 +39,20 @@ public class PatternBuilder {
 	
 	private Map<String, Pattern> patternCache;
 	
+	private final PatternKind[] searchOrder = {PatternKind.BLACK, PatternKind.GREEN, PatternKind.RED, PatternKind.EXPRESSION};
+	
 	private Map<String, Map<PatternKind, List<PatternObject>>> transformPlan;
+	
+	private Map<PatternKind, TransformPlanRule> transformPlanRuleCache;
 	
 	private Map<String, PatternInvocation> patternInvocationCache;
 	
 	private PatternBuilder(){
 		unfinishedLinkVariables = new HashMap<>();
 		patternCache = new HashMap<>();
+		transformPlan = new HashMap<>();
 		patternInvocationCache = new HashMap<>();
+		transformPlanRuleCache = new HashMap<>();
 	}
 	
 	public static PatternBuilder getInstance(){
@@ -54,20 +61,35 @@ public class PatternBuilder {
 		return instance;
 	}
 	
-	private void createTransformPlan(){
-	   
+	public void addTransformPlanRule(PatternKind patternKind, TransformPlanRule transformPlanRule){
+	   transformPlanRuleCache.put(patternKind, transformPlanRule);
+	}
+	
+	private void createTransformPlan(String patternName, PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env){
+	   for(PatternKind patternKind : searchOrder){
+	      if(transformPlanRuleCache.get(patternKind) != null && transformPlanRuleCache.get(patternKind).isTransformable(patternKind, patternDef, bindings, env)){
+	         List<PatternObject> patternObjectIndex = transformPlanRuleCache.get(patternKind).getPatterObjectIndex();
+	         Map<PatternKind, List<PatternObject>> patternKindIndex = transformPlan.get(patternName);
+	         if(patternKindIndex == null)
+	            patternKindIndex = new HashMap<>();
+	         patternKindIndex.put(patternKind, patternObjectIndex);
+	         transformPlan.put(patternName, patternKindIndex);
+	      }
+	   }
 	}
 	
 	
 	public void createPattern(PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env, Function<String, String> patternNameGenerator){
-		Pattern pattern = SpecificationFactory.eINSTANCE.createPattern();
+	   String patternName = patternDef.getName();
+	   createTransformPlan(patternName, patternDef, bindings, env);
+	   
+	   Pattern pattern = SpecificationFactory.eINSTANCE.createPattern();
 		String suffix = "";
 		String patternKind = "";
 		
 		PatternBody patternBody = SpecificationFactory.eINSTANCE.createPatternBody();
 		patternBody.setHeader(pattern);
 		
-		String patternName = patternDef.getName();
 		patternCache.put(patternName, pattern);
 		PatternInvocation invocation = createPatternInvocation(patternName, pattern);
 		for(PatternParameter pp : patternDef.getParameters()){
