@@ -10,12 +10,12 @@ GraphTransformationFile:
 	eClasses += EClassDef+
 ;
 
-PatternDef:"pattern" name=ID '(' (parameters += PatternParameters)? (',' parameters += PatternParameters)* ')' '{'
+PatternDef:"pattern" name=ID '(' (parameters += PatternParameter)? (',' parameters += PatternParameter)* ')' '{'
 	objectVariables += ObjectVariableDefinition*
 	'}'
 ;
 
-PatternParameters:ov=ObjectVariableDefinition;
+PatternParameter:ov=ObjectVariableDefinition;
 
 EClassDef:
 	'class' name = [ecore::EClass | QualifiedName] '{'
@@ -155,5 +155,7 @@ QualifiedName returns ecore::EString:
 AbstractClass: EClassDef className=ID;
 
 AbstractAttribute: AttributeConstraint | AttributeAssignment;
+
+PatternObject: ObjectVariableDefinition | LinkVariablePattern | Expression;
  
 

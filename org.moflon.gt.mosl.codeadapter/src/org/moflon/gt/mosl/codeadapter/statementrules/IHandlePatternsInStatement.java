@@ -16,7 +16,7 @@ import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.gt.mosl.moslgt.PatternDef;
-import org.moflon.gt.mosl.moslgt.PatternParameters;
+import org.moflon.gt.mosl.moslgt.PatternParameter;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
@@ -33,7 +33,7 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
       List<Consumer<PatternInvocation>> setConstructors = new ArrayList<>();
       String patternName = patternDef.getName();
 
-      List<PatternParameters> patternParameters = patternDef.getParameters();
+      List<PatternParameter> patternParameters = patternDef.getParameters();
       int size = patternParameters.size();
       if (size != cpps.size())
          throw new PatternParameterSizeIsNotMatching();
