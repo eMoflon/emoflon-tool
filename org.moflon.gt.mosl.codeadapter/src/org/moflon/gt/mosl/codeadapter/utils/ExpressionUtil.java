@@ -1,21 +1,21 @@
-package org.moflon.gt.mosl.codeadapter;
+package org.moflon.gt.mosl.codeadapter.utils;
 
 import org.gervarro.democles.specification.emf.constraint.relational.RelationalConstraint;
 import org.gervarro.democles.specification.emf.constraint.relational.RelationalConstraintFactory;
 
-public class MOSLGTUtil
+public class ExpressionUtil
 {
-   private static MOSLGTUtil instance;
+   private static ExpressionUtil instance;
 
-   private MOSLGTUtil()
+   private ExpressionUtil()
    {
 
    }
 
-   public static MOSLGTUtil getInstance()
+   public static ExpressionUtil getInstance()
    {
       if (instance == null)
-         instance = new MOSLGTUtil();
+         instance = new ExpressionUtil();
       return instance;
    }
    
