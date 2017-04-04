@@ -26,6 +26,7 @@ import org.moflon.gt.mosl.moslgt.PatternParameters;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
+import org.moflon.sdm.runtime.democles.Scope;
 import org.moflon.sdm.runtime.democles.VariableReference;
 
 public class PatternBuilder {
@@ -139,6 +140,9 @@ public class PatternBuilder {
 		return patternInvocationCache.get(patternName);
 	}
 	
+	public void createResultPattern(ObjectVariableDefinition ov, Scope scope){
+	   
+	}
 	
 
 }
