@@ -13,11 +13,8 @@ package org.moflon.eclipse.genmodel;
 import java.io.File;
 import java.lang.reflect.Method;
 
-import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.EMFPlugin;
@@ -27,7 +24,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EOperation;
 import org.gervarro.democles.emoflon.templates.JavaClassGenerator;
 import org.moflon.codegen.InjectionHandlingImportManager;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.util.InjectionRegions;
@@ -35,17 +31,13 @@ import org.moflon.moca.inject.util.InjectionRegions;
 /**
  * This implementation base class is invoked during the code generation of a Java class
  * 
- * @author Gergely Varr�
+ * @author Gergely Varró
  * @author Roland Kluge
  * 
  * @see JavaClassGenerator
  */
 abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter
 {
-   private static final String DERIVED_FEATURES_CODE_CONTRIBUTOR = "org.moflon.sdm.compiler.democles.derivedfeatures.DerivedFeaturesCodeContributor";
-
-   private static final Logger logger = Logger.getLogger(MoflonClassGeneratorAdapter.class);
-
    private JETEmitterDescriptor[] emitterDescriptors;
 
    /**
@@ -69,88 +61,6 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
     * Generates the content of the method, described by the given EOperation.
     */
    abstract public String getGeneratedMethodBody(EOperation eOperation);
-
-   /**
-    * Returns a string that is injected into the generated constructor.
-    * 
-    * @param genClass
-    * @return
-    */
-   public String getConstructorInjectionCode(GenClass genClass)
-   {
-      MoflonClassGeneratorCodeContributor codeContributor = (MoflonClassGeneratorCodeContributor) Platform.getAdapterManager().loadAdapter(genClass,
-            DERIVED_FEATURES_CODE_CONTRIBUTOR);
-      if (codeContributor != null)
-      {
-         try
-         {
-            return codeContributor.getConstructorInjectionCode(genClass);
-         } catch (final Exception e)
-         {
-            logger.error(String
-                  .format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
-            return null;
-         }
-      }
-      return null;
-   }
-
-   /**
-    * Returns the code that should be inserted at the beginning of the getter of the given {@link GenFeature}
-    * 
-    * @param genFeature
-    *           the affected {@link GenFeature}
-    * @return the code to be inserted, starting and ending with a new-line, or <code>null</code> if no code should be
-    *         added.
-    */
-   public String getPreGetGenFeatureCode(final GenFeature genFeature)
-   {
-
-      MoflonClassGeneratorCodeContributor codeContributor = (MoflonClassGeneratorCodeContributor) Platform.getAdapterManager().loadAdapter(genFeature,
-            DERIVED_FEATURES_CODE_CONTRIBUTOR);
-      if (codeContributor != null)
-      {
-         try
-         {
-            return codeContributor.getPreGetGenFeatureCode(genFeature);
-         } catch (final Exception e)
-         {
-            logger.error(String
-                  .format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
-            return null;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    * Returns the code that should be inserted at the beginning of the setter of the given {@link GenFeature}
-    * 
-    * @param genFeature
-    *           the affected {@link GenFeature}
-    * @return the code to be inserted, starting and ending with a new-line, or <code>null</code> if no code should be
-    *         added.
-    */
-   public String getPreSetGenFeatureCode(final GenFeature genFeature)
-   {
-      MoflonClassGeneratorCodeContributor codeContributor = (MoflonClassGeneratorCodeContributor) Platform.getAdapterManager().loadAdapter(genFeature,
-            DERIVED_FEATURES_CODE_CONTRIBUTOR);
-      if (codeContributor != null)
-      {
-         try
-         {
-            return codeContributor.getPreSetGenFeatureCode(genFeature);
-         } catch (final Exception e)
-         {
-            logger.error(String
-                  .format("Problem while getting code contribution " + DERIVED_FEATURES_CODE_CONTRIBUTOR + ": " + MoflonUtil.displayExceptionAsString(e)));
-            return null;
-         }
-      }
-
-      return null;
-   }
 
    /**
     * Returns the members code for the given EClass, depending on whether we currently generate the interface or the

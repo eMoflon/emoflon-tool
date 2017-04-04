@@ -2,7 +2,7 @@
 <feature
       id="org.moflon.gt.mosl.feature"
       label="eMoflon MOSL-GT"
-      version="2.26.0.qualifier"
+      version="2.29.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt"
       plugin="org.moflon.ide.ui">
 
@@ -45,6 +45,13 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.gt.mosl.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.gt.mosl.codeadapter"
          download-size="0"
          install-size="0"
          version="0.0.0"

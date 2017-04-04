@@ -1,6 +1,6 @@
 @echo off
 
-call config.bat
+call include/config.bat
 
 "%keytool%" -list -v ^
 			-keystore "%key_store%" ^

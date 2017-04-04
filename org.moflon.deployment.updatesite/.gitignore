@@ -1,5 +1,6 @@
 /features
 /plugins
+/build
 artifacts.jar
 content.jar
 logs.zip

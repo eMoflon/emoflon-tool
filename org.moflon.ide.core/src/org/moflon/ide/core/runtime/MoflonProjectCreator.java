@@ -1,6 +1,5 @@
 package org.moflon.ide.core.runtime;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.log4j.Logger;
@@ -28,7 +27,6 @@ import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
-import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.MOSLGTNature;
@@ -86,28 +84,22 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
          addGitKeepFiles(project, subMon.split(2));
 
          // (4) Create MANIFEST.MF file
-         try
-         {
-            logger.debug("Adding MANIFEST.MF");
-            new ManifestFileUpdater().processManifest(project, manifest -> {
-               boolean changed = false;
-               changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.MANIFEST_VERSION, "1.0", AttributeUpdatePolicy.KEEP);
-               changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_MANIFEST_VERSION, "2", AttributeUpdatePolicy.KEEP);
-               changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME,
-                     metamodelProperties.get(MetamodelProperties.NAME_KEY), AttributeUpdatePolicy.KEEP);
-               changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_SYMBOLIC_NAME,
-                     metamodelProperties.get(MetamodelProperties.PLUGIN_ID_KEY) + ";singleton:=true", AttributeUpdatePolicy.KEEP);
-               changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VERSION, "1.0", AttributeUpdatePolicy.KEEP);
-               changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VENDOR, "TU Darmstadt", AttributeUpdatePolicy.KEEP);
-               changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_ACTIVATION_POLICY, "lazy", AttributeUpdatePolicy.KEEP);
-               changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_EXECUTION_ENVIRONMENT,
-                     metamodelProperties.get(MetamodelProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
-               return changed;
-            });
-         } catch (IOException e)
-         {
-            LogUtils.error(logger, e);
-         }
+         logger.debug("Adding MANIFEST.MF");
+         new ManifestFileUpdater().processManifest(project, manifest -> {
+            boolean changed = false;
+            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.MANIFEST_VERSION, "1.0", AttributeUpdatePolicy.KEEP);
+            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_MANIFEST_VERSION, "2", AttributeUpdatePolicy.KEEP);
+            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME, metamodelProperties.get(MetamodelProperties.NAME_KEY),
+                  AttributeUpdatePolicy.KEEP);
+            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_SYMBOLIC_NAME,
+                  metamodelProperties.get(MetamodelProperties.PLUGIN_ID_KEY) + ";singleton:=true", AttributeUpdatePolicy.KEEP);
+            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VERSION, "1.0", AttributeUpdatePolicy.KEEP);
+            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VENDOR, "TU Darmstadt", AttributeUpdatePolicy.KEEP);
+            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_ACTIVATION_POLICY, "lazy", AttributeUpdatePolicy.KEEP);
+            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_EXECUTION_ENVIRONMENT,
+                  metamodelProperties.get(MetamodelProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
+            return changed;
+         });
 
          // (5) Create build.properties file
          logger.debug("Adding build.properties");
@@ -137,7 +129,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
 
    private MoflonProjectConfigurator getProjectConfigurator(final MetamodelProperties metamodelProperties)
    {
-      switch(metamodelProperties.getType())
+      switch (metamodelProperties.getType())
       {
       case MetamodelProperties.INTEGRATION_KEY:
          return new IntegrationNature();
@@ -160,8 +152,8 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
          if (metamodelProperties.hasAttributeConstraints())
          {
             return SDMCodeGeneratorIds.DEMOCLES_ATTRIBUTES;
-         }
-         else {
+         } else
+         {
             return SDMCodeGeneratorIds.DEMOCLES;
          }
       }
@@ -196,9 +188,10 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
                   "/gen/*", //
                   "/model/*.ecore", "/model/*.genmodel", "/model/*.xmi", //
                   "# The file AttrCondDefLibrary.tgg is not meant to be edited", //
-                  "/**/AttrCondDefLibrary.tgg", 
-                  "!/**/.keep*"), subMon.split(1));
+                  "/**/AttrCondDefLibrary.tgg", "!/**/.keep*"),
+            subMon.split(1));
    }
+
    /**
     * Adds a default .gitignore file to the given metamodel project to prevent adding generated files to the repository
     * 
@@ -208,11 +201,12 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
    public static void addGitignoreFileForMetamodelProject(final IProject project, final IProgressMonitor monitor) throws CoreException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating .gitignore file for " + project, 1);
-      
+
       WorkspaceHelper.createGitignoreFileIfNotExists(project.getFile(WorkspaceHelper.GITIGNORE_FILENAME), //
             Arrays.asList(//
                   "/.temp", //
-                  "/*.ldb"), subMon.split(1));
+                  "/*.ldb"),
+            subMon.split(1));
    }
 
    /**

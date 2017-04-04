@@ -92,8 +92,8 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
                ErrorMessage errorMsg = createErrorMessage(opSpecGroup.eClass());
                errorMsg.setId(Errors.MALFORMED_ATTRIBUTE_CONSTRAINT.getLiteral()
                      + ": Malformed \"operationIdentifier\" for \"OperationSpecificationGroup\" located at index "
-                     + attributeConstraintLibrary.getOperationSpecifications().indexOf(opSpecGroup) + " in constraint library" + fileLoc
-                     + " (Only valid java like identifier allowed).");
+                     + attributeConstraintLibrary.getOperationSpecifications().indexOf(opSpecGroup) + " in constraint library '" + fileLoc
+                     + "' (Only valid java like identifier allowed).");
             }
          }
          for (ParamIdentifier pIdentifier : opSpecGroup.getParameterIDs())
@@ -149,7 +149,7 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
       {
          return;
       }
-      
+
       /*
        * Something went wrong with the constraint construction.
        * We do not want to add constraint stubs to the user-defined constraint libary in this case.
@@ -179,7 +179,7 @@ partial class AttributeConstraintBlackAndNacPatternTransformerImpl {
          AttributeConstraintVariable attributeConstraintVariable = var.getAttributeConstraintVariable();
          if (attributeConstraintVariable != null)
             errorMsgString.append(attributeConstraintVariable.getType().getName() + ",");
-         else 
+         else
             errorMsgString.append("?,");
       }
       errorMsgString.deleteCharAt(errorMsgString.length() - 1);

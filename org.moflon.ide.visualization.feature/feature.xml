@@ -2,7 +2,7 @@
 <feature
       id="org.moflon.ide.visualization.feature"
       label="eMoflon Visualization Feature (optional, requires PlantUML)"
-      version="2.26.0.qualifier"
+      version="2.29.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt"
       plugin="org.moflon.ide.ui">
 
@@ -86,18 +86,6 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.ide.visualization.dot.tgg.delta"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.moflon.ide.visualization.dot.ecore.epackageviz"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.moflon.ide.visualization.dot.ecore.eclassviz"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

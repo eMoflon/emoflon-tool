@@ -1,6 +1,6 @@
 @echo off
 
-call config.bat
+call include/config.bat
 
 "%keytool%" -genkey -alias "%alias%" ^
 			-keyalg RSA ^

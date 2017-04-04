@@ -2,9 +2,16 @@ package org.moflon.democles.reachability.javabdd;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.gervarro.democles.codegen.GeneratorOperation;
+import org.gervarro.democles.codegen.GeneratorVariable;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.common.OperationRuntime;
-import org.gervarro.democles.plan.WeightedOperation;
+import org.gervarro.democles.common.runtime.VariableRuntime;
+import org.gervarro.democles.compiler.CompilerPattern;
+import org.gervarro.democles.compiler.CompilerPatternBody;
+import org.gervarro.democles.specification.Constant;
+import org.moflon.core.utilities.LogUtils;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDDomain;
@@ -12,29 +19,26 @@ import net.sf.javabdd.BDDFactory;
 import net.sf.javabdd.BDDPairing;
 
 /**
- * This class implements a BDD-based reachability analysis, which serves for identifying reachable adornments of a pattern.
+ * This class implements a BDD-based reachability analysis, which serves for identifying reachable input adornments of a {@link CompilerPattern} invocation.
  * 
- * The algorithm is an adapted version of the algorithm described Sec. 3.5 of the paper "An algorithm for generating model-sensitive search plans for pattern matching on EMF models" {@link https://link.springer.com/article/10.1007%2Fs10270-013-0372-2}.
+ * The algorithm is an adapted version of the algorithm described Section 3.5 of the paper "An algorithm for generating model-sensitive search plans for pattern matching on EMF models" {@link https://link.springer.com/article/10.1007%2Fs10270-013-0372-2}.
  * 
  * The original algorithm was designed for two types of adornments ({@link Adornment#BOUND} and {@link Adornment#FREE}).
+ * See also {@link BDDReachabilityAnalyzer} for an implementation of this algorithm.
  * 
  * Short explanations:
- * - Each operation has a pre-condition and a post-condition adornment
+ * - Each operation has a precondition and a postcondition adornment
  * - Each pattern has a set of symbolic parameters. The size of the {@link Adornment} equals the number of symbolic parameters.
  * 
- * @param <U> the type of {@link WeightedOperation}s to analyze
- * @param <W> the weight type for U
- * 
- * @author Frederik Deckwerth
- * @author Erhan Leblebici
- * @author Roland Kluge
+ * @author Roland Kluge - Reimplementation of {@link LegacyBDDReachabilityAnalyzer} with support for {@link Adornment#NOT_TYPECHECKED} 
  */
-public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Comparable<W>> implements ReachabilityAnalyzer
+public class BDDReachabilityAnalyzer implements ReachabilityAnalyzer
 {
+   private static final Logger logger = Logger.getLogger(BDDReachabilityAnalyzer.class);
 
-   private final List<WeightedOperation<U, W>> operations;
+   private static final int HIGHEST_POSSIBLE_MAXIMUM_ADORNMENT_SIZE = 31;
 
-   private final Adornment inputAdornment;
+   private final int maximumAdornmentSize;
 
    private BDDFactory bddFactory;
 
@@ -42,142 +46,196 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
 
    private BDDPairing revPairing;
 
-   /*
-    * 1st level of size 2: Distinguishes between pre- and post-variables (v and v')
-    * 2nd level of size (O(|Adornment|): represents the list variables
-    * 3rd level of size 2: Stores the (currently) 2 bits/variables per adornment entry 
-    */
-   private BDD[][][] bdd;
+   private BDD[][] bdd;
 
    private BDDDomain domain1;
 
    private BDDDomain domain2;
 
-   boolean calculated = false;
-
-   private BDD reachableStates;
-
+   private BDD currentAdornmentBDD;
 
    /**
-    * Creates the BDD analyzer.
-    * 
-    * @param operations the available operations to build up a search plan for the pattern
-    * @param inputAdornment the adornment of the pattern to be analyzed
+    * Initializes this analyzer with the highest possible maximum adornment size
     */
-   public BDDReachabilityAnalyzer(List<WeightedOperation<U, W>> operations, Adornment inputAdornment)
+   public BDDReachabilityAnalyzer()
    {
-      this.operations = operations;
-      this.inputAdornment = inputAdornment;
+      this(HIGHEST_POSSIBLE_MAXIMUM_ADORNMENT_SIZE);
+   }
+
+   /**
+    * Initializes this analyzer to only analyze patterns with an adornment of at most the given adornment size
+    * 
+    * @param maximumAdornmentSize the maximum adornment size
+    */
+   public BDDReachabilityAnalyzer(final int maximumAdornmentSize)
+   {
+      this.maximumAdornmentSize = Math.min(maximumAdornmentSize, HIGHEST_POSSIBLE_MAXIMUM_ADORNMENT_SIZE);
    }
 
    @Override
-   public void analyzeReachability()
+   public boolean analyzeReachability(final CompilerPattern pattern, final Adornment adornment)
    {
-      final int cacheSize = 1000;
-      final int numberOfBitsPerVariable = 2;
-      final int variableCount = inputAdornment.size() * numberOfBitsPerVariable;
-      final int numberOfNodes = (int) Math.max((Math.pow(variableCount, 3)) * 20, cacheSize);
+      if (!hasOneBody(pattern))
+      {
+         LogUtils.debug(logger, //
+               "Pattern '%s' cannot be analyzed because it has multiple bodies. This is currently unsupported.", //
+               pattern.getName());
+         return true;
+      }
+
+      final int adornmentSize = pattern.getSymbolicParameters().size() + pattern.getBodies().get(0).getLocalVariables().size();
+      if (adornmentSize > this.maximumAdornmentSize)
+      {
+         LogUtils.debug(logger, //
+               "Adornment of pattern '%s' too large for reachability analysis. Maximum: '%d', actual: '%d'.", //
+               pattern.getName(), this.maximumAdornmentSize, adornmentSize);
+         return true;
+      }
+
+      final int cacheSize = 10000;
+      final int numberOfBddVariables = adornmentSize * 4;
+      final int numberOfNodes = (int) Math.max((Math.pow(2 * adornmentSize, 3)) * 20, cacheSize);
 
       bddFactory = BDDFactory.init("java", numberOfNodes, cacheSize);
-      bddFactory.setVarNum(variableCount * 2);
+      bddFactory.setVarNum(numberOfBddVariables);
       bddFactory.setCacheRatio(1);
       fwdPairing = bddFactory.makePair();
       revPairing = bddFactory.makePair();
-      domain1 = bddFactory.extDomain((long) Math.pow(2, variableCount));
-      domain2 = bddFactory.extDomain((long) Math.pow(2, variableCount));
-      bdd = new BDD[2][variableCount][2];
-      bddFactory.setVarOrder(getVarOrder(variableCount));
+      domain1 = bddFactory.extDomain((long) Math.pow(4, adornmentSize));
+      domain2 = bddFactory.extDomain((long) Math.pow(4, adornmentSize));
+      /*
+       * First dimension: i=0: pre-variables, i=1: post-variables
+       * Second dimension: Each parameter of the pattern is represented by two BDD variables, which reside next to each other
+       */
+      bdd = new BDD[2][2 * adornmentSize];
 
-      // Create a unique ID per variable
-      int uniqueID = 0;
+      // After the sorting, the pre- and post-variables of one pattern parameter reside next to each other: v_i1,v_i2,v'_i1,v'_i2
+      ReachabilityUtils.executeWithMutedStderrAndStdout(() -> bddFactory.setVarOrder(getVarOrder(adornmentSize)));
+
+      // i = 0: pre-variables
+      // i = 1: post-variables
       for (int i = 0; i < 2; i++)
       {
-         for (int j = 0; j < variableCount; j++)
+         for (int j = 0; j < 2 * adornmentSize; j += 2)
          {
-            for (int k = 0; k < 2; k++)
-            {
-               bdd[i][j][k] = bddFactory.ithVar(uniqueID++);
-            }
+            bdd[i][j] = bddFactory.ithVar(i * 2 * adornmentSize + j);
+            bdd[i][j + 1] = bddFactory.ithVar(i * 2 * adornmentSize + j + 1);
          }
       }
 
-      // Establishes a bidirectional mapping between pre- and post-variables (v and v')
-      for (int j = 0; j < variableCount; j++)
+      for (int j = 0; j < 2 * adornmentSize; ++j)
       {
-         fwdPairing.set(j, variableCount + j);
-         revPairing.set(variableCount + j, j);
+         fwdPairing.set(j, 2 * adornmentSize + j);
+         revPairing.set(2 * adornmentSize + j, j);
       }
 
-      BDD transitionRelation = calculateTransitionRelation(operations);
-      calculateReachableStates(transitionRelation);
+      initializeCurrentAdornmentBDD(adornment, pattern.getBodies().get(0));
+
+      final BDD transitionRelation = calculateTransitionRelation(pattern);
+      final boolean isReachable = checkReachability(transitionRelation);
       transitionRelation.free();
+      this.currentAdornmentBDD.free();
+
+      return isReachable;
    }
 
-   /**
-    * Returns whether the given adornment can in principle be fulfilled using the provided operations
-    */
-   public final boolean isReachable(Adornment adornment)
+   private boolean hasOneBody(final CompilerPattern pattern)
    {
-      if (reachableStates == null)
-         throw new IllegalStateException("Need to perform reachability analysis first");
-
-      return isReachable(adornment, reachableStates);
+      return pattern.getBodies().size() == 1;
    }
 
-   private BDD calculateTransitionRelation(List<WeightedOperation<U, W>> operations)
+   private void initializeCurrentAdornmentBDD(final Adornment adornment, final CompilerPatternBody body)
    {
-      // long time = System.currentTimeMillis();
-      BDD transitionRelation = bddFactory.zero();
-
-      for (WeightedOperation<U, W> operation : operations)
+      this.currentAdornmentBDD = bddFactory.one();
+      for (int i = 0; i < adornment.size(); ++i)
       {
-         if (operation != null && (operation.getOperation().getPrecondition().cardinality() != 0))
+         // Handle precondition
+         switch (adornment.get(i))
          {
-            BDD cube = bddFactory.one();
-            Adornment precondition = operation.getOperation().getPrecondition();
-            for (int i = 0; i < precondition.size(); i++)
+         case Adornment.FREE:
+            this.currentAdornmentBDD.andWith(bdd[0][2 * i].id());
+            this.currentAdornmentBDD.andWith(bdd[0][2 * i + 1].id());
+            break;
+         case Adornment.BOUND:
+            this.currentAdornmentBDD.andWith(bdd[0][2 * i].not());
+            this.currentAdornmentBDD.andWith(bdd[0][2 * i + 1].not());
+            break;
+         case Adornment.NOT_TYPECHECKED:
+            this.currentAdornmentBDD.andWith(bdd[0][2 * i].not());
+            this.currentAdornmentBDD.andWith(bdd[0][2 * i + 1].id());
+            break;
+         }
+      }
+      final int offset = adornment.size();
+      // Local variables are always free initially 
+      for (int i = offset; i < offset + body.getLocalVariables().size(); ++i)
+      {
+         this.currentAdornmentBDD.andWith(bdd[0][2 * i].id());
+         this.currentAdornmentBDD.andWith(bdd[0][2 * i + 1].id());
+      }
+   }
+
+   private BDD calculateTransitionRelation(final CompilerPattern pattern)
+   {
+      final CompilerPatternBody body = pattern.getBodies().get(0);
+      final List<GeneratorOperation> operations = ReachabilityUtils.extractOperations(body);
+      final BDD transitionRelation = bddFactory.zero(); // represents R_O
+
+      for (final OperationRuntime operation : operations)
+      {
+         final Adornment bodyPrecondition = calculatePreconditionAdornment(body, operation);
+         final Adornment bodyPostcondition = calculatePostconditionAdornment(body, operation);
+         if (!ReachabilityUtils.isCheckOperation(bodyPrecondition))
+         {
+            final BDD cube = bddFactory.one(); // Represents R_o
+            for (int param = 0; param < bodyPrecondition.size(); ++param)
             {
-
-               // Pre-variables
-               BDD vp_1 = bdd[0][i][0];
-               BDD vp_2 = bdd[0][i][1];
-
-               // Post-variable
-               BDD vp_1prime = bdd[1][i][0];
-               BDD vp_2prime = bdd[1][i][1];
-
-               // FREE corresponds to (True, True)
-               if (Adornment.FREE == precondition.get(i))
+               final int preconditionAdornment = bodyPrecondition.get(param);
+               switch (preconditionAdornment)
                {
-                  // Required to be free						
-                  cube.andWith(vp_1.id());
-                  cube.andWith(vp_2.id());
-                  cube.andWith(vp_1prime.not());
-                  cube.andWith(vp_2prime.not());
+               case Adornment.FREE:
+                  cube.andWith(bdd[0][2 * param].id());
+                  cube.andWith(bdd[0][2 * param + 1].id());
+                  break;
+               case Adornment.BOUND:
+                  cube.andWith(bdd[0][2 * param].not());
+                  cube.andWith(bdd[0][2 * param + 1].not());
+                  break;
+               case Adornment.NOT_TYPECHECKED:
+                  cube.andWith(bdd[0][2 * param].not());
+                  cube.andWith(bdd[0][2 * param + 1].id());
+                  break;
+               case ReachabilityUtils.ADORNMENT_UNDEFINED:
+                  cube.andWith(bdd[0][2 * param].biimp(bdd[1][2 * param]));
+                  cube.andWith(bdd[0][2 * param + 1].biimp(bdd[1][2 * param + 1]));
 
-               } else
-               // FREE corresponds to (False, False)
-               if (Adornment.BOUND == precondition.get(i))
+                  // Reduce transition relation by pruning the unused combinations v_i1=1,v_i2=0 and v'_i1=1,v'_i2=0
+                  BDD pruningTermForPrevariable = bddFactory.one();
+                  pruningTermForPrevariable.andWith(bdd[0][2 * param].id());
+                  pruningTermForPrevariable.andWith(bdd[0][2 * param + 1].not());
+                  cube.andWith(pruningTermForPrevariable.not());
+                  break;
+               }
+
+               final int postconditionAdornment = bodyPostcondition.get(param);
+               // Handle postcondition
+               switch (postconditionAdornment)
                {
-                  // Required to be bound
-                  cube.andWith(vp_1.not());
-                  cube.andWith(vp_2.not());
-                  cube.andWith(vp_1prime.not());
-                  cube.andWith(vp_2prime.not());
-               } else
-               // FREE corresponds to (False, True)
-               if (Adornment.NOT_TYPECHECKED == precondition.get(i))
-               {
-                  // Required to be not typechecked
-                  cube.andWith(vp_1.not());
-                  cube.andWith(vp_2.id());
-                  cube.andWith(vp_1prime.not());
-                  cube.andWith(vp_2prime.not());
-               } else
-               {
-                  // Wildcard/don't care -> just 'copy' the truth values
-                  cube.andWith(vp_1.biimp(vp_1prime));
-                  cube.andWith(vp_2.biimp(vp_2prime));
+               case Adornment.FREE:
+                  cube.andWith(bdd[1][2 * param].id());
+                  cube.andWith(bdd[1][2 * param + 1].id());
+                  break;
+               case Adornment.BOUND:
+                  cube.andWith(bdd[1][2 * param].not());
+                  cube.andWith(bdd[1][2 * param + 1].not());
+                  break;
+               case Adornment.NOT_TYPECHECKED:
+                  cube.andWith(bdd[1][2 * param].not());
+                  cube.andWith(bdd[1][2 * param + 1].id());
+                  break;
+               case ReachabilityUtils.ADORNMENT_UNDEFINED:
+                  // nop because previous switch-case has cared about this
+                  break;
                }
             }
             transitionRelation.orWith(cube);
@@ -186,55 +244,99 @@ public class BDDReachabilityAnalyzer<U extends OperationRuntime, W extends Compa
       return transitionRelation;
    }
 
-   private boolean isReachable(Adornment adornment, BDD r)
+   private Adornment calculatePreconditionAdornment(final CompilerPatternBody body, final OperationRuntime operation)
    {
-      //TODO@rkluge: Adjust to new variable mapping
-      if (adornment.get(r.var()) > Adornment.BOUND)
+      final Adornment adornment = createBodyAdornment(body);
+      for (int p = 0; p < operation.getPrecondition().size(); ++p)
       {
-         r = r.high();
-      } else
-      {
-         r = r.low();
+         final int adornmentEntry = operation.getPrecondition().get(p);
+         final VariableRuntime variable = operation.getParameters().get(p);
+         if (!isAConstant(variable))
+         {
+            final int indexInAdornment = operation.getParameters().get(p).getIndex();
+            adornment.set(indexInAdornment, adornmentEntry);
+         }
       }
-      if (r.equals(bddFactory.one()))
-      {
-         //System.out.println("State "+adornment.toString()+" is Reachable");
-         return true;
-      }
-      if (r.equals(bddFactory.zero()))
-      {
-         //System.out.println("State "+adornment.toString()+" is NOT Reachable");
-         return false;
-      }
-      return isReachable(adornment, r);
+      return adornment;
    }
 
-   public void calculateReachableStates(BDD transitionRelation)
+   private Adornment calculatePostconditionAdornment(CompilerPatternBody body, OperationRuntime operation)
    {
-      // long time = System.currentTimeMillis();
-      BDD old = domain1.ithVar(0);
+      final Adornment adornment = createBodyAdornment(body);
+      for (int p = 0; p < operation.getPostcondition().size(); ++p)
+      {
+         final int adornmentEntry = operation.getPostcondition().get(p);
+         final VariableRuntime variable = operation.getParameters().get(p);
+         if (!isAConstant(variable))
+         {
+            final int indexInAdornment = operation.getParameters().get(p).getIndex();
+            adornment.set(indexInAdornment, adornmentEntry);
+         }
+      }
+      return adornment;
+   }
+
+   private Adornment createBodyAdornment(final CompilerPatternBody body)
+   {
+      final int numberOfSymbolicParameters = body.getHeader().getSymbolicParameters().size();
+      final int numberOfVariables = numberOfSymbolicParameters + body.getLocalVariables().size();
+      final Adornment adornment = new Adornment(body.frameSize());
+
+      // Symbolic parameters depend on the input
+      for (int i = 0; i < numberOfVariables; i++)
+      {
+         adornment.set(i, ReachabilityUtils.ADORNMENT_UNDEFINED);
+      }
+      return adornment;
+   }
+
+   private boolean isReachable(final BDD transitionRelation)
+   {
+      // Create conjunction with transition relation
+      final BDD tmpAdornmentBdd = currentAdornmentBDD.id();
+      tmpAdornmentBdd.impWith(transitionRelation.id());
+
+      final boolean isReachable = tmpAdornmentBdd.equals(bddFactory.one());
+      tmpAdornmentBdd.free();
+
+      // Check whether transition relation AND adornment relation == TRUE
+      return isReachable;
+   }
+
+   private boolean checkReachability(final BDD transitionRelation)
+   {
+      boolean isReachable = false;
+      BDD old = domain1.ithVar(0); // Target adornment: everything is 0 -> BBB..B
       BDD nu = old;
       do
       {
          old = nu;
-         BDD z = (transitionRelation.and(old.replace(fwdPairing))).exist(bddFactory.makeSet(domain2.vars()));
+         final BDD z = (transitionRelation.and(old.replace(fwdPairing))).exist(bddFactory.makeSet(domain2.vars()));
          nu = old.or(z);
-      } while (!old.equals(nu));
-      reachableStates = nu;
-      // long outtime = (System.currentTimeMillis()-time);
-      //System.out.println("\nGenerate all Reachable States in: "+outtime+"ms Nodecount is:"+nu.nodeCount());
-      //System.out.println("Reachable States:");
-      //nu.printSet();
+         isReachable = isReachable || isReachable(nu);
+      } while (!isReachable && !old.equals(nu));
+      isReachable = isReachable || isReachable(nu);
+      nu.free();
+      old.free();
+      return isReachable;
    }
 
-   private int[] getVarOrder(int varNr)
+   private int[] getVarOrder(int adornmentSize)
    {
-      int[] varorder = new int[2 * varNr];
-      for (int j = 0; j < varNr; j++)
+
+      int[] varorder = new int[4 * adornmentSize];
+      for (int j = 0; j < adornmentSize; ++j)
       {
-         varorder[2 * j] = j;
-         varorder[2 * j + 1] = varNr + j;
+         varorder[4 * j] = 2 * j; // pre-variable 1
+         varorder[4 * j + 1] = 2 * j + 1; // pre-variable 2
+         varorder[4 * j + 2] = 2 * adornmentSize + 2 * j; //post-variable 1
+         varorder[4 * j + 3] = 2 * adornmentSize + 2 * j + 1; // post-variable 2
       }
       return varorder;
+   }
+
+   private static boolean isAConstant(VariableRuntime variable)
+   {
+      return GeneratorVariable.class.cast(variable).getSpecification() instanceof Constant;
    }
 }

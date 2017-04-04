@@ -1,15 +1,15 @@
 package org.moflon.ide.core.runtime.builders;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -23,15 +23,14 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
+import org.gervarro.eclipse.workspace.util.ResourceVisitor;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.utilities.ErrorReporter;
+import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
-import org.moflon.gt.mosl.codeadapter.MOSLGTUtil;
-import org.moflon.gt.mosl.codeadapter.MOSLGTUtil.MGTCallbackGetter;
-import org.moflon.ide.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
@@ -57,9 +56,9 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    /**
     * Specification of files whose changes will trigger the invocation of this builder
     */
-   private static final String[] PROJECT_INTERNAL_TRIGGERS = new String[] { "src/**/*." + WorkspaceHelper.MOSL_GT_EXTENSION, "model/*.ecore" };
+   private static final String[] PROJECT_INTERNAL_TRIGGERS = { "src/*." + WorkspaceHelper.MOSL_GT_EXTENSION, "src/**/*." + WorkspaceHelper.MOSL_GT_EXTENSION, "model/*.ecore" };
 
-   private static final String[] PROJECT_EXTERNAL_TRIGGERS = new String[] { "gen/**" };
+   private static final String[] PROJECT_EXTERNAL_TRIGGERS = { "gen/**" };
 
    private XtextResourceSet resourceSet;
 
@@ -128,21 +127,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       initializeResourceSet();
 
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
-      codeGenerationTask.setValidationTimeout(EMoflonPreferencesStorage.getInstance().getValidationTimeout());
-      // collectMOSLGTFiles();
-
-      MOSLGTUtil.getInstance().setMGTGetter(new MGTCallbackGetter() {
-
-         @Override
-         public Collection<IFile> getMOSLGTFiles() throws CoreException
-         {
-            return collectMOSLGTFiles();
-         }
-      });
-
       final IStatus status = codeGenerationTask.run(subMon.split(7));
-
-      // loadMGTFiles(monitor);
       handleErrorsAndWarnings(status);
       subMon.worked(2);
 
@@ -157,33 +142,6 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       // eMoflonEMFUtil.initializeDefault(this.resourceSet);
       this.resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
       eMoflonEMFUtil.installCrossReferencers(this.resourceSet);
-   }
-
-   private Collection<IFile> collectMOSLGTFiles() throws CoreException
-   {
-      final Collection<IFile> moslGTFiles = new ArrayList<>();
-      getProject().accept(new IResourceVisitor() {
-
-         @Override
-         public boolean visit(IResource resource) throws CoreException
-         {
-            if (isMOSLGTFile(resource))
-               moslGTFiles.add(IFile.class.cast(resource));
-            return true;
-         }
-
-         private boolean isMOSLGTFile(IResource resource)
-         {
-            return resource != null && resource.exists() && resource instanceof IFile
-                  && Arrays.asList(resource.getFullPath().segments()).stream().anyMatch(s -> "src".equals(s))
-                  && resource.getName().endsWith("." + WorkspaceHelper.MOSL_GT_EXTENSION);
-         }
-      });
-
-      // moslGTFiles.stream().forEach(mgtFile ->
-      // {resourceSet.createResource(URI.createFileURI(mgtFile.getLocation().toString()));});
-
-      return moslGTFiles;
    }
 
    private IProject updateProjectStructure(final IProgressMonitor monitor) throws CoreException
@@ -291,16 +249,50 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
 
    public void handleErrorsInEclipse(final IStatus status)
    {
-      final IFile ecoreFile = WorkspaceHelper.getDefaultEcoreFile(getProject());
-      final String reporterClass = "org.moflon.compiler.sdm.democles.eclipse.EclipseErrorReporter";
-      final ErrorReporter eclipseErrorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(ecoreFile, reporterClass);
-      if (eclipseErrorReporter != null)
+      try
       {
-         eclipseErrorReporter.report(status);
-      } else
+         final IFile ecoreFile = findAppropriateEcoreFile(getProject());
+         if (ecoreFile == null)
+            LogUtils.error(logger, "Project '%s' does not conatin any Ecore files!", getProject());
+         final String reporterClass = "org.moflon.compiler.sdm.democles.eclipse.EclipseErrorReporter";
+         final ErrorReporter eclipseErrorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(ecoreFile, reporterClass);
+         if (eclipseErrorReporter != null)
+         {
+            eclipseErrorReporter.report(status);
+         } else
+         {
+            logger.debug("Could not load error reporter '" + reporterClass + "'");
+         }
+      } catch (CoreException e)
       {
-         logger.debug("Could not load error reporter '" + reporterClass + "'");
+         logger.error("Problem while reporting errors in Eclipse " + e.getMessage());
       }
+   }
+
+   private IFile findAppropriateEcoreFile(IProject project) throws CoreException
+   {
+      final IFile defaultEcoreFile = WorkspaceHelper.getDefaultEcoreFile(getProject());
+      if (defaultEcoreFile.exists())
+         return defaultEcoreFile;
+      final List<IFile> ecoreFiles = new ArrayList<>();
+      project.accept(new ResourceVisitor() {
+
+         @Override
+         public boolean visit(IResource resource) throws CoreException
+         {
+            if (resource.getAdapter(IFolder.class) != null && !resource.getName().equals("model"))
+               return false;
+
+            final IFile file = resource.getAdapter(IFile.class);
+            if (file != null && file.getFileExtension().equals("ecore"))
+               ecoreFiles.add(file);
+            return true;
+         }
+      });
+      if (!ecoreFiles.isEmpty())
+         return ecoreFiles.get(0);
+      else
+         return null;
    }
 
 }

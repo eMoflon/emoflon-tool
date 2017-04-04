@@ -39,9 +39,8 @@ public class GenericMonitoredResourceLoader implements ITask
    @Override
    public final IStatus run(final IProgressMonitor monitor)
    {
-      final SubMonitor subMon = SubMonitor.convert(monitor, TASK_NAME + " task", 20);
       final IProject project = file.getProject();
-      subMon.subTask("Loading metamodel for project " + project.getName());
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Loading metamodel for project " + project.getName(), 20);
 
       // Preprocess resource set
       final IStatus preprocessingStatus = preprocessResourceSet(subMon.split(5));

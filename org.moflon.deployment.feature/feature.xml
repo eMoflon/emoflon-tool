@@ -2,7 +2,7 @@
 <feature
       id="org.moflon.ide.feature"
       label="eMoflon Core (required)"
-      version="2.26.0.qualifier"
+      version="2.29.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt"
       plugin="org.moflon.ide.ui">
 
@@ -33,7 +33,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
    </license>
 
    <url>
-      <update label="eMoflon at GitHub" url="https://emoflon.github.io/eclipse-plugin/beta/update-site2"/>
+      <update label="eMoflon at GitHub" url="https://emoflon.github.io/eclipse-plugin/beta/updatesite"/>
    </url>
 
    <requires>
@@ -140,13 +140,15 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          id="org.moflon.sdm.democles.patternmatcher"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.moflon.sdm.compiler.eclipse"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.moflon.deployment.pdefragment"
@@ -272,7 +274,8 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          id="org.moflon.sdm.compiler.democles.pattern"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.moflon.sdm.compiler.democles.validation.controlflow"
@@ -390,7 +393,8 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
          id="org.stringtemplate"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.moflon.core.propertycontainer"
@@ -415,6 +419,83 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.sdm.democles.reachability.javabdd"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.codegen.emf.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.codegen.stringtemplate.emf.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.codegen.stringtemplate.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.common.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.compiler.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.emf.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.plan.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.specification.emf.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.eclipse.task.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.eclipse.workspace.autosetup.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.eclipse.workspace.util.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
