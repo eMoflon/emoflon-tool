@@ -131,15 +131,6 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
       // collectMOSLGTFiles();
      
-      MOSLGTUtil.getInstance().setMGTGetter(new MGTCallbackGetter() {
-
-         @Override
-         public Collection<IFile> getMOSLGTFiles() throws CoreException
-         {
-            return collectMOSLGTFiles();
-         }
-      });
-
       final IStatus status = codeGenerationTask.run(subMon.split(7));
 
       // loadMGTFiles(monitor);
