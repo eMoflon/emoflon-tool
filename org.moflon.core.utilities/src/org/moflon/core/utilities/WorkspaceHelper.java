@@ -46,6 +46,20 @@ public class WorkspaceHelper
 
    public final static String PATH_SEPARATOR = "/";
 
+
+   /**
+    * To avoid problems with line endings in version controls systems, all resources serialized by eMoflon should have consistent line endings.
+    * 
+    * The following code snippet shows how to use this option:
+    * <pre>
+    * Resource resource = ...;
+    * HashMap<String, String> saveOptions = new HashMap<String, String>();
+    * saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_DELIMITER_FOR_RESOURCE_SERIALIZATION);
+    * resource.save(saveOptions);
+    * </pre>
+    */
+   public static final String DEFAULT_RESOURCE_LINE_DELIMITER = "\n";
+   
    /**
     * Constants for project structure
     */

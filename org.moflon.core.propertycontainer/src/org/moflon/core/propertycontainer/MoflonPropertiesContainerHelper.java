@@ -171,7 +171,7 @@ public class MoflonPropertiesContainerHelper
             resource.getContents().add(normalize(properties));
             
             final HashMap<String, String> saveOptions = new HashMap<String, String>();
-            saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_DELIMITER_FOR_RESOURCE_SERIALIZATION);
+            saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
             resource.save(saveOptions);
             
             projectFile.refreshLocal(IResource.DEPTH_ZERO, subMon.split(1));

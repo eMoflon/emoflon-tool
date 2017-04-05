@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.moflon.core.utilities.LogUtils;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.genmodel.GeneratorAdapterFactory;
 
 import SDMLanguage.impl.SDMLanguagePackageImpl;
@@ -185,6 +186,7 @@ public class StandardCodeGenerationTest
       // (4) Save GenModel file
       Map<Object, Object> genModelSaveOptions = new HashMap<Object, Object>();
       genModelSaveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+      genModelSaveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
       try
       {
          genModelResource.save(genModelSaveOptions);

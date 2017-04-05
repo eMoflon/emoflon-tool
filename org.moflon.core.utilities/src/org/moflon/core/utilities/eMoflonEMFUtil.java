@@ -483,6 +483,7 @@ public class eMoflonEMFUtil
 
       Map<Object, Object> saveOptions = new HashMap<Object, Object>();
       saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+      saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
 
       if (fileURI.equals(resource.getURI()))
       {
