@@ -124,7 +124,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Generate code", 10);
       subMon.worked(1);
-      initializeResourceSet();
+      this.resourceSet = initializeResourceSet();
 
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
       final IStatus status = codeGenerationTask.run(subMon.split(7));
@@ -134,14 +134,15 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
       postprocessAfterCodeGeneration(codeGenerationTask.getGenModel(), subMon.split(1));
    }
 
-   private void initializeResourceSet()
+   public static XtextResourceSet initializeResourceSet()
    {
       // See also: https://wiki.eclipse.org/Xtext/FAQ#How_do_I_load_my_model_in_a_standalone_Java_application.C2.A0.3F
       Injector injector = new MOSLGTStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
-      this.resourceSet = injector.getInstance(XtextResourceSet.class);
+      final XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
       // eMoflonEMFUtil.initializeDefault(this.resourceSet);
-      this.resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-      eMoflonEMFUtil.installCrossReferencers(this.resourceSet);
+      resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
+      eMoflonEMFUtil.installCrossReferencers(resourceSet);
+      return resourceSet;
    }
 
    private IProject updateProjectStructure(final IProgressMonitor monitor) throws CoreException
