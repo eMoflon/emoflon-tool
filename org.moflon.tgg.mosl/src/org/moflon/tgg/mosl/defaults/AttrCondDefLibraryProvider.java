@@ -28,31 +28,12 @@ public class AttrCondDefLibraryProvider {
 
 	public static void syncAttrCondDefLibrary(IProject project) throws CoreException {
 
-		if(containsAttrCondDefLibrary(project))
-			return;
-		
-		final String defaultLib = DefaultFilesHelper.generateDefaultAttrCondDefLibrary();
-		final String projectName = project.getProject().getName().replace('.', '/');
-		final IPath pathToLib = new Path(src + projectName + moslPath + fileName);
-		try {
+		if(!containsAttrCondDefLibrary(project)){
+			final String defaultLib = DefaultFilesHelper.generateDefaultAttrCondDefLibrary();
+			final String projectName = project.getProject().getName().replace('.', '/');
+			final IPath pathToLib = new Path(src + projectName + moslPath + fileName);
 
-			IFile attrLibFile = project.getFile(pathToLib);
-			if (attrLibFile.exists()) {
-				File file = new File(attrLibFile.getLocation().toString());
-				String contents;
-
-				contents = FileUtils.readFileToString(file);
-
-				if (!contents.equals(defaultLib)) {
-					addAllFoldersAndFile(project, pathToLib, defaultLib, new NullProgressMonitor());
-				}
-			} else {
-				addAllFoldersAndFile(project, pathToLib, defaultLib, new NullProgressMonitor());
-			}
-		} catch (IOException e) {
-			throw new CoreException(
-					new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(AttrCondDefLibraryProvider.class),
-							"Problem why loading '" + pathToLib + "'. Reason: " + e.getMessage(), e));
+		    addAllFoldersAndFile(project, pathToLib, defaultLib, new NullProgressMonitor());
 		}
 	}
 
