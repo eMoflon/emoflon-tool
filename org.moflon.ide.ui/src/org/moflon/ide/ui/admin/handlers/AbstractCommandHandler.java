@@ -93,7 +93,7 @@ public abstract class AbstractCommandHandler extends org.eclipse.core.commands.A
       marker.delete();
    }
 
-   static Collection<IProject> getProjectsFromSelection(final IStructuredSelection selection)
+   protected static Collection<IProject> getProjectsFromSelection(final IStructuredSelection selection)
    {
       final List<IProject> projects = new ArrayList<>();
       if (selection instanceof StructuredSelection)

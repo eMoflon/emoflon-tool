@@ -2,8 +2,9 @@ package org.moflon.gt.ide;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -126,7 +127,9 @@ public class MOSLGTWeavingTask implements ITask
                Resource enrichedEcoreResource = this.resourceSet.createResource(enrichedEcoreURI);
                enrichedEcoreResource.getContents().clear();
                enrichedEcoreResource.getContents().add(enrichedEPackage);
-               enrichedEcoreResource.save(Collections.EMPTY_MAP);
+               final Map<String, String> saveOptions = new HashMap<>();
+               saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
+               enrichedEcoreResource.save(saveOptions);
             }
 
          }

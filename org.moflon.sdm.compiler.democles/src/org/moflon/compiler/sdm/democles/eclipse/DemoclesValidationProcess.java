@@ -41,7 +41,7 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
    {
       try
       {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Code generation task", 15);
+         final SubMonitor subMon = SubMonitor.convert(monitor, "Validation task", 15);
          final Resource resource = getEcoreResource();
          final EPackage ePackage = (EPackage) resource.getContents().get(0);
 

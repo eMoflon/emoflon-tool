@@ -46,6 +46,20 @@ public class WorkspaceHelper
 
    public final static String PATH_SEPARATOR = "/";
 
+
+   /**
+    * To avoid problems with line endings in version controls systems, all resources serialized by eMoflon should have consistent line endings.
+    * 
+    * The following code snippet shows how to use this option:
+    * <pre>
+    * Resource resource = ...;
+    * HashMap<String, String> saveOptions = new HashMap<String, String>();
+    * saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_DELIMITER_FOR_RESOURCE_SERIALIZATION);
+    * resource.save(saveOptions);
+    * </pre>
+    */
+   public static final String DEFAULT_RESOURCE_LINE_DELIMITER = "\n";
+   
    /**
     * Constants for project structure
     */
@@ -101,6 +115,10 @@ public class WorkspaceHelper
 
    public static final String REPOSITORY_NATURE_ID = "org.moflon.ide.core.runtime.natures.RepositoryNature";
 
+   public static final String REPOSITORY_BUILDER_ID = "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
+
+   public static final String METAMODEL_BUILDER_ID = "org.moflon.ide.core.runtime.builders.MetamodelBuilder";
+
    public final static String TEMP_FOLDER = ".temp";
 
    public static final String MOCA_XMI_FILE_EXTENSION = ".moca.xmi";
@@ -122,10 +140,6 @@ public class WorkspaceHelper
    public static final String MOSL_TGG_NATURE = "org.moflon.tgg.mosl.codeadapter.moslTGGNature";
 
    public static final String INTEGRATION_NATURE_ID = "org.moflon.ide.core.runtime.natures.IntegrationNature";
-
-   public static final String REPOSITORY_BUILDER_ID = "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
-
-   public static final String METAMODEL_BUILDER_ID = "org.moflon.ide.core.runtime.builders.MetamodelBuilder";
 
    public static final String INTEGRATION_BUILDER_ID = "org.moflon.ide.core.runtime.builders.IntegrationBuilder";
 

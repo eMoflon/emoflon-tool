@@ -1,7 +1,6 @@
 package org.moflon.codegen.eclipse;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,14 +126,15 @@ public final class MonitoredGenModelBuilder implements ITask
          try
          {
             Resource genModelResource = genModel.eResource();
+            Map<String, Object> saveOptions = new HashMap<String, Object>();
+            saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
             if (isNewGenModelConstructed)
             {
                // Save to file (with no options)
-               genModelResource.save(Collections.EMPTY_MAP);
+               genModelResource.save(saveOptions);
             } else
             {
                // Save to file (if modified)
-               Map<String, Object> saveOptions = new HashMap<String, Object>();
                saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
                genModelResource.save(saveOptions);
             }

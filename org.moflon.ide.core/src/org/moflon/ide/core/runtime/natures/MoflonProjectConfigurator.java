@@ -8,6 +8,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.gervarro.eclipse.workspace.autosetup.WorkspaceAutoSetupModule;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
 
+/**
+ * 
+ * @author Gergely Varró - Initial implementation
+ * @author Roland Kluge - Documentation
+ */
 public abstract class MoflonProjectConfigurator extends ProjectConfiguratorNature {
 	private final String natureID;
 	private final String builderID;
@@ -17,10 +22,25 @@ public abstract class MoflonProjectConfigurator extends ProjectConfiguratorNatur
 		this.builderID = getBuilderId();
 	}
 
-	abstract protected String getBuilderId();
+	/**
+	 * Returns the builder ID that corresponds to the type of project managed by the particular subclass 
+	 * @return the builder ID
+	 */
+	protected abstract String getBuilderId();
 
-   abstract protected String getNatureId();
+   /**
+    * Returns the nature ID that corresponds to the type of project managed by the particular subclass 
+    * @return the nature ID
+    */
+   protected abstract String getNatureId();
 
+   /**
+    * Updates the given list of nature IDs to contain this configurator's nature ID
+    * 
+    * @param natureIDs the list of nature IDs to manipulate
+    * @param added true if the nature ID shall be added, false if it shall be removed 
+    * @see #getNatureId()
+    */
 	@Override
 	public String[] updateNatureIDs(String[] natureIDs, final boolean added) throws CoreException {
 		if (added) {
@@ -43,6 +63,14 @@ public abstract class MoflonProjectConfigurator extends ProjectConfiguratorNatur
 		return natureIDs;
 	}
 
+   /**
+    * Updates the given build specification to contain this configurator's builder ID
+    * 
+    * @param description the description of the project to manipulate
+    * @param buildSpecs the build specification to manipulate
+    * @param added true if the builder ID shall be added, false if it shall be removed 
+    * @see #getBuilderId()()
+    */
 	@Override
 	public ICommand[] updateBuildSpecs(final IProjectDescription description, ICommand[] buildSpecs, final boolean added) throws CoreException {
 		if (added) {
