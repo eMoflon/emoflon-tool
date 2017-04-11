@@ -41,8 +41,6 @@ public class PatternBuilder
 
    private Map<String, List<Consumer<Variable>>> unfinishedLinkVariables;
 
-
-
    private final PatternKind[] searchOrder = { PatternKind.BLACK, PatternKind.GREEN, PatternKind.RED };
 
    private Map<String, Map<PatternKind, List<PatternObject>>> transformPlan;
@@ -92,7 +90,7 @@ public class PatternBuilder
       String patternName = patternDef.getName();
       List<PatternInvocation> invocations = patternInvocationCache.get(patternName);
       invocations = new ArrayList<>();
-      
+
       createTransformPlan(patternName, patternDef, bindings, env);
       Map<PatternKind, List<PatternObject>> patternPlan = transformPlan.get(patternName);
 
@@ -103,17 +101,16 @@ public class PatternBuilder
          PatternBody patternBody = SpecificationFactory.eINSTANCE.createPatternBody();
          patternBody.setHeader(pattern);
 
-        
-
          List<LinkVariablePattern> lvIndex = patternObjectIndex.stream().filter(po -> po instanceof LinkVariablePattern).map(po -> {
             return LinkVariablePattern.class.cast(po);
          }).collect(Collectors.toList());
 
          PatternInvocation invocation = createPatternInvocation(patternName, pattern);
          invocations.add(invocation);
-         for (ObjectVariableDefinition ov : patternObjectIndex.stream().filter(po -> po instanceof ObjectVariableDefinition).map(po -> {
+         List<ObjectVariableDefinition> ovLst = patternObjectIndex.stream().filter(po -> po instanceof ObjectVariableDefinition).map(po -> {
             return ObjectVariableDefinition.class.cast(po);
-         }).collect(Collectors.toList()))
+         }).collect(Collectors.toList());
+         for (ObjectVariableDefinition ov : ovLst)
          {
 
             EMFVariable patternVariable = EMFTypeFactory.eINSTANCE.createEMFVariable();
@@ -129,13 +126,15 @@ public class PatternBuilder
             // ObjectVariableBuilder.getInstance().transformObjectVariable(PatternUtil.getCorrespondingOV(pp,
             // patternDef), patternVariable, bindings,
             // patternBody);
-            VariableTransformator.getInstance().transformPatternObjects(lvIndex, ov, patternVariable, bindings, patternBody);
+
             VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
             vr.setInvocation(invocation);
             vr.setFrom(cfVar);
             vr.setTo(patternVariable);
 
          }
+         
+         VariableTransformator.getInstance().transformPatternObjects(lvIndex, bindings, patternBody, patternKind);
 
          pattern.setName(patternNameGenerator.apply(patternKind.getSuffix()));
 
@@ -162,9 +161,12 @@ public class PatternBuilder
    {
       List<Consumer<Variable>> toFinishLst = unfinishedLinkVariables.get(var.getName());
       if (toFinishLst != null)
+      {
          toFinishLst.stream().forEach(finisher -> {
             finisher.accept(var);
          });
+      }
+      unfinishedLinkVariables.remove(var.getName());
    }
 
    public void addUnfinishedLinkVaraible(String targetName, Consumer<Variable> lvFinisher)

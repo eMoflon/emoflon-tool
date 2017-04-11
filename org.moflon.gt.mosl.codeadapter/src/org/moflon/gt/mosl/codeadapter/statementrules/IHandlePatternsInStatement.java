@@ -39,14 +39,14 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
          throw new PatternParameterSizeIsNotMatching();
 
       // Binding Handling
-      for (int index = 0; index < size; index++)
+      for (ObjectVariableDefinition ovRef : patternDef.getObjectVariables())
       {
 
-         ObjectVariableDefinition ovRef = cpps.get(index).getDefiningOV();
-         if (ovRef == null)
-         {
-            ovRef = cpps.get(index).getExistingOV();
-         }
+//         ObjectVariableDefinition ovRef = cpps.get(index).getDefiningOV();
+//         if (ovRef == null)
+//         {
+//            ovRef = cpps.get(index).getExistingOV();
+//         }
 
          CFVariable cfVar = getOrCreateVariable(scope, ovRef.getName(), ovRef.getType());
          Action constructor = cfVar.getConstructor();
