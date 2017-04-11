@@ -7,11 +7,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import org.gervarro.democles.specification.emf.Pattern;
-import org.gervarro.democles.specification.emf.Variable;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.codeadapter.PatternBuilder;
-import org.moflon.gt.mosl.exceptions.NoMatchingVariableFound;
 import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
@@ -41,12 +38,6 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
       // Binding Handling
       for (ObjectVariableDefinition ovRef : patternDef.getObjectVariables())
       {
-
-//         ObjectVariableDefinition ovRef = cpps.get(index).getDefiningOV();
-//         if (ovRef == null)
-//         {
-//            ovRef = cpps.get(index).getExistingOV();
-//         }
 
          CFVariable cfVar = getOrCreateVariable(scope, ovRef.getName(), ovRef.getType());
          Action constructor = cfVar.getConstructor();
@@ -83,17 +74,9 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
          cfNode.setMainAction(invocation);
          invocation.setCfNode(cfNode);
 
-         Pattern pattern = invocation.getPattern();
-//         if (size != pattern.getSymbolicParameters().size())
-//            throw new PatternParameterSizeIsNotMatching();
-
          for (int index = 0; index < size; index++)
          {
             setConstructors.get(index).accept(invocation);
-            ObjectVariableDefinition patternParOV = patternParameters.get(index).getOv();
-            Variable var = pattern.getSymbolicParameters().get(index);
-//            if (var.getName().compareTo(patternParOV.getName()) != 0)
-//               throw new NoMatchingVariableFound();
          }
       }
    }
