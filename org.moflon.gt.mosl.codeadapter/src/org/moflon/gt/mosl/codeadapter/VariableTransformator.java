@@ -51,7 +51,7 @@ public class VariableTransformator
    {
       ConstraintParameter target = SpecificationFactory.eINSTANCE.createConstraintParameter();
       reference.getParameters().add(target);
-      String targetName = linkVariable.getTarget().getName();
+      String targetName = PatternUtil.getSaveName(linkVariable.getTarget().getName());
       target.setReference(this.getVariableMonad(targetName).get());
    }
    
@@ -72,7 +72,7 @@ public class VariableTransformator
 
       ConstraintParameter source = SpecificationFactory.eINSTANCE.createConstraintParameter();
       reference.getParameters().add(source);
-      source.setReference(this.getVariableMonad(ov.getName()).get());
+      source.setReference(this.getVariableMonad(PatternUtil.getSaveName(ov.getName())).get());
 
       this.handleTarget(reference, linkVariable);
 
