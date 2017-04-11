@@ -14,6 +14,7 @@ import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypeFactory
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.Reference;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
+import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.sdm.runtime.democles.CFVariable;
@@ -81,10 +82,10 @@ public class VariableTransformator
       EMFVariable patternVariable = EMFTypeFactory.eINSTANCE.createEMFVariable();
       pattern.getSymbolicParameters().add(patternVariable);
 
-      patternVariable.setName(ov.getName());
+      patternVariable.setName(PatternUtil.getSaveName(ov.getName()));
       patternVariable.setEClassifier(ov.getType());
 
-      CFVariable cfVar = env.get(ov.getName());
+      CFVariable cfVar = env.get(PatternUtil.getSaveName(ov.getName()));
 
       VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
       vr.setInvocation(invocation);

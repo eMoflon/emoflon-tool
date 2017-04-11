@@ -15,4 +15,10 @@ public class PatternUtil
       else
          return pp.getOv();
    }
+   
+   public static String getSaveName(String name){
+      if("this".compareTo(name)==0)
+         return "_this";
+      else return name;
+   }
 }
