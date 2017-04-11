@@ -113,7 +113,10 @@ public class PluginXmlUpdater extends WorkspaceTask
 
          String output = XMLUtils.formatXmlString(doc, subMon.split(1));
 
-         MoflonUtil.writeContentToFile(output, getPluginXml(project), subMon.split(1));
+         if (!output.equals(content))
+         {
+            MoflonUtil.writeContentToFile(output, getPluginXml(project), subMon.split(1));
+         }
 
       } catch (IOException | XPathExpressionException e)
       {

@@ -11,7 +11,6 @@
 package org.gervarro.emoflon;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +32,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.moflon.codegen.GenModelBuilder;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 
 import SDMLanguage.activities.Activity;
@@ -177,7 +177,9 @@ public class EMoflonCodeGenerationApp extends GenModelBuilder
       if (saveGenModel && genModel.validate().isOK())
       {
          // Save to file (with no options)
-         genModelResource.save(Collections.EMPTY_MAP);
+         final Map<String, String> saveOptions = new HashMap<>();
+         saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
+         genModelResource.save(saveOptions);
       }
       return genModel;
    }
