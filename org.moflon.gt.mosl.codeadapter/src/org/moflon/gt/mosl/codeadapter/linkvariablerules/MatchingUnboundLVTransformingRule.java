@@ -14,7 +14,7 @@ public class MatchingUnboundLVTransformingRule extends LVTransformerRule
    @Override
    protected boolean isTransformable(LinkVariablePattern linkVariable)
    {
-      return isCheckOnly(linkVariable.getOp());
+      return true;
    }
 
    @Override

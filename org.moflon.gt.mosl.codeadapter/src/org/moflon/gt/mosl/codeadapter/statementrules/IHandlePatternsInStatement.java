@@ -39,14 +39,14 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
          throw new PatternParameterSizeIsNotMatching();
 
       // Binding Handling
-      for (int index = 0; index < size; index++)
+      for (ObjectVariableDefinition ovRef : patternDef.getObjectVariables())
       {
 
-         ObjectVariableDefinition ovRef = cpps.get(index).getDefiningOV();
-         if (ovRef == null)
-         {
-            ovRef = cpps.get(index).getExistingOV();
-         }
+//         ObjectVariableDefinition ovRef = cpps.get(index).getDefiningOV();
+//         if (ovRef == null)
+//         {
+//            ovRef = cpps.get(index).getExistingOV();
+//         }
 
          CFVariable cfVar = getOrCreateVariable(scope, ovRef.getName(), ovRef.getType());
          Action constructor = cfVar.getConstructor();
@@ -71,26 +71,30 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
       };
       PatternBuilder.getInstance().createPattern(patternDef, bindings, env, nameGenerator);
 
-      PatternInvocation invocation = PatternBuilder.getInstance().getPatternInvocation(patternName);
-      int actionSize = cfNode.getActions().size();
-      if (actionSize > 0)
+      List<PatternInvocation> invocations = PatternBuilder.getInstance().getPatternInvocation(patternName);
+      for (int piIndex = invocations.size() - 1; piIndex >= 0; piIndex--)
       {
-         cfNode.getActions().get(actionSize - 1).setNext(invocation);
-      }
-      cfNode.setMainAction(invocation);
-      invocation.setCfNode(cfNode);
+         PatternInvocation invocation = invocations.get(piIndex);
+         int actionSize = cfNode.getActions().size();
+         if (actionSize > 0)
+         {
+            cfNode.getActions().get(actionSize - 1).setNext(invocation);
+         }
+         cfNode.setMainAction(invocation);
+         invocation.setCfNode(cfNode);
 
-      Pattern pattern = invocation.getPattern();
-      if (size != pattern.getSymbolicParameters().size())
-         throw new PatternParameterSizeIsNotMatching();
+         Pattern pattern = invocation.getPattern();
+//         if (size != pattern.getSymbolicParameters().size())
+//            throw new PatternParameterSizeIsNotMatching();
 
-      for (int index = 0; index < size; index++)
-      {
-         setConstructors.get(index).accept(invocation);
-         ObjectVariableDefinition patternParOV = patternParameters.get(index).getOv();
-         Variable var = pattern.getSymbolicParameters().get(index);
-         if (var.getName().compareTo(patternParOV.getName()) != 0)
-            throw new NoMatchingVariableFound();
+         for (int index = 0; index < size; index++)
+         {
+            setConstructors.get(index).accept(invocation);
+            ObjectVariableDefinition patternParOV = patternParameters.get(index).getOv();
+            Variable var = pattern.getSymbolicParameters().get(index);
+//            if (var.getName().compareTo(patternParOV.getName()) != 0)
+//               throw new NoMatchingVariableFound();
+         }
       }
    }
 
