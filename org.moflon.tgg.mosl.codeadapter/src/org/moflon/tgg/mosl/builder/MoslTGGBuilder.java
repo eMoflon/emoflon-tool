@@ -35,6 +35,8 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder
    public static final Logger logger = Logger.getLogger(MoslTGGBuilder.class);
 
    public static final String BUILDER_ID = "org.moflon.tgg.mosl.codeadapter.mosltggbuilder";
+   
+   private final String srcFolder = "src";  
 
    /**
     * Specification of files whose changes will trigger in invocation of this builder
@@ -74,8 +76,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder
 
       if (getCommand().isBuilding(kind))
       {
-         String projectName = getProject().getName().replaceAll(Pattern.quote("."), "/");
-         final IFolder moslFolder = getProject().getFolder(new Path("src/" + projectName + "/org/moflon/tgg/mosl"));
+         final IFolder moslFolder = getProject().getFolder(new Path(srcFolder));
          if ((isAutoOrIncrementalBuild(kind) && hasRelevantDeltas(buildVisitor)) || (isFullBuild(kind) && hasRelevantResources(buildVisitor)))
          {
             processResource(moslFolder, kind, args, subMonitor.split(1));
