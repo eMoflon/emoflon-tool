@@ -1,5 +1,7 @@
 # eMoflon
 
+[![Project Stats](https://www.openhub.net/p/eMoflon/widgets/project_thin_badge.gif)](https://www.openhub.net/p/eMoflon)
+
 This repository holds the source code of the tool eMoflon.
 
 For general information (purpose, publications, etc.) about eMoflon, please visit https://emoflon.github.io/ .
