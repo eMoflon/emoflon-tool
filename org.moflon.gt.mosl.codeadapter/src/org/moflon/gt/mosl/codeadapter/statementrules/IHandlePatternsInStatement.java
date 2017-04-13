@@ -20,7 +20,6 @@ import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.PatternParameter;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.CFVariable;
-import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.Scope;

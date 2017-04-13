@@ -2,21 +2,14 @@ package org.moflon.tgg.mosl.defaults;
 
 import static org.moflon.core.utilities.WorkspaceHelper.addAllFoldersAndFile;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
-import org.moflon.core.utilities.WorkspaceHelper;
 
 public class AttrCondDefLibraryProvider {
 	
