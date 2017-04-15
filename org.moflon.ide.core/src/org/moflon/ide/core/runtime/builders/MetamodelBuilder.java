@@ -201,6 +201,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             Map<Object, Object> saveOnlyIfChangedOption = new HashMap<Object, Object>();
             saveOnlyIfChangedOption.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
             saveOnlyIfChangedOption.put(SDMEnhancedEcoreResource.SAVE_GENERATED_PACKAGE_CROSSREF_URIS, true);
+            saveOnlyIfChangedOption.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
 
             // Persist resources (metamodels, tgg files and moflon.properties files)
             for (Resource resource : set.getResources())

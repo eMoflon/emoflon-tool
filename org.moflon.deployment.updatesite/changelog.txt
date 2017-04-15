@@ -1,3 +1,17 @@
+2017-04-15 eMoflon 2.30.0 released
+
+User notes:
+* This version of eMoflon fixes critical backward compatibility issues for MOSL-TGG (regression in 2.29.0)
+
+Closed issues (selection):
+* Latest version of eMoflon not backward compatible with existing TGG projects #230
+* Automatic installation of PlantUML not working anymore #229
+* Generation of old AttrCondDefLibrary.tgg #226
+* NPE when synchronizing attribute changes for TGG with ignore rules #224
+* To obtain the full list, use the following:
+ * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-03-20..2017-04-13
+ * GitHub issues query: is:issue closed:2017-03-20..2017-04-13
+
 2017-03-24 eMoflon 2.29.0 released
 
 User notes:
@@ -25,7 +39,7 @@ Closed issues:
 * Integrate reachability analysis into build process #120
 * Refactor MOSL-TGG TGG with refinements #57
 * To obtain the full list, use the following:
- * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-02-22..2017-03-20
+ * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-03-20..2017-04-13
  * GitHub issues query: is:issue closed:2017-02-22..2017-03-20 
 
 2017-02-22 eMoflon 2.28.0 released

@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.codeadapter.codeadapter;
+package org.moflon.gt.mosl.codeadapter;
 
 import java.util.HashMap;
 import java.util.Map;

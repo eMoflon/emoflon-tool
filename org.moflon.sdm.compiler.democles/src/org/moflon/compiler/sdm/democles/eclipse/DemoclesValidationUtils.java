@@ -9,12 +9,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 /**
  * Useful utilities for the democles validation process
@@ -89,14 +91,12 @@ public final class DemoclesValidationUtils
          }
          try
          {
-            URI newUri = inWorkspaceUri;
-//            adapterResource.setURI(inWorkspaceUri.appendFileExtension("xmi"));
-//            adapterResource.save(new HashMap<>());
-
             // Save with old URI to allow for navigation between models
-            adapterResource.setURI(newUri);
-            adapterResource.save(new HashMap<>());
-            URIConverter.URI_MAP.put(oldUri, newUri);
+            adapterResource.setURI(inWorkspaceUri);
+            HashMap<Object, Object> saveOptions = new HashMap<>();
+            saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
+            adapterResource.save(saveOptions);
+            URIConverter.URI_MAP.put(oldUri, inWorkspaceUri);
          } catch (IOException e)
          {
             LogUtils.error(logger, e);

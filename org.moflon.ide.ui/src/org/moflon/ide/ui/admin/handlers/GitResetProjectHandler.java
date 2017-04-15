@@ -15,9 +15,9 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.git.GitHelper;
-import org.osgi.framework.FrameworkUtil;
 
 public class GitResetProjectHandler extends AbstractCommandHandler
 {
@@ -42,8 +42,8 @@ public class GitResetProjectHandler extends AbstractCommandHandler
          @Override
          public IStatus runInWorkspace(final IProgressMonitor monitor)
          {
-            SubMonitor subMon = SubMonitor.convert(monitor, "Resetting and cleaning Git repositories", projects.size());
-            MultiStatus status = new MultiStatus(FrameworkUtil.getBundle(getClass()).getSymbolicName(), 0, "Problems during resetting and cleaning", null);
+            final SubMonitor subMon = SubMonitor.convert(monitor, "Resetting and cleaning Git repositories", projects.size());
+            final MultiStatus status = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Problems during resetting and cleaning", null);
             for (final IProject project : projects)
             {
                final IStatus resetStatus = GitHelper.resetAndCleanContainingGitRepository(project, subMon);

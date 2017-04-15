@@ -164,13 +164,16 @@ public class MoflonPropertiesContainerHelper
             LogUtils.error(logger, "Unable to save property file '%s' for project '%s'.", MOFLON_CONFIG_FILE, properties.getProjectName());
          } else
          {
-            IFile projectFile = project.getFile(MOFLON_CONFIG_FILE);
-
-            ResourceSet set = eMoflonEMFUtil.createDefaultResourceSet();
-            URI fileURI = eMoflonEMFUtil.createFileURI(projectFile.getLocation().toString(), false);
-            Resource resource = set.createResource(fileURI);
+            final IFile projectFile = project.getFile(MOFLON_CONFIG_FILE);
+            final ResourceSet set = eMoflonEMFUtil.createDefaultResourceSet();
+            final URI fileURI = eMoflonEMFUtil.createFileURI(projectFile.getLocation().toString(), false);
+            final Resource resource = set.createResource(fileURI);
             resource.getContents().add(normalize(properties));
-            resource.save(null);
+            
+            final HashMap<String, String> saveOptions = new HashMap<String, String>();
+            saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
+            resource.save(saveOptions);
+            
             projectFile.refreshLocal(IResource.DEPTH_ZERO, subMon.split(1));
          }
       } catch (final Exception e)

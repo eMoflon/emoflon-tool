@@ -1,7 +1,7 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
 import org.eclipse.emf.ecore.EClassifier;
-import org.moflon.gt.mosl.codeadapter.codeadapter.StatementBuilder;
+import org.moflon.gt.mosl.codeadapter.StatementBuilder;
 import org.moflon.gt.mosl.exceptions.MissingReturnException;
 import org.moflon.gt.mosl.moslgt.MoslgtFactory;
 import org.moflon.gt.mosl.moslgt.NextStatement;

@@ -31,8 +31,6 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
-import org.moflon.gt.mosl.codeadapter.MOSLGTUtil;
-import org.moflon.gt.mosl.codeadapter.MOSLGTUtil.MGTCallbackGetter;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
@@ -126,54 +124,31 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Generate code", 10);
       subMon.worked(1);
-      initializeResourceSet();
+      this.resourceSet = initializeResourceSet();
 
       final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
-      // collectMOSLGTFiles();
-     
       final IStatus status = codeGenerationTask.run(subMon.split(7));
-
-      // loadMGTFiles(monitor);
       handleErrorsAndWarnings(status);
       subMon.worked(2);
 
       postprocessAfterCodeGeneration(codeGenerationTask.getGenModel(), subMon.split(1));
    }
 
-   private void initializeResourceSet()
+   /**
+    * Prepare an {@link ResourceSet} that is suitable for a MOSL-GT-based build process
+    * 
+    * @return the initialized resource set
+    */
+   public static XtextResourceSet initializeResourceSet()
    {
       // See also: https://wiki.eclipse.org/Xtext/FAQ#How_do_I_load_my_model_in_a_standalone_Java_application.C2.A0.3F
-      Injector injector = new MOSLGTStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
-      this.resourceSet = injector.getInstance(XtextResourceSet.class);
+      final Injector injector = new MOSLGTStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
+      final XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
       // eMoflonEMFUtil.initializeDefault(this.resourceSet);
-      this.resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-      eMoflonEMFUtil.installCrossReferencers(this.resourceSet);
+      resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
+      eMoflonEMFUtil.installCrossReferencers(resourceSet);
+      return resourceSet;
    }
-
-   //   @Deprecated
-   //   private Collection<IFile> collectMOSLGTFiles() throws CoreException
-   //   {
-   //      final Collection<IFile> moslGTFiles = new ArrayList<>();
-   //      getProject().accept(new IResourceVisitor() {
-   //
-   //         @Override
-   //         public boolean visit(IResource resource) throws CoreException
-   //         {
-   //            if (isMOSLGTFile(resource))
-   //               moslGTFiles.add(IFile.class.cast(resource));
-   //            return true;
-   //         }
-   //
-   //         private boolean isMOSLGTFile(IResource resource)
-   //         {
-   //            return resource != null && resource.exists() && resource instanceof IFile
-   //                  && Arrays.asList(resource.getFullPath().segments()).stream().anyMatch(s -> "src".equals(s))
-   //                  && resource.getName().endsWith("." + WorkspaceHelper.MOSL_GT_EXTENSION);
-   //         }
-   //      });
-   //
-   //      return moslGTFiles;
-   //   }
 
    private IProject updateProjectStructure(final IProgressMonitor monitor) throws CoreException
    {
