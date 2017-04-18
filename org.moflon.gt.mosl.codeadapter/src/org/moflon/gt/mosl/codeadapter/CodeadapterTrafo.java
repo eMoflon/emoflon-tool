@@ -1,7 +1,9 @@
 package org.moflon.gt.mosl.codeadapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -10,11 +12,14 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.gt.mosl.moslgt.EClassDef;
@@ -39,6 +44,8 @@ public class CodeadapterTrafo
    private Consumer<ResourceSet> loader;
 
    private Function<CFNode, Function<PatternDef, Function<String, String>>> currentEOperationNameConstructor;
+   
+   private ResourceSet resourceSet;
 
    private CodeadapterTrafo()
    {
@@ -63,8 +70,9 @@ public class CodeadapterTrafo
       loader.accept(resSet);
    }
 
-   public EPackage transform(EPackage contextEPackage, final GraphTransformationFile gtf, Consumer<ResourceSet> loader)
+   public EPackage transform(EPackage contextEPackage, final GraphTransformationFile gtf, Consumer<ResourceSet> loader, final ResourceSet resourceSet)
    {
+      this.resourceSet = resourceSet;
       this.loader = loader;
       EPackage cpyContextEPackage = EcoreUtil.copy(contextEPackage);
       String name = gtf.getName();
@@ -146,5 +154,29 @@ public class CodeadapterTrafo
       Statement startStatement = methodDec.getStartStatement();
       statementTrafo.transformStatement(startStatement, rootScope, null);
 
+      saveAsRegisteredAdapter(rootScope, mofOp, "cf");     
+   }
+   
+   public void saveAsRegisteredAdapter(EObject objectToSave ,EObject adaptedObject, String type){
+      Resource res = adaptedObject.eResource();
+      URI resUri = res.getURI();
+      Resource contextResource = resourceSet.getResource(resUri, false);
+      if(contextResource != null)
+         resourceSet.getResources().remove(contextResource);
+      
+         resourceSet.getResources().add(res);
+      loadResourceSet(resourceSet);
+      Resource patternResource = (Resource) EcoreUtil.getRegisteredAdapter(adaptedObject, type);
+      if (patternResource != null)
+      {
+         patternResource.getContents().add(objectToSave);
+         try
+         {
+            objectToSave.eResource().save(Collections.EMPTY_MAP);
+         } catch (IOException e)
+         {
+            e.printStackTrace();
+         }
+      }
    }
 }
