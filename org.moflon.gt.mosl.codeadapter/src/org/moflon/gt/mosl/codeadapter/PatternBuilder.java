@@ -1,7 +1,5 @@
 package org.moflon.gt.mosl.codeadapter;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +7,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.SpecificationFactory;
@@ -123,19 +119,9 @@ public class PatternBuilder
       //register Pattern
       pattern.setName(patternNameGenerator.apply(pk.getSuffix()));
       EClass eClass = EClassDef.class.cast(StatementBuilder.getInstance().getCurrentMethod().eContainer()).getName();
-      CodeadapterTrafo.getInstance().loadResourceSet(eClass.eResource().getResourceSet());
-      Resource patternResource = (Resource) EcoreUtil.getRegisteredAdapter(eClass, pk.getSuffix());
-      if (patternResource != null)
-      {
-         patternResource.getContents().add(pattern);
-         try
-         {
-            pattern.eResource().save(Collections.EMPTY_MAP);
-         } catch (IOException e)
-         {
-            e.printStackTrace();
-         }
-      }
+      CodeadapterTrafo.getInstance().saveAsRegisteredAdapter(pattern, eClass, pk.getSuffix());
+      
+      //return value
       return invocation;
    }
    
