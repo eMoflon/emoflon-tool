@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.eclipse.emf.ecore.EClass;
 import org.gervarro.democles.specification.emf.ConstraintParameter;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.PatternBody;
@@ -15,12 +16,16 @@ import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.Reference;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
+import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
+import org.moflon.sdm.runtime.democles.RegularPatternInvocation;
 import org.moflon.sdm.runtime.democles.VariableReference;
+import org.moflon.sdm.runtime.democles.impl.RegularPatternInvocationImpl;
 
 public class VariableTransformator
 {
@@ -67,7 +72,8 @@ public class VariableTransformator
    {
       ObjectVariableDefinition ov = ObjectVariableDefinition.class.cast(linkVariable.eContainer());
       Reference reference = EMFTypeFactory.eINSTANCE.createReference();
-      reference.setEModelElement(linkVariable.getType());
+      EClass contextEclass = CodeadapterTrafo.getInstance().getTypeContext(EClassDef.class.cast(PatternDef.class.cast(ov.eContainer()).eContainer()).getName());
+      reference.setEModelElement(CodeadapterTrafo.getInstance().getEReferenceContext(linkVariable.getType(), contextEclass)); //TODO create an EReference to the contextEPackage
       patternBody.getConstraints().add(reference);
 
       ConstraintParameter source = SpecificationFactory.eINSTANCE.createConstraintParameter();
@@ -83,7 +89,7 @@ public class VariableTransformator
       pattern.getSymbolicParameters().add(patternVariable);
 
       patternVariable.setName(PatternUtil.getSaveName(ov.getName()));
-      patternVariable.setEClassifier(ov.getType());
+      patternVariable.setEClassifier(CodeadapterTrafo.getInstance().getTypeContext(ov.getType()));
 
       CFVariable cfVar = env.get(PatternUtil.getSaveName(ov.getName()));
 

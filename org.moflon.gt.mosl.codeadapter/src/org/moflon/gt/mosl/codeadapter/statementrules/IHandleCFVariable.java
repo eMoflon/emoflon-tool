@@ -3,6 +3,7 @@ package org.moflon.gt.mosl.codeadapter.statementrules;
 import java.util.Optional;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
@@ -21,7 +22,7 @@ public interface IHandleCFVariable
          CFVariable cfVar = DemoclesFactory.eINSTANCE.createCFVariable();
          cfVar.setScope(scope);
          cfVar.setName(PatternUtil.getSaveName(name));
-         cfVar.setType(type);
+         cfVar.setType(CodeadapterTrafo.getInstance().getTypeContext(type));
          return cfVar;
       }
    }
