@@ -119,7 +119,7 @@ public class PatternBuilder
       //register Pattern
       pattern.setName(patternNameGenerator.apply(pk.getSuffix()));
       EClass eClass = EClassDef.class.cast(StatementBuilder.getInstance().getCurrentMethod().eContainer()).getName();
-      CodeadapterTrafo.getInstance().saveAsRegisteredAdapter(pattern, eClass, pk.getSuffix());
+      CodeadapterTrafo.getInstance().saveAsRegisteredAdapter(pattern, CodeadapterTrafo.getInstance().getTypeContext(eClass), pk.getSuffix());
       
       //return value
       return invocation;

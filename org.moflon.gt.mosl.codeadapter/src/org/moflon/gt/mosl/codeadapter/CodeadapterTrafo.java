@@ -14,10 +14,12 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -45,6 +47,8 @@ public class CodeadapterTrafo
 
    private Function<CFNode, Function<PatternDef, Function<String, String>>> currentEOperationNameConstructor;
    
+   private EPackage contextEPackage;;
+   
    private ResourceSet resourceSet;
 
    private CodeadapterTrafo()
@@ -70,22 +74,42 @@ public class CodeadapterTrafo
       loader.accept(resSet);
    }
 
+   public <EC extends EClassifier> EC getTypeContext(EC eClassifier){
+      @SuppressWarnings("unchecked")
+      Optional<EC> contextEClassMonad=contextEPackage.getEClassifiers().stream().filter(classifier -> classifier.getName().equals(eClassifier.getName())).map(classifier -> (EC) classifier).findFirst();
+      if(contextEClassMonad.isPresent())
+         return contextEClassMonad.get();
+      else
+         return eClassifier;
+   }
+   
+   public EReference getEReferenceContext(EReference ref, EClass contextEclass){
+      Optional<EReference> contextEReferenceMonad = contextEclass.getEAllReferences().stream().filter(reference -> reference.getName().equals(ref.getName())).findFirst();
+      if(contextEReferenceMonad.isPresent())
+         return contextEReferenceMonad.get();
+      else
+         return ref;
+   }
+   
    public EPackage transform(EPackage contextEPackage, final GraphTransformationFile gtf, Consumer<ResourceSet> loader, final ResourceSet resourceSet)
    {
       this.resourceSet = resourceSet;
       this.loader = loader;
-      EPackage cpyContextEPackage = EcoreUtil.copy(contextEPackage);
+      this.contextEPackage = contextEPackage;
+      
+
+      
       String name = gtf.getName();
       String[] domain = name.split(Pattern.quote("."));
 
-      if (cpyContextEPackage.getName().compareToIgnoreCase(gtf.getName()) == 0
+      if (contextEPackage.getName().compareToIgnoreCase(gtf.getName()) == 0
             || domain.length > 0 && contextEPackage.getName().compareToIgnoreCase(domain[domain.length - 1]) == 0)
       {
          for (EClassDef classDef : gtf.getEClasses())
          {
-            EClass cpyContextEClass = (EClass) contextEPackage.getEClassifier(classDef.getName().getName());
+            EClass contextEClass = (EClass) contextEPackage.getEClassifier(classDef.getName().getName());
             EClass eClassContext = classDef.getName();
-            transformMethodsToEOperations(eClassContext, classDef, cpyContextEClass);
+            transformMethodsToEOperations(eClassContext, classDef, contextEClass);
          }
       }
 
@@ -135,7 +159,7 @@ public class CodeadapterTrafo
       {
          EParameter eParam = EcoreFactory.eINSTANCE.createEParameter();
          eParam.setName(mParam.getName());
-         eParam.setEType(mParam.getType());
+         eParam.setEType(getTypeContext(mParam.getType()));
          eParam.setLowerBound(0);
          eParam.setUpperBound(1);
          eParam.setUnique(true);
@@ -153,30 +177,44 @@ public class CodeadapterTrafo
       statementTrafo.loadCurrentMethod(methodDec);
       Statement startStatement = methodDec.getStartStatement();
       statementTrafo.transformStatement(startStatement, rootScope, null);
-
-      saveAsRegisteredAdapter(rootScope, mofOp, "cf");     
+      
+//      if(deletedOperations.containsKey(mofOp.getName()))
+//         saveAsRegisteredAdapter(EcoreUtil.copy(rootScope), deletedOperations.get(mofOp.getName()), "cf");
+//      else
+         saveAsRegisteredAdapter(rootScope, mofOp, "cf");
    }
    
-   public void saveAsRegisteredAdapter(EObject objectToSave ,EObject adaptedObject, String type){
-      Resource res = adaptedObject.eResource();
-      URI resUri = res.getURI();
-      Resource contextResource = resourceSet.getResource(resUri, false);
-      if(contextResource != null)
-         resourceSet.getResources().remove(contextResource);
-      
-         resourceSet.getResources().add(res);
+   public void saveAsRegisteredAdapter(EObject objectToSave, EObject adaptedObject, String type)
+   {
+      cleanResourceSet(adaptedObject.eResource());
+
       loadResourceSet(resourceSet);
       Resource patternResource = (Resource) EcoreUtil.getRegisteredAdapter(adaptedObject, type);
       if (patternResource != null)
       {
-         patternResource.getContents().add(objectToSave);
          try
          {
-            objectToSave.eResource().save(Collections.EMPTY_MAP);
+            cleanResourceSet(patternResource);
+            patternResource.getContents().add(objectToSave);
+            // objectToSave.eResource().getResourceSet().getResources().add(patternResource);
+            patternResource.save(Collections.EMPTY_MAP);
          } catch (IOException e)
          {
             e.printStackTrace();
          }
+      }
+   }
+   
+   private void cleanResourceSet(Resource res)
+   {
+      if (res != null)
+      {
+         URI resUri = res.getURI();
+         Resource contextResource = resourceSet.getResource(resUri, false);
+         if (contextResource != null)
+            resourceSet.getResources().remove(contextResource);
+
+         resourceSet.getResources().add(res);
       }
    }
 }

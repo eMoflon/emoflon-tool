@@ -26,11 +26,11 @@ if (result<node.mainAction.id> != null) {
 >>
 
 CFNodeImplRegularPatternInvocationImpl(node, importManager) ::= <<
-<\n>// <node.origin.name>
+<\n>
 <if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
 <importManager.("java.lang.Object")>[] result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
 if (result<node.mainAction.id> == null) {
-	throw new RuntimeException("Pattern matching in node [<node.origin.name>] failed."<VariablesByFailedPatternMatching(node.mainAction)>);
+	throw new RuntimeException("Pattern matching failed."<VariablesByFailedPatternMatching(node.mainAction)>);
 }
 <node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
 <if (node.mainAction.next)><node.mainAction.next:NextActions(importManager)><endif>
@@ -293,8 +293,9 @@ BindingPatternInvocationImpl(invocation, importManager) ::= <<
 <importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 >>
 
+//<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.
 RegularPatternInvocationImpl(invocation, importManager) ::= <<
-<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
+<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 >>
 
 SingleResultPatternInvocationImpl(invocation, importManager) ::= <<

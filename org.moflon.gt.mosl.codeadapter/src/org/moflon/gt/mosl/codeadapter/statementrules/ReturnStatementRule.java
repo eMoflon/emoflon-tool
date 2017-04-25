@@ -3,6 +3,7 @@ package org.moflon.gt.mosl.codeadapter.statementrules;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 
 import org.moflon.gt.mosl.moslgt.ReturnStatement;
+import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
@@ -27,8 +28,15 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement> 
       } else
          rs.setId(1);
       scope.getContents().add(rs);
+      
+      Action action = DemoclesFactory.eINSTANCE.createAction();
+      
+      rs.getActions().add(action);
+      rs.setMainAction(action);
+      
+      
 
-      ObjectVariableDefinition returnValue = stmnt.getReturnObject();
+     // ObjectVariableDefinition returnValue = stmnt.getReturnObject();
 
    }
 

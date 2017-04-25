@@ -24,8 +24,6 @@ import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.eclipse.resource.GenModelResource;
-import org.moflon.eclipse.resource.GenModelResourceFactory;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 
@@ -120,17 +118,17 @@ public class MOSLGTWeavingTask implements ITask
                final EPackage contextEPackage =EcoreUtil.copy( (EPackage) ecoreRes.getContents().get(0));
                
                // save context as raw
-               final String rawURIString = projecPrefixURI + "/model/raw/"+ MoflonUtil.lastCapitalizedSegmentOf(contextEPackage.getName());               
-               String contextEcoreURIString= rawURIString + ".raw" + WorkspaceHelper.ECORE_FILE_EXTENSION;
-               URI contextEcoreURI = URI.createURI(contextEcoreURIString, true);
-               Resource contextEcoreResource = this.resourceSet.getResource(contextEcoreURI, false);
-               if(contextEcoreResource == null)
-                  contextEcoreResource = this.resourceSet.createResource(contextEcoreURI);
-               contextEcoreResource.getContents().clear();
-               contextEcoreResource.getContents().add(EcoreUtil.copy(contextEPackage));
-               final Map<String, String> contextSaveOptions = new HashMap<>();
-               contextSaveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
-               contextEcoreResource.save(contextSaveOptions);
+//               final String rawURIString = projecPrefixURI + "/model/raw/"+ MoflonUtil.lastCapitalizedSegmentOf(contextEPackage.getName());               
+//               String contextEcoreURIString= rawURIString + ".raw" + WorkspaceHelper.ECORE_FILE_EXTENSION;
+//               URI contextEcoreURI = URI.createURI(contextEcoreURIString, true);
+//               Resource contextEcoreResource = this.resourceSet.getResource(contextEcoreURI, false);
+//               if(contextEcoreResource == null)
+//                  contextEcoreResource = this.resourceSet.createResource(contextEcoreURI);
+//               contextEcoreResource.getContents().clear();
+//               contextEcoreResource.getContents().add(EcoreUtil.copy(contextEPackage));
+//               final Map<String, String> contextSaveOptions = new HashMap<>();
+//               contextSaveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
+//               contextEcoreResource.save(contextSaveOptions);
                
                //transformation
                Resource enrichedEcoreResource = ePackage.eResource(); //this.resourceSet.createResource(enrichedEcoreURI);
@@ -142,9 +140,6 @@ public class MOSLGTWeavingTask implements ITask
                EcoreUtil.resolveAll(contextEPackage);
                final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, DemoclesMethodBodyHandler::initResourceSetForDemocles, this.resourceSet);
                //save context
-//               String enrichedURIString = projecPrefixURI + "/model/"+ MoflonUtil.lastCapitalizedSegmentOf(ePackage.getName());
-//               String enrichedEcoreURIString= enrichedURIString + WorkspaceHelper.ECORE_FILE_EXTENSION;
-//               URI enrichedEcoreURI = URI.createURI(enrichedEcoreURIString, true);
                enrichedEcoreResource.getContents().clear();
                enrichedEcoreResource.getContents().add(enrichedEPackage);
                final Map<String, String> saveOptions = new HashMap<>();
