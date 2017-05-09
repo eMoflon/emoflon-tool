@@ -12,6 +12,7 @@ import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.SpecificationFactory;
 import org.moflon.gt.mosl.codeadapter.transformplanrules.TransformPlanRule;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
+import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
@@ -120,6 +121,9 @@ public class PatternBuilder
       pattern.setName(patternNameGenerator.apply(pk.getSuffix()));
       EClass eClass = EClassDef.class.cast(StatementBuilder.getInstance().getCurrentMethod().eContainer()).getName();
       CodeadapterTrafo.getInstance().saveAsRegisteredAdapter(pattern, CodeadapterTrafo.getInstance().getTypeContext(eClass), pk.getSuffix());
+      
+      //register name
+      PatternUtil.add(invocation, eClass);
       
       //return value
       return invocation;

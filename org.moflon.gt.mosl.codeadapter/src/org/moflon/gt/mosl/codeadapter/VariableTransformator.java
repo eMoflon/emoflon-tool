@@ -23,9 +23,7 @@ import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
-import org.moflon.sdm.runtime.democles.RegularPatternInvocation;
 import org.moflon.sdm.runtime.democles.VariableReference;
-import org.moflon.sdm.runtime.democles.impl.RegularPatternInvocationImpl;
 
 public class VariableTransformator
 {
@@ -84,19 +82,26 @@ public class VariableTransformator
 
    }
    
-   public void transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, Map<String, CFVariable> env, PatternInvocation invocation){
-      EMFVariable patternVariable = EMFTypeFactory.eINSTANCE.createEMFVariable();
-      pattern.getSymbolicParameters().add(patternVariable);
+   public void transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, Map<String, CFVariable> env, PatternInvocation invocation)
+   {
+      EMFVariable patternVariable;
+      String name = PatternUtil.getSaveName(ov.getName());
+      Optional<Variable> patternVariableMonad = pattern.getSymbolicParameters().stream().filter(var -> var.getName().compareTo(name) == 0).findFirst();
+      if (!patternVariableMonad.isPresent())
+      {
+         patternVariable = EMFTypeFactory.eINSTANCE.createEMFVariable();
+         pattern.getSymbolicParameters().add(patternVariable);
 
-      patternVariable.setName(PatternUtil.getSaveName(ov.getName()));
-      patternVariable.setEClassifier(CodeadapterTrafo.getInstance().getTypeContext(ov.getType()));
+         patternVariable.setName(name);
+         patternVariable.setEClassifier(CodeadapterTrafo.getInstance().getTypeContext(ov.getType()));
 
-      CFVariable cfVar = env.get(PatternUtil.getSaveName(ov.getName()));
+         CFVariable cfVar = env.get(PatternUtil.getSaveName(ov.getName()));
 
-      VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
-      vr.setInvocation(invocation);
-      vr.setFrom(cfVar);
-      vr.setTo(patternVariable);
+         VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
+         vr.setInvocation(invocation);
+         vr.setFrom(cfVar);
+         vr.setTo(patternVariable);
+      }
    }
    
 }
