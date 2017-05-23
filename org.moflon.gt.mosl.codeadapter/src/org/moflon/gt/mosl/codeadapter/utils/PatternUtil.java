@@ -26,7 +26,7 @@ public class PatternUtil
    
    public static String getSaveName(String name){
       if("this".compareTo(name)==0)
-         return "_this";
+         return "this";
       else return name;
    }
    

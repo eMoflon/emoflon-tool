@@ -139,6 +139,7 @@ public class CodeadapterTrafo
 
          currentEOperationNameConstructor = node -> patternDef -> suffix -> {
             final EOperation eOperation = mofOp;
+            final CFNode cfNode = node;
             String storyNodeName = patternDef.getName() != null ? patternDef.getName().trim() : "";
             storyNodeName = storyNodeName.replaceAll("\\s+", "");
             final EClass eClass = eOperation.getEContainingClass();
