@@ -1,5 +1,6 @@
 package org.moflon.gt.mosl.codeadapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.moflon.gt.mosl.moslgt.PatternObject;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
+import org.moflon.sdm.runtime.democles.NodeDeletion;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.Scope;
 import org.moflon.sdm.runtime.democles.VariableReference;
@@ -41,6 +43,8 @@ public class PatternBuilder
 
    private Map<String, List<PatternInvocation>> patternInvocationCache;
    
+   private Map<String, List<String>> nodeDeletionCache;
+   
    private Map<PatternInvocation, PatternKind> patternTypes;
 
    private PatternBuilder()
@@ -49,6 +53,7 @@ public class PatternBuilder
       patternInvocationCache = new HashMap<>();
       transformPlanRuleCache = new HashMap<>();
       patternTypes = new HashMap<>();
+      nodeDeletionCache = new HashMap<>();
    }
 
    public static PatternBuilder getInstance()
@@ -84,8 +89,20 @@ public class PatternBuilder
             transformPlan.put(patternName, patternKindIndex);
          }
       }
+      createNodeDeletion(patternName, patternDef);
    }
-
+   
+   private void createNodeDeletion(String patternName, PatternDef patternDef){
+      List<String> deletions = new ArrayList<>();
+      List<PatternObject> redObjects = transformPlan.get(patternName).get(PatternKind.RED);
+      if(redObjects != null){
+         deletions = redObjects.stream().filter(po -> po instanceof ObjectVariableDefinition && ObjectVariableDefinition.class.cast(po).getOp() != null && ObjectVariableDefinition.class.cast(po).getOp().getValue().equals("--"))
+             .map(po -> ObjectVariableDefinition.class.cast(po).getName()).collect(Collectors.toList());
+         if(deletions.size() > 0)
+            nodeDeletionCache.put(patternName, deletions);
+      }      
+   }
+   
    public void createPattern(PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env, Function<String, String> patternNameGenerator)
    {
       String patternName = patternDef.getName();
@@ -224,6 +241,16 @@ public class PatternBuilder
    private boolean isCorrectPatternInvocation(PatternInvocation invocation, PatternKind pk){
       PatternKind otherPK = patternTypes.get(invocation);
       return otherPK != null && otherPK.equals(pk);
+   }
+   
+   public NodeDeletion getNodeDeletion(String patternName, List<CFVariable> cfVars){
+      NodeDeletion nodeDeletion = null; 
+      List<String> nameList = nodeDeletionCache.get(patternName);
+      if(nameList != null){
+         nodeDeletion = DemoclesFactory.eINSTANCE.createNodeDeletion();
+         nodeDeletion.getDestructedVariables().addAll(cfVars.stream().filter(cfVar -> nameList.contains(cfVar.getName())).collect(Collectors.toList()));
+      }
+      return nodeDeletion;
    }
 
 }
