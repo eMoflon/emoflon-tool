@@ -78,7 +78,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 		
 		protected AttributeConstraintLibUtilImpl attributeConstraintLibUtil=(AttributeConstraintLibUtilImpl) ConstraintstodemoclesFactory.eINSTANCE.createAttributeConstraintLibUtil();
 		public AttributeConstraintCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project){
-			super(resourceSet);
+			super(resourceSet, project);
 			if(project==null){
 				throw new RuntimeException("Parameter ecoreResource must be defined for AttributeConstraintCodeGeneratorConfig");
 			}

@@ -1,9 +1,14 @@
 package org.moflon.compiler.sdm.democles;
 
 import java.io.IOException;
-
+import java.util.Arrays;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
 
@@ -18,9 +23,22 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 	public static final String EXPRESSION_PATTERN_MATCHER_GENERATOR = "ExpressionPatternMatcherGenerator";
    // End of pattern types
    private final EMoflonPreferencesStorage preferencesStorage;
+   private final boolean isMoslGT;
 
-	public DefaultCodeGeneratorConfig(ResourceSet resourceSet) {
+	public DefaultCodeGeneratorConfig(ResourceSet resourceSet, IResource resourceContext) {
 		super(resourceSet);
+		boolean tmpMoslGT;
+		try
+      {
+		   IProject project = resourceContext.getProject();
+         IProjectDescription ipd =project.getDescription();
+         tmpMoslGT = Arrays.asList(ipd.getNatureIds()).stream().filter(ids -> ids.compareTo(WorkspaceHelper.MOSL_GT_NATURE_ID) == 0).findFirst().isPresent();
+         
+      } catch (CoreException | NullPointerException e)
+      {
+         tmpMoslGT = false;
+      }
+		isMoslGT = tmpMoslGT;
 		this.preferencesStorage = EMoflonPreferencesStorage.getInstance();
 	}
 
