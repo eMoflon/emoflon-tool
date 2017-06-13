@@ -23,82 +23,136 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 	public static final String EXPRESSION_PATTERN_MATCHER_GENERATOR = "ExpressionPatternMatcherGenerator";
    // End of pattern types
    private final EMoflonPreferencesStorage preferencesStorage;
-   private final boolean isMoslGT;
+   
+   private class MOSLGTDefaultCodeGeneratorConfig extends MOSLGTDefaultValidatorConfig{
 
-	public DefaultCodeGeneratorConfig(ResourceSet resourceSet, IResource resourceContext) {
+      public MOSLGTDefaultCodeGeneratorConfig(ResourceSet resourceSet)
+      {
+         super(resourceSet);
+      }
+      
+   }
+
+   private class GenConfigFactory{
+      
+      private GenConfigFactory(boolean _isMoslGT){
+         isMoslGT = _isMoslGT;
+      }
+      
+      private PatternMatcher getConfig(String generator, final Resource resource){
+         if(isMoslGT){
+            final RegularPatternMatcherGenerator regularPatternMatcherGenerator =
+                  new RegularPatternMatcherGenerator(getMoslCompiler(generator, resource), generator, preferencesStorage);
+            resource.getContents().add(regularPatternMatcherGenerator);
+            return regularPatternMatcherGenerator;
+         }
+         else{
+            final RegularPatternMatcherGenerator regularPatternMatcherGenerator =
+                  new RegularPatternMatcherGenerator(getNotMoslCompiler(generator, resource), generator, preferencesStorage);
+            resource.getContents().add(regularPatternMatcherGenerator);
+            return regularPatternMatcherGenerator;
+         }
+      }
+      
+      private PatternMatcherCompiler getMoslCompiler(String generator, final Resource resource)
+      {
+         switch (generator)
+         {
+         case BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR:
+            return moslGeneratorDefaultCodeGeneratorConfig.configureBindingAndBlackPatternMatcherCompiler(resource);
+         case BINDING_PATTERN_MATCHER_GENERATOR:
+            return moslGeneratorDefaultCodeGeneratorConfig.configureBindingPatternMatcherCompiler(resource);
+         case BLACK_PATTERN_MATCHER_GENERATOR:
+            return moslGeneratorDefaultCodeGeneratorConfig.configureBlackPatternMatcherCompiler(resource);
+         case RED_PATTERN_MATCHER_GENERATOR:
+            return moslGeneratorDefaultCodeGeneratorConfig.configureRedPatternMatcherCompiler(resource);
+         case GREEN_PATTERN_MATCHER_GENERATOR:
+            return moslGeneratorDefaultCodeGeneratorConfig.configureGreenPatternMatcherCompiler(resource);
+         case EXPRESSION_PATTERN_MATCHER_GENERATOR:
+            return moslGeneratorDefaultCodeGeneratorConfig.configureExpressionPatternMatcherCompiler(resource);
+         default:
+            return null;
+         }
+      }
+      
+      private PatternMatcherCompiler getNotMoslCompiler(String generator, final Resource resource)
+      {
+         switch (generator)
+         {
+         case BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR:
+            return configureBindingAndBlackPatternMatcherCompiler(resource);
+         case BINDING_PATTERN_MATCHER_GENERATOR:
+            return configureBindingPatternMatcherCompiler(resource);
+         case BLACK_PATTERN_MATCHER_GENERATOR:
+            return configureBlackPatternMatcherCompiler(resource);
+         case RED_PATTERN_MATCHER_GENERATOR:
+            return configureRedPatternMatcherCompiler(resource);
+         case GREEN_PATTERN_MATCHER_GENERATOR:
+            return configureGreenPatternMatcherCompiler(resource);
+         case EXPRESSION_PATTERN_MATCHER_GENERATOR:
+            return configureExpressionPatternMatcherCompiler(resource);
+         default:
+            return null;
+         }
+      }
+      
+   }
+   
+   private GenConfigFactory genConfigFactory;
+   
+   private MOSLGTDefaultCodeGeneratorConfig moslGeneratorDefaultCodeGeneratorConfig;
+   
+   private static boolean isMoslGT;
+   
+   public static boolean isMoslGT(){
+      return isMoslGT;
+   }
+   
+	public DefaultCodeGeneratorConfig(ResourceSet resourceSet, final IResource resourceContext) {
 		super(resourceSet);
-		boolean tmpMoslGT;
+		moslGeneratorDefaultCodeGeneratorConfig = new MOSLGTDefaultCodeGeneratorConfig(resourceSet);
+		boolean isMoslGT;
 		try
       {
 		   IProject project = resourceContext.getProject();
          IProjectDescription ipd =project.getDescription();
-         tmpMoslGT = Arrays.asList(ipd.getNatureIds()).stream().filter(ids -> ids.compareTo(WorkspaceHelper.MOSL_GT_NATURE_ID) == 0).findFirst().isPresent();
+         isMoslGT = Arrays.asList(ipd.getNatureIds()).stream().filter(ids -> ids.compareTo(WorkspaceHelper.MOSL_GT_NATURE_ID) == 0).findFirst().isPresent();
          
       } catch (CoreException | NullPointerException e)
       {
-         tmpMoslGT = false;
+         isMoslGT = false;
       }
-		isMoslGT = tmpMoslGT;
+		genConfigFactory = new GenConfigFactory(isMoslGT);
 		this.preferencesStorage = EMoflonPreferencesStorage.getInstance();
 	}
 
 	@Override
 	protected PatternMatcher configureBindingAndBlackPatternMatcher(final Resource resource) throws IOException {
-		final PatternMatcherCompiler bindingAndBlackPatternMatcherCompiler =
-				configureBindingAndBlackPatternMatcherCompiler(resource);
-		final RegularPatternMatcherGenerator bindingAndBlackPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(bindingAndBlackPatternMatcherCompiler, BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR, preferencesStorage);
-		resource.getContents().add(bindingAndBlackPatternMatcherGenerator);
-		return bindingAndBlackPatternMatcherGenerator;
+		return genConfigFactory.getConfig(BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR, resource);
 	}
 
    @Override
 	protected PatternMatcher configureBindingPatternMatcher(final Resource resource) throws IOException {
-		final PatternMatcherCompiler bindingPatternMatcherCompiler =
-				configureBindingPatternMatcherCompiler(resource);
-		final RegularPatternMatcherGenerator bindingPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(bindingPatternMatcherCompiler, BINDING_PATTERN_MATCHER_GENERATOR, preferencesStorage);
-		resource.getContents().add(bindingPatternMatcherGenerator);
-		return bindingPatternMatcherGenerator;
+      return genConfigFactory.getConfig(BINDING_PATTERN_MATCHER_GENERATOR, resource);
 	}
 
    @Override
 	protected PatternMatcher configureBlackPatternMatcher(final Resource resource) throws IOException {
-		final PatternMatcherCompiler blackPatternMatcherCompiler =
-				configureBlackPatternMatcherCompiler(resource);
-		final RegularPatternMatcherGenerator blackPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(blackPatternMatcherCompiler, BLACK_PATTERN_MATCHER_GENERATOR, preferencesStorage);
-		resource.getContents().add(blackPatternMatcherGenerator);
-		return blackPatternMatcherGenerator;
+      return genConfigFactory.getConfig(BLACK_PATTERN_MATCHER_GENERATOR, resource);
 	}
 
    @Override
 	protected PatternMatcher configureRedPatternMatcher(final Resource resource) throws IOException {
-		final PatternMatcherCompiler redPatternMatcherCompiler =
-				configureRedPatternMatcherCompiler(resource);
-		final RegularPatternMatcherGenerator redPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(redPatternMatcherCompiler, RED_PATTERN_MATCHER_GENERATOR, preferencesStorage);
-		resource.getContents().add(redPatternMatcherGenerator);
-		return redPatternMatcherGenerator;
-	}
+      return genConfigFactory.getConfig(RED_PATTERN_MATCHER_GENERATOR, resource);
+   }
 
    @Override
 	protected PatternMatcher configureGreenPatternMatcher(final Resource resource) throws IOException {
-		final PatternMatcherCompiler greenPatternMatcherCompiler =
-				configureGreenPatternMatcherCompiler(resource);
-		final RegularPatternMatcherGenerator greenPatternMatcherGenerator =
-				new RegularPatternMatcherGenerator(greenPatternMatcherCompiler, GREEN_PATTERN_MATCHER_GENERATOR, preferencesStorage);
-		resource.getContents().add(greenPatternMatcherGenerator);
-		return greenPatternMatcherGenerator;
+      return genConfigFactory.getConfig(GREEN_PATTERN_MATCHER_GENERATOR, resource);
 	}
 
    @Override
 	protected PatternMatcher configureExpressionPatternMatcher(final Resource resource) throws IOException {
-		final PatternMatcherCompiler expressionPatternMatcherCompiler =
-				configureExpressionPatternMatcherCompiler(resource);
-		final ExpressionPatternMatcherGenerator expressionPatternMatcherGenerator =
-				new ExpressionPatternMatcherGenerator(expressionPatternMatcherCompiler, EXPRESSION_PATTERN_MATCHER_GENERATOR, preferencesStorage);
-		resource.getContents().add(expressionPatternMatcherGenerator);
-		return expressionPatternMatcherGenerator;
+      return genConfigFactory.getConfig(EXPRESSION_PATTERN_MATCHER_GENERATOR, resource);
 	}
 }

@@ -74,7 +74,10 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 	public DemoclesMethodBodyHandler(final ResourceSet resourceSet,
 			final ScopeValidationConfigurator scopeValidatorConfiguration) {
 		this.resourceSet = resourceSet;
-		this.scopeValidatorConfiguration = scopeValidatorConfiguration;
+		if(DefaultCodeGeneratorConfig.isMoslGT())
+		   this.scopeValidatorConfiguration= new MOSLGTDefaultValidatorConfig(resourceSet);
+		else
+		   this.scopeValidatorConfiguration = scopeValidatorConfiguration;
 		initResourceSetForDemocles(this.resourceSet);
 	}
 		
