@@ -43,7 +43,7 @@ public class PatternBuilder
 
    private Map<String, List<PatternInvocation>> patternInvocationCache;
    
-   private Map<String, List<String>> nodeDeletionCache;
+   private Map<String, List<String>> nodeDeletionNameCache;
    
    private Map<PatternInvocation, PatternKind> patternTypes;
 
@@ -53,7 +53,7 @@ public class PatternBuilder
       patternInvocationCache = new HashMap<>();
       transformPlanRuleCache = new HashMap<>();
       patternTypes = new HashMap<>();
-      nodeDeletionCache = new HashMap<>();
+      nodeDeletionNameCache = new HashMap<>();
    }
 
    public static PatternBuilder getInstance()
@@ -99,7 +99,7 @@ public class PatternBuilder
          deletions = redObjects.stream().filter(po -> po instanceof ObjectVariableDefinition && ObjectVariableDefinition.class.cast(po).getOp() != null && ObjectVariableDefinition.class.cast(po).getOp().getValue().equals("--"))
              .map(po -> ObjectVariableDefinition.class.cast(po).getName()).collect(Collectors.toList());
          if(deletions.size() > 0)
-            nodeDeletionCache.put(patternName, deletions);
+            nodeDeletionNameCache.put(patternName, deletions);
       }      
    }
    
@@ -245,7 +245,7 @@ public class PatternBuilder
    
    public NodeDeletion getNodeDeletion(String patternName, List<CFVariable> cfVars){
       NodeDeletion nodeDeletion = null; 
-      List<String> nameList = nodeDeletionCache.get(patternName);
+      List<String> nameList = nodeDeletionNameCache.get(patternName);
       if(nameList != null){
          nodeDeletion = DemoclesFactory.eINSTANCE.createNodeDeletion();
          nodeDeletion.getDestructedVariables().addAll(cfVars.stream().filter(cfVar -> nameList.contains(cfVar.getName())).collect(Collectors.toList()));
