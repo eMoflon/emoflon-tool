@@ -237,7 +237,7 @@ public abstract class Synchronizer {
 	}
 
 	private AttributeConstraintsRuleResult checkCSP(TripleMatch match) {
-		EClass ruleClass = findRule(match.getRuleName()).getIsAppropriateMethods().get(0).getEContainingClass();
+		EClass ruleClass = findRule(match.getRuleName()).getCheckDECMethod().getEContainingClass();
 
 		for (EOperation o : ruleClass.getEAllOperations()) {
 			if (("checkAttributes_" + getDirection()).equals(o.getName())) {
