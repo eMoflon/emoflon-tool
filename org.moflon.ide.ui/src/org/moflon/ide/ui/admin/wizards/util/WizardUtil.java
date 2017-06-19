@@ -9,6 +9,7 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.log4j.Logger;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.ui.UIActivator;
 import org.moflon.moca.BasicFormatRenderer;
 
@@ -32,7 +33,7 @@ public class WizardUtil
    }
    
    public static URL getTemplateFileURL(final String path) {
-      return MoflonUtilitiesActivator.getPathRelToPlugIn(path, UIActivator.getModuleID());
+      return MoflonUtilitiesActivator.getPathRelToPlugIn(path, WorkspaceHelper.getPluginId(UIActivator.class));
    }
 
 }

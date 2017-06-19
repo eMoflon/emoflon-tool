@@ -80,25 +80,14 @@ public class UIActivator extends AbstractUIPlugin
    // Default resources path
    private static final String RESOURCES_DEFAULT_FILES_PATH = "resources/defaultFiles/";
 
-   private static String bundleId;
-
    // The config file used for logging in plugin
    private File configFile;
-
-   public static String getModuleID()
-   {
-      if (bundleId == null)
-         throw new NullPointerException();
-      else
-         return bundleId;
-   }
 
    @Override
    public void start(final BundleContext context) throws Exception
    {
       super.start(context);
       plugin = this;
-      bundleId = context.getBundle().getSymbolicName();
 
       setUpLogging();
 
@@ -106,182 +95,10 @@ public class UIActivator extends AbstractUIPlugin
       registerListenerForMetaModelProjectRenaming();
    }
 
-   /**
-    * Registers a listener that identifies EAP projects that are outdated
-    */
-   private void registerDecoratorListeners()
-   {
-      ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
-
-         @Override
-         public void resourceChanged(final IResourceChangeEvent event)
-         {
-            try
-            {
-               event.getDelta().accept(new IResourceDeltaVisitor() {
-
-                  @Override
-                  public boolean visit(final IResourceDelta delta) throws CoreException
-                  {
-                     IResource resource = delta.getResource();
-                     if (resource instanceof IProject)
-                     {
-                        final IProject project = (IProject) resource;
-                        if (WorkspaceHelper.isMetamodelProjectNoThrow(project))
-                        {
-                           final IFile eapFile = WorkspaceHelper.getEapFileFromMetamodelProject(project);
-                           final IFile xmiTree = WorkspaceHelper.getExportedMocaTree(project);
-                           // EA writes to an EAP file immediately after exporting it.
-                           // Without this timeout, 'needRebuild' would always be true.
-                           final long outdatedXmiTreeToleranceInMillis = 5000;
-                           final boolean needsRebuild = !xmiTree.exists()
-                                 || (xmiTree.exists() && xmiTree.getLocalTimeStamp() + outdatedXmiTreeToleranceInMillis < eapFile.getLocalTimeStamp());
-
-                           Display.getDefault().asyncExec(new Runnable() {
-                              @Override
-                              public void run()
-                              {
-                                 final MoflonProjectDecorator decorator = (MoflonProjectDecorator) PlatformUI.getWorkbench().getDecoratorManager()
-                                       .getBaseLabelProvider(MoflonProjectDecorator.DECORATOR_ID);
-                                 if (decorator != null) {
-                                	 decorator.setMetamodelProjectRequiresRebuild(project, needsRebuild);
-                                 }
-                              }
-                           });
-                        }
-
-                        return false;
-                     } else
-                     {
-                        return true;
-                     }
-                  }
-               });
-
-               event.getDelta().accept(new IResourceDeltaVisitor() {
-
-                  @Override
-                  public boolean visit(IResourceDelta delta) throws CoreException
-                  {
-                     final IResource resource = delta.getResource();
-                     final IProject project;
-                     if (resource instanceof IProject)
-                     {
-                        project = (IProject) resource;
-                     } else if (resource instanceof IJavaProject)
-                     {
-                        project = ((IJavaProject) resource).getProject();
-                     } else
-                     {
-                        project = null;
-                     }
-
-                     if (project != null && project.isAccessible())
-                     {
-                        ICommand[] buildSpec = project.getDescription().getBuildSpec();
-                        for (final ICommand builder : buildSpec)
-                        {
-                           if (WorkspaceHelper.REPOSITORY_BUILDER_ID.equals(builder.getBuilderName()) || 
-                                 WorkspaceHelper.INTEGRATION_BUILDER_ID.equals(builder.getBuilderName()))
-                           {
-                              boolean autobuildEnabled = builder.isBuilding(IncrementalProjectBuilder.AUTO_BUILD);
-                              Display.getDefault().asyncExec(new Runnable() {
-                                 @Override
-                                 public void run()
-                                 {
-                                    final MoflonProjectDecorator decorator = (MoflonProjectDecorator) PlatformUI.getWorkbench().getDecoratorManager()
-                                          .getBaseLabelProvider(MoflonProjectDecorator.DECORATOR_ID);
-                                    if (decorator != null) {
-                                    	decorator.setAutobuildEnabled(project, autobuildEnabled);
-                                    }
-                                 }
-                              });
-                           }
-                        }
-
-                        return false;
-                     }
-
-                     return true;
-                  }
-               });
-            } catch (CoreException e)
-            {
-               LogUtils.error(logger, e);
-            }
-         }
-      }, IResourceChangeEvent.POST_CHANGE);
-   }
-
-   /**
-    * Registers a {@link IResourceChangeListener} for detecting renamings of meta-model projects. According to our
-    * convention, the name of the EAP file of a meta-model project equals the project name plus the suffix ".eap".
-    */
-   private void registerListenerForMetaModelProjectRenaming()
-   {
-      ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
-
-         @Override
-         public void resourceChanged(IResourceChangeEvent event)
-         {
-
-            IResourceDelta[] children = event.getDelta().getAffectedChildren();
-            if (children.length == 2)
-            {
-               final IResource firstResource = children[0].getResource();
-               final IResource secondResource = children[1].getResource();
-               if (firstResource instanceof IProject && secondResource instanceof IProject)
-               {
-                  final IProject oldProject;
-                  final IProject newProject;
-                  if ((children[0].getFlags() & IResourceDelta.MOVED_TO) != 0)
-                  {
-                     oldProject = (IProject) firstResource;
-                     newProject = (IProject) secondResource;
-                  } else if ((children[1].getFlags() & IResourceDelta.MOVED_TO) != 0)
-                  {
-                     oldProject = (IProject) secondResource;
-                     newProject = (IProject) firstResource;
-                  } else
-                  {
-                     oldProject = null;
-                     newProject = null;
-                  }
-                  if (oldProject != null && WorkspaceHelper.isMetamodelProjectNoThrow(newProject))
-                  {
-                     IFile eapFile = newProject.getFile(oldProject.getName() + ".eap");
-                     if (eapFile.exists())
-                     {
-                        WorkspaceJob job = new WorkspaceJob("Renaming EAP file") {
-
-                           @Override
-                           public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
-                           {
-                              try
-                              {
-                                 eapFile.move(new Path(newProject.getName() + ".eap"), true, null);
-                                 return Status.OK_STATUS;
-                              } catch (final CoreException e)
-                              {
-                                 return new Status(IStatus.ERROR, UIActivator.getModuleID(), "Failed to move EAP file " + eapFile, e);
-                              }
-                           }
-                        };
-                        job.schedule();
-
-                     }
-                  }
-               }
-            }
-         }
-      }, IResourceChangeEvent.POST_CHANGE);
-   }
-
    @Override
    public void stop(final BundleContext context) throws Exception
    {
       plugin = null;
-      bundleId = null;
       super.stop(context);
    }
 
@@ -334,7 +151,7 @@ public class UIActivator extends AbstractUIPlugin
 
    public static ImageDescriptor getImage(final String pathToIcon)
    {
-      return AbstractUIPlugin.imageDescriptorFromPlugin(getModuleID(), pathToIcon);
+      return AbstractUIPlugin.imageDescriptorFromPlugin(WorkspaceHelper.getPluginId(UIActivator.class), pathToIcon);
    }
 
    public static void showMessage(final String title, final String message)
@@ -357,33 +174,6 @@ public class UIActivator extends AbstractUIPlugin
             MessageDialog.openError(null, title, message);
          }
       });
-   }
-
-   /**
-    * Initialize log and configuration file. Configuration file is created with default contents if necessary. Log4J is
-    * setup properly and configured with a console and logfile appender.
-    */
-   private void setUpLogging()
-   {
-      // Create configFile if necessary also in plugin storage space
-      configFile = getPathInStateLocation(LOG4J_CONFIG_PROPERTIES).toFile();
-
-      if (!configFile.exists())
-      {
-         try
-         {
-            // Copy default configuration to state location
-            URL defaultConfigFile = MoflonUtilitiesActivator.getPathRelToPlugIn(RESOURCES_DEFAULT_FILES_PATH + LOG4J_CONFIG_PROPERTIES, getModuleID());
-
-            FileUtils.copyURLToFile(defaultConfigFile, configFile);
-         } catch (Exception e)
-         {
-            LogUtils.error(logger, e, "Unable to open default config file.");
-         }
-      }
-
-      // Configure Log4J
-      reconfigureLogging();
    }
 
    /**
@@ -465,5 +255,203 @@ public class UIActivator extends AbstractUIPlugin
       moflonPreferencesStorage.setValidationTimeout(EMoflonPreferenceInitializer.getValidationTimeoutMillis());
       moflonPreferencesStorage.setReachabilityEnabled(EMoflonPreferenceInitializer.getReachabilityEnabled());
       moflonPreferencesStorage.setReachabilityMaximumAdornmentSize(EMoflonPreferenceInitializer.getReachabilityMaxAdornmentSize());
+   }
+
+   /**
+    * Registers a listener that identifies EAP projects that are outdated
+    */
+   private void registerDecoratorListeners()
+   {
+      ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
+   
+         @Override
+         public void resourceChanged(final IResourceChangeEvent event)
+         {
+            try
+            {
+               event.getDelta().accept(new IResourceDeltaVisitor() {
+   
+                  @Override
+                  public boolean visit(final IResourceDelta delta) throws CoreException
+                  {
+                     IResource resource = delta.getResource();
+                     if (resource instanceof IProject)
+                     {
+                        final IProject project = (IProject) resource;
+                        if (WorkspaceHelper.isMetamodelProjectNoThrow(project))
+                        {
+                           final IFile eapFile = WorkspaceHelper.getEapFileFromMetamodelProject(project);
+                           final IFile xmiTree = WorkspaceHelper.getExportedMocaTree(project);
+                           // EA writes to an EAP file immediately after exporting it.
+                           // Without this timeout, 'needRebuild' would always be true.
+                           final long outdatedXmiTreeToleranceInMillis = 5000;
+                           final boolean needsRebuild = !xmiTree.exists()
+                                 || (xmiTree.exists() && xmiTree.getLocalTimeStamp() + outdatedXmiTreeToleranceInMillis < eapFile.getLocalTimeStamp());
+   
+                           Display.getDefault().asyncExec(new Runnable() {
+                              @Override
+                              public void run()
+                              {
+                                 final MoflonProjectDecorator decorator = (MoflonProjectDecorator) PlatformUI.getWorkbench().getDecoratorManager()
+                                       .getBaseLabelProvider(MoflonProjectDecorator.DECORATOR_ID);
+                                 if (decorator != null) {
+                                	 decorator.setMetamodelProjectRequiresRebuild(project, needsRebuild);
+                                 }
+                              }
+                           });
+                        }
+   
+                        return false;
+                     } else
+                     {
+                        return true;
+                     }
+                  }
+               });
+   
+               event.getDelta().accept(new IResourceDeltaVisitor() {
+   
+                  @Override
+                  public boolean visit(IResourceDelta delta) throws CoreException
+                  {
+                     final IResource resource = delta.getResource();
+                     final IProject project;
+                     if (resource instanceof IProject)
+                     {
+                        project = (IProject) resource;
+                     } else if (resource instanceof IJavaProject)
+                     {
+                        project = ((IJavaProject) resource).getProject();
+                     } else
+                     {
+                        project = null;
+                     }
+   
+                     if (project != null && project.isAccessible())
+                     {
+                        ICommand[] buildSpec = project.getDescription().getBuildSpec();
+                        for (final ICommand builder : buildSpec)
+                        {
+                           if (WorkspaceHelper.REPOSITORY_BUILDER_ID.equals(builder.getBuilderName()) || 
+                                 WorkspaceHelper.INTEGRATION_BUILDER_ID.equals(builder.getBuilderName()))
+                           {
+                              boolean autobuildEnabled = builder.isBuilding(IncrementalProjectBuilder.AUTO_BUILD);
+                              Display.getDefault().asyncExec(new Runnable() {
+                                 @Override
+                                 public void run()
+                                 {
+                                    final MoflonProjectDecorator decorator = (MoflonProjectDecorator) PlatformUI.getWorkbench().getDecoratorManager()
+                                          .getBaseLabelProvider(MoflonProjectDecorator.DECORATOR_ID);
+                                    if (decorator != null) {
+                                    	decorator.setAutobuildEnabled(project, autobuildEnabled);
+                                    }
+                                 }
+                              });
+                           }
+                        }
+   
+                        return false;
+                     }
+   
+                     return true;
+                  }
+               });
+            } catch (CoreException e)
+            {
+               LogUtils.error(logger, e);
+            }
+         }
+      }, IResourceChangeEvent.POST_CHANGE);
+   }
+
+   /**
+    * Initialize log and configuration file. Configuration file is created with default contents if necessary. Log4J is
+    * setup properly and configured with a console and logfile appender.
+    */
+   private void setUpLogging()
+   {
+      // Create configFile if necessary also in plugin storage space
+      configFile = getPathInStateLocation(LOG4J_CONFIG_PROPERTIES).toFile();
+   
+      if (!configFile.exists())
+      {
+         try
+         {
+            // Copy default configuration to state location
+            URL defaultConfigFile = MoflonUtilitiesActivator.getPathRelToPlugIn(RESOURCES_DEFAULT_FILES_PATH + LOG4J_CONFIG_PROPERTIES, WorkspaceHelper.getPluginId(UIActivator.class));
+   
+            FileUtils.copyURLToFile(defaultConfigFile, configFile);
+         } catch (Exception e)
+         {
+            LogUtils.error(logger, e, "Unable to open default config file.");
+         }
+      }
+   
+      // Configure Log4J
+      reconfigureLogging();
+   }
+
+   /**
+    * Registers a {@link IResourceChangeListener} for detecting renamings of meta-model projects. According to our
+    * convention, the name of the EAP file of a meta-model project equals the project name plus the suffix ".eap".
+    */
+   private void registerListenerForMetaModelProjectRenaming()
+   {
+      ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
+   
+         @Override
+         public void resourceChanged(IResourceChangeEvent event)
+         {
+   
+            IResourceDelta[] children = event.getDelta().getAffectedChildren();
+            if (children.length == 2)
+            {
+               final IResource firstResource = children[0].getResource();
+               final IResource secondResource = children[1].getResource();
+               if (firstResource instanceof IProject && secondResource instanceof IProject)
+               {
+                  final IProject oldProject;
+                  final IProject newProject;
+                  if ((children[0].getFlags() & IResourceDelta.MOVED_TO) != 0)
+                  {
+                     oldProject = (IProject) firstResource;
+                     newProject = (IProject) secondResource;
+                  } else if ((children[1].getFlags() & IResourceDelta.MOVED_TO) != 0)
+                  {
+                     oldProject = (IProject) secondResource;
+                     newProject = (IProject) firstResource;
+                  } else
+                  {
+                     oldProject = null;
+                     newProject = null;
+                  }
+                  if (oldProject != null && WorkspaceHelper.isMetamodelProjectNoThrow(newProject))
+                  {
+                     IFile eapFile = newProject.getFile(oldProject.getName() + ".eap");
+                     if (eapFile.exists())
+                     {
+                        WorkspaceJob job = new WorkspaceJob("Renaming EAP file") {
+   
+                           @Override
+                           public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
+                           {
+                              try
+                              {
+                                 eapFile.move(new Path(newProject.getName() + ".eap"), true, null);
+                                 return Status.OK_STATUS;
+                              } catch (final CoreException e)
+                              {
+                                 return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(UIActivator.class), "Failed to move EAP file " + eapFile, e);
+                              }
+                           }
+                        };
+                        job.schedule();
+   
+                     }
+                  }
+               }
+            }
+         }
+      }, IResourceChangeEvent.POST_CHANGE);
    }
 }

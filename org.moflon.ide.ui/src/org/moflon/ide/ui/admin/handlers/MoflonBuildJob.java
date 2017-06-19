@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
 import org.moflon.core.utilities.LogUtils;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.tasks.ProjectBuilderTask;
@@ -52,7 +53,7 @@ public class MoflonBuildJob extends WorkspaceJob
    public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
    {
       LogUtils.info(logger, "Manual build triggered (mode=%s, projects=%s)", CoreActivator.mapBuildKindToName(this.buildType), this.projects);
-      final MultiStatus resultStatus = new MultiStatus(UIActivator.getModuleID(), 0, "eMoflon Build Job failed", null);
+      final MultiStatus resultStatus = new MultiStatus(WorkspaceHelper.getPluginId(UIActivator.class), 0, "eMoflon Build Job failed", null);
       final List<Job> jobs = new ArrayList<>();
       final IBuildConfiguration[] buildConfigurations = CoreActivator.getDefaultBuildConfigurations(projects);
       if (buildConfigurations.length > 0)

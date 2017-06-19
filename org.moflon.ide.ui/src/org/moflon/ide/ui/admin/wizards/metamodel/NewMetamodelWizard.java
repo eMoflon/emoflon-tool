@@ -52,11 +52,11 @@ public class NewMetamodelWizard extends AbstractMoflonWizard
          final IPath location = projectInfo.getProjectLocation();
 
          // Create project
-         final IProject newProjectHandle = createProject(projectName, UIActivator.getModuleID(), location, subMon.split(1));
+         final IProject newProjectHandle = createProject(projectName, WorkspaceHelper.getPluginId(UIActivator.class), location, subMon.split(1));
 
          // generate default files
-         final URL pathToDefaultEapFile = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", UIActivator.getModuleID());
-         WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap", pathToDefaultEapFile, UIActivator.getModuleID(), subMon.split(1));
+         final URL pathToDefaultEapFile = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", WorkspaceHelper.getPluginId(UIActivator.class));
+         WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap", pathToDefaultEapFile, WorkspaceHelper.getPluginId(UIActivator.class), subMon.split(1));
 
          MoflonProjectCreator.addGitignoreFileForMetamodelProject(newProjectHandle, subMon.split(1));
 

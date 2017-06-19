@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.core.ecore2mocaxmi.utils.ConverterHelper;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
 import org.moflon.ide.ui.UIActivator;
@@ -48,7 +49,7 @@ public class ExportToEAPJob extends Job {
 			eapProject = ConverterHelper.getProject(parts);
 			lockFile = ConverterHelper.getLockFile(eapProject, parts);
 			if(lockFile != null && lockFile.exists())
-				return new Status(IStatus.ERROR, UIActivator.getModuleID(), IStatus.ERROR, getLockedErrorMessage(lockFile).toString(), null);
+				return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(UIActivator.class), IStatus.ERROR, getLockedErrorMessage(lockFile).toString(), null);
 			if(eapProject != null){
 				IFolder tempFolder = eapProject.getFolder(".temp");
 				if(tempFolder != null && !tempFolder.exists())
@@ -65,7 +66,7 @@ public class ExportToEAPJob extends Job {
 				}
 			}
 		}
-		return new Status(IStatus.OK, UIActivator.getModuleID(), IStatus.OK, "", null);
+		return new Status(IStatus.OK, WorkspaceHelper.getPluginId(UIActivator.class), IStatus.OK, "", null);
 	}
 
 	private static StringBuilder getLockedErrorMessage(IFile lockFile){
