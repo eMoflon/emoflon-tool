@@ -104,8 +104,6 @@ public class UIActivator extends AbstractUIPlugin
 
       registerDecoratorListeners();
       registerListenerForMetaModelProjectRenaming();
-      
-      synchronizeEMoflonPreferencesStorage();
    }
 
    /**
@@ -463,9 +461,9 @@ public class UIActivator extends AbstractUIPlugin
 
    public static void synchronizeEMoflonPreferencesStorage()
    {
-      final EMoflonPreferencesStorage preferencesStorage = EMoflonPreferencesStorage.getInstance();
-      preferencesStorage.setValidationTimeout(EMoflonPreferenceInitializer.getValidationTimeoutMillis());
-      preferencesStorage.setReachabilityEnabled(EMoflonPreferenceInitializer.getReachabilityEnabled());
-      preferencesStorage.setReachabilityMaximumAdornmentSize(EMoflonPreferenceInitializer.getReachabilityMaxAdornmentSize());
+      final EMoflonPreferencesStorage moflonPreferencesStorage = EMoflonPreferencesStorage.getInstance();
+      moflonPreferencesStorage.setValidationTimeout(EMoflonPreferenceInitializer.getValidationTimeoutMillis());
+      moflonPreferencesStorage.setReachabilityEnabled(EMoflonPreferenceInitializer.getReachabilityEnabled());
+      moflonPreferencesStorage.setReachabilityMaximumAdornmentSize(EMoflonPreferenceInitializer.getReachabilityMaxAdornmentSize());
    }
 }
