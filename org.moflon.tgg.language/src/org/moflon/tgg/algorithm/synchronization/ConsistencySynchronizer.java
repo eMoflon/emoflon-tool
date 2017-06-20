@@ -12,8 +12,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
+import org.moflon.tgg.algorithm.ccutils.AbstractILPSolver;
 import org.moflon.tgg.algorithm.ccutils.AbstractSolver;
 import org.moflon.tgg.algorithm.ccutils.ILP_Gurobi_Solver;
+import org.moflon.tgg.algorithm.ccutils.UserDefinedILPConstraintProvider;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -55,6 +57,9 @@ public class ConsistencySynchronizer {
 	private PrecedenceInputGraph targetPrecedenceGraph;
 
 	private TIntObjectHashMap<TIntHashSet> appliedSourceToTarget;
+	
+	private UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
+
 
 	public ConsistencySynchronizer(Delta srcDelta, Delta trgDelta, StaticAnalysis staticAnalysis,
 			CorrespondenceModel graphTriple, ConsistencyCheckPrecedenceGraph protocol) {
@@ -129,8 +134,11 @@ public class ConsistencySynchronizer {
 
 	private void filter() {
 
-		AbstractSolver solver = new ILP_Gurobi_Solver();
-
+		AbstractILPSolver solver = new ILP_Gurobi_Solver();
+		
+		if(userDefinedILPConstraintProvider != null)
+			solver.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
+		
 		int[] solvingResult = solver.solve(srcElements, trgElements, protocol);
 		
 		removeMatches(solvingResult);
@@ -242,6 +250,10 @@ public class ConsistencySynchronizer {
 		unmarked.removeDestructive(consistentOppositeEdges);
 		
 		return unmarked.getElements();
+	}
+	
+	protected void setUserDefinedILPConstraintProvider(UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
+		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
 	}
 
 }
