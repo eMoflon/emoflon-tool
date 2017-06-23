@@ -667,7 +667,7 @@ public class SynchronizationHelper {
 	public void saveInconsistentSourceDelta(final String path) {
 		saveInconsistentSourceDelta();
 	}
-	
+	 
 	public void saveInconsistentSourceDelta(){
 		try {
 			sourceInconsistency.eResource().save(null);
@@ -682,7 +682,7 @@ public class SynchronizationHelper {
 		saveInconsistentTargetDelta();
 	}
 
-	private void saveInconsistentTargetDelta() {
+	public void saveInconsistentTargetDelta() {
 		try {
 			targetInconsistency.eResource().save(null);
 		} catch (IOException e) {
