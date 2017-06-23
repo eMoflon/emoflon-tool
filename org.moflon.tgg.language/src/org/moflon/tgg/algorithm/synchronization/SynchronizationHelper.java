@@ -479,9 +479,11 @@ public class SynchronizationHelper {
 		if (prepareDeltas) {
 			sourceInconsistency = prepareDelta(cs.getInconsistentSourceElements());
 			sourceInconsistency.setTargetModel(src);
+			set.createResource(URI.createURI("source inconsistency")).getContents().add(sourceInconsistency);
 
 			targetInconsistency = prepareDelta(cs.getInconsistentTargetElements());
 			targetInconsistency.setTargetModel(trg);
+			set.createResource(URI.createURI("target inconsistency")).getContents().add(targetInconsistency);
 		}
 
 	}
