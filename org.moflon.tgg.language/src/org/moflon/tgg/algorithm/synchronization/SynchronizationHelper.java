@@ -480,10 +480,12 @@ public class SynchronizationHelper {
 		if (prepareDeltas) {
 			sourceInconsistency = prepareDelta(cs.getInconsistentSourceElements());
 			sourceInconsistency.setTargetModel(src);
+
 			set.createResource(URI.createURI(src.eResource().getURI().toString() + ".delta")).getContents().add(sourceInconsistency);
 
 			targetInconsistency = prepareDelta(cs.getInconsistentTargetElements());
 			targetInconsistency.setTargetModel(trg);
+
 			set.createResource(URI.createURI(trg.eResource().getURI().toString() + ".delta")).getContents().add(targetInconsistency);
 		}
 
