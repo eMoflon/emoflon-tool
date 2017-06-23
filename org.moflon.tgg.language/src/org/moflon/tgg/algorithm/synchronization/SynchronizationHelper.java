@@ -1,6 +1,5 @@
 package org.moflon.tgg.algorithm.synchronization;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -480,11 +479,9 @@ public class SynchronizationHelper {
 		if (prepareDeltas) {
 			sourceInconsistency = prepareDelta(cs.getInconsistentSourceElements());
 			sourceInconsistency.setTargetModel(src);
-			set.createResource(URI.createURI(src.eResource().getURI().toString() + ".delta")).getContents().add(sourceInconsistency);
 
 			targetInconsistency = prepareDelta(cs.getInconsistentTargetElements());
 			targetInconsistency.setTargetModel(trg);
-			set.createResource(URI.createURI(trg.eResource().getURI().toString() + ".delta")).getContents().add(targetInconsistency);
 		}
 
 	}
@@ -663,31 +660,16 @@ public class SynchronizationHelper {
 		eMoflonEMFUtil.saveModel(pgAsPSs.eResource().getResourceSet(), pgAsPSs, path);
 	}
 
-	@Deprecated 
 	public void saveInconsistentSourceDelta(final String path) {
-		saveInconsistentSourceDelta();
-	}
-	
-	public void saveInconsistentSourceDelta(){
-		try {
-			sourceInconsistency.eResource().save(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(sourceInconsistency);
+		eMoflonEMFUtil.saveModel(sourceInconsistency.eResource().getResourceSet(), sourceInconsistency, path);
 	}
 
-	@Deprecated
 	public void saveInconsistentTargetDelta(final String path) {
 
-		saveInconsistentTargetDelta();
-	}
-
-	private void saveInconsistentTargetDelta() {
-		try {
-			targetInconsistency.eResource().save(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
+		set.createResource(eMoflonEMFUtil.createFileURI(path, false)).getContents().add(targetInconsistency);
+		eMoflonEMFUtil.saveModel(targetInconsistency.eResource().getResourceSet(), targetInconsistency, path);
 	}
 
 	private DeltaSpecification prepareDelta(Collection<EObject> elements) {
