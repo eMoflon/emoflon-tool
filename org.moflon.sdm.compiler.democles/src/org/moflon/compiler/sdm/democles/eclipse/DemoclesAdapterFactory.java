@@ -13,12 +13,12 @@ public class DemoclesAdapterFactory implements IAdapterFactory {
 	public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
 		if (adaptableObject instanceof DemoclesValidationProcess && DefaultCodeGeneratorConfig.class == adapterType) {
 			final DemoclesValidationProcess process = (DemoclesValidationProcess) adaptableObject;
-			return new DefaultCodeGeneratorConfig(process.getResourceSet());
+			return new DefaultCodeGeneratorConfig(process.getResourceSet(), process.getEcoreFile());
 		} else if (adaptableObject instanceof MoflonCodeGenerator && 
 				(DemoclesMethodBodyHandler.class == adapterType || DefaultCodeGeneratorConfig.class == adapterType)) {
 			final MoflonCodeGenerator process = (MoflonCodeGenerator) adaptableObject;
 			final DefaultCodeGeneratorConfig defaultCodeGeneratorConfig =
-					new DefaultCodeGeneratorConfig(process.getResourceSet());
+					new DefaultCodeGeneratorConfig(process.getResourceSet(), process.getEcoreFile());
 			return new DemoclesMethodBodyHandler(process.getResourceSet(), defaultCodeGeneratorConfig);
 		} else if (adaptableObject instanceof IFile && MonitoredSDMValidator.class == adapterType) {
 			return new MonitoredSDMValidator((IFile) adaptableObject);

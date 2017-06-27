@@ -23,7 +23,7 @@ public class ReverseNavigationCodeGeneratorConfig extends DefaultCodeGeneratorCo
    
    public ReverseNavigationCodeGeneratorConfig(ResourceSet resourceSet, IProject project)
    {
-      super(resourceSet);
+      super(resourceSet, project);
    }
 
    @Override

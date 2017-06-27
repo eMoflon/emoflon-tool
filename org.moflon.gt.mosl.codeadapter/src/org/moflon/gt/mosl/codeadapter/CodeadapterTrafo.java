@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.gt.mosl.moslgt.MethodDec;
@@ -96,7 +97,7 @@ public class CodeadapterTrafo
       this.resourceSet = resourceSet;
       this.loader = loader;
       this.contextEPackage = contextEPackage;
-      
+      PatternUtil.cleanNames();
 
       
       String name = gtf.getName();
@@ -138,6 +139,7 @@ public class CodeadapterTrafo
 
          currentEOperationNameConstructor = node -> patternDef -> suffix -> {
             final EOperation eOperation = mofOp;
+            final CFNode cfNode = node;
             String storyNodeName = patternDef.getName() != null ? patternDef.getName().trim() : "";
             storyNodeName = storyNodeName.replaceAll("\\s+", "");
             final EClass eClass = eOperation.getEContainingClass();

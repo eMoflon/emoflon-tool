@@ -30,8 +30,7 @@ Require-Bundle:
  org.moflon.tgg.language;bundle-version="2.1.0",
  org.moflon.ide.plugins;bundle-version="2.1.1",
  org.eclipse.xtext;bundle-version="2.9.0",
- org.moflon.gt.mosl;bundle-version="1.0.0",
- org.moflon.gt.mosl.codeadapter;bundle-version="1.0.0"
+ org.moflon.gt.mosl
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.ea,
  org.moflon.ide.core.git,

@@ -13,19 +13,26 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.INodeChangeListener;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.gervarro.democles.common.Adornment;
+import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.compiler.sdm.democles.MOSLGTDefaultValidatorConfig;
+import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
+import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
+import org.moflon.sdm.runtime.democles.PatternInvocation;
+import org.moflon.sdm.runtime.democles.VariableReference;
 
 /**
  * This task weaves the control flow and pattern matching models stored in textual syntax with the plain metamodel
@@ -53,12 +60,17 @@ public class MOSLGTWeavingTask implements ITask
     */
    private String projecPrefixURI;
 
+   // TODO@rkluge: This is an ugly bug to access the pattern matchers
+   @Deprecated
+   private final ScopeValidationConfigurator scopeValidatorConfiguration;
+
    /**
     * Preconfigures this task with the top-level {@link EPackage} of the metamodel to be processed
     * 
     * @param ePackage
+    * @param scopeValidatorConfiguration
     */
-   public MOSLGTWeavingTask(final EPackage ePackage)
+   public MOSLGTWeavingTask(final EPackage ePackage, ScopeValidationConfigurator scopeValidatorConfiguration)
    {
       this.ePackage = ePackage;
       this.resourceSet = ePackage.eResource().getResourceSet();
@@ -68,6 +80,7 @@ public class MOSLGTWeavingTask implements ITask
       {
          projecPrefixURI += uriPart + "/";
       }
+      this.scopeValidatorConfiguration = scopeValidatorConfiguration;
 
       DemoclesMethodBodyHandler.initResourceSetForDemocles(resourceSet);
    }
@@ -115,36 +128,65 @@ public class MOSLGTWeavingTask implements ITask
                String contextEcorePath = gtf.getImports().get(0).getName().replaceFirst("platform:/resource", "").replaceFirst("platform:/plugin", "");
                Resource ecoreRes = this.resourceSet.getResource(URI.createPlatformResourceURI(contextEcorePath, false), true);
                ecoreRes.load(null);
-               final EPackage contextEPackage =EcoreUtil.copy( (EPackage) ecoreRes.getContents().get(0));
-               
+               // TODO@rkluge: Extend to support multiple root packages
+               final EPackage contextEPackage = EcoreUtil.copy((EPackage) ecoreRes.getContents().get(0));
+
                // save context as raw
-//               final String rawURIString = projecPrefixURI + "/model/raw/"+ MoflonUtil.lastCapitalizedSegmentOf(contextEPackage.getName());               
-//               String contextEcoreURIString= rawURIString + ".raw" + WorkspaceHelper.ECORE_FILE_EXTENSION;
-//               URI contextEcoreURI = URI.createURI(contextEcoreURIString, true);
-//               Resource contextEcoreResource = this.resourceSet.getResource(contextEcoreURI, false);
-//               if(contextEcoreResource == null)
-//                  contextEcoreResource = this.resourceSet.createResource(contextEcoreURI);
-//               contextEcoreResource.getContents().clear();
-//               contextEcoreResource.getContents().add(EcoreUtil.copy(contextEPackage));
-//               final Map<String, String> contextSaveOptions = new HashMap<>();
-//               contextSaveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
-//               contextEcoreResource.save(contextSaveOptions);
-               
-               //transformation
-               Resource enrichedEcoreResource = ePackage.eResource(); //this.resourceSet.createResource(enrichedEcoreURI);
+               // final String rawURIString = projecPrefixURI + "/model/raw/"+
+               // MoflonUtil.lastCapitalizedSegmentOf(contextEPackage.getName());
+               // String contextEcoreURIString= rawURIString + ".raw" + WorkspaceHelper.ECORE_FILE_EXTENSION;
+               // URI contextEcoreURI = URI.createURI(contextEcoreURIString, true);
+               // Resource contextEcoreResource = this.resourceSet.getResource(contextEcoreURI, false);
+               // if(contextEcoreResource == null)
+               // contextEcoreResource = this.resourceSet.createResource(contextEcoreURI);
+               // contextEcoreResource.getContents().clear();
+               // contextEcoreResource.getContents().add(EcoreUtil.copy(contextEPackage));
+               // final Map<String, String> contextSaveOptions = new HashMap<>();
+               // contextSaveOptions.put(Resource.OPTION_LINE_DELIMITER,
+               // WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
+               // contextEcoreResource.save(contextSaveOptions);
+
+               // transformation
+               Resource enrichedEcoreResource = ePackage.eResource(); // this.resourceSet.createResource(enrichedEcoreURI);
                String nsURI = ePackage.eResource().getURI().toString();
                enrichedEcoreResource.getContents().clear();
                enrichedEcoreResource.getContents().add(contextEPackage);
                contextEPackage.setNsURI(nsURI);
                enrichedEcoreResource.save(Collections.EMPTY_MAP);
                EcoreUtil.resolveAll(contextEPackage);
-               final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, DemoclesMethodBodyHandler::initResourceSetForDemocles, this.resourceSet);
-               //save context
+               final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, DemoclesMethodBodyHandler::initResourceSetForDemocles,
+                     this.resourceSet);
+
+               /*
+                * Goal: For each pattern invocation, generate and store the search plan Needed: * pattern invocations (=
+                * pattern+adornment) within each operation in the package * PatternMatcher
+                */
+               // TODO@rkluge: Add support for nested packages
+               enrichedEPackage.getEClassifiers().stream()//
+                     .filter(eClassifier -> eClassifier instanceof EClass)//
+                     .map(eClassifier -> EClass.class.cast(eClassifier)).forEach(eClass -> {
+                        eClass.getEOperations().forEach(eOperation -> {
+                           AdapterResource controlFlowResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation,
+                                 DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
+                           controlFlowResource.getAllContents().forEachRemaining(eObject -> {
+                              if (eObject instanceof PatternInvocation)
+                              {
+                                 final PatternInvocation invocation = (PatternInvocation) eObject;
+                                 final Adornment adornment = calculateAdornment(invocation);
+                                 final Pattern pattern = invocation.getPattern();
+                                 final boolean isMultipleMatch = invocation.isMultipleMatch();
+                                 scopeValidatorConfiguration.getBlackPatternMatcher().generateSearchPlan(pattern, adornment, isMultipleMatch);
+                              }
+                           });
+                        });
+                     });
+
+               // save context
                enrichedEcoreResource.getContents().clear();
                enrichedEcoreResource.getContents().add(enrichedEPackage);
                final Map<String, String> saveOptions = new HashMap<>();
                saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
-               enrichedEcoreResource.save(saveOptions);           
+               enrichedEcoreResource.save(saveOptions);
 
             }
 
@@ -155,6 +197,19 @@ public class MOSLGTWeavingTask implements ITask
          return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e);
       }
       return Status.OK_STATUS;
+   }
+
+   //TODO@rkluge: Possible code duplication
+   private Adornment calculateAdornment(PatternInvocation invocation)
+   {
+      Adornment adornment = new Adornment(invocation.getParameters().size());
+      int i = 0;
+      for(VariableReference variableRef : invocation.getParameters())
+      {
+         final int value = variableRef.isFree() ? Adornment.FREE : Adornment.BOUND;
+         adornment.set(i, value);
+      }
+      return adornment;
    }
 
    @Override
