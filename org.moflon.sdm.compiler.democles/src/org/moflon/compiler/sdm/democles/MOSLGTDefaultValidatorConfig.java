@@ -51,6 +51,7 @@ import org.moflon.sdm.compiler.democles.validation.scope.StoryNodeActionBuilder;
 import org.moflon.sdm.democles.literalexpressionsolver.ConstantTransformer;
 import org.moflon.sdm.democles.literalexpressionsolver.LiteralexpressionsolverFactory;
 
+@Deprecated //TODO@rkluge: KILL ME
 public class MOSLGTDefaultValidatorConfig implements ScopeValidationConfigurator {
 	protected final ResourceSet resourceSet;
 
@@ -83,6 +84,16 @@ public class MOSLGTDefaultValidatorConfig implements ScopeValidationConfigurator
 	private final EMFRedOperationBuilder emfRedOperationBuilder = new EMFRedOperationBuilder();
 	private final EMFGreenOperationBuilder emfGreenOperationBuilder = new EMFGreenOperationBuilder();
 
+   private PatternMatcher bindingAndBlackPatternMatcher;
+
+   private PatternMatcher bindingPatternMatcher;
+
+   private PatternMatcher blackPatternMatcher;
+
+   private PatternMatcher redPatternMatcher;
+
+   private PatternMatcher greenPatternMatcher;
+
 	public MOSLGTDefaultValidatorConfig(ResourceSet resourceSet) {
 		this.resourceSet = resourceSet;
 		// Pattern matcher configuration
@@ -94,7 +105,44 @@ public class MOSLGTDefaultValidatorConfig implements ScopeValidationConfigurator
 		this.bindingAndBlackPatternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
 	}
 	
-	public ScopeValidator createScopeValidator() {
+	
+	@Deprecated // TODO@rkluge Check if this access is really necessary
+	public PatternMatcher getBindingAndBlackPatternMatcher()
+   {
+      return bindingAndBlackPatternMatcher;
+   }
+
+
+	@Deprecated // TODO@rkluge Check if this access is really necessary
+   public PatternMatcher getBindingPatternMatcher()
+   {
+      return bindingPatternMatcher;
+   }
+
+
+	@Deprecated // TODO@rkluge Check if this access is really necessary
+   public PatternMatcher getBlackPatternMatcher()
+   {
+      return blackPatternMatcher;
+   }
+
+
+	@Deprecated // TODO@rkluge Check if this access is really necessary
+   public PatternMatcher getRedPatternMatcher()
+   {
+      return redPatternMatcher;
+   }
+
+
+	@Deprecated // TODO@rkluge Check if this access is really necessary
+   public PatternMatcher getGreenPatternMatcher()
+   {
+      return greenPatternMatcher;
+   }
+
+
+
+   public ScopeValidator createScopeValidator() {
 		final Resource resource = new ResourceImpl(URI.createURI("ScopeValidator"));
 		resourceSet.getResources().add(resource);
 		final ScopeValidator scopeValidator = ScopeFactory.eINSTANCE.createScopeValidator();
@@ -115,11 +163,11 @@ public class MOSLGTDefaultValidatorConfig implements ScopeValidationConfigurator
 			expressionTransformerResource.getContents().add(expressionExplorer);
 			expressionExplorer.setExpressionTransformer(expressionTransformer);
 
-			final PatternMatcher bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
-			final PatternMatcher bindingPatternMatcher = configureBindingPatternMatcher(resource);
-			final PatternMatcher blackPatternMatcher = configureBlackPatternMatcher(resource);
-			final PatternMatcher redPatternMatcher = configureRedPatternMatcher(resource);
-			final PatternMatcher greenPatternMatcher = configureGreenPatternMatcher(resource);
+			bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
+			bindingPatternMatcher = configureBindingPatternMatcher(resource);
+			blackPatternMatcher = configureBlackPatternMatcher(resource);
+			redPatternMatcher = configureRedPatternMatcher(resource);
+			greenPatternMatcher = configureGreenPatternMatcher(resource);
 			
 			// (1) Handler for regular story nodes
 			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeFactory.eINSTANCE.createStoryNodeActionBuilder();

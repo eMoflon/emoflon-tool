@@ -74,9 +74,9 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 	public DemoclesMethodBodyHandler(final ResourceSet resourceSet,
 			final ScopeValidationConfigurator scopeValidatorConfiguration) {
 		this.resourceSet = resourceSet;
-		if(DefaultCodeGeneratorConfig.isMoslGT())
-		   this.scopeValidatorConfiguration= new MOSLGTDefaultValidatorConfig(resourceSet);
-		else
+//		if(DefaultCodeGeneratorConfig.isMoslGT())
+//		   this.scopeValidatorConfiguration= new MOSLGTDefaultValidatorConfig(resourceSet);
+//		else
 		   this.scopeValidatorConfiguration = scopeValidatorConfiguration;
 		initResourceSetForDemocles(this.resourceSet);
 	}
@@ -120,10 +120,10 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
       return new DemoclesValidatorTask(scopeValidatorConfiguration.createScopeValidator(), ePackage);
 	}
 	
-	@Override
-	public ITask createControlFlowWeaver(EPackage ePackage)
+   @Override
+	public MOSLGTWeavingTask createControlFlowWeaver(EPackage ePackage)
 	{
-	   return new MOSLGTWeavingTask(ePackage);
+	   return new MOSLGTWeavingTask(ePackage, scopeValidatorConfiguration);
 	}
 	
 	/**

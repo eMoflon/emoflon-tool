@@ -24,11 +24,15 @@ import org.stringtemplate.v4.STGroup;
 public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 	private ImportManager democlesImportManager = ImportManager.EMPTY_IMPORT_MANAGER;
 
-	public DemoclesClassGeneratorAdapter(
-			final DemoclesGeneratorAdapterFactory generatorAdapterFactory) {
+	protected DemoclesClassGeneratorAdapter(final DemoclesGeneratorAdapterFactory generatorAdapterFactory) {
 		super(generatorAdapterFactory);
 	}
 
+	public static DemoclesClassGeneratorAdapter createDemoclesClassGeneratorAdapter(final DemoclesGeneratorAdapterFactory generatorAdapterFactory){
+	 //  if(DefaultCodeGeneratorConfig.isMoslGT())
+	   return new DemoclesClassGeneratorAdapter(generatorAdapterFactory);   
+	}
+	
 	@Override
    public DemoclesGeneratorAdapterFactory getAdapterFactory() {
 		return (DemoclesGeneratorAdapterFactory) adapterFactory;
@@ -83,6 +87,7 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 				MOSLGTImportManager.createInstance(democlesImportManager);				
 				template.add("scope", scope);
 				template.add("importManager", MOSLGTImportManager.getInstance());
+				//template.inspect();
 				generatedMethodBody = template.render();
 			}
 		} 

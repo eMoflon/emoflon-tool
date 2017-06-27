@@ -1,13 +1,14 @@
 package org.moflon.compiler.sdm.democles;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
-import org.gervarro.democles.codegen.GeneratorOperation;
 import org.gervarro.democles.codegen.ImportManager;
 import org.gervarro.democles.codegen.OperationSequenceCompiler;
 import org.gervarro.democles.codegen.PatternInvocationConstraintTemplateProvider;
@@ -32,11 +33,38 @@ import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.VariableReference;
 import org.osgi.framework.FrameworkUtil;
+import org.stringtemplate.v4.ModelAdaptor;
 import org.stringtemplate.v4.STGroup;
 
 public class MOSLGTDefaultTemplateConfiguration implements TemplateConfigurationProvider
 {
    private static final Logger logger = Logger.getLogger(MOSLGTDefaultTemplateConfiguration.class);
+
+   private static final String CONTROL_FLOW_TEMPLATE_PATH = "templates/stringtemplate/ControlFlow.stg";
+
+   private static final String REGULAR_PATTERN_TEMPLATE_PATH = "templates/stringtemplate/MOSLGTRegularPatternMatcher.stg";
+
+   private static final String ASSIGNMENT_TEMPLATE_PATH = "templates/stringtemplate/Assignment.stg";
+
+   private static final String DEMOCLES_COMMON_TEMPLATE_PATH = "templates/stringtemplate/DemoclesCommon.stg";
+
+   private static final String NUMBER_TEMPLATE_PATH = "templates/stringtemplate/Number.stg";
+
+   private static final String EMF_CONSTANT_TEMPLATE_PATH = "templates/stringtemplate/EMFConstant.stg";
+
+   private static final String EMF_OPERATION_TEMPLATE_PATH = "templates/stringtemplate/EMFOperation.stg";
+   
+   private static final String PRIORITIZED_PATTERN_CALL_TEMPLATE_PATH = "templates/stringtemplate/PrioritizedPatternCall.stg";
+   
+   private static final String RELATIONAL_OPERATION_TEMPLATE_PATH = "templates/stringtemplate/RelationalOperation.stg";
+   
+   private static final String PATTERN_CALL_OPERATION_TEMPLATE_PATH = "templates/stringtemplate/PatternCallOperation.stg";
+   
+   private static final String EMF_DELETE_OPERATION_TEMPLATE_PATH = "templates/stringtemplate/EMFDeleteOperation.stg";
+   
+   private static final String EMF_CREATE_OPERATION_TEMPLATE_PATH = "templates/stringtemplate/EMFCreateOperation.stg";
+   
+   private static final String EXPRESSION_PATTERN_MATCHER_TEMPLATE_PATH = "templates/stringtemplate/ExpressionPatternMatcher.stg";
 
    public static final String CONTROL_FLOW_GENERATOR = "ControlFlowGenerator";
 
@@ -54,44 +82,39 @@ public class MOSLGTDefaultTemplateConfiguration implements TemplateConfiguration
       controlFlowTemplateGroup.registerRenderer(EClassifier.class, ecoreModelAdaptor);
       templates.put(CONTROL_FLOW_GENERATOR, controlFlowTemplateGroup);
 
+      Class<?>[] ecoreModelClasses = { EModelElement.class, EMFVariable.class };
       final STGroup bindingAndBlackTemplateGroup = createBindingAndBlackTemplates();
-      bindingAndBlackTemplateGroup.registerModelAdaptor(EModelElement.class, ecoreModelAdaptor);
-      bindingAndBlackTemplateGroup.registerModelAdaptor(EMFVariable.class, ecoreModelAdaptor);
+      registerModelForClasses(bindingAndBlackTemplateGroup, ecoreModelAdaptor, ecoreModelClasses);
       bindingAndBlackTemplateGroup.registerRenderer(EMFVariable.class, ecoreModelAdaptor);
       bindingAndBlackTemplateGroup.registerRenderer(EClassifier.class, ecoreModelAdaptor);
       templates.put(DefaultCodeGeneratorConfig.BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR, bindingAndBlackTemplateGroup);
 
       final STGroup bindingTemplateGroup = createBindingTemplates();
-      bindingTemplateGroup.registerModelAdaptor(EModelElement.class, ecoreModelAdaptor);
-      bindingTemplateGroup.registerModelAdaptor(EMFVariable.class, ecoreModelAdaptor);
+      registerModelForClasses(bindingTemplateGroup, ecoreModelAdaptor, ecoreModelClasses);
       bindingTemplateGroup.registerRenderer(EMFVariable.class, ecoreModelAdaptor);
       bindingTemplateGroup.registerRenderer(EClassifier.class, ecoreModelAdaptor);
       templates.put(DefaultCodeGeneratorConfig.BINDING_PATTERN_MATCHER_GENERATOR, bindingTemplateGroup);
 
       final STGroup blackTemplateGroup = createBlackTemplates();
-      blackTemplateGroup.registerModelAdaptor(EModelElement.class, ecoreModelAdaptor);
-      blackTemplateGroup.registerModelAdaptor(EMFVariable.class, ecoreModelAdaptor);
+      registerModelForClasses(blackTemplateGroup, ecoreModelAdaptor, ecoreModelClasses);
       blackTemplateGroup.registerRenderer(EMFVariable.class, ecoreModelAdaptor);
       blackTemplateGroup.registerRenderer(EClassifier.class, ecoreModelAdaptor);
       templates.put(DefaultCodeGeneratorConfig.BLACK_PATTERN_MATCHER_GENERATOR, blackTemplateGroup);
 
       final STGroup redTemplateGroup = createRedTemplates();
-      redTemplateGroup.registerModelAdaptor(EModelElement.class, ecoreModelAdaptor);
-      redTemplateGroup.registerModelAdaptor(EMFVariable.class, ecoreModelAdaptor);
+      registerModelForClasses(redTemplateGroup, ecoreModelAdaptor, ecoreModelClasses);
       redTemplateGroup.registerRenderer(EMFVariable.class, ecoreModelAdaptor);
       redTemplateGroup.registerRenderer(EClassifier.class, ecoreModelAdaptor);
       templates.put(DefaultCodeGeneratorConfig.RED_PATTERN_MATCHER_GENERATOR, redTemplateGroup);
 
       final STGroup greenTemplateGroup = createGreenTemplates();
-      greenTemplateGroup.registerModelAdaptor(EModelElement.class, ecoreModelAdaptor);
-      greenTemplateGroup.registerModelAdaptor(EMFVariable.class, ecoreModelAdaptor);
+      registerModelForClasses(greenTemplateGroup, ecoreModelAdaptor, ecoreModelClasses);
       greenTemplateGroup.registerRenderer(EMFVariable.class, ecoreModelAdaptor);
       greenTemplateGroup.registerRenderer(EClassifier.class, ecoreModelAdaptor);
       templates.put(DefaultCodeGeneratorConfig.GREEN_PATTERN_MATCHER_GENERATOR, greenTemplateGroup);
 
       final STGroup expressionTemplateGroup = createExpressionTemplates();
-      expressionTemplateGroup.registerModelAdaptor(EModelElement.class, ecoreModelAdaptor);
-      expressionTemplateGroup.registerModelAdaptor(EMFVariable.class, ecoreModelAdaptor);
+      registerModelForClasses(expressionTemplateGroup, ecoreModelAdaptor, ecoreModelClasses);
       expressionTemplateGroup.registerRenderer(EMFVariable.class, ecoreModelAdaptor);
       expressionTemplateGroup.registerRenderer(EClassifier.class, ecoreModelAdaptor);
       templates.put(DefaultCodeGeneratorConfig.EXPRESSION_PATTERN_MATCHER_GENERATOR, expressionTemplateGroup);
@@ -121,18 +144,12 @@ public class MOSLGTDefaultTemplateConfiguration implements TemplateConfiguration
       // final URL groupFileURL = FileLocator.resolve(Platform.getBundle("org.moflon.compiler.sdm.democles").getEntry(
       // "templates/stringtemplate/ControlFlow.stg"));
       // final STGroup controlFlowGenerator = new STGroupFile(groupFileURL, "ascii", '<', '>');
-      final STGroup group = new STGroup();
-      group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/" + CONTROL_FLOW_GENERATOR + "/", getCompilerURI() + "templates/stringtemplate/ControlFlow.stg");
+      final STGroup group = createBasicSTGroup();
+      group.loadGroupFile("/" + CONTROL_FLOW_GENERATOR + "/", getCompilerURI() + CONTROL_FLOW_TEMPLATE_PATH);
 
-      final ControlFlowModelAdaptor adaptor = new ControlFlowModelAdaptor();
-      group.registerModelAdaptor(PatternInvocation.class, adaptor);
-      group.registerModelAdaptor(VariableReference.class, adaptor);
-      group.registerModelAdaptor(CFNode.class, adaptor);
-      group.registerModelAdaptor(CFVariable.class, adaptor);
-      final ImportHandler importRenderer = new ImportHandler();
-      group.registerModelAdaptor(ImportManager.class, importRenderer);
-      group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
+      Class<?>[] controlFlowClasses = { PatternInvocation.class, VariableReference.class, CFNode.class, CFVariable.class };
+      registerModelForClasses(group, new ControlFlowModelAdaptor(), controlFlowClasses);
+      registerImportManager(group);
       return group;
    }
 
@@ -144,23 +161,11 @@ public class MOSLGTDefaultTemplateConfiguration implements TemplateConfiguration
 
    public static final STGroup createBindingAndBlackTemplates()
    {
-      final STGroup group = new STGroup();
-      group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/MOSLGTRegularPatternMatcher.stg");
-      group.loadGroupFile("/priority/", getCompilerURI() + "templates/stringtemplate/PrioritizedPatternCall.stg");
-      final ImportHandler importRenderer = new ImportHandler();
-      group.registerModelAdaptor(ImportManager.class, importRenderer);
-      group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
+      final STGroup group = createRegularSTGroup();
+      addDemoclesCommon(group);
+      group.loadGroupFile("/priority/", getCompilerURI() + PRIORITIZED_PATTERN_CALL_TEMPLATE_PATH);
 
-      final PatternMatcherModelAdaptor parameterRenderer = new PatternMatcherModelAdaptor();
-      group.registerModelAdaptor(GeneratorOperation.class, parameterRenderer);
-      group.registerModelAdaptor(ConstraintVariable.class, parameterRenderer);
-      group.registerModelAdaptor(VariableRuntime.class, parameterRenderer);
-      group.registerModelAdaptor(Integer.class, new AdornmentHandler());
-      group.registerRenderer(String.class, new StringRenderer());
-
-      group.registerModelAdaptor(GenBase.class, new GenModelAdaptor());
+      postRegister(group);
       return group;
    }
 
@@ -172,25 +177,11 @@ public class MOSLGTDefaultTemplateConfiguration implements TemplateConfiguration
 
    public static final STGroup createBindingTemplates()
    {
-      final STGroup group = new STGroup();
-      group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/RegularPatternMatcher.stg");
-      group.loadGroupFile("/assignment/", getCompilerURI() + "templates/stringtemplate/Assignment.stg");
-      group.loadGroupFile("/emf/", getDemoclesEMFURI() + "templates/stringtemplate/EMFOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
-      group.loadGroupFile("/democles/", getCompilerURI() + "templates/stringtemplate/Number.stg");
-      final ImportHandler importRenderer = new ImportHandler();
-      group.registerModelAdaptor(ImportManager.class, importRenderer);
-      group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
+      final STGroup group = createBindingSTGroup();
+      addDemoclesCommon(group);
+      addBlackGreenBindingAndExpressionStuff(group);
 
-      final PatternMatcherModelAdaptor parameterRenderer = new PatternMatcherModelAdaptor();
-      group.registerModelAdaptor(ConstraintVariable.class, parameterRenderer);
-      group.registerModelAdaptor(VariableRuntime.class, parameterRenderer);
-      group.registerModelAdaptor(Integer.class, new AdornmentHandler());
-      group.registerRenderer(String.class, new StringRenderer());
-
-      group.registerModelAdaptor(GenBase.class, new GenModelAdaptor());
+      postRegister(group);
       return group;
    }
 
@@ -203,26 +194,13 @@ public class MOSLGTDefaultTemplateConfiguration implements TemplateConfiguration
 
    public static final STGroup createBlackTemplates()
    {
-      final STGroup group = new STGroup();
-      group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/RegularPatternMatcher.stg");
-      group.loadGroupFile("/core/", getDemoclesCoreURI() + "templates/stringtemplate/RelationalOperation.stg");
-      group.loadGroupFile("/emf/", getDemoclesEMFURI() + "templates/stringtemplate/EMFOperation.stg");
-      group.loadGroupFile("/pattern/", getDemoclesCoreURI() + "templates/stringtemplate/PatternCallOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
-      group.loadGroupFile("/democles/", getCompilerURI() + "templates/stringtemplate/Number.stg");
-      final ImportHandler importRenderer = new ImportHandler();
-      group.registerModelAdaptor(ImportManager.class, importRenderer);
-      group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
+      final STGroup group = createRegularSTGroup();
+      addDemoclesCommon(group);
+      addBlackGreenBindingAndExpressionStuff(group);
+      group.loadGroupFile("/core/", getDemoclesCoreURI() + RELATIONAL_OPERATION_TEMPLATE_PATH);
+      group.loadGroupFile("/pattern/", getDemoclesCoreURI() + PATTERN_CALL_OPERATION_TEMPLATE_PATH);
 
-      final PatternMatcherModelAdaptor parameterRenderer = new PatternMatcherModelAdaptor();
-      group.registerModelAdaptor(ConstraintVariable.class, parameterRenderer);
-      group.registerModelAdaptor(VariableRuntime.class, parameterRenderer);
-      group.registerModelAdaptor(Integer.class, new AdornmentHandler());
-      group.registerRenderer(String.class, new StringRenderer());
-
-      group.registerModelAdaptor(GenBase.class, new GenModelAdaptor());
+      postRegister(group);
       return group;
    }
 
@@ -234,23 +212,12 @@ public class MOSLGTDefaultTemplateConfiguration implements TemplateConfiguration
 
    public static final STGroup createRedTemplates()
    {
-      final STGroup group = new STGroup();
-      group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/RegularPatternMatcher.stg");
-      group.loadGroupFile("/emf-delete/", getCompilerURI() + "templates/stringtemplate/EMFDeleteOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
-      final ImportHandler importRenderer = new ImportHandler();
-      group.registerModelAdaptor(ImportManager.class, importRenderer);
-      group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
+      final STGroup group = createRegularSTGroup();
+      addDemoclesCommon(group);
+      group.loadGroupFile("/emf-delete/", getCompilerURI() + EMF_DELETE_OPERATION_TEMPLATE_PATH);
+      group.loadGroupFile("/democles/", getDemoclesEMFURI() + EMF_CONSTANT_TEMPLATE_PATH);
 
-      final PatternMatcherModelAdaptor parameterRenderer = new PatternMatcherModelAdaptor();
-      group.registerModelAdaptor(ConstraintVariable.class, parameterRenderer);
-      group.registerModelAdaptor(VariableRuntime.class, parameterRenderer);
-      group.registerModelAdaptor(Integer.class, new AdornmentHandler());
-      group.registerRenderer(String.class, new StringRenderer());
-
-      group.registerModelAdaptor(GenBase.class, new GenModelAdaptor());
+      postRegister(group);
       return group;
    }
 
@@ -262,26 +229,12 @@ public class MOSLGTDefaultTemplateConfiguration implements TemplateConfiguration
 
    public static final STGroup createGreenTemplates()
    {
-      final STGroup group = new STGroup();
-      group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/regular/", getCompilerURI() + "templates/stringtemplate/RegularPatternMatcher.stg");
-      group.loadGroupFile("/assignment/", getCompilerURI() + "templates/stringtemplate/Assignment.stg");
-      group.loadGroupFile("/emf-create/", getCompilerURI() + "templates/stringtemplate/EMFCreateOperation.stg");
-      group.loadGroupFile("/emf/", getDemoclesEMFURI() + "templates/stringtemplate/EMFOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
-      group.loadGroupFile("/democles/", getCompilerURI() + "templates/stringtemplate/Number.stg");
-      final ImportHandler importRenderer = new ImportHandler();
-      group.registerModelAdaptor(ImportManager.class, importRenderer);
-      group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
+      final STGroup group = createBindingSTGroup();
+      addDemoclesCommon(group);
+      addBlackGreenBindingAndExpressionStuff(group);
+      group.loadGroupFile("/emf-create/", getCompilerURI() + EMF_CREATE_OPERATION_TEMPLATE_PATH);
 
-      final PatternMatcherModelAdaptor parameterRenderer = new PatternMatcherModelAdaptor();
-      group.registerModelAdaptor(ConstraintVariable.class, parameterRenderer);
-      group.registerModelAdaptor(VariableRuntime.class, parameterRenderer);
-      group.registerModelAdaptor(Integer.class, new AdornmentHandler());
-      group.registerRenderer(String.class, new StringRenderer());
-
-      group.registerModelAdaptor(GenBase.class, new GenModelAdaptor());
+      postRegister(group);
       return group;
    }
 
@@ -293,26 +246,71 @@ public class MOSLGTDefaultTemplateConfiguration implements TemplateConfiguration
 
    public static final STGroup createExpressionTemplates()
    {
+      final STGroup group = createBindingSTGroup();
+      addDemoclesCommon(group);
+      addBlackGreenBindingAndExpressionStuff(group);
+      group.loadGroupFile("/expression/", getCompilerURI() + EXPRESSION_PATTERN_MATCHER_TEMPLATE_PATH);
+
+      postRegister(group);
+      return group;
+   }
+
+   private static final STGroup createBasicSTGroup()
+   {
       final STGroup group = new STGroup();
       group.setListener(new LoggingSTErrorListener(logger));
-      group.loadGroupFile("/democles/", getDemoclesCoreURI() + "templates/stringtemplate/DemoclesCommon.stg");
-      group.loadGroupFile("/expression/", getCompilerURI() + "templates/stringtemplate/ExpressionPatternMatcher.stg");
-      group.loadGroupFile("/assignment/", getCompilerURI() + "templates/stringtemplate/Assignment.stg");
-      group.loadGroupFile("/emf/", getDemoclesEMFURI() + "templates/stringtemplate/EMFOperation.stg");
-      group.loadGroupFile("/democles/", getDemoclesEMFURI() + "templates/stringtemplate/EMFConstant.stg");
-      group.loadGroupFile("/democles/", getCompilerURI() + "templates/stringtemplate/Number.stg");
-      final ImportHandler importRenderer = new ImportHandler();
-      group.registerModelAdaptor(ImportManager.class, importRenderer);
-      group.registerModelAdaptor(FullyQualifiedName.class, importRenderer);
+      return group;
+   }
 
-      final PatternMatcherModelAdaptor parameterRenderer = new PatternMatcherModelAdaptor();
-      group.registerModelAdaptor(ConstraintVariable.class, parameterRenderer);
-      group.registerModelAdaptor(VariableRuntime.class, parameterRenderer);
+   private static final STGroup createRegularSTGroup()
+   {
+      final STGroup group = createBasicSTGroup();
+      group.loadGroupFile("/regular/", getCompilerURI() + REGULAR_PATTERN_TEMPLATE_PATH);
+      return group;
+   }
+
+   private static final STGroup createBindingSTGroup()
+   {
+      final STGroup group = createRegularSTGroup();
+      group.loadGroupFile("/assignment/", getCompilerURI() + ASSIGNMENT_TEMPLATE_PATH);
+      return group;
+   }
+
+   private static void addDemoclesCommon(final STGroup group)
+   {
+      group.loadGroupFile("/democles/", getDemoclesCoreURI() + DEMOCLES_COMMON_TEMPLATE_PATH);
+   }
+
+   private static void addBlackGreenBindingAndExpressionStuff(final STGroup group)
+   {
+      group.loadGroupFile("/emf/", getDemoclesEMFURI() + EMF_OPERATION_TEMPLATE_PATH);
+      group.loadGroupFile("/democles/", getDemoclesEMFURI() + EMF_CONSTANT_TEMPLATE_PATH);
+      group.loadGroupFile("/democles/", getCompilerURI() + NUMBER_TEMPLATE_PATH);
+   }
+
+   private static void postRegister(final STGroup group)
+   {
+      registerImportManager(group);
+
+      Class<?>[] parameterClasses = { ConstraintVariable.class, VariableRuntime.class };
+      registerModelForClasses(group, new PatternMatcherModelAdaptor(), parameterClasses);
+
       group.registerModelAdaptor(Integer.class, new AdornmentHandler());
       group.registerRenderer(String.class, new StringRenderer());
 
       group.registerModelAdaptor(GenBase.class, new GenModelAdaptor());
-      return group;
+   }
+
+   private static void registerImportManager(final STGroup group)
+   {
+      Class<?>[] importClasses = { ImportManager.class, FullyQualifiedName.class };
+      registerModelForClasses(group, new ImportHandler(), importClasses);
+   }
+
+   private static void registerModelForClasses(final STGroup group, final ModelAdaptor adaptor, Class<?>[] clazzes)
+   {
+      List<Class<?>> classes = Arrays.asList(clazzes);
+      classes.stream().forEach(clazz -> group.registerModelAdaptor(clazz, adaptor));
    }
 
    private static String getCompilerURI()

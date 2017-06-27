@@ -15,7 +15,7 @@ public class DemoclesGeneratorAdapterFactory extends GeneratorAdapterFactory imp
 
 	public Adapter createGenClassAdapter() {
 		if (genClassGeneratorAdapter == null) {
-			genClassGeneratorAdapter = new DemoclesClassGeneratorAdapter(this);
+			genClassGeneratorAdapter = DemoclesClassGeneratorAdapter.createDemoclesClassGeneratorAdapter(this);
 		}
 		return genClassGeneratorAdapter;
 	}
