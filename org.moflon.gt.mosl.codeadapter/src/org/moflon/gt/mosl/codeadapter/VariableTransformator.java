@@ -14,6 +14,8 @@ import org.gervarro.democles.specification.emf.Variable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypeFactory;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.Reference;
+import org.gervarro.democles.specification.emf.constraint.relational.RelationalConstraintFactory;
+import org.gervarro.democles.specification.emf.constraint.relational.Unequal;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.EClassDef;
@@ -80,6 +82,23 @@ public class VariableTransformator
 
       this.handleTarget(reference, linkVariable);
 
+   }
+   
+   public void addUnequals(Pattern pattern, PatternBody patternBody){
+      List<Variable> variables = pattern.getSymbolicParameters();
+      for(int i = 0; i < variables.size(); i++){
+         for(int k = i+1; k < variables.size(); k++){
+            Unequal uneaqual = RelationalConstraintFactory.eINSTANCE.createUnequal();
+            patternBody.getConstraints().add(uneaqual);
+            ConstraintParameter from = SpecificationFactory.eINSTANCE.createConstraintParameter();
+            from.setReference(variables.get(i));
+            ConstraintParameter to = SpecificationFactory.eINSTANCE.createConstraintParameter();
+            to.setReference(variables.get(k));
+            
+            uneaqual.getParameters().add(from);
+            uneaqual.getParameters().add(to);
+         }
+      }
    }
    
    public void transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, Map<String, CFVariable> env, PatternInvocation invocation)

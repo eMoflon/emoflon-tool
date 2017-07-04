@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
+import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.SpecificationFactory;
@@ -35,7 +36,7 @@ public class PatternBuilder
 {
    private static PatternBuilder instance;
 
-   private final PatternKind[] searchOrder = { PatternKind.BLACK, PatternKind.GREEN, PatternKind.RED };
+   private final PatternKind[] searchOrder = { PatternKind.BLACK, PatternKind.RED, PatternKind.GREEN };
 
    private Map<String, Map<PatternKind, List<PatternObject>>> transformPlan;
 
@@ -46,6 +47,7 @@ public class PatternBuilder
    private Map<String, List<String>> nodeDeletionNameCache;
    
    private Map<PatternInvocation, PatternKind> patternTypes;
+   
 
    private PatternBuilder()
    {
@@ -63,6 +65,10 @@ public class PatternBuilder
       return instance;
    }
 
+   public PatternKind getPK(PatternInvocation invocation){
+      return patternTypes.get(invocation);
+   }
+   
    public void addTransformPlanRule(PatternKind patternKind, TransformPlanRule transformPlanRule)
    {
       transformPlanRuleCache.put(patternKind, transformPlanRule);
@@ -146,17 +152,38 @@ public class PatternBuilder
       VariableTransformator.getInstance().transformPatternObjects(patternObjectIndex.stream().filter(po -> po instanceof LinkVariablePattern)
             .map(po -> LinkVariablePattern.class.cast(po)).collect(Collectors.toList()), bindings, patternBody, pk);
 
+      //special case for black pattern
+      if(pk == PatternKind.BLACK)
+         VariableTransformator.getInstance().addUnequals(pattern, patternBody);
+      
       //register Pattern
       pattern.setName(patternNameGenerator.apply(pk.getSuffix()));
       EClass eClass = EClassDef.class.cast(StatementBuilder.getInstance().getCurrentMethod().eContainer()).getName();
       CodeadapterTrafo.getInstance().saveAsRegisteredAdapter(pattern, CodeadapterTrafo.getInstance().getTypeContext(eClass), pk.getSuffix());
+//      CodeadapterTrafo.getInstance().generateSearchPlan(pk.getSuffix(), calculateAdornment(invocation));
+     // CodeadapterTrafo.getInstance().generateSearchPlan(pattern, calculateAdornment(invocation, bindings), invocation.isMultipleMatch(), pk.getSuffix());
       
       //register name
+      PatternUtil.addKind(pattern.getName(), pk);
       PatternUtil.add(invocation, eClass);
 
       //return value
       return invocation;
    }
+   
+ //TODO@rkluge: Possible code duplication
+ public Adornment calculateAdornment(PatternInvocation invocation, Map<String, Boolean> bindings)
+ {
+    Adornment adornment = new Adornment(invocation.getParameters().size());
+    int i = 0;
+    for(VariableReference variableRef : invocation.getParameters())
+    {
+       final int value = bindings.getOrDefault(variableRef.getFrom().getName(), false) ? Adornment.BOUND : Adornment.FREE;
+       adornment.set(i, value);
+       i++;
+    }
+    return adornment;
+ }
    
    /**
     * Creates a new PatternInvocation
@@ -191,19 +218,20 @@ public class PatternBuilder
       if(parameterMonad.isPresent())
          return false;
       
-      //check green pattern
-      PatternInvocation greenInvocation = getInvocationIfVarExists(PatternKind.GREEN, cfNode, cfVar);
-      if(greenInvocation != null /*&& greenInvocation.equals(currentInvocation)*/ && isCFVarCorrectKind(PatternKind.GREEN, cfVar, patternName))
-         return true;
-      else if(greenInvocation != null /*&& !greenInvocation.equals(currentInvocation)*/ && isCFVarCorrectKind(PatternKind.GREEN, cfVar, patternName))
-         return false;
-      
       //check black pattern
       PatternInvocation blackInvocation = getInvocationIfVarExists(PatternKind.BLACK, cfNode, cfVar);
-      if(blackInvocation != null /*&& blackInvocation.equals(currentInvocation)*/ && isCFVarCorrectKind(PatternKind.BLACK, cfVar, patternName))
+      if(blackInvocation != null && blackInvocation.equals(currentInvocation) && isCFVarCorrectKind(PatternKind.BLACK, cfVar, patternName))
          return true;
-      else if(blackInvocation != null /*&& !blackInvocation.equals(currentInvocation)*/ && isCFVarCorrectKind(PatternKind.BLACK, cfVar, patternName))
+      else if(blackInvocation != null && !blackInvocation.equals(currentInvocation) && isCFVarCorrectKind(PatternKind.BLACK, cfVar, patternName))
          return false;
+      
+      //check green pattern
+      PatternInvocation greenInvocation = getInvocationIfVarExists(PatternKind.GREEN, cfNode, cfVar);
+      if(greenInvocation != null && greenInvocation.equals(currentInvocation) && isCFVarCorrectKind(PatternKind.GREEN, cfVar, patternName))
+         return true;
+      else if(greenInvocation != null && !greenInvocation.equals(currentInvocation) && isCFVarCorrectKind(PatternKind.GREEN, cfVar, patternName))
+         return false;
+      
       
       return false;
    }

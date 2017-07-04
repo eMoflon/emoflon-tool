@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -14,8 +15,11 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.INodeChangeListener;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -31,6 +35,7 @@ import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.VariableReference;
 
@@ -60,9 +65,10 @@ public class MOSLGTWeavingTask implements ITask
     */
    private String projecPrefixURI;
 
-   // TODO@rkluge: This is an ugly bug to access the pattern matchers
+//   // TODO@rkluge: This is an ugly bug to access the pattern matchers
    @Deprecated
    private final ScopeValidationConfigurator scopeValidatorConfiguration;
+
 
    /**
     * Preconfigures this task with the top-level {@link EPackage} of the metamodel to be processed
@@ -80,6 +86,7 @@ public class MOSLGTWeavingTask implements ITask
       {
          projecPrefixURI += uriPart + "/";
       }
+      CodeadapterTrafo.getInstance().setSearchplanGenerators(scopeValidatorConfiguration.getSearchPlanGenerators());
       this.scopeValidatorConfiguration = scopeValidatorConfiguration;
 
       DemoclesMethodBodyHandler.initResourceSetForDemocles(resourceSet);
@@ -155,31 +162,31 @@ public class MOSLGTWeavingTask implements ITask
                enrichedEcoreResource.save(Collections.EMPTY_MAP);
                EcoreUtil.resolveAll(contextEPackage);
                final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, DemoclesMethodBodyHandler::initResourceSetForDemocles,
-                     this.resourceSet);
+                     this.resourceSet, this::getTreeIterator);
 
                /*
                 * Goal: For each pattern invocation, generate and store the search plan Needed: * pattern invocations (=
                 * pattern+adornment) within each operation in the package * PatternMatcher
                 */
                // TODO@rkluge: Add support for nested packages
-               enrichedEPackage.getEClassifiers().stream()//
-                     .filter(eClassifier -> eClassifier instanceof EClass)//
-                     .map(eClassifier -> EClass.class.cast(eClassifier)).forEach(eClass -> {
-                        eClass.getEOperations().forEach(eOperation -> {
-                           AdapterResource controlFlowResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation,
-                                 DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
-                           controlFlowResource.getAllContents().forEachRemaining(eObject -> {
-                              if (eObject instanceof PatternInvocation)
-                              {
-                                 final PatternInvocation invocation = (PatternInvocation) eObject;
-                                 final Adornment adornment = calculateAdornment(invocation);
-                                 final Pattern pattern = invocation.getPattern();
-                                 final boolean isMultipleMatch = invocation.isMultipleMatch();
-                                 scopeValidatorConfiguration.getBlackPatternMatcher().generateSearchPlan(pattern, adornment, isMultipleMatch);
-                              }
-                           });
-                        });
-                     });
+//               enrichedEPackage.getEClassifiers().stream()//
+//                     .filter(eClassifier -> eClassifier instanceof EClass)//
+//                     .map(eClassifier -> EClass.class.cast(eClassifier)).forEach(eClass -> {
+//                        eClass.getEOperations().forEach(eOperation -> {
+//                           AdapterResource controlFlowResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation,
+//                                 DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
+//                           controlFlowResource.getAllContents().forEachRemaining(eObject -> {
+//                              if (eObject instanceof PatternInvocation)
+//                              {
+//                                 final PatternInvocation invocation = (PatternInvocation) eObject;
+//                                 final Adornment adornment = calculateAdornment(invocation);
+//                                 final Pattern pattern = invocation.getPattern();
+//                                 final boolean isMultipleMatch = invocation.isMultipleMatch();
+//                                 scopeValidatorConfiguration.getBlackPatternMatcher().generateSearchPlan(pattern, adornment, isMultipleMatch);
+//                              }
+//                           });
+//                        });
+//                     });
 
                // save context
                enrichedEcoreResource.getContents().clear();
@@ -199,7 +206,12 @@ public class MOSLGTWeavingTask implements ITask
       return Status.OK_STATUS;
    }
 
-   //TODO@rkluge: Possible code duplication
+   
+   private TreeIterator<EObject> getTreeIterator(EOperation eOperation){
+      AdapterResource controlFlowResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation, DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
+      return controlFlowResource.getAllContents();
+   }
+//   //TODO@rkluge: Possible code duplication
    private Adornment calculateAdornment(PatternInvocation invocation)
    {
       Adornment adornment = new Adornment(invocation.getParameters().size());

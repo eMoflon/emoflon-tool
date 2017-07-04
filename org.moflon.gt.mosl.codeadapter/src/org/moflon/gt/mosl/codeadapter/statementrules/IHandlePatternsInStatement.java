@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.gervarro.democles.common.Adornment;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.codeadapter.StatementBuilder;
@@ -25,6 +26,7 @@ import org.moflon.sdm.runtime.democles.NodeDeletion;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.Scope;
+import org.moflon.sdm.runtime.democles.VariableReference;
 
 public interface IHandlePatternsInStatement extends IHandleCFVariable
 {
@@ -84,8 +86,10 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
          }
          cfNode.setMainAction(invocation);
          
+         //CodeadapterTrafo.getInstance().generateSearchPlan(invocation.getPattern() , calculateAdornment(invocation), invocation.isMultipleMatch(), PatternBuilder.getInstance().getPK(invocation).getSuffix());
          cfVars.stream().filter(cfVar -> PatternBuilder.getInstance().isConstructorPattern(cfNode, cfVar, invocation, methodParameters, patternName)).forEach(cfVar -> cfVar.setConstructor(invocation));
   
+         CodeadapterTrafo.getInstance().generateSearchPlan(invocation.getPattern() , calculateAdornment(invocation), invocation.isMultipleMatch(), PatternBuilder.getInstance().getPK(invocation).getSuffix());
       }
       
       NodeDeletion nodeDeletion = PatternBuilder.getInstance().getNodeDeletion(patternName, cfVars);
@@ -95,6 +99,19 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
          nodeDeletion.setPrev(lastInvocation);
          nodeDeletion.setCfNode(cfNode);
       }
+   }
+   
+   default Adornment calculateAdornment(PatternInvocation invocation)
+   {
+      Adornment adornment = new Adornment(invocation.getParameters().size());
+      int i = 0;
+      for(VariableReference variableRef : invocation.getParameters())
+      {
+         final int value = variableRef.isFree() ? Adornment.FREE : Adornment.BOUND;
+         adornment.set(i, value);
+         i++;
+      }
+      return adornment;
    }
 
 }

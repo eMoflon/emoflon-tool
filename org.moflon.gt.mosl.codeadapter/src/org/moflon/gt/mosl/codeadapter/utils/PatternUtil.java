@@ -15,6 +15,18 @@ import org.moflon.sdm.runtime.democles.PatternInvocation;
 public class PatternUtil
 {
    private static Map<String, String> belongingClassNames = new HashMap<>();
+   private static Map<String, PatternKind> belongingKind = new HashMap<>();
+   private static Map<String, Integer> bindingHelper = new HashMap<>();
+   
+   public static int getCounts(String varName){
+      int count = bindingHelper.getOrDefault(varName, 0);
+      bindingHelper.put(varName, count+1);
+      return count;
+   }
+   
+   public static void setCountsToZero(){
+      bindingHelper.clear();
+   }
    
    public static ObjectVariableDefinition getCorrespondingOV(PatternParameter pp, PatternDef patternDef){
       Optional<ObjectVariableDefinition> optOV = patternDef.getObjectVariables().stream().filter(ov -> ov.getName().compareTo(pp.getOv().getName())==0).findAny();
@@ -36,6 +48,15 @@ public class PatternUtil
    
    public static void cleanNames(){
       belongingClassNames.clear();
+      belongingKind.clear();
+   }
+   
+   public static PatternKind getKind(String patternName){
+      return belongingKind.get(patternName);
+   }
+   
+   public static void addKind(String patternName, PatternKind pk){
+      belongingKind.put(patternName,pk);
    }
    
    public static void add(PatternInvocation invocation, EClass eClass){

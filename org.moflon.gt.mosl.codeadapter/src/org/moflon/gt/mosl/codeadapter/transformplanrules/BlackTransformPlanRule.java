@@ -14,7 +14,7 @@ public class BlackTransformPlanRule extends SimpleTypeVariableOrientedTransformP
    @Override
    protected boolean getConditionFromOperator(Operator op)
    {
-      return op == null || op.getValue() == null || "".compareTo(op.getValue())==0;
+      return op == null || op.getValue() == null || "".compareTo(op.getValue())==0 || op.getValue().equals("--");
    }
 
 }
