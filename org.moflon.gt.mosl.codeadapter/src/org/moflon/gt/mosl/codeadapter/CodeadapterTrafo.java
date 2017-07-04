@@ -4,14 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -24,6 +26,8 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.gervarro.democles.common.Adornment;
+import org.gervarro.democles.specification.emf.Pattern;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
@@ -33,8 +37,10 @@ import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.MoflonOperation;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
+import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.Scope;
 
 public class CodeadapterTrafo
@@ -48,9 +54,15 @@ public class CodeadapterTrafo
 
    private Function<CFNode, Function<PatternDef, Function<String, String>>> currentEOperationNameConstructor;
    
-   private EPackage contextEPackage;;
+   private Function<EOperation, TreeIterator<EObject>> treeIteratorFromAdapterResource;
+   
+   private EPackage contextEPackage;
+   
+   private Map<String,Function<Pattern, Function<Adornment,Function<Boolean, ValidationReport>>>> getSearchPlanGenerators;
    
    private ResourceSet resourceSet;
+   
+   private EOperation currentEOp;
 
    private CodeadapterTrafo()
    {
@@ -65,6 +77,10 @@ public class CodeadapterTrafo
       return instance;
    }
 
+   public void setSearchplanGenerators(Map<String,Function<Pattern, Function<Adornment,Function<Boolean, ValidationReport>>>> searchPlanGenerators){
+      getSearchPlanGenerators = searchPlanGenerators;
+   }
+   
    public String getPatternName(CFNode node, PatternDef patternDef, String suffix)
    {
       return currentEOperationNameConstructor.apply(node).apply(patternDef).apply(suffix);
@@ -92,8 +108,9 @@ public class CodeadapterTrafo
          return ref;
    }
    
-   public EPackage transform(EPackage contextEPackage, final GraphTransformationFile gtf, Consumer<ResourceSet> loader, final ResourceSet resourceSet)
+   public EPackage transform(EPackage contextEPackage, final GraphTransformationFile gtf, Consumer<ResourceSet> loader, final ResourceSet resourceSet, final Function<EOperation, TreeIterator<EObject>> treeIteratorGen)
    {
+      this.treeIteratorFromAdapterResource = treeIteratorGen;
       this.resourceSet = resourceSet;
       this.loader = loader;
       this.contextEPackage = contextEPackage;
@@ -101,7 +118,7 @@ public class CodeadapterTrafo
 
       
       String name = gtf.getName();
-      String[] domain = name.split(Pattern.quote("."));
+      String[] domain = name.split(java.util.regex.Pattern.quote("."));
 
       if (contextEPackage.getName().compareToIgnoreCase(gtf.getName()) == 0
             || domain.length > 0 && contextEPackage.getName().compareToIgnoreCase(domain[domain.length - 1]) == 0)
@@ -132,6 +149,7 @@ public class CodeadapterTrafo
          }
 
          MoflonOperation mofOp = ControlflowFactory.eINSTANCE.createMoflonOperation();
+         currentEOp = mofOp;
          changeableContext.getEOperations().add(mofOp);
          mofOp.setName(methodDec.getName());
          mofOp.getEParameters().addAll(createEParameters(methodDec.getParameters()));
@@ -139,11 +157,19 @@ public class CodeadapterTrafo
 
          currentEOperationNameConstructor = node -> patternDef -> suffix -> {
             final EOperation eOperation = mofOp;
-            final CFNode cfNode = node;
             String storyNodeName = patternDef.getName() != null ? patternDef.getName().trim() : "";
             storyNodeName = storyNodeName.replaceAll("\\s+", "");
             final EClass eClass = eOperation.getEContainingClass();
-            final int operationIndex = eClass.getEOperations().indexOf(eOperation);
+            List<EOperation> operations= new ArrayList<>(eClass.getEOperations());
+            operations.sort(new Comparator<EOperation>() {
+
+               @Override
+               public int compare(EOperation o1, EOperation o2)
+               {
+                  return o1.getName().compareTo(o2.getName());
+               }
+            });
+            final int operationIndex = operations.indexOf(eOperation);
             return "pattern_" + eClass.getName() + "_" + operationIndex + "_" + node.getId() + "_" + storyNodeName + "_" + suffix;
          };
          transformMethodStructure(methodDec, mofOp);
@@ -176,6 +202,7 @@ public class CodeadapterTrafo
       Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
       mofOp.setRootScope(rootScope);
 
+      PatternUtil.setCountsToZero();
       statementTrafo.loadCurrentMethod(methodDec);
       Statement startStatement = methodDec.getStartStatement();
       statementTrafo.transformStatement(startStatement, rootScope, null);
@@ -184,6 +211,47 @@ public class CodeadapterTrafo
 //         saveAsRegisteredAdapter(EcoreUtil.copy(rootScope), deletedOperations.get(mofOp.getName()), "cf");
 //      else
          saveAsRegisteredAdapter(rootScope, mofOp, "cf");
+         
+   }
+   
+   public void generateSearchPlan(String type, Adornment adornment){
+      TreeIterator<EObject> treeIterator = treeIteratorFromAdapterResource.apply(currentEOp);
+      treeIterator.forEachRemaining(eObject -> {
+       if (eObject instanceof PatternInvocation)
+       {
+          final PatternInvocation invocation = (PatternInvocation) eObject;
+          
+          final Pattern pattern = invocation.getPattern();
+          final boolean isMultipleMatch = invocation.isMultipleMatch();
+          getSearchPlanGenerators.get(type).apply(pattern).apply(adornment).apply(isMultipleMatch);
+          }});
+   }
+// /*
+// * Goal: For each pattern invocation, generate and store the search plan Needed: * pattern invocations (=
+// * pattern+adornment) within each operation in the package * PatternMatcher
+// */
+//// TODO@rkluge: Add support for nested packages
+//enrichedEPackage.getEClassifiers().stream()//
+//      .filter(eClassifier -> eClassifier instanceof EClass)//
+//      .map(eClassifier -> EClass.class.cast(eClassifier)).forEach(eClass -> {
+//         eClass.getEOperations().forEach(eOperation -> {
+//            AdapterResource controlFlowResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation,
+//                  DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
+//            controlFlowResource.getAllContents().forEachRemaining(eObject -> {
+//               if (eObject instanceof PatternInvocation)
+//               {
+//                  final PatternInvocation invocation = (PatternInvocation) eObject;
+//                  final Adornment adornment = calculateAdornment(invocation);
+//                  final Pattern pattern = invocation.getPattern();
+//                  final boolean isMultipleMatch = invocation.isMultipleMatch();
+//                  scopeValidatorConfiguration.getBlackPatternMatcher().generateSearchPlan(pattern, adornment, isMultipleMatch);
+//               }
+//            });
+//         });
+//      });
+
+   public void generateSearchPlan(Pattern pattern, Adornment adornment, boolean isMultipleMatch, String type){
+      getSearchPlanGenerators.get(type).apply(pattern).apply(adornment).apply(isMultipleMatch);
    }
    
    public void saveAsRegisteredAdapter(EObject objectToSave, EObject adaptedObject, String type)

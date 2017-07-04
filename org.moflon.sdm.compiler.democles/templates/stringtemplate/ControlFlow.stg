@@ -295,7 +295,7 @@ BindingPatternInvocationImpl(invocation, importManager) ::= <<
 
 //
 RegularPatternInvocationImpl(invocation, importManager) ::= <<
-<if (invocation.cfNode.origin)><importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<else><importManager.(invocation)>.<endif><invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
+<if (invocation.cfNode.origin)><importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<endif><invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 >>
 
 SingleResultPatternInvocationImpl(invocation, importManager) ::= <<
