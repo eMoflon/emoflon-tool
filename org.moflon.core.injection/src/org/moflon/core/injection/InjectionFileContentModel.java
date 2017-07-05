@@ -2,6 +2,7 @@ package org.moflon.core.injection;
 
 import java.util.List;
 
+@Deprecated //TODO@rkluge: Use or kill
 public class InjectionFileContentModel {
 	
 	private String className;
