@@ -44,7 +44,6 @@ Export-Package: org.moflon.ide.ui,
  org.moflon.ide.ui.admin.handlers,
  org.moflon.ide.ui.admin.wizards.metamodel,
  org.moflon.ide.ui.admin.wizards.moca,
- org.moflon.ide.ui.admin.wizards.util,
  org.moflon.ide.ui.preferences,
  org.moflon.ide.ui.propertytesters
 Bundle-ClassPath: .
