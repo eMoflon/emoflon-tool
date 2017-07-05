@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.moflon.moca.inject.extractors.InjectionExtractor;
 import org.moflon.moca.inject.util.UnsupportedOperationCodeInjector;
 import org.moflon.moca.inject.validation.InjectionValidationMessage;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * This class manages the extraction of injection code.
@@ -176,7 +177,7 @@ public class InjectionManager
       List<InjectionValidationMessage> errors = this.userInjectionExtractor.getErrors();
       if (errors.size() > 0)
       {
-         final MultiStatus validationStatus = new MultiStatus(CodeInjectionPlugin.getModuleID(), 0, "Extraction of injections with warnings/errors.", null);
+         final MultiStatus validationStatus = new MultiStatus(FrameworkUtil.getBundle(CodeInjectionPlugin.class).getSymbolicName(), 0, "Extraction of injections with warnings/errors.", null);
          for (final InjectionValidationMessage error : errors)
          {
             validationStatus.add(error.convertToStatus());
@@ -184,6 +185,6 @@ public class InjectionManager
 
          return validationStatus;
       } else
-         return new Status(IStatus.OK, CodeInjectionPlugin.getModuleID(), "Extraction of injections successful.");
+         return new Status(IStatus.OK, FrameworkUtil.getBundle(CodeInjectionPlugin.class).getSymbolicName(), "Extraction of injections successful.");
    }
 }
