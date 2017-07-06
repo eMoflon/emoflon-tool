@@ -347,17 +347,6 @@
                contentTypeId="org.moflon.textualEditor.contentTypes.stringTemplate">
          </contentTypeBinding>
       </editor>
-            <editor
-            class="org.moflon.ide.ui.admin.editors.misc.VelocityTextEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="false"
-            icon="resources/icons/addTextEditor.png"
-            id="org.moflon.ide.ui.admin.editors.misc.VelocityTextEditor"
-            name="eMoflon Velocity Editor">
-         <contentTypeBinding
-               contentTypeId="org.moflon.textualEditor.contentTypes.velocity">
-         </contentTypeBinding>
-      </editor>
    </extension>
    
    
