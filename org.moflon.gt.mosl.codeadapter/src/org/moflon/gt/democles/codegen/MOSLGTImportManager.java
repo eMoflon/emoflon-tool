@@ -1,6 +1,5 @@
 package org.moflon.gt.democles.codegen;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.gervarro.democles.codegen.ImportManager;
@@ -14,11 +13,11 @@ public class MOSLGTImportManager implements ImportManager
    }
    
    private static MOSLGTImportManager instance;
-   private static Collection<String> importList;
+   //private static Collection<String> importList;
    
    public static void createInstance(ImportManager importManager){
       instance = new MOSLGTImportManager(importManager);
-      importList = instance.getImportList();
+      //importList = instance.getImportList();
    }
    
    private ImportManager oldImportManager;

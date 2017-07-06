@@ -1,7 +1,5 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
-
 import org.moflon.gt.mosl.moslgt.ReturnStatement;
 import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.CFNode;
