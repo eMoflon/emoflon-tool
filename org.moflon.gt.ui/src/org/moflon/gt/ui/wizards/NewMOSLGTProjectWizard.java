@@ -1,4 +1,4 @@
-package org.moflon.tgg.mosl.ui.wizards;
+package org.moflon.gt.ui.wizards;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
@@ -9,26 +9,25 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.gt.ide.natures.MOSLGTNature;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
-import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonProjectInfoPage;
 import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonWizard;
-import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
 import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.PluginProducerWorkspaceRunnable;
 
-public class NewRepositoryWizard extends AbstractMoflonWizard
+public class NewMOSLGTProjectWizard extends AbstractMoflonWizard
 {
-   private static final Logger logger = Logger.getLogger(NewRepositoryWizard.class);
+   private static final Logger logger = Logger.getLogger(NewMOSLGTProjectWizard.class);
 
-   public static final String NEW_REPOSITORY_PROJECT_WIZARD_ID = "org.moflon.tgg.mosl.newRepositoryProject";
+   public static final String NEW_MOSLGT_PROJECT_WIZARD_ID = "org.moflon.gt.ui.wizard.NewMOSLGTProjectWizard";
 
    protected AbstractMoflonProjectInfoPage projectInfo;
 
    @Override
    public void addPages()
    {
-      projectInfo = new NewRepositoryProjectInfoPage();
+      projectInfo = new NewMOSLGTProjectInfoPage();
       addPage(projectInfo);
    }
 
@@ -64,16 +63,33 @@ public class NewRepositoryWizard extends AbstractMoflonWizard
    // The monitor is allowed to perform 1 tick
    protected void generateDefaultFiles(final IProgressMonitor monitor, IProject project) throws CoreException
    {
-      String defaultEcoreFile = DefaultFilesHelper.generateDefaultEPackageForProject(project.getName());
+      String defaultEcoreFile = generateDefaultEPackageForProject(project.getName());
       WorkspaceHelper.addFile(project, MoflonUtil.getDefaultPathToEcoreFileInProject(project.getName()), defaultEcoreFile,
             SubMonitor.convert(monitor).split(1));
+   }
+
+   private String generateDefaultEPackageForProject(String projectName)
+   {
+      return "<?xml version=\"1.0\" encoding=\"ASCII\"?>" + nl() +
+      "<ecore:EPackage xmi:version=\"2.0\"" + nl() +
+                  "xmlns:xmi=\"http://www.omg.org/XMI\"" + nl()   +
+                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" + nl()   +
+                  "xmlns:ecore=\"http://www.eclipse.org/emf/2002/Ecore\"" + nl()   +
+                  "name=\"" + MoflonUtil.lastSegmentOf(projectName) + "\"" + nl()   +
+                  "nsURI=\"" + MoflonUtil.getDefaultURIToEcoreFileInPlugin(projectName) + "\"" + nl()  +
+                  "nsPrefix=\"" + projectName + "\">" + nl() +
+                  "</ecore:EPackage>";
+   }
+   
+   private static String nl() {
+      return "\n";
    }
 
    // The monitor is allowed to perform 1 tick
    protected void createProject(IProgressMonitor monitor, IProject project, MetamodelProperties metamodelProperties) throws CoreException
    {
-      metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.REPOSITORY_KEY);
-      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties, new RepositoryNature());
+      metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.MOSLGT_REPOSITORY_KEY);
+      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties, new MOSLGTNature());
       ResourcesPlugin.getWorkspace().run(createMoflonProject, SubMonitor.convert(monitor).split(1));
    }
 }

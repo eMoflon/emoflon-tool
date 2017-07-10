@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.ide.core.runtime.ProjectNatureAndBuilderConfiguratorTask;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.tgg.mosl.builder.MOSLTGGNature;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
 import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
@@ -36,7 +37,7 @@ public class NewIntegrationWizard extends NewRepositoryWizard
    protected void createProject(IProgressMonitor monitor, IProject project, MetamodelProperties metamodelProperties) throws CoreException
    {
       metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.INTEGRATION_KEY);
-      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties);
+      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties, new IntegrationNature());
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating project", 2);
       ResourcesPlugin.getWorkspace().run(createMoflonProject, subMon.split(1));
 

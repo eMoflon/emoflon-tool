@@ -11,7 +11,6 @@ Require-Bundle:
  org.eclipse.emf.ecore.xmi;bundle-version="[2.5.0,3.0.0)",
  org.eclipse.emf.codegen.ecore;bundle-version="[2.5.0,3.0.0)",
  org.eclipse.jdt.core;bundle-version="[3.5.2,4.0.0)",
- org.eclipse.pde.core;bundle-version="[3.8.100,4.0.0)",
  org.eclipse.jgit;bundle-version="4.4",
  org.gervarro.eclipse.task;bundle-version="[1.0.1,2.0.0)",
  org.gervarro.eclipse.workspace.util;bundle-version="[2.0.0,3.0.0)",
@@ -28,9 +27,7 @@ Require-Bundle:
  org.moflon.tgg.cspcodeadapter;bundle-version="2.0.1",
  org.moflon.tgg.runtime;bundle-version="2.0.0",
  org.moflon.tgg.language;bundle-version="2.1.0",
- org.moflon.ide.plugins;bundle-version="2.1.1",
- org.eclipse.xtext;bundle-version="2.9.0",
- org.moflon.gt.mosl
+ org.moflon.ide.plugins;bundle-version="2.1.1"
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.ea,
  org.moflon.ide.core.git,

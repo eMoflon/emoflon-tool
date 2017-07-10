@@ -1,4 +1,4 @@
-package org.moflon.ide.core.runtime.builders;
+package org.moflon.gt.ide.builders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,7 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
+import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 

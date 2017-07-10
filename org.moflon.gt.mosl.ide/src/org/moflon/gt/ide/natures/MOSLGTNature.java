@@ -1,4 +1,4 @@
-package org.moflon.ide.core.runtime.natures;
+package org.moflon.gt.ide.natures;
 
 import java.util.Arrays;
 
@@ -6,6 +6,9 @@ import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.natures.MoflonBuilderUtils;
+import org.moflon.ide.core.runtime.natures.MoflonNatureUtils;
+import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
 
 public class MOSLGTNature extends MoflonProjectConfigurator
 {

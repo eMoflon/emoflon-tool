@@ -23,6 +23,9 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
+import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Node;
@@ -57,13 +60,30 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
    protected void handleMissingProject(final Node node, final IProject project)
    {
       final MetamodelProperties properties = propertiesMap.get(project.getName());
-      final MoflonProjectCreator moflonProjectCreator = new MoflonProjectCreator(project, properties);
+      final MoflonProjectCreator moflonProjectCreator = new MoflonProjectCreator(project, properties, determineProjectConfigurator(properties));
       try
       {
          WorkspaceTask.executeInCurrentThread(moflonProjectCreator, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
       } catch (CoreException e)
       {
          reportError(e);
+      }
+   }
+
+   //TODO@rkluge: This hack is one place where modularity of GT/TGG is broken.
+   // Still, we will not invest any more time here because the Moca-to-eMoflon component will be given up in the future.
+   private MoflonProjectConfigurator determineProjectConfigurator(final MetamodelProperties metamodelProperties)
+   {
+      switch (metamodelProperties.getType())
+      {
+      case MetamodelProperties.INTEGRATION_KEY:
+         return new IntegrationNature();
+      case MetamodelProperties.REPOSITORY_KEY:
+         return new RepositoryNature();
+      case MetamodelProperties.MOSLGT_REPOSITORY_KEY:
+         return null;
+      default:
+         return null;
       }
    }
 
@@ -102,7 +122,7 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
          throw new UncheckedCoreException(e);
       }
       final MoflonPropertiesContainer moflonProps = createOrLoadMoflonProperties(project, properties.getMetamodelProjectName());
-      final OpenProjectHandler openProjectHandler = new OpenProjectHandler(project, properties, moflonProps);
+      final OpenProjectHandler openProjectHandler = new OpenProjectHandler(project, properties, moflonProps, determineProjectConfigurator(properties));
       try
       {
          WorkspaceTask.executeInCurrentThread(openProjectHandler, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());

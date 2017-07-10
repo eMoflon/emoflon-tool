@@ -130,7 +130,7 @@ public class WorkspaceHelper
 
    public static final String MOSL_GT_NATURE_ID = "org.moflon.gt.ide.natures.MOSLGTNature";
 
-   public static final String MOSL_GT_BUILDER_ID = "org.moflon.gt.mosl.ide.MOSLGTBuilder";
+   public static final String MOSL_GT_BUILDER_ID = "org.moflon.gt.ide.MOSLGTBuilder";
 
    /**
     * Constants for MOSL-TGG

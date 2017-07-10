@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.runtime.builders.MOSLGTBuilder;
+import org.moflon.gt.ide.builders.MOSLGTBuilder;
 
 /**
  * This job triggers the conversion of an SDM-based project to a MOSL-GT-based project

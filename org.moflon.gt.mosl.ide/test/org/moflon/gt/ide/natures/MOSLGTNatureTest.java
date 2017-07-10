@@ -1,4 +1,4 @@
-package org.moflon.ide.core.runtime.natures;
+package org.moflon.gt.ide.natures;
 
 import java.util.Arrays;
 
@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.natures.MoflonBuilderUtils;
+import org.moflon.ide.core.runtime.natures.MoflonBuilderUtilsTest;
 
 public class MOSLGTNatureTest
 {
