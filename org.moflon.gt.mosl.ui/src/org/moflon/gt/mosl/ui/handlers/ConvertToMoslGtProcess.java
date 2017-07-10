@@ -22,9 +22,9 @@ import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
 import org.moflon.compiler.sdm.democles.eclipse.DemoclesValidatorTask;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.gt.ide.natures.MOSLGTNature;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.gt.mosl.moslgt.MoslgtFactory;
-import org.moflon.ide.core.runtime.natures.MOSLGTNature;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 /**
@@ -84,7 +84,7 @@ public class ConvertToMoslGtProcess extends GenericMoflonProcess
          
          mgtResource.save(null);
 
-         // Transform project 'type' from Repositor to MOSL-GT
+         // Transform project 'type' from Repository to MOSL-GT
          final IProjectDescription description = getProject().getDescription();
          final ICommand[] buildSpecs = description.getBuildSpec();
          final String[] natureIds = description.getNatureIds();
