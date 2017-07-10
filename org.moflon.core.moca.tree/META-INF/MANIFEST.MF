@@ -11,10 +11,8 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
 Export-Package: MocaTree,
  MocaTree.impl,
- MocaTree.util,
- org.moflon.core.moca.tree
+ MocaTree.util
 Bundle-Name: Moca Framework MocaTree
 Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
-Bundle-Activator: org.moflon.core.moca.tree.MocaTreePlugin
