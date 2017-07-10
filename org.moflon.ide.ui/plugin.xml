@@ -726,6 +726,11 @@
    </extension>
    <extension
          point="org.eclipse.ui.commands">
+     <category
+            description="Collection of eMoflon commands"
+            id="org.moflon.ide.ui.commands.MainCategory"
+            name="eMoflon Commands">
+      </category>
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.validation.ValidateCommand"
@@ -751,12 +756,6 @@
             id="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
             name="%buildDirtyProjectsLabel">
       </command>
-      <category
-            description="Collection of eMoflon commands"
-            id="org.moflon.ide.ui.commands.MainCategory"
-            name="eMoflon Commands">
-      </category>
-      
       <command
             categoryId="org.moflon.ide.ui.commands.MainCategory"
             id="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand"
