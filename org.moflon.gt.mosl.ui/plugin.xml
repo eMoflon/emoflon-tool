@@ -9,7 +9,8 @@
 			default="true"
 			extensions="mgt"
 			id="org.moflon.gt.mosl.MOSLGT"
-			name="MOSLGT Editor">
+            icon="resources/icons/MoflonFile.png"
+			name="MOSL-GT Editor">
 		</editor>
 	</extension>
 	<extension
