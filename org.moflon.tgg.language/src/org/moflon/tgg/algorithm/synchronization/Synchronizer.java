@@ -67,6 +67,8 @@ public abstract class Synchronizer {
 	private Graph toBeDeleted;
 
 	protected RulesTable lookupMethods;
+	
+	protected Collection<Rule> ignoreMethods;
 
 	protected AmalgamationUtil amalgamationUtil;
 
@@ -112,15 +114,20 @@ public abstract class Synchronizer {
 		this.readyButUnreadySiblingsKernels = new TIntHashSet();
 		this.readyComplements = new TIntHashSet();
 		this.createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch> getCollection();
+		this.ignoreMethods = determineIgnoreMethods(rules);
 		this.lookupMethods = determineLookupMethods(rules);
 		this.amalgamationUtil = new AmalgamationUtil(lookupMethods);
 	}
 
 	private RulesTable determineLookupMethods(StaticAnalysis rules) {
 		RulesTable rulesTable = getRulesTable(rules);
-		Collection<Rule> ignoreRules = rulesTable.getRules().stream().filter(r -> r.isIgnore()).collect(Collectors.toSet());
-		rulesTable.getRules().removeAll(ignoreRules);
+		rulesTable.getRules().removeAll(ignoreMethods);
 		return rulesTable;
+	}
+	
+	private Collection<Rule> determineIgnoreMethods(StaticAnalysis rules){
+		RulesTable rulesTable = getRulesTable(rules);
+		return rulesTable.getRules().stream().filter(r -> r.isIgnore()).collect(Collectors.toSet());
 	}
 
 	protected abstract RulesTable getRulesTable(StaticAnalysis rules);
@@ -220,12 +227,17 @@ public abstract class Synchronizer {
 			if (rule.getRuleName().equals(ruleName))
 				return rule;
 		}
+		
+		for (Rule rule : this.ignoreMethods) {
+			if (rule.getRuleName().equals(ruleName))
+				return rule;
+		}
 
 		return null;
 	}
 
 	private AttributeConstraintsRuleResult checkCSP(TripleMatch match) {
-		EClass ruleClass = findRule(match.getRuleName()).getIsAppropriateMethods().get(0).getEContainingClass();
+		EClass ruleClass = findRule(match.getRuleName()).getCheckDECMethod().getEContainingClass();
 
 		for (EOperation o : ruleClass.getEAllOperations()) {
 			if (("checkAttributes_" + getDirection()).equals(o.getName())) {

@@ -4,5 +4,5 @@
 /model/*.genmodel
 /model/*.xmi
 !/**/.keep*
-/src/org/moflon/tgg/mosl/csp
+/**/AttrCondDefLibrary.tgg
 /**/org/moflon/tie
