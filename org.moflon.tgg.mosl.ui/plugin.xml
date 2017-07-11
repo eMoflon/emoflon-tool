@@ -500,7 +500,8 @@
               label="Create new repository project"
               style="push">
               <visibleWhen
-                    checkEnabled="true">
+                    checkEnabled="false">
+                    <reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
               </visibleWhen>
         </command>
         <command
@@ -509,7 +510,8 @@
               label="Create new integration project"
               style="push">
               <visibleWhen
-                    checkEnabled="true">
+                    checkEnabled="false">
+                    <reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
               </visibleWhen>
         </command>
         <command
@@ -518,7 +520,8 @@
               label="Create new TGG rule"
               style="push">
               <visibleWhen
-                    checkEnabled="true">
+                    checkEnabled="false">
+                    <reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
               </visibleWhen>
         </command>
      </menuContribution>
