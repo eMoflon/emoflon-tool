@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPartConstants;
@@ -42,9 +41,9 @@ import org.moflon.tgg.language.precompiler.PrecompilerFactory;
 import org.moflon.tgg.language.precompiler.RefinementPrecompiler;
 import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
-import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
+import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider;
 
-public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
+public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
    private static final Logger logger = Logger.getLogger(MOSLTGGDiagramTextProvider.class);
 	private boolean outdated = false;
 	private XtextEditor oldEditor;
@@ -77,10 +76,9 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 	};
 
 	@Override
-	public String getDiagramText(IEditorPart editorPart, IEditorInput editorInput) {
+	public String getDiagramText(final IEditorPart editorPart, final ISelection selection) {
 		try {
 			 final TripleGraphGrammar preTgg = getTGG(WorkspaceHelper.PRE_TGG_FILE_EXTENSION);
-			ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
 
 			// look for the correct tggFile
 			TripleGraphGrammar tgg = getTGG();
@@ -118,6 +116,31 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 			return "@startuml @enduml";
 		}
 	}
+   
+   @Override
+   public boolean supportsEditor(IEditorPart editorPart) {
+      if (oldEditor != null && oldEditor.equals(editorPart))
+         return true;
+
+      if (editorPart instanceof XtextEditor) {
+         XtextEditor ed = (XtextEditor) editorPart;
+         if ("org.moflon.tgg.mosl.TGG".equals(ed.getLanguageName())) {
+            oldEditor = ed;
+            oldValue = new HashMap<>();
+            oldEditor.addPropertyListener(listener);
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   @Override
+   public boolean supportsSelection(ISelection arg0)
+   {
+      // TODO Auto-generated method stub
+      return false;
+   }
 	
 	private String getKeyName(String name){
 		StringBuilder sb = new StringBuilder();
@@ -136,25 +159,6 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 			}
 		}
 		return rule;
-	}
-	
-	
-	@Override
-	public boolean supportsEditor(IEditorPart editorPart) {
-		if (oldEditor != null && oldEditor.equals(editorPart))
-			return true;
-
-		if (editorPart instanceof XtextEditor) {
-			XtextEditor ed = (XtextEditor) editorPart;
-			if ("org.moflon.tgg.mosl.TGG".equals(ed.getLanguageName())) {
-				oldEditor = ed;
-				oldValue = new HashMap<>();
-				oldEditor.addPropertyListener(listener);
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	private Optional<TGGRule> getTGGRuleForSelection(ISelection selection, TripleGraphGrammar tgg) {
@@ -211,5 +215,4 @@ public class MOSLTGGDiagramTextProvider extends AbstractDiagramTextProvider {
 			return "";
 
 	}
-
 }

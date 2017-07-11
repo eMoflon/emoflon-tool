@@ -2,6 +2,7 @@ package org.moflon.ide.visualization.dot.tgg.runtimepatterns;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.jface.viewers.ISelection;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.visualisation.dot.language.EMoflonDiagramTextProvider;
 import org.moflon.ide.visualization.dot.language.DotColor;
@@ -36,6 +37,12 @@ public class DotTGGRuntimePatternsDiagramTextProvider extends EMoflonDiagramText
    protected void postprocess(CorrespondenceModel corrs)
    {
       corrs.getCorrespondences().forEach(this::postprocess);
+   }
+   
+   @Override
+   public boolean supportsSelection(final ISelection selection)
+   {
+      return true;
    }
 
    private void postprocess(EObject corr)

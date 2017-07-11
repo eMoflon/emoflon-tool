@@ -12,7 +12,7 @@ Bundle-Version: 1.0
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.ui;bundle-version="3.108.0",
- net.sourceforge.plantuml.eclipse;bundle-version="1.1.8",
+ net.sourceforge.plantuml.eclipse;bundle-version="1.1.18.201704180954",
  org.moflon.core.utilities,
  SDMLanguage,
  org.moflon.tgg.language,

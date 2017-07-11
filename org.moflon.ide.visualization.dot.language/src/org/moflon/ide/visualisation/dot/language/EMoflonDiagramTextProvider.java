@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
@@ -28,9 +27,9 @@ import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.tgg.language.algorithm.TempOutputContainer;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 
-import net.sourceforge.plantuml.eclipse.utils.AbstractDiagramTextProvider;
+import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider;
 
-public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProvider
+public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 {
    private static final Logger logger = Logger.getLogger(EMoflonDiagramTextProvider.class);
 
@@ -77,7 +76,7 @@ public abstract class EMoflonDiagramTextProvider extends AbstractDiagramTextProv
     * If the selection is null or empty, the result is an empty string.
     */
 	@Override
-	public String getDiagramText(IEditorPart editorPart, IEditorInput editorInput) {
+	public String getDiagramText(IEditorPart editorPart, ISelection selection) {
 		EObject selectedElement = getSelectedObject(editorPart);
 		if (selectedElement != null && isElementValidInput(selectedElement)) {
 			// Extract input object
