@@ -23,4 +23,10 @@ public enum PatternKind {
          return null;
       }
    }
+   
+   @Override
+   public String toString()
+   {
+      return getSuffix();
+   }
 }

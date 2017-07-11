@@ -73,7 +73,7 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
       };
       PatternBuilder.getInstance().createPattern(patternDef, bindings, env, nameGenerator);
 
-      List<PatternInvocation> invocations = PatternBuilder.getInstance().getPatternInvocation(patternName);
+      List<PatternInvocation> invocations = PatternBuilder.getInstance().getPatternInvocationFromCache(patternName);
       
       invocations.stream().forEach(inv -> inv.setCfNode(cfNode));
       for (int piIndex = invocations.size() - 1; piIndex >= 0; piIndex--)
@@ -89,7 +89,7 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
          //CodeadapterTrafo.getInstance().generateSearchPlan(invocation.getPattern() , calculateAdornment(invocation), invocation.isMultipleMatch(), PatternBuilder.getInstance().getPK(invocation).getSuffix());
          cfVars.stream().filter(cfVar -> PatternBuilder.getInstance().isConstructorPattern(cfNode, cfVar, invocation, methodParameters, patternName)).forEach(cfVar -> cfVar.setConstructor(invocation));
   
-         CodeadapterTrafo.getInstance().generateSearchPlan(invocation.getPattern() , calculateAdornment(invocation), invocation.isMultipleMatch(), PatternBuilder.getInstance().getPK(invocation).getSuffix());
+         CodeadapterTrafo.getInstance().generateSearchPlan(invocation.getPattern() , calculateAdornment(invocation), invocation.isMultipleMatch(), PatternBuilder.getInstance().getPatternKind(invocation).getSuffix());
       }
       
       NodeDeletion nodeDeletion = PatternBuilder.getInstance().getNodeDeletion(patternName, cfVars);

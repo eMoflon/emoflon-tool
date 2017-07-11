@@ -204,19 +204,16 @@ public class CodeadapterTrafo
 
    private void transformMethodStructure(final MethodDec methodDec, MoflonOperation mofOp)
    {
-      Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
+      final Statement startStatement = methodDec.getStartStatement();
+      final Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
       mofOp.setRootScope(rootScope);
-
-      PatternUtil.setCountsToZero();
-      statementTrafo.loadCurrentMethod(methodDec);
-      Statement startStatement = methodDec.getStartStatement();
-      statementTrafo.transformStatement(startStatement, rootScope, null);
-
-      //      if(deletedOperations.containsKey(mofOp.getName()))
-      //         saveAsRegisteredAdapter(EcoreUtil.copy(rootScope), deletedOperations.get(mofOp.getName()), "cf");
-      //      else
+      if (startStatement != null)
+      {
+         PatternUtil.setCountsToZero();
+         statementTrafo.loadCurrentMethod(methodDec);
+         statementTrafo.transformStatement(startStatement, rootScope, null);
+      }
       saveAsRegisteredAdapter(rootScope, mofOp, "cf");
-
    }
 
    public void generateSearchPlan(String type, Adornment adornment)
@@ -233,10 +230,6 @@ public class CodeadapterTrafo
          }
       });
    }
-   // /*
-   // * Goal: For each pattern invocation, generate and store the search plan Needed: * pattern invocations (=
-   // * pattern+adornment) within each operation in the package * PatternMatcher
-   // */
    //// TODO@rkluge: Add support for nested packages
    //enrichedEPackage.getEClassifiers().stream()//
    //      .filter(eClassifier -> eClassifier instanceof EClass)//

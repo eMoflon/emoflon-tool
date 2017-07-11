@@ -26,7 +26,7 @@ EClassDef:
 
 MethodDec:
 	'operation' name = ID '(' (parameters+=MethodParameter)? (',' parameters+=MethodParameter)* ')' ':' (type=[ecore::EClassifier | QualifiedName] | 'void') ('{'
-		startStatement = Statement
+		startStatement = Statement?
 	'}')?
 ;
 

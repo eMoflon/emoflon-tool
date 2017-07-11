@@ -27,7 +27,7 @@ public abstract class TransformPlanRule
    
    public TransformPlanRule(PatternKind patternKind){
       this.patternKind=patternKind;
-      patternObjectIndex = new HashSet<>();
+      this.patternObjectIndex = new HashSet<>();
       PatternBuilder.getInstance().addTransformPlanRule(patternKind, this);   
    }
    
@@ -61,8 +61,8 @@ public abstract class TransformPlanRule
          @Override
          public int compare(PatternObject o1, PatternObject o2)
          {
-            int po1 = getPrioOfPatternObject(o1);
-            int po2 = getPrioOfPatternObject(o2);
+            int po1 = getPriorityOfPatternObject(o1);
+            int po2 = getPriorityOfPatternObject(o2);
             
             if(po1<po2)
                return 1;
@@ -75,7 +75,7 @@ public abstract class TransformPlanRule
       return returner;
    }
    
-   private int getPrioOfPatternObject(PatternObject po){
+   private int getPriorityOfPatternObject(PatternObject po){
       if(po instanceof ObjectVariableDefinition)
          return 3;
       else if(po instanceof LinkVariablePattern)
