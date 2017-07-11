@@ -470,14 +470,23 @@
      <handler
            class="org.moflon.tgg.mosl.ui.wizards.NewRepositoryProjectHandler"
            commandId="org.moflon.tgg.mosl.createNewRepositoryProject">
+           <enabledWhen>
+           		<reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
+           </enabledWhen>
      </handler>
      <handler
            class="org.moflon.tgg.mosl.ui.wizards.NewIntegrationProjectHandler"
            commandId="org.moflon.tgg.mosl.createNewIntegrationProject">
+           <enabledWhen>
+           		<reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
+           </enabledWhen>
      </handler>
      <handler
            class="org.moflon.tgg.mosl.ui.wizards.NewTGGRuleHandler"
            commandId="org.moflon.tgg.mosl.createNewTGGRule">
+           <enabledWhen>
+           		<reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
+           </enabledWhen>
      </handler>
   </extension>
   <extension
@@ -490,18 +499,27 @@
               icon="resources/icons/repositoryProject.gif"
               label="Create new repository project"
               style="push">
+              <visibleWhen
+                    checkEnabled="true">
+              </visibleWhen>
         </command>
         <command
               commandId="org.moflon.tgg.mosl.createNewIntegrationProject"
               icon="resources/icons/integrationProject.gif"
               label="Create new integration project"
               style="push">
+              <visibleWhen
+                    checkEnabled="true">
+              </visibleWhen>
         </command>
         <command
               commandId="org.moflon.tgg.mosl.createNewTGGRule"
               icon="resources/icons/task_obj.gif"
               label="Create new TGG rule"
               style="push">
+              <visibleWhen
+                    checkEnabled="true">
+              </visibleWhen>
         </command>
      </menuContribution>
   </extension>
