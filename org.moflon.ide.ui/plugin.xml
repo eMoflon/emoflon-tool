@@ -1,1404 +1,574 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="org.moflon.ide.ui.admin.MoflonPerspective"
-            fixed="false"
-            icon="resources/icons/moflonSmall.png"
-            id="org.moflon.ide.ui.perspective"
-            name="eMoflon">
-      </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            id="org.moflon.ide.ui.category"
-            name="eMoflon">
-      </category>
-      <wizard
-            canFinishEarly="false"
-            category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard"
-            finalPerspective="org.moflon.ide.ui.perspective"
-            hasPages="true"
-            icon="resources/icons/newMetamodelProject.gif"
-            id="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard"
-            name="New Metamodel Wizard"
-            preferredPerspectives="org.moflon.ide.ui.perspective"
-            project="true">
-      </wizard>
-      <wizard
-            category="org.moflon.ide.ui.category"
-            class="org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard"
-            icon="resources/icons/addParserAndUnparser.png"
-            id="org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard"
-            name="Add Parser/Unparser Wizard">
-      </wizard>
-   </extension>
-   <extension
-         point="org.eclipse.ui.ide.projectNatureImages">
-      <image
-            icon="resources/icons/metamodelProject.gif"
-            id="org.moflon.ide.ui.MetamodelNatureImage"
-            natureId="org.moflon.ide.core.runtime.natures.MetamodelNature">
-      </image>
-      <image
-            icon="resources/icons/repositoryProject.gif"
-            id="org.moflon.ide.ui.RepositoryNatureImage"
-            natureId="org.moflon.ide.core.runtime.natures.RepositoryNature">
-      </image>
-      <image
-            icon="resources/icons/integrationProject.gif"
-            id="org.moflon.ide.ui.IntegrationNatureImage"
-            natureId="org.moflon.ide.core.runtime.natures.IntegrationNature">
-      </image>
-      <image
-            icon="resources/icons/addParserAndUnparser.png"
-            id="org.moflon.ide.ui.AntlrNatureImage"
-            natureId="org.moflon.ide.core.runtime.natures.AntlrNature">
-      </image>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-         <menuContribution
-            allPopups="true"
-            locationURI="popup:#TextEditorContext?after=additions">
-            <menu
-               icon="resources/icons/moflonSmall.png"
-               id="org.moflon.ide.ui.moflon"
-               label="eMoflon">
-               
-           </menu>
-            </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-         <menu
-               icon="resources/icons/moflonSmall.png"
-               id="org.moflon.ide.ui.moflon"
-               label="eMoflon">
-            <separator
-                  name="moflonGroupBuilding"
-                  visible="true">
-            </separator>
-            <separator
-                  name="moflonGroupAnalysis"
-                  visible="true">
-            </separator>
-            <separator
-                  name="moflonGroupConversions"
-                  visible="true">
-            </separator>
-            <separator
-                  name="moflonGroupMoca"
-                  visible="true">
-            </separator>
-            <separator
-                  name="moflonGroupTie"
-                  visible="true">
-            </separator>
-            <separator
-                  name="moflonGroupTesting"
-                  visible="true">
-            </separator>
-            <separator
-                  name="additions">
-            </separator>
-            <visibleWhen
-                  checkEnabled="false">
-               <or>                  
-                  <iterate
-                        ifEmpty="false"
-                        operator="or">
-                     <or>
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.hasJavaNature">
-                        </reference>
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-                        </reference>
-                        
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                        </reference>
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                        </reference>
-                     </or>
-                  </iterate>
-                  <and>
-                     <with
-                           variable="activeEditorId">
-                        <equals
-                              value="org.eclipse.jdt.ui.CompilationUnitEditor">
-                        </equals>
-                     </with>
-                     <with
-                           variable="activeEditorInput">
+    <extension point="org.eclipse.ui.perspectives">
+        <perspective class="org.moflon.ide.ui.admin.MoflonPerspective" fixed="false" icon="resources/icons/moflonSmall.png" id="org.moflon.ide.ui.perspective" name="eMoflon"></perspective>
+    </extension>
+    <extension point="org.eclipse.ui.newWizards">
+        <category id="org.moflon.ide.ui.category" name="eMoflon"></category>
+        <wizard canFinishEarly="false" category="org.moflon.ide.ui.category" class="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard" finalPerspective="org.moflon.ide.ui.perspective" hasPages="true" icon="resources/icons/newMetamodelProject.gif" id="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard" name="New Metamodel Wizard" preferredPerspectives="org.moflon.ide.ui.perspective" project="true"></wizard>
+        <wizard category="org.moflon.ide.ui.category" class="org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard" icon="resources/icons/addParserAndUnparser.png" id="org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard" name="Add Parser/Unparser Wizard"></wizard>
+    </extension>
+    <extension point="org.eclipse.ui.ide.projectNatureImages">
+        <image icon="resources/icons/metamodelProject.gif" id="org.moflon.ide.ui.MetamodelNatureImage" natureId="org.moflon.ide.core.runtime.natures.MetamodelNature"></image>
+        <image icon="resources/icons/repositoryProject.gif" id="org.moflon.ide.ui.RepositoryNatureImage" natureId="org.moflon.ide.core.runtime.natures.RepositoryNature"></image>
+        <image icon="resources/icons/integrationProject.gif" id="org.moflon.ide.ui.IntegrationNatureImage" natureId="org.moflon.ide.core.runtime.natures.IntegrationNature"></image>
+        <image icon="resources/icons/addParserAndUnparser.png" id="org.moflon.ide.ui.AntlrNatureImage" natureId="org.moflon.ide.core.runtime.natures.AntlrNature"></image>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution allPopups="true" locationURI="popup:#TextEditorContext?after=additions">
+            <menu icon="resources/icons/moflonSmall.png" id="org.moflon.ide.ui.moflon" label="eMoflon"></menu>
+        </menuContribution>
+        <menuContribution allPopups="false" locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            <menu icon="resources/icons/moflonSmall.png" id="org.moflon.ide.ui.moflon" label="eMoflon">
+                <separator name="moflonGroupBuilding" visible="true"></separator>
+                <separator name="moflonGroupAnalysis" visible="true"></separator>
+                <separator name="moflonGroupConversions" visible="true"></separator>
+                <separator name="moflonGroupMoca" visible="true"></separator>
+                <separator name="moflonGroupTie" visible="true"></separator>
+                <separator name="moflonGroupTesting" visible="true"></separator>
+                <separator name="additions"></separator>
+                <visibleWhen checkEnabled="false">
+                    <or>
+                        <iterate ifEmpty="false" operator="or">
+                            <or>
+                                <reference definitionId="org.moflon.ide.ui.definitions.hasJavaNature"></reference>
+                                <reference definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature"></reference>
+                                <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
+                                <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+                            </or>
+                        </iterate>
+                        <and>
+                            <with variable="activeEditorId">
+                                <equals value="org.eclipse.jdt.ui.CompilationUnitEditor"></equals>
+                            </with>
+                            <with variable="activeEditorInput">
+                                <or>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasJavaNature"></reference>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature"></reference>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+                                </or>
+                            </with>
+                        </and>
                         <or>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasJavaNature">
-                           </reference>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-                           </reference>
-                           
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                           </reference>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                           </reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasJavaNature"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer"></reference>
                         </or>
-                     </with>
-                  </and>
-                  <or>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasJavaNature">
-                     </reference>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-                     </reference>
-                     
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                     </reference>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                     </reference>
-                     <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
-                     </reference>
-                     <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
-                     </reference>
-                  </or>
-               </or>
-            </visibleWhen>
-            <separator
-                  name="moflonGroupNavigation">
-            </separator>
-            <separator
-                  name="moflonSeperator">
-            </separator>
-            <separator
-                  name="moflonSeperator">
-            </separator>
-            <separator
-                  name="moflonGroupGit">
-            </separator>
-         </menu>
-      </menuContribution>
-   </extension>
-   
-   
-   <extension
-         id="org.moflon.ide.AntlrEditorProblem"
-         name="Antlr Problem"
-         point="org.eclipse.core.resources.markers">
-      <super
-            type="org.eclipse.core.resources.problemmarker">
-      </super>
-   </extension>
-   <extension
-         id="org.moflon.ide.marker.EMoflonProblem"
-         name="eMoflon Problem"
-         point="org.eclipse.core.resources.markers">
-      <super
-            type="org.eclipse.core.resources.problemmarker">
-      </super>
-   </extension>
-   <extension
-         id="org.moflon.ide.marker.InjectionProblem"
-         name="eMoflon Injection Problem"
-         point="org.eclipse.core.resources.markers">
-      <super
-            type="org.eclipse.core.resources.problemmarker">
-      </super>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="org.moflon.ide.ui.perspective">
-      </perspectiveExtension>
-   </extension>
-   <extension
-         id="org.moflon.textualEditor.contentTypes"
-         name="MoflonContentTypes"
-         point="org.eclipse.core.contenttype.contentTypes">
-      <content-type
-            file-extensions="inject"
-            id="org.moflon.textualEditor.contentTypes.moflon.injection"
-            name="eMoflon Injection File"
-            priority="high">
-      </content-type>
-      
-            <content-type
-            file-extensions="vm"
-            id="org.moflon.textualEditor.contentTypes.velocity"
-            name="Velocity templates"
-            priority="normal">
-      </content-type>
-      <content-type
-            file-extensions="g"
-            id="org.moflon.textualEditor.contentTypes.antlr"
-            name="ANTLR files"
-            priority="high">
-      </content-type>
-      <content-type
-            file-extensions="g4"
-            id="org.moflon.textualEditor.contentTypes.antlrv4"
-            name="ANTLR v4 files"
-            priority="high">
-      </content-type>
-      <content-type
-            file-extensions="stg"
-            id="org.moflon.textualEditor.contentTypes.stringTemplate"
-            name="StringTemplate files"
-            priority="high">
-      </content-type>
-      <content-type id="org.moflon.contenttype.sdm" name="eMoflon SDM" file-extensions="sdm" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
-      <content-type id="org.moflon.contenttype.cf" name="eMoflon CF" file-extensions="cf" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
-      <content-type id="org.moflon.contenttype.dfs" name="eMoflon DFS" file-extensions="dfs" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
-      <content-type id="org.moflon.contenttype.binding" name="eMoflon Binding" file-extensions="binding" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
-      <content-type id="org.moflon.contenttype.black" name="eMoflon Black" file-extensions="black" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
-      <content-type id="org.moflon.contenttype.bindingAndBlack" name="eMoflon Binding and Black" file-extensions="bindingAndBlack" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
-      <content-type id="org.moflon.contenttype.expression" name="eMoflon Expression" file-extensions="expression" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
-      <content-type id="org.moflon.contenttype.red" name="eMoflon Red" file-extensions="red" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
-      <content-type id="org.moflon.contenttype.green" name="eMoflon Green" file-extensions="gren" priority="high" base-type="org.eclipse.emf.ecore.xmi"/>
-      <file-association
-            content-type="org.moflon.contenttype.sdm"
-            file-extensions="sdm">
-      </file-association>
-      <file-association
-            content-type="org.moflon.contenttype.cf"
-            file-extensions="cf">
-      </file-association>
-      <file-association
-            content-type="org.moflon.contenttype.dfs"
-            file-extensions="dfs">
-      </file-association>
-      <file-association
-            content-type="org.moflon.contenttype.binding"
-            file-extensions="binding">
-      </file-association>
-      <file-association
-            content-type="org.moflon.contenttype.black"
-            file-extensions="black">
-      </file-association>
-      <file-association
-            content-type="org.moflon.contenttype.bindingAndBlack"
-            file-extensions="bindingAndBlack">
-      </file-association>
-      <file-association
-            content-type="org.moflon.contenttype.expression"
-            file-extensions="expression">
-      </file-association>
-      <file-association
-            content-type="org.moflon.contenttype.red"
-            file-extensions="red">
-      </file-association>
-      <file-association
-            content-type="org.moflon.contenttype.green"
-            file-extensions="green">
-      </file-association>
-   </extension>
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="resources/icons/noun_project_7402.png"
-            id="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor"
-            name="eMoflon Injection Editor">
-         <contentTypeBinding
-               contentTypeId="org.moflon.textualEditor.contentTypes.moflon.injection">
-         </contentTypeBinding>
-      </editor>
-      
-      <editor
-            class="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="false"
-            icon="resources/icons/addTextEditor.png"
-            id="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor"
-            name="eMoflon Antlr Editor">
-         <contentTypeBinding
-               contentTypeId="org.moflon.textualEditor.contentTypes.antlr">
-         </contentTypeBinding>
-         <contentTypeBinding
-          contentTypeId="org.moflon.textualEditor.contentTypes.antlrv4">
-          </contentTypeBinding>
-      </editor>
-      <editor
-            class="org.moflon.ide.ui.admin.editors.antlr.StringTemplateTextEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="false"
-            icon="resources/icons/addTextEditor.png"
-            id="org.moflon.ide.ui.admin.editors.antlr.StringTemplateTextEditor"
-            name="eMoflon StringTemplate Editor">
-         <contentTypeBinding
-               contentTypeId="org.moflon.textualEditor.contentTypes.stringTemplate">
-         </contentTypeBinding>
-      </editor>
-   </extension>
-   
-   
-   <extension point="org.eclipse.ui.decorators">
-      <decorator
-            lightweight="true"
-            adaptable="true"
-            label="%Decorator_name"
-            class="org.moflon.ide.ui.decorators.MoflonProjectDecorator"
-            state="true"
-            location="BOTTOM_RIGHT"
-            id="org.moflon.ide.ui.decorators.MoflonProjectDecorator">
+                    </or>
+                </visibleWhen>
+                <separator name="moflonGroupNavigation"></separator>
+                <separator name="moflonSeperator"></separator>
+                <separator name="moflonSeperator"></separator>
+                <separator name="moflonGroupGit"></separator>
+            </menu>
+        </menuContribution>
+    </extension>
+    <extension id="org.moflon.ide.AntlrEditorProblem" name="Antlr Problem" point="org.eclipse.core.resources.markers">
+        <super type="org.eclipse.core.resources.problemmarker"></super>
+    </extension>
+    <extension id="org.moflon.ide.marker.EMoflonProblem" name="eMoflon Problem" point="org.eclipse.core.resources.markers">
+        <super type="org.eclipse.core.resources.problemmarker"></super>
+    </extension>
+    <extension id="org.moflon.ide.marker.InjectionProblem" name="eMoflon Injection Problem" point="org.eclipse.core.resources.markers">
+        <super type="org.eclipse.core.resources.problemmarker"></super>
+    </extension>
+    <extension point="org.eclipse.ui.perspectiveExtensions">
+        <perspectiveExtension targetID="org.moflon.ide.ui.perspective"></perspectiveExtension>
+    </extension>
+    <extension id="org.moflon.textualEditor.contentTypes" name="MoflonContentTypes" point="org.eclipse.core.contenttype.contentTypes">
+        <content-type file-extensions="inject" id="org.moflon.textualEditor.contentTypes.moflon.injection" name="eMoflon Injection File" priority="high"></content-type>
+        <content-type file-extensions="vm" id="org.moflon.textualEditor.contentTypes.velocity" name="Velocity templates" priority="normal"></content-type>
+        <content-type file-extensions="g" id="org.moflon.textualEditor.contentTypes.antlr" name="ANTLR files" priority="high"></content-type>
+        <content-type file-extensions="g4" id="org.moflon.textualEditor.contentTypes.antlrv4" name="ANTLR v4 files" priority="high"></content-type>
+        <content-type file-extensions="stg" id="org.moflon.textualEditor.contentTypes.stringTemplate" name="StringTemplate files" priority="high"></content-type>
+        <content-type id="org.moflon.contenttype.sdm" name="eMoflon SDM" file-extensions="sdm" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
+        <content-type id="org.moflon.contenttype.cf" name="eMoflon CF" file-extensions="cf" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
+        <content-type id="org.moflon.contenttype.dfs" name="eMoflon DFS" file-extensions="dfs" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
+        <content-type id="org.moflon.contenttype.binding" name="eMoflon Binding" file-extensions="binding" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
+        <content-type id="org.moflon.contenttype.black" name="eMoflon Black" file-extensions="black" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
+        <content-type id="org.moflon.contenttype.bindingAndBlack" name="eMoflon Binding and Black" file-extensions="bindingAndBlack" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
+        <content-type id="org.moflon.contenttype.expression" name="eMoflon Expression" file-extensions="expression" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
+        <content-type id="org.moflon.contenttype.red" name="eMoflon Red" file-extensions="red" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
+        <content-type id="org.moflon.contenttype.green" name="eMoflon Green" file-extensions="gren" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
+        <file-association content-type="org.moflon.contenttype.sdm" file-extensions="sdm"></file-association>
+        <file-association content-type="org.moflon.contenttype.cf" file-extensions="cf"></file-association>
+        <file-association content-type="org.moflon.contenttype.dfs" file-extensions="dfs"></file-association>
+        <file-association content-type="org.moflon.contenttype.binding" file-extensions="binding"></file-association>
+        <file-association content-type="org.moflon.contenttype.black" file-extensions="black"></file-association>
+        <file-association content-type="org.moflon.contenttype.bindingAndBlack" file-extensions="bindingAndBlack"></file-association>
+        <file-association content-type="org.moflon.contenttype.expression" file-extensions="expression"></file-association>
+        <file-association content-type="org.moflon.contenttype.red" file-extensions="red"></file-association>
+        <file-association content-type="org.moflon.contenttype.green" file-extensions="green"></file-association>
+    </extension>
+    <extension point="org.eclipse.ui.editors">
+        <editor class="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" default="true" icon="resources/icons/noun_project_7402.png" id="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor" name="eMoflon Injection Editor">
+            <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.moflon.injection"></contentTypeBinding>
+        </editor>
+        <editor class="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" default="false" icon="resources/icons/addTextEditor.png" id="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor" name="eMoflon Antlr Editor">
+            <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.antlr"></contentTypeBinding>
+            <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.antlrv4"></contentTypeBinding>
+        </editor>
+        <editor class="org.moflon.ide.ui.admin.editors.antlr.StringTemplateTextEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" default="false" icon="resources/icons/addTextEditor.png" id="org.moflon.ide.ui.admin.editors.antlr.StringTemplateTextEditor" name="eMoflon StringTemplate Editor">
+            <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.stringTemplate"></contentTypeBinding>
+        </editor>
+    </extension>
+    <extension point="org.eclipse.ui.decorators">
+        <decorator lightweight="true" adaptable="true" label="%Decorator_name" class="org.moflon.ide.ui.decorators.MoflonProjectDecorator" state="true" location="BOTTOM_RIGHT" id="org.moflon.ide.ui.decorators.MoflonProjectDecorator">
             <enablement>
-            	<and>
-                <objectClass
-                      name="org.eclipse.core.resources.IProject">
-                </objectClass>
-                  <or>
-                     
-                     <objectState
-                           name="projectNature"
-                           value="org.moflon.ide.core.runtime.natures.RepositoryNature">
-                     </objectState>
-                     <objectState
-                           name="projectNature"
-                           value="org.moflon.ide.core.runtime.natures.IntegrationNature">
-                     </objectState>
-                     <objectState
-                           name="projectNature"
-                           value="org.moflon.ide.core.runtime.natures.MetamodelNature">
-                     </objectState>
-                  </or>
-            	</and>
+                <and>
+                    <objectClass name="org.eclipse.core.resources.IProject"></objectClass>
+                    <or>
+                        <objectState name="projectNature" value="org.moflon.ide.core.runtime.natures.RepositoryNature"></objectState>
+                        <objectState name="projectNature" value="org.moflon.ide.core.runtime.natures.IntegrationNature"></objectState>
+                        <objectState name="projectNature" value="org.moflon.ide.core.runtime.natures.MetamodelNature"></objectState>
+                    </or>
+                </and>
             </enablement>
-         <description>
+            <description>
             %Decorator_description
          </description>
-      </decorator>
-   </extension>
-   <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.BuildHandler"
-            commandId="org.moflon.ide.ui.commands.build.BuildCommand">
-         <enabledWhen>
-            <or>
-               <with
-                     variable="selection">
-                  <iterate
-                        operator="or">
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.isProject">
-                     </reference>
-                  </iterate>
-               </with>
-               <with
-                     variable="activeEditorInput">
-                  <or>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                     </reference>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-                     </reference>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                     </reference>
-                  </or>
-               </with>
-               <reference
-                   definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
-        		</reference>
-        		<reference
-                   definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
-        		</reference>
-            </or>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.BuildOnlyDirtyProjectsHandler"
-            commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand">
-         <enabledWhen>
-            <or>
-               <with
-                     variable="selection">
-                  <iterate
-                        operator="or">
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.isProject">
-                     </reference>
-                  </iterate>
-               </with>
-               <with
-                     variable="activeEditorInput">
-                  <or>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                     </reference>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-                     </reference>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                     </reference>
-                  </or>
-               </with>
-               <reference
-                   definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
-        		</reference>
-        		<reference
-                   definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
-        		</reference>
-            </or>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.CreateInjectionHandler"
-            commandId="org.moflon.ide.ui.commands.build.CreateInjectionCommand">
-         <enabledWhen>
-            <or>
-               <with
-                     variable="selection">
-                  <iterate
-                        ifEmpty="false"
-                        operator="and">
-                     <and>
+        </decorator>
+    </extension>
+    <extension point="org.eclipse.ui.handlers">
+        <handler class="org.moflon.ide.ui.admin.handlers.BuildHandler" commandId="org.moflon.ide.ui.commands.build.BuildCommand">
+            <enabledWhen>
+                <or>
+                    <with variable="selection">
+                        <iterate operator="or">
+                            <reference definitionId="org.moflon.ide.ui.definitions.isProject"></reference>
+                        </iterate>
+                    </with>
+                    <with variable="activeEditorInput">
                         <or>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                           </reference>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                           </reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
                         </or>
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.isJavaFile">
-                        </reference>
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.isInGenFolder">
-                        </reference>
-                     </and>
-                  </iterate>
-                  <count
-                        value="1">
-                  </count>
-               </with>
-               <and>
-                  <with
-                        variable="activeEditorInput">
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasAnyMoflonNature">
-                     </reference>
-                  </with>
-                  <reference
-                        definitionId="org.moflon.ide.ui.definitions.isCompilationUnitEditor">
-                  </reference>
-               </and>
-            </or>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.NewMetamodelHandler"
-            commandId="org.moflon.ide.ui.commands.build.NewMetamodelCommand">
-      </handler>
-      
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.AddParserAndUnparserHandler"
-            commandId="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand">
-         <enabledWhen>
-         <or>
-            <with
-                  variable="selection">
-               <and>
-                  <iterate
-                        ifEmpty="false"
-                        operator="and">
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasJavaNature">
-                     </reference>
-                  </iterate>
-                  <count
-                        value="1">
-                  </count>
-               </and>
-            </with>
-            <with
-                  variable="activeEditorInput">
-               <reference
-                     definitionId="org.moflon.ide.ui.definitions.hasJavaNature">
-               </reference>
-            </with>
-            </or>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.ValidateHandler"
-            commandId="org.moflon.ide.ui.commands.validation.ValidateCommand">
-         <enabledWhen>
-            <with
-                  variable="selection">
-               <iterate
-                     ifEmpty="false">
-                  <or>
-                     <and>
+                    </with>
+                    <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer"></reference>
+                    <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer"></reference>
+                </or>
+            </enabledWhen>
+        </handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.BuildOnlyDirtyProjectsHandler" commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand">
+            <enabledWhen>
+                <or>
+                    <with variable="selection">
+                        <iterate operator="or">
+                            <reference definitionId="org.moflon.ide.ui.definitions.isProject"></reference>
+                        </iterate>
+                    </with>
+                    <with variable="activeEditorInput">
                         <or>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                           </reference>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                           </reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
                         </or>
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.isEcoreFile">
-                        </reference>
-                     </and>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.isProject">
-                     </reference>
-                     <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
-                     </reference>
-                     <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
-                     </reference>
-                  </or>
-               </iterate>
-            </with>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.ValidateWithDumpingHandler"
-            commandId="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand">
-         <enabledWhen>
-            <with
-                  variable="selection">
-               <iterate
-                     ifEmpty="false">
-                  <or>
-                     <and>
+                    </with>
+                    <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer"></reference>
+                    <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer"></reference>
+                </or>
+            </enabledWhen>
+        </handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.CreateInjectionHandler" commandId="org.moflon.ide.ui.commands.build.CreateInjectionCommand">
+            <enabledWhen>
+                <or>
+                    <with variable="selection">
+                        <iterate ifEmpty="false" operator="and">
+                            <and>
+                                <or>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+                                </or>
+                                <reference definitionId="org.moflon.ide.ui.definitions.isJavaFile"></reference>
+                                <reference definitionId="org.moflon.ide.ui.definitions.isInGenFolder"></reference>
+                            </and>
+                        </iterate>
+                        <count value="1"></count>
+                    </with>
+                    <and>
+                        <with variable="activeEditorInput">
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasAnyMoflonNature"></reference>
+                        </with>
+                        <reference definitionId="org.moflon.ide.ui.definitions.isCompilationUnitEditor"></reference>
+                    </and>
+                </or>
+            </enabledWhen>
+        </handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.NewMetamodelHandler" commandId="org.moflon.ide.ui.commands.build.NewMetamodelCommand"></handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.AddParserAndUnparserHandler" commandId="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand">
+            <enabledWhen>
+                <or>
+                    <with variable="selection">
+                        <and>
+                            <iterate ifEmpty="false" operator="and">
+                                <reference definitionId="org.moflon.ide.ui.definitions.hasJavaNature"></reference>
+                            </iterate>
+                            <count value="1"></count>
+                        </and>
+                    </with>
+                    <with variable="activeEditorInput">
+                        <reference definitionId="org.moflon.ide.ui.definitions.hasJavaNature"></reference>
+                    </with>
+                </or>
+            </enabledWhen>
+        </handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.ValidateHandler" commandId="org.moflon.ide.ui.commands.validation.ValidateCommand">
+            <enabledWhen>
+                <with variable="selection">
+                    <iterate ifEmpty="false">
                         <or>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                           </reference>
-                           <reference
-                                 definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                           </reference>
+                            <and>
+                                <or>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
+                                </or>
+                                <reference definitionId="org.moflon.ide.ui.definitions.isEcoreFile"></reference>
+                            </and>
+                            <reference definitionId="org.moflon.ide.ui.definitions.isProject"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer"></reference>
                         </or>
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.isEcoreFile">
-                        </reference>
-                     </and>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.isProject">
-                     </reference>
-                     <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
-                     </reference>
-                     <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
-                     </reference>
-                  </or>
-               </iterate>
-            </with>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.EditLoggingConfigurationHandler"
-            commandId="org.moflon.ide.ui.commands.admin.EditLoggingConfigFile">
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.ReconfigureLoggingHandler"
-            commandId="org.moflon.ide.ui.commands.admin.ReconfigureLogging">
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.EditLoggingConfigurationHandler"
-            commandId="org.moflon.ide.ui.commands.admin.ConfigureLogging">
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.SwitchBetweenJavaAndInjectionFileHandler"
-            commandId="org.moflon.ide.ui.commands.navigate.SwitchBetweenJavaAndInjectionFile">
-         <enabledWhen>
-         <or>
-            <and>
-               <count
-                     value="1">
-               </count>
-               <iterate
-                     ifEmpty="false"
-                     operator="and">
-                  <or>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.isJavaFile">
-                     </reference>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.isInjectFile">
-                     </reference>
-                  </or>
-               </iterate>
-            </and>
-            <reference
-                  definitionId="org.moflon.ide.ui.definitions.hasJavaEditor">
-            </reference>
-            <reference
-                  definitionId="org.moflon.ide.ui.definitions.hasInjectionEditor">
-            </reference>
-            </or>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.GoToMetamodelProjectHandler"
-            commandId="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject">
-         <enabledWhen>
-            <and>
-               <count
-                     value="1">
-               </count>
-               <iterate
-                     ifEmpty="false"
-                     operator="and">
-                  <or>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                     </reference>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                     </reference>
-                  </or>
-               </iterate>
-            </and>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.ExportAndBuildHandler"
-            commandId="org.moflon.ide.ui.commands.build.ExportAndBuild">
-         <enabledWhen>
-            <with
-                  variable="selection">
-                  <or>
-               <iterate
-                     ifEmpty="false"
-                     operator="or">
-                  <or>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.isEapFile">
-                     </reference>
-                     
-                        <reference
-                              definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-                        </reference>
-                     
-                  </or>
-               </iterate>
-               <reference
-                   definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
-        		</reference>
-        		<reference
-                   definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
-        		</reference>
-               </or>
-            </with>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="org.moflon.ide.ui.admin.handlers.ExportToEAPHandler"
-            commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand">
-         <enabledWhen>
-            <with
-                  variable="selection">
-               <iterate
-                     ifEmpty="false">
-                  <or>
-                     <reference
-                           definitionId="org.moflon.ide.ui.definitions.isEcoreFile">
-                     </reference>
-                  </or>
-               </iterate>
-            </with>
-         </enabledWhen>
-      </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-     <category
-            description="Collection of eMoflon commands"
-            id="org.moflon.ide.ui.commands.MainCategory"
-            name="eMoflon Commands">
-      </category>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.validation.ValidateCommand"
-            name="Validate">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand"
-            name="Validate">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand"
-            name="Ecore-to-EA">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.build.BuildCommand"
-            name="%buildLabel">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
-            name="%buildDirtyProjectsLabel">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand"
-            name="Add Parser/Unparser">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.build.CreateInjectionCommand"
-            name="Create/update injection for class">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.build.NewMetamodelCommand"
-            name="Create new meta-model">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.admin.ConfigureLogging"
-            name="Configure logging">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.admin.EditLoggingConfigFile"
-            name="Edit logging configuration">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.admin.ReconfigureLogging"
-            name="Reconfigure logging">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            description="Opens the corresponding meta-model project"
-            id="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject"
-            name="Show meta-model project">
-      </command>
-      <command
-            description="Switches between a Java file and its injection file"
-            id="org.moflon.ide.ui.commands.navigate.SwitchBetweenJavaAndInjectionFile"
-            name="Java &lt;-&gt; Injection">
-      </command>
-      <command
-            categoryId="org.moflon.ide.ui.commands.MainCategory"
-            id="org.moflon.ide.ui.commands.build.ExportAndBuild"
-            name="Export">
-      </command>
-      <command
-            id="org.moflon.ide.ui.moflon"
-            name="eMoflon popup">
-      </command>
-      <command
-            defaultHandler="org.moflon.ide.ui.admin.handlers.GitResetProjectHandler"
-            id="org.moflon.ide.ui.commands.git.GitResetCommand"
-            name="Reset and clean Git Repo">
-      </command>
-      <command
-            defaultHandler="org.moflon.ide.ui.admin.handlers.TouchResourceHandler"
-            id="org.moflon.ide.ui.commands.git.TouchResourceCommand"
-            name="Touch Resource">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-      		locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
-               <command
-                     commandId="org.moflon.ide.ui.moflon"
-                     icon="resources/icons/moflonSmall.png"
-               		label="eMoflon"
-               		mnemonic="m"
-                     >
-               </command>
-            <separator
-                  name="moflonGroupBuilding">
-            </separator>
-            <separator
-                  name="moflonGroupAnalysis">
-            </separator>
-            <separator
-                  name="moflonGroupConversions">
-            </separator>
-            <separator
-                  name="moflonGroupMoca">
-            </separator>
-            <separator
-                  name="moflonGroupTie">
-            </separator>
-            <separator
-                  name="moflonGroupTesting">
-            </separator>
-            <separator
-                  name="moflonGroupGit">
-            </separator>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.moflon.ide.ui.moflon?after=additions">
-         <command
-               commandId="org.moflon.ide.ui.commands.validation.ValidateCommand"
-               icon="resources/icons/validate.gif"
-               label="Validate"
-               style="push">
-               <visibleWhen
-                     checkEnabled="false">
-               </visibleWhen>
-         </command>
-         <command
-               commandId="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand"
-               icon="resources/icons/validate.gif"
-               label="Validate (with CF dump)"
-               style="push">
-               <visibleWhen
-                     checkEnabled="false">
-               </visibleWhen>
-         </command>
-         <command
-               commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand"
-               icon="resources/icons/export-eap.png"
-               label="Ecore-to-EA"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupBuilding">
-         <command
-               commandId="org.moflon.ide.ui.commands.build.BuildCommand"
-               icon="resources/icons/rebuildClasses.png"
-               label="%buildLabel"
-               mnemonic="B"
-               style="push"
-               tooltip="%buildTooltip">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-         <command
-               commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
-               icon="resources/icons/rebuildClassesDirtyOnly.png"
-               label="%buildDirtyProjectsLabel"
-               mnemonic="D"
-               style="push"
-               tooltip="%buildDirtyProjectsTooltip">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-         <command
-               commandId="org.moflon.ide.ui.commands.build.ExportAndBuild"
-               icon="resources/icons/exportAndBuild.gif"
-               label="%exportAndBuildLabel"
-               style="push"
-               tooltip="%exportAndBuildTooltip"
-               >
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-         <command
-               commandId="org.moflon.ide.ui.commands.build.CreateInjectionCommand"
-               icon="resources/icons/noun_project_7402.png"
-               label="Refresh injection for class"
-               mnemonic="I"
-               style="push"
-               tooltip="Creates or updates the corresponding injection file">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupMoca">
-         <command
-               commandId="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand"
-               icon="resources/icons/addParserAndUnparser.png"
-               label="Add parser/unparser"
-               style="push"
-               tooltip="Add Antlr parser and/or unparser to project">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupAnalysis">
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupTie">
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:org.eclipse.ui.main.toolbar">
-         <toolbar
-               id="org.moflon.ide.ui.toolbar"
-               label="eMoflon Toolbar">
-            <command
-                  commandId="org.moflon.ide.ui.commands.build.NewMetamodelCommand"
-                  hoverIcon="resources/icons/newMetamodelProject.gif"
-                  icon="resources/icons/newMetamodelProject.gif"
-                  label="Create new meta-model"
-                  style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <reference
-                        definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
-                  </reference>
-                  
-               </visibleWhen>
+                    </iterate>
+                </with>
+            </enabledWhen>
+        </handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.ValidateWithDumpingHandler" commandId="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand">
+            <enabledWhen>
+                <with variable="selection">
+                    <iterate ifEmpty="false">
+                        <or>
+                            <and>
+                                <or>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+                                    <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
+                                </or>
+                                <reference definitionId="org.moflon.ide.ui.definitions.isEcoreFile"></reference>
+                            </and>
+                            <reference definitionId="org.moflon.ide.ui.definitions.isProject"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer"></reference>
+                        </or>
+                    </iterate>
+                </with>
+            </enabledWhen>
+        </handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.EditLoggingConfigurationHandler" commandId="org.moflon.ide.ui.commands.admin.EditLoggingConfigFile"></handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.ReconfigureLoggingHandler" commandId="org.moflon.ide.ui.commands.admin.ReconfigureLogging"></handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.EditLoggingConfigurationHandler" commandId="org.moflon.ide.ui.commands.admin.ConfigureLogging"></handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.SwitchBetweenJavaAndInjectionFileHandler" commandId="org.moflon.ide.ui.commands.navigate.SwitchBetweenJavaAndInjectionFile">
+            <enabledWhen>
+                <or>
+                    <and>
+                        <count value="1"></count>
+                        <iterate ifEmpty="false" operator="and">
+                            <or>
+                                <reference definitionId="org.moflon.ide.ui.definitions.isJavaFile"></reference>
+                                <reference definitionId="org.moflon.ide.ui.definitions.isInjectFile"></reference>
+                            </or>
+                        </iterate>
+                    </and>
+                    <reference definitionId="org.moflon.ide.ui.definitions.hasJavaEditor"></reference>
+                    <reference definitionId="org.moflon.ide.ui.definitions.hasInjectionEditor"></reference>
+                </or>
+            </enabledWhen>
+        </handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.GoToMetamodelProjectHandler" commandId="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject">
+            <enabledWhen>
+                <and>
+                    <count value="1"></count>
+                    <iterate ifEmpty="false" operator="and">
+                        <or>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
+                            <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+                        </or>
+                    </iterate>
+                </and>
+            </enabledWhen>
+        </handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.ExportAndBuildHandler" commandId="org.moflon.ide.ui.commands.build.ExportAndBuild">
+            <enabledWhen>
+                <with variable="selection">
+                    <or>
+                        <iterate ifEmpty="false" operator="or">
+                            <or>
+                                <reference definitionId="org.moflon.ide.ui.definitions.isEapFile"></reference>
+                                <reference definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature"></reference>
+                            </or>
+                        </iterate>
+                        <reference definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer"></reference>
+                        <reference definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer"></reference>
+                    </or>
+                </with>
+            </enabledWhen>
+        </handler>
+        <handler class="org.moflon.ide.ui.admin.handlers.ExportToEAPHandler" commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand">
+            <enabledWhen>
+                <with variable="selection">
+                    <iterate ifEmpty="false">
+                        <or>
+                            <reference definitionId="org.moflon.ide.ui.definitions.isEcoreFile"></reference>
+                        </or>
+                    </iterate>
+                </with>
+            </enabledWhen>
+        </handler>
+    </extension>
+    <extension point="org.eclipse.ui.commands">
+        <category description="Collection of eMoflon commands" id="org.moflon.ide.ui.commands.MainCategory" name="eMoflon Commands"></category>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.validation.ValidateCommand" name="Validate"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand" name="Validate"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand" name="Ecore-to-EA"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.build.BuildCommand" name="%buildLabel"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand" name="%buildDirtyProjectsLabel"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand" name="Add Parser/Unparser"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.build.CreateInjectionCommand" name="Create/update injection for class"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.build.NewMetamodelCommand" name="Create new meta-model"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.admin.ConfigureLogging" name="Configure logging"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.admin.EditLoggingConfigFile" name="Edit logging configuration"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.admin.ReconfigureLogging" name="Reconfigure logging"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" description="Opens the corresponding meta-model project" id="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject" name="Show meta-model project"></command>
+        <command description="Switches between a Java file and its injection file" id="org.moflon.ide.ui.commands.navigate.SwitchBetweenJavaAndInjectionFile" name="Java &lt;-&gt; Injection"></command>
+        <command categoryId="org.moflon.ide.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.build.ExportAndBuild" name="Export"></command>
+        <command id="org.moflon.ide.ui.moflon" name="eMoflon popup"></command>
+        <command defaultHandler="org.moflon.ide.ui.admin.handlers.GitResetProjectHandler" id="org.moflon.ide.ui.commands.git.GitResetCommand" name="Reset and clean Git Repo"></command>
+        <command defaultHandler="org.moflon.ide.ui.admin.handlers.TouchResourceHandler" id="org.moflon.ide.ui.commands.git.TouchResourceCommand" name="Touch Resource"></command>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+            <command commandId="org.moflon.ide.ui.moflon" icon="resources/icons/moflonSmall.png" label="eMoflon" mnemonic="m"></command>
+            <separator name="moflonGroupBuilding"></separator>
+            <separator name="moflonGroupAnalysis"></separator>
+            <separator name="moflonGroupConversions"></separator>
+            <separator name="moflonGroupMoca"></separator>
+            <separator name="moflonGroupTie"></separator>
+            <separator name="moflonGroupTesting"></separator>
+            <separator name="moflonGroupGit"></separator>
+        </menuContribution>
+        <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=additions">
+            <command commandId="org.moflon.ide.ui.commands.validation.ValidateCommand" icon="resources/icons/validate.gif" label="Validate" style="push">
+                <visibleWhen checkEnabled="false"></visibleWhen>
             </command>
-            <command
-                  commandId="org.moflon.ide.ui.commands.build.BuildCommand"
-                  icon="resources/icons/rebuildClasses.png"
-                  label="%buildLabel"
-                  mnemonic="B"
-                  style="push"
-                  tooltip="%buildTooltip">
-               <visibleWhen
-                     checkEnabled="false">
-                  <reference
-                        definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
-                  </reference>
-               </visibleWhen>
+            <command commandId="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand" icon="resources/icons/validate.gif" label="Validate (with CF dump)" style="push">
+                <visibleWhen checkEnabled="false"></visibleWhen>
             </command>
-            <command
-                  commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
-                  icon="resources/icons/rebuildClassesDirtyOnly.png"
-                  label="%buildDirtyProjectsLabel"
-                  mnemonic="D"
-                  style="push"
-                  tooltip="%buildDirtyProjectsTooltip">
-               <visibleWhen
-                     checkEnabled="false">
-                  <reference
-                        definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
-                  </reference>
-               </visibleWhen>
+            <command commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand" icon="resources/icons/export-eap.png" label="Ecore-to-EA" style="push">
+                <visibleWhen checkEnabled="false"></visibleWhen>
             </command>
-            <command
-                  commandId="org.moflon.ide.ui.commands.admin.ConfigureLogging"
-                  icon="resources/icons/logfile.png"
-                  id="org.moflon.ide.ui.commands.admin.toolbar.ConfigureLogging"
-                  label="Logging"
-                  style="pulldown"
-                  tooltip="View and configure logging configuration for eMoflon console">
-               <visibleWhen
-                     checkEnabled="false">
-                  <reference
-                        definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
-                  </reference>
-               </visibleWhen>
+        </menuContribution>
+        <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupBuilding">
+            <command commandId="org.moflon.ide.ui.commands.build.BuildCommand" icon="resources/icons/rebuildClasses.png" label="%buildLabel" mnemonic="B" style="push" tooltip="%buildTooltip">
+                <visibleWhen checkEnabled="false"></visibleWhen>
             </command>
-         </toolbar>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:org.moflon.ide.ui.commands.admin.toolbar.ConfigureLogging">
-         <command
-               commandId="org.moflon.ide.ui.commands.admin.EditLoggingConfigFile"
-               icon="resources/icons/logfile.png"
-               label="Edit config file"
-               style="push"
-               tooltip="Edit configuration file for eMoflon logging. To take effect, 'Reconfigure Logging' has to be executed.">
-         </command>
-         <command
-               commandId="org.moflon.ide.ui.commands.admin.ReconfigureLogging"
-               label="Reconfigure logging"
-               style="push"
-               tooltip="Reconfigure logging">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupNavigation">
-         <command
-               commandId="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject"
-               label="Go to meta-model project"
-               style="push"
-               tooltip="Opens the related meta-model project">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-         <command
-               commandId="org.moflon.ide.ui.commands.navigate.SwitchBetweenJavaAndInjectionFile"
-               label="Class &lt;-&gt;Injection"
-               style="push"
-               tooltip="Switches between Java class and injection file">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupGit">
-         <command
-               commandId="org.moflon.ide.ui.commands.git.GitResetCommand"
-               label="Reset and Clean Git Repos"
-               style="push"
-               tooltip="Resets and cleans all selected Git projects">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-         <command
-               commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand"
-               label="Touch Selected Resource(s)"
-               style="push"
-               tooltip="Marks the selected resoures as modified (even if they have not changed)">
-            <visibleWhen
-                  checkEnabled="false">
-            </visibleWhen>
-         </command>
-      </menuContribution>
-   </extension>
-   <!--
+            <command commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand" icon="resources/icons/rebuildClassesDirtyOnly.png" label="%buildDirtyProjectsLabel" mnemonic="D" style="push" tooltip="%buildDirtyProjectsTooltip">
+                <visibleWhen checkEnabled="false"></visibleWhen>
+            </command>
+            <command commandId="org.moflon.ide.ui.commands.build.ExportAndBuild" icon="resources/icons/exportAndBuild.gif" label="%exportAndBuildLabel" style="push" tooltip="%exportAndBuildTooltip">
+                <visibleWhen checkEnabled="false"></visibleWhen>
+            </command>
+            <command commandId="org.moflon.ide.ui.commands.build.CreateInjectionCommand" icon="resources/icons/noun_project_7402.png" label="Refresh injection for class" mnemonic="I" style="push" tooltip="Creates or updates the corresponding injection file">
+                <visibleWhen checkEnabled="false"></visibleWhen>
+            </command>
+        </menuContribution>
+        <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupMoca">
+            <command commandId="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand" icon="resources/icons/addParserAndUnparser.png" label="Add parser/unparser" style="push" tooltip="Add Antlr parser and/or unparser to project">
+                <visibleWhen checkEnabled="false"></visibleWhen>
+            </command>
+        </menuContribution>
+        <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupAnalysis"></menuContribution>
+        <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupTie"></menuContribution>
+        <menuContribution allPopups="false" locationURI="toolbar:org.eclipse.ui.main.toolbar">
+            <toolbar id="org.moflon.ide.ui.toolbar" label="eMoflon Toolbar">
+                <command commandId="org.moflon.ide.ui.commands.build.NewMetamodelCommand" hoverIcon="resources/icons/newMetamodelProject.gif" icon="resources/icons/newMetamodelProject.gif" label="Create new meta-model" style="push">
+                    <visibleWhen checkEnabled="false">
+                        <reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
+                    </visibleWhen>
+                </command>
+                <command commandId="org.moflon.ide.ui.commands.build.BuildCommand" icon="resources/icons/rebuildClasses.png" label="%buildLabel" mnemonic="B" style="push" tooltip="%buildTooltip">
+                    <visibleWhen checkEnabled="false">
+                        <reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
+                    </visibleWhen>
+                </command>
+                <command commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand" icon="resources/icons/rebuildClassesDirtyOnly.png" label="%buildDirtyProjectsLabel" mnemonic="D" style="push" tooltip="%buildDirtyProjectsTooltip">
+                    <visibleWhen checkEnabled="false">
+                        <reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
+                    </visibleWhen>
+                </command>
+                <command commandId="org.moflon.ide.ui.commands.admin.ConfigureLogging" icon="resources/icons/logfile.png" id="org.moflon.ide.ui.commands.admin.toolbar.ConfigureLogging" label="Logging" style="pulldown" tooltip="View and configure logging configuration for eMoflon console">
+                    <visibleWhen checkEnabled="false">
+                        <reference definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective"></reference>
+                    </visibleWhen>
+                </command>
+            </toolbar>
+        </menuContribution>
+        <menuContribution allPopups="false" locationURI="menu:org.moflon.ide.ui.commands.admin.toolbar.ConfigureLogging">
+            <command commandId="org.moflon.ide.ui.commands.admin.EditLoggingConfigFile" icon="resources/icons/logfile.png" label="Edit config file" style="push" tooltip="Edit configuration file for eMoflon logging. To take effect, 'Reconfigure Logging' has to be executed."></command>
+            <command commandId="org.moflon.ide.ui.commands.admin.ReconfigureLogging" label="Reconfigure logging" style="push" tooltip="Reconfigure logging"></command>
+        </menuContribution>
+        <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupNavigation">
+            <command commandId="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject" label="Go to meta-model project" style="push" tooltip="Opens the related meta-model project">
+                <visibleWhen checkEnabled="false"></visibleWhen>
+            </command>
+            <command commandId="org.moflon.ide.ui.commands.navigate.SwitchBetweenJavaAndInjectionFile" label="Class &lt;-&gt;Injection" style="push" tooltip="Switches between Java class and injection file">
+                <visibleWhen checkEnabled="false"></visibleWhen>
+            </command>
+        </menuContribution>
+        <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupGit">
+            <command commandId="org.moflon.ide.ui.commands.git.GitResetCommand" label="Reset and Clean Git Repos" style="push" tooltip="Resets and cleans all selected Git projects">
+                <visibleWhen checkEnabled="false"></visibleWhen>
+            </command>
+            <command commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand" label="Touch Selected Resource(s)" style="push" tooltip="Marks the selected resoures as modified (even if they have not changed)">
+                <visibleWhen checkEnabled="false"></visibleWhen>
+            </command>
+        </menuContribution>
+    </extension>
+    <!--
    	* M1 = COMMAND/Ctrl
 	* M2 = Shift
 	* M3 = Option/Alt
    -->
-   <extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="org.moflon.ide.ui.commands.build.BuildCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E B">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E D">
-      </key>
-      
-      <key
-            commandId="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E P">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.build.CreateInjectionCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E I">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.validation.ValidateCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E V">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E L">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E T">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.navigate.SwitchBetweenJavaAndInjectionFile"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E W">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.build.ExportAndBuild"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E X">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E M">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.git.GitResetCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E 0">
-      </key>
-      <key
-            commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M2+M3+E C">
-      </key>
-   </extension>
-   <extension
-         point="org.eclipse.core.expressions.propertyTesters">
-      <propertyTester
-            class="org.moflon.ide.ui.propertytesters.PerspectivePropertyTester"
-            id="org.moflon.ide.ui.propertytesters.PerspectivePropertyTester"
-            namespace="org.moflon.ui.property"
-            properties="perspectiveId"
-            type="org.eclipse.e4.ui.model.application.ui.advanced.MPerspective">
-      </propertyTester>
-   </extension>
-   <extension
-         point="org.eclipse.core.expressions.definitions">
-      <definition
-            id="org.moflon.ide.ui.definitions.isMoflonPerspective">
-         <with
-               variable="org.eclipse.e4.ui.model.application.ui.advanced.MPerspective">
-            <test
-                  forcePluginActivation="true"
-                  property="org.moflon.ui.property.perspectiveId"
-                  value="org.moflon.ide.ui.perspective">
-            </test>
-         </with>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.hasRepositoryNature">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.projectNature"
-                  value="org.moflon.ide.core.runtime.natures.RepositoryNature">
-            </test>
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.hasJavaNature">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.projectNature"
-                  value="org.eclipse.jdt.core.javanature">
-            </test>
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.hasMetamodelNature">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.projectNature"
-                  value="org.moflon.ide.core.runtime.natures.MetamodelNature">
-            </test>
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isJavaFile">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.extension"
-                  value="java">
-            </test>
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isInGenFolder">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.path"
-                  value="*/gen/*">
-            </test>
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.hasIntegrationNature">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.projectNature"
-                  value="org.moflon.ide.core.runtime.natures.IntegrationNature">
-            </test>
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isXmiFile">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.name"
-                  value="*.xmi">
-            </test>
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isEcoreFile">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.extension"
-                  value="ecore">
-            </test>
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isEapFile">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.extension"
-                  value="eap">
-            </test>
-         </adapt>
-      </definition>
-      
-      <definition
-            id="org.moflon.ide.ui.definitions.isCompilationUnitEditor">
-         <with
-               variable="activeEditorId">
-            <equals
-                  value="org.eclipse.jdt.ui.CompilationUnitEditor">
-            </equals>
-         </with>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.hasAnyMoflonNature">
-         <or>
-            <reference
-                  definitionId="org.moflon.ide.ui.definitions.hasJavaNature">
-            </reference>
-            <reference
-                  definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature">
-            </reference>
-            
-            <reference
-                  definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-            </reference>
-            <reference
-                  definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-            </reference>
-         </or>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isInjectFile">
-         <adapt
-               type="org.eclipse.core.resources.IResource">
-            <test
-                  property="org.eclipse.core.resources.extension"
-                  value="inject">
-            </test>
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isProject">
-         <adapt
-               type="org.eclipse.core.resources.IProject">
-         </adapt>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isWorkingSet">
-         <instanceof value="org.eclipse.ui.IWorkingSet"/>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.hasJavaEditor">
-         <and>
-            <with
-                  variable="activeEditorInput">
-               <reference
-                     definitionId="org.moflon.ide.ui.definitions.hasAnyMoflonNature">
-               </reference>
+    <extension point="org.eclipse.ui.bindings">
+        <key commandId="org.moflon.ide.ui.commands.build.BuildCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E B"></key>
+        <key commandId="org.moflon.ide.ui.commands.build.BuildOnlyDirtyProjectsCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E D"></key>
+        <key commandId="org.moflon.ide.ui.commands.moca.AddParserAndUnparserCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E P"></key>
+        <key commandId="org.moflon.ide.ui.commands.build.CreateInjectionCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E I"></key>
+        <key commandId="org.moflon.ide.ui.commands.validation.ValidateCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E V"></key>
+        <key commandId="org.moflon.ide.ui.commands.validation.ValidateWithDumpingCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E L"></key>
+        <key commandId="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E T"></key>
+        <key commandId="org.moflon.ide.ui.commands.navigate.SwitchBetweenJavaAndInjectionFile" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E W"></key>
+        <key commandId="org.moflon.ide.ui.commands.build.ExportAndBuild" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E X"></key>
+        <key commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E M"></key>
+        <key commandId="org.moflon.ide.ui.commands.git.GitResetCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E 0"></key>
+        <key commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E C"></key>
+    </extension>
+    <extension point="org.eclipse.core.expressions.propertyTesters">
+        <propertyTester class="org.moflon.ide.ui.propertytesters.PerspectivePropertyTester" id="org.moflon.ide.ui.propertytesters.PerspectivePropertyTester" namespace="org.moflon.ui.property" properties="perspectiveId" type="org.eclipse.e4.ui.model.application.ui.advanced.MPerspective"></propertyTester>
+    </extension>
+    <extension point="org.eclipse.core.expressions.definitions">
+        <definition id="org.moflon.ide.ui.definitions.isMoflonPerspective">
+            <with variable="org.eclipse.e4.ui.model.application.ui.advanced.MPerspective">
+                <test forcePluginActivation="true" property="org.moflon.ui.property.perspectiveId" value="org.moflon.ide.ui.perspective"></test>
             </with>
-            <reference
-                  definitionId="org.moflon.ide.ui.definitions.isCompilationUnitEditor">
-            </reference>
-         </and>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.hasInjectionEditor">
-         <and>
-            <with
-                  variable="activeEditorInput">
-               <reference
-                     definitionId="org.moflon.ide.ui.definitions.hasAnyMoflonNature">
-               </reference>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.hasRepositoryNature">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.projectNature" value="org.moflon.ide.core.runtime.natures.RepositoryNature"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.hasJavaNature">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.jdt.core.javanature"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.hasMetamodelNature">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.projectNature" value="org.moflon.ide.core.runtime.natures.MetamodelNature"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isJavaFile">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.extension" value="java"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isInGenFolder">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.path" value="*/gen/*"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.hasIntegrationNature">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.projectNature" value="org.moflon.ide.core.runtime.natures.IntegrationNature"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isXmiFile">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.name" value="*.xmi"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isEcoreFile">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.extension" value="ecore"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isEapFile">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.extension" value="eap"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isCompilationUnitEditor">
+            <with variable="activeEditorId">
+                <equals value="org.eclipse.jdt.ui.CompilationUnitEditor"></equals>
             </with>
-            <with
-               variable="activeEditorId">
-            <equals
-                  value="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor">
-            </equals>
-         </with>
-         </and>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isInProjectExplorer">
-        <with variable="activePartId">
-        	<equals value="org.eclipse.ui.navigator.ProjectExplorer"/>
-    	</with>
-      </definition>
-      <definition
-            id="org.moflon.ide.ui.definitions.isInPackageExplorer">
-        <with variable="activePartId">
-        	<equals value="org.eclipse.jdt.ui.PackageExplorer"/>
-    	</with>
-      </definition>
-   </extension>
-   <extension
-         point="org.eclipse.jdt.ui.cleanUps">
-      <cleanUp
-            class="org.moflon.ide.ui.saveaction.CreateInjectionsSaveAction"
-            id="org.moflon.ide.ui.saveaction.CreateInjections">
-      </cleanUp>
-      <cleanUpOptionsInitializer
-            class="org.moflon.ide.ui.saveaction.CreateInjectionsOptionsInitializer"
-            cleanUpKind="saveAction">
-      </cleanUpOptionsInitializer>
-      <cleanUpConfigurationUI
-            class="org.moflon.ide.ui.saveaction.CreateInjectionsConfigurationUI"
-            cleanUpKind="saveAction"
-            name="%cleanup.createInjectionName">
-      </cleanUpConfigurationUI>
-   </extension>
-   <extension
-      point = "org.eclipse.ui.preferencePages">
-       <page id="org.moflon.ide.ui.preferences.EMoflonPreferencesPage"
-	    class="org.moflon.ide.ui.preferences.EMoflonPreferencesPage"
-            name="eMoflon">
-       </page>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-         <initializer
-               class="org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer">
-         </initializer>
-   </extension>
-   <extension
-         point="org.eclipse.ui.propertyPages">
-      <page
-            class="org.moflon.ide.ui.propertypages.EMoflonPropertyPage"
-            id="org.moflon.ide.ui.errorspropertypage"
-            name="Marker (eMoflon View)"
-            >
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.hasAnyMoflonNature">
+            <or>
+                <reference definitionId="org.moflon.ide.ui.definitions.hasJavaNature"></reference>
+                <reference definitionId="org.moflon.ide.ui.definitions.hasMetamodelNature"></reference>
+                <reference definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature"></reference>
+                <reference definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature"></reference>
+            </or>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isInjectFile">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.extension" value="inject"></test>
+            </adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isProject">
+            <adapt type="org.eclipse.core.resources.IProject"></adapt>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isWorkingSet">
+            <instanceof value="org.eclipse.ui.IWorkingSet" />
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.hasJavaEditor">
+            <and>
+                <with variable="activeEditorInput">
+                    <reference definitionId="org.moflon.ide.ui.definitions.hasAnyMoflonNature"></reference>
+                </with>
+                <reference definitionId="org.moflon.ide.ui.definitions.isCompilationUnitEditor"></reference>
+            </and>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.hasInjectionEditor">
+            <and>
+                <with variable="activeEditorInput">
+                    <reference definitionId="org.moflon.ide.ui.definitions.hasAnyMoflonNature"></reference>
+                </with>
+                <with variable="activeEditorId">
+                    <equals value="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor"></equals>
+                </with>
+            </and>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isInProjectExplorer">
+            <with variable="activePartId">
+                <equals value="org.eclipse.ui.navigator.ProjectExplorer" />
+            </with>
+        </definition>
+        <definition id="org.moflon.ide.ui.definitions.isInPackageExplorer">
+            <with variable="activePartId">
+                <equals value="org.eclipse.jdt.ui.PackageExplorer" />
+            </with>
+        </definition>
+    </extension>
+    <extension point="org.eclipse.jdt.ui.cleanUps">
+        <cleanUp class="org.moflon.ide.ui.saveaction.CreateInjectionsSaveAction" id="org.moflon.ide.ui.saveaction.CreateInjections"></cleanUp>
+        <cleanUpOptionsInitializer class="org.moflon.ide.ui.saveaction.CreateInjectionsOptionsInitializer" cleanUpKind="saveAction"></cleanUpOptionsInitializer>
+        <cleanUpConfigurationUI class="org.moflon.ide.ui.saveaction.CreateInjectionsConfigurationUI" cleanUpKind="saveAction" name="%cleanup.createInjectionName"></cleanUpConfigurationUI>
+    </extension>
+    <extension point="org.eclipse.ui.preferencePages">
+        <page id="org.moflon.ide.ui.preferences.EMoflonPreferencesPage" class="org.moflon.ide.ui.preferences.EMoflonPreferencesPage" name="eMoflon"></page>
+    </extension>
+    <extension point="org.eclipse.core.runtime.preferences">
+        <initializer class="org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer"></initializer>
+    </extension>
+    <extension point="org.eclipse.ui.propertyPages">
+        <page class="org.moflon.ide.ui.propertypages.EMoflonPropertyPage" id="org.moflon.ide.ui.errorspropertypage" name="Marker (eMoflon View)">
             <enabledWhen>
-        		<adapt type="org.eclipse.core.resources.IMarker">
-        		</adapt>
+                <adapt type="org.eclipse.core.resources.IMarker"></adapt>
             </enabledWhen>
-      </page>
-   </extension>
+        </page>
+    </extension>
 </plugin>
