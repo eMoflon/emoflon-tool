@@ -19,7 +19,6 @@ PatternParameter:ov=ObjectVariableDefinition;
 
 EClassDef:
 	'class' name = [ecore::EClass | QualifiedName] '{'
-	(operations += MethodDec | patterns += PatternDef)
 	operations += MethodDec*
 	patterns += PatternDef*
 	'}'
