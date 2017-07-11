@@ -1,10 +1,11 @@
-package org.moflon.gt.ui.wizards;
+package org.moflon.gt.ui.handlers;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.moflon.core.utilities.LogUtils;
+import org.moflon.gt.ui.wizards.NewMOSLGTProjectWizard;
 import org.moflon.ide.ui.UIActivator;
 import org.moflon.ide.ui.admin.handlers.AbstractCommandHandler;
 

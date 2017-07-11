@@ -40,7 +40,7 @@ import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 import com.google.inject.Injector;
 
 /**
- * This builder triggers the build process for MOSL-GT projects
+ * This builder triggers the build process for eMoflon-GT projects (cf. EMoflonGTNature)
  * 
  * The main parts of such projects are * A plain Ecore file that describes the structure of a metamodel * A set of
  * MOSL-GT files (*.mgt), which specify the implementation of operations in a platform-independent way * A set of
@@ -57,8 +57,15 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
    /**
     * Specification of files whose changes will trigger the invocation of this builder
     */
-   private static final String[] PROJECT_INTERNAL_TRIGGERS = { "src/*." + WorkspaceHelper.EMOFLON_GT_EXTENSION, "src/**/*." + WorkspaceHelper.EMOFLON_GT_EXTENSION, "model/*.ecore" };
+   private static final String[] PROJECT_INTERNAL_TRIGGERS = { //
+         "src/*." + WorkspaceHelper.EMOFLON_GT_EXTENSION, //
+         "src/**/*." + WorkspaceHelper.EMOFLON_GT_EXTENSION, //
+         "model/*.ecore"//
+   };
 
+   /**
+    * Specification of files/folders outside this project whose changes trigger a rebuild
+    */
    private static final String[] PROJECT_EXTERNAL_TRIGGERS = { "gen/**" };
 
    private ResourceSet resourceSet;
@@ -92,17 +99,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
    @Override
    protected AntPatternCondition getTriggerCondition(final IProject project)
    {
-      try
-      {
-         if (project.hasNature(WorkspaceHelper.REPOSITORY_NATURE_ID) || project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
-         {
-            return new AntPatternCondition(PROJECT_EXTERNAL_TRIGGERS);
-         }
-      } catch (final CoreException e)
-      {
-         // Do nothing
-      }
-      return new AntPatternCondition(new String[0]);
+      return new AntPatternCondition(PROJECT_EXTERNAL_TRIGGERS);
    }
 
    @Override
@@ -114,11 +111,6 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
       {
          super.postprocess(buildVisitor, kind, args, monitor);
       }
-   }
-
-   public ResourceSet getResourceSet()
-   {
-      return resourceSet;
    }
 
    private void generateCode(final IProgressMonitor monitor) throws CoreException

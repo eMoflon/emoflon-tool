@@ -1,10 +1,13 @@
 package org.moflon.gt.ui.wizards;
 
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
@@ -60,28 +63,43 @@ public class NewMOSLGTProjectWizard extends AbstractMoflonWizard
       }
    }
 
-   // The monitor is allowed to perform 1 tick
    protected void generateDefaultFiles(final IProgressMonitor monitor, IProject project) throws CoreException
    {
-      String defaultEcoreFile = generateDefaultEPackageForProject(project.getName());
-      WorkspaceHelper.addFile(project, MoflonUtil.getDefaultPathToEcoreFileInProject(project.getName()), defaultEcoreFile,
-            SubMonitor.convert(monitor).split(1));
+      final String projectName = project.getName();
+      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating default files in " + projectName, 2);
+
+      final String defaultEcoreFile = generateDefaultEPackageForProject(projectName);
+      final String relativePathToEcoreFile = MoflonUtil.getDefaultPathToEcoreFileInProject(projectName);
+      WorkspaceHelper.addFile(project, relativePathToEcoreFile, defaultEcoreFile, subMon.split(1));
+
+      final String defaultMgtFile = generateDefaultMgtFileContentForProject(projectName);
+      final String path = projectName.replaceAll(Pattern.quote("."), "/");
+      final String relativePathToMgtFile = "src/" + path + "/" + MoflonUtil.lastCapitalizedSegmentOf(projectName) + "." + WorkspaceHelper.EMOFLON_GT_EXTENSION;
+      WorkspaceHelper.addAllFoldersAndFile(project, new Path(relativePathToMgtFile), defaultMgtFile, subMon.split(1));
    }
 
    private String generateDefaultEPackageForProject(String projectName)
    {
-      return "<?xml version=\"1.0\" encoding=\"ASCII\"?>" + nl() +
-      "<ecore:EPackage xmi:version=\"2.0\"" + nl() +
-                  "xmlns:xmi=\"http://www.omg.org/XMI\"" + nl()   +
-                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" + nl()   +
-                  "xmlns:ecore=\"http://www.eclipse.org/emf/2002/Ecore\"" + nl()   +
-                  "name=\"" + MoflonUtil.lastSegmentOf(projectName) + "\"" + nl()   +
-                  "nsURI=\"" + MoflonUtil.getDefaultURIToEcoreFileInPlugin(projectName) + "\"" + nl()  +
-                  "nsPrefix=\"" + projectName + "\">" + nl() +
-                  "</ecore:EPackage>";
+      return "<?xml version=\"1.0\" encoding=\"ASCII\"?>" + nl() + //
+            "<ecore:EPackage xmi:version=\"2.0\"" + nl() + "xmlns:xmi=\"http://www.omg.org/XMI\"" + nl() + //
+            "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" + nl() + //
+            "xmlns:ecore=\"http://www.eclipse.org/emf/2002/Ecore\"" + nl() + //
+            "name=\"" + MoflonUtil.lastSegmentOf(projectName) + "\"" + nl() + //
+            "nsURI=\"" + MoflonUtil.getDefaultURIToEcoreFileInPlugin(projectName) + "\"" + nl() + //
+            "nsPrefix=\"" + projectName + "\">" + nl() + //
+            "</ecore:EPackage>";
    }
-   
-   private static String nl() {
+
+   private String generateDefaultMgtFileContentForProject(final String projectName)
+   {
+      return "import \"platform:/resource/" + projectName + "/model/" + MoflonUtil.lastCapitalizedSegmentOf(projectName) + ".ecore\"" + nl() + //
+            nl() + // 
+            "package " + projectName + nl();
+            
+   }
+
+   private static String nl()
+   {
       return "\n";
    }
 
