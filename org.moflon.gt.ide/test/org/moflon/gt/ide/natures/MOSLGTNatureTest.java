@@ -14,7 +14,7 @@ import org.moflon.ide.core.runtime.natures.MoflonBuilderUtilsTest;
 
 public class MOSLGTNatureTest
 {
-   private MOSLGTNature nature;
+   private EMoflonGTNature nature;
 
    private IProjectDescription projectDescription;
 
@@ -22,7 +22,7 @@ public class MOSLGTNatureTest
    @Before
    public void setUp()
    {
-      nature = new MOSLGTNature();
+      nature = new EMoflonGTNature();
       projectDescription = new org.eclipse.core.internal.resources.ProjectDescription();
    }
 
@@ -34,10 +34,10 @@ public class MOSLGTNatureTest
       buildSpecification = nature.updateBuildSpecs(projectDescription, buildSpecification, true);
 
       MoflonBuilderUtilsTest.assertBuilderIsPresent(buildSpecification, WorkspaceHelper.XTEXT_BUILDER_ID);
-      MoflonBuilderUtilsTest.assertBuilderIsPresent(buildSpecification, WorkspaceHelper.MOSL_GT_BUILDER_ID);
+      MoflonBuilderUtilsTest.assertBuilderIsPresent(buildSpecification, WorkspaceHelper.EMOFLON_GT_BUILDER_ID);
       MoflonBuilderUtilsTest.assertBuilderIsPresent(buildSpecification, WorkspaceHelper.JAVA_BUILDER_ID);
       
-      MoflonBuilderUtilsTest.assertBuilderOrder(buildSpecification, Arrays.asList(WorkspaceHelper.XTEXT_BUILDER_ID, WorkspaceHelper.MOSL_GT_BUILDER_ID, WorkspaceHelper.JAVA_BUILDER_ID));
+      MoflonBuilderUtilsTest.assertBuilderOrder(buildSpecification, Arrays.asList(WorkspaceHelper.XTEXT_BUILDER_ID, WorkspaceHelper.EMOFLON_GT_BUILDER_ID, WorkspaceHelper.JAVA_BUILDER_ID));
    }
 
    @Test
@@ -50,7 +50,7 @@ public class MOSLGTNatureTest
       // Now, remove the nature-specific builders
       buildSpecification = nature.updateBuildSpecs(projectDescription, buildSpecification, false);
       MoflonBuilderUtilsTest.assertBuilderIsMissing(buildSpecification, WorkspaceHelper.XTEXT_BUILDER_ID);
-      MoflonBuilderUtilsTest.assertBuilderIsMissing(buildSpecification, WorkspaceHelper.MOSL_GT_BUILDER_ID);
+      MoflonBuilderUtilsTest.assertBuilderIsMissing(buildSpecification, WorkspaceHelper.EMOFLON_GT_BUILDER_ID);
    }
    
    @Test
@@ -59,7 +59,7 @@ public class MOSLGTNatureTest
       String[] natureIDs = new String[]{WorkspaceHelper.MOSL_TGG_NATURE};
       natureIDs = nature.updateNatureIDs(natureIDs, true);
       
-      assertNatureIDIsPresent(natureIDs, WorkspaceHelper.MOSL_GT_NATURE_ID);
+      assertNatureIDIsPresent(natureIDs, WorkspaceHelper.EMOFLON_GT_NATURE_ID);
       assertNatureIDIsPresent(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
    }
 
@@ -72,7 +72,7 @@ public class MOSLGTNatureTest
       // Now, remove the nature-specific nature IDs
       natureIDs = nature.updateNatureIDs(natureIDs, false);
 
-      assertNatureIDIsMissing(natureIDs, WorkspaceHelper.MOSL_GT_NATURE_ID);
+      assertNatureIDIsMissing(natureIDs, WorkspaceHelper.EMOFLON_GT_NATURE_ID);
       assertNatureIDIsMissing(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
    }
 

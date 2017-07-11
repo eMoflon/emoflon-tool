@@ -256,7 +256,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          private boolean isMOSLGTFile(IResource resource)
          {
             final IFile file = resource.getAdapter(IFile.class);
-            return resource != null && resource.exists() && file != null && WorkspaceHelper.MOSL_GT_EXTENSION.equals(file.getFileExtension());
+            return resource != null && resource.exists() && file != null && WorkspaceHelper.EMOFLON_GT_EXTENSION.equals(file.getFileExtension());
          }
 
       });

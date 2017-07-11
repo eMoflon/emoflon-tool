@@ -49,21 +49,21 @@ import com.google.inject.Injector;
  * @author Roland Kluge - Initial implementation
  *
  */
-public class MOSLGTBuilder extends AbstractVisitorBuilder
+public class EMoflonGTBuilder extends AbstractVisitorBuilder
 {
 
-   private static final Logger logger = Logger.getLogger(MOSLGTBuilder.class);
+   private static final Logger logger = Logger.getLogger(EMoflonGTBuilder.class);
 
    /**
     * Specification of files whose changes will trigger the invocation of this builder
     */
-   private static final String[] PROJECT_INTERNAL_TRIGGERS = { "src/*." + WorkspaceHelper.MOSL_GT_EXTENSION, "src/**/*." + WorkspaceHelper.MOSL_GT_EXTENSION, "model/*.ecore" };
+   private static final String[] PROJECT_INTERNAL_TRIGGERS = { "src/*." + WorkspaceHelper.EMOFLON_GT_EXTENSION, "src/**/*." + WorkspaceHelper.EMOFLON_GT_EXTENSION, "model/*.ecore" };
 
    private static final String[] PROJECT_EXTERNAL_TRIGGERS = { "gen/**" };
 
-   private XtextResourceSet resourceSet;
+   private ResourceSet resourceSet;
 
-   public MOSLGTBuilder()
+   public EMoflonGTBuilder()
    {
       super(new AntPatternCondition(PROJECT_INTERNAL_TRIGGERS));
    }
@@ -140,7 +140,7 @@ public class MOSLGTBuilder extends AbstractVisitorBuilder
     * 
     * @return the initialized resource set
     */
-   public static XtextResourceSet initializeResourceSet()
+   public static ResourceSet initializeResourceSet()
    {
       // See also: https://wiki.eclipse.org/Xtext/FAQ#How_do_I_load_my_model_in_a_standalone_Java_application.C2.A0.3F
       final Injector injector = new MOSLGTStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();

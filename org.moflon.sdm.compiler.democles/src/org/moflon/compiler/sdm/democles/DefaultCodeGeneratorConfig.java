@@ -116,7 +116,7 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
       {
 		   IProject project = resourceContext.getProject();
          IProjectDescription ipd =project.getDescription();
-         isMoslGT = Arrays.asList(ipd.getNatureIds()).stream().filter(ids -> ids.compareTo(WorkspaceHelper.MOSL_GT_NATURE_ID) == 0).findFirst().isPresent();
+         isMoslGT = Arrays.asList(ipd.getNatureIds()).stream().filter(ids -> ids.compareTo(WorkspaceHelper.EMOFLON_GT_NATURE_ID) == 0).findFirst().isPresent();
          
       } catch (CoreException | NullPointerException e)
       {

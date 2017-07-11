@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.ui.handlers;
+package org.moflon.gt.ui.handlers;
 
 import java.util.Collection;
 

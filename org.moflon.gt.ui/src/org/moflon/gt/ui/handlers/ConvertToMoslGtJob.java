@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.ui.handlers;
+package org.moflon.gt.ui.handlers;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.gt.ide.builders.MOSLGTBuilder;
+import org.moflon.gt.ide.builders.EMoflonGTBuilder;
 
 /**
  * This job triggers the conversion of an SDM-based project to a MOSL-GT-based project
@@ -51,7 +51,7 @@ public class ConvertToMoslGtJob extends WorkspaceJob
 
    private ResourceSet initializeResourceSet()
    {
-      return MOSLGTBuilder.initializeResourceSet();
+      return EMoflonGTBuilder.initializeResourceSet();
    }
 
    private IProject getProject()

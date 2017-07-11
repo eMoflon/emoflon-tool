@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.gt.ide.natures.MOSLGTNature;
+import org.moflon.gt.ide.natures.EMoflonGTNature;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonProjectInfoPage;
 import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonWizard;
@@ -89,7 +89,7 @@ public class NewMOSLGTProjectWizard extends AbstractMoflonWizard
    protected void createProject(IProgressMonitor monitor, IProject project, MetamodelProperties metamodelProperties) throws CoreException
    {
       metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.MOSLGT_REPOSITORY_KEY);
-      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties, new MOSLGTNature());
+      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties, new EMoflonGTNature());
       ResourcesPlugin.getWorkspace().run(createMoflonProject, SubMonitor.convert(monitor).split(1));
    }
 }

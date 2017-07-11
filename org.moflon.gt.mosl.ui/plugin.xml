@@ -237,40 +237,6 @@
 				</reference>
 			</activeWhen>
 		</handler>
-  <handler
-        class="org.moflon.gt.mosl.ui.handlers.ConvertToMoslGtHandler"
-        commandId="org.moflon.ide.ui.commands.ConvertToMoslGtCommand">
-        <enabledWhen>
-       <or>
-          <with
-                variable="selection">
-             <iterate
-                   operator="or">
-                <reference
-                      definitionId="org.moflon.ide.ui.definitions.isProject">
-                </reference>
-             </iterate>
-          </with>
-          <with
-                variable="activeEditorInput">
-             <or>
-                <reference
-                      definitionId="org.moflon.ide.ui.definitions.hasIntegrationNature">
-                </reference>
-                <reference
-                      definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
-                </reference>
-             </or>
-          </with>
-          <reference
-                definitionId="org.moflon.ide.ui.definitions.isInPackageExplorer">
-          </reference>
-          <reference
-                definitionId="org.moflon.ide.ui.definitions.isInProjectExplorer">
-          </reference>
-       </or>
-    </enabledWhen>
-  </handler>
 	</extension>
 	<!-- adding resource factories -->
 	<extension

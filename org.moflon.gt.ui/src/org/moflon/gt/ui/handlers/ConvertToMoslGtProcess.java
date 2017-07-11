@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.ui.handlers;
+package org.moflon.gt.ui.handlers;
 
 import java.util.regex.Pattern;
 
@@ -22,7 +22,7 @@ import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
 import org.moflon.compiler.sdm.democles.eclipse.DemoclesValidatorTask;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.gt.ide.natures.MOSLGTNature;
+import org.moflon.gt.ide.natures.EMoflonGTNature;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.gt.mosl.moslgt.MoslgtFactory;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
@@ -89,7 +89,7 @@ public class ConvertToMoslGtProcess extends GenericMoflonProcess
          final ICommand[] buildSpecs = description.getBuildSpec();
          final String[] natureIds = description.getNatureIds();
          final RepositoryNature repositoryNature = new RepositoryNature();
-         final MOSLGTNature moslGtNature = new MOSLGTNature();
+         final EMoflonGTNature moslGtNature = new EMoflonGTNature();
          repositoryNature.updateBuildSpecs(description, buildSpecs, false);
          repositoryNature.updateNatureIDs(natureIds, false);
          moslGtNature.updateBuildSpecs(description, buildSpecs, true);
@@ -159,7 +159,7 @@ public class ConvertToMoslGtProcess extends GenericMoflonProcess
       //TODO@rkluge: Implement me
       final GraphTransformationFile mgtFile = MoslgtFactory.eINSTANCE.createGraphTransformationFile();
       mgtResource.getContents().add(mgtFile);
-      mgtFile.setName(getMgtBasename() + "." + WorkspaceHelper.MOSL_GT_EXTENSION);
+      mgtFile.setName(getMgtBasename() + "." + WorkspaceHelper.EMOFLON_GT_EXTENSION);
       mgtFile.getEClasses().add(MoslgtFactory.eINSTANCE.createEClassDef());
       
       return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "SDM-to-MOSL-GT transformation not implemented yet.");

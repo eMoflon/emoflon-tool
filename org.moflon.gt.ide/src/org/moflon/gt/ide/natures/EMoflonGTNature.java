@@ -10,7 +10,7 @@ import org.moflon.ide.core.runtime.natures.MoflonBuilderUtils;
 import org.moflon.ide.core.runtime.natures.MoflonNatureUtils;
 import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
 
-public class MOSLGTNature extends MoflonProjectConfigurator
+public class EMoflonGTNature extends MoflonProjectConfigurator
 {
    @Override
    public ICommand[] updateBuildSpecs(final IProjectDescription description, final ICommand[] buildSpecs, final boolean shallAddBuilders) throws CoreException
@@ -20,13 +20,13 @@ public class MOSLGTNature extends MoflonProjectConfigurator
       if (shallAddBuilders)
       {
          newBuildSpecs = MoflonBuilderUtils.appendIfMissing(newBuildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID, description);
-         newBuildSpecs = MoflonBuilderUtils.appendIfMissing(newBuildSpecs, WorkspaceHelper.MOSL_GT_BUILDER_ID, description);
+         newBuildSpecs = MoflonBuilderUtils.appendIfMissing(newBuildSpecs, getBuilderId(), description);
 
-         MoflonBuilderUtils.ensureBuilderOrder(newBuildSpecs, Arrays.asList(WorkspaceHelper.XTEXT_BUILDER_ID, WorkspaceHelper.MOSL_GT_BUILDER_ID, WorkspaceHelper.JAVA_BUILDER_ID));
+         MoflonBuilderUtils.ensureBuilderOrder(newBuildSpecs, Arrays.asList(WorkspaceHelper.XTEXT_BUILDER_ID, WorkspaceHelper.EMOFLON_GT_BUILDER_ID, WorkspaceHelper.JAVA_BUILDER_ID));
       } else
       {
          newBuildSpecs = MoflonBuilderUtils.removeBuilderID(newBuildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID);
-         newBuildSpecs = MoflonBuilderUtils.removeBuilderID(newBuildSpecs, WorkspaceHelper.MOSL_GT_BUILDER_ID);
+         newBuildSpecs = MoflonBuilderUtils.removeBuilderID(newBuildSpecs, getBuilderId());
       }
       return newBuildSpecs;
    }
@@ -51,12 +51,12 @@ public class MOSLGTNature extends MoflonProjectConfigurator
    @Override
    protected String getBuilderId()
    {
-      return WorkspaceHelper.MOSL_GT_BUILDER_ID;
+      return WorkspaceHelper.EMOFLON_GT_BUILDER_ID;
    }
 
    @Override
    protected String getNatureId()
    {
-      return WorkspaceHelper.MOSL_GT_NATURE_ID;
+      return WorkspaceHelper.EMOFLON_GT_NATURE_ID;
    }
 }
