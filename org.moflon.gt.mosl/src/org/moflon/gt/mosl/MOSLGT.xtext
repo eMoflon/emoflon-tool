@@ -7,7 +7,7 @@ generate moslgt "http://www.moflon.org/gt/mosl/MOSLGT"
 GraphTransformationFile: 
 	imports += Import*
 	using += Using*	'package' name = QualifiedName	
-	eClasses += EClassDef+
+	eClasses += EClassDef*
 ;
 
 PatternDef:"pattern" name=ID '(' (parameters += PatternParameter)? (',' parameters += PatternParameter)* ')' '{'
