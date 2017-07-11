@@ -1,11 +1,14 @@
 package org.moflon.gt.mosl.codeadapter;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -36,11 +39,11 @@ public class PatternBuilder
 
    private final List<PatternKind> patternKindProcessingOrder = Arrays.asList(PatternKind.BLACK, PatternKind.RED, PatternKind.GREEN);
 
-   private Map<String, Map<PatternKind, List<PatternObject>>> transformationPlan;
+   private Map<String, Map<PatternKind, List<PatternObject>>> patternObjectsByPatternKind;
 
    private Map<PatternKind, TransformPlanRule> transformationPlanRuleCache;
 
-   private Map<String, List<PatternInvocation>> patternInvocationCache;
+   private Map<String, SortedMap<PatternKind, PatternInvocation>> patternInvocationCache;
 
    private Map<String, List<String>> nodeDeletionNameCache;
 
@@ -48,7 +51,7 @@ public class PatternBuilder
 
    private PatternBuilder()
    {
-      transformationPlan = new HashMap<>();
+      patternObjectsByPatternKind = new HashMap<>();
       patternInvocationCache = new HashMap<>();
       transformationPlanRuleCache = new HashMap<>();
       patternTypes = new HashMap<>();
@@ -60,11 +63,6 @@ public class PatternBuilder
       if (instance == null)
          instance = new PatternBuilder();
       return instance;
-   }
-
-   public PatternKind getPatternKind(PatternInvocation invocation)
-   {
-      return patternTypes.get(invocation);
    }
 
    public void addTransformPlanRule(PatternKind patternKind, TransformPlanRule transformPlanRule)
@@ -82,16 +80,18 @@ public class PatternBuilder
       createTransformPlan(patternName, patternDef, bindings, env);
 
       // get the found transformation plan
-      Map<PatternKind, List<PatternObject>> patternPlan = transformationPlan.getOrDefault(patternName, new HashMap<>());
+      Map<PatternKind, List<PatternObject>> patternObjectsByKind = patternObjectsByPatternKind.getOrDefault(patternName, new HashMap<>());
 
-      final List<PatternKind> patternKindsInTransformatinoPlan = extractUsedPatternKinds(patternPlan.keySet());
+      final List<PatternKind> patternKindsInTransformatinoPlan = extractUsedPatternKinds(patternObjectsByKind.keySet());
 
       // transform using the search plan
-      patternInvocationCache.put(patternName, patternKindsInTransformatinoPlan.stream()
-            .map(patternKind -> createPatternInvocation(patternKind, patternPlan.get(patternKind), patternName, bindings, env, patternNameGenerator)).collect(Collectors.toList()));
+      SortedMap<PatternKind, PatternInvocation> patternKindToInvocation = new TreeMap<>(new PatternKindProcessingOrderComparator());
+      patternInvocationCache.put(patternName, patternKindToInvocation);
+      patternKindsInTransformatinoPlan.stream().forEach(patternKind -> patternKindToInvocation.put(patternKind,
+            createPatternInvocation(patternKind, patternObjectsByKind.get(patternKind), patternName, bindings, env, patternNameGenerator)));
    }
 
-   public List<PatternInvocation> getPatternInvocationFromCache(final String patternName)
+   public SortedMap<PatternKind, PatternInvocation> getPatternInvocations(final String patternName)
    {
       return patternInvocationCache.get(patternName);
    }
@@ -99,30 +99,26 @@ public class PatternBuilder
    public boolean isConstructorPattern(CFNode cfNode, CFVariable cfVar, PatternInvocation currentInvocation, List<MethodParameter> methodParameters,
          String patternName)
    {
-      // check if the name is "this"
-      if (cfVar.getName().compareTo("this") == 0)
+      if ("this".equals(cfVar.getName()))
          return false;
 
-      // check if the variable is a parameter from the method
-      Optional<MethodParameter> parameterMonad = methodParameters.stream().filter(mp -> mp.getName().equals(cfVar.getName())).findFirst();
-      if (parameterMonad.isPresent())
+      if (isMethodParameter(cfVar, methodParameters))
          return false;
 
-      //check black pattern
       PatternInvocation blackInvocation = getInvocationIfVarExists(PatternKind.BLACK, cfNode, cfVar);
-      if (blackInvocation != null && blackInvocation.equals(currentInvocation) && isCFVarCorrectKind(PatternKind.BLACK, cfVar, patternName))
-         return true;
-      else if (blackInvocation != null && !blackInvocation.equals(currentInvocation) && isCFVarCorrectKind(PatternKind.BLACK, cfVar, patternName))
-         return false;
+      if (blackInvocation != null && isCFVarCorrectKind(PatternKind.BLACK, cfVar, patternName))
+         return blackInvocation.equals(currentInvocation);
 
-      //check green pattern
       PatternInvocation greenInvocation = getInvocationIfVarExists(PatternKind.GREEN, cfNode, cfVar);
-      if (greenInvocation != null && greenInvocation.equals(currentInvocation) && isCFVarCorrectKind(PatternKind.GREEN, cfVar, patternName))
-         return true;
-      else if (greenInvocation != null && !greenInvocation.equals(currentInvocation) && isCFVarCorrectKind(PatternKind.GREEN, cfVar, patternName))
-         return false;
+      if (greenInvocation != null && isCFVarCorrectKind(PatternKind.GREEN, cfVar, patternName))
+         return greenInvocation.equals(currentInvocation);
 
       return false;
+   }
+
+   private boolean isMethodParameter(CFVariable cfVar, List<MethodParameter> methodParameters)
+   {
+      return methodParameters.stream().anyMatch(mp -> mp.getName().equals(cfVar.getName()));
    }
 
    public NodeDeletion getNodeDeletion(String patternName, List<CFVariable> cfVars)
@@ -175,10 +171,10 @@ public class PatternBuilder
          if (transformationRule.isTransformable(patternKind, patternDef, bindings, env))
          {
             final List<PatternObject> patternObjectIndex = transformationRule.getPatterObjectIndex();
-            final Map<PatternKind, List<PatternObject>> patternKindIndex = transformationPlan.containsKey(patternName) ? transformationPlan.get(patternName)
-                  : new HashMap<>();
+            final Map<PatternKind, List<PatternObject>> patternKindIndex = patternObjectsByPatternKind.containsKey(patternName)
+                  ? patternObjectsByPatternKind.get(patternName) : new HashMap<>();
             patternKindIndex.put(patternKind, patternObjectIndex);
-            transformationPlan.put(patternName, patternKindIndex);
+            patternObjectsByPatternKind.put(patternName, patternKindIndex);
          }
       }
       createNodeDeletion(patternName, patternDef);
@@ -186,9 +182,9 @@ public class PatternBuilder
 
    private void createNodeDeletion(String patternName, PatternDef patternDef)
    {
-      if (transformationPlan.containsKey(patternName) && transformationPlan.get(patternName).containsKey(PatternKind.RED))
+      if (patternObjectsByPatternKind.containsKey(patternName) && patternObjectsByPatternKind.get(patternName).containsKey(PatternKind.RED))
       {
-         final List<PatternObject> redObjects = transformationPlan.get(patternName).get(PatternKind.RED);
+         final List<PatternObject> redObjects = patternObjectsByPatternKind.get(patternName).get(PatternKind.RED);
          final List<String> deletions = redObjects.stream()
                .filter(po -> po instanceof ObjectVariableDefinition && ObjectVariableDefinition.class.cast(po).getOp() != null
                      && ObjectVariableDefinition.class.cast(po).getOp().getValue().equals("--"))
@@ -200,7 +196,7 @@ public class PatternBuilder
 
    /**
     * Transform a Pattern using a found search plan
-    * @param pk the PatternKind which will be registered
+    * @param patternKind the PatternKind which will be registered
     * @param patternObjectIndex Plan the search plan
     * @param patternName which the patternName without the suffix
     * @param bindings the information which ControlFlowVariable is bound
@@ -208,15 +204,15 @@ public class PatternBuilder
     * @param patternNameGenerator generates a pattern name to save using a suffix
     * @return A patternInvocation where the belonged pattern is registered
     */
-   private PatternInvocation createPatternInvocation(PatternKind pk, List<PatternObject> patternObjectIndex, String patternName, Map<String, Boolean> bindings,
-         Map<String, CFVariable> env, Function<String, String> patternNameGenerator)
+   private PatternInvocation createPatternInvocation(PatternKind patternKind, List<PatternObject> patternObjectIndex, String patternName,
+         Map<String, Boolean> bindings, Map<String, CFVariable> env, Function<String, String> patternNameGenerator)
    {
       // creating Pattern hull
       Pattern pattern = SpecificationFactory.eINSTANCE.createPattern();
       PatternBody patternBody = SpecificationFactory.eINSTANCE.createPatternBody();
       patternBody.setHeader(pattern);
       PatternInvocation invocation = createNewPatternInvocation(patternName, pattern);
-      patternTypes.put(invocation, pk);
+      patternTypes.put(invocation, patternKind);
 
       // handle ObjectVariables
       patternObjectIndex.stream().filter(po -> po instanceof ObjectVariableDefinition).map(po -> ObjectVariableDefinition.class.cast(po))
@@ -224,21 +220,19 @@ public class PatternBuilder
 
       // handle LinkVariables
       VariableTransformator.getInstance().transformPatternObjects(patternObjectIndex.stream().filter(po -> po instanceof LinkVariablePattern)
-            .map(po -> LinkVariablePattern.class.cast(po)).collect(Collectors.toList()), bindings, patternBody, pk);
+            .map(po -> LinkVariablePattern.class.cast(po)).collect(Collectors.toList()), bindings, patternBody, patternKind);
 
       //special case for black pattern
-      if (pk == PatternKind.BLACK)
+      if (patternKind == PatternKind.BLACK)
          VariableTransformator.getInstance().addUnequals(pattern, patternBody);
 
       //register Pattern
-      pattern.setName(patternNameGenerator.apply(pk.getSuffix()));
+      pattern.setName(patternNameGenerator.apply(patternKind.getSuffix()));
       EClass eClass = EClassDef.class.cast(StatementBuilder.getInstance().getCurrentMethod().eContainer()).getName();
-      CodeadapterTrafo.getInstance().saveAsRegisteredAdapter(pattern, CodeadapterTrafo.getInstance().getTypeContext(eClass), pk.getSuffix());
-      //      CodeadapterTrafo.getInstance().generateSearchPlan(pk.getSuffix(), calculateAdornment(invocation));
-      // CodeadapterTrafo.getInstance().generateSearchPlan(pattern, calculateAdornment(invocation, bindings), invocation.isMultipleMatch(), pk.getSuffix());
+      CodeadapterTrafo.getInstance().saveAsRegisteredAdapter(pattern, CodeadapterTrafo.getInstance().getTypeContext(eClass), patternKind.getSuffix());
 
       //register name
-      PatternUtil.addKind(pattern.getName(), pk);
+      PatternUtil.addKind(pattern.getName(), patternKind);
       PatternUtil.add(invocation, eClass);
 
       //return value
@@ -258,12 +252,12 @@ public class PatternBuilder
       return invocation;
    }
 
-   private boolean isCFVarCorrectKind(PatternKind pk, CFVariable cfVar, String patternName)
+   private boolean isCFVarCorrectKind(PatternKind patternKind, CFVariable cfVar, String patternName)
    {
-      List<ObjectVariableDefinition> ovs = transformationPlan.get(patternName).get(pk).stream().filter(po -> po instanceof ObjectVariableDefinition)
+      List<ObjectVariableDefinition> objectVariables = patternObjectsByPatternKind.get(patternName).get(patternKind).stream().filter(po -> po instanceof ObjectVariableDefinition)
             .map(po -> ObjectVariableDefinition.class.cast(po)).filter(ov -> ov.getName().equals(cfVar.getName())).collect(Collectors.toList());
 
-      Optional<?> option = ovs.stream().filter(ov -> isCorrectType(ov.getOp(), pk)).findFirst();
+      Optional<ObjectVariableDefinition> option = objectVariables.stream().filter(objectVariable -> isCorrectType(objectVariable.getOp(), patternKind)).findFirst();
       return option.isPresent();
    }
 
@@ -277,30 +271,55 @@ public class PatternBuilder
          return false;
    }
 
-   private PatternInvocation getInvocationIfVarExists(PatternKind pk, CFNode cfNode, CFVariable cfVar)
+   private PatternInvocation getInvocationIfVarExists(PatternKind patternKind, CFNode cfNode, CFVariable cfVariable)
    {
-      Optional<PatternInvocation> piMonad = cfNode.getActions().stream().filter(action -> action instanceof PatternInvocation)
-            .map(action -> PatternInvocation.class.cast(action)).filter(pi -> isCorrectPatternInvocation(pi, pk)).findFirst();
-      if (piMonad.isPresent())
+      final List<PatternInvocation> invocationsOfKind = cfNode.getActions().stream().filter(action -> action instanceof PatternInvocation)
+            .map(action -> PatternInvocation.class.cast(action)).filter(pi -> isCorrectPatternInvocation(pi, patternKind)).collect(Collectors.toList());
+      
+      if (!invocationsOfKind.isEmpty())
       {
-         PatternInvocation invocation = piMonad.get();
-         Optional<VariableReference> varRefMonad = invocation.getParameters().stream().filter(var -> var.getFrom().equals(cfVar)).findFirst();
+         final PatternInvocation invocation = invocationsOfKind.get(0);
+         final Optional<VariableReference> varRefMonad = invocation.getParameters().stream().filter(parameter -> parameter.getFrom().equals(cfVariable)).findFirst();
          if (varRefMonad.isPresent())
             return invocation;
          else
             return null;
       }
+      
       return null;
    }
 
-   private boolean isCorrectPatternInvocation(PatternInvocation invocation, PatternKind pk)
+   private boolean isCorrectPatternInvocation(PatternInvocation invocation, PatternKind patternKind)
    {
       PatternKind otherPK = patternTypes.get(invocation);
-      return otherPK != null && otherPK.equals(pk);
+      return otherPK != null && otherPK.equals(patternKind);
    }
 
-   private List<PatternKind> getPatternKindProcessingOrder() 
+   /**
+    * The returned list specifies the order of creating Democles patterns
+    * @return
+    */
+   private List<PatternKind> getPatternKindProcessingOrder()
    {
       return this.patternKindProcessingOrder;
+   }
+
+   /**
+    * This comparator reflects the order of the outer class's {@link PatternBuilder#getPatternKindProcessingOrder()}
+    * 
+    * @author Roland Kluge - Initial implementation
+    */
+   public class PatternKindProcessingOrderComparator implements Comparator<PatternKind>
+   {
+      /**
+       * compare(firstKind, secondKind) < 0 if firstKind appears earlier in the pattern kind order than secondKind 
+       */
+      @Override
+      public int compare(final PatternKind firstKind, final PatternKind secondKind)
+      {
+         final int indexOfFirstKind = getPatternKindProcessingOrder().indexOf(firstKind);
+         final int indexOfSecondKind = getPatternKindProcessingOrder().indexOf(secondKind);
+         return indexOfFirstKind - indexOfSecondKind;
+      }
    }
 }

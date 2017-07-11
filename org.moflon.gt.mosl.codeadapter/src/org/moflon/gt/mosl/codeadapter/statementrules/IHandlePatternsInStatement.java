@@ -6,13 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.EList;
 import org.gervarro.democles.common.Adornment;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.codeadapter.StatementBuilder;
+import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;
@@ -24,6 +27,7 @@ import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.NodeDeletion;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.Scope;
 import org.moflon.sdm.runtime.democles.VariableReference;
@@ -34,7 +38,7 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
    {
       Map<String, Boolean> bindings = new HashMap<>();
       Map<String, CFVariable> env = new HashMap<>();
-      List<CFVariable> cfVars = new ArrayList<>();
+      List<CFVariable> cfVariables = new ArrayList<>();
       String patternName = patternDef.getName();
       List<MethodParameter> methodParameters = StatementBuilder.getInstance().getCurrentMethod().getParameters();
 
@@ -50,14 +54,11 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
       for (ObjectVariableDefinition ovRef : ovs)
       {
 
-         CFVariable cfVar = getOrCreateVariable(scope, PatternUtil.getSaveName(ovRef.getName()), ovRef.getType());
+         CFVariable cfVar = getOrCreateVariable(scope, PatternUtil.getSafeName(ovRef.getName()), ovRef.getType());
          Action constructor = cfVar.getConstructor();
          if (constructor == null)
          {
-//            Optional<MethodParameter> parameterMonad = methodParameters.stream().filter(p -> p.getName().equals(cfVar.getName())).findFirst();
-//            if(parameterMonad.isPresent())
-//              cfVar.setConstructor(DemoclesFactory.eINSTANCE.createAction()); // DummyAction
-            cfVars.add(cfVar);
+            cfVariables.add(cfVar);
             bindings.put(cfVar.getName(), false);
             env.put(cfVar.getName(), cfVar);
          } else
@@ -73,28 +74,32 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
       };
       PatternBuilder.getInstance().createPattern(patternDef, bindings, env, nameGenerator);
 
-      List<PatternInvocation> invocations = PatternBuilder.getInstance().getPatternInvocationFromCache(patternName);
+      final SortedMap<PatternKind, PatternInvocation> invocations = PatternBuilder.getInstance().getPatternInvocations(patternName);
       
-      invocations.stream().forEach(inv -> inv.setCfNode(cfNode));
-      for (int piIndex = invocations.size() - 1; piIndex >= 0; piIndex--)
+      invocations.values().stream().forEach(invocation -> invocation.setCfNode(cfNode));
+      final List<PatternKind> kindOrder = new ArrayList<PatternKind>(invocations.keySet());
+      for (int invocationIndex = invocations.size() - 1; invocationIndex >= 0; invocationIndex--)
       {
-         PatternInvocation invocation = invocations.get(piIndex);
-//         int actionSize = cfNode.getActions().size();
-         if (piIndex > 0)
+         PatternKind patternKind = kindOrder.get(invocationIndex);
+         final PatternInvocation invocation = invocations.get(patternKind);
+         if (invocationIndex > 0)
          {
-            cfNode.getActions().get(piIndex - 1).setNext(invocation);
+            cfNode.getActions().get(invocationIndex - 1).setNext(invocation);
          }
          cfNode.setMainAction(invocation);
          
-         //CodeadapterTrafo.getInstance().generateSearchPlan(invocation.getPattern() , calculateAdornment(invocation), invocation.isMultipleMatch(), PatternBuilder.getInstance().getPK(invocation).getSuffix());
-         cfVars.stream().filter(cfVar -> PatternBuilder.getInstance().isConstructorPattern(cfNode, cfVar, invocation, methodParameters, patternName)).forEach(cfVar -> cfVar.setConstructor(invocation));
+         cfVariables.stream().filter(cfVar -> PatternBuilder.getInstance().isConstructorPattern(cfNode, cfVar, invocation, methodParameters, patternName)).forEach(cfVar -> cfVar.setConstructor(invocation));
   
-         CodeadapterTrafo.getInstance().generateSearchPlan(invocation.getPattern() , calculateAdornment(invocation), invocation.isMultipleMatch(), PatternBuilder.getInstance().getPatternKind(invocation).getSuffix());
+         final Adornment adornment = calculateAdornment(invocation);
+         //TODO@rkluge: Here, we escape from a stateless function to the very stateful CodeAdapterTrafo singelton
+         final ValidationReport validationReport = CodeadapterTrafo.getInstance().generateSearchPlan(invocation.getPattern(), adornment, invocation.isMultipleMatch(), patternKind.getSuffix());
+         //TODO@rkluge: For Debugging - should be returned!
+         System.out.println(validationReport.getErrorMessages());
       }
       
-      NodeDeletion nodeDeletion = PatternBuilder.getInstance().getNodeDeletion(patternName, cfVars);
-      if(nodeDeletion !=null){
-         PatternInvocation lastInvocation = invocations.get(invocations.size() -1);
+      final NodeDeletion nodeDeletion = PatternBuilder.getInstance().getNodeDeletion(patternName, cfVariables);
+      if(nodeDeletion != null){
+         PatternInvocation lastInvocation = invocations.get(kindOrder.get(invocations.size() - 1));
          lastInvocation.setNext(nodeDeletion);
          nodeDeletion.setPrev(lastInvocation);
          nodeDeletion.setCfNode(cfNode);
@@ -103,9 +108,10 @@ public interface IHandlePatternsInStatement extends IHandleCFVariable
    
    default Adornment calculateAdornment(PatternInvocation invocation)
    {
-      Adornment adornment = new Adornment(invocation.getParameters().size());
+      final EList<VariableReference> parameters = invocation.getParameters();
+      final Adornment adornment = new Adornment(parameters.size());
       int i = 0;
-      for(VariableReference variableRef : invocation.getParameters())
+      for(final VariableReference variableRef : parameters)
       {
          final int value = variableRef.isFree() ? Adornment.FREE : Adornment.BOUND;
          adornment.set(i, value);

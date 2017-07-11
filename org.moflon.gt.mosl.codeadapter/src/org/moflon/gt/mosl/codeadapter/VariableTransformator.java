@@ -56,7 +56,7 @@ public class VariableTransformator
    {
       ConstraintParameter target = SpecificationFactory.eINSTANCE.createConstraintParameter();
       reference.getParameters().add(target);
-      String targetName = PatternUtil.getSaveName(linkVariable.getTarget().getName());
+      String targetName = PatternUtil.getSafeName(linkVariable.getTarget().getName());
       target.setReference(this.getVariableMonad(targetName).get());
    }
    
@@ -78,7 +78,7 @@ public class VariableTransformator
 
       ConstraintParameter source = SpecificationFactory.eINSTANCE.createConstraintParameter();
       reference.getParameters().add(source);
-      source.setReference(this.getVariableMonad(PatternUtil.getSaveName(ov.getName())).get());
+      source.setReference(this.getVariableMonad(PatternUtil.getSafeName(ov.getName())).get());
 
       this.handleTarget(reference, linkVariable);
 
@@ -103,18 +103,18 @@ public class VariableTransformator
    
    public void transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, Map<String, CFVariable> env, PatternInvocation invocation)
    {
-      EMFVariable patternVariable;
-      String name = PatternUtil.getSaveName(ov.getName());
-      Optional<Variable> patternVariableMonad = pattern.getSymbolicParameters().stream().filter(var -> var.getName().compareTo(name) == 0).findFirst();
+      String name = PatternUtil.getSafeName(ov.getName());
+      Optional<Variable> patternVariableMonad = pattern.getSymbolicParameters().stream().filter(var -> var.getName().equals(name)).findFirst();
       if (!patternVariableMonad.isPresent())
       {
-         patternVariable = EMFTypeFactory.eINSTANCE.createEMFVariable();
+         final EMFVariable patternVariable = EMFTypeFactory.eINSTANCE.createEMFVariable();
+         //TODO@rkluge: Proper handling of local parameters: We do not want to add all variables to the symbolic parameters!
          pattern.getSymbolicParameters().add(patternVariable);
 
          patternVariable.setName(name);
          patternVariable.setEClassifier(CodeadapterTrafo.getInstance().getTypeContext(ov.getType()));
 
-         CFVariable cfVar = env.get(PatternUtil.getSaveName(ov.getName()));
+         CFVariable cfVar = env.get(PatternUtil.getSafeName(ov.getName()));
 
          VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
          vr.setInvocation(invocation);

@@ -36,8 +36,8 @@ public class PatternUtil
          return pp.getOv();
    }
    
-   public static String getSaveName(String name){
-      if("this".compareTo(name)==0)
+   public static String getSafeName(String name){
+      if("this".equals(name))
          return "this";
       else return name;
    }

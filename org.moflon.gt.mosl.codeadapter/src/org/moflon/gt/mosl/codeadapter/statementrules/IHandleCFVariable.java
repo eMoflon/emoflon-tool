@@ -14,14 +14,14 @@ public interface IHandleCFVariable
    default CFVariable getOrCreateVariable(Scope scope, String name, EClassifier type)
    {
       Optional<CFVariable> opt = scope.getVariables().stream()
-            .filter(var -> var.getName().compareTo(PatternUtil.getSaveName(name)) == 0 && var.getType().getName().compareTo(type.getName()) == 0).findAny();
+            .filter(var -> var.getName().equals(PatternUtil.getSafeName(name)) && var.getType().getName().equals(type.getName())).findAny();
       if (opt.isPresent())
          return opt.get();
       else
       {
          CFVariable cfVar = DemoclesFactory.eINSTANCE.createCFVariable();
          cfVar.setScope(scope);
-         cfVar.setName(PatternUtil.getSaveName(name));
+         cfVar.setName(PatternUtil.getSafeName(name));
          cfVar.setType(CodeadapterTrafo.getInstance().getTypeContext(type));
          return cfVar;
       }

@@ -51,16 +51,6 @@ public class MOSLGTWeavingTask implements ITask
     */
    private ResourceSet resourceSet;
 
-   /**
-    * The {@link URI} prefix to save the enrichedEpackage
-    */
-   //TODO@rkluge: Remove if no longer needed
-   //   private String projecPrefixURI;
-
-   //   // TODO@rkluge: This is an ugly bug to access the pattern matchers
-   //   @Deprecated
-   //TODO@rkluge: Remove if no longer needed
-   //   private final ScopeValidationConfigurator scopeValidatorConfiguration;
 
    /**
     * Preconfigures this task with the top-level {@link EPackage} of the metamodel to be processed
@@ -72,14 +62,7 @@ public class MOSLGTWeavingTask implements ITask
    {
       this.ePackage = ePackage;
       this.resourceSet = ePackage.eResource().getResourceSet();
-      //      List<String> uriParts = Arrays.asList(ePackage.eResource().getURI().toString().split("/")).subList(0, 3);
-      //      projecPrefixURI = "";
-      //      for (String uriPart : uriParts)
-      //      {
-      //         projecPrefixURI += uriPart + "/";
-      //      )
       CodeadapterTrafo.getInstance().setSearchplanGenerators(scopeValidatorConfiguration.getSearchPlanGenerators());
-      //      this.scopeValidatorConfiguration = scopeValidatorConfiguration;
 
       DemoclesMethodBodyHandler.initResourceSetForDemocles(resourceSet);
    }
@@ -131,6 +114,12 @@ public class MOSLGTWeavingTask implements ITask
                final EPackage contextEPackage = EcoreUtil.copy((EPackage) ecoreRes.getContents().get(0));
 
                // save context as raw
+               //      List<String> uriParts = Arrays.asList(ePackage.eResource().getURI().toString().split("/")).subList(0, 3);
+               //      projecPrefixURI = "";
+               //      for (String uriPart : uriParts)
+               //      {
+               //         projecPrefixURI += uriPart + "/";
+               //      )
                // final String rawURIString = projecPrefixURI + "/model/raw/"+
                // MoflonUtil.lastCapitalizedSegmentOf(contextEPackage.getName());
                // String contextEcoreURIString= rawURIString + ".raw" + WorkspaceHelper.ECORE_FILE_EXTENSION;
