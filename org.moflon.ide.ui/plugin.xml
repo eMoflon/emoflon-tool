@@ -50,11 +50,6 @@
             natureId="org.moflon.ide.core.runtime.natures.RepositoryNature">
       </image>
       <image
-            icon="resources/icons/repositoryProject.gif"
-            id="org.moflon.ide.ui.MOSLGTNatureImage"
-            natureId="org.moflon.gt.ide.natures.MOSLGTNature">
-      </image>
-      <image
             icon="resources/icons/integrationProject.gif"
             id="org.moflon.ide.ui.IntegrationNatureImage"
             natureId="org.moflon.ide.core.runtime.natures.IntegrationNature">
