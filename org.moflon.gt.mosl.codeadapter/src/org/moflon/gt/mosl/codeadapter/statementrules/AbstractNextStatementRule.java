@@ -12,7 +12,7 @@ import org.moflon.sdm.runtime.democles.Scope;
 public abstract class AbstractNextStatementRule<S extends NextStatement> extends AbstractStatementRule<S>
 {
    @Override
-   protected void postTransformStatement(S stmnt, Scope scope, CFNode previosCFNode)
+   protected void invokeNextRule(S stmnt, Scope scope, CFNode previosCFNode)
    {
       Statement nextStmnt = stmnt.getNext();
       if (nextStmnt == null)

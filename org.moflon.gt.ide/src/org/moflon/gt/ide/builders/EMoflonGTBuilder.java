@@ -30,6 +30,7 @@ import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.gt.ide.MOSLGTWeavingTask;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
@@ -58,7 +59,6 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
     * Specification of files whose changes will trigger the invocation of this builder
     */
    private static final String[] PROJECT_INTERNAL_TRIGGERS = { //
-         "src/*." + WorkspaceHelper.EMOFLON_GT_EXTENSION, //
          "src/**/*." + WorkspaceHelper.EMOFLON_GT_EXTENSION, //
          "model/*.ecore"//
    };
@@ -78,6 +78,10 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
    @Override
    protected void processResource(final IResource resource, final int kind, final Map<String, String> args, final IProgressMonitor monitor)
    {
+      // In case of a full build, we do not want to run through the whole code generation for each resource that matches the trigger condition
+      if (FULL_BUILD == kind && !matchesFirstProjectInternalTrigger(resource))
+         return;
+      
       try
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 20);
@@ -94,6 +98,11 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
          final IStatus status = new Status(e.getStatus().getSeverity(), WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
          handleErrorsInEclipse(status);
       }
+   }
+
+   private boolean matchesFirstProjectInternalTrigger(final IResource resource)
+   {
+      return new AntPatternCondition(new String[]{PROJECT_INTERNAL_TRIGGERS[0]}).isExactMatch(resource.getProjectRelativePath().toString());
    }
 
    @Override
@@ -119,7 +128,9 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
       subMon.worked(1);
       this.resourceSet = initializeResourceSet();
 
-      final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(WorkspaceHelper.getDefaultEcoreFile(getProject()), resourceSet);
+      final IFile defaultEcoreFile = WorkspaceHelper.getDefaultEcoreFile(getProject());
+      final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(defaultEcoreFile, resourceSet);
+      codeGenerationTask.setAdditionalCodeGenerationPhase(new MOSLGTWeavingTask());
       final IStatus status = codeGenerationTask.run(subMon.split(7));
       handleErrorsAndWarnings(status);
       subMon.worked(2);

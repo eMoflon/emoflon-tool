@@ -1,34 +1,51 @@
 package org.moflon.gt.ide;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.task.ITask;
+import org.moflon.codegen.MethodBodyHandler;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.codegen.eclipse.MoflonCodeGeneratorPhase;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
-import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
-import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
+import org.moflon.gt.mosl.codeadapter.PatternBuilder;
+import org.moflon.gt.mosl.codeadapter.StatementBuilder;
+import org.moflon.gt.mosl.codeadapter.statementrules.ConditionStatementRule;
+import org.moflon.gt.mosl.codeadapter.statementrules.DoLoopStatementRule;
+import org.moflon.gt.mosl.codeadapter.statementrules.ForLoopStatementRule;
+import org.moflon.gt.mosl.codeadapter.statementrules.ObjectVariableDefinitionRule;
+import org.moflon.gt.mosl.codeadapter.statementrules.PatternStatementRule;
+import org.moflon.gt.mosl.codeadapter.statementrules.ReturnStatementRule;
+import org.moflon.gt.mosl.codeadapter.statementrules.WhileLoopStatementRule;
+import org.moflon.gt.mosl.codeadapter.transformplanrules.BlackTransformPlanRule;
+import org.moflon.gt.mosl.codeadapter.transformplanrules.GreenTransformPlanRule;
+import org.moflon.gt.mosl.codeadapter.transformplanrules.RedTransformPlanRule;
+import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
+import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
 
 /**
  * This task weaves the control flow and pattern matching models stored in textual syntax with the plain metamodel
@@ -39,7 +56,7 @@ import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
  * 
  * @see #run(IProgressMonitor)
  */
-public class MOSLGTWeavingTask implements ITask
+public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
 {
    /**
     * The top-level {@link EPackage} of the ongoing build process
@@ -51,20 +68,25 @@ public class MOSLGTWeavingTask implements ITask
     */
    private ResourceSet resourceSet;
 
+   private IProject project;
 
-   /**
-    * Preconfigures this task with the top-level {@link EPackage} of the metamodel to be processed
-    * 
-    * @param ePackage
-    * @param scopeValidatorConfiguration
-    */
-   public MOSLGTWeavingTask(final EPackage ePackage, ScopeValidationConfigurator scopeValidatorConfiguration)
+   @Override
+   public String getTaskName()
    {
-      this.ePackage = ePackage;
+      return "eMoflon-GT Transformation task";
+   }
+
+   @Override
+   public IStatus run(final IProject project, Resource rsource, MethodBodyHandler methodBodyHandler, IProgressMonitor monitor)
+   {
+      this.project = project;
+      this.ePackage = (EPackage) rsource.getContents().get(0);
       this.resourceSet = ePackage.eResource().getResourceSet();
-      CodeadapterTrafo.getInstance().setSearchplanGenerators(scopeValidatorConfiguration.getSearchPlanGenerators());
+      final Map<String, PatternMatcher> patternMatcherConfiguration = methodBodyHandler.getPatternMatcherConfiguration();
+      CodeadapterTrafo.getInstance().setSearchplanGenerators(patternMatcherConfiguration);
 
       DemoclesMethodBodyHandler.initResourceSetForDemocles(resourceSet);
+      return run(monitor);
    }
 
    /**
@@ -80,20 +102,84 @@ public class MOSLGTWeavingTask implements ITask
    @Override
    public IStatus run(IProgressMonitor monitor)
    {
+      final IStatus mgtLoadStatus = this.loadMgtFiles();
+      if (mgtLoadStatus.matches(IStatus.ERROR))
+         return mgtLoadStatus;
+
       // This status collects all information about the weaving process for 'ePackage'
       final MultiStatus weavingMultiStatus = new MultiStatus(CodeGeneratorPlugin.getModuleID(), 0, getTaskName() + " failed", null);
       final List<EClass> eClasses = CodeGeneratorPlugin.getEClasses(this.ePackage);
 
       final SubMonitor subMon = SubMonitor.convert(monitor, getTaskName() + " in " + ePackage.getName(), eClasses.size());
-      loadMGTFiles(subMon);
+      processMgtFiles(subMon);
       return weavingMultiStatus.isOK() ? Status.OK_STATUS : weavingMultiStatus;
    }
 
-   private IStatus loadMGTFiles(final IProgressMonitor monitor)
+   /**
+    * This routine identifies and loads all .mgt files in the current project.
+    * 
+    * For each .mgt file, an appropriate resource is created in this generator's resource set ({@link #getResourceSet()}
+    */
+   private IStatus loadMgtFiles()
+   {
+      try
+      {
+         getProject().accept(new IResourceVisitor() {
+
+            @Override
+            public boolean visit(IResource resource) throws CoreException
+            {
+               if (resource.getName().equals("bin"))
+                  return false;
+
+               if (isMOSLGTFile(resource))
+               {
+                  final Resource schemaResource = (Resource) getResourceSet()
+                        .createResource(URI.createPlatformResourceURI(resource.getAdapter(IFile.class).getFullPath().toString(), false));
+                  try
+                  {
+                     schemaResource.load(null);
+                  } catch (final IOException e)
+                  {
+                     throw new CoreException(
+                           new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e));
+                  }
+               }
+               return true;
+            }
+
+            private boolean isMOSLGTFile(IResource resource)
+            {
+               final IFile file = resource.getAdapter(IFile.class);
+               return resource != null && resource.exists() && file != null && WorkspaceHelper.EMOFLON_GT_EXTENSION.equals(file.getFileExtension());
+            }
+
+         });
+         EcoreUtil.resolveAll(this.getResourceSet());
+      } catch (final CoreException e)
+      {
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
+      }
+
+      return Status.OK_STATUS;
+   }
+
+   private ResourceSet getResourceSet()
+   {
+      return this.resourceSet;
+   }
+
+   private IProject getProject()
+   {
+      return project;
+   }
+
+   private IStatus processMgtFiles(final IProgressMonitor monitor)
    {
       try
       {
          CodeadapterTrafo helper = CodeadapterTrafo.getInstance();
+         registerTransformationRules();
 
          final List<Resource> mgtResources = this.resourceSet.getResources().stream()
                .filter(resource -> resource.getURI().lastSegment().endsWith('.' + WorkspaceHelper.EMOFLON_GT_EXTENSION)).collect(Collectors.toList());
@@ -142,8 +228,7 @@ public class MOSLGTWeavingTask implements ITask
                contextEPackage.setNsURI(nsURI);
                enrichedEcoreResource.save(Collections.EMPTY_MAP);
                EcoreUtil.resolveAll(contextEPackage);
-               final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, DemoclesMethodBodyHandler::initResourceSetForDemocles, this.resourceSet,
-                     this::getTreeIterator);
+               final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, this.resourceSet);
 
                /*
                 * Goal: For each pattern invocation, generate and store the search plan Needed: * pattern invocations (=
@@ -187,29 +272,22 @@ public class MOSLGTWeavingTask implements ITask
       return Status.OK_STATUS;
    }
 
-   private TreeIterator<EObject> getTreeIterator(EOperation eOperation)
+   private void registerTransformationRules()
    {
-      AdapterResource controlFlowResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation, DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
-      return controlFlowResource.getAllContents();
+      PatternBuilder.getInstance().addTransformPlanRule(PatternKind.BLACK, new BlackTransformPlanRule());
+      PatternBuilder.getInstance().addTransformPlanRule(PatternKind.GREEN, new GreenTransformPlanRule());
+      PatternBuilder.getInstance().addTransformPlanRule(PatternKind.RED, new RedTransformPlanRule());
+
+      //@formatter:off
+      Arrays.asList(
+            new ReturnStatementRule(),
+            new PatternStatementRule(),
+            new ConditionStatementRule(),
+            new WhileLoopStatementRule(),
+            new ForLoopStatementRule(),
+            new DoLoopStatementRule(),
+            new ObjectVariableDefinitionRule()
+            ).stream().forEach(rule -> StatementBuilder.getInstance().registerTransformationRule(rule));
+      //@formatter:on
    }
-
-   //   //TODO@rkluge: Possible code duplication
-   //   private Adornment calculateAdornment(PatternInvocation invocation)
-   //   {
-   //      Adornment adornment = new Adornment(invocation.getParameters().size());
-   //      int i = 0;
-   //      for (VariableReference variableRef : invocation.getParameters())
-   //      {
-   //         final int value = variableRef.isFree() ? Adornment.FREE : Adornment.BOUND;
-   //         adornment.set(i, value);
-   //      }
-   //      return adornment;
-   //   }
-
-   @Override
-   public String getTaskName()
-   {
-      return "MOSL-GT Weaving";
-   }
-
 }

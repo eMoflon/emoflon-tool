@@ -13,7 +13,8 @@ Require-Bundle:
  org.moflon.core.propertycontainer,
  org.moflon.core.moca.inject,
  SDMLanguage,
- org.moflon.sdm.compiler.democles.validation.result
+ org.moflon.sdm.compiler.democles.validation.result,
+ org.moflon.sdm.compiler.democles.validation.scope
 Bundle-ClassPath: .
 Bundle-Activator: org.moflon.codegen.eclipse.CodeGeneratorPlugin
 Bundle-ActivationPolicy: lazy

@@ -56,7 +56,7 @@ public class VariableTransformator
    {
       ConstraintParameter target = SpecificationFactory.eINSTANCE.createConstraintParameter();
       reference.getParameters().add(target);
-      String targetName = PatternUtil.getSafeName(linkVariable.getTarget().getName());
+      String targetName = PatternUtil.getNormalizedVariableName(linkVariable.getTarget().getName());
       target.setReference(this.getVariableMonad(targetName).get());
    }
    
@@ -78,7 +78,7 @@ public class VariableTransformator
 
       ConstraintParameter source = SpecificationFactory.eINSTANCE.createConstraintParameter();
       reference.getParameters().add(source);
-      source.setReference(this.getVariableMonad(PatternUtil.getSafeName(ov.getName())).get());
+      source.setReference(this.getVariableMonad(PatternUtil.getNormalizedVariableName(ov.getName())).get());
 
       this.handleTarget(reference, linkVariable);
 
@@ -103,7 +103,7 @@ public class VariableTransformator
    
    public void transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, Map<String, CFVariable> env, PatternInvocation invocation)
    {
-      String name = PatternUtil.getSafeName(ov.getName());
+      String name = PatternUtil.getNormalizedVariableName(ov.getName());
       Optional<Variable> patternVariableMonad = pattern.getSymbolicParameters().stream().filter(var -> var.getName().equals(name)).findFirst();
       if (!patternVariableMonad.isPresent())
       {
@@ -114,7 +114,7 @@ public class VariableTransformator
          patternVariable.setName(name);
          patternVariable.setEClassifier(CodeadapterTrafo.getInstance().getTypeContext(ov.getType()));
 
-         CFVariable cfVar = env.get(PatternUtil.getSafeName(ov.getName()));
+         CFVariable cfVar = env.get(PatternUtil.getNormalizedVariableName(ov.getName()));
 
          VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
          vr.setInvocation(invocation);

@@ -1,19 +1,13 @@
 package org.moflon.gt.mosl.codeadapter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -28,18 +22,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.democles.common.Adornment;
 import org.gervarro.democles.specification.emf.Pattern;
-import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
+import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.gt.mosl.moslgt.MethodDec;
 import org.moflon.gt.mosl.moslgt.MethodParameter;
-import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.MoflonOperation;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
-import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
 
@@ -50,20 +42,17 @@ public class CodeadapterTrafo
 
    private StatementBuilder statementTrafo;
 
-   private Consumer<ResourceSet> loader;
-
-   private Function<CFNode, Function<PatternDef, Function<String, String>>> currentEOperationNameConstructor;
-
    private EPackage contextEPackage;
 
    private Map<String, PatternMatcher> searchPlanGenerators;
 
    private ResourceSet resourceSet;
 
+   private PatternNameGenerator patternNameGenerator;
+
    private CodeadapterTrafo()
    {
       statementTrafo = StatementBuilder.getInstance();
-      new CodeadapterAutofactory();
    }
 
    public static CodeadapterTrafo getInstance()
@@ -78,14 +67,8 @@ public class CodeadapterTrafo
       this.searchPlanGenerators = searchPlanGeneratorsByPatternKind;
    }
 
-   public String getPatternName(CFNode node, PatternDef patternDef, String suffix)
-   {
-      return currentEOperationNameConstructor.apply(node).apply(patternDef).apply(suffix);
-   }
-
-   public void loadResourceSet(ResourceSet resSet)
-   {
-      loader.accept(resSet);
+   public PatternNameGenerator getPatternNameGenerator() {
+      return this.patternNameGenerator;
    }
 
    public <EC extends EClassifier> EC getTypeContext(EC eClassifier)
@@ -109,13 +92,10 @@ public class CodeadapterTrafo
          return ref;
    }
 
-   public EPackage transform(EPackage contextEPackage, final GraphTransformationFile gtf, Consumer<ResourceSet> loader, final ResourceSet resourceSet,
-         final Function<EOperation, TreeIterator<EObject>> treeIteratorGen)
+   public EPackage transform(EPackage contextEPackage, final GraphTransformationFile gtf, final ResourceSet resourceSet)
    {
       this.resourceSet = resourceSet;
-      this.loader = loader;
       this.contextEPackage = contextEPackage;
-      PatternUtil.cleanNames();
 
       String name = gtf.getName();
       String[] domain = name.split(java.util.regex.Pattern.quote("."));
@@ -136,6 +116,8 @@ public class CodeadapterTrafo
 
    private void transformMethodsToEOperations(final EClass contextEClass, final EClassDef eclassDef, EClass changeableContext)
    {
+      this.patternNameGenerator = new PatternNameGenerator();
+      this.patternNameGenerator.setEClass(changeableContext);
       for (final MethodDec methodDec : eclassDef.getOperations())
       {
          // this is a closure which will test if an EOperation with its EParameters already exist
@@ -148,45 +130,19 @@ public class CodeadapterTrafo
             changeableContext.getEOperations().remove(opt.get());
          }
 
-         MoflonOperation mofOp = ControlflowFactory.eINSTANCE.createMoflonOperation();
-         changeableContext.getEOperations().add(mofOp);
-         mofOp.setName(methodDec.getName());
-         mofOp.getEParameters().addAll(createEParameters(methodDec.getParameters()));
-         mofOp.setEType(methodDec.getType());
+         final MoflonOperation eOperation = ControlflowFactory.eINSTANCE.createMoflonOperation();
+         changeableContext.getEOperations().add(eOperation);
+         eOperation.setName(methodDec.getName());
+         eOperation.getEParameters().addAll(createEParameters(methodDec.getParameters()));
+         eOperation.setEType(methodDec.getType());
 
-         currentEOperationNameConstructor = node -> patternDef -> suffix -> {
-            final EOperation eOperation = mofOp;
-            String storyNodeName = patternDef.getName() != null ? patternDef.getName().trim() : "";
-            storyNodeName = storyNodeName.replaceAll("\\s+", "");
-            final EClass eClass = eOperation.getEContainingClass();
-            final List<EOperation> operations = getOperationsSortedByName(eClass);
-            final int operationIndex = operations.indexOf(eOperation);
-            return "pattern_" + eClass.getName() + "_" + operationIndex + "_" + node.getId() + "_" + storyNodeName + "_" + suffix;
-         };
-         transformMethodStructure(methodDec, mofOp);
+         this.patternNameGenerator.setEOperation(eOperation);
+         transformMethodStructure(methodDec, eOperation);
       }
-   }
-
-   /**
-    * Returns the {@link EOperation}s of the given {@link EClass} sorted in ascending order by name
-    */
-   private List<EOperation> getOperationsSortedByName(final EClass eClass)
-   {
-      List<EOperation> operations = new ArrayList<>(eClass.getEOperations());
-      operations.sort(new Comparator<EOperation>() {
-
-         @Override
-         public int compare(EOperation o1, EOperation o2)
-         {
-            return o1.getName().compareTo(o2.getName());
-         }
-      });
-      return operations;
    }
 
    /*
     * TODO@rkluge If we provide List as Parameters this Function must be changed
-    * 
     */
    private Collection<? extends EParameter> createEParameters(final EList<MethodParameter> parameters)
    {
@@ -205,18 +161,17 @@ public class CodeadapterTrafo
       return paramLst;
    }
 
-   private void transformMethodStructure(final MethodDec methodDec, MoflonOperation mofOp)
+   private void transformMethodStructure(final MethodDec methodDec, MoflonOperation eOperation)
    {
       final Statement startStatement = methodDec.getStartStatement();
       final Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
-      mofOp.setRootScope(rootScope);
+      eOperation.setRootScope(rootScope);
       if (startStatement != null)
       {
-         PatternUtil.setCountsToZero();
          statementTrafo.loadCurrentMethod(methodDec);
          statementTrafo.transformStatement(startStatement, rootScope, null);
       }
-      saveAsRegisteredAdapter(rootScope, mofOp, "cf");
+      saveAsRegisteredAdapter(rootScope, eOperation, DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
    }
 
    public ValidationReport generateSearchPlan(Pattern pattern, Adornment adornment, boolean isMultipleMatch, String type)
@@ -224,27 +179,24 @@ public class CodeadapterTrafo
       return searchPlanGenerators.get(type).generateSearchPlan(pattern, adornment, isMultipleMatch);
    }
 
-   //TODO@rkluge: Make this static.
    public void saveAsRegisteredAdapter(EObject objectToSave, EObject adaptedObject, String type)
    {
       //TODO@rkluge: This could be a hack that circumvents proper Resources handling. 
       // Such things typically make debugging really hard because you cannot rely on the fact that a Resource will never "change"
       cleanResourceSet(adaptedObject.eResource());
 
-      loadResourceSet(resourceSet);
-      Resource patternResource = (Resource) EcoreUtil.getRegisteredAdapter(adaptedObject, type);
-      if (patternResource != null)
+      final Resource adapterResource = (Resource) EcoreUtil.getRegisteredAdapter(adaptedObject, type);
+      if (adapterResource != null)
       {
-         try
-         {
-            // TODO@rkluge: Why clean again?
-            cleanResourceSet(patternResource);
-            patternResource.getContents().add(objectToSave);
-            patternResource.save(Collections.EMPTY_MAP);
-         } catch (IOException e)
-         {
-            e.printStackTrace();
-         }
+         //         try
+         //         {
+            cleanResourceSet(adapterResource);
+            adapterResource.getContents().add(objectToSave);
+            //adapterResource.save(Collections.EMPTY_MAP);
+//         } catch (IOException e)
+//         {
+//            e.printStackTrace();
+//         }
       }
    }
 

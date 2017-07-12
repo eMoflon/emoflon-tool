@@ -19,5 +19,9 @@ Require-Bundle: org.moflon.ide.core,
  org.eclipse.swt,
  org.gervarro.eclipse.workspace.autosetup;bundle-version="1.0.0",
  org.moflon.gt.mosl,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.moflon.gt.mosl.codeadapter,
+ org.moflon.sdm.compiler.democles,
+ org.gervarro.eclipse.task,
+ org.moflon.sdm.compiler.democles.validation.scope
 Import-Package: org.apache.log4j
