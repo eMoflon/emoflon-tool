@@ -1,5 +1,6 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
@@ -16,9 +17,9 @@ public class ObjectVariableDefinitionRule extends AbstractNextStatementRule<Obje
    }
 
    @Override
-   protected ValidationReport transformStatement(ObjectVariableDefinition stmnt, Scope scope, CFNode previosCFNode)
+   protected ValidationReport transformStatement(ObjectVariableDefinition stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
    {
-      this.getOrCreateVariable(scope, stmnt.getName(), stmnt.getType());
+      this.getOrCreateVariable(scope, stmnt.getName(), stmnt.getType(), transformationConfiguration);
       return ResultFactory.eINSTANCE.createValidationReport();
    }
 

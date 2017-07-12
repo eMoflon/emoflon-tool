@@ -32,7 +32,7 @@ import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.codeadapter.PatternBuilder;
-import org.moflon.gt.mosl.codeadapter.StatementBuilder;
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.codeadapter.statementrules.ConditionStatementRule;
 import org.moflon.gt.mosl.codeadapter.statementrules.DoLoopStatementRule;
 import org.moflon.gt.mosl.codeadapter.statementrules.ForLoopStatementRule;
@@ -69,6 +69,8 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
    private ResourceSet resourceSet;
 
    private IProject project;
+   
+   private TransformationConfiguration transformationConfiguration;
 
    @Override
    public String getTaskName()
@@ -82,8 +84,9 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
       this.project = project;
       this.ePackage = (EPackage) rsource.getContents().get(0);
       this.resourceSet = ePackage.eResource().getResourceSet();
+      this.transformationConfiguration = new TransformationConfiguration();
       final Map<String, PatternMatcher> patternMatcherConfiguration = methodBodyHandler.getPatternMatcherConfiguration();
-      CodeadapterTrafo.getInstance().setSearchplanGenerators(patternMatcherConfiguration);
+      this.transformationConfiguration.getPatternMatchingController().setSearchplanGenerators(patternMatcherConfiguration);
 
       DemoclesMethodBodyHandler.initResourceSetForDemocles(resourceSet);
       return run(monitor);
@@ -178,8 +181,8 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
    {
       try
       {
-         CodeadapterTrafo helper = CodeadapterTrafo.getInstance();
-         registerTransformationRules();
+         CodeadapterTrafo helper = new CodeadapterTrafo();
+         registerTransformationRules(this.transformationConfiguration);
 
          final List<Resource> mgtResources = this.resourceSet.getResources().stream()
                .filter(resource -> resource.getURI().lastSegment().endsWith('.' + WorkspaceHelper.EMOFLON_GT_EXTENSION)).collect(Collectors.toList());
@@ -228,31 +231,7 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
                contextEPackage.setNsURI(nsURI);
                enrichedEcoreResource.save(Collections.EMPTY_MAP);
                EcoreUtil.resolveAll(contextEPackage);
-               final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, this.resourceSet);
-
-               /*
-                * Goal: For each pattern invocation, generate and store the search plan Needed: * pattern invocations (=
-                * pattern+adornment) within each operation in the package * PatternMatcher
-                */
-               // TODO@rkluge: Add support for nested packages
-               //               enrichedEPackage.getEClassifiers().stream()//
-               //                     .filter(eClassifier -> eClassifier instanceof EClass)//
-               //                     .map(eClassifier -> EClass.class.cast(eClassifier)).forEach(eClass -> {
-               //                        eClass.getEOperations().forEach(eOperation -> {
-               //                           AdapterResource controlFlowResource = (AdapterResource) EcoreUtil.getRegisteredAdapter(eOperation,
-               //                                 DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION);
-               //                           controlFlowResource.getAllContents().forEachRemaining(eObject -> {
-               //                              if (eObject instanceof PatternInvocation)
-               //                              {
-               //                                 final PatternInvocation invocation = (PatternInvocation) eObject;
-               //                                 final Adornment adornment = calculateAdornment(invocation);
-               //                                 final Pattern pattern = invocation.getPattern();
-               //                                 final boolean isMultipleMatch = invocation.isMultipleMatch();
-               //                                 scopeValidatorConfiguration.getBlackPatternMatcher().generateSearchPlan(pattern, adornment, isMultipleMatch);
-               //                              }
-               //                           });
-               //                        });
-               //                     });
+               final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, this.resourceSet, this.transformationConfiguration);
 
                // save context
                enrichedEcoreResource.getContents().clear();
@@ -272,7 +251,7 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
       return Status.OK_STATUS;
    }
 
-   private void registerTransformationRules()
+   private void registerTransformationRules(TransformationConfiguration transformationConfiguration2)
    {
       PatternBuilder.getInstance().addTransformPlanRule(PatternKind.BLACK, new BlackTransformPlanRule());
       PatternBuilder.getInstance().addTransformPlanRule(PatternKind.GREEN, new GreenTransformPlanRule());
@@ -287,7 +266,7 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
             new ForLoopStatementRule(),
             new DoLoopStatementRule(),
             new ObjectVariableDefinitionRule()
-            ).stream().forEach(rule -> StatementBuilder.getInstance().registerTransformationRule(rule));
+            ).stream().forEach(rule -> transformationConfiguration.getStatementCreationController().registerTransformationRule(rule));
       //@formatter:on
    }
 }

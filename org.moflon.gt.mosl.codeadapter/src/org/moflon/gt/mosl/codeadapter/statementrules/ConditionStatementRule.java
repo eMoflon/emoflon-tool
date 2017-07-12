@@ -1,6 +1,6 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
-import org.moflon.gt.mosl.codeadapter.StatementBuilder;
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.moslgt.ConditionStatement;
 import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
@@ -26,7 +26,7 @@ public class ConditionStatementRule extends AbstractConditionStatementRule<Condi
    }
 
    @Override
-   protected ValidationReport transformStatement(ConditionStatement stmnt, Scope scope, CFNode previosCFNode)
+   protected ValidationReport transformStatement(ConditionStatement stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
    {
       IfStatement ifStatement = this.updateCurrentNode(DemoclesFactory.eINSTANCE.createIfStatement());
       scope.getContents().add(ifStatement);
@@ -35,15 +35,20 @@ public class ConditionStatementRule extends AbstractConditionStatementRule<Condi
 
       Scope thenScope = DemoclesFactory.eINSTANCE.createScope();
       thenScope.setParent(ifStatement);
-      StatementBuilder.getInstance().transformStatement(stmnt.getThenStartStatement(), thenScope, null);
+      transformationConfiguration.getStatementCreationController().transformStatement(stmnt.getThenStartStatement(), thenScope, null, transformationConfiguration);
 
-      if (stmnt.getElseStartStatement() != null)
+      if (hasElseBranch(stmnt))
       {
          Scope elseScope = DemoclesFactory.eINSTANCE.createScope();
          elseScope.setParent(ifStatement);
-         StatementBuilder.getInstance().transformStatement(stmnt.getElseStartStatement(), elseScope, null);
+         transformationConfiguration.getStatementCreationController().transformStatement(stmnt.getElseStartStatement(), elseScope, null, transformationConfiguration);
       }
       return ResultFactory.eINSTANCE.createValidationReport();
+   }
+
+   private boolean hasElseBranch(ConditionStatement stmnt)
+   {
+      return stmnt.getElseStartStatement() != null;
    }
 
 }

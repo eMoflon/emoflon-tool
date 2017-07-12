@@ -1,5 +1,6 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.moslgt.ReturnStatement;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
@@ -18,7 +19,7 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement>
    }
 
    @Override
-   protected ValidationReport transformStatement(ReturnStatement stmnt, Scope scope, CFNode previosCFNode)
+   protected ValidationReport transformStatement(ReturnStatement stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
    {
       org.moflon.sdm.runtime.democles.ReturnStatement rs = DemoclesFactory.eINSTANCE.createReturnStatement();
       if (previosCFNode != null)
@@ -37,7 +38,7 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement>
    }
 
    @Override
-   protected void invokeNextRule(ReturnStatement stmnt, Scope scope, CFNode previosCFNode)
+   protected void invokeNextRule(ReturnStatement stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
    {
       // Nothing to do here since returns statement terminate the control flow.
    }

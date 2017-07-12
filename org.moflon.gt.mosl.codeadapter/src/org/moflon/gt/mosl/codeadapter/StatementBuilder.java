@@ -1,12 +1,9 @@
 package org.moflon.gt.mosl.codeadapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.codeadapter.statementrules.IStatementRule;
 import org.moflon.gt.mosl.moslgt.MethodDec;
 import org.moflon.gt.mosl.moslgt.Statement;
@@ -16,43 +13,27 @@ import org.moflon.sdm.runtime.democles.Scope;
 public class StatementBuilder
 {
 
-   private static Map<Class<? extends Statement>, Function<Statement, Function<Scope, Consumer<CFNode>>>> statementRuleCache = new HashMap<>();
    private final List<IStatementRule> transformationRules;
-
-   private static StatementBuilder instance;
 
    private MethodDec currentMethod;
 
-   private StatementBuilder()
+   public StatementBuilder()
    {
       transformationRules = new ArrayList<>();
-      statementRuleCache.clear();
    }
 
-   public static StatementBuilder getInstance()
-   {
-      if (instance == null)
-         instance = new StatementBuilder();
-      return instance;
-   }
-
-   public static void setStatementRule(Class<? extends Statement> stmtClass, Function<Statement, Function<Scope, Consumer<CFNode>>> transformerRule)
-   {
-      statementRuleCache.put(stmtClass, transformerRule);
-   }
-   
    public void registerTransformationRule(final IStatementRule rule)
    {
       this.transformationRules.add(rule);
    }
 
-   public void transformStatement(final Statement stmnt, Scope scope, CFNode previosCFNode)
+   public void transformStatement(final Statement stmnt, Scope scope, CFNode previosCFNode, TransformationConfiguration transformationConfiguration)
    {
       for (final IStatementRule rule : this.transformationRules)
       {
          if (rule.canHandle(stmnt))
          {
-            rule.invoke(stmnt, scope, previosCFNode);
+            rule.invoke(stmnt, scope, previosCFNode, transformationConfiguration);
             break;
          }
       }

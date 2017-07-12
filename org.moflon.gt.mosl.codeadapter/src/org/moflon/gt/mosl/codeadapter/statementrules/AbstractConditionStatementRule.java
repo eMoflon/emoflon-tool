@@ -2,6 +2,7 @@ package org.moflon.gt.mosl.codeadapter.statementrules;
 
 import java.util.function.Consumer;
 
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.moslgt.Condition;
 import org.moflon.gt.mosl.moslgt.ConditionContainingStatement;
 import org.moflon.sdm.runtime.democles.CFNode;
@@ -12,11 +13,11 @@ public abstract class AbstractConditionStatementRule<S extends ConditionContaini
    private Consumer<CFNode> handlePattern;
 
    @Override
-   protected void transformAndInvokeNext(S stmnt, Scope scope, CFNode previosCFNode)
+   protected void transformAndInvokeNext(S stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
    {
       Condition cond = stmnt.getCond();
-      handlePattern = c -> this.handlePattern(cond.getParameters(), cond.getPattern(), c, scope);
-      super.transformAndInvokeNext(stmnt, scope, previosCFNode);
+      handlePattern = c -> this.handlePattern(cond.getParameters(), cond.getPattern(), c, scope, transformationConfiguration);
+      super.transformAndInvokeNext(stmnt, scope, previosCFNode, transformationConfiguration);
    }
 
    protected void handlePattern(CFNode node)

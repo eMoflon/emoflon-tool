@@ -16,6 +16,7 @@ import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.Reference;
 import org.gervarro.democles.specification.emf.constraint.relational.RelationalConstraintFactory;
 import org.gervarro.democles.specification.emf.constraint.relational.Unequal;
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.EClassDef;
@@ -43,8 +44,8 @@ public class VariableTransformator
       return instance;
    }
    
-   public void transformPatternObjects(List<LinkVariablePattern> lvs, Map<String, Boolean> bindings, PatternBody patternBody, PatternKind patternKind){
-      lvs.stream().forEach(lv -> {transforming(lv, patternBody, patternKind);});
+   public void transformPatternObjects(List<LinkVariablePattern> lvs, Map<String, Boolean> bindings, PatternBody patternBody, PatternKind patternKind, TransformationConfiguration transformationConfiguration){
+      lvs.stream().forEach(lv -> {transforming(lv, patternBody, patternKind, transformationConfiguration);});
    }
 
    private Optional<Variable> getVariableMonad(String varName)
@@ -60,19 +61,19 @@ public class VariableTransformator
       target.setReference(this.getVariableMonad(targetName).get());
    }
    
-   public void transforming(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind)
+   public void transforming(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind, TransformationConfiguration transformationConfiguration)
    {
          getVariableMonadFun = varName -> {
             return patternBody.getHeader().getSymbolicParameters().stream().filter(var -> var.getName().compareTo(varName) == 0).findFirst();
          };
-         transformLinkVariable(linkVariable, patternBody, patternKind);
+         transformLinkVariable(linkVariable, patternBody, patternKind, transformationConfiguration);
    }
    
-   private void transformLinkVariable(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind)
+   private void transformLinkVariable(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind, TransformationConfiguration transformationConfiguration)
    {
       ObjectVariableDefinition ov = ObjectVariableDefinition.class.cast(linkVariable.eContainer());
       Reference reference = EMFTypeFactory.eINSTANCE.createReference();
-      EClass contextEclass = CodeadapterTrafo.getInstance().getTypeContext(EClassDef.class.cast(PatternDef.class.cast(ov.eContainer()).eContainer()).getName());
+      EClass contextEclass = transformationConfiguration.getContextController().getTypeContext(EClassDef.class.cast(PatternDef.class.cast(ov.eContainer()).eContainer()).getName());
       reference.setEModelElement(CodeadapterTrafo.getInstance().getEReferenceContext(linkVariable.getType(), contextEclass)); //TODO create an EReference to the contextEPackage
       patternBody.getConstraints().add(reference);
 
@@ -101,7 +102,7 @@ public class VariableTransformator
       }
    }
    
-   public void transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, Map<String, CFVariable> env, PatternInvocation invocation)
+   public void transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, Map<String, CFVariable> env, PatternInvocation invocation, TransformationConfiguration transformationConfiguration)
    {
       String name = PatternUtil.getNormalizedVariableName(ov.getName());
       Optional<Variable> patternVariableMonad = pattern.getSymbolicParameters().stream().filter(var -> var.getName().equals(name)).findFirst();
@@ -112,7 +113,7 @@ public class VariableTransformator
          pattern.getSymbolicParameters().add(patternVariable);
 
          patternVariable.setName(name);
-         patternVariable.setEClassifier(CodeadapterTrafo.getInstance().getTypeContext(ov.getType()));
+         patternVariable.setEClassifier(transformationConfiguration.getContextController().getTypeContext(ov.getType()));
 
          CFVariable cfVar = env.get(PatternUtil.getNormalizedVariableName(ov.getName()));
 
