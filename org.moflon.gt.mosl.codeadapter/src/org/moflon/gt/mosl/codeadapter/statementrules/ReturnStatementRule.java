@@ -6,7 +6,7 @@ import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
 
-public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement> implements IHandlePatternsInStatement
+public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement>
 {
 
    @Override

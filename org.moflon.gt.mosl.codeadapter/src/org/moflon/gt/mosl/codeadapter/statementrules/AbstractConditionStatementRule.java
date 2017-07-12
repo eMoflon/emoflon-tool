@@ -8,7 +8,6 @@ import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.Scope;
 
 public abstract class AbstractConditionStatementRule<S extends ConditionContainingStatement> extends AbstractNextStatementRule<S>
-      implements IHandlePatternsInStatement
 {
 
    @Override

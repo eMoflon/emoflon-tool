@@ -5,7 +5,7 @@ import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
 
-public class PatternStatementRule extends AbstractNextStatementRule<PatternStatement> implements IHandlePatternsInStatement
+public class PatternStatementRule extends AbstractNextStatementRule<PatternStatement>
 {
 
    @Override

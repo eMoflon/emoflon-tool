@@ -4,7 +4,7 @@ import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.Scope;
 
-public class ObjectVariableDefinitionRule extends AbstractNextStatementRule<ObjectVariableDefinition> implements IHandleCFVariable
+public class ObjectVariableDefinitionRule extends AbstractNextStatementRule<ObjectVariableDefinition>
 {
 
    @Override
