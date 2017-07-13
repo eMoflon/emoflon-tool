@@ -267,7 +267,7 @@ public class PatternBuilder
    {
       if (pk == PatternKind.GREEN && op != null && op.getValue() != null && op.getValue().equals("++"))
          return true;
-      else if (pk == PatternKind.BLACK && !(op != null && op.getValue() != null && !op.getValue().equals("")))
+      else if (pk == PatternKind.BLACK && (op == null || op.getValue() == null || op.getValue().equals("")))
          return true;
       else
          return false;
