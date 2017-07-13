@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.gt.ide
 Bundle-SymbolicName: org.moflon.gt.ide;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: eMoflon developers
+Bundle-Vendor: eMoflon Developers
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.moflon.gt.ide.builders,
  org.moflon.gt.ide.natures

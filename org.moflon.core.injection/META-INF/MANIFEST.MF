@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.core.injection
 Bundle-SymbolicName: org.moflon.core.injection;singleton:=true
 Bundle-Version: 2.0.0.qualifier
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers
 Require-Bundle: org.eclipse.core.runtime,
  org.moflon.core.utilities
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

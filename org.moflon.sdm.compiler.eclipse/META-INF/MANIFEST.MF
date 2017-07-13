@@ -25,4 +25,4 @@ Export-Package: org.gervarro.democles.emoflon.templates,
  org.moflon.eclipse.genmodel,
  org.moflon.eclipse.resource
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.emf.injection
-Bundle-Vendor: My Company
+Bundle-Vendor: eMoflon Developers
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.moflon.emf.injection; singleton:=true
 Bundle-ActivationPolicy: lazy

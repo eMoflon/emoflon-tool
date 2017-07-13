@@ -30,5 +30,5 @@ Export-Package: org.moflon.compiler.sdm.democles,
  org.moflon.compiler.sdm.democles.stringtemplate,
  org.moflon.gt.democles.codegen
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers
 Bundle-Activator: org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin

@@ -16,6 +16,6 @@ Require-Bundle: org.eclipse.emf.codegen.ecore;bundle-version="[2.9.1,3.0.0)",
  org.gervarro.democles.emf;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,
  org.gervarro.democles.plan;bundle-version="[2.0.0,3.0.0)";visibility:=reexport,
  org.gervarro.democles.specification.emf;bundle-version="[2.0.0,3.0.0)";visibility:=reexport
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers
 Bundle-ActivationPolicy: lazy
 

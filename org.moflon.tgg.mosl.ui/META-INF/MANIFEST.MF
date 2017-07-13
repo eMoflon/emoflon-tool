@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.tgg.mosl.ui
-Bundle-Vendor: Realtime Systems Lab
+Bundle-Vendor: eMoflon Developers
 Bundle-Version: 1.0.1.qualifier
 Bundle-SymbolicName: org.moflon.tgg.mosl.ui;singleton:=true
 Bundle-ActivationPolicy: lazy
