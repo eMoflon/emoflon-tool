@@ -227,8 +227,8 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
       {
          try
          {
-            URL url = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/moca/templates/defaultTemplates/XML.stg", UIActivator.getModuleID());
-            WorkspaceHelper.addFile(project, "templates/XML.stg", url, UIActivator.getModuleID(), new NullProgressMonitor());
+            URL url = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/moca/templates/defaultTemplates/XML.stg", WorkspaceHelper.getPluginId(UIActivator.class));
+            WorkspaceHelper.addFile(project, "templates/XML.stg", url, WorkspaceHelper.getPluginId(UIActivator.class), new NullProgressMonitor());
          } catch (CoreException | URISyntaxException | IOException e)
          {
             LogUtils.error(logger, e);
@@ -266,7 +266,7 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
 
    private URL getTemplateFileURL(final String path)
    {
-      return MoflonUtilitiesActivator.getPathRelToPlugIn(path, UIActivator.getModuleID());
+      return MoflonUtilitiesActivator.getPathRelToPlugIn(path, WorkspaceHelper.getPluginId(UIActivator.class));
    }
 
    private void loadStringTemplateGroup(final String path)
@@ -337,7 +337,7 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
          fileNamesToContents.putAll(mocaMainFileNameToContent);
       } catch (FileNotFoundException e)
       {
-         MoflonUtil.throwCoreExceptionAsError(e.getMessage(), UIActivator.getModuleID(), e);
+         MoflonUtil.throwCoreExceptionAsError(e.getMessage(), WorkspaceHelper.getPluginId(UIActivator.class), e);
       }
 
       return fileNamesToContents;

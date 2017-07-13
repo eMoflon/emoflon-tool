@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.ui.UIActivator;
 
 public abstract class AbstractMoflonProjectInfoPage extends WizardPage
@@ -238,7 +239,7 @@ public abstract class AbstractMoflonProjectInfoPage extends WizardPage
 
    private void dialogChanged()
    {
-      IStatus validity = validateProjectName(projectName, UIActivator.getModuleID());
+      IStatus validity = validateProjectName(projectName, WorkspaceHelper.getPluginId(UIActivator.class));
 
       if (validity.isOK())
          updateStatus(null);
