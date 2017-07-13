@@ -15,6 +15,7 @@ public interface InjectionExtractor
    /**
     * Runs the injection extractor
     */
+   //TODO@rkluge: Return an IStatus
    void extractInjections();
    
    /**

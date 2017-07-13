@@ -8,10 +8,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EOperation;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.extractors.InjectionExtractor;
 import org.moflon.moca.inject.util.UnsupportedOperationCodeInjector;
 import org.moflon.moca.inject.validation.InjectionValidationMessage;
-import org.osgi.framework.FrameworkUtil;
 
 /**
  * This class manages the extraction of injection code.
@@ -174,10 +174,11 @@ public class InjectionManager
       this.userInjectionExtractor.extractInjections();
       this.compilerInjectionExtractor.extractInjections();
 
+      //TODO@rkluge: Move this logic into the injectors to avoid custom InjectionValidationMessage class
       List<InjectionValidationMessage> errors = this.userInjectionExtractor.getErrors();
       if (errors.size() > 0)
       {
-         final MultiStatus validationStatus = new MultiStatus(FrameworkUtil.getBundle(CodeInjectionPlugin.class).getSymbolicName(), 0, "Extraction of injections with warnings/errors.", null);
+         final MultiStatus validationStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Extraction of injections with warnings/errors.", null);
          for (final InjectionValidationMessage error : errors)
          {
             validationStatus.add(error.convertToStatus());
@@ -185,6 +186,6 @@ public class InjectionManager
 
          return validationStatus;
       } else
-         return new Status(IStatus.OK, FrameworkUtil.getBundle(CodeInjectionPlugin.class).getSymbolicName(), "Extraction of injections successful.");
+         return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "Extraction of injections successful.");
    }
 }

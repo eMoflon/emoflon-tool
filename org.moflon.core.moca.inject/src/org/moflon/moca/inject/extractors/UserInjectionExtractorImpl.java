@@ -76,7 +76,7 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
     * through the packages of the given genmodel. The injection extractor uses the given class name-to-path converter to
     * map class names to generated class files.
     */
-   public UserInjectionExtractorImpl(final String injectionRootFolder, final GenModel genModel, final ClassNameToPathConverter classNameToPathConverter)
+   private UserInjectionExtractorImpl(final String injectionRootFolder, final GenModel genModel, final ClassNameToPathConverter classNameToPathConverter)
          throws CoreException
    {
       initializeEmptyMaps();
@@ -557,7 +557,7 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
       this.errors.add(new MissingEOperationValidationMessage(methodName, paramNames, paramTypes, surroundingClass.getName(), fullPath));
    }
 
-   public void reportMissingEClass(final String fullyQualifiedClassName, final File file)
+   private void reportMissingEClass(final String fullyQualifiedClassName, final File file)
    {
       final String fullPath = buildInjectionFilePathDescription(file);
       this.errors.add(new MissingEClassValidationMessage(fullyQualifiedClassName, fullPath));

@@ -33,6 +33,7 @@ import org.moflon.moca.inject.CodeInjectorImpl;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.extractors.CompilerInjectionExtractorImpl;
 import org.moflon.moca.inject.extractors.UserInjectionExtractorImpl;
+import org.moflon.moca.inject.extractors.XTextInjectionExtractor;
 
 public class MoflonCodeGenerator extends GenericMoflonProcess
 {
@@ -248,6 +249,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       CodeInjector injector = new CodeInjectorImpl(project.getLocation().toOSString());
 
       UserInjectionExtractorImpl injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
+      new XTextInjectionExtractor(injectionFolder, genModel);
       CompilerInjectionExtractorImpl compilerInjectionExtractor = new CompilerInjectionExtractorImpl(project, genModel);
 
       injectionManager = new InjectionManager(injectionExtractor, compilerInjectionExtractor, injector);

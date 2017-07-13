@@ -12,7 +12,9 @@ Require-Bundle:
  MocaTree,
  org.moflon.core.propertycontainer,
  org.moflon.core.moca.processing,
- SDMLanguage
+ SDMLanguage,
+ org.eclipse.xtext,
+ org.moflon.emf.injection
 Bundle-ClassPath: .
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.moca.inject,

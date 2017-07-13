@@ -119,6 +119,5 @@ public class InjectionLanguageTest
          resource.load(null);
          return resource.getContents().get(0);
       }
-
    }
 }
