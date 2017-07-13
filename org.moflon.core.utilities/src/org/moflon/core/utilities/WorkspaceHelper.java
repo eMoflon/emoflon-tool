@@ -124,13 +124,13 @@ public class WorkspaceHelper
    public static final String MOCA_XMI_FILE_EXTENSION = ".moca.xmi";
 
    /**
-    * Constants for MOSL-GT
+    * Constants for eMoflon-GT
     */
-   public static final String MOSL_GT_EXTENSION = "mgt";
+   public static final String EMOFLON_GT_EXTENSION = "mgt";
 
-   public static final String MOSL_GT_NATURE_ID = "org.moflon.gt.ide.natures.MOSLGTNature";
+   public static final String EMOFLON_GT_NATURE_ID = "org.moflon.gt.ide.natures.EMoflonGTNature";
 
-   public static final String MOSL_GT_BUILDER_ID = "org.moflon.gt.mosl.ide.MOSLGTBuilder";
+   public static final String EMOFLON_GT_BUILDER_ID = "org.moflon.gt.ide.builders.EMoflonGTBuilder";
 
    /**
     * Constants for MOSL-TGG
@@ -577,11 +577,11 @@ public class WorkspaceHelper
    }
 
    /**
-    * Returns true if the given project has the {@link #MOSL_GT_NATURE_ID}.
+    * Returns true if the given project has the {@link #EMOFLON_GT_NATURE_ID}.
     */
    private static boolean isMOSLGTProject(IProject project) throws CoreException
    {
-      return project != null && project.hasNature(MOSL_GT_NATURE_ID);
+      return project != null && project.hasNature(EMOFLON_GT_NATURE_ID);
    }
 
    /**

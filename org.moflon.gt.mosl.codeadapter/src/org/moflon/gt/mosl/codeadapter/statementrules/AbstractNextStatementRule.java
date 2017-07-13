@@ -1,7 +1,7 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
 import org.eclipse.emf.ecore.EClassifier;
-import org.moflon.gt.mosl.codeadapter.StatementBuilder;
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.exceptions.MissingReturnException;
 import org.moflon.gt.mosl.moslgt.MoslgtFactory;
 import org.moflon.gt.mosl.moslgt.NextStatement;
@@ -12,16 +12,16 @@ import org.moflon.sdm.runtime.democles.Scope;
 public abstract class AbstractNextStatementRule<S extends NextStatement> extends AbstractStatementRule<S>
 {
    @Override
-   protected void postTransformStatement(S stmnt, Scope scope, CFNode previosCFNode)
+   protected void invokeNextRule(S stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
    {
       Statement nextStmnt = stmnt.getNext();
       if (nextStmnt == null)
       {
-         EClassifier methodType = StatementBuilder.getInstance().getCurrentMethod().getType();
+         EClassifier methodType = transformationConfiguration.getStatementCreationController().getCurrentMethod().getType();
          if (methodType == null)
             nextStmnt = MoslgtFactory.eINSTANCE.createReturnStatement();
          else
-            throw new MissingReturnException(StatementBuilder.getInstance().getCurrentMethod());
+            throw new MissingReturnException(transformationConfiguration.getStatementCreationController().getCurrentMethod());
       }
 
       if (previosCFNode != null)
@@ -38,7 +38,7 @@ public abstract class AbstractNextStatementRule<S extends NextStatement> extends
       if (currentNode == null)
          currentNode = previosCFNode;
 
-      StatementBuilder.getInstance().transformStatement(nextStmnt, scope, currentNode);
+      transformationConfiguration.getStatementCreationController().transformStatement(nextStmnt, scope, currentNode, transformationConfiguration);
    }
 
    private CFNode currentNode;

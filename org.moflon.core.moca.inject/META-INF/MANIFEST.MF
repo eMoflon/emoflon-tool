@@ -20,4 +20,4 @@ Export-Package: org.moflon.moca.inject,
  org.moflon.moca.inject.parser,
  org.moflon.moca.inject.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers

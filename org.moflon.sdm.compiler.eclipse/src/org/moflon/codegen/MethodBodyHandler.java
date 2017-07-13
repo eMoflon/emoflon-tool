@@ -10,11 +10,14 @@
  */
 package org.moflon.codegen;
 
+import java.util.Map;
+
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
+import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
 
 public interface MethodBodyHandler {
    
@@ -26,13 +29,6 @@ public interface MethodBodyHandler {
 	public ITask createValidator(EPackage ePackage);
 	
 	/**
-	 * Creates a MOSL-GT control flow weaver
-	 * 
-	 * The purpose of a control flow weaver is to extract the control plow/patterns from a MOSL-GT specification and connect them to a plain Ecore file 
-	 */
-	public ITask createControlFlowWeaver(EPackage ePackage);
-	
-	/**
 	 * Creates a job for processing the associated gen model of the given resource.
 	 */
 	public ITask createGenModelProcessor(MoflonCodeGenerator codeGenerator, Resource resource);
@@ -41,4 +37,6 @@ public interface MethodBodyHandler {
 	 * Creates a descriptor for code generator of the method bodies.
 	 */
 	public Descriptor createCodeGenerationEngine(MoflonCodeGenerator codeGenerator, Resource resource);
+
+   public Map<String, PatternMatcher> getPatternMatcherConfiguration();
 }

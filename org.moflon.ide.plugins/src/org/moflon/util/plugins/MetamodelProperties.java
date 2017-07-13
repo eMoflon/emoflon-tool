@@ -66,7 +66,7 @@ public class MetamodelProperties
 
    public MetamodelProperties()
    {
-      this.data = new HashMap<String, String>();
+      this(new HashMap<String, String>());
    }
 
    public MetamodelProperties(final Map<String, String> data)

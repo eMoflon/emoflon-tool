@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.gt.mosl.ide
-Bundle-Vendor: My Company
+Bundle-Vendor: eMoflon Developers
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: org.moflon.gt.mosl.ide; singleton:=true
+Bundle-SymbolicName: org.moflon.gt.mosl.ide;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.apache.log4j,
  org.eclipse.core.resources,
@@ -13,16 +13,7 @@ Require-Bundle: org.apache.log4j,
  org.eclipse.emf.codegen.ecore,
  org.eclipse.xtext.ide,
  org.eclipse.xtext.xbase.ide,
- org.gervarro.eclipse.workspace.autosetup;bundle-version="1.0.0",
- org.gervarro.eclipse.workspace.util;bundle-version="2.0.0",
- org.gervarro.eclipse.task;bundle-version="1.0.1",
- org.moflon.ide.core,
- org.moflon.ide.plugins,
- org.moflon.core.utilities,
- org.moflon.gt.mosl,
- org.moflon.core.moca.inject,
- org.moflon.sdm.compiler.eclipse,
- org.moflon.core.propertycontainer
+ org.moflon.gt.mosl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.moflon.gt.mosl.ide.contentassist.antlr,
  org.moflon.gt.mosl.ide.contentassist.antlr.internal

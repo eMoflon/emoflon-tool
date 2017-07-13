@@ -7,7 +7,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers
 Export-Package: SDMLanguage,
  SDMLanguage.activities,
  SDMLanguage.activities.impl,

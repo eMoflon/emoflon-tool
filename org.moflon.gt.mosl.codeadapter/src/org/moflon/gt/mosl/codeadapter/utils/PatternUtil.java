@@ -16,9 +16,8 @@ public class PatternUtil
          return pp.getOv();
    }
    
-   public static String getSaveName(String name){
-      if("this".compareTo(name)==0)
-         return "_this";
-      else return name;
+   public static String getNormalizedVariableName(String name){
+      //TODO@rkluge: Implement proper normalization (e.g., by inserting _)
+      return name;
    }
 }

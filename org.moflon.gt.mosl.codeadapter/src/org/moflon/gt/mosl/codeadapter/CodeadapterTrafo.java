@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -16,76 +13,48 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
+import org.moflon.gt.mosl.codeadapter.config.PatternNameGenerator;
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.gt.mosl.moslgt.MethodDec;
 import org.moflon.gt.mosl.moslgt.MethodParameter;
-import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.MoflonOperation;
-import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
 
 public class CodeadapterTrafo
 {
-
-   private static CodeadapterTrafo instance;
-
-   private StatementBuilder statementTrafo;
-
-   private Consumer<ResourceSet> loader;
-
-   private Function<CFNode, Function<PatternDef, Function<String, String>>> currentEOperationNameConstructor;
-
-   private CodeadapterTrafo()
+   public EPackage transform(final EPackage contextEPackage, final GraphTransformationFile graphTransformationFile, final ResourceSet resourceSet, final TransformationConfiguration transformationConfiguration)
    {
-      statementTrafo = StatementBuilder.getInstance();
-      new CodeadapterAutofactory();
-   }
+      transformationConfiguration.getContextController().setEPackage(contextEPackage);
+      transformationConfiguration.getContextController().setResourceSet(resourceSet);
 
-   public static CodeadapterTrafo getInstance()
-   {
-      if (instance == null)
-         instance = new CodeadapterTrafo();
-      return instance;
-   }
+      final String name = graphTransformationFile.getName();
+      final String[] domain = name.split(java.util.regex.Pattern.quote("."));
 
-   public String getPatternName(CFNode node, PatternDef patternDef, String suffix)
-   {
-      return currentEOperationNameConstructor.apply(node).apply(patternDef).apply(suffix);
-   }
-
-   public void loadResourceSet(ResourceSet resSet)
-   {
-      loader.accept(resSet);
-   }
-
-   public EPackage transform(EPackage contextEPackage, final GraphTransformationFile gtf, Consumer<ResourceSet> loader)
-   {
-      this.loader = loader;
-      EPackage cpyContextEPackage = EcoreUtil.copy(contextEPackage);
-      String name = gtf.getName();
-      String[] domain = name.split(Pattern.quote("."));
-
-      if (cpyContextEPackage.getName().compareToIgnoreCase(gtf.getName()) == 0
+      if (contextEPackage.getName().compareToIgnoreCase(graphTransformationFile.getName()) == 0
             || domain.length > 0 && contextEPackage.getName().compareToIgnoreCase(domain[domain.length - 1]) == 0)
       {
-         for (EClassDef classDef : gtf.getEClasses())
+         for (final EClassDef eClassSpecification : graphTransformationFile.getEClasses())
          {
-            EClass cpyContextEClass = (EClass) contextEPackage.getEClassifier(classDef.getName().getName());
-            EClass eClassContext = classDef.getName();
-            transformMethodsToEOperations(eClassContext, classDef, cpyContextEClass);
+            EClass contextEClass = (EClass) contextEPackage.getEClassifier(eClassSpecification.getName().getName());
+            EClass eClassContext = eClassSpecification.getName();
+            transformMethodsToEOperations(eClassContext, eClassSpecification, contextEClass, transformationConfiguration);
          }
       }
 
       return contextEPackage;
    }
 
-   private void transformMethodsToEOperations(final EClass contextEClass, final EClassDef eclassDef, EClass changeableContext)
+   private void transformMethodsToEOperations(final EClass contextEClass, final EClassDef eclassDef, final EClass changeableContext, final TransformationConfiguration transformationConfiguration)
    {
+      final PatternNameGenerator patternNameGenerator = transformationConfiguration.getPatternCreationController().getPatternNameGenerator();
+      patternNameGenerator.setEClass(changeableContext);
+      
       for (final MethodDec methodDec : eclassDef.getOperations())
       {
          // this is a closure which will test if an EOperation with its EParameters already exist
@@ -98,36 +67,32 @@ public class CodeadapterTrafo
             changeableContext.getEOperations().remove(opt.get());
          }
 
-         MoflonOperation mofOp = ControlflowFactory.eINSTANCE.createMoflonOperation();
-         changeableContext.getEOperations().add(mofOp);
-         mofOp.setName(methodDec.getName());
-         mofOp.getEParameters().addAll(createEParameters(methodDec.getParameters()));
-         mofOp.setEType(methodDec.getType());
+         final MoflonOperation eOperation = createAndAddMoflonOperation(changeableContext, methodDec, transformationConfiguration);
 
-         currentEOperationNameConstructor = node -> patternDef -> suffix -> {
-            final EOperation eOperation = mofOp;
-            String storyNodeName = patternDef.getName() != null ? patternDef.getName().trim() : "";
-            storyNodeName = storyNodeName.replaceAll("\\s+", "");
-            final EClass eClass = eOperation.getEContainingClass();
-            final int operationIndex = eClass.getEOperations().indexOf(eOperation);
-            return "pattern_" + eClass.getName() + "_" + operationIndex + "_" + node.getId() + "_" + storyNodeName + "_" + suffix;
-         };
-         transformMethodStructure(methodDec, mofOp);
+         patternNameGenerator.setEOperation(eOperation);
+         transformFirstStatement(methodDec, eOperation, transformationConfiguration);
       }
+      
    }
 
-   /*
-    * If we provide List as Parameters this Function must be changed
-    * 
-    */
-   private Collection<? extends EParameter> createEParameters(final EList<MethodParameter> parameters)
+   private MoflonOperation createAndAddMoflonOperation(final EClass changeableContext, final MethodDec methodSpecification, final TransformationConfiguration transformationConfiguration)
    {
-      List<EParameter> paramLst = new ArrayList<>();
-      for (MethodParameter mParam : parameters)
+      final MoflonOperation eOperation = ControlflowFactory.eINSTANCE.createMoflonOperation();
+      eOperation.setName(methodSpecification.getName());
+      eOperation.getEParameters().addAll(createEParameters(methodSpecification.getParameters(), transformationConfiguration));
+      eOperation.setEType(methodSpecification.getType());
+      changeableContext.getEOperations().add(eOperation);
+      return eOperation;
+   }
+
+   private Collection<? extends EParameter> createEParameters(final EList<MethodParameter> parameterListSpecification, final TransformationConfiguration transformationConfiguration)
+   {
+      final List<EParameter> paramLst = new ArrayList<>();
+      for (MethodParameter methodParameterSpecification : parameterListSpecification)
       {
          EParameter eParam = EcoreFactory.eINSTANCE.createEParameter();
-         eParam.setName(mParam.getName());
-         eParam.setEType(mParam.getType());
+         eParam.setName(methodParameterSpecification.getName());
+         eParam.setEType(transformationConfiguration.getContextController().getTypeContext(methodParameterSpecification.getType()));
          eParam.setLowerBound(0);
          eParam.setUpperBound(1);
          eParam.setUnique(true);
@@ -137,14 +102,18 @@ public class CodeadapterTrafo
       return paramLst;
    }
 
-   private void transformMethodStructure(final MethodDec methodDec, MoflonOperation mofOp)
+   private void transformFirstStatement(final MethodDec methodDec, final MoflonOperation eOperation, final TransformationConfiguration transformationConfiguration)
    {
-      Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
-      mofOp.setRootScope(rootScope);
-
-      statementTrafo.loadCurrentMethod(methodDec);
-      Statement startStatement = methodDec.getStartStatement();
-      statementTrafo.transformStatement(startStatement, rootScope, null);
-
+      final Statement startStatement = methodDec.getStartStatement();
+      final Scope rootScope = DemoclesFactory.eINSTANCE.createScope();
+      eOperation.setRootScope(rootScope);
+      
+      if (startStatement != null)
+      {
+         transformationConfiguration.getStatementCreationController().loadCurrentMethod(methodDec);
+         transformationConfiguration.getStatementCreationController().transformStatement(startStatement, rootScope, null, transformationConfiguration);
+      }
+      
+      transformationConfiguration.getECoreAdapterController().saveAsRegisteredAdapter(rootScope, eOperation, DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION, transformationConfiguration.getContextController().getResourceSet());
    }
 }

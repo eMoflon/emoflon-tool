@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psf version="2.0">
 <provider id="org.eclipse.egit.core.GitProvider">
+<!-- Core projects -->
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.moca.tree"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.propertycontainer"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.backend.specification"/>
@@ -8,12 +9,19 @@
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.ecore2mocaxmi"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.ecore2mocaxmi.specification"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.ecoreutils"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.injection"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.languages.specification"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.moca.inject"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.moca.processing"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.mocatomoflon"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.utilities"/>
+
+<!-- EMF-related projects -->
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.core.injection"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.emf.injection"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.emf.injection.ide"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.emf.injection.ui"/>
+
+<!-- SDM-related projects -->
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.sdm.compiler.democles"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.sdm.compiler.democles.pattern"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.sdm.compiler.democles.specification"/>
@@ -64,8 +72,18 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.runtime.democles" type="4"/>
 <item elementID="=org.moflon.core.propertycontainer" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.core.propertycontainer" type="4"/>
-<item elementID="=org.moflon.sdm.compiler.democles.validation.result" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+
 <item elementID="=org.moflon.core.utilities" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+
+<!-- EMF-related projects -->
+<item elementID="=org.moflon.emf.injection" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.emf.injection" type="4"/>
+<item elementID="=org.moflon.emf.injection.ide" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.emf.injection.ide" type="4"/>
+<item elementID="=org.moflon.emf.injection.ui" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.emf.injection.ui" type="4"/>
+
+<item elementID="=org.moflon.sdm.compiler.democles.validation.result" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.compiler.democles.validation.result" type="4"/>
 <item elementID="=org.moflon.sdm.constraints.democles" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.sdm.constraints.democles" type="4"/>

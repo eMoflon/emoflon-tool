@@ -82,6 +82,16 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 	protected final EMFOperationBuilder emfBlackOperationBuilder = new EMFOperationBuilder();
 	private final EMFRedOperationBuilder emfRedOperationBuilder = new EMFRedOperationBuilder();
 	private final EMFGreenOperationBuilder emfGreenOperationBuilder = new EMFGreenOperationBuilder();
+	
+   private PatternMatcher bindingAndBlackPatternMatcher;
+
+   private PatternMatcher bindingPatternMatcher;
+
+   private PatternMatcher blackPatternMatcher;
+
+   private PatternMatcher redPatternMatcher;
+
+   private PatternMatcher greenPatternMatcher;
 
 	public DefaultValidatorConfig(ResourceSet resourceSet) {
 		this.resourceSet = resourceSet;
@@ -93,6 +103,46 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 		this.bindingAndBlackPatternBuilder.addConstraintTypeSwitch(internalEMFTypeModule.getConstraintTypeSwitch());
 		this.bindingAndBlackPatternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
 	}
+
+   
+   @Override
+   @Deprecated // TODO@rkluge Check if this access is really necessary
+   public PatternMatcher getBindingAndBlackPatternMatcher()
+   {
+      return bindingAndBlackPatternMatcher;
+   }
+
+
+   @Override
+   @Deprecated // TODO@rkluge Check if this access is really necessary
+   public PatternMatcher getBindingPatternMatcher()
+   {
+      return bindingPatternMatcher;
+   }
+
+
+   @Override
+   @Deprecated // TODO@rkluge Check if this access is really necessary
+   public PatternMatcher getBlackPatternMatcher()
+   {
+      return blackPatternMatcher;
+   }
+
+
+   @Override
+   @Deprecated // TODO@rkluge Check if this access is really necessary
+   public PatternMatcher getRedPatternMatcher()
+   {
+      return redPatternMatcher;
+   }
+
+
+   @Override
+   @Deprecated // TODO@rkluge Check if this access is really necessary
+   public PatternMatcher getGreenPatternMatcher()
+   {
+      return greenPatternMatcher;
+   }
 	
 	public ScopeValidator createScopeValidator() {
 		final Resource resource = new ResourceImpl(URI.createURI("ScopeValidator"));
@@ -115,11 +165,11 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			expressionTransformerResource.getContents().add(expressionExplorer);
 			expressionExplorer.setExpressionTransformer(expressionTransformer);
 
-			final PatternMatcher bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
-			final PatternMatcher bindingPatternMatcher = configureBindingPatternMatcher(resource);
-			final PatternMatcher blackPatternMatcher = configureBlackPatternMatcher(resource);
-			final PatternMatcher redPatternMatcher = configureRedPatternMatcher(resource);
-			final PatternMatcher greenPatternMatcher = configureGreenPatternMatcher(resource);
+         bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
+         bindingPatternMatcher = configureBindingPatternMatcher(resource);
+         blackPatternMatcher = configureBlackPatternMatcher(resource);
+         redPatternMatcher = configureRedPatternMatcher(resource);
+         greenPatternMatcher = configureGreenPatternMatcher(resource);
 			
 			// (1) Handler for regular story nodes
 			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeFactory.eINSTANCE.createStoryNodeActionBuilder();

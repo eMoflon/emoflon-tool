@@ -17,7 +17,7 @@ import org.moflon.core.utilities.LogUtils;
  * @author Anne-Sophie Ettl
  * 
  */
-
+@Deprecated //TODO@rkluge: Use or kill
 public class InjectionFileWriter
 {
 

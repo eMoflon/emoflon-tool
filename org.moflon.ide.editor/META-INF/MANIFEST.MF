@@ -29,5 +29,5 @@ Export-Package:
  org.moflon.ide.texteditor.modules.rules,
  org.moflon.ide.texteditor.modules.outline,
  org.moflon.ide.texteditor.modules.content 
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers
 Import-Package: org.eclipse.emf.ecore.presentation

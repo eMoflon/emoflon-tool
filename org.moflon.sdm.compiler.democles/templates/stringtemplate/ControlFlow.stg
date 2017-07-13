@@ -12,7 +12,7 @@ Node(node, importManager) ::= <<
 >>
 
 IfStatementImplRegularPatternInvocationImpl(node, importManager) ::= <<
-// <node.origin.name>
+// 
 <if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
 <importManager.("java.lang.Object")>[] result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
 if (result<node.mainAction.id> != null) {
@@ -26,11 +26,11 @@ if (result<node.mainAction.id> != null) {
 >>
 
 CFNodeImplRegularPatternInvocationImpl(node, importManager) ::= <<
-<\n>// <node.origin.name>
+<\n>
 <if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
 <importManager.("java.lang.Object")>[] result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
 if (result<node.mainAction.id> == null) {
-	throw new RuntimeException("Pattern matching in node [<node.origin.name>] failed."<VariablesByFailedPatternMatching(node.mainAction)>);
+	throw new RuntimeException("Pattern matching failed."<VariablesByFailedPatternMatching(node.mainAction)>);
 }
 <node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
 <if (node.mainAction.next)><node.mainAction.next:NextActions(importManager)><endif>
@@ -38,7 +38,7 @@ if (result<node.mainAction.id> == null) {
 >>
 
 TailControlledLoopImplRegularPatternInvocationImpl(node, importManager) ::= <<
-// <node.origin.name>
+// 
 <importManager.("java.lang.Object")>[] result<node.mainAction.id>;
 do {
 	<first(node.scopes):ScopeImpl(importManager)>
@@ -66,7 +66,7 @@ if (result<node.mainAction.id> != null) {
 >>
 
 HeadControlledLoopImplRegularPatternInvocationImpl(node, importManager) ::= <<
-// <node.origin.name>
+// 
 <if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
 <importManager.("java.lang.Object")>[] result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
 <if (node.loopAlongTrue)>
@@ -93,7 +93,7 @@ result<node.mainAction.id> = <node.mainAction:InvokePattern(importManager)>;
 >>
 
 ForEachImplRegularPatternInvocationImpl(node, importManager) ::= <<
-// ForEach <node.origin.name>
+// ForEach 
 <if (node.mainAction.prev)><node.mainAction.prev:PreviousActions(importManager)><endif>
 for (<importManager.("java.lang.Object")>[] result<node.mainAction.id> : <node.mainAction:InvokePattern(importManager)>) {
 	<node.mainAction.freeParameters:{ varRef | <WriteVariable(varRef, i0, importManager)>}; separator="\n">
@@ -106,7 +106,7 @@ for (<importManager.("java.lang.Object")>[] result<node.mainAction.id> : <node.m
 ForEachImplLoopEndTasks(node, importManager) ::= <<>>
 
 IfStatementImplSingleResultPatternInvocationImpl(node, importManager) ::= <<
-// <node.origin.name>
+// 
 if (<node.mainAction:InvokePattern(importManager)>) {
 	<first(node.scopes):ScopeImpl(importManager)>
 } else {
@@ -116,13 +116,13 @@ if (<node.mainAction:InvokePattern(importManager)>) {
 >>
 
 CFNodeImplSingleResultPatternInvocationImpl(node, importManager) ::= <<
-// <node.origin.name>
+// 
 <node.mainAction:InvokePattern(importManager)>;
 <if (node.next)><node.next:Node(importManager)><endif>
 >>
 
 TailControlledLoopImplSingleResultPatternInvocationImpl(node, importManager) ::= <<
-// <node.origin.name>
+// 
 <if (node.loopAlongTrue)>
 do {
 	<first(node.scopes):ScopeImpl(importManager)>
@@ -137,7 +137,7 @@ do {
 >>
 
 HeadControlledLoopImplSingleResultPatternInvocationImpl(node, importManager) ::= <<
-// <node.origin.name>
+// 
 <if (node.loopAlongTrue)>
 while (<node.mainAction:InvokePattern(importManager)>) {
 	<first(node.scopes):ScopeImpl(importManager)>
@@ -165,25 +165,25 @@ continue;
 >>
 
 CFNodeImpl(node, importManager) ::= <<
-// <node.origin.name> story node is empty
+// 
 <if (node.next)><node.next:Node(importManager)><endif>
 >>
 
 IfStatementImpl(node, importManager) ::= <<
-// <node.origin.name> story node is empty (else branch was ignored)
+// 
 <if (node.scopes)><first(node.scopes):ScopeImpl(importManager)><endif>
 <if (node.next)><node.next:Node(importManager)><endif>
 >>
 
 TailControlledLoopImpl(node, importManager) ::= <<
-// <node.origin.name> story node is empty (loop body was ignored)
+// 
 <if (!node.loopAlongTrue)>
 <if (node.next)><node.next:Node(importManager)><endif>
 <endif>
 >>
 
 HeadControlledLoopImpl(node, importManager) ::= <<
-// <node.origin.name> story node is empty (loop body was ignored)
+// 
 <if (!node.loopAlongTrue)>
 <if (node.next)><node.next:Node(importManager)><endif>
 <endif>
@@ -293,8 +293,9 @@ BindingPatternInvocationImpl(invocation, importManager) ::= <<
 <importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 >>
 
+//
 RegularPatternInvocationImpl(invocation, importManager) ::= <<
-<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
+<if (invocation.cfNode.origin)><importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<endif><invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 >>
 
 SingleResultPatternInvocationImpl(invocation, importManager) ::= <<
@@ -302,7 +303,7 @@ SingleResultPatternInvocationImpl(invocation, importManager) ::= <<
 >>
 
 WriteVariable(varRef, index, importManager) ::= <<
-<if(varRef.from.onlyDefined)>// <endif><if(varRef.constructed)><importManager.(varRef.from.type)> <endif><varRef.from.name> = (<importManager.(varRef.from.type)>) result<varRef.invocation.id>[<varRef.index>];
+<if(varRef.from.onlyDefined)>//nothing <endif><if(varRef.constructed)><importManager.(varRef.from.type)> <endif><varRef.from.name> = (<importManager.(varRef.from.type)>) result<varRef.invocation.id>[<varRef.index>];
 >>
 
 BoundOrFree(varRef) ::= <<

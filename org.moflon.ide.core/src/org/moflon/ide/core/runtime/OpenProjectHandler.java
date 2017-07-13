@@ -19,7 +19,6 @@ import org.gervarro.eclipse.workspace.autosetup.JavaProjectConfigurator;
 import org.gervarro.eclipse.workspace.autosetup.PluginProjectConfigurator;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.TGGLanguageActivator;
-import org.moflon.core.moca.tree.MocaTreePlugin;
 import org.moflon.core.propertycontainer.Dependencies;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.PropertiesValue;
@@ -28,9 +27,7 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
-import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.moflon.sdm.language.SDMLanguagePlugin;
 import org.moflon.tgg.runtime.TGGRuntimePlugin;
 import org.moflon.util.plugins.BuildPropertiesFileBuilder;
@@ -38,6 +35,8 @@ import org.moflon.util.plugins.MetamodelProperties;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater.AttributeUpdatePolicy;
 import org.moflon.util.plugins.manifest.PluginManifestConstants;
+
+import MocaTree.MocaTreeFactory;
 
 /**
  * This handler is invoked during the build process to update/configure open projects
@@ -68,23 +67,25 @@ public class OpenProjectHandler extends WorkspaceTask
 
    private BuildPropertiesFileBuilder buildPropertiesFileBuilder = new BuildPropertiesFileBuilder();
 
-   public OpenProjectHandler(final IProject project, final MetamodelProperties metamodelProperties, final MoflonPropertiesContainer moflonProperties)
+   private MoflonProjectConfigurator projectConfigurator;
+
+   public OpenProjectHandler(final IProject project, final MetamodelProperties metamodelProperties, final MoflonPropertiesContainer moflonProperties, MoflonProjectConfigurator projectConfigurator)
    {
       this.project = project;
       this.metamodelProperties = metamodelProperties;
       this.moflonProperties = moflonProperties;
+      this.projectConfigurator = projectConfigurator;
    }
 
    @Override
    public void run(final IProgressMonitor monitor) throws CoreException
    {
       SubMonitor subMon = SubMonitor.convert(monitor, "Configure open project", 5);
-      
+
       final JavaProjectConfigurator javaProjectConfigurator = new JavaProjectConfigurator();
-      final MoflonProjectConfigurator moflonProjectConfigurator = getProjectConfigurator(this.metamodelProperties);
+      final MoflonProjectConfigurator moflonProjectConfigurator = this.projectConfigurator;
       final PluginProjectConfigurator pluginProjectConfigurator = new PluginProjectConfigurator();
-      final ProjectNatureAndBuilderConfiguratorTask natureAndBuilderConfiguratorTask =
-    		  new ProjectNatureAndBuilderConfiguratorTask(project, false);
+      final ProjectNatureAndBuilderConfiguratorTask natureAndBuilderConfiguratorTask = new ProjectNatureAndBuilderConfiguratorTask(project, false);
       natureAndBuilderConfiguratorTask.updateNatureIDs(javaProjectConfigurator, true);
       natureAndBuilderConfiguratorTask.updateBuildSpecs(javaProjectConfigurator, true);
       natureAndBuilderConfiguratorTask.updateNatureIDs(moflonProjectConfigurator, true);
@@ -95,7 +96,7 @@ public class OpenProjectHandler extends WorkspaceTask
       // Last line to be removed
 
       subMon.worked(1);
-      
+
       try
       {
          MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
@@ -105,7 +106,7 @@ public class OpenProjectHandler extends WorkspaceTask
       {
          logger.warn("Failed to create folders: " + e.getMessage());
       }
-      
+
       try
       {
 
@@ -126,24 +127,11 @@ public class OpenProjectHandler extends WorkspaceTask
             addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGRuntimePlugin.class)));
             addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(SDMLanguagePlugin.class)));
             addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGLanguageActivator.class)));
-            addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(MocaTreePlugin.class)));
+            addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(MocaTreeFactory.class)));
          }
       } catch (final IOException e)
       {
          LogUtils.error(logger, e);
-      }
-   }
-   
-   private MoflonProjectConfigurator getProjectConfigurator(final MetamodelProperties metamodelProperties)
-   {
-      switch(metamodelProperties.getType())
-      {
-      case MetamodelProperties.INTEGRATION_KEY:
-         return new IntegrationNature();
-      case MetamodelProperties.REPOSITORY_KEY:
-         return new RepositoryNature();
-      default:
-         return null;
       }
    }
 
@@ -169,8 +157,8 @@ public class OpenProjectHandler extends WorkspaceTask
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_EXECUTION_ENVIRONMENT,
                metamodelProperties.get(MetamodelProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
 
-         changed |= ManifestFileUpdater.updateDependencies(manifest, Arrays.asList(
-               new String[] { WorkspaceHelper.PLUGIN_ID_ECORE, WorkspaceHelper.PLUGIN_ID_ECORE_XMI, WorkspaceHelper.getPluginId(MoflonUtilitiesActivator.class) }));
+         changed |= ManifestFileUpdater.updateDependencies(manifest, Arrays.asList(new String[] { WorkspaceHelper.PLUGIN_ID_ECORE,
+               WorkspaceHelper.PLUGIN_ID_ECORE_XMI, WorkspaceHelper.getPluginId(MoflonUtilitiesActivator.class) }));
 
          changed |= ManifestFileUpdater.updateDependencies(manifest,
                ManifestFileUpdater.extractDependencies(metamodelProperties.get(MetamodelProperties.DEPENDENCIES_KEY)));
@@ -179,9 +167,14 @@ public class OpenProjectHandler extends WorkspaceTask
          {
             if (project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
                changed |= ManifestFileUpdater.updateDependencies(manifest,
-                     Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, WorkspaceHelper.getPluginId(MocaTreePlugin.class),
-                           WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, WorkspaceHelper.getPluginId(SDMLanguagePlugin.class),
-                           WorkspaceHelper.getPluginId(TGGLanguageActivator.class), WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) }));
+                     Arrays.asList(new String[] { //
+                           WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, //
+                           WorkspaceHelper.getPluginId(MocaTreeFactory.class), //
+                           WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, //
+                           WorkspaceHelper.getPluginId(SDMLanguagePlugin.class), //
+                           WorkspaceHelper.getPluginId(TGGLanguageActivator.class), //
+                           WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) //
+               }));
          } catch (Exception e)
          {
             LogUtils.error(logger, e);

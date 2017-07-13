@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.moflon.core.moca.processing.MocaPlugin;
-import org.moflon.core.moca.tree.MocaTreePlugin;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -30,6 +29,8 @@ import org.moflon.ide.ui.UIActivator;
 import org.moflon.moca.AbstractFileGenerator;
 import org.moflon.moca.BasicFormatRenderer;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
+
+import MocaTree.MocaTreeFactory;
 
 public class ParserUnparserGenerator extends AbstractFileGenerator
 {
@@ -104,7 +105,7 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
                            WorkspaceHelper.PLUGIN_ID_ECORE, //
                            WorkspaceHelper.PLUGIN_ID_EMF_COMMON, //
                            WorkspaceHelper.getPluginId(MoflonUtilitiesActivator.class), //
-                           WorkspaceHelper.getPluginId(MocaTreePlugin.class), //
+                           WorkspaceHelper.getPluginId(MocaTreeFactory.class), //
                            WorkspaceHelper.getPluginId(MocaPlugin.class) })));
       } catch (Exception e)
       {

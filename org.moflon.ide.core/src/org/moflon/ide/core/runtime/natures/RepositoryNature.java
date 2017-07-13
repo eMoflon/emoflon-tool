@@ -4,10 +4,6 @@ import org.moflon.core.utilities.WorkspaceHelper;
 
 public class RepositoryNature extends MoflonProjectConfigurator {
 	
-	public RepositoryNature() {
-		super();
-	}
-
    @Override
    protected String getBuilderId()
    {

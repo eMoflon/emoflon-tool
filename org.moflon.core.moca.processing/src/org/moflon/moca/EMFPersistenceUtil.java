@@ -7,6 +7,7 @@ import MocaTree.Folder;
 import MocaTree.MocaTreePackage;
 import MocaTree.Node;
 
+@Deprecated //TODO@rkluge: Appears to be unused
 public class EMFPersistenceUtil
 {
    /**

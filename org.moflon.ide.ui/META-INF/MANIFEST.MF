@@ -4,7 +4,7 @@ Bundle-Name: org.moflon.ide.ui
 Bundle-SymbolicName: org.moflon.ide.ui;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.moflon.ide.ui.UIActivator
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers
 Require-Bundle: 
  org.eclipse.core.runtime;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.5.2,4.0.0)",
@@ -40,11 +40,9 @@ Export-Package: org.moflon.ide.ui,
  org.moflon.ide.ui.admin,
  org.moflon.ide.ui.admin.editors.antlr,
  org.moflon.ide.ui.admin.editors.injection,
- org.moflon.ide.ui.admin.editors.misc,
  org.moflon.ide.ui.admin.handlers,
  org.moflon.ide.ui.admin.wizards.metamodel,
  org.moflon.ide.ui.admin.wizards.moca,
- org.moflon.ide.ui.admin.wizards.util,
  org.moflon.ide.ui.preferences,
  org.moflon.ide.ui.propertytesters
 Bundle-ClassPath: .
