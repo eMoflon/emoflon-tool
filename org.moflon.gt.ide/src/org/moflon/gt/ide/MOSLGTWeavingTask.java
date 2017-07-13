@@ -31,7 +31,6 @@ import org.moflon.codegen.eclipse.MoflonCodeGeneratorPhase;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
-import org.moflon.gt.mosl.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.codeadapter.statementrules.ConditionStatementRule;
 import org.moflon.gt.mosl.codeadapter.statementrules.DoLoopStatementRule;
@@ -182,7 +181,7 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
       try
       {
          CodeadapterTrafo helper = new CodeadapterTrafo();
-         registerTransformationRules(this.transformationConfiguration);
+         registerTransformationRules();
 
          final List<Resource> mgtResources = this.resourceSet.getResources().stream()
                .filter(resource -> resource.getURI().lastSegment().endsWith('.' + WorkspaceHelper.EMOFLON_GT_EXTENSION)).collect(Collectors.toList());
@@ -251,11 +250,11 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
       return Status.OK_STATUS;
    }
 
-   private void registerTransformationRules(TransformationConfiguration transformationConfiguration2)
+   private void registerTransformationRules()
    {
-      PatternBuilder.getInstance().addTransformPlanRule(PatternKind.BLACK, new BlackTransformPlanRule());
-      PatternBuilder.getInstance().addTransformPlanRule(PatternKind.GREEN, new GreenTransformPlanRule());
-      PatternBuilder.getInstance().addTransformPlanRule(PatternKind.RED, new RedTransformPlanRule());
+      transformationConfiguration.getPatternCreationController().addTransformPlanRule(PatternKind.BLACK, new BlackTransformPlanRule());
+      transformationConfiguration.getPatternCreationController().addTransformPlanRule(PatternKind.GREEN, new GreenTransformPlanRule());
+      transformationConfiguration.getPatternCreationController().addTransformPlanRule(PatternKind.RED, new RedTransformPlanRule());
 
       //@formatter:off
       Arrays.asList(

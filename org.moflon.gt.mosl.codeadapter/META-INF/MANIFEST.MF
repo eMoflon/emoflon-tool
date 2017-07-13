@@ -16,7 +16,8 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.12.0",
  org.gervarro.democles.common;bundle-version="2.0.0",
  org.moflon.sdm.compiler.democles.validation.scope,
  org.moflon.sdm.compiler.democles,
- org.apache.log4j
+ org.apache.log4j,
+ org.moflon.core.utilities
 Bundle-Vendor: TU Darmstadt
 Export-Package: org.moflon.gt.mosl.codeadapter,
  org.moflon.gt.mosl.codeadapter.config,

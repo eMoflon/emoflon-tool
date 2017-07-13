@@ -14,8 +14,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.gervarro.democles.common.Adornment;
-import org.moflon.gt.mosl.codeadapter.PatternBuilder;
-import org.moflon.gt.mosl.codeadapter.PatternNameGenerator;
+import org.moflon.gt.mosl.codeadapter.config.PatternBuilder;
+import org.moflon.gt.mosl.codeadapter.config.PatternNameGenerator;
 import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
@@ -130,7 +130,7 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       final PatternNameGenerator patternNameGenerator = transformationConfiguration.getPatternCreationController().getPatternNameGenerator();
       patternNameGenerator.setCFNode(cfNode);
       patternNameGenerator.setPatternDefinition(patternDef);
-      final PatternBuilder patternBuilder = PatternBuilder.getInstance();
+      final PatternBuilder patternBuilder = transformationConfiguration.getPatternCreationController();
       patternBuilder.createPattern(patternDef, bindings, env, patternNameGenerator, eClass, transformationConfiguration);
 
       final SortedMap<PatternKind, PatternInvocation> invocations = patternBuilder.getPatternInvocations(patternName);

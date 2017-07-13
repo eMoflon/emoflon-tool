@@ -28,21 +28,10 @@ import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.VariableReference;
 
-public class VariableTransformator
+public class VariableTransformer
 {
-   private static VariableTransformator instance;
-   
-   private VariableTransformator(){
-      
-   }
    
    private Function<String, Optional<Variable>> getVariableMonadFun;
-   
-   public static VariableTransformator getInstance(){
-      if(instance == null)
-         instance = new VariableTransformator();
-      return instance;
-   }
    
    public void transformPatternObjects(List<LinkVariablePattern> lvs, Map<String, Boolean> bindings, PatternBody patternBody, PatternKind patternKind, TransformationConfiguration transformationConfiguration){
       lvs.stream().forEach(lv -> {transforming(lv, patternBody, patternKind, transformationConfiguration);});
@@ -74,7 +63,7 @@ public class VariableTransformator
       ObjectVariableDefinition ov = ObjectVariableDefinition.class.cast(linkVariable.eContainer());
       Reference reference = EMFTypeFactory.eINSTANCE.createReference();
       EClass contextEclass = transformationConfiguration.getContextController().getTypeContext(EClassDef.class.cast(PatternDef.class.cast(ov.eContainer()).eContainer()).getName());
-      reference.setEModelElement(CodeadapterTrafo.getInstance().getEReferenceContext(linkVariable.getType(), contextEclass)); //TODO create an EReference to the contextEPackage
+      reference.setEModelElement(transformationConfiguration.getContextController().getEReferenceContext(linkVariable.getType(), contextEclass)); //TODO create an EReference to the contextEPackage
       patternBody.getConstraints().add(reference);
 
       ConstraintParameter source = SpecificationFactory.eINSTANCE.createConstraintParameter();

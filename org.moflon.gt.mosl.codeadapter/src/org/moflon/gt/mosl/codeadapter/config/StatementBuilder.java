@@ -1,9 +1,8 @@
-package org.moflon.gt.mosl.codeadapter;
+package org.moflon.gt.mosl.codeadapter.config;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.codeadapter.statementrules.IStatementRule;
 import org.moflon.gt.mosl.moslgt.MethodDec;
 import org.moflon.gt.mosl.moslgt.Statement;

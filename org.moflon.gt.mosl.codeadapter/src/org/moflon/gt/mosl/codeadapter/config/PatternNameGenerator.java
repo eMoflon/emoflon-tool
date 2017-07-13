@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.codeadapter;
+package org.moflon.gt.mosl.codeadapter.config;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -2,8 +2,10 @@ package org.moflon.gt.mosl.codeadapter.config;
 
 import java.util.Optional;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public class ContextController
@@ -32,6 +34,16 @@ public class ContextController
          return contextEClassMonad.get();
       else
          return eClassifier;
+   }
+
+   public EReference getEReferenceContext(EReference ref, EClass contextEclass)
+   {
+      Optional<EReference> contextEReferenceMonad = contextEclass.getEAllReferences().stream().filter(reference -> reference.getName().equals(ref.getName()))
+            .findFirst();
+      if (contextEReferenceMonad.isPresent())
+         return contextEReferenceMonad.get();
+      else
+         return ref;
    }
 
    public ResourceSet getResourceSet()

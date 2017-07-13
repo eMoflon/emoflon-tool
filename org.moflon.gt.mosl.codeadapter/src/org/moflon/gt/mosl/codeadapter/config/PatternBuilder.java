@@ -1,4 +1,4 @@
-package org.moflon.gt.mosl.codeadapter;
+package org.moflon.gt.mosl.codeadapter.config;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -15,8 +15,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.PatternBody;
 import org.gervarro.democles.specification.emf.SpecificationFactory;
-import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
+import org.moflon.gt.mosl.codeadapter.VariableTransformer;
 import org.moflon.gt.mosl.codeadapter.transformplanrules.TransformPlanRule;
+import org.moflon.gt.mosl.codeadapter.utils.OperatorUtils;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.MethodParameter;
@@ -33,8 +34,6 @@ import org.moflon.sdm.runtime.democles.VariableReference;
 
 public class PatternBuilder
 {
-   private static PatternBuilder instance;
-
    private final List<PatternKind> patternKindProcessingOrder = Arrays.asList(PatternKind.BLACK, PatternKind.RED, PatternKind.GREEN);
 
    private Map<String, Map<PatternKind, List<PatternObject>>> patternNameToPatternObjectsByPatternKind;
@@ -47,20 +46,21 @@ public class PatternBuilder
 
    private Map<PatternInvocation, PatternKind> patternTypes;
 
-   private PatternBuilder()
+   private PatternNameGenerator patternNameGenerator;
+
+   public PatternBuilder()
    {
-      patternNameToPatternObjectsByPatternKind = new HashMap<>();
-      patternInvocationCache = new HashMap<>();
-      transformationPlanRuleCache = new HashMap<>();
-      patternTypes = new HashMap<>();
-      nodeDeletionNameCache = new HashMap<>();
+      this.patternNameToPatternObjectsByPatternKind = new HashMap<>();
+      this.patternInvocationCache = new HashMap<>();
+      this.transformationPlanRuleCache = new HashMap<>();
+      this.patternTypes = new HashMap<>();
+      this.nodeDeletionNameCache = new HashMap<>();
+      this.patternNameGenerator = new PatternNameGenerator();
    }
 
-   public static PatternBuilder getInstance()
+   public PatternNameGenerator getPatternNameGenerator()
    {
-      if (instance == null)
-         instance = new PatternBuilder();
-      return instance;
+      return this.patternNameGenerator;
    }
 
    public void addTransformPlanRule(PatternKind patternKind, TransformPlanRule transformPlanRule)
@@ -180,17 +180,26 @@ public class PatternBuilder
 
    private void createNodeDeletion(String patternName, PatternDef patternDef)
    {
-      if (patternNameToPatternObjectsByPatternKind.containsKey(patternName)
-            && patternNameToPatternObjectsByPatternKind.get(patternName).containsKey(PatternKind.RED))
+      Map<PatternKind, List<PatternObject>> patternObjectsByPatternKind = patternNameToPatternObjectsByPatternKind.get(patternName);
+      if (patternObjectsByPatternKind != null && patternObjectsByPatternKind.containsKey(PatternKind.RED))
       {
-         final List<PatternObject> redObjects = patternNameToPatternObjectsByPatternKind.get(patternName).get(PatternKind.RED);
+         final List<PatternObject> redObjects = patternObjectsByPatternKind.get(PatternKind.RED);
          final List<String> deletions = redObjects.stream()
-               .filter(po -> po instanceof ObjectVariableDefinition && ObjectVariableDefinition.class.cast(po).getOp() != null
-                     && ObjectVariableDefinition.class.cast(po).getOp().getValue().equals("--"))
-               .map(po -> ObjectVariableDefinition.class.cast(po).getName()).collect(Collectors.toList());
+               .filter(patternObject -> patternObject instanceof ObjectVariableDefinition
+                     && OperatorUtils.isDestroyed(ObjectVariableDefinition.class.cast(patternObject).getOp()))
+               .map(PatternBuilder::extractPatternObjectName).collect(Collectors.toList());
+
          if (!deletions.isEmpty())
             nodeDeletionNameCache.put(patternName, deletions);
       }
+   }
+
+   /**
+    * Utility function to extract the name of a {@link PatternObject}
+    */
+   private static String extractPatternObjectName(final PatternObject patternObject)
+   {
+      return ObjectVariableDefinition.class.cast(patternObject).getName();
    }
 
    /**
@@ -210,6 +219,7 @@ public class PatternBuilder
          TransformationConfiguration transformationConfiguration)
    {
       // creating Pattern hull
+      final VariableTransformer variableTransformer = transformationConfiguration.getVariableTransformer();
       Pattern pattern = SpecificationFactory.eINSTANCE.createPattern();
       PatternBody patternBody = SpecificationFactory.eINSTANCE.createPatternBody();
       patternBody.setHeader(pattern);
@@ -218,22 +228,23 @@ public class PatternBuilder
 
       // handle ObjectVariables
       patternObjectIndex.stream().filter(po -> po instanceof ObjectVariableDefinition).map(po -> ObjectVariableDefinition.class.cast(po))
-            .forEach(ov -> VariableTransformator.getInstance().transformObjectVariable(pattern, ov, env, invocation, transformationConfiguration));
+            .forEach(ov -> variableTransformer.transformObjectVariable(pattern, ov, env, invocation, transformationConfiguration));
 
       // handle LinkVariables
-      VariableTransformator.getInstance().transformPatternObjects(patternObjectIndex.stream().filter(po -> po instanceof LinkVariablePattern)
+      variableTransformer.transformPatternObjects(patternObjectIndex.stream().filter(po -> po instanceof LinkVariablePattern)
             .map(po -> LinkVariablePattern.class.cast(po)).collect(Collectors.toList()), bindings, patternBody, patternKind, transformationConfiguration);
 
       //special case for black pattern
       if (patternKind == PatternKind.BLACK)
-         VariableTransformator.getInstance().addUnequals(pattern, patternBody);
+         variableTransformer.addUnequals(pattern, patternBody);
 
       //register Pattern
       patternNameGenerator.setSuffix(patternKind.getSuffix());
       pattern.setName(patternNameGenerator.generateName());
 
-      CodeadapterTrafo.getInstance().saveAsRegisteredAdapter(pattern, transformationConfiguration.getContextController().getTypeContext(eClass),
-            patternKind.getSuffix(), transformationConfiguration.getContextController().getResourceSet());
+      transformationConfiguration.getECoreAdapterController().saveAsRegisteredAdapter(pattern,
+            transformationConfiguration.getContextController().getTypeContext(eClass), patternKind.getSuffix(),
+            transformationConfiguration.getContextController().getResourceSet());
 
       //return value
       return invocation;

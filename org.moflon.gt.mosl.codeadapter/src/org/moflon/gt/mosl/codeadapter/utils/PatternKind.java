@@ -1,5 +1,16 @@
 package org.moflon.gt.mosl.codeadapter.utils;
 
+import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
+
+/**
+ * This enumeration specifies the different types of Democles patterns that result from decomposing story patterns
+ * 
+ * This enumeration is a more strongly typed version of the *_FILE_EXTENSION constants in {@link DemoclesMethodBodyHandler} 
+ * 
+ * @author Sascha Zander
+ * 
+ * @see DemoclesMethodBodyHandler
+ */
 public enum PatternKind {
    BLACK, GREEN, RED, EXPRESSION, BINDING_AND_BLACK, BINDING;
 
@@ -8,17 +19,17 @@ public enum PatternKind {
       switch (this)
       {
       case BINDING_AND_BLACK:
-         return "bindingAndBlack";
+         return DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION;
       case BLACK:
-         return "black";
+         return DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION;
       case EXPRESSION:
-         return "expression";
+         return DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION;
       case GREEN:
-         return "green";
+         return DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION;
       case RED:
-         return "red";
+         return DemoclesMethodBodyHandler.RED_FILE_EXTENSION;
       case BINDING:
-         return "binding";
+         return DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION;
       default:
          return null;
       }
