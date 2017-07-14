@@ -2,6 +2,7 @@
 
 [![Project Stats](https://www.openhub.net/p/eMoflon/widgets/project_thin_badge.gif)](https://www.openhub.net/p/eMoflon)
 [![codebeat badge](https://codebeat.co/badges/6d4dae25-d886-4b53-a91d-8ce7d1be9c33)](https://codebeat.co/projects/github-com-emoflon-emoflon-tool-master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9934ef887d01440f918aad2443ea6e68)](https://www.codacy.com/app/RolandKluge/emoflon-tool?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eMoflon/emoflon-tool/&amp;utm_campaign=Badge_Grade)
 
 This repository holds the source code of the tool eMoflon.
 
