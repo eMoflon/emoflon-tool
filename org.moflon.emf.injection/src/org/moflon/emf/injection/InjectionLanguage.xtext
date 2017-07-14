@@ -40,7 +40,7 @@ ClassInjectionDeclaration:
 ;
 
 MethodDeclaration:
-	'@method' methodName = ID '(' parameters+=ParameterDeclaration* ')' body=CODE_BLOCK
+	'@model' methodName = ID '(' parameters+=ParameterDeclaration* ')' body=CODE_BLOCK
 ; 
 
 ParameterDeclaration:
