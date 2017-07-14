@@ -183,12 +183,6 @@ public class CoreActivator extends Plugin
       }
       return result.toArray(new IBuildConfiguration[result.size()]);
    }
-
-   public static final IBuildConfiguration[] getDefaultBuildConfigurations(final IProject[] projects)
-   {
-      return getDefaultBuildConfigurations(Arrays.asList(projects));
-
-   }
    
    public static final void setEPackageURI(final EPackage ePackage) {
 	   URI uri = EcoreUtil.getURI(ePackage);
