@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.TreeSet;
 
 import org.eclipse.emf.codegen.util.ImportManager;
-import org.moflon.moca.inject.util.InjectionRegions;
+import org.moflon.emf.injection.unparsing.InjectionRegions;
 
 public class InjectionHandlingImportManager extends ImportManager {
 	private StringBuilder importStringBuilder;

@@ -1,4 +1,4 @@
-package org.moflon.moca.inject;
+package org.moflon.emf.injection.unparsing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import org.moflon.core.utilities.MoflonUtil;
  * A helper class for extracting specified methods from the AST created by parsing the generated code from CodeGen2.
  * Parsing is performed by reusing {@link org.eclipse.jdt.core.dom.ASTParser}.
  * 
- * @author anjorin
+ * @author Anthony Anjorin
  */
 public class MethodVisitor extends ASTVisitor
 {

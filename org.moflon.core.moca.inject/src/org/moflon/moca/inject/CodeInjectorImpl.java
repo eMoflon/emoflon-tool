@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.moflon.moca.inject.util.InjectionRegions;
+import org.moflon.emf.injection.unparsing.InjectionRegions;
 
 
 /**
@@ -178,7 +178,7 @@ public class CodeInjectorImpl implements CodeInjector
     */
    private void injectImportsToFile(final File file, final List<String> imports)
    {
-      final String toInsert = InjectionRegions.buildImportsBlock(imports);
+      final String toInsert = buildImportsBlock(imports);
 
       try
       {
@@ -237,6 +237,31 @@ public class CodeInjectorImpl implements CodeInjector
          e.printStackTrace();
       }
    }
+   
+
+   
+   /**
+    * Builds an imports block that is ready to be injected. This block contains whitespace and the marks to identify the
+    * block later on.
+    */
+   private static String buildImportsBlock(final List<String> qualifiedImports)
+   {
+      final StringBuffer block = new StringBuffer();
+      block.append(InjectionRegions.NL);
+      block.append(InjectionRegions.USER_IMPORTS_BEGIN);
+      block.append(InjectionRegions.NL);
+      for (final String importExpression : qualifiedImports)
+      {
+         block.append(InjectionRegions.IMPORT_KEYWORD);
+         block.append(InjectionRegions.SPACE);
+         block.append(importExpression);
+         block.append(";");
+         block.append(InjectionRegions.NL);
+      }
+      block.append(InjectionRegions.NL).append(InjectionRegions.USER_IMPORTS_END);
+      return block.toString();
+   }
+   
 
    /**
     * Identifies which kind of line is given by looking at the first words.

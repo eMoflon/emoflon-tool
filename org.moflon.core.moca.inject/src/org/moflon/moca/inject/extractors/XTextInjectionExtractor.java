@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +25,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.moflon.core.utilities.EclipseResourceUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.emf.injection.injectionLanguage.ClassDeclaration;
@@ -34,6 +34,7 @@ import org.moflon.emf.injection.injectionLanguage.InjectionFile;
 import org.moflon.emf.injection.injectionLanguage.MethodDeclaration;
 import org.moflon.emf.injection.injectionLanguage.RegularImport;
 import org.moflon.emf.injection.injectionLanguage.StaticImport;
+import org.moflon.emf.injection.unparsing.InjectionRegions;
 import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.util.ClassNameToPathConverter;
 import org.moflon.moca.inject.util.MatchingParametersChecker;
@@ -43,10 +44,6 @@ import org.moflon.moca.inject.validation.MissingEOperationValidationMessage;
 //TODO@rkluge: Check documentation
 public class XTextInjectionExtractor implements InjectionExtractor
 {
-   private static final String CODE_END_TOKEN = "-->";
-
-   private static final String CODE_BEGIN_TOKEN = "<--";
-
    //TODO@rkluge: I guess we can get rid of this by storing the mapping of "FQN" to "InjectionFile"
    private final HashMap<EOperation, String> modelCode;
 
@@ -124,7 +121,7 @@ public class XTextInjectionExtractor implements InjectionExtractor
             private void validateConnsistentClassName(final IFile injectionFile, final InjectionFile parsedFile, final MultiStatus resultStatus)
             {
                final String classDeclarationName = parsedFile.getClassDeclaration().getClassName();
-               if (!classDeclarationName.equals(getBasename(injectionFile)))
+               if (!classDeclarationName.equals(EclipseResourceUtils.getBasename(injectionFile)))
                {
                   resultStatus.add(new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(getClass()), String.format(
                         "Basename of injection file '%s' differs from class name '%s' declared inside the file.", injectionFile, classDeclarationName)));
@@ -251,16 +248,17 @@ public class XTextInjectionExtractor implements InjectionExtractor
          final MultiStatus resultStatus)
    {
       final List<String> perClassImports = new ArrayList<>();
-      for (final EObject animport : parsedFile.getImports())
+      for (final EObject anImport : parsedFile.getImports())
       {
-         if (animport instanceof StaticImport)
+         if (anImport instanceof StaticImport)
          {
-            perClassImports.add("static " + StaticImport.class.cast(animport).getNamespace());
-         } else if (animport instanceof RegularImport)
+            perClassImports.add("static " + StaticImport.class.cast(anImport).getNamespace());
+         } else if (anImport instanceof RegularImport)
          {
-            perClassImports.add(StaticImport.class.cast(animport).getNamespace());
+            perClassImports.add(RegularImport.class.cast(anImport).getNamespace());
          }
       }
+      this.imports.put(fullyQualifiedClassName, perClassImports);
 
       final ClassDeclaration classDeclaration = parsedFile.getClassDeclaration();
       final ClassInjectionDeclaration classInjectionDeclaration = classDeclaration.getClassInjectionDeclaration();
@@ -291,13 +289,13 @@ public class XTextInjectionExtractor implements InjectionExtractor
 
    private String normalizeCodeBody(final String body)
    {
-      final int indexOfBeginToken = body.indexOf(CODE_BEGIN_TOKEN);
-      final int indexOfEndToken = body.indexOf(CODE_END_TOKEN);
+      final int indexOfBeginToken = body.indexOf(InjectionRegions.CODE_BEGIN_TOKEN);
+      final int indexOfEndToken = body.indexOf(InjectionRegions.CODE_END_TOKEN);
       if (indexOfBeginToken < 0)
-         throw new IllegalArgumentException("Expected begin token " + CODE_BEGIN_TOKEN);
+         throw new IllegalArgumentException("Expected begin token " + InjectionRegions.CODE_BEGIN_TOKEN);
       if (indexOfEndToken < 0)
-         throw new IllegalArgumentException("Expected end token " + CODE_END_TOKEN);
-      return body.substring(0, indexOfEndToken).substring(indexOfBeginToken + CODE_BEGIN_TOKEN.length());
+         throw new IllegalArgumentException("Expected end token " + InjectionRegions.CODE_END_TOKEN);
+      return body.substring(0, indexOfEndToken).substring(indexOfBeginToken + InjectionRegions.CODE_BEGIN_TOKEN.length());
    }
 
    /**
@@ -392,20 +390,7 @@ public class XTextInjectionExtractor implements InjectionExtractor
          pathElements.addFirst(parentContainer.getName());
          parentContainer = parentContainer.getParent();
       }
-      pathElements.add(getBasename(injectionFile));
+      pathElements.add(EclipseResourceUtils.getBasename(injectionFile));
       return StringUtils.join(pathElements, separator);
-   }
-
-   private String getBasename(final IFile injectionFile)
-   {
-      final String name = injectionFile.getName();
-      int dotIndex = name.lastIndexOf('.');
-      if (dotIndex > 0) // Not >= 0 to avoid trimming names of hidden files
-      {
-         return name.substring(0, dotIndex);
-      } else
-      {
-         return name;
-      }
    }
 }

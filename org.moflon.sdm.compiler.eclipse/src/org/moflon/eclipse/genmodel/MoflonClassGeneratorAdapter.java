@@ -24,9 +24,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EOperation;
 import org.gervarro.democles.emoflon.templates.JavaClassGenerator;
 import org.moflon.codegen.InjectionHandlingImportManager;
+import org.moflon.emf.injection.unparsing.InjectionRegions;
 import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.InjectionManager;
-import org.moflon.moca.inject.util.InjectionRegions;
 
 /**
  * This implementation base class is invoked during the code generation of a Java class
@@ -81,7 +81,7 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
             code = retrievedMembersCode;
          }
       }
-      return InjectionRegions.buildMembersBlock(code);
+      return buildMembersBlock(code);
    }
 
    public void handleImports(final boolean isImplementation)
@@ -227,6 +227,21 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
       {
          super.generateJava(targetPath, packageName, className, jetEmitter, arguments, monitor);
       }
+   }
+   
+   /**
+    * Builds a members block that is ready to be injected. It gets surrounded by whitespace and the comments to mark the
+    * block.
+    */
+   private static String buildMembersBlock(final String code)
+   {
+      final StringBuffer block = new StringBuffer();
+      block.append(InjectionRegions.INDENT).append(InjectionRegions.MEMBERS_BEGIN);
+      block.append(InjectionRegions.NL).append(InjectionRegions.INDENT);
+      block.append(code);
+      block.append(InjectionRegions.NL).append(InjectionRegions.INDENT);
+      block.append(InjectionRegions.MEMBERS_END);
+      return block.toString();
    }
 
 }

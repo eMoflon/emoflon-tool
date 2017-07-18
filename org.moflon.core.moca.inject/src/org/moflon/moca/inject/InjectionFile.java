@@ -10,7 +10,8 @@ import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.moca.inject.util.InjectionRegions;
+import org.moflon.emf.injection.unparsing.InjectionRegions;
+import org.moflon.emf.injection.unparsing.MethodVisitor;
 
 /**
  * This class is used to create injection files from existing code
