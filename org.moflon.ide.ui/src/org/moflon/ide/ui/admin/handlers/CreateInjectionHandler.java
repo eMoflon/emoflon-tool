@@ -126,7 +126,7 @@ public class CreateInjectionHandler extends AbstractCommandHandler
          {
             final IPath fullInjectionPath = WorkspaceHelper.getPathToInjection(javaFile);
             final String fullyQualifiedClassname = WorkspaceHelper.getFullyQualifiedClassName(javaFile);
-            MultiStatus creationStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Problem during injection extraction", null);
+            final MultiStatus creationStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Problem during injection extraction", null);
             final InjectionFile injectionFile = InjectionFileBuilder.createInjectionFile(javaFile, creationStatus);
             if (creationStatus.matches(IStatus.ERROR))
             {

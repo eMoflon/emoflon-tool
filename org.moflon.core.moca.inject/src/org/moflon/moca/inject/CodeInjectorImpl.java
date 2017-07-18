@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.moflon.emf.injection.unparsing.InjectionRegions;
+import org.moflon.emf.injection.unparsing.InjectionConstants;
 
 
 /**
@@ -101,7 +101,7 @@ public class CodeInjectorImpl implements CodeInjector
          if (oldInjection)
          {
 
-            if (line.startsWith(InjectionRegions.MEMBERS_END))
+            if (line.startsWith(InjectionConstants.MEMBERS_END))
                oldInjection = false;
 
             // Delete old injection content and border
@@ -109,7 +109,7 @@ public class CodeInjectorImpl implements CodeInjector
             i--;
          } else
          {
-            if (line.startsWith(InjectionRegions.MEMBERS_BEGIN))
+            if (line.startsWith(InjectionConstants.MEMBERS_BEGIN))
             {
                oldInjection = true;
                fileContent.remove(i);
@@ -143,12 +143,12 @@ public class CodeInjectorImpl implements CodeInjector
    {
       final StringBuffer block = new StringBuffer();
       block.append("\t");
-      block.append(InjectionRegions.MEMBERS_BEGIN);
+      block.append(InjectionConstants.MEMBERS_BEGIN);
       block.append("\n\t");
       block.append(code);
       block.append("\n");
       block.append("\t");
-      block.append(InjectionRegions.MEMBERS_END);
+      block.append(InjectionConstants.MEMBERS_END);
       return block.toString();
    }
 
@@ -247,18 +247,18 @@ public class CodeInjectorImpl implements CodeInjector
    private static String buildImportsBlock(final List<String> qualifiedImports)
    {
       final StringBuffer block = new StringBuffer();
-      block.append(InjectionRegions.NL);
-      block.append(InjectionRegions.USER_IMPORTS_BEGIN);
-      block.append(InjectionRegions.NL);
+      block.append(InjectionConstants.NL);
+      block.append(InjectionConstants.USER_IMPORTS_BEGIN);
+      block.append(InjectionConstants.NL);
       for (final String importExpression : qualifiedImports)
       {
-         block.append(InjectionRegions.IMPORT_KEYWORD);
-         block.append(InjectionRegions.SPACE);
+         block.append(InjectionConstants.IMPORT_KEYWORD);
+         block.append(InjectionConstants.SPACE);
          block.append(importExpression);
          block.append(";");
-         block.append(InjectionRegions.NL);
+         block.append(InjectionConstants.NL);
       }
-      block.append(InjectionRegions.NL).append(InjectionRegions.USER_IMPORTS_END);
+      block.append(InjectionConstants.NL).append(InjectionConstants.USER_IMPORTS_END);
       return block.toString();
    }
    
@@ -272,9 +272,9 @@ public class CodeInjectorImpl implements CodeInjector
          return LineBegin.PACKAGE;
       if (line.startsWith("import"))
          return LineBegin.IMPORT;
-      if (line.startsWith(InjectionRegions.USER_IMPORTS_BEGIN))
+      if (line.startsWith(InjectionConstants.USER_IMPORTS_BEGIN))
          return LineBegin.IMPORT_BEGIN;
-      if (line.startsWith(InjectionRegions.USER_IMPORTS_END))
+      if (line.startsWith(InjectionConstants.USER_IMPORTS_END))
          return LineBegin.IMPORT_END;
       if (line.startsWith("public class") || line.startsWith("public abstract class") || line.startsWith("public interface"))
          return LineBegin.CLASS_BEGIN;

@@ -1,6 +1,5 @@
 package org.moflon.moca.inject.util;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,20 +15,16 @@ public class MatchingParametersChecker
 
    /**
     * Returns whether the parameters of the given EOperation expose the given parameter types.
-    * 
-    * @param eOperation
-    * @param parameterTypes
-    * @return
     */
    public boolean haveMatchingParamters(EOperation eOperation, List<String> parameterTypes)
    {
 
       final List<EParameter> eParameters = eOperation.getEParameters();
-      if (haveDifferentSize(parameterTypes, eParameters))
+      if (eParameters.size() != parameterTypes.size())
          return false;
 
-      Iterator<EParameter> eParamIterator = eParameters.iterator();
-      Iterator<String> paramTypeIterator = parameterTypes.iterator();
+      final Iterator<EParameter> eParamIterator = eParameters.iterator();
+      final Iterator<String> paramTypeIterator = parameterTypes.iterator();
 
       boolean hasMatchingParameters = true;
       while (eParamIterator.hasNext() && hasMatchingParameters)
@@ -49,7 +44,6 @@ public class MatchingParametersChecker
     */
    private boolean checkWhetherParameterMatchesType(EParameter eParameter, String parameterType)
    {
-      boolean hasMatchingParameters;
       // Precondition: instance type name is fully qualified
       final String instanceTypeName = eParameter.getEType().getInstanceClassName();
       final String ecoreTypeName = MoflonUtil.getFQN(eParameter.getEType());
@@ -60,7 +54,7 @@ public class MatchingParametersChecker
       final String qualifiedMetamodelTypeName = metamodelTypeNameForComparison;
       final String dequalifiedMetamodelTypeName = dequalifyClassName(metamodelTypeNameForComparison);
 
-      hasMatchingParameters = parameterType.equals(qualifiedMetamodelTypeName) || parameterType.equals(dequalifiedMetamodelTypeName);
+      final boolean hasMatchingParameters = parameterType.equals(qualifiedMetamodelTypeName) || parameterType.equals(dequalifiedMetamodelTypeName);
       return hasMatchingParameters;
    }
 
@@ -73,14 +67,9 @@ public class MatchingParametersChecker
     *           the potentially qualified class name
     * @return the dequalified class name
     */
-   private String dequalifyClassName(String className)
+   private String dequalifyClassName(final String className)
    {
       int indexOfLastDot = className.lastIndexOf(".");
       return className.substring(indexOfLastDot + 1);
-   }
-
-   private boolean haveDifferentSize(Collection<?> list1, Collection<?> list2)
-   {
-      return list2.size() != list1.size();
    }
 }

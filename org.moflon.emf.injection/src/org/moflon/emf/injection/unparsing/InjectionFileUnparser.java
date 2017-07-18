@@ -27,11 +27,11 @@ public final class InjectionFileUnparser
       
       fileContent.append("partial class ");
       fileContent.append(classDeclaration.getClassName());
-      fileContent.append(" {").append(InjectionRegions.NL).append(InjectionRegions.NL);
+      fileContent.append(" {").append(InjectionConstants.NL).append(InjectionConstants.NL);
       
       appendMembersCode(classDeclaration, fileContent);
       
-      fileContent.append(InjectionRegions.NL).append(InjectionRegions.NL);
+      fileContent.append(InjectionConstants.NL).append(InjectionConstants.NL);
       
       appendMethodDeclarations(classDeclaration, fileContent);
       
@@ -54,25 +54,25 @@ public final class InjectionFileUnparser
       {
          if (animport instanceof StaticImport)
          {
-            fileContent.append(InjectionRegions.IMPORT_KEYWORD).append("static ").append(StaticImport.class.cast(animport).getNamespace());
+            fileContent.append(InjectionConstants.IMPORT_KEYWORD).append("static ").append(StaticImport.class.cast(animport).getNamespace());
          } else if (animport instanceof RegularImport)
          {
-            fileContent.append(InjectionRegions.IMPORT_KEYWORD).append(" ").append(RegularImport.class.cast(animport).getNamespace());
+            fileContent.append(InjectionConstants.IMPORT_KEYWORD).append(" ").append(RegularImport.class.cast(animport).getNamespace());
          }
-         fileContent.append(InjectionRegions.NL);
+         fileContent.append(InjectionConstants.NL);
       }
-      fileContent.append(InjectionRegions.NL);
+      fileContent.append(InjectionConstants.NL);
    }
 
    private static void appendMethodDeclaration(final StringBuilder fileContent, final MethodDeclaration methodDeclaration)
    {
-      fileContent.append(InjectionRegions.MODEL_KEYWORD).append(InjectionRegions.SPACE);
-      fileContent.append(methodDeclaration.getMethodName()).append(InjectionRegions.SPACE);
+      fileContent.append(InjectionConstants.MODEL_KEYWORD).append(InjectionConstants.SPACE);
+      fileContent.append(methodDeclaration.getMethodName()).append(InjectionConstants.SPACE);
       fileContent.append("(");
       fileContent.append(unparseParameterList(methodDeclaration));
       fileContent.append(")");
       fileContent.append(methodDeclaration.getBody());
-      fileContent.append(InjectionRegions.NL).append(InjectionRegions.NL);
+      fileContent.append(InjectionConstants.NL).append(InjectionConstants.NL);
    }
 
    private static String unparseParameterList(final MethodDeclaration methodDeclaration)
@@ -87,7 +87,7 @@ public final class InjectionFileUnparser
       final ClassInjectionDeclaration classInjectionDeclaration = classDeclaration.getClassInjectionDeclaration();
       if (classInjectionDeclaration != null && classInjectionDeclaration.getBody() != null)
       {
-         fileContent.append(InjectionRegions.MEMBERS_KEYWORD);
+         fileContent.append(InjectionConstants.MEMBERS_KEYWORD);
          fileContent.append(classInjectionDeclaration.getBody());
       }
    }

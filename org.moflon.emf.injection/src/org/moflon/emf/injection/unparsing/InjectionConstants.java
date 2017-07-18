@@ -5,7 +5,7 @@ import org.moflon.core.utilities.UtilityClassNotInstantiableException;
 /**
  * This class contains constants relevant to injection processing
  */
-public final class InjectionRegions
+public final class InjectionConstants
 {
    public static final String IMPORT_KEYWORD = "import ";
    public static final String MEMBERS_KEYWORD = "@members";
@@ -19,8 +19,12 @@ public final class InjectionRegions
    public static final String CODE_BEGIN_TOKEN = "<--";
    public static final String SPACE = " ";
    public static final String INDENT = "\t";
+   /**
+    * Injection files prefixed with this string are not processed
+    */
+   public static final String IGNORE_FILE_PREFIX = ".";
    
-   private InjectionRegions() {
+   private InjectionConstants() {
       throw new UtilityClassNotInstantiableException();
    }
 }

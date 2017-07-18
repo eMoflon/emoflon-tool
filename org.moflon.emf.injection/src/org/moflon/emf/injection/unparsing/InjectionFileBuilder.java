@@ -58,7 +58,7 @@ public class InjectionFileBuilder
          final String membersCode = extractUserMembers(javaFileContent);
          if (membersCode != null)
          {
-            classInjectionDeclaration.setBody(String.format("%s%s%s", InjectionRegions.CODE_BEGIN_TOKEN, membersCode, InjectionRegions.CODE_END_TOKEN));
+            classInjectionDeclaration.setBody(String.format("%s%s%s", InjectionConstants.CODE_BEGIN_TOKEN, membersCode, InjectionConstants.CODE_END_TOKEN));
          }
 
          classDeclaration.getMethodDeclarations().addAll(extractModelMethods(javaFileContent));
@@ -96,9 +96,9 @@ public class InjectionFileBuilder
    {
       final InjectionLanguageFactory injectionFactory = InjectionLanguageFactory.eINSTANCE;
       final List<EObject> importDeclarations = new ArrayList<>();
-      final int startIndex = fileContent.indexOf(InjectionRegions.USER_IMPORTS_BEGIN);
-      final int endIndex = fileContent.indexOf(InjectionRegions.USER_IMPORTS_END);
-      final int startIndexAfterToken = startIndex + InjectionRegions.USER_IMPORTS_BEGIN.length();
+      final int startIndex = fileContent.indexOf(InjectionConstants.USER_IMPORTS_BEGIN);
+      final int endIndex = fileContent.indexOf(InjectionConstants.USER_IMPORTS_END);
+      final int startIndexAfterToken = startIndex + InjectionConstants.USER_IMPORTS_BEGIN.length();
 
       if (startIndexAfterToken >= 0 && endIndex >= 0)
       {
@@ -106,7 +106,7 @@ public class InjectionFileBuilder
 
          if (!extractedImports.trim().equals(""))
          {
-            final List<String> importLines = Arrays.asList(extractedImports.split(InjectionRegions.NL));
+            final List<String> importLines = Arrays.asList(extractedImports.split(InjectionConstants.NL));
             importDeclarations.addAll(importLines.stream()//
                   .filter(importLine -> !importLine.trim().isEmpty())//
                   .map(importLine -> importLine.replaceAll("^import\\s+", ""))//
@@ -134,8 +134,8 @@ public class InjectionFileBuilder
    private static String extractUserMembers(final String fileContent)
    {
       int startIndex, endIndex;
-      startIndex = fileContent.indexOf(InjectionRegions.MEMBERS_BEGIN) + InjectionRegions.MEMBERS_BEGIN.length();
-      endIndex = fileContent.indexOf(InjectionRegions.MEMBERS_END);
+      startIndex = fileContent.indexOf(InjectionConstants.MEMBERS_BEGIN) + InjectionConstants.MEMBERS_BEGIN.length();
+      endIndex = fileContent.indexOf(InjectionConstants.MEMBERS_END);
 
       final String membersCode;
       if (startIndex >= 0 && endIndex >= 0)
@@ -170,7 +170,7 @@ public class InjectionFileBuilder
                methodDeclaration.setMethodName(method.getName().toString());
                
                final String bodyWithoutComment = removeModelComment(body);
-               methodDeclaration.setBody(String.format("%s%s%s", InjectionRegions.CODE_BEGIN_TOKEN, bodyWithoutComment, InjectionRegions.CODE_END_TOKEN));
+               methodDeclaration.setBody(String.format("%s%s%s", InjectionConstants.CODE_BEGIN_TOKEN, bodyWithoutComment, InjectionConstants.CODE_END_TOKEN));
                
                @SuppressWarnings("unchecked") // Generic type is only documented in Javadoc
                final List<SingleVariableDeclaration> parameters = (List<SingleVariableDeclaration>) method.parameters();

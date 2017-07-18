@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -34,17 +35,19 @@ import org.moflon.emf.injection.injectionLanguage.InjectionFile;
 import org.moflon.emf.injection.injectionLanguage.MethodDeclaration;
 import org.moflon.emf.injection.injectionLanguage.RegularImport;
 import org.moflon.emf.injection.injectionLanguage.StaticImport;
-import org.moflon.emf.injection.unparsing.InjectionRegions;
+import org.moflon.emf.injection.unparsing.InjectionConstants;
 import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.util.ClassNameToPathConverter;
 import org.moflon.moca.inject.util.MatchingParametersChecker;
 import org.moflon.moca.inject.validation.MissingEClassValidationMessage;
 import org.moflon.moca.inject.validation.MissingEOperationValidationMessage;
 
-//TODO@rkluge: Check documentation
+/**
+ * This {@link InjectionExtractor} builds on an Xtext grammar for injection files
+ * @author Roland Kluge - Initial implementation
+ */
 public class XTextInjectionExtractor implements InjectionExtractor
 {
-   //TODO@rkluge: I guess we can get rid of this by storing the mapping of "FQN" to "InjectionFile"
    private final HashMap<EOperation, String> modelCode;
 
    private final HashMap<String, String> membersCode;
@@ -57,17 +60,20 @@ public class XTextInjectionExtractor implements InjectionExtractor
 
    private final IFolder injectionRootFolder;
 
-   private GenModel genModel;
+   private final GenModel genModel;
 
-   private XTextInjectionParser injectionParser;
+   private final XTextInjectionParser injectionParser;
 
+   /**
+    * Prepares this injection extractor to extract injections from the given {@link IFolder}.
+    * The given {@link GenModel} is used to identify corresponding {@link GenClass}es and {@link GenOperation}s
+    */
    public XTextInjectionExtractor(final IFolder injectionFolder, final GenModel genModel)
    {
       this.modelCode = new HashMap<EOperation, String>();
       this.membersCode = new HashMap<String, String>();
       this.imports = new HashMap<String, List<String>>();
       this.fqnToGenClassMap = new HashMap<String, GenClass>();
-
       this.injectionRootFolder = injectionFolder;
       this.classNameToPathConverter = new ClassNameToPathConverter(WorkspaceHelper.GEN_FOLDER);
       this.genModel = genModel;
@@ -77,9 +83,6 @@ public class XTextInjectionExtractor implements InjectionExtractor
    @Override
    public IStatus extractInjections()
    {
-      /*
-       * Traverse injectionRootFolder recursively, collecting the relative path on the way
-       */
       final MultiStatus resultStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Problems during injection extraction", null);
       try
       {
@@ -90,42 +93,12 @@ public class XTextInjectionExtractor implements InjectionExtractor
             @Override
             public boolean visit(final IResource resource) throws CoreException
             {
-               //TODO@rkluge: Continue here
                final IFile injectionFile = resource.getAdapter(IFile.class);
-               if (injectionFile != null && isInjectionFile(injectionFile) && !shallIgnoreFile(injectionFile))
+               if (shallExtractInjectionsFromFile(injectionFile))
                {
-                  final String fullyQualifiedClassName = buildInjectionPathDescription(injectionFile, ".");
-                  final String filePath = buildInjectionPathDescription(injectionFile, "/").concat(".").concat(WorkspaceHelper.INJECTION_FILE_EXTENSION);
-                  final GenClass genClass = fqnToGenClassMap.get(fullyQualifiedClassName);
-                  if (genClass != null)
-                  {
-                     final URI uri = URI.createPlatformResourceURI(
-                           injectionFile.getProject().getName() + "/" + injectionRootFolder.getProjectRelativePath() + "/" + filePath, false);
-                     try
-                     {
-                        final InjectionFile parsedFile = (InjectionFile) injectionParser.parse(uri);
-                        validateConnsistentClassName(injectionFile, parsedFile, resultStatus);
-                        processInjectionFile(parsedFile, genClass, fullyQualifiedClassName, injectionFile, resultStatus);
-                     } catch (final IOException e)
-                     {
-                        resultStatus.add(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Exception during injection extraction", e));
-                     }
-                  } else
-                  {
-                     reportMissingEClass(fullyQualifiedClassName, injectionFile, resultStatus);
-                  }
+                  extractInjectionFromFile(injectionFile, resultStatus);
                }
                return true;
-            }
-
-            private void validateConnsistentClassName(final IFile injectionFile, final InjectionFile parsedFile, final MultiStatus resultStatus)
-            {
-               final String classDeclarationName = parsedFile.getClassDeclaration().getClassName();
-               if (!classDeclarationName.equals(EclipseResourceUtils.getBasename(injectionFile)))
-               {
-                  resultStatus.add(new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(getClass()), String.format(
-                        "Basename of injection file '%s' differs from class name '%s' declared inside the file.", injectionFile, classDeclarationName)));
-               }
             }
          });
       } catch (final CoreException e)
@@ -144,8 +117,7 @@ public class XTextInjectionExtractor implements InjectionExtractor
    @Override
    public List<String> getImports(final String fullyQualifiedName)
    {
-      final List<String> result = imports.get(fullyQualifiedName);
-      return result != null ? result : new ArrayList<String>();
+      return imports.getOrDefault(fullyQualifiedName, new ArrayList<>());
    }
 
    @Override
@@ -190,32 +162,9 @@ public class XTextInjectionExtractor implements InjectionExtractor
       return this.getMembersCode(path);
    }
 
-   /**
-    * Extracts all relevant information from the {@link GenModel}
-    */
-   private void processGenModel()
+   private boolean shallExtractInjectionsFromFile(final IFile injectionFile)
    {
-      for (final GenPackage genPackage : genModel.getGenPackages())
-      {
-         processGenPackageContents(genPackage);
-      }
-   }
-
-   /**
-    * Extracts the fully-qualified name of each {@link GenClass} in the given {@link GenPackage} and adds it to {@link #fqnToGenClassMap}
-    * @param genPackage the {@link GenPackage} to process
-    */
-   private final void processGenPackageContents(final GenPackage genPackage)
-   {
-      for (final GenClass genClass : genPackage.getGenClasses())
-      {
-         fqnToGenClassMap.put(CodeInjectionPlugin.getInterfaceName(genClass), genClass);
-         fqnToGenClassMap.put(CodeInjectionPlugin.getClassName(genClass), genClass);
-      }
-      for (final GenPackage subPackage : genPackage.getSubGenPackages())
-      {
-         processGenPackageContents(subPackage);
-      }
+      return injectionFile != null && isInjectionFile(injectionFile) && !shallIgnoreFile(injectionFile);
    }
 
    private boolean isInjectionFile(final IFile injectionFile)
@@ -224,11 +173,81 @@ public class XTextInjectionExtractor implements InjectionExtractor
    }
 
    /**
-    * Checks if this file is supposed to be ignored by this extractor
+    * Returns true of the given file's name starts with {@link InjectionConstants#IGNORE_FILE_PREFIX}
     */
    private boolean shallIgnoreFile(final IFile file)
    {
       return file.getName().startsWith(InjectionConstants.IGNORE_FILE_PREFIX);
+   }
+
+   /**
+    * Extracts all injection information from the given file.
+    * 
+    * We may assume that {@link #shallExtractInjectionsFromFile(IFile)} is true for the given {@link IFile}
+    */
+   private void extractInjectionFromFile(final IFile injectionFile, final MultiStatus resultStatus)
+   {
+      final String fullyQualifiedClassName = buildInjectionPathDescription(injectionFile, ".");
+      final String filePath = buildInjectionPathDescription(injectionFile, "/").concat(".").concat(WorkspaceHelper.INJECTION_FILE_EXTENSION);
+      final GenClass genClass = fqnToGenClassMap.get(fullyQualifiedClassName);
+      if (genClass != null)
+      {
+         final URI uri = URI
+               .createPlatformResourceURI(injectionFile.getProject().getName() + "/" + injectionRootFolder.getProjectRelativePath() + "/" + filePath, false);
+         try
+         {
+            final InjectionFile parsedFile = (InjectionFile) injectionParser.parse(uri);
+            validateConnsistentClassName(injectionFile, parsedFile, resultStatus);
+            processInjectionFile(parsedFile, genClass, fullyQualifiedClassName, injectionFile, resultStatus);
+         } catch (final IOException e)
+         {
+            resultStatus.add(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Exception during injection extraction", e));
+         }
+      } else
+      {
+         reportMissingEClass(fullyQualifiedClassName, injectionFile, resultStatus);
+      }
+   }
+
+   /**
+    * Adds an error to the {@link MultiStatus} if the specified class names in both files mismatch
+    */
+   private void validateConnsistentClassName(final IFile injectionFile, final InjectionFile parsedFile, final MultiStatus resultStatus)
+   {
+      final String classDeclarationName = parsedFile.getClassDeclaration().getClassName();
+      if (!classDeclarationName.equals(EclipseResourceUtils.getBasename(injectionFile)))
+      {
+         resultStatus.add(new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(getClass()),
+               String.format("Basename of injection file '%s' differs from class name '%s' declared inside the file.", injectionFile, classDeclarationName)));
+      }
+   }
+
+   /**
+    * Extracts all relevant information from the {@link GenModel}
+    */
+   private void processGenModel()
+   {
+      for (final GenPackage genPackage : this.genModel.getGenPackages())
+      {
+         processGenPackage(genPackage);
+      }
+   }
+
+   /**
+    * Extracts the fully-qualified name of each {@link GenClass} in the given {@link GenPackage} and adds it to {@link #fqnToGenClassMap}
+    * @param genPackage the {@link GenPackage} to process
+    */
+   private final void processGenPackage(final GenPackage genPackage)
+   {
+      for (final GenClass genClass : genPackage.getGenClasses())
+      {
+         this.fqnToGenClassMap.put(CodeInjectionPlugin.getInterfaceName(genClass), genClass);
+         this.fqnToGenClassMap.put(CodeInjectionPlugin.getClassName(genClass), genClass);
+      }
+      for (final GenPackage subPackage : genPackage.getSubGenPackages())
+      {
+         processGenPackage(subPackage);
+      }
    }
 
    private void reportMissingEClass(final String fullyQualifiedClassName, final IFile injectionFile, final MultiStatus resultStatus)
@@ -289,13 +308,13 @@ public class XTextInjectionExtractor implements InjectionExtractor
 
    private String normalizeCodeBody(final String body)
    {
-      final int indexOfBeginToken = body.indexOf(InjectionRegions.CODE_BEGIN_TOKEN);
-      final int indexOfEndToken = body.indexOf(InjectionRegions.CODE_END_TOKEN);
+      final int indexOfBeginToken = body.indexOf(InjectionConstants.CODE_BEGIN_TOKEN);
+      final int indexOfEndToken = body.indexOf(InjectionConstants.CODE_END_TOKEN);
       if (indexOfBeginToken < 0)
-         throw new IllegalArgumentException("Expected begin token " + InjectionRegions.CODE_BEGIN_TOKEN);
+         throw new IllegalArgumentException("Expected begin token " + InjectionConstants.CODE_BEGIN_TOKEN);
       if (indexOfEndToken < 0)
-         throw new IllegalArgumentException("Expected end token " + InjectionRegions.CODE_END_TOKEN);
-      return body.substring(0, indexOfEndToken).substring(indexOfBeginToken + InjectionRegions.CODE_BEGIN_TOKEN.length());
+         throw new IllegalArgumentException("Expected end token " + InjectionConstants.CODE_END_TOKEN);
+      return body.substring(0, indexOfEndToken).substring(indexOfBeginToken + InjectionConstants.CODE_BEGIN_TOKEN.length());
    }
 
    /**

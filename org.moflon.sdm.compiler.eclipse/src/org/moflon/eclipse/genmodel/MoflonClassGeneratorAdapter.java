@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EOperation;
 import org.gervarro.democles.emoflon.templates.JavaClassGenerator;
 import org.moflon.codegen.InjectionHandlingImportManager;
-import org.moflon.emf.injection.unparsing.InjectionRegions;
+import org.moflon.emf.injection.unparsing.InjectionConstants;
 import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.InjectionManager;
 
@@ -236,11 +236,11 @@ abstract public class MoflonClassGeneratorAdapter extends org.eclipse.emf.codege
    private static String buildMembersBlock(final String code)
    {
       final StringBuffer block = new StringBuffer();
-      block.append(InjectionRegions.INDENT).append(InjectionRegions.MEMBERS_BEGIN);
-      block.append(InjectionRegions.NL).append(InjectionRegions.INDENT);
+      block.append(InjectionConstants.INDENT).append(InjectionConstants.MEMBERS_BEGIN);
+      block.append(InjectionConstants.NL).append(InjectionConstants.INDENT);
       block.append(code);
-      block.append(InjectionRegions.NL).append(InjectionRegions.INDENT);
-      block.append(InjectionRegions.MEMBERS_END);
+      block.append(InjectionConstants.NL).append(InjectionConstants.INDENT);
+      block.append(InjectionConstants.MEMBERS_END);
       return block.toString();
    }
 

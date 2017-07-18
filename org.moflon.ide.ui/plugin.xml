@@ -106,9 +106,6 @@
         <file-association content-type="org.moflon.contenttype.green" file-extensions="green"></file-association>
     </extension>
     <extension point="org.eclipse.ui.editors">
-        <editor class="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" default="true" icon="resources/icons/noun_project_7402.png" id="org.moflon.ide.ui.admin.editors.injection.InjectionTextEditor" name="eMoflon Injection Editor">
-            <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.moflon.injection"></contentTypeBinding>
-        </editor>
         <editor class="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" default="false" icon="resources/icons/addTextEditor.png" id="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor" name="eMoflon Antlr Editor">
             <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.antlr"></contentTypeBinding>
             <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.antlrv4"></contentTypeBinding>

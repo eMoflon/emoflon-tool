@@ -19,7 +19,6 @@ Bundle-ClassPath: .
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.moca.inject,
  org.moflon.moca.inject.extractors,
- org.moflon.moca.inject.parser,
  org.moflon.moca.inject.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: eMoflon Developers
