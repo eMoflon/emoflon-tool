@@ -1,11 +1,12 @@
 package org.moflon.moca.inject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EOperation;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,7 +15,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.moflon.moca.inject.extractors.InjectionExtractor;
-import org.moflon.moca.inject.validation.InjectionValidationMessage;
 
 /**
  * Unit tests for {@link InjectionManager}
@@ -130,15 +130,9 @@ public class InjectionManagerTest
       }
 
       @Override
-      public void extractInjections() 
+      public IStatus extractInjections() 
       {
+         return Status.OK_STATUS;
       }
-
-      @Override
-      public List<InjectionValidationMessage> getErrors()
-      {
-         return new ArrayList<>();
-      }
-
    }
 }

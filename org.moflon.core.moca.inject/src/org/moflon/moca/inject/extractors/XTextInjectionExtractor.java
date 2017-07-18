@@ -6,15 +6,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.util.ClassNameToPathConverter;
-import org.moflon.moca.inject.validation.InjectionValidationMessage;
 
 public class XTextInjectionExtractor implements InjectionExtractor
 {
@@ -25,56 +31,56 @@ public class XTextInjectionExtractor implements InjectionExtractor
 
    private final HashMap<String, List<String>> imports;
 
-//   private final HashMap<String, GenClass> fqnToGenClassMap;
+   private final HashMap<String, GenClass> fqnToGenClassMap;
 
    private final ClassNameToPathConverter classNameToPathConverter;
 
-   private final List<InjectionValidationMessage> errors;
-   
-//   private final GenModel genModel;
-
    private final IFolder injectionRootFolder;
-   
+
+   private GenModel genModel;
+
    public XTextInjectionExtractor(final IFolder injectionFolder, final GenModel genModel)
    {
       this.modelCode = new HashMap<EOperation, String>();
       this.membersCode = new HashMap<String, String>();
       this.imports = new HashMap<String, List<String>>();
-//      this.fqnToGenClassMap = new HashMap<String, GenClass>();
-      this.errors = new ArrayList<>();
+      this.fqnToGenClassMap = new HashMap<String, GenClass>();
 
       this.injectionRootFolder = injectionFolder;
       this.classNameToPathConverter = new ClassNameToPathConverter(WorkspaceHelper.GEN_FOLDER);
-//      this.genModel = genModel;
+      this.genModel = genModel;
    }
-   
+
    @Override
-   public void extractInjections()
+   public IStatus extractInjections()
    {
       /*
        * Traverse injectionRootFolder recursively, collecting the relative path on the way
        */
+      final MultiStatus resultStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Problems during injection extraction", null);
       try
       {
+         processGenModel();
+
          this.injectionRootFolder.accept(new IResourceVisitor() {
-            
+
             @Override
             public boolean visit(final IResource resource) throws CoreException
             {
                //TODO@rkluge: Continue here
-               return false;
+               final IFile injectionFile = resource.getAdapter(IFile.class);
+               if (injectionFile != null && WorkspaceHelper.INJECTION_FILE_EXTENSION.equals(resource.getFileExtension()))
+               {
+                  System.out.println(injectionFile);
+               }
+               return true;
             }
          });
       } catch (final CoreException e)
       {
-         // TODO@rkluge: Wrap exception
+         resultStatus.add(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Exception during injection extraction", e));
       }
-   }
-
-   @Override
-   public List<InjectionValidationMessage> getErrors()
-   {
-      return this.errors;
+      return resultStatus.matches(IStatus.WARNING) ? resultStatus : Status.OK_STATUS;
    }
 
    @Override
@@ -132,4 +138,31 @@ public class XTextInjectionExtractor implements InjectionExtractor
       return this.getMembersCode(path);
    }
 
+   /**
+    * Extracts all relevant information from the {@link GenModel}
+    */
+   private void processGenModel()
+   {
+      for (final GenPackage genPackage : genModel.getGenPackages())
+      {
+         processGenPackageContents(genPackage);
+      }
+   }
+
+   /**
+    * Extracts the fully-qualified name of each {@link GenClass} in the given {@link GenPackage} and adds it to {@link #fqnToGenClassMap}
+    * @param genPackage the {@link GenPackage} to process
+    */
+   private final void processGenPackageContents(final GenPackage genPackage)
+   {
+      for (final GenClass genClass : genPackage.getGenClasses())
+      {
+         fqnToGenClassMap.put(CodeInjectionPlugin.getInterfaceName(genClass), genClass);
+         fqnToGenClassMap.put(CodeInjectionPlugin.getClassName(genClass), genClass);
+      }
+      for (final GenPackage subPackage : genPackage.getSubGenPackages())
+      {
+         processGenPackageContents(subPackage);
+      }
+   }
 }

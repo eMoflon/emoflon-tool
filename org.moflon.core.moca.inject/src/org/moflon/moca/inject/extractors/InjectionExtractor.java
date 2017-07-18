@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EOperation;
-import org.moflon.moca.inject.validation.InjectionValidationMessage;
 
 /**
  * Instances of this interface are responsible for extracting and storing information from the .inject files.
@@ -15,8 +15,7 @@ public interface InjectionExtractor
    /**
     * Runs the injection extractor
     */
-   //TODO@rkluge: Return an IStatus
-   void extractInjections();
+   IStatus extractInjections();
    
    /**
     * Use this function to iterate over the imports via getImports.
@@ -77,10 +76,4 @@ public interface InjectionExtractor
     * Returns the members code corresponding to the given class.
     */
    String getMembersCodeByClassName(String className);
-
-   /**
-    * Returns the list of collected errors
-    */
-   List<InjectionValidationMessage> getErrors();
-   
 }

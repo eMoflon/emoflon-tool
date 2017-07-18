@@ -6,11 +6,17 @@ public class InjectionValidationMessage
 {
    private final String message;
 
-   private final InjectionValidationSeverity severity;
+   private final int severity;
 
    private String filename;
 
-   public InjectionValidationMessage(final String message, final String filename, final InjectionValidationSeverity severity)
+   /**
+    * Creates a validation message
+    * @param message the textual message
+    * @param filename the name of the file that caused the problem
+    * @param severity the severity, using the constants in {@link IStatus} (e.g., {@link IStatus#ERROR}
+    */
+   public InjectionValidationMessage(final String message, final String filename, final int severity)
    {
       this.message = message;
       this.filename = filename;
@@ -28,9 +34,10 @@ public class InjectionValidationMessage
 
    /**
     * Returns the severity of the problem
-    * @return
+    * 
+    * Uses the same severity levels as {@link IStatus}
     */
-   public InjectionValidationSeverity getSeverity()
+   public int getSeverity()
    {
       return severity;
    }

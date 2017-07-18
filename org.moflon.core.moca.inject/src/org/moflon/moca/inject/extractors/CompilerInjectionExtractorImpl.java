@@ -1,7 +1,6 @@
 package org.moflon.moca.inject.extractors;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +9,9 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -22,7 +24,6 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.moca.inject.CodeInjectionPlugin;
-import org.moflon.moca.inject.validation.InjectionValidationMessage;
 
 import SDMLanguage.sdmUtil.CompilerInjection;
 import SDMLanguage.sdmUtil.ImportInjectionEntry;
@@ -52,9 +53,10 @@ public class CompilerInjectionExtractorImpl implements InjectionExtractor
    }
 
    @Override
-   public void extractInjections()
+   public IStatus extractInjections()
    {
-      IFile compilerInjectionFile = project.getFolder(WorkspaceHelper.MODEL_FOLDER)
+      final MultiStatus resultStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Problems during injection extraction", null);
+      final IFile compilerInjectionFile = project.getFolder(WorkspaceHelper.MODEL_FOLDER)
             .getFile(MoflonUtil.lastCapitalizedSegmentOf(project.getName()) + ".injection.xmi");
       if (compilerInjectionFile.exists())
       {
@@ -81,6 +83,7 @@ public class CompilerInjectionExtractorImpl implements InjectionExtractor
          imports.get(genClassName).add(injectionEntry.getContent());
       }
 
+      return resultStatus.matches(IStatus.WARNING) ? resultStatus : Status.OK_STATUS;
    }
 
    private void handleGenPackage(final GenPackage genPackage)
@@ -112,12 +115,6 @@ public class CompilerInjectionExtractorImpl implements InjectionExtractor
    public String getModelCode(final EOperation eOperation)
    {
       return compilerInjection.getCompilerInjectionEntries().stream().filter(entry -> entry.getEOperation().equals(eOperation)).findAny().get().getContent();
-   }
-
-   @Override
-   public List<InjectionValidationMessage> getErrors()
-   {
-      return Arrays.asList();
    }
 
    @Override

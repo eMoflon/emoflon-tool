@@ -50,7 +50,7 @@ public class InjectionValidationStatus implements IStatus
    @Override
    public int getSeverity()
    {
-      return maptoStatusSeverity(this.message.getSeverity());
+      return this.message.getSeverity();
    }
 
    @Override
@@ -81,18 +81,4 @@ public class InjectionValidationStatus implements IStatus
    {
       return this.message;
    }
-
-   public static int maptoStatusSeverity(final InjectionValidationSeverity severity)
-   {
-      switch (severity)
-      {
-      case WARNING:
-         return IStatus.WARNING;
-      case ERROR:
-         return IStatus.ERROR;
-      default:
-         return IStatus.OK;
-      }
-   }
-
 }

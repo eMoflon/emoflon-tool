@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EOperation;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.extractors.InjectionExtractor;
 import org.moflon.moca.inject.util.UnsupportedOperationCodeInjector;
-import org.moflon.moca.inject.validation.InjectionValidationMessage;
 
 /**
  * This class manages the extraction of injection code.
@@ -171,21 +170,24 @@ public class InjectionManager
     */
    public IStatus extractInjections()
    {
-      this.userInjectionExtractor.extractInjections();
-      this.compilerInjectionExtractor.extractInjections();
-
-      //TODO@rkluge: Move this logic into the injectors to avoid custom InjectionValidationMessage class
-      List<InjectionValidationMessage> errors = this.userInjectionExtractor.getErrors();
-      if (errors.size() > 0)
-      {
-         final MultiStatus validationStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Extraction of injections with warnings/errors.", null);
-         for (final InjectionValidationMessage error : errors)
-         {
-            validationStatus.add(error.convertToStatus());
-         }
-
+      final IStatus userStatus = this.userInjectionExtractor.extractInjections();
+      final IStatus compilerStatus = this.compilerInjectionExtractor.extractInjections();
+      
+      final MultiStatus validationStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Extraction of injections exited with warnings/errors.", null);
+      
+      if (userStatus.matches(IStatus.WARNING)) {
+         validationStatus.add(userStatus);
+      }
+      
+      if (compilerStatus.matches(IStatus.WARNING)) {
+         validationStatus.add(compilerStatus);
+      }
+      
+      if (!validationStatus.matches(IStatus.WARNING)) {
+         return Status.OK_STATUS;
+      }
+      else {
          return validationStatus;
-      } else
-         return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "Extraction of injections successful.");
+      }
    }
 }

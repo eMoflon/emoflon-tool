@@ -32,6 +32,7 @@ import org.moflon.moca.inject.CodeInjector;
 import org.moflon.moca.inject.CodeInjectorImpl;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.extractors.CompilerInjectionExtractorImpl;
+import org.moflon.moca.inject.extractors.InjectionExtractor;
 import org.moflon.moca.inject.extractors.UserInjectionExtractorImpl;
 import org.moflon.moca.inject.extractors.XTextInjectionExtractor;
 
@@ -248,8 +249,8 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       IFolder injectionFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
       CodeInjector injector = new CodeInjectorImpl(project.getLocation().toOSString());
 
-      UserInjectionExtractorImpl injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
-      new XTextInjectionExtractor(injectionFolder, genModel);
+      InjectionExtractor injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
+//      InjectionExtractor injectionExtractor = new XTextInjectionExtractor(injectionFolder, genModel);
       CompilerInjectionExtractorImpl compilerInjectionExtractor = new CompilerInjectionExtractorImpl(project, genModel);
 
       injectionManager = new InjectionManager(injectionExtractor, compilerInjectionExtractor, injector);
