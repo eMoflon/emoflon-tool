@@ -130,7 +130,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             callPreBuildHooks(properties, mocaTreeReader);
 
             // Create and run exporter on Moca tree
-            final SubMonitor exporterSubMonitor = SubMonitor.convert(subMon.split(10), "Running MOCA-to-eMoflon transformation", properties.keySet().size());
+            final SubMonitor exporterSubMonitor = SubMonitor.convert(subMon.split(10), "Running Moca-to-eMoflon transformation", properties.keySet().size());
             final ResourceFillingMocaToMoflonTransformation exporter = new ResourceFillingMocaToMoflonTransformation(set, this, getProject(), properties,
                   exporterSubMonitor);
             try

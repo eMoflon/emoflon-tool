@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.moflon.gt.mosl.codeadapter.PatternBuilder;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.AbstractAttribute;
@@ -27,8 +26,7 @@ public abstract class TransformPlanRule
    
    public TransformPlanRule(PatternKind patternKind){
       this.patternKind=patternKind;
-      patternObjectIndex = new HashSet<>();
-      PatternBuilder.getInstance().addTransformPlanRule(patternKind, this);   
+      this.patternObjectIndex = new HashSet<>();
    }
    
    protected abstract boolean filterConditionObjectVariable(ObjectVariableDefinition ov, Map<String, Boolean> bindings, Map<String, CFVariable> env);
@@ -61,8 +59,8 @@ public abstract class TransformPlanRule
          @Override
          public int compare(PatternObject o1, PatternObject o2)
          {
-            int po1 = getPrioOfPatternObject(o1);
-            int po2 = getPrioOfPatternObject(o2);
+            int po1 = getPriorityOfPatternObject(o1);
+            int po2 = getPriorityOfPatternObject(o2);
             
             if(po1<po2)
                return 1;
@@ -71,18 +69,20 @@ public abstract class TransformPlanRule
             else
                return 0;
          }
+         
+         private int getPriorityOfPatternObject(PatternObject po){
+            if(po instanceof ObjectVariableDefinition)
+               return 3;
+            else if(po instanceof LinkVariablePattern)
+               return 2;
+            else if(po instanceof Expression)
+               return 1;
+            else
+               return 0;
+         }
       });
       return returner;
    }
    
-   private int getPrioOfPatternObject(PatternObject po){
-      if(po instanceof ObjectVariableDefinition)
-         return 3;
-      else if(po instanceof LinkVariablePattern)
-         return 2;
-      else if(po instanceof Expression)
-         return 1;
-      else
-         return 0;
-   }
+   
 }

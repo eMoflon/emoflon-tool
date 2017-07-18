@@ -2,6 +2,7 @@ package org.moflon.moca.inject.validation;
 
 import org.eclipse.core.runtime.IStatus;
 import org.moflon.moca.inject.CodeInjectionPlugin;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * An {@link IStatus} that contains information about the validation of injections.
@@ -43,13 +44,13 @@ public class InjectionValidationStatus implements IStatus
    @Override
    public String getPlugin()
    {
-      return CodeInjectionPlugin.getModuleID();
+      return FrameworkUtil.getBundle(CodeInjectionPlugin.class).getSymbolicName();
    }
 
    @Override
    public int getSeverity()
    {
-      return maptoStatusSeverity(this.message.getSeverity());
+      return this.message.getSeverity();
    }
 
    @Override
@@ -80,18 +81,4 @@ public class InjectionValidationStatus implements IStatus
    {
       return this.message;
    }
-
-   public static int maptoStatusSeverity(final InjectionValidationSeverity severity)
-   {
-      switch (severity)
-      {
-      case WARNING:
-         return IStatus.WARNING;
-      case ERROR:
-         return IStatus.ERROR;
-      default:
-         return IStatus.OK;
-      }
-   }
-
 }

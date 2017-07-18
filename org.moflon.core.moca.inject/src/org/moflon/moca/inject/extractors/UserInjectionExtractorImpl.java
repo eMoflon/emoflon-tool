@@ -10,6 +10,9 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -26,7 +29,6 @@ import org.moflon.moca.inject.parser.InjectParser;
 import org.moflon.moca.inject.parser.InjectParserAdapter;
 import org.moflon.moca.inject.util.ClassNameToPathConverter;
 import org.moflon.moca.inject.util.MatchingParametersChecker;
-import org.moflon.moca.inject.validation.InjectionValidationMessage;
 import org.moflon.moca.inject.validation.MissingEClassValidationMessage;
 import org.moflon.moca.inject.validation.MissingEOperationValidationMessage;
 
@@ -55,13 +57,13 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
 
    final private ClassNameToPathConverter classNameToPathConverter;
 
-   private List<InjectionValidationMessage> errors;
-
    private final GenModel genModel;
 
    private final String injectionRootFolder;
 
    private File currentlyProcessedFile;
+
+   private MultiStatus resultStatus;
 
    /**
     * Creates an injection extractor with a default class name-to-path mapping ("gen" folder and system file separator).
@@ -76,11 +78,10 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
     * through the packages of the given genmodel. The injection extractor uses the given class name-to-path converter to
     * map class names to generated class files.
     */
-   public UserInjectionExtractorImpl(final String injectionRootFolder, final GenModel genModel, final ClassNameToPathConverter classNameToPathConverter)
+   private UserInjectionExtractorImpl(final String injectionRootFolder, final GenModel genModel, final ClassNameToPathConverter classNameToPathConverter)
          throws CoreException
    {
       initializeEmptyMaps();
-      initializeErrorHandling();
 
       this.currentlyProcessedFile = null;
       this.injectionRootFolder = injectionRootFolder;
@@ -90,14 +91,9 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
    }
 
    @Override
-   public List<InjectionValidationMessage> getErrors()
+   public IStatus extractInjections()
    {
-      return this.errors;
-   }
-
-   @Override
-   public void extractInjections()
-   {
+      this.resultStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Problems during injection extraction", null);
       final Folder tree = parseInjectionFiles(injectionRootFolder);
       final EList<Folder> subFolders = tree.getSubFolder();
       if (subFolders.size() > 0)
@@ -108,6 +104,7 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
          }
          traverseSubfoldersAndFiles(subFolders.get(0).getName(), subFolders.get(0));
       }
+      return resultStatus.matches(IStatus.WARNING) ? resultStatus : Status.OK_STATUS;
    }
 
    @Override
@@ -187,11 +184,6 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
       membersCode = new HashMap<String, String>();
       imports = new HashMap<String, List<String>>();
       fqnToGenClassMap = new HashMap<String, GenClass>();
-   }
-
-   private void initializeErrorHandling()
-   {
-      this.errors = new ArrayList<>();
    }
 
    /**
@@ -554,13 +546,15 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
    private void reportMissingEOperation(final EClass surroundingClass, final String methodName, final List<String> paramNames, final List<String> paramTypes)
    {
       final String fullPath = buildInjectionFilePathDescription(this.getCurrentlyProcessedFile());
-      this.errors.add(new MissingEOperationValidationMessage(methodName, paramNames, paramTypes, surroundingClass.getName(), fullPath));
+      final MissingEOperationValidationMessage message = new MissingEOperationValidationMessage(methodName, paramNames, paramTypes, surroundingClass.getName(), fullPath);
+      this.resultStatus.add(message.convertToStatus());
    }
 
-   public void reportMissingEClass(final String fullyQualifiedClassName, final File file)
+   private void reportMissingEClass(final String fullyQualifiedClassName, final File file)
    {
       final String fullPath = buildInjectionFilePathDescription(file);
-      this.errors.add(new MissingEClassValidationMessage(fullyQualifiedClassName, fullPath));
+      MissingEClassValidationMessage message = new MissingEClassValidationMessage(fullyQualifiedClassName, fullPath);
+      this.resultStatus.add(message.convertToStatus());
    }
 
    private String buildInjectionFilePathDescription(final File currentInjectionFile)

@@ -2,6 +2,7 @@ package org.moflon.core.injection;
 
 import java.util.List;
 
+@Deprecated //TODO@rkluge: Use or kill
 public class MethodModel
 {
    private String name;
@@ -80,4 +81,3 @@ public class MethodModel
       return paramNames;
    }
 }
-// erweitern für komplette injectionfile

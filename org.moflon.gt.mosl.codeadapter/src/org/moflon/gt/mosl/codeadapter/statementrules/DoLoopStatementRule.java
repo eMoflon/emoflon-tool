@@ -12,7 +12,7 @@ public class DoLoopStatementRule extends AbstractLoopStatementRule<DoLoopStateme
    {
       return DoLoopStatement.class;
    }
-
+   
    @Override
    protected CompoundNode createCurrentCompoundNode()
    {

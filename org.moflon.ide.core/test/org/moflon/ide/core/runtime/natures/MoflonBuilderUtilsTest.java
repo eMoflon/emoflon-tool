@@ -69,17 +69,26 @@ public class MoflonBuilderUtilsTest
       assertBuilderOrder(buildSpecification, Arrays.asList("C", "A", "B"));
    }
    
-   static void assertBuilderIsPresent(final ICommand[] buildSpecification, final String builderID)
+   /**
+    * Asserts that the given builder ID is present in the given build specification. 
+    */
+   public static void assertBuilderIsPresent(final ICommand[] buildSpecification, final String builderID)
    {
       Assert.assertTrue(ProjectUtil.indexOf(buildSpecification, builderID) >= 0);
    }
 
-   static void assertBuilderIsMissing(final ICommand[] buildSpecification, final String builderID)
+   /**
+    * Asserts that the given builder ID is missing from the given build specification. 
+    */
+   public static void assertBuilderIsMissing(final ICommand[] buildSpecification, final String builderID)
    {
       Assert.assertTrue(ProjectUtil.indexOf(buildSpecification, builderID) < 0);
    }
 
-   static void assertBuilderOrder(final ICommand[] buildSpecification, final List<String> builderIDs)
+   /**
+    * Asserts that the given build specification exactly reflects the given list of builder IDs.
+    */
+   public static void assertBuilderOrder(final ICommand[] buildSpecification, final List<String> builderIDs)
    {
       for (int i = 0; i < buildSpecification.length; ++i)
       {

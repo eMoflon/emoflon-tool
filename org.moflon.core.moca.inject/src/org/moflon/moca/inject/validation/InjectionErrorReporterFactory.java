@@ -8,8 +8,7 @@ public class InjectionErrorReporterFactory implements IAdapterFactory
 
    @SuppressWarnings("unchecked")
    @Override
-   public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes")
-   final Class adapterType)
+   public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType)
    {
       if (adaptableObject instanceof IProject && InjectionErrorReporter.class == adapterType)
       {

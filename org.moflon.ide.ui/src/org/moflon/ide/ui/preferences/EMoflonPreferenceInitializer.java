@@ -1,20 +1,22 @@
 package org.moflon.ide.ui.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
-import org.moflon.ide.ui.UIActivator;
 
 public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
 {
-
-
    private static final String KEY_VALIDATION_TIMEOUT = "org.moflon.ide.ui.preferences.ValidationTimeoutMillis";
    
    private static final String KEY_REACHABILITY_ENABLED = "org.moflon.ide.ui.preferences.ReachabilityEnabled";
    
    private static final String KEY_REACHABILITY_MAX_ADORNMENT_SIZE = "org.moflon.ide.ui.preferences.ReachabilityMaxAdornmentSize";
 
+   /**
+    * Empty default constructor
+    */
    public EMoflonPreferenceInitializer()
    {
       // Needed for OSGi
@@ -23,49 +25,54 @@ public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
    @Override
    public void initializeDefaultPreferences()
    {
-      restoreDefaults();
+      getValidationTimeoutMillis();
    }
 
-   public static void restoreDefaults()
+   /**
+    * Stores the default values to the {@link EMoflonPreferenceInitializer} singleton (as specified in {@link EMoflonPreferencesStorage}). 
+    */
+   public static void resetToDefaults()
    {
-      final IPreferenceStore store = EMoflonPreferenceInitializer.getPreferencesStore();
-      store.setValue(KEY_VALIDATION_TIMEOUT, EMoflonPreferencesStorage.DEFAULT_REACHABILITY_MAX_ADORNMENT_SIZE);
-      store.setValue(KEY_REACHABILITY_ENABLED, true);
-      store.setValue(KEY_VALIDATION_TIMEOUT, EMoflonPreferencesStorage.DEFAULT_VALIDATION_TIMEOUT_MILLIS);
-   }
-
-   public static IPreferenceStore getPreferencesStore()
-   {
-      return UIActivator.getDefault().getPreferenceStore();
+      setReachabilityEnabled(EMoflonPreferencesStorage.DEFAULT_REACHABILITIY_IS_ENABLED);
+      setReachabilityMaxAdornmentSize(EMoflonPreferencesStorage.DEFAULT_REACHABILITY_MAX_ADORNMENT_SIZE);
+      setValidationTimeoutMillis(EMoflonPreferencesStorage.DEFAULT_VALIDATION_TIMEOUT_MILLIS);
    }
 
    public static int getValidationTimeoutMillis()
    {
-      return getPreferencesStore().getInt(KEY_VALIDATION_TIMEOUT);
+      return getPreferences().getInt(KEY_VALIDATION_TIMEOUT, EMoflonPreferencesStorage.DEFAULT_VALIDATION_TIMEOUT_MILLIS);
    }
 
    public static void setValidationTimeoutMillis(final int validationTimeout)
    {
-      getPreferencesStore().setValue(KEY_VALIDATION_TIMEOUT, validationTimeout);
+      getPreferences().putInt(KEY_VALIDATION_TIMEOUT, validationTimeout);
+      EMoflonPreferencesStorage.getInstance().setValidationTimeout(validationTimeout);
    }
 
    public static void setReachabilityEnabled(final boolean isEnabled)
    {
-      getPreferencesStore().setValue(KEY_REACHABILITY_ENABLED, isEnabled);
+      getPreferences().putBoolean(KEY_REACHABILITY_ENABLED, isEnabled);
+      EMoflonPreferencesStorage.getInstance().setReachabilityEnabled(isEnabled);
    }
    
    public static boolean getReachabilityEnabled()
    {
-      return getPreferencesStore().getBoolean(KEY_REACHABILITY_ENABLED);
+      return getPreferences().getBoolean(KEY_REACHABILITY_ENABLED, EMoflonPreferencesStorage.DEFAULT_REACHABILITIY_IS_ENABLED);
    }
    
    public static void setReachabilityMaxAdornmentSize(final int maxAdornmentSize)
    {
-      getPreferencesStore().setValue(KEY_REACHABILITY_MAX_ADORNMENT_SIZE, maxAdornmentSize);
+      getPreferences().putInt(KEY_REACHABILITY_MAX_ADORNMENT_SIZE, maxAdornmentSize);
+      EMoflonPreferencesStorage.getInstance().setReachabilityMaximumAdornmentSize(maxAdornmentSize);
    }
    
    public static int getReachabilityMaxAdornmentSize()
    {
-      return getPreferencesStore().getInt(KEY_REACHABILITY_MAX_ADORNMENT_SIZE);
+      return getPreferences().getInt(KEY_REACHABILITY_MAX_ADORNMENT_SIZE, EMoflonPreferencesStorage.DEFAULT_REACHABILITY_MAX_ADORNMENT_SIZE);
+   }
+
+   private static IEclipsePreferences getPreferences()
+   {
+      return InstanceScope.INSTANCE.getNode(WorkspaceHelper.getPluginId(EMoflonPreferenceInitializer.class));
    }
 }

@@ -14,4 +14,4 @@ Require-Bundle:
  MocaTree
 Export-Package: org.moflon.testframework.tgg,
  org.moflon.testframework.tgg.xml.unparser
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers

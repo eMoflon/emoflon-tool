@@ -1,14 +1,13 @@
 package org.moflon.ide.ui.preferences;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -20,7 +19,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.moflon.ide.ui.UIActivator;
 
 /**
  * This {@link PreferencePage} holds the eMoflon-specific configuration options
@@ -55,12 +53,15 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
    /**
     * Cached error messages
     */
-   private List<String> currentErrorMessages;
+   private Set<String> currentErrorMessages;
 
+   private static final String VALIDATION_TIMEOUT_ERROR_MSG = "Validation timeout must be an integer.";
+   
+   private static final String MAXIMUM_ADORNMENT_SIZE_ERROR_MSG = "The maximum adornment size must be an integer.";
+   
    public EMoflonPreferencesPage()
    {
-      // Required by OSGi framework
-      currentErrorMessages = new ArrayList<>();
+      currentErrorMessages = new HashSet<>();
    }
 
    @Override
@@ -80,16 +81,8 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
    protected void performDefaults()
    {
       super.performDefaults();
-      EMoflonPreferenceInitializer.restoreDefaults();
+      EMoflonPreferenceInitializer.resetToDefaults();
       initializeValues();
-   }
-
-   @Override
-   protected void performApply()
-   {
-      super.performApply();
-      if (checkValues())
-         storeValues();
    }
 
    @Override
@@ -112,12 +105,6 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
       return new Composite(parent, SWT.NULL);
    }
 
-   @Override
-   protected IPreferenceStore doGetPreferenceStore()
-   {
-      return EMoflonPreferenceInitializer.getPreferencesStore();
-   }
-
    private void createAndAddValidationComponents(final Composite parent, final FormToolkit toolkit)
    {
       final Composite validationTimeoutComponent = toolkit.createComposite(parent);
@@ -133,27 +120,25 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
       final GridData gd5 = new GridData(GridData.FILL_HORIZONTAL);
       this.validationTimeoutTextBox.setLayoutData(gd5);
       this.validationTimeoutTextBox.setToolTipText("The maximum time that the validation may take. Choose '0' to wait undefinitely long.");
-      this.validationTimeoutTextBox.addFocusListener(new FocusListener() {
-
-         private static final String ERROR_MSG = "Validation timeout must be an integer.";
+      this.validationTimeoutTextBox.addKeyListener(new KeyListener() {
 
          @Override
-         public void focusLost(FocusEvent e)
+         public void keyPressed(KeyEvent e)
          {
-            if (!checkValidationTimeout())
-            {
-               currentErrorMessages.add(ERROR_MSG);
-            } else
-            {
-               currentErrorMessages.remove(ERROR_MSG);
-            }
-            updateErrorMessage();
+            // Nop
          }
 
          @Override
-         public void focusGained(FocusEvent e)
+         public void keyReleased(KeyEvent e)
          {
-            // nop
+            if (!checkValidationTimeout())
+            {
+               currentErrorMessages.add(VALIDATION_TIMEOUT_ERROR_MSG);
+            } else
+            {
+               currentErrorMessages.remove(VALIDATION_TIMEOUT_ERROR_MSG);
+            }
+            updateErrorMessage();
          }
       });
    }
@@ -183,28 +168,26 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
       final GridData gd5 = new GridData(GridData.FILL_HORIZONTAL);
       this.reachabilityAnalysisMaxAdornmentSizeTextBox.setLayoutData(gd5);
       this.reachabilityAnalysisMaxAdornmentSizeTextBox.setToolTipText("The maximum size of adornments to. Choose '0' to use the maximum.");
-      this.reachabilityAnalysisMaxAdornmentSizeTextBox.addFocusListener(new FocusListener() {
-
-         private static final String ERROR_MSG = "The maximum adornment size must be an integer.";
+      this.reachabilityAnalysisMaxAdornmentSizeTextBox.addKeyListener(new KeyListener() {
 
          @Override
-         public void focusLost(FocusEvent e)
+         public void keyPressed(KeyEvent e)
          {
-            if (!checkReachabilityAnalysisMaxAdornmentSize())
-            {
-               currentErrorMessages.add(ERROR_MSG);
-            } else
-            {
-               currentErrorMessages.remove(ERROR_MSG);
-            }
-
-            updateErrorMessage();
+            // Nop
          }
 
          @Override
-         public void focusGained(FocusEvent e)
+         public void keyReleased(KeyEvent e)
          {
-            // nop
+            if (!checkReachabilityAnalysisMaxAdornmentSize())
+            {
+               currentErrorMessages.add(MAXIMUM_ADORNMENT_SIZE_ERROR_MSG);
+            } else
+            {
+               currentErrorMessages.remove(MAXIMUM_ADORNMENT_SIZE_ERROR_MSG);
+            }
+
+            updateErrorMessage();
          }
       });
    }
@@ -223,11 +206,6 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
          this.setValid(false);
          this.setErrorMessage(StringUtils.join(this.currentErrorMessages, "\n"));
       }
-   }
-
-   private boolean checkValues()
-   {
-      return this.checkValidationTimeout() && this.checkReachabilityAnalysisMaxAdornmentSize();
    }
 
    /**
@@ -254,7 +232,7 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
       {
          Integer.parseInt(validationTimeoutTextBox.getText());
          return true;
-      } catch (NumberFormatException e)
+      } catch (final NumberFormatException e)
       {
          return false;
       }
@@ -265,12 +243,9 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
     */
    private void storeValues()
    {
-
       EMoflonPreferenceInitializer.setValidationTimeoutMillis(Integer.parseInt(this.validationTimeoutTextBox.getText()) * 1000);
       EMoflonPreferenceInitializer.setReachabilityEnabled(this.reachabilityAnalysisEnabledButton.getSelection());
       EMoflonPreferenceInitializer.setReachabilityMaxAdornmentSize(Integer.parseInt(this.reachabilityAnalysisMaxAdornmentSizeTextBox.getText()));
-
-      UIActivator.synchronizeEMoflonPreferencesStorage();
    }
 
    /**
@@ -281,7 +256,5 @@ public class EMoflonPreferencesPage extends PreferencePage implements IWorkbench
       this.validationTimeoutTextBox.setText(Integer.toString(EMoflonPreferenceInitializer.getValidationTimeoutMillis() / 1000));
       this.reachabilityAnalysisEnabledButton.setSelection(EMoflonPreferenceInitializer.getReachabilityEnabled());
       this.reachabilityAnalysisMaxAdornmentSizeTextBox.setText(Integer.toString(EMoflonPreferenceInitializer.getReachabilityMaxAdornmentSize()));
-
-      UIActivator.synchronizeEMoflonPreferencesStorage();
    }
 }

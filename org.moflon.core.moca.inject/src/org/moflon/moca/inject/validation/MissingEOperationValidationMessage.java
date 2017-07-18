@@ -2,6 +2,8 @@ package org.moflon.moca.inject.validation;
 
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
+
 public class MissingEOperationValidationMessage extends InjectionValidationMessage
 {
 
@@ -9,7 +11,7 @@ public class MissingEOperationValidationMessage extends InjectionValidationMessa
          final String fileName)
    {
       super("Cannot find the EOperation " + getMethodSignature(methodName, paramNames, paramTypes) + " in class '" + className + "'.", fileName,
-            InjectionValidationSeverity.WARNING);
+            IStatus.WARNING);
    }
 
    private static String getMethodSignature(final String methodName, final List<String> paramNames, final List<String> paramTypes)
