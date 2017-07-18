@@ -26,6 +26,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.emf.injection.injectionLanguage.ClassDeclaration;
 import org.moflon.emf.injection.injectionLanguage.ClassInjectionDeclaration;
@@ -278,7 +279,12 @@ public class XTextInjectionExtractor implements InjectionExtractor
          } else
          {
             final String methodBody = normalizeCodeBody(methodDeclaration.getBody());
-            this.modelCode.put(correspondingEOperation, methodBody);
+            final StringBuilder code = new StringBuilder();
+            code.append("\n");
+            code.append(MoflonUtil.EOPERATION_MODEL_COMMENT);
+            code.append("\n");
+            code.append(methodBody);
+            this.modelCode.put(correspondingEOperation, code.toString());
          }
       }
    }
