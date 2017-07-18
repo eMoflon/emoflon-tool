@@ -38,7 +38,7 @@ public class ExportAndBuildHandler extends AbstractCommandHandler
             @Override
             public IStatus runInWorkspace(final IProgressMonitor monitor)
             {
-               Status status = new Status(IStatus.OK, UIActivator.getModuleID(), IStatus.OK, "", null);
+               Status status = new Status(IStatus.OK, WorkspaceHelper.getPluginId(UIActivator.class), IStatus.OK, "", null);
                int numProjects = projects.size();
                String name = String.format("Exporting %d metamodel %s...", numProjects, numProjects == 1 ? "project" : "projects");
                final SubMonitor subMon = SubMonitor.convert(monitor, name, 2 * numProjects);
@@ -50,7 +50,7 @@ public class ExportAndBuildHandler extends AbstractCommandHandler
                      EnterpriseArchitectHelper.delegateToEnterpriseArchitect(project, subMon.split(1));
                   } catch (IOException | InterruptedException e)
                   {
-                     status = new Status(IStatus.ERROR, UIActivator.getModuleID(), e.getMessage());
+                     status = new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(UIActivator.class), e.getMessage());
                   }
                }
                return status;

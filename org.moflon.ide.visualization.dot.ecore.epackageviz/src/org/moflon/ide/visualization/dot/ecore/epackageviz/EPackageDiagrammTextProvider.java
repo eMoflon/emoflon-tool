@@ -3,6 +3,7 @@ package org.moflon.ide.visualization.dot.ecore.epackageviz;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.viewers.ISelection;
 import org.moflon.ide.visualisation.dot.language.EMoflonDiagramTextProvider;
 import org.moflon.ide.visualization.dot.language.AbstractGraph;
 import org.moflon.ide.visualization.dot.language.ClassGraph;
@@ -14,6 +15,12 @@ public class EPackageDiagrammTextProvider extends EMoflonDiagramTextProvider {
 	public boolean isElementValidInput(Object selectedElement) {
 		return selectedElement instanceof EPackage;
 	}
+
+   @Override
+   public boolean supportsSelection(final ISelection selection)
+   {
+      return true;
+   }
 
 	@Override
 	protected boolean directionIsForward() {
@@ -58,5 +65,4 @@ public class EPackageDiagrammTextProvider extends EMoflonDiagramTextProvider {
 	protected void registerConfigurator(SynchronizationHelper helper){
 	   helper.setConfigurator(new EPackageVisualizationConfigurator());
 	}
-
 }

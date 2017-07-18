@@ -56,7 +56,6 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
    @Override
    public ValidationReport generateSearchPlan(final Pattern pattern, final Adornment adornment, final boolean isMultipleMatch)
    {
-      //TODO inspect ME
       final ValidationReport report = ResultFactory.eINSTANCE.createValidationReport();
       Logger.getLogger(getClass()).debug("Generating search plan for " + pattern);
       try

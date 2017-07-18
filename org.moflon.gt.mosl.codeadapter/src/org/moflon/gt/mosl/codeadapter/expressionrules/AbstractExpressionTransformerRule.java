@@ -1,40 +1,33 @@
 package org.moflon.gt.mosl.codeadapter.expressionrules;
 
 import org.gervarro.democles.specification.emf.PatternBody;
-import org.moflon.gt.mosl.codeadapter.ExpressionBuilder;
 import org.moflon.gt.mosl.moslgt.AbstractAttribute;
 import org.moflon.gt.mosl.moslgt.Expression;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 
-public abstract class AbstractExpressionTransformerRule<A extends AbstractAttribute, E extends Expression> implements IAbstractAttributeClassGetter<A>
+public abstract class AbstractExpressionTransformerRule<A extends AbstractAttribute, E extends Expression> implements IAbstractAttributeClassGetter<A>, IExpressionTransformationRule
 {
-
-   public AbstractExpressionTransformerRule()
-   {
-      ExpressionBuilder.getInstance().addTranformerFun(getAbstractAttributeClass(), getExpressionClass(), ov -> expr -> patternBody -> {
-         castExpression(ov, expr, patternBody);
-      });
-   }
-
    protected abstract Class<E> getExpressionClass();
 
-   protected void preTransform(ObjectVariableDefinition ov, E expr, PatternBody patternBody)
+   protected abstract ValidationReport transform(ObjectVariableDefinition ov, E expr, PatternBody patternBody);
+   
+   @Override
+   public boolean canHandle(final AbstractAttribute attribute)
    {
-      // Do nothing
+      final Expression expression = attribute.getValueExp();
+      return expression.getClass().isInstance(getExpressionClass());
    }
 
-   protected abstract void transform(ObjectVariableDefinition ov, E expr, PatternBody patternBody);
-
-   protected void postTransform(ObjectVariableDefinition ov, E expr, PatternBody patternBody)
+   @Override
+   public ValidationReport invoke(final ObjectVariableDefinition ov, final AbstractAttribute abstractAttribute, final PatternBody patternBody)
    {
-      // Do nothing
+      return castAndInvokeExpression(ov, abstractAttribute.getValueExp(), patternBody);
    }
 
-   private void castExpression(ObjectVariableDefinition ov, Expression expr, PatternBody patternBody)
+   private ValidationReport castAndInvokeExpression(final ObjectVariableDefinition objectVariable, final Expression expression, final PatternBody patternBody)
    {
-      E castedExpr = getExpressionClass().cast(expr);
-      preTransform(ov, castedExpr, patternBody);
-      transform(ov, castedExpr, patternBody);
-      postTransform(ov, castedExpr, patternBody);
+      final E castedExpr = getExpressionClass().cast(expression);
+      return transform(objectVariable, castedExpr, patternBody);
    }
 }

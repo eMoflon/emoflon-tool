@@ -1,14 +1,15 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
-
+import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.moslgt.ReturnStatement;
+import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
+import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 import org.moflon.sdm.runtime.democles.Action;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.Scope;
 
-public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement> implements IHandlePatternsInStatement
+public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement>
 {
 
    @Override
@@ -18,7 +19,7 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement> 
    }
 
    @Override
-   protected void transformStatement(ReturnStatement stmnt, Scope scope, CFNode previosCFNode)
+   protected ValidationReport transformStatement(ReturnStatement stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
    {
       org.moflon.sdm.runtime.democles.ReturnStatement rs = DemoclesFactory.eINSTANCE.createReturnStatement();
       if (previosCFNode != null)
@@ -33,11 +34,12 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement> 
       
       rs.getActions().add(action);
       rs.setMainAction(action);
-      
-      
-
-     // ObjectVariableDefinition returnValue = stmnt.getReturnObject();
-
+      return ResultFactory.eINSTANCE.createValidationReport();
    }
 
+   @Override
+   protected void invokeNextRule(ReturnStatement stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   {
+      // Nothing to do here since returns statement terminate the control flow.
+   }
 }

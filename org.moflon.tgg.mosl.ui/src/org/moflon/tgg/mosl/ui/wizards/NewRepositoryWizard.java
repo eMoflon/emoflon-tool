@@ -10,6 +10,7 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonProjectInfoPage;
 import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonWizard;
 import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
@@ -72,7 +73,7 @@ public class NewRepositoryWizard extends AbstractMoflonWizard
    protected void createProject(IProgressMonitor monitor, IProject project, MetamodelProperties metamodelProperties) throws CoreException
    {
       metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.REPOSITORY_KEY);
-      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties);
+      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties, new RepositoryNature());
       ResourcesPlugin.getWorkspace().run(createMoflonProject, SubMonitor.convert(monitor).split(1));
    }
 }

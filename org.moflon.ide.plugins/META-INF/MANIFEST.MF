@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.ide.plugins
 Bundle-SymbolicName: org.moflon.ide.plugins
 Bundle-Version: 2.1.1.qualifier
-Bundle-Vendor: Real-Time Systems Lab, TU Darmstadt
+Bundle-Vendor: eMoflon Developers
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.moflon.util.plugins,
  org.moflon.util.plugins.manifest

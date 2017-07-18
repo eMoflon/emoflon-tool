@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.gt.mosl.ui
-Bundle-Vendor: UI of MOSL-GT
+Bundle-Vendor: eMoflon Developers
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.moflon.gt.mosl.ui; singleton:=true
 Bundle-ActivationPolicy: lazy

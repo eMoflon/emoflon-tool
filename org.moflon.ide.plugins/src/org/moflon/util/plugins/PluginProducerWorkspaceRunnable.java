@@ -20,7 +20,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.moflon.TGGLanguageActivator;
-import org.moflon.core.moca.tree.MocaTreePlugin;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -29,6 +28,8 @@ import org.moflon.tgg.runtime.TGGRuntimePlugin;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 import org.moflon.util.plugins.manifest.ManifestFileUpdater.AttributeUpdatePolicy;
 import org.moflon.util.plugins.manifest.PluginManifestConstants;
+
+import MocaTree.MocaTreeFactory;
 
 public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
 {
@@ -115,7 +116,7 @@ public class PluginProducerWorkspaceRunnable implements IWorkspaceRunnable
 
          if (WorkspaceHelper.isIntegrationProjectNoThrow(getProject()))
             changed |= ManifestFileUpdater.updateDependencies(manifest,
-                  Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, WorkspaceHelper.getPluginId(MocaTreePlugin.class),
+                  Arrays.asList(new String[] { WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, WorkspaceHelper.getPluginId(MocaTreeFactory.class),
                         WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, WorkspaceHelper.getPluginId(SDMLanguagePlugin.class),
                         WorkspaceHelper.getPluginId(TGGLanguageActivator.class), WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) }));
 

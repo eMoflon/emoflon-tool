@@ -1,30 +1,15 @@
 module org.moflon.gt.mosl.GenerateMGT
 
-import org.eclipse.emf.mwe.utils.*
 import org.eclipse.xtext.xtext.generator.*
 import org.eclipse.xtext.xtext.generator.model.project.*
+import org.moflon.core.xtext.*
 
 var projectName = "org.moflon.gt.mosl"
 var rootPath = ".."
-var runtimeProject = "../${projectName}"
 var encoding = "UTF-8"
 
 Workflow {
     
-	component = DirectoryCleaner {
-    	directory = "${runtimeProject}/src-gen"
-    	exclude = ".keepsrcgen"
-    }
-    
-    component = DirectoryCleaner {
-    	directory = "${runtimeProject}/model/generated"
-    }
-    
-    component = DirectoryCleaner {
-    	directory = "${runtimeProject}.ui/src-gen"
-    	exclude = ".keepsrcgen"
-    }
-	
 	component = XtextGenerator {
 		configuration = {
 			project = StandardProjectConfig {
@@ -52,4 +37,19 @@ Workflow {
 			}
 		}
 	}
+	
+    component = FileCreatorMwe2Component {
+        filePath = "${rootPath}/${projectName}/src-gen/.keepsrcgen"
+        fileContent = "Dummy file to protect empty folder in Git.\n"
+    }
+    
+    component = FileCreatorMwe2Component {
+        filePath = "${rootPath}/${projectName}.ide/src-gen/.keepsrcgen"
+        fileContent = "Dummy file to protect empty folder in Git.\n"
+    }
+    
+    component = FileCreatorMwe2Component {
+        filePath = "${rootPath}/${projectName}.ui/src-gen/.keepsrcgen"
+        fileContent = "Dummy file to protect empty folder in Git.\n"
+    }
 }

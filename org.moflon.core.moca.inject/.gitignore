@@ -1,5 +1,5 @@
 /bin
-/**/*Lexer.java
-/**/*Lexer.tokens
-/**/*Parser.java
-/**/*Parser.tokens
+/**/parser/*Lexer.java
+/**/parser/*Lexer.tokens
+/**/parser/*Parser.java
+/**/parser/*Parser.tokens

@@ -2,6 +2,7 @@ package org.moflon.ide.visualization.dot.tgg;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.jface.viewers.ISelection;
 import org.moflon.ide.visualisation.dot.language.EMoflonDiagramTextProvider;
 import org.moflon.ide.visualization.dot.language.LabelEntry;
 import org.moflon.tgg.language.TGGRule;
@@ -13,6 +14,18 @@ import org.moflon.tgg.language.csp.Variable;
 import org.moflon.tgg.runtime.CorrespondenceModel;
 
 public class TGGRuleDiagramTextProvider extends EMoflonDiagramTextProvider {
+
+   @Override
+   public boolean isElementValidInput(Object selectedElement) {
+      return selectedElement instanceof TGGRule;
+   }
+
+   @Override
+   public boolean supportsSelection(final ISelection selection)
+   {
+      return true;
+   }
+   
 	@Override
 	protected boolean directionIsForward() {
 		return false;
@@ -21,11 +34,6 @@ public class TGGRuleDiagramTextProvider extends EMoflonDiagramTextProvider {
 	@Override
 	protected EPackage getPackage() {
 		return TggPackage.eINSTANCE;
-	}
-
-	@Override
-	public boolean isElementValidInput(Object selectedElement) {
-		return selectedElement instanceof TGGRule;
 	}
 
 	@Override

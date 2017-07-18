@@ -2,6 +2,7 @@ package org.moflon.ide.visualization.dot.sdm;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.jface.viewers.ISelection;
 import org.moflon.ide.visualisation.dot.language.EMoflonDiagramTextProvider;
 import org.moflon.ide.visualization.dot.language.NodeCommand;
 import org.moflon.ide.visualization.dot.language.RecordEntry;
@@ -30,6 +31,12 @@ public class SDMDiagramTextProvider extends EMoflonDiagramTextProvider
    public boolean isElementValidInput(Object selectedElement)
    {
       return selectedElement instanceof Activity;
+   }
+
+   @Override
+   public boolean supportsSelection(final ISelection selection)
+   {
+      return true;
    }
    
    @Override

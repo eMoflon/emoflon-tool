@@ -17,6 +17,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -50,7 +52,6 @@ import org.moflon.ide.core.tasks.ProjectBuilderTask;
 import org.moflon.ide.core.tasks.TaskUtilities;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 import org.moflon.ide.workspaceinstaller.psf.PsfFileUtils;
-import org.osgi.framework.FrameworkUtil;
 
 @SuppressWarnings("restriction")
 public class WorkspaceInstaller
@@ -221,7 +222,7 @@ public class WorkspaceInstaller
             final EnterpriseArchitectModelExporterTask eaModelExporter = new EnterpriseArchitectModelExporterTask(metamodelProjects, false);
             jobs.add(new WorkspaceTaskJob(eaModelExporter));
          }
-         final IBuildConfiguration[] buildConfigurations = CoreActivator.getDefaultBuildConfigurations(metamodelProjects);
+         final IBuildConfiguration[] buildConfigurations = getDefaultBuildConfigurations(metamodelProjects);
          if (buildConfigurations.length > 0)
          {
             final ProjectBuilderTask metamodelBuilder = new ProjectBuilderTask(buildConfigurations);
@@ -235,8 +236,8 @@ public class WorkspaceInstaller
          {
             final IProject[] moflonProjects = CoreActivator.getRepositoryAndIntegrationProjects(ResourcesPlugin.getWorkspace().getRoot().getProjects());
             final IProject[] graphicalMoflonProjects = CoreActivator.getProjectsWithGraphicalSyntax(moflonProjects);
-            final IProject[] textualMoflonProjects = CoreActivator.getProjectsWithTextualSyntax(moflonProjects);
-            if (textualMoflonProjects.length > 0)
+            final List<IProject> mweProjects = getProjectsWithMweWorkflows();
+            if (mweProjects.size() > 0)
             {
                try
                {
@@ -251,22 +252,22 @@ public class WorkspaceInstaller
                         @Override
                         protected IStatus run(IProgressMonitor monitor)
                         {
-                           final SubMonitor closingMonitor = SubMonitor.convert(monitor, "Closing projects", textualMoflonProjects.length);
+                           final SubMonitor closingMonitor = SubMonitor.convert(monitor, "Closing projects", mweProjects.size());
                            try
                            {
-                              for (int i = 0; i < textualMoflonProjects.length; i++)
+                              for (final IProject mweProject : mweProjects)
                               {
-                                 textualMoflonProjects[i].close(closingMonitor.split(1));
+                                 mweProject.close(closingMonitor.split(1));
                                  CoreActivator.checkCancellation(closingMonitor);
                               }
                            } catch (final CoreException e)
                            {
-                              return new Status(IStatus.ERROR, FrameworkUtil.getBundle(getClass()).getSymbolicName(), e.getMessage(), e);
+                              return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
                            } finally
                            {
                               SubMonitor.done(monitor);
                            }
-                           return new Status(IStatus.OK, FrameworkUtil.getBundle(getClass()).getSymbolicName(),
+                           return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()),
                                  "eMoflon projects with textual syntax have been successfully closed");
                         }
                      });
@@ -292,7 +293,7 @@ public class WorkspaceInstaller
                            {
                               SubMonitor.done(monitor);
                            }
-                           return new Status(IStatus.OK, FrameworkUtil.getBundle(getClass()).getSymbolicName(),
+                           return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()),
                                  "MWE2 workflows have been successfully executed");
                         }
                      };
@@ -305,32 +306,32 @@ public class WorkspaceInstaller
                         @Override
                         protected IStatus run(IProgressMonitor monitor)
                         {
-                           final SubMonitor openingMonitor = SubMonitor.convert(monitor, "Opening projects", textualMoflonProjects.length);
+                           final SubMonitor openingMonitor = SubMonitor.convert(monitor, "Opening projects", mweProjects.size());
                            try
                            {
-                              for (int i = 0; i < textualMoflonProjects.length; i++)
+                              for (final IProject mweProject : mweProjects)
                               {
-                                 textualMoflonProjects[i].open(openingMonitor.split(1));
+                                 mweProject.open(openingMonitor.split(1));
                                  CoreActivator.checkCancellation(openingMonitor);
                               }
                            } catch (final CoreException e)
                            {
-                              return new Status(IStatus.ERROR, FrameworkUtil.getBundle(getClass()).getSymbolicName(), e.getMessage(), e);
+                              return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
                            } finally
                            {
                               SubMonitor.done(monitor);
                            }
-                           return new Status(IStatus.OK, FrameworkUtil.getBundle(getClass()).getSymbolicName(),
+                           return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()),
                                  "eMoflon projects with textual syntax have been successfully opened");
                         }
                      });
                      // (5) Building projects with textual syntax (with workspace lock)
-                     prepareIncrementalProjectBuilderJob(jobs, textualMoflonProjects);
+                     prepareIncrementalProjectBuilderJob(jobs, mweProjects);
                   } else
                   {
                      // Building projects (with workspace lock)
                      prepareIncrementalProjectBuilderJob(jobs, graphicalMoflonProjects);
-                     prepareIncrementalProjectBuilderJob(jobs, textualMoflonProjects);
+                     prepareIncrementalProjectBuilderJob(jobs, mweProjects);
                   }
                } catch (final CoreException e)
                {
@@ -368,7 +369,7 @@ public class WorkspaceInstaller
                      @Override
                      protected IStatus run(final IProgressMonitor monitor)
                      {
-                        final MultiStatus result = new MultiStatus(FrameworkUtil.getBundle(getClass()).getSymbolicName(), IStatus.OK,
+                        final MultiStatus result = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), IStatus.OK,
                               "Test configurations executed succesfully", null);
                         final ILaunchManager mgr = DebugPlugin.getDefault().getLaunchManager();
                         final SubMonitor subMonitor = SubMonitor.convert(monitor, launchConfigurations.size());
@@ -386,12 +387,17 @@ public class WorkspaceInstaller
                   jobs.add(testConfigurationJob);
                }
             }
-            return new Status(IStatus.OK, FrameworkUtil.getBundle(getClass()).getSymbolicName(), "eMoflon projects successfully explored");
+            return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "eMoflon projects successfully explored");
+         }
+
+         private List<IProject> getProjectsWithMweWorkflows()
+         {
+            return WorkspaceHelper.getAllProjectsInWorkspace().stream().filter(WorkspaceInstaller::containsMwe2Files).collect(Collectors.toList());
          }
       };
       moflonProjectExplorerJob.setRule(ResourcesPlugin.getWorkspace().getRoot());
       jobs.add(moflonProjectExplorerJob);
-      jobs.add(new Job("God bye.") {
+      jobs.add(new Job("Good bye.") {
 
          @Override
          protected IStatus run(IProgressMonitor monitor)
@@ -412,10 +418,46 @@ public class WorkspaceInstaller
       }
       logger.info("End of automatic workspace configuration reached. Please wait for the code generation jobs to finish. Bye bye.");
    }
+   
+   private static boolean containsMwe2Files(final IProject project)
+   {
+      final List<IResource> mwe2Resources = new ArrayList<>();
+      try
+      {
+         project.accept(new IResourceVisitor() {
+            
+            @Override
+            public boolean visit(IResource resource) throws CoreException
+            {
+               // Quit after first identified resource
+               if (!mwe2Resources.isEmpty())
+                  return false;
+               
+               if (resource.getName().endsWith("." + WorkspaceHelper.MWE2_FILE_EXTENSION))
+                  mwe2Resources.add(resource);
+               
+               return true;
+            }
+         });
+         return !mwe2Resources.isEmpty();
+      } catch (final CoreException e)
+      {
+         return false;
+      }
+   }
+   
+   private static final IBuildConfiguration[] getDefaultBuildConfigurations(final IProject[] projects)
+   {
+      return CoreActivator.getDefaultBuildConfigurations(Arrays.asList(projects));
+   }
 
+   private final void prepareIncrementalProjectBuilderJob(final List<Job> jobs, final Collection<IProject> projects) {
+      projects.toArray(new IProject[projects.size()]);
+   }
+   
    private final void prepareIncrementalProjectBuilderJob(final List<Job> jobs, final IProject[] projects)
    {
-      final IBuildConfiguration[] buildConfigurations = CoreActivator.getDefaultBuildConfigurations(projects);
+      final IBuildConfiguration[] buildConfigurations = getDefaultBuildConfigurations(projects);
       if (buildConfigurations.length > 0)
       {
          final ProjectBuilderTask builder = new ProjectBuilderTask(buildConfigurations);

@@ -9,7 +9,8 @@
 			default="true"
 			extensions="mgt"
 			id="org.moflon.gt.mosl.MOSLGT"
-			name="MOSLGT Editor">
+            icon="resources/icons/MoflonFile.png"
+			name="MOSL-GT Editor">
 		</editor>
 	</extension>
 	<extension
@@ -119,6 +120,9 @@
 	</extension>
 	<extension
 		point="org.eclipse.ui.commands">
+		<category name="MOSL-GT category"
+        id="org.moflon.ide.ui.commands.MoslGtCategory">
+		</category>
 	<command
 			description="Trigger expensive validation"
 			id="org.moflon.gt.mosl.MOSLGT.validate"
@@ -137,6 +141,11 @@
 			description="Copy the qualified name for the selected element"
 			name="Copy Qualified Name">
 	</command>
+ <command
+       categoryId="org.moflon.ide.ui.commands.MoslGtCategory"
+       id="org.moflon.ide.ui.commands.ConvertToMoslGtCommand"
+       name="Convert to MOSL-GT">
+ </command>
 	</extension>
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution
@@ -182,7 +191,33 @@
 				</visibleWhen>
 			</command>
 		</menuContribution>
+		<menuContribution
+            allPopups="false"
+            locationURI="popup:org.moflon.ide.ui.moflon?after=additions">
+         <command
+               commandId="org.moflon.ide.ui.commands.ConvertToMoslGtCommand"
+               label="Convert to MOSL-GT"
+               style="push">
+               <visibleWhen
+                     checkEnabled="false">
+               </visibleWhen>
+         </command>
+      </menuContribution>
 	</extension>
+   <!--
+   	* M1 = COMMAND/Ctrl
+	* M2 = Shift
+	* M3 = Option/Alt
+   -->
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.moflon.ide.ui.commands.ConvertToMoslGtCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+E Y">
+      </key>
+  </extension>
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
 			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
