@@ -1,11 +1,17 @@
 package org.moflon.moca.inject.extractors;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -17,14 +23,30 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.emf.injection.injectionLanguage.ClassDeclaration;
+import org.moflon.emf.injection.injectionLanguage.ClassInjectionDeclaration;
+import org.moflon.emf.injection.injectionLanguage.InjectionFile;
+import org.moflon.emf.injection.injectionLanguage.MethodDeclaration;
+import org.moflon.emf.injection.injectionLanguage.RegularImport;
+import org.moflon.emf.injection.injectionLanguage.StaticImport;
 import org.moflon.moca.inject.CodeInjectionPlugin;
 import org.moflon.moca.inject.util.ClassNameToPathConverter;
+import org.moflon.moca.inject.util.MatchingParametersChecker;
+import org.moflon.moca.inject.validation.MissingEClassValidationMessage;
+import org.moflon.moca.inject.validation.MissingEOperationValidationMessage;
 
+//TODO@rkluge: Check documentation
 public class XTextInjectionExtractor implements InjectionExtractor
 {
+   private static final String CODE_END_TOKEN = "-->";
 
+   private static final String CODE_BEGIN_TOKEN = "<--";
+
+   //TODO@rkluge: I guess we can get rid of this by storing the mapping of "FQN" to "InjectionFile"
    private final HashMap<EOperation, String> modelCode;
 
    private final HashMap<String, String> membersCode;
@@ -39,6 +61,8 @@ public class XTextInjectionExtractor implements InjectionExtractor
 
    private GenModel genModel;
 
+   private XTextInjectionParser injectionParser;
+
    public XTextInjectionExtractor(final IFolder injectionFolder, final GenModel genModel)
    {
       this.modelCode = new HashMap<EOperation, String>();
@@ -49,6 +73,7 @@ public class XTextInjectionExtractor implements InjectionExtractor
       this.injectionRootFolder = injectionFolder;
       this.classNameToPathConverter = new ClassNameToPathConverter(WorkspaceHelper.GEN_FOLDER);
       this.genModel = genModel;
+      this.injectionParser = new XTextInjectionParser();
    }
 
    @Override
@@ -69,11 +94,40 @@ public class XTextInjectionExtractor implements InjectionExtractor
             {
                //TODO@rkluge: Continue here
                final IFile injectionFile = resource.getAdapter(IFile.class);
-               if (injectionFile != null && WorkspaceHelper.INJECTION_FILE_EXTENSION.equals(resource.getFileExtension()))
+               if (injectionFile != null && isInjectionFile(injectionFile) && !shallIgnoreFile(injectionFile))
                {
-                  System.out.println(injectionFile);
+                  final String fullyQualifiedClassName = buildInjectionPathDescription(injectionFile, ".");
+                  final String filePath = buildInjectionPathDescription(injectionFile, "/").concat(".").concat(WorkspaceHelper.INJECTION_FILE_EXTENSION);
+                  final GenClass genClass = fqnToGenClassMap.get(fullyQualifiedClassName);
+                  if (genClass != null)
+                  {
+                     final URI uri = URI.createPlatformResourceURI(
+                           injectionFile.getProject().getName() + "/" + injectionRootFolder.getProjectRelativePath() + "/" + filePath, false);
+                     try
+                     {
+                        final InjectionFile parsedFile = (InjectionFile) injectionParser.parse(uri);
+                        validateConnsistentClassName(injectionFile, parsedFile, resultStatus);
+                        processInjectionFile(parsedFile, genClass, fullyQualifiedClassName, injectionFile, resultStatus);
+                     } catch (final IOException e)
+                     {
+                        resultStatus.add(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Exception during injection extraction", e));
+                     }
+                  } else
+                  {
+                     reportMissingEClass(fullyQualifiedClassName, injectionFile, resultStatus);
+                  }
                }
                return true;
+            }
+
+            private void validateConnsistentClassName(final IFile injectionFile, final InjectionFile parsedFile, final MultiStatus resultStatus)
+            {
+               final String classDeclarationName = parsedFile.getClassDeclaration().getClassName();
+               if (!classDeclarationName.equals(getBasename(injectionFile)))
+               {
+                  resultStatus.add(new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(getClass()), String.format(
+                        "Basename of injection file '%s' differs from class name '%s' declared inside the file.", injectionFile, classDeclarationName)));
+               }
             }
          });
       } catch (final CoreException e)
@@ -163,6 +217,189 @@ public class XTextInjectionExtractor implements InjectionExtractor
       for (final GenPackage subPackage : genPackage.getSubGenPackages())
       {
          processGenPackageContents(subPackage);
+      }
+   }
+
+   private boolean isInjectionFile(final IFile injectionFile)
+   {
+      return WorkspaceHelper.INJECTION_FILE_EXTENSION.equals(injectionFile.getFileExtension());
+   }
+
+   /**
+    * Checks if this file is supposed to be ignored by this extractor
+    */
+   private boolean shallIgnoreFile(final IFile file)
+   {
+      return file.getName().startsWith(InjectionConstants.IGNORE_FILE_PREFIX);
+   }
+
+   private void reportMissingEClass(final String fullyQualifiedClassName, final IFile injectionFile, final MultiStatus resultStatus)
+   {
+      final String fullPath = buildInjectionPathDescription(injectionFile, "/").concat(".").concat(WorkspaceHelper.INJECTION_FILE_EXTENSION);
+      MissingEClassValidationMessage message = new MissingEClassValidationMessage(fullyQualifiedClassName, fullPath);
+      resultStatus.add(message.convertToStatus());
+   }
+
+   /**
+    * Stores
+    * @param parsedFile
+    * @param genClass 
+    * @param fullyQualifiedClassName 
+    */
+   private void processInjectionFile(final InjectionFile parsedFile, final GenClass genClass, final String fullyQualifiedClassName, final IFile injectionFile,
+         final MultiStatus resultStatus)
+   {
+      final List<String> perClassImports = new ArrayList<>();
+      for (final EObject animport : parsedFile.getImports())
+      {
+         if (animport instanceof StaticImport)
+         {
+            perClassImports.add("static " + StaticImport.class.cast(animport).getNamespace());
+         } else if (animport instanceof RegularImport)
+         {
+            perClassImports.add(StaticImport.class.cast(animport).getNamespace());
+         }
+      }
+
+      final ClassDeclaration classDeclaration = parsedFile.getClassDeclaration();
+      final ClassInjectionDeclaration classInjectionDeclaration = classDeclaration.getClassInjectionDeclaration();
+      if (classInjectionDeclaration != null)
+      {
+         this.membersCode.put(fullyQualifiedClassName, normalizeCodeBody(classInjectionDeclaration.getBody()));
+      }
+
+      for (final MethodDeclaration methodDeclaration : classDeclaration.getMethodDeclarations())
+      {
+         final EOperation correspondingEOperation = getCorrespondingEOperation(genClass, methodDeclaration, resultStatus);
+
+         if (correspondingEOperation == null)
+         {
+            reportMissingEOperation(genClass, methodDeclaration, injectionFile, resultStatus);
+         } else
+         {
+            final String methodBody = normalizeCodeBody(methodDeclaration.getBody());
+            this.modelCode.put(correspondingEOperation, methodBody);
+         }
+      }
+   }
+
+   private String normalizeCodeBody(final String body)
+   {
+      final int indexOfBeginToken = body.indexOf(CODE_BEGIN_TOKEN);
+      final int indexOfEndToken = body.indexOf(CODE_END_TOKEN);
+      if (indexOfBeginToken < 0)
+         throw new IllegalArgumentException("Expected begin token " + CODE_BEGIN_TOKEN);
+      if (indexOfEndToken < 0)
+         throw new IllegalArgumentException("Expected end token " + CODE_END_TOKEN);
+      return body.substring(0, indexOfEndToken).substring(indexOfBeginToken + CODE_BEGIN_TOKEN.length());
+   }
+
+   /**
+    * Searches for the EOperation in given EClass, that matches the given name and parameters
+    * 
+    * @param surroundingClass
+    *           The EClass to search in.
+    * @param methodName
+    *           The name of the searched method.
+    * @param paramTypes
+    *           The types of the parameters in the same order as the names.
+    * @return The EOperation with the given name and parameters. Guaranteed to be non-null.
+    * @throws CoreException
+    */
+   private EOperation getCorrespondingEOperation(final GenClass surroundingClass, final MethodDeclaration methodDeclaration, final MultiStatus resultStatus)
+   {
+      final String methodName = methodDeclaration.getMethodName();
+      final List<String> paramTypes = extractParameterTypes(methodDeclaration);
+      EOperation result = null;
+
+      final List<EOperation> eOperationsWithMatchingName = getEOperationsByName(surroundingClass, methodName);
+
+      for (final EOperation eOperation : eOperationsWithMatchingName)
+      {
+         if (hasMatchingParameters(eOperation, paramTypes))
+         {
+            result = eOperation;
+            break;
+         }
+      }
+
+      return result;
+   }
+
+   private List<String> extractParameterTypes(final MethodDeclaration methodDeclaration)
+   {
+      return methodDeclaration.getParameters().stream().map(declaration -> declaration.getParameterType()).collect(Collectors.toList());
+   }
+
+   /**
+    * Searches in a List of EOperations for all those with the given name.
+    * 
+    * @param eClass
+    *           The List to search in.
+    * @param name
+    *           The name of the searched EOperations.
+    * @return All EOperations in the List with the given name.
+    */
+   private List<EOperation> getEOperationsByName(final GenClass eClass, final String name)
+   {
+      final ArrayList<EOperation> result = new ArrayList<EOperation>();
+      for (final EOperation eOperation : eClass.getEcoreClass().getEOperations())
+      {
+         if (eOperation.getName().equals(name))
+            result.add(eOperation);
+      }
+      return result;
+   }
+
+   /**
+    * Checks if the parameters of given EOperation match the given method parameter.
+    * 
+    * @param eOperationToCheck
+    *           The EOperation to check.
+    * @param parameterNames
+    *           The names of the parameters.
+    * @param paramTypes
+    *           The types of the parameters.
+    * @return True if the parameters matches the given lists, else false;
+    */
+   private boolean hasMatchingParameters(final EOperation eOperationToCheck, final List<String> paramTypes)
+   {
+      final MatchingParametersChecker parametersChecker = new MatchingParametersChecker();
+      return parametersChecker.haveMatchingParamters(eOperationToCheck, paramTypes);
+   }
+
+   private void reportMissingEOperation(final GenClass surroundingClass, final MethodDeclaration methodDeclaration, final IFile injectionFile,
+         final MultiStatus resultStatus)
+   {
+      final String fullPath = buildInjectionPathDescription(injectionFile, "/").concat(".").concat(WorkspaceHelper.INJECTION_FILE_EXTENSION);
+      final MissingEOperationValidationMessage message = new MissingEOperationValidationMessage(methodDeclaration.getMethodName(),
+            extractParameterTypes(methodDeclaration), surroundingClass.getName(), fullPath);
+      resultStatus.add(message.convertToStatus());
+   }
+
+   private String buildInjectionPathDescription(final IFile injectionFile, final String separator)
+   {
+      final LinkedList<String> pathElements = new LinkedList<>();
+      IContainer parentContainer = injectionFile.getParent();
+      while (!parentContainer.equals(this.injectionRootFolder))
+      {
+         pathElements.addFirst(parentContainer.getName());
+         parentContainer = parentContainer.getParent();
+      }
+      pathElements.add(getBasename(injectionFile));
+      return StringUtils.join(pathElements, separator);
+   }
+
+   private String getBasename(final IFile injectionFile)
+   {
+      final String name = injectionFile.getName();
+      int dotIndex = name.lastIndexOf('.');
+      if (dotIndex > 0) // Not >= 0 to avoid trimming names of hidden files
+      {
+         return name.substring(0, dotIndex);
+      } else
+      {
+         return name;
       }
    }
 }

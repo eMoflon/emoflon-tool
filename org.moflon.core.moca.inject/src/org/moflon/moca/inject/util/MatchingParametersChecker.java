@@ -15,63 +15,52 @@ public class MatchingParametersChecker
 {
 
    /**
-    * Returns whether the parameters of the given EOperation expose the given parameter names and types.
+    * Returns whether the parameters of the given EOperation expose the given parameter types.
     * 
     * @param eOperation
-    * @param parameterNames
     * @param parameterTypes
     * @return
     */
-   public boolean haveMatchingParamters(EOperation eOperation, List<String> parameterNames, List<String> parameterTypes)
+   public boolean haveMatchingParamters(EOperation eOperation, List<String> parameterTypes)
    {
-      if (haveDifferentSize(parameterNames, parameterTypes))
-         throw new IllegalArgumentException("Parameter names and parameter types have different size!");
 
-      List<EParameter> eParameters = eOperation.getEParameters();
-      if (haveDifferentSize(parameterNames, eParameters))
+      final List<EParameter> eParameters = eOperation.getEParameters();
+      if (haveDifferentSize(parameterTypes, eParameters))
          return false;
 
       Iterator<EParameter> eParamIterator = eParameters.iterator();
-      Iterator<String> paramNameIterator = parameterNames.iterator();
       Iterator<String> paramTypeIterator = parameterTypes.iterator();
 
       boolean hasMatchingParameters = true;
       while (eParamIterator.hasNext() && hasMatchingParameters)
       {
-         hasMatchingParameters = checkWhetherParameterMatchesTypeAndName(eParamIterator.next(), paramNameIterator.next(), paramTypeIterator.next());
+         hasMatchingParameters = checkWhetherParameterMatchesType(eParamIterator.next(), paramTypeIterator.next());
       }
 
       return hasMatchingParameters;
    }
 
    /**
-    * Returns whether the given EParameter has the given name and type
+    * Returns whether the given EParameter has the given type
     * 
     * @param eParameter
-    * @param parameterName
     * @param parameterType
     * @return
     */
-   private boolean checkWhetherParameterMatchesTypeAndName(EParameter eParameter, String parameterName, String parameterType)
+   private boolean checkWhetherParameterMatchesType(EParameter eParameter, String parameterType)
    {
       boolean hasMatchingParameters;
-      if (!eParameter.getName().equals(parameterName))
-      {
-         hasMatchingParameters = false;
-      } else
-      {
-         // Precondition: instance type name is fully qualified
-         final String instanceTypeName = eParameter.getEType().getInstanceClassName();
-         final String ecoreTypeName = MoflonUtil.getFQN(eParameter.getEType());
+      // Precondition: instance type name is fully qualified
+      final String instanceTypeName = eParameter.getEType().getInstanceClassName();
+      final String ecoreTypeName = MoflonUtil.getFQN(eParameter.getEType());
 
-         // instanceTypeName has priority over ecoreTypeName
-         final String metamodelTypeNameForComparison = (instanceTypeName != null) ? instanceTypeName : ecoreTypeName; 
-         
-         final String qualifiedMetamodelTypeName = metamodelTypeNameForComparison;
-         final String dequalifiedMetamodelTypeName = dequalifyClassName(metamodelTypeNameForComparison);
-         
-         hasMatchingParameters = parameterType.equals(qualifiedMetamodelTypeName) || parameterType.equals(dequalifiedMetamodelTypeName);
-      }
+      // instanceTypeName has priority over ecoreTypeName
+      final String metamodelTypeNameForComparison = (instanceTypeName != null) ? instanceTypeName : ecoreTypeName;
+
+      final String qualifiedMetamodelTypeName = metamodelTypeNameForComparison;
+      final String dequalifiedMetamodelTypeName = dequalifyClassName(metamodelTypeNameForComparison);
+
+      hasMatchingParameters = parameterType.equals(qualifiedMetamodelTypeName) || parameterType.equals(dequalifiedMetamodelTypeName);
       return hasMatchingParameters;
    }
 

@@ -445,7 +445,7 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
     *           The names of the parameters.
     * @param paramTypes
     *           The types of the parameters in the same order as the names.
-    * @return The EOperation with the given name and parameters. Guaranteed to be non-null.
+    * @return The EOperation with the given name and parameters.
     * @throws CoreException
     */
    private EOperation getCorrespondingEOperation(final EClass surroundingClass, final String methodName, final List<String> paramNames,
@@ -504,7 +504,7 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
    private boolean hasMatchingParameters(final EOperation eOperationToCheck, final List<String> parameterNames, final List<String> paramTypes)
    {
       final MatchingParametersChecker parametersChecker = new MatchingParametersChecker();
-      return parametersChecker.haveMatchingParamters(eOperationToCheck, parameterNames, paramTypes);
+      return parametersChecker.haveMatchingParamters(eOperationToCheck, paramTypes);
    }
 
    /**
@@ -546,7 +546,7 @@ public class UserInjectionExtractorImpl implements InjectionExtractor
    private void reportMissingEOperation(final EClass surroundingClass, final String methodName, final List<String> paramNames, final List<String> paramTypes)
    {
       final String fullPath = buildInjectionFilePathDescription(this.getCurrentlyProcessedFile());
-      final MissingEOperationValidationMessage message = new MissingEOperationValidationMessage(methodName, paramNames, paramTypes, surroundingClass.getName(), fullPath);
+      final MissingEOperationValidationMessage message = new MissingEOperationValidationMessage(methodName, paramTypes, surroundingClass.getName(), fullPath);
       this.resultStatus.add(message.convertToStatus());
    }
 

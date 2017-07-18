@@ -14,7 +14,7 @@ import com.google.inject.Injector;
 /**
  * A standalone Xtext-based parser for inject files
  * 
- * Courtesy to https://wiki.eclipse.org/Xtext/FAQ#How_do_I_load_my_model_in_a_standalone_Java_application.C2.A0.3F
+ * Courtesy to "https://wiki.eclipse.org/Xtext/FAQ#How_do_I_load_my_model_in_a_standalone_Java_application.C2.A0.3F"
  *
  * @author Roland Kluge - Initial implementation
  */
@@ -25,8 +25,8 @@ public class XTextInjectionParser
    public XTextInjectionParser()
    {
       final Injector injector = new InjectionLanguageStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
-      resourceSet = injector.getInstance(XtextResourceSet.class);
-      resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
+      this.resourceSet = injector.getInstance(XtextResourceSet.class);
+      this.resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
    }
 
    /**
