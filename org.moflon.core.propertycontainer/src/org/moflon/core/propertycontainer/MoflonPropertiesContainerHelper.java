@@ -189,7 +189,7 @@ public class MoflonPropertiesContainerHelper
    public static void updateMetamodelProjectName(final MoflonPropertiesContainer propertiesContainer, final String metamodelProjectName)
    {
       MetaModelProject metamodelProject = propertiesContainer.getMetaModelProject();
-      if (metamodelProject != null)
+      if (metamodelProject == null)
       {
          metamodelProject = PropertycontainerFactory.eINSTANCE.createMetaModelProject();
          propertiesContainer.setMetaModelProject(metamodelProject);
