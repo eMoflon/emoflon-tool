@@ -28,6 +28,7 @@ import org.moflon.codegen.CodeGenerator;
 import org.moflon.codegen.MethodBodyHandler;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.moca.inject.CodeInjector;
 import org.moflon.moca.inject.CodeInjectorImpl;
 import org.moflon.moca.inject.InjectionManager;
@@ -45,9 +46,9 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
    private MoflonCodeGeneratorPhase additionalCodeGenerationPhase;
 
-   public MoflonCodeGenerator(final IFile ecoreFile, final ResourceSet resourceSet)
+   public MoflonCodeGenerator(final IFile ecoreFile, final ResourceSet resourceSet, final EMoflonPreferencesStorage preferencesStorage)
    {
-      super(ecoreFile, resourceSet);
+      super(ecoreFile, resourceSet, preferencesStorage);
    }
 
    @Override
@@ -138,8 +139,8 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             {
                return weaverStatus;
             }
-         }
-         else {
+         } else
+         {
             weaverStatus = Status.OK_STATUS;
             subMon.worked(10);
          }
@@ -248,7 +249,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       IFolder injectionFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
       CodeInjector injector = new CodeInjectorImpl(project.getLocation().toOSString());
 
-//      InjectionExtractor injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
+      //      InjectionExtractor injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
       InjectionExtractor injectionExtractor = new XTextInjectionExtractor(injectionFolder, genModel);
       CompilerInjectionExtractorImpl compilerInjectionExtractor = new CompilerInjectionExtractorImpl(project, genModel);
 

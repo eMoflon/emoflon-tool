@@ -17,12 +17,10 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.tasks.ProjectBuilderTask;
 import org.moflon.ide.core.tasks.TaskUtilities;
 import org.moflon.ide.ui.UIActivator;
-import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
 public class MoflonBuildJob extends WorkspaceJob
 {
@@ -69,13 +67,6 @@ public class MoflonBuildJob extends WorkspaceJob
          resultStatus.add(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, getName() + "failed.", e));
       }
 
-      updateUserSelectedTimeoutForValidation();
-
       return resultStatus.matches(Status.ERROR) ? resultStatus : Status.OK_STATUS;
-   }
-
-   private void updateUserSelectedTimeoutForValidation()
-   {
-      EMoflonPreferencesStorage.getInstance().setValidationTimeout(EMoflonPreferenceInitializer.getValidationTimeoutMillis());
    }
 }

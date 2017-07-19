@@ -32,6 +32,7 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.ide.MOSLGTWeavingTask;
 import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
+import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
@@ -129,7 +130,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
       this.resourceSet = initializeResourceSet();
 
       final IFile defaultEcoreFile = WorkspaceHelper.getDefaultEcoreFile(getProject());
-      final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(defaultEcoreFile, resourceSet);
+      final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(defaultEcoreFile, this.resourceSet, CoreActivator.getDefault().getPreferencesStorage());
       codeGenerationTask.setAdditionalCodeGenerationPhase(new MOSLGTWeavingTask());
       final IStatus status = codeGenerationTask.run(subMon.split(7));
       handleErrorsAndWarnings(status);

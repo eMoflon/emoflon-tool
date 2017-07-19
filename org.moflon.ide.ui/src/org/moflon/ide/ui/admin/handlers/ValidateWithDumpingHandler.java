@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
@@ -33,6 +32,7 @@ import org.gervarro.eclipse.task.ITask;
 import org.gervarro.eclipse.workspace.util.IWorkspaceTask;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
 public class ValidateWithDumpingHandler extends AbstractCommandHandler
@@ -107,8 +107,7 @@ public class ValidateWithDumpingHandler extends AbstractCommandHandler
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Validating " + ecoreFile.getName(), 1);
 
-			final ITask validationTask = (ITask) Platform.getAdapterManager().loadAdapter(ecoreFile,
-					"org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidatorWithDumping");
+			final ITask validationTask = new org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidatorWithDumping(ecoreFile, CoreActivator.getDefault().getPreferencesStorage());
 
 			if (validationTask != null) {
 			   

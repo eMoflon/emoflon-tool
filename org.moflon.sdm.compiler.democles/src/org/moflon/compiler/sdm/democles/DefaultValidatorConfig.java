@@ -28,6 +28,7 @@ import org.gervarro.democles.specification.impl.DefaultPattern;
 import org.gervarro.democles.specification.impl.DefaultPatternBody;
 import org.gervarro.democles.specification.impl.DefaultPatternFactory;
 import org.gervarro.democles.specification.impl.PatternInvocationConstraintModule;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.sdm.compiler.democles.pattern.BindingPatternTransformer;
 import org.moflon.sdm.compiler.democles.pattern.BlackAndNacPatternTransformer;
 import org.moflon.sdm.compiler.democles.pattern.DefaultExpressionTransformer;
@@ -56,9 +57,6 @@ import org.moflon.sdm.democles.literalexpressionsolver.LiteralexpressionsolverFa
 public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 	protected final ResourceSet resourceSet;
 
-	// ***************************************************
-	// Pattern matcher configuration
-	// ***************************************************
 	private final WeightedOperationBuilder<GeneratorOperation> builder =
 			new EMFWeightedOperationBuilder<GeneratorOperation>();
 	private final DefaultAlgorithm<SimpleCombiner, GeneratorOperation> algorithm =
@@ -94,11 +92,14 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
    private PatternMatcher redPatternMatcher;
 
    private PatternMatcher greenPatternMatcher;
+   
+   private final EMoflonPreferencesStorage preferencesStorage;
 
-	public DefaultValidatorConfig(ResourceSet resourceSet) {
+	public DefaultValidatorConfig(final ResourceSet resourceSet, EMoflonPreferencesStorage preferencesStorage) {
 		this.resourceSet = resourceSet;
-		// Pattern matcher configuration
-		this.emfTypeModule = new EMFConstraintModule(this.resourceSet);
+      this.preferencesStorage = preferencesStorage;
+
+      this.emfTypeModule = new EMFConstraintModule(this.resourceSet);
 		this.internalEMFTypeModule = new EMFTypeModule(emfTypeModule);
 		this.bindingAndBlackPatternBuilder.addConstraintTypeSwitch(internalPatternInvocationTypeModule.getConstraintTypeSwitch());
 		this.bindingAndBlackPatternBuilder.addConstraintTypeSwitch(internalRelationalTypeModule.getConstraintTypeSwitch());
@@ -116,7 +117,8 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
       searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION, bindingAndBlackPatternMatcher);     
       return searchPlanGenerators;
    }
-   
+	
+   @Override
    public ScopeValidator createScopeValidator() {
 		final Resource resource = new ResourceImpl(URI.createURI("ScopeValidator"));
 		resourceSet.getResources().add(resource);
@@ -279,6 +281,10 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 		}
 		return scopeValidator;
 	}
+   
+   public EMoflonPreferencesStorage getPreferencesStorage() {
+      return this.preferencesStorage;
+   }
 
 	protected PatternMatcher configureBindingAndBlackPatternMatcher(Resource resource) throws IOException {
 		return configureBindingAndBlackPatternMatcherCompiler(resource);

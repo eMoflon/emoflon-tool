@@ -24,12 +24,6 @@
             adaptableType="org.eclipse.core.resources.IFile"
             class="org.moflon.compiler.sdm.democles.eclipse.DemoclesAdapterFactory">
          <adapter
-               type="org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator">
-         </adapter>
-         <adapter
-               type="org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidatorWithDumping">
-         </adapter>
-         <adapter
                type="org.moflon.compiler.sdm.democles.eclipse.EclipseErrorReporter">
          </adapter>
       </factory>
