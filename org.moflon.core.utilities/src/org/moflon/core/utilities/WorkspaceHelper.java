@@ -164,6 +164,8 @@ public class WorkspaceHelper
    public static final String XTEXT_BUILDER_ID = "org.eclipse.xtext.ui.shared.xtextBuilder";
 
    public static final String XTEXT_NATURE_ID = "org.eclipse.xtext.ui.shared.xtextNature";
+   
+   public static final String MWE2_FILE_EXTENSION = "mwe2";
 
    /**
     * Constants misc

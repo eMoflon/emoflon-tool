@@ -17,8 +17,8 @@ import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.ide.core.CoreActivator;
-import org.osgi.framework.FrameworkUtil;;
+import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.CoreActivator;;
 
 public class GitHelper
 {
@@ -48,7 +48,7 @@ public class GitHelper
          
          if (path.isRoot() && !gitFolder.exists())
          {
-            return new Status(IStatus.WARNING, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(),
+            return new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(GitHelper.class),
                   String.format("Could not find any .git folder in %s or its parents", project.getLocation().makeAbsolute()));
          }
          
@@ -62,7 +62,7 @@ public class GitHelper
          rep = FileRepositoryBuilder.create(gitFolder);
       } catch (IOException e)
       {
-         return new Status(IStatus.WARNING, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(),
+         return new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(GitHelper.class),
                String.format("Exception while opening git repository in %s", gitFolder), e);
       }
       subMon.worked(1);
@@ -85,7 +85,7 @@ public class GitHelper
             resetCmd.call();
          } catch (final Exception e)
          {
-            return new Status(IStatus.ERROR, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(), String.format("Failed to reset %s", rep), e);
+            return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(GitHelper.class), String.format("Failed to reset %s", rep), e);
          }
          subMon.worked(1);
          CoreActivator.checkCancellation(subMon);
@@ -96,7 +96,7 @@ public class GitHelper
             cleanCmd.call();
          } catch (Exception e)
          {
-            return new Status(IStatus.ERROR, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(), String.format("Failed to clean %s", rep), e);
+            return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(GitHelper.class), String.format("Failed to clean %s", rep), e);
          }
          subMon.worked(1);
          CoreActivator.checkCancellation(subMon);
@@ -107,6 +107,6 @@ public class GitHelper
          git.close();
       }
 
-      return new Status(IStatus.OK, FrameworkUtil.getBundle(GitHelper.class).getSymbolicName(), String.format("Resetting and cleaning of %s successful", rep));
+      return new Status(IStatus.OK, WorkspaceHelper.getPluginId(GitHelper.class), String.format("Resetting and cleaning of %s successful", rep));
    }
 }

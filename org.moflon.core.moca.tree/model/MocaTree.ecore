@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="MocaTree" nsURI="platform:/plugin/MocaTree/model/MocaTree.ecore" nsPrefix="MocaTree">
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="//TreeElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="//Node" eOpposite="//Node/attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="File" eSuperTypes="//TreeElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="folder" lowerBound="1" eType="//Folder" eOpposite="//Folder/file"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rootNode" lowerBound="1" eType="//Node" containment="true" eOpposite="//Node/file"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="//TreeElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subFolder" upperBound="-1" eType="//Folder" containment="true" eOpposite="//Folder/parentFolder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentFolder" lowerBound="1" eType="//Folder" eOpposite="//Folder/subFolder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="file" upperBound="-1" eType="//File" containment="true" eOpposite="//File/folder"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="//TreeElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targets" upperBound="-1" eType="//TreeElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" upperBound="-1" eType="//Attribute" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="//Text">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="file" lowerBound="1" eType="//File" eOpposite="//File/rootNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1" eType="//Text" containment="true" eOpposite="//Text/parentNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" upperBound="-1" eType="//Attribute" containment="true" eOpposite="//Attribute/node"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startIndex" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startLineIndex" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stopIndex" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stopLineIndex" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="//TreeElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentNode" lowerBound="1" eType="//Node" eOpposite="//Node/children"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreeElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1" eType="//Link" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

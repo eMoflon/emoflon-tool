@@ -241,11 +241,6 @@
                      name="org.moflon.devtools.ui.commands.install.workspacename"
                      value="ModuleVisualization">
                </parameter></command>
-            <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Coevolution Modules" style="push">
-               <parameter
-                     name="org.moflon.devtools.ui.commands.install.workspacename"
-                     value="ModuleCoEvolution">
-               </parameter></command>
             <command commandId="org.moflon.devtools.ui.commands.install.InstallModuleCommand" label="Documentation Modules" style="push">
                <parameter
                      name="org.moflon.devtools.ui.commands.install.workspacename"

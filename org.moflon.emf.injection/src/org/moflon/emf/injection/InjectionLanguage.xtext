@@ -12,11 +12,11 @@ RegularImport:
 ;
 
 StaticImport:
-	'import' 'static' namespace = QualifiedName ';'	
+	'import' 'static' namespace = QualifiedNameWithWildcard ';'	
 ;
 
 QualifiedName:
-	ID ('.' ID)*	
+    ID ('.' ID)*    
 ;
 
 QualifiedNameWithWildcard:
@@ -40,11 +40,11 @@ ClassInjectionDeclaration:
 ;
 
 MethodDeclaration:
-	'@method' methodName = ID '(' parameters+=ParameterDeclaration* ')' body=CODE_BLOCK
+	'@model' methodName = ID '(' (parameters += ParameterDeclaration)? (',' parameters += ParameterDeclaration)* ')' body=CODE_BLOCK
 ; 
 
 ParameterDeclaration:
-	parameterType=ID parameterName=ID
+	parameterType=QualifiedName parameterName=ID
 ;
 
 terminal BLOCK_BEGIN: '<--';

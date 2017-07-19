@@ -39,18 +39,26 @@ public abstract class GenericMoflonProcess implements ITask
 
    private final ResourceSet resourceSet;
 
+   private final EMoflonPreferencesStorage preferencesStorage;
+   
    private List<Resource> resources;
 
    private MoflonPropertiesContainer moflonProperties;
    
-   private EMoflonPreferencesStorage preferencesStorage;
 
-   public GenericMoflonProcess(final IFile ecoreFile, final ResourceSet resourceSet)
+   public GenericMoflonProcess(final IFile ecoreFile, final ResourceSet resourceSet, EMoflonPreferencesStorage preferencesStorage)
    {
       this.ecoreFile = ecoreFile;
       this.resourceSet = resourceSet;
-      this.preferencesStorage = EMoflonPreferencesStorage.getInstance();
+      this.preferencesStorage = preferencesStorage;
    }
+
+   /**
+    * This method is called inside {@link #run(IProgressMonitor)} after loading eMoflon properties and the metamodel
+    * @param monitor
+    * @return
+    */
+   abstract public IStatus processResource(final IProgressMonitor monitor);
 
    /**
     * Loads moflon.properties.xmi and the project's meta-model from the specified Ecore file (see constructor).
@@ -103,11 +111,8 @@ public abstract class GenericMoflonProcess implements ITask
       }
       this.resources = metamodelLoader.getResources();
 
-      // Delegate to the subclass
       return processResource(subMon.split(7));
    }
-
-   abstract public IStatus processResource(final IProgressMonitor monitor);
 
    public final IFile getEcoreFile()
    {
@@ -120,12 +125,15 @@ public abstract class GenericMoflonProcess implements ITask
 
    public final ResourceSet getResourceSet()
    {
-      return resourceSet;
+      return this.resourceSet;
    }
    
-   protected EMoflonPreferencesStorage getPreferencesStorage()
+   /**
+    * Returns the configured preferences storage
+    */
+   public EMoflonPreferencesStorage getPreferencesStorage()
    {
-      return preferencesStorage;
+      return this.preferencesStorage;
    }
 
    /**

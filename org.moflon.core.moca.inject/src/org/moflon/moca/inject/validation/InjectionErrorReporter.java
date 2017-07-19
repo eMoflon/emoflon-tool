@@ -17,7 +17,7 @@ public class InjectionErrorReporter implements ErrorReporter
 {
    private static final Logger logger = Logger.getLogger(InjectionErrorReporter.class);
 
-   private IProject project;
+   private final IProject project;
 
    public InjectionErrorReporter(final IProject project)
    {
@@ -30,18 +30,18 @@ public class InjectionErrorReporter implements ErrorReporter
       if (status == null)
          return;
       
-      for (final IStatus valStatus : status.getChildren())
+      for (final IStatus validationStatus : status.getChildren())
       {
-         if (!valStatus.isOK() && valStatus.getClass().equals(InjectionValidationStatus.class))
+         if (!validationStatus.isOK() && validationStatus.getClass().equals(InjectionValidationStatus.class))
          {
-            final InjectionValidationStatus injectionStatus = (InjectionValidationStatus) valStatus;
+            final InjectionValidationStatus injectionStatus = (InjectionValidationStatus) validationStatus;
             this.logMessage(injectionStatus);
             this.createMarker(injectionStatus);
          }
 
-         if (valStatus.isMultiStatus())
+         if (validationStatus.isMultiStatus())
          {
-            report(valStatus);
+            report(validationStatus);
          }
       }
    }

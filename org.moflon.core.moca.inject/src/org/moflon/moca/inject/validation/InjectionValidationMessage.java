@@ -2,19 +2,37 @@ package org.moflon.moca.inject.validation;
 
 import org.eclipse.core.runtime.IStatus;
 
+/**
+ * Supertype for all validation messages relating to injections
+ * 
+ * @author Roland Kluge - Initial implementation
+ *
+ */
 public class InjectionValidationMessage
 {
    private final String message;
 
-   private final InjectionValidationSeverity severity;
+   private final int severity;
 
-   private String filename;
+   private final String filename;
 
-   public InjectionValidationMessage(final String message, final String filename, final InjectionValidationSeverity severity)
+   /**
+    * Creates a validation message
+    * @param message the textual message
+    * @param filename the name of the file that caused the problem
+    * @param severity the severity, using the constants in {@link IStatus} (e.g., {@link IStatus#ERROR}
+    */
+   public InjectionValidationMessage(final String message, final String filename, final int severity)
    {
       this.message = message;
       this.filename = filename;
       this.severity = severity;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "Injection Validation Message [m= " + this.getMessage() + ", severity=" + this.getSeverity() + "]";
    }
 
    /**
@@ -28,9 +46,10 @@ public class InjectionValidationMessage
 
    /**
     * Returns the severity of the problem
-    * @return
+    * 
+    * Uses the same severity levels as {@link IStatus}
     */
-   public InjectionValidationSeverity getSeverity()
+   public int getSeverity()
    {
       return severity;
    }
@@ -41,12 +60,6 @@ public class InjectionValidationMessage
     */
    public String getLocation() {
       return this.filename;
-   }
-
-   @Override
-   public String toString()
-   {
-      return "Injection Validation Message [m= " + this.getMessage() + ", severity=" + this.getSeverity() + "]";
    }
 
    public IStatus convertToStatus()

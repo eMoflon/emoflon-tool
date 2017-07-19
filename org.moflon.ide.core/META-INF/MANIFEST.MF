@@ -27,11 +27,11 @@ Require-Bundle:
  org.moflon.tgg.cspcodeadapter;bundle-version="2.0.1",
  org.moflon.tgg.runtime;bundle-version="2.0.0",
  org.moflon.tgg.language;bundle-version="2.1.0",
- org.moflon.ide.plugins;bundle-version="2.1.1"
+ org.moflon.ide.plugins;bundle-version="2.1.1",
+ org.moflon.emf.injection
 Export-Package: org.moflon.ide.core,
  org.moflon.ide.core.ea,
  org.moflon.ide.core.git,
- org.moflon.ide.core.injection,
  org.moflon.ide.core.properties,
  org.moflon.ide.core.runtime,
  org.moflon.ide.core.runtime.builders,

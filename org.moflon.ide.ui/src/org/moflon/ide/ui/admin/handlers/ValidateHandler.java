@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobGroup;
@@ -26,7 +25,9 @@ import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.gervarro.eclipse.task.ITask;
+import org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
 public class ValidateHandler extends AbstractCommandHandler
@@ -101,9 +102,7 @@ public class ValidateHandler extends AbstractCommandHandler
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Validating " + ecoreFile.getName(), 1);
 
-			final ITask validationTask = (ITask) Platform.getAdapterManager().loadAdapter(ecoreFile,
-					"org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator");
-
+			final ITask validationTask = new MonitoredSDMValidator(ecoreFile, CoreActivator.getDefault().getPreferencesStorage());
 			if (validationTask != null) {
 				final Job job = new Job(validationTask.getTaskName()) {
 					@Override

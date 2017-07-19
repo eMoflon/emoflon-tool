@@ -1,11 +1,12 @@
 package org.moflon.moca.inject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EOperation;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,7 +15,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.moflon.moca.inject.extractors.InjectionExtractor;
-import org.moflon.moca.inject.validation.InjectionValidationMessage;
 
 /**
  * Unit tests for {@link InjectionManager}
@@ -44,14 +44,14 @@ public class InjectionManagerTest
    @Test(expected = RuntimeException.class)
    public void testThatCodeInjectionFailsWithoutAGivenCodeInjector() throws Exception
    {
-      final InjectionManager injectionManager = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor);
+      final InjectionManager injectionManager = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor, new UnsupportedOperationCodeInjector());
       injectionManager.injectMembersAndImports();
    }
 
    @Test
    public void testThatDummyInjectionExtractorReturnsMemberProperly() throws Exception
    {
-      final InjectionManager injection = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor);
+      final InjectionManager injection = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor, new UnsupportedOperationCodeInjector());
 
       Assert.assertEquals(MEMBERS_CODE_FOR_CLASS_1, injection.getMembersCode(PATH_TO_CLASS_1));
    }
@@ -60,7 +60,7 @@ public class InjectionManagerTest
    @Test
    public void testThatClassNameToPathConversionWorksProperly() throws Exception
    {
-      final InjectionManager injection = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor);
+      final InjectionManager injection = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor, new UnsupportedOperationCodeInjector());
 
       Assert.assertEquals(MEMBERS_CODE_FOR_CLASS_1, injection.getMembersCodeByClassName(CLASS_1));
    }
@@ -130,15 +130,38 @@ public class InjectionManagerTest
       }
 
       @Override
-      public void extractInjections() 
+      public IStatus extractInjections() 
       {
+         return Status.OK_STATUS;
       }
+   }
+   
+   /**
+    * A code injector that always fails
+    * @author Roland Kluge - Initial implementation
+    *
+    */
+   class UnsupportedOperationCodeInjector implements CodeInjector
+   {
 
       @Override
-      public List<InjectionValidationMessage> getErrors()
+      public void injectMembersCode(String relativePath, String code)
       {
-         return new ArrayList<>();
+         fail();
       }
 
+
+      @Override
+      public void injectImports(String relativePath, List<String> imports)
+      {
+         fail();
+      }
+      
+      private void fail()
+      {
+         throw new UnsupportedOperationException("This code injector serves as a placeholder and cannot inject code.");
+      }
+      
    }
+
 }

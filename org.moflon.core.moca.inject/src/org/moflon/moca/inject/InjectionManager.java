@@ -8,10 +8,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EOperation;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.extractors.InjectionExtractor;
-import org.moflon.moca.inject.util.UnsupportedOperationCodeInjector;
-import org.moflon.moca.inject.validation.InjectionValidationMessage;
-import org.osgi.framework.FrameworkUtil;
 
 /**
  * This class manages the extraction of injection code.
@@ -31,20 +29,6 @@ public class InjectionManager
    private final InjectionExtractor compilerInjectionExtractor;
 
    private CodeInjector codeInjector;
-
-   /**
-    * Produces an injection coordination instance that uses the given injection extractor to answer queries for
-    * injections.
-    * 
-    * This class is not able to inject code directly. Any attempt will cause an Exception.
-    * 
-    * @param userInjectionExtractor
-    * @param compilerInjectionExtractor
-    */
-   public InjectionManager(final InjectionExtractor userInjectionExtractor, final InjectionExtractor compilerInjectionExtractor)
-   {
-      this(userInjectionExtractor, compilerInjectionExtractor, new UnsupportedOperationCodeInjector());
-   }
 
    /**
     * Produces an injection coordination instance that uses the given injection extractor to answer queries for
@@ -171,20 +155,24 @@ public class InjectionManager
     */
    public IStatus extractInjections()
    {
-      this.userInjectionExtractor.extractInjections();
-      this.compilerInjectionExtractor.extractInjections();
-
-      List<InjectionValidationMessage> errors = this.userInjectionExtractor.getErrors();
-      if (errors.size() > 0)
-      {
-         final MultiStatus validationStatus = new MultiStatus(FrameworkUtil.getBundle(CodeInjectionPlugin.class).getSymbolicName(), 0, "Extraction of injections with warnings/errors.", null);
-         for (final InjectionValidationMessage error : errors)
-         {
-            validationStatus.add(error.convertToStatus());
-         }
-
+      final IStatus userStatus = this.userInjectionExtractor.extractInjections();
+      final IStatus compilerStatus = this.compilerInjectionExtractor.extractInjections();
+      
+      final MultiStatus validationStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Extraction of injections exited with warnings/errors.", null);
+      
+      if (userStatus.matches(IStatus.WARNING)) {
+         validationStatus.add(userStatus);
+      }
+      
+      if (compilerStatus.matches(IStatus.WARNING)) {
+         validationStatus.add(compilerStatus);
+      }
+      
+      if (!validationStatus.matches(IStatus.WARNING)) {
+         return Status.OK_STATUS;
+      }
+      else {
          return validationStatus;
-      } else
-         return new Status(IStatus.OK, FrameworkUtil.getBundle(CodeInjectionPlugin.class).getSymbolicName(), "Extraction of injections successful.");
+      }
    }
 }

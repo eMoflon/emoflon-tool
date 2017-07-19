@@ -18,8 +18,8 @@ import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
-import org.osgi.framework.FrameworkUtil;
 
 public class TouchResourceHandler extends AbstractCommandHandler
 {
@@ -34,7 +34,7 @@ public class TouchResourceHandler extends AbstractCommandHandler
          public IStatus runInWorkspace(final IProgressMonitor monitor)
          {
             final SubMonitor subMon = SubMonitor.convert(monitor, "Touching resources", resources.size());
-            final MultiStatus status = new MultiStatus(FrameworkUtil.getBundle(getClass()).getSymbolicName(), 0, "Problems during resetting and cleaning", null);
+            final MultiStatus status = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Problems during resetting and cleaning", null);
             for (final IResource resource : resources)
             {
                try
@@ -42,7 +42,7 @@ public class TouchResourceHandler extends AbstractCommandHandler
                   resource.touch(subMon.split(1));
                } catch (CoreException e)
                {
-                  status.add(new Status(IStatus.WARNING, FrameworkUtil.getBundle(TouchResourceHandler.class).getSymbolicName(), "Problem while touching " + resource));
+                  status.add(new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(getClass()), "Problem while touching " + resource));
                }
                CoreActivator.checkCancellation(subMon);
             }
