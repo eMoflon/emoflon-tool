@@ -23,7 +23,6 @@ import org.moflon.ide.core.tasks.ProjectBuilderTask;
 import org.moflon.ide.core.tasks.TaskUtilities;
 import org.moflon.ide.ui.UIActivator;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
-import org.osgi.framework.FrameworkUtil;
 
 public class MoflonBuildJob extends WorkspaceJob
 {
@@ -67,7 +66,7 @@ public class MoflonBuildJob extends WorkspaceJob
          TaskUtilities.processJobQueueAsUser(jobs);
       } catch (final CoreException e)
       {
-         resultStatus.add(new Status(IStatus.ERROR, FrameworkUtil.getBundle(getClass()).getSymbolicName(), IStatus.ERROR, getName() + "failed.", e));
+         resultStatus.add(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, getName() + "failed.", e));
       }
 
       updateUserSelectedTimeoutForValidation();
