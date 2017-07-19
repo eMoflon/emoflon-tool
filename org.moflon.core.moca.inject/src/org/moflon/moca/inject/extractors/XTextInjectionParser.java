@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.moflon.emf.injection.InjectionLanguageStandaloneSetupGenerated;
+import org.moflon.emf.injection.ui.internal.InjectionActivator;
 
 import com.google.inject.Injector;
 
@@ -24,7 +24,7 @@ public class XTextInjectionParser
 
    public XTextInjectionParser()
    {
-      final Injector injector = new InjectionLanguageStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
+      final Injector injector = InjectionActivator.getInstance().getInjector(InjectionActivator.ORG_MOFLON_EMF_INJECTION_INJECTIONLANGUAGE);
       this.resourceSet = injector.getInstance(XtextResourceSet.class);
       this.resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
    }
