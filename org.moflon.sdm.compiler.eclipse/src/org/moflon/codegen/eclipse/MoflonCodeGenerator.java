@@ -27,6 +27,7 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.CodeGenerator;
 import org.moflon.codegen.MethodBodyHandler;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.moca.inject.CodeInjector;
@@ -231,7 +232,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    {
       final String metaModelProjectName = moflonProperties.getMetaModelProject().getMetaModelProjectName();
       final String fullProjectName;
-      if ("NO_META_MODEL_PROJECT_NAME_SET_YET".equals(metaModelProjectName))
+      if (MoflonPropertiesContainerHelper.UNDEFINED_METAMODEL_NAME.equals(metaModelProjectName))
       {
          fullProjectName = moflonProperties.getProjectName();
       } else
