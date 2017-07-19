@@ -1,6 +1,8 @@
 package org.moflon.compiler.sdm.democles;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
@@ -104,47 +106,18 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 		this.bindingAndBlackPatternBuilder.addVariableTypeSwitch(internalEMFTypeModule.getVariableTypeSwitch());
 	}
 
+	@Override
+	public Map<String, PatternMatcher> getSearchPlanGenerators(){
+      final Map<String,PatternMatcher> searchPlanGenerators = new HashMap<>();
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION, greenPatternMatcher);     
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.RED_FILE_EXTENSION, redPatternMatcher);     
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION, blackPatternMatcher);     
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION, bindingPatternMatcher);     
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION, bindingAndBlackPatternMatcher);     
+      return searchPlanGenerators;
+   }
    
-   @Override
-   @Deprecated // TODO@rkluge Check if this access is really necessary
-   public PatternMatcher getBindingAndBlackPatternMatcher()
-   {
-      return bindingAndBlackPatternMatcher;
-   }
-
-
-   @Override
-   @Deprecated // TODO@rkluge Check if this access is really necessary
-   public PatternMatcher getBindingPatternMatcher()
-   {
-      return bindingPatternMatcher;
-   }
-
-
-   @Override
-   @Deprecated // TODO@rkluge Check if this access is really necessary
-   public PatternMatcher getBlackPatternMatcher()
-   {
-      return blackPatternMatcher;
-   }
-
-
-   @Override
-   @Deprecated // TODO@rkluge Check if this access is really necessary
-   public PatternMatcher getRedPatternMatcher()
-   {
-      return redPatternMatcher;
-   }
-
-
-   @Override
-   @Deprecated // TODO@rkluge Check if this access is really necessary
-   public PatternMatcher getGreenPatternMatcher()
-   {
-      return greenPatternMatcher;
-   }
-	
-	public ScopeValidator createScopeValidator() {
+   public ScopeValidator createScopeValidator() {
 		final Resource resource = new ResourceImpl(URI.createURI("ScopeValidator"));
 		resourceSet.getResources().add(resource);
 		final ScopeValidator scopeValidator = ScopeFactory.eINSTANCE.createScopeValidator();
