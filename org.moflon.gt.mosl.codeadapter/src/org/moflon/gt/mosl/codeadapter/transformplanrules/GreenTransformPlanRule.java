@@ -3,7 +3,7 @@ package org.moflon.gt.mosl.codeadapter.transformplanrules;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.moslgt.Operator;
 
-public class GreenTransformPlanRule extends SimpleTypeVariableOrientedTransformPlanRule
+public class GreenTransformPlanRule extends NonNACTransformationPlan
 {
 
    public GreenTransformPlanRule()

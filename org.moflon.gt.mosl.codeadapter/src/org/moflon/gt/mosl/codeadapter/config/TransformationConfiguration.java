@@ -39,7 +39,7 @@ public class TransformationConfiguration
       this.statementCreationController = new StatementBuilder();
       this.contextController = new ContextController();
       this.eCoreAdapterController = new ECoreAdapterController();
-      this.variableTransformer = new VariableTransformer();
+      this.variableTransformer = new VariableTransformer(this);
       this.codeadapterTransformator = new CodeadapterTrafo(this);
       registerTransformationRules();
       register();

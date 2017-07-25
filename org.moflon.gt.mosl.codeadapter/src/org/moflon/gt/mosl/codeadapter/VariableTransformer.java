@@ -30,11 +30,15 @@ import org.moflon.sdm.runtime.democles.VariableReference;
 
 public class VariableTransformer
 {
-   
+   private final TransformationConfiguration transformationConfiguration;
    private Function<String, Optional<Variable>> getVariableMonadFun;
    
-   public void transformPatternObjects(List<LinkVariablePattern> lvs, Map<String, Boolean> bindings, PatternBody patternBody, PatternKind patternKind, TransformationConfiguration transformationConfiguration){
-      lvs.stream().forEach(lv -> {transforming(lv, patternBody, patternKind, transformationConfiguration);});
+   public VariableTransformer(TransformationConfiguration trafoConfig){
+      transformationConfiguration=trafoConfig;
+   }
+   
+   public void transformPatternObjects(List<LinkVariablePattern> lvs, Map<String, Boolean> bindings, PatternBody patternBody, PatternKind patternKind){
+      lvs.stream().forEach(lv -> {transforming(lv, patternBody, patternKind);});
    }
 
    private Optional<Variable> getVariableMonad(String varName)
@@ -50,15 +54,15 @@ public class VariableTransformer
       target.setReference(this.getVariableMonad(targetName).get());
    }
    
-   public void transforming(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind, TransformationConfiguration transformationConfiguration)
+   public void transforming(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind)
    {
          getVariableMonadFun = varName -> {
             return patternBody.getHeader().getSymbolicParameters().stream().filter(var -> var.getName().compareTo(varName) == 0).findFirst();
          };
-         transformLinkVariable(linkVariable, patternBody, patternKind, transformationConfiguration);
+         transformLinkVariable(linkVariable, patternBody, patternKind);
    }
    
-   private void transformLinkVariable(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind, TransformationConfiguration transformationConfiguration)
+   private void transformLinkVariable(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind)
    {
       ObjectVariableDefinition ov = ObjectVariableDefinition.class.cast(linkVariable.eContainer());
       Reference reference = EMFTypeFactory.eINSTANCE.createReference();
@@ -91,7 +95,7 @@ public class VariableTransformer
       }
    }
    
-   public void transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, Map<String, CFVariable> env, PatternInvocation invocation, TransformationConfiguration transformationConfiguration)
+   public void transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, Map<String, CFVariable> env, PatternInvocation invocation)
    {
       String name = PatternUtil.getNormalizedVariableName(ov.getName());
       Optional<Variable> patternVariableMonad = pattern.getSymbolicParameters().stream().filter(var -> var.getName().equals(name)).findFirst();

@@ -230,11 +230,11 @@ public class PatternBuilder
 
       // handle ObjectVariables
       patternObjectIndex.stream().filter(po -> po instanceof ObjectVariableDefinition).map(po -> ObjectVariableDefinition.class.cast(po))
-            .forEach(ov -> variableTransformer.transformObjectVariable(pattern, ov, env, invocation, transformationConfiguration));
+            .forEach(ov -> variableTransformer.transformObjectVariable(pattern, ov, env, invocation));
 
       // handle LinkVariables
       variableTransformer.transformPatternObjects(patternObjectIndex.stream().filter(po -> po instanceof LinkVariablePattern)
-            .map(po -> LinkVariablePattern.class.cast(po)).collect(Collectors.toList()), bindings, patternBody, patternKind, transformationConfiguration);
+            .map(po -> LinkVariablePattern.class.cast(po)).collect(Collectors.toList()), bindings, patternBody, patternKind);
 
       //special case for black pattern
       if (patternKind == PatternKind.BLACK)

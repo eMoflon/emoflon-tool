@@ -165,5 +165,5 @@ AbstractAttribute: AttributeConstraint | AttributeAssignment;
 
 PatternObject: PatternVariable | Expression;
 
-PatternVariable:ObjectVariableDefinition | LinkVariablePattern; 
+PatternVariable:NACAndObjectVariable | LinkVariablePattern; 
 

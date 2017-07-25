@@ -14,6 +14,8 @@ import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.AbstractAttribute;
 import org.moflon.gt.mosl.moslgt.Expression;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
+import org.moflon.gt.mosl.moslgt.NACAndObjectVariable;
+import org.moflon.gt.mosl.moslgt.NACGroup;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.PatternObject;
@@ -29,7 +31,7 @@ public abstract class TransformPlanRule
       this.patternObjectIndex = new HashSet<>();
    }
    
-   protected abstract boolean filterConditionObjectVariable(ObjectVariableDefinition ov, Map<String, Boolean> bindings, Map<String, CFVariable> env);
+   protected abstract boolean filterConditionNACAndObjectVariable(NACAndObjectVariable nov, Map<String, Boolean> bindings, Map<String, CFVariable> env);
    protected abstract boolean filterConditionLinkVariable(LinkVariablePattern lv, ObjectVariableDefinition ov, Map<String, Boolean> bindings, Map<String, CFVariable> env);
    protected abstract boolean filterConditionExpression(Expression expr, Map<String, Boolean> bindings, Map<String, CFVariable> env);
    
@@ -39,9 +41,9 @@ public abstract class TransformPlanRule
    public boolean isTransformable(PatternKind patternKind, PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env){
       patternObjectIndex.clear();
       List<ObjectVariableDefinition> objectVariables = patternDef.getVariables().stream().filter(var -> var instanceof ObjectVariableDefinition).map(ObjectVariableDefinition.class::cast).collect(Collectors.toList());
-      Predicate<? super ObjectVariableDefinition> ovFilter = ov -> filterConditionObjectVariable(ov, bindings, env);
-      patternObjectIndex.addAll(patternDef.getParameters().stream().map(pp -> {return PatternUtil.getCorrespondingOV(pp, patternDef);}).filter(ovFilter).collect(Collectors.toSet()));
-      patternObjectIndex.addAll(objectVariables.stream().filter(ovFilter).collect(Collectors.toSet()));
+      Predicate<? super NACAndObjectVariable> novFilter = nov -> filterConditionNACAndObjectVariable(nov, bindings, env);
+      patternObjectIndex.addAll(patternDef.getParameters().stream().map(pp -> {return PatternUtil.getCorrespondingOV(pp, patternDef);}).filter(novFilter).collect(Collectors.toSet()));
+      patternObjectIndex.addAll(patternDef.getVariables().stream().filter(novFilter).collect(Collectors.toSet()));
       objectVariables.stream().forEach(ov -> {indexObjectVariable(ov, bindings, env);});
       return patternObjectIndex.size() > 0;
    }
@@ -73,6 +75,8 @@ public abstract class TransformPlanRule
          
          private int getPriorityOfPatternObject(PatternObject po){
             if(po instanceof ObjectVariableDefinition)
+               return 4;
+            else if (po instanceof NACGroup)
                return 3;
             else if(po instanceof LinkVariablePattern)
                return 2;
