@@ -12,6 +12,7 @@ GraphTransformationFile:
 
 PatternDef:"pattern" name=ID '(' (parameters += PatternParameter)? (',' parameters += PatternParameter)* ')' '{'
 	objectVariables += ObjectVariableDefinition*
+	nacs += NACGroup*
 	'}'
 ;
 
@@ -34,7 +35,13 @@ CalledPatternParameter:(definingOV=ObjectVariableDefinition) | (existingOV=[Obje
 
 Statement: NextStatement | ReturnStatement;
 
-NextStatement:(PatternStatement | ConditionContainingStatement| ObjectVariableDefinition) (next = Statement)?;
+NextStatement:(PatternStatement | ConditionContainingStatement| ObjectVariableDefinition ) (next = Statement)?;
+
+NACGroup:{NACGroup}
+	'nacs' '{'
+	(objects+=[ObjectVariableDefinition])*
+	'}'
+;
 
 PatternStatement:'invoke' pattern=[PatternDef]'('(parameters+=CalledPatternParameter)? (',' parameters+=CalledPatternParameter)*')';
 
@@ -129,7 +136,7 @@ Using:
 	'using' importedNamespace = QualifiedNameWithWildcard
 ;
 
-terminal OPERATOR_VALUE: '++' | '!' | '--';
+terminal OPERATOR_VALUE: '++'| '!' | '--';
 
 terminal DECIMAL: INT '.' INT;
 
@@ -155,6 +162,7 @@ AbstractClass: EClassDef className=ID;
 
 AbstractAttribute: AttributeConstraint | AttributeAssignment;
 
-PatternObject: ObjectVariableDefinition | LinkVariablePattern | Expression;
- 
+PatternObject: PatternVariable | Expression;
+
+PatternVariable:ObjectVariableDefinition | LinkVariablePattern; 
 
