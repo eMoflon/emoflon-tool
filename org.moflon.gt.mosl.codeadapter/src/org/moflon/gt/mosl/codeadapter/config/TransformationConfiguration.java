@@ -19,17 +19,17 @@ import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 public class TransformationConfiguration
 {
    private final PatternMatchingController patternMatchingController;
-   
+
    private final PatternBuilder patternCreationController;
-   
+
    private final StatementBuilder statementCreationController;
-   
+
    private final ContextController contextController;
-   
+
    private final ECoreAdapterController eCoreAdapterController;
-   
+
    private final VariableTransformer variableTransformer;
-   
+
    private final CodeadapterTrafo codeadapterTransformator;
 
    public TransformationConfiguration()
@@ -44,28 +44,28 @@ public class TransformationConfiguration
       registerTransformationRules();
       register();
    }
+
    private void registerTransformationRules()
    {
       patternCreationController.addTransformPlanRule(PatternKind.BLACK, new BlackTransformPlanRule());
       patternCreationController.addTransformPlanRule(PatternKind.GREEN, new GreenTransformPlanRule());
       patternCreationController.addTransformPlanRule(PatternKind.RED, new RedTransformPlanRule());
-
-
    }
-   private void register(){
-      //@formatter:off
-      Arrays.asList(
-            new ReturnStatementRule(this),
-            new PatternStatementRule(this),
-            new ConditionStatementRule(this),
+
+   private void register()
+   {
+      // @formatter:off
+      Arrays.asList(new ReturnStatementRule(this),
+            new PatternStatementRule(this), 
+            new ConditionStatementRule(this), 
             new WhileLoopStatementRule(this),
-            new ForLoopStatementRule(this),
-            new DoLoopStatementRule(this),
-            new ObjectVariableDefinitionRule(this)
-            ).stream().forEach(rule -> this.statementCreationController.registerTransformationRule(rule));
-      //@formatter:on
+            new ForLoopStatementRule(this), 
+            new DoLoopStatementRule(this), 
+            new ObjectVariableDefinitionRule(this))
+         .stream().forEach(rule -> this.statementCreationController.registerTransformationRule(rule));
+      // @formatter:on
    }
-   
+
    public PatternMatchingController getPatternMatchingController()
    {
       return patternMatchingController;
@@ -75,7 +75,7 @@ public class TransformationConfiguration
    {
       return this.patternCreationController;
    }
-   
+
    public StatementBuilder getStatementCreationController()
    {
       return statementCreationController;
@@ -95,8 +95,9 @@ public class TransformationConfiguration
    {
       return this.variableTransformer;
    }
-   
-   public CodeadapterTrafo getCodeadapterTransformator(){
+
+   public CodeadapterTrafo getCodeadapterTransformator()
+   {
       return this.codeadapterTransformator;
    }
 }

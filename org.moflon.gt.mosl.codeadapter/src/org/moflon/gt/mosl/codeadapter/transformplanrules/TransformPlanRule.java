@@ -38,10 +38,11 @@ public abstract class TransformPlanRule
    }
    public boolean isTransformable(PatternKind patternKind, PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env){
       patternObjectIndex.clear();
+      List<ObjectVariableDefinition> objectVariables = patternDef.getVariables().stream().filter(var -> var instanceof ObjectVariableDefinition).map(ObjectVariableDefinition.class::cast).collect(Collectors.toList());
       Predicate<? super ObjectVariableDefinition> ovFilter = ov -> filterConditionObjectVariable(ov, bindings, env);
       patternObjectIndex.addAll(patternDef.getParameters().stream().map(pp -> {return PatternUtil.getCorrespondingOV(pp, patternDef);}).filter(ovFilter).collect(Collectors.toSet()));
-      patternObjectIndex.addAll(patternDef.getObjectVariables().stream().filter(ovFilter).collect(Collectors.toSet()));
-      patternDef.getObjectVariables().stream().forEach(ov -> {indexObjectVariable(ov, bindings, env);});
+      patternObjectIndex.addAll(objectVariables.stream().filter(ovFilter).collect(Collectors.toSet()));
+      objectVariables.stream().forEach(ov -> {indexObjectVariable(ov, bindings, env);});
       return patternObjectIndex.size() > 0;
    }
    

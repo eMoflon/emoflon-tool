@@ -115,7 +115,7 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
          throw new PatternParameterSizeIsNotMatching();
 
       final Set<ObjectVariableDefinition> ovs = new HashSet<>();
-      ovs.addAll(patternDef.getObjectVariables());
+      ovs.addAll(patternDef.getVariables().stream().filter(var -> var instanceof ObjectVariableDefinition).map(ObjectVariableDefinition.class::cast).collect(Collectors.toList()));
       ovs.addAll(patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toSet()));
 
       // Binding Handling

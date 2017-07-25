@@ -10,9 +10,16 @@ GraphTransformationFile:
 	eClasses += EClassDef*
 ;
 
-PatternDef:"pattern" name=ID '(' (parameters += PatternParameter)? (',' parameters += PatternParameter)* ')' '{'
-	objectVariables += ObjectVariableDefinition*
-	nacs += NACGroup*
+PatternDef:"pattern" name=ID '(' (parameters += PatternParameter)? (',' parameters += PatternParameter)* ')' '{'	
+	variables += NACAndObjectVariable*
+	'}'
+;
+
+NACAndObjectVariable:NACGroup | ObjectVariableDefinition;
+
+NACGroup:{NACGroup}
+	'nac' (name =ID)? '{'
+	objects+=ObjectVariableDefinition*
 	'}'
 ;
 
@@ -36,12 +43,6 @@ CalledPatternParameter:(definingOV=ObjectVariableDefinition) | (existingOV=[Obje
 Statement: NextStatement | ReturnStatement;
 
 NextStatement:(PatternStatement | ConditionContainingStatement| ObjectVariableDefinition ) (next = Statement)?;
-
-NACGroup:{NACGroup}
-	'nacs' '{'
-	(objects+=[ObjectVariableDefinition])*
-	'}'
-;
 
 PatternStatement:'invoke' pattern=[PatternDef]'('(parameters+=CalledPatternParameter)? (',' parameters+=CalledPatternParameter)*')';
 

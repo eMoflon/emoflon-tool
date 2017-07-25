@@ -188,27 +188,6 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
                // TODO@rkluge: Extend to support multiple root packages
                final EPackage contextEPackage = EcoreUtil.copy((EPackage) ecoreRes.getContents().get(0));
 
-               // save context as raw
-               //      List<String> uriParts = Arrays.asList(ePackage.eResource().getURI().toString().split("/")).subList(0, 3);
-               //      projecPrefixURI = "";
-               //      for (String uriPart : uriParts)
-               //      {
-               //         projecPrefixURI += uriPart + "/";
-               //      )
-               // final String rawURIString = projecPrefixURI + "/model/raw/"+
-               // MoflonUtil.lastCapitalizedSegmentOf(contextEPackage.getName());
-               // String contextEcoreURIString= rawURIString + ".raw" + WorkspaceHelper.ECORE_FILE_EXTENSION;
-               // URI contextEcoreURI = URI.createURI(contextEcoreURIString, true);
-               // Resource contextEcoreResource = this.resourceSet.getResource(contextEcoreURI, false);
-               // if(contextEcoreResource == null)
-               // contextEcoreResource = this.resourceSet.createResource(contextEcoreURI);
-               // contextEcoreResource.getContents().clear();
-               // contextEcoreResource.getContents().add(EcoreUtil.copy(contextEPackage));
-               // final Map<String, String> contextSaveOptions = new HashMap<>();
-               // contextSaveOptions.put(Resource.OPTION_LINE_DELIMITER,
-               // WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
-               // contextEcoreResource.save(contextSaveOptions);
-
                // transformation
                Resource enrichedEcoreResource = ePackage.eResource(); // this.resourceSet.createResource(enrichedEcoreURI);
                String nsURI = ePackage.eResource().getURI().toString();
