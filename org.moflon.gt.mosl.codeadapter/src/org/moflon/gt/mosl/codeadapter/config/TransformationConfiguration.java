@@ -34,9 +34,9 @@ public class TransformationConfiguration
 
    public TransformationConfiguration()
    {
-      this.patternMatchingController = new PatternMatchingController(this);
+      this.patternMatchingController = new PatternMatchingController();
       this.patternCreationController = new PatternBuilder(this);
-      this.statementCreationController = new StatementBuilder(this);
+      this.statementCreationController = new StatementBuilder();
       this.contextController = new ContextController();
       this.eCoreAdapterController = new ECoreAdapterController();
       this.variableTransformer = new VariableTransformer();

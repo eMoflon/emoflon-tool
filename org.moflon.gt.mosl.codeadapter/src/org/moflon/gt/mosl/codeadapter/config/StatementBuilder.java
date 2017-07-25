@@ -10,16 +10,13 @@ import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.Scope;
 
 public class StatementBuilder
-{
-   private final TransformationConfiguration transformationConfiguration;
-   
+{   
    private final List<IStatementRule> transformationRules;
 
    private MethodDec currentMethod;
 
-   public StatementBuilder(TransformationConfiguration trafoConfig)
+   public StatementBuilder()
    {
-      this.transformationConfiguration = trafoConfig;
       transformationRules = new ArrayList<>();
    }
 
