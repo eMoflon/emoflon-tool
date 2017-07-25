@@ -9,8 +9,13 @@ import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
 
 public class PatternMatchingController
 {
+	private final TransformationConfiguration trafoConfig;
    private Map<String, PatternMatcher> searchPlanGenerators;
 
+   public PatternMatchingController(TransformationConfiguration trafoConfig){
+	   this.trafoConfig = trafoConfig;
+   }
+   
    public void setSearchplanGenerators(final Map<String, PatternMatcher> searchPlanGeneratorsByPatternKind)
    {
       this.searchPlanGenerators = searchPlanGeneratorsByPatternKind;

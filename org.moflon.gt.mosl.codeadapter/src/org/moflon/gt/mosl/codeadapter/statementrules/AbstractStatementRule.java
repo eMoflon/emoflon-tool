@@ -40,10 +40,17 @@ import org.moflon.sdm.runtime.democles.VariableReference;
 
 public abstract class AbstractStatementRule<S extends Statement> implements IStatementRule
 {
-   @Override
-   public void invoke(Statement statement, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected final TransformationConfiguration transformationConfiguration;
+   
+   public AbstractStatementRule(TransformationConfiguration trafoConfig)
    {
-      castAndInvokeTransformation(statement, scope, previosCFNode, transformationConfiguration);
+      transformationConfiguration=trafoConfig;
+   }
+   
+   @Override
+   public void invoke(Statement statement, Scope scope, CFNode previosCFNode)
+   {
+      castAndInvokeTransformation(statement, scope, previosCFNode);
    }
 
    @Override
@@ -60,35 +67,39 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
    /**
     * This method implements the transformation logic of this rule
     * 
-    * @param statement the statement that has been transformed
-    * @param scope the surrounding scope of the statement
-    * @param previosCFNode the most recently generated control flow node
+    * @param statement
+    *           the statement that has been transformed
+    * @param scope
+    *           the surrounding scope of the statement
+    * @param previosCFNode
+    *           the most recently generated control flow node
     */
-   protected abstract ValidationReport transformStatement(S stmnt, Scope scope, CFNode previosCFNode,
-         final TransformationConfiguration transformationConfiguration);
+   protected abstract ValidationReport transformStatement(S stmnt, Scope scope, CFNode previosCFNode);
 
    /**
     * This method is called after the transformation of 'statement' has completed
-    * @param statement the statement that has been transformed
-    * @param scope the surrounding scope of the statement
-    * @param previosCFNode the most recently generated control flow node
+    * 
+    * @param statement
+    *           the statement that has been transformed
+    * @param scope
+    *           the surrounding scope of the statement
+    * @param previosCFNode
+    *           the most recently generated control flow node
     */
-   protected abstract void invokeNextRule(S statement, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration);
+   protected abstract void invokeNextRule(S statement, Scope scope, CFNode previosCFNode);
 
-   protected void transformAndInvokeNext(S statement, Scope scope, CFNode previosCFNode, TransformationConfiguration transformationConfiguration)
+   protected void transformAndInvokeNext(S statement, Scope scope, CFNode previosCFNode)
    {
-      transformStatement(statement, scope, previosCFNode, transformationConfiguration);
-      invokeNextRule(statement, scope, previosCFNode, transformationConfiguration);
+      transformStatement(statement, scope, previosCFNode);
+      invokeNextRule(statement, scope, previosCFNode);
    }
 
-   private void castAndInvokeTransformation(final Statement statement, Scope scope, CFNode previosCFNode,
-         TransformationConfiguration transformationConfiguration)
+   private void castAndInvokeTransformation(final Statement statement, Scope scope, CFNode previosCFNode)
    {
-      transformAndInvokeNext(getStatementClass().cast(statement), scope, previosCFNode, transformationConfiguration);
+      transformAndInvokeNext(getStatementClass().cast(statement), scope, previosCFNode);
    }
 
-   protected ValidationReport handlePattern(List<CalledPatternParameter> patternInvocationStatementParamters, PatternDef patternDef, CFNode cfNode, Scope scope,
-         final TransformationConfiguration transformationConfiguration)
+   protected ValidationReport handlePattern(List<CalledPatternParameter> patternInvocationStatementParamters, PatternDef patternDef, CFNode cfNode, Scope scope)
    {
       final ValidationReport validationReport = ResultFactory.eINSTANCE.createValidationReport();
       Map<String, Boolean> bindings = new HashMap<>();
@@ -110,8 +121,9 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       // Binding Handling
       for (final ObjectVariableDefinition ovRef : ovs)
       {
-         //TODO@rkluge: I am wondering whether the normalization of variables names is used consistentlty... If in doubt, better remove all invocations now.
-         final CFVariable cfVar = getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType(), transformationConfiguration);
+         // TODO@rkluge: I am wondering whether the normalization of variables names is used consistentlty... If in
+         // doubt, better remove all invocations now.
+         final CFVariable cfVar = getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType());
          final Action constructor = cfVar.getConstructor();
 
          if (constructor == null)
@@ -131,7 +143,7 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       patternNameGenerator.setCFNode(cfNode);
       patternNameGenerator.setPatternDefinition(patternDef);
       final PatternBuilder patternBuilder = transformationConfiguration.getPatternCreationController();
-      patternBuilder.createPattern(patternDef, bindings, env, patternNameGenerator, eClass, transformationConfiguration);
+      patternBuilder.createPattern(patternDef, bindings, env, patternNameGenerator, eClass);
 
       final SortedMap<PatternKind, PatternInvocation> invocations = patternBuilder.getPatternInvocations(patternName);
 
@@ -151,7 +163,7 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
                .forEach(cfVar -> cfVar.setConstructor(invocation));
 
          final Adornment adornment = calculateAdornment(invocation);
-         //TODO@rkluge: Here, we escape from a stateless function to the very statefull CodeAdapterTrafo singleton
+         // TODO@rkluge: Here, we escape from a stateless function to the very statefull CodeAdapterTrafo singleton
          validationReport.merge(transformationConfiguration.getPatternMatchingController().generateSearchPlan(invocation.getPattern(), adornment,
                invocation.isMultipleMatch(), patternKind.getSuffix()));
       }
@@ -168,7 +180,7 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       return validationReport;
    }
 
-   protected CFVariable getOrCreateVariable(Scope scope, String name, EClassifier type, TransformationConfiguration transformationConfiguration)
+   protected CFVariable getOrCreateVariable(Scope scope, String name, EClassifier type)
    {
       Optional<CFVariable> opt = scope.getVariables().stream().filter(var -> var.getName().equals(PatternUtil.getNormalizedVariableName(name)))
             .filter(var -> var.getType().getName().equals(type.getName())).findAny();

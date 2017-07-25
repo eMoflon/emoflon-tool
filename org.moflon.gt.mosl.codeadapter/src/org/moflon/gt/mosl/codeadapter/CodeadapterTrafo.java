@@ -28,7 +28,12 @@ import org.moflon.sdm.runtime.democles.Scope;
 
 public class CodeadapterTrafo
 {
-   public EPackage transform(final EPackage contextEPackage, final GraphTransformationFile graphTransformationFile, final ResourceSet resourceSet, final TransformationConfiguration transformationConfiguration)
+   private final TransformationConfiguration transformationConfiguration;
+   public CodeadapterTrafo(TransformationConfiguration trafoConfig){
+      this.transformationConfiguration = trafoConfig;
+   }
+   
+   public EPackage transform(final EPackage contextEPackage, final GraphTransformationFile graphTransformationFile, final ResourceSet resourceSet)
    {
       transformationConfiguration.getContextController().setEPackage(contextEPackage);
       transformationConfiguration.getContextController().setResourceSet(resourceSet);
@@ -111,7 +116,7 @@ public class CodeadapterTrafo
       if (startStatement != null)
       {
          transformationConfiguration.getStatementCreationController().loadCurrentMethod(methodDec);
-         transformationConfiguration.getStatementCreationController().transformStatement(startStatement, rootScope, null, transformationConfiguration);
+         transformationConfiguration.getStatementCreationController().transformStatement(startStatement, rootScope, null);
       }
       
       transformationConfiguration.getECoreAdapterController().saveAsRegisteredAdapter(rootScope, eOperation, DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION, transformationConfiguration.getContextController().getResourceSet());

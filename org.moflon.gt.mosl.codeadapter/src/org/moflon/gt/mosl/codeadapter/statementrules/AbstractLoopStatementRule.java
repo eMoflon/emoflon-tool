@@ -11,15 +11,20 @@ import org.moflon.sdm.runtime.democles.Scope;
 
 public abstract class AbstractLoopStatementRule<S extends LoopStatement> extends AbstractConditionStatementRule<S>
 {
+   public AbstractLoopStatementRule(TransformationConfiguration trafoConfig)
+   {
+      super(trafoConfig);
+   }
+
    @Override
-   protected ValidationReport transformStatement(S stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected ValidationReport transformStatement(S stmnt, Scope scope, CFNode previosCFNode)
    {
       Scope innerScope = DemoclesFactory.eINSTANCE.createScope();
       CompoundNode parent = this.updateCurrentNode(createCurrentCompoundNode());
       handlePattern(parent);
       innerScope.setParent(parent);
       parent.setScope(scope);
-      transformationConfiguration.getStatementCreationController().transformStatement(stmnt.getLoopStartStatement(), innerScope, null, transformationConfiguration);
+      transformationConfiguration.getStatementCreationController().transformStatement(stmnt.getLoopStartStatement(), innerScope, null);
       return ResultFactory.eINSTANCE.createValidationReport();
    }
 

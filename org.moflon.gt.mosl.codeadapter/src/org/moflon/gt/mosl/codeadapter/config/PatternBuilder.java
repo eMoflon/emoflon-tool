@@ -47,9 +47,12 @@ public class PatternBuilder
    private Map<PatternInvocation, PatternKind> patternTypes;
 
    private PatternNameGenerator patternNameGenerator;
+   
+   private final TransformationConfiguration transformationConfiguration;
 
-   public PatternBuilder()
+   public PatternBuilder(TransformationConfiguration trafoConfig)
    {
+	  this.transformationConfiguration = trafoConfig;
       this.patternNameToPatternObjectsByPatternKind = new HashMap<>();
       this.patternInvocationCache = new HashMap<>();
       this.transformationPlanRuleCache = new HashMap<>();
@@ -69,7 +72,7 @@ public class PatternBuilder
    }
 
    public void createPattern(PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env, PatternNameGenerator patternNameGenerator,
-         EClass eClass, TransformationConfiguration transformationConfiguration)
+         EClass eClass)
    {
       final String patternName = patternDef.getName();
 
@@ -84,7 +87,7 @@ public class PatternBuilder
       final SortedMap<PatternKind, PatternInvocation> patternKindToInvocation = new TreeMap<>(new PatternKindProcessingOrderComparator());
       patternInvocationCache.put(patternName, patternKindToInvocation);
       patternKindsInTransformatinoPlan.stream().forEach(patternKind -> patternKindToInvocation.put(patternKind, createPatternInvocation(patternKind,
-            patternObjectsByKind.get(patternKind), patternName, bindings, env, patternNameGenerator, eClass, transformationConfiguration)));
+            patternObjectsByKind.get(patternKind), patternName, bindings, env, patternNameGenerator, eClass)));
    }
 
    public SortedMap<PatternKind, PatternInvocation> getPatternInvocations(final String patternName)
@@ -215,8 +218,7 @@ public class PatternBuilder
     * @return A patternInvocation where the belonged pattern is registered
     */
    private PatternInvocation createPatternInvocation(PatternKind patternKind, List<PatternObject> patternObjectIndex, String patternName,
-         Map<String, Boolean> bindings, Map<String, CFVariable> env, PatternNameGenerator patternNameGenerator, EClass eClass,
-         TransformationConfiguration transformationConfiguration)
+         Map<String, Boolean> bindings, Map<String, CFVariable> env, PatternNameGenerator patternNameGenerator, EClass eClass)
    {
       // creating Pattern hull
       final VariableTransformer variableTransformer = transformationConfiguration.getVariableTransformer();
