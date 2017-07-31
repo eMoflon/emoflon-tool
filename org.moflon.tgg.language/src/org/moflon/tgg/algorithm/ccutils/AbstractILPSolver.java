@@ -17,10 +17,16 @@ import net.sf.javailp.SolverFactory;
 
 public abstract class AbstractILPSolver extends AbstractSolver {
 	
+	private int variableCount;
+	
+	private int constraintCount;
+	
 	// this list keeps a record of all variables that appear in the clausels. this is needed to define them as ilp variables later
 	protected TIntHashSet variables = new TIntHashSet();
 	
+	private UserDefinedILPConstraintProvider userDefinedILPConstraintProvider = null;
 	
+
 	@Override
 	public int[] solve(Graph sourceGraph, Graph targetGraph, ConsistencyCheckPrecedenceGraph protocol) {
 		
@@ -28,7 +34,10 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 		factory.setParameter(Solver.VERBOSE, 0);
 
 		Problem ilpProblem = createIlpProblemFromGraphs(sourceGraph, targetGraph, protocol);
-
+		
+		variableCount = ilpProblem.getVariablesCount();
+		constraintCount = ilpProblem.getConstraintsCount();
+		
 		Solver solver = factory.get();
 
 		// solve
@@ -72,6 +81,17 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 				implication[0] = matchId;
 				implication[1] = parentID;
 				ilpProblem.add(getImplicationLinearFromArray(implication), "<=", 0);
+			}
+		}
+		
+		// incorporate user decisions on the ILP problem
+		if(userDefinedILPConstraintProvider != null){
+			for(UserDefinedILPConstraint constraint : userDefinedILPConstraintProvider.getUserDefinedConstraints(protocol)){
+				Linear linear = new Linear();
+				for(int id : constraint.getIdsToCoefficients().keySet()){
+					linear.add(constraint.getIdsToCoefficients().get(id), id);
+				}
+				ilpProblem.add(linear, constraint.getMathematicalSign(), constraint.getReferenceValue());
 			}
 		}
 		
@@ -142,6 +162,19 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 		return returnArray;
 	}
 	
+	public void setUserDefinedILPConstraintProvider(UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
+		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
+	}
 	
+	public int getVariableCount() {
+		return variableCount;
+	}
 	
+	public int getConstraintCount() {
+		return constraintCount;
+	}
+
+	public TIntHashSet getVariables() {
+		return variables;
+	}
 }
