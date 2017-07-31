@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.moflon.tgg.algorithm.ccutils.AbstractILPSolver;
-import org.moflon.tgg.algorithm.ccutils.AbstractSolver;
 import org.moflon.tgg.algorithm.ccutils.ILP_Gurobi_Solver;
 import org.moflon.tgg.algorithm.ccutils.UserDefinedILPConstraintProvider;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
@@ -59,6 +58,10 @@ public class ConsistencySynchronizer {
 	private TIntObjectHashMap<TIntHashSet> appliedSourceToTarget;
 	
 	private UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
+
+	private int variableCount;
+	
+	private int constraintCount;
 
 
 	public ConsistencySynchronizer(Delta srcDelta, Delta trgDelta, StaticAnalysis staticAnalysis,
@@ -140,6 +143,9 @@ public class ConsistencySynchronizer {
 			solver.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
 		
 		int[] solvingResult = solver.solve(srcElements, trgElements, protocol);
+		
+		variableCount = solver.getVariableCount();
+		constraintCount = solver.getConstraintCount();
 		
 		removeMatches(solvingResult);
 
@@ -254,6 +260,14 @@ public class ConsistencySynchronizer {
 	
 	protected void setUserDefinedILPConstraintProvider(UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
 		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
+	}
+	
+	public int getVariableCount() {
+		return variableCount;
+	}
+
+	public int getConstraintCount() {
+		return constraintCount;
 	}
 
 }

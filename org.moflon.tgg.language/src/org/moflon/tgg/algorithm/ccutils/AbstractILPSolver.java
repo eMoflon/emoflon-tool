@@ -17,6 +17,10 @@ import net.sf.javailp.SolverFactory;
 
 public abstract class AbstractILPSolver extends AbstractSolver {
 	
+	private int variableCount;
+	
+	private int constraintCount;
+	
 	// this list keeps a record of all variables that appear in the clausels. this is needed to define them as ilp variables later
 	protected TIntHashSet variables = new TIntHashSet();
 	
@@ -30,7 +34,10 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 		factory.setParameter(Solver.VERBOSE, 0);
 
 		Problem ilpProblem = createIlpProblemFromGraphs(sourceGraph, targetGraph, protocol);
-
+		
+		variableCount = ilpProblem.getVariablesCount();
+		constraintCount = ilpProblem.getConstraintsCount();
+		
 		Solver solver = factory.get();
 
 		// solve
@@ -159,6 +166,15 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
 	}
 	
+	public int getVariableCount() {
+		return variableCount;
+	}
 	
-	
+	public int getConstraintCount() {
+		return constraintCount;
+	}
+
+	public TIntHashSet getVariables() {
+		return variables;
+	}
 }

@@ -67,6 +67,10 @@ public class SynchronizationHelper {
 
 	protected UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
 
+	protected int ilpProblemVariablesCount;
+	
+	protected int ilpProblemConstraintsCount;
+
 	protected DeltaSpecification deltaSpec;
 
 	protected DeltaSpecification sourceInconsistency;
@@ -488,6 +492,9 @@ public class SynchronizationHelper {
 
 			set.createResource(URI.createURI(trg.eResource().getURI().toString() + ".delta.xmi")).getContents().add(targetInconsistency);
 		}
+		
+		ilpProblemVariablesCount = cs.getVariableCount();
+		ilpProblemConstraintsCount = cs.getConstraintCount();
 
 	}
 
@@ -712,6 +719,14 @@ public class SynchronizationHelper {
 		}
 		ds.getAddedNodes().addAll(nodes);
 		return ds;
+	}
+	
+	public int getIlpProblemVariablesCount() {
+		return ilpProblemVariablesCount;
+	}
+
+	public int getIlpProblemConstraintsCount() {
+		return ilpProblemConstraintsCount;
 	}
 
 }
