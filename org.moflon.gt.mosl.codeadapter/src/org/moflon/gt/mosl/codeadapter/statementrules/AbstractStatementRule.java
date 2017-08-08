@@ -17,8 +17,10 @@ import org.gervarro.democles.common.Adornment;
 import org.moflon.gt.mosl.codeadapter.config.PatternBuilder;
 import org.moflon.gt.mosl.codeadapter.config.PatternNameGenerator;
 import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
+import org.moflon.gt.mosl.codeadapter.utils.MOSLUtil;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
+import org.moflon.gt.mosl.codeadapter.utils.VariableVisibility;
 import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;
 import org.moflon.gt.mosl.moslgt.EClassDef;
@@ -103,7 +105,8 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
    {
       final ValidationReport validationReport = ResultFactory.eINSTANCE.createValidationReport();
       Map<String, Boolean> bindings = new HashMap<>();
-      Map<String, CFVariable> env = new HashMap<>();
+      Map<String, CFVariable> enviroment = new HashMap<>();
+      Map<String, VariableVisibility> visiblity = new HashMap<>();
       List<CFVariable> cfVariables = new ArrayList<>();
       String patternName = patternDef.getName();
       List<MethodParameter> methodParameters = transformationConfiguration.getStatementCreationController().getCurrentMethod().getParameters();
@@ -114,12 +117,14 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       if (patternParameters.size() != patternInvocationStatementParamters.size())
          throw new PatternParameterSizeIsNotMatching();
 
-      final Set<ObjectVariableDefinition> ovs = new HashSet<>();
-      ovs.addAll(patternDef.getVariables().stream().filter(var -> var instanceof ObjectVariableDefinition).map(ObjectVariableDefinition.class::cast).collect(Collectors.toList()));
-      ovs.addAll(patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toSet()));
+      final Set<ObjectVariableDefinition> objectVariableSet = new HashSet<>();
+      List<ObjectVariableDefinition> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class);
+      ovs.forEach(ov -> visiblity.put(PatternUtil.getNormalizedVariableName(ov.getName()), VariableVisibility.getVisibility(ov, patternDef)));
+      objectVariableSet.addAll(ovs);
+      objectVariableSet.addAll(patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toSet()));
 
       // Binding Handling
-      for (final ObjectVariableDefinition ovRef : ovs)
+      for (final ObjectVariableDefinition ovRef : objectVariableSet)
       {
          // TODO@rkluge: I am wondering whether the normalization of variables names is used consistentlty... If in
          // doubt, better remove all invocations now.
@@ -135,7 +140,7 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
             bindings.put(cfVar.getName(), true);
          }
 
-         env.put(cfVar.getName(), cfVar);
+         enviroment.put(cfVar.getName(), cfVar);
       }
 
       // Pattern Handling
@@ -143,7 +148,7 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       patternNameGenerator.setCFNode(cfNode);
       patternNameGenerator.setPatternDefinition(patternDef);
       final PatternBuilder patternBuilder = transformationConfiguration.getPatternCreationController();
-      patternBuilder.createPattern(patternDef, bindings, env, patternNameGenerator, eClass);
+      patternBuilder.createAllPatterns(patternDef, bindings, enviroment, visiblity, patternNameGenerator, eClass);
 
       final SortedMap<PatternKind, PatternInvocation> invocations = patternBuilder.getPatternInvocations(patternName);
 

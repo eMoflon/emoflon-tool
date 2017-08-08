@@ -6,12 +6,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.moflon.gt.mosl.codeadapter.utils.MOSLUtil;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.AbstractAttribute;
+import org.moflon.gt.mosl.moslgt.AttributeAssignment;
+import org.moflon.gt.mosl.moslgt.AttributeConstraint;
 import org.moflon.gt.mosl.moslgt.Expression;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.NACAndObjectVariable;
@@ -40,21 +45,22 @@ public abstract class TransformPlanRule
    }
    public boolean isTransformable(PatternKind patternKind, PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env){
       patternObjectIndex.clear();
-      List<ObjectVariableDefinition> objectVariables = patternDef.getVariables().stream().filter(var -> var instanceof ObjectVariableDefinition).map(ObjectVariableDefinition.class::cast).collect(Collectors.toList());
-      Predicate<? super NACAndObjectVariable> novFilter = nov -> filterConditionNACAndObjectVariable(nov, bindings, env);
-      patternObjectIndex.addAll(patternDef.getParameters().stream().map(pp -> {return PatternUtil.getCorrespondingOV(pp, patternDef);}).filter(novFilter).collect(Collectors.toSet()));
-      patternObjectIndex.addAll(patternDef.getVariables().stream().filter(novFilter).collect(Collectors.toSet()));
-      objectVariables.stream().forEach(ov -> {indexObjectVariable(ov, bindings, env);});
+      
+      final Set<ObjectVariableDefinition> objectVariableSet = new TreeSet<>();
+      List<ObjectVariableDefinition> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class);
+      objectVariableSet.addAll(ovs);
+      objectVariableSet.addAll(patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toSet()));
+      
+      Predicate<NACAndObjectVariable> novFilter = nov -> filterConditionNACAndObjectVariable(nov, bindings, env);
+      Function<ObjectVariableDefinition, Predicate<? super LinkVariablePattern>> linkVariableFilterFun = ov ->lv -> filterConditionLinkVariable(lv, ov, bindings, env);
+      Function<ObjectVariableDefinition, Predicate<? super AttributeAssignment>> assignmentFilterFun = ov ->as -> filterConditionAbstractAttribute(as, bindings, env);
+      Function<ObjectVariableDefinition, Predicate<? super AttributeConstraint>> constraintFilterFun = ov ->ac -> filterConditionAbstractAttribute(ac, bindings, env);
+      
+      PatternUtil.collectObjects(patternObjectIndex, objectVariableSet, novFilter, linkVariableFilterFun, assignmentFilterFun, constraintFilterFun);
+      
       return patternObjectIndex.size() > 0;
    }
-   
-   private void indexObjectVariable(ObjectVariableDefinition ov, Map<String, Boolean> bindings, Map<String, CFVariable> env){
-      patternObjectIndex.addAll(ov.getLinkVariablePatterns().stream().filter(lv -> filterConditionLinkVariable(lv, ov, bindings, env)).collect(Collectors.toSet()));
-      patternObjectIndex.addAll(ov.getAttributeAssignments().stream().filter(as -> filterConditionAbstractAttribute(as, bindings, env)).map(as -> {return as.getValueExp();}).collect(Collectors.toSet()));
-      patternObjectIndex.addAll(ov.getAttributeConstraints().stream().filter(ac -> filterConditionAbstractAttribute(ac, bindings, env)).map(ac -> {return ac.getValueExp();}).collect(Collectors.toSet()));
-   }
-   
-   
+     
    public List<PatternObject> getPatterObjectIndex(){
       List<PatternObject> returner = new ArrayList<>(patternObjectIndex);
       returner.sort(new Comparator<PatternObject>() {
