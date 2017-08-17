@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.ccutils.UserDefinedILPConstraintProvider;
+import org.moflon.tgg.algorithm.ccutils.UserDefinedILPObjectiveProvider;
 import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -66,9 +67,11 @@ public class SynchronizationHelper {
 	protected Configurator configurator;
 
 	protected UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
+	
+	protected UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider;
 
 	protected int ilpProblemVariablesCount;
-	
+
 	protected int ilpProblemConstraintsCount;
 
 	protected DeltaSpecification deltaSpec;
@@ -118,8 +121,7 @@ public class SynchronizationHelper {
 
 	public void setCorr(final EObject corrModell) {
 		if (!isInTheCorrectResourceSet(corrModell)) {
-			throw new IllegalStateException(
-					"Correspondence model must be in the resource set of your synchronization helper");
+			throw new IllegalStateException("Correspondence model must be in the resource set of your synchronization helper");
 		}
 		this.corr = (CorrespondenceModel) corrModell;
 	}
@@ -139,9 +141,12 @@ public class SynchronizationHelper {
 		this.configurator = configurator;
 	}
 
-	public void setUserDefiendILPConstraintProvider(
-			UserDefinedILPConstraintProvider userDefiendILPConstraintProvider) {
+	public void setUserDefiendILPConstraintProvider(UserDefinedILPConstraintProvider userDefiendILPConstraintProvider) {
 		this.userDefinedILPConstraintProvider = userDefiendILPConstraintProvider;
+	}
+
+	public void setUserDefiendILPObjectiveProvider(UserDefinedILPObjectiveProvider userDefiendILPObjectiveProvider) {
+		this.userDefinedILPObjectiveProvider = userDefiendILPObjectiveProvider;
 	}
 
 	public Configurator getConfigurator() {
@@ -227,8 +232,7 @@ public class SynchronizationHelper {
 		this(corrPackage, pathToProject, eMoflonEMFUtil.createDefaultResourceSet());
 	}
 
-	public SynchronizationHelper(final EPackage corrPackage, final String pathToProject,
-			final ResourceSet resourceSet) {
+	public SynchronizationHelper(final EPackage corrPackage, final String pathToProject, final ResourceSet resourceSet) {
 		this.set = resourceSet;
 		setCorrPackage(corrPackage);
 		loadRulesFromProject(pathToProject);
@@ -255,8 +259,7 @@ public class SynchronizationHelper {
 		if (batchMode)
 			protocol = new SynchronizationProtocol();
 		else if (protocol == null)
-			throw new IllegalStateException(
-					"You cannot synchronize your delta without providing a translation protocol");
+			throw new IllegalStateException("You cannot synchronize your delta without providing a translation protocol");
 	}
 
 	protected void establishGraphTriple() {
@@ -296,8 +299,7 @@ public class SynchronizationHelper {
 
 			// Edge deletion
 			for (EMoflonEdge de : localDeltaSpec.getDeletedEdges())
-				performActionOnFeature(de, (f, o) -> ((EList) de.getSrc().eGet(f)).remove(o),
-						(f, o) -> de.getSrc().eUnset(f));
+				performActionOnFeature(de, (f, o) -> ((EList) de.getSrc().eGet(f)).remove(o), (f, o) -> de.getSrc().eUnset(f));
 
 			// Node deletion
 			for (EObject delObj : localDeltaSpec.getDeletedNodes())
@@ -305,13 +307,11 @@ public class SynchronizationHelper {
 
 			// Attribute deltas
 			for (AttributeDelta ac : localDeltaSpec.getAttributeChanges())
-				ac.getAffectedNode().eSet(ac.getAffectedAttribute(),
-						EcoreUtil.createFromString(ac.getAffectedAttribute().getEAttributeType(), ac.getNewValue()));
+				ac.getAffectedNode().eSet(ac.getAffectedAttribute(), EcoreUtil.createFromString(ac.getAffectedAttribute().getEAttributeType(), ac.getNewValue()));
 		};
 	}
 
-	private void performActionOnFeature(EMoflonEdge e, BiConsumer<EStructuralFeature, EObject> actionMany,
-			BiConsumer<EStructuralFeature, EObject> actionOne) {
+	private void performActionOnFeature(EMoflonEdge e, BiConsumer<EStructuralFeature, EObject> actionMany, BiConsumer<EStructuralFeature, EObject> actionOne) {
 		EStructuralFeature feature = e.getSrc().eClass().getEStructuralFeature(e.getName());
 		if (!feature.isDerived()) {
 			if (feature.isMany()) {
@@ -342,24 +342,19 @@ public class SynchronizationHelper {
 		}
 
 		if (verbose)
-			logger.info("\nI am going to propagate this as delta: \n" + delta
-					+ "\nPlease check and ensure that it is as expected!");
+			logger.info("\nI am going to propagate this as delta: \n" + delta + "\nPlease check and ensure that it is as expected!");
 	}
 
 	protected void sanityCheckDelta() {
 		if (delta != null && deltaSpec != null) {
 			if (deltaSpec.getAddedNodes().size() != delta.getAddedNodes().size()) {
-				logger.warn(
-						"The added nodes in your delta specification do not match the added nodes in the resulting delta!");
+				logger.warn("The added nodes in your delta specification do not match the added nodes in the resulting delta!");
 			} else if (deltaSpec.getAddedEdges().size() > delta.getAddedEdges().size()) {
-				logger.warn(
-						"The added edges in your delta specification do not match the added edges in the resulting delta!");
+				logger.warn("The added edges in your delta specification do not match the added edges in the resulting delta!");
 			} else if (deltaSpec.getDeletedEdges().size() > delta.getDeletedEdges().size()) {
-				logger.warn(
-						"The deleted edges in your delta specification do not match the deleted edges in the resulting delta!");
+				logger.warn("The deleted edges in your delta specification do not match the deleted edges in the resulting delta!");
 			} else if (deltaSpec.getDeletedNodes().size() != delta.getDeletedNodes().size()) {
-				logger.warn(
-						"The deleted nodes in your delta specification do not match the deleted nodes in the resulting delta!");
+				logger.warn("The deleted nodes in your delta specification do not match the deleted nodes in the resulting delta!");
 			}
 		}
 	}
@@ -414,14 +409,14 @@ public class SynchronizationHelper {
 					// Edge is n-ary: edge exists only once, but points to many
 					// contained EObjects
 					for (EObject containedObject : (EList<EObject>) node.eGet(reference, true)) {
-					// Create the wrapper and set the appropriate values
-					EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
-					edge.setName(reference.getName());
-					edge.setSrc(node);
-					edge.setTrg(containedObject);
+						// Create the wrapper and set the appropriate values
+						EMoflonEdge edge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
+						edge.setName(reference.getName());
+						edge.setSrc(node);
+						edge.setTrg(containedObject);
 
-					// Save edge as unprocessed
-					delta.addEdge(edge);
+						// Save edge as unprocessed
+						delta.addEdge(edge);
 					}
 				// else a standard reference was found
 				else {
@@ -447,8 +442,7 @@ public class SynchronizationHelper {
 		establishForwardDelta();
 		establishTranslationProtocol();
 
-		performSynchronization(new ForwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(),
-				tempOutputContainer));
+		performSynchronization(new ForwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(), tempOutputContainer));
 
 		if (trg == null)
 			trg = corr.getTarget();
@@ -466,10 +460,11 @@ public class SynchronizationHelper {
 
 		ccProtocol = new ConsistencyCheckPrecedenceGraph();
 
-		ConsistencySynchronizer cs = new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr,
-				ccProtocol);
-		if(userDefinedILPConstraintProvider != null)
+		ConsistencySynchronizer cs = new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr, ccProtocol);
+		if (userDefinedILPConstraintProvider != null)
 			cs.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
+		if (userDefinedILPObjectiveProvider != null)
+			cs.setUserDefinedILPObjectiveProvider(userDefinedILPObjectiveProvider);
 		cs.createCorrespondences();
 
 		int inconsistentElementCount = 0;
@@ -492,7 +487,7 @@ public class SynchronizationHelper {
 
 			set.createResource(URI.createURI(trg.eResource().getURI().toString() + ".delta.xmi")).getContents().add(targetInconsistency);
 		}
-		
+
 		ilpProblemVariablesCount = cs.getVariableCount();
 		ilpProblemConstraintsCount = cs.getConstraintCount();
 
@@ -524,8 +519,7 @@ public class SynchronizationHelper {
 		establishBackwardDelta();
 		establishTranslationProtocol();
 
-		performSynchronization(new BackwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(),
-				tempOutputContainer));
+		performSynchronization(new BackwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(), tempOutputContainer));
 
 		if (src == null)
 			src = corr.getSource();
@@ -569,8 +563,7 @@ public class SynchronizationHelper {
 	 *            the basename of the file containing the rules
 	 */
 	private void loadRulesFromProject(final String pathToProject, final String rulesFileBaseName) {
-		setRules((StaticAnalysis) loadModel(pathToProject + "/model/"
-				+ MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi"));
+		setRules((StaticAnalysis) loadModel(pathToProject + "/model/" + MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi"));
 	}
 
 	/**
@@ -672,12 +665,12 @@ public class SynchronizationHelper {
 		eMoflonEMFUtil.saveModel(pgAsPSs.eResource().getResourceSet(), pgAsPSs, path);
 	}
 
-	@Deprecated 
+	@Deprecated
 	public void saveInconsistentSourceDelta(final String path) {
 		saveInconsistentSourceDelta();
 	}
-	 
-	public void saveInconsistentSourceDelta(){
+
+	public void saveInconsistentSourceDelta() {
 		try {
 			sourceInconsistency.eResource().save(null);
 		} catch (IOException e) {
@@ -696,7 +689,7 @@ public class SynchronizationHelper {
 			targetInconsistency.eResource().save(null);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	private DeltaSpecification prepareDelta(Collection<EObject> elements) {
@@ -707,8 +700,7 @@ public class SynchronizationHelper {
 				EMoflonEdge edge = (EMoflonEdge) elt;
 				ds.getAddedEdges().add(edge);
 				try {
-					performActionOnFeature(edge, (f, o) -> ((EList<?>) edge.getSrc().eGet(f)).remove(o),
-							(f, o) -> edge.getSrc().eUnset(f));
+					performActionOnFeature(edge, (f, o) -> ((EList<?>) edge.getSrc().eGet(f)).remove(o), (f, o) -> edge.getSrc().eUnset(f));
 				} catch (Exception e) {
 				}
 
@@ -720,7 +712,7 @@ public class SynchronizationHelper {
 		ds.getAddedNodes().addAll(nodes);
 		return ds;
 	}
-	
+
 	public int getIlpProblemVariablesCount() {
 		return ilpProblemVariablesCount;
 	}

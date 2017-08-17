@@ -1,25 +1,26 @@
 package org.moflon.tgg.algorithm.ccutils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class UserDefinedILPConstraint {
 
 
 
-	private HashMap<Integer, Double> idsToCoefficients;
+	private Map<Integer, Double> idsToCoefficients;
 	
 	private String mathematicalSign;
 	
 	private double referenceValue;
 	
-	public UserDefinedILPConstraint(HashMap<Integer, Double> idsToCoefficients, String mathematicalSign,
+	public UserDefinedILPConstraint(Map<Integer, Double> idsToCoefficients, String mathematicalSign,
 			double referenceValue) {
 		this.idsToCoefficients = idsToCoefficients;
 		this.mathematicalSign = mathematicalSign;
 		this.referenceValue = referenceValue;
 	}
 	
-	protected HashMap<Integer, Double> getIdsToCoefficients() {
+	protected Map<Integer, Double> getIdsToCoefficients() {
 		return idsToCoefficients;
 	}
 
