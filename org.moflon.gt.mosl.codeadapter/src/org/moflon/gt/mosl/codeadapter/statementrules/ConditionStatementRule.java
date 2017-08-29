@@ -13,6 +13,11 @@ import org.moflon.sdm.runtime.democles.Scope;
 public class ConditionStatementRule extends AbstractConditionStatementRule<ConditionStatement>
 {
 
+   public ConditionStatementRule(TransformationConfiguration trafoConfig)
+   {
+      super(trafoConfig);
+   }
+
    @Override
    protected Class<ConditionStatement> getStatementClass()
    {
@@ -26,7 +31,7 @@ public class ConditionStatementRule extends AbstractConditionStatementRule<Condi
    }
 
    @Override
-   protected ValidationReport transformStatement(ConditionStatement stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected ValidationReport transformStatement(ConditionStatement stmnt, Scope scope, CFNode previosCFNode)
    {
       IfStatement ifStatement = this.updateCurrentNode(DemoclesFactory.eINSTANCE.createIfStatement());
       scope.getContents().add(ifStatement);
@@ -35,13 +40,13 @@ public class ConditionStatementRule extends AbstractConditionStatementRule<Condi
 
       Scope thenScope = DemoclesFactory.eINSTANCE.createScope();
       thenScope.setParent(ifStatement);
-      transformationConfiguration.getStatementCreationController().transformStatement(stmnt.getThenStartStatement(), thenScope, null, transformationConfiguration);
+      transformationConfiguration.getStatementCreationController().transformStatement(stmnt.getThenStartStatement(), thenScope, null);
 
       if (hasElseBranch(stmnt))
       {
          Scope elseScope = DemoclesFactory.eINSTANCE.createScope();
          elseScope.setParent(ifStatement);
-         transformationConfiguration.getStatementCreationController().transformStatement(stmnt.getElseStartStatement(), elseScope, null, transformationConfiguration);
+         transformationConfiguration.getStatementCreationController().transformStatement(stmnt.getElseStartStatement(), elseScope, null);
       }
       return ResultFactory.eINSTANCE.createValidationReport();
    }

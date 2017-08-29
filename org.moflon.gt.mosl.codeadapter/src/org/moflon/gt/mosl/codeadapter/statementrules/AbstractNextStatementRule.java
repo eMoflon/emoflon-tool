@@ -11,8 +11,13 @@ import org.moflon.sdm.runtime.democles.Scope;
 
 public abstract class AbstractNextStatementRule<S extends NextStatement> extends AbstractStatementRule<S>
 {
+   public AbstractNextStatementRule(TransformationConfiguration trafoConfig)
+   {
+      super(trafoConfig);
+   }
+
    @Override
-   protected void invokeNextRule(S stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected void invokeNextRule(S stmnt, Scope scope, CFNode previosCFNode)
    {
       Statement nextStmnt = stmnt.getNext();
       if (nextStmnt == null)
@@ -38,7 +43,7 @@ public abstract class AbstractNextStatementRule<S extends NextStatement> extends
       if (currentNode == null)
          currentNode = previosCFNode;
 
-      transformationConfiguration.getStatementCreationController().transformStatement(nextStmnt, scope, currentNode, transformationConfiguration);
+      transformationConfiguration.getStatementCreationController().transformStatement(nextStmnt, scope, currentNode);
    }
 
    private CFNode currentNode;

@@ -14,7 +14,7 @@ public abstract class VariableOrientedTransformPlanRule extends TransformPlanRul
    }
 
    @Override
-   protected boolean filterConditionExpression(Expression expr, Map<String, Boolean> bindings, Map<String, CFVariable> env)
+   protected boolean filterConditionExpression(Expression expr, Map<String, CFVariable> env)
    {
       // Variable Oriented Patterns doesn't need to look at Expressions
       return false;

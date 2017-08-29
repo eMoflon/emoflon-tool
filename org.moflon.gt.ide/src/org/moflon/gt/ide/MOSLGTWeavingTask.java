@@ -1,7 +1,6 @@
 package org.moflon.gt.ide;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -32,17 +31,6 @@ import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.gt.mosl.codeadapter.CodeadapterTrafo;
 import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
-import org.moflon.gt.mosl.codeadapter.statementrules.ConditionStatementRule;
-import org.moflon.gt.mosl.codeadapter.statementrules.DoLoopStatementRule;
-import org.moflon.gt.mosl.codeadapter.statementrules.ForLoopStatementRule;
-import org.moflon.gt.mosl.codeadapter.statementrules.ObjectVariableDefinitionRule;
-import org.moflon.gt.mosl.codeadapter.statementrules.PatternStatementRule;
-import org.moflon.gt.mosl.codeadapter.statementrules.ReturnStatementRule;
-import org.moflon.gt.mosl.codeadapter.statementrules.WhileLoopStatementRule;
-import org.moflon.gt.mosl.codeadapter.transformplanrules.BlackTransformPlanRule;
-import org.moflon.gt.mosl.codeadapter.transformplanrules.GreenTransformPlanRule;
-import org.moflon.gt.mosl.codeadapter.transformplanrules.RedTransformPlanRule;
-import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
 
@@ -180,8 +168,7 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
    {
       try
       {
-         CodeadapterTrafo helper = new CodeadapterTrafo();
-         registerTransformationRules();
+         CodeadapterTrafo helper = this.transformationConfiguration.getCodeadapterTransformator();
 
          final List<Resource> mgtResources = this.resourceSet.getResources().stream()
                .filter(resource -> resource.getURI().lastSegment().endsWith('.' + WorkspaceHelper.EMOFLON_GT_EXTENSION)).collect(Collectors.toList());
@@ -201,27 +188,6 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
                // TODO@rkluge: Extend to support multiple root packages
                final EPackage contextEPackage = EcoreUtil.copy((EPackage) ecoreRes.getContents().get(0));
 
-               // save context as raw
-               //      List<String> uriParts = Arrays.asList(ePackage.eResource().getURI().toString().split("/")).subList(0, 3);
-               //      projecPrefixURI = "";
-               //      for (String uriPart : uriParts)
-               //      {
-               //         projecPrefixURI += uriPart + "/";
-               //      )
-               // final String rawURIString = projecPrefixURI + "/model/raw/"+
-               // MoflonUtil.lastCapitalizedSegmentOf(contextEPackage.getName());
-               // String contextEcoreURIString= rawURIString + ".raw" + WorkspaceHelper.ECORE_FILE_EXTENSION;
-               // URI contextEcoreURI = URI.createURI(contextEcoreURIString, true);
-               // Resource contextEcoreResource = this.resourceSet.getResource(contextEcoreURI, false);
-               // if(contextEcoreResource == null)
-               // contextEcoreResource = this.resourceSet.createResource(contextEcoreURI);
-               // contextEcoreResource.getContents().clear();
-               // contextEcoreResource.getContents().add(EcoreUtil.copy(contextEPackage));
-               // final Map<String, String> contextSaveOptions = new HashMap<>();
-               // contextSaveOptions.put(Resource.OPTION_LINE_DELIMITER,
-               // WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
-               // contextEcoreResource.save(contextSaveOptions);
-
                // transformation
                Resource enrichedEcoreResource = ePackage.eResource(); // this.resourceSet.createResource(enrichedEcoreURI);
                String nsURI = ePackage.eResource().getURI().toString();
@@ -230,7 +196,7 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
                contextEPackage.setNsURI(nsURI);
                enrichedEcoreResource.save(Collections.EMPTY_MAP);
                EcoreUtil.resolveAll(contextEPackage);
-               final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, this.resourceSet, this.transformationConfiguration);
+               final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, this.resourceSet);
 
                // save context
                enrichedEcoreResource.getContents().clear();
@@ -250,22 +216,5 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
       return Status.OK_STATUS;
    }
 
-   private void registerTransformationRules()
-   {
-      transformationConfiguration.getPatternCreationController().addTransformPlanRule(PatternKind.BLACK, new BlackTransformPlanRule());
-      transformationConfiguration.getPatternCreationController().addTransformPlanRule(PatternKind.GREEN, new GreenTransformPlanRule());
-      transformationConfiguration.getPatternCreationController().addTransformPlanRule(PatternKind.RED, new RedTransformPlanRule());
 
-      //@formatter:off
-      Arrays.asList(
-            new ReturnStatementRule(),
-            new PatternStatementRule(),
-            new ConditionStatementRule(),
-            new WhileLoopStatementRule(),
-            new ForLoopStatementRule(),
-            new DoLoopStatementRule(),
-            new ObjectVariableDefinitionRule()
-            ).stream().forEach(rule -> transformationConfiguration.getStatementCreationController().registerTransformationRule(rule));
-      //@formatter:on
-   }
 }

@@ -10,6 +10,11 @@ import org.moflon.sdm.runtime.democles.Scope;
 public class PatternStatementRule extends AbstractNextStatementRule<PatternStatement>
 {
 
+   public PatternStatementRule(TransformationConfiguration trafoConfig)
+   {
+      super(trafoConfig);
+   }
+
    @Override
    protected Class<PatternStatement> getStatementClass()
    {
@@ -17,11 +22,11 @@ public class PatternStatementRule extends AbstractNextStatementRule<PatternState
    }
 
    @Override
-   protected ValidationReport transformStatement(PatternStatement stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected ValidationReport transformStatement(PatternStatement stmnt, Scope scope, CFNode previosCFNode)
    {
       CFNode cfNode = this.updateCurrentNode(DemoclesFactory.eINSTANCE.createCFNode());
       cfNode.setScope(scope);
-      return this.handlePattern(stmnt.getParameters(), stmnt.getPattern(), cfNode, scope, transformationConfiguration);
+      return this.handlePattern(stmnt.getParameters(), stmnt.getPattern(), cfNode, scope);
    }
 
 }
