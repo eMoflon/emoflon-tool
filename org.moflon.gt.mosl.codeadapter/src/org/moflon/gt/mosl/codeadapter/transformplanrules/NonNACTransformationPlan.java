@@ -15,7 +15,7 @@ public abstract class NonNACTransformationPlan extends SimpleTypeVariableOriente
    }
 
    @Override
-   protected boolean filterConditionNac(NACGroup nac, Map<String, Boolean> bindings, Map<String, CFVariable> env)
+   protected boolean filterConditionNac(NACGroup nac, Map<String, CFVariable> env)
    {
       return false;
    }

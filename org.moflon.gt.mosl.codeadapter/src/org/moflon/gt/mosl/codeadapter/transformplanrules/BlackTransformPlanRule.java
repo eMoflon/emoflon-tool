@@ -22,7 +22,7 @@ public class BlackTransformPlanRule extends SimpleTypeVariableOrientedTransformP
    }
 
    @Override
-   protected boolean filterConditionNac(NACGroup nac, Map<String, Boolean> bindings, Map<String, CFVariable> env)
+   protected boolean filterConditionNac(NACGroup nac, Map<String, CFVariable> env)
    {
       return true;
    }

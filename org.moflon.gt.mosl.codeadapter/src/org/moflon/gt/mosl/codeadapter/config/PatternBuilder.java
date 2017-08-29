@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.PatternBody;
+import org.gervarro.democles.specification.emf.PatternInvocationConstraint;
 import org.gervarro.democles.specification.emf.SpecificationFactory;
 import org.gervarro.democles.specification.emf.Variable;
 import org.moflon.gt.mosl.codeadapter.transformplanrules.TransformPlanRule;
@@ -55,9 +57,11 @@ public class PatternBuilder
 
    private PatternNameGenerator patternNameGenerator;
    
-   private Map<String, Map<Integer, List<PatternObject>>> nacObjects;
+   private Map<String, List<List<PatternObject>>> nacObjects;
 
    private final TransformationConfiguration transformationConfiguration;
+   
+   private Map<Pattern,Set<Pattern>> patternNacConnection;
 
    public PatternBuilder(TransformationConfiguration trafoConfig)
    {
@@ -69,6 +73,7 @@ public class PatternBuilder
       this.nodeDeletionNameCache = new HashMap<>();
       this.patternNameGenerator = new PatternNameGenerator();
       this.nacObjects = new HashMap<>();
+      this.patternNacConnection = new HashMap<>();
    }
 
    public PatternNameGenerator getPatternNameGenerator()
@@ -81,14 +86,14 @@ public class PatternBuilder
       transformationPlanRuleCache.put(patternKind, transformPlanRule);
    }
 
-   public void createAllPatterns(PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env, Map<String, VariableVisibility> visibilty, PatternNameGenerator patternNameGenerator,
+   public void createAllPatterns(PatternDef patternDef, Map<String, CFVariable> env, Map<String, VariableVisibility> visibilty, PatternNameGenerator patternNameGenerator,
          EClass eClass)
    {
       final String patternName = patternDef.getName();
 
       validateTransformationRules();
 
-      createTransformPlan(patternDef, bindings, env);
+      createTransformPlan(patternDef, env);
 
       final Map<PatternKind, List<PatternObject>> patternObjectsByKind = patternNameToPatternObjectsByPatternKind.getOrDefault(patternName, new HashMap<>());
 
@@ -97,7 +102,7 @@ public class PatternBuilder
       final SortedMap<PatternKind, PatternInvocation> patternKindToInvocation = new TreeMap<>(new PatternKindProcessingOrderComparator());
       patternInvocationCache.put(patternName, patternKindToInvocation);
       patternKindsInTransformatinoPlan.stream().forEach(patternKind -> patternKindToInvocation.put(patternKind, createPatternInvocation(patternKind,
-            patternObjectsByKind.get(patternKind), patternName, bindings, env, visibilty, patternNameGenerator, eClass, PatternInvocationType.REGULAR)));
+            patternObjectsByKind.get(patternKind), patternName, env, visibilty, patternNameGenerator, eClass, PatternInvocationType.REGULAR)));
    }
 
    public SortedMap<PatternKind, PatternInvocation> getPatternInvocations(final String patternName)
@@ -106,12 +111,15 @@ public class PatternBuilder
    }
 
    public boolean isConstructorPattern(CFNode cfNode, CFVariable cfVar, PatternInvocation currentInvocation, List<MethodParameter> methodParameters,
-         String patternName)
+         String patternName, Map<String, VariableVisibility> visiblity)
    {
       if ("this".equals(cfVar.getName()))
          return false;
 
       if (isMethodParameter(cfVar, methodParameters))
+         return false;
+      
+      if (visiblity.getOrDefault(cfVar.getName(), VariableVisibility.LOCAL) == VariableVisibility.GLOBAL)
          return false;
 
       final PatternInvocation blackInvocation = getInvocationIfVarExists(PatternKind.BLACK, cfNode, cfVar);
@@ -179,13 +187,13 @@ public class PatternBuilder
     * @param env
     *           the environment where the ControlVariables are available
     */
-   private void createTransformPlan(PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env)
+   private void createTransformPlan(PatternDef patternDef, Map<String, CFVariable> env)
    {
       final String patternName = patternDef.getName();
       for (final PatternKind patternKind : this.getPatternKindProcessingOrder())
       {
          final TransformPlanRule transformationRule = transformationPlanRuleCache.get(patternKind);
-         if (transformationRule.isTransformable(patternKind, patternDef, bindings, env))
+         if (transformationRule.isTransformable(patternKind, patternDef, env))
          {
             final List<PatternObject> patternObjectIndex = transformationRule.getPatterObjectIndex();
             final Map<PatternKind, List<PatternObject>> patternKindIndex = patternNameToPatternObjectsByPatternKind.getOrDefault(patternName, new HashMap<>());
@@ -212,13 +220,11 @@ public class PatternBuilder
    }
    
    private void collectNACs(String patternName, PatternDef patternDef){
-      Map<Integer, List<PatternObject>> nacs = nacObjects.getOrDefault(patternName, new HashMap<>());
+      patternNacConnection.clear();
+      List<List<PatternObject>> nacs = new ArrayList<>();
       List<NACGroup> nacGroups = MOSLUtil.mapToSubtype(patternDef.getVariables(), NACGroup.class);
-      for(int index=0; index < nacGroups.size(); index++){
-         List<PatternObject> patternObjects = new ArrayList<>();
-         PatternUtil.collectObjects(patternObjects, nacGroups.get(index).getObjects());
-         nacs.put(index, patternObjects);
-      }
+      nacs.addAll(nacGroups.stream().map(nacGroup -> 
+      PatternUtil.collectObjects(new ArrayList<>(), nacGroup.getObjects()).stream().collect(Collectors.toList())).collect(Collectors.toList()));
       nacObjects.put(patternName, nacs);      
    }
 
@@ -242,19 +248,52 @@ public class PatternBuilder
     * @return A patternInvocation where the belonged pattern is registered
     */
    private PatternInvocation createPatternInvocation(PatternKind patternKind, List<PatternObject> patternObjectIndex, String patternName,
-         Map<String, Boolean> bindings, Map<String, CFVariable> env, Map<String, VariableVisibility> visibilty, PatternNameGenerator patternNameGenerator, EClass eClass,
+         Map<String, CFVariable> env, Map<String, VariableVisibility> visibilty, PatternNameGenerator patternNameGenerator, EClass eClass,
          PatternInvocationType patternInvocationType)
    {
       // creating Pattern hull
       PatternInvocation invocation = patternInvocationType.createPatternInvocation();
       patternTypes.put(invocation, patternKind);
-      List <Variable> variables = createPatternAndGetItsVariables(patternObjectIndex, patternKind, bindings, visibilty, eClass, invocation::setPattern);
+      List <Variable> variables = createPatternAndGetItsVariables(patternObjectIndex, patternKind, visibilty, eClass, invocation::setPattern);
+      Pattern pattern = invocation.getPattern();
       
       // set connection to global variables
-      variables.stream().filter(variable -> isGlobal(variable, visibilty)).forEach(variable -> addVariableReferencesToInvocation(invocation, env, variable));
+      variables.stream().filter(variable -> isGlobal(variable, visibilty)).forEach(variable -> this.transformationConfiguration.getVariableTransformer().addVariableReferencesToInvocation(invocation, env, variable));
 
+      transformationConfiguration.getBindingHandler().setDemoclesBindings(patternName, invocation);
+      
+      if(patternKind == PatternKind.BLACK)
+         createNACStructure(pattern, patternName, patternObjectIndex, patternKind, variables, eClass);
+      
       // return value
       return invocation;
+   }
+   
+   private void createNACStructure(Pattern srcPattern, String patternName, List<PatternObject> srcPatternObjectIndex, PatternKind patternKind, List<Variable> variables, EClass eClass){
+      PatternBody srcPatternBody = srcPattern.getBodies().get(0);
+      Set<String> srcOVNames = MOSLUtil.mapToSubtype(srcPatternObjectIndex, ObjectVariableDefinition.class).stream().map(ov -> ov.getName()).collect(Collectors.toSet());
+      List<List<PatternObject>> allNacsPatternObjects = nacObjects.getOrDefault(patternName, new ArrayList<>());
+      List<Map<String, VariableVisibility>> allNacVisibilities = allNacsPatternObjects.stream().map(nacPatternObjectIndex ->
+      this.transformationConfiguration.getVariableTransformer().getNacVisibility(srcOVNames, nacPatternObjectIndex)).collect(Collectors.toList());
+      for(int index =0; index < allNacsPatternObjects.size(); index++){
+         Map<String, VariableVisibility> nacVisibility = allNacVisibilities.get(index);
+         List<PatternObject> nacPatternObjectIndex = allNacsPatternObjects.get(index);
+         PatternInvocationConstraint patternInvocationConstraint = this.transformationConfiguration.getVariableTransformer().createPatternInvocationConstraint(nacVisibility, variables);
+         srcPatternBody.getConstraints().add(patternInvocationConstraint);
+         createPatternAndGetItsVariables(nacPatternObjectIndex, patternKind, nacVisibility, eClass, trgPattern -> setPattern(srcPattern, trgPattern, patternInvocationConstraint), "_"+index);
+      }
+      
+   }   
+
+   private void setPattern(Pattern srcPattern, Pattern trgPattern, PatternInvocationConstraint patternInvocationConstraint){
+      Set<Pattern> connections = patternNacConnection.getOrDefault(srcPattern, new HashSet<>());
+      connections.add(trgPattern);
+      patternInvocationConstraint.setInvokedPattern(trgPattern);
+      patternNacConnection.put(srcPattern, connections);
+   }
+   
+   public Optional<Pattern> getSourcePattern(Pattern trgPattern){
+      return patternNacConnection.entrySet().stream().filter(entry -> entry.getValue().contains(trgPattern)).map(entry -> entry.getKey()).findFirst();
    }
    
    private boolean isGlobal(Variable variable, Map<String, VariableVisibility> visibilty){
@@ -262,39 +301,32 @@ public class PatternBuilder
       return variableVisibility == VariableVisibility.GLOBAL;
    }
    
-   private void addVariableReferencesToInvocation(PatternInvocation invocation, Map<String, CFVariable> env, Variable variable){
-      CFVariable cfVar = env.get(PatternUtil.getNormalizedVariableName(variable.getName()));
 
-      VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
-      vr.setInvocation(invocation);
-      vr.setFrom(cfVar);
-      vr.setTo(variable);
-   }
 
-   private List<Variable> createPatternAndGetItsVariables(List<PatternObject> patternObjectIndex, PatternKind patternKind, Map<String, Boolean> bindings,  Map<String, VariableVisibility> visibilty, EClass eClass, Consumer<Pattern> addTo){
-      return createPatternAndGetItsVariables(patternObjectIndex, patternKind, bindings, visibilty, eClass, addTo, "");
+   private List<Variable> createPatternAndGetItsVariables(List<PatternObject> patternObjectIndex, PatternKind patternKind,  Map<String, VariableVisibility> visibilty, EClass eClass, Consumer<Pattern> addTo){
+      return createPatternAndGetItsVariables(patternObjectIndex, patternKind, visibilty, eClass, addTo, "");
    }
    
-   private List<Variable> createPatternAndGetItsVariables(List<PatternObject> patternObjectIndex, PatternKind patternKind, Map<String, Boolean> bindings,  Map<String, VariableVisibility> visibilty, EClass eClass, Consumer<Pattern> addTo, String nacExtension)
+   private List<Variable> createPatternAndGetItsVariables(List<PatternObject> patternObjectIndex, PatternKind patternKind,  Map<String, VariableVisibility> visibilty, EClass eClass, Consumer<Pattern> addTo, String nacExtension)
    {
       Pattern pattern = SpecificationFactory.eINSTANCE.createPattern();
       PatternBody patternBody = SpecificationFactory.eINSTANCE.createPatternBody();
       patternBody.setHeader(pattern);
       addTo.accept(pattern);
       
-      // handle LinkVariables
-      transformationConfiguration.getVariableTransformer().transformPatternObjects(MOSLUtil.mapToSubtype(patternObjectIndex, LinkVariablePattern.class), bindings,
-            patternBody, patternKind);
-
       // special case for black pattern
       if (patternKind == PatternKind.BLACK)
          transformationConfiguration.getVariableTransformer().addUnequals(pattern, patternBody);
       
+      List<ObjectVariableDefinition> objectVariables = MOSLUtil.mapToSubtype(patternObjectIndex, ObjectVariableDefinition.class);
+      
       // handle ObjectVariables
-      List<Variable> resolvingVariables = MOSLUtil.mapToSubtype(patternObjectIndex, ObjectVariableDefinition.class).parallelStream()
+      List<Variable> resolvingVariables = objectVariables.stream()
             .map(ov -> transformationConfiguration.getVariableTransformer().transformObjectVariable(pattern, ov, visibilty.getOrDefault(ov.getName(), VariableVisibility.LOCAL))).collect(Collectors.toList());
 
-
+      // handle LinkVariables must be executed after handle ObjectVariables
+      transformationConfiguration.getVariableTransformer().transformPatternObjects(MOSLUtil.mapToSubtype(patternObjectIndex, LinkVariablePattern.class),
+            patternBody, patternKind);
       
       // register Pattern
       registerPattern(patternKind, pattern, eClass, nacExtension);
@@ -388,5 +420,9 @@ public class PatternBuilder
          final int indexOfSecondKind = getPatternKindProcessingOrder().indexOf(secondKind);
          return indexOfFirstKind - indexOfSecondKind;
       }
+   }
+   
+   public PatternKind getPatternKind(PatternInvocation invocation){
+      return patternTypes.get(invocation);
    }
 }

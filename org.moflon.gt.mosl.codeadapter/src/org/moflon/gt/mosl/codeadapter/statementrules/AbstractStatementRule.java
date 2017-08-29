@@ -104,7 +104,6 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
    protected ValidationReport handlePattern(List<CalledPatternParameter> patternInvocationStatementParamters, PatternDef patternDef, CFNode cfNode, Scope scope)
    {
       final ValidationReport validationReport = ResultFactory.eINSTANCE.createValidationReport();
-      Map<String, Boolean> bindings = new HashMap<>();
       Map<String, CFVariable> enviroment = new HashMap<>();
       Map<String, VariableVisibility> visiblity = new HashMap<>();
       List<CFVariable> cfVariables = new ArrayList<>();
@@ -118,37 +117,39 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
          throw new PatternParameterSizeIsNotMatching();
 
       final Set<ObjectVariableDefinition> objectVariableSet = new HashSet<>();
+      
+      List<ObjectVariableDefinition> parameterOVs = patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toList());
+      parameterOVs.forEach(ov -> visiblity.put(PatternUtil.getNormalizedVariableName(ov.getName()), VariableVisibility.getVisibility(ov, patternDef)));
+      
       List<ObjectVariableDefinition> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class);
       ovs.forEach(ov -> visiblity.put(PatternUtil.getNormalizedVariableName(ov.getName()), VariableVisibility.getVisibility(ov, patternDef)));
+      
       objectVariableSet.addAll(ovs);
-      objectVariableSet.addAll(patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toSet()));
+      objectVariableSet.addAll(parameterOVs);
 
-      // Binding Handling
-      for (final ObjectVariableDefinition ovRef : objectVariableSet)
-      {
-         // TODO@rkluge: I am wondering whether the normalization of variables names is used consistentlty... If in
-         // doubt, better remove all invocations now.
-         final CFVariable cfVar = getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType());
-         final Action constructor = cfVar.getConstructor();
-
-         if (constructor == null)
-         {
-            cfVariables.add(cfVar);
-            bindings.put(cfVar.getName(), false);
-         } else
-         {
-            bindings.put(cfVar.getName(), true);
-         }
-
-         enviroment.put(cfVar.getName(), cfVar);
-      }
+      objectVariableSet.stream().map(ovRef ->  getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType()))
+         .forEach(cfVar -> enviroment.put(cfVar.getName(), cfVar));
+      
+   // Binding Handling
+      objectVariableSet.forEach(ov -> transformationConfiguration.getBindingHandler().createBinding(patternDef, ov));
+//      
+//      for (final ObjectVariableDefinition ovRef : objectVariableSet)
+//      {
+//         // TODO@rkluge: I am wondering whether the normalization of variables names is used consistentlty... If in
+//         // doubt, better remove all invocations now.
+//         final CFVariable cfVar = getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType());
+//         //final Action constructor = cfVar.getConstructor();
+//
+//
+//         enviroment.put(cfVar.getName(), cfVar);
+//      }
 
       // Pattern Handling
       final PatternNameGenerator patternNameGenerator = transformationConfiguration.getPatternCreationController().getPatternNameGenerator();
       patternNameGenerator.setCFNode(cfNode);
       patternNameGenerator.setPatternDefinition(patternDef);
       final PatternBuilder patternBuilder = transformationConfiguration.getPatternCreationController();
-      patternBuilder.createAllPatterns(patternDef, bindings, enviroment, visiblity, patternNameGenerator, eClass);
+      patternBuilder.createAllPatterns(patternDef, enviroment, visiblity, patternNameGenerator, eClass);
 
       final SortedMap<PatternKind, PatternInvocation> invocations = patternBuilder.getPatternInvocations(patternName);
 
@@ -164,15 +165,15 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
          }
          cfNode.setMainAction(invocation);
 
-         cfVariables.stream().filter(cfVar -> patternBuilder.isConstructorPattern(cfNode, cfVar, invocation, methodParameters, patternName))
-               .forEach(cfVar -> cfVar.setConstructor(invocation));
+//         cfVariables.stream()//.filter(cfVar -> patternBuilder.isConstructorPattern(cfNode, cfVar, invocation, methodParameters, patternName, visiblity))
+//               .forEach(cfVar -> cfVar.setConstructor(invocation));
 
          final Adornment adornment = calculateAdornment(invocation);
          // TODO@rkluge: Here, we escape from a stateless function to the very statefull CodeAdapterTrafo singleton
          validationReport.merge(transformationConfiguration.getPatternMatchingController().generateSearchPlan(invocation.getPattern(), adornment,
                invocation.isMultipleMatch(), patternKind.getSuffix()));
       }
-
+      
       final NodeDeletion nodeDeletion = patternBuilder.getNodeDeletion(patternName, cfVariables);
       if (nodeDeletion != null)
       {
@@ -184,7 +185,8 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
 
       return validationReport;
    }
-
+   
+   
    protected CFVariable getOrCreateVariable(Scope scope, String name, EClassifier type)
    {
       Optional<CFVariable> opt = scope.getVariables().stream().filter(var -> var.getName().equals(PatternUtil.getNormalizedVariableName(name)))
@@ -205,6 +207,7 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
    private Adornment calculateAdornment(final PatternInvocation invocation)
    {
       final EList<VariableReference> parameters = invocation.getParameters();
+      final PatternKind patternKind = transformationConfiguration.getPatternCreationController().getPatternKind(invocation);
       final Adornment adornment = new Adornment(parameters.size());
       int i = 0;
       for (final VariableReference variableRef : parameters)

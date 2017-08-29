@@ -31,6 +31,10 @@ public class TransformationConfiguration
    private final VariableTransformer variableTransformer;
 
    private final CodeadapterTrafo codeadapterTransformator;
+   
+   private final BindingHandler bindingHandler;
+
+
 
    public TransformationConfiguration()
    {
@@ -41,6 +45,7 @@ public class TransformationConfiguration
       this.eCoreAdapterController = new ECoreAdapterController();
       this.variableTransformer = new VariableTransformer(this);
       this.codeadapterTransformator = new CodeadapterTrafo(this);
+      this.bindingHandler = new BindingHandler(this);
       registerTransformationRules();
       register();
    }
@@ -99,5 +104,10 @@ public class TransformationConfiguration
    public CodeadapterTrafo getCodeadapterTransformator()
    {
       return this.codeadapterTransformator;
+   }
+   
+   public BindingHandler getBindingHandler()
+   {
+      return this.bindingHandler;
    }
 }

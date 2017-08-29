@@ -67,7 +67,7 @@ class MOSLGTScopeProvider extends AbstractMOSLGTScopeProvider {
 	}
 	
 	def GraphTransformationFile getGraphTransformationFile(EObject context){
-		if(context == null)
+		if(context === null)
 			return null
 		else if(context instanceof GraphTransformationFile)
 			return context

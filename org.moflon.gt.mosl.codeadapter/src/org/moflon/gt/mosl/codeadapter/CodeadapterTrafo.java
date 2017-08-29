@@ -2,12 +2,16 @@ package org.moflon.gt.mosl.codeadapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
@@ -85,11 +89,44 @@ public class CodeadapterTrafo
       final MoflonOperation eOperation = ControlflowFactory.eINSTANCE.createMoflonOperation();
       eOperation.setName(methodSpecification.getName());
       eOperation.getEParameters().addAll(createEParameters(methodSpecification.getParameters(), transformationConfiguration));
-      eOperation.setEType(methodSpecification.getType());
+      eOperation.setEType(getEType(methodSpecification, changeableContext));
       changeableContext.getEOperations().add(eOperation);
       return eOperation;
    }
 
+   private EPackage getRootPackage(EPackage ePackage){
+      EPackage rootPackage = ePackage;
+      while(rootPackage.getESuperPackage() != null)
+         rootPackage = rootPackage.getESuperPackage();
+      return rootPackage;
+   }
+   
+   private Collection<EClassifier> getAllClassifiers(EPackage anyPackage){
+      LinkedList<EPackage> packageStack = new LinkedList<>(); 
+      Set<EPackage> labeled = new HashSet<>();
+      Set<EClassifier> allClassifier = new HashSet<>();
+      packageStack.addLast(getRootPackage(anyPackage));
+      while(!packageStack.isEmpty()){
+         EPackage ePackage = packageStack.removeLast();
+         if(!labeled.contains(ePackage)){
+            labeled.add(ePackage);
+            allClassifier.addAll(ePackage.getEClassifiers());
+            ePackage.getESubpackages().forEach(subPackage -> packageStack.addLast(subPackage));
+         }
+      }
+      
+      return allClassifier;
+   }
+   
+   private EClassifier getEType(MethodDec methodSpecification, EClass changeableContext){
+      Collection<EClassifier> allClassifier = getAllClassifiers(changeableContext.getEPackage());
+      Optional<EClassifier> typeMonad = allClassifier.stream().filter(eClassifier -> methodSpecification.getType() != null && eClassifier.getName().equals(methodSpecification.getType().getName())).findFirst();
+      if(typeMonad.isPresent())
+         return typeMonad.get();
+      else
+         return methodSpecification.getType();
+   }
+   
    private Collection<? extends EParameter> createEParameters(final EList<MethodParameter> parameterListSpecification, final TransformationConfiguration transformationConfiguration)
    {
       final List<EParameter> paramLst = new ArrayList<>();

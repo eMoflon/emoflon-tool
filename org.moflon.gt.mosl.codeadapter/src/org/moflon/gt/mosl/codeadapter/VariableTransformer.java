@@ -1,15 +1,22 @@
 package org.moflon.gt.mosl.codeadapter;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.gervarro.democles.specification.emf.Constraint;
 import org.gervarro.democles.specification.emf.ConstraintParameter;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.emf.PatternBody;
+import org.gervarro.democles.specification.emf.PatternInvocationConstraint;
 import org.gervarro.democles.specification.emf.SpecificationFactory;
 import org.gervarro.democles.specification.emf.Variable;
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypeFactory;
@@ -25,6 +32,7 @@ import org.moflon.gt.mosl.codeadapter.utils.VariableVisibility;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.PatternObject;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
@@ -39,7 +47,7 @@ public class VariableTransformer
       transformationConfiguration=trafoConfig;
    }
    
-   public void transformPatternObjects(List<LinkVariablePattern> lvs, Map<String, Boolean> bindings, PatternBody patternBody, PatternKind patternKind){
+   public void transformPatternObjects(List<LinkVariablePattern> lvs, PatternBody patternBody, PatternKind patternKind){
       lvs.stream().forEach(lv -> {transforming(lv, patternBody, patternKind);});
    }
 
@@ -53,22 +61,47 @@ public class VariableTransformer
       ConstraintParameter target = SpecificationFactory.eINSTANCE.createConstraintParameter();
       reference.getParameters().add(target);
       String targetName = PatternUtil.getNormalizedVariableName(linkVariable.getTarget().getName());
-      target.setReference(this.getVariableMonad(targetName).get());
+      Optional<Variable> variableMonad = this.getVariableMonad(targetName);
+      target.setReference(variableMonad.get());
    }
    
    public void transforming(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind)
    {
-         getVariableMonadFun = varName -> {
-            return patternBody.getHeader().getSymbolicParameters().stream().filter(var -> var.getName().compareTo(varName) == 0).findFirst();
-         };
+         getVariableMonadFun = variableMonadFun(patternBody);
          transformLinkVariable(linkVariable, patternBody, patternKind);
+   }
+   
+   private Function<String, Optional<Variable>> variableMonadFun(PatternBody patternBody){
+      Set<Variable> variables = initSet(patternBody);
+      variables.addAll(collectAllVariables(patternBody));
+      return varName -> variables.stream().filter(var -> findVariable(var, varName)).findFirst();
+   }
+   
+   private Set<Variable> collectAllVariables(PatternBody patternBody){
+      Set<Variable> variables = patternBody.getLocalVariables().stream().collect(Collectors.toSet());
+      variables.addAll(patternBody.getHeader().getSymbolicParameters());
+      return variables;
+   }
+   
+   private Set<Variable> initSet(PatternBody patternBody){
+      Optional<Pattern> srcPatternMonad = transformationConfiguration.getPatternCreationController().getSourcePattern(patternBody.getHeader());
+      if(srcPatternMonad.isPresent()){
+        Pattern pattern = srcPatternMonad.get();
+        return collectAllVariables(pattern.getBodies().get(0));
+      }else {
+         return new HashSet<>();
+      }
+   }
+   
+   private boolean findVariable(Variable variable, String varName){
+      return variable.getName().compareTo(varName)==0;
    }
    
    private void transformLinkVariable(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind)
    {
       ObjectVariableDefinition ov = ObjectVariableDefinition.class.cast(linkVariable.eContainer());
       Reference reference = EMFTypeFactory.eINSTANCE.createReference();
-      EClass contextEclass = transformationConfiguration.getContextController().getTypeContext(EClassDef.class.cast(ov.eContainer().eContainer()).getName());
+      EClass contextEclass = transformationConfiguration.getContextController().getTypeContext(getTypeContextFromOV(ov));
       reference.setEModelElement(transformationConfiguration.getContextController().getEReferenceContext(linkVariable.getType(), contextEclass)); //TODO create an EReference to the contextEPackage
       patternBody.getConstraints().add(reference);
 
@@ -78,6 +111,15 @@ public class VariableTransformer
 
       this.handleTarget(reference, linkVariable);
 
+   }
+   
+   private EClass getTypeContextFromOV(EObject eObject){
+      if(eObject instanceof EClassDef)
+         return EClassDef.class.cast(eObject).getName();
+      else if(eObject == null)
+         throw new RuntimeException("Unknown Type or Container");
+      else
+         return getTypeContextFromOV(eObject.eContainer());
    }
    
    public void addUnequals(Pattern pattern, PatternBody patternBody){
@@ -127,4 +169,39 @@ public class VariableTransformer
       return variable;
    }
    
+   public void addVariableReferencesToInvocation(PatternInvocation invocation, Map<String, CFVariable> env, Variable variable){
+      CFVariable cfVar = env.get(PatternUtil.getNormalizedVariableName(variable.getName()));
+
+      VariableReference vr = DemoclesFactory.eINSTANCE.createVariableReference();
+      vr.setInvocation(invocation);
+      vr.setFrom(cfVar);
+      vr.setTo(variable);
+   }
+   
+   public PatternInvocationConstraint createPatternInvocationConstraint (Map<String, VariableVisibility> nacVisibility, List <Variable> variables){
+      Set<String> globalVariableVisibilitiyNames = nacVisibility.entrySet().stream().filter(entry -> entry.getValue()== VariableVisibility.GLOBAL).map(entry -> entry.getKey()).collect(Collectors.toSet());
+      PatternInvocationConstraint patternInvocationConstraint = SpecificationFactory.eINSTANCE.createPatternInvocationConstraint();
+      List<Variable> globalVariables = variables.stream().filter(var -> globalVariableVisibilitiyNames.contains(var.getName())).collect(Collectors.toList());
+      globalVariables.forEach(var -> addConstraintParameter(patternInvocationConstraint, var));
+      return patternInvocationConstraint;
+   }
+   
+   private void addConstraintParameter(Constraint constraint, Variable variable){
+      ConstraintParameter parameter = SpecificationFactory.eINSTANCE.createConstraintParameter();
+      parameter.setReference(variable);
+      constraint.getParameters().add(parameter);
+   }
+   
+   public Map<String, VariableVisibility> getNacVisibility (Set<String> srcOVNames, List<PatternObject> nacPatternObjectIndex){
+      Map<String, VariableVisibility> nacVisibility = new HashMap<>();
+      MOSLUtil.mapToSubtype(nacPatternObjectIndex, ObjectVariableDefinition.class).forEach(ov -> addVisibility(ov, srcOVNames, nacVisibility));
+      return nacVisibility;
+   }
+   
+   private void addVisibility(ObjectVariableDefinition ov, Set<String> srcOVNames, Map<String, VariableVisibility> nacVisibility){
+      if(srcOVNames.contains(ov.getName()))
+         nacVisibility.put(ov.getName(), VariableVisibility.GLOBAL);
+      else
+         nacVisibility.put(ov.getName(), VariableVisibility.LOCAL);
+   }
 }
