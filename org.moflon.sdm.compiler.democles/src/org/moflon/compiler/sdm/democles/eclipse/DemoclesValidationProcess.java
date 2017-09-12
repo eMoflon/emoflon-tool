@@ -14,6 +14,7 @@ import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.GenericMoflonProcess;
 import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public class DemoclesValidationProcess extends GenericMoflonProcess
 {
@@ -70,15 +71,16 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
             return validatorStatus;
          }
 
-         if (shallSaveIntermediateModels)
+         if (this.shallSaveIntermediateModels)
          {
+            DemoclesValidationUtils.clearAllIntermediateModels(WorkspaceHelper.getModelFolder(this.getProject()));
             DemoclesValidationUtils.saveAllIntermediateModels(ePackage);
          }
 
-         return new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Validation succeeded");
+         return Status.OK_STATUS;
       } catch (final Exception e)
       {
-         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
       }
    }
 }

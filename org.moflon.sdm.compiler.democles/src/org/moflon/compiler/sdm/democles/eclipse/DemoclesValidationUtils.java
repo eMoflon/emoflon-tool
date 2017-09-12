@@ -5,6 +5,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
@@ -25,7 +30,7 @@ import org.moflon.core.utilities.WorkspaceHelper;
 public final class DemoclesValidationUtils
 {
    private static final Logger logger = Logger.getLogger(DemoclesValidationUtils.class);
-   
+
    private DemoclesValidationUtils()
    {
       throw new UtilityClassNotInstantiableException();
@@ -85,7 +90,7 @@ public final class DemoclesValidationUtils
          {
             final URI deresolve = oldUri.deresolve(URI.createPlatformPluginURI("", false));
             inWorkspaceUri = deresolve.resolve(URI.createPlatformResourceURI("", false));
-         } else 
+         } else
          {
             inWorkspaceUri = oldUri;
          }
@@ -105,6 +110,38 @@ public final class DemoclesValidationUtils
             adapterResource.setURI(oldUri);
          }
       }
+   }
+
+   /**
+    * Deletes all intermediate models of the control flow generation process, which are generated, e.g., by #saveAllIntermediateModels.
+    * @param modelFolder only files contained in this folder are scanned 
+    */
+   public static void clearAllIntermediateModels(final IFolder modelFolder)
+   {
+      try
+      {
+         modelFolder.accept(new IResourceVisitor() {
+            @Override
+            public boolean visit(final IResource resource) throws CoreException
+            {
+               for (final String extension : Arrays.asList(DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION, DemoclesMethodBodyHandler.SDM_FILE_EXTENSION,
+                     DemoclesMethodBodyHandler.DFS_FILE_EXTENSION, DemoclesMethodBodyHandler.RED_FILE_EXTENSION, DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION,
+                     DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION, DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION,
+                     DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION))
+               {
+                  if (resource.getName().endsWith("." + extension))
+                  {
+                     resource.delete(true, new NullProgressMonitor());
+                  }
+               }
+               return true;
+            }
+         }, IResource.DEPTH_ONE, false);
+      } catch (final CoreException e)
+      {
+         LogUtils.error(logger, "Problem while removing temporary files in %s. Reason: %s", modelFolder, e.getMessage());
+      }
+
    }
 
 }
