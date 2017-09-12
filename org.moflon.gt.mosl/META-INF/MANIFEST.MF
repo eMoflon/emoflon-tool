@@ -30,5 +30,6 @@ Export-Package: org.moflon.gt.mosl.serializer,
  org.moflon.gt.mosl.generator,
  org.moflon.gt.mosl.moslgt.util,
  org.moflon.gt.mosl.moslgt,
- org.moflon.gt.mosl.parser.antlr
+ org.moflon.gt.mosl.parser.antlr,
+ org.moflon.gt.mosl.formatting2
 Import-Package: org.apache.log4j
