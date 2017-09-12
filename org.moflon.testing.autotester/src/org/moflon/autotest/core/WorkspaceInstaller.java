@@ -346,53 +346,67 @@ public class WorkspaceInstaller
 
             if (isRunningJUnitTestsRequired(label))
             {
-               final List<IFile> launchConfigurations = new LinkedList<IFile>();
-               for (final IProject testProject : WorkspaceHelper.getAllProjectsInWorkspace())
-               {
-                  try
-                  {
-                     final List<IFile> selectedLaunchConfigurations = Arrays.asList(testProject.members()).stream()//
-                           .filter(m -> m instanceof IFile) //
-                           .map(m -> (IFile) m.getAdapter(IFile.class))//
-                           .filter(f -> f.getName().matches(JUNIT_TEST_LAUNCHER_FILE_NAME_PATTERN))//
-                           .collect(Collectors.toList());
-                     launchConfigurations.addAll(selectedLaunchConfigurations);
-                  } catch (final CoreException e)
-                  {
-                     LogUtils.error(logger, e);
-                  }
-               }
-               if (!launchConfigurations.isEmpty())
-               {
-                  final Job testConfigurationJob = new Job("Launching test configurations") {
-
-                     @Override
-                     protected IStatus run(final IProgressMonitor monitor)
-                     {
-                        final MultiStatus result = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), IStatus.OK,
-                              "Test configurations executed succesfully", null);
-                        final ILaunchManager mgr = DebugPlugin.getDefault().getLaunchManager();
-                        final SubMonitor subMonitor = SubMonitor.convert(monitor, launchConfigurations.size());
-                        for (final IFile file : launchConfigurations)
-                        {
-                           final ILaunchConfiguration config = mgr.getLaunchConfiguration(file);
-                           final LaunchInvocationTask launchInvocationTask = new LaunchInvocationTask(config);
-                           result.add(launchInvocationTask.run(subMonitor.split(1)));
-                           CoreActivator.checkCancellation(subMonitor);
-                        }
-                        return result;
-                     }
-                  };
-                  testConfigurationJob.setRule(ResourcesPlugin.getWorkspace().getRoot());
-                  jobs.add(testConfigurationJob);
-               }
+               enqueueJUnitTestJob(jobs);
             }
             return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "eMoflon projects successfully explored");
          }
 
+         /**
+          * Searches for all projects that contain JUnit test configurations and enqueues a job that invokes all of these configurations into the given list of jobs 
+          * @param jobs the job list
+          */
+         private void enqueueJUnitTestJob(final List<Job> jobs)
+         {
+            final List<IFile> launchConfigurations = new LinkedList<IFile>();
+            for (final IProject testProjectCandidate : getAllOpenProjectsInWorkspace())
+            {
+               try
+               {
+                  final List<IFile> selectedLaunchConfigurations = Arrays.asList(testProjectCandidate.members()).stream()//
+                        .filter(m -> m instanceof IFile) //
+                        .map(m -> (IFile) m.getAdapter(IFile.class))//
+                        .filter(f -> f.getName().matches(JUNIT_TEST_LAUNCHER_FILE_NAME_PATTERN))//
+                        .collect(Collectors.toList());
+                  launchConfigurations.addAll(selectedLaunchConfigurations);
+               } catch (final CoreException e)
+               {
+                  LogUtils.error(logger, e);
+               }
+            }
+            if (!launchConfigurations.isEmpty())
+            {
+               final Job testConfigurationJob = new Job("Launching test configurations") {
+
+                  @Override
+                  protected IStatus run(final IProgressMonitor monitor)
+                  {
+                     final MultiStatus result = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), IStatus.OK,
+                           "Test configurations executed succesfully", null);
+                     final ILaunchManager mgr = DebugPlugin.getDefault().getLaunchManager();
+                     final SubMonitor subMonitor = SubMonitor.convert(monitor, launchConfigurations.size());
+                     for (final IFile file : launchConfigurations)
+                     {
+                        final ILaunchConfiguration config = mgr.getLaunchConfiguration(file);
+                        final LaunchInvocationTask launchInvocationTask = new LaunchInvocationTask(config);
+                        result.add(launchInvocationTask.run(subMonitor.split(1)));
+                        CoreActivator.checkCancellation(subMonitor);
+                     }
+                     return result;
+                  }
+               };
+               testConfigurationJob.setRule(ResourcesPlugin.getWorkspace().getRoot());
+               jobs.add(testConfigurationJob);
+            }
+         }
+
+         private List<IProject> getAllOpenProjectsInWorkspace()
+         {
+            return WorkspaceHelper.getAllProjectsInWorkspace().stream().filter(p -> p.isAccessible()).collect(Collectors.toList());
+         }
+
          private List<IProject> getProjectsWithMweWorkflows()
          {
-            return WorkspaceHelper.getAllProjectsInWorkspace().stream().filter(WorkspaceInstaller::containsMwe2Files).collect(Collectors.toList());
+            return getAllOpenProjectsInWorkspace().stream().filter(WorkspaceInstaller::containsMwe2Files).collect(Collectors.toList());
          }
       };
       moflonProjectExplorerJob.setRule(ResourcesPlugin.getWorkspace().getRoot());

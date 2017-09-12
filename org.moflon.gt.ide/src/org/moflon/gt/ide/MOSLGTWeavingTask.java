@@ -175,37 +175,7 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
 
          for (final Resource schemaResource : mgtResources)
          {
-            final GraphTransformationFile gtf = GraphTransformationFile.class.cast(schemaResource.getContents().get(0));
-            if (gtf.getImports().size() > 0)
-            {
-               // TODO@rkluge: Probably, we will have to translate the .mgt files "package-by-package" and load the
-               // appropriate packages
-
-               // load context
-               String contextEcorePath = gtf.getImports().get(0).getName().replaceFirst("platform:/resource", "").replaceFirst("platform:/plugin", "");
-               Resource ecoreRes = this.resourceSet.getResource(URI.createPlatformResourceURI(contextEcorePath, false), true);
-               ecoreRes.load(null);
-               // TODO@rkluge: Extend to support multiple root packages
-               final EPackage contextEPackage = EcoreUtil.copy((EPackage) ecoreRes.getContents().get(0));
-
-               // transformation
-               Resource enrichedEcoreResource = ePackage.eResource(); // this.resourceSet.createResource(enrichedEcoreURI);
-               String nsURI = ePackage.eResource().getURI().toString();
-               enrichedEcoreResource.getContents().clear();
-               enrichedEcoreResource.getContents().add(contextEPackage);
-               contextEPackage.setNsURI(nsURI);
-               enrichedEcoreResource.save(Collections.EMPTY_MAP);
-               EcoreUtil.resolveAll(contextEPackage);
-               final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, this.resourceSet);
-
-               // save context
-               enrichedEcoreResource.getContents().clear();
-               enrichedEcoreResource.getContents().add(enrichedEPackage);
-               final Map<String, String> saveOptions = new HashMap<>();
-               saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
-               enrichedEcoreResource.save(saveOptions);
-
-            }
+            processMgtResource(helper, schemaResource);
 
          }
          EcoreUtil.resolveAll(this.resourceSet);
@@ -214,6 +184,41 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
          return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Problems while loading MOSL-GT specification", e);
       }
       return Status.OK_STATUS;
+   }
+
+   private void processMgtResource(CodeadapterTrafo helper, final Resource schemaResource) throws IOException
+   {
+      final GraphTransformationFile gtf = GraphTransformationFile.class.cast(schemaResource.getContents().get(0));
+      if (gtf.getImports().size() > 0)
+      {
+         // TODO@rkluge: Probably, we will have to translate the .mgt files "package-by-package" and load the
+         // appropriate packages
+
+         // load context
+         String contextEcorePath = gtf.getImports().get(0).getName().replaceFirst("platform:/resource", "").replaceFirst("platform:/plugin", "");
+         Resource ecoreRes = this.resourceSet.getResource(URI.createPlatformResourceURI(contextEcorePath, false), true);
+         ecoreRes.load(null);
+         // TODO@rkluge: Extend to support multiple root packages
+         final EPackage contextEPackage = EcoreUtil.copy((EPackage) ecoreRes.getContents().get(0));
+
+         // transformation
+         Resource enrichedEcoreResource = ePackage.eResource(); // this.resourceSet.createResource(enrichedEcoreURI);
+         String nsURI = ePackage.eResource().getURI().toString();
+         enrichedEcoreResource.getContents().clear();
+         enrichedEcoreResource.getContents().add(contextEPackage);
+         contextEPackage.setNsURI(nsURI);
+         enrichedEcoreResource.save(Collections.EMPTY_MAP);
+         EcoreUtil.resolveAll(contextEPackage);
+         final EPackage enrichedEPackage = helper.transform(contextEPackage, gtf, this.resourceSet);
+
+         // save context
+         enrichedEcoreResource.getContents().clear();
+         enrichedEcoreResource.getContents().add(enrichedEPackage);
+         final Map<String, String> saveOptions = new HashMap<>();
+         saveOptions.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
+         enrichedEcoreResource.save(saveOptions);
+
+      }
    }
 
 

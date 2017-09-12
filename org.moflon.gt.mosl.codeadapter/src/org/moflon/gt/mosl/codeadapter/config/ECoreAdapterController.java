@@ -1,5 +1,8 @@
 package org.moflon.gt.mosl.codeadapter.config;
 
+import java.io.IOException;
+import java.util.Collections;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -10,22 +13,20 @@ public class ECoreAdapterController
 {
    public void saveAsRegisteredAdapter(EObject objectToSave, EObject adaptedObject, String type, ResourceSet resourceSet)
    {
-      //TODO@rkluge: This could be a hack that circumvents proper Resources handling. 
-      // Such things typically make debugging really hard because you cannot rely on the fact that a Resource will never "change"
       cleanResourceSet(adaptedObject.eResource(), resourceSet);
 
       final Resource adapterResource = (Resource) EcoreUtil.getRegisteredAdapter(adaptedObject, type);
       if (adapterResource != null)
       {
-         //         try
-         //         {
+         try
+         {
             cleanResourceSet(adapterResource, resourceSet);
             adapterResource.getContents().add(objectToSave);
-            //adapterResource.save(Collections.EMPTY_MAP);
-//         } catch (IOException e)
-//         {
-//            e.printStackTrace();
-//         }
+            adapterResource.save(Collections.EMPTY_MAP);
+         } catch (IOException e)
+         {
+            e.printStackTrace();
+         }
       }
    }
 
