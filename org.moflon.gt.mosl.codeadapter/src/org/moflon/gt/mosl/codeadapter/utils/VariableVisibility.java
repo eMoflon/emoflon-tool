@@ -15,7 +15,7 @@ public enum VariableVisibility {
    GLOBAL, LOCAL;
    
 public static VariableVisibility getVisibility(ObjectVariableDefinition ov, PatternDef patternDef) {
-   if(isGlobal(ov, patternDef)){
+   if(patternDef == null || isGlobal(ov, patternDef)){
       return VariableVisibility.GLOBAL;
    }else{
       return VariableVisibility.LOCAL;

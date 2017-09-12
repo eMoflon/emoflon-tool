@@ -77,9 +77,9 @@ ForLoopStatement: 'for' '('
 	'}'
 ;
 
-ReturnStatement:{ReturnStatement} "return" (returnObject=[ObjectVariableDefinition])?;
+ReturnStatement:{ReturnStatement} 'return' (returnObject=[ObjectVariableDefinition])?;
 
-ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName] (":=" assignment=[ObjectVariableDefinition | QualifiedName])? ('{' 
+ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName] (':=' assignment=[ObjectVariableDefinition | QualifiedName])? ('{' 
 		attributeAssignments += AttributeAssignment*
 		attributeConstraints += AttributeConstraint*
 		linkVariablePatterns += LinkVariablePattern*	

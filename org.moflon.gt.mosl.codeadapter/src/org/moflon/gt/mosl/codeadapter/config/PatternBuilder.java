@@ -86,14 +86,21 @@ public class PatternBuilder
       transformationPlanRuleCache.put(patternKind, transformPlanRule);
    }
 
-   public void createAllPatterns(PatternDef patternDef, Map<String, CFVariable> env, Map<String, VariableVisibility> visibilty, PatternNameGenerator patternNameGenerator,
+   public PatternInvocation createResultPatternInvocation(Map<String, CFVariable> environment, Map<String, VariableVisibility> visibilty, EClass eClass, ObjectVariableDefinition returnValue){
+      PatternInvocationType patternInvocationType = PatternInvocationType.SINGLE_RESULT;
+      PatternInvocation invocation = null;
+      invocation = createPatternInvocation(PatternKind.EXPRESSION, Arrays.asList(returnValue), "", environment, visibilty, patternNameGenerator, eClass, patternInvocationType);
+      return invocation;
+   }
+   
+   public void createAllPatterns(PatternDef patternDef, Map<String, CFVariable> environment, Map<String, VariableVisibility> visibilty, PatternNameGenerator patternNameGenerator,
          EClass eClass)
    {
       final String patternName = patternDef.getName();
 
       validateTransformationRules();
 
-      createTransformPlan(patternDef, env);
+      createTransformPlan(patternDef, environment);
 
       final Map<PatternKind, List<PatternObject>> patternObjectsByKind = patternNameToPatternObjectsByPatternKind.getOrDefault(patternName, new HashMap<>());
 
@@ -102,7 +109,7 @@ public class PatternBuilder
       final SortedMap<PatternKind, PatternInvocation> patternKindToInvocation = new TreeMap<>(new PatternKindProcessingOrderComparator());
       patternInvocationCache.put(patternName, patternKindToInvocation);
       patternKindsInTransformatinoPlan.stream().forEach(patternKind -> patternKindToInvocation.put(patternKind, createPatternInvocation(patternKind,
-            patternObjectsByKind.get(patternKind), patternName, env, visibilty, patternNameGenerator, eClass, PatternInvocationType.REGULAR)));
+            patternObjectsByKind.get(patternKind), patternName, environment, visibilty, patternNameGenerator, eClass, PatternInvocationType.REGULAR)));
    }
 
    public SortedMap<PatternKind, PatternInvocation> getPatternInvocations(final String patternName)
@@ -184,16 +191,16 @@ public class PatternBuilder
     *           the pattern definition from XText
     * @param bindings
     *           the information which ControlFlowVariable is bound
-    * @param env
+    * @param envrironment
     *           the environment where the ControlVariables are available
     */
-   private void createTransformPlan(PatternDef patternDef, Map<String, CFVariable> env)
+   private void createTransformPlan(PatternDef patternDef, Map<String, CFVariable> envrironment)
    {
       final String patternName = patternDef.getName();
       for (final PatternKind patternKind : this.getPatternKindProcessingOrder())
       {
          final TransformPlanRule transformationRule = transformationPlanRuleCache.get(patternKind);
-         if (transformationRule.isTransformable(patternKind, patternDef, env))
+         if (transformationRule.isTransformable(patternKind, patternDef, envrironment))
          {
             final List<PatternObject> patternObjectIndex = transformationRule.getPatterObjectIndex();
             final Map<PatternKind, List<PatternObject>> patternKindIndex = patternNameToPatternObjectsByPatternKind.getOrDefault(patternName, new HashMap<>());
@@ -259,8 +266,9 @@ public class PatternBuilder
       
       // set connection to global variables
       variables.stream().filter(variable -> isGlobal(variable, visibilty)).forEach(variable -> this.transformationConfiguration.getVariableTransformer().addVariableReferencesToInvocation(invocation, env, variable));
-
-      transformationConfiguration.getBindingHandler().setDemoclesBindings(patternName, invocation);
+      
+      if(patternKind != PatternKind.EXPRESSION)
+         transformationConfiguration.getBindingHandler().setDemoclesBindings(patternName, invocation);
       
       if(patternKind == PatternKind.BLACK)
          createNACStructure(pattern, patternName, patternObjectIndex, patternKind, variables, eClass);

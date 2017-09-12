@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EClass;
 import org.moflon.gt.mosl.codeadapter.utils.GTBinding;
 import org.moflon.gt.mosl.codeadapter.utils.MOSLUtil;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
@@ -26,11 +27,20 @@ public class BindingHandler
    }
    
    public GTBinding createBinding(PatternDef patternDef, ObjectVariableDefinition objectVariable){
-      Map<String, GTBinding> bindings = bindingCache.getOrDefault(patternDef.getName(), new HashMap<>());
       GTBinding binding = createGTBinding(patternDef, objectVariable);
-      bindings.put(objectVariable.getName(), binding);
-      bindingCache.put(patternDef.getName(), bindings);
+      addBinding(patternDef.getName(), binding, objectVariable);
       return binding;
+   }
+   
+   private void addBinding(String patternName, GTBinding binding, ObjectVariableDefinition objectVariable){
+      Map<String, GTBinding> bindings = bindingCache.getOrDefault(patternName, new HashMap<>());
+      bindings.put(objectVariable.getName(), binding);
+      bindingCache.put(patternName, bindings);
+   }
+   
+   public void addExpressionForBinding(ObjectVariableDefinition objectVariable, EClass eClass){
+      String name = eClass.getName() + "_Expressions";
+      addBinding(name, GTBinding.BOUND, objectVariable);
    }
    
    private GTBinding createGTBinding(PatternDef patternDef, ObjectVariableDefinition objectVariable){
@@ -39,6 +49,11 @@ public class BindingHandler
          return GTBinding.BOUND;
       else
          return GTBinding.FREE;
+   }
+   
+   public GTBinding getExpressionBinding(ObjectVariableDefinition objectVariable, EClass eClass){
+      String name= eClass.getName() + "_Expression";
+      return getBinding(name, objectVariable);
    }
    
    public GTBinding getBinding(PatternDef patternDef, ObjectVariableDefinition objectVariable){
