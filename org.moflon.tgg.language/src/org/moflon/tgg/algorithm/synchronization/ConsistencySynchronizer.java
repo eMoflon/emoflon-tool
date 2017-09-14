@@ -31,7 +31,10 @@ import org.moflon.tgg.runtime.IsApplicableRuleResult;
 import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.RuntimeFactory;
 
+import gnu.trove.TIntCollection;
 import gnu.trove.iterator.TIntIterator;
+import gnu.trove.list.TIntList;
+import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;
 
@@ -91,8 +94,8 @@ public class ConsistencySynchronizer {
 
 	private void applyAllMatchPairs() {
 
-		TIntHashSet readySourceMatches = new TIntHashSet();
-		TIntHashSet readyTargetMatches = new TIntHashSet();
+		TIntList readySourceMatches = new TIntArrayList();
+		TIntList readyTargetMatches = new TIntArrayList();
 
 		extendReady(readySourceMatches, sourcePrecedenceGraph);
 		extendReady(readyTargetMatches, targetPrecedenceGraph);
@@ -207,7 +210,7 @@ public class ConsistencySynchronizer {
 		return lookupMethods.getRules().stream().filter(r -> r.getRuleName().equals(ruleName)).findAny().get().getIsAppropriateMethods().isEmpty();
 	}
 
-	private void extendReady(TIntHashSet readyMatches, PrecedenceInputGraph pg) {
+	private void extendReady(TIntCollection readyMatches, PrecedenceInputGraph pg) {
 		if (readyMatches.isEmpty()) {
 			pg.getMatchIDs().forEach(m -> {
 				if (pg.parents(m).isEmpty())
