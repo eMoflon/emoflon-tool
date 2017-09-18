@@ -92,7 +92,7 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 				for (int id : constraint.getIdsToCoefficients().keySet()) {
 					linear.add(constraint.getIdsToCoefficients().get(id), id);
 				}
-				ilpProblem.add(linear, constraint.getMathematicalSign(), constraint.getReferenceValue());
+				ilpProblem.add(new Constraint(String.valueOf(constraint.hashCode()), linear, constraint.getMathematicalSign(), constraint.getReferenceValue()));
 			}
 		}
 		
