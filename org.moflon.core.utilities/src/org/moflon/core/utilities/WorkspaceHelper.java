@@ -216,7 +216,10 @@ public class WorkspaceHelper
    }
 
    /**
-    * Adds a file to project root, containing specified contents as a string
+    * Adds and fills a file to project root, containing specified contents as a string
+    * 
+    * If the file does not exist, it is created.
+    * If it exists, its contents are overwritten
     * 
     * @param project
     *           Name of project the file should be added to

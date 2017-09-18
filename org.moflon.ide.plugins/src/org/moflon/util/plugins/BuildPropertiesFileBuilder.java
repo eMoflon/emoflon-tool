@@ -1,6 +1,5 @@
 package org.moflon.util.plugins;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -35,24 +34,20 @@ public class BuildPropertiesFileBuilder
             Properties buildProperties = new Properties();
             buildProperties.put("bin.includes", "META-INF/, bin/, model/, plugin.xml, moflon.properties.xmi");
             buildProperties.put("source..", "src/,gen/");
+            buildProperties.put("src.excludes", "injection/");
             buildProperties.put("output..", "bin/");
 
             subMon.worked(1);
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            final ByteArrayOutputStream stream = new ByteArrayOutputStream();
             buildProperties.store(stream, "");
 
-            if (!file.exists())
-            {
-               WorkspaceHelper.addFile(currentProject, BUILD_PROPERTIES_NAME, stream.toString(), subMon.split(1));
-            } else
-            {
-               file.setContents(new ByteArrayInputStream(stream.toByteArray()), true, true, subMon.split(1));
-            }
+            WorkspaceHelper.addFile(currentProject, BUILD_PROPERTIES_NAME, stream.toString(), subMon.split(1));
          }
       } catch (IOException e)
       {
-         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Error while creating build.properties: " + e.getMessage()));
+         throw new CoreException(
+               new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Error while creating build.properties: " + e.getMessage()));
       }
    }
 
