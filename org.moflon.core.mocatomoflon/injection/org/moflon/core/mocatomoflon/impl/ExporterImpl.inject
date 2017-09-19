@@ -1,12 +1,11 @@
-
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
-import java.util.HashMap;
-import org.moflon.core.mocatomoflon.tgg.KernelRuleMap;
+import  java.text.CharacterIterator;
+import  java.text.StringCharacterIterator;
+import  java.util.HashMap;
+import  org.moflon.core.mocatomoflon.tgg.KernelRuleMap;
 
 partial class ExporterImpl {
 
-@members <--
+@members<--
 
    // Bookkeeping collections for postprocessing
    private HashMap<String, EClassifier> id2eclass = new HashMap<String, EClassifier>();
@@ -32,11 +31,10 @@ partial class ExporterImpl {
    private HashMap<EReference, String> ref2Opposite = new HashMap<EReference, String>();
 
    private HashMap<String, ETypeParameter> eTypeParameters = new HashMap<String, ETypeParameter>();
-   
--->
 
-@model convertArbitraryStringToJavaIdentifier (String string) <--
+   -->
 
+@model convertArbitraryStringToJavaIdentifier (String string)<--
       if (string.length() == 0)
       {
          return "_";
@@ -65,11 +63,9 @@ partial class ExporterImpl {
          }
       }
       ;
-      return sb.toString();
--->
+      return sb.toString();-->
 
-@model createEdgeGuard (Attribute guardAttribute) <--
-
+@model createEdgeGuard (Attribute guardAttribute)<--
       java.lang.String value = guardAttribute.getValue().toLowerCase();
       if (value.equals(EdgeGuard.EACH_TIME.toString().toLowerCase()))
          return EdgeGuard.EACH_TIME;
@@ -79,11 +75,9 @@ partial class ExporterImpl {
          return EdgeGuard.FAILURE;
       else if (value.equals(EdgeGuard.SUCCESS.toString().toLowerCase()))
          return EdgeGuard.SUCCESS;
-      return EdgeGuard.NONE;
--->
+      return EdgeGuard.NONE;-->
 
-@model postProcessing () <--
-
+@model postProcessing ()<--
       for (EReference reference : ref2targetId.keySet())
       {
          // Set targets of references
@@ -227,6 +221,8 @@ partial class ExporterImpl {
                if (!"".equals(guid))
                {
                   org.eclipse.emf.ecore.EClassifier currentBaseClass = id2eclass.get(guid);
+                  if (currentBaseClass == null)
+                     throw new RuntimeException(String.format("No registered class for GUID %s. Child class: %s", guid, currentClass));
                   baseMap.getEclass().getESuperTypes().add((EClass) (currentBaseClass));
                }
             }
@@ -312,60 +308,39 @@ partial class ExporterImpl {
             this.tggexporter.handleCspsNodes(rule, tggNode, tggexporter.getTGGRuleToMocaNode().get(rule));
          }
 
-      }
--->
+      }-->
 
-@model registerActivityNode (ActivityNode activityNode, Attribute guidAttribute) <--
+@model registerActivityNode (ActivityNode activityNode, Attribute guidAttribute)<--
+      id2ActivityNode.put(guidAttribute.getValue(), activityNode);-->
 
-      id2ActivityNode.put(guidAttribute.getValue(), activityNode);
--->
+@model registerAttribute (Attribute value, EAttribute eAttribute)<--
+      id2Attribute.put(value.getValue(), eAttribute);-->
 
-@model registerAttribute (Attribute value, EAttribute eAttribute) <--
+@model registerClass (Attribute id, EClassifier eclass)<--
+      id2eclass.put(id.getValue(), eclass);-->
 
-      id2Attribute.put(value.getValue(), eAttribute);
--->
+@model registerETypeParameter (String id, ETypeParameter eTypeParameter)<--
+      eTypeParameters.put(id, eTypeParameter);-->
 
-@model registerClass (Attribute id, EClassifier eclass) <--
+@model registerObjectVariable (Attribute guidAttribute, ObjectVariable objectVariable)<--
+      id2ObjectVariable.put(guidAttribute.getValue(), objectVariable);-->
 
-      id2eclass.put(id.getValue(), eclass);
--->
+@model registerOperation (Attribute value, EOperation operation)<--
+      id2Operation.put(value.getValue(), operation);-->
 
-@model registerETypeParameter (String id, ETypeParameter eTypeParameter) <--
+@model registerPackage (EPackage pack, Attribute guid)<--
+      id2Package.put(guid.getValue(), pack);-->
 
-      eTypeParameters.put(id, eTypeParameter);
--->
+@model registerParameter (Attribute guid, EParameter parameter)<--
+      id2Parameter.put(guid.getValue(), parameter);-->
 
-@model registerObjectVariable (Attribute guidAttribute, ObjectVariable objectVariable) <--
-
-      id2ObjectVariable.put(guidAttribute.getValue(), objectVariable);
--->
-
-@model registerOperation (Attribute value, EOperation operation) <--
-
-      id2Operation.put(value.getValue(), operation);
--->
-
-@model registerPackage (EPackage pack, Attribute guid) <--
-
-      id2Package.put(guid.getValue(), pack);
--->
-
-@model registerParameter (Attribute guid, EParameter parameter) <--
-
-      id2Parameter.put(guid.getValue(), parameter);
--->
-
-@model registerReference (EReference reference, Attribute id, Attribute typeId, Attribute oppositeId) <--
-
+@model registerReference (EReference reference, Attribute id, Attribute typeId, Attribute oppositeId)<--
       id2ref.put(id.getValue(), reference);
       ref2targetId.put(reference, typeId.getValue());
       if (oppositeId != null)
-         ref2Opposite.put(reference, oppositeId.getValue());
--->
+         ref2Opposite.put(reference, oppositeId.getValue());-->
 
-@model registerTGGRule (Attribute id, TGGRule rule) <--
-
-      this.id2TGGRule.put(id.getValue(), rule);
--->
+@model registerTGGRule (Attribute id, TGGRule rule)<--
+      this.id2TGGRule.put(id.getValue(), rule);-->
 
 }
