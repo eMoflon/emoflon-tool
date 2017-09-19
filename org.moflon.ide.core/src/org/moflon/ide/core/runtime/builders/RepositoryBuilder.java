@@ -210,7 +210,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
     */
    private void makeSourceFolderIfNecessary(final IFolder folder) throws CoreException
    {
-      if (isSourceFolder(folder))
+      if (!isSourceFolder(folder))
       {
          makeSourceFolder(getProject(), folder);
       }
