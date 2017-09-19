@@ -110,8 +110,6 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
             final IProject project = getProject();
             MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
-            MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
-            MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
             makeSourceFolderIfNecessary(WorkspaceHelper.getGenFolder(getProject()));
             makeSourceFolderIfNecessary(WorkspaceHelper.getInjectionFolder(getProject()));
 

@@ -160,8 +160,6 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
       final IProject project = getProject();
 
       MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
-      MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
-      MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
 
       return project;
    }
