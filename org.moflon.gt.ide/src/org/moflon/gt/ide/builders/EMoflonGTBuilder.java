@@ -31,7 +31,7 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.ide.MOSLGTWeavingTask;
-import org.moflon.gt.mosl.MOSLGTStandaloneSetupGenerated;
+import org.moflon.gt.mosl.ui.internal.MoslActivator;
 import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
@@ -146,7 +146,9 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
    public static ResourceSet initializeResourceSet()
    {
       // See also: https://wiki.eclipse.org/Xtext/FAQ#How_do_I_load_my_model_in_a_standalone_Java_application.C2.A0.3F
-      final Injector injector = new MOSLGTStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
+      //final Injector injector = new MOSLGTStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
+      // Non standalone injector as described here: https://www.eclipse.org/forums/index.php?t=msg&th=1081455&goto=1744252&#msg_1744252
+      final Injector injector = MoslActivator.getInstance().getInjector(MoslActivator.ORG_MOFLON_GT_MOSL_MOSLGT);
       final XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
       // eMoflonEMFUtil.initializeDefault(this.resourceSet);
       resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
