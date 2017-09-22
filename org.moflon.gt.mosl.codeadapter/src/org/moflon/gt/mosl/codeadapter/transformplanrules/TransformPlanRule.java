@@ -21,7 +21,7 @@ import org.moflon.gt.mosl.moslgt.Expression;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.NACAndObjectVariable;
 import org.moflon.gt.mosl.moslgt.NACGroup;
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.PatternObject;
 import org.moflon.sdm.runtime.democles.CFVariable;
@@ -37,7 +37,7 @@ public abstract class TransformPlanRule
    }
    
    protected abstract boolean filterConditionNACAndObjectVariable(NACAndObjectVariable nov, Map<String, CFVariable> env);
-   protected abstract boolean filterConditionLinkVariable(LinkVariablePattern lv, ObjectVariableDefinition ov, Map<String, CFVariable> env);
+   protected abstract boolean filterConditionLinkVariable(LinkVariablePattern lv, ObjectVariablePattern ov, Map<String, CFVariable> env);
    protected abstract boolean filterConditionExpression(Expression expr, Map<String, CFVariable> env);
    
    private boolean filterConditionAbstractAttribute(AbstractAttribute aa, Map<String, CFVariable> env){
@@ -46,12 +46,12 @@ public abstract class TransformPlanRule
    public boolean isTransformable(PatternKind patternKind, PatternDef patternDef, Map<String, CFVariable> env){
       patternObjectIndex.clear();
       
-      List<ObjectVariableDefinition> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class);
+      List<ObjectVariablePattern> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariablePattern.class);
       
-      final Set<ObjectVariableDefinition> objectVariableSet = new TreeSet<>(new Comparator<ObjectVariableDefinition>(){
+      final Set<ObjectVariablePattern> objectVariableSet = new TreeSet<>(new Comparator<ObjectVariablePattern>(){
 
          @Override
-         public int compare(ObjectVariableDefinition o1, ObjectVariableDefinition o2)
+         public int compare(ObjectVariablePattern o1, ObjectVariablePattern o2)
          {
             boolean o1Container = ovs.contains(o1);
             boolean o2Container = ovs.contains(o2);
@@ -72,9 +72,9 @@ public abstract class TransformPlanRule
       objectVariableSet.addAll(patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toSet()));
       
       Predicate<NACAndObjectVariable> novFilter = nov -> filterConditionNACAndObjectVariable(nov, env);
-      Function<ObjectVariableDefinition, Predicate<? super LinkVariablePattern>> linkVariableFilterFun = ov ->lv -> filterConditionLinkVariable(lv, ov, env);
-      Function<ObjectVariableDefinition, Predicate<? super AttributeAssignment>> assignmentFilterFun = ov ->as -> filterConditionAbstractAttribute(as, env);
-      Function<ObjectVariableDefinition, Predicate<? super AttributeConstraint>> constraintFilterFun = ov ->ac -> filterConditionAbstractAttribute(ac, env);
+      Function<ObjectVariablePattern, Predicate<? super LinkVariablePattern>> linkVariableFilterFun = ov ->lv -> filterConditionLinkVariable(lv, ov, env);
+      Function<ObjectVariablePattern, Predicate<? super AttributeAssignment>> assignmentFilterFun = ov ->as -> filterConditionAbstractAttribute(as, env);
+      Function<ObjectVariablePattern, Predicate<? super AttributeConstraint>> constraintFilterFun = ov ->ac -> filterConditionAbstractAttribute(ac, env);
       
       PatternUtil.collectObjects(patternObjectIndex, objectVariableSet, novFilter, linkVariableFilterFun, assignmentFilterFun, constraintFilterFun);
       
@@ -100,7 +100,7 @@ public abstract class TransformPlanRule
          }
          
          private int getPriorityOfPatternObject(PatternObject po){
-            if(po instanceof ObjectVariableDefinition)
+            if(po instanceof ObjectVariablePattern)
                return 4;
             else if (po instanceof NACGroup)
                return 3;

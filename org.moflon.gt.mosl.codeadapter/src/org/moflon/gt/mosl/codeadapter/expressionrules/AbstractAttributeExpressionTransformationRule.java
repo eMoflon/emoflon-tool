@@ -5,7 +5,7 @@ import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFTypeFactory
 import org.gervarro.democles.specification.emf.constraint.emf.emf.EMFVariable;
 import org.moflon.gt.mosl.moslgt.AbstractAttribute;
 import org.moflon.gt.mosl.moslgt.AttributeExpression;
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
 
@@ -20,9 +20,9 @@ public abstract class AbstractAttributeExpressionTransformationRule<A extends Ab
    }
 
    @Override
-   protected ValidationReport transform(ObjectVariableDefinition ov, AttributeExpression expr, PatternBody patternBody)
+   protected ValidationReport transform(ObjectVariablePattern ov, AttributeExpression expr, PatternBody patternBody)
    {
-      ObjectVariableDefinition ovRef = expr.getObjectVar();
+      ObjectVariablePattern ovRef = expr.getObjectVar();
       EMFVariable newVariable = EMFTypeFactory.eINSTANCE.createEMFVariable();
       patternBody.getHeader().getSymbolicParameters().add(newVariable);
       newVariable.setName(ovRef.getName());
