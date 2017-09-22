@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.moflon.gt.mosl.codeadapter.utils.GTBinding;
 import org.moflon.gt.mosl.codeadapter.utils.MOSLUtil;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
@@ -26,41 +26,41 @@ public class BindingHandler
       trafoConfig = transformationConfiguration;
    }
    
-   public GTBinding createBinding(PatternDef patternDef, ObjectVariableDefinition objectVariable){
+   public GTBinding createBinding(PatternDef patternDef, ObjectVariablePattern objectVariable){
       GTBinding binding = createGTBinding(patternDef, objectVariable);
       addBinding(patternDef.getName(), binding, objectVariable);
       return binding;
    }
    
-   private void addBinding(String patternName, GTBinding binding, ObjectVariableDefinition objectVariable){
+   private void addBinding(String patternName, GTBinding binding, ObjectVariablePattern objectVariable){
       Map<String, GTBinding> bindings = bindingCache.getOrDefault(patternName, new HashMap<>());
       bindings.put(objectVariable.getName(), binding);
       bindingCache.put(patternName, bindings);
    }
    
-   public void addExpressionForBinding(ObjectVariableDefinition objectVariable, EClass eClass){
+   public void addExpressionForBinding(ObjectVariablePattern objectVariable, EClass eClass){
       String name = eClass.getName() + "_Expressions";
       addBinding(name, GTBinding.BOUND, objectVariable);
    }
    
-   private GTBinding createGTBinding(PatternDef patternDef, ObjectVariableDefinition objectVariable){
-      List<ObjectVariableDefinition>paramOVs = patternDef.getParameters().stream().map(pp -> pp.getOv()).collect(Collectors.toList());
+   private GTBinding createGTBinding(PatternDef patternDef, ObjectVariablePattern objectVariable){
+      List<ObjectVariablePattern>paramOVs = patternDef.getParameters().stream().map(pp -> pp.getOv()).collect(Collectors.toList());
       if(MOSLUtil.exist(paramOVs, ov->ov.getName().compareTo(objectVariable.getName())==0))
          return GTBinding.BOUND;
       else
          return GTBinding.FREE;
    }
    
-   public GTBinding getExpressionBinding(ObjectVariableDefinition objectVariable, EClass eClass){
+   public GTBinding getExpressionBinding(ObjectVariablePattern objectVariable, EClass eClass){
       String name= eClass.getName() + "_Expression";
       return getBinding(name, objectVariable);
    }
    
-   public GTBinding getBinding(PatternDef patternDef, ObjectVariableDefinition objectVariable){
+   public GTBinding getBinding(PatternDef patternDef, ObjectVariablePattern objectVariable){
       return getBinding(patternDef.getName(), objectVariable.getName());
    }
    
-   public GTBinding getBinding(String patternName, ObjectVariableDefinition objectVariable){
+   public GTBinding getBinding(String patternName, ObjectVariablePattern objectVariable){
       return getBinding(patternName, objectVariable.getName());
    }
    

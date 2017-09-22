@@ -31,7 +31,7 @@ import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.codeadapter.utils.VariableVisibility;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
 import org.moflon.gt.mosl.moslgt.PatternObject;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.DemoclesFactory;
@@ -99,7 +99,7 @@ public class VariableTransformer
    
    private void transformLinkVariable(LinkVariablePattern linkVariable, PatternBody patternBody, PatternKind patternKind)
    {
-      ObjectVariableDefinition ov = ObjectVariableDefinition.class.cast(linkVariable.eContainer());
+      ObjectVariablePattern ov = ObjectVariablePattern.class.cast(linkVariable.eContainer());
       Reference reference = EMFTypeFactory.eINSTANCE.createReference();
       EClass contextEclass = transformationConfiguration.getContextController().getTypeContext(getTypeContextFromOV(ov));
       reference.setEModelElement(transformationConfiguration.getContextController().getEReferenceContext(linkVariable.getType(), contextEclass)); //TODO create an EReference to the contextEPackage
@@ -139,7 +139,7 @@ public class VariableTransformer
       }
    }
    
-   public Variable transformObjectVariable(Pattern pattern, ObjectVariableDefinition ov, VariableVisibility variableVisibility)
+   public Variable transformObjectVariable(Pattern pattern, ObjectVariablePattern ov, VariableVisibility variableVisibility)
    {
       String name = PatternUtil.getNormalizedVariableName(ov.getName());
       PatternBody patternBody = pattern.getBodies().get(0);
@@ -194,11 +194,11 @@ public class VariableTransformer
    
    public Map<String, VariableVisibility> getNacVisibility (Set<String> srcOVNames, List<PatternObject> nacPatternObjectIndex){
       Map<String, VariableVisibility> nacVisibility = new HashMap<>();
-      MOSLUtil.mapToSubtype(nacPatternObjectIndex, ObjectVariableDefinition.class).forEach(ov -> addVisibility(ov, srcOVNames, nacVisibility));
+      MOSLUtil.mapToSubtype(nacPatternObjectIndex, ObjectVariablePattern.class).forEach(ov -> addVisibility(ov, srcOVNames, nacVisibility));
       return nacVisibility;
    }
    
-   private void addVisibility(ObjectVariableDefinition ov, Set<String> srcOVNames, Map<String, VariableVisibility> nacVisibility){
+   private void addVisibility(ObjectVariablePattern ov, Set<String> srcOVNames, Map<String, VariableVisibility> nacVisibility){
       if(srcOVNames.contains(ov.getName()))
          nacVisibility.put(ov.getName(), VariableVisibility.GLOBAL);
       else

@@ -26,7 +26,7 @@ import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.MethodParameter;
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.PatternParameter;
 import org.moflon.gt.mosl.moslgt.Statement;
@@ -102,14 +102,14 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       transformAndInvokeNext(getStatementClass().cast(statement), scope, previosCFNode);
    }
 
-   protected Map<String, CFVariable> getEnviroment(Collection<ObjectVariableDefinition> objectVariables, Scope scope){
+   protected Map<String, CFVariable> getEnviroment(Collection<ObjectVariablePattern> objectVariables, Scope scope){
       Map<String, CFVariable> enviroment = new HashMap<>();
       objectVariables.stream().map(ovRef ->  getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType()))
       .forEach(cfVar -> enviroment.put(cfVar.getName(), cfVar));
       return enviroment;
    }
    
-   protected Map<String, VariableVisibility> getVisibility (Collection<ObjectVariableDefinition> objectVariables, PatternDef patternDef){
+   protected Map<String, VariableVisibility> getVisibility (Collection<ObjectVariablePattern> objectVariables, PatternDef patternDef){
       Map<String, VariableVisibility> visibility = new HashMap<>();
       objectVariables.forEach(ov -> visibility.put(PatternUtil.getNormalizedVariableName(ov.getName()), VariableVisibility.getVisibility(ov, patternDef)));
       return visibility;
@@ -133,10 +133,10 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       if (patternParameters.size() != patternInvocationStatementParamters.size())
          throw new PatternParameterSizeIsNotMatching();
 
-      final Set<ObjectVariableDefinition> objectVariableSet = new HashSet<>();
+      final Set<ObjectVariablePattern> objectVariableSet = new HashSet<>();
       
-      List<ObjectVariableDefinition> parameterOVs = patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toList());
-      List<ObjectVariableDefinition> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class);
+      List<ObjectVariablePattern> parameterOVs = patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toList());
+      List<ObjectVariablePattern> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariablePattern.class);
       
       objectVariableSet.addAll(ovs);
       objectVariableSet.addAll(parameterOVs);

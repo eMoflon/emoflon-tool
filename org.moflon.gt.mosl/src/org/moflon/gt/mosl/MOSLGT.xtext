@@ -15,15 +15,21 @@ PatternDef:"pattern" name=ID '(' (parameters += PatternParameter)? (',' paramete
 	'}'
 ;
 
-NACAndObjectVariable:NACGroup | ObjectVariableDefinition;
+NACAndObjectVariable:NACGroup | ObjectVariablePattern;
+
+ObjectVariablePattern:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName] (':=' assignment=[ObjectVariablePattern | QualifiedName])? ('{' 
+		attributeAssignments += AttributeAssignment*
+		attributeConstraints += AttributeConstraint*
+		linkVariablePatterns += LinkVariablePattern*	
+'}');
 
 NACGroup:{NACGroup}
 	'nac' (name =ID)? '{'
-	objects+=ObjectVariableDefinition*
+	objects+=ObjectVariablePattern*
 	'}'
 ;
 
-PatternParameter:ov=ObjectVariableDefinition;
+PatternParameter:ov=ObjectVariablePattern;
 
 EClassDef:
 	'class' name = [ecore::EClass | QualifiedName] '{'
@@ -38,11 +44,13 @@ MethodDec:
 	'}')?
 ;
 
-CalledPatternParameter:(definingOV=ObjectVariableDefinition) | (existingOV=[ObjectVariableDefinition | QualifiedName]);
+CalledPatternParameter:(definingOV=ObjectVariableStatement) | (existingOV=[ObjectVariableStatement | QualifiedName]);
+
+ObjectVariableStatement:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName] (':=' assignment=[ObjectVariableStatement | QualifiedName])?;
 
 Statement: NextStatement | ReturnStatement;
 
-NextStatement:(PatternStatement | ConditionContainingStatement| ObjectVariableDefinition ) (next = Statement)?;
+NextStatement:(PatternStatement | ConditionContainingStatement| ObjectVariableStatement ) (next = Statement)?;
 
 PatternStatement:'invoke' pattern=[PatternDef]'('(parameters+=CalledPatternParameter)? (',' parameters+=CalledPatternParameter)*')';
 
@@ -77,14 +85,9 @@ ForLoopStatement: 'for' '('
 	'}'
 ;
 
-ReturnStatement:{ReturnStatement} 'return' (returnObject=[ObjectVariableDefinition])?;
+ReturnStatement:{ReturnStatement} 'return' (returnObject=[ObjectVariableStatement])?;
 
-ObjectVariableDefinition:(op = Operator)? name = ID ':' type = [ecore::EClass | QualifiedName] (':=' assignment=[ObjectVariableDefinition | QualifiedName])? ('{' 
-		attributeAssignments += AttributeAssignment*
-		attributeConstraints += AttributeConstraint*
-		linkVariablePatterns += LinkVariablePattern*	
-'}')?	
-;
+
 
 AttributeConstraint:
 	attribute = [ecore::EAttribute] op=('==' | '!=' | '<=' | '>=' | '>' | '<') valueExp = Expression
@@ -103,7 +106,7 @@ EnumExpression:
 ;
 
 AttributeExpression:
-	objectVar = [ObjectVariableDefinition] '.' attribute = [ecore::EAttribute]
+	objectVar = [ObjectVariablePattern] '.' attribute = [ecore::EAttribute]
 ;
 
 LiteralExpression:
@@ -111,7 +114,7 @@ LiteralExpression:
 ;
 
 LinkVariablePattern:
-	(op = Operator)? '-' type = [ecore::EReference] '->' target = [ObjectVariableDefinition]
+	(op = Operator)? '-' type = [ecore::EReference] '->' target = [ObjectVariablePattern]
 ;
 
 MethodParameter: name = ID ':' type=[ecore::EClassifier | QualifiedName];
@@ -165,5 +168,9 @@ AbstractAttribute: AttributeConstraint | AttributeAssignment;
 
 PatternObject: PatternVariable | Expression;
 
-PatternVariable:NACAndObjectVariable | LinkVariablePattern; 
+PatternVariable:NACAndObjectVariable | LinkVariablePattern;
+
+
+
+//ObjectVariableDefinition: ;
 

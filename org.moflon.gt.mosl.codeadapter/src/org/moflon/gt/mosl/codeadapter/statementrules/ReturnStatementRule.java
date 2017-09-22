@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
+import org.moflon.gt.mosl.codeadapter.utils.MOSLUtil;
 import org.moflon.gt.mosl.codeadapter.utils.VariableVisibility;
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
+import org.moflon.gt.mosl.moslgt.ObjectVariableStatement;
 import org.moflon.gt.mosl.moslgt.ReturnStatement;
 import org.moflon.sdm.compiler.democles.validation.result.ResultFactory;
 import org.moflon.sdm.compiler.democles.validation.result.ValidationReport;
@@ -43,12 +45,13 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement>
          rs.setId(1);
       scope.getContents().add(rs);
       
-      ObjectVariableDefinition returnValueObject = stmnt.getReturnObject();
+      ObjectVariableStatement returnValueObjectStmnt = stmnt.getReturnObject();
       
       Action action = null;
-      if(returnValueObject == null)
+      if(returnValueObjectStmnt == null)
          action = DemoclesFactory.eINSTANCE.createAction();
       else{
+         ObjectVariablePattern returnValueObject = MOSLUtil.convertOVStatementToOVPattern(returnValueObjectStmnt);
          Map<String, CFVariable> environment = getEnviroment(Arrays.asList(returnValueObject), scope);
          Map<String, VariableVisibility> visibility = getVisibility(Arrays.asList(returnValueObject), null);
          EClass eClass = getEClass();
