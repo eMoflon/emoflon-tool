@@ -66,10 +66,10 @@ public class MOSLGTWeavingTask implements ITask, MoflonCodeGeneratorPhase
    }
 
    @Override
-   public IStatus run(final IProject project, Resource rsource, MethodBodyHandler methodBodyHandler, IProgressMonitor monitor)
+   public IStatus run(final IProject project, Resource resource, MethodBodyHandler methodBodyHandler, IProgressMonitor monitor)
    {
       this.project = project;
-      this.ePackage = (EPackage) rsource.getContents().get(0);
+      this.ePackage = (EPackage) resource.getContents().get(0);
       this.resourceSet = ePackage.eResource().getResourceSet();
       this.transformationConfiguration = new TransformationConfiguration();
       final Map<String, PatternMatcher> patternMatcherConfiguration = methodBodyHandler.getPatternMatcherConfiguration();
