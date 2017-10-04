@@ -1,3 +1,14 @@
+2017-10-04 eMoflon 2.32.0 released
+User notes:
+* Only a minor release with small changes
+
+Closed issues
+* Make /injection a source folder #284
+* Remove StringTemplateEditor #285
+* To obtain the full list, use the following URL/GitHub issue query:
+  * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-07-20..2017-10-04
+  * GitHub issues query: is:issue closed:2017-07-20..2017-10-04
+
 2017-07-19 eMoflon 2.31.0 released
 User notes:
 * Remove co-evolution framework from update site
@@ -5,14 +16,14 @@ User notes:
 * eMoflon now properly remembers the validation timeout
 
 Closed issues:
-* To obtain the full list, use the following:
- * Migrate to XText-based injection parser #264
- * Remove support for Velocity #259
- * eMoflon forgets validation timeout #256
- * Local Completeness Exception in MOSL Editor/Validation #254
- * Migrate to new version of PlantUML #237
- * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-04-13..2017-07-19
- * GitHub issues query: is:issue closed:2017-04-13..2017-07-19
+* Migrate to XText-based injection parser #264
+* Remove support for Velocity #259
+* eMoflon forgets validation timeout #256
+* Local Completeness Exception in MOSL Editor/Validation #254
+* Migrate to new version of PlantUML #237
+* To obtain the full list, use the following URL/GitHub issue query:
+  * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue%20closed%3A2017-04-13..2017-07-19
+  * GitHub issues query: is:issue closed:2017-04-13..2017-07-19
  
 2017-04-15 eMoflon 2.30.0 released
 
