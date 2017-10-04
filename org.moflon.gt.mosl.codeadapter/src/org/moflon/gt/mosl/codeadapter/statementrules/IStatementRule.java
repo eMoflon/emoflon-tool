@@ -1,6 +1,5 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
-import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
 import org.moflon.gt.mosl.moslgt.Statement;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.Scope;
@@ -19,8 +18,7 @@ public interface IStatementRule
     * @param statement
     * @param scope
     * @param previosCFNode
-    * @param transformationConfiguration 
     * @precondition {@link #canHandle(Statement)} must return true for statement 
     */
-   void invoke(Statement statement, Scope scope, CFNode previosCFNode, TransformationConfiguration transformationConfiguration);
+   void invoke(Statement statement, Scope scope, CFNode previosCFNode);
 }

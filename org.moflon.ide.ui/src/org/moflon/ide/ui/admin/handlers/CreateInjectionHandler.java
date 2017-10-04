@@ -170,7 +170,12 @@ public class CreateInjectionHandler extends AbstractCommandHandler
    private boolean hasModelOrMembersCode(InjectionFile injectionFile2)
    {
       final ClassDeclaration classDeclaration = injectionFile2.getClassDeclaration();
-      return classDeclaration.getClassInjectionDeclaration() != null || !classDeclaration.getMethodDeclarations().isEmpty();
+      return hasClassInjectionDeclaration(classDeclaration) || !classDeclaration.getMethodDeclarations().isEmpty();
+   }
+
+   private boolean hasClassInjectionDeclaration(final ClassDeclaration classDeclaration)
+   {
+      return classDeclaration.getClassInjectionDeclaration() != null && classDeclaration.getClassInjectionDeclaration().getBody() != null;
    }
 
    private boolean isEmfUtilityClass(final InputStream javaContentStream)

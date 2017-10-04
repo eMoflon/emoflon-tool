@@ -7,6 +7,7 @@
 			class="org.moflon.emf.injection.ui.InjectionLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
 			contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
 			default="true"
+			icon="resources/icons/InjectionIcon.png"
 			extensions="inject"
 			id="org.moflon.emf.injection.InjectionLanguage"
 			name="InjectionLanguage Editor">

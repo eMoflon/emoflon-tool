@@ -100,8 +100,6 @@ public class OpenProjectHandler extends WorkspaceTask
       try
       {
          MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
-         MoflonProjectCreator.addGitignoreFileForRepositoryProject(project, subMon.split(1));
-         MoflonProjectCreator.addGitKeepFiles(project, subMon.split(1));
       } catch (final CoreException e)
       {
          logger.warn("Failed to create folders: " + e.getMessage());

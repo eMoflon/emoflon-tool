@@ -111,12 +111,15 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
 
          // Integration projects contain a lot of (useful?) boilerplate code in /gen, which requires to ignore warnings such as 'unused variable', 'unused import' etc. 
          final IClasspathAttribute[] genFolderClasspathAttributes = metamodelProperties.isIntegrationProject()
-               ? new IClasspathAttribute[] { JavaCore.newClasspathAttribute("ignore_optional_problems", "true") } : new IClasspathAttribute[] {};
-         final IClasspathEntry genFolderEntry = JavaCore.newSourceEntry(project.getFolder(WorkspaceHelper.GEN_FOLDER).getFullPath(), new IPath[0], new IPath[0],
+               ? new IClasspathAttribute[] { JavaCore.newClasspathAttribute("ignore_optional_problems", "true") }
+               : new IClasspathAttribute[] {};
+         final IClasspathEntry genFolderEntry = JavaCore.newSourceEntry(WorkspaceHelper.getGenFolder(project).getFullPath(), new IPath[0], new IPath[0],
+               null, genFolderClasspathAttributes);
+         final IClasspathEntry injectionFolderEntry = JavaCore.newSourceEntry(WorkspaceHelper.getInjectionFolder(project).getFullPath(), new IPath[0], new IPath[0],
                null, genFolderClasspathAttributes);
          final IClasspathEntry jreContainerEntry = JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER"));
          final IClasspathEntry pdeContainerEntry = JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins"));
-         javaProject.setRawClasspath(new IClasspathEntry[] { srcFolderEntry, genFolderEntry, jreContainerEntry, pdeContainerEntry },
+         javaProject.setRawClasspath(new IClasspathEntry[] { srcFolderEntry, genFolderEntry, injectionFolderEntry, jreContainerEntry, pdeContainerEntry },
                WorkspaceHelper.getBinFolder(project).getFullPath(), true, subMon.split(1));
 
          // (7) Create Moflon properties file (moflon.properties.xmi)
@@ -155,7 +158,9 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
       WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getModelFolder(project), subMon.split(1));
       WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getInstancesFolder(project), subMon.split(1));
       WorkspaceHelper.createFolderIfNotExists(WorkspaceHelper.getInjectionFolder(project), subMon.split(1));
+
    }
+
 
    /**
     * Adds a default .gitignore file to the given repository project to prevent adding generated files to the repository

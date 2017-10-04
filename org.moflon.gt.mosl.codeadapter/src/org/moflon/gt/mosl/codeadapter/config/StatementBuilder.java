@@ -10,8 +10,7 @@ import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.Scope;
 
 public class StatementBuilder
-{
-
+{   
    private final List<IStatementRule> transformationRules;
 
    private MethodDec currentMethod;
@@ -26,13 +25,13 @@ public class StatementBuilder
       this.transformationRules.add(rule);
    }
 
-   public void transformStatement(final Statement stmnt, Scope scope, CFNode previosCFNode, TransformationConfiguration transformationConfiguration)
+   public void transformStatement(final Statement stmnt, Scope scope, CFNode previosCFNode)
    {
       for (final IStatementRule rule : this.transformationRules)
       {
          if (rule.canHandle(stmnt))
          {
-            rule.invoke(stmnt, scope, previosCFNode, transformationConfiguration);
+            rule.invoke(stmnt, scope, previosCFNode);
             break;
          }
       }

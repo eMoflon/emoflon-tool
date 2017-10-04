@@ -17,8 +17,10 @@ import org.gervarro.democles.common.Adornment;
 import org.moflon.gt.mosl.codeadapter.config.PatternBuilder;
 import org.moflon.gt.mosl.codeadapter.config.PatternNameGenerator;
 import org.moflon.gt.mosl.codeadapter.config.TransformationConfiguration;
+import org.moflon.gt.mosl.codeadapter.utils.MOSLUtil;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
+import org.moflon.gt.mosl.codeadapter.utils.VariableVisibility;
 import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;
 import org.moflon.gt.mosl.moslgt.EClassDef;
@@ -40,10 +42,17 @@ import org.moflon.sdm.runtime.democles.VariableReference;
 
 public abstract class AbstractStatementRule<S extends Statement> implements IStatementRule
 {
-   @Override
-   public void invoke(Statement statement, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected final TransformationConfiguration transformationConfiguration;
+   
+   public AbstractStatementRule(TransformationConfiguration trafoConfig)
    {
-      castAndInvokeTransformation(statement, scope, previosCFNode, transformationConfiguration);
+      transformationConfiguration=trafoConfig;
+   }
+   
+   @Override
+   public void invoke(Statement statement, Scope scope, CFNode previosCFNode)
+   {
+      castAndInvokeTransformation(statement, scope, previosCFNode);
    }
 
    @Override
@@ -60,39 +69,43 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
    /**
     * This method implements the transformation logic of this rule
     * 
-    * @param statement the statement that has been transformed
-    * @param scope the surrounding scope of the statement
-    * @param previosCFNode the most recently generated control flow node
+    * @param statement
+    *           the statement that has been transformed
+    * @param scope
+    *           the surrounding scope of the statement
+    * @param previosCFNode
+    *           the most recently generated control flow node
     */
-   protected abstract ValidationReport transformStatement(S stmnt, Scope scope, CFNode previosCFNode,
-         final TransformationConfiguration transformationConfiguration);
+   protected abstract ValidationReport transformStatement(S stmnt, Scope scope, CFNode previosCFNode);
 
    /**
     * This method is called after the transformation of 'statement' has completed
-    * @param statement the statement that has been transformed
-    * @param scope the surrounding scope of the statement
-    * @param previosCFNode the most recently generated control flow node
+    * 
+    * @param statement
+    *           the statement that has been transformed
+    * @param scope
+    *           the surrounding scope of the statement
+    * @param previosCFNode
+    *           the most recently generated control flow node
     */
-   protected abstract void invokeNextRule(S statement, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration);
+   protected abstract void invokeNextRule(S statement, Scope scope, CFNode previosCFNode);
 
-   protected void transformAndInvokeNext(S statement, Scope scope, CFNode previosCFNode, TransformationConfiguration transformationConfiguration)
+   protected void transformAndInvokeNext(S statement, Scope scope, CFNode previosCFNode)
    {
-      transformStatement(statement, scope, previosCFNode, transformationConfiguration);
-      invokeNextRule(statement, scope, previosCFNode, transformationConfiguration);
+      transformStatement(statement, scope, previosCFNode);
+      invokeNextRule(statement, scope, previosCFNode);
    }
 
-   private void castAndInvokeTransformation(final Statement statement, Scope scope, CFNode previosCFNode,
-         TransformationConfiguration transformationConfiguration)
+   private void castAndInvokeTransformation(final Statement statement, Scope scope, CFNode previosCFNode)
    {
-      transformAndInvokeNext(getStatementClass().cast(statement), scope, previosCFNode, transformationConfiguration);
+      transformAndInvokeNext(getStatementClass().cast(statement), scope, previosCFNode);
    }
 
-   protected ValidationReport handlePattern(List<CalledPatternParameter> patternInvocationStatementParamters, PatternDef patternDef, CFNode cfNode, Scope scope,
-         final TransformationConfiguration transformationConfiguration)
+   protected ValidationReport handlePattern(List<CalledPatternParameter> patternInvocationStatementParamters, PatternDef patternDef, CFNode cfNode, Scope scope)
    {
       final ValidationReport validationReport = ResultFactory.eINSTANCE.createValidationReport();
-      Map<String, Boolean> bindings = new HashMap<>();
-      Map<String, CFVariable> env = new HashMap<>();
+      Map<String, CFVariable> enviroment = new HashMap<>();
+      Map<String, VariableVisibility> visiblity = new HashMap<>();
       List<CFVariable> cfVariables = new ArrayList<>();
       String patternName = patternDef.getName();
       List<MethodParameter> methodParameters = transformationConfiguration.getStatementCreationController().getCurrentMethod().getParameters();
@@ -103,35 +116,40 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       if (patternParameters.size() != patternInvocationStatementParamters.size())
          throw new PatternParameterSizeIsNotMatching();
 
-      final Set<ObjectVariableDefinition> ovs = new HashSet<>();
-      ovs.addAll(patternDef.getObjectVariables());
-      ovs.addAll(patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toSet()));
+      final Set<ObjectVariableDefinition> objectVariableSet = new HashSet<>();
+      
+      List<ObjectVariableDefinition> parameterOVs = patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toList());
+      parameterOVs.forEach(ov -> visiblity.put(PatternUtil.getNormalizedVariableName(ov.getName()), VariableVisibility.getVisibility(ov, patternDef)));
+      
+      List<ObjectVariableDefinition> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class);
+      ovs.forEach(ov -> visiblity.put(PatternUtil.getNormalizedVariableName(ov.getName()), VariableVisibility.getVisibility(ov, patternDef)));
+      
+      objectVariableSet.addAll(ovs);
+      objectVariableSet.addAll(parameterOVs);
 
-      // Binding Handling
-      for (final ObjectVariableDefinition ovRef : ovs)
-      {
-         //TODO@rkluge: I am wondering whether the normalization of variables names is used consistentlty... If in doubt, better remove all invocations now.
-         final CFVariable cfVar = getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType(), transformationConfiguration);
-         final Action constructor = cfVar.getConstructor();
-
-         if (constructor == null)
-         {
-            cfVariables.add(cfVar);
-            bindings.put(cfVar.getName(), false);
-         } else
-         {
-            bindings.put(cfVar.getName(), true);
-         }
-
-         env.put(cfVar.getName(), cfVar);
-      }
+      objectVariableSet.stream().map(ovRef ->  getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType()))
+         .forEach(cfVar -> enviroment.put(cfVar.getName(), cfVar));
+      
+   // Binding Handling
+      objectVariableSet.forEach(ov -> transformationConfiguration.getBindingHandler().createBinding(patternDef, ov));
+//      
+//      for (final ObjectVariableDefinition ovRef : objectVariableSet)
+//      {
+//         // TODO@rkluge: I am wondering whether the normalization of variables names is used consistentlty... If in
+//         // doubt, better remove all invocations now.
+//         final CFVariable cfVar = getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType());
+//         //final Action constructor = cfVar.getConstructor();
+//
+//
+//         enviroment.put(cfVar.getName(), cfVar);
+//      }
 
       // Pattern Handling
       final PatternNameGenerator patternNameGenerator = transformationConfiguration.getPatternCreationController().getPatternNameGenerator();
       patternNameGenerator.setCFNode(cfNode);
       patternNameGenerator.setPatternDefinition(patternDef);
       final PatternBuilder patternBuilder = transformationConfiguration.getPatternCreationController();
-      patternBuilder.createPattern(patternDef, bindings, env, patternNameGenerator, eClass, transformationConfiguration);
+      patternBuilder.createAllPatterns(patternDef, enviroment, visiblity, patternNameGenerator, eClass);
 
       final SortedMap<PatternKind, PatternInvocation> invocations = patternBuilder.getPatternInvocations(patternName);
 
@@ -147,15 +165,15 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
          }
          cfNode.setMainAction(invocation);
 
-         cfVariables.stream().filter(cfVar -> patternBuilder.isConstructorPattern(cfNode, cfVar, invocation, methodParameters, patternName))
-               .forEach(cfVar -> cfVar.setConstructor(invocation));
+//         cfVariables.stream()//.filter(cfVar -> patternBuilder.isConstructorPattern(cfNode, cfVar, invocation, methodParameters, patternName, visiblity))
+//               .forEach(cfVar -> cfVar.setConstructor(invocation));
 
          final Adornment adornment = calculateAdornment(invocation);
-         //TODO@rkluge: Here, we escape from a stateless function to the very statefull CodeAdapterTrafo singleton
+         // TODO@rkluge: Here, we escape from a stateless function to the very statefull CodeAdapterTrafo singleton
          validationReport.merge(transformationConfiguration.getPatternMatchingController().generateSearchPlan(invocation.getPattern(), adornment,
                invocation.isMultipleMatch(), patternKind.getSuffix()));
       }
-
+      
       final NodeDeletion nodeDeletion = patternBuilder.getNodeDeletion(patternName, cfVariables);
       if (nodeDeletion != null)
       {
@@ -167,8 +185,9 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
 
       return validationReport;
    }
-
-   protected CFVariable getOrCreateVariable(Scope scope, String name, EClassifier type, TransformationConfiguration transformationConfiguration)
+   
+   
+   protected CFVariable getOrCreateVariable(Scope scope, String name, EClassifier type)
    {
       Optional<CFVariable> opt = scope.getVariables().stream().filter(var -> var.getName().equals(PatternUtil.getNormalizedVariableName(name)))
             .filter(var -> var.getType().getName().equals(type.getName())).findAny();
@@ -188,6 +207,7 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
    private Adornment calculateAdornment(final PatternInvocation invocation)
    {
       final EList<VariableReference> parameters = invocation.getParameters();
+      final PatternKind patternKind = transformationConfiguration.getPatternCreationController().getPatternKind(invocation);
       final Adornment adornment = new Adornment(parameters.size());
       int i = 0;
       for (final VariableReference variableRef : parameters)

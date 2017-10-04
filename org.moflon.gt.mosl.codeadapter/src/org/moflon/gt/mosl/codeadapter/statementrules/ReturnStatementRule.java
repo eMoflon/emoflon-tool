@@ -12,6 +12,11 @@ import org.moflon.sdm.runtime.democles.Scope;
 public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement>
 {
 
+   public ReturnStatementRule(TransformationConfiguration trafoConfig)
+   {
+      super(trafoConfig);
+   }
+
    @Override
    protected Class<ReturnStatement> getStatementClass()
    {
@@ -19,7 +24,7 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement>
    }
 
    @Override
-   protected ValidationReport transformStatement(ReturnStatement stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected ValidationReport transformStatement(ReturnStatement stmnt, Scope scope, CFNode previosCFNode)
    {
       org.moflon.sdm.runtime.democles.ReturnStatement rs = DemoclesFactory.eINSTANCE.createReturnStatement();
       if (previosCFNode != null)
@@ -38,7 +43,7 @@ public class ReturnStatementRule extends AbstractStatementRule<ReturnStatement>
    }
 
    @Override
-   protected void invokeNextRule(ReturnStatement stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected void invokeNextRule(ReturnStatement stmnt, Scope scope, CFNode previosCFNode)
    {
       // Nothing to do here since returns statement terminate the control flow.
    }

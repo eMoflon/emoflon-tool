@@ -6,14 +6,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.moflon.gt.mosl.codeadapter.utils.MOSLUtil;
 import org.moflon.gt.mosl.codeadapter.utils.PatternKind;
 import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.AbstractAttribute;
+import org.moflon.gt.mosl.moslgt.AttributeAssignment;
+import org.moflon.gt.mosl.moslgt.AttributeConstraint;
 import org.moflon.gt.mosl.moslgt.Expression;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
+import org.moflon.gt.mosl.moslgt.NACAndObjectVariable;
+import org.moflon.gt.mosl.moslgt.NACGroup;
 import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.PatternObject;
@@ -29,29 +36,51 @@ public abstract class TransformPlanRule
       this.patternObjectIndex = new HashSet<>();
    }
    
-   protected abstract boolean filterConditionObjectVariable(ObjectVariableDefinition ov, Map<String, Boolean> bindings, Map<String, CFVariable> env);
-   protected abstract boolean filterConditionLinkVariable(LinkVariablePattern lv, ObjectVariableDefinition ov, Map<String, Boolean> bindings, Map<String, CFVariable> env);
-   protected abstract boolean filterConditionExpression(Expression expr, Map<String, Boolean> bindings, Map<String, CFVariable> env);
+   protected abstract boolean filterConditionNACAndObjectVariable(NACAndObjectVariable nov, Map<String, CFVariable> env);
+   protected abstract boolean filterConditionLinkVariable(LinkVariablePattern lv, ObjectVariableDefinition ov, Map<String, CFVariable> env);
+   protected abstract boolean filterConditionExpression(Expression expr, Map<String, CFVariable> env);
    
-   private boolean filterConditionAbstractAttribute(AbstractAttribute aa, Map<String, Boolean> bindings, Map<String, CFVariable> env){
-      return filterConditionExpression(aa.getValueExp(), bindings, env);
+   private boolean filterConditionAbstractAttribute(AbstractAttribute aa, Map<String, CFVariable> env){
+      return filterConditionExpression(aa.getValueExp(), env);
    }
-   public boolean isTransformable(PatternKind patternKind, PatternDef patternDef, Map<String, Boolean> bindings, Map<String, CFVariable> env){
+   public boolean isTransformable(PatternKind patternKind, PatternDef patternDef, Map<String, CFVariable> env){
       patternObjectIndex.clear();
-      Predicate<? super ObjectVariableDefinition> ovFilter = ov -> filterConditionObjectVariable(ov, bindings, env);
-      patternObjectIndex.addAll(patternDef.getParameters().stream().map(pp -> {return PatternUtil.getCorrespondingOV(pp, patternDef);}).filter(ovFilter).collect(Collectors.toSet()));
-      patternObjectIndex.addAll(patternDef.getObjectVariables().stream().filter(ovFilter).collect(Collectors.toSet()));
-      patternDef.getObjectVariables().stream().forEach(ov -> {indexObjectVariable(ov, bindings, env);});
+      
+      List<ObjectVariableDefinition> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class);
+      
+      final Set<ObjectVariableDefinition> objectVariableSet = new TreeSet<>(new Comparator<ObjectVariableDefinition>(){
+
+         @Override
+         public int compare(ObjectVariableDefinition o1, ObjectVariableDefinition o2)
+         {
+            boolean o1Container = ovs.contains(o1);
+            boolean o2Container = ovs.contains(o2);
+            if(o1Container && o2Container)
+               return ovs.indexOf(o1)-ovs.indexOf(o2);
+            else if(o1Container){
+               return 1;
+            }else if(o2Container){
+               return -1;
+            }else {
+               return o1.getName().compareTo(o2.getName());
+            }
+         }
+         
+      });
+      
+      objectVariableSet.addAll(ovs);
+      objectVariableSet.addAll(patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toSet()));
+      
+      Predicate<NACAndObjectVariable> novFilter = nov -> filterConditionNACAndObjectVariable(nov, env);
+      Function<ObjectVariableDefinition, Predicate<? super LinkVariablePattern>> linkVariableFilterFun = ov ->lv -> filterConditionLinkVariable(lv, ov, env);
+      Function<ObjectVariableDefinition, Predicate<? super AttributeAssignment>> assignmentFilterFun = ov ->as -> filterConditionAbstractAttribute(as, env);
+      Function<ObjectVariableDefinition, Predicate<? super AttributeConstraint>> constraintFilterFun = ov ->ac -> filterConditionAbstractAttribute(ac, env);
+      
+      PatternUtil.collectObjects(patternObjectIndex, objectVariableSet, novFilter, linkVariableFilterFun, assignmentFilterFun, constraintFilterFun);
+      
       return patternObjectIndex.size() > 0;
    }
-   
-   private void indexObjectVariable(ObjectVariableDefinition ov, Map<String, Boolean> bindings, Map<String, CFVariable> env){
-      patternObjectIndex.addAll(ov.getLinkVariablePatterns().stream().filter(lv -> filterConditionLinkVariable(lv, ov, bindings, env)).collect(Collectors.toSet()));
-      patternObjectIndex.addAll(ov.getAttributeAssignments().stream().filter(as -> filterConditionAbstractAttribute(as, bindings, env)).map(as -> {return as.getValueExp();}).collect(Collectors.toSet()));
-      patternObjectIndex.addAll(ov.getAttributeConstraints().stream().filter(ac -> filterConditionAbstractAttribute(ac, bindings, env)).map(ac -> {return ac.getValueExp();}).collect(Collectors.toSet()));
-   }
-   
-   
+     
    public List<PatternObject> getPatterObjectIndex(){
       List<PatternObject> returner = new ArrayList<>(patternObjectIndex);
       returner.sort(new Comparator<PatternObject>() {
@@ -72,6 +101,8 @@ public abstract class TransformPlanRule
          
          private int getPriorityOfPatternObject(PatternObject po){
             if(po instanceof ObjectVariableDefinition)
+               return 4;
+            else if (po instanceof NACGroup)
                return 3;
             else if(po instanceof LinkVariablePattern)
                return 2;

@@ -68,9 +68,6 @@
             </menu>
         </menuContribution>
     </extension>
-    <extension id="org.moflon.ide.AntlrEditorProblem" name="Antlr Problem" point="org.eclipse.core.resources.markers">
-        <super type="org.eclipse.core.resources.problemmarker"></super>
-    </extension>
     <extension id="org.moflon.ide.marker.EMoflonProblem" name="eMoflon Problem" point="org.eclipse.core.resources.markers">
         <super type="org.eclipse.core.resources.problemmarker"></super>
     </extension>
@@ -83,9 +80,6 @@
     <extension id="org.moflon.textualEditor.contentTypes" name="MoflonContentTypes" point="org.eclipse.core.contenttype.contentTypes">
         <content-type file-extensions="inject" id="org.moflon.textualEditor.contentTypes.moflon.injection" name="eMoflon Injection File" priority="high"></content-type>
         <content-type file-extensions="vm" id="org.moflon.textualEditor.contentTypes.velocity" name="Velocity templates" priority="normal"></content-type>
-        <content-type file-extensions="g" id="org.moflon.textualEditor.contentTypes.antlr" name="ANTLR files" priority="high"></content-type>
-        <content-type file-extensions="g4" id="org.moflon.textualEditor.contentTypes.antlrv4" name="ANTLR v4 files" priority="high"></content-type>
-        <content-type file-extensions="stg" id="org.moflon.textualEditor.contentTypes.stringTemplate" name="StringTemplate files" priority="high"></content-type>
         <content-type id="org.moflon.contenttype.sdm" name="eMoflon SDM" file-extensions="sdm" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
         <content-type id="org.moflon.contenttype.cf" name="eMoflon CF" file-extensions="cf" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
         <content-type id="org.moflon.contenttype.dfs" name="eMoflon DFS" file-extensions="dfs" priority="high" base-type="org.eclipse.emf.ecore.xmi" />
@@ -104,15 +98,6 @@
         <file-association content-type="org.moflon.contenttype.expression" file-extensions="expression"></file-association>
         <file-association content-type="org.moflon.contenttype.red" file-extensions="red"></file-association>
         <file-association content-type="org.moflon.contenttype.green" file-extensions="green"></file-association>
-    </extension>
-    <extension point="org.eclipse.ui.editors">
-        <editor class="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" default="false" icon="resources/icons/addTextEditor.png" id="org.moflon.ide.ui.admin.editors.antlr.AntlrTextEditor" name="eMoflon Antlr Editor">
-            <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.antlr"></contentTypeBinding>
-            <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.antlrv4"></contentTypeBinding>
-        </editor>
-        <editor class="org.moflon.ide.ui.admin.editors.antlr.StringTemplateTextEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" default="false" icon="resources/icons/addTextEditor.png" id="org.moflon.ide.ui.admin.editors.antlr.StringTemplateTextEditor" name="eMoflon StringTemplate Editor">
-            <contentTypeBinding contentTypeId="org.moflon.textualEditor.contentTypes.stringTemplate"></contentTypeBinding>
-        </editor>
     </extension>
     <extension point="org.eclipse.ui.decorators">
         <decorator lightweight="true" adaptable="true" label="%Decorator_name" class="org.moflon.ide.ui.decorators.MoflonProjectDecorator" state="true" location="BOTTOM_RIGHT" id="org.moflon.ide.ui.decorators.MoflonProjectDecorator">

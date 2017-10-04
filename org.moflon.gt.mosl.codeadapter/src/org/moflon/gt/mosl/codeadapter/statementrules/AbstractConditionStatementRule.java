@@ -10,14 +10,19 @@ import org.moflon.sdm.runtime.democles.Scope;
 
 public abstract class AbstractConditionStatementRule<S extends ConditionContainingStatement> extends AbstractNextStatementRule<S>
 {
+   public AbstractConditionStatementRule(TransformationConfiguration trafoConfig)
+   {
+      super(trafoConfig);
+   }
+
    private Consumer<CFNode> handlePattern;
 
    @Override
-   protected void transformAndInvokeNext(S stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected void transformAndInvokeNext(S stmnt, Scope scope, CFNode previosCFNode)
    {
       Condition cond = stmnt.getCond();
-      handlePattern = c -> this.handlePattern(cond.getParameters(), cond.getPattern(), c, scope, transformationConfiguration);
-      super.transformAndInvokeNext(stmnt, scope, previosCFNode, transformationConfiguration);
+      handlePattern = c -> this.handlePattern(cond.getParameters(), cond.getPattern(), c, scope);
+      super.transformAndInvokeNext(stmnt, scope, previosCFNode);
    }
 
    protected void handlePattern(CFNode node)

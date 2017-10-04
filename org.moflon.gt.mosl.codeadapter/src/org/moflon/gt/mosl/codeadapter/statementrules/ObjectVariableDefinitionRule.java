@@ -10,6 +10,11 @@ import org.moflon.sdm.runtime.democles.Scope;
 public class ObjectVariableDefinitionRule extends AbstractNextStatementRule<ObjectVariableDefinition>
 {
 
+   public ObjectVariableDefinitionRule(TransformationConfiguration trafoConfig)
+   {
+      super(trafoConfig);
+   }
+
    @Override
    protected Class<ObjectVariableDefinition> getStatementClass()
    {
@@ -17,9 +22,9 @@ public class ObjectVariableDefinitionRule extends AbstractNextStatementRule<Obje
    }
 
    @Override
-   protected ValidationReport transformStatement(ObjectVariableDefinition stmnt, Scope scope, CFNode previosCFNode, final TransformationConfiguration transformationConfiguration)
+   protected ValidationReport transformStatement(ObjectVariableDefinition stmnt, Scope scope, CFNode previosCFNode)
    {
-      this.getOrCreateVariable(scope, stmnt.getName(), stmnt.getType(), transformationConfiguration);
+      this.getOrCreateVariable(scope, stmnt.getName(), stmnt.getType());
       return ResultFactory.eINSTANCE.createValidationReport();
    }
 
