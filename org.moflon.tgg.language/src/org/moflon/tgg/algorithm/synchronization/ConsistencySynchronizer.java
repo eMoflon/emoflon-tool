@@ -12,8 +12,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
-import org.moflon.tgg.algorithm.ccutils.AbstractSolver;
+import org.moflon.tgg.algorithm.ccutils.AbstractILPSolver;
 import org.moflon.tgg.algorithm.ccutils.ILP_Gurobi_Solver;
+import org.moflon.tgg.algorithm.ccutils.UserDefinedILPConstraintProvider;
+import org.moflon.tgg.algorithm.ccutils.UserDefinedILPObjectiveProvider;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -29,7 +31,10 @@ import org.moflon.tgg.runtime.IsApplicableRuleResult;
 import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.RuntimeFactory;
 
+import gnu.trove.TIntCollection;
 import gnu.trove.iterator.TIntIterator;
+import gnu.trove.list.TIntList;
+import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;
 
@@ -55,6 +60,14 @@ public class ConsistencySynchronizer {
 	private PrecedenceInputGraph targetPrecedenceGraph;
 
 	private TIntObjectHashMap<TIntHashSet> appliedSourceToTarget;
+	
+	private UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
+	private UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider;
+
+	private int variableCount;
+	
+	private int constraintCount;
+
 
 	public ConsistencySynchronizer(Delta srcDelta, Delta trgDelta, StaticAnalysis staticAnalysis,
 			CorrespondenceModel graphTriple, ConsistencyCheckPrecedenceGraph protocol) {
@@ -81,8 +94,8 @@ public class ConsistencySynchronizer {
 
 	private void applyAllMatchPairs() {
 
-		TIntHashSet readySourceMatches = new TIntHashSet();
-		TIntHashSet readyTargetMatches = new TIntHashSet();
+		TIntList readySourceMatches = new TIntArrayList();
+		TIntList readyTargetMatches = new TIntArrayList();
 
 		extendReady(readySourceMatches, sourcePrecedenceGraph);
 		extendReady(readyTargetMatches, targetPrecedenceGraph);
@@ -129,9 +142,17 @@ public class ConsistencySynchronizer {
 
 	private void filter() {
 
-		AbstractSolver solver = new ILP_Gurobi_Solver();
-
+		AbstractILPSolver solver = new ILP_Gurobi_Solver();
+		
+		if(userDefinedILPConstraintProvider != null)
+			solver.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
+		if(userDefinedILPObjectiveProvider != null)
+			solver.setUserDefinedILPObjectiveProvider(userDefinedILPObjectiveProvider);
+		
 		int[] solvingResult = solver.solve(srcElements, trgElements, protocol);
+		
+		variableCount = solver.getVariableCount();
+		constraintCount = solver.getConstraintCount();
 		
 		removeMatches(solvingResult);
 
@@ -189,7 +210,7 @@ public class ConsistencySynchronizer {
 		return lookupMethods.getRules().stream().filter(r -> r.getRuleName().equals(ruleName)).findAny().get().getIsAppropriateMethods().isEmpty();
 	}
 
-	private void extendReady(TIntHashSet readyMatches, PrecedenceInputGraph pg) {
+	private void extendReady(TIntCollection readyMatches, PrecedenceInputGraph pg) {
 		if (readyMatches.isEmpty()) {
 			pg.getMatchIDs().forEach(m -> {
 				if (pg.parents(m).isEmpty())
@@ -242,6 +263,22 @@ public class ConsistencySynchronizer {
 		unmarked.removeDestructive(consistentOppositeEdges);
 		
 		return unmarked.getElements();
+	}
+	
+	protected void setUserDefinedILPConstraintProvider(UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
+		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
+	}
+	
+	public void setUserDefinedILPObjectiveProvider(UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider) {
+		this.userDefinedILPObjectiveProvider = userDefinedILPObjectiveProvider;
+	}
+	
+	public int getVariableCount() {
+		return variableCount;
+	}
+
+	public int getConstraintCount() {
+		return constraintCount;
 	}
 
 }
