@@ -14,20 +14,21 @@ import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.GenericMoflonProcess;
 import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.core.utilities.WorkspaceHelper;
 
 public class DemoclesValidationProcess extends GenericMoflonProcess
 {
    private final boolean shallSaveIntermediateModels;
 
-   public DemoclesValidationProcess(final IFile ecoreFile, final ResourceSet resourceSet)
+   public DemoclesValidationProcess(final IFile ecoreFile, final ResourceSet resourceSet, final EMoflonPreferencesStorage preferencesStorage)
    {
-      this(ecoreFile, resourceSet, false);
+      this(ecoreFile, resourceSet, false, preferencesStorage);
    }
 
-   public DemoclesValidationProcess(IFile ecoreFile, ResourceSet resourceSet, boolean shallSaveIntermediateModels)
+   public DemoclesValidationProcess(IFile ecoreFile, ResourceSet resourceSet, boolean shallSaveIntermediateModels, EMoflonPreferencesStorage preferencesStorage)
    {
-      super(ecoreFile, resourceSet);
+      super(ecoreFile, resourceSet, preferencesStorage);
       this.shallSaveIntermediateModels = shallSaveIntermediateModels;
    }
 
@@ -51,7 +52,7 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
 
          if (validatorConfig == null)
          {
-            validatorConfig = new DefaultValidatorConfig(getResourceSet());
+            validatorConfig = new DefaultValidatorConfig(getResourceSet(), this.getPreferencesStorage());
          }
          subMon.worked(5);
 
@@ -71,7 +72,7 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
             return validatorStatus;
          }
 
-         if (this.shallSaveIntermediateModels)
+         if (shallSaveIntermediateModels)
          {
             DemoclesValidationUtils.clearAllIntermediateModels(WorkspaceHelper.getModelFolder(this.getProject()));
             DemoclesValidationUtils.saveAllIntermediateModels(ePackage);

@@ -2,13 +2,19 @@ package org.moflon.moca.inject.validation;
 
 import org.eclipse.core.runtime.IStatus;
 
+/**
+ * Supertype for all validation messages relating to injections
+ * 
+ * @author Roland Kluge - Initial implementation
+ *
+ */
 public class InjectionValidationMessage
 {
    private final String message;
 
    private final int severity;
 
-   private String filename;
+   private final String filename;
 
    /**
     * Creates a validation message
@@ -21,6 +27,12 @@ public class InjectionValidationMessage
       this.message = message;
       this.filename = filename;
       this.severity = severity;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "Injection Validation Message [m= " + this.getMessage() + ", severity=" + this.getSeverity() + "]";
    }
 
    /**
@@ -48,12 +60,6 @@ public class InjectionValidationMessage
     */
    public String getLocation() {
       return this.filename;
-   }
-
-   @Override
-   public String toString()
-   {
-      return "Injection Validation Message [m= " + this.getMessage() + ", severity=" + this.getSeverity() + "]";
    }
 
    public IStatus convertToStatus()

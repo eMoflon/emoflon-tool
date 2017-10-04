@@ -5,6 +5,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.ide.core.CoreActivator;
 
 public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
 {
@@ -46,13 +47,13 @@ public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
    public static void setValidationTimeoutMillis(final int validationTimeout)
    {
       getPreferences().putInt(KEY_VALIDATION_TIMEOUT, validationTimeout);
-      EMoflonPreferencesStorage.getInstance().setValidationTimeout(validationTimeout);
+      CoreActivator.getDefault().getPreferencesStorage().setValidationTimeout(validationTimeout);
    }
 
    public static void setReachabilityEnabled(final boolean isEnabled)
    {
       getPreferences().putBoolean(KEY_REACHABILITY_ENABLED, isEnabled);
-      EMoflonPreferencesStorage.getInstance().setReachabilityEnabled(isEnabled);
+      CoreActivator.getDefault().getPreferencesStorage().setReachabilityEnabled(isEnabled);
    }
    
    public static boolean getReachabilityEnabled()
@@ -63,7 +64,7 @@ public class EMoflonPreferenceInitializer extends AbstractPreferenceInitializer
    public static void setReachabilityMaxAdornmentSize(final int maxAdornmentSize)
    {
       getPreferences().putInt(KEY_REACHABILITY_MAX_ADORNMENT_SIZE, maxAdornmentSize);
-      EMoflonPreferencesStorage.getInstance().setReachabilityMaximumAdornmentSize(maxAdornmentSize);
+      CoreActivator.getDefault().getPreferencesStorage().setReachabilityMaximumAdornmentSize(maxAdornmentSize);
    }
    
    public static int getReachabilityMaxAdornmentSize()

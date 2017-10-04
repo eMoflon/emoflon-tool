@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.TreeSet;
 
 import org.eclipse.emf.codegen.util.ImportManager;
-import org.moflon.moca.inject.util.InjectionRegions;
+import org.moflon.emf.injection.unparsing.InjectionConstants;
 
 public class InjectionHandlingImportManager extends ImportManager {
 	private StringBuilder importStringBuilder;
@@ -63,7 +63,7 @@ public class InjectionHandlingImportManager extends ImportManager {
 			}
 		}
 
-		result.append(NL + InjectionRegions.USER_IMPORTS_BEGIN);
+		result.append(NL + InjectionConstants.USER_IMPORTS_BEGIN);
 		for (String importName : injectedImports) {
 			result.append(NL + "import " + importName + ";");
 		}
@@ -77,7 +77,7 @@ public class InjectionHandlingImportManager extends ImportManager {
 //			previousPackageName = packageName;
 //			result.append(NL + "import " + importName + ";");
 //		}
-		result.append(NL + InjectionRegions.USER_IMPORTS_END);
+		result.append(NL + InjectionConstants.USER_IMPORTS_END);
 		return result.toString();
 	}
 	

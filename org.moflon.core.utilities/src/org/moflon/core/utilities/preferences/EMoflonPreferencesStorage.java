@@ -6,9 +6,6 @@ package org.moflon.core.utilities.preferences;
  */
 public class EMoflonPreferencesStorage
 {
-
-   private static final EMoflonPreferencesStorage instance = new EMoflonPreferencesStorage();
-
    public static final int REACHABILITY_MAX_ADORNMENT_SIZE_INFINITY = 0;
    
    public static final int DEFAULT_REACHABILITY_MAX_ADORNMENT_SIZE = REACHABILITY_MAX_ADORNMENT_SIZE_INFINITY;
@@ -32,15 +29,6 @@ public class EMoflonPreferencesStorage
     */
    private boolean reachabilityEnabled;
 
-
-   /**
-    * The unique instance of the eMoflon preferences storage
-    * @return
-    */
-   public static EMoflonPreferencesStorage getInstance()
-   {
-      return instance;
-   }
 
    /**
     * Sets the validation timeout in milliseconds
