@@ -36,6 +36,8 @@ import org.moflon.tgg.runtime.DeltaSpecification;
 import org.moflon.tgg.runtime.EMoflonEdge;
 import org.moflon.tgg.runtime.RuntimeFactory;
 
+import net.sf.javailp.Problem;
+
 /**
  * Responsible for checking if input data makes sense, inducing default deltas
  * for the batch case, and establishing all required components if necessary
@@ -96,6 +98,15 @@ public class SynchronizationHelper {
 
 	protected boolean verbose = false;
 	protected boolean mute = false;
+	
+	protected Problem ilpProblem;
+	
+	private double runtimeOfCorrespondenceCreation;
+	
+	private double runtimeOfILPSolving;
+	
+	private double runtimeOfRemovingDeselectedCorrespondences;
+
 
 	// Setters
 
@@ -490,7 +501,12 @@ public class SynchronizationHelper {
 
 		ilpProblemVariablesCount = cs.getVariableCount();
 		ilpProblemConstraintsCount = cs.getConstraintCount();
-
+		
+		ilpProblem = cs.getILPProblem();
+		
+		runtimeOfCorrespondenceCreation = cs.getRuntimeOfCorrespondenceCreation();
+		runtimeOfILPSolving = cs.getRuntimeOfILPSolving();
+		runtimeOfRemovingDeselectedCorrespondences = cs.getRuntimeOfRemovingDeselectedCorrespondences();
 	}
 
 	protected void performSynchronization(final Synchronizer synchronizer) {
@@ -719,6 +735,22 @@ public class SynchronizationHelper {
 
 	public int getIlpProblemConstraintsCount() {
 		return ilpProblemConstraintsCount;
+	}
+	
+	public Problem getIlpProblem(){
+		return ilpProblem;
+	}
+	
+	public double getRuntimeOfCorrespondenceCreation() {
+		return runtimeOfCorrespondenceCreation;
+	}
+
+	public double getRuntimeOfILPSolving() {
+		return runtimeOfILPSolving;
+	}
+
+	public double getRuntimeOfRemovingDeselectedCorrespondences() {
+		return runtimeOfRemovingDeselectedCorrespondences;
 	}
 
 }
