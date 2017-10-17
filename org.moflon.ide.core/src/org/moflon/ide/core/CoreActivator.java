@@ -25,7 +25,9 @@ import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
+import org.osgi.framework.BundleContext;
 
 /**
  * The Activator controls the plug-in life cycle and contains state and functionality that can be used throughout the
@@ -35,6 +37,29 @@ import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
  */
 public class CoreActivator extends Plugin
 {
+   private static CoreActivator plugin;
+   private EMoflonPreferencesStorage preferencesStorage;
+
+   @Override
+   public void start(final BundleContext context) throws Exception
+   {
+      super.start(context);
+      plugin = this;
+      plugin.preferencesStorage = new EMoflonPreferencesStorage();
+   }
+
+   @Override
+   public void stop(final BundleContext context) throws Exception
+   {
+      plugin = null;
+      super.stop(context);
+   }
+
+   public static CoreActivator getDefault()
+   {
+      return plugin;
+   }
+   
    /**
     * Used when the plugin has to store resources on the client machine and eclipse installation + current workspace.
     * This location reserved for the plugin is called the "state location" and is usually in
@@ -218,5 +243,14 @@ public class CoreActivator extends Plugin
       default:
          return "Unknown build type: " + buildType;
       }
+   }
+
+   /**
+    * Returns the platform-independent preferences storage for the eMoflon build process
+    * @return
+    */
+   public EMoflonPreferencesStorage getPreferencesStorage()
+   {
+      return this.preferencesStorage;
    }
 }

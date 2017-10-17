@@ -27,13 +27,14 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.CodeGenerator;
 import org.moflon.codegen.MethodBodyHandler;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.moca.inject.CodeInjector;
 import org.moflon.moca.inject.CodeInjectorImpl;
 import org.moflon.moca.inject.InjectionManager;
 import org.moflon.moca.inject.extractors.CompilerInjectionExtractorImpl;
 import org.moflon.moca.inject.extractors.InjectionExtractor;
-import org.moflon.moca.inject.extractors.UserInjectionExtractorImpl;
 import org.moflon.moca.inject.extractors.XTextInjectionExtractor;
 
 public class MoflonCodeGenerator extends GenericMoflonProcess
@@ -46,9 +47,9 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
 
    private MoflonCodeGeneratorPhase additionalCodeGenerationPhase;
 
-   public MoflonCodeGenerator(final IFile ecoreFile, final ResourceSet resourceSet)
+   public MoflonCodeGenerator(final IFile ecoreFile, final ResourceSet resourceSet, final EMoflonPreferencesStorage preferencesStorage)
    {
-      super(ecoreFile, resourceSet);
+      super(ecoreFile, resourceSet, preferencesStorage);
    }
 
    @Override
@@ -139,8 +140,8 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
             {
                return weaverStatus;
             }
-         }
-         else {
+         } else
+         {
             weaverStatus = Status.OK_STATUS;
             subMon.worked(10);
          }
@@ -231,7 +232,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
    {
       final String metaModelProjectName = moflonProperties.getMetaModelProject().getMetaModelProjectName();
       final String fullProjectName;
-      if ("NO_META_MODEL_PROJECT_NAME_SET_YET".equals(metaModelProjectName))
+      if (MoflonPropertiesContainerHelper.UNDEFINED_METAMODEL_NAME.equals(metaModelProjectName))
       {
          fullProjectName = moflonProperties.getProjectName();
       } else
@@ -249,8 +250,8 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       IFolder injectionFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
       CodeInjector injector = new CodeInjectorImpl(project.getLocation().toOSString());
 
-      InjectionExtractor injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
-//      InjectionExtractor injectionExtractor = new XTextInjectionExtractor(injectionFolder, genModel);
+      //      InjectionExtractor injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
+      InjectionExtractor injectionExtractor = new XTextInjectionExtractor(injectionFolder, genModel);
       CompilerInjectionExtractorImpl compilerInjectionExtractor = new CompilerInjectionExtractorImpl(project, genModel);
 
       injectionManager = new InjectionManager(injectionExtractor, compilerInjectionExtractor, injector);

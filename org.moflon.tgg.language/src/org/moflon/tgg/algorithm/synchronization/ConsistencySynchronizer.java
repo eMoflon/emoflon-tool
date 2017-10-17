@@ -12,8 +12,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
-import org.moflon.tgg.algorithm.ccutils.AbstractSolver;
+import org.moflon.tgg.algorithm.ccutils.AbstractILPSolver;
 import org.moflon.tgg.algorithm.ccutils.ILP_Gurobi_Solver;
+import org.moflon.tgg.algorithm.ccutils.UserDefinedILPConstraintProvider;
+import org.moflon.tgg.algorithm.ccutils.UserDefinedILPObjectiveProvider;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -29,9 +31,13 @@ import org.moflon.tgg.runtime.IsApplicableRuleResult;
 import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.RuntimeFactory;
 
+import gnu.trove.TIntCollection;
 import gnu.trove.iterator.TIntIterator;
+import gnu.trove.list.TIntList;
+import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;
+import net.sf.javailp.Problem;
 
 /**
  * A specialization of {@link Synchronizer} for consistency checks.
@@ -55,6 +61,22 @@ public class ConsistencySynchronizer {
 	private PrecedenceInputGraph targetPrecedenceGraph;
 
 	private TIntObjectHashMap<TIntHashSet> appliedSourceToTarget;
+	
+	private UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
+	private UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider;
+
+	private int variableCount;
+	
+	private int constraintCount;
+	
+	private AbstractILPSolver solver;
+
+	private double runtimeOfCorrespondenceCreation;
+	
+	private double runtimeOfILPSolving;
+	
+	private double runtimeOfRemovingDeselectedCorrespondences;
+
 
 	public ConsistencySynchronizer(Delta srcDelta, Delta trgDelta, StaticAnalysis staticAnalysis,
 			CorrespondenceModel graphTriple, ConsistencyCheckPrecedenceGraph protocol) {
@@ -71,9 +93,13 @@ public class ConsistencySynchronizer {
 
 	protected void createCorrespondences() {
 
+		double tic = System.currentTimeMillis();
 		extractMatchPairs();
 
 		applyAllMatchPairs();
+		double toc = System.currentTimeMillis();
+		
+		runtimeOfCorrespondenceCreation = toc - tic;
 
 		filter();
 	
@@ -81,8 +107,8 @@ public class ConsistencySynchronizer {
 
 	private void applyAllMatchPairs() {
 
-		TIntHashSet readySourceMatches = new TIntHashSet();
-		TIntHashSet readyTargetMatches = new TIntHashSet();
+		TIntList readySourceMatches = new TIntArrayList();
+		TIntList readyTargetMatches = new TIntArrayList();
 
 		extendReady(readySourceMatches, sourcePrecedenceGraph);
 		extendReady(readyTargetMatches, targetPrecedenceGraph);
@@ -128,14 +154,31 @@ public class ConsistencySynchronizer {
 	}
 
 	private void filter() {
+		
+		double tic = System.currentTimeMillis();
 
-		AbstractSolver solver = new ILP_Gurobi_Solver();
-
+		solver = new ILP_Gurobi_Solver();
+		
+		if(userDefinedILPConstraintProvider != null)
+			solver.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
+		if(userDefinedILPObjectiveProvider != null)
+			solver.setUserDefinedILPObjectiveProvider(userDefinedILPObjectiveProvider);
+		
 		int[] solvingResult = solver.solve(srcElements, trgElements, protocol);
 		
+		variableCount = solver.getVariableCount();
+		constraintCount = solver.getConstraintCount();
+		
+		double toc = System.currentTimeMillis();
+		
+		runtimeOfILPSolving = toc - tic;
+		
+		double tic2 = System.currentTimeMillis();
 		removeMatches(solvingResult);
-
-
+		double toc2 = System.currentTimeMillis();
+		
+		runtimeOfRemovingDeselectedCorrespondences = toc2 - tic2;
+		
 	}
 
 	private void removeMatches(int[] matches) {
@@ -189,7 +232,7 @@ public class ConsistencySynchronizer {
 		return lookupMethods.getRules().stream().filter(r -> r.getRuleName().equals(ruleName)).findAny().get().getIsAppropriateMethods().isEmpty();
 	}
 
-	private void extendReady(TIntHashSet readyMatches, PrecedenceInputGraph pg) {
+	private void extendReady(TIntCollection readyMatches, PrecedenceInputGraph pg) {
 		if (readyMatches.isEmpty()) {
 			pg.getMatchIDs().forEach(m -> {
 				if (pg.parents(m).isEmpty())
@@ -242,6 +285,40 @@ public class ConsistencySynchronizer {
 		unmarked.removeDestructive(consistentOppositeEdges);
 		
 		return unmarked.getElements();
+	}
+	
+	protected void setUserDefinedILPConstraintProvider(UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
+		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
+	}
+	
+	public void setUserDefinedILPObjectiveProvider(UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider) {
+		this.userDefinedILPObjectiveProvider = userDefinedILPObjectiveProvider;
+	}
+	
+	public int getVariableCount() {
+		return variableCount;
+	}
+
+	public int getConstraintCount() {
+		return constraintCount;
+	}
+	
+	public Problem getILPProblem(){
+		if(solver == null)
+			throw new RuntimeException("You first need to execute consistency checking to prepare an ILP problem");
+		return solver.getILPProblem();
+	}
+	
+	public double getRuntimeOfCorrespondenceCreation() {
+		return runtimeOfCorrespondenceCreation;
+	}
+
+	public double getRuntimeOfILPSolving() {
+		return runtimeOfILPSolving;
+	}
+
+	public double getRuntimeOfRemovingDeselectedCorrespondences() {
+		return runtimeOfRemovingDeselectedCorrespondences;
 	}
 
 }

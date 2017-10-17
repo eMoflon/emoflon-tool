@@ -12,6 +12,7 @@ import org.gervarro.democles.plan.common.DefaultAlgorithm;
 import org.moflon.compiler.sdm.democles.DefaultCodeGeneratorConfig;
 import org.moflon.compiler.sdm.democles.PatternMatcherCompiler;
 import org.moflon.compiler.sdm.democles.TemplateConfigurationProvider;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 
 public class ReverseNavigationCodeGeneratorConfig extends DefaultCodeGeneratorConfig
 {
@@ -21,9 +22,9 @@ public class ReverseNavigationCodeGeneratorConfig extends DefaultCodeGeneratorCo
    protected final DefaultAlgorithm<SimpleCombiner, GeneratorOperation> algorithm =
          new DefaultAlgorithm<SimpleCombiner, GeneratorOperation>(builder);
    
-   public ReverseNavigationCodeGeneratorConfig(ResourceSet resourceSet, IProject project)
+   public ReverseNavigationCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project, final EMoflonPreferencesStorage preferencesStorage)
    {
-      super(resourceSet);
+      super(resourceSet, preferencesStorage);
    }
 
    @Override

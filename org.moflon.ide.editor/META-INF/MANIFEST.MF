@@ -20,14 +20,5 @@ Require-Bundle:
  org.moflon.tgg.language;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: 
- org.moflon.ide.texteditor.config,
- org.moflon.ide.texteditor.editors,
- org.moflon.ide.texteditor.editors.colors,
- org.moflon.ide.texteditor.helpers,
- org.moflon.ide.texteditor.modules.folding,
- org.moflon.ide.texteditor.modules.rules,
- org.moflon.ide.texteditor.modules.outline,
- org.moflon.ide.texteditor.modules.content 
 Bundle-Vendor: eMoflon Developers
 Import-Package: org.eclipse.emf.ecore.presentation
