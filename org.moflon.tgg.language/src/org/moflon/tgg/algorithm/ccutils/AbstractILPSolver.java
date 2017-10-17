@@ -21,6 +21,8 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 	private int variableCount;
 
 	private int constraintCount;
+	
+	private Problem ilpProblem;
 
 	// this list keeps a record of all variables that appear in the clausels.
 	// this is needed to define them as ilp variables later
@@ -35,7 +37,7 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 		SolverFactory factory = getSolverFactory();
 		factory.setParameter(Solver.VERBOSE, 0);
 
-		Problem ilpProblem = createIlpProblemFromGraphs(sourceGraph, targetGraph, protocol);
+		ilpProblem = createIlpProblemFromGraphs(sourceGraph, targetGraph, protocol);
 
 		variableCount = ilpProblem.getVariablesCount();
 		constraintCount = ilpProblem.getConstraintsCount();
@@ -195,5 +197,9 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 
 	public TIntHashSet getVariables() {
 		return variables;
+	}
+	
+	public Problem getILPProblem() {
+		return ilpProblem;
 	}
 }
