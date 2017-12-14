@@ -16,10 +16,21 @@ import org.moflon.gt.mosl.moslgt.MethodDec
 import org.eclipse.emf.ecore.EClassifier
 import org.moflon.ide.mosl.core.exceptions.CannotFindScopeException
 import org.apache.log4j.Logger
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition
 import org.moflon.gt.mosl.moslgt.PatternStatement
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern
 import org.moflon.gt.mosl.moslgt.MethodParameter
+import org.moflon.gt.mosl.moslgt.CalledPatternParameter
+import org.eclipse.xtext.scoping.IScope
+import java.util.Stack
+import org.moflon.gt.mosl.moslgt.Statement
+import org.moflon.gt.mosl.moslgt.NextStatement
+import java.util.ArrayList
+import SDMLanguage.patterns.ObjectVariable
+import org.moflon.gt.mosl.moslgt.ConditionStatement
+import org.moflon.gt.mosl.moslgt.LoopStatement
+import org.moflon.gt.mosl.moslgt.ConditionContainingStatement
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern
+import org.moflon.gt.mosl.moslgt.ObjectVariableStatement
 
 /**
  * This class contains custom scoping description.
@@ -39,6 +50,8 @@ class MOSLGTScopeProvider extends AbstractMOSLGTScopeProvider {
 		else if(searchForEClassifier(context,reference)){
 			return getScopeByType(context, EClassifier)
 		}
+		else if(searchForCalledPatternParameter(context, reference))
+			return getScopeForCalledParameter(CalledPatternParameter.cast(context))
 //		else if(searchForPattern(context, reference))
 //			return getScopeByType(context, PatternDef)
 		else if(searchForEReferences(context, reference)){
@@ -50,12 +63,49 @@ class MOSLGTScopeProvider extends AbstractMOSLGTScopeProvider {
 		super.getScope(context, reference);
 	}
 	
+	def boolean searchForCalledPatternParameter(EObject context, EReference reference) {
+		return context instanceof CalledPatternParameter;
+	}
+	
 	def boolean searchForEReferences(EObject context, EReference reference) {
 		return context instanceof LinkVariablePattern && reference.name.equals("type")
 	}
 	
 	def boolean searchForPattern(EObject context, EReference reference) {
 		return context instanceof PatternStatement
+	}
+	
+	def IScope getScopeForCalledParameter(CalledPatternParameter cpp){
+		var method = MethodDec.cast(cpp.eContainer)
+		var candidates = getAllDefinitions(method)
+		
+		null 
+		
+	}
+	
+	def getAllDefinitions(MethodDec method){
+		var stack = new Stack<Statement>()
+		var candidates = new ArrayList<ObjectVariable>
+		stack.push(method.startStatement)
+		while(!stack.isEmpty){
+			var statement = stack.pop
+			if(statement instanceof NextStatement){
+				stack.push(statement.next)
+				if(statement instanceof ConditionStatement){
+					stack.push(statement.elseStartStatement)
+					stack.push(statement.thenStartStatement)
+				}
+				else if(statement instanceof LoopStatement){
+					stack.push(statement.loopStartStatement)	
+				}
+				else if(statement instanceof PatternStatement){
+					
+				}				
+			}				 
+				
+						
+		}
+		candidates
 	}
 	
 	def getScopeByType(EObject context, Class<? extends EObject> type)throws CannotFindScopeException{
@@ -80,7 +130,7 @@ class MOSLGTScopeProvider extends AbstractMOSLGTScopeProvider {
 	}
 	
 	def boolean searchForEClassifier(EObject context, EReference reference){
-		return context instanceof MethodDec || context instanceof ObjectVariableDefinition 
+		return context instanceof MethodDec || context instanceof ObjectVariablePattern || context instanceof ObjectVariableStatement 
 		|| (context instanceof MethodParameter && reference.name.equals("type"))
 	}
 	

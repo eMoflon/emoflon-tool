@@ -13,32 +13,32 @@ import org.moflon.gt.mosl.moslgt.AttributeAssignment;
 import org.moflon.gt.mosl.moslgt.AttributeConstraint;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.NACGroup;
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.PatternObject;
 import org.moflon.gt.mosl.moslgt.PatternParameter;
 
 public class PatternUtil
 {
-   public static ObjectVariableDefinition getCorrespondingOV(PatternParameter pp, PatternDef patternDef)
+   public static ObjectVariablePattern getCorrespondingOV(PatternParameter pp, PatternDef patternDef)
    {
-      List<ObjectVariableDefinition> allNonParameterObjectVariablesOfPatternDef = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class);
+      List<ObjectVariablePattern> allNonParameterObjectVariablesOfPatternDef = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariablePattern.class);
       allNonParameterObjectVariablesOfPatternDef.addAll(getAllNonUsedNacObjectVariables(allNonParameterObjectVariablesOfPatternDef, patternDef));
-      Optional<ObjectVariableDefinition> optOV = allNonParameterObjectVariablesOfPatternDef.stream().filter(ov -> ov.getName().compareTo(pp.getOv().getName()) == 0).findAny();
+      Optional<ObjectVariablePattern> optOV = allNonParameterObjectVariablesOfPatternDef.stream().filter(ov -> ov.getName().compareTo(pp.getOv().getName()) == 0).findAny();
       if (optOV.isPresent())
          return optOV.get();
       else
          return pp.getOv();
    }
    
-   private static List<ObjectVariableDefinition> getAllNonUsedNacObjectVariables(List<ObjectVariableDefinition> allNonParameterObjectVariablesOfPatternDef, PatternDef patternDef){
+   private static List<ObjectVariablePattern> getAllNonUsedNacObjectVariables(List<ObjectVariablePattern> allNonParameterObjectVariablesOfPatternDef, PatternDef patternDef){
       Set<String> ovNames = allNonParameterObjectVariablesOfPatternDef.stream().map(ov -> ov.getName()).collect(Collectors.toSet());
       List<NACGroup> nacGroups = MOSLUtil.mapToSubtype(patternDef.getVariables(), NACGroup.class);
-      List<ObjectVariableDefinition> nacObjectVariablesDefinitions = nacGroups.stream().flatMap(nacGroup -> nacGroup.getObjects().stream()).collect(Collectors.toList());
+      List<ObjectVariablePattern> nacObjectVariablesDefinitions = nacGroups.stream().flatMap(nacGroup -> nacGroup.getObjects().stream()).collect(Collectors.toList());
       return nacObjectVariablesDefinitions.stream().filter(ov -> !ovNames.contains(ov.getName())).collect(Collectors.toList());      
    }
 
-   public static ObjectVariableDefinition getCorrespondingOV(ObjectVariableDefinition ov)
+   public static ObjectVariablePattern getCorrespondingOV(ObjectVariablePattern ov)
    {
       EObject container = ov.eContainer();
       if(container instanceof PatternParameter)
@@ -46,22 +46,22 @@ public class PatternUtil
       return ov;
    }
    
-   public static Collection<PatternObject> collectObjects(Collection<PatternObject> collect, Collection<ObjectVariableDefinition> objectVariables){
+   public static Collection<PatternObject> collectObjects(Collection<PatternObject> collect, Collection<ObjectVariablePattern> objectVariables){
       return collectObjects(collect, objectVariables, PatternUtil::alwaysTrue, PatternUtil::getDefaultFromObjectVariable,
             PatternUtil::getDefaultFromObjectVariable, PatternUtil::getDefaultFromObjectVariable);
    }
    
-   public static Collection<PatternObject> collectObjects(Collection<PatternObject> collect, Collection<ObjectVariableDefinition> objectVariables, 
-         Predicate<? super ObjectVariableDefinition> objectVariableFilter, Function<ObjectVariableDefinition, Predicate<? super LinkVariablePattern>> linkVariableFilterFun,
-         Function<ObjectVariableDefinition, Predicate<? super AttributeAssignment>> assignmentFilterFun, 
-         Function<ObjectVariableDefinition, Predicate<? super AttributeConstraint>> constraintFilterFun){
+   public static Collection<PatternObject> collectObjects(Collection<PatternObject> collect, Collection<ObjectVariablePattern> objectVariables, 
+         Predicate<? super ObjectVariablePattern> objectVariableFilter, Function<ObjectVariablePattern, Predicate<? super LinkVariablePattern>> linkVariableFilterFun,
+         Function<ObjectVariablePattern, Predicate<? super AttributeAssignment>> assignmentFilterFun, 
+         Function<ObjectVariablePattern, Predicate<? super AttributeConstraint>> constraintFilterFun){
       collect.addAll(objectVariables.stream().filter(objectVariableFilter).collect(Collectors.toList()));
       objectVariables.forEach(objectVariable -> collectInnerObjects(collect, objectVariable, linkVariableFilterFun.apply(objectVariable), 
             assignmentFilterFun.apply(objectVariable), constraintFilterFun.apply(objectVariable)));
       return collect;
    }
    
-   private static void collectInnerObjects(Collection<PatternObject> collect, ObjectVariableDefinition objectVariable, Predicate<? super LinkVariablePattern> linkVariableFilter,
+   private static void collectInnerObjects(Collection<PatternObject> collect, ObjectVariablePattern objectVariable, Predicate<? super LinkVariablePattern> linkVariableFilter,
          Predicate<? super AttributeAssignment> assignmentFilter, Predicate<? super AttributeConstraint> constraintFilter){
       collect.addAll(objectVariable.getLinkVariablePatterns().stream().filter(linkVariableFilter).collect(Collectors.toList()));
       collect.addAll(objectVariable.getAttributeAssignments().stream().filter(assignmentFilter).map(as -> as.getValueExp()).collect(Collectors.toSet()));
@@ -72,7 +72,7 @@ public class PatternUtil
       return true;
    }
    
-   private static Predicate<Object> getDefaultFromObjectVariable(ObjectVariableDefinition ov) {
+   private static Predicate<Object> getDefaultFromObjectVariable(ObjectVariablePattern ov) {
       return PatternUtil::alwaysTrue;
    }
    

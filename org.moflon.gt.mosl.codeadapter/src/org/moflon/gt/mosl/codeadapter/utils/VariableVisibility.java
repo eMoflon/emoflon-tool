@@ -1,6 +1,6 @@
 package org.moflon.gt.mosl.codeadapter.utils;
 
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 
 import java.util.List;
@@ -14,18 +14,18 @@ import org.gervarro.democles.specification.emf.Variable;
 public enum VariableVisibility {
    GLOBAL, LOCAL;
    
-public static VariableVisibility getVisibility(ObjectVariableDefinition ov, PatternDef patternDef) {
-   if(isGlobal(ov, patternDef)){
+public static VariableVisibility getVisibility(ObjectVariablePattern ov, PatternDef patternDef) {
+   if(patternDef == null || isGlobal(ov, patternDef)){
       return VariableVisibility.GLOBAL;
    }else{
       return VariableVisibility.LOCAL;
    }
 }
 
-private static boolean isGlobal(ObjectVariableDefinition ov, PatternDef patternDef){
-   List<ObjectVariableDefinition> paramOVs = patternDef.getParameters().stream().map(pp -> pp.getOv()).collect(Collectors.toList());
+private static boolean isGlobal(ObjectVariablePattern ov, PatternDef patternDef){
+   List<ObjectVariablePattern> paramOVs = patternDef.getParameters().stream().map(pp -> pp.getOv()).collect(Collectors.toList());
    return MOSLUtil.exist(paramOVs, paramOV->paramOV.getName().compareTo(ov.getName())==0) 
-         || MOSLUtil.exist(MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class), innerOV -> innerOV.getName().compareTo(ov.getName())==0);
+         || MOSLUtil.exist(MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariablePattern.class), innerOV -> innerOV.getName().compareTo(ov.getName())==0);
 }
 
 

@@ -7,7 +7,7 @@ import org.moflon.gt.mosl.codeadapter.utils.PatternUtil;
 import org.moflon.gt.mosl.moslgt.LinkVariablePattern;
 import org.moflon.gt.mosl.moslgt.NACAndObjectVariable;
 import org.moflon.gt.mosl.moslgt.NACGroup;
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
 import org.moflon.gt.mosl.moslgt.Operator;
 import org.moflon.sdm.runtime.democles.CFVariable;
 
@@ -23,11 +23,11 @@ public abstract class SimpleTypeVariableOrientedTransformPlanRule extends Variab
    protected boolean filterConditionNACAndObjectVariable(NACAndObjectVariable nov, Map<String, CFVariable> env)
    {
       return nov instanceof NACGroup && filterConditionNac(NACGroup.class.cast(nov), env)
-            || nov instanceof ObjectVariableDefinition && filterConditionObjectVariable(ObjectVariableDefinition.class.cast(nov), env);
+            || nov instanceof ObjectVariablePattern && filterConditionObjectVariable(ObjectVariablePattern.class.cast(nov), env);
    }
 
    @Override
-   protected boolean filterConditionLinkVariable(LinkVariablePattern lv, ObjectVariableDefinition ov,
+   protected boolean filterConditionLinkVariable(LinkVariablePattern lv, ObjectVariablePattern ov,
          Map<String, CFVariable> env)
    {
       boolean condition = getConditionFromOperator(lv.getOp());
@@ -39,7 +39,7 @@ public abstract class SimpleTypeVariableOrientedTransformPlanRule extends Variab
       return condition;
    }
    
-   private boolean filterConditionObjectVariable(ObjectVariableDefinition ov, Map<String, CFVariable> env)
+   private boolean filterConditionObjectVariable(ObjectVariablePattern ov, Map<String, CFVariable> env)
    {
       return getConditionFromOperator(ov.getOp());
    }

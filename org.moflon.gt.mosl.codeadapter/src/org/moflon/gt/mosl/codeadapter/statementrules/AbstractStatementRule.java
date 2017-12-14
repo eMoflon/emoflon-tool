@@ -1,6 +1,7 @@
 package org.moflon.gt.mosl.codeadapter.statementrules;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +26,7 @@ import org.moflon.gt.mosl.exceptions.PatternParameterSizeIsNotMatching;
 import org.moflon.gt.mosl.moslgt.CalledPatternParameter;
 import org.moflon.gt.mosl.moslgt.EClassDef;
 import org.moflon.gt.mosl.moslgt.MethodParameter;
-import org.moflon.gt.mosl.moslgt.ObjectVariableDefinition;
+import org.moflon.gt.mosl.moslgt.ObjectVariablePattern;
 import org.moflon.gt.mosl.moslgt.PatternDef;
 import org.moflon.gt.mosl.moslgt.PatternParameter;
 import org.moflon.gt.mosl.moslgt.Statement;
@@ -101,55 +102,57 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
       transformAndInvokeNext(getStatementClass().cast(statement), scope, previosCFNode);
    }
 
+   protected Map<String, CFVariable> getEnviroment(Collection<ObjectVariablePattern> objectVariables, Scope scope){
+      Map<String, CFVariable> enviroment = new HashMap<>();
+      objectVariables.stream().map(ovRef ->  getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType()))
+      .forEach(cfVar -> enviroment.put(cfVar.getName(), cfVar));
+      return enviroment;
+   }
+   
+   protected Map<String, VariableVisibility> getVisibility (Collection<ObjectVariablePattern> objectVariables, PatternDef patternDef){
+      Map<String, VariableVisibility> visibility = new HashMap<>();
+      objectVariables.forEach(ov -> visibility.put(PatternUtil.getNormalizedVariableName(ov.getName()), VariableVisibility.getVisibility(ov, patternDef)));
+      return visibility;
+   }
+   
+   protected EClass getEClass(){
+         return EClassDef.class.cast(transformationConfiguration.getStatementCreationController().getCurrentMethod().eContainer()).getName();
+   }
+   
    protected ValidationReport handlePattern(List<CalledPatternParameter> patternInvocationStatementParamters, PatternDef patternDef, CFNode cfNode, Scope scope)
    {
       final ValidationReport validationReport = ResultFactory.eINSTANCE.createValidationReport();
       Map<String, CFVariable> enviroment = new HashMap<>();
-      Map<String, VariableVisibility> visiblity = new HashMap<>();
+      Map<String, VariableVisibility> visibility = new HashMap<>();
       List<CFVariable> cfVariables = new ArrayList<>();
       String patternName = patternDef.getName();
       List<MethodParameter> methodParameters = transformationConfiguration.getStatementCreationController().getCurrentMethod().getParameters();
-      EClass eClass = EClassDef.class.cast(transformationConfiguration.getStatementCreationController().getCurrentMethod().eContainer()).getName();
-
+      EClass eClass = getEClass();
       List<PatternParameter> patternParameters = patternDef.getParameters();
       // TODO@rkluge: Either create an Xtext validation rule or add an ErrorMessage to the validationReport
       if (patternParameters.size() != patternInvocationStatementParamters.size())
          throw new PatternParameterSizeIsNotMatching();
 
-      final Set<ObjectVariableDefinition> objectVariableSet = new HashSet<>();
+      final Set<ObjectVariablePattern> objectVariableSet = new HashSet<>();
       
-      List<ObjectVariableDefinition> parameterOVs = patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toList());
-      parameterOVs.forEach(ov -> visiblity.put(PatternUtil.getNormalizedVariableName(ov.getName()), VariableVisibility.getVisibility(ov, patternDef)));
-      
-      List<ObjectVariableDefinition> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariableDefinition.class);
-      ovs.forEach(ov -> visiblity.put(PatternUtil.getNormalizedVariableName(ov.getName()), VariableVisibility.getVisibility(ov, patternDef)));
+      List<ObjectVariablePattern> parameterOVs = patternDef.getParameters().stream().map(pp -> PatternUtil.getCorrespondingOV(pp, patternDef)).collect(Collectors.toList());
+      List<ObjectVariablePattern> ovs = MOSLUtil.mapToSubtype(patternDef.getVariables(), ObjectVariablePattern.class);
       
       objectVariableSet.addAll(ovs);
       objectVariableSet.addAll(parameterOVs);
-
-      objectVariableSet.stream().map(ovRef ->  getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType()))
-         .forEach(cfVar -> enviroment.put(cfVar.getName(), cfVar));
       
-   // Binding Handling
+      visibility = getVisibility(objectVariableSet, patternDef);
+      enviroment = getEnviroment(objectVariableSet, scope);
+      
+      // Binding Handling
       objectVariableSet.forEach(ov -> transformationConfiguration.getBindingHandler().createBinding(patternDef, ov));
-//      
-//      for (final ObjectVariableDefinition ovRef : objectVariableSet)
-//      {
-//         // TODO@rkluge: I am wondering whether the normalization of variables names is used consistentlty... If in
-//         // doubt, better remove all invocations now.
-//         final CFVariable cfVar = getOrCreateVariable(scope, PatternUtil.getNormalizedVariableName(ovRef.getName()), ovRef.getType());
-//         //final Action constructor = cfVar.getConstructor();
-//
-//
-//         enviroment.put(cfVar.getName(), cfVar);
-//      }
 
       // Pattern Handling
       final PatternNameGenerator patternNameGenerator = transformationConfiguration.getPatternCreationController().getPatternNameGenerator();
       patternNameGenerator.setCFNode(cfNode);
       patternNameGenerator.setPatternDefinition(patternDef);
       final PatternBuilder patternBuilder = transformationConfiguration.getPatternCreationController();
-      patternBuilder.createAllPatterns(patternDef, enviroment, visiblity, patternNameGenerator, eClass);
+      patternBuilder.createAllPatterns(patternDef, enviroment, visibility, patternNameGenerator, eClass);
 
       final SortedMap<PatternKind, PatternInvocation> invocations = patternBuilder.getPatternInvocations(patternName);
 
@@ -207,7 +210,6 @@ public abstract class AbstractStatementRule<S extends Statement> implements ISta
    private Adornment calculateAdornment(final PatternInvocation invocation)
    {
       final EList<VariableReference> parameters = invocation.getParameters();
-      final PatternKind patternKind = transformationConfiguration.getPatternCreationController().getPatternKind(invocation);
       final Adornment adornment = new Adornment(parameters.size());
       int i = 0;
       for (final VariableReference variableRef : parameters)
