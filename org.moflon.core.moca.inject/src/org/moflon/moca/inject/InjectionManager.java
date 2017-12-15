@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.inject.extractors.InjectionExtractor;
-import org.moflon.moca.inject.util.UnsupportedOperationCodeInjector;
 
 /**
  * This class manages the extraction of injection code.
@@ -30,20 +29,6 @@ public class InjectionManager
    private final InjectionExtractor compilerInjectionExtractor;
 
    private CodeInjector codeInjector;
-
-   /**
-    * Produces an injection coordination instance that uses the given injection extractor to answer queries for
-    * injections.
-    * 
-    * This class is not able to inject code directly. Any attempt will cause an Exception.
-    * 
-    * @param userInjectionExtractor
-    * @param compilerInjectionExtractor
-    */
-   public InjectionManager(final InjectionExtractor userInjectionExtractor, final InjectionExtractor compilerInjectionExtractor)
-   {
-      this(userInjectionExtractor, compilerInjectionExtractor, new UnsupportedOperationCodeInjector());
-   }
 
    /**
     * Produces an injection coordination instance that uses the given injection extractor to answer queries for

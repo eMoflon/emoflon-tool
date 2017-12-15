@@ -44,14 +44,14 @@ public class InjectionManagerTest
    @Test(expected = RuntimeException.class)
    public void testThatCodeInjectionFailsWithoutAGivenCodeInjector() throws Exception
    {
-      final InjectionManager injectionManager = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor);
+      final InjectionManager injectionManager = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor, new UnsupportedOperationCodeInjector());
       injectionManager.injectMembersAndImports();
    }
 
    @Test
    public void testThatDummyInjectionExtractorReturnsMemberProperly() throws Exception
    {
-      final InjectionManager injection = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor);
+      final InjectionManager injection = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor, new UnsupportedOperationCodeInjector());
 
       Assert.assertEquals(MEMBERS_CODE_FOR_CLASS_1, injection.getMembersCode(PATH_TO_CLASS_1));
    }
@@ -60,7 +60,7 @@ public class InjectionManagerTest
    @Test
    public void testThatClassNameToPathConversionWorksProperly() throws Exception
    {
-      final InjectionManager injection = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor);
+      final InjectionManager injection = new InjectionManager(defaultInjectionExtractor, defaultInjectionExtractor, new UnsupportedOperationCodeInjector());
 
       Assert.assertEquals(MEMBERS_CODE_FOR_CLASS_1, injection.getMembersCodeByClassName(CLASS_1));
    }
@@ -135,4 +135,33 @@ public class InjectionManagerTest
          return Status.OK_STATUS;
       }
    }
+   
+   /**
+    * A code injector that always fails
+    * @author Roland Kluge - Initial implementation
+    *
+    */
+   class UnsupportedOperationCodeInjector implements CodeInjector
+   {
+
+      @Override
+      public void injectMembersCode(String relativePath, String code)
+      {
+         fail();
+      }
+
+
+      @Override
+      public void injectImports(String relativePath, List<String> imports)
+      {
+         fail();
+      }
+      
+      private void fail()
+      {
+         throw new UnsupportedOperationException("This code injector serves as a placeholder and cannot inject code.");
+      }
+      
+   }
+
 }

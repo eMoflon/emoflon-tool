@@ -22,9 +22,11 @@ import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
 import org.moflon.compiler.sdm.democles.eclipse.DemoclesValidatorTask;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.gt.ide.natures.EMoflonGTNature;
 import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
 import org.moflon.gt.mosl.moslgt.MoslgtFactory;
+import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 /**
@@ -36,9 +38,9 @@ public class ConvertToMoslGtProcess extends GenericMoflonProcess
 {
    private static final Logger logger = Logger.getLogger(ConvertToMoslGtProcess.class);
 
-   public ConvertToMoslGtProcess(final IFile ecoreFile, final ResourceSet resourceSet)
+   public ConvertToMoslGtProcess(final IFile ecoreFile, final ResourceSet resourceSet, EMoflonPreferencesStorage preferencesStorage)
    {
-      super(ecoreFile, resourceSet);
+      super(ecoreFile, resourceSet, preferencesStorage);
    }
 
    @Override
@@ -111,7 +113,7 @@ public class ConvertToMoslGtProcess extends GenericMoflonProcess
 
       if (validatorConfig == null)
       {
-         validatorConfig = new DefaultValidatorConfig(getResourceSet());
+         validatorConfig = new DefaultValidatorConfig(getResourceSet(), CoreActivator.getDefault().getPreferencesStorage());
       }
       return validatorConfig;
    }

@@ -122,12 +122,12 @@ public class MatchingParameterCheckerTest
 
    private void shouldMatch(final EOperation operation, final List<String> parameterNames, final List<String> parameterTypes)
    {
-      Assert.assertTrue(parameterChecker.haveMatchingParamters(operation, parameterNames, parameterTypes));
+      Assert.assertTrue(parameterChecker.haveMatchingParamters(operation, parameterTypes));
    }
 
    private void shouldNotMatch(final EOperation operation, final List<String> parameterNames, final List<String> parameterTypes)
    {
-      Assert.assertFalse(parameterChecker.haveMatchingParamters(operation, parameterNames, parameterTypes));
+      Assert.assertFalse(parameterChecker.haveMatchingParamters(operation, parameterTypes));
    }
 
    private static List<String> list(final String... strings)

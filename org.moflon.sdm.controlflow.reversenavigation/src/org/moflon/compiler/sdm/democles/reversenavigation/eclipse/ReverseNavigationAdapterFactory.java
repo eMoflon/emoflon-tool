@@ -13,23 +13,28 @@ public class ReverseNavigationAdapterFactory implements IAdapterFactory
 
    @SuppressWarnings("unchecked")
    @Override
-   public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
-      if (adaptableObject instanceof MoflonCodeGenerator && ReverseNavigationCodeGeneratorConfig.class == adapterType) {
+   public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes")
+   final Class adapterType)
+   {
+      if (adaptableObject instanceof MoflonCodeGenerator && ReverseNavigationCodeGeneratorConfig.class == adapterType)
+      {
          final GenericMoflonProcess process = (GenericMoflonProcess) adaptableObject;
-         IProject project=process.getEcoreFile().getProject();
-         final ReverseNavigationCodeGeneratorConfig defaultCodeGeneratorConfig =
-               new ReverseNavigationCodeGeneratorConfig(process.getResourceSet(),project);
+         IProject project = process.getEcoreFile().getProject();
+         final ReverseNavigationCodeGeneratorConfig defaultCodeGeneratorConfig = new ReverseNavigationCodeGeneratorConfig(process.getResourceSet(), project,
+               process.getPreferencesStorage());
          return new DemoclesMethodBodyHandler(process.getResourceSet(), defaultCodeGeneratorConfig);
-      } else if(adaptableObject instanceof DemoclesValidationProcess && ReverseNavigationCodeGeneratorConfig.class == adapterType){
+      } else if (adaptableObject instanceof DemoclesValidationProcess && ReverseNavigationCodeGeneratorConfig.class == adapterType)
+      {
          final GenericMoflonProcess process = (GenericMoflonProcess) adaptableObject;
-         IProject project=process.getEcoreFile().getProject();
-         return new ReverseNavigationCodeGeneratorConfig(process.getResourceSet(), project);
+         IProject project = process.getEcoreFile().getProject();
+         return new ReverseNavigationCodeGeneratorConfig(process.getResourceSet(), project, process.getPreferencesStorage());
       }
       return null;
    }
 
    @Override
-   public Class<?>[] getAdapterList() {
+   public Class<?>[] getAdapterList()
+   {
       return new Class[] { ReverseNavigationCodeGeneratorConfig.class };
    }
 

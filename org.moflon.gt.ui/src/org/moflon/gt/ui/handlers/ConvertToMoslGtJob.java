@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.gt.ide.builders.EMoflonGTBuilder;
+import org.moflon.ide.core.CoreActivator;
 
 /**
  * This job triggers the conversion of an SDM-based project to a MOSL-GT-based project
@@ -36,7 +37,7 @@ public class ConvertToMoslGtJob extends WorkspaceJob
 
       final ResourceSet resourceSet = initializeResourceSet();
 
-      final ConvertToMoslGtProcess conversionProcess = new ConvertToMoslGtProcess(ecoreFile, resourceSet);
+      final ConvertToMoslGtProcess conversionProcess = new ConvertToMoslGtProcess(ecoreFile, resourceSet, CoreActivator.getDefault().getPreferencesStorage());
       final IStatus processStatus = conversionProcess.run(monitor);
       if (processStatus.matches(IStatus.ERROR))
          return processStatus;

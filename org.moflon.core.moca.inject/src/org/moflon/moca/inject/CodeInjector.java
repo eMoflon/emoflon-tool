@@ -3,32 +3,29 @@ package org.moflon.moca.inject;
 import java.util.List;
 
 /**
- * This class injects the members code and user imports into existing java code.
- *
+ * Injector specification for members code and user imports into existing Java code.
  */
 public interface CodeInjector
 {
-
    /**
     * Injects a members block into a file.
     * 
     * @param relativePath
-    *           The relative path to the file, starting from project root. <br>
+    *           the relative path to the file, starting from project root.
     *           Example: "/gen/org/moflon/ide/core/CoreAdvisor.java"
     * @param code
-    *           Members code to inject.
+    *           members code to inject.
     */
-   public abstract void injectMembersCode(String relativePath, String code);
+   void injectMembersCode(String relativePath, String code);
 
    /**
     * Injects an imports block into a file.
     * 
     * @param relativePath
-    *           The relative path to the file, starting from project root. <br>
+    *           the relative path to the file, starting from project root.
     *           Example: "/gen/org/moflon/ide/core/CoreAdvisor.java"
     * @param imports
-    *           The imports to inject.
+    *           the imports to inject.
     */
-   public abstract void injectImports(String relativePath, List<String> imports);
-
+   void injectImports(String relativePath, List<String> imports);
 }

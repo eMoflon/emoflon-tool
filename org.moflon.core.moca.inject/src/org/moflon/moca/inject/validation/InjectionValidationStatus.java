@@ -1,8 +1,7 @@
 package org.moflon.moca.inject.validation;
 
 import org.eclipse.core.runtime.IStatus;
-import org.moflon.moca.inject.CodeInjectionPlugin;
-import org.osgi.framework.FrameworkUtil;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 /**
  * An {@link IStatus} that contains information about the validation of injections.
@@ -44,7 +43,7 @@ public class InjectionValidationStatus implements IStatus
    @Override
    public String getPlugin()
    {
-      return FrameworkUtil.getBundle(CodeInjectionPlugin.class).getSymbolicName();
+      return WorkspaceHelper.getPluginId(getClass());
    }
 
    @Override
