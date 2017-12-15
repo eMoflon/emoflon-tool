@@ -138,11 +138,11 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
       if (moflonProps.exists())
       {
-         URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
-         URI moflonPropertiesURI = URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE).resolve(projectURI);
-         Resource moflonPropertiesResource = set.getResource(moflonPropertiesURI, true);
-         MoflonPropertiesContainer container = (MoflonPropertiesContainer) moflonPropertiesResource.getContents().get(0);
-         container.updateMetamodelProjectName(metamodelProject);
+         final URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
+         final URI moflonPropertiesURI = URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE).resolve(projectURI);
+         final Resource moflonPropertiesResource = set.getResource(moflonPropertiesURI, true);
+         final MoflonPropertiesContainer container = (MoflonPropertiesContainer) moflonPropertiesResource.getContents().get(0);
+         MoflonPropertiesContainerHelper.updateMetamodelProjectName(container, metamodelProject);
          return container;
       } else
       {

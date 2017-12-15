@@ -2,7 +2,7 @@
 <feature
       id="org.moflon.ide.feature"
       label="eMoflon Core (required)"
-      version="2.31.0.qualifier"
+      version="2.32.0.qualifier"
       provider-name="Real-Time Systems Lab, TU Darmstadt"
       plugin="org.moflon.ide.ui">
 
@@ -496,6 +496,27 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.gervarro.eclipse.workspace.util.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.emf.injection"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.emf.injection.ide"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.moflon.emf.injection.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

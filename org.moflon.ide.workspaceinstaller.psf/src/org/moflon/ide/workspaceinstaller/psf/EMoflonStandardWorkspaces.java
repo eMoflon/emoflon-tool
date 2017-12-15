@@ -76,8 +76,6 @@ public class EMoflonStandardWorkspaces
 
    public static final String MODULE_TGG_MOSL = "ModuleTGGMOSL";
 
-   public static final String MODULE_COEVOLUTION = "ModuleCoEvolution";
-
    public static final String MODULE_VISUALIZATION = "ModuleVisualization";
 
    private static final String MODULE_IDE = "ModuleIDE";
@@ -103,11 +101,10 @@ public class EMoflonStandardWorkspaces
       addPathLookup(MODULE_TGG_MOSL, Arrays.asList("development/TGG_MOSL_Modules.psf"));
       addPathLookup(MODULE_GT, Arrays.asList("development/GT_MOSL_Modules.psf"));
       addPathLookup(MODULE_VISUALIZATION, Arrays.asList("development/IDE_Vis_Modules.psf"));
-      addPathLookup(MODULE_COEVOLUTION, Arrays.asList("development/IDE_CoEvolution_Modules.psf"));
       addPathLookup(MODULE_DOCUMENTATION, Arrays.asList("development/Documentation.psf"));
 
       addPathLookup(MODULE_TGG, joinLists(MODULE_TGG_CORE, MODULE_TGG_MOSL));
-      addPathLookup(MODULE_ALL, joinLists(MODULE_META, MODULE_IDE, MODULE_CORE_SDM, MODULE_TGG_CORE, MODULE_VISUALIZATION, MODULE_COEVOLUTION)); // "development/All_Modules.psf"
+      addPathLookup(MODULE_ALL, joinLists(MODULE_META, MODULE_IDE, MODULE_CORE_SDM, MODULE_TGG_CORE, MODULE_VISUALIZATION)); // "development/All_Modules.psf"
       addPathLookup(MODULE_ALL_INCL_MOSL, joinLists(MODULE_ALL, MODULE_GT, MODULE_TGG_MOSL)); // "development/All_Modules_incl_MOSL.psf"
 
 

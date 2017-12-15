@@ -26,12 +26,12 @@ import org.gervarro.democles.specification.ConstraintVariable;
 import org.moflon.compiler.sdm.democles.stringtemplate.ControlFlowModelAdaptor;
 import org.moflon.compiler.sdm.democles.stringtemplate.LoggingSTErrorListener;
 import org.moflon.compiler.sdm.democles.stringtemplate.PatternMatcherModelAdaptor;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
 import org.moflon.sdm.runtime.democles.VariableReference;
-import org.osgi.framework.FrameworkUtil;
 import org.stringtemplate.v4.STGroup;
 
 public class DefaultTemplateConfiguration implements TemplateConfigurationProvider
@@ -317,7 +317,7 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
 
    private static String getCompilerURI()
    {
-      return "platform:/plugin/" + FrameworkUtil.getBundle(DemoclesSdmCompilerPlugin.class).getSymbolicName() + "/";
+      return "platform:/plugin/" + WorkspaceHelper.getPluginId(DemoclesSdmCompilerPlugin.class) + "/";
    }
 
    private static String getDemoclesCoreURI()

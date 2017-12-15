@@ -19,18 +19,29 @@ import org.moflon.core.propertycontainer.MetaModelProject;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 
 public class MonitoredSDMValidator implements ITask
 {
    private static final Logger logger = Logger.getLogger(MonitoredSDMValidator.class);
 
-   public static final String TASK_NAME = "SDM validation";
+   private static final String TASK_NAME = "SDM validation";
 
    private final IFile ecoreFile;
 
-   public MonitoredSDMValidator(final IFile ecoreFile)
+   private final EMoflonPreferencesStorage preferencesStorage;
+
+
+   public MonitoredSDMValidator(final IFile ecoreFile, EMoflonPreferencesStorage preferencesStorage)
    {
       this.ecoreFile = ecoreFile;
+      this.preferencesStorage = preferencesStorage;
+   }
+
+   @Override
+   public final String getTaskName()
+   {
+      return TASK_NAME + " on project " + ecoreFile.getProject().getName();
    }
 
    @Override
@@ -78,9 +89,9 @@ public class MonitoredSDMValidator implements ITask
 
    protected DemoclesValidationProcess createValidationProcess(ResourceSet resourceSet)
    {
-      return new DemoclesValidationProcess(ecoreFile, resourceSet);
+      return new DemoclesValidationProcess(ecoreFile, resourceSet, this.getPreferencesStorage());
    }
-   
+
    protected IFile getEcoreFile()
    {
       return ecoreFile;
@@ -93,7 +104,7 @@ public class MonitoredSDMValidator implements ITask
       {
          logger.warn("Cannot send validation messages to EA because 'MetaModelProjectName' property is missing.");
       }
-      
+
       IProject metamodelProject = ResourcesPlugin.getWorkspace().getRoot().getProject(metaModelProjectProperty.getMetaModelProjectName());
       ErrorReporter errorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(metamodelProject,
             "org.moflon.validation.EnterpriseArchitectValidationHelper");
@@ -113,10 +124,9 @@ public class MonitoredSDMValidator implements ITask
       }
    }
 
-   @Override
-   public final String getTaskName()
+   protected EMoflonPreferencesStorage getPreferencesStorage()
    {
-      return TASK_NAME + " on project " + ecoreFile.getProject().getName();
+      return this.preferencesStorage;
    }
 
 }
