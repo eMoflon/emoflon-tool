@@ -7,6 +7,9 @@
    <feature url="features/org.moflon.ide.feature_2.32.0.qualifier.jar" id="org.moflon.ide.feature" version="2.32.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
+   <feature url="features/org.moflon.core.feature_2.32.0.qualifier.jar" id="org.moflon.core.feature" version="2.32.0.qualifier">
+      <category name="org.moflon.ide"/>
+   </feature>
    <feature url="features/org.moflon.ide.visualization.feature_2.32.0.qualifier.jar" id="org.moflon.ide.visualization.feature" version="2.32.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
