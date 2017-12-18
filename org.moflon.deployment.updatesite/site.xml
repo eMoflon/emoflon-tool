@@ -16,7 +16,10 @@
    <feature url="features/org.moflon.tgg.mosl.feature_2.32.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="2.32.0.qualifier">
       <category name="org.moflon.ide"/>
    </feature>
-   <feature url="features/org.moflon.gt.mosl.feature_2.32.0.qualifier.jar" id="org.moflon.gt.mosl.feature" version="2.32.0.qualifier">
+   <feature url="features/org.moflon.gt.mosl.pattern.language.feature_1.0.0.qualifier.jar" id="org.moflon.gt.mosl.pattern.language.feature" version="1.0.0.qualifier">
+      <category name="org.moflon.experimental"/>
+   </feature>
+   <feature url="features/org.moflon.gt.mosl.controlflow.language.feature_1.0.0.qualifier.jar" id="org.moflon.gt.mosl.controlflow.language.feature" version="1.0.0.qualifier">
       <category name="org.moflon.experimental"/>
    </feature>
    <category-def name="org.moflon.ide" label="eMoflon">
