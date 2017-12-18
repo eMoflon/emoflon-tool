@@ -23,8 +23,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl.URIMap;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.core.build.AbstractVisitorBuilder;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 
 public class ProjectDependencyAnalyzer implements ITask {

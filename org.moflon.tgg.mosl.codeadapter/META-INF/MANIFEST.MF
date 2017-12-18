@@ -13,6 +13,7 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.moflon.core.utilities,
  org.gervarro.eclipse.workspace.util;bundle-version="[2.0.0,3.0.0)",
  org.gervarro.eclipse.workspace.autosetup;bundle-version="[1.0.0,2.0.0)",
+ org.gervarro.eclipse.task;bundle-version="1.0.1",
  SDMLanguage,
  org.moflon.ide.core;bundle-version="2.1.0",
  org.moflon.sdm.compiler.eclipse;bundle-version="2.0.0",
@@ -22,7 +23,8 @@ Require-Bundle: org.moflon.core.utilities,
  org.moflon.tgg.language;bundle-version="2.0.0",
  org.eclipse.xtext.ui;bundle-version="2.9.0",
  org.moflon.ide.plugins,
- MocaTree
+ MocaTree,
+ org.moflon.core.build
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

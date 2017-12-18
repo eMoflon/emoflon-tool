@@ -26,6 +26,8 @@ import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
 import org.gervarro.eclipse.workspace.util.ResourceVisitor;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
+import org.moflon.core.build.AbstractVisitorBuilder;
+import org.moflon.core.build.CleanVisitor;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -33,9 +35,7 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.ide.MOSLGTWeavingTask;
 import org.moflon.gt.mosl.ui.internal.MoslActivator;
 import org.moflon.ide.core.CoreActivator;
-import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
-import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 
@@ -43,11 +43,11 @@ import com.google.inject.Injector;
 
 /**
  * This builder triggers the build process for eMoflon-GT projects (cf. EMoflonGTNature)
- * 
+ *
  * The main parts of such projects are * A plain Ecore file that describes the structure of a metamodel * A set of
  * MOSL-GT files (*.mgt), which specify the implementation of operations in a platform-independent way * A set of
  * injection files (*.inject), which store the implementation of operations in Java
- * 
+ *
  * @author Roland Kluge - Initial implementation
  *
  */
@@ -82,7 +82,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
       // In case of a full build, we do not want to run through the whole code generation for each resource that matches the trigger condition
       if (FULL_BUILD == kind && !matchesFirstProjectInternalTrigger(resource))
          return;
-      
+
       try
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 20);
@@ -141,7 +141,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
 
    /**
     * Prepare an {@link ResourceSet} that is suitable for a MOSL-GT-based build process
-    * 
+    *
     * @return the initialized resource set
     */
    public static ResourceSet initializeResourceSet()
@@ -198,7 +198,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
 
    /**
     * Updates resources in the project after completing the code generation
-    * 
+    *
     * @param genModel
     * @throws CoreException
     */
@@ -223,7 +223,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
 
    /**
     * Handles errors and warning produced by the code generation task
-    * 
+    *
     * @param status
     *           the {@link IStatus} that contains the errors and warnings
     */

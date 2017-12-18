@@ -25,5 +25,6 @@ Require-Bundle: org.eclipse.xtext,
  org.moflon.sdm.compiler.democles,
  org.moflon.sdm.compiler.eclipse,
  org.moflon.sdm.compiler.democles.validation.scope,
- org.moflon.gt.mosl.ui
+ org.moflon.gt.mosl.ui,
+ org.moflon.core.build
 Import-Package: org.apache.log4j

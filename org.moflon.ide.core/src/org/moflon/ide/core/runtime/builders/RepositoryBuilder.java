@@ -25,13 +25,14 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
+import org.moflon.core.build.AbstractVisitorBuilder;
+import org.moflon.core.build.CleanVisitor;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.CoreActivator;
-import org.moflon.ide.core.runtime.CleanVisitor;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
@@ -182,7 +183,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
    /**
     * Handles errors and warning produced by the code generation task
-    * 
+    *
     * @param status the {@link IStatus} that contains the errors and warnings
     */
    protected void handleErrorsAndWarnings(final IStatus status, final IFile ecoreFile) throws CoreException

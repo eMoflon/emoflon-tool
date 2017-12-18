@@ -34,9 +34,11 @@ import org.gervarro.eclipse.task.ProgressMonitoringJob;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.ValidationStatus;
+import org.moflon.core.build.AbstractVisitorBuilder;
 import org.moflon.core.mocatomoflon.Exporter;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.LogUtils;
+import org.moflon.core.utilities.ProblemMarkerUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
@@ -108,7 +110,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
          try
          {
             deleteProblemMarkers();
-            
+
             MoflonProjectCreator.addGitignoreFileForMetamodelProject(getProject(), subMon.split(1));
 
             final URI workspaceURI = URI.createPlatformResourceURI("/", true);
@@ -142,7 +144,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             } catch (final Exception e)
             {
                throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Exception during export: " + e.toString(), e));
-            } 
+            }
 
             for (final ErrorMessage message : exporter.getMocaToMoflonReport().getErrorMessages())
             {
@@ -152,7 +154,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             if (exporter.getEpackages().isEmpty())
             {
                final String errorMessage = "Unable to transform exported files to Ecore models";
-               CoreActivator.createProblemMarker(mocaFile, errorMessage, IMarker.SEVERITY_ERROR, mocaFile.getProjectRelativePath().toString());
+               ProblemMarkerUtil.createProblemMarker(mocaFile, errorMessage, IMarker.SEVERITY_ERROR, mocaFile.getProjectRelativePath().toString());
                logger.error(errorMessage);
                return;
             }
@@ -221,7 +223,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
          } catch (CoreException e)
          {
             LogUtils.error(logger, e, "Unable to update created projects.");
-         } 
+         }
       }
    }
 

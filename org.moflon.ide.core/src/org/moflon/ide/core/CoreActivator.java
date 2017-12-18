@@ -7,32 +7,29 @@ import java.util.List;
 
 import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Plugin;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.ProblemMarkerUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
-import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
 import org.osgi.framework.BundleContext;
 
 /**
  * The Activator controls the plug-in life cycle and contains state and functionality that can be used throughout the
  * plugin. Constants used in various places in the plugin should also be defined in the Activator.
- * 
+ *
  * Core (non gui) functionality that can be useful for other Moflon eclipse plugins should be implemented here.
  */
 public class CoreActivator extends Plugin
@@ -59,12 +56,12 @@ public class CoreActivator extends Plugin
    {
       return plugin;
    }
-   
+
    /**
     * Used when the plugin has to store resources on the client machine and eclipse installation + current workspace.
     * This location reserved for the plugin is called the "state location" and is usually in
     * pathToWorkspace/.metadata/pluginName
-    * 
+    *
     * @param filename
     *           Appended to the state location. This is the name of the resource to be saved.
     * @return path to location reserved for the plugin which can be used to store resources
@@ -74,15 +71,16 @@ public class CoreActivator extends Plugin
       return getStateLocation().append(filename);
    }
 
+   /**
+    * @deprecated Use {@link ProblemMarkerUtil#createProblemMarker(IResource, String, int, String)}
+    */
+   @Deprecated
    public static void createProblemMarker(final IResource resource, final String message, final int severity, final String location)
    {
       try
       {
-         IMarker marker = resource.createMarker(IMarker.PROBLEM);
-         marker.setAttribute(IMarker.MESSAGE, message);
-         marker.setAttribute(IMarker.SEVERITY, severity);
-         marker.setAttribute(IMarker.LOCATION, location);
-      } catch (CoreException e)
+         ProblemMarkerUtil.createProblemMarker(resource, message, severity, location);
+      } catch (final CoreException e)
       {
          throw new UncheckedCoreException(e);
       }
@@ -99,22 +97,12 @@ public class CoreActivator extends Plugin
       }
    }
 
+   /**
+    * @deprecated Use {@link ProblemMarkerUtil#convertStatusSeverityToMarkerSeverity(int)} instead
+    */
    public static final int convertStatusSeverityToMarkerSeverity(final int severity) throws CoreException
    {
-      switch (severity)
-      {
-      case IStatus.ERROR:
-         return IMarker.SEVERITY_ERROR;
-      case IStatus.WARNING:
-         return IMarker.SEVERITY_WARNING;
-      case IStatus.INFO:
-         return IMarker.SEVERITY_INFO;
-      default:
-         break;
-      }
-      final IStatus invalidSeverityConversion = new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(),
-            "Cannot convert severity " + severity + " to a marker");
-      throw new CoreException(invalidSeverityConversion);
+      return ProblemMarkerUtil.convertStatusSeverityToMarkerSeverity(severity);
    }
 
    public static final IFile getEcoreFile(final IProject project)
@@ -208,7 +196,7 @@ public class CoreActivator extends Plugin
       }
       return result.toArray(new IBuildConfiguration[result.size()]);
    }
-   
+
    public static final void setEPackageURI(final EPackage ePackage) {
 	   URI uri = EcoreUtil.getURI(ePackage);
 	   if (ePackage instanceof InternalEObject && ((InternalEObject) ePackage).eDirectResource() != null) {
@@ -232,13 +220,13 @@ public class CoreActivator extends Plugin
    {
       switch (buildType)
       {
-      case IntegrationBuilder.AUTO_BUILD:
+      case IncrementalProjectBuilder.AUTO_BUILD:
          return "auto";
-      case IntegrationBuilder.FULL_BUILD:
+      case IncrementalProjectBuilder.FULL_BUILD:
          return "full";
-      case IntegrationBuilder.CLEAN_BUILD:
+      case IncrementalProjectBuilder.CLEAN_BUILD:
          return "clean";
-      case IntegrationBuilder.INCREMENTAL_BUILD:
+      case IncrementalProjectBuilder.INCREMENTAL_BUILD:
          return "incremental";
       default:
          return "Unknown build type: " + buildType;
