@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.moflon.autotest.core.WorkspaceInstaller;
-import org.moflon.ide.ui.admin.MoflonPerspective;
+import org.moflon.ide.ui.MoflonPerspective;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
@@ -103,7 +103,7 @@ public class AutoTestActivator extends AbstractUIPlugin
 
    /**
     * Returns the shared instance
-    * 
+    *
     * @return the shared instance
     */
    public static AutoTestActivator getDefault()
@@ -168,7 +168,7 @@ public class AutoTestActivator extends AbstractUIPlugin
 
    /**
     * Returns an image descriptor for the image file at the given plug-in relative path
-    * 
+    *
     * @param path
     *           the path
     * @return the image descriptor

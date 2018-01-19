@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-    <extension point="org.eclipse.ui.perspectives">
-        <perspective class="org.moflon.ide.ui.admin.MoflonPerspective" fixed="false" icon="resources/icons/moflonSmall.png" id="org.moflon.ide.ui.perspective" name="eMoflon"></perspective>
-    </extension>
     <extension point="org.eclipse.ui.newWizards">
         <category id="org.moflon.ide.ui.category" name="eMoflon"></category>
         <wizard canFinishEarly="false" category="org.moflon.ide.ui.category" class="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard" finalPerspective="org.moflon.ide.ui.perspective" hasPages="true" icon="resources/icons/newMetamodelProject.gif" id="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard" name="New Metamodel Wizard" preferredPerspectives="org.moflon.ide.ui.perspective" project="true"></wizard>

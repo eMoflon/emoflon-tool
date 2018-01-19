@@ -39,7 +39,6 @@ Require-Bundle:
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.ide.ui,
- org.moflon.ide.ui.admin,
  org.moflon.ide.ui.admin.handlers,
  org.moflon.ide.ui.admin.wizards.metamodel,
  org.moflon.ide.ui.admin.wizards.moca,

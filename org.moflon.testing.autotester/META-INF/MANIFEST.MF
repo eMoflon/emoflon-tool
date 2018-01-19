@@ -12,14 +12,15 @@ Require-Bundle:
  org.eclipse.team.ui,
  org.eclipse.debug.ui;bundle-version="3.6.3",
  org.eclipse.pde.ui;bundle-version="3.6.100",
+ org.eclipse.ui.ide.application;bundle-version="1.0.400",
  org.gervarro.eclipse.task;bundle-version="[1.0.1,2.0.0)",
  org.gervarro.eclipse.workspace.util;bundle-version="[2.0.0,3.0.0)",
+ org.gervarro.eclipse.workspace.autosetup;bundle-version="1.0.0",
  org.moflon.core.utilities,
  org.moflon.ide.core,
- org.eclipse.ui.ide.application;bundle-version="1.0.400",
  org.moflon.ide.ui,
  org.moflon.ide.workspaceinstaller.psf,
- org.gervarro.eclipse.workspace.autosetup;bundle-version="1.0.0"
+ org.moflon.core.ui;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: eMoflon Developers

@@ -60,12 +60,6 @@ public class UIActivator extends AbstractUIPlugin
 
    // IDs used in plugin (have to be synchronized with values in plugin.xml)
 
-   public static final String JAVA_PACKAGE_EXPLORER_ID = "org.eclipse.jdt.ui.PackageExplorer";
-
-   public static final String LAUNCH_ACTION_SET_ID = "org.eclipse.debug.ui.launchActionSet";
-
-   public static final String MOFLON_ACTION_SET_ID = "org.moflon.ide.ui.actionSet";
-
    public static final String NEW_METAMODEL_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard";
 
    public static final String ADD_PARSER_AND_UNPARSER_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard";
