@@ -34,14 +34,6 @@
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.commands.toolbar.MoflonDevtoolsMenuCommand">
          <menu
-               id="org.moflon.devtools.ui.menus.InstallAndConfigureMenu"
-               label="Install Workspace">
-         </menu>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureMenu">
-         <menu
                id="org.moflon.devtools.ui.menus.InstallAndConfigureHandbookExamples"
                label="eMoflon Examples">
          </menu>
@@ -208,7 +200,7 @@
             </parameter>
          </command>
       </menuContribution>
-      
+
       <menuContribution
             allPopups="false"
             locationURI="menu:org.moflon.devtools.ui.menus.InstallAndConfigureDeveloperModules">
@@ -257,7 +249,7 @@
                      value="ModuleMeta">
                </parameter></command>
       </menuContribution>
-      
+
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -265,7 +257,7 @@
             categoryId="org.moflon.ide.ui.commands.DevelopmentCategory"
             defaultHandler="org.moflon.devtools.ui.handlers.DoNothingHandler"
             id="org.moflon.ide.ui.commands.MoflonDevtoolsMenuCommand"
-            name="Install and Configure eMoflon">
+            name="Install Prepared eMoflon Workspaces">
          <commandParameter
                id="org.moflon.devtools.ui.commands.install.workspacename"
                name="Workspace Name"
