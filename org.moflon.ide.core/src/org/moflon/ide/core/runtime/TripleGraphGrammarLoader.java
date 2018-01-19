@@ -10,10 +10,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.dependency.PackageRemappingDependency;
+import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.emf.dependency.PackageRemappingDependency;
 import org.moflon.tgg.language.TripleGraphGrammar;
 
 public class TripleGraphGrammarLoader implements ITask {
@@ -30,7 +30,7 @@ public class TripleGraphGrammarLoader implements ITask {
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		final IProject workspaceProject = workspaceRoot.getProject(getProjectName());
 		assert workspaceProject.isAccessible();
-		final URI projectURI = CodeGeneratorPlugin.lookupProjectURI(workspaceProject);
+		final URI projectURI = eMoflonEMFUtil.lookupProjectURI(workspaceProject);
 		final URI tggURI = URI.createURI("model/" + getTGGFileName() + WorkspaceHelper.PRE_TGG_FILE_EXTENSION).resolve(projectURI);
 		final PackageRemappingDependency resourceLoader =
 				new PackageRemappingDependency(tggURI, false, false);

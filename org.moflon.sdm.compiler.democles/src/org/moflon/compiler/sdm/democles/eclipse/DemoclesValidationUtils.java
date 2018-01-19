@@ -17,11 +17,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 
 /**
  * Useful utilities for the democles validation process
@@ -42,7 +42,7 @@ public final class DemoclesValidationUtils
     */
    public static void saveAllIntermediateModels(final EPackage ePackage)
    {
-      for (final EClass eClass : CodeGeneratorPlugin.getEClasses(ePackage))
+      for (final EClass eClass : eMoflonEMFUtil.getEClasses(ePackage))
       {
 
          for (final EOperation eOperation : eClass.getEOperations())

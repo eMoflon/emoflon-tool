@@ -94,7 +94,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
             changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_SYMBOLIC_NAME,
                   metamodelProperties.get(MetamodelProperties.PLUGIN_ID_KEY) + ";singleton:=true", AttributeUpdatePolicy.KEEP);
             changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VERSION, "1.0", AttributeUpdatePolicy.KEEP);
-            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VENDOR, "TU Darmstadt", AttributeUpdatePolicy.KEEP);
+            changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VENDOR, "", AttributeUpdatePolicy.KEEP);
             changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_ACTIVATION_POLICY, "lazy", AttributeUpdatePolicy.KEEP);
             changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_EXECUTION_ENVIRONMENT,
                   metamodelProperties.get(MetamodelProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
@@ -109,7 +109,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
          final IJavaProject javaProject = JavaCore.create(project);
          final IClasspathEntry srcFolderEntry = JavaCore.newSourceEntry(WorkspaceHelper.getSourceFolder(project).getFullPath());
 
-         // Integration projects contain a lot of (useful?) boilerplate code in /gen, which requires to ignore warnings such as 'unused variable', 'unused import' etc. 
+         // Integration projects contain a lot of (useful?) boilerplate code in /gen, which requires to ignore warnings such as 'unused variable', 'unused import' etc.
          final IClasspathAttribute[] genFolderClasspathAttributes = metamodelProperties.isIntegrationProject()
                ? new IClasspathAttribute[] { JavaCore.newClasspathAttribute("ignore_optional_problems", "true") }
                : new IClasspathAttribute[] {};
@@ -164,7 +164,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
 
    /**
     * Adds a default .gitignore file to the given repository project to prevent adding generated files to the repository
-    * 
+    *
     * @param project the project for which to generate the .gitignore file
     * @param monitor the progress monitor
     */
@@ -184,7 +184,7 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
 
    /**
     * Adds a default .gitignore file to the given metamodel project to prevent adding generated files to the repository
-    * 
+    *
     * @param project the project for which to generate the .gitignore file
     * @param monitor the progress monitor
     */
@@ -201,9 +201,9 @@ public class MoflonProjectCreator extends WorkspaceTask implements ProjectConfig
 
    /**
     * Adds dummy files to folders that are / may be empty after project initialization.
-    * 
+    *
     * The dummy files are required because Git does not support versioning empty folders (unlike SVN).
-    * 
+    *
     * @param project the project for which .keep files shall be produced
     * @param monitor the progress monitor
     */

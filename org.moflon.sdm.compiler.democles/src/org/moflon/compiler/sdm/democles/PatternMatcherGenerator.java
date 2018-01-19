@@ -9,7 +9,7 @@ import org.gervarro.democles.compiler.CompilerPattern;
 import org.gervarro.democles.compiler.CompilerPatternBody;
 import org.gervarro.democles.specification.emf.Pattern;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.democles.reachability.javabdd.BDDReachabilityAnalyzer;
 import org.moflon.democles.reachability.javabdd.NullReachabilityAnalyzer;
 import org.moflon.democles.reachability.javabdd.ReachabilityAnalyzer;
@@ -21,7 +21,7 @@ import org.moflon.sdm.compiler.democles.validation.scope.impl.PatternMatcherImpl
 
 /**
  * This class is responsible for generating a search plan for patterns
- * 
+ *
  * @author Gergely Varró - Initial implementation
  * @author Roland Kluge - Integration of reachability analysis
  *
@@ -35,7 +35,7 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
    private final EMoflonPreferencesStorage preferencesStorage;
 
    /**
-    * Configures which search plan generator to use ({@link PatternMatcherCompiler}) and which pattern type is supported 
+    * Configures which search plan generator to use ({@link PatternMatcherCompiler}) and which pattern type is supported
     * @param patternMatcher the search plan generator to use
     * @param patternType the pattern type to use (see e.g., {@link DefaultCodeGeneratorConfig#BLACK_PATTERN_MATCHER_GENERATOR})
     */
@@ -51,7 +51,7 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
     * @param pattern the pattern of the pattern invocation
     * @param adornment the adornment of the pattern invocation
     * @param isMultipleMatch if true, the search plan shall return all matches, if false the search plan shall return any match
-    * @return a validation report that may contain errors occurred during the search plan generation 
+    * @return a validation report that may contain errors occurred during the search plan generation
     */
    @Override
    public ValidationReport generateSearchPlan(final Pattern pattern, final Adornment adornment, final boolean isMultipleMatch)
@@ -94,7 +94,7 @@ public abstract class PatternMatcherGenerator extends PatternMatcherImpl
    /**
     * Search plan adapter generation strategy to be implemented by subclasses.
     * @param body the body of the processed {@link Pattern}
-    * @param adornment the input {@link Adornment} 
+    * @param adornment the input {@link Adornment}
     * @param searchPlan the search plan generated from the {@link CompilerPatternBody} and the {@link Adornment}
     * @param multipleMatches (see isMultipleMatch in {@link #generateSearchPlan(Pattern, Adornment, boolean)})
     * @return

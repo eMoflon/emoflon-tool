@@ -19,7 +19,7 @@ import org.moflon.compiler.sdm.democles.DefaultCodeGeneratorConfig;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.compiler.sdm.democles.PatternMatcherCompiler;
 import org.moflon.compiler.sdm.democles.TemplateConfigurationProvider;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.sdm.compiler.democles.pattern.BindingPatternTransformer;
 import org.moflon.sdm.compiler.democles.pattern.DefaultExpressionTransformer;
 import org.moflon.sdm.compiler.democles.pattern.GreenPatternTransformer;
@@ -81,7 +81,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
          throw new RuntimeException("Parameter ecoreResource must be defined for AttributeConstraintCodeGeneratorConfig");
       }
 
-      //load attribute constraint libraries first loaded has higher priority 
+      //load attribute constraint libraries first loaded has higher priority
       attributeConstraintLibUtil.init(resourceSet, project);
       if (attributeConstraintLibUtil.getUserDefinedAttributeConstraintLibrary() != null)
       {

@@ -16,17 +16,15 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
-import org.moflon.codegen.eclipse.GenericMoflonProcess;
 import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
 import org.moflon.compiler.sdm.democles.eclipse.DemoclesValidatorTask;
+import org.moflon.core.build.GenericMoflonProcess;
+import org.moflon.core.preferences.EMoflonPreferencesActivator;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.moflon.gt.ide.natures.EMoflonGTNature;
-import org.moflon.gt.mosl.moslgt.GraphTransformationFile;
-import org.moflon.gt.mosl.moslgt.MoslgtFactory;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 /**
@@ -83,7 +81,7 @@ public class ConvertToMoslGtProcess extends GenericMoflonProcess
          final IStatus transformationStatus = transformToMoslGt(mgtResource, getEcoreFile());
          if (transformationStatus.matches(IStatus.ERROR))
             return transformationStatus;
-         
+
          mgtResource.save(null);
 
          // Transform project 'type' from Repository to MOSL-GT
@@ -97,33 +95,33 @@ public class ConvertToMoslGtProcess extends GenericMoflonProcess
          moslGtNature.updateBuildSpecs(description, buildSpecs, true);
          moslGtNature.updateNatureIDs(natureIds, true);
 
-         return new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Transformation suceeded.");
+         return Status.OK_STATUS;
       } catch (final Exception e)
       {
          logger.debug(WorkspaceHelper.printStacktraceToString(e));
-         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, String.format(
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, String.format(
                "%s occured during task '%s'. Message: '%s'. Stacktrace is logged with debug level.", e.getClass().getName(), getTaskName(), e.getMessage()), e);
       }
    }
 
    private ScopeValidationConfigurator createValidationConfiguration()
    {
-      final String engineID = CodeGeneratorPlugin.getMethodBodyHandler(getMoflonProperties());
+      final String engineID = MoflonPropertiesContainerHelper.getMethodBodyHandler(getMoflonProperties());
       ScopeValidationConfigurator validatorConfig = (ScopeValidationConfigurator) Platform.getAdapterManager().loadAdapter(this, engineID);
 
       if (validatorConfig == null)
       {
-         validatorConfig = new DefaultValidatorConfig(getResourceSet(), CoreActivator.getDefault().getPreferencesStorage());
+         validatorConfig = new DefaultValidatorConfig(getResourceSet(), EMoflonPreferencesActivator.getDefault().getPreferencesStorage());
       }
       return validatorConfig;
    }
 
    /**
-    * Creates the URI of the resource that 
-    * 
-    * Default URI: 
+    * Creates the URI of the resource that
+    *
+    * Default URI:
     * platform://resource/[project name]/src/org/moflon/gt/[project name].mgt
-    * 
+    *
     * @return the resource that holds the resulting {@link GraphTransformationFile}
     */
    private Resource createMoslGtResource()
@@ -159,13 +157,13 @@ public class ConvertToMoslGtProcess extends GenericMoflonProcess
    private IStatus transformToMoslGt(final Resource mgtResource, final IFile ecoreFile)
    {
       //TODO@rkluge: Implement me
-      final GraphTransformationFile mgtFile = MoslgtFactory.eINSTANCE.createGraphTransformationFile();
-      mgtResource.getContents().add(mgtFile);
-      mgtFile.setName(getMgtBasename() + "." + WorkspaceHelper.EMOFLON_GT_EXTENSION);
-      mgtFile.getEClasses().add(MoslgtFactory.eINSTANCE.createEClassDef());
-      
-      return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "SDM-to-MOSL-GT transformation not implemented yet.");
-//      return Status.OK_STATUS;
+      //      final GraphTransformationFile mgtFile = MoslgtFactory.eINSTANCE.createGraphTransformationFile();
+      //      mgtResource.getContents().add(mgtFile);
+      //      mgtFile.setName(getMgtBasename() + "." + WorkspaceHelper.EMOFLON_GT_EXTENSION);
+      //      mgtFile.getEClasses().add(MoslgtFactory.eINSTANCE.createEClassDef());
+
+      //      return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "SDM-to-MOSL-GT transformation not implemented yet.");
+      return Status.OK_STATUS;
    }
 
 }

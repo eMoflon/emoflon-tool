@@ -1,4 +1,4 @@
-package org.moflon.moca.inject.extractors;
+package org.moflon.sdm.injection;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.moca.inject.CodeInjectionPlugin;
+import org.moflon.emf.injection.build.CodeInjectionPlugin;
+import org.moflon.emf.injection.build.InjectionExtractor;
 
 import SDMLanguage.sdmUtil.CompilerInjection;
 import SDMLanguage.sdmUtil.ImportInjectionEntry;

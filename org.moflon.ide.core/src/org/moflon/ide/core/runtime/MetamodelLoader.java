@@ -13,11 +13,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.dependency.PackageRemappingDependency;
-import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
+import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.emf.dependency.DependencyTypes;
+import org.moflon.emf.dependency.PackageRemappingDependency;
+import org.moflon.emf.dependency.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 
@@ -26,7 +27,7 @@ import MocaTree.Node;
 
 public class MetamodelLoader implements ITask
 {
-   public static final int USER_DEFINED = CodeGeneratorPlugin.DEPENDENCY_TYPE_COUNT + 1;
+   public static final int USER_DEFINED = DependencyTypes.DEPENDENCY_TYPE_COUNT + 1;
 
    protected static final Logger logger = Logger.getLogger(MetamodelLoader.class);
 
@@ -70,10 +71,10 @@ public class MetamodelLoader implements ITask
             {
                final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
                assert project.isAccessible();
-               final URI projectURI = CodeGeneratorPlugin.lookupProjectURI(project);
+               final URI projectURI = eMoflonEMFUtil.lookupProjectURI(project);
                final URI metamodelURI = getProjectRelativeMetamodelURI(node).resolve(projectURI);
 
-               CodeGeneratorPlugin.createPluginToResourceMapping(set, project);
+               eMoflonEMFUtil.createPluginToResourceMapping(set, project);
                Resource resource = new PackageRemappingDependency(metamodelURI, false, false).getResource(set, false, true);
                resource.getContents().add(outermostPackage);
                CoreActivator.setEPackageURI(outermostPackage);
@@ -91,7 +92,7 @@ public class MetamodelLoader implements ITask
             // User-defined namespaceURI should point to the ecore file from which code was generated
             // E.g., platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore
             final int kind = getDependencyType(namespaceURI);
-            if (kind == CodeGeneratorPlugin.DEPLOYED_PLUGIN)
+            if (kind == DependencyTypes.DEPLOYED_PLUGIN)
             {
                try
                {
@@ -118,12 +119,12 @@ public class MetamodelLoader implements ITask
                {
                   return handleResourceLoadingException(e, namespaceURI);
                }
-            } else if (kind == CodeGeneratorPlugin.WORKSPACE_PLUGIN_PROJECT || kind == CodeGeneratorPlugin.WORKSPACE_PROJECT)
+            } else if (kind == DependencyTypes.WORKSPACE_PLUGIN_PROJECT || kind == DependencyTypes.WORKSPACE_PROJECT)
             {
-               final IProject project = CodeGeneratorPlugin.getWorkspaceProject(namespaceURI);
+               final IProject project = eMoflonEMFUtil.getWorkspaceProject(namespaceURI);
                if (project.isAccessible())
                {
-                  CodeGeneratorPlugin.createPluginToResourceMapping(set, project);
+                  eMoflonEMFUtil.createPluginToResourceMapping(set, project);
                   if (set.getURIConverter().exists(namespaceURI, null))
                   {
                      try
@@ -233,7 +234,7 @@ public class MetamodelLoader implements ITask
       {
          return USER_DEFINED;
       }
-      return CodeGeneratorPlugin.getDependencyType(namespaceURI);
+      return DependencyTypes.getDependencyType(namespaceURI);
    }
 
    protected static final String lookupAttribute(final Node node, final String attributeName)

@@ -5,6 +5,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.gervarro.eclipse.task.ITask;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public final class NoOperationTask implements ITask
 {
@@ -21,7 +22,7 @@ public final class NoOperationTask implements ITask
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, taskName, 1);
       subMon.worked(1);
-      return new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), taskName + " succeeded");
+      return new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), taskName + " succeeded");
    }
 
    @Override

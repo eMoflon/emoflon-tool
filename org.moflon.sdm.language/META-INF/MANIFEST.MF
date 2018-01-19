@@ -3,7 +3,10 @@ Bundle-SymbolicName: SDMLanguage;singleton:=true
 Require-Bundle: org.eclipse.core.runtime,
  org.moflon.core.utilities,
  org.eclipse.emf.ecore.xmi,
- org.eclipse.emf.ecore
+ org.eclipse.emf.ecore,
+ org.eclipse.core.resources,
+ org.moflon.emf.injection.ui,
+ org.eclipse.emf.codegen.ecore
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
@@ -35,6 +38,7 @@ Export-Package: SDMLanguage,
  SDMLanguage.sdmUtil.impl,
  SDMLanguage.sdmUtil.util,
  SDMLanguage.util,
+ org.moflon.sdm.injection,
  org.moflon.sdm.language,
  org.moflon.util
 Bundle-Name: SDMLanguage (eMoflon)

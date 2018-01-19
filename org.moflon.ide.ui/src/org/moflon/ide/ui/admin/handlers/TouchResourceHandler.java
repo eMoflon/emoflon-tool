@@ -18,8 +18,8 @@ import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.utilities.ProgressMonitorUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 
 public class TouchResourceHandler extends AbstractCommandHandler
 {
@@ -44,7 +44,7 @@ public class TouchResourceHandler extends AbstractCommandHandler
                {
                   status.add(new Status(IStatus.WARNING, WorkspaceHelper.getPluginId(getClass()), "Problem while touching " + resource));
                }
-               CoreActivator.checkCancellation(subMon);
+               ProgressMonitorUtil.checkCancellation(subMon);
             }
             return status.isOK() ? Status.OK_STATUS : status;
          }

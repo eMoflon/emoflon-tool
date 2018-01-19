@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.util.plugins.MetamodelProperties;
@@ -45,9 +44,9 @@ public class MocaTreeEAPropertiesReader
       if (mocaFile.exists())
       {
          // Create and initialize resource set
-         set = CodeGeneratorPlugin.createDefaultResourceSet();
+         set = eMoflonEMFUtil.createDefaultResourceSet();
          eMoflonEMFUtil.installCrossReferencers(set);
-         
+
          // Load Moca tree in read-only mode
          URI mocaFileURI = URI.createPlatformResourceURI(mocaFile.getFullPath().toString(), true);
          Resource mocaTreeResource = set.getResource(mocaFileURI, true);
@@ -121,9 +120,9 @@ public class MocaTreeEAPropertiesReader
          Node nextNode = unvisitedNodes.poll();
          if ("AttributeConstraints".equals(nextNode.getName()))
             return true;
-         
+
          nextNode.getChildren().stream().filter(t -> t instanceof Node).map(t -> (Node)t).forEach(n -> unvisitedNodes.add(n));
-      }        
+      }
       return false;
    }
 

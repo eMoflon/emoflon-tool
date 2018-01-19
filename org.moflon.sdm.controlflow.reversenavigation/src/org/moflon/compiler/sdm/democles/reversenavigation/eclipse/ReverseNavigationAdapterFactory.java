@@ -2,11 +2,11 @@ package org.moflon.compiler.sdm.democles.reversenavigation.eclipse;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdapterFactory;
-import org.moflon.codegen.eclipse.GenericMoflonProcess;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.compiler.sdm.democles.eclipse.DemoclesValidationProcess;
 import org.moflon.compiler.sdm.democles.reversenavigation.ReverseNavigationCodeGeneratorConfig;
+import org.moflon.core.build.GenericMoflonProcess;
 
 public class ReverseNavigationAdapterFactory implements IAdapterFactory
 {

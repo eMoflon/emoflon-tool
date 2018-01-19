@@ -22,13 +22,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.task.ITask;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.core.dfs.DFSGraph;
 import org.moflon.core.dfs.DfsFactory;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowFactory;
 import org.moflon.sdm.compiler.democles.validation.controlflow.ControlflowPackage;
 import org.moflon.sdm.compiler.democles.validation.controlflow.InefficientBootstrappingBuilder;
@@ -76,8 +76,8 @@ public class DemoclesValidatorTask implements ITask
    @Override
    public IStatus run(final IProgressMonitor monitor)
    {
-      final MultiStatus validationStatus = new MultiStatus(CodeGeneratorPlugin.getModuleID(), 0, TASK_NAME + " failed", null);
-      final List<EClass> eClasses = CodeGeneratorPlugin.getEClasses(ePackage);
+      final MultiStatus validationStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, TASK_NAME + " failed", null);
+      final List<EClass> eClasses = eMoflonEMFUtil.getEClasses(ePackage);
       try
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Validating classes in package " + ePackage.getName(), eClasses.size());
@@ -88,11 +88,11 @@ public class DemoclesValidatorTask implements ITask
                return cancelStatus;
          }
 
-         return validationStatus.isOK() ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), TASK_NAME + " succeeded") : validationStatus;
+         return validationStatus.isOK() ? Status.OK_STATUS : validationStatus;
       } catch (final RuntimeException e)
       {
          LogUtils.error(logger, e, "Stacktrace of failed validation:\n%s", WorkspaceHelper.printStacktraceToString(e));
-         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR,
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR,
                "Internal exception occured (probably caused by a bug in the validation module): " + e + " Please report the bug on "
                      + WorkspaceHelper.ISSUE_TRACKER_URL + ".\n\nDetailed information:\n" + WorkspaceHelper.printStacktraceToString(e),
                new DemoclesValidationException(e));
@@ -102,7 +102,7 @@ public class DemoclesValidatorTask implements ITask
    /**
     * Run validation on the given {@code eClass}, validation errors are stored in {@code validationStatus}, process
     * errors (such as exceptions) are stored in {@code processStatus}
-    * 
+    *
     * @param eClass
     * @param validationStatus
     * @param monitor
@@ -123,9 +123,9 @@ public class DemoclesValidatorTask implements ITask
 
    /**
     * Validates a particular EOperation.
-    * 
+    *
     * For the description of the parameters, see {@link #validateEClass(EClass, MultiStatus, IProgressMonitor)}
-    * 
+    *
     * @param eOperation
     * @param validationStatus
     * @param monitor

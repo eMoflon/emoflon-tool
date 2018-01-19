@@ -17,8 +17,8 @@ import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;;
+import org.moflon.core.utilities.ProgressMonitorUtil;
+import org.moflon.core.utilities.WorkspaceHelper;;
 
 public class GitHelper
 {
@@ -66,7 +66,7 @@ public class GitHelper
                String.format("Exception while opening git repository in %s", gitFolder), e);
       }
       subMon.worked(1);
-      CoreActivator.checkCancellation(subMon);
+      ProgressMonitorUtil.checkCancellation(subMon);
 
       final Git git = new Git(rep);
       try
@@ -88,7 +88,7 @@ public class GitHelper
             return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(GitHelper.class), String.format("Failed to reset %s", rep), e);
          }
          subMon.worked(1);
-         CoreActivator.checkCancellation(subMon);
+         ProgressMonitorUtil.checkCancellation(subMon);
 
          try
          {
@@ -99,7 +99,7 @@ public class GitHelper
             return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(GitHelper.class), String.format("Failed to clean %s", rep), e);
          }
          subMon.worked(1);
-         CoreActivator.checkCancellation(subMon);
+         ProgressMonitorUtil.checkCancellation(subMon);
 
          LogUtils.info(logger, "Resetting and cleaning of %s successful", rep);
       } finally

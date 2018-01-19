@@ -9,11 +9,8 @@ import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -23,7 +20,6 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.ProblemMarkerUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -35,14 +31,12 @@ import org.osgi.framework.BundleContext;
 public class CoreActivator extends Plugin
 {
    private static CoreActivator plugin;
-   private EMoflonPreferencesStorage preferencesStorage;
 
    @Override
    public void start(final BundleContext context) throws Exception
    {
       super.start(context);
       plugin = this;
-      plugin.preferencesStorage = new EMoflonPreferencesStorage();
    }
 
    @Override
@@ -206,39 +200,5 @@ public class CoreActivator extends Plugin
 	   for (final EPackage subPackage : ePackage.getESubpackages()) {
 		   setEPackageURI(subPackage);
 	   }
-   }
-
-   public static final void checkCancellation(final IProgressMonitor monitor)
-   {
-      if (monitor != null && monitor.isCanceled())
-      {
-         throw new OperationCanceledException();
-      }
-   }
-
-   public static String mapBuildKindToName(int buildType)
-   {
-      switch (buildType)
-      {
-      case IncrementalProjectBuilder.AUTO_BUILD:
-         return "auto";
-      case IncrementalProjectBuilder.FULL_BUILD:
-         return "full";
-      case IncrementalProjectBuilder.CLEAN_BUILD:
-         return "clean";
-      case IncrementalProjectBuilder.INCREMENTAL_BUILD:
-         return "incremental";
-      default:
-         return "Unknown build type: " + buildType;
-      }
-   }
-
-   /**
-    * Returns the platform-independent preferences storage for the eMoflon build process
-    * @return
-    */
-   public EMoflonPreferencesStorage getPreferencesStorage()
-   {
-      return this.preferencesStorage;
    }
 }

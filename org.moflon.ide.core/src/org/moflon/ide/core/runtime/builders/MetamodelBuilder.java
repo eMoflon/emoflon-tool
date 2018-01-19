@@ -32,16 +32,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
 import org.gervarro.eclipse.task.ProgressMonitoringJob;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.core.build.AbstractVisitorBuilder;
 import org.moflon.core.mocatomoflon.Exporter;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.ProblemMarkerUtil;
+import org.moflon.core.utilities.ProgressMonitorUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
-import org.moflon.ide.core.CoreActivator;
+import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.emf.dependency.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.CleanMocaToMoflonTransformation;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
@@ -83,7 +83,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
          final URI workspaceURI = URI.createPlatformResourceURI("/", true);
          final URI projectURI = URI.createURI(getProject().getName() + "/", true).resolve(workspaceURI);
 
-         final ResourceSet set = CodeGeneratorPlugin.createDefaultResourceSet();
+         final ResourceSet set = eMoflonEMFUtil.createDefaultResourceSet();
          final URI mocaFileURI = URI.createURI(mocaFile.getProjectRelativePath().toString(), true).resolve(projectURI);
          final Resource mocaTreeResource = set.getResource(mocaFileURI, true);
          final Node mocaTree = (Node) mocaTreeResource.getContents().get(0);
@@ -117,7 +117,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             final URI projectURI = URI.createURI(getProject().getName() + "/", true).resolve(workspaceURI);
 
             // Create and initialize resource set
-            final ResourceSet set = CodeGeneratorPlugin.createDefaultResourceSet();
+            final ResourceSet set = eMoflonEMFUtil.createDefaultResourceSet();
             // eMoflonEMFUtil.installCrossReferencers(set);
 
             // Load Moca tree in read-only mode
@@ -171,7 +171,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             taskArray = exporter.getMetamodelLoaderTasks().toArray(taskArray);
             final IStatus metamodelLoaderStatus = ProgressMonitoringJob.executeSyncSubTasks(taskArray,
                   new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Resource loading failed", null), subMon.split(5));
-            CoreActivator.checkCancellation(subMon);
+            ProgressMonitorUtil.checkCancellation(subMon);
             if (!metamodelLoaderStatus.isOK())
             {
                if (kind == IncrementalProjectBuilder.FULL_BUILD && !triggerProjects.isEmpty())
@@ -192,7 +192,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             triggerProjects.clear();
             final IStatus projectDependencyAnalyzerStatus = ProgressMonitoringJob.executeSyncSubTasks(dependencyAnalyzers,
                   new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Dependency analysis failed", null), subMon.split(5));
-            CoreActivator.checkCancellation(subMon);
+            ProgressMonitorUtil.checkCancellation(subMon);
             if (!projectDependencyAnalyzerStatus.isOK())
             {
                processProblemStatus(projectDependencyAnalyzerStatus, mocaFile);

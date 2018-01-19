@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
-import org.moflon.dependency.Dependency;
-import org.moflon.dependency.PackageRemappingDependency;
-import org.moflon.dependency.SimpleDependency;
+import org.moflon.emf.dependency.Dependency;
+import org.moflon.emf.dependency.PackageRemappingDependency;
+import org.moflon.emf.dependency.SimpleDependency;
 
 /**
  * A dependency handler which extracts "additional dependencies" from moflon.properties.xmi

@@ -25,7 +25,7 @@ import org.moflon.ide.ui.UIActivator;
 public class MoflonBuildJob extends WorkspaceJob
 {
    private static final String JOB_NAME = "eMoflon Manual Build";
-   
+
    private static final Logger logger = Logger.getLogger(MoflonBuildJob.class);
 
    private final List<IProject> projects;
@@ -34,8 +34,8 @@ public class MoflonBuildJob extends WorkspaceJob
 
    /**
     * Constructor.
-    * 
-    * @param name the name to be handed to {@link WorkspaceJob} 
+    *
+    * @param name the name to be handed to {@link WorkspaceJob}
     * @param projects the projects to be built
     * @param buildType the build type (as specified in {@link IncrementalProjectBuilder})
     */
@@ -49,7 +49,7 @@ public class MoflonBuildJob extends WorkspaceJob
    @Override
    public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
    {
-      LogUtils.info(logger, "Manual build triggered (mode=%s, projects=%s)", CoreActivator.mapBuildKindToName(this.buildType), this.projects);
+      LogUtils.info(logger, "Manual build triggered (mode=%s, projects=%s)", mapBuildKindToName(this.buildType), this.projects);
       final MultiStatus resultStatus = new MultiStatus(WorkspaceHelper.getPluginId(UIActivator.class), 0, "eMoflon Build Job failed", null);
       final List<Job> jobs = new ArrayList<>();
       final IBuildConfiguration[] buildConfigurations = CoreActivator.getDefaultBuildConfigurations(projects);
@@ -68,5 +68,27 @@ public class MoflonBuildJob extends WorkspaceJob
       }
 
       return resultStatus.matches(Status.ERROR) ? resultStatus : Status.OK_STATUS;
+   }
+
+   /**
+   * Maps the Eclipse build type to a human-readable name
+   * @param buildType the build type
+   * @return the name
+   */
+   private static String mapBuildKindToName(final int buildType)
+   {
+      switch (buildType)
+      {
+      case IncrementalProjectBuilder.AUTO_BUILD:
+         return "auto";
+      case IncrementalProjectBuilder.FULL_BUILD:
+         return "full";
+      case IncrementalProjectBuilder.CLEAN_BUILD:
+         return "clean";
+      case IncrementalProjectBuilder.INCREMENTAL_BUILD:
+         return "incremental";
+      default:
+         return "Unknown build type: " + buildType;
+      }
    }
 }

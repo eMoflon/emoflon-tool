@@ -26,7 +26,6 @@ Require-Bundle:
  org.gervarro.eclipse.workspace.util;bundle-version="[2.0.0,3.0.0)",
  org.gervarro.eclipse.workspace.autosetup;bundle-version="1.0.0",
  org.moflon.core.utilities,
- org.moflon.core.moca.inject,
  org.moflon.ide.core,
  MocaTree,
  org.moflon.ide.plugins,
@@ -35,7 +34,8 @@ Require-Bundle:
  org.moflon.core.propertycontainer,
  org.moflon.core.moca.processing,
  org.moflon.emf.injection,
- org.moflon.sdm.compiler.democles
+ org.moflon.sdm.compiler.democles,
+ org.moflon.core.preferences
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.ide.ui,

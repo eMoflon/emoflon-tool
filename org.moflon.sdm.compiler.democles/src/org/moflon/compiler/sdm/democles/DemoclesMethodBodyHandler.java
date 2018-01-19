@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Gergely Varro - Initial API and implementation
  */
 package org.moflon.compiler.sdm.democles;
@@ -119,7 +119,7 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler
    {
       return new DemoclesValidatorTask(scopeValidatorConfiguration.createScopeValidator(), ePackage);
    }
-   
+
    @Override
    public Map<String, PatternMatcher> getPatternMatcherConfiguration()
    {
@@ -127,7 +127,7 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler
    }
 
    /**
-    * Default null implementation 
+    * Default null implementation
     */
    @Override
    public ITask createGenModelProcessor(final MoflonCodeGenerator codeGenerator, final Resource resource)

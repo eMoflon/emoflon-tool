@@ -24,17 +24,16 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
 import org.gervarro.eclipse.workspace.util.ResourceVisitor;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.build.AbstractVisitorBuilder;
 import org.moflon.core.build.CleanVisitor;
+import org.moflon.core.preferences.EMoflonPreferencesActivator;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.gt.ide.MOSLGTWeavingTask;
-import org.moflon.gt.mosl.ui.internal.MoslActivator;
-import org.moflon.ide.core.CoreActivator;
+import org.moflon.gt.mosl.controlflow.language.ui.internal.LanguageActivator;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
@@ -130,7 +129,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
       this.resourceSet = initializeResourceSet();
 
       final IFile defaultEcoreFile = WorkspaceHelper.getDefaultEcoreFile(getProject());
-      final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(defaultEcoreFile, this.resourceSet, CoreActivator.getDefault().getPreferencesStorage());
+      final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(defaultEcoreFile, this.resourceSet, EMoflonPreferencesActivator.getDefault().getPreferencesStorage());
       codeGenerationTask.setAdditionalCodeGenerationPhase(new MOSLGTWeavingTask());
       final IStatus status = codeGenerationTask.run(subMon.split(7));
       handleErrorsAndWarnings(status);
@@ -149,7 +148,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
       // See also: https://wiki.eclipse.org/Xtext/FAQ#How_do_I_load_my_model_in_a_standalone_Java_application.C2.A0.3F
       //final Injector injector = new MOSLGTStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
       // Non standalone injector as described here: https://www.eclipse.org/forums/index.php?t=msg&th=1081455&goto=1744252&#msg_1744252
-      final Injector injector = MoslActivator.getInstance().getInjector(MoslActivator.ORG_MOFLON_GT_MOSL_MOSLGT);
+      final Injector injector = LanguageActivator.getInstance().getInjector(LanguageActivator.ORG_MOFLON_GT_MOSL_CONTROLFLOW_LANGUAGE_MOSLCONTROLFLOW);
       final XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
       // eMoflonEMFUtil.initializeDefault(this.resourceSet);
       resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
@@ -231,7 +230,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
    {
       if (indicatesThatValidationCrashed(status))
       {
-         throw new CoreException(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), status.getMessage(), status.getException().getCause()));
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), status.getMessage(), status.getException().getCause()));
       }
 
       if (status.matches(IStatus.ERROR))
@@ -247,7 +246,7 @@ public class EMoflonGTBuilder extends AbstractVisitorBuilder
 
    private void handleInjectionWarningsAndErrors(final IStatus status)
    {
-      final String reporterClass = "org.moflon.moca.inject.validation.InjectionErrorReporter";
+      final String reporterClass = "org.moflon.emf.injection.validation.InjectionErrorReporter";
       final ErrorReporter errorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(getProject(), reporterClass);
       if (errorReporter != null)
       {

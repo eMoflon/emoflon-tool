@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.MultiRule;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.core.utilities.ProgressMonitorUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
@@ -63,7 +64,7 @@ public final class EnterpriseArchitectModelExporterTask extends WorkspaceTask
             if (shouldExport(project))
             {
                EnterpriseArchitectHelper.exportEcoreFilesFromEAP(project, loopMonitor.split(10));
-               CoreActivator.checkCancellation(loopMonitor);
+               ProgressMonitorUtil.checkCancellation(loopMonitor);
             }
             loopMonitor.setWorkRemaining(1);
             project.refreshLocal(IResource.DEPTH_INFINITE, loopMonitor.split(1));

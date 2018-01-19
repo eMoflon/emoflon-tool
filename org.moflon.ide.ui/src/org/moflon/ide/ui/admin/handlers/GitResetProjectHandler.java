@@ -15,8 +15,8 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.utilities.ProgressMonitorUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.git.GitHelper;
 
 public class GitResetProjectHandler extends AbstractCommandHandler
@@ -49,7 +49,7 @@ public class GitResetProjectHandler extends AbstractCommandHandler
                final IStatus resetStatus = GitHelper.resetAndCleanContainingGitRepository(project, subMon);
                subMon.worked(1);
                status.add(resetStatus);
-               CoreActivator.checkCancellation(subMon);
+               ProgressMonitorUtil.checkCancellation(subMon);
             }
             return status.isOK() ? Status.OK_STATUS : status;
          }

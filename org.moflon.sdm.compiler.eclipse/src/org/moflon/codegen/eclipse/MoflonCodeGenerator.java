@@ -26,16 +26,18 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.codegen.CodeGenerator;
 import org.moflon.codegen.MethodBodyHandler;
+import org.moflon.core.build.GenericMoflonProcess;
+import org.moflon.core.build.MonitoredGenModelBuilder;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
-import org.moflon.moca.inject.CodeInjector;
-import org.moflon.moca.inject.CodeInjectorImpl;
-import org.moflon.moca.inject.InjectionManager;
-import org.moflon.moca.inject.extractors.CompilerInjectionExtractorImpl;
-import org.moflon.moca.inject.extractors.InjectionExtractor;
-import org.moflon.moca.inject.extractors.XTextInjectionExtractor;
+import org.moflon.emf.injection.build.CodeInjector;
+import org.moflon.emf.injection.build.CodeInjectorImpl;
+import org.moflon.emf.injection.build.InjectionExtractor;
+import org.moflon.emf.injection.build.InjectionManager;
+import org.moflon.emf.injection.build.XTextInjectionExtractor;
+import org.moflon.sdm.injection.CompilerInjectionExtractorImpl;
 
 public class MoflonCodeGenerator extends GenericMoflonProcess
 {
@@ -75,12 +77,12 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          final EPackage ePackage = (EPackage) resource.getContents().get(0);
 
          // (1) Instantiate code generation engine
-         final String engineID = CodeGeneratorPlugin.getMethodBodyHandler(getMoflonProperties());
+         final String engineID = MoflonPropertiesContainerHelper.getMethodBodyHandler(getMoflonProperties());
          final MethodBodyHandler methodBodyHandler = (MethodBodyHandler) Platform.getAdapterManager().loadAdapter(this, engineID);
          subMon.worked(5);
          if (methodBodyHandler == null)
          {
-            return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), "Unknown method body handler: " + engineID + ". Code generation aborted.");
+            return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Unknown method body handler: " + engineID + ". Code generation aborted.");
          }
          if (subMon.isCanceled())
          {
@@ -206,13 +208,13 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
          logger.info(String.format(Locale.US, "Completed in %.3fs", (tic - toc) / 1e9));
 
          final boolean everythingOK = validationStatus.isOK() && injectionStatus.isOK() && weaverStatus.isOK();
-         return everythingOK ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), "Code generation succeeded")
-               : new MultiStatus(CodeGeneratorPlugin.getModuleID(), validationStatus.getCode(),
+         return everythingOK ? new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "Code generation succeeded")
+               : new MultiStatus(WorkspaceHelper.getPluginId(getClass()), validationStatus.getCode(),
                      new IStatus[] { validationStatus, weaverStatus, injectionStatus }, "Code generation warnings/errors", null);
       } catch (final Exception e)
       {
          logger.debug(WorkspaceHelper.printStacktraceToString(e));
-         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR,
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR,
                e.getClass().getName() + " occurred during eMoflon code generation. Message: '" + e.getMessage() + "'. (Stacktrace is logged with level debug)",
                e);
       }
@@ -250,7 +252,6 @@ public class MoflonCodeGenerator extends GenericMoflonProcess
       IFolder injectionFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
       CodeInjector injector = new CodeInjectorImpl(project.getLocation().toOSString());
 
-      //      InjectionExtractor injectionExtractor = new UserInjectionExtractorImpl(injectionFolder.getLocation().toString(), genModel);
       InjectionExtractor injectionExtractor = new XTextInjectionExtractor(injectionFolder, genModel);
       CompilerInjectionExtractorImpl compilerInjectionExtractor = new CompilerInjectionExtractorImpl(project, genModel);
 

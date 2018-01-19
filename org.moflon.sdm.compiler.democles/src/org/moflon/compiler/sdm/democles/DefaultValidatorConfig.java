@@ -28,7 +28,7 @@ import org.gervarro.democles.specification.impl.DefaultPattern;
 import org.gervarro.democles.specification.impl.DefaultPatternBody;
 import org.gervarro.democles.specification.impl.DefaultPatternFactory;
 import org.gervarro.democles.specification.impl.PatternInvocationConstraintModule;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.sdm.compiler.democles.pattern.BindingPatternTransformer;
 import org.moflon.sdm.compiler.democles.pattern.BlackAndNacPatternTransformer;
 import org.moflon.sdm.compiler.democles.pattern.DefaultExpressionTransformer;
@@ -82,7 +82,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 	protected final EMFOperationBuilder emfBlackOperationBuilder = new EMFOperationBuilder();
 	private final EMFRedOperationBuilder emfRedOperationBuilder = new EMFRedOperationBuilder();
 	private final EMFGreenOperationBuilder emfGreenOperationBuilder = new EMFGreenOperationBuilder();
-	
+
    private PatternMatcher bindingAndBlackPatternMatcher;
 
    private PatternMatcher bindingPatternMatcher;
@@ -92,7 +92,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
    private PatternMatcher redPatternMatcher;
 
    private PatternMatcher greenPatternMatcher;
-   
+
    private final EMoflonPreferencesStorage preferencesStorage;
 
 	public DefaultValidatorConfig(final ResourceSet resourceSet, EMoflonPreferencesStorage preferencesStorage) {
@@ -110,14 +110,14 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 	@Override
 	public Map<String, PatternMatcher> getSearchPlanGenerators(){
       final Map<String,PatternMatcher> searchPlanGenerators = new HashMap<>();
-      searchPlanGenerators.put(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION, greenPatternMatcher);     
-      searchPlanGenerators.put(DemoclesMethodBodyHandler.RED_FILE_EXTENSION, redPatternMatcher);     
-      searchPlanGenerators.put(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION, blackPatternMatcher);     
-      searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION, bindingPatternMatcher);     
-      searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION, bindingAndBlackPatternMatcher);     
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION, greenPatternMatcher);
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.RED_FILE_EXTENSION, redPatternMatcher);
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION, blackPatternMatcher);
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION, bindingPatternMatcher);
+      searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION, bindingAndBlackPatternMatcher);
       return searchPlanGenerators;
    }
-	
+
    @Override
    public ScopeValidator createScopeValidator() {
 		final Resource resource = new ResourceImpl(URI.createURI("ScopeValidator"));
@@ -145,7 +145,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
          blackPatternMatcher = configureBlackPatternMatcher(resource);
          redPatternMatcher = configureRedPatternMatcher(resource);
          greenPatternMatcher = configureGreenPatternMatcher(resource);
-			
+
 			// (1) Handler for regular story nodes
 			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeFactory.eINSTANCE.createStoryNodeActionBuilder();
 			scopeValidator.getActionBuilders().add(regularStoryNodeActionBuilder);
@@ -281,7 +281,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 		}
 		return scopeValidator;
 	}
-   
+
    public EMoflonPreferencesStorage getPreferencesStorage() {
       return this.preferencesStorage;
    }
@@ -289,7 +289,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 	protected PatternMatcher configureBindingAndBlackPatternMatcher(Resource resource) throws IOException {
 		return configureBindingAndBlackPatternMatcherCompiler(resource);
 	}
-	
+
 	protected PatternMatcherCompiler configureBindingAndBlackPatternMatcherCompiler(Resource resource) {
 		// Configuring binding & black pattern matcher
 		final CompilerPatternBuilder bindingAndBlackCompilerPatternBuilder = new CompilerPatternBuilder();
@@ -301,11 +301,11 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 		resource.getContents().add(bindingAndBlackPatternMatcherCompiler);
 		return bindingAndBlackPatternMatcherCompiler;
 	}
-	
+
 	protected PatternMatcher configureBindingPatternMatcher(Resource resource) throws IOException {
 		return configureBindingPatternMatcherCompiler(resource);
 	}
-	
+
 	protected PatternMatcherCompiler configureBindingPatternMatcherCompiler(Resource resource) {
 		// Configuring binding pattern matcher
 //		final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> bindingPatternBuilder =
@@ -324,11 +324,11 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 		resource.getContents().add(bindingPatternMatcherCompiler);
 		return bindingPatternMatcherCompiler;
 	}
-	
+
 	protected PatternMatcher configureBlackPatternMatcher(Resource resource) throws IOException {
 		return configureBlackPatternMatcherCompiler(resource);
 	}
-	
+
 	protected PatternMatcherCompiler configureBlackPatternMatcherCompiler(Resource resource) {
 		// Configuring black pattern matcher
 //		final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> blackPatternBuilder =
@@ -356,7 +356,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 	protected PatternMatcher configureRedPatternMatcher(Resource resource) throws IOException {
 		return configureRedPatternMatcherCompiler(resource);
 	}
-	
+
 	protected PatternMatcherCompiler configureRedPatternMatcherCompiler(Resource resource) {
 		// Configuring red pattern matcher
 		final EMFPatternBuilder<DefaultPattern, DefaultPatternBody> redPatternBuilder =

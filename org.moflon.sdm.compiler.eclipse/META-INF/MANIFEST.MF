@@ -11,18 +11,20 @@ Require-Bundle:
  org.gervarro.eclipse.task;bundle-version="[1.0.1,2.0.0)",
  org.moflon.core.utilities,
  org.moflon.core.propertycontainer,
- org.moflon.core.moca.inject,
  SDMLanguage,
  org.moflon.sdm.compiler.democles.validation.result,
  org.moflon.sdm.compiler.democles.validation.scope,
- org.moflon.emf.injection
+ org.moflon.emf.injection,
+ org.moflon.core.build,
+ org.moflon.emf.injection.ui,
+ org.moflon.core.preferences,
+ org.moflon.emf.codegen
 Bundle-ClassPath: .
 Bundle-Activator: org.moflon.codegen.eclipse.CodeGeneratorPlugin
 Bundle-ActivationPolicy: lazy
-Export-Package: org.gervarro.democles.emoflon.templates,
- org.moflon.codegen,
+Export-Package: org.moflon.codegen,
  org.moflon.codegen.eclipse,
- org.moflon.dependency,
+ org.moflon.dependency.handlers,
  org.moflon.eclipse.genmodel,
  org.moflon.eclipse.resource
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

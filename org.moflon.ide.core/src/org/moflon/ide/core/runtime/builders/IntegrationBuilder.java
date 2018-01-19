@@ -21,15 +21,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
-import org.moflon.codegen.eclipse.MonitoredMetamodelLoader;
+import org.moflon.core.build.MonitoredMetamodelLoader;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.dependency.PackageRemappingDependency;
-import org.moflon.eclipse.resource.SDMEnhancedEcoreResource;
+import org.moflon.emf.dependency.PackageRemappingDependency;
+import org.moflon.emf.dependency.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.moca.MocaUtil;
 import org.moflon.moca.tggUserDefinedConstraint.unparser.TGGUserDefinedConstraintUnparserAdapter;
@@ -100,7 +99,7 @@ public class IntegrationBuilder extends RepositoryBuilder
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Processing TGGs", 66);
 
-      final ResourceSet set = CodeGeneratorPlugin.createDefaultResourceSet();
+      final ResourceSet set = eMoflonEMFUtil.createDefaultResourceSet();
       eMoflonEMFUtil.installCrossReferencers(set);
       final MoflonPropertiesContainer moflonProperties = MoflonPropertiesContainerHelper.load(getProject(), subMon.split(5));
 
@@ -109,7 +108,7 @@ public class IntegrationBuilder extends RepositoryBuilder
       final String defaultFileName = MoflonUtil.lastCapitalizedSegmentOf(getProject().getName());
       final IFile tggFile = modelFolder.getFile(defaultFileName + WorkspaceHelper.TGG_FILE_EXTENSION);
 
-      final URI projectURI = CodeGeneratorPlugin.lookupProjectURI(getProject());
+      final URI projectURI = eMoflonEMFUtil.lookupProjectURI(getProject());
       final URI workspaceProjectURI = URI.createURI(getProject().getName() + "/", true).resolve(URI.createPlatformResourceURI("/", true));
       final URI modelFolderURI = URI.createURI(WorkspaceHelper.MODEL_FOLDER + "/", true);
       final URI tggFileURI = URI.createURI(defaultFileName + WorkspaceHelper.TGG_FILE_EXTENSION, true).resolve(modelFolderURI.resolve(workspaceProjectURI));

@@ -20,11 +20,9 @@ Require-Bundle: org.eclipse.xtext,
  org.moflon.core.utilities,
  org.moflon.ide.core,
  org.moflon.ide.plugins,
- org.moflon.gt.mosl,
- org.moflon.gt.mosl.codeadapter,
  org.moflon.sdm.compiler.democles,
  org.moflon.sdm.compiler.eclipse,
  org.moflon.sdm.compiler.democles.validation.scope,
- org.moflon.gt.mosl.ui,
- org.moflon.core.build
-Import-Package: org.apache.log4j
+ org.moflon.core.build,
+ org.moflon.core.preferences,
+ org.moflon.gt.mosl.controlflow.language.ui

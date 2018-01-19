@@ -18,25 +18,24 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.moflon.codegen.eclipse.MonitoredMetamodelLoader;
+import org.moflon.core.build.MonitoredMetamodelLoader;
 import org.moflon.core.ecore2mocaxmi.Ecore2MocaXMIConverter;
 import org.moflon.core.ecore2mocaxmi.Ecore2mocaxmiFactory;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.dependency.PackageRemappingDependency;
-
+import org.moflon.emf.dependency.PackageRemappingDependency;
 import MocaTree.Node;
 
 public class ConverterHelper {
 	protected static Logger logger;
-	
+
 	private final static String LOCK_FILE_EXTENSION=".ldb";
 	private final static String IMPORTED_PACKAGE_PREFIX="org.emoflon.importedecore.";
-	
+
 	public static void setLogger(final Logger log){
 		logger = log;
 	}
-	
+
 	public static String getEAPFilePath(final Shell shell, final String ecorePath){
 		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
 		dialog.setText("Select EAP File");
@@ -45,13 +44,13 @@ public class ConverterHelper {
 		dialog.setFilterPath(ecorePath);
 		return dialog.open();
 	}
-	
+
 	public static Node getEATree(final IFile file){
 		return getEATree(file, false);
 	}
 
 	private static MonitoredMetamodelLoader createMetaModelLoader(final ResourceSet resourceSet, final IFile ecoreFile){
-		return new MonitoredMetamodelLoader(resourceSet, ecoreFile, MoflonPropertiesContainerHelper.createEmptyContainer()) {			
+		return new MonitoredMetamodelLoader(resourceSet, ecoreFile, MoflonPropertiesContainerHelper.createEmptyContainer()) {
 			@Override
 			protected void createResourcesForWorkspaceProjects(IProgressMonitor monitor) {
 				super.createResourcesForWorkspaceProjects(monitor);
@@ -66,7 +65,7 @@ public class ConverterHelper {
 			}
 		};
 	}
-	
+
 	public static Node getEATree(final IFile file, final boolean export){
 		Ecore2MocaXMIConverter converter = Ecore2mocaxmiFactory.eINSTANCE.createEcore2MocaXMIConverter();
 		Node tree = converter.createNewRootNode();
@@ -85,7 +84,7 @@ public class ConverterHelper {
 		}
 		return tree;
 	}
-	
+
 	private static EPackage getEPackage(Resource res, String fileName){
 		if(res.getContents().size() > 1 && moreThanOneAreEPackeges(res.getContents()))
 			return createNewSuperPackage(res.getContents(), fileName);
@@ -128,7 +127,7 @@ public class ConverterHelper {
 				superPackage.getESubpackages().add(ePackage);
 				if(ePackage.getNsPrefix() != null && "".equalsIgnoreCase(ePackage.getNsPrefix()) &&!superPackage.getNsPrefix().equals(ePackage.getNsPrefix()))
 					superPackage.setNsPrefix(ePackage.getNsPrefix());
-				
+
 				if(ePackage.getNsURI() != null && "".equalsIgnoreCase(ePackage.getNsURI()) && !superPackage.getNsURI().equals(ePackage.getNsURI()))
 					superPackage.setNsURI(ePackage.getNsURI());
 			}
@@ -147,7 +146,7 @@ public class ConverterHelper {
 		return false;
 	}
 
-	public static IProject getProject(final List<String> parts){		
+	public static IProject getProject(final List<String> parts){
 		List<IProject> projects = WorkspaceHelper.getAllProjectsInWorkspace();
 		for(IProject project : projects){
 			if(parts.contains(project.getName()))
@@ -155,7 +154,7 @@ public class ConverterHelper {
 		}
 		return null;
 	}
-	
+
 	public static IFile getLockFile(final IProject project, final List<String> parts){
 		if(project !=null && parts!=null && parts.size() > 1){
 			return project.getFile(parts.get(parts.size()-2) + LOCK_FILE_EXTENSION);

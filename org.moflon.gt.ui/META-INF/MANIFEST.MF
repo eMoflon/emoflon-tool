@@ -20,8 +20,8 @@ Require-Bundle: org.moflon.ide.ui,
  org.moflon.core.propertycontainer,
  org.moflon.ide.core,
  org.moflon.gt.ide,
- org.moflon.gt.mosl,
- org.moflon.gt.mosl.ide,
  org.moflon.sdm.compiler.democles,
  org.moflon.sdm.compiler.democles.validation.scope,
- org.moflon.sdm.compiler.eclipse
+ org.moflon.sdm.compiler.eclipse,
+ org.moflon.core.build,
+ org.moflon.core.preferences

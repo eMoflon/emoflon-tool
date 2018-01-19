@@ -18,21 +18,18 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.build.AbstractVisitorBuilder;
 import org.moflon.core.build.CleanVisitor;
+import org.moflon.core.preferences.EMoflonPreferencesActivator;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.utilities.ClasspathUtil;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.util.plugins.manifest.PluginXmlUpdater;
@@ -40,8 +37,6 @@ import org.moflon.util.plugins.manifest.PluginXmlUpdater;
 public class RepositoryBuilder extends AbstractVisitorBuilder
 {
    public static final Logger logger = Logger.getLogger(RepositoryBuilder.class);
-
-   protected boolean generateSDMs = true;
 
    public RepositoryBuilder()
    {
@@ -112,8 +107,8 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
             final IProject project = getProject();
             MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
-            makeSourceFolderIfNecessary(WorkspaceHelper.getGenFolder(getProject()));
-            makeSourceFolderIfNecessary(WorkspaceHelper.getInjectionFolder(getProject()));
+            ClasspathUtil.makeSourceFolderIfNecessary(WorkspaceHelper.getGenFolder(getProject()));
+            ClasspathUtil.makeSourceFolderIfNecessary(WorkspaceHelper.getInjectionFolder(getProject()));
 
             // Compute project dependencies
             final IBuildConfiguration[] referencedBuildConfigs = project.getReferencedBuildConfigs(project.getActiveBuildConfig().getName(), false);
@@ -130,11 +125,11 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
 
             // Build
-            final ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
+            final ResourceSet resourceSet = eMoflonEMFUtil.createDefaultResourceSet();
             eMoflonEMFUtil.installCrossReferencers(resourceSet);
             subMon.worked(1);
 
-            final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet, CoreActivator.getDefault().getPreferencesStorage());
+            final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet, EMoflonPreferencesActivator.getDefault().getPreferencesStorage());
 
             final IStatus status = codeGenerationTask.run(subMon.split(1));
             handleErrorsAndWarnings(status, ecoreFile);
@@ -190,7 +185,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
    {
       if (indicatesThatValidationCrashed(status))
       {
-         throw new CoreException(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), status.getMessage(), status.getException().getCause()));
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), status.getMessage(), status.getException().getCause()));
       }
       if (status.matches(IStatus.ERROR))
       {
@@ -203,40 +198,17 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       }
    }
 
-   /**
-    * Invokes {@link #makeSourceFolder(IProject, IFolder)} if {@link #isSourceFolder(IFolder)} returns false for the given folder
-    * @param folder the folder to be converted to a source folder
-    * @throws CoreException if analyzing the classpath fails
-    */
-   private void makeSourceFolderIfNecessary(final IFolder folder) throws CoreException
-   {
-      if (!isSourceFolder(folder))
-      {
-         makeSourceFolder(getProject(), folder);
-      }
-   }
 
    /**
     * Adds the given folder to the given project's classpath
     * @param project the project to be manipulated
     * @param folder the folder to be manipulated
     * @throws CoreException if analyzing the classpath fails
+    * @deprecated Use {@link ClasspathUtil#makeSourceFolder(IProject,IFolder)} instead
     */
-   private static void makeSourceFolder(final IProject project, final IFolder folder) throws CoreException
+   public static void makeSourceFolder(final IProject project, final IFolder folder) throws CoreException
    {
-      try
-      {
-         final IJavaProject javaProject = JavaCore.create(project);
-         final IClasspathEntry[] oldEntries = javaProject.getRawClasspath();
-         final IClasspathEntry[] newEntries = new IClasspathEntry[oldEntries.length + 1];
-         System.arraycopy(oldEntries, 0, newEntries, 0, oldEntries.length);
-         newEntries[oldEntries.length] = JavaCore.newSourceEntry(folder.getFullPath());
-         javaProject.setRawClasspath(newEntries, null);
-      } catch (final JavaModelException e)
-      {
-         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(MoflonProjectCreator.class),
-               String.format("%s happended while analyzing classpath: %s", e.getClass(), e.getMessage())));
-      }
+      ClasspathUtil.makeSourceFolder(folder);
    }
 
    /**
@@ -244,23 +216,11 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
     * @param folder the folder to be checked
     * @throws CoreException if analyzing the classpath fails
     * @see IJavaProject#getRawClasspath()
+    * @deprecated Use {@link ClasspathUtil#isSourceFolder(IFolder)} instead
     */
-   private static boolean isSourceFolder(final IFolder folder) throws CoreException
+   public static boolean isSourceFolder(final IFolder folder) throws CoreException
    {
-      final IJavaProject javaProject = JavaCore.create(folder.getProject());
-      try
-      {
-         for (final IClasspathEntry entry : javaProject.getRawClasspath())
-         {
-            if (entry.getPath().equals(folder.getFullPath()))
-               return true;
-         }
-      } catch (final JavaModelException e)
-      {
-         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(MoflonProjectCreator.class),
-               String.format("%s happended while analyzing classpath: %s", e.getClass(), e.getMessage())));
-      }
-      return false;
+      return ClasspathUtil.isSourceFolder(folder);
    }
 
    // Delete generated models within model folder
@@ -316,7 +276,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
    private void handleInjectionWarningsAndErrors(final IStatus status)
    {
-      final String reporterClass = "org.moflon.moca.inject.validation.InjectionErrorReporter";
+      final String reporterClass = "org.moflon.emf.injection.validation.InjectionErrorReporter";
       final ErrorReporter errorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(getProject(), reporterClass);
       if (errorReporter != null)
       {

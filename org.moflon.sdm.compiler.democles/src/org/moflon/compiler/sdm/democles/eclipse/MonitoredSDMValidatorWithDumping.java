@@ -2,7 +2,7 @@ package org.moflon.compiler.sdm.democles.eclipse;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
 
 public class MonitoredSDMValidatorWithDumping extends MonitoredSDMValidator
 {
@@ -11,7 +11,7 @@ public class MonitoredSDMValidatorWithDumping extends MonitoredSDMValidator
    {
       super(ecoreFile, preferencesStorage);
    }
-   
+
    @Override
    protected DemoclesValidationProcess createValidationProcess(ResourceSet resourceSet)
    {

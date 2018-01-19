@@ -12,9 +12,9 @@ Require-Bundle:
  org.gervarro.eclipse.task;bundle-version="[1.0.1,2.0.0)",
  org.moflon.sdm.democles.patternmatcher;bundle-version="[0.4.0,0.5.0)",
  org.moflon.core.utilities,
+ org.moflon.core.build,
  org.moflon.core.propertycontainer,
  SDMLanguage,
- org.moflon.core.moca.inject,
  org.moflon.sdm.runtime.democles,
  org.moflon.sdm.democles.literalexpressionsolver,
  org.moflon.core.dfs,
@@ -23,12 +23,13 @@ Require-Bundle:
  org.moflon.sdm.compiler.democles.validation.result,
  org.moflon.sdm.compiler.democles.validation.controlflow,
  org.moflon.sdm.compiler.eclipse,
- org.moflon.sdm.democles.reachability.javabdd
+ org.moflon.sdm.democles.reachability.javabdd,
+ org.moflon.emf.injection.ui,
+ org.moflon.core.preferences,
+ org.moflon.emf.codegen
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.compiler.sdm.democles,
  org.moflon.compiler.sdm.democles.eclipse,
- org.moflon.compiler.sdm.democles.stringtemplate,
- org.moflon.gt.democles.codegen
+ org.moflon.compiler.sdm.democles.stringtemplate
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: eMoflon Developers
-Bundle-Activator: org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin

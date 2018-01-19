@@ -35,7 +35,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -259,9 +258,9 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		}
 
 		final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(saveTargetName);
-		CodeGeneratorPlugin.createPluginToResourceMapping(resourceSet, project);
+		eMoflonEMFUtil.createPluginToResourceMapping(resourceSet, project);
 		URI relativePreEcoreXmiURI = URI.createURI(MoflonUtil.getDefaultPathToFileInProject(file, ".pre.ecore"));
-		URI projectURI = CodeGeneratorPlugin.lookupProjectURI(project);
+		URI projectURI = eMoflonEMFUtil.lookupProjectURI(project);
 		URI preEcoreXmiURI = relativePreEcoreXmiURI.resolve(projectURI);
 		Resource preEcoreResource = resourceSet.createResource(preEcoreXmiURI);
 		preEcoreResource.getContents().add(corrPackage);
