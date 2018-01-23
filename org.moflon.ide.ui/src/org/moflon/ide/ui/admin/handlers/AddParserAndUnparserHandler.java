@@ -10,6 +10,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.ui.AbstractCommandHandler;
+import org.moflon.core.ui.UiUtilities;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.ide.ui.UIActivator;
 
@@ -37,7 +39,7 @@ public class AddParserAndUnparserHandler extends AbstractCommandHandler
       {
          try
          {
-            UIActivator.openWizard(UIActivator.ADD_PARSER_AND_UNPARSER_WIZARD_ID, window, structuredSelection);
+            UiUtilities.openWizard(UIActivator.ADD_PARSER_AND_UNPARSER_WIZARD_ID, window, structuredSelection);
          } catch (final CoreException e)
          {
             LogUtils.error(logger, e, "unable to open wizard");

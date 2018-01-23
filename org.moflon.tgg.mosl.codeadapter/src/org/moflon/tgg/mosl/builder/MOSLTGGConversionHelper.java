@@ -35,6 +35,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.moflon.core.plugins.manifest.PluginURIToResourceURIRemapper;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -52,7 +53,6 @@ import org.moflon.tgg.mosl.tgg.Rule;
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile;
 import org.moflon.tgg.tggproject.TGGProject;
 import org.moflon.tgg.tggproject.TggprojectFactory;
-import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 public class MOSLTGGConversionHelper extends AbstractHandler {
 	private static Logger logger = Logger.getLogger(MOSLTGGConversionHelper.class);
@@ -74,7 +74,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 
 		/**
 		 * Returns true if the last but one suffix equals lastButOneSuffix
-		 * 
+		 *
 		 * @param uri
 		 *            the URI to check
 		 * @param lastButOneSuffix
@@ -88,16 +88,16 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 	}
 
 	public Resource generateTGGModel(final IResource resource) throws CoreException {
-		
-		
+
+
 		final IProject project = resource.getProject();
-		
-		//add default attribute conditions 
+
+		//add default attribute conditions
 		AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
 
 		final IFolder moslFolder = IFolder.class.cast(resource);
 		final XtextResourceSet resourceSet = new XtextResourceSet();
-		
+
 		Collection<TripleGraphGrammarFile> tggFiles = new HashSet<>();
 		collectTGGFiles(resourceSet, moslFolder, tggFiles);
 
@@ -146,7 +146,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 
 	/**
 	 * Loads a TGG grammar from the given folder.
-	 * 
+	 *
 	 * @param resourceSet
 	 * @param moslFolder
 	 * @return
@@ -303,7 +303,6 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 
 		SaveOptions.Builder options = SaveOptions.newBuilder();
 		options.format();
-		options.noValidation();
 		xtextResource.save(options.getOptions().toOptionsMap());
 	}
 

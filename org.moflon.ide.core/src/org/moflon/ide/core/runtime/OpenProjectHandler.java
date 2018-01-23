@@ -17,8 +17,16 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.common.util.URI;
 import org.gervarro.eclipse.workspace.autosetup.JavaProjectConfigurator;
 import org.gervarro.eclipse.workspace.autosetup.PluginProjectConfigurator;
+import org.gervarro.eclipse.workspace.autosetup.ProjectNatureAndBuilderConfiguratorTask;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.TGGLanguageActivator;
+import org.moflon.core.build.MoflonProjectCreator;
+import org.moflon.core.build.nature.MoflonProjectConfigurator;
+import org.moflon.core.plugins.BuildPropertiesFileBuilder;
+import org.moflon.core.plugins.PluginProperties;
+import org.moflon.core.plugins.manifest.ManifestFileUpdater;
+import org.moflon.core.plugins.manifest.ManifestFileUpdater.AttributeUpdatePolicy;
+import org.moflon.core.plugins.manifest.PluginManifestConstants;
 import org.moflon.core.propertycontainer.Dependencies;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.PropertiesValue;
@@ -27,23 +35,18 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
+import org.moflon.ide.core.project.ProjectCreatorFactory;
 import org.moflon.sdm.language.SDMLanguagePlugin;
 import org.moflon.tgg.runtime.TGGRuntimePlugin;
-import org.moflon.util.plugins.BuildPropertiesFileBuilder;
-import org.moflon.util.plugins.MetamodelProperties;
-import org.moflon.util.plugins.manifest.ManifestFileUpdater;
-import org.moflon.util.plugins.manifest.ManifestFileUpdater.AttributeUpdatePolicy;
-import org.moflon.util.plugins.manifest.PluginManifestConstants;
 
 import MocaTree.MocaTreeFactory;
 
 /**
  * This handler is invoked during the build process to update/configure open projects
- * 
+ *
  * @author Gergely Varro
  * @author Anthony Anjorin
- * @author Roland Kluge 
+ * @author Roland Kluge
  *
  * @see #run(IProgressMonitor)
  */
@@ -61,7 +64,7 @@ public class OpenProjectHandler extends WorkspaceTask
 
    private IProject project;
 
-   private MetamodelProperties metamodelProperties;
+   private PluginProperties metamodelProperties;
 
    private MoflonPropertiesContainer moflonProperties;
 
@@ -69,7 +72,8 @@ public class OpenProjectHandler extends WorkspaceTask
 
    private MoflonProjectConfigurator projectConfigurator;
 
-   public OpenProjectHandler(final IProject project, final MetamodelProperties metamodelProperties, final MoflonPropertiesContainer moflonProperties, MoflonProjectConfigurator projectConfigurator)
+   public OpenProjectHandler(final IProject project, final PluginProperties metamodelProperties, final MoflonPropertiesContainer moflonProperties,
+         MoflonProjectConfigurator projectConfigurator)
    {
       this.project = project;
       this.metamodelProperties = metamodelProperties;
@@ -99,7 +103,8 @@ public class OpenProjectHandler extends WorkspaceTask
 
       try
       {
-         MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
+         MoflonProjectCreator projectCreator = ProjectCreatorFactory.getProjectCreator(project, metamodelProperties, moflonProjectConfigurator);
+         projectCreator.createFoldersIfNecessary(project, subMon.split(1));
       } catch (final CoreException e)
       {
          logger.warn("Failed to create folders: " + e.getMessage());
@@ -145,33 +150,32 @@ public class OpenProjectHandler extends WorkspaceTask
                AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_MANIFEST_VERSION, DEFAULT_BUNDLE_MANIFEST_VERSION,
                AttributeUpdatePolicy.KEEP);
-         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME, metamodelProperties.get(MetamodelProperties.NAME_KEY),
+         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME, metamodelProperties.get(PluginProperties.NAME_KEY),
                AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_SYMBOLIC_NAME,
-               metamodelProperties.get(MetamodelProperties.PLUGIN_ID_KEY) + ";singleton:=true", AttributeUpdatePolicy.KEEP);
+               metamodelProperties.get(PluginProperties.PLUGIN_ID_KEY) + ";singleton:=true", AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VERSION, DEFAULT_BUNDLE_VERSION, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VENDOR, DEFAULT_BUNDLE_VENDOR, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_ACTIVATION_POLICY, "lazy", AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_EXECUTION_ENVIRONMENT,
-               metamodelProperties.get(MetamodelProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
+               metamodelProperties.get(PluginProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
 
          changed |= ManifestFileUpdater.updateDependencies(manifest, Arrays.asList(new String[] { WorkspaceHelper.PLUGIN_ID_ECORE,
                WorkspaceHelper.PLUGIN_ID_ECORE_XMI, WorkspaceHelper.getPluginId(MoflonUtilitiesActivator.class) }));
 
          changed |= ManifestFileUpdater.updateDependencies(manifest,
-               ManifestFileUpdater.extractDependencies(metamodelProperties.get(MetamodelProperties.DEPENDENCIES_KEY)));
+               ManifestFileUpdater.extractDependencies(metamodelProperties.get(PluginProperties.DEPENDENCIES_KEY)));
 
          try
          {
-            if (project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
-               changed |= ManifestFileUpdater.updateDependencies(manifest,
-                     Arrays.asList(new String[] { //
-                           WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, //
-                           WorkspaceHelper.getPluginId(MocaTreeFactory.class), //
-                           WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, //
-                           WorkspaceHelper.getPluginId(SDMLanguagePlugin.class), //
-                           WorkspaceHelper.getPluginId(TGGLanguageActivator.class), //
-                           WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) //
+            if (WorkspaceHelper.isIntegrationProject(project))
+               changed |= ManifestFileUpdater.updateDependencies(manifest, Arrays.asList(new String[] { //
+                     WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, //
+                     WorkspaceHelper.getPluginId(MocaTreeFactory.class), //
+                     WorkspaceHelper.PLUGIN_ID_ECLIPSE_RUNTIME, //
+                     WorkspaceHelper.getPluginId(SDMLanguagePlugin.class), //
+                     WorkspaceHelper.getPluginId(TGGLanguageActivator.class), //
+                     WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) //
                }));
          } catch (Exception e)
          {

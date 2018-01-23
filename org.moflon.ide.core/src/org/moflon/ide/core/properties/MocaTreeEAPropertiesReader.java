@@ -18,9 +18,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Attribute;
 import MocaTree.Node;
@@ -37,7 +37,7 @@ public class MocaTreeEAPropertiesReader
    /**
     * Extracts the specification metadata from the MOCA tree in the .temp folder
     */
-   public Map<String, MetamodelProperties> getProperties(final IProject metamodelProject) throws CoreException
+   public Map<String, PluginProperties> getProperties(final IProject metamodelProject) throws CoreException
    {
       IFile mocaFile = WorkspaceHelper.getExportedMocaTree(metamodelProject);
 
@@ -51,7 +51,7 @@ public class MocaTreeEAPropertiesReader
          URI mocaFileURI = URI.createPlatformResourceURI(mocaFile.getFullPath().toString(), true);
          Resource mocaTreeResource = set.getResource(mocaFileURI, true);
          mocaTree = (Node) mocaTreeResource.getContents().get(0);
-         Map<String, MetamodelProperties> properties = getProperties(mocaTree);
+         Map<String, PluginProperties> properties = getProperties(mocaTree);
          properties.keySet().forEach(p->properties.get(p).setMetamodelProjectName(metamodelProject.getName()));
          return properties;
       } else
@@ -60,10 +60,10 @@ public class MocaTreeEAPropertiesReader
       }
    }
 
-   public Map<String, MetamodelProperties> getProperties(final Node rootNode) throws CoreException
+   public Map<String, PluginProperties> getProperties(final Node rootNode) throws CoreException
    {
       this.mocaTree = rootNode;
-      Map<String, MetamodelProperties> propertiesMap = new HashMap<>();
+      Map<String, PluginProperties> propertiesMap = new HashMap<>();
       Node exportedTree = (Node) rootNode.getChildren().get(0);
 
       assert "exportedTree".equals(exportedTree.getName());
@@ -72,33 +72,33 @@ public class MocaTreeEAPropertiesReader
       for (final Text rootText : rootPackages)
       {
          final Node rootPackage = (Node) rootText;
-         MetamodelProperties properties = getProjectProperties(rootPackage);
-         propertiesMap.put(properties.get(MetamodelProperties.PLUGIN_ID_KEY), properties);
+         PluginProperties properties = getProjectProperties(rootPackage);
+         propertiesMap.put(properties.get(PluginProperties.PLUGIN_ID_KEY), properties);
       }
 
       return propertiesMap;
    }
 
-   public MetamodelProperties getProjectProperties(final Node rootNode) throws CoreException
+   public PluginProperties getProjectProperties(final Node rootNode) throws CoreException
    {
-      final MetamodelProperties properties = new MetamodelProperties();
+      final PluginProperties properties = new PluginProperties();
 
-      properties.put(MetamodelProperties.NAME_KEY, getValueForProperty("Moflon::Name", rootNode));
-      properties.put(MetamodelProperties.NAME_KEY, getValueForProperty("Moflon::NsPrefix", rootNode));
-      properties.put(MetamodelProperties.NS_URI_KEY, getValueForProperty("Moflon::NsUri", rootNode));
-      properties.put(MetamodelProperties.PLUGIN_ID_KEY, getValueForProperty("Moflon::PluginID", rootNode));
-      properties.put(MetamodelProperties.EXPORT_FLAG_KEY, getValueForProperty("Moflon::Export", rootNode));
-      properties.put(MetamodelProperties.VALIDATED_FLAG_KEY, getValueForProperty("Moflon::Validated", rootNode));
-      properties.put(MetamodelProperties.WORKING_SET_KEY, getValueForProperty("Moflon::WorkingSet", rootNode));
+      properties.put(PluginProperties.NAME_KEY, getValueForProperty("Moflon::Name", rootNode));
+      properties.put(PluginProperties.NAME_KEY, getValueForProperty("Moflon::NsPrefix", rootNode));
+      properties.put(PluginProperties.NS_URI_KEY, getValueForProperty("Moflon::NsUri", rootNode));
+      properties.put(PluginProperties.PLUGIN_ID_KEY, getValueForProperty("Moflon::PluginID", rootNode));
+      properties.put(PluginProperties.EXPORT_FLAG_KEY, getValueForProperty("Moflon::Export", rootNode));
+      properties.put(PluginProperties.VALIDATED_FLAG_KEY, getValueForProperty("Moflon::Validated", rootNode));
+      properties.put(PluginProperties.WORKING_SET_KEY, getValueForProperty("Moflon::WorkingSet", rootNode));
       properties.setHasAttributeConstraints(containsAttributeConstraintsNode(rootNode));
 
       switch (rootNode.getName())
       {
       case "EPackage":
-         properties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.REPOSITORY_KEY);
+         properties.put(PluginProperties.TYPE_KEY, PluginProperties.REPOSITORY_PROJECT);
          break;
       case "TGG":
-         properties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.INTEGRATION_KEY);
+         properties.put(PluginProperties.TYPE_KEY, PluginProperties.INTEGRATION_PROJECT);
          break;
       default:
          logger.warn("Unknown node type in Moca tree: " + rootNode.getName());

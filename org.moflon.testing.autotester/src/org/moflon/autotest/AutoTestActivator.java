@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.moflon.autotest.core.WorkspaceInstaller;
-import org.moflon.ide.ui.MoflonPerspective;
+import org.moflon.core.ui.MoflonPerspective;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 

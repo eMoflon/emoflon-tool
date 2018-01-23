@@ -4,9 +4,9 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.moflon.core.plugins.PluginProperties;
 import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
-import org.moflon.util.plugins.MetamodelProperties;
 
 /**
  * Base class for all DTOs that are used to pass data to hooks during an invocation of the {@link MetamodelBuilder}
@@ -25,7 +25,7 @@ public abstract class MetamodelBuilderHookDTO
    /**
     * Returns the mapping of project name to project metadata from the MOCA tree of the specification
     */
-   public final Map<String, MetamodelProperties> extractRepositoryProjectProperties() throws CoreException
+   public final Map<String, PluginProperties> extractRepositoryProjectProperties() throws CoreException
    {
       return this.mocaTreeReader.getProperties(this.metamodelproject);
    }

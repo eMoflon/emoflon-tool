@@ -10,7 +10,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.codegen.AbstractMoflonClassGeneratorAdapter;
+import org.moflon.emf.codegen.AbstractMoflonClassGeneratorAdapter;
 
 public class MoflonGenClass extends GenClassImpl {
 	

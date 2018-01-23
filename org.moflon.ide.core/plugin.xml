@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="org.moflon.extensionpoints.premetamodelbuilderhook" name="Pre-Metamodel Builder Hook" schema="schema/org.moflon.extensionpoints.premetamodelbuilderhook.exsd"/>
-   <extension-point id="org.moflon.extensionpoints.postmetamodelbuilderhook" name="Post-Metamodel Builder Hook" schema="schema/org.moflon.extensionpoints.postmetamodelbuilderhook.exsd"/>
+   <extension-point id="org.moflon.extensionpoints.premetamodelbuilderhook" name="Pre-Metamodel-Builder Hook" schema="schema/org.moflon.extensionpoints.premetamodelbuilderhook.exsd"/>
+   <extension-point id="org.moflon.extensionpoints.postmetamodelbuilderhook" name="Post-Metamodel-Builder Hook" schema="schema/org.moflon.extensionpoints.postmetamodelbuilderhook.exsd"/>
 
    <extension
          id="org.moflon.ide.core.runtime.natures.MetamodelNature"
@@ -19,7 +19,7 @@
    </extension>
    <extension
          id="org.moflon.ide.core.runtime.natures.RepositoryNature"
-         name="Repository Nature"         
+         name="Repository Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
@@ -30,7 +30,7 @@
             id="org.moflon.ide.core.runtime.builders.RepositoryBuilder">
       </builder>
       <one-of-nature
-            id="org.moflon.ide.core.runtime.natures.MoflonNature">
+            id="org.moflon.core.ui.runtime.natures.MoflonNature">
       </one-of-nature>
       <requires-nature
             id="org.eclipse.jdt.core.javanature">
@@ -44,14 +44,14 @@
          <run class="org.moflon.ide.core.runtime.natures.IntegrationNature">
          </run>
       </runtime>
-      
+
       <requires-nature
             id="org.eclipse.jdt.core.javanature">
       </requires-nature><builder
             id="org.moflon.ide.core.runtime.builders.IntegrationBuilder">
       </builder>
       <one-of-nature
-            id="org.moflon.ide.core.runtime.natures.MoflonNature">
+            id="org.moflon.core.ui.runtime.natures.MoflonNature">
       </one-of-nature>
    </extension>
    <extension

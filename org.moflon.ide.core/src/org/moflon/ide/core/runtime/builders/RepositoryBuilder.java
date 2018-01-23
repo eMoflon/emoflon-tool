@@ -23,6 +23,9 @@ import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.build.AbstractVisitorBuilder;
 import org.moflon.core.build.CleanVisitor;
+import org.moflon.core.build.MoflonProjectCreator;
+import org.moflon.core.plugins.manifest.ExportedPackagesInManifestUpdater;
+import org.moflon.core.plugins.manifest.PluginXmlUpdater;
 import org.moflon.core.preferences.EMoflonPreferencesActivator;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
@@ -30,9 +33,7 @@ import org.moflon.core.utilities.ClasspathUtil;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.ide.core.runtime.MoflonProjectCreator;
-import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
-import org.moflon.util.plugins.manifest.PluginXmlUpdater;
+import org.moflon.ide.core.project.RepositoryProjectCreator;
 
 public class RepositoryBuilder extends AbstractVisitorBuilder
 {
@@ -98,7 +99,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
    @Override
    protected void processResource(final IResource ecoreResource, final int kind, Map<String, String> args, final IProgressMonitor monitor)
    {
-      if (isEcoreFile(ecoreResource))
+      if (eMoflonEMFUtil.isEcoreFile(ecoreResource))
       {
          final IFile ecoreFile = Platform.getAdapterManager().getAdapter(ecoreResource, IFile.class);
          try
@@ -106,7 +107,8 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 13);
 
             final IProject project = getProject();
-            MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
+            RepositoryProjectCreator projectCreator = new RepositoryProjectCreator(project, null, null);
+            projectCreator.createFoldersIfNecessary(project, subMon.split(1));
             ClasspathUtil.makeSourceFolderIfNecessary(WorkspaceHelper.getGenFolder(getProject()));
             ClasspathUtil.makeSourceFolderIfNecessary(WorkspaceHelper.getInjectionFolder(getProject()));
 
@@ -152,20 +154,18 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       }
    }
 
-   protected boolean isEcoreFile(final IResource ecoreResource)
-   {
-      return ecoreResource.getType() == IResource.FILE && "ecore".equals(ecoreResource.getFileExtension());
-   }
-
+   /**
+    * This is externally triggered if new code is generated in other repository or integration projects or if an exported metamodel changes
+    */
    @Override
    protected final AntPatternCondition getTriggerCondition(final IProject project)
    {
       try
       {
-         if (project.hasNature(WorkspaceHelper.REPOSITORY_NATURE_ID) || project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
+         if (WorkspaceHelper.isRepositoryProject(project) || WorkspaceHelper.isIntegrationProject(project))
          {
             return new AntPatternCondition(new String[] { "gen/**" });
-         } else if (project.hasNature(WorkspaceHelper.METAMODEL_NATURE_ID))
+         } else if (WorkspaceHelper.isMetamodelProject(project))
          {
             return new AntPatternCondition(new String[] { ".temp/*.moca.xmi" });
          }

@@ -26,7 +26,10 @@ Require-Bundle:
  org.moflon.sdm.democles.reachability.javabdd,
  org.moflon.emf.injection.ui,
  org.moflon.core.preferences,
- org.moflon.emf.codegen
+ org.moflon.emf.codegen,
+ org.moflon.emf.injection.ide,
+ org.moflon.core.ui,
+ org.moflon.emf.build
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.compiler.sdm.democles,
  org.moflon.compiler.sdm.democles.eclipse,

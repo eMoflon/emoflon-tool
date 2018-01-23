@@ -16,4 +16,5 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="[3.8.101,4.0.0)",
  org.moflon.sdm.compiler.eclipse,
  org.moflon.sdm.compiler.democles.validation.scope,
  org.moflon.core.build,
- org.moflon.core.preferences
+ org.moflon.core.preferences,
+ org.moflon.emf.build

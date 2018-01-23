@@ -18,12 +18,13 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.moflon.core.build.MonitoredMetamodelLoader;
 import org.moflon.core.ecore2mocaxmi.Ecore2MocaXMIConverter;
 import org.moflon.core.ecore2mocaxmi.Ecore2mocaxmiFactory;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.emf.dependency.PackageRemappingDependency;
+import org.moflon.emf.build.MonitoredMetamodelLoader;
+import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
+
 import MocaTree.Node;
 
 public class ConverterHelper {
@@ -55,7 +56,7 @@ public class ConverterHelper {
 			protected void createResourcesForWorkspaceProjects(IProgressMonitor monitor) {
 				super.createResourcesForWorkspaceProjects(monitor);
 				if (isValidProject(ecoreFile.getProject())) {
-              	  new PackageRemappingDependency(URI.createURI(ecoreFile.getLocation().toOSString()), false, false).getResource(resourceSet, false, true);
+              	  new PackageRemappingDependency(URI.createURI(ecoreFile.getLocation().toOSString()), false, false).getResource(getResourceSet(), false, true);
 				}
 			}
 

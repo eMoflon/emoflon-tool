@@ -13,7 +13,7 @@ package org.moflon.eclipse.resource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.moflon.emf.dependency.SDMEnhancedEcoreResource;
+import org.moflon.emf.codegen.dependency.SDMEnhancedEcoreResource;
 
 public class SDMEnhancedEcoreResourceFactory extends XMIResourceFactoryImpl
 {

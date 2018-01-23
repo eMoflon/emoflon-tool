@@ -24,19 +24,19 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
-import org.moflon.codegen.CodeGenerator;
 import org.moflon.codegen.MethodBodyHandler;
-import org.moflon.core.build.GenericMoflonProcess;
-import org.moflon.core.build.MonitoredGenModelBuilder;
 import org.moflon.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.emf.injection.build.CodeInjector;
+import org.moflon.emf.build.GenericMoflonProcess;
+import org.moflon.emf.build.MonitoredGenModelBuilder;
+import org.moflon.emf.codegen.CodeGenerator;
 import org.moflon.emf.injection.build.CodeInjectorImpl;
-import org.moflon.emf.injection.build.InjectionExtractor;
-import org.moflon.emf.injection.build.InjectionManager;
 import org.moflon.emf.injection.build.XTextInjectionExtractor;
+import org.moflon.emf.injection.ide.CodeInjector;
+import org.moflon.emf.injection.ide.InjectionExtractor;
+import org.moflon.emf.injection.ide.InjectionManager;
 import org.moflon.sdm.injection.CompilerInjectionExtractorImpl;
 
 public class MoflonCodeGenerator extends GenericMoflonProcess

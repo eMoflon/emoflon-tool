@@ -16,9 +16,9 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.emf.dependency.DependencyTypes;
-import org.moflon.emf.dependency.PackageRemappingDependency;
-import org.moflon.emf.dependency.SDMEnhancedEcoreResource;
+import org.moflon.emf.codegen.dependency.DependencyTypes;
+import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
+import org.moflon.emf.codegen.dependency.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 

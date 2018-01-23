@@ -13,7 +13,7 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.emf.dependency.PackageRemappingDependency;
+import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
 import org.moflon.tgg.language.TripleGraphGrammar;
 
 public class TripleGraphGrammarLoader implements ITask {

@@ -2,10 +2,8 @@ package org.moflon.ide.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -173,22 +171,6 @@ public class CoreActivator extends Plugin
          }
       }
       return result.toArray(new IProject[result.size()]);
-   }
-
-   public static final IBuildConfiguration[] getDefaultBuildConfigurations(final Collection<IProject> projects)
-   {
-      final List<IBuildConfiguration> result = new ArrayList<IBuildConfiguration>(projects.size());
-      for (IProject project : projects)
-      {
-         try
-         {
-            result.add(project.getBuildConfig(IBuildConfiguration.DEFAULT_CONFIG_NAME));
-         } catch (final CoreException e)
-         {
-            // Do nothing (i.e., ignore erroneous projects)
-         }
-      }
-      return result.toArray(new IBuildConfiguration[result.size()]);
    }
 
    public static final void setEPackageURI(final EPackage ePackage) {

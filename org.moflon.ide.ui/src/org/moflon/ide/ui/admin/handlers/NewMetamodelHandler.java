@@ -4,6 +4,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.ui.AbstractCommandHandler;
+import org.moflon.core.ui.UiUtilities;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.ide.ui.UIActivator;
 
@@ -20,7 +22,7 @@ public class NewMetamodelHandler extends AbstractCommandHandler
       
       try
       {
-         UIActivator.openWizard(UIActivator.NEW_METAMODEL_WIZARD_ID, window);
+         UiUtilities.openWizard(UIActivator.NEW_METAMODEL_WIZARD_ID, window);
       } catch (final Exception e)
       {
          LogUtils.error(logger, e, "Unable to open 'New meta-model' wizard");

@@ -17,27 +17,29 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.core.build.MoflonProjectCreator;
+import org.moflon.core.build.nature.MoflonProjectConfigurator;
+import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.project.ProjectCreatorFactory;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
-import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
-import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Node;
 
 public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFillingMocaToMoflonTransformation
 {
-   private final Map<String, MetamodelProperties> propertiesMap;
+   private final Map<String, PluginProperties> propertiesMap;
 
    private final IProgressMonitor monitor;
 
    public ResourceFillingMocaToMoflonTransformation(final ResourceSet resourceSet, final MetamodelBuilder resourceSetProcessor, final IProject metamodelProject,
-         final Map<String, MetamodelProperties> propertiesMap, final IProgressMonitor progressMonitor)
+         final Map<String, PluginProperties> propertiesMap, final IProgressMonitor progressMonitor)
    {
       super(resourceSet, resourceSetProcessor, metamodelProject);
       this.monitor = progressMonitor;
@@ -59,8 +61,8 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 
    protected void handleMissingProject(final Node node, final IProject project)
    {
-      final MetamodelProperties properties = propertiesMap.get(project.getName());
-      final MoflonProjectCreator moflonProjectCreator = new MoflonProjectCreator(project, properties, determineProjectConfigurator(properties));
+      final PluginProperties properties = propertiesMap.get(project.getName());
+      final MoflonProjectCreator moflonProjectCreator = ProjectCreatorFactory.getProjectCreator(project, properties, determineProjectConfigurator(properties));
       try
       {
          WorkspaceTask.executeInCurrentThread(moflonProjectCreator, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
@@ -70,18 +72,14 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       }
    }
 
-   //TODO@rkluge: This hack is one place where modularity of GT/TGG is broken.
-   // Still, we will not invest any more time here because the Moca-to-eMoflon component will be given up in the future.
-   private MoflonProjectConfigurator determineProjectConfigurator(final MetamodelProperties metamodelProperties)
+   private MoflonProjectConfigurator determineProjectConfigurator(final PluginProperties metamodelProperties)
    {
       switch (metamodelProperties.getType())
       {
-      case MetamodelProperties.INTEGRATION_KEY:
+      case PluginProperties.INTEGRATION_PROJECT:
          return new IntegrationNature();
-      case MetamodelProperties.REPOSITORY_KEY:
+      case PluginProperties.REPOSITORY_PROJECT:
          return new RepositoryNature();
-      case MetamodelProperties.MOSLGT_REPOSITORY_KEY:
-         return null;
       default:
          return null;
       }
@@ -100,14 +98,14 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 
    protected void handleOpenProject(final Node node, final IProject project)
    {
-      final MetamodelProperties properties = propertiesMap.get(project.getName());
+      final PluginProperties properties = propertiesMap.get(project.getName());
       final String expectedNatureId;
       if (properties.isIntegrationProject())
       {
-         expectedNatureId = WorkspaceHelper.INTEGRATION_NATURE_ID;
+         expectedNatureId = IntegrationNature.getId();
       } else if (properties.isRepositoryProject())
       {
-         expectedNatureId = WorkspaceHelper.REPOSITORY_NATURE_ID;
+         expectedNatureId = RepositoryNature.getId();
       } else
       {
          expectedNatureId = null;

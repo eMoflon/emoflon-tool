@@ -2,6 +2,7 @@ package org.moflon.ide.ui.admin.handlers;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.moflon.core.ui.AbstractCommandHandler;
 
 /**
  * Null implementation of {@link AbstractCommandHandler}

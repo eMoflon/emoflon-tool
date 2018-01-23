@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.moflon.core.ecore2mocaxmi.utils.ConverterHelper;
+import org.moflon.core.ui.AbstractCommandHandler;
 
 import MocaTree.Node;
 

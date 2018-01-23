@@ -1,5 +1,7 @@
 package org.moflon.ide.ui.admin.wizards.metamodel;
 
+import org.moflon.core.ui.AbstractMoflonProjectInfoPage;
+
 /**
  * Used by {@link NewMetamodelWizard}. Contains all GUI controls for the wizard page.
  * 

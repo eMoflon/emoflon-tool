@@ -12,10 +12,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
-import org.moflon.core.build.GenericMoflonProcess;
 import org.moflon.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.emf.build.GenericMoflonProcess;
 
 public class DemoclesValidationProcess extends GenericMoflonProcess
 {

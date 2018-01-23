@@ -6,8 +6,8 @@ import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
+import org.moflon.core.build.nature.ProjectConfiguratorNature;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.runtime.natures.ProjectConfiguratorNature;
 
 public class MOSLTGGNature extends ProjectConfiguratorNature {
 	@Override

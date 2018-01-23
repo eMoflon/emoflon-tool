@@ -43,14 +43,15 @@ import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
+import org.moflon.core.build.BuildUtilities;
+import org.moflon.core.build.ProjectBuilderTask;
+import org.moflon.core.build.TaskUtilities;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.ProgressMonitorUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
-import org.moflon.ide.core.tasks.ProjectBuilderTask;
-import org.moflon.ide.core.tasks.TaskUtilities;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 import org.moflon.ide.workspaceinstaller.psf.PsfFileUtils;
 
@@ -529,7 +530,7 @@ public class WorkspaceInstaller
 
    private static final IBuildConfiguration[] getDefaultBuildConfigurations(final IProject[] projects)
    {
-      return CoreActivator.getDefaultBuildConfigurations(Arrays.asList(projects));
+      return BuildUtilities.getDefaultBuildConfigurations(Arrays.asList(projects));
    }
 
    public Collection<IProject> collectTestProjects()

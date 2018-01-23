@@ -1,6 +1,5 @@
 package org.moflon.compiler.sdm.democles.eclipse;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -10,9 +9,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.moflon.codegen.eclipse.ValidationStatus;
-import org.moflon.core.utilities.ErrorReporter;
-import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.ui.errorhandling.MultiStatusAwareErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
@@ -26,68 +23,26 @@ import SDMLanguage.activities.StopNode;
 import SDMLanguage.calls.callExpressions.MethodCallExpression;
 import SDMLanguage.expressions.LiteralExpression;
 
-public class EclipseErrorReporter implements ErrorReporter
+public class EclipseErrorReporter extends MultiStatusAwareErrorReporter
 {
-   private static final Logger logger = Logger.getLogger(EclipseErrorReporter.class);
-
    private IFile file;
 
    public EclipseErrorReporter(final IFile ecoreFile)
    {
-      this.file = ecoreFile;
+      super(ecoreFile);
    }
 
    @Override
-   public void report(final IStatus status)
+   public void reportLeafStatus(final IStatus status) throws CoreException
    {
-      if (status != null && !status.matches(IStatus.OK))
+      if (status instanceof ValidationStatus)
       {
-         if (status.isMultiStatus())
-         {
-            for (final IStatus childStatus : status.getChildren())
-            {
-               report(childStatus);
-            }
-         } else
-         {
-            try
-            {
-               if (status instanceof ValidationStatus)
-               {
-                  final ErrorMessage errorMsg = ((ValidationStatus) status).getErrorMessage();
-                  createMarker(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, errorMsg);
-               } else
-               {
-                  final IMarker validationMarker = file.createMarker(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID);
-                  validationMarker.setAttribute(IMarker.MESSAGE, status.getMessage());
-                  // validationMarker.setAttribute(IMarker.LOCATION, getLocationDescription(message));
-                  validationMarker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-                  validationMarker.setAttribute(IMarker.SEVERITY, convertStatusSeverityToEclipseMarkerSeverity(status.getSeverity()));
-                  LogUtils.error(logger, status.getMessage());
-               }
-            } catch (final CoreException e)
-            {
-               LogUtils.error(logger, e, "Problem while reporting eMoflon errors in Eclipse: " + MoflonUtil.displayExceptionAsString(e));
-            }
-         }
+         final ErrorMessage errorMsg = ((ValidationStatus) status).getErrorMessage();
+         createMarker(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, errorMsg);
+      } else
+      {
+         super.reportLeafStatus(status);
       }
-   }
-
-   public static final int convertStatusSeverityToEclipseMarkerSeverity(final int value) throws CoreException
-   {
-      if (value >= IStatus.ERROR)
-      {
-         return IMarker.SEVERITY_ERROR;
-      } else if (value >= IStatus.WARNING)
-      {
-         return IMarker.SEVERITY_WARNING;
-      } else if (value >= IStatus.INFO)
-      {
-         return IMarker.SEVERITY_INFO;
-      }
-      final IStatus invalidSeverityConversion = new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(EclipseErrorReporter.class),
-            "Cannot convert status severity value " + value + " to a marker");
-      throw new CoreException(invalidSeverityConversion);
    }
 
    private String getLocationDescription(final ErrorMessage message)

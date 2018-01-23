@@ -9,8 +9,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.ui.INewWizard;
+import org.moflon.core.ui.AbstractMoflonWizard;
 import org.moflon.ide.ui.WorkspaceHelperUI;
-import org.moflon.ide.ui.admin.wizards.metamodel.AbstractMoflonWizard;
 import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
 
 public class NewTGGRuleWizard extends AbstractMoflonWizard implements INewWizard {

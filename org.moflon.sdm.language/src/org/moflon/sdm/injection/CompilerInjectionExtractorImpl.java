@@ -23,8 +23,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.emf.injection.build.CodeInjectionPlugin;
-import org.moflon.emf.injection.build.InjectionExtractor;
+import org.moflon.emf.injection.ide.InjectionExtractor;
+import org.moflon.emf.injection.ide.InjectionUtilities;
 
 import SDMLanguage.sdmUtil.CompilerInjection;
 import SDMLanguage.sdmUtil.ImportInjectionEntry;
@@ -102,7 +102,7 @@ public class CompilerInjectionExtractorImpl implements InjectionExtractor
       for (GenClass genClass : genPackage.getGenClasses())
       {
          EClass eClass = genClass.getEcoreClass();
-         genClassNameToEClass.put(eClass, CodeInjectionPlugin.getClassName(genClass));
+         genClassNameToEClass.put(eClass, InjectionUtilities.getClassName(genClass));
       }
    }
 

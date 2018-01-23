@@ -24,7 +24,7 @@
                <visibleWhen
                      checkEnabled="false">
                   <reference
-                        definitionId="org.moflon.ide.ui.definitions.isMoflonPerspective">
+                        definitionId="org.moflon.core.ui.definitions.isMoflonPerspective">
                   </reference>
                </visibleWhen>
             </command>

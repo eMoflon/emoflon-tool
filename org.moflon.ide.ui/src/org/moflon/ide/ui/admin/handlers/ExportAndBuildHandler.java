@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.ui.AbstractCommandHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
 import org.moflon.ide.ui.UIActivator;

@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.propertycontainer.PropertiesValue;
-import org.moflon.emf.dependency.Dependency;
+import org.moflon.emf.codegen.dependency.Dependency;
 
 public interface DependencyHandler
 {

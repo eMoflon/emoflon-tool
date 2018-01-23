@@ -27,6 +27,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator;
 import org.moflon.core.preferences.EMoflonPreferencesActivator;
+import org.moflon.core.ui.AbstractCommandHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 

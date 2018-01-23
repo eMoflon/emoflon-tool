@@ -35,16 +35,17 @@ import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.core.build.AbstractVisitorBuilder;
 import org.moflon.core.mocatomoflon.Exporter;
+import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.ProblemMarkerUtil;
 import org.moflon.core.utilities.ProgressMonitorUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.emf.dependency.SDMEnhancedEcoreResource;
+import org.moflon.emf.codegen.dependency.SDMEnhancedEcoreResource;
+import org.moflon.ide.core.project.MetamodelProjectCreator;
 import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.CleanMocaToMoflonTransformation;
-import org.moflon.ide.core.runtime.MoflonProjectCreator;
 import org.moflon.ide.core.runtime.ProjectDependencyAnalyzer;
 import org.moflon.ide.core.runtime.ResourceFillingMocaToMoflonTransformation;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
@@ -52,7 +53,6 @@ import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
 import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHookDTO;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
-import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Node;
 
@@ -111,7 +111,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
          {
             deleteProblemMarkers();
 
-            MoflonProjectCreator.addGitignoreFileForMetamodelProject(getProject(), subMon.split(1));
+            MetamodelProjectCreator.addGitignoreFileForMetamodelProject(getProject(), subMon.split(1));
 
             final URI workspaceURI = URI.createPlatformResourceURI("/", true);
             final URI projectURI = URI.createURI(getProject().getName() + "/", true).resolve(workspaceURI);
@@ -126,7 +126,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             final Node mocaTree = (Node) mocaTreeResource.getContents().get(0);
 
             final MocaTreeEAPropertiesReader mocaTreeReader = new MocaTreeEAPropertiesReader();
-            final Map<String, MetamodelProperties> properties = mocaTreeReader.getProperties(getProject());
+            final Map<String, PluginProperties> properties = mocaTreeReader.getProperties(getProject());
 
             createInfoFile(properties, mocaTree);
             callPreBuildHooks(properties, mocaTreeReader);
@@ -230,15 +230,9 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
    @Override
    protected final AntPatternCondition getTriggerCondition(final IProject project)
    {
-      try
+      if (WorkspaceHelper.isRepositoryProjectNoThrow(project) || WorkspaceHelper.isIntegrationProjectNoThrow(project))
       {
-         if (project.hasNature(WorkspaceHelper.REPOSITORY_NATURE_ID) || project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
-         {
-            return new AntPatternCondition(new String[] { "model/*.ecore" });
-         }
-      } catch (final CoreException e)
-      {
-         // Do nothing
+         return new AntPatternCondition(new String[] { "model/*.ecore" });
       }
       return new AntPatternCondition(new String[0]);
    }
@@ -246,7 +240,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
    /**
     * Creates the file projectInformation.txt in the .temp folder.
     */
-   private void createInfoFile(final Map<String, MetamodelProperties> properties, final Node mocaTree)
+   private void createInfoFile(final Map<String, PluginProperties> properties, final Node mocaTree)
    {
       IProject metamodelProject = getProject();
       IFile file = metamodelProject.getFile(WorkspaceHelper.TEMP_FOLDER + "/projectInformation.txt");
@@ -255,7 +249,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
       Collections.sort(projectNames);
       for (final String projectName : projectNames)
       {
-         final MetamodelProperties metamodelProperties = properties.get(projectName);
+         final PluginProperties metamodelProperties = properties.get(projectName);
          final String projectType = metamodelProperties.getType().substring(0, 1);
          final String isExported = Boolean.toString(metamodelProperties.isExported());
          sb.append(String.format("%s [type=%s, exported=%s, nsUri=%s]\n", projectName, projectType, isExported, metamodelProperties.getNsUri()));
@@ -288,7 +282,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
    /**
     * This method delegates to the registered extensions of the "Pre-MetamodelBuilder" extension points
     */
-   private final void callPreBuildHooks(final Map<String, MetamodelProperties> properties, final MocaTreeEAPropertiesReader mocaTreeReader)
+   private final void callPreBuildHooks(final Map<String, PluginProperties> properties, final MocaTreeEAPropertiesReader mocaTreeReader)
    {
       final IConfigurationElement[] extensions = Platform.getExtensionRegistry().getConfigurationElementsFor(PreMetamodelBuilderHook.PRE_BUILD_EXTENSION_ID);
       for (final IConfigurationElement extension : extensions)

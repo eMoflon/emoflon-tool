@@ -6,7 +6,7 @@ import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
 import org.moflon.compiler.sdm.democles.eclipse.DemoclesValidationProcess;
 import org.moflon.compiler.sdm.democles.reversenavigation.ReverseNavigationCodeGeneratorConfig;
-import org.moflon.core.build.GenericMoflonProcess;
+import org.moflon.emf.build.GenericMoflonProcess;
 
 public class ReverseNavigationAdapterFactory implements IAdapterFactory
 {

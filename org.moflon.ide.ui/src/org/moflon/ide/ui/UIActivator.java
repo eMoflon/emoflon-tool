@@ -1,14 +1,6 @@
 package org.moflon.ide.ui;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -21,67 +13,40 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.IWorkbenchWizard;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.ui.console.MoflonConsole;
 import org.moflon.ide.ui.decorators.MoflonProjectDecorator;
 import org.osgi.framework.BundleContext;
 
 /**
  * The Activator controls the plug-in life cycle and contains state and functionality that can be used throughout the
  * plugin. Constants used in various places in the plugin should also be defined in the Activator.
- * 
+ *
  */
 public class UIActivator extends AbstractUIPlugin
 {
-
    private static Logger logger = Logger.getLogger(UIActivator.class);
 
-   // The shared instance
-   private static UIActivator plugin;
-
    // IDs used in plugin (have to be synchronized with values in plugin.xml)
-
    public static final String NEW_METAMODEL_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard";
 
    public static final String ADD_PARSER_AND_UNPARSER_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard";
 
    public static final String NEW_TESTFRAMEWORK_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.testframework.NewTestframeworkWizard";
 
-   // Log4J file
-   private static final String LOG4J_CONFIG_PROPERTIES = "log4jConfig.properties";
-
-   // Default resources path
-   private static final String RESOURCES_DEFAULT_FILES_PATH = "resources/defaultFiles/";
-
-   // The config file used for logging in plugin
-   private File configFile;
-
    @Override
    public void start(final BundleContext context) throws Exception
    {
       super.start(context);
-      plugin = this;
-
-      setUpLogging();
 
       registerDecoratorListeners();
       registerListenerForMetaModelProjectRenaming();
@@ -90,60 +55,7 @@ public class UIActivator extends AbstractUIPlugin
    @Override
    public void stop(final BundleContext context) throws Exception
    {
-      plugin = null;
       super.stop(context);
-   }
-
-   public static UIActivator getDefault()
-   {
-      return plugin;
-   }
-
-   public void openFileInEditor(final IWorkbenchWindow window, final File file)
-   {
-      IFileStore fileStore = EFS.getLocalFileSystem().getStore(file.toURI());
-      try
-      {
-         IDE.openEditorOnFileStore(window.getActivePage(), fileStore);
-      } catch (PartInitException e)
-      {
-         LogUtils.error(logger, e, "Unable to open file: " + file.getAbsolutePath());
-      }
-   }
-
-   public void openConfigFileInEditor(final IWorkbenchWindow window)
-   {
-      openFileInEditor(window, getDefault().getConfigFile());
-   }
-
-   public static void openWizard(final String newModelWizardId, final IWorkbenchWindow window) throws CoreException
-   {
-      openWizard(newModelWizardId, window, null);
-   }
-
-   /**
-    * Opens the specified wizard and initializes it with the given selection.
-    * 
-    * @param newModelWizardId
-    * @param window
-    * @param selection
-    * @throws CoreException
-    */
-   public static void openWizard(final String newModelWizardId, final IWorkbenchWindow window, final IStructuredSelection selection) throws CoreException
-   {
-      // Search for wizard
-      IWorkbenchWizard wizard = window.getWorkbench().getNewWizardRegistry().findWizard(newModelWizardId).createWizard();
-
-      // Initialize and open dialogue
-      wizard.init(window.getWorkbench(), selection);
-      WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
-      dialog.open();
-
-   }
-
-   public static ImageDescriptor getImage(final String pathToIcon)
-   {
-      return AbstractUIPlugin.imageDescriptorFromPlugin(WorkspaceHelper.getPluginId(UIActivator.class), pathToIcon);
    }
 
    public static void showMessage(final String title, final String message)
@@ -169,92 +81,19 @@ public class UIActivator extends AbstractUIPlugin
    }
 
    /**
-    * Call to ensure that log4j is setup properly and configured. Can be called multiple times. Forces Plugin to be
-    * loaded and started, ensuring that log file and config file exist.
-    */
-   public void reconfigureLogging()
-   {
-      try
-      {
-         configureLogging(configFile.toURI().toURL());
-      } catch (MalformedURLException e)
-      {
-         LogUtils.error(logger, e, "URL to configFile is malformed: " + configFile);
-      }
-   }
-
-   /**
-    * Set up logging globally
-    * 
-    * @param configFile
-    *           URL to log4j property configuration file
-    */
-   public static boolean configureLogging(final URL configFile)
-   {
-      try
-      {
-         Logger root = Logger.getRootLogger();
-         String configurationStatus = "";
-         if (configFile != null)
-         {
-            // Configure system using config
-            PropertyConfigurator.configure(configFile);
-            configurationStatus = "Log4j successfully configured using " + configFile;
-         } else
-         {
-            configurationStatus = "Set up logging without config file!";
-         }
-
-         // Set format and scheme for output
-         Logger.getRootLogger().addAppender(new MoflonConsole(configFile));
-
-         // Indicate success
-         root.info("Logging to eMoflon console. Configuration: " + configurationStatus);
-         return true;
-      } catch (Exception e)
-      {
-         LogUtils.error(logger, e);
-         return false;
-      }
-   }
-
-   /**
-    * @return Logging configuration file in state location of client (usually
-    *         $workspace/.metadata/.plugins/org.moflon.ide.core/log4jConfig.properties)
-    */
-   public File getConfigFile()
-   {
-      return configFile;
-   }
-
-   /**
-    * Used when the plugin has to store resources on the client machine and eclipse installation + current workspace.
-    * This location reserved for the plugin is called the "state location" and is usually in
-    * pathToWorkspace/.metadata/pluginName
-    * 
-    * @param filename
-    *           Appended to the state location. This is the name of the resource to be saved.
-    * @return path to location reserved for the plugin which can be used to store resources
-    */
-   public IPath getPathInStateLocation(final String filename)
-   {
-      return getStateLocation().append(filename);
-   }
-
-   /**
     * Registers a listener that identifies EAP projects that are outdated
     */
    private void registerDecoratorListeners()
    {
       ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
-   
+
          @Override
          public void resourceChanged(final IResourceChangeEvent event)
          {
             try
             {
                event.getDelta().accept(new IResourceDeltaVisitor() {
-   
+
                   @Override
                   public boolean visit(final IResourceDelta delta) throws CoreException
                   {
@@ -271,7 +110,7 @@ public class UIActivator extends AbstractUIPlugin
                            final long outdatedXmiTreeToleranceInMillis = 5000;
                            final boolean needsRebuild = !xmiTree.exists()
                                  || (xmiTree.exists() && xmiTree.getLocalTimeStamp() + outdatedXmiTreeToleranceInMillis < eapFile.getLocalTimeStamp());
-   
+
                            Display.getDefault().asyncExec(new Runnable() {
                               @Override
                               public void run()
@@ -284,7 +123,7 @@ public class UIActivator extends AbstractUIPlugin
                               }
                            });
                         }
-   
+
                         return false;
                      } else
                      {
@@ -292,9 +131,9 @@ public class UIActivator extends AbstractUIPlugin
                      }
                   }
                });
-   
+
                event.getDelta().accept(new IResourceDeltaVisitor() {
-   
+
                   @Override
                   public boolean visit(IResourceDelta delta) throws CoreException
                   {
@@ -310,13 +149,13 @@ public class UIActivator extends AbstractUIPlugin
                      {
                         project = null;
                      }
-   
+
                      if (project != null && project.isAccessible())
                      {
                         ICommand[] buildSpec = project.getDescription().getBuildSpec();
                         for (final ICommand builder : buildSpec)
                         {
-                           if (WorkspaceHelper.REPOSITORY_BUILDER_ID.equals(builder.getBuilderName()) || 
+                           if (WorkspaceHelper.REPOSITORY_BUILDER_ID.equals(builder.getBuilderName()) ||
                                  WorkspaceHelper.INTEGRATION_BUILDER_ID.equals(builder.getBuilderName()))
                            {
                               boolean autobuildEnabled = builder.isBuilding(IncrementalProjectBuilder.AUTO_BUILD);
@@ -333,10 +172,10 @@ public class UIActivator extends AbstractUIPlugin
                               });
                            }
                         }
-   
+
                         return false;
                      }
-   
+
                      return true;
                   }
                });
@@ -348,32 +187,7 @@ public class UIActivator extends AbstractUIPlugin
       }, IResourceChangeEvent.POST_CHANGE);
    }
 
-   /**
-    * Initialize log and configuration file. Configuration file is created with default contents if necessary. Log4J is
-    * setup properly and configured with a console and logfile appender.
-    */
-   private void setUpLogging()
-   {
-      // Create configFile if necessary also in plugin storage space
-      configFile = getPathInStateLocation(LOG4J_CONFIG_PROPERTIES).toFile();
-   
-      if (!configFile.exists())
-      {
-         try
-         {
-            // Copy default configuration to state location
-            URL defaultConfigFile = MoflonUtilitiesActivator.getPathRelToPlugIn(RESOURCES_DEFAULT_FILES_PATH + LOG4J_CONFIG_PROPERTIES, WorkspaceHelper.getPluginId(UIActivator.class));
-   
-            FileUtils.copyURLToFile(defaultConfigFile, configFile);
-         } catch (Exception e)
-         {
-            LogUtils.error(logger, e, "Unable to open default config file.");
-         }
-      }
-   
-      // Configure Log4J
-      reconfigureLogging();
-   }
+
 
    /**
     * Registers a {@link IResourceChangeListener} for detecting renamings of meta-model projects. According to our
@@ -382,11 +196,11 @@ public class UIActivator extends AbstractUIPlugin
    private void registerListenerForMetaModelProjectRenaming()
    {
       ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
-   
+
          @Override
          public void resourceChanged(IResourceChangeEvent event)
          {
-   
+
             IResourceDelta[] children = event.getDelta().getAffectedChildren();
             if (children.length == 2)
             {
@@ -415,7 +229,7 @@ public class UIActivator extends AbstractUIPlugin
                      if (eapFile.exists())
                      {
                         WorkspaceJob job = new WorkspaceJob("Renaming EAP file") {
-   
+
                            @Override
                            public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException
                            {
@@ -430,7 +244,7 @@ public class UIActivator extends AbstractUIPlugin
                            }
                         };
                         job.schedule();
-   
+
                      }
                   }
                }

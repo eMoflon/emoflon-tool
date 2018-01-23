@@ -32,6 +32,7 @@ import org.gervarro.eclipse.task.ITask;
 import org.gervarro.eclipse.workspace.util.IWorkspaceTask;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
 import org.moflon.core.preferences.EMoflonPreferencesActivator;
+import org.moflon.core.ui.AbstractCommandHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 

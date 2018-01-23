@@ -14,8 +14,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.core.build.nature.ProjectNatureAndBuilderConfiguratorTask;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.runtime.ProjectNatureAndBuilderConfiguratorTask;
 
 public class AddRemoveMOSLTGGNatureHandler extends AbstractHandler {
 

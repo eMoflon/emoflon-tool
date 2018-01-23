@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.moflon.core.moca.processing.MocaPlugin;
+import org.moflon.core.plugins.manifest.ManifestFileUpdater;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
@@ -28,7 +29,6 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.ui.UIActivator;
 import org.moflon.moca.AbstractFileGenerator;
 import org.moflon.moca.BasicFormatRenderer;
-import org.moflon.util.plugins.manifest.ManifestFileUpdater;
 
 import MocaTree.MocaTreeFactory;
 

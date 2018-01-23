@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaCore;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
+import org.moflon.core.build.nature.ProjectConfiguratorNature;
 import org.moflon.core.utilities.WorkspaceHelper;
 
 public class AntlrNature extends ProjectConfiguratorNature {
