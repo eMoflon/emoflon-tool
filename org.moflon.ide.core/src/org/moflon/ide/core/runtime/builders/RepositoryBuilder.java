@@ -23,7 +23,6 @@ import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.build.AbstractVisitorBuilder;
 import org.moflon.core.build.CleanVisitor;
-import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.plugins.manifest.ExportedPackagesInManifestUpdater;
 import org.moflon.core.plugins.manifest.PluginXmlUpdater;
 import org.moflon.core.preferences.EMoflonPreferencesActivator;
@@ -33,7 +32,11 @@ import org.moflon.core.utilities.ClasspathUtil;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.ide.core.project.RepositoryProjectCreator;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
+import org.moflon.ide.core.runtime.natures.MetamodelNature;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 public class RepositoryBuilder extends AbstractVisitorBuilder
 {
@@ -42,6 +45,11 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
    public RepositoryBuilder()
    {
       super(new AntPatternCondition(new String[] { "model/*.ecore" }));
+   }
+
+   public static String getId()
+   {
+      return "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
    }
 
    @Override
@@ -131,7 +139,8 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             eMoflonEMFUtil.installCrossReferencers(resourceSet);
             subMon.worked(1);
 
-            final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet, EMoflonPreferencesActivator.getDefault().getPreferencesStorage());
+            final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet,
+                  EMoflonPreferencesActivator.getDefault().getPreferencesStorage());
 
             final IStatus status = codeGenerationTask.run(subMon.split(1));
             handleErrorsAndWarnings(status, ecoreFile);
@@ -162,10 +171,10 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
    {
       try
       {
-         if (WorkspaceHelper.isRepositoryProject(project) || WorkspaceHelper.isIntegrationProject(project))
+         if (RepositoryNature.isRepositoryProject(project) || IntegrationNature.isIntegrationProject(project))
          {
             return new AntPatternCondition(new String[] { "gen/**" });
-         } else if (WorkspaceHelper.isMetamodelProject(project))
+         } else if (MetamodelNature.isMetamodelProject(project))
          {
             return new AntPatternCondition(new String[] { ".temp/*.moca.xmi" });
          }
@@ -197,7 +206,6 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
          handleInjectionWarningsAndErrors(status);
       }
    }
-
 
    /**
     * Adds the given folder to the given project's classpath
@@ -249,7 +257,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
                   monitor.worked(1);
                }
 
-               if (WorkspaceHelper.isIntegrationProject(getProject()) && isAGeneratedFileInIntegrationProject(resource))
+               if (IntegrationNature.isIntegrationProject(getProject()) && isAGeneratedFileInIntegrationProject(resource))
                {
                   resource.delete(true, subMon.split(1));
                } else
@@ -266,7 +274,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
    private boolean isAGeneratedFileInIntegrationProject(final IResource resource)
    {
-      return !(resource.getName().endsWith(WorkspaceHelper.PRE_ECORE_FILE_EXTENSION) || resource.getName().endsWith(WorkspaceHelper.PRE_TGG_FILE_EXTENSION));
+      return !(resource.getName().endsWith(MoslTggConstants.PRE_ECORE_FILE_EXTENSION) || resource.getName().endsWith(MoslTggConstants.PRE_TGG_FILE_EXTENSION));
    }
 
    private boolean indicatesThatValidationCrashed(IStatus status)

@@ -40,7 +40,7 @@ public class MoflonPropertiesContainerHelper
     * This string is used as a placeholder for the correct metamodel name
     */
    public static final String UNDEFINED_METAMODEL_NAME = "NO_META_MODEL_PROJECT_NAME_SET_YET";
-   
+
    private static final Logger logger = Logger.getLogger(MoflonPropertiesContainerHelper.class);
 
    // This is the list of XML element tagnames that are no longer supported
@@ -50,7 +50,7 @@ public class MoflonPropertiesContainerHelper
 
    /**
     * Loads the eMoflon properties of the given project.
-    * 
+    *
     * @param project
     * @param monitor
     * @return the properties. Is never null.
@@ -67,10 +67,10 @@ public class MoflonPropertiesContainerHelper
 
       // The TGG build mode is currently set during checkForMissingDefaults, where we cannot distinguish between TGG and
       // SDM projects
-      if (!WorkspaceHelper.isIntegrationProjectNoThrow(project))
-      {
-         container.setTGGBuildMode(null);
-      }
+      //      if (!IntegrationNature.isIntegrationProjectNoThrow(project))
+      //      {
+      //         container.setTGGBuildMode(null);
+      //      }
 
       if (!projectName.equals(container.getProjectName()))
       {
@@ -144,7 +144,7 @@ public class MoflonPropertiesContainerHelper
    {
       MoflonPropertiesContainer container = PropertycontainerFactory.eINSTANCE.createMoflonPropertiesContainer();
       container.setProjectName(projectName);
-      
+
       updateMetamodelProjectName(container, metaModelProjectName);
       checkForMissingDefaults(container);
 
@@ -184,7 +184,7 @@ public class MoflonPropertiesContainerHelper
    }
 
    /**
-    * This method sets the {@link MetaModelProject} of the given {@link MoflonPropertiesContainer} to the given value 
+    * This method sets the {@link MetaModelProject} of the given {@link MoflonPropertiesContainer} to the given value
     */
    public static void updateMetamodelProjectName(final MoflonPropertiesContainer propertiesContainer, final String metamodelProjectName)
    {
@@ -195,7 +195,7 @@ public class MoflonPropertiesContainerHelper
          propertiesContainer.setMetaModelProject(metamodelProject);
          metamodelProject.setMetaModelProjectName(metamodelProjectName);
       }
-      
+
       metamodelProject.setMetaModelProjectName(metamodelProjectName);
    }
 
@@ -209,24 +209,24 @@ public class MoflonPropertiesContainerHelper
       {
          propertiesContainer.setReplaceGenModel(factory.createReplaceGenModel());
       }
-      
+
       if (propertiesContainer.getSdmCodegeneratorHandlerId() == null)
       {
          propertiesContainer.setSdmCodegeneratorHandlerId(factory.createSdmCodegeneratorMethodBodyHandler());
       }
-      
+
       if (propertiesContainer.getTGGBuildMode() == null)
       {
          propertiesContainer.setTGGBuildMode(factory.createTGGBuildMode());
       }
-      
+
       if (propertiesContainer.getMetaModelProject() == null) {
          final MetaModelProject metaModelProject = factory.createMetaModelProject();
          propertiesContainer.setMetaModelProject(metaModelProject);
          metaModelProject.setMetaModelProjectName(UNDEFINED_METAMODEL_NAME);
       }
    }
-   
+
    private static EObject normalize(final MoflonPropertiesContainer properties)
    {
       // Normalize properties to avoid unnecessary nondeterminism

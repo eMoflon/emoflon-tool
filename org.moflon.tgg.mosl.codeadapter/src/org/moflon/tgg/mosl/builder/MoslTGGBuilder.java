@@ -27,6 +27,8 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.ProjectDependencyAnalyzer;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 public class MoslTGGBuilder extends AbstractVisitorBuilder
 {
@@ -55,7 +57,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder
    {
       try
       {
-         if (project.hasNature(WorkspaceHelper.REPOSITORY_NATURE_ID) || project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
+         if (project.hasNature(RepositoryNature.getId()) || project.hasNature(IntegrationNature.getId()))
          {
             return new AntPatternCondition(new String[] { "gen/**" });
          }

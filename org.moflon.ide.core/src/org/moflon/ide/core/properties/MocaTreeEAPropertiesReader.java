@@ -39,7 +39,7 @@ public class MocaTreeEAPropertiesReader
     */
    public Map<String, PluginProperties> getProperties(final IProject metamodelProject) throws CoreException
    {
-      IFile mocaFile = WorkspaceHelper.getExportedMocaTree(metamodelProject);
+      IFile mocaFile = MetamodelProjectUtil.getExportedMocaTree(metamodelProject);
 
       if (mocaFile.exists())
       {

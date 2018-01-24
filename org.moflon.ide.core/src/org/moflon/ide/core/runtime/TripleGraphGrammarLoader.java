@@ -11,9 +11,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
+import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.tgg.language.TripleGraphGrammar;
 
 public class TripleGraphGrammarLoader implements ITask {
@@ -31,18 +31,18 @@ public class TripleGraphGrammarLoader implements ITask {
 		final IProject workspaceProject = workspaceRoot.getProject(getProjectName());
 		assert workspaceProject.isAccessible();
 		final URI projectURI = eMoflonEMFUtil.lookupProjectURI(workspaceProject);
-		final URI tggURI = URI.createURI("model/" + getTGGFileName() + WorkspaceHelper.PRE_TGG_FILE_EXTENSION).resolve(projectURI);
+		final URI tggURI = URI.createURI("model/" + getTGGFileName() + MoslTggConstants.PRE_TGG_FILE_EXTENSION).resolve(projectURI);
 		final PackageRemappingDependency resourceLoader =
 				new PackageRemappingDependency(tggURI, false, false);
 		final Resource tggResource = resourceLoader.getResource(set, false);
 		tggResource.getContents().add(tgg);
 		return Status.OK_STATUS;
 	}
-	
+
 	private final String getProjectName() {
 		return tgg.getName();
 	}
-	
+
 	private final String getTGGFileName() {
 		return MoflonUtil.lastCapitalizedSegmentOf(tgg.getName());
 	}

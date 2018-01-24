@@ -15,6 +15,8 @@ import org.moflon.core.utilities.ProgressMonitorUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
+import org.moflon.ide.core.properties.MetamodelProjectUtil;
+import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 
 public final class EnterpriseArchitectModelExporterTask extends WorkspaceTask
 {
@@ -88,10 +90,10 @@ public final class EnterpriseArchitectModelExporterTask extends WorkspaceTask
          return false;
       }
 
-      final IFolder tempFolder = metamodelProject.getFolder(WorkspaceHelper.TEMP_FOLDER);
+      final IFolder tempFolder = metamodelProject.getFolder(MetamodelBuilder.TEMP_FOLDER);
       if (tempFolder.exists())
       {
-         final IFile mocaTree = WorkspaceHelper.getExportedMocaTree(metamodelProject);
+         final IFile mocaTree = MetamodelProjectUtil.getExportedMocaTree(metamodelProject);
          if (tempFolder.exists() && mocaTree.exists())
          {
             return mocaTree.getLocalTimeStamp() < eapFile.getLocalTimeStamp();

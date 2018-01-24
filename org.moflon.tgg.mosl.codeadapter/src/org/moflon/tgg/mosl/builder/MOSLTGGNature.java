@@ -8,13 +8,20 @@ import org.eclipse.core.runtime.CoreException;
 import org.gervarro.eclipse.workspace.util.ProjectUtil;
 import org.moflon.core.build.nature.ProjectConfiguratorNature;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
 
 public class MOSLTGGNature extends ProjectConfiguratorNature {
+
+   public static String getId()
+   {
+      return "org.moflon.tgg.mosl.codeadapter.moslTGGNature";
+   }
+
 	@Override
 	public ICommand[] updateBuildSpecs(final IProjectDescription description,
 			ICommand[] buildSpecs, final boolean added) throws CoreException {
 		if (added) {
-			int integrationBuilderPosition = ProjectUtil.indexOf(buildSpecs, WorkspaceHelper.INTEGRATION_BUILDER_ID);
+			int integrationBuilderPosition = ProjectUtil.indexOf(buildSpecs, IntegrationBuilder.getId());
 			// Insert or move Xtext builder before IntegrationBuilder
 			int xtextBuilderPosition = ProjectUtil.indexOf(buildSpecs, WorkspaceHelper.XTEXT_BUILDER_ID);
 			if (xtextBuilderPosition < 0) {
@@ -74,19 +81,20 @@ public class MOSLTGGNature extends ProjectConfiguratorNature {
 			if (!containsNatureID(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID)) {
 			   natureIDs = insertAtEnd(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
 			}
-			if (!containsNatureID(natureIDs, WorkspaceHelper.MOSL_TGG_NATURE)) {
-			   natureIDs = insertAtEnd(natureIDs, WorkspaceHelper.MOSL_TGG_NATURE);
+			if (!containsNatureID(natureIDs, MOSLTGGNature.getId())) {
+			   natureIDs = insertAtEnd(natureIDs, MOSLTGGNature.getId());
 			}
 		} else {
 			int xtextNaturePosition = ProjectUtil.indexOf(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
 			if (xtextNaturePosition >= 0) {
 				natureIDs = ProjectUtil.remove(natureIDs, xtextNaturePosition);
 			}
-			int moslTGGNaturePosition = ProjectUtil.indexOf(natureIDs, WorkspaceHelper.MOSL_TGG_NATURE);
+			int moslTGGNaturePosition = ProjectUtil.indexOf(natureIDs, MOSLTGGNature.getId());
 			if (xtextNaturePosition >= 0) {
 				natureIDs = ProjectUtil.remove(natureIDs, moslTGGNaturePosition);
 			}
 		}
 		return natureIDs;
 	}
+
 }

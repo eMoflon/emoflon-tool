@@ -41,6 +41,7 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.tgg.algorithm.configuration.PGSavingConfigurator;
 import org.moflon.tgg.language.TripleGraphGrammar;
 import org.moflon.tgg.mosl.codeadapter.org.moflon.tie.CodeadapterPostProcessBackwardHelper;
@@ -162,7 +163,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		for (final IResource resource : moslFolder.members()) {
 			if (resource instanceof IFile) {
 				final IFile file = IFile.class.cast(resource);
-				if (file.getFileExtension().equals(WorkspaceHelper.MOSL_TGG_EXTENSION)) {
+				if (file.getFileExtension().equals(MoslTggConstants.MOSL_TGG_EXTENSION)) {
 					tggFiles.add(loadTggFromFile(resourceSet, file));
 				}
 			} else if (resource instanceof IFolder)

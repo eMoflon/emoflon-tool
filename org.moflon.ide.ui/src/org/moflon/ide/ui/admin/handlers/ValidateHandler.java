@@ -29,6 +29,7 @@ import org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator;
 import org.moflon.core.preferences.EMoflonPreferencesActivator;
 import org.moflon.core.ui.AbstractCommandHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
 public class ValidateHandler extends AbstractCommandHandler
@@ -86,7 +87,7 @@ public class ValidateHandler extends AbstractCommandHandler
 
    private void validateProject(final IProject project, final IProgressMonitor monitor) throws CoreException
    {
-      if (WorkspaceHelper.isMoflonProject(project))
+      if (CoreActivator.isMoflonProject(project))
       {
          final IFile ecoreFile = WorkspaceHelper.getDefaultEcoreFile(project);
          validateFile(ecoreFile, monitor);

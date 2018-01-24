@@ -11,6 +11,8 @@ import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.build.nature.MoflonProjectConfigurator;
 import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.builders.RepositoryBuilder;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 public class RepositoryProjectCreator extends MoflonProjectCreator
 {
@@ -41,13 +43,13 @@ public class RepositoryProjectCreator extends MoflonProjectCreator
    @Override
    protected String getNatureId() throws CoreException
    {
-      return WorkspaceHelper.REPOSITORY_NATURE_ID;
+      return RepositoryNature.getId();
    }
 
    @Override
    protected String getBuilderId() throws CoreException
    {
-      return WorkspaceHelper.REPOSITORY_BUILDER_ID;
+      return RepositoryBuilder.getId();
    }
 
    /**

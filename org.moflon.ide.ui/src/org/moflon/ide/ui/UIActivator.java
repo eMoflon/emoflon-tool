@@ -18,12 +18,15 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.properties.MetamodelProjectUtil;
+import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
+import org.moflon.ide.core.runtime.builders.RepositoryBuilder;
+import org.moflon.ide.core.runtime.natures.MetamodelNature;
 import org.moflon.ide.ui.decorators.MoflonProjectDecorator;
 import org.osgi.framework.BundleContext;
 
@@ -52,34 +55,6 @@ public class UIActivator extends AbstractUIPlugin
       registerListenerForMetaModelProjectRenaming();
    }
 
-   @Override
-   public void stop(final BundleContext context) throws Exception
-   {
-      super.stop(context);
-   }
-
-   public static void showMessage(final String title, final String message)
-   {
-      Display.getDefault().asyncExec(new Runnable() {
-         @Override
-         public void run()
-         {
-            MessageDialog.openInformation(null, title, message);
-         }
-      });
-   }
-
-   public static void openError(final String title, final String message)
-   {
-      Display.getDefault().asyncExec(new Runnable() {
-         @Override
-         public void run()
-         {
-            MessageDialog.openError(null, title, message);
-         }
-      });
-   }
-
    /**
     * Registers a listener that identifies EAP projects that are outdated
     */
@@ -101,10 +76,10 @@ public class UIActivator extends AbstractUIPlugin
                      if (resource instanceof IProject)
                      {
                         final IProject project = (IProject) resource;
-                        if (WorkspaceHelper.isMetamodelProjectNoThrow(project))
+                        if (MetamodelNature.isMetamodelProjectNoThrow(project))
                         {
                            final IFile eapFile = WorkspaceHelper.getEapFileFromMetamodelProject(project);
-                           final IFile xmiTree = WorkspaceHelper.getExportedMocaTree(project);
+                           final IFile xmiTree = MetamodelProjectUtil.getExportedMocaTree(project);
                            // EA writes to an EAP file immediately after exporting it.
                            // Without this timeout, 'needRebuild' would always be true.
                            final long outdatedXmiTreeToleranceInMillis = 5000;
@@ -152,13 +127,12 @@ public class UIActivator extends AbstractUIPlugin
 
                      if (project != null && project.isAccessible())
                      {
-                        ICommand[] buildSpec = project.getDescription().getBuildSpec();
+                        final ICommand[] buildSpec = project.getDescription().getBuildSpec();
                         for (final ICommand builder : buildSpec)
                         {
-                           if (WorkspaceHelper.REPOSITORY_BUILDER_ID.equals(builder.getBuilderName()) ||
-                                 WorkspaceHelper.INTEGRATION_BUILDER_ID.equals(builder.getBuilderName()))
+                           if (isRepositoryBuilder(builder) || isIntegrationBuilder(builder))
                            {
-                              boolean autobuildEnabled = builder.isBuilding(IncrementalProjectBuilder.AUTO_BUILD);
+                              final boolean autobuildEnabled = builder.isBuilding(IncrementalProjectBuilder.AUTO_BUILD);
                               Display.getDefault().asyncExec(new Runnable() {
                                  @Override
                                  public void run()
@@ -178,8 +152,18 @@ public class UIActivator extends AbstractUIPlugin
 
                      return true;
                   }
+
+                  private boolean isIntegrationBuilder(final ICommand builder)
+                  {
+                     return IntegrationBuilder.getId().equals(builder.getBuilderName());
+                  }
+
+                  private boolean isRepositoryBuilder(final ICommand builder)
+                  {
+                     return RepositoryBuilder.getId().equals(builder.getBuilderName());
+                  }
                });
-            } catch (CoreException e)
+            } catch (final CoreException e)
             {
                LogUtils.error(logger, e);
             }
@@ -223,7 +207,7 @@ public class UIActivator extends AbstractUIPlugin
                      oldProject = null;
                      newProject = null;
                   }
-                  if (oldProject != null && WorkspaceHelper.isMetamodelProjectNoThrow(newProject))
+                  if (oldProject != null && MetamodelNature.isMetamodelProjectNoThrow(newProject))
                   {
                      IFile eapFile = newProject.getFile(oldProject.getName() + ".eap");
                      if (eapFile.exists())

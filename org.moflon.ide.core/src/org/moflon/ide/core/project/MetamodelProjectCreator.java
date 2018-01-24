@@ -11,6 +11,8 @@ import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.build.nature.MoflonProjectConfigurator;
 import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
+import org.moflon.ide.core.runtime.natures.MetamodelNature;
 
 public class MetamodelProjectCreator extends MoflonProjectCreator
 {
@@ -52,13 +54,13 @@ public class MetamodelProjectCreator extends MoflonProjectCreator
    @Override
    protected String getNatureId() throws CoreException
    {
-      return WorkspaceHelper.METAMODEL_NATURE_ID;
+      return MetamodelNature.getId();
    }
 
    @Override
    protected String getBuilderId() throws CoreException
    {
-      return WorkspaceHelper.METAMODEL_BUILDER_ID;
+      return MetamodelBuilder.getId();
    }
 
 }

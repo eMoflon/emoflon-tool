@@ -36,6 +36,7 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.ProjectCreatorFactory;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.sdm.language.SDMLanguagePlugin;
 import org.moflon.tgg.runtime.TGGRuntimePlugin;
 
@@ -168,7 +169,7 @@ public class OpenProjectHandler extends WorkspaceTask
 
          try
          {
-            if (WorkspaceHelper.isIntegrationProject(project))
+            if (IntegrationNature.isIntegrationProject(project))
                changed |= ManifestFileUpdater.updateDependencies(manifest, Arrays.asList(new String[] { //
                      WorkspaceHelper.DEFAULT_LOG4J_DEPENDENCY, //
                      WorkspaceHelper.getPluginId(MocaTreeFactory.class), //

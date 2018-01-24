@@ -5,6 +5,7 @@ import java.net.URL;
 import org.eclipse.core.resources.IProject;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
 {
@@ -46,6 +47,6 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
    @Override
    protected String getSupportedNature()
    {
-      return WorkspaceHelper.REPOSITORY_NATURE_ID;
+      return RepositoryNature.getId();
    }
 }

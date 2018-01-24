@@ -52,6 +52,8 @@ import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
 import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHook;
 import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHookDTO;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 
 import MocaTree.Node;
@@ -64,9 +66,16 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
 
    public static final Logger logger = Logger.getLogger(MetamodelBuilder.class);
 
+   public final static String TEMP_FOLDER = ".temp";
+   public static final String MOCA_XMI_FILE_EXTENSION = ".moca.xmi";
+
    public MetamodelBuilder()
    {
       super(new AntPatternCondition(new String[] { ".temp/*.moca.xmi" }));
+   }
+
+   public static String getId() {
+      return "org.moflon.ide.core.runtime.builders.MetamodelBuilder";
    }
 
    public void clean(final IProgressMonitor monitor) throws CoreException
@@ -76,8 +85,8 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
       deleteProblemMarkers();
       subMon.worked(1);
 
-      final IFolder tempFolder = getProject().getFolder(WorkspaceHelper.TEMP_FOLDER);
-      final IFile mocaFile = tempFolder.getFile(getProject().getName() + WorkspaceHelper.MOCA_XMI_FILE_EXTENSION);
+      final IFolder tempFolder = getProject().getFolder(MetamodelBuilder.TEMP_FOLDER);
+      final IFile mocaFile = tempFolder.getFile(getProject().getName() + MetamodelBuilder.MOCA_XMI_FILE_EXTENSION);
       if (mocaFile.isAccessible())
       {
          final URI workspaceURI = URI.createPlatformResourceURI("/", true);
@@ -101,7 +110,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
    {
       final MultiStatus mocaToMoflonStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, getClass().getName() + " failed", null);
 
-      final String mocaFilePath = WorkspaceHelper.TEMP_FOLDER + "/" + getProject().getName() + WorkspaceHelper.MOCA_XMI_FILE_EXTENSION;
+      final String mocaFilePath = MetamodelBuilder.TEMP_FOLDER + "/" + getProject().getName() + MetamodelBuilder.MOCA_XMI_FILE_EXTENSION;
       if (mocaFile instanceof IFile && mocaFilePath.equals(mocaFile.getProjectRelativePath().toString()) && mocaFile.isAccessible())
       {
          logger.debug("Start processing .temp folder");
@@ -230,7 +239,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
    @Override
    protected final AntPatternCondition getTriggerCondition(final IProject project)
    {
-      if (WorkspaceHelper.isRepositoryProjectNoThrow(project) || WorkspaceHelper.isIntegrationProjectNoThrow(project))
+      if (RepositoryNature.isRepositoryProjectNoThrow(project) || IntegrationNature.isIntegrationProjectNoThrow(project))
       {
          return new AntPatternCondition(new String[] { "model/*.ecore" });
       }
@@ -243,7 +252,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
    private void createInfoFile(final Map<String, PluginProperties> properties, final Node mocaTree)
    {
       IProject metamodelProject = getProject();
-      IFile file = metamodelProject.getFile(WorkspaceHelper.TEMP_FOLDER + "/projectInformation.txt");
+      IFile file = metamodelProject.getFile(MetamodelBuilder.TEMP_FOLDER + "/projectInformation.txt");
       StringBuilder sb = new StringBuilder();
       ArrayList<String> projectNames = new ArrayList<>(properties.keySet());
       Collections.sort(projectNames);

@@ -15,6 +15,7 @@ import org.moflon.core.mocatomoflon.impl.ExporterImpl;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.tgg.language.TripleGraphGrammar;
 
@@ -22,7 +23,7 @@ import MocaTree.Attribute;
 import MocaTree.Node;
 
 public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl {
-   
+
 	public static final String MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT = "TGG";
 	public static final String MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT = "EPackage";
 	public static final String MOCA_TREE_ATTRIBUTE_NS_URI = "Moflon::NsUri";
@@ -34,7 +35,7 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 
 	protected final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 	protected final ResourceSet set;
-	
+
 	private final MetamodelBuilder metamodelBuilder;
 	private final IProject metamodelProject;
 	private final LinkedList<ITask> metamodelLoaderTasks =
@@ -58,11 +59,11 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 	public final LinkedList<ProjectDependencyAnalyzer> getProjectDependencyAnalyzerTasks() {
 		return projectDependencyAnalyzerTasks;
 	}
-	
+
 	public final MetamodelBuilder getMetamodelBuilder() {
 	   return this.metamodelBuilder;
 	}
-	
+
 	public final IProject getMetamodelProject()
    {
       return metamodelProject;
@@ -107,7 +108,7 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 	protected static final boolean isExported(final String exported) {
 		return !"false".equals(exported);
 	}
-	
+
 	@Override
 	public void postProcessing() {
 		super.postProcessing();
@@ -134,11 +135,11 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 	}
 
 	/**@deprecated Appears to be unused (rkluge) **/
-	@Deprecated 
+	@Deprecated
 	protected URI getProjectRelativeMetamodelURI(final Node node) {
 		URI uri = URI.createURI("model/" + getEcoreFileName(node) + ".ecore");
 		if (MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT.equals(node.getName())) {
-			uri.trimFileExtension().appendFileExtension(WorkspaceHelper.PRE_ECORE_FILE_EXTENSION);
+			uri.trimFileExtension().appendFileExtension(MoslTggConstants.PRE_ECORE_FILE_EXTENSION);
 		}
 		return uri;
 	}

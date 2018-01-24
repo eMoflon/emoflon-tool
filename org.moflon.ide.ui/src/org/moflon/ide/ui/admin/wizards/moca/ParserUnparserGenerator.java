@@ -26,6 +26,7 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.natures.AntlrNature;
 import org.moflon.ide.ui.UIActivator;
 import org.moflon.moca.AbstractFileGenerator;
 import org.moflon.moca.BasicFormatRenderer;
@@ -65,7 +66,7 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
    {
       try
       {
-         WorkspaceHelper.addNature(project, WorkspaceHelper.ANTLR_NATURE_ID, new NullProgressMonitor());
+         WorkspaceHelper.addNature(project, AntlrNature.getId(), new NullProgressMonitor());
       } catch (CoreException e)
       {
          logger.error(e);

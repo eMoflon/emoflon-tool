@@ -28,8 +28,8 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.moflon.core.plugins.manifest.PluginURIToResourceURIRemapper;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.ide.visualisation.dot.language.DotUnparserAdapter;
 import org.moflon.ide.visualisation.dot.language.ToggleRefinementHandler;
 import org.moflon.ide.visualization.dot.language.DirectedGraph;
@@ -48,7 +48,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	private boolean outdated = false;
 	private XtextEditor oldEditor;
 	private HashMap<String, String> oldValue = new HashMap<>();
-	private String currentTggFile = WorkspaceHelper.PRE_TGG_FILE_EXTENSION;
+	private String currentTggFile = MoslTggConstants.PRE_TGG_FILE_EXTENSION;
 	private IProject project;
 
 	private IPropertyListener listener = (o, p) -> {
@@ -78,7 +78,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	@Override
 	public String getDiagramText(final IEditorPart editorPart, final ISelection selection) {
 		try {
-			 final TripleGraphGrammar preTgg = getTGG(WorkspaceHelper.PRE_TGG_FILE_EXTENSION);
+			 final TripleGraphGrammar preTgg = getTGG(MoslTggConstants.PRE_TGG_FILE_EXTENSION);
 
 			// look for the correct tggFile
 			TripleGraphGrammar tgg = getTGG();
@@ -198,7 +198,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	}
 
 	private String getTGGFileWithRules() {
-		String tggFile = ToggleRefinementHandler.flattenRefinements() ? WorkspaceHelper.TGG_FILE_EXTENSION : WorkspaceHelper.PRE_TGG_FILE_EXTENSION;
+		String tggFile = ToggleRefinementHandler.flattenRefinements() ? MoslTggConstants.TGG_FILE_EXTENSION : MoslTggConstants.PRE_TGG_FILE_EXTENSION;
 		if (!currentTggFile.equals(tggFile)) {
 			currentTggFile = tggFile;
 			outdated = true;

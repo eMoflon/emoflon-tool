@@ -1,7 +1,6 @@
 package org.moflon.ide.core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -18,6 +17,9 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.ProblemMarkerUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
+import org.moflon.ide.core.runtime.natures.MetamodelNature;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -108,7 +110,7 @@ public class CoreActivator extends Plugin
       final List<IProject> result = new ArrayList<IProject>(projects.length);
       for (final IProject project : projects)
       {
-         if (project.isAccessible() && WorkspaceHelper.isMetamodelProjectNoThrow(project))
+         if (project.isAccessible() && MetamodelNature.isMetamodelProjectNoThrow(project))
          {
             result.add(project);
          }
@@ -121,37 +123,12 @@ public class CoreActivator extends Plugin
       final List<IProject> result = new ArrayList<IProject>(projects.length);
       for (final IProject project : projects)
       {
-         if (project.isAccessible() && WorkspaceHelper.isMoflonProjectNoThrow(project))
+         if (project.isAccessible() && isMoflonProjectNoThrow(project))
          {
             result.add(project);
          }
       }
       return result.toArray(new IProject[result.size()]);
-   }
-
-   public static final IProject[] getProjectsWithTextualSyntax(final IProject[] projects)
-   {
-      final List<IProject> result = getProjectsWithTextualSyntax(Arrays.asList(projects));
-      return result.toArray(new IProject[result.size()]);
-   }
-
-   public static List<IProject> getProjectsWithTextualSyntax(final List<IProject> projects)
-   {
-      final List<IProject> result = new ArrayList<IProject>(projects.size());
-      for (final IProject project : projects)
-      {
-         try
-         {
-            if (project.isAccessible() && project.hasNature(WorkspaceHelper.MOSL_TGG_NATURE))
-            {
-               result.add(project);
-            }
-         } catch (CoreException e)
-         {
-            // Do nothing: Skip erroneous projects
-         }
-      }
-      return result;
    }
 
    public static final IProject[] getProjectsWithGraphicalSyntax(final IProject[] projects)
@@ -161,7 +138,8 @@ public class CoreActivator extends Plugin
       {
          try
          {
-            if (project.isAccessible() && !project.hasNature(WorkspaceHelper.MOSL_TGG_NATURE))
+            //TODO@rkluge: Hack to avoid dependency cycle
+            if (project.isAccessible() && !project.hasNature("org.moflon.tgg.mosl.codeadapter.moslTGGNature"))
             {
                result.add(project);
             }
@@ -173,14 +151,35 @@ public class CoreActivator extends Plugin
       return result.toArray(new IProject[result.size()]);
    }
 
-   public static final void setEPackageURI(final EPackage ePackage) {
-	   URI uri = EcoreUtil.getURI(ePackage);
-	   if (ePackage instanceof InternalEObject && ((InternalEObject) ePackage).eDirectResource() != null) {
-		   uri = uri.trimFragment();
-	   }
-	   ePackage.setNsURI(uri.toString());
-	   for (final EPackage subPackage : ePackage.getESubpackages()) {
-		   setEPackageURI(subPackage);
-	   }
+   public static final void setEPackageURI(final EPackage ePackage)
+   {
+      URI uri = EcoreUtil.getURI(ePackage);
+      if (ePackage instanceof InternalEObject && ((InternalEObject) ePackage).eDirectResource() != null)
+      {
+         uri = uri.trimFragment();
+      }
+      ePackage.setNsURI(uri.toString());
+      for (final EPackage subPackage : ePackage.getESubpackages())
+      {
+         setEPackageURI(subPackage);
+      }
+   }
+
+   /**
+    * Returns whether the given project is (1) a repository project or (2) an integration project or (3) a MOSL-GT project
+    */
+   public static boolean isMoflonProject(final IProject project) throws CoreException
+   {
+      return RepositoryNature.isRepositoryProject(project) || IntegrationNature.isIntegrationProject(project);
+   }
+
+   /**
+    * Returns whether the given project is (1) a repository project or (2) an integration project.
+    *
+    * Returns also false if an exception would be thrown.
+    */
+   public static boolean isMoflonProjectNoThrow(final IProject project)
+   {
+      return RepositoryNature.isRepositoryProjectNoThrow(project) || IntegrationNature.isIntegrationProjectNoThrow(project);
    }
 }

@@ -30,6 +30,7 @@ import org.moflon.emf.build.MonitoredMetamodelLoader;
 import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
 import org.moflon.emf.codegen.dependency.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.CoreActivator;
+import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.moca.MocaUtil;
 import org.moflon.moca.tggUserDefinedConstraint.unparser.TGGUserDefinedConstraintUnparserAdapter;
 import org.moflon.moca.tie.RunIntegrationGeneratorBatch;
@@ -70,10 +71,25 @@ public class IntegrationBuilder extends RepositoryBuilder
 
    private TripleGraphGrammar tgg;
 
+
+   public static IFile getPreTGGFile(final IProject project)
+   {
+      return project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_TGG_FILE_EXTENSION));
+   }
+
+   public static IFile getPreEcoreFile(final IProject project)
+   {
+      return project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION));
+   }
+
+   public static String getId() {
+      return "org.moflon.ide.core.runtime.builders.IntegrationBuilder";
+   }
+
    @Override
    protected void processResource(IResource resource, int kind, Map<String, String> args, IProgressMonitor monitor)
    {
-	   if (resource.getProjectRelativePath().toString().equals(MoflonUtil.getDefaultPathToFileInProject(getProject().getName(), WorkspaceHelper.PRE_ECORE_FILE_EXTENSION))) {
+	   if (resource.getProjectRelativePath().toString().equals(MoflonUtil.getDefaultPathToFileInProject(getProject().getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION))) {
       try
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code", 500);
@@ -106,16 +122,16 @@ public class IntegrationBuilder extends RepositoryBuilder
       // Load TGG file
       final IFolder modelFolder = getProject().getFolder(WorkspaceHelper.MODEL_FOLDER);
       final String defaultFileName = MoflonUtil.lastCapitalizedSegmentOf(getProject().getName());
-      final IFile tggFile = modelFolder.getFile(defaultFileName + WorkspaceHelper.TGG_FILE_EXTENSION);
+      final IFile tggFile = modelFolder.getFile(defaultFileName + MoslTggConstants.TGG_FILE_EXTENSION);
 
       final URI projectURI = eMoflonEMFUtil.lookupProjectURI(getProject());
       final URI workspaceProjectURI = URI.createURI(getProject().getName() + "/", true).resolve(URI.createPlatformResourceURI("/", true));
       final URI modelFolderURI = URI.createURI(WorkspaceHelper.MODEL_FOLDER + "/", true);
-      final URI tggFileURI = URI.createURI(defaultFileName + WorkspaceHelper.TGG_FILE_EXTENSION, true).resolve(modelFolderURI.resolve(workspaceProjectURI));
-      final URI preTGGFileURI = URI.createURI(defaultFileName + WorkspaceHelper.PRE_TGG_FILE_EXTENSION, true)
+      final URI tggFileURI = URI.createURI(defaultFileName + MoslTggConstants.TGG_FILE_EXTENSION, true).resolve(modelFolderURI.resolve(workspaceProjectURI));
+      final URI preTGGFileURI = URI.createURI(defaultFileName + MoslTggConstants.PRE_TGG_FILE_EXTENSION, true)
             .resolve(modelFolderURI.resolve(workspaceProjectURI));
       final URI ecoreFileURI = URI.createURI(defaultFileName + WorkspaceHelper.ECORE_FILE_EXTENSION, true).resolve(modelFolderURI.resolve(projectURI));
-      final URI preEcoreFileURI = URI.createURI(defaultFileName + WorkspaceHelper.PRE_ECORE_FILE_EXTENSION, true).resolve(modelFolderURI.resolve(projectURI));
+      final URI preEcoreFileURI = URI.createURI(defaultFileName + MoslTggConstants.PRE_ECORE_FILE_EXTENSION, true).resolve(modelFolderURI.resolve(projectURI));
       final Map<URI, URI> uriMapping = set.getURIConverter().getURIMap();
       uriMapping.put(tggFileURI, preTGGFileURI);
       uriMapping.put(ecoreFileURI, preEcoreFileURI);
@@ -177,7 +193,7 @@ public class IntegrationBuilder extends RepositoryBuilder
       subMon.worked(5);
 
       // Prepare injection resource compiler injections
-      URI compilerInjectionFileURI = URI.createURI(tggResource.getURI().toString().replace(WorkspaceHelper.TGG_FILE_EXTENSION, ".injection.xmi"));
+      URI compilerInjectionFileURI = URI.createURI(tggResource.getURI().toString().replace(MoslTggConstants.TGG_FILE_EXTENSION, ".injection.xmi"));
       PackageRemappingDependency compilerInjectionFile = new PackageRemappingDependency(compilerInjectionFileURI);
       Resource compilerInjectionResource = compilerInjectionFile.getResource(set, false);
       InjectionHelper injectionHelper = CompilerfacadeFactory.eINSTANCE.createInjectionHelper();
@@ -201,7 +217,7 @@ public class IntegrationBuilder extends RepositoryBuilder
          StaticAnalysis staticAnalysis = compiler.getStaticAnalysis();
 
          // Persist results of static analysis
-         URI smaFileURI = URI.createURI(tggResource.getURI().toString().replace(WorkspaceHelper.TGG_FILE_EXTENSION, SUFFIX_SMA));
+         URI smaFileURI = URI.createURI(tggResource.getURI().toString().replace(MoslTggConstants.TGG_FILE_EXTENSION, SUFFIX_SMA));
          PackageRemappingDependency smaFile = new PackageRemappingDependency(smaFileURI);
          Resource smaResource = smaFile.getResource(set, false);
          if (staticAnalysis != null)
@@ -299,14 +315,14 @@ public class IntegrationBuilder extends RepositoryBuilder
    /**
     * Generates the files to implement user defined constraints and fills them with basic content. <br>
     * An existing file won't be changed even if the definition of the constraint has been changed.
-    * 
+    *
     * @throws CoreException
     */
    private void generateUserDefinedConstraints(final List<TGGConstraint> userDefinedConstraints) throws CoreException
    {
       TGGUserDefinedConstraintUnparserAdapter unparser = new TGGUserDefinedConstraintUnparserAdapter();
       String pkgPath = "src/" + getProject().getName().replace(".", "/") + "/csp/constraints/";
-      
+
       // Create required folder structure
       WorkspaceHelper.addAllFolders(getProject(), pkgPath, new NullProgressMonitor());
 
@@ -415,15 +431,5 @@ public class IntegrationBuilder extends RepositoryBuilder
          warningMessage = " ------------ PreCompiler Warninglog ------------ \n" + warningMessage + " --------------------------------------";
          logger.warn("TGGLanguage Precompiler (Refinements) - " + warningMessage);
       }
-   }
-
-   public static IFile getPreTGGFile(final IProject project)
-   {
-      return project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), WorkspaceHelper.PRE_TGG_FILE_EXTENSION));
-   }
-
-   public static IFile getPreEcoreFile(final IProject project)
-   {
-      return project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), WorkspaceHelper.PRE_ECORE_FILE_EXTENSION));
    }
 }

@@ -19,6 +19,7 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.MetamodelProjectCreator;
+import org.moflon.ide.core.runtime.natures.MetamodelNature;
 import org.moflon.ide.ui.UIActivator;
 import org.moflon.ide.ui.WorkspaceHelperUI;
 
@@ -61,7 +62,7 @@ public class NewMetamodelWizard extends AbstractMoflonWizard
 
          MetamodelProjectCreator.addGitignoreFileForMetamodelProject(newProjectHandle, subMon.split(1));
 
-         WorkspaceHelper.addNature(newProjectHandle, WorkspaceHelper.METAMODEL_NATURE_ID, subMon.split(1));
+         WorkspaceHelper.addNature(newProjectHandle, MetamodelNature.getId(), subMon.split(1));
 
          WorkspaceHelperUI.moveProjectToWorkingSet(newProjectHandle, SPECIFICATION_WORKINGSET_NAME);
 
