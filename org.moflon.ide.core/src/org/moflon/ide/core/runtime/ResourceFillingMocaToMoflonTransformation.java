@@ -22,6 +22,7 @@ import org.moflon.core.build.nature.MoflonProjectConfigurator;
 import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -132,12 +133,12 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
 
    private final MoflonPropertiesContainer createOrLoadMoflonProperties(final IProject project, final String metamodelProject)
    {
-      final IFile moflonProps = project.getFile(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE);
+      final IFile moflonProps = project.getFile(MoflonConventions.MOFLON_CONFIG_FILE);
       MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
       if (moflonProps.exists())
       {
          final URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
-         final URI moflonPropertiesURI = URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE).resolve(projectURI);
+         final URI moflonPropertiesURI = URI.createURI(MoflonConventions.MOFLON_CONFIG_FILE).resolve(projectURI);
          final Resource moflonPropertiesResource = set.getResource(moflonPropertiesURI, true);
          final MoflonPropertiesContainer container = (MoflonPropertiesContainer) moflonPropertiesResource.getContents().get(0);
          MoflonPropertiesContainerHelper.updateMetamodelProjectName(container, metamodelProject);

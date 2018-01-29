@@ -10,8 +10,12 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.build.nature.MoflonProjectConfigurator;
 import org.moflon.core.plugins.PluginProperties;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.RepositoryBuilder;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 public class RepositoryProjectCreator extends MoflonProjectCreator
@@ -35,6 +39,18 @@ public class RepositoryProjectCreator extends MoflonProjectCreator
    }
 
    @Override
+   protected SDMCodeGeneratorIds getCodeGeneratorHandler()
+   {
+      if (getPluginProperties().hasAttributeConstraints())
+      {
+         return SDMCodeGeneratorIds.DEMOCLES_ATTRIBUTES;
+      } else
+      {
+         return SDMCodeGeneratorIds.DEMOCLES;
+      }
+   }
+
+   @Override
    protected List<String> getGitignoreLines()
    {
       return GITIGNORE_LINES;
@@ -52,6 +68,21 @@ public class RepositoryProjectCreator extends MoflonProjectCreator
       return RepositoryBuilder.getId();
    }
 
+   @Override
+   protected void initializeMoflonProperties(final MoflonPropertiesContainer moflonProperties)
+   {
+      super.initializeMoflonProperties(moflonProperties);
+      MoflonPropertiesContainerHelper.checkAndUpdateMissingDefaults(moflonProperties);
+      MoflonPropertiesContainerHelper.updateMetamodelProjectName(moflonProperties, getPluginProperties().getMetamodelProjectName());
+      // The TGG build mode is currently set during checkForMissingDefaults, where we cannot distinguish between TGG and
+      // SDM projects
+      if (!IntegrationNature.isIntegrationProjectNoThrow(getProject()))
+      {
+         moflonProperties.setTGGBuildMode(null);
+      }
+
+   }
+
    /**
     * Adds a default .gitignore file to the given repository project to prevent adding generated files to the repository
     *
@@ -65,4 +96,5 @@ public class RepositoryProjectCreator extends MoflonProjectCreator
       WorkspaceHelper.createGitignoreFileIfNotExists(project.getFile(WorkspaceHelper.GITIGNORE_FILENAME), //
             GITIGNORE_LINES, subMon.split(1));
    }
+
 }

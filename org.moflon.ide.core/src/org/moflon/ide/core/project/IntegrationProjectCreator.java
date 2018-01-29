@@ -10,7 +10,12 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.build.nature.MoflonProjectConfigurator;
 import org.moflon.core.plugins.PluginProperties;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
 
 public class IntegrationProjectCreator extends MoflonProjectCreator
 {
@@ -34,6 +39,12 @@ public class IntegrationProjectCreator extends MoflonProjectCreator
    }
 
    @Override
+   protected SDMCodeGeneratorIds getCodeGeneratorHandler()
+   {
+      return SDMCodeGeneratorIds.DEMOCLES_REVERSE_NAVI;
+   }
+
+   @Override
    protected List<String> getGitignoreLines()
    {
       return GITIGNORE_LINES;
@@ -42,15 +53,20 @@ public class IntegrationProjectCreator extends MoflonProjectCreator
    @Override
    protected String getNatureId() throws CoreException
    {
-      // TODO Auto-generated method stub
-      return null;
+      return IntegrationNature.getId();
    }
 
    @Override
    protected String getBuilderId() throws CoreException
    {
-      // TODO Auto-generated method stub
-      return null;
+      return IntegrationBuilder.getId();
+   }
+
+   @Override
+   protected void initializeMoflonProperties(MoflonPropertiesContainer moflonProperties)
+   {
+      super.initializeMoflonProperties(moflonProperties);
+      MoflonPropertiesContainerHelper.checkAndUpdateMissingDefaults(moflonProperties);
    }
 
    /**
@@ -66,5 +82,6 @@ public class IntegrationProjectCreator extends MoflonProjectCreator
       WorkspaceHelper.createGitignoreFileIfNotExists(project.getFile(WorkspaceHelper.GITIGNORE_FILENAME), //
             GITIGNORE_LINES, subMon.split(1));
    }
+
 
 }
