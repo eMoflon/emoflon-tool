@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.moflon.core.utilities.LogUtils;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.AbstractFileGenerator;
@@ -149,7 +150,7 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
    protected abstract String getSupportedNature();
    
    protected String getRootOfClassName(){
-      return MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(project.getName());
+      return MoflonConventions.getDefaultNameOfFileInProjectWithoutExtension(project.getName());
    }
    
    protected abstract String getClassName();

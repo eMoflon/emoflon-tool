@@ -32,7 +32,7 @@ import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.PropertiesValue;
 import org.moflon.core.propertycontainer.PropertycontainerFactory;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.ProjectCreatorFactory;
@@ -124,14 +124,14 @@ public class OpenProjectHandler extends WorkspaceTask
          }
 
          // These two metamodels are usually used directly or indirectly by most projects
-         addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.PLUGIN_ID_ECORE));
+         addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.PLUGIN_ID_ECORE));
 
          if (metamodelProperties.isIntegrationProject())
          {
-            addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGRuntimePlugin.class)));
-            addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(SDMLanguagePlugin.class)));
-            addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGLanguageActivator.class)));
-            addMetamodelDependency(moflonProperties, MoflonUtil.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(MocaTreeFactory.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGRuntimePlugin.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(SDMLanguagePlugin.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGLanguageActivator.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(MocaTreeFactory.class)));
          }
       } catch (final IOException e)
       {

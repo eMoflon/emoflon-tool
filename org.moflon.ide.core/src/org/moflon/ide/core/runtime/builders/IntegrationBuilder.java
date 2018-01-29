@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
@@ -74,12 +75,12 @@ public class IntegrationBuilder extends RepositoryBuilder
 
    public static IFile getPreTGGFile(final IProject project)
    {
-      return project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_TGG_FILE_EXTENSION));
+      return project.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_TGG_FILE_EXTENSION));
    }
 
    public static IFile getPreEcoreFile(final IProject project)
    {
-      return project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION));
+      return project.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION));
    }
 
    public static String getId() {
@@ -89,7 +90,7 @@ public class IntegrationBuilder extends RepositoryBuilder
    @Override
    protected void processResource(IResource resource, int kind, Map<String, String> args, IProgressMonitor monitor)
    {
-	   if (resource.getProjectRelativePath().toString().equals(MoflonUtil.getDefaultPathToFileInProject(getProject().getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION))) {
+	   if (resource.getProjectRelativePath().toString().equals(MoflonConventions.getDefaultPathToFileInProject(getProject().getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION))) {
       try
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code", 500);

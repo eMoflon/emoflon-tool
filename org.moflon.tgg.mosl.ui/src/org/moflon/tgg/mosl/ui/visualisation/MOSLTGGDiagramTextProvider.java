@@ -27,7 +27,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.moflon.core.plugins.manifest.PluginURIToResourceURIRemapper;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.ide.visualisation.dot.language.DotUnparserAdapter;
@@ -184,7 +184,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
 			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
 			project = file.getProject();
-			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), fileExtension));
+			IFile tggFile = project.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), fileExtension));
 			if (tggFile.exists()) {
 				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
 				PluginURIToResourceURIRemapper.createPluginToResourceMap(rs);

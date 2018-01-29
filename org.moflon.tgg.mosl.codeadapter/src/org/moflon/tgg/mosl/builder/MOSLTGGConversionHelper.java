@@ -37,6 +37,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.moflon.core.plugins.manifest.PluginURIToResourceURIRemapper;
 import org.moflon.core.utilities.LogUtils;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -260,7 +261,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 
 		final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(saveTargetName);
 		eMoflonEMFUtil.createPluginToResourceMapping(resourceSet, project);
-		URI relativePreEcoreXmiURI = URI.createURI(MoflonUtil.getDefaultPathToFileInProject(file, ".pre.ecore"));
+		URI relativePreEcoreXmiURI = URI.createURI(MoflonConventions.getDefaultPathToFileInProject(file, ".pre.ecore"));
 		URI projectURI = eMoflonEMFUtil.lookupProjectURI(project);
 		URI preEcoreXmiURI = relativePreEcoreXmiURI.resolve(projectURI);
 		Resource preEcoreResource = resourceSet.createResource(preEcoreXmiURI);
@@ -278,7 +279,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		}
 
 		URI pretggXmiURI = URI.createPlatformResourceURI(
-				saveTargetName + "/" + MoflonUtil.getDefaultPathToFileInProject(file, ".pre.tgg.xmi"), false);
+				saveTargetName + "/" + MoflonConventions.getDefaultPathToFileInProject(file, ".pre.tgg.xmi"), false);
 		Resource pretggXmiResource = resourceSet.createResource(pretggXmiURI);
 		pretggXmiResource.getContents().add(tgg);
 		try {

@@ -11,7 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.moflon.core.utilities.UtilityClassNotInstantiableException;
-import org.moflon.util.plugins.xml.XMLUtils;
+import org.moflon.core.utilities.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

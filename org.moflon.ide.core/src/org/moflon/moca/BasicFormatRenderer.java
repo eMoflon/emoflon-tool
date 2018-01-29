@@ -1,7 +1,7 @@
 package org.moflon.moca;
 
 import org.antlr.stringtemplate.AttributeRenderer;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.MoflonConventions;
 
 /**
  * A basic format renderer, which provides String operation for StringTemplates.
@@ -45,6 +45,6 @@ public class BasicFormatRenderer implements AttributeRenderer
 
    public static String extractLastSegment(String s)
    {
-      return MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(s);
+      return MoflonConventions.getDefaultNameOfFileInProjectWithoutExtension(s);
    }
 }

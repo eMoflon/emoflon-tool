@@ -13,7 +13,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.ProblemMarkerUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -101,7 +101,7 @@ public class CoreActivator extends Plugin
 
    public static final IFile getEcoreFile(final IProject project)
    {
-      final String ecoreFileName = MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(project.getName());
+      final String ecoreFileName = MoflonConventions.getDefaultNameOfFileInProjectWithoutExtension(project.getName());
       return project.getFolder(WorkspaceHelper.MODEL_FOLDER).getFile(ecoreFileName + WorkspaceHelper.ECORE_FILE_EXTENSION);
    }
 
