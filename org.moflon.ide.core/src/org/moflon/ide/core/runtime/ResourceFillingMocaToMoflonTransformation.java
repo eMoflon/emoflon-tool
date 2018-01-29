@@ -27,6 +27,7 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.ProjectCreatorFactory;
+import org.moflon.ide.core.project.RepositoryProjectCreator;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
@@ -141,11 +142,17 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
          final URI moflonPropertiesURI = URI.createURI(MoflonConventions.MOFLON_CONFIG_FILE).resolve(projectURI);
          final Resource moflonPropertiesResource = set.getResource(moflonPropertiesURI, true);
          final MoflonPropertiesContainer container = (MoflonPropertiesContainer) moflonPropertiesResource.getContents().get(0);
-         MoflonPropertiesContainerHelper.updateMetamodelProjectName(container, metamodelProject);
+         RepositoryProjectCreator.updateMetamodelProjectName(container, metamodelProject);
          return container;
       } else
       {
-         return MoflonPropertiesContainerHelper.createDefaultPropertiesContainer(project.getName(), metamodelProject);
+         return createDefaultPropertiesContainer(project, metamodelProject);
       }
+   }
+
+   public static MoflonPropertiesContainer createDefaultPropertiesContainer(final IProject project, final String metaModelProjectName)
+   {
+      final MoflonPropertiesContainer container = MoflonPropertiesContainerHelper.createDefaultPropertiesContainer(project);
+      return container;
    }
 }

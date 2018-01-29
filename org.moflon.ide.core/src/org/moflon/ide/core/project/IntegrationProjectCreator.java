@@ -11,7 +11,7 @@ import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.build.nature.MoflonProjectConfigurator;
 import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
-import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.propertycontainer.PropertycontainerFactory;
 import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
@@ -66,7 +66,12 @@ public class IntegrationProjectCreator extends MoflonProjectCreator
    protected void initializeMoflonProperties(MoflonPropertiesContainer moflonProperties)
    {
       super.initializeMoflonProperties(moflonProperties);
-      MoflonPropertiesContainerHelper.checkAndUpdateMissingDefaults(moflonProperties);
+      final PropertycontainerFactory factory = PropertycontainerFactory.eINSTANCE;
+
+      if (moflonProperties.getTGGBuildMode() == null)
+      {
+         moflonProperties.setTGGBuildMode(factory.createTGGBuildMode());
+      }
    }
 
    /**

@@ -10,12 +10,12 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.build.nature.MoflonProjectConfigurator;
 import org.moflon.core.plugins.PluginProperties;
+import org.moflon.core.propertycontainer.MetaModelProject;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
-import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.propertycontainer.PropertycontainerFactory;
 import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.RepositoryBuilder;
-import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 public class RepositoryProjectCreator extends MoflonProjectCreator
@@ -72,14 +72,9 @@ public class RepositoryProjectCreator extends MoflonProjectCreator
    protected void initializeMoflonProperties(final MoflonPropertiesContainer moflonProperties)
    {
       super.initializeMoflonProperties(moflonProperties);
-      MoflonPropertiesContainerHelper.checkAndUpdateMissingDefaults(moflonProperties);
-      MoflonPropertiesContainerHelper.updateMetamodelProjectName(moflonProperties, getPluginProperties().getMetamodelProjectName());
-      // The TGG build mode is currently set during checkForMissingDefaults, where we cannot distinguish between TGG and
-      // SDM projects
-      if (!IntegrationNature.isIntegrationProjectNoThrow(getProject()))
-      {
-         moflonProperties.setTGGBuildMode(null);
-      }
+
+      updateMetamodelProjectName(moflonProperties, getPluginProperties().getMetamodelProjectName());
+      moflonProperties.setTGGBuildMode(null);
 
    }
 
@@ -95,6 +90,22 @@ public class RepositoryProjectCreator extends MoflonProjectCreator
 
       WorkspaceHelper.createGitignoreFileIfNotExists(project.getFile(WorkspaceHelper.GITIGNORE_FILENAME), //
             GITIGNORE_LINES, subMon.split(1));
+   }
+
+   /**
+   * This method sets the {@link MetaModelProject} of the given {@link MoflonPropertiesContainer} to the given value
+   */
+   public static void updateMetamodelProjectName(final MoflonPropertiesContainer moflonProperties, final String metamodelProjectName)
+   {
+      MetaModelProject metamodelProject = moflonProperties.getMetaModelProject();
+      if (metamodelProject == null)
+      {
+         metamodelProject = PropertycontainerFactory.eINSTANCE.createMetaModelProject();
+         moflonProperties.setMetaModelProject(metamodelProject);
+         metamodelProject.setMetaModelProjectName(metamodelProjectName);
+      }
+
+      metamodelProject.setMetaModelProjectName(metamodelProjectName);
    }
 
 }
