@@ -15,13 +15,13 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.ui.AbstractMoflonWizard;
+import org.moflon.core.ui.WorkingSetUtilities;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.MetamodelProjectCreator;
 import org.moflon.ide.core.runtime.natures.MetamodelNature;
 import org.moflon.ide.ui.UIActivator;
-import org.moflon.ide.ui.WorkspaceHelperUI;
 
 /**
  * The new metamodel wizard creates a new metamodel project with default directory structure and default files.
@@ -64,7 +64,7 @@ public class NewMetamodelWizard extends AbstractMoflonWizard
 
          WorkspaceHelper.addNature(newProjectHandle, MetamodelNature.getId(), subMon.split(1));
 
-         WorkspaceHelperUI.moveProjectToWorkingSet(newProjectHandle, SPECIFICATION_WORKINGSET_NAME);
+         WorkingSetUtilities.addProjectToWorkingSet(newProjectHandle, SPECIFICATION_WORKINGSET_NAME);
 
          newProjectHandle.refreshLocal(IResource.DEPTH_INFINITE, subMon.split(1));
 
