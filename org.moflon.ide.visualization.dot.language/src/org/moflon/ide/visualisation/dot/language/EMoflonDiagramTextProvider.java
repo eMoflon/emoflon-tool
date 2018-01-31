@@ -14,8 +14,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IEditorPart;
+import org.moflon.core.utilities.ExceptionUtil;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
@@ -174,7 +174,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
       } catch (final Exception e)
       {
-         LogUtils.error(logger, e, "Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ": " + MoflonUtil.displayExceptionAsString(e),
+         LogUtils.error(logger, e, "Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ": " + ExceptionUtil.displayExceptionAsString(e),
                e);
       } finally
       {

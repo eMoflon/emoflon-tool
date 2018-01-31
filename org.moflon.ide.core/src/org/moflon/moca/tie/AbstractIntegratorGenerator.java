@@ -23,9 +23,9 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.moflon.core.utilities.ExceptionUtil;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonConventions;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.AbstractFileGenerator;
 import org.moflon.moca.BasicFormatRenderer;
@@ -70,7 +70,7 @@ public abstract class AbstractIntegratorGenerator extends AbstractFileGenerator
          fileNameToContent.put(fileName, renderTemplate(getTemplateName(), attributes));
       } catch (FileNotFoundException e)
       {
-         MoflonUtil.throwCoreExceptionAsError(e.getMessage(), WorkspaceHelper.getPluginId(getClass()), e);
+         ExceptionUtil.throwCoreExceptionAsError(e.getMessage(), WorkspaceHelper.getPluginId(getClass()), e);
       }
 
       return fileNameToContent;

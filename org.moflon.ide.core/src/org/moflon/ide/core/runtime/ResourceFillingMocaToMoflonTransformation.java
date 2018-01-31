@@ -61,6 +61,7 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       monitor.worked(1);
    }
 
+   @Override
    protected void handleMissingProject(final Node node, final IProject project)
    {
       final PluginProperties properties = propertiesMap.get(project.getName());
@@ -87,6 +88,7 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       }
    }
 
+   @Override
    protected void handleClosedProject(final Node node, final IProject project)
    {
       try
@@ -98,6 +100,7 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       }
    }
 
+   @Override
    protected void handleOpenProject(final Node node, final IProject project)
    {
       final PluginProperties properties = propertiesMap.get(project.getName());
@@ -117,7 +120,7 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
          if (expectedNatureId != null && !project.hasNature(expectedNatureId))
             throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
                   "Missing nature of project " + project + ". Expected: " + expectedNatureId + "."));
-      } catch (CoreException e)
+      } catch (final CoreException e)
       {
          throw new UncheckedCoreException(e);
       }

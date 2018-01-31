@@ -22,8 +22,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.moflon.core.moca.processing.MocaPlugin;
 import org.moflon.core.plugins.manifest.ManifestFileUpdater;
+import org.moflon.core.utilities.ExceptionUtil;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.natures.AntlrNature;
@@ -338,7 +338,7 @@ public class ParserUnparserGenerator extends AbstractFileGenerator
          fileNamesToContents.putAll(mocaMainFileNameToContent);
       } catch (FileNotFoundException e)
       {
-         MoflonUtil.throwCoreExceptionAsError(e.getMessage(), WorkspaceHelper.getPluginId(UIActivator.class), e);
+         ExceptionUtil.throwCoreExceptionAsError(e.getMessage(), WorkspaceHelper.getPluginId(UIActivator.class), e);
       }
 
       return fileNamesToContents;

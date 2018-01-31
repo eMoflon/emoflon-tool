@@ -13,7 +13,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.ExceptionUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.util.RefreshProjectJob;
@@ -113,7 +113,7 @@ public class EnterpriseArchitectHelper
       {
          logger.error(ERROR_MESSAGE_PROBLEMS_EA_EXPORT + project.getName());
          logger.info(ERROR_MESSAGE_LATEST_VERSIONS);
-         logger.error(MoflonUtil.displayExceptionAsString(e));
+         logger.error(ExceptionUtil.displayExceptionAsString(e));
       }
    }
 
@@ -127,7 +127,7 @@ public class EnterpriseArchitectHelper
       {
          logger.error(ERROR_MESSAGE_PROBLEMS_EA_EXPORT + project.getName());
          logger.info(ERROR_MESSAGE_LATEST_VERSIONS);
-         logger.error(MoflonUtil.displayExceptionAsString(e));
+         logger.error(ExceptionUtil.displayExceptionAsString(e));
       }
    }
 

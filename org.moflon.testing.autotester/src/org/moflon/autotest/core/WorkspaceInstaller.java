@@ -46,8 +46,8 @@ import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
 import org.moflon.core.build.BuildUtilities;
 import org.moflon.core.build.ProjectBuilderTask;
 import org.moflon.core.build.TaskUtilities;
+import org.moflon.core.utilities.ExceptionUtil;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.ProgressMonitorUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -479,7 +479,7 @@ public class WorkspaceInstaller
                + "      (5) If it's quite late in the night, our server might be down performing a back-up - try again in a few hours.\n"//
                + "      (6) If none of these helped, write us a mail to contact@emoflon.org :)\n" //
                + "\n" //
-               + "Exception of type " + e.getClass().getName() + ", Message: " + MoflonUtil.displayExceptionAsString(e);
+               + "Exception of type " + e.getClass().getName() + ", Message: " + ExceptionUtil.displayExceptionAsString(e);
          logger.error(message);
          return;
       }
