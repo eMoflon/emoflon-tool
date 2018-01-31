@@ -158,8 +158,6 @@
         <command categoryId="org.moflon.core.ui.commands.MainCategory" description="Opens the corresponding meta-model project" id="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject" name="Show meta-model project"></command>
         <command categoryId="org.moflon.core.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.build.ExportAndBuild" name="Export"></command>
         <command id="org.moflon.ide.ui.moflon" name="eMoflon popup"></command>
-        <command defaultHandler="org.moflon.ide.ui.admin.handlers.GitResetProjectHandler" id="org.moflon.ide.ui.commands.git.GitResetCommand" name="Reset and clean Git Repo"></command>
-        <command defaultHandler="org.moflon.ide.ui.admin.handlers.TouchResourceHandler" id="org.moflon.ide.ui.commands.git.TouchResourceCommand" name="Touch Resource"></command>
     </extension>
     <extension point="org.eclipse.ui.menus">
         <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=additions">
@@ -197,14 +195,6 @@
                 <visibleWhen checkEnabled="false"></visibleWhen>
             </command>
         </menuContribution>
-        <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupGit">
-            <command commandId="org.moflon.ide.ui.commands.git.GitResetCommand" label="Reset and Clean Git Repos" style="push" tooltip="Resets and cleans all selected Git projects">
-                <visibleWhen checkEnabled="false"></visibleWhen>
-            </command>
-            <command commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand" label="Touch Selected Resource(s)" style="push" tooltip="Marks the selected resoures as modified (even if they have not changed)">
-                <visibleWhen checkEnabled="false"></visibleWhen>
-            </command>
-        </menuContribution>
     </extension>
     <!--
    	* M1 = COMMAND/Ctrl
@@ -218,8 +208,6 @@
         <key commandId="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E T"></key>
         <key commandId="org.moflon.ide.ui.commands.build.ExportAndBuild" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E X"></key>
         <key commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E M"></key>
-        <key commandId="org.moflon.ide.ui.commands.git.GitResetCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E 0"></key>
-        <key commandId="org.moflon.ide.ui.commands.git.TouchResourceCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E C"></key>
     </extension>
     <extension point="org.eclipse.core.expressions.definitions">
         <definition id="org.moflon.ide.ui.definitions.hasRepositoryNature">
