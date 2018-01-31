@@ -75,19 +75,6 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       }
    }
 
-   private MoflonProjectConfigurator determineProjectConfigurator(final PluginProperties metamodelProperties)
-   {
-      switch (metamodelProperties.getType())
-      {
-      case PluginProperties.INTEGRATION_PROJECT:
-         return new IntegrationNature();
-      case PluginProperties.REPOSITORY_PROJECT:
-         return new RepositoryNature();
-      default:
-         return null;
-      }
-   }
-
    @Override
    protected void handleClosedProject(final Node node, final IProject project)
    {
@@ -135,6 +122,20 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       }
    }
 
+   private MoflonProjectConfigurator determineProjectConfigurator(final PluginProperties metamodelProperties)
+   {
+      final String projectType = metamodelProperties.getType();
+      switch (projectType)
+      {
+      case PluginProperties.INTEGRATION_PROJECT:
+         return new IntegrationNature();
+      case PluginProperties.REPOSITORY_PROJECT:
+         return new RepositoryNature();
+      default:
+         throw new IllegalArgumentException(String.format("Cannot handle project type %s", projectType));
+      }
+   }
+
    private final MoflonPropertiesContainer createOrLoadMoflonProperties(final IProject project, final String metamodelProject)
    {
       final IFile moflonProps = project.getFile(MoflonConventions.MOFLON_CONFIG_FILE);
@@ -143,19 +144,14 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       {
          final URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
          final URI moflonPropertiesURI = URI.createURI(MoflonConventions.MOFLON_CONFIG_FILE).resolve(projectURI);
-         final Resource moflonPropertiesResource = set.getResource(moflonPropertiesURI, true);
+         final Resource moflonPropertiesResource = this.getResourceSet().getResource(moflonPropertiesURI, true);
          final MoflonPropertiesContainer container = (MoflonPropertiesContainer) moflonPropertiesResource.getContents().get(0);
          RepositoryProjectCreator.updateMetamodelProjectName(container, metamodelProject);
          return container;
       } else
       {
-         return createDefaultPropertiesContainer(project, metamodelProject);
+         throw new UncheckedCoreException(
+               new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "moflon.properties.xmi could not be created")));
       }
-   }
-
-   public static MoflonPropertiesContainer createDefaultPropertiesContainer(final IProject project, final String metaModelProjectName)
-   {
-      final MoflonPropertiesContainer container = MoflonPropertiesContainerHelper.createDefaultPropertiesContainer(project);
-      return container;
    }
 }

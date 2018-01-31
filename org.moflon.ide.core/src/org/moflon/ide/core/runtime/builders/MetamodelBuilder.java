@@ -63,21 +63,32 @@ import MocaTree.Node;
  */
 public class MetamodelBuilder extends AbstractVisitorBuilder
 {
-
    public static final Logger logger = Logger.getLogger(MetamodelBuilder.class);
 
    public final static String TEMP_FOLDER = ".temp";
-   public static final String MOCA_XMI_FILE_EXTENSION = ".moca.xmi";
 
+   public static final String MOCA_XMI_FILE_EXTENSION = "moca.xmi";
+
+   private static final String VISITING_CONDITION_PATTERN = ".temp/*." + MOCA_XMI_FILE_EXTENSION;
+
+   /**
+    * Initializes the visiting condition of the builder to listen for changes to {@link #VISITING_CONDITION_PATTERN}
+    */
    public MetamodelBuilder()
    {
-      super(new AntPatternCondition(new String[] { ".temp/*.moca.xmi" }));
+      super(new AntPatternCondition(new String[] { VISITING_CONDITION_PATTERN }));
    }
 
-   public static String getId() {
+   /**
+    * Returns the ID of this build. It must be identical to the ID in the plugin.xml file.
+    * @return the builder ID
+    */
+   public static String getId()
+   {
       return "org.moflon.ide.core.runtime.builders.MetamodelBuilder";
    }
 
+   @Override
    public void clean(final IProgressMonitor monitor) throws CoreException
    {
       final SubMonitor subMon = SubMonitor.convert(monitor, "Cleaning " + getProject(), 2);
@@ -86,7 +97,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
       subMon.worked(1);
 
       final IFolder tempFolder = getProject().getFolder(MetamodelBuilder.TEMP_FOLDER);
-      final IFile mocaFile = tempFolder.getFile(getProject().getName() + MetamodelBuilder.MOCA_XMI_FILE_EXTENSION);
+      final IFile mocaFile = tempFolder.getFile(getProject().getName() + "." + MetamodelBuilder.MOCA_XMI_FILE_EXTENSION);
       if (mocaFile.isAccessible())
       {
          final URI workspaceURI = URI.createPlatformResourceURI("/", true);
@@ -110,7 +121,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
    {
       final MultiStatus mocaToMoflonStatus = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, getClass().getName() + " failed", null);
 
-      final String mocaFilePath = MetamodelBuilder.TEMP_FOLDER + "/" + getProject().getName() + MetamodelBuilder.MOCA_XMI_FILE_EXTENSION;
+      final String mocaFilePath = MetamodelBuilder.TEMP_FOLDER + "/" + getProject().getName() + "." + MetamodelBuilder.MOCA_XMI_FILE_EXTENSION;
       if (mocaFile instanceof IFile && mocaFilePath.equals(mocaFile.getProjectRelativePath().toString()) && mocaFile.isAccessible())
       {
          logger.debug("Start processing .temp folder");
@@ -125,9 +136,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             final URI workspaceURI = URI.createPlatformResourceURI("/", true);
             final URI projectURI = URI.createURI(getProject().getName() + "/", true).resolve(workspaceURI);
 
-            // Create and initialize resource set
             final ResourceSet set = eMoflonEMFUtil.createDefaultResourceSet();
-            // eMoflonEMFUtil.installCrossReferencers(set);
 
             // Load Moca tree in read-only mode
             final URI mocaFileURI = URI.createURI(mocaFilePath, true).resolve(projectURI);

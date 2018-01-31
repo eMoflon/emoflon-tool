@@ -69,6 +69,10 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
       return metamodelProject;
    }
 
+	public ResourceSet getResourceSet() {
+	   return this.set;
+	}
+
 	@Override
 	public void handleOutermostPackage(final Node node,
 			final EPackage outermostPackage) {
