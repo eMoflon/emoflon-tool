@@ -17,7 +17,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -34,7 +33,6 @@ import org.gervarro.eclipse.task.ProgressMonitoringJob;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.codegen.eclipse.ValidationStatus;
 import org.moflon.core.build.AbstractVisitorBuilder;
-import org.moflon.core.mocatomoflon.Exporter;
 import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.LogUtils;
@@ -48,10 +46,6 @@ import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.CleanMocaToMoflonTransformation;
 import org.moflon.ide.core.runtime.ProjectDependencyAnalyzer;
 import org.moflon.ide.core.runtime.ResourceFillingMocaToMoflonTransformation;
-import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHook;
-import org.moflon.ide.core.runtime.builders.hooks.PostMetamodelBuilderHookDTO;
-import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHook;
-import org.moflon.ide.core.runtime.builders.hooks.PreMetamodelBuilderHookDTO;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
@@ -147,7 +141,6 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             final Map<String, PluginProperties> properties = mocaTreeReader.getProperties(getProject());
 
             createInfoFile(properties, mocaTree);
-            callPreBuildHooks(properties, mocaTreeReader);
 
             // Create and run exporter on Moca tree
             final SubMonitor exporterSubMonitor = SubMonitor.convert(subMon.split(10), "Running Moca-to-eMoflon transformation", properties.keySet().size());
@@ -224,23 +217,26 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
             saveOnlyIfChangedOption.put(Resource.OPTION_LINE_DELIMITER, WorkspaceHelper.DEFAULT_RESOURCE_LINE_DELIMITER);
 
             // Persist resources (metamodels, tgg files and moflon.properties files)
-            for (Resource resource : set.getResources())
-            {
-               try
-               {
-                  resource.save(saveOnlyIfChangedOption);
-               } catch (IOException e)
-               {
-                  logger.debug(e.getMessage(), e);
-               }
-            }
-
-            callPostBuildHooks(mocaToMoflonStatus, mocaTreeReader, exporter);
+            persistResources(mocaToMoflonStatus, set, saveOnlyIfChangedOption);
 
             handleErrorsInEclipse(mocaToMoflonStatus);
-         } catch (CoreException e)
+         } catch (final CoreException e)
          {
             LogUtils.error(logger, e, "Unable to update created projects.");
+         }
+      }
+   }
+
+   private void persistResources(final MultiStatus mocaToMoflonStatus, final ResourceSet set, Map<Object, Object> saveOnlyIfChangedOption)
+   {
+      for (final Resource resource : set.getResources())
+      {
+         try
+         {
+            resource.save(saveOnlyIfChangedOption);
+         } catch (final IOException e)
+         {
+            mocaToMoflonStatus.add(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), String.format("Failed to save %s due to %s", resource, e)));
          }
       }
    }
@@ -294,44 +290,6 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
       } catch (final CoreException e)
       {
          logger.warn("Failed to create project info file " + file, e);
-      }
-   }
-
-   /**
-    * This method delegates to the registered extensions of the "Pre-MetamodelBuilder" extension points
-    */
-   private final void callPreBuildHooks(final Map<String, PluginProperties> properties, final MocaTreeEAPropertiesReader mocaTreeReader)
-   {
-      final IConfigurationElement[] extensions = Platform.getExtensionRegistry().getConfigurationElementsFor(PreMetamodelBuilderHook.PRE_BUILD_EXTENSION_ID);
-      for (final IConfigurationElement extension : extensions)
-      {
-         try
-         {
-            PreMetamodelBuilderHook metamodelBuilderHook = (PreMetamodelBuilderHook) extension.createExecutableExtension("class");
-            metamodelBuilderHook.run(new PreMetamodelBuilderHookDTO(mocaTreeReader, getProject()));
-         } catch (final CoreException e)
-         {
-            logger.error("Problem during pre-build hook: " + e.getMessage());
-         }
-      }
-   }
-
-   /**
-    * This method delegates to the registered extensions of the "Post-MetamodelBuilder" extension points
-    */
-   private final void callPostBuildHooks(final IStatus mocaToMoflonStatus, final MocaTreeEAPropertiesReader mocaTreeReader, final Exporter exporter)
-   {
-      final IConfigurationElement[] extensions = Platform.getExtensionRegistry().getConfigurationElementsFor(PostMetamodelBuilderHook.POST_BUILD_EXTENSION_ID);
-      for (final IConfigurationElement extension : extensions)
-      {
-         try
-         {
-            PostMetamodelBuilderHook metamodelBuilderHook = (PostMetamodelBuilderHook) extension.createExecutableExtension("class");
-            metamodelBuilderHook.run(new PostMetamodelBuilderHookDTO(mocaToMoflonStatus, mocaTreeReader, exporter, getProject()));
-         } catch (final CoreException e)
-         {
-            logger.error("Problem during post-build hook: " + e.getMessage());
-         }
       }
    }
 

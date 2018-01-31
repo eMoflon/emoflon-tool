@@ -83,7 +83,7 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 			if (MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT.equals(nodeName) ||
 					MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT.equals(nodeName)) {
 				// Handling (creating/opening) projects in Eclipse workspace
-				IProject workspaceProject = workspace.getRoot().getProject(projectName);
+				final IProject workspaceProject = workspace.getRoot().getProject(projectName);
 				if (!workspaceProject.exists()) {
 					handleOrReportMissingProject(node, workspaceProject);
 				}
