@@ -12,7 +12,7 @@ import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.moflon.autotest.core.WorkspaceInstaller;
+import org.moflon.autotest.core.EnterpriseArchitectAwareWorkspaceInstaller;
 import org.moflon.core.ui.MoflonPerspective;
 
 /**
@@ -60,7 +60,7 @@ public class StartUp implements IStartup
 
                   logger.debug("Autorunning workspace '" + workspaceName + "'");
 
-                  new WorkspaceInstaller().installWorkspaceByName(workspaceName);
+                  new EnterpriseArchitectAwareWorkspaceInstaller().installWorkspaceByName(workspaceName);
 
                }
 

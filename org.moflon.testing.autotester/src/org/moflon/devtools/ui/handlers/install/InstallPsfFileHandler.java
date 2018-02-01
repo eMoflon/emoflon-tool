@@ -28,7 +28,7 @@ public class InstallPsfFileHandler extends AbstractInstallCommandHandler
          final List<String> selectedFileNames = Arrays.asList(dialog.getFileNames());
          final List<File> psfFiles = selectedFileNames.stream().map(s -> new File(new File(parentPath), s)).collect(Collectors.toList());
 
-         this.getWorkspaceController(event).installPsfFiles(psfFiles);
+         this.getWorkspaceController().installPsfFiles(psfFiles);
       }
       return null;
    }

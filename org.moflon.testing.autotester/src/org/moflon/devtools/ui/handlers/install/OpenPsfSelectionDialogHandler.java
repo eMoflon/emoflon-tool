@@ -51,7 +51,7 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
             {
                selectedPsfFiles.add((File)file);
             }
-            this.getWorkspaceController(event).installPsfFiles(selectedPsfFiles, "Selected PSFs");
+            this.getWorkspaceController().installPsfFiles(selectedPsfFiles, "Selected PSFs");
          }
          return null;
       } catch (CoreException | IOException e)

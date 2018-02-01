@@ -17,7 +17,7 @@ public class InstallModulesHandler extends AbstractInstallCommandHandler
       if (!psfFiles.isEmpty())
       {
          logger.debug("Installing workspace  '" + workspaceName + "' using the following PSFs " + psfFiles);
-         this.getWorkspaceController(event).installWorkspaceByName(workspaceName);
+         this.getWorkspaceController().installWorkspaceByName(workspaceName);
       } else
       {
          logger.info("No PSF files found for workspace '" + workspaceName + "'");

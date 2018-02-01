@@ -9,7 +9,7 @@ public class InstallDeveloperWorkspaceHandlerUsingInstalledPSFs extends Abstract
    @Override
    public Object execute(final ExecutionEvent event) throws ExecutionException
    {
-      this.getWorkspaceController(event).installWorkspaceByName(EMoflonStandardWorkspaces.OLD_DEVELOPER_WORKSPACE_NAME);
+      this.getWorkspaceController().installWorkspaceByName(EMoflonStandardWorkspaces.OLD_DEVELOPER_WORKSPACE_NAME);
       return null;
    }
 

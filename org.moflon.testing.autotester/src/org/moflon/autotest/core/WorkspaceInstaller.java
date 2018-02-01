@@ -3,18 +3,13 @@ package org.moflon.autotest.core;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IBuildConfiguration;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -25,87 +20,27 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.team.internal.ui.wizards.ImportProjectSetOperation;
 import org.eclipse.ui.IWorkingSet;
-import org.eclipse.ui.IWorkingSetManager;
-import org.eclipse.ui.PlatformUI;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
-import org.moflon.core.build.BuildUtilities;
-import org.moflon.core.build.ProjectBuilderTask;
 import org.moflon.core.build.TaskUtilities;
 import org.moflon.core.utilities.ExceptionUtil;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
-import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
-import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 import org.moflon.ide.workspaceinstaller.psf.PsfFileUtils;
 
 @SuppressWarnings("restriction")
 public class WorkspaceInstaller
 {
-   /**
-    * Projects whose name contains this string are treated as test projects
-    */
-   private static final String DEFAULT_TESTSUITE_PROJECT_NAME_SUBSTRING = "testsuite";
-
-   private static final String EMOFLON_WORKSPACE_NAME_PREFIX = "eMoflon ";
-
-   private static final Logger logger = Logger.getLogger(WorkspaceInstaller.class);
+   protected static final Logger logger = Logger.getLogger(WorkspaceInstaller.class);
 
    private static final String MASTER_BRANCH = "master";
-
-   public void installWorkspaceByName(final String workspaceName)
-   {
-      final List<String> path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
-      final String branchName = EMoflonStandardWorkspaces.extractCustomBranchName(workspaceName);
-      if (!path.isEmpty())
-      {
-         this.installPluginRelativePsfFiles(path, workspaceName, branchName);
-      } else
-      {
-         logger.debug("Not a recognized workspace: " + workspaceName);
-      }
-   }
 
    public void installPsfFiles(final List<File> psfFiles)
    {
       final String label = joinBasenames(psfFiles);
       installPsfFiles(psfFiles, label);
-   }
-
-   private void installPluginRelativePsfFiles(final Collection<String> pluginRelativePsfFiles, final String label, final String branchName)
-   {
-      prepareWorkspace();
-
-      installPsfFiles(mapToAbsoluteFiles(pluginRelativePsfFiles), label, branchName);
-   }
-
-   private static String mapToAbsolutePath(final String pluginRelativePathToPSF)
-   {
-      final String pluginIdOfPsfFilesProject = getPluginIdOfPsfFilesProject();
-      final IProject workspaceProject = WorkspaceHelper.getProjectByPluginId(pluginIdOfPsfFilesProject);
-      if (workspaceProject != null)
-      {
-         logger.debug("Using PSF files from workspace project with plugin ID " + pluginIdOfPsfFilesProject + ".");
-         final File fullPath = new File(workspaceProject.getLocation().toOSString(), pluginRelativePathToPSF);
-         return fullPath.getAbsolutePath();
-      } else
-      {
-         logger.debug("Using PSF files in installed plugin " + pluginIdOfPsfFilesProject + ".");
-         final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(pluginRelativePathToPSF, pluginIdOfPsfFilesProject);
-         logger.debug("Retrieved URL: " + fullPathURL);
-         final String absolutePathToPSF = new File(fullPathURL.getPath()).getAbsolutePath();
-         return absolutePathToPSF;
-      }
-   }
-
-   private static String getPluginIdOfPsfFilesProject()
-   {
-      return WorkspaceHelper.getPluginId(EMoflonStandardWorkspaces.class);
    }
 
    public void installPsfFiles(final List<File> psfFiles, final String label)
@@ -117,6 +52,8 @@ public class WorkspaceInstaller
    {
       try
       {
+         prepareWorkspace();
+
          // We extract the contents beforehand because the following action may delete them if we load PSF files
          // directly from the workspace
          final String psfContent;
@@ -233,26 +170,13 @@ public class WorkspaceInstaller
       logger.info("End of automatic workspace configuration reached. Please wait for the code generation jobs to finish. Bye bye.");
    }
 
+   /**
+    * Adds jobs to the queue that shall be invoked prior to building the projects in the workspace
+    * @param jobs the job queue
+    */
    protected void enqueuePreprocessingJobs(final List<Job> jobs)
    {
-      final IProject[] metamodelProjects = CoreActivator.getMetamodelProjects(ResourcesPlugin.getWorkspace().getRoot().getProjects());
-      if (metamodelProjects.length > 0)
-      {
-         final EnterpriseArchitectModelExporterTask eaModelExporter = new EnterpriseArchitectModelExporterTask(metamodelProjects, false);
-         jobs.add(new WorkspaceTaskJob(eaModelExporter));
-      }
-      final IBuildConfiguration[] buildConfigurations = BuildUtilities.getDefaultBuildConfigurations(Arrays.asList(metamodelProjects));
-      if (buildConfigurations.length > 0)
-      {
-         final ProjectBuilderTask metamodelBuilder = new ProjectBuilderTask(buildConfigurations);
-         jobs.add(new WorkspaceTaskJob(metamodelBuilder));
-      }
-   }
-
-   public Collection<IProject> collectTestProjects()
-   {
-      return Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects()).stream().filter(project -> isTestProjectAccordingToConvention(project))
-            .collect(Collectors.toList());
+      // Nothing to do here
    }
 
    // This is required to avoid NPEs when checking out plugin projects (a problem with JDT)
@@ -266,32 +190,6 @@ public class WorkspaceInstaller
          LogUtils.error(logger, e);
       }
 
-   }
-
-   private static boolean isTestProjectAccordingToConvention(final IProject project)
-   {
-      return project.getName().toLowerCase().contains(DEFAULT_TESTSUITE_PROJECT_NAME_SUBSTRING) && WorkspaceHelper.hasNature(project, JavaCore.NATURE_ID);
-   }
-
-   /**
-    * This method removes all working sets containing no elements whose name starts with "org.moflon"
-    */
-   public static void removeEmptyMoflonWorkingSets()
-   {
-      IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
-      for (IWorkingSet ws : workingSetManager.getAllWorkingSets())
-      {
-         if (ws.getName().startsWith(EMOFLON_WORKSPACE_NAME_PREFIX) && ws.getElements().length == 0)
-         {
-            workingSetManager.removeWorkingSet(ws);
-         }
-      }
-   }
-
-   private static List<File> mapToAbsoluteFiles(final Collection<String> pluginRelativePsfFiles)
-   {
-      return pluginRelativePsfFiles.stream().filter(s -> s != null).map(WorkspaceInstaller::mapToAbsolutePath).map(s -> new File(s))
-            .collect(Collectors.toList());
    }
 
    private static String joinBasenames(final List<File> files)
