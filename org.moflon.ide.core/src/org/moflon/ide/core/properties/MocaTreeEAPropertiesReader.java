@@ -34,6 +34,8 @@ public class MocaTreeEAPropertiesReader
 
    private Node mocaTree;
 
+   public static final String METAMODEL_PROJECT_NAME_KEY = "metamodelProject";
+
    /**
     * Extracts the specification metadata from the MOCA tree in the .temp folder
     */
@@ -52,7 +54,7 @@ public class MocaTreeEAPropertiesReader
          Resource mocaTreeResource = set.getResource(mocaFileURI, true);
          mocaTree = (Node) mocaTreeResource.getContents().get(0);
          Map<String, PluginProperties> properties = getProperties(mocaTree);
-         properties.keySet().forEach(p->properties.get(p).setMetamodelProjectName(metamodelProject.getName()));
+         properties.keySet().forEach(p->properties.get(p).put(METAMODEL_PROJECT_NAME_KEY, metamodelProject.getName()));
          return properties;
       } else
       {

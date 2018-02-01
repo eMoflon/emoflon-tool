@@ -15,6 +15,7 @@ import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.PropertycontainerFactory;
 import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.builders.RepositoryBuilder;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
@@ -73,7 +74,7 @@ public class RepositoryProjectCreator extends MoflonProjectCreator
    {
       super.initializeMoflonProperties(moflonProperties);
 
-      updateMetamodelProjectName(moflonProperties, getPluginProperties().getMetamodelProjectName());
+      updateMetamodelProjectName(moflonProperties, getPluginProperties().get(MocaTreeEAPropertiesReader.METAMODEL_PROJECT_NAME_KEY));
       moflonProperties.setTGGBuildMode(null);
 
    }

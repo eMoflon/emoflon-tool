@@ -28,6 +28,7 @@ import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.ProjectCreatorFactory;
 import org.moflon.ide.core.project.RepositoryProjectCreator;
+import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
@@ -111,7 +112,8 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       {
          throw new UncheckedCoreException(e);
       }
-      final MoflonPropertiesContainer moflonProps = createOrLoadMoflonProperties(project, properties.getMetamodelProjectName());
+
+      final MoflonPropertiesContainer moflonProps = createOrLoadMoflonProperties(project, properties.get(MocaTreeEAPropertiesReader.METAMODEL_PROJECT_NAME_KEY));
       final OpenProjectHandler openProjectHandler = new OpenProjectHandler(project, properties, moflonProps, determineProjectConfigurator(properties));
       try
       {
