@@ -7,5 +7,6 @@ Bundle-Vendor: eMoflon Developers
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.moflon.ide.workspaceinstaller.psf
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
- org.moflon.core.utilities
+ org.moflon.core.utilities,
+ org.moflon.core.ui.autosetup
 Bundle-ActivationPolicy: lazy

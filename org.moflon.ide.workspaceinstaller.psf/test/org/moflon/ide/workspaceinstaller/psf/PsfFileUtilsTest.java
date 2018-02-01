@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.moflon.core.ui.autosetup.PsfFileUtils;
 
 /**
  * Utility class for working with PSF files.
