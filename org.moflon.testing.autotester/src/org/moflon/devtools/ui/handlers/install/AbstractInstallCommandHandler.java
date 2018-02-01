@@ -1,7 +1,6 @@
 package org.moflon.devtools.ui.handlers.install;
 
 import org.moflon.autotest.core.EnterpriseArchitectAwareWorkspaceInstaller;
-import org.moflon.autotest.core.WorkspaceInstaller;
 import org.moflon.core.ui.AbstractCommandHandler;
 
 /**
@@ -12,8 +11,8 @@ import org.moflon.core.ui.AbstractCommandHandler;
 public abstract class AbstractInstallCommandHandler extends AbstractCommandHandler
 {
    /**
-    * Returns the {@link WorkspaceInstaller} to be used by the subclasses
-    * @return the {@link WorkspaceInstaller}
+    * Returns the {@link EnterpriseArchitectAwareWorkspaceInstaller} to be used by the subclasses
+    * @return the {@link EnterpriseArchitectAwareWorkspaceInstaller}
     */
    protected final EnterpriseArchitectAwareWorkspaceInstaller getWorkspaceController()
    {

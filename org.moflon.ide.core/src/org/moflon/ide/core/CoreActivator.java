@@ -118,39 +118,6 @@ public class CoreActivator extends Plugin
       return result.toArray(new IProject[result.size()]);
    }
 
-   public static final IProject[] getRepositoryAndIntegrationProjects(final IProject[] projects)
-   {
-      final List<IProject> result = new ArrayList<IProject>(projects.length);
-      for (final IProject project : projects)
-      {
-         if (project.isAccessible() && isMoflonProjectNoThrow(project))
-         {
-            result.add(project);
-         }
-      }
-      return result.toArray(new IProject[result.size()]);
-   }
-
-   public static final IProject[] getProjectsWithGraphicalSyntax(final IProject[] projects)
-   {
-      final List<IProject> result = new ArrayList<IProject>(projects.length);
-      for (final IProject project : projects)
-      {
-         try
-         {
-            //TODO@rkluge: Hack to avoid dependency cycle
-            if (project.isAccessible() && !project.hasNature("org.moflon.tgg.mosl.codeadapter.moslTGGNature"))
-            {
-               result.add(project);
-            }
-         } catch (CoreException e)
-         {
-            // Do nothing: Skip erroneous projects
-         }
-      }
-      return result.toArray(new IProject[result.size()]);
-   }
-
    public static final void setEPackageURI(final EPackage ePackage)
    {
       URI uri = EcoreUtil.getURI(ePackage);

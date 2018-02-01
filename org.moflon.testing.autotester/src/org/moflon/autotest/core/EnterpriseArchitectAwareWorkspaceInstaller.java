@@ -2,6 +2,7 @@ package org.moflon.autotest.core;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -10,10 +11,12 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.Job;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
 import org.moflon.core.build.BuildUtilities;
 import org.moflon.core.build.ProjectBuilderTask;
+import org.moflon.core.ui.autosetup.WorkspaceInstaller;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
@@ -21,6 +24,19 @@ import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 
 public class EnterpriseArchitectAwareWorkspaceInstaller extends WorkspaceInstaller
 {
+   public void installWorkspaceByName(final String workspaceName)
+   {
+      final List<String> path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
+      final String branchName = EMoflonStandardWorkspaces.extractCustomBranchName(workspaceName);
+      if (!path.isEmpty())
+      {
+         this.installPluginRelativePsfFiles(path, workspaceName, branchName);
+      } else
+      {
+         logger.debug("Not a recognized workspace: " + workspaceName);
+      }
+   }
+
    @Override
    protected void enqueuePreprocessingJobs(final List<Job> jobs)
    {
@@ -40,22 +56,17 @@ public class EnterpriseArchitectAwareWorkspaceInstaller extends WorkspaceInstall
       }
    }
 
-   public void installWorkspaceByName(final String workspaceName)
-   {
-      final List<String> path = EMoflonStandardWorkspaces.getPathToPsfFileForWorkspace(workspaceName);
-      final String branchName = EMoflonStandardWorkspaces.extractCustomBranchName(workspaceName);
-      if (!path.isEmpty())
-      {
-         this.installPluginRelativePsfFiles(path, workspaceName, branchName);
-      } else
-      {
-         logger.debug("Not a recognized workspace: " + workspaceName);
-      }
-   }
-
    protected void installPluginRelativePsfFiles(final Collection<String> pluginRelativePsfFiles, final String label, final String branchName)
    {
       installPsfFiles(mapToAbsoluteFiles(pluginRelativePsfFiles), label, branchName);
+   }
+
+   @Override
+   protected IProject[] getProjectsToBuild()
+   {
+      final IProject[] moflonProjects = getRepositoryAndIntegrationProjects(ResourcesPlugin.getWorkspace().getRoot().getProjects());
+      final IProject[] graphicalMoflonProjects = getProjectsWithGraphicalSyntax(moflonProjects);
+      return graphicalMoflonProjects;
    }
 
    private static String mapToAbsolutePath(final String pluginRelativePathToPSF)
@@ -86,5 +97,38 @@ public class EnterpriseArchitectAwareWorkspaceInstaller extends WorkspaceInstall
    private static String getPluginIdOfPsfFilesProject()
    {
       return WorkspaceHelper.getPluginId(EMoflonStandardWorkspaces.class);
+   }
+
+   private static final IProject[] getRepositoryAndIntegrationProjects(final IProject[] projects)
+   {
+      final List<IProject> result = new ArrayList<IProject>(projects.length);
+      for (final IProject project : projects)
+      {
+         if (project.isAccessible() && CoreActivator.isMoflonProjectNoThrow(project))
+         {
+            result.add(project);
+         }
+      }
+      return result.toArray(new IProject[result.size()]);
+   }
+
+   private static final IProject[] getProjectsWithGraphicalSyntax(final IProject[] projects)
+   {
+      final List<IProject> result = new ArrayList<IProject>(projects.length);
+      for (final IProject project : projects)
+      {
+         try
+         {
+            //TODO@rkluge: Hack to avoid dependency cycle
+            if (project.isAccessible() && !project.hasNature("org.moflon.tgg.mosl.codeadapter.moslTGGNature"))
+            {
+               result.add(project);
+            }
+         } catch (CoreException e)
+         {
+            // Do nothing: Skip erroneous projects
+         }
+      }
+      return result.toArray(new IProject[result.size()]);
    }
 }

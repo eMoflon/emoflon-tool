@@ -20,7 +20,8 @@ Require-Bundle:
  org.moflon.ide.ui,
  org.moflon.ide.workspaceinstaller.psf,
  org.moflon.core.ui;bundle-version="1.0.0",
- org.moflon.core.build
+ org.moflon.core.build,
+ org.moflon.core.ui.autosetup
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: eMoflon Developers
