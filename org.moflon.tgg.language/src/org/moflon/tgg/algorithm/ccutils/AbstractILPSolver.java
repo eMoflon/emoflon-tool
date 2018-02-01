@@ -44,12 +44,18 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 
 		Solver solver = factory.get();
 
-		// solve
-		Result result = solver.solve(ilpProblem);
+		
+		try {
+			// solve
+			Result result = solver.solve(ilpProblem);
 
-		int[] arrayResult = getArrayFromResult(result);
+			int[] arrayResult = getArrayFromResult(result);
 
-		return arrayResult;
+			return arrayResult;
+		} catch (Exception e) {
+			throw new RuntimeException("ILP Problem is not solvable.");
+		}
+	
 	}
 
 	protected abstract SolverFactory getSolverFactory();
@@ -110,14 +116,16 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 			}
 			ilpProblem.setObjective(linear, userObj.getOptimizationGoal() == OptGoal.MIN ? OptType.MIN : OptType.MAX);
 		}
-		else
+		else {
 			for (int matchId : protocol.getMatchIDs().toArray()) {
 				CCMatch match = protocol.intToMatch(matchId);
 				int weight = match.getSourceMatch().getCreatedHashSet().size();
 				weight += match.getTargetMatch().getCreatedHashSet().size();
 				objective.add(weight, matchId);
-				ilpProblem.setObjective(objective, OptType.MAX);
 			}
+			ilpProblem.setObjective(objective, OptType.MAX);
+		}
+			
 		
 
 		// define variables as ilp boolean variables
