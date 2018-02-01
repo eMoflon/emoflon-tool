@@ -36,6 +36,7 @@ import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.ProjectCreatorFactory;
+import org.moflon.ide.core.properties.PluginPropertiesHelper;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.sdm.language.SDMLanguagePlugin;
 import org.moflon.tgg.runtime.TGGRuntimePlugin;
@@ -126,7 +127,7 @@ public class OpenProjectHandler extends WorkspaceTask
          // These two metamodels are usually used directly or indirectly by most projects
          addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.PLUGIN_ID_ECORE));
 
-         if (metamodelProperties.isIntegrationProject())
+         if (PluginPropertiesHelper.isIntegrationProject(metamodelProperties))
          {
             addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGRuntimePlugin.class)));
             addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(SDMLanguagePlugin.class)));

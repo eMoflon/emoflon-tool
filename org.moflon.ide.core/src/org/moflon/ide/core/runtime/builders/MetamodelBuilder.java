@@ -43,6 +43,7 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.emf.codegen.dependency.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.project.MetamodelProjectCreator;
 import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
+import org.moflon.ide.core.properties.PluginPropertiesHelper;
 import org.moflon.ide.core.runtime.CleanMocaToMoflonTransformation;
 import org.moflon.ide.core.runtime.ProjectDependencyAnalyzer;
 import org.moflon.ide.core.runtime.ResourceFillingMocaToMoflonTransformation;
@@ -265,7 +266,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder
       {
          final PluginProperties metamodelProperties = properties.get(projectName);
          final String projectType = metamodelProperties.getType().substring(0, 1);
-         final String isExported = Boolean.toString(metamodelProperties.isExported());
+         final String isExported = Boolean.toString(PluginPropertiesHelper.isExported(metamodelProperties));
          sb.append(String.format("%s [type=%s, exported=%s, nsUri=%s]\n", projectName, projectType, isExported, metamodelProperties.getNsUri()));
          List<String> dependencies = new ArrayList<>(metamodelProperties.getDependencies());
          Collections.sort(dependencies);

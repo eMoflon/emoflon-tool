@@ -4,6 +4,7 @@ import org.eclipse.core.resources.IProject;
 import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.build.nature.MoflonProjectConfigurator;
 import org.moflon.core.plugins.PluginProperties;
+import org.moflon.ide.core.properties.PluginPropertiesHelper;
 
 public class ProjectCreatorFactory
 {
@@ -12,9 +13,9 @@ public class ProjectCreatorFactory
    {
       final String projectType = projectProperties.get(PluginProperties.TYPE_KEY);
       switch(projectType) {
-         case PluginProperties.REPOSITORY_PROJECT:
+         case PluginPropertiesHelper.REPOSITORY_PROJECT:
             return new RepositoryProjectCreator(project, projectProperties, projectConfigurator);
-         case PluginProperties.INTEGRATION_PROJECT:
+         case PluginPropertiesHelper.INTEGRATION_PROJECT:
             return new IntegrationProjectCreator(project, projectProperties, projectConfigurator);
       }
       return null;

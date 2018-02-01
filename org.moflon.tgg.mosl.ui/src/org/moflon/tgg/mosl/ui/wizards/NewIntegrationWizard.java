@@ -19,6 +19,7 @@ import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.plugins.PluginProperties;
 import org.moflon.emf.ui.wizard.NewMoflonEmfProjectWizard;
 import org.moflon.ide.core.project.IntegrationProjectCreator;
+import org.moflon.ide.core.properties.PluginPropertiesHelper;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.tgg.mosl.builder.MOSLTGGNature;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
@@ -38,7 +39,7 @@ public class NewIntegrationWizard extends NewMoflonEmfProjectWizard
    @Override
    protected void createProject(IProgressMonitor monitor, IProject project, PluginProperties metamodelProperties) throws CoreException
    {
-      metamodelProperties.put(PluginProperties.TYPE_KEY, PluginProperties.INTEGRATION_PROJECT);
+      metamodelProperties.put(PluginProperties.TYPE_KEY, PluginPropertiesHelper.INTEGRATION_PROJECT);
       MoflonProjectCreator createMoflonProject = new IntegrationProjectCreator(project, metamodelProperties, new IntegrationNature());
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating project", 2);
       ResourcesPlugin.getWorkspace().run(createMoflonProject, subMon.split(1));

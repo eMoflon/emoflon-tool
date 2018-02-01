@@ -89,18 +89,18 @@ public class MocaTreeEAPropertiesReader
       properties.put(PluginProperties.NAME_KEY, getValueForProperty("Moflon::NsPrefix", rootNode));
       properties.put(PluginProperties.NS_URI_KEY, getValueForProperty("Moflon::NsUri", rootNode));
       properties.put(PluginProperties.PLUGIN_ID_KEY, getValueForProperty("Moflon::PluginID", rootNode));
-      properties.put(PluginProperties.EXPORT_FLAG_KEY, getValueForProperty("Moflon::Export", rootNode));
-      properties.put(PluginProperties.VALIDATED_FLAG_KEY, getValueForProperty("Moflon::Validated", rootNode));
+      properties.put(PluginPropertiesHelper.EXPORT_FLAG_KEY, getValueForProperty("Moflon::Export", rootNode));
+      properties.put(PluginPropertiesHelper.VALIDATED_FLAG_KEY, getValueForProperty("Moflon::Validated", rootNode));
       properties.put(PluginProperties.WORKING_SET_KEY, getValueForProperty("Moflon::WorkingSet", rootNode));
-      properties.setHasAttributeConstraints(containsAttributeConstraintsNode(rootNode));
+      PluginPropertiesHelper.setHasAttributeConstraints(containsAttributeConstraintsNode(rootNode), properties);
 
       switch (rootNode.getName())
       {
       case "EPackage":
-         properties.put(PluginProperties.TYPE_KEY, PluginProperties.REPOSITORY_PROJECT);
+         properties.put(PluginProperties.TYPE_KEY, PluginPropertiesHelper.REPOSITORY_PROJECT);
          break;
       case "TGG":
-         properties.put(PluginProperties.TYPE_KEY, PluginProperties.INTEGRATION_PROJECT);
+         properties.put(PluginProperties.TYPE_KEY, PluginPropertiesHelper.INTEGRATION_PROJECT);
          break;
       default:
          logger.warn("Unknown node type in Moca tree: " + rootNode.getName());

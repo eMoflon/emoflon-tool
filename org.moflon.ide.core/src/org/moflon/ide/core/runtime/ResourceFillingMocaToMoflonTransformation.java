@@ -29,6 +29,7 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.ProjectCreatorFactory;
 import org.moflon.ide.core.project.RepositoryProjectCreator;
 import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
+import org.moflon.ide.core.properties.PluginPropertiesHelper;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
@@ -93,10 +94,10 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
    {
       final PluginProperties properties = propertiesMap.get(project.getName());
       final String expectedNatureId;
-      if (properties.isIntegrationProject())
+      if (PluginPropertiesHelper.isIntegrationProject(properties))
       {
          expectedNatureId = IntegrationNature.getId();
-      } else if (properties.isRepositoryProject())
+      } else if (PluginPropertiesHelper.isRepositoryProject(properties))
       {
          expectedNatureId = RepositoryNature.getId();
       } else
@@ -129,9 +130,9 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       final String projectType = metamodelProperties.getType();
       switch (projectType)
       {
-      case PluginProperties.INTEGRATION_PROJECT:
+      case PluginPropertiesHelper.INTEGRATION_PROJECT:
          return new IntegrationNature();
-      case PluginProperties.REPOSITORY_PROJECT:
+      case PluginPropertiesHelper.REPOSITORY_PROJECT:
          return new RepositoryNature();
       default:
          throw new IllegalArgumentException(String.format("Cannot handle project type %s", projectType));
