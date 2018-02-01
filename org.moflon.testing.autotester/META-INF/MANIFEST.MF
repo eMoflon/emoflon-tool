@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.testing.autotester
 Bundle-SymbolicName: org.moflon.testing.autotester;singleton:=true
 Bundle-Version: 2.14.2.qualifier
-Bundle-Activator: org.moflon.autotest.AutoTestActivator
 Require-Bundle: 
  org.eclipse.ui,
  org.eclipse.core.runtime,

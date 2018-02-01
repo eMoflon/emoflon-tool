@@ -11,17 +11,18 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
 import org.gervarro.eclipse.task.ITask;
-import org.moflon.autotest.AutoTestActivator;
 import org.moflon.core.utilities.LogUtils;
+import org.moflon.core.utilities.WorkspaceHelper;
 
 public class LaunchInvocationTask implements ITask {
 	private static final Logger logger = Logger.getLogger(LaunchInvocationTask.class);
 	private final ILaunchConfiguration launchConfiguration;
-	
+
 	public LaunchInvocationTask(final ILaunchConfiguration launchConfiguration) {
 		this.launchConfiguration = launchConfiguration;
 	}
-	
+
+	@Override
 	public IStatus run(final IProgressMonitor monitor) {
 		try {
 			final ILaunch launch = launchConfiguration.launch(
@@ -36,10 +37,9 @@ public class LaunchInvocationTask implements ITask {
 					terminateProcess(launch);
 				}
 			}
-			return new Status(IStatus.OK, AutoTestActivator.getModuleID(),
-					launchConfiguration.getName() + " successfully terminated");
+			return Status.OK_STATUS;
 		} catch (final CoreException e) {
-			return new Status(IStatus.ERROR, AutoTestActivator.getModuleID(),
+			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
 					IStatus.ERROR, "Unable to launch " + launchConfiguration.getName(), e);
 		}
 	}

@@ -4,7 +4,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
@@ -21,16 +20,6 @@ import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 public final class EnterpriseArchitectModelExporterTask extends WorkspaceTask
 {
    private final IProject[] metamodelProjects;
-
-   public EnterpriseArchitectModelExporterTask()
-   {
-      this(ResourcesPlugin.getWorkspace().getRoot().getProjects());
-   }
-
-   public EnterpriseArchitectModelExporterTask(final IProject... metamodelProjects)
-   {
-      this(metamodelProjects, true);
-   }
 
    EnterpriseArchitectModelExporterTask(final IProject[] metamodelProjects, final boolean checkProjects)
    {

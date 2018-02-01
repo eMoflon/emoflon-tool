@@ -38,6 +38,15 @@ public class IntegrationProjectCreator extends MoflonProjectCreator
       super(project, projectProperties, projectConfigurator);
    }
 
+   /**
+    * The generated code of integration projects contains a lot of unused code. Therefore, we ignore the resulting warnings.
+    */
+   @Override
+   protected boolean shallIgnoreGenWarnings()
+   {
+      return true;
+   }
+
    @Override
    protected SDMCodeGeneratorIds getCodeGeneratorHandler()
    {
