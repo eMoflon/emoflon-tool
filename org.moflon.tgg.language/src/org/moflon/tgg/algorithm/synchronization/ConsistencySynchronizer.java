@@ -37,6 +37,7 @@ import gnu.trove.list.TIntList;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;
+import net.sf.javailp.Problem;
 
 /**
  * A specialization of {@link Synchronizer} for consistency checks.
@@ -67,6 +68,14 @@ public class ConsistencySynchronizer {
 	private int variableCount;
 	
 	private int constraintCount;
+	
+	private AbstractILPSolver solver;
+
+	private double runtimeOfCorrespondenceCreation;
+	
+	private double runtimeOfILPSolving;
+	
+	private double runtimeOfRemovingDeselectedCorrespondences;
 
 
 	public ConsistencySynchronizer(Delta srcDelta, Delta trgDelta, StaticAnalysis staticAnalysis,
@@ -84,9 +93,13 @@ public class ConsistencySynchronizer {
 
 	protected void createCorrespondences() {
 
+		double tic = System.currentTimeMillis();
 		extractMatchPairs();
 
 		applyAllMatchPairs();
+		double toc = System.currentTimeMillis();
+		
+		runtimeOfCorrespondenceCreation = toc - tic;
 
 		filter();
 	
@@ -141,8 +154,10 @@ public class ConsistencySynchronizer {
 	}
 
 	private void filter() {
+		
+		double tic = System.currentTimeMillis();
 
-		AbstractILPSolver solver = new ILP_Gurobi_Solver();
+		solver = new ILP_Gurobi_Solver();
 		
 		if(userDefinedILPConstraintProvider != null)
 			solver.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
@@ -154,9 +169,16 @@ public class ConsistencySynchronizer {
 		variableCount = solver.getVariableCount();
 		constraintCount = solver.getConstraintCount();
 		
+		double toc = System.currentTimeMillis();
+		
+		runtimeOfILPSolving = toc - tic;
+		
+		double tic2 = System.currentTimeMillis();
 		removeMatches(solvingResult);
-
-
+		double toc2 = System.currentTimeMillis();
+		
+		runtimeOfRemovingDeselectedCorrespondences = toc2 - tic2;
+		
 	}
 
 	private void removeMatches(int[] matches) {
@@ -279,6 +301,24 @@ public class ConsistencySynchronizer {
 
 	public int getConstraintCount() {
 		return constraintCount;
+	}
+	
+	public Problem getILPProblem(){
+		if(solver == null)
+			throw new RuntimeException("You first need to execute consistency checking to prepare an ILP problem");
+		return solver.getILPProblem();
+	}
+	
+	public double getRuntimeOfCorrespondenceCreation() {
+		return runtimeOfCorrespondenceCreation;
+	}
+
+	public double getRuntimeOfILPSolving() {
+		return runtimeOfILPSolving;
+	}
+
+	public double getRuntimeOfRemovingDeselectedCorrespondences() {
+		return runtimeOfRemovingDeselectedCorrespondences;
 	}
 
 }
