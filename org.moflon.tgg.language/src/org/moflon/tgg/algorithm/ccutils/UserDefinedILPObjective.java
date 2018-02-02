@@ -21,7 +21,7 @@ public class UserDefinedILPObjective {
 		return optimizationGoal;
 	}
 
-	enum OptGoal {
+	public enum OptGoal {
 		MIN,
 		MAX
 	}
