@@ -1,4 +1,4 @@
-package org.moflon.autotest.core;
+package org.moflon.testing.autotester;
 
 import java.io.File;
 import java.net.URL;

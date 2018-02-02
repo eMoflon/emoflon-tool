@@ -1,4 +1,4 @@
-package org.moflon.autotest.core;
+package org.moflon.testing.autotester;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;

@@ -1,7 +1,7 @@
-package org.moflon.devtools.ui.handlers.install;
+package org.moflon.testing.autotester.handler;
 
-import org.moflon.autotest.core.EnterpriseArchitectAwareWorkspaceInstaller;
 import org.moflon.core.ui.AbstractCommandHandler;
+import org.moflon.testing.autotester.EnterpriseArchitectAwareWorkspaceInstaller;
 
 /**
  * Parent class for all command handlers that checkout workspaces.

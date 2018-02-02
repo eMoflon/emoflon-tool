@@ -1,4 +1,4 @@
-package org.moflon.devtools.ui.handlers.install;
+package org.moflon.testing.autotester.handler;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;

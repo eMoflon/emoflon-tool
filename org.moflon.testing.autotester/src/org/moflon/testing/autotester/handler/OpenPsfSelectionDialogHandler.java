@@ -1,4 +1,4 @@
-package org.moflon.devtools.ui.handlers.install;
+package org.moflon.testing.autotester.handler;
 
 import java.io.File;
 import java.io.IOException;
@@ -94,7 +94,7 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
 
    private String getPluginId()
    {
-      return WorkspaceHelper.getPluginId(getClass());
+      return "org.moflon.ide.workspaceinstaller.psf";
    }
 
    private final class PsfFileContentProvider implements IStructuredContentProvider

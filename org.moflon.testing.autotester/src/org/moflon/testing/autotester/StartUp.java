@@ -1,4 +1,4 @@
-package org.moflon.autotest;
+package org.moflon.testing.autotester;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -12,7 +12,6 @@ import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.moflon.autotest.core.EnterpriseArchitectAwareWorkspaceInstaller;
 import org.moflon.core.ui.MoflonPerspective;
 
 /**

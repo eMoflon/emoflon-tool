@@ -1,10 +1,9 @@
-package org.moflon.devtools.ui.handlers;
+package org.moflon.testing.autotester.handler;
 
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.moflon.devtools.ui.handlers.install.AbstractInstallCommandHandler;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 
 public class InstallModulesHandler extends AbstractInstallCommandHandler

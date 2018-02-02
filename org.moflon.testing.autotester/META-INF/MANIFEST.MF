@@ -25,4 +25,3 @@ Require-Bundle:
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: eMoflon Developers
-Export-Package: org.moflon.autotest.core
