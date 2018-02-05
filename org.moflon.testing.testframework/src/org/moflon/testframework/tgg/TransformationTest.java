@@ -265,10 +265,10 @@ public abstract class TransformationTest
    {
       if (direction == ApplicationTypes.FORWARD)
       {
-         helper.setSrc(eMoflonEMFUtil.loadModelWithDependencies(getFullInpath() + testCaseName + ".xmi", helper.getResourceSet()));
+         helper.setSrc(eMoflonEMFUtil.loadModel(getFullInpath() + testCaseName + ".xmi", helper.getResourceSet()));
       } else
       {
-         helper.setTrg(eMoflonEMFUtil.loadModelWithDependencies(getFullInpath() + testCaseName + ".xmi", helper.getResourceSet()));
+         helper.setTrg(eMoflonEMFUtil.loadModel(getFullInpath() + testCaseName + ".xmi", helper.getResourceSet()));
       }
    }
 
