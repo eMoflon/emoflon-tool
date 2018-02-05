@@ -268,16 +268,16 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	def determineTypeDef(EObject context){
 		var corrOv = context as CorrVariablePattern
 		var type = corrOv.type
-		if(type.super == (null))
+		if(type.super === (null))
 			return type as CorrType
 		else if(type.super instanceof CorrType)
 			return determineTypeDefFromExtension(type) as CorrType
 		else
-			throw new IllegalStateException("Unable to determine type def from " + type)
+			throw new IllegalStateException("Unable to determine type definition from " + type)
 	}
 
-	def determineTypeDefFromExtension(CorrType typeExtension) {
-		if(typeExtension.getSuper.super == (null))
+	def CorrType determineTypeDefFromExtension(CorrType typeExtension) {
+		if(typeExtension.getSuper.super === (null))
 			return typeExtension.super as CorrType
 		else if(typeExtension.getSuper.super instanceof CorrType)
 			return determineTypeDefFromExtension(typeExtension.super as CorrType)

@@ -22,7 +22,7 @@ import org.eclipse.xtext.EcoreUtil2
 import org.moflon.tgg.mosl.tgg.LinkVariablePattern
 
 /**
- * This class contains custom validation rules. 
+ * This class contains custom validation rules.
  *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
@@ -45,7 +45,7 @@ class TGGValidator extends AbstractTGGValidator {
 			}
 		}
 	}
-	
+
 	@Check
 	def checkAttributeExpression(AttributeExpression attrVar){
 		var attrNames = new BasicEList()
@@ -56,7 +56,7 @@ class TGGValidator extends AbstractTGGValidator {
 			error("EClass " + attrVar.objectVar.type.name + " does not contain EAttribute " + attrVar.attribute.name + ".", TggPackage.Literals.ATTRIBUTE_EXPRESSION__ATTRIBUTE, TGGValidator.INVALID_ATTRIBUTE_VARIABLE);
 		}
 	}
-	
+
 	@Check
 	def checkAttributeVariable(AttributeVariable attrVar){
 		var attrNames = new BasicEList()
@@ -67,28 +67,28 @@ class TGGValidator extends AbstractTGGValidator {
 			error("EClass " + attrVar.objectVar.type.name + " does not contain EAttribute " + attrVar.attribute + ".", TggPackage.Literals.ATTRIBUTE_VARIABLE__ATTRIBUTE, TGGValidator.INVALID_ATTRIBUTE_VARIABLE);
 		}
 	}
-	
+
 	Map<String, Map<EObject, Map<Class<? extends EObject>, EObject>>> names = new HashMap<String, Map<EObject, Map<Class<? extends EObject>, EObject>>>();
-	
-	
-	
-	
+
+
+
+
 	@Check
 	def checkForUniqueNames(TripleGraphGrammarFile tggFile){
 		names.clear();
 		for(NamedElements ne : EcoreUtil2.getAllContentsOfType(tggFile, NamedElements)){
 			checkForUniqueNames(ne);
 		}
-		
+
 	}
-	
+
 
 	def checkForUniqueNames(NamedElements ne){
 		if(names.containsKey(ne.name)){
 			var containers = names.get(ne.name);
 			if(containers.containsKey(ne.eContainer)){
 				var classes = containers.get(ne.eContainer);
-				
+
 				if(classes.containsKey(ne.class)){
 					var object = classes.get(ne.class);
 					if(!object.equals(ne)){
@@ -97,7 +97,7 @@ class TGGValidator extends AbstractTGGValidator {
 						classes.remove(ne.class);
 						containers.put(ne.eContainer, classes);
 						names.put(ne.name, containers)
-					}				
+					}
 				}
 				else{
 					classes.put(ne.class, ne);
@@ -110,35 +110,35 @@ class TGGValidator extends AbstractTGGValidator {
 				classes.put(ne.class,ne);
 				containers.put(ne.eContainer, classes);
 				names.put(ne.name, containers);
-			}			
+			}
 		}
 		else{
 			var classes = new HashMap<Class<? extends EObject>, EObject>();
-			classes.put(ne.class,ne);			
+			classes.put(ne.class,ne);
 			var containers = new HashMap<EObject, Map<Class<? extends EObject>, EObject>>();
 			containers.put(ne.eContainer, classes);
 			names.put(ne.name, containers);
 		}
 	}
-	
+
 	@Check
 	def checkIfTheTryingToGenerateObjectVariableIsAbstract(ObjectVariablePattern objectVariablePattern){
 		val type = objectVariablePattern.type
-		val eContainer = objectVariablePattern.eContainer;		
+		val eContainer = objectVariablePattern.eContainer;
 		if(eContainer instanceof Rule){
 		  var rule = eContainer as Rule;
 		  var operator = objectVariablePattern.op;
 		  var ruleIsAbstract = rule.abstractRule;
 		  var typeIsAbstract = type.abstract;
-		  var isGeneration = operator != null && operator.value != null && operator.value.equalsIgnoreCase("++ ");
+		  var isGeneration = operator !== null && operator.value !== null && operator.value.equalsIgnoreCase("++ ");
 		  var isAnError = !ruleIsAbstract && typeIsAbstract && isGeneration;
 		  if(isAnError){
 		  	error("The type of the object variable '" + objectVariablePattern.name + "' is abstract and the rule '" + Rule.name + "' is not abstract", TggPackage.Literals.OBJECT_VARIABLE_PATTERN__TYPE, TGGValidator.TYPE_IS_ABSTRACT);
 		  }
-		  
-		}		
-	} 
-	
+
+		}
+	}
+
 	def boolean findCycleInRule(Rule rule, List<Rule> visited){
 		if(visited.contains(rule)){
 			return true;
@@ -149,11 +149,11 @@ class TGGValidator extends AbstractTGGValidator {
 					return true;
 				}
 			}
-			visited.remove(rule)			
+			visited.remove(rule)
 			return false;
 		}
 	}
-	
+
 	@Check
 	def checkForCycleRefinments(Rule rule){
 		var foundSuperTypes = new ArrayList<Rule>();
@@ -164,23 +164,23 @@ class TGGValidator extends AbstractTGGValidator {
 			}else{
 				refinementName = rule.name
 			}
-			
+
 			error("The rule '" + rule.name + "' creates a cycle with the refinement '" + refinementName +"'", TggPackage.Literals.RULE__SUPERTYPES, TGGValidator.RULE_REFINEMENT_CREATES_A_CYCLE);
 		}
 	}
-	
+
 	@Check
 	def checkForMissingOperatorInPatternWithOperator(ObjectVariablePattern ov){
-		if(ov.op != null && "++".equals(ov.op.value)){
+		if(ov.op !== null && "++".equals(ov.op.value)){
 			var ovOpValue = ov.op.value;
 			for(LinkVariablePattern linkVar : ov.linkVariablePatterns){
-				if(linkVar.op == null || !ovOpValue.equals(linkVar.op.value)){
+				if(linkVar.op === null || !ovOpValue.equals(linkVar.op.value)){
 					error("Link Variable '" + linkVar.type.name + "' has a diffrent operator", linkVar, TggPackage.Literals.OPERATOR_PATTERN__OP, TGGValidator.LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_OBJECT_VARIABLE_PATTERN)
 				}
 			}
 		}
-		
-		if (ov.op == null || ov.op.equals("")) {
+
+		if (ov.op === null || ov.op.equals("")) {
 			for (LinkVariablePattern linkVar : ov.linkVariablePatterns) {
 
 				val rule = ov.eContainer as Rule
@@ -188,9 +188,9 @@ class TGGValidator extends AbstractTGGValidator {
 				val trgOV = EcoreUtil2.resolve(target, rule) as ObjectVariablePattern;
 				var trgOVOp = trgOV.op;
 
-				if (trgOVOp != null && trgOVOp.value.equals("++") &&
-					((linkVar.op != null && !("++".equals(linkVar.op.value))) || linkVar.op == null)) {
-					error("Link Variable '" + linkVar.type.name + "' has a diffrent operator", linkVar,
+				if (trgOVOp !== null && trgOVOp.value.equals("++") &&
+					((linkVar.op !== null && !("++".equals(linkVar.op.value))) || linkVar.op === null)) {
+					error("Link Variable '" + linkVar.type.name + "' has a different operator", linkVar,
 						TggPackage.Literals.OPERATOR_PATTERN__OP,
 						TGGValidator.LINK_VARIABLE_DOES_NOT_HAVE_SAME_OPERATOR_LIKE_TARGET_OBJECT_VARIABLE_PATTERN);
 					}
