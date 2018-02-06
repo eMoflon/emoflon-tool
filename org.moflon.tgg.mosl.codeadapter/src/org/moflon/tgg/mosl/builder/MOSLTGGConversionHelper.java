@@ -39,7 +39,6 @@ import org.moflon.core.plugins.manifest.PluginURIToResourceURIRemapper;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.core.MoslTggConstants;
@@ -114,7 +113,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		options.put(XMLResource.OPTION_URI_HANDLER, new PreEcoreHidingURIHandler());
 
 		// Invoke TGG forward transformation to produce TGG model
-		String pathToThisPlugin = MoflonUtilitiesActivator
+		String pathToThisPlugin = WorkspaceHelper
 				.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
 
 		CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin);
@@ -212,7 +211,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 					});
 					EcoreUtil.resolveAll(resourceSet);
 
-					String pathToThisPlugin = MoflonUtilitiesActivator
+					String pathToThisPlugin = WorkspaceHelper
 							.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
 					CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin, resourceSet);
 

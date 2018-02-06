@@ -33,7 +33,6 @@ import org.moflon.core.propertycontainer.PropertiesValue;
 import org.moflon.core.propertycontainer.PropertycontainerFactory;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.MoflonConventions;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.ProjectCreatorFactory;
 import org.moflon.ide.core.properties.PluginPropertiesHelper;
@@ -163,7 +162,7 @@ public class OpenProjectHandler extends WorkspaceTask
                metamodelProperties.get(PluginProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
 
          changed |= ManifestFileUpdater.updateDependencies(manifest, Arrays.asList(new String[] { WorkspaceHelper.PLUGIN_ID_ECORE,
-               WorkspaceHelper.PLUGIN_ID_ECORE_XMI, WorkspaceHelper.getPluginId(MoflonUtilitiesActivator.class) }));
+               WorkspaceHelper.PLUGIN_ID_ECORE_XMI}));
 
          changed |= ManifestFileUpdater.updateDependencies(manifest,
                ManifestFileUpdater.extractDependencies(metamodelProperties.get(PluginProperties.DEPENDENCIES_KEY)));

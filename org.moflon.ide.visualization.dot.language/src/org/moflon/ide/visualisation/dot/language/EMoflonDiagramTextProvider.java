@@ -16,7 +16,6 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IEditorPart;
 import org.moflon.core.utilities.ExceptionUtil;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.ide.visualization.dot.language.AbstractGraph;
@@ -161,7 +160,7 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 
    public AbstractGraph modelToDot(final EObject input)
    {
-      final URL pathToPlugin = MoflonUtilitiesActivator.getPathRelToPlugIn("/", getPluginId());
+      final URL pathToPlugin = WorkspaceHelper.getPathRelToPlugIn("/", getPluginId());
       final ResourceSet resourceSet = input.eResource().getResourceSet();
 
       final long tic = System.nanoTime();

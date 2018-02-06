@@ -9,6 +9,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -26,7 +27,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 
 public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
@@ -49,12 +49,12 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
             final List<File> selectedPsfFiles = new ArrayList<>();
             for (final Object file : dlg.getResult())
             {
-               selectedPsfFiles.add((File)file);
+               selectedPsfFiles.add((File) file);
             }
             this.getWorkspaceController().installPsfFiles(selectedPsfFiles, "Selected PSFs");
          }
          return null;
-      } catch (CoreException | IOException e)
+      } catch (final CoreException | IOException e)
       {
          throw new ExecutionException("Failed to load PSF files", e);
       }
@@ -63,36 +63,43 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
    private List<File> collectPSFFiles() throws CoreException, IOException
    {
       final List<File> collectedPsfFiles = new ArrayList<>();
-      final IProject workspaceProject = WorkspaceHelper.getProjectByPluginId(getPluginId());
-      if (workspaceProject != null)
+      final List<IProject> workspaceProjects = WorkspaceHelper.getAllProjectsInWorkspace();
+      final List<IProject> psfProjects = workspaceProjects.stream().filter(p -> p.getName().endsWith(".psf")).collect(Collectors.toList());
+      if (!psfProjects.isEmpty())
       {
-         logger.debug("Using project with id " + getPluginId() + " in workspace to retrieve PSF files.");
-         IFolder psfRootFolder = workspaceProject.getFolder(PSF_ROOT_FOLDER_NAME);
-         PSFFileCollectingResourceVisitor psfFileCollector = new PSFFileCollectingResourceVisitor();
-         psfRootFolder.accept(psfFileCollector);
-         collectedPsfFiles.addAll(psfFileCollector.psfFiles);
+         for (final IProject workspaceProject : psfProjects)
+         {
+            logger.debug("Using project " + workspaceProject.getName() + " in workspace to retrieve PSF files.");
+            IFolder psfRootFolder = workspaceProject.getFolder(PSF_ROOT_FOLDER_NAME);
+            PSFFileCollectingResourceVisitor psfFileCollector = new PSFFileCollectingResourceVisitor();
+            psfRootFolder.accept(psfFileCollector);
+            collectedPsfFiles.addAll(psfFileCollector.psfFiles);
+         }
       } else
       {
          logger.debug("Using installed plugin to retrieve PSF files.");
-         final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(PSF_ROOT_FOLDER_NAME, getPluginId());
-         final File psfRootFolder = new File(fullPathURL.getPath());
-         Files.walkFileTree(psfRootFolder.toPath(), new SimpleFileVisitor<java.nio.file.Path>() {
-            @Override
-            public FileVisitResult visitFile(java.nio.file.Path file, BasicFileAttributes attrs) throws IOException
-            {
-               if (file.getFileName().toString().endsWith("psf"))
+         final URL fullPathURL = WorkspaceHelper.getPathRelToPlugIn(PSF_ROOT_FOLDER_NAME, getMoflonToolPsfFilesPluginId());
+         if (fullPathURL != null)
+         {
+            final File psfRootFolder = new File(fullPathURL.getPath());
+            Files.walkFileTree(psfRootFolder.toPath(), new SimpleFileVisitor<java.nio.file.Path>() {
+               @Override
+               public FileVisitResult visitFile(final java.nio.file.Path file, final BasicFileAttributes attrs) throws IOException
                {
-                  collectedPsfFiles.add(file.toFile());
+                  if (file.getFileName().toString().endsWith("psf"))
+                  {
+                     collectedPsfFiles.add(file.toFile());
+                  }
+                  return FileVisitResult.CONTINUE;
                }
-               return FileVisitResult.CONTINUE;
-            }
-         });
+            });
+         }
 
       }
       return collectedPsfFiles;
    }
 
-   private String getPluginId()
+   private String getMoflonToolPsfFilesPluginId()
    {
       return "org.moflon.ide.workspaceinstaller.psf";
    }
@@ -155,9 +162,7 @@ public class OpenPsfSelectionDialogHandler extends AbstractInstallCommandHandler
       public String getText(Object element)
       {
          final File file = (File) element;
-         final String absolutePath = file.getAbsolutePath();
-         final String reducedPath = absolutePath.substring(absolutePath.indexOf("PSFs") + "PSFs".length() + 1);
-         return reducedPath;
+         return file.getName();
       }
 
       @Override

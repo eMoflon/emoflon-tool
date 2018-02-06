@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 
 import org.apache.log4j.Logger;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.visualization.dot.language.AbstractGraph;
 import org.moflon.ide.visualization.dot.language.ClassGraph;
@@ -42,7 +41,7 @@ public class DotUnparserAdapter
 
    private STGroup getStringTemplateGroup() throws FileNotFoundException
    {
-      URL templateFile = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/templates/Dot.stg", WorkspaceHelper.getPluginId(getClass()));
+      URL templateFile = WorkspaceHelper.getPathRelToPlugIn("resources/templates/Dot.stg", WorkspaceHelper.getPluginId(getClass()));
 
       return new STGroupFile(templateFile, "UTF-8", '<', '>'); 
    }

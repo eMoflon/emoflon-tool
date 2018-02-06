@@ -3,7 +3,6 @@ package org.moflon.moca.tie;
 import java.net.URL;
 
 import org.eclipse.core.resources.IProject;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
@@ -41,7 +40,7 @@ public class RunIntegrationGeneratorBatch extends AbstractIntegratorGenerator
    @Override
    protected URL getTemplateFileURL()
    {
-      return MoflonUtilitiesActivator.getPathRelToPlugIn("/resources/templates/TGGMain.stg", WorkspaceHelper.getPluginId(getClass()));
+      return WorkspaceHelper.getPathRelToPlugIn("/resources/templates/TGGMain.stg", WorkspaceHelper.getPluginId(getClass()));
    }
 
    @Override

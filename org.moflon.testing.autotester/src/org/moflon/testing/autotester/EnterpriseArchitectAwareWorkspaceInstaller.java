@@ -17,7 +17,6 @@ import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
 import org.moflon.core.build.BuildUtilities;
 import org.moflon.core.build.ProjectBuilderTask;
 import org.moflon.core.ui.autosetup.WorkspaceInstaller;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
@@ -81,7 +80,7 @@ public class EnterpriseArchitectAwareWorkspaceInstaller extends WorkspaceInstall
       } else
       {
          logger.debug("Using PSF files in installed plugin " + pluginIdOfPsfFilesProject + ".");
-         final URL fullPathURL = MoflonUtilitiesActivator.getPathRelToPlugIn(pluginRelativePathToPSF, pluginIdOfPsfFilesProject);
+         final URL fullPathURL = WorkspaceHelper.getPathRelToPlugIn(pluginRelativePathToPSF, pluginIdOfPsfFilesProject);
          logger.debug("Retrieved URL: " + fullPathURL);
          final String absolutePathToPSF = new File(fullPathURL.getPath()).getAbsolutePath();
          return absolutePathToPSF;

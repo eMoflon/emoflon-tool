@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.core.utilities.ExceptionUtil;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.util.RefreshProjectJob;
 
@@ -50,7 +49,7 @@ public class EnterpriseArchitectHelper
 
    private static String generateExportCommand(IFile eapFile)
    {
-      URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, WorkspaceHelper.getPluginId(EnterpriseArchitectHelper.class));
+      URL pathToExe = WorkspaceHelper.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, WorkspaceHelper.getPluginId(EnterpriseArchitectHelper.class));
       return "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + EXPORT_OPTION + EAP_EXTENSIONS + "\"" + eapFile.getLocation().toOSString() + "\"";
 
    }
@@ -99,7 +98,7 @@ public class EnterpriseArchitectHelper
 
    private static String generateImportCommand(IFile eapFile, IFile xmiFile)
    {
-      URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, WorkspaceHelper.getPluginId(EnterpriseArchitectHelper.class));
+      URL pathToExe = WorkspaceHelper.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, WorkspaceHelper.getPluginId(EnterpriseArchitectHelper.class));
       return "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + IMPORT_OPTION + XMI_EXTENSIONS + "\"" + xmiFile.getLocation().toOSString() + "\" "
             + EAP_EXTENSIONS + "\"" + eapFile.getLocation().toOSString() + "\"";
    }

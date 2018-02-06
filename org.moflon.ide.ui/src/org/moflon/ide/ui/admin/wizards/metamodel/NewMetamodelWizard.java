@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.ui.AbstractMoflonWizard;
 import org.moflon.core.ui.WorkingSetUtilities;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.project.MetamodelProjectCreator;
 import org.moflon.ide.core.runtime.natures.MetamodelNature;
@@ -57,7 +56,7 @@ public class NewMetamodelWizard extends AbstractMoflonWizard
          final IProject newProjectHandle = createProject(projectName, WorkspaceHelper.getPluginId(UIActivator.class), location, subMon.split(1));
 
          // generate default files
-         final URL pathToDefaultEapFile = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", WorkspaceHelper.getPluginId(UIActivator.class));
+         final URL pathToDefaultEapFile = WorkspaceHelper.getPathRelToPlugIn("resources/defaultFiles/EAEMoflon.eap", WorkspaceHelper.getPluginId(UIActivator.class));
          WorkspaceHelper.addFile(newProjectHandle, projectName + ".eap", pathToDefaultEapFile, WorkspaceHelper.getPluginId(UIActivator.class), subMon.split(1));
 
          MetamodelProjectCreator.addGitignoreFileForMetamodelProject(newProjectHandle, subMon.split(1));
