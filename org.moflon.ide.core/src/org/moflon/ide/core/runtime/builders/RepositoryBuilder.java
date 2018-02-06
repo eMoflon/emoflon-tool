@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jdt.core.IJavaProject;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
 import org.moflon.core.build.AbstractVisitorBuilder;
@@ -28,6 +27,9 @@ import org.moflon.core.plugins.manifest.PluginXmlUpdater;
 import org.moflon.core.preferences.EMoflonPreferencesActivator;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.propertycontainer.PropertycontainerFactory;
+import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
+import org.moflon.core.propertycontainer.SdmCodegeneratorMethodBodyHandler;
 import org.moflon.core.utilities.ClasspathUtil;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -68,14 +70,18 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       deleteProblemMarkers();
       subMon.worked(1);
 
+      cleanGeneratedCode(project);
+
+      cleanModels(WorkspaceHelper.getModelFolder(project), subMon.split(1));
+   }
+
+   private void cleanGeneratedCode(final IProject project) throws CoreException
+   {
       final CleanVisitor cleanVisitor = new CleanVisitor(getProject(), //
             new AntPatternCondition(new String[] { "gen/**", "debug/**" }), //
             new AntPatternCondition(new String[] { "gen/.keep*" }));
       // Remove generated code
       project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
-
-      // Remove generated model files
-      cleanModels(WorkspaceHelper.getModelFolder(project), subMon.split(1));
    }
 
    public void handleErrorsInEclipse(final IStatus status, final IFile ecoreFile)
@@ -127,12 +133,8 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
                addTriggerProject(referencedConfig.getProject());
             }
 
-            // Remove markers and delete generated code
             deleteProblemMarkers();
-            final CleanVisitor cleanVisitor = new CleanVisitor(project, //
-                  new AntPatternCondition(new String[] { "gen/**" }), //
-                  new AntPatternCondition(new String[] { "gen/.keep*" }));
-            project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
+            cleanGeneratedCode(getProject());
 
             // Build
             final ResourceSet resourceSet = eMoflonEMFUtil.createDefaultResourceSet();
@@ -140,7 +142,14 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             subMon.worked(1);
 
             final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet,
-                  EMoflonPreferencesActivator.getDefault().getPreferencesStorage());
+                  EMoflonPreferencesActivator.getDefault().getPreferencesStorage()) {
+               @Override
+               protected void initializeMoflonProperties(final MoflonPropertiesContainer properties)
+               {
+                  super.initializeMoflonProperties(properties);
+                  RepositoryBuilder.this.initializeMoflonProperties(properties);
+               }
+            };
 
             final IStatus status = codeGenerationTask.run(subMon.split(1));
             handleErrorsAndWarnings(status, ecoreFile);
@@ -208,27 +217,14 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
    }
 
    /**
-    * Adds the given folder to the given project's classpath
-    * @param project the project to be manipulated
-    * @param folder the folder to be manipulated
-    * @throws CoreException if analyzing the classpath fails
-    * @deprecated Use {@link ClasspathUtil#makeSourceFolder(IProject,IFolder)} instead
+    * This method is used to initialize the {@link MoflonPropertiesContainer} of this builder
+    * @param properties the properties to initialize
     */
-   public static void makeSourceFolder(final IProject project, final IFolder folder) throws CoreException
+   protected void initializeMoflonProperties(final MoflonPropertiesContainer properties)
    {
-      ClasspathUtil.makeSourceFolder(folder);
-   }
-
-   /**
-    * Returns true if the given folder's full path is present in the folder's project's classpath
-    * @param folder the folder to be checked
-    * @throws CoreException if analyzing the classpath fails
-    * @see IJavaProject#getRawClasspath()
-    * @deprecated Use {@link ClasspathUtil#isSourceFolder(IFolder)} instead
-    */
-   public static boolean isSourceFolder(final IFolder folder) throws CoreException
-   {
-      return ClasspathUtil.isSourceFolder(folder);
+      final SdmCodegeneratorMethodBodyHandler methodBodyHandlerId = PropertycontainerFactory.eINSTANCE.createSdmCodegeneratorMethodBodyHandler();
+      properties.setSdmCodegeneratorHandlerId(methodBodyHandlerId);
+      methodBodyHandlerId.setValue(SDMCodeGeneratorIds.DEMOCLES_ATTRIBUTES);
    }
 
    // Delete generated models within model folder
@@ -294,4 +290,5 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
          logger.debug("Could not load error reporter '" + reporterClass + "'");
       }
    }
+
 }

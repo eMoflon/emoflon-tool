@@ -23,6 +23,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.propertycontainer.PropertycontainerFactory;
+import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
+import org.moflon.core.propertycontainer.SdmCodegeneratorMethodBodyHandler;
 import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -72,7 +75,6 @@ public class IntegrationBuilder extends RepositoryBuilder
 
    private TripleGraphGrammar tgg;
 
-
    public static IFile getPreTGGFile(final IProject project)
    {
       return project.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_TGG_FILE_EXTENSION));
@@ -83,33 +85,45 @@ public class IntegrationBuilder extends RepositoryBuilder
       return project.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION));
    }
 
-   public static String getId() {
+   public static String getId()
+   {
       return "org.moflon.ide.core.runtime.builders.IntegrationBuilder";
    }
 
    @Override
    protected void processResource(IResource resource, int kind, Map<String, String> args, IProgressMonitor monitor)
    {
-	   if (resource.getProjectRelativePath().toString().equals(MoflonConventions.getDefaultPathToFileInProject(getProject().getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION))) {
-      try
+      if (resource.getProjectRelativePath().toString()
+            .equals(MoflonConventions.getDefaultPathToFileInProject(getProject().getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION)))
       {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code", 500);
-         final IStatus tggCompilationStatus = processTGG(subMon.split(250));
-         if (tggCompilationStatus.matches(IStatus.ERROR))
+         try
          {
-            handleErrorsInEclipse(tggCompilationStatus, (IFile) resource);
+            final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code", 500);
+            final IStatus tggCompilationStatus = processTGG(subMon.split(250));
+            if (tggCompilationStatus.matches(IStatus.ERROR))
+            {
+               handleErrorsInEclipse(tggCompilationStatus, (IFile) resource);
+            }
+
+            final IFile ecoreFile = WorkspaceHelper.getModelFolder(getProject())
+                  .getFile(MoflonUtil.lastCapitalizedSegmentOf(getProject().getName()) + WorkspaceHelper.ECORE_FILE_EXTENSION);
+
+            super.processResource(ecoreFile, kind, args, subMon.split(250));
+         } catch (final CoreException e)
+         {
+            final IStatus status = new Status(e.getStatus().getSeverity(), WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
+            handleErrorsInEclipse(status, (IFile) resource);
          }
-
-         final IFile ecoreFile = WorkspaceHelper.getModelFolder(getProject())
-               .getFile(MoflonUtil.lastCapitalizedSegmentOf(getProject().getName()) + WorkspaceHelper.ECORE_FILE_EXTENSION);
-
-         super.processResource(ecoreFile, kind, args, subMon.split(250));
-      } catch (final CoreException e)
-      {
-         final IStatus status = new Status(e.getStatus().getSeverity(), WorkspaceHelper.getPluginId(getClass()), e.getMessage(), e);
-         handleErrorsInEclipse(status, (IFile) resource);
       }
-	   }
+   }
+
+   @Override
+   protected void initializeMoflonProperties(final MoflonPropertiesContainer properties)
+   {
+      // We perform a fully customized initialization here. Therefore, we do not call the super implementation!
+      final SdmCodegeneratorMethodBodyHandler methodBodyHandlerId = PropertycontainerFactory.eINSTANCE.createSdmCodegeneratorMethodBodyHandler();
+      properties.setSdmCodegeneratorHandlerId(methodBodyHandlerId);
+      methodBodyHandlerId.setValue(SDMCodeGeneratorIds.DEMOCLES_REVERSE_NAVI);
    }
 
    private IStatus processTGG(final IProgressMonitor monitor) throws CoreException
@@ -160,23 +174,27 @@ public class IntegrationBuilder extends RepositoryBuilder
 
       // Precompile rules
       precompiler.setUseNewImpl(true);
-      try {
-    	  precompiler.precompileTGG(tgg);
-      } catch (final RuntimeException e) {
-    	  // Report error if model transformation fails
-    	  return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
+      try
+      {
+         precompiler.precompileTGG(tgg);
+      } catch (final RuntimeException e)
+      {
+         // Report error if model transformation fails
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
       }
 
       // print refinement precompiling log
       printPrecompilerLog(precompiler.getRefinementPrecompiler().getPrecompilelog());
       subMon.worked(5);
 
-      try {
-          // this has to be done here because it requires "flat" tgg rules instead of refined ones
-    	  enrichCspsWithTypeInformation();
-      } catch (final RuntimeException e) {
-    	  // Report error if model transformation fails
-    	  return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
+      try
+      {
+         // this has to be done here because it requires "flat" tgg rules instead of refined ones
+         enrichCspsWithTypeInformation();
+      } catch (final RuntimeException e)
+      {
+         // Report error if model transformation fails
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
       }
 
       // Persist tgg model after precompilation
@@ -209,11 +227,13 @@ public class IntegrationBuilder extends RepositoryBuilder
 
          compiler.setProperties(moflonProperties);
          compiler.setInjectionHelper(injectionHelper);
-         try {
-        	 compiler.deriveOperationalRules(tgg, ApplicationTypes.get(moflonProperties.getTGGBuildMode().getBuildMode().getValue()));
-         } catch (final RuntimeException e) {
-        	 // Report error if model transformation fails
-        	 return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
+         try
+         {
+            compiler.deriveOperationalRules(tgg, ApplicationTypes.get(moflonProperties.getTGGBuildMode().getBuildMode().getValue()));
+         } catch (final RuntimeException e)
+         {
+            // Report error if model transformation fails
+            return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
          }
          StaticAnalysis staticAnalysis = compiler.getStaticAnalysis();
 
@@ -246,11 +266,13 @@ public class IntegrationBuilder extends RepositoryBuilder
             eMoflonEMFUtil.createParentResourceAndInsertIntoResourceSet(compiler, set);
             compiler.setProperties(moflonProperties);
             compiler.setInjectionHelper(injectionHelper);
-            try {
-                compiler.compileModelgenerationSdms(tgg);
-            } catch (final RuntimeException e) {
-          	  // Report error if model transformation fails
-          	  return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
+            try
+            {
+               compiler.compileModelgenerationSdms(tgg);
+            } catch (final RuntimeException e)
+            {
+               // Report error if model transformation fails
+               return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
             }
             for (RuleAnalyzerResult analyzerResult : compiler.getRuleAnalyzer().getRuleAnalyzerResult())
             {
