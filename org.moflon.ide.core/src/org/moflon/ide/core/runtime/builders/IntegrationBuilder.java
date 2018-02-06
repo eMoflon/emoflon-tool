@@ -23,9 +23,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
-import org.moflon.core.propertycontainer.PropertycontainerFactory;
-import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
-import org.moflon.core.propertycontainer.SdmCodegeneratorMethodBodyHandler;
 import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -115,15 +112,6 @@ public class IntegrationBuilder extends RepositoryBuilder
             handleErrorsInEclipse(status, (IFile) resource);
          }
       }
-   }
-
-   @Override
-   protected void initializeMoflonProperties(final MoflonPropertiesContainer properties)
-   {
-      // We perform a fully customized initialization here. Therefore, we do not call the super implementation!
-      final SdmCodegeneratorMethodBodyHandler methodBodyHandlerId = PropertycontainerFactory.eINSTANCE.createSdmCodegeneratorMethodBodyHandler();
-      properties.setSdmCodegeneratorHandlerId(methodBodyHandlerId);
-      methodBodyHandlerId.setValue(SDMCodeGeneratorIds.DEMOCLES_REVERSE_NAVI);
    }
 
    private IStatus processTGG(final IProgressMonitor monitor) throws CoreException
