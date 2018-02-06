@@ -1,14 +1,10 @@
 package org.moflon.ide.core.runtime.builders;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +16,6 @@ import org.antlr.tool.ToolMessage;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -40,10 +35,6 @@ public class AntlrBuilder extends AbstractBuilder
    private static final Logger logger = Logger.getLogger(AntlrBuilder.class);
 
    private static final String MARKER = "org.moflon.ide.AntlrEditorProblem";
-
-   private static final Pattern ERROR_REGEX = Pattern.compile("error\\((\\d+)\\):\\s+(.+):(\\d+):(\\d+): (.+)");
-
-   private static final Pattern WARNING_REGEX = Pattern.compile("warning\\((\\d+)\\):\\s+(.+):(\\d+):(\\d+): (.+)");
 
    private static final Pattern ANTLR_FILENAME_PATTERN = Pattern.compile("(.*)((?:Lexer)|(?:Parser)).g");
 
@@ -242,115 +233,4 @@ public class AntlrBuilder extends AbstractBuilder
       }
    }
 
-   public static int executeCommandLine(final long timeout, final Process process, final IResource resource)
-         throws IOException, InterruptedException, TimeoutException
-   {
-      Worker worker = new Worker(process, resource);
-      worker.start();
-      try
-      {
-         worker.join(timeout);
-         if (worker.exit != null)
-            return worker.exit;
-         else
-            throw new TimeoutException();
-      } catch (InterruptedException ex)
-      {
-         worker.interrupt();
-         Thread.currentThread().interrupt();
-         throw ex;
-      } finally
-      {
-         process.destroy();
-      }
-   }
-
-   private static class Worker extends Thread
-   {
-      private final Process process;
-
-      private final IResource resource;
-
-      private Integer exit;
-
-      private Worker(final Process process, final IResource resource)
-      {
-         this.process = process;
-         this.resource = resource;
-      }
-
-      @Override
-      public void run()
-      {
-         try
-         {
-            exit = process.waitFor();
-
-            printAntlrMessages(resource, process);
-         } catch (InterruptedException ignore)
-         {
-            return;
-         } catch (CoreException e)
-         {
-            return;
-         }
-      }
-
-      private void createMarker(final IResource resource, final int lineNumber, final String message, final int severity) throws CoreException
-      {
-         IMarker m = resource.createMarker(MARKER);
-         if (lineNumber > 0)
-         {
-            m.setAttribute(IMarker.LINE_NUMBER, lineNumber);
-         }
-         m.setAttribute(IMarker.MESSAGE, message);
-         m.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-         m.setAttribute(IMarker.SEVERITY, severity);
-      }
-
-      private void printAntlrMessages(final IResource resource, final Process process) throws CoreException
-      {
-         BufferedReader bis = null;
-         try
-         {
-            bis = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-            String line;
-            while ((line = bis.readLine()) != null)
-            {
-
-               Matcher m = ERROR_REGEX.matcher(line);
-               if (m.matches())
-               {
-                  createMarker(resource, Integer.parseInt(m.group(3)), m.group(5), IMarker.SEVERITY_ERROR);
-                  logger.error(">> " + m.group(5));
-               } else
-               {
-                  m = WARNING_REGEX.matcher(line);
-                  if (m.matches())
-                  {
-                     createMarker(resource, Integer.parseInt(m.group(3)), m.group(5), IMarker.SEVERITY_WARNING);
-                     logger.error(">> " + m.group(5));
-                  } else
-                     logger.error(">> " + line);
-               }
-            }
-
-         } catch (IOException ioe)
-         {
-            logger.error("Error while reading stream: " + ioe.getMessage());
-            logger.error("Error while reading stream", ioe);
-         } finally
-         {
-            try
-            {
-               if (bis != null)
-                  bis.close();
-            } catch (IOException e)
-            {
-               // Do nothing
-            }
-         }
-      }
-   }
 }

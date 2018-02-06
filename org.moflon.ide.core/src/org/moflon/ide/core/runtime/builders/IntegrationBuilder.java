@@ -9,7 +9,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -30,8 +29,8 @@ import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.emf.build.MonitoredMetamodelLoader;
 import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
 import org.moflon.emf.codegen.dependency.SDMEnhancedEcoreResource;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.MoslTggConstants;
+import org.moflon.ide.core.runtime.MetamodelLoader;
 import org.moflon.moca.MocaUtil;
 import org.moflon.moca.tggUserDefinedConstraint.unparser.TGGUserDefinedConstraintUnparserAdapter;
 import org.moflon.moca.tie.RunIntegrationGeneratorBatch;
@@ -64,23 +63,13 @@ import SDMLanguage.sdmUtil.SdmUtilFactory;
 
 public class IntegrationBuilder extends RepositoryBuilder
 {
-   public static final String SUFFIX_SMA = ".sma.xmi";
+   private static final String SUFFIX_SMA = ".sma.xmi";
 
    private static final Logger logger = Logger.getLogger(IntegrationBuilder.class);
 
-   List<TGGConstraint> userDefinedConstraints = new ArrayList<TGGConstraint>();
+   private List<TGGConstraint> userDefinedConstraints = new ArrayList<TGGConstraint>();
 
    private TripleGraphGrammar tgg;
-
-   public static IFile getPreTGGFile(final IProject project)
-   {
-      return project.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_TGG_FILE_EXTENSION));
-   }
-
-   public static IFile getPreEcoreFile(final IProject project)
-   {
-      return project.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), MoslTggConstants.PRE_ECORE_FILE_EXTENSION));
-   }
 
    public static String getId()
    {
@@ -143,7 +132,7 @@ public class IntegrationBuilder extends RepositoryBuilder
       metamodelLoader.run(subMon.split(10));
       final Resource tggResource = metamodelLoader.getMainResource();
       final Resource ecoreResource = set.getResource(ecoreFileURI, false);
-      CoreActivator.setEPackageURI((EPackage) ecoreResource.getContents().get(0));
+      MetamodelLoader.setEPackageURI((EPackage) ecoreResource.getContents().get(0));
       tgg = (TripleGraphGrammar) tggResource.getContents().get(0);
       uriMapping.remove(tggFileURI);
       uriMapping.remove(ecoreFileURI);

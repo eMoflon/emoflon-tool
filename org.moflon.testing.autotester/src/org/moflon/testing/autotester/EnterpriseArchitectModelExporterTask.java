@@ -12,7 +12,6 @@ import org.eclipse.core.runtime.jobs.MultiRule;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
 import org.moflon.core.utilities.ProgressMonitorUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
 import org.moflon.ide.core.properties.MetamodelProjectUtil;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
@@ -27,7 +26,7 @@ public final class EnterpriseArchitectModelExporterTask extends WorkspaceTask
       {
          throw new NullPointerException();
       }
-      this.metamodelProjects = checkProjects ? CoreActivator.getMetamodelProjects(metamodelProjects) : metamodelProjects;
+      this.metamodelProjects = checkProjects ? MetamodelProjectUtil.getMetamodelProjects(metamodelProjects) : metamodelProjects;
    }
 
    @Override

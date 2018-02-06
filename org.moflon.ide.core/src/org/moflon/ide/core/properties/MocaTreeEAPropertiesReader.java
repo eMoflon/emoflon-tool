@@ -62,7 +62,7 @@ public class MocaTreeEAPropertiesReader
       }
    }
 
-   public Map<String, PluginProperties> getProperties(final Node rootNode) throws CoreException
+   private Map<String, PluginProperties> getProperties(final Node rootNode) throws CoreException
    {
       this.mocaTree = rootNode;
       Map<String, PluginProperties> propertiesMap = new HashMap<>();
@@ -81,7 +81,7 @@ public class MocaTreeEAPropertiesReader
       return propertiesMap;
    }
 
-   public PluginProperties getProjectProperties(final Node rootNode) throws CoreException
+   private PluginProperties getProjectProperties(final Node rootNode) throws CoreException
    {
       final PluginProperties properties = new PluginProperties();
 

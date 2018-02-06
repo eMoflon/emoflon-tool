@@ -44,8 +44,6 @@ public class UIActivator extends AbstractUIPlugin
 
    public static final String ADD_PARSER_AND_UNPARSER_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard";
 
-   public static final String NEW_TESTFRAMEWORK_WIZARD_ID = "org.moflon.ide.ui.admin.wizards.testframework.NewTestframeworkWizard";
-
    @Override
    public void start(final BundleContext context) throws Exception
    {

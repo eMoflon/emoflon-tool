@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.moflon.core.utilities.ExceptionUtil;
@@ -37,11 +36,6 @@ public class EnterpriseArchitectHelper
 
    private static EnterpriseArchitectCommandLineParser clParser = new EnterpriseArchitectCommandLineParser();
 
-   public static void delegateToEnterpriseArchitect(final IProject project) throws IOException, InterruptedException
-   {
-      delegateToEnterpriseArchitect(project, new NullProgressMonitor());
-   }
-
    public static void delegateToEnterpriseArchitect(final IProject project, final IProgressMonitor monitor) throws IOException, InterruptedException
    {
       delegateToEnterpriseArchitect(project, monitor, generateExportCommand(WorkspaceHelper.getEapFileFromMetamodelProject(project)), "Exporting");
@@ -54,7 +48,7 @@ public class EnterpriseArchitectHelper
 
    }
 
-   public static void delegateToEnterpriseArchitect(final IProject project, final IProgressMonitor monitor, final String command, final String importExport)
+   private static void delegateToEnterpriseArchitect(final IProject project, final IProgressMonitor monitor, final String command, final String importExport)
          throws IOException, InterruptedException
    {
       try

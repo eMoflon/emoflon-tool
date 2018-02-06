@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubMonitor;
 import org.moflon.core.build.MoflonProjectCreator;
 import org.moflon.core.build.nature.MoflonProjectConfigurator;
 import org.moflon.core.plugins.PluginProperties;
@@ -14,7 +12,6 @@ import org.moflon.core.propertycontainer.MetaModelProject;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.PropertycontainerFactory;
 import org.moflon.core.propertycontainer.SDMCodeGeneratorIds;
-import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
 import org.moflon.ide.core.properties.PluginPropertiesHelper;
 import org.moflon.ide.core.runtime.builders.RepositoryBuilder;
@@ -78,20 +75,6 @@ public class RepositoryProjectCreator extends MoflonProjectCreator
       updateMetamodelProjectName(moflonProperties, getPluginProperties().get(MocaTreeEAPropertiesReader.METAMODEL_PROJECT_NAME_KEY));
       moflonProperties.setTGGBuildMode(null);
 
-   }
-
-   /**
-    * Adds a default .gitignore file to the given repository project to prevent adding generated files to the repository
-    *
-    * @param project the project for which to generate the .gitignore file
-    * @param monitor the progress monitor
-    */
-   public static void addGitignoreFileForRepositoryProject(final IProject project, final IProgressMonitor monitor) throws CoreException
-   {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating .gitignore file for " + project, 1);
-
-      WorkspaceHelper.createGitignoreFileIfNotExists(project.getFile(WorkspaceHelper.GITIGNORE_FILENAME), //
-            GITIGNORE_LINES, subMon.split(1));
    }
 
    /**

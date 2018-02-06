@@ -10,34 +10,35 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.moflon.core.build.CleanVisitor;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.properties.MocaTreeConstants;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 
 import MocaTree.Node;
 
 public class CleanMocaToMoflonTransformation extends BasicResourceFillingMocaToMoflonTransformation {
-	   
+
 	public CleanMocaToMoflonTransformation(
 			final ResourceSet set,
 			final MetamodelBuilder metamodelBuilder,
 			final IProject metamodelProject) {
 		super(set, metamodelBuilder, metamodelProject);
 	}
-	
+
 	@Override
 	public void handleOutermostPackage(final Node node,
 			final EPackage outermostPackage) {
 		final String projectName = getProjectName(node);
-		final String exportAttribute = lookupAttribute(node, MOCA_TREE_ATTRIBUTE_EXPORT);
+		final String exportAttribute = lookupAttribute(node, MocaTreeConstants.MOCA_TREE_ATTRIBUTE_EXPORT);
 		if (isExported(exportAttribute)) {
-			final IProject workspaceProject = workspace.getRoot().getProject(projectName);
+			final IProject workspaceProject = getWorkspace().getRoot().getProject(projectName);
 			if (workspaceProject.exists() && workspaceProject.isAccessible()) {
 				final String nodeName = node.getName();
 				final IFolder modelFolder = workspaceProject.getFolder(WorkspaceHelper.MODEL_FOLDER);
 				try {
-					if (MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT.equals(nodeName)) {
+					if (MocaTreeConstants.MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT.equals(nodeName)) {
 						final IFile ecoreFile = modelFolder.getFile(getEcoreFileName(node) + WorkspaceHelper.ECORE_FILE_EXTENSION);
 						ecoreFile.delete(true, null);
-					} else if (MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT.equals(nodeName)) {
+					} else if (MocaTreeConstants.MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT.equals(nodeName)) {
 						final String[] patterns = new String[] {
 								"model/" + getEcoreFileName(node) + ".pre.*" };
 						final CleanVisitor cleanVisitor = new CleanVisitor(workspaceProject,

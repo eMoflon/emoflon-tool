@@ -19,6 +19,7 @@ import org.moflon.core.build.ProjectBuilderTask;
 import org.moflon.core.ui.autosetup.WorkspaceInstaller;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
+import org.moflon.ide.core.properties.MetamodelProjectUtil;
 import org.moflon.ide.workspaceinstaller.psf.EMoflonStandardWorkspaces;
 
 public class EnterpriseArchitectAwareWorkspaceInstaller extends WorkspaceInstaller
@@ -41,7 +42,7 @@ public class EnterpriseArchitectAwareWorkspaceInstaller extends WorkspaceInstall
    {
       super.enqueuePreprocessingJobs(jobs);
 
-      final IProject[] metamodelProjects = CoreActivator.getMetamodelProjects(ResourcesPlugin.getWorkspace().getRoot().getProjects());
+      final IProject[] metamodelProjects = MetamodelProjectUtil.getMetamodelProjects(ResourcesPlugin.getWorkspace().getRoot().getProjects());
       if (metamodelProjects.length > 0)
       {
          final EnterpriseArchitectModelExporterTask eaModelExporter = new EnterpriseArchitectModelExporterTask(metamodelProjects, false);
