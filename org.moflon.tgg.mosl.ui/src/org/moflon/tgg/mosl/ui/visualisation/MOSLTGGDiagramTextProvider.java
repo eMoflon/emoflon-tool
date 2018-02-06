@@ -25,10 +25,11 @@ import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.xtext.ui.editor.XtextEditor;
+import org.moflon.core.plugins.manifest.PluginURIToResourceURIRemapper;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.ide.visualisation.dot.language.DotUnparserAdapter;
 import org.moflon.ide.visualisation.dot.language.ToggleRefinementHandler;
 import org.moflon.ide.visualization.dot.language.DirectedGraph;
@@ -39,7 +40,6 @@ import org.moflon.tgg.language.TripleGraphGrammar;
 import org.moflon.tgg.language.precompiler.PrecompileLog;
 import org.moflon.tgg.language.precompiler.PrecompilerFactory;
 import org.moflon.tgg.language.precompiler.RefinementPrecompiler;
-import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider;
 
@@ -48,9 +48,9 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	private boolean outdated = false;
 	private XtextEditor oldEditor;
 	private HashMap<String, String> oldValue = new HashMap<>();
-	private String currentTggFile = WorkspaceHelper.PRE_TGG_FILE_EXTENSION;
+	private String currentTggFile = MoslTggConstants.PRE_TGG_FILE_EXTENSION;
 	private IProject project;
-	
+
 	private IPropertyListener listener = (o, p) -> {
 		if (p == IWorkbenchPartConstants.PROP_DIRTY && !oldEditor.isDirty()) {
 			Job j = new Job("set outdated") {
@@ -78,7 +78,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	@Override
 	public String getDiagramText(final IEditorPart editorPart, final ISelection selection) {
 		try {
-			 final TripleGraphGrammar preTgg = getTGG(WorkspaceHelper.PRE_TGG_FILE_EXTENSION);
+			 final TripleGraphGrammar preTgg = getTGG(MoslTggConstants.PRE_TGG_FILE_EXTENSION);
 
 			// look for the correct tggFile
 			TripleGraphGrammar tgg = getTGG();
@@ -89,10 +89,10 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 			}
 
 			String ruleKeyName = getKeyName(rule.get().getName());
-			
+
 			if (rule.isPresent() && oldValue.containsKey(ruleKeyName) && !outdated)
 				return oldValue.get(ruleKeyName);
-			
+
 			// Decision for Schema or Rule
 			if (!rule.isPresent()) {
 				String schemaKeyName= getKeyName("Schema");
@@ -116,7 +116,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 			return "@startuml @enduml";
 		}
 	}
-   
+
    @Override
    public boolean supportsEditor(IEditorPart editorPart) {
       if (oldEditor != null && oldEditor.equals(editorPart))
@@ -141,13 +141,13 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
       // TODO Auto-generated method stub
       return false;
    }
-	
+
 	private String getKeyName(String name){
 		StringBuilder sb = new StringBuilder();
 		sb.append(project.getLocation().toOSString()).append('/').append(name);
 		return sb.toString();
 	}
-	
+
 	private TGGRule handleRule(TGGRule rule, TripleGraphGrammar preTgg, boolean condition){
 		if(ToggleRefinementHandler.flattenRefinements() && condition){
 			RefinementPrecompiler rp =PrecompilerFactory.eINSTANCE.createRefinementPrecompiler();
@@ -184,7 +184,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
 			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
 			project = file.getProject();
-			IFile tggFile = project.getFile(MoflonUtil.getDefaultPathToFileInProject(project.getName(), fileExtension));
+			IFile tggFile = project.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), fileExtension));
 			if (tggFile.exists()) {
 				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
 				PluginURIToResourceURIRemapper.createPluginToResourceMap(rs);
@@ -198,7 +198,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	}
 
 	private String getTGGFileWithRules() {
-		String tggFile = ToggleRefinementHandler.flattenRefinements() ? WorkspaceHelper.TGG_FILE_EXTENSION : WorkspaceHelper.PRE_TGG_FILE_EXTENSION;
+		String tggFile = ToggleRefinementHandler.flattenRefinements() ? MoslTggConstants.TGG_FILE_EXTENSION : MoslTggConstants.PRE_TGG_FILE_EXTENSION;
 		if (!currentTggFile.equals(tggFile)) {
 			currentTggFile = tggFile;
 			outdated = true;

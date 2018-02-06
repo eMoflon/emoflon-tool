@@ -22,11 +22,13 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
 import org.gervarro.eclipse.workspace.util.RelevantElementCollector;
+import org.moflon.core.build.AbstractVisitorBuilder;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.ProjectDependencyAnalyzer;
-import org.moflon.ide.core.runtime.builders.AbstractVisitorBuilder;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 public class MoslTGGBuilder extends AbstractVisitorBuilder
 {
@@ -34,8 +36,8 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder
    public static final Logger logger = Logger.getLogger(MoslTGGBuilder.class);
 
    public static final String BUILDER_ID = "org.moflon.tgg.mosl.codeadapter.mosltggbuilder";
-   
-   private final String srcFolder = "src";  
+
+   private final String srcFolder = "src";
 
    /**
     * Specification of files whose changes will trigger in invocation of this builder
@@ -55,7 +57,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder
    {
       try
       {
-         if (project.hasNature(WorkspaceHelper.REPOSITORY_NATURE_ID) || project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
+         if (project.hasNature(RepositoryNature.getId()) || project.hasNature(IntegrationNature.getId()))
          {
             return new AntPatternCondition(new String[] { "gen/**" });
          }

@@ -12,16 +12,16 @@ import org.gervarro.democles.plan.common.DefaultAlgorithm;
 import org.moflon.compiler.sdm.democles.DefaultCodeGeneratorConfig;
 import org.moflon.compiler.sdm.democles.PatternMatcherCompiler;
 import org.moflon.compiler.sdm.democles.TemplateConfigurationProvider;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
 
 public class ReverseNavigationCodeGeneratorConfig extends DefaultCodeGeneratorConfig
 {
    protected WeightedOperationBuilder<GeneratorOperation> builder =
          new ReverseNavigationEnabledWeightedOperationBuilder<GeneratorOperation>();
-   
+
    protected final DefaultAlgorithm<SimpleCombiner, GeneratorOperation> algorithm =
          new DefaultAlgorithm<SimpleCombiner, GeneratorOperation>(builder);
-   
+
    public ReverseNavigationCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project, final EMoflonPreferencesStorage preferencesStorage)
    {
       super(resourceSet, preferencesStorage);

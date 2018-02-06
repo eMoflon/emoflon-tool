@@ -26,6 +26,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator;
+import org.moflon.core.preferences.EMoflonPreferencesActivator;
+import org.moflon.core.ui.AbstractCommandHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
@@ -85,7 +87,7 @@ public class ValidateHandler extends AbstractCommandHandler
 
    private void validateProject(final IProject project, final IProgressMonitor monitor) throws CoreException
    {
-      if (WorkspaceHelper.isMoflonProject(project))
+      if (CoreActivator.isMoflonProject(project))
       {
          final IFile ecoreFile = WorkspaceHelper.getDefaultEcoreFile(project);
          validateFile(ecoreFile, monitor);
@@ -102,7 +104,7 @@ public class ValidateHandler extends AbstractCommandHandler
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Validating " + ecoreFile.getName(), 1);
 
-			final ITask validationTask = new MonitoredSDMValidator(ecoreFile, CoreActivator.getDefault().getPreferencesStorage());
+			final ITask validationTask = new MonitoredSDMValidator(ecoreFile, EMoflonPreferencesActivator.getDefault().getPreferencesStorage());
 			if (validationTask != null) {
 				final Job job = new Job(validationTask.getTaskName()) {
 					@Override
@@ -133,6 +135,6 @@ public class ValidateHandler extends AbstractCommandHandler
       } catch (InterruptedException e)
       {
          throw new OperationCanceledException(validationTimeoutMessage);
-      } 
+      }
    }
 }

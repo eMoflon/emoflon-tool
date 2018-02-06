@@ -18,33 +18,37 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.gervarro.eclipse.workspace.util.AntPatternCondition;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.codegen.eclipse.MoflonCodeGenerator;
+import org.moflon.core.build.AbstractVisitorBuilder;
+import org.moflon.core.build.CleanVisitor;
+import org.moflon.core.plugins.manifest.ExportedPackagesInManifestUpdater;
+import org.moflon.core.plugins.manifest.PluginXmlUpdater;
+import org.moflon.core.preferences.EMoflonPreferencesActivator;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.utilities.ClasspathUtil;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.ide.core.CoreActivator;
-import org.moflon.ide.core.runtime.CleanVisitor;
-import org.moflon.ide.core.runtime.MoflonProjectCreator;
-import org.moflon.util.plugins.manifest.ExportedPackagesInManifestUpdater;
-import org.moflon.util.plugins.manifest.PluginXmlUpdater;
+import org.moflon.ide.core.MoslTggConstants;
+import org.moflon.ide.core.project.RepositoryProjectCreator;
+import org.moflon.ide.core.runtime.natures.IntegrationNature;
+import org.moflon.ide.core.runtime.natures.MetamodelNature;
+import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 public class RepositoryBuilder extends AbstractVisitorBuilder
 {
    public static final Logger logger = Logger.getLogger(RepositoryBuilder.class);
 
-   protected boolean generateSDMs = true;
-
    public RepositoryBuilder()
    {
       super(new AntPatternCondition(new String[] { "model/*.ecore" }));
+   }
+
+   public static String getId()
+   {
+      return "org.moflon.ide.core.runtime.builders.RepositoryBuilder";
    }
 
    @Override
@@ -63,14 +67,18 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       deleteProblemMarkers();
       subMon.worked(1);
 
+      cleanGeneratedCode(project);
+
+      cleanModels(WorkspaceHelper.getModelFolder(project), subMon.split(1));
+   }
+
+   private void cleanGeneratedCode(final IProject project) throws CoreException
+   {
       final CleanVisitor cleanVisitor = new CleanVisitor(getProject(), //
             new AntPatternCondition(new String[] { "gen/**", "debug/**" }), //
             new AntPatternCondition(new String[] { "gen/.keep*" }));
       // Remove generated code
       project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
-
-      // Remove generated model files
-      cleanModels(WorkspaceHelper.getModelFolder(project), subMon.split(1));
    }
 
    public void handleErrorsInEclipse(final IStatus status, final IFile ecoreFile)
@@ -102,7 +110,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
    @Override
    protected void processResource(final IResource ecoreResource, final int kind, Map<String, String> args, final IProgressMonitor monitor)
    {
-      if (isEcoreFile(ecoreResource))
+      if (WorkspaceHelper.isEcoreFile(ecoreResource))
       {
          final IFile ecoreFile = Platform.getAdapterManager().getAdapter(ecoreResource, IFile.class);
          try
@@ -110,9 +118,10 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
             final SubMonitor subMon = SubMonitor.convert(monitor, "Generating code for project " + getProject().getName(), 13);
 
             final IProject project = getProject();
-            MoflonProjectCreator.createFoldersIfNecessary(project, subMon.split(1));
-            makeSourceFolderIfNecessary(WorkspaceHelper.getGenFolder(getProject()));
-            makeSourceFolderIfNecessary(WorkspaceHelper.getInjectionFolder(getProject()));
+            RepositoryProjectCreator projectCreator = new RepositoryProjectCreator(project, null, null);
+            projectCreator.createFoldersIfNecessary(project, subMon.split(1));
+            ClasspathUtil.makeSourceFolderIfNecessary(WorkspaceHelper.getGenFolder(getProject()));
+            ClasspathUtil.makeSourceFolderIfNecessary(WorkspaceHelper.getInjectionFolder(getProject()));
 
             // Compute project dependencies
             final IBuildConfiguration[] referencedBuildConfigs = project.getReferencedBuildConfigs(project.getActiveBuildConfig().getName(), false);
@@ -121,19 +130,16 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
                addTriggerProject(referencedConfig.getProject());
             }
 
-            // Remove markers and delete generated code
             deleteProblemMarkers();
-            final CleanVisitor cleanVisitor = new CleanVisitor(project, //
-                  new AntPatternCondition(new String[] { "gen/**" }), //
-                  new AntPatternCondition(new String[] { "gen/.keep*" }));
-            project.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);
+            cleanGeneratedCode(getProject());
 
             // Build
-            final ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
+            final ResourceSet resourceSet = eMoflonEMFUtil.createDefaultResourceSet();
             eMoflonEMFUtil.installCrossReferencers(resourceSet);
             subMon.worked(1);
 
-            final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet, CoreActivator.getDefault().getPreferencesStorage());
+            final MoflonCodeGenerator codeGenerationTask = new MoflonCodeGenerator(ecoreFile, resourceSet,
+                  EMoflonPreferencesActivator.getDefault().getPreferencesStorage());
 
             final IStatus status = codeGenerationTask.run(subMon.split(1));
             handleErrorsAndWarnings(status, ecoreFile);
@@ -156,20 +162,18 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       }
    }
 
-   protected boolean isEcoreFile(final IResource ecoreResource)
-   {
-      return ecoreResource.getType() == IResource.FILE && "ecore".equals(ecoreResource.getFileExtension());
-   }
-
+   /**
+    * This is externally triggered if new code is generated in other repository or integration projects or if an exported metamodel changes
+    */
    @Override
    protected final AntPatternCondition getTriggerCondition(final IProject project)
    {
       try
       {
-         if (project.hasNature(WorkspaceHelper.REPOSITORY_NATURE_ID) || project.hasNature(WorkspaceHelper.INTEGRATION_NATURE_ID))
+         if (RepositoryNature.isRepositoryProject(project) || IntegrationNature.isIntegrationProject(project))
          {
             return new AntPatternCondition(new String[] { "gen/**" });
-         } else if (project.hasNature(WorkspaceHelper.METAMODEL_NATURE_ID))
+         } else if (MetamodelNature.isMetamodelProject(project))
          {
             return new AntPatternCondition(new String[] { ".temp/*.moca.xmi" });
          }
@@ -182,14 +186,14 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
    /**
     * Handles errors and warning produced by the code generation task
-    * 
+    *
     * @param status the {@link IStatus} that contains the errors and warnings
     */
    protected void handleErrorsAndWarnings(final IStatus status, final IFile ecoreFile) throws CoreException
    {
       if (indicatesThatValidationCrashed(status))
       {
-         throw new CoreException(new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), status.getMessage(), status.getException().getCause()));
+         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), status.getMessage(), status.getException().getCause()));
       }
       if (status.matches(IStatus.ERROR))
       {
@@ -200,66 +204,6 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
       {
          handleInjectionWarningsAndErrors(status);
       }
-   }
-
-   /**
-    * Invokes {@link #makeSourceFolder(IProject, IFolder)} if {@link #isSourceFolder(IFolder)} returns false for the given folder
-    * @param folder the folder to be converted to a source folder
-    * @throws CoreException if analyzing the classpath fails
-    */
-   private void makeSourceFolderIfNecessary(final IFolder folder) throws CoreException
-   {
-      if (!isSourceFolder(folder))
-      {
-         makeSourceFolder(getProject(), folder);
-      }
-   }
-
-   /**
-    * Adds the given folder to the given project's classpath
-    * @param project the project to be manipulated
-    * @param folder the folder to be manipulated
-    * @throws CoreException if analyzing the classpath fails
-    */
-   private static void makeSourceFolder(final IProject project, final IFolder folder) throws CoreException
-   {
-      try
-      {
-         final IJavaProject javaProject = JavaCore.create(project);
-         final IClasspathEntry[] oldEntries = javaProject.getRawClasspath();
-         final IClasspathEntry[] newEntries = new IClasspathEntry[oldEntries.length + 1];
-         System.arraycopy(oldEntries, 0, newEntries, 0, oldEntries.length);
-         newEntries[oldEntries.length] = JavaCore.newSourceEntry(folder.getFullPath());
-         javaProject.setRawClasspath(newEntries, null);
-      } catch (final JavaModelException e)
-      {
-         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(MoflonProjectCreator.class),
-               String.format("%s happended while analyzing classpath: %s", e.getClass(), e.getMessage())));
-      }
-   }
-
-   /**
-    * Returns true if the given folder's full path is present in the folder's project's classpath
-    * @param folder the folder to be checked
-    * @throws CoreException if analyzing the classpath fails
-    * @see IJavaProject#getRawClasspath()
-    */
-   private static boolean isSourceFolder(final IFolder folder) throws CoreException
-   {
-      final IJavaProject javaProject = JavaCore.create(folder.getProject());
-      try
-      {
-         for (final IClasspathEntry entry : javaProject.getRawClasspath())
-         {
-            if (entry.getPath().equals(folder.getFullPath()))
-               return true;
-         }
-      } catch (final JavaModelException e)
-      {
-         throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(MoflonProjectCreator.class),
-               String.format("%s happended while analyzing classpath: %s", e.getClass(), e.getMessage())));
-      }
-      return false;
    }
 
    // Delete generated models within model folder
@@ -288,7 +232,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
                   monitor.worked(1);
                }
 
-               if (WorkspaceHelper.isIntegrationProject(getProject()) && isAGeneratedFileInIntegrationProject(resource))
+               if (IntegrationNature.isIntegrationProject(getProject()) && isAGeneratedFileInIntegrationProject(resource))
                {
                   resource.delete(true, subMon.split(1));
                } else
@@ -305,7 +249,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
    private boolean isAGeneratedFileInIntegrationProject(final IResource resource)
    {
-      return !(resource.getName().endsWith(WorkspaceHelper.PRE_ECORE_FILE_EXTENSION) || resource.getName().endsWith(WorkspaceHelper.PRE_TGG_FILE_EXTENSION));
+      return !(resource.getName().endsWith(MoslTggConstants.PRE_ECORE_FILE_EXTENSION) || resource.getName().endsWith(MoslTggConstants.PRE_TGG_FILE_EXTENSION));
    }
 
    private boolean indicatesThatValidationCrashed(IStatus status)
@@ -315,7 +259,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
 
    private void handleInjectionWarningsAndErrors(final IStatus status)
    {
-      final String reporterClass = "org.moflon.moca.inject.validation.InjectionErrorReporter";
+      final String reporterClass = "org.moflon.emf.injection.validation.InjectionErrorReporter";
       final ErrorReporter errorReporter = (ErrorReporter) Platform.getAdapterManager().loadAdapter(getProject(), reporterClass);
       if (errorReporter != null)
       {
@@ -325,4 +269,5 @@ public class RepositoryBuilder extends AbstractVisitorBuilder
          logger.debug("Could not load error reporter '" + reporterClass + "'");
       }
    }
+
 }

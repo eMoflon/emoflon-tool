@@ -35,12 +35,13 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.core.plugins.manifest.PluginURIToResourceURIRemapper;
 import org.moflon.core.utilities.LogUtils;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.tgg.algorithm.configuration.PGSavingConfigurator;
 import org.moflon.tgg.language.TripleGraphGrammar;
 import org.moflon.tgg.mosl.codeadapter.org.moflon.tie.CodeadapterPostProcessBackwardHelper;
@@ -53,7 +54,6 @@ import org.moflon.tgg.mosl.tgg.Rule;
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile;
 import org.moflon.tgg.tggproject.TGGProject;
 import org.moflon.tgg.tggproject.TggprojectFactory;
-import org.moflon.util.plugins.manifest.PluginURIToResourceURIRemapper;
 
 public class MOSLTGGConversionHelper extends AbstractHandler {
 	private static Logger logger = Logger.getLogger(MOSLTGGConversionHelper.class);
@@ -75,7 +75,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 
 		/**
 		 * Returns true if the last but one suffix equals lastButOneSuffix
-		 * 
+		 *
 		 * @param uri
 		 *            the URI to check
 		 * @param lastButOneSuffix
@@ -89,16 +89,16 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 	}
 
 	public Resource generateTGGModel(final IResource resource) throws CoreException {
-		
-		
+
+
 		final IProject project = resource.getProject();
-		
-		//add default attribute conditions 
+
+		//add default attribute conditions
 		AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
 
 		final IFolder moslFolder = IFolder.class.cast(resource);
 		final XtextResourceSet resourceSet = new XtextResourceSet();
-		
+
 		Collection<TripleGraphGrammarFile> tggFiles = new HashSet<>();
 		collectTGGFiles(resourceSet, moslFolder, tggFiles);
 
@@ -113,7 +113,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		options.put(XMLResource.OPTION_URI_HANDLER, new PreEcoreHidingURIHandler());
 
 		// Invoke TGG forward transformation to produce TGG model
-		String pathToThisPlugin = MoflonUtilitiesActivator
+		String pathToThisPlugin = WorkspaceHelper
 				.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
 
 		CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin);
@@ -147,7 +147,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 
 	/**
 	 * Loads a TGG grammar from the given folder.
-	 * 
+	 *
 	 * @param resourceSet
 	 * @param moslFolder
 	 * @return
@@ -163,7 +163,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		for (final IResource resource : moslFolder.members()) {
 			if (resource instanceof IFile) {
 				final IFile file = IFile.class.cast(resource);
-				if (file.getFileExtension().equals(WorkspaceHelper.MOSL_TGG_EXTENSION)) {
+				if (file.getFileExtension().equals(MoslTggConstants.MOSL_TGG_EXTENSION)) {
 					tggFiles.add(loadTggFromFile(resourceSet, file));
 				}
 			} else if (resource instanceof IFolder)
@@ -211,7 +211,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 					});
 					EcoreUtil.resolveAll(resourceSet);
 
-					String pathToThisPlugin = MoflonUtilitiesActivator
+					String pathToThisPlugin = WorkspaceHelper
 							.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
 					CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin, resourceSet);
 
@@ -259,9 +259,9 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		}
 
 		final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(saveTargetName);
-		CodeGeneratorPlugin.createPluginToResourceMapping(resourceSet, project);
-		URI relativePreEcoreXmiURI = URI.createURI(MoflonUtil.getDefaultPathToFileInProject(file, ".pre.ecore"));
-		URI projectURI = CodeGeneratorPlugin.lookupProjectURI(project);
+		eMoflonEMFUtil.createPluginToResourceMapping(resourceSet, project);
+		URI relativePreEcoreXmiURI = URI.createURI(MoflonConventions.getDefaultPathToFileInProject(file, ".pre.ecore"));
+		URI projectURI = eMoflonEMFUtil.lookupProjectURI(project);
 		URI preEcoreXmiURI = relativePreEcoreXmiURI.resolve(projectURI);
 		Resource preEcoreResource = resourceSet.createResource(preEcoreXmiURI);
 		preEcoreResource.getContents().add(corrPackage);
@@ -278,7 +278,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		}
 
 		URI pretggXmiURI = URI.createPlatformResourceURI(
-				saveTargetName + "/" + MoflonUtil.getDefaultPathToFileInProject(file, ".pre.tgg.xmi"), false);
+				saveTargetName + "/" + MoflonConventions.getDefaultPathToFileInProject(file, ".pre.tgg.xmi"), false);
 		Resource pretggXmiResource = resourceSet.createResource(pretggXmiURI);
 		pretggXmiResource.getContents().add(tgg);
 		try {
@@ -304,7 +304,6 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 
 		SaveOptions.Builder options = SaveOptions.newBuilder();
 		options.format();
-		options.noValidation();
 		xtextResource.save(options.getOptions().toOptionsMap());
 	}
 

@@ -10,11 +10,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
-import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
+import org.moflon.core.utilities.ExceptionUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.util.RefreshProjectJob;
 
@@ -38,11 +36,6 @@ public class EnterpriseArchitectHelper
 
    private static EnterpriseArchitectCommandLineParser clParser = new EnterpriseArchitectCommandLineParser();
 
-   public static void delegateToEnterpriseArchitect(final IProject project) throws IOException, InterruptedException
-   {
-      delegateToEnterpriseArchitect(project, new NullProgressMonitor());
-   }
-
    public static void delegateToEnterpriseArchitect(final IProject project, final IProgressMonitor monitor) throws IOException, InterruptedException
    {
       delegateToEnterpriseArchitect(project, monitor, generateExportCommand(WorkspaceHelper.getEapFileFromMetamodelProject(project)), "Exporting");
@@ -50,12 +43,12 @@ public class EnterpriseArchitectHelper
 
    private static String generateExportCommand(IFile eapFile)
    {
-      URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, WorkspaceHelper.getPluginId(EnterpriseArchitectHelper.class));
+      URL pathToExe = WorkspaceHelper.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, WorkspaceHelper.getPluginId(EnterpriseArchitectHelper.class));
       return "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + EXPORT_OPTION + EAP_EXTENSIONS + "\"" + eapFile.getLocation().toOSString() + "\"";
 
    }
 
-   public static void delegateToEnterpriseArchitect(final IProject project, final IProgressMonitor monitor, final String command, final String importExport)
+   private static void delegateToEnterpriseArchitect(final IProject project, final IProgressMonitor monitor, final String command, final String importExport)
          throws IOException, InterruptedException
    {
       try
@@ -99,7 +92,7 @@ public class EnterpriseArchitectHelper
 
    private static String generateImportCommand(IFile eapFile, IFile xmiFile)
    {
-      URL pathToExe = MoflonUtilitiesActivator.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, WorkspaceHelper.getPluginId(EnterpriseArchitectHelper.class));
+      URL pathToExe = WorkspaceHelper.getPathRelToPlugIn(COMMAND_LINE_EA_EXECUTABLE, WorkspaceHelper.getPluginId(EnterpriseArchitectHelper.class));
       return "\"" + new File(pathToExe.getPath()).getAbsolutePath() + "\" " + IMPORT_OPTION + XMI_EXTENSIONS + "\"" + xmiFile.getLocation().toOSString() + "\" "
             + EAP_EXTENSIONS + "\"" + eapFile.getLocation().toOSString() + "\"";
    }
@@ -113,7 +106,7 @@ public class EnterpriseArchitectHelper
       {
          logger.error(ERROR_MESSAGE_PROBLEMS_EA_EXPORT + project.getName());
          logger.info(ERROR_MESSAGE_LATEST_VERSIONS);
-         logger.error(MoflonUtil.displayExceptionAsString(e));
+         logger.error(ExceptionUtil.displayExceptionAsString(e));
       }
    }
 
@@ -127,7 +120,7 @@ public class EnterpriseArchitectHelper
       {
          logger.error(ERROR_MESSAGE_PROBLEMS_EA_EXPORT + project.getName());
          logger.info(ERROR_MESSAGE_LATEST_VERSIONS);
-         logger.error(MoflonUtil.displayExceptionAsString(e));
+         logger.error(ExceptionUtil.displayExceptionAsString(e));
       }
    }
 

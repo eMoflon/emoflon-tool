@@ -24,8 +24,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.moflon.core.ui.UiUtilities;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.ide.ui.UIActivator;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.tgg.mosl.ui.internal.TGGActivator;
 
 public class NewTGGRuleProjectInfoPage extends WizardPage
@@ -57,7 +58,7 @@ public class NewTGGRuleProjectInfoPage extends WizardPage
       // Set information on the page
       setTitle("New TGG rule wizard");
       setDescription("Create a new TGG rule");
-      setImageDescriptor(UIActivator.getImage("resources/icons/metamodelProjectWizard.gif"));
+      setImageDescriptor(UiUtilities.getImage(WorkspaceHelper.getPluginId(getClass()), "resources/icons/metamodelProjectWizard.gif"));
    }
 
    private void setProjectAndRuleLocation()

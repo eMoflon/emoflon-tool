@@ -14,14 +14,13 @@ import org.gervarro.democles.codegen.OperationSequenceCompiler;
 import org.gervarro.democles.codegen.TemplateInvocation;
 import org.moflon.compiler.sdm.democles.eclipse.AdapterResource;
 import org.moflon.core.utilities.MoflonUtil;
-import org.moflon.eclipse.genmodel.MoflonClassGeneratorAdapter;
-import org.moflon.gt.democles.codegen.MOSLGTImportManager;
-import org.moflon.moca.inject.InjectionManager;
+import org.moflon.emf.codegen.AbstractMoflonClassGeneratorAdapter;
+import org.moflon.emf.injection.ide.InjectionManager;
 import org.moflon.sdm.runtime.democles.Scope;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
-public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
+public class DemoclesClassGeneratorAdapter extends AbstractMoflonClassGeneratorAdapter {
 	private ImportManager democlesImportManager = ImportManager.EMPTY_IMPORT_MANAGER;
 
 	protected DemoclesClassGeneratorAdapter(final DemoclesGeneratorAdapterFactory generatorAdapterFactory) {
@@ -29,20 +28,19 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 	}
 
 	public static DemoclesClassGeneratorAdapter createDemoclesClassGeneratorAdapter(final DemoclesGeneratorAdapterFactory generatorAdapterFactory){
-	 //  if(DefaultCodeGeneratorConfig.isMoslGT())
-	   return new DemoclesClassGeneratorAdapter(generatorAdapterFactory);   
+	   return new DemoclesClassGeneratorAdapter(generatorAdapterFactory);
 	}
-	
+
 	@Override
    public DemoclesGeneratorAdapterFactory getAdapterFactory() {
 		return (DemoclesGeneratorAdapterFactory) adapterFactory;
 	}
-	
+
 	@Override
    public boolean isAdapterForType(final Object type) {
 		return type instanceof Class && ((Class<?>) type).isAssignableFrom(getClass());
 	}
-	
+
 	@Override
    protected void generateClass(final GenClass genClass, final Monitor monitor) {
 		if (!genClass.isInterface()) {
@@ -53,7 +51,7 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 			}
 			getInjectedCode(true);
 			handleImports(true);
-			
+
 			democlesImportManager = new GenModelToDemoclesImportManager(genClass.getGenModel());
 		}
 		super.generateClass(genClass, monitor);
@@ -61,7 +59,7 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 
    @Override
 	public boolean hasGeneratedMethodBody(final EOperation eOperation) {
-		return super.hasGeneratedMethodBody(eOperation) || 
+		return super.hasGeneratedMethodBody(eOperation) ||
 				eOperation != null && EcoreUtil.getExistingAdapter(eOperation, DemoclesMethodBodyHandler.CONTROL_FLOW_FILE_EXTENSION) != null;
 	}
 
@@ -84,13 +82,12 @@ public class DemoclesClassGeneratorAdapter extends MoflonClassGeneratorAdapter {
 
 				final STGroup group = templateProvider.getTemplateGroup(DefaultTemplateConfiguration.CONTROL_FLOW_GENERATOR);
 				final ST template = group.getInstanceOf("/" + DefaultTemplateConfiguration.CONTROL_FLOW_GENERATOR + "/" + scope.getClass().getSimpleName());
-				MOSLGTImportManager.createInstance(democlesImportManager);				
 				template.add("scope", scope);
-				template.add("importManager", MOSLGTImportManager.getInstance());
+				template.add("importManager", democlesImportManager);
 				//template.inspect();
 				generatedMethodBody = template.render();
 			}
-		} 
+		}
 
 		if (generatedMethodBody == null) {
 			generatedMethodBody = MoflonUtil.DEFAULT_METHOD_BODY;

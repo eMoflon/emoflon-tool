@@ -47,12 +47,12 @@ class TGGFormatter extends AbstractFormatter2 {
     val syncKW 		= "#sync:"
     val genKW 		= "#gen:"
     val arrowKW		= "->"
-	
+
 	//@Inject extension TGGGrammarAccess
 
 // predefined Styles
 	def private void lineSeparator(List<? extends EObject> items, extension IFormattableDocument document){
-		if(items != null && items.size() > 0){
+		if(items !== null && items.size() > 0){
 			items.get(0).prepend[newLine]
 			for(var index = 0; index < items.size()-1; index++){
 				items.get(index).append[newLines = 2]
@@ -80,8 +80,8 @@ class TGGFormatter extends AbstractFormatter2 {
 		corr.regionFor.keyword(trgArrowKW).prepend[newLine].append[noSpace]
 		corr.regionFor.keyword("}").prepend[newLine]
 	}
-	
-	
+
+
 // formating
 	def dispatch void format(TripleGraphGrammarFile triplegraphgrammarfile, extension IFormattableDocument document) {
 		format(triplegraphgrammarfile.getSchema(), document);
@@ -105,22 +105,22 @@ class TGGFormatter extends AbstractFormatter2 {
 		schema.regionFor.keywordPairs(targetKW, "}").get(0).interior[indent]
 		schema.regionFor.keyword(corrKW).prepend[setNewLines(2)]
 		schema.regionFor.keyword(attrCondsKW).prepend[setNewLines(2)]
-		
+
 		schema.regionFor.feature(SCHEMA__SOURCE_TYPES).surround[newLine]
 		schema.regionFor.feature(SCHEMA__TARGET_TYPES).surround[newLine]
-		
+
 		for (Import imports : schema.getImports()) {
 			imports.append[newLine]
 		}
 		for (Using using : schema.getUsing()) {
 			using.append[newLine]
 		}
-		
+
 		lineSeparator(schema.correspondenceTypes, document)
 		for (CorrType correspondenceTypes : schema.getCorrespondenceTypes()) {
 			format(correspondenceTypes, document);
 		}
-		
+
 		lineSeparator(schema.attributeCondDefs, document)
 		for (AttrCondDef attributeCondDefs : schema.getAttributeCondDefs()) {
 			format(attributeCondDefs, document);
@@ -139,34 +139,34 @@ class TGGFormatter extends AbstractFormatter2 {
 		rule.regionFor.keyword(attrCondsKW).prepend[setNewLines(2)]
 		rule.regionFor.keyword(",").prepend[noSpace]
 		rule.regionFor.feature(RULE__KERNEL).append[noSpace]
-		
+
 		for (Import imports : rule.getImports()) {
 			imports.append[newLine]
 		}
 		for (Using using : rule.getUsing()) {
 			using.append[newLine]
 		}
-		
+
 		lineSeparator(rule.sourcePatterns, document)
 		for (ObjectVariablePattern sourcePatterns : rule.getSourcePatterns()) {
 			format(sourcePatterns, document);
 		}
-		
+
 		lineSeparator(rule.targetPatterns, document)
 		for (ObjectVariablePattern targetPatterns : rule.getTargetPatterns()) {
 			format(targetPatterns, document);
 		}
-		
+
 		lineSeparator(rule.correspondencePatterns,document)
 		for (CorrVariablePattern correspondencePatterns : rule.getCorrespondencePatterns()) {
 			format(correspondencePatterns, document);
 		}
-		
+
 		lineSeparator(rule.attrConditions,document)
 		for (AttrCond attrConditions : rule.getAttrConditions()) {
 			format(attrConditions, document);
 		}
-		
+
 	}
 	def dispatch void format(CorrType correspondenceType, extension IFormattableDocument document) {
 		singleItemFormatInterior(correspondenceType,document);
@@ -199,7 +199,7 @@ class TGGFormatter extends AbstractFormatter2 {
 	}
 
 	def dispatch void format(AttrCondDef attrconddef, extension IFormattableDocument document) {
-		singleItemFormatInterior(attrconddef,document)		
+		singleItemFormatInterior(attrconddef,document)
 		attrconddef.regionFor.keyword("(").surround[noSpace]
 		attrconddef.regionFor.keyword(syncKW).prepend[newLine]
 		attrconddef.regionFor.keyword(genKW).prepend[newLine]
@@ -227,7 +227,7 @@ class TGGFormatter extends AbstractFormatter2 {
 		singleItemFormatInterior(objectvariablepattern,document)
 		objectvariablepattern.regionFor.feature(NAMED_ELEMENTS__NAME).surround[noSpace]
 		objectvariablepattern.regionFor.feature(OBJECT_VARIABLE_PATTERN__TYPE).prepend[noSpace]
-		
+
 		for (AttributeAssignment assignment : objectvariablepattern.getAttributeAssignments()) {
 			attributeFormat(assignment,document)
 			format(assignment.valueExp, document)
@@ -242,14 +242,14 @@ class TGGFormatter extends AbstractFormatter2 {
 	}
 
 	def dispatch void format(LinkVariablePattern linkvariablepattern, extension IFormattableDocument document) {
-		linkvariablepattern.surround[newLine]		
+		linkvariablepattern.surround[newLine]
 		linkvariablepattern.regionFor.keyword(arrowKW).surround[oneSpace]
 	}
-	
+
 	def dispatch void format(Expression exp, extension IFormattableDocument document){
 		if(exp instanceof EnumExpression){
 			exp.regionFor.keyword("enum::").surround[noSpace]
-			exp.regionFor.keyword("::").surround[noSpace]		
+			exp.regionFor.keyword("::").surround[noSpace]
 		}
 	}
 }

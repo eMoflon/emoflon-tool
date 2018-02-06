@@ -1,9 +1,9 @@
-<project name="org.cmoflon.updatesite" default="clean" basedir=".">
+<project name="org.moflon.deployment.updatesite" default="clean" basedir=".">
   <description>
     Helper ant file for the update site of eMoflon.
-  	
-  	**NOTE:** It is important that the script runs in the same JRE as the surrounding workspace to allow executing 
-  	'eclipse.*' tasks 
+
+  	**NOTE:** It is important that the script runs in the same JRE as the surrounding workspace to allow executing
+  	'eclipse.*' tasks
   	See "External Tools Configurations..." -> [Run Config] -> JRE -> "Run in the same JRE as workspace"
   </description>
   <!--
@@ -25,9 +25,9 @@
   	</zip>
     <eclipse.refreshLocal resource="org.moflon.deployment.updatesite" depth="infinite" />
   </target>
-	
+
   <!--
-  This target removes all generated artefacts  
+  This target removes all generated artefacts
   -->
   <target name="clean" description="Remove generated artifacts">
     <delete dir="build"/>

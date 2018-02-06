@@ -18,8 +18,10 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.moflon.core.ui.AbstractCommandHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.ea.EnterpriseArchitectHelper;
+import org.moflon.ide.core.runtime.natures.MetamodelNature;
 import org.moflon.ide.ui.UIActivator;
 
 public class ExportAndBuildHandler extends AbstractCommandHandler
@@ -78,6 +80,6 @@ public class ExportAndBuildHandler extends AbstractCommandHandler
          }
       }
 
-      return projects.stream().filter(p -> WorkspaceHelper.isMetamodelProjectNoThrow(p)).collect(Collectors.toList());
+      return projects.stream().filter(p -> MetamodelNature.isMetamodelProjectNoThrow(p)).collect(Collectors.toList());
    }
 }

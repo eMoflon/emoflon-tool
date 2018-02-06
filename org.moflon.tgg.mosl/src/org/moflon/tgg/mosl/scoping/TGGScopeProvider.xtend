@@ -23,6 +23,8 @@ import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import org.eclipse.xtext.scoping.impl.FilteringScope
 import org.eclipse.xtext.scoping.impl.SimpleScope
+import org.moflon.core.utilities.eMoflonEMFUtil
+import org.moflon.ide.mosl.core.scoping.MoflonScope
 import org.moflon.tgg.mosl.tgg.AttributeAssignment
 import org.moflon.tgg.mosl.tgg.AttributeConstraint
 import org.moflon.tgg.mosl.tgg.AttributeExpression
@@ -36,70 +38,68 @@ import org.moflon.tgg.mosl.tgg.Rule
 import org.moflon.tgg.mosl.tgg.Schema
 import org.moflon.tgg.mosl.tgg.TggPackage
 import org.moflon.tgg.mosl.tgg.TripleGraphGrammarFile
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin
-import org.moflon.ide.mosl.core.scoping.MoflonScope
 
 /**
  * This class contains custom scoping description.
- * 
+ *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping
  * on how and when to use it.
- * 
+ *
  */
 class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
-	
+
 
 	override getScope(EObject context, EReference reference) {
-		
+
 		/* Scopes in Rule */
 		try{
 			if (is_attr_of_ov(context, reference))
 				return attr_must_be_of_ov(context)
-			
+
 			if(is_attr_of_attr_assignment(context, reference))
 				return attr_must_be_of_assigned_ov(context)
-				
+
 			if(is_attr_of_attr_constraint(context, reference))
 				return attr_must_be_of_constrained_ov(context)
-			
+
 			if(is_attr_of_attr_expression(context, reference))
 				return attr_must_be_from_attr_exp_ov(context)
-			
-			if (is_type_of_lv(context, reference)) 
+
+			if (is_type_of_lv(context, reference))
 				return type_of_lv_must_be_a_reference_of_enclosing_ov(context)
-			
+
 			if(is_target_of_lv(context, reference))
-				return target_of_lv_must_be_compatible_with_its_type(context)			
-			
+				return target_of_lv_must_be_compatible_with_its_type(context)
+
 			if (is_attr_cond(context, reference))
 				return attr_in_cond_must_be_an_attr_of_the_ref_ov(context)
-			
+
 			if(is_type_of_ov(context, reference))
 				return type_of_ov_must_be_from_correct_domain(context)
-			
+
 			if(is_src_of_corr_ov(context, reference))
 				return src_of_corr_ov_must_be_in_src_domain(context)
-			
+
 			if(is_trg_of_corr_ov(context, reference))
 				return trg_of_corr_ov_must_be_in_trg_domain(context)
-				
+
 			if(is_enum_exp(context, reference))
 				return potential_enums(context)
-				
+
 			if(is_enum_literal(context, reference))
 				return potential_enum_literals(context)
-			
+
 			/* Scopes in Schema */
-			
+
 			if (is_src_of_corr_type(context, reference))
 				return src_of_corr_type_must_be_a_src_type(context)
-			
+
 			if (is_trg_of_corr_type(context, reference))
 				return trg_of_corr_type_must_be_a_trg_type(context)
-				
+
 			if (is_type_of_param(context, reference))
 				return type_of_param_must_be_edatatype(context)
-				
+
 			if(is_source_or_target_type_of_schema(context, reference))
 				return potential_packages(context)
 		} catch(Exception e){
@@ -108,44 +108,44 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 
 		super.getScope(context, reference)
 	}
-	
+
 	def is_enum_literal(EObject context, EReference reference) {
-		context instanceof EnumExpression && reference == TggPackage.Literals.ENUM_EXPRESSION__LITERAL	
+		context instanceof EnumExpression && reference == TggPackage.Literals.ENUM_EXPRESSION__LITERAL
 	}
-	
+
 	def potential_enum_literals(EObject context) {
 		val enumExp = context as EnumExpression
 		val eenum = enumExp.eenum;
 		val literals = eenum.ELiterals
-		
-		Scopes.scopeFor(literals)	
+
+		Scopes.scopeFor(literals)
 	}
-	
+
 	def potential_enums(EObject context) {
 		val enumExp = context as EnumExpression
-		
+
 		// Crawl up eContainers to Rule
 		var EObject current = enumExp
 		while(!(current instanceof Rule))
 			current = current.eContainer
-		
+
 		// Get imports from schema
 		val ResourceSet set = new ResourceSetImpl
-		CodeGeneratorPlugin.createPluginToResourceMapping(set);
+		eMoflonEMFUtil.createPluginToResourceMapping(set);
 		val schema = (current as Rule).schema
 		val packages = schema.imports.map[u | set.getResource(URI.createURI(u.name), true).contents.get(0) as EPackage]
-		
+
 		val literals = packages.map[p | EcoreUtil2.getAllContentsOfType(p, EEnum)].flatten
-				
+
 		Scopes.scopeFor(literals)
 	}
-	
+
 	def is_enum_exp(EObject context, EReference reference) {
 		context instanceof EnumExpression && reference == TggPackage.Literals.ENUM_EXPRESSION__EENUM
 	}
-	
+
 	def is_attr_of_ov(EObject context, EReference reference) {
-		context instanceof ObjectVariablePattern && (reference == TggPackage.Literals.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE 
+		context instanceof ObjectVariablePattern && (reference == TggPackage.Literals.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE
 			|| reference == TggPackage.Literals.ATTRIBUTE_CONSTRAINT__ATTRIBUTE
 		)
 	}
@@ -158,7 +158,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	def is_attr_of_attr_expression(EObject context, EReference reference) {
 		context instanceof AttributeExpression && reference == TggPackage.Literals.ATTRIBUTE_EXPRESSION__ATTRIBUTE
 	}
-	
+
 	def attr_must_be_of_ov(EObject context) {
 		var ovPattern = context as ObjectVariablePattern
 		return Scopes.scopeFor(ovPattern.type.EAllAttributes)
@@ -178,45 +178,45 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 		var ovPattern = exp.objectVar as ObjectVariablePattern
 		return Scopes.scopeFor(ovPattern.type.EAllAttributes)
 	}
-	
+
 	def potential_packages(EObject context) {
 		val set = new ResourceSetImpl()
-		CodeGeneratorPlugin.createPluginToResourceMapping(set);
+		eMoflonEMFUtil.createPluginToResourceMapping(set);
 		var schema = context as Schema
 		var resources = schema.imports.map[u | set.getResource(URI.createURI(u.name), true)]
 		return new MoflonScope(resources.map[r | r.contents.get(0)])
 	}
-	
+
 	def is_source_or_target_type_of_schema(EObject context, EReference reference) {
 		context instanceof Schema && (reference == TggPackage.Literals.SCHEMA__SOURCE_TYPES || reference == TggPackage.Literals.SCHEMA__TARGET_TYPES)
 	}
-	
+
 	def type_of_corr_ov_must_be_a_corr_type(EObject context) {
 		var rule = context.eContainer as Rule
 		var tgg = rule.eContainer as TripleGraphGrammarFile
 		var schema = tgg.schema as Schema
 		return Scopes.scopeFor(schema.correspondenceTypes)
 	}
-	
-	
+
+
 	def type_of_param_must_be_edatatype(EObject object) {
 		var eClassifiers = EcorePackage.eINSTANCE.getEClassifiers()
 		var edata = (EcoreUtil.getObjectsByType(eClassifiers, EcorePackage.Literals.EDATA_TYPE) as Object) as Collection<EDataType>
 		return Scopes.scopeFor(edata)
 	}
-	
+
 	def is_type_of_corr_ov(EObject context, EReference reference) {
 		context instanceof CorrVariablePattern && reference == TggPackage.Literals.CORR_VARIABLE_PATTERN__TYPE
 	}
-	
+
 	def is_type_of_param(EObject context, EReference reference) {
 		context instanceof Param && reference == TggPackage.Literals.PARAM__TYPE
 	}
-	
+
 	def is_trg_types_of_schema(EObject context, EReference reference) {
 		context instanceof Schema && reference == TggPackage.Literals.SCHEMA__TARGET_TYPES
 	}
-	
+
 	def is_src_types_of_schema(EObject context, EReference reference) {
 		context instanceof Schema && reference == TggPackage.Literals.SCHEMA__SOURCE_TYPES
 	}
@@ -224,11 +224,11 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	def is_trg_of_corr_ov(EObject context, EReference reference) {
 		context instanceof CorrVariablePattern && reference == TggPackage.Literals.CORR_VARIABLE_PATTERN__TARGET
 	}
-	
+
 	def is_src_of_corr_ov(EObject context, EReference reference) {
 		context instanceof CorrVariablePattern && reference == TggPackage.Literals.CORR_VARIABLE_PATTERN__SOURCE
 	}
-	
+
 	def is_equal_or_super_type_of_ov(EClass sup, IEObjectDescription desc){
 		var sub = (desc.EObjectOrProxy as ObjectVariablePattern).type
 		return sub.equals(sup) || sub.EAllSuperTypes.contains(sup) || EcorePackage.eINSTANCE.EObject.equals(sup)
@@ -245,11 +245,11 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	def is_type_of_lv(EObject context, EReference reference) {
 		context instanceof LinkVariablePattern && reference == TggPackage.Literals.LINK_VARIABLE_PATTERN__TYPE
 	}
-	
+
 	def is_target_of_lv(EObject context, EReference reference) {
 		context instanceof LinkVariablePattern && reference == TggPackage.Literals.LINK_VARIABLE_PATTERN__TARGET
 	}
-	
+
 	def is_trg_of_corr_type(EObject context, EReference reference) {
 		context instanceof CorrType && reference == TggPackage.Literals.CORR_TYPE__TARGET
 	}
@@ -261,60 +261,60 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 	def trg_of_corr_ov_must_be_in_trg_domain(EObject context) {
 		val typeDef = determineTypeDef(context)
 		var rule = context.eContainer as Rule
-		var IScope allCandidates = Scopes.scopeFor(rule.targetPatterns)		
+		var IScope allCandidates = Scopes.scopeFor(rule.targetPatterns)
 		return new FilteringScope(allCandidates, [c | is_equal_or_super_type_of_ov(typeDef.target, c)])
 	}
-	
+
 	def determineTypeDef(EObject context){
 		var corrOv = context as CorrVariablePattern
 		var type = corrOv.type
-		if(type.super == (null))
+		if(type.super === (null))
 			return type as CorrType
 		else if(type.super instanceof CorrType)
 			return determineTypeDefFromExtension(type) as CorrType
 		else
-			throw new IllegalStateException("Unable to determine type def from " + type)
+			throw new IllegalStateException("Unable to determine type definition from " + type)
 	}
-	
-	def determineTypeDefFromExtension(CorrType typeExtension) {
-		if(typeExtension.getSuper.super == (null))
+
+	def CorrType determineTypeDefFromExtension(CorrType typeExtension) {
+		if(typeExtension.getSuper.super === (null))
 			return typeExtension.super as CorrType
 		else if(typeExtension.getSuper.super instanceof CorrType)
 			return determineTypeDefFromExtension(typeExtension.super as CorrType)
 		else
-			throw new IllegalStateException("This should never be the case!") 
-	}                  
-	
+			throw new IllegalStateException("This should never be the case!")
+	}
+
 	def src_of_corr_ov_must_be_in_src_domain(EObject context) {
 		val typeDef = determineTypeDef(context)
 		var rule = context.eContainer as Rule
-		var IScope allCandidates = Scopes.scopeFor(rule.sourcePatterns)		
+		var IScope allCandidates = Scopes.scopeFor(rule.sourcePatterns)
 		return new FilteringScope(allCandidates, [c | is_equal_or_super_type_of_ov(typeDef.source, c)])
 	}
-	
+
 	def target_of_lv_must_be_compatible_with_its_type(EObject context) {
 		val lvPattern = context as LinkVariablePattern
 		var ovPattern = lvPattern.eContainer as ObjectVariablePattern
 		var rule = ovPattern.eContainer as Rule
-		
+
 		// Must be in same domain as ov
 		var IScope allCandidates = null;
 		if(rule.sourcePatterns.contains(ovPattern))
 			allCandidates = Scopes.scopeFor(rule.sourcePatterns)
 		else {
-			allCandidates = Scopes.scopeFor(rule.targetPatterns)		
+			allCandidates = Scopes.scopeFor(rule.targetPatterns)
 		}
-		
+
 		// Must be compatible to lv
 		return new FilteringScope(allCandidates, [c | is_equal_or_super_type_of_ov(lvPattern.type.EType as EClass, c)])
 	}
-	
-	
+
+
 	def type_of_ov_must_be_from_correct_domain(EObject context) {
 		var ov = context as ObjectVariablePattern
 		var rule = ov.eContainer as Rule
 		var schema = rule.schema
-		
+
 		if(rule.sourcePatterns.contains(ov)){
 			// typeOfOv must be in source domain
 			allTypes(schema.sourceTypes, schema)
@@ -323,7 +323,7 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 			allTypes(schema.targetTypes, schema)
 		}
 	}
-	
+
 
 	def src_of_corr_type_must_be_a_src_type(EObject context) {
 		handleCorrTypeDef(context, [Schema s | s.sourceTypes])
@@ -339,16 +339,16 @@ class TGGScopeProvider extends AbstractDeclarativeScopeProvider {
 		var sources = types.apply(schema)
 		return allTypes(sources, schema)
 	}
-	
+
 	def allTypes(List<EPackage> types, Schema schema) {
 		val allPackages = new ArrayList
 		allPackages.addAll(types)
-		allPackages.addAll(types.map[p | EcoreUtil2.getAllContentsOfType(p, EPackage)].flatten)		
-		
+		allPackages.addAll(types.map[p | EcoreUtil2.getAllContentsOfType(p, EPackage)].flatten)
+
 		val elements = allPackages.map[EPackage p | EcoreUtil2.getAllContentsOfType(p, EClassifier)].flatten
-		
+
 		new SimpleScope(
-			Scopes.scopeFor(elements), 
+			Scopes.scopeFor(elements),
 			Scopes.scopedElementsFor(elements, new DefaultDeclarativeQualifiedNameProvider)
 		)
 	}

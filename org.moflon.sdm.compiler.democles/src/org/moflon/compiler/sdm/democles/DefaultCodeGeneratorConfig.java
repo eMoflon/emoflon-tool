@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
 
 

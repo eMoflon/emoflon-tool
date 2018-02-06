@@ -16,7 +16,7 @@
   <extension point="org.eclipse.ui.commands">
     <category id="org.moflon.tgg.mosl.moslTGGNature.category" name="MOSL TGG Nature commands"/>
     <command categoryId="org.moflon.tgg.mosl.moslTGGNature.category" defaultHandler="org.moflon.tgg.mosl.builder.AddRemoveMOSLTGGNatureHandler" id="org.moflon.tgg.mosl.addRemoveMOSLTGGNature" name="Add/RemoveMOSL TGG Nature"/>
-    <command categoryId="org.moflon.ide.ui.commands.MainCategory" defaultHandler="org.moflon.tgg.mosl.builder.MOSLTGGConversionHelper" id="org.moflon.tgg.mosl.convertToMOSLTGG" name="Convert to MOSL TGG"/>
+    <command categoryId="org.moflon.core.ui.commands.MainCategory" defaultHandler="org.moflon.tgg.mosl.builder.MOSLTGGConversionHelper" id="org.moflon.tgg.mosl.convertToMOSLTGG" name="Convert to MOSL TGG"/>
   </extension>
   <extension point="org.eclipse.ui.menus">
     <menuContribution locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">

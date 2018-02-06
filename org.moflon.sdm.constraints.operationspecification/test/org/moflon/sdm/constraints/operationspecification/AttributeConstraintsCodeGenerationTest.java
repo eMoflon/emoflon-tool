@@ -36,14 +36,6 @@ public class AttributeConstraintsCodeGenerationTest
       // This is for loading using generate metamodel
       OperationspecificationPackage.eINSTANCE.getClass();
 
-      // This is for loading using file base metamodel
-      // URI mmuri
-      // =URI.createPlatformPluginURI("DemoclesAttributeConstraintSpecification/model/DemoclesAttributeConstraintSpecification.ecore",true);
-      // Resource mmresource =rs.getResource(mmuri, true);
-      //
-      // rs.getPackageRegistry().put("platform:/plugin/DemoclesAttributeConstraintSpecification/model/DemoclesAttributeConstraintSpecification.ecore",
-      // mmresource.getContents().get(0));
-
       URI uri1 = URI.createPlatformResourceURI(String.format("/%s/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi",
             "org.moflon.sdm.constraints.operationspecification"), true);
       Resource r = rs.getResource(uri1, true);

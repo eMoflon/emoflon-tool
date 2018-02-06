@@ -16,6 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.ui.AbstractCommandHandler;
 
 /**
  * Handler that selects the corresponding meta-model for a repository project (in the Package Explorer).

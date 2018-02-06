@@ -17,27 +17,33 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
+import org.moflon.core.build.MoflonProjectCreator;
+import org.moflon.core.build.nature.MoflonProjectConfigurator;
+import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.UncheckedCoreException;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.project.ProjectCreatorFactory;
+import org.moflon.ide.core.project.RepositoryProjectCreator;
+import org.moflon.ide.core.properties.MocaTreeEAPropertiesReader;
+import org.moflon.ide.core.properties.PluginPropertiesHelper;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
-import org.moflon.ide.core.runtime.natures.MoflonProjectConfigurator;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
-import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Node;
 
 public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFillingMocaToMoflonTransformation
 {
-   private final Map<String, MetamodelProperties> propertiesMap;
+   private final Map<String, PluginProperties> propertiesMap;
 
    private final IProgressMonitor monitor;
 
    public ResourceFillingMocaToMoflonTransformation(final ResourceSet resourceSet, final MetamodelBuilder resourceSetProcessor, final IProject metamodelProject,
-         final Map<String, MetamodelProperties> propertiesMap, final IProgressMonitor progressMonitor)
+         final Map<String, PluginProperties> propertiesMap, final IProgressMonitor progressMonitor)
    {
       super(resourceSet, resourceSetProcessor, metamodelProject);
       this.monitor = progressMonitor;
@@ -57,10 +63,11 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       monitor.worked(1);
    }
 
+   @Override
    protected void handleMissingProject(final Node node, final IProject project)
    {
-      final MetamodelProperties properties = propertiesMap.get(project.getName());
-      final MoflonProjectCreator moflonProjectCreator = new MoflonProjectCreator(project, properties, determineProjectConfigurator(properties));
+      final PluginProperties properties = propertiesMap.get(project.getName());
+      final MoflonProjectCreator moflonProjectCreator = ProjectCreatorFactory.getProjectCreator(project, properties, determineProjectConfigurator(properties));
       try
       {
          WorkspaceTask.executeInCurrentThread(moflonProjectCreator, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
@@ -70,23 +77,7 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       }
    }
 
-   //TODO@rkluge: This hack is one place where modularity of GT/TGG is broken.
-   // Still, we will not invest any more time here because the Moca-to-eMoflon component will be given up in the future.
-   private MoflonProjectConfigurator determineProjectConfigurator(final MetamodelProperties metamodelProperties)
-   {
-      switch (metamodelProperties.getType())
-      {
-      case MetamodelProperties.INTEGRATION_KEY:
-         return new IntegrationNature();
-      case MetamodelProperties.REPOSITORY_KEY:
-         return new RepositoryNature();
-      case MetamodelProperties.MOSLGT_REPOSITORY_KEY:
-         return null;
-      default:
-         return null;
-      }
-   }
-
+   @Override
    protected void handleClosedProject(final Node node, final IProject project)
    {
       try
@@ -98,16 +89,17 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       }
    }
 
+   @Override
    protected void handleOpenProject(final Node node, final IProject project)
    {
-      final MetamodelProperties properties = propertiesMap.get(project.getName());
+      final PluginProperties properties = propertiesMap.get(project.getName());
       final String expectedNatureId;
-      if (properties.isIntegrationProject())
+      if (PluginPropertiesHelper.isIntegrationProject(properties))
       {
-         expectedNatureId = WorkspaceHelper.INTEGRATION_NATURE_ID;
-      } else if (properties.isRepositoryProject())
+         expectedNatureId = IntegrationNature.getId();
+      } else if (PluginPropertiesHelper.isRepositoryProject(properties))
       {
-         expectedNatureId = WorkspaceHelper.REPOSITORY_NATURE_ID;
+         expectedNatureId = RepositoryNature.getId();
       } else
       {
          expectedNatureId = null;
@@ -117,11 +109,12 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
          if (expectedNatureId != null && !project.hasNature(expectedNatureId))
             throw new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
                   "Missing nature of project " + project + ". Expected: " + expectedNatureId + "."));
-      } catch (CoreException e)
+      } catch (final CoreException e)
       {
          throw new UncheckedCoreException(e);
       }
-      final MoflonPropertiesContainer moflonProps = createOrLoadMoflonProperties(project, properties.getMetamodelProjectName());
+
+      final MoflonPropertiesContainer moflonProps = createOrLoadMoflonProperties(project, properties.get(MocaTreeEAPropertiesReader.METAMODEL_PROJECT_NAME_KEY));
       final OpenProjectHandler openProjectHandler = new OpenProjectHandler(project, properties, moflonProps, determineProjectConfigurator(properties));
       try
       {
@@ -132,21 +125,36 @@ public class ResourceFillingMocaToMoflonTransformation extends BasicResourceFill
       }
    }
 
+   private MoflonProjectConfigurator determineProjectConfigurator(final PluginProperties metamodelProperties)
+   {
+      final String projectType = metamodelProperties.getType();
+      switch (projectType)
+      {
+      case PluginPropertiesHelper.INTEGRATION_PROJECT:
+         return new IntegrationNature();
+      case PluginPropertiesHelper.REPOSITORY_PROJECT:
+         return new RepositoryNature();
+      default:
+         throw new IllegalArgumentException(String.format("Cannot handle project type %s", projectType));
+      }
+   }
+
    private final MoflonPropertiesContainer createOrLoadMoflonProperties(final IProject project, final String metamodelProject)
    {
-      final IFile moflonProps = project.getFile(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE);
+      final IFile moflonProps = project.getFile(MoflonConventions.MOFLON_CONFIG_FILE);
       MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
       if (moflonProps.exists())
       {
          final URI projectURI = URI.createPlatformResourceURI(project.getName() + "/", true);
-         final URI moflonPropertiesURI = URI.createURI(MoflonPropertiesContainerHelper.MOFLON_CONFIG_FILE).resolve(projectURI);
-         final Resource moflonPropertiesResource = set.getResource(moflonPropertiesURI, true);
+         final URI moflonPropertiesURI = URI.createURI(MoflonConventions.MOFLON_CONFIG_FILE).resolve(projectURI);
+         final Resource moflonPropertiesResource = this.getResourceSet().getResource(moflonPropertiesURI, true);
          final MoflonPropertiesContainer container = (MoflonPropertiesContainer) moflonPropertiesResource.getContents().get(0);
-         MoflonPropertiesContainerHelper.updateMetamodelProjectName(container, metamodelProject);
+         RepositoryProjectCreator.updateMetamodelProjectName(container, metamodelProject);
          return container;
       } else
       {
-         return MoflonPropertiesContainerHelper.createDefaultPropertiesContainer(project.getName(), metamodelProject);
+         throw new UncheckedCoreException(
+               new CoreException(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "moflon.properties.xmi could not be created")));
       }
    }
 }

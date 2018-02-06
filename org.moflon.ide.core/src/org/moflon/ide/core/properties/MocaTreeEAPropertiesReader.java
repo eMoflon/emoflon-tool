@@ -18,10 +18,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
+import org.moflon.core.plugins.PluginProperties;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.util.plugins.MetamodelProperties;
 
 import MocaTree.Attribute;
 import MocaTree.Node;
@@ -35,25 +34,27 @@ public class MocaTreeEAPropertiesReader
 
    private Node mocaTree;
 
+   public static final String METAMODEL_PROJECT_NAME_KEY = "metamodelProject";
+
    /**
     * Extracts the specification metadata from the MOCA tree in the .temp folder
     */
-   public Map<String, MetamodelProperties> getProperties(final IProject metamodelProject) throws CoreException
+   public Map<String, PluginProperties> getProperties(final IProject metamodelProject) throws CoreException
    {
-      IFile mocaFile = WorkspaceHelper.getExportedMocaTree(metamodelProject);
+      IFile mocaFile = MetamodelProjectUtil.getExportedMocaTree(metamodelProject);
 
       if (mocaFile.exists())
       {
          // Create and initialize resource set
-         set = CodeGeneratorPlugin.createDefaultResourceSet();
+         set = eMoflonEMFUtil.createDefaultResourceSet();
          eMoflonEMFUtil.installCrossReferencers(set);
-         
+
          // Load Moca tree in read-only mode
          URI mocaFileURI = URI.createPlatformResourceURI(mocaFile.getFullPath().toString(), true);
          Resource mocaTreeResource = set.getResource(mocaFileURI, true);
          mocaTree = (Node) mocaTreeResource.getContents().get(0);
-         Map<String, MetamodelProperties> properties = getProperties(mocaTree);
-         properties.keySet().forEach(p->properties.get(p).setMetamodelProjectName(metamodelProject.getName()));
+         Map<String, PluginProperties> properties = getProperties(mocaTree);
+         properties.keySet().forEach(p->properties.get(p).put(METAMODEL_PROJECT_NAME_KEY, metamodelProject.getName()));
          return properties;
       } else
       {
@@ -61,10 +62,10 @@ public class MocaTreeEAPropertiesReader
       }
    }
 
-   public Map<String, MetamodelProperties> getProperties(final Node rootNode) throws CoreException
+   private Map<String, PluginProperties> getProperties(final Node rootNode) throws CoreException
    {
       this.mocaTree = rootNode;
-      Map<String, MetamodelProperties> propertiesMap = new HashMap<>();
+      Map<String, PluginProperties> propertiesMap = new HashMap<>();
       Node exportedTree = (Node) rootNode.getChildren().get(0);
 
       assert "exportedTree".equals(exportedTree.getName());
@@ -73,33 +74,33 @@ public class MocaTreeEAPropertiesReader
       for (final Text rootText : rootPackages)
       {
          final Node rootPackage = (Node) rootText;
-         MetamodelProperties properties = getProjectProperties(rootPackage);
-         propertiesMap.put(properties.get(MetamodelProperties.PLUGIN_ID_KEY), properties);
+         PluginProperties properties = getProjectProperties(rootPackage);
+         propertiesMap.put(properties.get(PluginProperties.PLUGIN_ID_KEY), properties);
       }
 
       return propertiesMap;
    }
 
-   public MetamodelProperties getProjectProperties(final Node rootNode) throws CoreException
+   private PluginProperties getProjectProperties(final Node rootNode) throws CoreException
    {
-      final MetamodelProperties properties = new MetamodelProperties();
+      final PluginProperties properties = new PluginProperties();
 
-      properties.put(MetamodelProperties.NAME_KEY, getValueForProperty("Moflon::Name", rootNode));
-      properties.put(MetamodelProperties.NAME_KEY, getValueForProperty("Moflon::NsPrefix", rootNode));
-      properties.put(MetamodelProperties.NS_URI_KEY, getValueForProperty("Moflon::NsUri", rootNode));
-      properties.put(MetamodelProperties.PLUGIN_ID_KEY, getValueForProperty("Moflon::PluginID", rootNode));
-      properties.put(MetamodelProperties.EXPORT_FLAG_KEY, getValueForProperty("Moflon::Export", rootNode));
-      properties.put(MetamodelProperties.VALIDATED_FLAG_KEY, getValueForProperty("Moflon::Validated", rootNode));
-      properties.put(MetamodelProperties.WORKING_SET_KEY, getValueForProperty("Moflon::WorkingSet", rootNode));
-      properties.setHasAttributeConstraints(containsAttributeConstraintsNode(rootNode));
+      properties.put(PluginProperties.NAME_KEY, getValueForProperty("Moflon::Name", rootNode));
+      properties.put(PluginProperties.NAME_KEY, getValueForProperty("Moflon::NsPrefix", rootNode));
+      properties.put(PluginProperties.NS_URI_KEY, getValueForProperty("Moflon::NsUri", rootNode));
+      properties.put(PluginProperties.PLUGIN_ID_KEY, getValueForProperty("Moflon::PluginID", rootNode));
+      properties.put(PluginPropertiesHelper.EXPORT_FLAG_KEY, getValueForProperty("Moflon::Export", rootNode));
+      properties.put(PluginPropertiesHelper.VALIDATED_FLAG_KEY, getValueForProperty("Moflon::Validated", rootNode));
+      properties.put(PluginProperties.WORKING_SET_KEY, getValueForProperty("Moflon::WorkingSet", rootNode));
+      PluginPropertiesHelper.setHasAttributeConstraints(containsAttributeConstraintsNode(rootNode), properties);
 
       switch (rootNode.getName())
       {
       case "EPackage":
-         properties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.REPOSITORY_KEY);
+         properties.put(PluginProperties.TYPE_KEY, PluginPropertiesHelper.REPOSITORY_PROJECT);
          break;
       case "TGG":
-         properties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.INTEGRATION_KEY);
+         properties.put(PluginProperties.TYPE_KEY, PluginPropertiesHelper.INTEGRATION_PROJECT);
          break;
       default:
          logger.warn("Unknown node type in Moca tree: " + rootNode.getName());
@@ -121,9 +122,9 @@ public class MocaTreeEAPropertiesReader
          Node nextNode = unvisitedNodes.poll();
          if ("AttributeConstraints".equals(nextNode.getName()))
             return true;
-         
+
          nextNode.getChildren().stream().filter(t -> t instanceof Node).map(t -> (Node)t).forEach(n -> unvisitedNodes.add(n));
-      }        
+      }
       return false;
    }
 

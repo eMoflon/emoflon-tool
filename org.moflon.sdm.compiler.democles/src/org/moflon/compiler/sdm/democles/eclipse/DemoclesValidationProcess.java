@@ -10,12 +10,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
-import org.moflon.codegen.eclipse.GenericMoflonProcess;
 import org.moflon.compiler.sdm.democles.DefaultValidatorConfig;
 import org.moflon.compiler.sdm.democles.ScopeValidationConfigurator;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.emf.build.GenericMoflonProcess;
 
 public class DemoclesValidationProcess extends GenericMoflonProcess
 {
@@ -47,7 +47,7 @@ public class DemoclesValidationProcess extends GenericMoflonProcess
          final Resource resource = getEcoreResource();
          final EPackage ePackage = (EPackage) resource.getContents().get(0);
 
-         final String engineID = CodeGeneratorPlugin.getMethodBodyHandler(getMoflonProperties());
+         final String engineID = MoflonPropertiesContainerHelper.getMethodBodyHandler(getMoflonProperties());
          ScopeValidationConfigurator validatorConfig = (ScopeValidationConfigurator) Platform.getAdapterManager().loadAdapter(this, engineID);
 
          if (validatorConfig == null)

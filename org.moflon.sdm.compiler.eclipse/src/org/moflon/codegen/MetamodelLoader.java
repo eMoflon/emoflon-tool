@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl;
-import org.moflon.dependency.Dependency;
-import org.moflon.dependency.PackageRemappingDependency;
+import org.moflon.emf.codegen.dependency.Dependency;
+import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
 
 public class MetamodelLoader {
    private final ResourceSet resourceSet;

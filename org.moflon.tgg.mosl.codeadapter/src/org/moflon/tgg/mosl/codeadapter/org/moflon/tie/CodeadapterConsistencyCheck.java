@@ -23,7 +23,7 @@ public class CodeadapterConsistencyCheck extends SynchronizationHelper{
 		helper.loadTrg("instances/trg.xmi");
 		boolean prepareDeltas = true;
 		helper.createCorrespondences(prepareDeltas);
-		
+
 		if(prepareDeltas){
 			//src and trg models are modified when preparing deltas.
 			//save all files in a separate location
@@ -31,8 +31,8 @@ public class CodeadapterConsistencyCheck extends SynchronizationHelper{
 			helper.saveTrg("instances/cc_result/trg.xmi");
 			helper.saveCorr("instances/cc_result/corr.xmi");
 			helper.saveConsistencyCheckProtocol("instances/cc_result/protocol.xmi");
-			helper.saveInconsistentSourceDelta("instances/cc_result/src.delta.xmi");
-			helper.saveInconsistentTargetDelta("instances/cc_result/trg.delta.xmi");
+			helper.saveInconsistentSourceDelta();
+			helper.saveInconsistentTargetDelta();
 		}
 		else{
 			//src and trg models are not modified.

@@ -22,5 +22,8 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="[3.9.0,4.0.0)",
  org.moflon.sdm.constraints.operationspecification,
  org.moflon.sdm.runtime.democles,
  org.moflon.sdm.compiler.democles.validation.result,
- org.moflon.core.utilities
+ org.moflon.core.utilities,
+ org.moflon.core.build,
+ org.moflon.core.preferences,
+ org.moflon.emf.build;bundle-version="1.0.0"
 Export-Package: org.moflon.compiler.sdm.democles.attributes

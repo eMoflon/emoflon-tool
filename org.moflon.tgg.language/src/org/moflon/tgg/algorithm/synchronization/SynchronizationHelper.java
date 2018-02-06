@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.tgg.algorithm.ccutils.UserDefinedILPConstraintProvider;
 import org.moflon.tgg.algorithm.ccutils.UserDefinedILPObjectiveProvider;
@@ -579,7 +579,7 @@ public class SynchronizationHelper {
 	 *            the basename of the file containing the rules
 	 */
 	private void loadRulesFromProject(final String pathToProject, final String rulesFileBaseName) {
-		setRules((StaticAnalysis) loadModel(pathToProject + "/model/" + MoflonUtil.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi"));
+		setRules((StaticAnalysis) loadModel(pathToProject + "/model/" + MoflonConventions.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi"));
 	}
 
 	/**

@@ -11,7 +11,6 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.log4j.Logger;
 import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.moca.MocaUtil;
 import org.moflon.tgg.language.csp.Adornment;
@@ -69,7 +68,7 @@ public class TGGUserDefinedConstraintUnparserAdapter
 
    protected StringTemplateGroup getStringTemplateGroup() throws FileNotFoundException
    {
-      URL templateFile = MoflonUtilitiesActivator.getPathRelToPlugIn("resources/templates/TGGUserDefinedConstraint.stg", WorkspaceHelper.getPluginId(getClass()));
+      URL templateFile = WorkspaceHelper.getPathRelToPlugIn("resources/templates/TGGUserDefinedConstraint.stg", WorkspaceHelper.getPluginId(getClass()));
 
       InputStreamReader reader = null;
       try

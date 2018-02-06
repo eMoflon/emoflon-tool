@@ -13,13 +13,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gervarro.eclipse.task.ITask;
-import org.moflon.codegen.eclipse.CodeGeneratorPlugin;
 import org.moflon.compiler.sdm.democles.DemoclesMethodBodyHandler;
+import org.moflon.core.preferences.EMoflonPreferencesStorage;
 import org.moflon.core.propertycontainer.MetaModelProject;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.utilities.ErrorReporter;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.core.utilities.preferences.EMoflonPreferencesStorage;
+import org.moflon.core.utilities.eMoflonEMFUtil;
 
 public class MonitoredSDMValidator implements ITask
 {
@@ -56,7 +56,7 @@ public class MonitoredSDMValidator implements ITask
          ecoreFile.deleteMarkers(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, true, IResource.DEPTH_INFINITE);
          final IProject project = ecoreFile.getProject();
 
-         ResourceSet resourceSet = CodeGeneratorPlugin.createDefaultResourceSet();
+         ResourceSet resourceSet = eMoflonEMFUtil.createDefaultResourceSet();
          DemoclesMethodBodyHandler.initResourceSetForDemocles(resourceSet);
 
          subMon.subTask("Validating SDMs for project " + project.getName());
@@ -74,16 +74,16 @@ public class MonitoredSDMValidator implements ITask
 
          logger.info("Validation of Ecore file '" + ecoreFile.getProjectRelativePath() + "' complete.");
 
-         return validationStatus.isOK() ? new Status(IStatus.OK, CodeGeneratorPlugin.getModuleID(), TASK_NAME + " succeeded") : validationStatus;
+         return validationStatus.isOK() ? new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), TASK_NAME + " succeeded") : validationStatus;
       } catch (RuntimeException e)
       {
-         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR,
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR,
                "Internal exception occured (probably caused by a bug in the validation module): " + e.getMessage() + " Please report the bug on "
                      + WorkspaceHelper.ISSUE_TRACKER_URL,
                e);
       } catch (CoreException e)
       {
-         return new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), IStatus.ERROR, e.getMessage(), e);
+         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
       }
    }
 

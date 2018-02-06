@@ -40,7 +40,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.moflon.core.utilities.LogUtils;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.eclipse.genmodel.GeneratorAdapterFactory;
+import org.moflon.emf.codegen.GeneratorAdapterFactory;
 
 import SDMLanguage.impl.SDMLanguagePackageImpl;
 

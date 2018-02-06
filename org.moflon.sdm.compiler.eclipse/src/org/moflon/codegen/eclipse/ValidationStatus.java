@@ -3,13 +3,14 @@ package org.moflon.codegen.eclipse;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.sdm.compiler.democles.validation.result.ErrorMessage;
 import org.moflon.sdm.compiler.democles.validation.result.Severity;
 
 public class ValidationStatus implements IStatus {
 	private final ErrorMessage errorMessage;
 	private final int severity;
-	
+
 	private ValidationStatus(final ErrorMessage errorMessage, final int severity) {
 		this.errorMessage = errorMessage;
 		this.severity = severity;
@@ -18,7 +19,7 @@ public class ValidationStatus implements IStatus {
 	public final ErrorMessage getErrorMessage() {
 		return errorMessage;
 	}
-	
+
 	@Override
 	public IStatus[] getChildren() {
 		return new IStatus[0];
@@ -63,11 +64,11 @@ public class ValidationStatus implements IStatus {
 	public boolean matches(int severityMask) {
 		return (severity & severityMask) != 0;
 	}
-	
+
 	public String toString() {
 		return getMessage();
 	}
-	
+
 	public static final IStatus createValidationStatus(final ErrorMessage errorMessage) {
 		try {
 			return new ValidationStatus(errorMessage, convertToStatusSeverity(errorMessage.getSeverity()));
@@ -75,7 +76,7 @@ public class ValidationStatus implements IStatus {
 			return e.getStatus();
 		}
 	}
-	
+
 	public static final int convertToStatusSeverity(final Severity severity) throws CoreException {
 		int value = severity.getValue();
 		if (value >= Severity.ERROR_VALUE) {
@@ -87,7 +88,7 @@ public class ValidationStatus implements IStatus {
 		} else if (value == Severity.OK_VALUE) {
 			return IStatus.OK;
 		}
-		IStatus invalidSeverityConversion = new Status(IStatus.ERROR, CodeGeneratorPlugin.getModuleID(), "Cannot convert " + severity.getLiteral()
+		IStatus invalidSeverityConversion = new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(ValidationStatus.class), "Cannot convert " + severity.getLiteral()
 				+ " severity to a marker");
 		throw new CoreException(invalidSeverityConversion);
 	}

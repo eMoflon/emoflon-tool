@@ -13,16 +13,19 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubMonitor;
+import org.gervarro.eclipse.workspace.autosetup.ProjectNatureAndBuilderConfiguratorTask;
 import org.gervarro.eclipse.workspace.util.WorkspaceTask;
-import org.moflon.ide.core.runtime.MoflonProjectCreator;
-import org.moflon.ide.core.runtime.ProjectNatureAndBuilderConfiguratorTask;
+import org.moflon.core.build.MoflonProjectCreator;
+import org.moflon.core.plugins.PluginProperties;
+import org.moflon.emf.ui.wizard.NewMoflonEmfProjectWizard;
+import org.moflon.ide.core.project.IntegrationProjectCreator;
+import org.moflon.ide.core.properties.PluginPropertiesHelper;
 import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.tgg.mosl.builder.MOSLTGGNature;
 import org.moflon.tgg.mosl.defaults.AttrCondDefLibraryProvider;
 import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
-import org.moflon.util.plugins.MetamodelProperties;
 
-public class NewIntegrationWizard extends NewRepositoryWizard
+public class NewIntegrationWizard extends NewMoflonEmfProjectWizard
 {
    public static final String NEW_INTEGRATION_PROJECT_WIZARD_ID = "org.moflon.tgg.mosl.newIntegrationProject";
 
@@ -34,10 +37,10 @@ public class NewIntegrationWizard extends NewRepositoryWizard
    }
 
    @Override
-   protected void createProject(IProgressMonitor monitor, IProject project, MetamodelProperties metamodelProperties) throws CoreException
+   protected void createProject(IProgressMonitor monitor, IProject project, PluginProperties metamodelProperties) throws CoreException
    {
-      metamodelProperties.put(MetamodelProperties.TYPE_KEY, MetamodelProperties.INTEGRATION_KEY);
-      MoflonProjectCreator createMoflonProject = new MoflonProjectCreator(project, metamodelProperties, new IntegrationNature());
+      metamodelProperties.put(PluginProperties.TYPE_KEY, PluginPropertiesHelper.INTEGRATION_PROJECT);
+      MoflonProjectCreator createMoflonProject = new IntegrationProjectCreator(project, metamodelProperties, new IntegrationNature());
       final SubMonitor subMon = SubMonitor.convert(monitor, "Creating project", 2);
       ResourcesPlugin.getWorkspace().run(createMoflonProject, subMon.split(1));
 

@@ -67,8 +67,9 @@ public class ModelGenerator
 
       try
       {
-         TripleGraphGrammar tggXmi = (TripleGraphGrammar) eMoflonEMFUtil.loadAndInitModel(LanguagePackage.eINSTANCE, "../" + tggPackage.getName()
-               + "/model/" + tggPackage.getName() + ".tgg.xmi");
+         String pathToXMIFile = "../" + tggPackage.getName() + "/model/" + tggPackage.getName() + ".tgg.xmi";
+         eMoflonEMFUtil.init(LanguagePackage.eINSTANCE);
+         TripleGraphGrammar tggXmi = (TripleGraphGrammar) eMoflonEMFUtil.loadModel(pathToXMIFile);
 
          for (TGGRule rule : tggXmi.getTggRule())
          {

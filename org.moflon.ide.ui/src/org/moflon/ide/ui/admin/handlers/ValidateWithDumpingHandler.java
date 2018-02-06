@@ -31,6 +31,8 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.gervarro.eclipse.workspace.util.IWorkspaceTask;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
+import org.moflon.core.preferences.EMoflonPreferencesActivator;
+import org.moflon.core.ui.AbstractCommandHandler;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
@@ -90,7 +92,7 @@ public class ValidateWithDumpingHandler extends AbstractCommandHandler
 
    private void validateProject(final IProject project, final IProgressMonitor monitor) throws CoreException
    {
-      if (WorkspaceHelper.isMoflonProject(project))
+      if (CoreActivator.isMoflonProject(project))
       {
          final IFile ecoreFile = WorkspaceHelper.getDefaultEcoreFile(project);
          validateFile(ecoreFile, monitor);
@@ -107,19 +109,19 @@ public class ValidateWithDumpingHandler extends AbstractCommandHandler
       {
          final SubMonitor subMon = SubMonitor.convert(monitor, "Validating " + ecoreFile.getName(), 1);
 
-			final ITask validationTask = new org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidatorWithDumping(ecoreFile, CoreActivator.getDefault().getPreferencesStorage());
+			final ITask validationTask = new org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidatorWithDumping(ecoreFile, EMoflonPreferencesActivator.getDefault().getPreferencesStorage());
 
 			if (validationTask != null) {
-			   
+
 			   new WorkspaceTaskJob(new IWorkspaceTask() {
-               
+
 			      final IFolder modelFolder = ecoreFile.getProject().getFolder("model");
-			      
+
                @Override
                public void run(IProgressMonitor monitor) throws CoreException
                {
                   modelFolder.accept(new IResourceVisitor() {
-                     
+
                      @Override
                      public boolean visit(IResource resource) throws CoreException
                      {
@@ -142,20 +144,20 @@ public class ValidateWithDumpingHandler extends AbstractCommandHandler
                      }
                   });
                }
-               
+
                @Override
                public String getTaskName()
                {
                   return "Remove old dumped files";
                }
-               
+
                @Override
                public ISchedulingRule getRule()
                {
                   return modelFolder;
                }
             }).runInWorkspace(new NullProgressMonitor());
-			   
+
 				final Job job = new Job(validationTask.getTaskName()) {
 					@Override
 					protected IStatus run(final IProgressMonitor monitor) {
@@ -185,6 +187,6 @@ public class ValidateWithDumpingHandler extends AbstractCommandHandler
       } catch (InterruptedException e)
       {
          throw new OperationCanceledException(validationTimeoutMessage);
-      } 
+      }
    }
 }

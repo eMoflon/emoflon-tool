@@ -27,7 +27,6 @@ import org.moflon.compiler.sdm.democles.stringtemplate.ControlFlowModelAdaptor;
 import org.moflon.compiler.sdm.democles.stringtemplate.LoggingSTErrorListener;
 import org.moflon.compiler.sdm.democles.stringtemplate.PatternMatcherModelAdaptor;
 import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.sdm.compiler.democles.DemoclesSdmCompilerPlugin;
 import org.moflon.sdm.runtime.democles.CFNode;
 import org.moflon.sdm.runtime.democles.CFVariable;
 import org.moflon.sdm.runtime.democles.PatternInvocation;
@@ -317,7 +316,8 @@ public class DefaultTemplateConfiguration implements TemplateConfigurationProvid
 
    private static String getCompilerURI()
    {
-      return "platform:/plugin/" + WorkspaceHelper.getPluginId(DemoclesSdmCompilerPlugin.class) + "/";
+      String pluginId = WorkspaceHelper.getPluginId(DefaultTemplateConfiguration.class);
+      return "platform:/plugin/" + pluginId + "/";
    }
 
    private static String getDemoclesCoreURI()

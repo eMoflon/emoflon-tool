@@ -1,71 +1,41 @@
 package org.moflon.ide.core.properties;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubMonitor;
-import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
+import org.moflon.ide.core.runtime.natures.MetamodelNature;
 
 public class MetamodelProjectUtil
 {
-   private static final Logger logger = Logger.getLogger(MetamodelProjectUtil.class);
-
-   public static void cleanTempFolder(final IProject project, final IProgressMonitor monitor) throws CoreException
+   /**
+    * Returns the file handle of the MOCA tree of a metamodel project.
+    *
+    * The MOCA tree may not exist and has to be checked using {@link IFile#exists()}.
+    *
+    * @param metamodelProject
+    * @return the file handle. Never null.
+    */
+   public static IFile getExportedMocaTree(final IProject metamodelProject)
    {
-      final IFolder folder = project.getFolder(WorkspaceHelper.TEMP_FOLDER);
-      if (folder.exists())
-      {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Inspecting " + folder.getName(), folder.members().length);
+      final IFile mocaTreeFile = metamodelProject.getFolder(MetamodelBuilder.TEMP_FOLDER)
+            .getFile(metamodelProject.getName() + "." + MetamodelBuilder.MOCA_XMI_FILE_EXTENSION);
 
-         for (IResource resource : folder.members())
+      return mocaTreeFile;
+   }
+
+   public static final IProject[] getMetamodelProjects(final IProject[] projects)
+   {
+      final List<IProject> result = new ArrayList<IProject>(projects.length);
+      for (final IProject project : projects)
+      {
+         if (project.isAccessible() && MetamodelNature.isMetamodelProjectNoThrow(project))
          {
-            if (!resource.getName().startsWith(".") && resource.getType() != IResource.FOLDER
-                  && resource.getName().endsWith(WorkspaceHelper.ECORE_FILE_EXTENSION))
-               resource.delete(true, subMon.split(1));
-            else
-               subMon.worked(1);
+            result.add(project);
          }
       }
-   }
-
-   /**
-    * Retrieves a file consisting of the project name and the given ending.
-    * 
-    * The method also searches for the lowercased and uppercased version of the project name.
-    */
-   public static IFile getFileInTempFolder(final String ending, final IProject project)
-   {
-      String projectName = project.getName();
-
-      IFile propertyFile = project.getFile(MetamodelProjectUtil.pathToFileInTempFolder(projectName, ending));
-
-      if (!propertyFile.exists())
-      {
-         propertyFile = project.getFile(MetamodelProjectUtil.pathToFileInTempFolder(projectName.toUpperCase(), ending));
-      }
-
-      if (!propertyFile.exists())
-      {
-         propertyFile = project.getFile(MetamodelProjectUtil.pathToFileInTempFolder(projectName.toLowerCase(), ending));
-      }
-
-      if (!propertyFile.exists())
-         logger.error("Can't find property file with expected name!");
-
-      return propertyFile;
-   }
-
-   public static String pathToFileInTempFolder(final String nameOfFile, final String ending)
-   {
-      return WorkspaceHelper.TEMP_FOLDER + WorkspaceHelper.PATH_SEPARATOR + nameOfFile + ending;
-   }
-
-   public static String pathToFileInModelFolder(final String nameOfFile, final String ending)
-   {
-      return WorkspaceHelper.MODEL_FOLDER + WorkspaceHelper.PATH_SEPARATOR + nameOfFile + ending;
+      return result.toArray(new IProject[result.size()]);
    }
 }
