@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.moflon.tgg.mosl.feature"
-      label="eMoflon MOSL-TGG"
+      label="eMoflon MOSL-TGG (required)"
       version="3.0.0.qualifier"
       provider-name="eMoflon Developers"
       plugin="org.moflon.ide.ui">
