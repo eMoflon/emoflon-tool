@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
     <extension point="org.eclipse.ui.newWizards">
-        <wizard canFinishEarly="false" category="org.moflon.ide.ui.category" class="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard" finalPerspective="org.moflon.ide.ui.perspective" hasPages="true" icon="resources/icons/newMetamodelProject.gif" id="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard" name="New Metamodel Wizard" preferredPerspectives="org.moflon.ide.ui.perspective" project="true"></wizard>
+        <wizard canFinishEarly="false" category="org.moflon.ide.ui.category" class="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard" finalPerspective="org.moflon.ide.ui.MoflonPerspective" hasPages="true" icon="resources/icons/newMetamodelProject.gif" id="org.moflon.ide.ui.admin.wizards.metamodel.NewMetamodelWizard" name="New Metamodel Wizard" preferredPerspectives="org.moflon.ide.ui.MoflonPerspective" project="true"></wizard>
         <wizard category="org.moflon.ide.ui.category" class="org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard" icon="resources/icons/addParserAndUnparser.png" id="org.moflon.ide.ui.admin.wizards.moca.AddParserAndUnparserWizard" name="Add Parser/Unparser Wizard"></wizard>
     </extension>
     <extension point="org.eclipse.ui.ide.projectNatureImages">

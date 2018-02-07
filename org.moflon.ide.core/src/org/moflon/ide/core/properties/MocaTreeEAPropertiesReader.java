@@ -108,8 +108,6 @@ public class MocaTreeEAPropertiesReader
 
       properties.setDependencies(extractDependencies(rootNode));
 
-      properties.setDefaultValues();
-
       return properties;
    }
 

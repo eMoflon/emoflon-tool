@@ -28,7 +28,7 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.compiler.sdm.democles.eclipse.MonitoredSDMValidator;
 import org.moflon.core.preferences.EMoflonPreferencesActivator;
 import org.moflon.core.ui.AbstractCommandHandler;
-import org.moflon.core.utilities.WorkspaceHelper;
+import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
@@ -89,7 +89,7 @@ public class ValidateHandler extends AbstractCommandHandler
    {
       if (CoreActivator.isMoflonProject(project))
       {
-         final IFile ecoreFile = WorkspaceHelper.getDefaultEcoreFile(project);
+         final IFile ecoreFile = MoflonConventions.getDefaultEcoreFile(project);
          validateFile(ecoreFile, monitor);
       }
    }

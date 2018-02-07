@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.0"?><plugin>
   <extension point="org.eclipse.ui.perspectiveExtensions">
-    <perspectiveExtension targetID="org.moflon.ide.ui.perspective">
+    <perspectiveExtension targetID="org.moflon.ide.ui.MoflonPerspective">
       <view id="net.sourceforge.plantuml.eclipse.views.PlantUmlView" minimized="false" relationship="stack" relative="org.moflon.ide.ui.admin.views.AbstractSyntaxView"/>
     </perspectiveExtension>
   </extension>
