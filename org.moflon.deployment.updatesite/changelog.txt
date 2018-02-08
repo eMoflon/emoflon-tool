@@ -1,4 +1,4 @@
-2018-02-06 eMoflon 3.0.0 released
+2018-02-08 eMoflon 3.0.0 released
 User notes
 This is the first modularized version of eMoflon.
 Now, we provide a very basic eMoflon Core and the traditional eMoflon Tool.
