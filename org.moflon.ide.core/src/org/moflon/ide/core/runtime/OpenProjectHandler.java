@@ -111,7 +111,6 @@ public class OpenProjectHandler extends WorkspaceTask
       try
       {
 
-         // TODO Plugin dependency handling should be updated by Repository/IntegrationBuilders
          updatePluginDependencies(monitor, project);
 
          moflonProperties.getDependencies().clear();
@@ -120,15 +119,14 @@ public class OpenProjectHandler extends WorkspaceTask
             addMetamodelDependency(moflonProperties, dependencyURI);
          }
 
-         addMetamodelDependency(moflonProperties, URI.createPlatformPluginURI("org.eclipse.emf.ecore/model/Ecore.ecore", true));
+         addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri("org.eclipse.emf.ecore"));
 
          if (PluginPropertiesHelper.isIntegrationProject(metamodelProperties))
          {
-            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGRuntimePlugin.class)));
-            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(SDMLanguagePlugin.class)));
-            addMetamodelDependency(moflonProperties,
-                  MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGLanguageActivator.class)));
-            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(MocaTreeFactory.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri(WorkspaceHelper.getPluginId(TGGRuntimePlugin.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri(WorkspaceHelper.getPluginId(SDMLanguagePlugin.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri(WorkspaceHelper.getPluginId(TGGLanguageActivator.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri(WorkspaceHelper.getPluginId(MocaTreeFactory.class)));
          }
       } catch (final IOException e)
       {
@@ -143,15 +141,15 @@ public class OpenProjectHandler extends WorkspaceTask
       logger.debug("Updating MANIFEST.MF in " + project.getName());
       final ManifestFileUpdater manifestFileBuilder = new ManifestFileUpdater();
       manifestFileBuilder.processManifest(project, manifest -> {
+         final String bundleName = metamodelProperties.get(PluginProperties.NAME_KEY);
+         final String pluginId = metamodelProperties.get(PluginProperties.PLUGIN_ID_KEY) + ";singleton:=true";
          boolean changed = false;
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.MANIFEST_VERSION, DEFAULT_MANIFEST_VERSION,
                AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_MANIFEST_VERSION, DEFAULT_BUNDLE_MANIFEST_VERSION,
                AttributeUpdatePolicy.KEEP);
-         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME, metamodelProperties.get(PluginProperties.NAME_KEY),
-               AttributeUpdatePolicy.KEEP);
-         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_SYMBOLIC_NAME,
-               metamodelProperties.get(PluginProperties.PLUGIN_ID_KEY) + ";singleton:=true", AttributeUpdatePolicy.KEEP);
+         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME, bundleName, AttributeUpdatePolicy.KEEP);
+         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_SYMBOLIC_NAME, pluginId, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VERSION, DEFAULT_BUNDLE_VERSION, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VENDOR, DEFAULT_BUNDLE_VENDOR, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_ACTIVATION_POLICY, "lazy", AttributeUpdatePolicy.KEEP);
@@ -175,7 +173,7 @@ public class OpenProjectHandler extends WorkspaceTask
                      WorkspaceHelper.getPluginId(TGGLanguageActivator.class), //
                      WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) //
                }));
-         } catch (Exception e)
+         } catch (final Exception e)
          {
             LogUtils.error(logger, e);
          }
