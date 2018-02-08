@@ -1,19 +1,10 @@
 package org.moflon.ide.ui.admin.handlers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -22,85 +13,19 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobGroup;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.HandlerUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.gervarro.eclipse.workspace.util.IWorkspaceTask;
 import org.gervarro.eclipse.workspace.util.WorkspaceTaskJob;
 import org.moflon.core.preferences.EMoflonPreferencesActivator;
-import org.moflon.core.ui.AbstractCommandHandler;
-import org.moflon.core.utilities.MoflonConventions;
-import org.moflon.ide.core.CoreActivator;
 import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
 
-public class ValidateWithDumpingHandler extends AbstractCommandHandler
+public class ValidateWithDumpingHandler extends AbstractValidateHandler
 {
 
-   @Override
-   public Object execute(final ExecutionEvent event) throws ExecutionException
-   {
-      final ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
-      try
-      {
-         if (selection instanceof TreeSelection)
-         {
-            final TreeSelection treeSelection = (TreeSelection) selection;
-            for (final Iterator<?> selectionIterator = treeSelection.iterator(); selectionIterator.hasNext();)
-            {
-               final Object element = selectionIterator.next();
-               if (element instanceof IFile)
-               {
-                  validateFile((IFile) element, new NullProgressMonitor());
-               } else if (element instanceof IJavaProject)
-               {
-                  validateProject(((IJavaProject) element).getProject(), new NullProgressMonitor());
-               } else if (element instanceof IWorkingSet)
-               {
-                  final List<IProject> projects = new ArrayList<>();
-                  final IWorkingSet workingSet = (IWorkingSet) element;
-                  for (final IAdaptable elementInWorkingSet : workingSet.getElements())
-                  {
-                     if (elementInWorkingSet instanceof IProject)
-                     {
-                        projects.add((IProject) elementInWorkingSet);
-                     }
-                  }
-                  validateProjects(projects, new NullProgressMonitor());
-               }
-            }
-         }
-      } catch (CoreException e)
-      {
-         throw new ExecutionException(e.getMessage());
-      }
-      return null;
-   }
-
-   private void validateProjects(final Collection<IProject> projects, final IProgressMonitor monitor) throws CoreException
-   {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Validating projects", projects.size());
-
-      for (final IProject project : projects)
-      {
-         this.validateProject(project, subMon.split(1));
-      }
-   }
-
-   private void validateProject(final IProject project, final IProgressMonitor monitor) throws CoreException
-   {
-      if (CoreActivator.isMoflonProject(project))
-      {
-         final IFile ecoreFile = MoflonConventions.getDefaultEcoreFile(project);
-         validateFile(ecoreFile, monitor);
-      }
-   }
-
    @SuppressWarnings("deprecation")
-   private void validateFile(final IFile ecoreFile, final IProgressMonitor monitor) throws CoreException
+   @Override
+   protected void validateFile(final IFile ecoreFile, final IProgressMonitor monitor) throws CoreException
    {
       final long validationTimeoutMillis = EMoflonPreferenceInitializer.getValidationTimeoutMillis();
       final String validationTimeoutMessage = "Validation took longer than " + validationTimeoutMillis/1000
