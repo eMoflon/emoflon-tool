@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
   <extension point="org.eclipse.ui.perspectiveExtensions">
-    <perspectiveExtension targetID="org.moflon.ide.ui.perspective">
+    <perspectiveExtension targetID="org.moflon.ide.ui.MoflonPerspective">
       </perspectiveExtension>
   </extension>
   <extension point="org.eclipse.ui.menus">

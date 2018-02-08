@@ -3,9 +3,6 @@ package org.moflon.ide.core.runtime;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
@@ -45,7 +42,7 @@ import MocaTree.MocaTreeFactory;
 /**
  * This handler is invoked during the build process to update/configure open projects
  *
- * @author Gergely Varro
+ * @author Gergely Varró
  * @author Anthony Anjorin
  * @author Roland Kluge
  *
@@ -59,9 +56,9 @@ public class OpenProjectHandler extends WorkspaceTask
 
    private static final String DEFAULT_MANIFEST_VERSION = "1.0";
 
-   private static final String DEFAULT_BUNDLE_VENDOR = "TU Darmstadt";
+   private static final String DEFAULT_BUNDLE_VENDOR = "";
 
-   private static final String DEFAULT_BUNDLE_VERSION = "1.0.0.qualifier";
+   private static final String DEFAULT_BUNDLE_VERSION = "0.0.1.qualifier";
 
    private IProject project;
 
@@ -114,7 +111,6 @@ public class OpenProjectHandler extends WorkspaceTask
       try
       {
 
-         // TODO Plugin dependency handling should be updated by Repository/IntegrationBuilders
          updatePluginDependencies(monitor, project);
 
          moflonProperties.getDependencies().clear();
@@ -123,15 +119,14 @@ public class OpenProjectHandler extends WorkspaceTask
             addMetamodelDependency(moflonProperties, dependencyURI);
          }
 
-         // These two metamodels are usually used directly or indirectly by most projects
-         addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.PLUGIN_ID_ECORE));
+         addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri("org.eclipse.emf.ecore"));
 
          if (PluginPropertiesHelper.isIntegrationProject(metamodelProperties))
          {
-            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGRuntimePlugin.class)));
-            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(SDMLanguagePlugin.class)));
-            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(TGGLanguageActivator.class)));
-            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultURIToEcoreFileInPlugin(WorkspaceHelper.getPluginId(MocaTreeFactory.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri(WorkspaceHelper.getPluginId(TGGRuntimePlugin.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri(WorkspaceHelper.getPluginId(SDMLanguagePlugin.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri(WorkspaceHelper.getPluginId(TGGLanguageActivator.class)));
+            addMetamodelDependency(moflonProperties, MoflonConventions.getDefaultPluginDependencyUri(WorkspaceHelper.getPluginId(MocaTreeFactory.class)));
          }
       } catch (final IOException e)
       {
@@ -146,23 +141,23 @@ public class OpenProjectHandler extends WorkspaceTask
       logger.debug("Updating MANIFEST.MF in " + project.getName());
       final ManifestFileUpdater manifestFileBuilder = new ManifestFileUpdater();
       manifestFileBuilder.processManifest(project, manifest -> {
+         final String bundleName = metamodelProperties.get(PluginProperties.NAME_KEY);
+         final String pluginId = metamodelProperties.get(PluginProperties.PLUGIN_ID_KEY) + ";singleton:=true";
          boolean changed = false;
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.MANIFEST_VERSION, DEFAULT_MANIFEST_VERSION,
                AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_MANIFEST_VERSION, DEFAULT_BUNDLE_MANIFEST_VERSION,
                AttributeUpdatePolicy.KEEP);
-         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME, metamodelProperties.get(PluginProperties.NAME_KEY),
-               AttributeUpdatePolicy.KEEP);
-         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_SYMBOLIC_NAME,
-               metamodelProperties.get(PluginProperties.PLUGIN_ID_KEY) + ";singleton:=true", AttributeUpdatePolicy.KEEP);
+         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_NAME, bundleName, AttributeUpdatePolicy.KEEP);
+         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_SYMBOLIC_NAME, pluginId, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VERSION, DEFAULT_BUNDLE_VERSION, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_VENDOR, DEFAULT_BUNDLE_VENDOR, AttributeUpdatePolicy.KEEP);
          changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_ACTIVATION_POLICY, "lazy", AttributeUpdatePolicy.KEEP);
-         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_EXECUTION_ENVIRONMENT,
-               metamodelProperties.get(PluginProperties.JAVA_VERION), AttributeUpdatePolicy.KEEP);
+         changed |= ManifestFileUpdater.updateAttribute(manifest, PluginManifestConstants.BUNDLE_EXECUTION_ENVIRONMENT, "JavaSE-1.8",
+               AttributeUpdatePolicy.KEEP);
 
-         changed |= ManifestFileUpdater.updateDependencies(manifest, Arrays.asList(new String[] { WorkspaceHelper.PLUGIN_ID_ECORE,
-               WorkspaceHelper.PLUGIN_ID_ECORE_XMI}));
+         changed |= ManifestFileUpdater.updateDependencies(manifest,
+               Arrays.asList(new String[] { WorkspaceHelper.PLUGIN_ID_ECORE, WorkspaceHelper.PLUGIN_ID_ECORE_XMI }));
 
          changed |= ManifestFileUpdater.updateDependencies(manifest,
                ManifestFileUpdater.extractDependencies(metamodelProperties.get(PluginProperties.DEPENDENCIES_KEY)));
@@ -178,12 +173,10 @@ public class OpenProjectHandler extends WorkspaceTask
                      WorkspaceHelper.getPluginId(TGGLanguageActivator.class), //
                      WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) //
                }));
-         } catch (Exception e)
+         } catch (final Exception e)
          {
             LogUtils.error(logger, e);
          }
-
-         changed |= migrateOldManifests(manifest);
 
          return changed;
       });
@@ -193,36 +186,9 @@ public class OpenProjectHandler extends WorkspaceTask
       buildPropertiesFileBuilder.createBuildProperties(project, subMon.split(1));
    }
 
-   /**
-    * This method removes old dependencies and replaces old plugin ids with new ones.
-    */
-   private boolean migrateOldManifests(final Manifest manifest)
-   {
-      boolean changed = false;
-
-      // Old ID of the "Moflon Utilities" plugin
-      changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.dependencies");
-
-      // [Dec 2015] Remove TGG debugger
-      changed |= ManifestFileUpdater.removeDependency(manifest, "org.moflon.tgg.debug.language");
-
-      // Refactoring of plugin IDs in August 2015
-      Map<String, String> replacementMap = new HashMap<>();
-      replacementMap.put("MoflonPropertyContainer", "org.moflon.core.propertycontainer");
-      // replacementMap.put("org.moflon.testframework",
-      // "org.moflon.testing.testframework");
-      // replacementMap.put("org.moflon.validation",
-      // "org.moflon.validation.validationplugin");
-      // changed |= ManifestFileUpdater.replaceDependencies(manifest,
-      // replacementMap);
-      changed |= ManifestFileUpdater.replaceDependencies(manifest, replacementMap);
-
-      return changed;
-   }
-
    public void addMetamodelDependency(final MoflonPropertiesContainer moflonProperties, final URI metamodelUri)
    {
-      Dependencies dep = PropertycontainerFactory.eINSTANCE.createDependencies();
+      final Dependencies dep = PropertycontainerFactory.eINSTANCE.createDependencies();
       dep.setValue(metamodelUri.toString());
       if (!alreadyContainsDependency(moflonProperties.getDependencies(), dep))
       {

@@ -12,4 +12,7 @@ public interface MocaTreeConstants
    String MOCA_TREE_ATTRIBUTE_NS_URI = "Moflon::NsUri";
    String MOCA_TREE_ATTRIBUTE_EXPORT = "Moflon::Export";
    String MOFLON_TREE_ATTRIBUTE_NAME = "Moflon::Name";
+   String MOCA_TREE_ATTRIBUTE_NS_PREFIX = "Moflon::NsPrefix";
+   String MOCA_TREE_ATTRIBUTE_PLUGINID = "Moflon::PluginID";
+   String MOCA_TREE_ATTRIBUTE_WORKINGSET = "Moflon::WorkingSet";
 }

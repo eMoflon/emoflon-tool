@@ -11,7 +11,7 @@
  <extension
        point="org.eclipse.ui.perspectiveExtensions">
     <perspectiveExtension
-          targetID="org.moflon.ide.ui.perspective">
+          targetID="org.moflon.ide.ui.MoflonPerspective">
        <view
              id="org.moflon.ide.ui.admin.views.AbstractSyntaxView"
              minimized="false"

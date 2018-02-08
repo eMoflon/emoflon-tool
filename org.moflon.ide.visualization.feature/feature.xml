@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.moflon.ide.visualization.feature"
-      label="eMoflon Visualization Feature (optional, requires PlantUML)"
+      label="eMoflon Visualization Feature (optional)"
       version="3.0.0.qualifier"
       provider-name="eMoflon Developers"
       plugin="org.moflon.ide.ui">
