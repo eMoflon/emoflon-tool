@@ -10,7 +10,7 @@ public class AttributConstraintContainer {
 	String ruleName;
 	String constraint;
 	boolean eq;
-	
+
 	public boolean isEq() {
 		return eq;
 	}
@@ -21,11 +21,11 @@ public class AttributConstraintContainer {
 
 	Collection<Variable> destinationVars;
 	Collection<String> solveVars;
-	
+
 	public AttributConstraintContainer(String ruleName) {
 		destinationVars = new ArrayList<Variable>();
 		solveVars = new ArrayList<String>();
-		this.ruleName = ruleName;	
+		this.ruleName = ruleName;
 		this.eq = false;
 	}
 

@@ -17,10 +17,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.resource.Resource;
 
-abstract public class AdapterResourceFactory<E extends Notifier> extends AdapterFactoryImpl implements Resource.Factory {
+abstract public class AdapterResourceFactory<E extends Notifier> extends AdapterFactoryImpl
+		implements Resource.Factory {
 	private String extensionName;
 	private EClassifier eClassifier;
-	
+
 	protected AdapterResourceFactory(String extensionName, EClassifier eClassifier) {
 		this.extensionName = extensionName;
 		this.eClassifier = eClassifier;
@@ -35,11 +36,11 @@ abstract public class AdapterResourceFactory<E extends Notifier> extends Adapter
 	}
 
 	abstract protected URI getURI(E target, String type);
-	
+
 	protected final boolean isFactoryForType(Notifier target, Object type) {
-		return type instanceof String && isFactoryForType(type) && getEClassifier().isInstance(target); 
+		return type instanceof String && isFactoryForType(type) && getEClassifier().isInstance(target);
 	}
-	
+
 	protected final EClassifier getEClassifier() {
 		return eClassifier;
 	}

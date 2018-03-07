@@ -59,8 +59,8 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 	private static Logger logger = Logger.getLogger(MOSLTGGConversionHelper.class);
 
 	/**
-	 * The purpose of this {@link URIHandlerImpl} is to handle "pre.ecore" files
-	 * in the same way as "ecore" files.
+	 * The purpose of this {@link URIHandlerImpl} is to handle "pre.ecore" files in
+	 * the same way as "ecore" files.
 	 */
 	public class PreEcoreHidingURIHandler extends URIHandlerImpl {
 		@Override
@@ -90,10 +90,9 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 
 	public Resource generateTGGModel(final IResource resource) throws CoreException {
 
-
 		final IProject project = resource.getProject();
 
-		//add default attribute conditions
+		// add default attribute conditions
 		AttrCondDefLibraryProvider.syncAttrCondDefLibrary(project);
 
 		final IFolder moslFolder = IFolder.class.cast(resource);
@@ -113,8 +112,8 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		options.put(XMLResource.OPTION_URI_HANDLER, new PreEcoreHidingURIHandler());
 
 		// Invoke TGG forward transformation to produce TGG model
-		String pathToThisPlugin = WorkspaceHelper
-				.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass())).getFile();
+		String pathToThisPlugin = WorkspaceHelper.getPathRelToPlugIn("/", WorkspaceHelper.getPluginId(getClass()))
+				.getFile();
 
 		CodeadapterTrafo helper = new CodeadapterTrafo(pathToThisPlugin);
 		helper.getResourceSet().getResources().add(tggRoot.eResource());
@@ -186,8 +185,8 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 	}
 
 	/**
-	 * Tries to convert the first selected item from a "tgg.xmi" file to a
-	 * MOSL-TGG specification
+	 * Tries to convert the first selected item from a "tgg.xmi" file to a MOSL-TGG
+	 * specification
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {

@@ -16,17 +16,17 @@ import org.gervarro.democles.constraint.emf.Reference;
 import org.gervarro.democles.specification.impl.Constraint;
 import org.gervarro.democles.specification.impl.Variable;
 
-public class EMFRedOperationBuilder implements OperationBuilder<GeneratorOperation,GeneratorVariable> {
+public class EMFRedOperationBuilder implements OperationBuilder<GeneratorOperation, GeneratorVariable> {
 
 	public List<GeneratorOperation> getConstraintOperations(Constraint constraint, List<GeneratorVariable> parameters) {
 		if (constraint.getType() instanceof EMFConstraint<?>) {
 			List<GeneratorOperation> result = new LinkedList<GeneratorOperation>();
 			EMFConstraint<?> cType = (EMFConstraint<?>) constraint.getType();
 			if (cType instanceof Reference) {
-				result.add(new GeneratorOperation(constraint, parameters, 
-						Adornment.create(Adornment.BOUND, Adornment.BOUND), 
-						Adornment.create(Adornment.BOUND, Adornment.BOUND), 
-						cType, GeneratorOperation.ALWAYS_SUCCESSFUL));
+				result.add(new GeneratorOperation(constraint, parameters,
+						Adornment.create(Adornment.BOUND, Adornment.BOUND),
+						Adornment.create(Adornment.BOUND, Adornment.BOUND), cType,
+						GeneratorOperation.ALWAYS_SUCCESSFUL));
 
 				return result;
 			}
@@ -38,10 +38,8 @@ public class EMFRedOperationBuilder implements OperationBuilder<GeneratorOperati
 		if (variable.getType() instanceof EMFVariable) {
 			EClassifier eClassifier = ((EMFVariable) variable.getType()).getLinkedElement();
 			if (eClassifier instanceof EClass) {
-				return new GeneratorOperation(variable,
-						Collections.singletonList(runtimeVariable),
-						Adornment.create(Adornment.NOT_TYPECHECKED),
-						Adornment.create(Adornment.BOUND),
+				return new GeneratorOperation(variable, Collections.singletonList(runtimeVariable),
+						Adornment.create(Adornment.NOT_TYPECHECKED), Adornment.create(Adornment.BOUND),
 						variable.getType(), GeneratorOperation.ALWAYS_SUCCESSFUL);
 			}
 		}

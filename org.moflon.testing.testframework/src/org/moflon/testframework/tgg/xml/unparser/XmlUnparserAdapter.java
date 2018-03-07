@@ -10,35 +10,30 @@ import org.apache.log4j.Logger;
 import org.moflon.core.moca.processing.unparser.impl.XMLUnparserImpl;
 import org.moflon.core.utilities.LogUtils;
 
-public class XmlUnparserAdapter extends XMLUnparserImpl
-{
-   private static final Logger logger = Logger.getLogger(XmlUnparserAdapter.class);
+public class XmlUnparserAdapter extends XMLUnparserImpl {
+	private static final Logger logger = Logger.getLogger(XmlUnparserAdapter.class);
 
-   @Override
-   public boolean canUnparseFile(final String fileName)
-   {
-      return true;
-   }
+	@Override
+	public boolean canUnparseFile(final String fileName) {
+		return true;
+	}
 
-   @Override
-   protected StringTemplateGroup getStringTemplateGroup() throws FileNotFoundException
-   {
-      try
-      {
-         InputStream pathToTemplate = this.getClass().getClassLoader().getResourceAsStream("templates/XML.stg");
+	@Override
+	protected StringTemplateGroup getStringTemplateGroup() throws FileNotFoundException {
+		try {
+			InputStream pathToTemplate = this.getClass().getClassLoader().getResourceAsStream("templates/XML.stg");
 
-         // perhaps running on spawned eclipse
-         if (pathToTemplate == null)
-            pathToTemplate = this.getClass().getClassLoader().getResourceAsStream("XML.stg");
+			// perhaps running on spawned eclipse
+			if (pathToTemplate == null)
+				pathToTemplate = this.getClass().getClassLoader().getResourceAsStream("XML.stg");
 
-         InputStreamReader reader = new InputStreamReader(pathToTemplate);
-         StringTemplateGroup stg = new StringTemplateGroup(reader, DefaultTemplateLexer.class);
-         return stg;
-      } catch (Exception e)
-      {
-         LogUtils.error(logger, e);
-      }
-      return null;
-   }
+			InputStreamReader reader = new InputStreamReader(pathToTemplate);
+			StringTemplateGroup stg = new StringTemplateGroup(reader, DefaultTemplateLexer.class);
+			return stg;
+		} catch (Exception e) {
+			LogUtils.error(logger, e);
+		}
+		return null;
+	}
 
 }

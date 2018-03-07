@@ -14,16 +14,16 @@ public class DontIgnoreDefaultAndPunctuationHighlightingRule extends AbstractIgn
 
 	@Override
 	protected boolean getIgnoreConditions(EObject moslObject, INode node) {
-		if(node != null && node.getGrammarElement() instanceof Keyword){
+		if (node != null && node.getGrammarElement() instanceof Keyword) {
 			return !isDefaultOrPunctuation(Keyword.class.cast(node.getGrammarElement()));
 		}
 		return false;
 	}
 
-	private boolean isDefaultOrPunctuation(Keyword keyword){
+	private boolean isDefaultOrPunctuation(Keyword keyword) {
 		String id = MOSLTokenMapper.getIDFromToken(keyword.getValue());
-		return id !=null && (id.equals(MOSLHighlightingConfiguration.DEFAULT_ID) || id.equals(MOSLHighlightingConfiguration.PUNCTUATION_ID));
+		return id != null && (id.equals(MOSLHighlightingConfiguration.DEFAULT_ID)
+				|| id.equals(MOSLHighlightingConfiguration.PUNCTUATION_ID));
 	}
-
 
 }

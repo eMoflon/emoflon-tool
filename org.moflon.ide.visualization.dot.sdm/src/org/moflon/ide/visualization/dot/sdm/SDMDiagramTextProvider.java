@@ -13,60 +13,55 @@ import SDMLanguage.activities.Activity;
 import SDMLanguage.activities.StopNode;
 import SDMLanguage.calls.callExpressions.MethodCallExpression;
 
-public class SDMDiagramTextProvider extends EMoflonDiagramTextProvider
-{
-   @Override
-   protected boolean directionIsForward()
-   {
-      return false;
-   }
+public class SDMDiagramTextProvider extends EMoflonDiagramTextProvider {
+	@Override
+	protected boolean directionIsForward() {
+		return false;
+	}
 
-   @Override
-   protected EPackage getPackage()
-   {
-      return SdmPackage.eINSTANCE;
-   }
+	@Override
+	protected EPackage getPackage() {
+		return SdmPackage.eINSTANCE;
+	}
 
-   @Override
-   public boolean isElementValidInput(Object selectedElement)
-   {
-      return selectedElement instanceof Activity;
-   }
+	@Override
+	public boolean isElementValidInput(Object selectedElement) {
+		return selectedElement instanceof Activity;
+	}
 
-   @Override
-   public boolean supportsSelection(final ISelection selection)
-   {
-      return true;
-   }
-   
-   @Override
-   protected void postprocess(CorrespondenceModel corrs){
-	   corrs.getCorrespondences().forEach(this::postprocess);
-   }
-   
-   private void postprocess(EObject corr){
-	   if(corr instanceof NodeCommandToStopNode)
-		   postProcessStopNode(NodeCommandToStopNode.class.cast(corr));
-	   
-	   if(corr instanceof RecordToMethodCall)
-		   postProcessMethodCall(RecordToMethodCall.class.cast(corr));
-   }
+	@Override
+	public boolean supportsSelection(final ISelection selection) {
+		return true;
+	}
 
-   private void postProcessMethodCall(RecordToMethodCall corr) {
-	   RecordEntry entry = corr.getSource();
-	   MethodCallExpression methodCallExp = corr.getTarget();
+	@Override
+	protected void postprocess(CorrespondenceModel corrs) {
+		corrs.getCorrespondences().forEach(this::postprocess);
+	}
 
-	   entry.setValue(eMoflonSDMUtil.extractMethodCall(methodCallExp, ""));
-   }
+	private void postprocess(EObject corr) {
+		if (corr instanceof NodeCommandToStopNode)
+			postProcessStopNode(NodeCommandToStopNode.class.cast(corr));
 
-   private void postProcessStopNode(NodeCommandToStopNode corr) {
-	   StopNode activityNode = (StopNode) corr.getTarget();
-	   NodeCommand node = corr.getSource();
-	   
-	   String stopNodeLabel = eMoflonSDMUtil.extractExpression(activityNode.getReturnValue(), "");
-	   if("null".equals(stopNodeLabel))
-		   stopNodeLabel = "void";
-	      
-	   node.setLabel(stopNodeLabel);
-   }
+		if (corr instanceof RecordToMethodCall)
+			postProcessMethodCall(RecordToMethodCall.class.cast(corr));
+	}
+
+	private void postProcessMethodCall(RecordToMethodCall corr) {
+		RecordEntry entry = corr.getSource();
+		MethodCallExpression methodCallExp = corr.getTarget();
+
+		entry.setValue(eMoflonSDMUtil.extractMethodCall(methodCallExp, ""));
+	}
+
+	private void postProcessStopNode(NodeCommandToStopNode corr) {
+		StopNode activityNode = (StopNode) corr.getTarget();
+		NodeCommand node = corr.getSource();
+
+		String stopNodeLabel = eMoflonSDMUtil.extractExpression(activityNode.getReturnValue(), "");
+		if ("null".equals(stopNodeLabel))
+			stopNodeLabel = "void";
+
+		node.setLabel(stopNodeLabel);
+	}
 }

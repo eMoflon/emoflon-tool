@@ -15,8 +15,7 @@ public class SetActivityEdgeLabel extends TGGConstraintImpl {
 			return;
 		}
 		case "FB": {
-			var_0.bindToValue(var_1.getValue().equals(EdgeGuard.NONE) ? ""
-					: ((EdgeGuard) var_1.getValue()).getName());
+			var_0.bindToValue(var_1.getValue().equals(EdgeGuard.NONE) ? "" : ((EdgeGuard) var_1.getValue()).getName());
 			setSatisfied(true);
 			return;
 		}

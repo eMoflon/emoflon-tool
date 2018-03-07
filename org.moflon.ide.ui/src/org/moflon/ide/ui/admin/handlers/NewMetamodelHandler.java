@@ -10,25 +10,21 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.ide.ui.UIActivator;
 
 /**
- * Opens the 'New meta-model' wizard. 
+ * Opens the 'New meta-model' wizard.
  */
-public class NewMetamodelHandler extends AbstractCommandHandler
-{
+public class NewMetamodelHandler extends AbstractCommandHandler {
 
-   @Override
-   public Object execute(final ExecutionEvent event) throws ExecutionException
-   {
-      final IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
-      
-      try
-      {
-         UiUtilities.openWizard(UIActivator.NEW_METAMODEL_WIZARD_ID, window);
-      } catch (final Exception e)
-      {
-         LogUtils.error(logger, e, "Unable to open 'New meta-model' wizard");
-      }
-      
-      return null;
-   }
+	@Override
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		final IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
+
+		try {
+			UiUtilities.openWizard(UIActivator.NEW_METAMODEL_WIZARD_ID, window);
+		} catch (final Exception e) {
+			LogUtils.error(logger, e, "Unable to open 'New meta-model' wizard");
+		}
+
+		return null;
+	}
 
 }

@@ -28,52 +28,55 @@ import org.moflon.tgg.runtime.CorrespondenceModel;
 
 import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider;
 
-public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
-{
-   private static final Logger logger = Logger.getLogger(EMoflonDiagramTextProvider.class);
+public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider {
+	private static final Logger logger = Logger.getLogger(EMoflonDiagramTextProvider.class);
 
-   private Map<Object, String> diagramTextCache = new HashMap<>();
+	private Map<Object, String> diagramTextCache = new HashMap<>();
 
-   private Map<Object, SynchronizationHelper> syncHelperCache = new HashMap<>();
+	private Map<Object, SynchronizationHelper> syncHelperCache = new HashMap<>();
 
-   private Map<Object, Delta> deltaCache = new HashMap<>();
+	private Map<Object, Delta> deltaCache = new HashMap<>();
 
-   private EcoreEditor currentEditor;
+	private EcoreEditor currentEditor;
 
-   private Statistics statisticsOfLastRun = null;
+	private Statistics statisticsOfLastRun = null;
 
-   /**
-    * Returns whether the given element can be translated by this particular class.
-    */
-   public abstract boolean isElementValidInput(Object selectedElement);
+	/**
+	 * Returns whether the given element can be translated by this particular class.
+	 */
+	public abstract boolean isElementValidInput(Object selectedElement);
 
-   /**
-    * Returns the plugin ID of the plugin that provides the rules for visualizing the supported elements
-    * 
-    * By default, this method retrieves the plugin ID via {@link WorkspaceHelper#getPluginId(Class)} 
-    * using the dynamic class of this object via {@link Object#getClass()}
-    * @return
-    */
-   protected String getPluginId() {
-      return WorkspaceHelper.getPluginId(getClass());
-   }
+	/**
+	 * Returns the plugin ID of the plugin that provides the rules for visualizing
+	 * the supported elements
+	 * 
+	 * By default, this method retrieves the plugin ID via
+	 * {@link WorkspaceHelper#getPluginId(Class)} using the dynamic class of this
+	 * object via {@link Object#getClass()}
+	 * 
+	 * @return
+	 */
+	protected String getPluginId() {
+		return WorkspaceHelper.getPluginId(getClass());
+	}
 
-   /**
-    * Returns whether to invoke the TGG in forward (true) or backward (false) direction to obtain an instance of
-    * {@link DirectedGraph}.
-    */
-   protected abstract boolean directionIsForward();
+	/**
+	 * Returns whether to invoke the TGG in forward (true) or backward (false)
+	 * direction to obtain an instance of {@link DirectedGraph}.
+	 */
+	protected abstract boolean directionIsForward();
 
-   /**
-    * Returns the {@link EPackage} containing the correspondence metamodel for the selected type of transation
-    */
-   protected abstract EPackage getPackage();
+	/**
+	 * Returns the {@link EPackage} containing the correspondence metamodel for the
+	 * selected type of transation
+	 */
+	protected abstract EPackage getPackage();
 
-   /**
-    * Returns the DOT visualization for the given selection
-    * 
-    * If the selection is null or empty, the result is an empty string.
-    */
+	/**
+	 * Returns the DOT visualization for the given selection
+	 * 
+	 * If the selection is null or empty, the result is an empty string.
+	 */
 	@Override
 	public String getDiagramText(IEditorPart editorPart, ISelection selection) {
 		EObject selectedElement = getSelectedObject(editorPart);
@@ -86,228 +89,207 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 					return "";
 				diagramTextCache.put(selectedElement, dotDiagram);
 			}
-			
+
 			String diagramText = diagramTextCache.get(selectedElement);
 			return diagramText;
 		}
 
 		return "";
 	}
-	
-   protected EObject getInput(EObject selectedElement){
-	   return selectedElement;
-   }
-	
-   protected String unparse(EObject input, EObject selectedElement){
-	   return unparse(modelToDot(input));
-   }
-	
-   protected String unparse(AbstractGraph graph){
-	   return new DotUnparserAdapter().unparse(graph);
-   }
 
-   @Override
-   public boolean supportsEditor(IEditorPart editorPart)
-   {
-	  EObject selectedElement = getSelectedObject(editorPart); 
-	   
-	  if(selectedElement == null || !isElementValidInput(selectedElement))
-		 return false;
-	  
-	  if (editorPart.equals(currentEditor))
-         return true;
+	protected EObject getInput(EObject selectedElement) {
+		return selectedElement;
+	}
 
-      if (editorPart instanceof EcoreEditor)
-      {
-         currentEditor = (EcoreEditor) editorPart;
-         clearCache();
+	protected String unparse(EObject input, EObject selectedElement) {
+		return unparse(modelToDot(input));
+	}
 
-         return true;
-      }
+	protected String unparse(AbstractGraph graph) {
+		return new DotUnparserAdapter().unparse(graph);
+	}
 
-      return false;
-   }
+	@Override
+	public boolean supportsEditor(IEditorPart editorPart) {
+		EObject selectedElement = getSelectedObject(editorPart);
 
-   /**
-    * Returns statistics of the previous visualization transformation. May be null.
-    * 
-    * @return
-    */
-   public Statistics getStatisticsOfLastRun()
-   {
-      return this.statisticsOfLastRun;
-   }
-   
-   public SynchronizationHelper getSynchronizationHelperForObject(final EObject input) {
-      return this.syncHelperCache.get(input);
-   }
-   
+		if (selectedElement == null || !isElementValidInput(selectedElement))
+			return false;
 
-   /**
-    * Removes all elements from the internal cache
-    */
-   public void clearCache()
-   {
-      diagramTextCache.clear();
-      deltaCache.clear();
-      syncHelperCache.clear();
-   }
+		if (editorPart.equals(currentEditor))
+			return true;
 
-   private boolean selectionHasBeenChanged(EObject input)
-   {
-      return deltaCache.containsKey(input) && deltaCache.get(input).isChangeDetected();
-   }
+		if (editorPart instanceof EcoreEditor) {
+			currentEditor = (EcoreEditor) editorPart;
+			clearCache();
 
-   public AbstractGraph modelToDot(final EObject input)
-   {
-      final URL pathToPlugin = WorkspaceHelper.getPathRelToPlugIn("/", getPluginId());
-      final ResourceSet resourceSet = input.eResource().getResourceSet();
+			return true;
+		}
 
-      final long tic = System.nanoTime();
-      try
-      {
-         if (hasSynchronizationInformationForObject(input))
-            return runSync(input);
-         else
-            return runBatch(pathToPlugin, input, resourceSet);
+		return false;
+	}
 
-      } catch (final Exception e)
-      {
-         LogUtils.error(logger, e, "Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ": " + ExceptionUtil.displayExceptionAsString(e),
-               e);
-      } finally
-      {
-         final long toc = System.nanoTime();
-         final double durationInMillis = (toc - tic) / 1e6;
-         updateStatisticsOfLastRun(input, durationInMillis);
+	/**
+	 * Returns statistics of the previous visualization transformation. May be null.
+	 * 
+	 * @return
+	 */
+	public Statistics getStatisticsOfLastRun() {
+		return this.statisticsOfLastRun;
+	}
 
-         logger.debug(formatStatistics(this.statisticsOfLastRun));
-         resourceSet.getResources().removeIf(this::unwantedResource);
-      }
+	public SynchronizationHelper getSynchronizationHelperForObject(final EObject input) {
+		return this.syncHelperCache.get(input);
+	}
 
-      return null;
-   }
+	/**
+	 * Removes all elements from the internal cache
+	 */
+	public void clearCache() {
+		diagramTextCache.clear();
+		deltaCache.clear();
+		syncHelperCache.clear();
+	}
 
-   private boolean hasSynchronizationInformationForObject(final EObject input)
-   {
-      return syncHelperCache.containsKey(input);
-   }
+	private boolean selectionHasBeenChanged(EObject input) {
+		return deltaCache.containsKey(input) && deltaCache.get(input).isChangeDetected();
+	}
 
-   private void updateStatisticsOfLastRun(final EObject input, final double durationInMillis)
-   {
-      final int edges = eMoflonEMFUtil.getEdgeCount(input);
-      final int nodes = eMoflonEMFUtil.getNodeCount(input);
-      this.statisticsOfLastRun = new Statistics(input, nodes, edges, durationInMillis);
-   }
+	public AbstractGraph modelToDot(final EObject input) {
+		final URL pathToPlugin = WorkspaceHelper.getPathRelToPlugIn("/", getPluginId());
+		final ResourceSet resourceSet = input.eResource().getResourceSet();
 
-   private boolean unwantedResource(Resource r)
-   {
-      return r.getURI() != null && r.getURI().toString().endsWith("tempOutputContainer.xmi");
-   }
+		final long tic = System.nanoTime();
+		try {
+			if (hasSynchronizationInformationForObject(input))
+				return runSync(input);
+			else
+				return runBatch(pathToPlugin, input, resourceSet);
 
-   private static String formatStatistics(final Statistics statistics)
-   {
-      return String.format("Visualisation of [%s (E:%d + V:%d = %d] in: %.6fms", eMoflonEMFUtil.getIdentifier(statistics.input), statistics.edgeCount,
-            statistics.nodeCount, statistics.edgeCount + statistics.nodeCount, statistics.durationInMillis);
-   }
+		} catch (final Exception e) {
+			LogUtils.error(logger, e, "Exception during visualization of " + eMoflonEMFUtil.getIdentifier(input) + ": "
+					+ ExceptionUtil.displayExceptionAsString(e), e);
+		} finally {
+			final long toc = System.nanoTime();
+			final double durationInMillis = (toc - tic) / 1e6;
+			updateStatisticsOfLastRun(input, durationInMillis);
 
-   private AbstractGraph runSync(final EObject input)
-   {
-      logger.debug("Running synchronization...");
-      SynchronizationHelper helper = syncHelperCache.get(input);
-      helper.setDelta(deltaCache.get(input));
-      AbstractGraph result = runTrafo(helper);
-      deltaCache.get(input).clear();
-      return result;
-   }
+			logger.debug(formatStatistics(this.statisticsOfLastRun));
+			resourceSet.getResources().removeIf(this::unwantedResource);
+		}
 
-   private AbstractGraph runTrafo(SynchronizationHelper helper)
-   {
-	  Object graph = null; 
-      // Remove for testing
-      //helper.setMute(true);
-      try{
-	      if (directionIsForward())
-	      {
-	         helper.integrateForward();
-	         postprocess(helper.getCorr());
-	         graph = helper.getTrg();
-	      } else
-	      {
-	         helper.integrateBackward();
-	         postprocess(helper.getCorr());
-	         graph = helper.getSrc();
-	      }
-	      return (AbstractGraph) graph;
-      } catch (ClassCastException cce)
-      {
-    	if(graph instanceof TempOutputContainer)
-    	{
-    		logger.error("The graph has two or more roots");
-    	}
-    	else
-    	{
-    		logger.error(cce.getMessage(), cce);
-    	}
-      }
-      return null;
-   }
+		return null;
+	}
 
-   protected void postprocess(CorrespondenceModel corr) {
-	   // Per default no postprocessing
-   }
+	private boolean hasSynchronizationInformationForObject(final EObject input) {
+		return syncHelperCache.containsKey(input);
+	}
 
-   /**
-    * Performs a batch transformation and registers listeners for subsequent changes
-    * 
-    * @param pathToTggRulePlugin
-    *           path to the plugin that contains the generated TGG rules that support the model-to-visualization
-    *           transformation for the given input. Used to create the appropriate {@link SynchronizationHelper}
-    * @param input
-    *           the model to be visualized
-    * @param rs
-    *           the resource set to be used by the created {@link SynchronizationHelper}
-    * @return
-    */
-   private AbstractGraph runBatch(URL pathToTggRulePlugin, EObject input, ResourceSet rs)
-   {
-      logger.debug("Running batch...");
+	private void updateStatisticsOfLastRun(final EObject input, final double durationInMillis) {
+		final int edges = eMoflonEMFUtil.getEdgeCount(input);
+		final int nodes = eMoflonEMFUtil.getNodeCount(input);
+		this.statisticsOfLastRun = new Statistics(input, nodes, edges, durationInMillis);
+	}
 
-      final SynchronizationHelper helper = registerSynchronizationHelper(pathToTggRulePlugin, input, rs);
-      registerConfigurator(helper);
-      final AbstractGraph result = runTrafo(helper);
-      this.registerChangeDetector(input);
+	private boolean unwantedResource(Resource r) {
+		return r.getURI() != null && r.getURI().toString().endsWith("tempOutputContainer.xmi");
+	}
 
-      return result;
-   }
+	private static String formatStatistics(final Statistics statistics) {
+		return String.format("Visualisation of [%s (E:%d + V:%d = %d] in: %.6fms",
+				eMoflonEMFUtil.getIdentifier(statistics.input), statistics.edgeCount, statistics.nodeCount,
+				statistics.edgeCount + statistics.nodeCount, statistics.durationInMillis);
+	}
 
-   protected void registerConfigurator(SynchronizationHelper helper)
-   {
-      // per default standard configurator
-   }
+	private AbstractGraph runSync(final EObject input) {
+		logger.debug("Running synchronization...");
+		SynchronizationHelper helper = syncHelperCache.get(input);
+		helper.setDelta(deltaCache.get(input));
+		AbstractGraph result = runTrafo(helper);
+		deltaCache.get(input).clear();
+		return result;
+	}
 
-   private SynchronizationHelper registerSynchronizationHelper(URL pathToPlugin, EObject input, ResourceSet rs)
-   {
-      final SynchronizationHelper helper = new SynchronizationHelper(getPackage(), pathToPlugin.getFile(), rs);
-      helper.setMute(true);
-      syncHelperCache.put(input, helper);
+	private AbstractGraph runTrafo(SynchronizationHelper helper) {
+		Object graph = null;
+		// Remove for testing
+		// helper.setMute(true);
+		try {
+			if (directionIsForward()) {
+				helper.integrateForward();
+				postprocess(helper.getCorr());
+				graph = helper.getTrg();
+			} else {
+				helper.integrateBackward();
+				postprocess(helper.getCorr());
+				graph = helper.getSrc();
+			}
+			return (AbstractGraph) graph;
+		} catch (ClassCastException cce) {
+			if (graph instanceof TempOutputContainer) {
+				logger.error("The graph has two or more roots");
+			} else {
+				logger.error(cce.getMessage(), cce);
+			}
+		}
+		return null;
+	}
 
-      if (directionIsForward())
-         helper.setSrc(input);
-      else
-         helper.setTrg(input);
-      return helper;
-   }
+	protected void postprocess(CorrespondenceModel corr) {
+		// Per default no postprocessing
+	}
 
-   private void registerChangeDetector(EObject input)
-   {
-      final Delta delta = new Delta();
-      new OnlineChangeDetector(delta, input);
-      deltaCache.put(input, delta);
-   }
-   
-   private EObject getSelectedObject(IEditorPart editorPart){
-	   ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
+	/**
+	 * Performs a batch transformation and registers listeners for subsequent
+	 * changes
+	 * 
+	 * @param pathToTggRulePlugin
+	 *            path to the plugin that contains the generated TGG rules that
+	 *            support the model-to-visualization transformation for the given
+	 *            input. Used to create the appropriate
+	 *            {@link SynchronizationHelper}
+	 * @param input
+	 *            the model to be visualized
+	 * @param rs
+	 *            the resource set to be used by the created
+	 *            {@link SynchronizationHelper}
+	 * @return
+	 */
+	private AbstractGraph runBatch(URL pathToTggRulePlugin, EObject input, ResourceSet rs) {
+		logger.debug("Running batch...");
+
+		final SynchronizationHelper helper = registerSynchronizationHelper(pathToTggRulePlugin, input, rs);
+		registerConfigurator(helper);
+		final AbstractGraph result = runTrafo(helper);
+		this.registerChangeDetector(input);
+
+		return result;
+	}
+
+	protected void registerConfigurator(SynchronizationHelper helper) {
+		// per default standard configurator
+	}
+
+	private SynchronizationHelper registerSynchronizationHelper(URL pathToPlugin, EObject input, ResourceSet rs) {
+		final SynchronizationHelper helper = new SynchronizationHelper(getPackage(), pathToPlugin.getFile(), rs);
+		helper.setMute(true);
+		syncHelperCache.put(input, helper);
+
+		if (directionIsForward())
+			helper.setSrc(input);
+		else
+			helper.setTrg(input);
+		return helper;
+	}
+
+	private void registerChangeDetector(EObject input) {
+		final Delta delta = new Delta();
+		new OnlineChangeDetector(delta, input);
+		deltaCache.put(input, delta);
+	}
+
+	private EObject getSelectedObject(IEditorPart editorPart) {
+		ISelection selection = editorPart.getSite().getSelectionProvider().getSelection();
 
 		if (selection != null && !selection.isEmpty() && selection instanceof TreeSelection) {
 			StructuredSelection structuredSelection = (StructuredSelection) selection;
@@ -315,30 +297,28 @@ public abstract class EMoflonDiagramTextProvider implements DiagramTextProvider
 				return (EObject) structuredSelection.getFirstElement();
 			}
 		}
-		
+
 		return null;
-   }
+	}
 
-   /**
-    * Collects information about a visualization transformation application
-    */
-   public class Statistics
-   {
-      public EObject input;
+	/**
+	 * Collects information about a visualization transformation application
+	 */
+	public class Statistics {
+		public EObject input;
 
-      public int nodeCount;
+		public int nodeCount;
 
-      public int edgeCount;
+		public int edgeCount;
 
-      public double durationInMillis;
+		public double durationInMillis;
 
-      private Statistics(EObject input, int nodeCount, int edgeCount, double durationInMillis)
-      {
-         this.input = input;
-         this.nodeCount = nodeCount;
-         this.edgeCount = edgeCount;
-         this.durationInMillis = durationInMillis;
-      }
+		private Statistics(EObject input, int nodeCount, int edgeCount, double durationInMillis) {
+			this.input = input;
+			this.nodeCount = nodeCount;
+			this.edgeCount = edgeCount;
+			this.durationInMillis = durationInMillis;
+		}
 
-   }
+	}
 }

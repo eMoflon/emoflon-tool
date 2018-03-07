@@ -7,28 +7,27 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 
 public class TGGRuleApplication {
-	
-	private HashSet<EObject> createdSrc = new HashSet<>();
-	
-	private HashSet<EObject> createdTrg = new HashSet<>();
-	
-	private HashSet<EObject> createdCorr = new HashSet<>();
-	
-	private HashSet<EObject> contextSrc = new HashSet<>();
-	
-	private HashSet<EObject> contextTrg = new HashSet<>();
-	
-	private HashSet<EObject> contextCorr = new HashSet<>();
-	
-	private Map<String,EObject> nodeMappings = new HashMap<>();
 
+	private HashSet<EObject> createdSrc = new HashSet<>();
+
+	private HashSet<EObject> createdTrg = new HashSet<>();
+
+	private HashSet<EObject> createdCorr = new HashSet<>();
+
+	private HashSet<EObject> contextSrc = new HashSet<>();
+
+	private HashSet<EObject> contextTrg = new HashSet<>();
+
+	private HashSet<EObject> contextCorr = new HashSet<>();
+
+	private Map<String, EObject> nodeMappings = new HashMap<>();
 
 	private final String name;
-	
-	public TGGRuleApplication(String name){
+
+	public TGGRuleApplication(String name) {
 		this.name = name;
 	}
-	
+
 	public HashSet<EObject> getCreatedSrc() {
 		return createdSrc;
 	}
@@ -56,10 +55,9 @@ public class TGGRuleApplication {
 	public Map<String, EObject> getNodeMappings() {
 		return nodeMappings;
 	}
-	
-	public String getName()
-   {
-      return name;
-   }
-	
+
+	public String getName() {
+		return name;
+	}
+
 }

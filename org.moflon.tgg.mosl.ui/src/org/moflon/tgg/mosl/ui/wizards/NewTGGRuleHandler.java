@@ -16,7 +16,7 @@ public class NewTGGRuleHandler extends AbstractCommandHandler {
 		try {
 			UiUtilities.openWizard(NewTGGRuleWizard.NEW_TGG_RULE_WIZARD_ID, window);
 		} catch (final Exception e) {
-         LogUtils.error(logger, e, "Unable to open 'new TGG rule' wizard", e);
+			LogUtils.error(logger, e, "Unable to open 'new TGG rule' wizard", e);
 		}
 
 		return null;

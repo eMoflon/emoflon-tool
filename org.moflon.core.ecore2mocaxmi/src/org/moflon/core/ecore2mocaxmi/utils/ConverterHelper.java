@@ -30,33 +30,36 @@ import MocaTree.Node;
 public class ConverterHelper {
 	protected static Logger logger;
 
-	private final static String LOCK_FILE_EXTENSION=".ldb";
-	private final static String IMPORTED_PACKAGE_PREFIX="org.emoflon.importedecore.";
+	private final static String LOCK_FILE_EXTENSION = ".ldb";
+	private final static String IMPORTED_PACKAGE_PREFIX = "org.emoflon.importedecore.";
 
-	public static void setLogger(final Logger log){
+	public static void setLogger(final Logger log) {
 		logger = log;
 	}
 
-	public static String getEAPFilePath(final Shell shell, final String ecorePath){
+	public static String getEAPFilePath(final Shell shell, final String ecorePath) {
 		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
 		dialog.setText("Select EAP File");
-		String [] extensions = {"*.eap"};
+		String[] extensions = { "*.eap" };
 		dialog.setFilterExtensions(extensions);
 		dialog.setFilterPath(ecorePath);
 		return dialog.open();
 	}
 
-	public static Node getEATree(final IFile file){
+	public static Node getEATree(final IFile file) {
 		return getEATree(file, false);
 	}
 
-	private static MonitoredMetamodelLoader createMetaModelLoader(final ResourceSet resourceSet, final IFile ecoreFile){
-		return new MonitoredMetamodelLoader(resourceSet, ecoreFile, MoflonPropertiesContainerHelper.createEmptyContainer()) {
+	private static MonitoredMetamodelLoader createMetaModelLoader(final ResourceSet resourceSet,
+			final IFile ecoreFile) {
+		return new MonitoredMetamodelLoader(resourceSet, ecoreFile,
+				MoflonPropertiesContainerHelper.createEmptyContainer()) {
 			@Override
 			protected void createResourcesForWorkspaceProjects(IProgressMonitor monitor) {
 				super.createResourcesForWorkspaceProjects(monitor);
 				if (isValidProject(ecoreFile.getProject())) {
-              	  new PackageRemappingDependency(URI.createURI(ecoreFile.getLocation().toOSString()), false, false).getResource(getResourceSet(), false, true);
+					new PackageRemappingDependency(URI.createURI(ecoreFile.getLocation().toOSString()), false, false)
+							.getResource(getResourceSet(), false, true);
 				}
 			}
 
@@ -67,37 +70,37 @@ public class ConverterHelper {
 		};
 	}
 
-	public static Node getEATree(final IFile file, final boolean export){
+	public static Node getEATree(final IFile file, final boolean export) {
 		Ecore2MocaXMIConverter converter = Ecore2mocaxmiFactory.eINSTANCE.createEcore2MocaXMIConverter();
 		Node tree = converter.createNewRootNode();
 		MonitoredMetamodelLoader mmLoader = createMetaModelLoader(new ResourceSetImpl(), file);
-		try{
+		try {
 			String fileName = file.getName().replace('.' + file.getFileExtension(), "");
 			mmLoader.run(new NullProgressMonitor());
 			Resource res = mmLoader.getMainResource();
 			converter.clear();
 			EPackage p = getEPackage(res, fileName);
-			tree = converter.convert(p, "imported "+ file.getName(), export, tree);
+			tree = converter.convert(p, "imported " + file.getName(), export, tree);
 			converter.resolve();
-		}catch (Exception e){
+		} catch (Exception e) {
 			logger.error("A Problem has been caused", e);
 			return null;
 		}
 		return tree;
 	}
 
-	private static EPackage getEPackage(Resource res, String fileName){
-		if(res.getContents().size() > 1 && moreThanOneAreEPackeges(res.getContents()))
+	private static EPackage getEPackage(Resource res, String fileName) {
+		if (res.getContents().size() > 1 && moreThanOneAreEPackeges(res.getContents()))
 			return createNewSuperPackage(res.getContents(), fileName);
-		else if(res.getContents().size() >= 1 && onlyOneEPackage(res.getContents()))
+		else if (res.getContents().size() >= 1 && onlyOneEPackage(res.getContents()))
 			return theSingleEPackage(res.getContents());
 		else
 			return null;
 	}
 
 	private static EPackage theSingleEPackage(EList<EObject> contents) {
-		for(EObject object : contents){
-			if(object instanceof EPackage){
+		for (EObject object : contents) {
+			if (object instanceof EPackage) {
 				EPackage ePackage = EPackage.class.cast(object);
 				ePackage.setName(IMPORTED_PACKAGE_PREFIX + ePackage.getName().toLowerCase());
 				return ePackage;
@@ -108,10 +111,10 @@ public class ConverterHelper {
 
 	private static boolean onlyOneEPackage(EList<EObject> contents) {
 		boolean theOneAndOnly = false;
-		for(EObject object : contents){
-			if(!theOneAndOnly && object instanceof EPackage)
+		for (EObject object : contents) {
+			if (!theOneAndOnly && object instanceof EPackage)
 				theOneAndOnly = true;
-			else if(theOneAndOnly && object instanceof EPackage)
+			else if (theOneAndOnly && object instanceof EPackage)
 				return false;
 		}
 		return theOneAndOnly;
@@ -122,14 +125,16 @@ public class ConverterHelper {
 		superPackage.setName(IMPORTED_PACKAGE_PREFIX + fileName.toLowerCase());
 		superPackage.setNsPrefix("__default__");
 		superPackage.setNsURI("__default__");
-		for(EObject object : contents){
-			if(object instanceof EPackage){
+		for (EObject object : contents) {
+			if (object instanceof EPackage) {
 				EPackage ePackage = EPackage.class.cast(object);
 				superPackage.getESubpackages().add(ePackage);
-				if(ePackage.getNsPrefix() != null && "".equalsIgnoreCase(ePackage.getNsPrefix()) &&!superPackage.getNsPrefix().equals(ePackage.getNsPrefix()))
+				if (ePackage.getNsPrefix() != null && "".equalsIgnoreCase(ePackage.getNsPrefix())
+						&& !superPackage.getNsPrefix().equals(ePackage.getNsPrefix()))
 					superPackage.setNsPrefix(ePackage.getNsPrefix());
 
-				if(ePackage.getNsURI() != null && "".equalsIgnoreCase(ePackage.getNsURI()) && !superPackage.getNsURI().equals(ePackage.getNsURI()))
+				if (ePackage.getNsURI() != null && "".equalsIgnoreCase(ePackage.getNsURI())
+						&& !superPackage.getNsURI().equals(ePackage.getNsURI()))
 					superPackage.setNsURI(ePackage.getNsURI());
 			}
 		}
@@ -141,24 +146,24 @@ public class ConverterHelper {
 		for (EObject object : contents) {
 			if (first && object instanceof EPackage)
 				return true;
-			else if(object instanceof EPackage)
+			else if (object instanceof EPackage)
 				first = true;
 		}
 		return false;
 	}
 
-	public static IProject getProject(final List<String> parts){
+	public static IProject getProject(final List<String> parts) {
 		List<IProject> projects = WorkspaceHelper.getAllProjectsInWorkspace();
-		for(IProject project : projects){
-			if(parts.contains(project.getName()))
+		for (IProject project : projects) {
+			if (parts.contains(project.getName()))
 				return project;
 		}
 		return null;
 	}
 
-	public static IFile getLockFile(final IProject project, final List<String> parts){
-		if(project !=null && parts!=null && parts.size() > 1){
-			return project.getFile(parts.get(parts.size()-2) + LOCK_FILE_EXTENSION);
+	public static IFile getLockFile(final IProject project, final List<String> parts) {
+		if (project != null && parts != null && parts.size() > 1) {
+			return project.getFile(parts.get(parts.size() - 2) + LOCK_FILE_EXTENSION);
 		}
 		return null;
 	}

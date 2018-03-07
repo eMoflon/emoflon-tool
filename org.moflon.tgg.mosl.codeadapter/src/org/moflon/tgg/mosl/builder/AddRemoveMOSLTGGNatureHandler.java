@@ -33,12 +33,13 @@ public class AddRemoveMOSLTGGNatureHandler extends AbstractHandler {
 				if (project != null) {
 					try {
 						final boolean hasNature = project.hasNature(MOSLTGGNature.getId());
-						final ProjectNatureAndBuilderConfiguratorTask projectConfiguratorTask =
-								new ProjectNatureAndBuilderConfiguratorTask(project, false);
+						final ProjectNatureAndBuilderConfiguratorTask projectConfiguratorTask = new ProjectNatureAndBuilderConfiguratorTask(
+								project, false);
 						final MOSLTGGNature moslTGGProjectConfigurator = new MOSLTGGNature();
 						projectConfiguratorTask.updateNatureIDs(moslTGGProjectConfigurator, !hasNature);
 						projectConfiguratorTask.updateBuildSpecs(moslTGGProjectConfigurator, !hasNature);
-						WorkspaceTask.executeInCurrentThread(projectConfiguratorTask, IWorkspace.AVOID_UPDATE, new NullProgressMonitor());
+						WorkspaceTask.executeInCurrentThread(projectConfiguratorTask, IWorkspace.AVOID_UPDATE,
+								new NullProgressMonitor());
 					} catch (CoreException e) {
 						throw new ExecutionException("Failed to toggle nature", e);
 					}

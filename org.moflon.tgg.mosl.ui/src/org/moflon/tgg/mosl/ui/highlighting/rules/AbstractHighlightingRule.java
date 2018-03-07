@@ -10,66 +10,64 @@ import org.moflon.core.utilities.LogUtils;
 import org.moflon.tgg.mosl.ui.highlighting.exceptions.IDAlreadyExistException;
 import org.moflon.tgg.mosl.ui.highlighting.utils.MOSLHighlightProviderHelper;
 
-
-public abstract class AbstractHighlightingRule{
+public abstract class AbstractHighlightingRule {
 
 	protected Logger logger;
-	
+
 	protected String id;
-	
+
 	protected String description;
-	
-	private int prio=50;
-	
+
+	private int prio = 50;
+
 	private IHighlightedPositionAcceptor acceptor;
-	
-	public AbstractHighlightingRule(String id, String description){
+
+	public AbstractHighlightingRule(String id, String description) {
 		init(id, description);
 	}
-	
-	public AbstractHighlightingRule(String id, String description, int prio){
+
+	public AbstractHighlightingRule(String id, String description, int prio) {
 		this.prio = prio;
 		init(id, description);
 	}
-	
-	private void init(String id, String description){
+
+	private void init(String id, String description) {
 		logger = Logger.getLogger(this.getClass());
 		this.id = id;
 		this.description = description;
 		try {
 			MOSLHighlightProviderHelper.addHighlightRule(this);
 		} catch (IDAlreadyExistException e) {
-         LogUtils.error(logger, e);
+			LogUtils.error(logger, e);
 		}
 	}
-	
-	protected void setHighlighting(INode node){
-		acceptor.addPosition(node.getOffset(), node.getLength() , id);
+
+	protected void setHighlighting(INode node) {
+		acceptor.addPosition(node.getOffset(), node.getLength(), id);
 	}
-	
+
 	protected abstract TextStyle getTextStyle();
-	
-	public void setHighlightingConfiguration(IHighlightingConfigurationAcceptor acceptor){
-		acceptor.
-		acceptDefaultHighlighting(id, description, getTextStyle());
+
+	public void setHighlightingConfiguration(IHighlightingConfigurationAcceptor acceptor) {
+		acceptor.acceptDefaultHighlighting(id, description, getTextStyle());
 	}
-	
-	public boolean canProvideHighlighting(EObject moslObject, INode node, IHighlightedPositionAcceptor acceptor){
+
+	public boolean canProvideHighlighting(EObject moslObject, INode node, IHighlightedPositionAcceptor acceptor) {
 		boolean provide = getHighlightingConditions(moslObject, node);
-		if(provide){
+		if (provide) {
 			this.acceptor = acceptor;
 			setHighlighting(node);
 		}
 		return provide;
 	}
-	
-	public int getPriority(){
+
+	public int getPriority() {
 		return prio;
 	}
-	
+
 	protected abstract boolean getHighlightingConditions(EObject moslObject, INode node);
-	
-	public String getID(){
+
+	public String getID() {
 		return id;
 	}
 }

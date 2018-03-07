@@ -9,18 +9,17 @@ import org.moflon.tgg.language.modelgenerator.ModelgeneratorFactory;
 import org.moflon.tgg.language.modelgenerator.RuleEntryContainer;
 import org.moflon.tgg.runtime.ModelgeneratorRuleResult;
 
-public class InvokeAxiomGenerateModel implements Function<RulePerformData, ModelgeneratorRuleResult>
-{
+public class InvokeAxiomGenerateModel implements Function<RulePerformData, ModelgeneratorRuleResult> {
 
-   @Override
-   public ModelgeneratorRuleResult apply(RulePerformData performData)
-   {
-      EOperation eOperation = performData.getCurrentGenModelOperation();
-      EClass ruleClass = eOperation.getEContainingClass();
+	@Override
+	public ModelgeneratorRuleResult apply(RulePerformData performData) {
+		EOperation eOperation = performData.getCurrentGenModelOperation();
+		EClass ruleClass = eOperation.getEContainingClass();
 
-      RuleEntryContainer emptyContainer = ModelgeneratorFactory.eINSTANCE.createRuleEntryContainer();
+		RuleEntryContainer emptyContainer = ModelgeneratorFactory.eINSTANCE.createRuleEntryContainer();
 
-      return (ModelgeneratorRuleResult) InvokeUtil.invokeOperationWithSingleArg(ruleClass, eOperation, emptyContainer);
-   }
+		return (ModelgeneratorRuleResult) InvokeUtil.invokeOperationWithSingleArg(ruleClass, eOperation,
+				emptyContainer);
+	}
 
 }

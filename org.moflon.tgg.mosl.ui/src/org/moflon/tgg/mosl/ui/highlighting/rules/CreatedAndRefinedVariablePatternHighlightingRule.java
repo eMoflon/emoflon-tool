@@ -13,15 +13,15 @@ public class CreatedAndRefinedVariablePatternHighlightingRule extends AbstractRe
 
 	@Override
 	public boolean getOperatorCondition(Operator op) {
-		return op!= null && op.getValue() != null && op.getValue().contains("++");
+		return op != null && op.getValue() != null && op.getValue().contains("++");
 	}
 
 	@Override
 	protected TextStyle getTextStyle() {
-	      TextStyle ts = new TextStyle();
-	      ts.setColor(MOSLColor.DARK_GREEN.getColor());
-	      ts.setStyle(SWT.BOLD);
-	      return ts;
+		TextStyle ts = new TextStyle();
+		ts.setColor(MOSLColor.DARK_GREEN.getColor());
+		ts.setStyle(SWT.BOLD);
+		return ts;
 	}
 
 }

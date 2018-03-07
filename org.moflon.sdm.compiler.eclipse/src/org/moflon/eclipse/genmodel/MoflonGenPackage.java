@@ -25,13 +25,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 public class MoflonGenPackage extends GenPackageImpl {
-	
+
 	public void initialize(EPackage ePackage) {
 		if (getPrefixGen() == null && ePackage.getName() != null) {
 			setPrefix(capName(ePackage.getName()));
 		}
 
-		if (getBasePackageGen() == null && EcoreUtil.getAnnotation(ePackage, GenModelPackage.eNS_URI, "basePackage") != null) {
+		if (getBasePackageGen() == null
+				&& EcoreUtil.getAnnotation(ePackage, GenModelPackage.eNS_URI, "basePackage") != null) {
 			setBasePackage(EcoreUtil.getAnnotation(ePackage, GenModelPackage.eNS_URI, "basePackage"));
 		}
 
@@ -39,11 +40,12 @@ public class MoflonGenPackage extends GenPackageImpl {
 		if (isDifferentPackage) {
 			setEcorePackage(ePackage);
 
-			// Do this here because getExtendedMetaData() is used during initialization 
+			// Do this here because getExtendedMetaData() is used during initialization
 			// and the mappings are are populated the first time it's fetched
 			// which will miss the packages we add as we initialize the tree.
 			//
-			if (!EcorePackage.eNS_URI.equals(ePackage.getNsURI()) && !GenModelPackage.eNS_URI.equals(ePackage.getNsURI())) {
+			if (!EcorePackage.eNS_URI.equals(ePackage.getNsURI())
+					&& !GenModelPackage.eNS_URI.equals(ePackage.getNsURI())) {
 				getGenModel().getExtendedMetaData().putPackage(ePackage.getNsURI(), ePackage);
 			}
 
@@ -56,74 +58,72 @@ public class MoflonGenPackage extends GenPackageImpl {
 		int eClassIndex = 0;
 		int eEnumIndex = 0;
 		int eDataTypeIndex = 0;
-		CLASSIFIER_LOOP:
-			for (EClassifier eClassifier : ePackage.getEClassifiers()) {
-				for (GenClassifier genClassifier : getGenClassifiers()) {
-					if (genClassifier.getEcoreClassifier() == eClassifier) {
-						if (eClassifier instanceof EClass) {
-							((GenClass)genClassifier).initialize((EClass)eClassifier);
-							int index = getGenClasses().indexOf(genClassifier);
-							if (index != eClassIndex) {
-								getGenClasses().move(eClassIndex, index);
-							}
-							++eClassIndex;
-						} else if (eClassifier instanceof EEnum) {
-							((GenEnum)genClassifier).initialize((EEnum)eClassifier);
-							int index = getGenEnums().indexOf(genClassifier);
-							if (index != eEnumIndex) {
-								getGenEnums().move(eEnumIndex, index);
-							}
-							++eEnumIndex;
-						} else if (eClassifier instanceof EDataType) {
-							((GenDataType)genClassifier).initialize((EDataType)eClassifier);
-							int index = getGenDataTypes().indexOf(genClassifier);
-							if (index != eDataTypeIndex) {
-								getGenDataTypes().move(eDataTypeIndex, index);
-							}
-							++eDataTypeIndex;
+		CLASSIFIER_LOOP: for (EClassifier eClassifier : ePackage.getEClassifiers()) {
+			for (GenClassifier genClassifier : getGenClassifiers()) {
+				if (genClassifier.getEcoreClassifier() == eClassifier) {
+					if (eClassifier instanceof EClass) {
+						((GenClass) genClassifier).initialize((EClass) eClassifier);
+						int index = getGenClasses().indexOf(genClassifier);
+						if (index != eClassIndex) {
+							getGenClasses().move(eClassIndex, index);
 						}
-
-						continue CLASSIFIER_LOOP;
+						++eClassIndex;
+					} else if (eClassifier instanceof EEnum) {
+						((GenEnum) genClassifier).initialize((EEnum) eClassifier);
+						int index = getGenEnums().indexOf(genClassifier);
+						if (index != eEnumIndex) {
+							getGenEnums().move(eEnumIndex, index);
+						}
+						++eEnumIndex;
+					} else if (eClassifier instanceof EDataType) {
+						((GenDataType) genClassifier).initialize((EDataType) eClassifier);
+						int index = getGenDataTypes().indexOf(genClassifier);
+						if (index != eDataTypeIndex) {
+							getGenDataTypes().move(eDataTypeIndex, index);
+						}
+						++eDataTypeIndex;
 					}
-				}
 
-				if (eClassifier instanceof EClass) {
-					EClass eClass = (EClass)eClassifier;
-					GenClass genClass = getGenModel().createGenClass();
-					getGenClasses().add(eClassIndex++, genClass);
-					genClass.initialize(eClass);
-				} else if (eClassifier instanceof EEnum) {
-					EEnum eEnum = (EEnum)eClassifier;
-					GenEnum genEnum = getGenModel().createGenEnum();
-					getGenEnums().add(eEnumIndex++, genEnum);
-					genEnum.initialize(eEnum);
-				} else if (eClassifier instanceof EDataType) {
-					EDataType eDataType = (EDataType)eClassifier;
-					GenDataType genDataType = getGenModel().createGenDataType();
-					getGenDataTypes().add(eDataTypeIndex++, genDataType);
-					genDataType.initialize(eDataType);
+					continue CLASSIFIER_LOOP;
 				}
 			}
+
+			if (eClassifier instanceof EClass) {
+				EClass eClass = (EClass) eClassifier;
+				GenClass genClass = getGenModel().createGenClass();
+				getGenClasses().add(eClassIndex++, genClass);
+				genClass.initialize(eClass);
+			} else if (eClassifier instanceof EEnum) {
+				EEnum eEnum = (EEnum) eClassifier;
+				GenEnum genEnum = getGenModel().createGenEnum();
+				getGenEnums().add(eEnumIndex++, genEnum);
+				genEnum.initialize(eEnum);
+			} else if (eClassifier instanceof EDataType) {
+				EDataType eDataType = (EDataType) eClassifier;
+				GenDataType genDataType = getGenModel().createGenDataType();
+				getGenDataTypes().add(eDataTypeIndex++, genDataType);
+				genDataType.initialize(eDataType);
+			}
+		}
 
 		int ePackageIndex = 0;
-		PACKAGE_LOOP:
-			for (EPackage nestedEPackage : ePackage.getESubpackages()) {
-				for (GenPackage nestedGenPackage : getNestedGenPackages()) {
-					if (nestedGenPackage.getEcorePackage() == nestedEPackage) {
-						nestedGenPackage.initialize(nestedEPackage);
-						int index = getNestedGenPackages().indexOf(nestedGenPackage);
-						if (index != ePackageIndex) {
-							getNestedGenPackages().move(ePackageIndex, index);
-						}
-						++ePackageIndex;
-						continue PACKAGE_LOOP;
+		PACKAGE_LOOP: for (EPackage nestedEPackage : ePackage.getESubpackages()) {
+			for (GenPackage nestedGenPackage : getNestedGenPackages()) {
+				if (nestedGenPackage.getEcorePackage() == nestedEPackage) {
+					nestedGenPackage.initialize(nestedEPackage);
+					int index = getNestedGenPackages().indexOf(nestedGenPackage);
+					if (index != ePackageIndex) {
+						getNestedGenPackages().move(ePackageIndex, index);
 					}
+					++ePackageIndex;
+					continue PACKAGE_LOOP;
 				}
-
-				GenPackage genPackage = getGenModel().createGenPackage();
-				getNestedGenPackages().add(ePackageIndex++, genPackage);
-				genPackage.initialize(nestedEPackage);
 			}
+
+			GenPackage genPackage = getGenModel().createGenPackage();
+			getNestedGenPackages().add(ePackageIndex++, genPackage);
+			genPackage.initialize(nestedEPackage);
+		}
 
 		if (isDifferentPackage) {
 			boolean isBigModel = isBigModel();
@@ -131,7 +131,7 @@ public class MoflonGenPackage extends GenPackageImpl {
 			setLiteralsInterface(!isBigModel);
 		}
 	}
-	
+
 	public boolean hasExtendedMetaData() {
 		if (getResource() != GenResourceKind.XML_LITERAL) {
 			return false;
@@ -143,12 +143,12 @@ public class MoflonGenPackage extends GenPackageImpl {
 		List<EPackage> ePackages = new UniqueEList<EPackage>();
 		ePackages.add(ePackage);
 		for (int i = 0; i < ePackages.size(); ++i) {
-			for (TreeIterator<EObject> j = ePackages.get(i).eAllContents(); j.hasNext(); ) {
+			for (TreeIterator<EObject> j = ePackages.get(i).eAllContents(); j.hasNext();) {
 				EObject eObject = j.next();
 				if (eObject instanceof EPackage || eObject instanceof EDataType) {
 					j.prune();
 				} else if (eObject instanceof EAnnotation) {
-					EAnnotation eAnnotation = (EAnnotation)eObject;
+					EAnnotation eAnnotation = (EAnnotation) eObject;
 					String source = eAnnotation.getSource();
 					if (ExtendedMetaData.ANNOTATION_URI.equals(source)) {
 						return true;
@@ -157,15 +157,15 @@ public class MoflonGenPackage extends GenPackageImpl {
 				for (EObject eCrossReference : eObject.eCrossReferences()) {
 					if (eCrossReference instanceof EClass) {
 						if (eCrossReference.eIsProxy()) {
-							throw new RuntimeException("Unresolved proxy '" + 
-									((InternalEObject) eCrossReference).eProxyURI().toString() +
-									"' in " + EcoreUtil.getURI(ePackages.get(i)));
+							throw new RuntimeException(
+									"Unresolved proxy '" + ((InternalEObject) eCrossReference).eProxyURI().toString()
+											+ "' in " + EcoreUtil.getURI(ePackages.get(i)));
 						}
 						EPackage referencedEPackage = ((EClassifier) eCrossReference).getEPackage();
 						if (ePackages.add(referencedEPackage) && referencedEPackage.eIsProxy()) {
-							throw new RuntimeException("Unresolved proxy '" + 
-									((InternalEObject) referencedEPackage).eProxyURI().toString() +
-									"' in " + EcoreUtil.getURI(ePackages.get(i)));
+							throw new RuntimeException(
+									"Unresolved proxy '" + ((InternalEObject) referencedEPackage).eProxyURI().toString()
+											+ "' in " + EcoreUtil.getURI(ePackages.get(i)));
 						}
 					}
 				}

@@ -18,65 +18,59 @@ import org.gervarro.democles.specification.impl.Constraint;
 import org.gervarro.democles.specification.impl.Variable;
 import org.moflon.sdm.compiler.democles.validation.scope.impl.PatternMatcherImpl;
 
-public class BindingAndBlackOperationBuilder implements OperationBuilder<GeneratorOperation, GeneratorVariable>
-{
-   private final Pattern pattern;
+public class BindingAndBlackOperationBuilder implements OperationBuilder<GeneratorOperation, GeneratorVariable> {
+	private final Pattern pattern;
 
-   private final Adornment adornment;
+	private final Adornment adornment;
 
-   public BindingAndBlackOperationBuilder(final Pattern pattern, final Adornment adornment)
-   {
-      this.pattern = pattern;
-      this.adornment = adornment;
-   }
+	public BindingAndBlackOperationBuilder(final Pattern pattern, final Adornment adornment) {
+		this.pattern = pattern;
+		this.adornment = adornment;
+	}
 
-   @Override
-   public final List<GeneratorOperation> getConstraintOperations(Constraint constraint, List<GeneratorVariable> parameters)
-   {
-      ConstraintType cType = constraint.getType();
-      if (cType instanceof PatternInvocationConstraintType)
-      {
-         PatternInvocationConstraintType invocation = (PatternInvocationConstraintType) cType;
-         if (invocation.isPositive())
-         {
-            PatternBody body = pattern.getBodies().get(0);
+	@Override
+	public final List<GeneratorOperation> getConstraintOperations(Constraint constraint,
+			List<GeneratorVariable> parameters) {
+		ConstraintType cType = constraint.getType();
+		if (cType instanceof PatternInvocationConstraintType) {
+			PatternInvocationConstraintType invocation = (PatternInvocationConstraintType) cType;
+			if (invocation.isPositive()) {
+				PatternBody body = pattern.getBodies().get(0);
 
-            // Prepare initial adornment
-            Adornment current = PatternMatcherImpl.getBodyAdornment(pattern, adornment);
+				// Prepare initial adornment
+				Adornment current = PatternMatcherImpl.getBodyAdornment(pattern, adornment);
 
-            // Apply operations one by one
-            for (org.gervarro.democles.specification.emf.Constraint c : body.getConstraints())
-            {
-               if (c instanceof PatternInvocationConstraint)
-               {
-                  PatternInvocationConstraint pic = (PatternInvocationConstraint) c;
+				// Apply operations one by one
+				for (org.gervarro.democles.specification.emf.Constraint c : body.getConstraints()) {
+					if (c instanceof PatternInvocationConstraint) {
+						PatternInvocationConstraint pic = (PatternInvocationConstraint) c;
 
-                  Pattern emfPattern = pic.getInvokedPattern();
-                  org.gervarro.democles.specification.impl.Pattern internalPattern = invocation.getInvokedPattern();
-                  if (PatternMatcherPlugin.getIdentifier(emfPattern.getName(), emfPattern.getSymbolicParameters().size()).equals(
-                        PatternMatcherPlugin.getIdentifier(internalPattern.getName(), internalPattern.getSymbolicParameters().size())))
-                  {
-                     int[] allBoundArray = new int[pic.getParameters().size()];
-                     Arrays.fill(allBoundArray, Adornment.BOUND);
-                     List<GeneratorOperation> result = new LinkedList<GeneratorOperation>();
-                     result.add(new GeneratorOperation(constraint, 
-                                                       parameters, 
-                                                       PatternMatcherImpl.getOperationAdornment(this.pattern, current, pic), 
-                                                       Adornment.create(allBoundArray), invocation));
-                     return result;
-                  }
-                  current = PatternMatcherImpl.getNextAdornment(this.pattern, current, pic);
-               }
-            }
-         }
-      }
+						Pattern emfPattern = pic.getInvokedPattern();
+						org.gervarro.democles.specification.impl.Pattern internalPattern = invocation
+								.getInvokedPattern();
+						if (PatternMatcherPlugin
+								.getIdentifier(emfPattern.getName(), emfPattern.getSymbolicParameters().size())
+								.equals(PatternMatcherPlugin.getIdentifier(internalPattern.getName(),
+										internalPattern.getSymbolicParameters().size()))) {
+							int[] allBoundArray = new int[pic.getParameters().size()];
+							Arrays.fill(allBoundArray, Adornment.BOUND);
+							List<GeneratorOperation> result = new LinkedList<GeneratorOperation>();
+							result.add(new GeneratorOperation(constraint, parameters,
+									PatternMatcherImpl.getOperationAdornment(this.pattern, current, pic),
+									Adornment.create(allBoundArray), invocation));
+							return result;
+						}
+						current = PatternMatcherImpl.getNextAdornment(this.pattern, current, pic);
+					}
+				}
+			}
+		}
 
-      return null;
-   }
+		return null;
+	}
 
-   @Override
-   public GeneratorOperation getVariableOperation(Variable variable, GeneratorVariable runtimeVariable)
-   {
-      return null;
-   }
+	@Override
+	public GeneratorOperation getVariableOperation(Variable variable, GeneratorVariable runtimeVariable) {
+		return null;
+	}
 }

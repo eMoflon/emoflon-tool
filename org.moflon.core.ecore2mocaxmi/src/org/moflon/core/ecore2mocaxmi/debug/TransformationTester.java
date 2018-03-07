@@ -1,7 +1,5 @@
 package org.moflon.core.ecore2mocaxmi.debug;
 
-
-
 import java.io.File;
 
 import org.eclipse.emf.common.util.URI;
@@ -25,23 +23,21 @@ public class TransformationTester {
 	public static void main(String[] args) {
 		Ecore2MocaXMIConverter converter = Ecore2mocaxmiFactory.eINSTANCE.createEcore2MocaXMIConverter();
 		Node tree;
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-			    "ecore", new EcoreResourceFactoryImpl());
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
 
-			ResourceSet rs = new ResourceSetImpl();
-			// enable extended metadata
-			final ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(rs.getPackageRegistry());
-			rs.getLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA,
-			    extendedMetaData);
-			File file= new File("instances/in/java.ecore");
-			Resource r = rs.getResource(URI.createFileURI(file.getAbsolutePath()), true);
-			EObject eObject = r.getContents().get(0);
-			if (eObject instanceof EPackage) {
-			    EPackage p = (EPackage)eObject;
-			    rs.getPackageRegistry().put(p.getNsURI(), p);
-			    tree = converter.convert(p, "MoDisco", null);
-			    eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), tree, "instances/out/java.moca.xmi");
-			}
+		ResourceSet rs = new ResourceSetImpl();
+		// enable extended metadata
+		final ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(rs.getPackageRegistry());
+		rs.getLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+		File file = new File("instances/in/java.ecore");
+		Resource r = rs.getResource(URI.createFileURI(file.getAbsolutePath()), true);
+		EObject eObject = r.getContents().get(0);
+		if (eObject instanceof EPackage) {
+			EPackage p = (EPackage) eObject;
+			rs.getPackageRegistry().put(p.getNsURI(), p);
+			tree = converter.convert(p, "MoDisco", null);
+			eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), tree, "instances/out/java.moca.xmi");
+		}
 	}
-	
+
 }

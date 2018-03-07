@@ -9,7 +9,7 @@ public class MoflonGenModelFactory extends GenModelFactoryImpl {
 	public GenPackage createGenPackage() {
 		return new MoflonGenPackage();
 	}
-	
+
 	public GenClass createGenClass() {
 		return new MoflonGenClass();
 	}

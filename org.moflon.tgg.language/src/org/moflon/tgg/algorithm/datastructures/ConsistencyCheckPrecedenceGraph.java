@@ -9,7 +9,7 @@ import org.moflon.tgg.runtime.TripleMatch;
 import org.moflon.tgg.runtime.TripleMatchNodeMapping;
 
 public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructure<CCMatch> {
-	
+
 	@Override
 	public Collection<EObject> getContextElements(CCMatch m) {
 		return m.getContextHashSet();
@@ -19,11 +19,10 @@ public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructure<CCMatch
 	public Collection<EObject> getCreatedElements(CCMatch m) {
 		return m.getCreatedHashSet();
 	}
-	
-	public void collectPrecedences(CCMatch m){
+
+	public void collectPrecedences(CCMatch m) {
 		calculateTables(m);
 	}
-
 
 	@Override
 	protected CCMatch fromEMF(TripleMatch m) {
@@ -34,29 +33,29 @@ public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructure<CCMatch
 	protected TripleMatch toEMF(CCMatch m) {
 		org.moflon.tgg.runtime.TripleMatch tripleMatch = org.moflon.tgg.runtime.RuntimeFactory.eINSTANCE
 				.createTripleMatch();
-		
+
 		tripleMatch.setRuleName(m.getRuleName());
-		
+
 		Match srcMatch = m.getSourceMatch();
 		Match trgMatch = m.getTargetMatch();
-		
+
 		tripleMatch.getSourceElements().addAll(srcMatch.getContextHashSet());
 		tripleMatch.getSourceElements().addAll(srcMatch.getCreatedHashSet());
-		
+
 		tripleMatch.getTargetElements().addAll(trgMatch.getContextHashSet());
 		tripleMatch.getTargetElements().addAll(trgMatch.getCreatedHashSet());
-		
+
 		tripleMatch.getCorrespondenceElements().addAll(m.getAllContextElements());
 		tripleMatch.getCorrespondenceElements().addAll(m.getCreateCorr());
-		
+
 		tripleMatch.getContextElements().addAll(m.getContextHashSet());
 		tripleMatch.getCreatedElements().addAll(m.getCreatedHashSet());
-		
+
 		addEdges(tripleMatch);
-		
+
 		transferNodeMappings(tripleMatch, srcMatch);
 		transferNodeMappings(tripleMatch, trgMatch);
-		//TODO: correspondence node mappings are missing here
+		// TODO: correspondence node mappings are missing here
 
 		return tripleMatch;
 	}
@@ -70,7 +69,5 @@ public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructure<CCMatch
 			tripleMatch.getNodeMappings().add(nodeMapping);
 		});
 	}
-	
-
 
 }

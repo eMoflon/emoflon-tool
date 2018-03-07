@@ -25,15 +25,15 @@ import org.moflon.tgg.language.csp.TGGConstraint;
 
 public class SimpleCombiner implements Combiner<SimpleCombiner, TGGConstraint> {
 	private final CodeGeneratorChain<TGGConstraint> last;
-	
+
 	public SimpleCombiner() {
 		this.last = null;
 	}
-	
+
 	private SimpleCombiner(final SimpleCombiner src, final TGGConstraint second) {
 		this.last = new CodeGeneratorChain<TGGConstraint>(second, src.last);
 	}
-	
+
 	public final SimpleCombiner combine(final TGGConstraint second) {
 		return new SimpleCombiner(this, second);
 	}
@@ -41,7 +41,7 @@ public class SimpleCombiner implements Combiner<SimpleCombiner, TGGConstraint> {
 	public final boolean hasSameOrigin(TGGConstraint operation) {
 		return last != null && last.getValue() == operation;
 	}
-	
+
 	public final CodeGeneratorChain<TGGConstraint> getRoot() {
 		return last;
 	}

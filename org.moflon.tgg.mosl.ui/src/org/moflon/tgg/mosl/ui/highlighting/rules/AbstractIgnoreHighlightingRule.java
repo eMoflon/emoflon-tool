@@ -16,19 +16,19 @@ public abstract class AbstractIgnoreHighlightingRule extends AbstractHighlightin
 		return null;
 	}
 
-	protected void setHighlighting(INode node){
-		//do nothing
+	protected void setHighlighting(INode node) {
+		// do nothing
 	}
-	
-	public void setHighlightingConfiguration(IHighlightingConfigurationAcceptor acceptor){
-		//do nothing
+
+	public void setHighlightingConfiguration(IHighlightingConfigurationAcceptor acceptor) {
+		// do nothing
 	}
-	
+
 	@Override
 	protected boolean getHighlightingConditions(EObject moslObject, INode node) {
 		return getIgnoreConditions(moslObject, node);
 	}
-	
+
 	protected abstract boolean getIgnoreConditions(EObject moslObject, INode node);
 
 }

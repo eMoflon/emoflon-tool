@@ -17,61 +17,53 @@ import org.moflon.core.ui.MoflonPerspective;
 /**
  * Triggers the autostart method of the test activator
  */
-public class StartUp implements IStartup
-{
+public class StartUp implements IStartup {
 
-   private static final Logger logger = Logger.getLogger(StartUp.class);
+	private static final Logger logger = Logger.getLogger(StartUp.class);
 
-   @Override
-   public void earlyStartup()
-   {
-      final Job job = new Job("Moflon: Autostart ...") {
-         @Override
-         protected IStatus run(final IProgressMonitor monitor)
-         {
-            final SubMonitor subMon = SubMonitor.convert(monitor, "eMoflon Autostart", 100);
-            runAutoSetup(subMon.split(100));
-            return Status.OK_STATUS;
+	@Override
+	public void earlyStartup() {
+		final Job job = new Job("Moflon: Autostart ...") {
+			@Override
+			protected IStatus run(final IProgressMonitor monitor) {
+				final SubMonitor subMon = SubMonitor.convert(monitor, "eMoflon Autostart", 100);
+				runAutoSetup(subMon.split(100));
+				return Status.OK_STATUS;
 
-         }
-      };
-      job.schedule();
-   }
+			}
+		};
+		job.schedule();
+	}
 
-   private void runAutoSetup(final IProgressMonitor monitor)
-   {
-      final IWorkbench workbench = PlatformUI.getWorkbench();
+	private void runAutoSetup(final IProgressMonitor monitor) {
+		final IWorkbench workbench = PlatformUI.getWorkbench();
 
-      workbench.getDisplay().asyncExec(new Runnable() {
-         @Override
-         public void run()
-         {
-            final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-            if (window != null)
-            {
-               if (workspaceContainsNoProjects())
-               {
-                  IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		workbench.getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+				if (window != null) {
+					if (workspaceContainsNoProjects()) {
+						IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
-                  MoflonPerspective.switchToMoflonPerspective(workbench);
+						MoflonPerspective.switchToMoflonPerspective(workbench);
 
-                  final String workspaceName = root.getLocation().lastSegment();
+						final String workspaceName = root.getLocation().lastSegment();
 
-                  logger.debug("Autorunning workspace '" + workspaceName + "'");
+						logger.debug("Autorunning workspace '" + workspaceName + "'");
 
-                  new EnterpriseArchitectAwareWorkspaceInstaller().installWorkspaceByName(workspaceName);
+						new EnterpriseArchitectAwareWorkspaceInstaller().installWorkspaceByName(workspaceName);
 
-               }
+					}
 
-            }
-         }
+				}
+			}
 
-      });
-   }
+		});
+	}
 
-   private boolean workspaceContainsNoProjects()
-   {
-      final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-      return root.getProjects().length == 0;
-   }
+	private boolean workspaceContainsNoProjects() {
+		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		return root.getProjects().length == 0;
+	}
 }

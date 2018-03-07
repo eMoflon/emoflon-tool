@@ -13,8 +13,9 @@ import org.stringtemplate.v4.Interpreter;
 import org.stringtemplate.v4.ST;
 
 public class PatternMatcherModelAdaptor extends ParameterHandler {
-	
-	public synchronized Object getProperty(Interpreter interpreter, ST template, Object object, Object property, String propertyName) {
+
+	public synchronized Object getProperty(Interpreter interpreter, ST template, Object object, Object property,
+			String propertyName) {
 		if (object instanceof GeneratorOperation) {
 			if ("freeParameters".equals(propertyName)) {
 				GeneratorOperation operation = (GeneratorOperation) object;
@@ -53,7 +54,7 @@ public class PatternMatcherModelAdaptor extends ParameterHandler {
 		}
 		return super.toString(o, formatString, locale);
 	}
-	
+
 	private final String getJavaSafeVariable(String name) {
 		if ("this".equals(name)) {
 			return "_this";

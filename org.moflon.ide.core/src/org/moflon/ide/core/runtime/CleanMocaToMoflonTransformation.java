@@ -17,16 +17,13 @@ import MocaTree.Node;
 
 public class CleanMocaToMoflonTransformation extends BasicResourceFillingMocaToMoflonTransformation {
 
-	public CleanMocaToMoflonTransformation(
-			final ResourceSet set,
-			final MetamodelBuilder metamodelBuilder,
+	public CleanMocaToMoflonTransformation(final ResourceSet set, final MetamodelBuilder metamodelBuilder,
 			final IProject metamodelProject) {
 		super(set, metamodelBuilder, metamodelProject);
 	}
 
 	@Override
-	public void handleOutermostPackage(final Node node,
-			final EPackage outermostPackage) {
+	public void handleOutermostPackage(final Node node, final EPackage outermostPackage) {
 		final String projectName = getProjectName(node);
 		final String exportAttribute = lookupAttribute(node, MocaTreeConstants.MOCA_TREE_ATTRIBUTE_EXPORT);
 		if (isExported(exportAttribute)) {
@@ -36,11 +33,11 @@ public class CleanMocaToMoflonTransformation extends BasicResourceFillingMocaToM
 				final IFolder modelFolder = workspaceProject.getFolder(WorkspaceHelper.MODEL_FOLDER);
 				try {
 					if (MocaTreeConstants.MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT.equals(nodeName)) {
-						final IFile ecoreFile = modelFolder.getFile(getEcoreFileName(node) + WorkspaceHelper.ECORE_FILE_EXTENSION);
+						final IFile ecoreFile = modelFolder
+								.getFile(getEcoreFileName(node) + WorkspaceHelper.ECORE_FILE_EXTENSION);
 						ecoreFile.delete(true, null);
 					} else if (MocaTreeConstants.MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT.equals(nodeName)) {
-						final String[] patterns = new String[] {
-								"model/" + getEcoreFileName(node) + ".pre.*" };
+						final String[] patterns = new String[] { "model/" + getEcoreFileName(node) + ".pre.*" };
 						final CleanVisitor cleanVisitor = new CleanVisitor(workspaceProject,
 								new AntPatternCondition(patterns));
 						workspaceProject.accept(cleanVisitor, IResource.DEPTH_INFINITE, IResource.NONE);

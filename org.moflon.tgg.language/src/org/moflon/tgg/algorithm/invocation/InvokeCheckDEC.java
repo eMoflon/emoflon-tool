@@ -10,26 +10,25 @@ import org.eclipse.emf.ecore.EParameter;
 import org.moflon.tgg.algorithm.datastructures.TripleMatch;
 import org.moflon.tgg.language.analysis.RulesTable;
 
-
-public class InvokeCheckDEC implements
-		Predicate<TripleMatch> {
+public class InvokeCheckDEC implements Predicate<TripleMatch> {
 
 	private RulesTable lookupMethods;
-	
+
 	public InvokeCheckDEC(RulesTable lookupMethods) {
 		this.lookupMethods = lookupMethods;
 	}
 
-   @Override
-   public boolean test(TripleMatch match)
-   {
-      EOperation checkDECop = lookupMethods.getRules().stream().filter(r -> r.getRuleName().equals(match.getRuleName())).findAny().get().getCheckDECMethod();
-      EList<EParameter> checkDECparameters = checkDECop.getEParameters();
-      
-      EList<EObject> parameterBindings = new BasicEList<>();
-      for(int i = 0; i < checkDECparameters.size(); i++){
-         parameterBindings.add(i, match.getNode(checkDECparameters.get(i).getName()));
-      }     
-      return (Boolean) InvokeUtil.invokeOperationWithNArguments(checkDECop.getEContainingClass(), checkDECop, parameterBindings);   
-   }
+	@Override
+	public boolean test(TripleMatch match) {
+		EOperation checkDECop = lookupMethods.getRules().stream()
+				.filter(r -> r.getRuleName().equals(match.getRuleName())).findAny().get().getCheckDECMethod();
+		EList<EParameter> checkDECparameters = checkDECop.getEParameters();
+
+		EList<EObject> parameterBindings = new BasicEList<>();
+		for (int i = 0; i < checkDECparameters.size(); i++) {
+			parameterBindings.add(i, match.getNode(checkDECparameters.get(i).getName()));
+		}
+		return (Boolean) InvokeUtil.invokeOperationWithNArguments(checkDECop.getEContainingClass(), checkDECop,
+				parameterBindings);
+	}
 }

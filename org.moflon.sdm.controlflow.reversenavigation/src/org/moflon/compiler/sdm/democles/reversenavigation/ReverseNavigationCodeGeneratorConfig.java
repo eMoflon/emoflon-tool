@@ -14,34 +14,32 @@ import org.moflon.compiler.sdm.democles.PatternMatcherCompiler;
 import org.moflon.compiler.sdm.democles.TemplateConfigurationProvider;
 import org.moflon.core.preferences.EMoflonPreferencesStorage;
 
-public class ReverseNavigationCodeGeneratorConfig extends DefaultCodeGeneratorConfig
-{
-   protected WeightedOperationBuilder<GeneratorOperation> builder =
-         new ReverseNavigationEnabledWeightedOperationBuilder<GeneratorOperation>();
+public class ReverseNavigationCodeGeneratorConfig extends DefaultCodeGeneratorConfig {
+	protected WeightedOperationBuilder<GeneratorOperation> builder = new ReverseNavigationEnabledWeightedOperationBuilder<GeneratorOperation>();
 
-   protected final DefaultAlgorithm<SimpleCombiner, GeneratorOperation> algorithm =
-         new DefaultAlgorithm<SimpleCombiner, GeneratorOperation>(builder);
+	protected final DefaultAlgorithm<SimpleCombiner, GeneratorOperation> algorithm = new DefaultAlgorithm<SimpleCombiner, GeneratorOperation>(
+			builder);
 
-   public ReverseNavigationCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project, final EMoflonPreferencesStorage preferencesStorage)
-   {
-      super(resourceSet, preferencesStorage);
-   }
+	public ReverseNavigationCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project,
+			final EMoflonPreferencesStorage preferencesStorage) {
+		super(resourceSet, preferencesStorage);
+	}
 
-   @Override
-   protected PatternMatcherCompiler configureBlackPatternMatcherCompiler(Resource resource)
-   {
-      final CompilerPatternBuilder blackCompilerPatternBuilder = new CompilerPatternBuilder();
-      blackCompilerPatternBuilder.addOperationBuilder(new ReverseNavigationOperationBuilder());
-      blackCompilerPatternBuilder.addOperationBuilder(relationalOperationBuilder);
-      blackCompilerPatternBuilder.setAlgorithm(algorithm);
+	@Override
+	protected PatternMatcherCompiler configureBlackPatternMatcherCompiler(Resource resource) {
+		final CompilerPatternBuilder blackCompilerPatternBuilder = new CompilerPatternBuilder();
+		blackCompilerPatternBuilder.addOperationBuilder(new ReverseNavigationOperationBuilder());
+		blackCompilerPatternBuilder.addOperationBuilder(relationalOperationBuilder);
+		blackCompilerPatternBuilder.setAlgorithm(algorithm);
 
-      final PatternMatcherCompiler blackPatternMatcherCompiler = new PatternMatcherCompiler(bindingAndBlackPatternBuilder, blackCompilerPatternBuilder);
-      resource.getContents().add(blackPatternMatcherCompiler);
-      return blackPatternMatcherCompiler;
-   }
+		final PatternMatcherCompiler blackPatternMatcherCompiler = new PatternMatcherCompiler(
+				bindingAndBlackPatternBuilder, blackCompilerPatternBuilder);
+		resource.getContents().add(blackPatternMatcherCompiler);
+		return blackPatternMatcherCompiler;
+	}
 
-    @Override
-    public TemplateConfigurationProvider createTemplateConfiguration(GenModel genModel) {
-       return new ReverseNavigationTemplateConfig(genModel);
-    }
+	@Override
+	public TemplateConfigurationProvider createTemplateConfiguration(GenModel genModel) {
+		return new ReverseNavigationTemplateConfig(genModel);
+	}
 }

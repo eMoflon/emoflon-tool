@@ -25,28 +25,30 @@ public class PatternMatcherCompiler extends PatternMatcherImpl {
 	}
 
 	@Override
-   public ValidationReport generateSearchPlan(final Pattern pattern, final Adornment adornment, final boolean isMultipleMatch) {
+	public ValidationReport generateSearchPlan(final Pattern pattern, final Adornment adornment,
+			final boolean isMultipleMatch) {
 		ValidationReport report = ResultFactory.eINSTANCE.createValidationReport();
 		try {
 			generateSearchPlan(compilePattern(pattern, adornment), adornment);
 		} catch (final RuntimeException e) {
-		   PatternMatcherGenerator.createAndAddErrorMessage(pattern, report, "An " + e.getClass() + " occured: " + e.getMessage());
+			PatternMatcherGenerator.createAndAddErrorMessage(pattern, report,
+					"An " + e.getClass() + " occured: " + e.getMessage());
 		}
 		return report;
 	}
-	
+
 	protected CompilerPattern compilePattern(final Pattern pattern, final Adornment adornment) {
-		org.gervarro.democles.specification.impl.DefaultPattern patternRuntime = 
-				patternBuilder.build(pattern);
+		org.gervarro.democles.specification.impl.DefaultPattern patternRuntime = patternBuilder.build(pattern);
 		return compilablePatternBuilder.build(patternRuntime);
 	}
-	
+
 	static Chain<GeneratorOperation> generateSearchPlan(final CompilerPattern pattern, final Adornment adornment) {
 		CompilerPatternBody body = pattern.getBodies().get(0);
 		return generateSearchPlan(body, adornment);
 	}
-	
+
 	static Chain<GeneratorOperation> generateSearchPlan(final CompilerPatternBody body, final Adornment adornment) {
-		return body.getHeader().getBuilder().generateReverseSearchPlan(body.getOperations(), body.calculateAdornment(adornment));
+		return body.getHeader().getBuilder().generateReverseSearchPlan(body.getOperations(),
+				body.calculateAdornment(adornment));
 	}
 }

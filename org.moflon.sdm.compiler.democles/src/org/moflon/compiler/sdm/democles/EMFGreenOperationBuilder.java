@@ -18,36 +18,34 @@ import org.gervarro.democles.specification.impl.Variable;
 
 public class EMFGreenOperationBuilder extends BasicEMFOperationBuilder {
 
-   public List<GeneratorOperation> getConstraintOperations(Constraint constraint, List<GeneratorVariable> parameters) {
-      if (constraint.getType() instanceof EMFConstraint<?>) {
-         List<GeneratorOperation> result = super.getConstraintOperations(constraint, parameters);
-         if (result == null) {
-        	 result = new LinkedList<GeneratorOperation>();
-         }
-         EMFConstraint<?> cType = (EMFConstraint<?>) constraint.getType();
-         if (cType instanceof StructuralFeature<?>) {
-            result.add(new GeneratorOperation(constraint, parameters, 
-                                              Adornment.create(Adornment.BOUND, Adornment.BOUND), 
-                                              Adornment.create(Adornment.BOUND, Adornment.BOUND), 
-                                              cType, GeneratorOperation.ALWAYS_SUCCESSFUL));
-         }
-         return result;
-      }
-      return super.getConstraintOperations(constraint, parameters);
-   }
+	public List<GeneratorOperation> getConstraintOperations(Constraint constraint, List<GeneratorVariable> parameters) {
+		if (constraint.getType() instanceof EMFConstraint<?>) {
+			List<GeneratorOperation> result = super.getConstraintOperations(constraint, parameters);
+			if (result == null) {
+				result = new LinkedList<GeneratorOperation>();
+			}
+			EMFConstraint<?> cType = (EMFConstraint<?>) constraint.getType();
+			if (cType instanceof StructuralFeature<?>) {
+				result.add(new GeneratorOperation(constraint, parameters,
+						Adornment.create(Adornment.BOUND, Adornment.BOUND),
+						Adornment.create(Adornment.BOUND, Adornment.BOUND), cType,
+						GeneratorOperation.ALWAYS_SUCCESSFUL));
+			}
+			return result;
+		}
+		return super.getConstraintOperations(constraint, parameters);
+	}
 
-   public GeneratorOperation getVariableOperation(Variable variable, GeneratorVariable runtimeVariable) {
-      if (variable.getType() instanceof EMFVariable) {
-         EClassifier eClassifier = ((EMFVariable) variable.getType()).getLinkedElement();
-         if (eClassifier instanceof EClass) {
-             return new GeneratorOperation(variable,
-                  Collections.singletonList(runtimeVariable),
-                  Adornment.create(Adornment.FREE),
-                  Adornment.create(Adornment.BOUND),
-                  variable.getType(), GeneratorOperation.ALWAYS_SUCCESSFUL);
-         }
-      }
-      return super.getVariableOperation(variable, runtimeVariable);
-   }
+	public GeneratorOperation getVariableOperation(Variable variable, GeneratorVariable runtimeVariable) {
+		if (variable.getType() instanceof EMFVariable) {
+			EClassifier eClassifier = ((EMFVariable) variable.getType()).getLinkedElement();
+			if (eClassifier instanceof EClass) {
+				return new GeneratorOperation(variable, Collections.singletonList(runtimeVariable),
+						Adornment.create(Adornment.FREE), Adornment.create(Adornment.BOUND), variable.getType(),
+						GeneratorOperation.ALWAYS_SUCCESSFUL);
+			}
+		}
+		return super.getVariableOperation(variable, runtimeVariable);
+	}
 
 }

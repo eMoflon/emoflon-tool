@@ -3,8 +3,6 @@
  */
 package org.moflon.tgg.mosl.ui;
 
-
-
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ide.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
 import org.eclipse.xtext.ide.editor.syntaxcoloring.DefaultSemanticHighlightingCalculator;
@@ -24,17 +22,16 @@ public class TGGUiModule extends org.moflon.tgg.mosl.ui.AbstractTGGUiModule {
 		super(plugin);
 		MOSLHighlightProviderHelper.init();
 	}
-	
-	public Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration()
-	{
-	   return MOSLHighlightingConfiguration.class;
+
+	public Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration() {
+		return MOSLHighlightingConfiguration.class;
 	}
-	
+
 	@Override
 	public void configure(Binder binder) {
 		binder.bind(DefaultSemanticHighlightingCalculator.class).to(MOSLSemanticHighlightCalculator.class);
 		binder.bind(AbstractAntlrTokenToAttributeIdMapper.class).to(MOSLTokenMapper.class);
 		super.configure(binder);
-		
+
 	}
 }

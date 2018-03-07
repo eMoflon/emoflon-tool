@@ -25,176 +25,148 @@ import SDMLanguage.patterns.BindingOperator;
 import SDMLanguage.patterns.LinkVariable;
 import SDMLanguage.patterns.ObjectVariable;
 
-public class DataContainer
-{
+public class DataContainer {
 
-   private ModelgenStats modelgenStats;
+	private ModelgenStats modelgenStats;
 
-   private Map<EClass, List<EObject>> eclassToObjects = new HashMap<EClass, List<EObject>>();
+	private Map<EClass, List<EObject>> eclassToObjects = new HashMap<EClass, List<EObject>>();
 
-   private ResourceSet resourceSet;
+	private ResourceSet resourceSet;
 
-   private TempOutputContainer srcTempOutputContainer, trgTempOutputContainer;
+	private TempOutputContainer srcTempOutputContainer, trgTempOutputContainer;
 
-   private CorrespondenceModel correspondenceModel;
+	private CorrespondenceModel correspondenceModel;
 
-   private Map<String, RuleAnalysis> ruleNameToAnalaysis = new HashMap<String, RuleAnalysis>();
+	private Map<String, RuleAnalysis> ruleNameToAnalaysis = new HashMap<String, RuleAnalysis>();
 
-   public DataContainer()
-   {
+	public DataContainer() {
 
-      this.resourceSet = eMoflonEMFUtil.createDefaultResourceSet();
-      
-      srcTempOutputContainer = AlgorithmFactory.eINSTANCE.createTempOutputContainer();
-      resourceSet.createResource(eMoflonEMFUtil.createFileURI("srcTempOutputContainer", false)).getContents().add(srcTempOutputContainer);
-      
-      trgTempOutputContainer = AlgorithmFactory.eINSTANCE.createTempOutputContainer();
-      resourceSet.createResource(eMoflonEMFUtil.createFileURI("trgTempOutputContainer", false)).getContents().add(trgTempOutputContainer);
-      
-      correspondenceModel = RuntimeFactory.eINSTANCE.createCorrespondenceModel();
-      resourceSet.createResource(eMoflonEMFUtil.createFileURI("correspondenceModel", false)).getContents().add(correspondenceModel);
+		this.resourceSet = eMoflonEMFUtil.createDefaultResourceSet();
 
-      modelgenStats = new ModelgenStats();
+		srcTempOutputContainer = AlgorithmFactory.eINSTANCE.createTempOutputContainer();
+		resourceSet.createResource(eMoflonEMFUtil.createFileURI("srcTempOutputContainer", false)).getContents()
+				.add(srcTempOutputContainer);
 
-   }
+		trgTempOutputContainer = AlgorithmFactory.eINSTANCE.createTempOutputContainer();
+		resourceSet.createResource(eMoflonEMFUtil.createFileURI("trgTempOutputContainer", false)).getContents()
+				.add(trgTempOutputContainer);
 
-   public ResourceSet getResourceSet()
-   {
-      return resourceSet;
-   }
+		correspondenceModel = RuntimeFactory.eINSTANCE.createCorrespondenceModel();
+		resourceSet.createResource(eMoflonEMFUtil.createFileURI("correspondenceModel", false)).getContents()
+				.add(correspondenceModel);
 
-   public void extractGeneratedObjects(ModelgeneratorRuleResult result, long duration)
-   {
+		modelgenStats = new ModelgenStats();
 
-      ModelgeneratorRuleResult ruleResult = (ModelgeneratorRuleResult) result;
+	}
 
-      List<EObject> tempList = new ArrayList<EObject>();
+	public ResourceSet getResourceSet() {
+		return resourceSet;
+	}
 
-      tempList.addAll(ruleResult.getSourceObjects());
-      tempList.addAll(ruleResult.getTargetObjects());
+	public void extractGeneratedObjects(ModelgeneratorRuleResult result, long duration) {
 
-      for (EObject eobject : tempList)
-      {
-         EClass eobjectEClass = eobject.eClass();
-         addNewObjectToMap(eobject, eobjectEClass);
-      }
-      for (EObject eobject : ruleResult.getCorrObjects())
-      {
-         EClass eobjectEClass = eobject.eClass();
-         addNewObjectToMap(eobject, eobjectEClass);
-         for (EClass superClass : eobjectEClass.getESuperTypes())
-         {
-            if (!superClass.getName().equals("AbstractCorrespondence"))
-            {
-               addNewObjectToMap(eobject, superClass);
-            }
-         }
-      }
+		ModelgeneratorRuleResult ruleResult = (ModelgeneratorRuleResult) result;
 
-      addToContainerIfNecessary(ruleResult.getSourceObjects(), srcTempOutputContainer.getPotentialRoots());
-      addToContainerIfNecessary(ruleResult.getTargetObjects(), trgTempOutputContainer.getPotentialRoots());
-      addToContainerIfNecessary(ruleResult.getCorrObjects(), correspondenceModel.getCorrespondences());
+		List<EObject> tempList = new ArrayList<EObject>();
 
-      modelgenStats.updateRulePerformCount(ruleResult.getRule(), ruleResult.getPerformCount());
-      modelgenStats.updateRuleDuration(ruleResult.getRule(), duration);
+		tempList.addAll(ruleResult.getSourceObjects());
+		tempList.addAll(ruleResult.getTargetObjects());
 
-      if (ruleNameToAnalaysis.containsKey(ruleResult.getRule()))
-      {
-         modelgenStats.updateNodeEdgeCount(ruleNameToAnalaysis.get(ruleResult.getRule()), ruleResult.getPerformCount());
-      }
-   }
+		for (EObject eobject : tempList) {
+			EClass eobjectEClass = eobject.eClass();
+			addNewObjectToMap(eobject, eobjectEClass);
+		}
+		for (EObject eobject : ruleResult.getCorrObjects()) {
+			EClass eobjectEClass = eobject.eClass();
+			addNewObjectToMap(eobject, eobjectEClass);
+			for (EClass superClass : eobjectEClass.getESuperTypes()) {
+				if (!superClass.getName().equals("AbstractCorrespondence")) {
+					addNewObjectToMap(eobject, superClass);
+				}
+			}
+		}
 
-   private void addNewObjectToMap(EObject eobject, EClass eobjectEClass)
-   {
-      if (eclassToObjects.containsKey(eobjectEClass))
-      {
-         eclassToObjects.get(eobjectEClass).add(eobject);
-      } else
-      {
-         List<EObject> newEntryList = new ArrayList<EObject>();
-         newEntryList.add(eobject);
-         eclassToObjects.put(eobjectEClass, newEntryList);
-      }
-   }
+		addToContainerIfNecessary(ruleResult.getSourceObjects(), srcTempOutputContainer.getPotentialRoots());
+		addToContainerIfNecessary(ruleResult.getTargetObjects(), trgTempOutputContainer.getPotentialRoots());
+		addToContainerIfNecessary(ruleResult.getCorrObjects(), correspondenceModel.getCorrespondences());
 
-   private void addToContainerIfNecessary(List<EObject> from, EList<EObject> to)
-   {
-      for (EObject eObject : from)
-      {
-         if (eObject.eContainer() == null)
-         {
-            to.add(eObject);
-         }
-      }
-   }
+		modelgenStats.updateRulePerformCount(ruleResult.getRule(), ruleResult.getPerformCount());
+		modelgenStats.updateRuleDuration(ruleResult.getRule(), duration);
 
-   public List<EObject> getTypedEObjects(EClassifier eType)
-   {
-      return eclassToObjects.get(eType);
-   }
+		if (ruleNameToAnalaysis.containsKey(ruleResult.getRule())) {
+			modelgenStats.updateNodeEdgeCount(ruleNameToAnalaysis.get(ruleResult.getRule()),
+					ruleResult.getPerformCount());
+		}
+	}
 
-   public TempOutputContainer getSrcTempOutputContainer()
-   {
-      return srcTempOutputContainer;
-   }
+	private void addNewObjectToMap(EObject eobject, EClass eobjectEClass) {
+		if (eclassToObjects.containsKey(eobjectEClass)) {
+			eclassToObjects.get(eobjectEClass).add(eobject);
+		} else {
+			List<EObject> newEntryList = new ArrayList<EObject>();
+			newEntryList.add(eobject);
+			eclassToObjects.put(eobjectEClass, newEntryList);
+		}
+	}
 
-   public TempOutputContainer getTrgTempOutputContainer()
-   {
-      return trgTempOutputContainer;
-   }
+	private void addToContainerIfNecessary(List<EObject> from, EList<EObject> to) {
+		for (EObject eObject : from) {
+			if (eObject.eContainer() == null) {
+				to.add(eObject);
+			}
+		}
+	}
 
-   public CorrespondenceModel getCorrespondenceModel()
-   {
-      return correspondenceModel;
-   }
+	public List<EObject> getTypedEObjects(EClassifier eType) {
+		return eclassToObjects.get(eType);
+	}
 
-   public ModelgenStats getModelgenStats()
-   {
-      return this.modelgenStats;
-   }
+	public TempOutputContainer getSrcTempOutputContainer() {
+		return srcTempOutputContainer;
+	}
 
-   public Map<String, RuleAnalysis> getRuleNameToAnalaysis()
-   {
-      return ruleNameToAnalaysis;
-   }
+	public TempOutputContainer getTrgTempOutputContainer() {
+		return trgTempOutputContainer;
+	}
 
-   public void createRuleAnalysis(TGGRule rule)
-   {
-      RuleAnalysis newAnalysis = new RuleAnalysis(rule.getName());
-      for (ObjectVariable ov2 : rule.getObjectVariable())
-      {
-         if (ov2 instanceof TGGObjectVariable && ov2.getBindingOperator() == BindingOperator.CREATE)
-         {
-            TGGObjectVariable ov = (TGGObjectVariable) ov2;
-            if (ov.getDomain().getType() == DomainType.SOURCE)
-            {
-               newAnalysis.setGreenSrcNodes(newAnalysis.getGreenSrcNodes() + 1);
-            } else if (ov.getDomain().getType() == DomainType.TARGET)
-            {
-               newAnalysis.setGreenTrgNodes(newAnalysis.getGreenTrgNodes() + 1);
-            } else if (ov.getDomain().getType() == DomainType.CORRESPONDENCE)
-            {
-               newAnalysis.setGreenCorrNodes(newAnalysis.getGreenCorrNodes() + 1);
-            }
-         }
-      }
-      for (LinkVariable lv2 : rule.getLinkVariable())
-      {
-         if (lv2 instanceof TGGLinkVariable && lv2.getBindingOperator() == BindingOperator.CREATE)
-         {
-            TGGLinkVariable lv = (TGGLinkVariable) lv2;
-            if (lv.getDomain().getType() == DomainType.SOURCE)
-            {
-               newAnalysis.setGreenSrcEdges(newAnalysis.getGreenSrcEdges() + 1);
-            } else if (lv.getDomain().getType() == DomainType.TARGET)
-            {
-               newAnalysis.setGreenTrgEdges(newAnalysis.getGreenTrgEdges() + 1);
-            } else if (lv.getDomain().getType() == DomainType.CORRESPONDENCE)
-            {
-               newAnalysis.setGreenCorrEdges(newAnalysis.getGreenCorrEdges() + 1);
-            }
-         }
-      }
-      ruleNameToAnalaysis.put(rule.getName(), newAnalysis);
-   }
+	public CorrespondenceModel getCorrespondenceModel() {
+		return correspondenceModel;
+	}
+
+	public ModelgenStats getModelgenStats() {
+		return this.modelgenStats;
+	}
+
+	public Map<String, RuleAnalysis> getRuleNameToAnalaysis() {
+		return ruleNameToAnalaysis;
+	}
+
+	public void createRuleAnalysis(TGGRule rule) {
+		RuleAnalysis newAnalysis = new RuleAnalysis(rule.getName());
+		for (ObjectVariable ov2 : rule.getObjectVariable()) {
+			if (ov2 instanceof TGGObjectVariable && ov2.getBindingOperator() == BindingOperator.CREATE) {
+				TGGObjectVariable ov = (TGGObjectVariable) ov2;
+				if (ov.getDomain().getType() == DomainType.SOURCE) {
+					newAnalysis.setGreenSrcNodes(newAnalysis.getGreenSrcNodes() + 1);
+				} else if (ov.getDomain().getType() == DomainType.TARGET) {
+					newAnalysis.setGreenTrgNodes(newAnalysis.getGreenTrgNodes() + 1);
+				} else if (ov.getDomain().getType() == DomainType.CORRESPONDENCE) {
+					newAnalysis.setGreenCorrNodes(newAnalysis.getGreenCorrNodes() + 1);
+				}
+			}
+		}
+		for (LinkVariable lv2 : rule.getLinkVariable()) {
+			if (lv2 instanceof TGGLinkVariable && lv2.getBindingOperator() == BindingOperator.CREATE) {
+				TGGLinkVariable lv = (TGGLinkVariable) lv2;
+				if (lv.getDomain().getType() == DomainType.SOURCE) {
+					newAnalysis.setGreenSrcEdges(newAnalysis.getGreenSrcEdges() + 1);
+				} else if (lv.getDomain().getType() == DomainType.TARGET) {
+					newAnalysis.setGreenTrgEdges(newAnalysis.getGreenTrgEdges() + 1);
+				} else if (lv.getDomain().getType() == DomainType.CORRESPONDENCE) {
+					newAnalysis.setGreenCorrEdges(newAnalysis.getGreenCorrEdges() + 1);
+				}
+			}
+		}
+		ruleNameToAnalaysis.put(rule.getName(), newAnalysis);
+	}
 }

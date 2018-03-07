@@ -1,39 +1,37 @@
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.antlr.stringtemplate.StringTemplate;
-import org.antlr.stringtemplate.StringTemplateGroup;
-import org.antlr.stringtemplate.language.AngleBracketTemplateLexer;
-import org.moflon.TGGLanguageActivator;
-import org.moflon.tgg.language.csp.Adornment;
-import org.moflon.core.utilities.MoflonUtilitiesActivator;
-import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.tgg.csp.codegenerator.BasicFormatRenderer;
-import SDMLanguage.patterns.BindingOperator;
-import SDMLanguage.patterns.BindingSemantics;
-import SDMLanguage.patterns.ObjectVariable;
-import org.moflon.tgg.language.TGGRule;
-import org.moflon.tgg.language.algorithm.ApplicationTypes;
-import org.moflon.tgg.language.compiler.compilerfacade.CompilerfacadePackage;
-import org.moflon.tgg.language.compiler.compilerfacade.CspCodeGenerator;
-import org.moflon.tgg.language.compiler.compilerfacade.CspCodeGeneratorHelper;
-import org.moflon.tgg.language.csp.AttributeVariable;
-import org.moflon.tgg.language.csp.CSP;
-import org.moflon.tgg.language.csp.LocalVariable;
-import org.moflon.tgg.language.csp.OperationalCSP;
-import org.moflon.tgg.language.csp.OperationalCSPType;
-import org.moflon.tgg.language.csp.TGGConstraint;
-import org.moflon.tgg.language.csp.Variable;
+import  java.io.BufferedReader;
+import  java.io.IOException;
+import  java.io.InputStreamReader;
+import  java.net.URL;
+import  java.util.ArrayList;
+import  java.util.HashMap;
+import  java.util.List;
+import  java.util.Map;
+import  org.antlr.stringtemplate.StringTemplate;
+import  org.antlr.stringtemplate.StringTemplateGroup;
+import  org.antlr.stringtemplate.language.AngleBracketTemplateLexer;
+import  org.moflon.TGGLanguageActivator;
+import  org.moflon.tgg.language.csp.Adornment;
+import  org.moflon.core.utilities.WorkspaceHelper;
+import  org.moflon.tgg.csp.codegenerator.BasicFormatRenderer;
+import  SDMLanguage.patterns.BindingOperator;
+import  SDMLanguage.patterns.BindingSemantics;
+import  SDMLanguage.patterns.ObjectVariable;
+import  org.moflon.tgg.language.TGGRule;
+import  org.moflon.tgg.language.algorithm.ApplicationTypes;
+import  org.moflon.tgg.language.compiler.compilerfacade.CompilerfacadePackage;
+import  org.moflon.tgg.language.compiler.compilerfacade.CspCodeGenerator;
+import  org.moflon.tgg.language.compiler.compilerfacade.CspCodeGeneratorHelper;
+import  org.moflon.tgg.language.csp.AttributeVariable;
+import  org.moflon.tgg.language.csp.CSP;
+import  org.moflon.tgg.language.csp.LocalVariable;
+import  org.moflon.tgg.language.csp.OperationalCSP;
+import  org.moflon.tgg.language.csp.OperationalCSPType;
+import  org.moflon.tgg.language.csp.TGGConstraint;
+import  org.moflon.tgg.language.csp.Variable;
 
 partial class CspCodeGeneratorImpl {
 
-@members <--
+@members<--
 
    private StringTemplateGroup stg;
 
@@ -258,7 +256,7 @@ partial class CspCodeGeneratorImpl {
    {
       try
       {
-         URL templateURL = MoflonUtilitiesActivator.getPathRelToPlugIn("/templates/Csp.stg", WorkspaceHelper.getPluginId(getClass()));
+         URL templateURL = WorkspaceHelper.getPathRelToPlugIn("/templates/Csp.stg", WorkspaceHelper.getPluginId(getClass()));
          BufferedReader reader = new BufferedReader(new InputStreamReader(templateURL.openStream()));
          stg = new StringTemplateGroup(reader, AngleBracketTemplateLexer.class);
       } catch (IOException e)
@@ -284,14 +282,13 @@ partial class CspCodeGeneratorImpl {
       }
 
    }
-   
--->
 
-@model getSolveCSPCode () <--
-      return result.toString();
--->
+   -->
 
-@model performCodeGen (ApplicationTypes direction, OperationalCSPType operationalRule) <--
+@model getSolveCSPCode ()<--
+      return result.toString();-->
+
+@model performCodeGen (ApplicationTypes direction, OperationalCSPType operationalRule)<--
       OperationalCSP csp = getCspCodeGeneratorHelper().getOperationalCSP(direction, operationalRule);
       result = new StringBuilder();
       // always create csp object because the method must not return null
@@ -316,10 +313,9 @@ partial class CspCodeGeneratorImpl {
          emitMatchSnapshot();
 
       // return the possibly empty csp object
-      result.append("return csp;");
--->
+      result.append("return csp;");-->
 
-@model getCheckCode (ApplicationTypes direction, OperationalCSPType operationalRule) <--
+@model getCheckCode (ApplicationTypes direction, OperationalCSPType operationalRule)<--
       // return empty string, if there is no CSP in this rule.
       if (getCspCodeGeneratorHelper().getOperationalCSP(direction, operationalRule) == null)
       {
@@ -327,10 +323,9 @@ partial class CspCodeGeneratorImpl {
       } else
       {
          return "return csp.check();";
-      }
--->
+      }-->
 
-@model computeUsedAdornments (ApplicationTypes direction, CSP csp) <--
+@model computeUsedAdornments (ApplicationTypes direction, CSP csp)<--
       if (direction == ApplicationTypes.SIMULTANEOUS)
       {
          for (TGGConstraint constraint : csp.getConstraints())
@@ -354,7 +349,6 @@ partial class CspCodeGeneratorImpl {
 
             }
          }
-      }
--->
+      }-->
 
 }

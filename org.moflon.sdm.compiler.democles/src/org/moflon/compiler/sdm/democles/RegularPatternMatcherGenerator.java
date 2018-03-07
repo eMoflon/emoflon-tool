@@ -8,14 +8,14 @@ import org.moflon.core.preferences.EMoflonPreferencesStorage;
 
 public class RegularPatternMatcherGenerator extends PatternMatcherGenerator {
 
-	public RegularPatternMatcherGenerator(PatternMatcherCompiler delegate,
-			String patternType, EMoflonPreferencesStorage preferencesStorage) {
+	public RegularPatternMatcherGenerator(PatternMatcherCompiler delegate, String patternType,
+			EMoflonPreferencesStorage preferencesStorage) {
 		super(delegate, patternType, preferencesStorage);
 	}
 
 	@Override
 	public SearchPlanAdapter createSearchPlanAdapter(CompilerPatternBody body, Adornment adornment,
-				Chain<GeneratorOperation> searchPlan, boolean multipleMatches) {
+			Chain<GeneratorOperation> searchPlan, boolean multipleMatches) {
 		return new RegularPatternMatcher(patternType, body, adornment, searchPlan, multipleMatches);
 	}
 }

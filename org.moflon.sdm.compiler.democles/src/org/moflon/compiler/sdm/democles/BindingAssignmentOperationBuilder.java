@@ -13,14 +13,12 @@ import org.gervarro.democles.specification.impl.Constraint;
 public class BindingAssignmentOperationBuilder extends AssignmentOperationBuilder {
 
 	@Override
-	public List<GeneratorOperation> getConstraintOperations(
-			Constraint constraint, List<GeneratorVariable> parameters) {
+	public List<GeneratorOperation> getConstraintOperations(Constraint constraint, List<GeneratorVariable> parameters) {
 		ConstraintType cType = constraint.getType();
 		if (cType == CoreConstraintModule.EQUAL) {
 			List<GeneratorOperation> result = new LinkedList<GeneratorOperation>();
 			final boolean isTypeCheckNeeded = isTypeCheckNeeded(parameters);
-			result.add(new GeneratorOperation(constraint, parameters,
-					Adornment.create(Adornment.FREE, Adornment.BOUND),
+			result.add(new GeneratorOperation(constraint, parameters, Adornment.create(Adornment.FREE, Adornment.BOUND),
 					Adornment.create(isTypeCheckNeeded ? Adornment.NOT_TYPECHECKED : Adornment.BOUND, Adornment.BOUND),
 					CoreConstraintModule.EQUAL));
 			return result;

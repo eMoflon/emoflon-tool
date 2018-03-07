@@ -15,59 +15,61 @@ import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.ide.core.runtime.builders.MetamodelBuilder;
 import org.moflon.ide.core.runtime.natures.MetamodelNature;
 
-public class MetamodelProjectCreator extends MoflonProjectCreator
-{
-   private static final List<String> GITIGNORE_LINES = Arrays.asList(//
-         "/.temp", //
-         "/*.ldb");
+public class MetamodelProjectCreator extends MoflonProjectCreator {
+	private static final List<String> GITIGNORE_LINES = Arrays.asList(//
+			"/.temp", //
+			"/*.ldb");
 
-   /**
-    * Pass-through constructor to {@link MoflonProjectCreator}
-    * @param project the project to create
-    * @param projectProperties the metadata to use
-    * @param projectConfigurator the project configurator
-    */
-   public MetamodelProjectCreator(final IProject project, final PluginProperties projectProperties, final MoflonProjectConfigurator projectConfigurator)
-   {
-      super(project, projectProperties, projectConfigurator);
-   }
+	/**
+	 * Pass-through constructor to {@link MoflonProjectCreator}
+	 * 
+	 * @param project
+	 *            the project to create
+	 * @param projectProperties
+	 *            the metadata to use
+	 * @param projectConfigurator
+	 *            the project configurator
+	 */
+	public MetamodelProjectCreator(final IProject project, final PluginProperties projectProperties,
+			final MoflonProjectConfigurator projectConfigurator) {
+		super(project, projectProperties, projectConfigurator);
+	}
 
-   @Override
-   protected List<String> getGitignoreLines()
-   {
-      return GITIGNORE_LINES;
-   }
+	@Override
+	protected List<String> getGitignoreLines() {
+		return GITIGNORE_LINES;
+	}
 
-   /**
-    * Adds a default .gitignore file to the given metamodel project to prevent adding generated files to the repository
-    *
-    * @param project the project for which to generate the .gitignore file
-    * @param monitor the progress monitor
-    */
-   public static void addGitignoreFileForMetamodelProject(final IProject project, final IProgressMonitor monitor) throws CoreException
-   {
-      final SubMonitor subMon = SubMonitor.convert(monitor, "Creating .gitignore file for " + project, 1);
+	/**
+	 * Adds a default .gitignore file to the given metamodel project to prevent
+	 * adding generated files to the repository
+	 *
+	 * @param project
+	 *            the project for which to generate the .gitignore file
+	 * @param monitor
+	 *            the progress monitor
+	 */
+	public static void addGitignoreFileForMetamodelProject(final IProject project, final IProgressMonitor monitor)
+			throws CoreException {
+		final SubMonitor subMon = SubMonitor.convert(monitor, "Creating .gitignore file for " + project, 1);
 
-      WorkspaceHelper.createGitignoreFileIfNotExists(project.getFile(WorkspaceHelper.GITIGNORE_FILENAME), //
-            GITIGNORE_LINES, subMon.split(1));
-   }
+		WorkspaceHelper.createGitignoreFileIfNotExists(project.getFile(WorkspaceHelper.GITIGNORE_FILENAME), //
+				GITIGNORE_LINES, subMon.split(1));
+	}
 
-   @Override
-   protected String getNatureId() throws CoreException
-   {
-      return MetamodelNature.getId();
-   }
+	@Override
+	protected String getNatureId() throws CoreException {
+		return MetamodelNature.getId();
+	}
 
-   @Override
-   protected String getBuilderId() throws CoreException
-   {
-      return MetamodelBuilder.getId();
-   }
+	@Override
+	protected String getBuilderId() throws CoreException {
+		return MetamodelBuilder.getId();
+	}
 
-   @Override
-   protected SDMCodeGeneratorIds getCodeGeneratorHandler()
-   {
-      return null;
-   }
+	@Override
+	protected SDMCodeGeneratorIds getCodeGeneratorHandler() {
+		return null;
+	}
 
 }

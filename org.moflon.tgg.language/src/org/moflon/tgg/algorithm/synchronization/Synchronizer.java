@@ -67,7 +67,7 @@ public abstract class Synchronizer {
 	private Graph toBeDeleted;
 
 	protected RulesTable lookupMethods;
-	
+
 	protected Collection<Rule> ignoreMethods;
 
 	protected AmalgamationUtil amalgamationUtil;
@@ -113,7 +113,7 @@ public abstract class Synchronizer {
 		this.readyWithSiblingKernels = new TIntHashSet();
 		this.readyButUnreadySiblingsKernels = new TIntHashSet();
 		this.readyComplements = new TIntHashSet();
-		this.createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch> getCollection();
+		this.createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch>getCollection();
 		this.ignoreMethods = determineIgnoreMethods(rules);
 		this.lookupMethods = determineLookupMethods(rules);
 		this.amalgamationUtil = new AmalgamationUtil(lookupMethods);
@@ -124,8 +124,8 @@ public abstract class Synchronizer {
 		rulesTable.getRules().removeAll(ignoreMethods);
 		return rulesTable;
 	}
-	
-	private Collection<Rule> determineIgnoreMethods(StaticAnalysis rules){
+
+	private Collection<Rule> determineIgnoreMethods(StaticAnalysis rules) {
 		RulesTable rulesTable = getRulesTable(rules);
 		return rulesTable.getRules().stream().filter(r -> r.isIgnore()).collect(Collectors.toSet());
 	}
@@ -159,8 +159,8 @@ public abstract class Synchronizer {
 	}
 
 	private Stream<TripleMatch> getTripleMatchesWithDECviolation(Graph graph) {
-		Stream<TripleMatch> tripleMatchesOfTouchedNodes = graph.getEdges().stream()
-				.flatMap(e -> Stream.concat(protocol.createsAsStream(e.getTrg()), protocol.createsAsStream(e.getSrc())));
+		Stream<TripleMatch> tripleMatchesOfTouchedNodes = graph.getEdges().stream().flatMap(
+				e -> Stream.concat(protocol.createsAsStream(e.getTrg()), protocol.createsAsStream(e.getSrc())));
 
 		InvokeCheckDEC invokeCheckDEC = new InvokeCheckDEC(lookupMethods);
 
@@ -206,9 +206,9 @@ public abstract class Synchronizer {
 	}
 
 	/**
-	 * Collect all matches that have to be considered due to changing attributes
-	 * of node. Note that if node has already been revoked, the protocol will
-	 * return neither creating nor context matches for it.
+	 * Collect all matches that have to be considered due to changing attributes of
+	 * node. Note that if node has already been revoked, the protocol will return
+	 * neither creating nor context matches for it.
 	 * 
 	 * @param node
 	 * @param toBeChecked
@@ -227,7 +227,7 @@ public abstract class Synchronizer {
 			if (rule.getRuleName().equals(ruleName))
 				return rule;
 		}
-		
+
 		for (Rule rule : this.ignoreMethods) {
 			if (rule.getRuleName().equals(ruleName))
 				return rule;
@@ -331,7 +331,7 @@ public abstract class Synchronizer {
 				processAmalgamationComplements(inputMatches, chosen, chosenRR);
 
 			translated = null;
-			createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch> getCollection();
+			createdTripleMatchesInLastStep = CollectionProvider.<TripleMatch>getCollection();
 		}
 
 		finalizeGraphTriple(graphTriple);
@@ -359,22 +359,21 @@ public abstract class Synchronizer {
 	}
 
 	private IsApplicableMatch chooseOne(Collection<IsApplicableRuleResult> extended) {
-		List<RuleResult> alternatives = extended.stream()
-		      .filter(isApplRR -> isApplRR.isSuccess())
-		      .map(RuleResult::new)
+		List<RuleResult> alternatives = extended.stream().filter(isApplRR -> isApplRR.isSuccess()).map(RuleResult::new)
 				.collect(Collectors.toList());
 
 		if (alternatives.size() == 1 && alternatives.get(0).isUnique())
-         return alternatives.get(0).anyMatch();
-      else
-         return configurator.chooseOne(alternatives).anyMatch();
+			return alternatives.get(0).anyMatch();
+		else
+			return configurator.chooseOne(alternatives).anyMatch();
 	}
 
 	private Stream<Match> chooseOneMaximalSet() {
 
 		TIntCollection candidatesForChoice = readyWithSiblingKernels.isEmpty() ? readyKernels : readyWithSiblingKernels;
 
-		// find a match which translates something and return its siblings that are kernel
+		// find a match which translates something and return its siblings that are
+		// kernel
 		TIntIterator iterator = candidatesForChoice.iterator();
 		while (iterator.hasNext()) {
 			Match m = pg.intToMatch(iterator.next());
@@ -509,7 +508,7 @@ public abstract class Synchronizer {
 			applyAndUpdateTriple(graphTriple, isAppl);
 			updateProcessedSets(isAppl);
 		});
-		
+
 		TIntCollection allComplementsIDs = new TIntHashSet();
 		allComplements.forEach(c -> allComplementsIDs.add(pg.matchToInt(c)));
 		inputMatches.removeAll(allComplementsIDs);
@@ -524,8 +523,8 @@ public abstract class Synchronizer {
 		if (toBeTranslated.getElements().isEmpty())
 			return;
 
-		Graph warningGraph = Graph.getEmptyGraph().addConstructive(
-				toBeTranslated.stream().filter(a -> !pg.createsAsStream(a).findAny().isPresent()).collect(Collectors.toList()));
+		Graph warningGraph = Graph.getEmptyGraph().addConstructive(toBeTranslated.stream()
+				.filter(a -> !pg.createsAsStream(a).findAny().isPresent()).collect(Collectors.toList()));
 
 		if (warningGraph.getElements().isEmpty())
 			return;
@@ -544,10 +543,10 @@ public abstract class Synchronizer {
 		warning += "Note that local-completeness errors might have something to do with these missing matches!\n";
 		warning += "--------------------------------";
 
-		if(verbose)
-		   logger.warn(warning);
+		if (verbose)
+			logger.warn(warning);
 		else
-		   logger.debug(warning);
+			logger.debug(warning);
 	}
 
 	public SynchronizationProtocol getProtocol() {

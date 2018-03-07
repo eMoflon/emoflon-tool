@@ -33,20 +33,17 @@ import org.eclipse.pde.internal.core.target.IUBundleContainer;
 import org.eclipse.pde.internal.core.target.P2TargetUtils;
 
 public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
-	private static final String TARGET_DEFINITION_FILE_CONTENT_TYPE_ID =
-			"org.eclipse.pde.targetFile";
-	private static final String UPDATE_SITE_NATURE =
-			"org.eclipse.pde.UpdateSiteNature";
+	private static final String TARGET_DEFINITION_FILE_CONTENT_TYPE_ID = "org.eclipse.pde.targetFile";
+	private static final String UPDATE_SITE_NATURE = "org.eclipse.pde.UpdateSiteNature";
 
 	@SuppressWarnings("unchecked")
-   @Override
+	@Override
 	public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
 		if (adaptableObject instanceof String && adapterType == FeatureExportOperation.class) {
 			FeatureModelManager featureModelManager = PDECore.getDefault().getFeatureModelManager();
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("org.moflon.deployer");
 			if (WorkspaceFeatureModelManager.isFeatureProject(project)) {
-				final IFeatureModel workspaceFeatureModel =
-						featureModelManager.getFeatureModel(project);
+				final IFeatureModel workspaceFeatureModel = featureModelManager.getFeatureModel(project);
 				final FeatureExportInfo info = new FeatureExportInfo();
 				info.allowBinaryCycles = true;
 				// info.categoryDefinition = categoryDefinitionFile.getLocationURI().toString();
@@ -78,26 +75,27 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 					final ISiteFeature[] siteFeatures = buildSiteModel.getSite().getFeatures();
 					final IFeatureModel[] featureModels = new IFeatureModel[siteFeatures.length];
 					for (int j = 0; j < siteFeatures.length; j++) {
-						featureModels[j] = featureModelManager.findFeatureModelRelaxed(siteFeatures[j].getId(), siteFeatures[j].getVersion());
+						featureModels[j] = featureModelManager.findFeatureModelRelaxed(siteFeatures[j].getId(),
+								siteFeatures[j].getVersion());
 					}
-					
-//					final FeatureExportInfo info = new FeatureExportInfo();
-//					info.allowBinaryCycles = true;
-//					info.categoryDefinition = null;
-//					info.destinationDirectory = project.getLocation().toOSString();
-//					info.exportMetadata = false;
-//					info.exportSource = false;
-//					info.exportSourceBundle = false;
-//					info.items = featureModels;
-//					info.jnlpInfo = null;
-//					info.qualifier = QualifierReplacer.getDateQualifier();
-//					info.signingInfo = null;
-//					info.targets = null;
-//					info.toDirectory = true;
-//					info.useJarFormat = true;
-//					info.useWorkspaceCompiledClasses = false;
-//					info.zipFileName = null;
-					
+
+					// final FeatureExportInfo info = new FeatureExportInfo();
+					// info.allowBinaryCycles = true;
+					// info.categoryDefinition = null;
+					// info.destinationDirectory = project.getLocation().toOSString();
+					// info.exportMetadata = false;
+					// info.exportSource = false;
+					// info.exportSourceBundle = false;
+					// info.items = featureModels;
+					// info.jnlpInfo = null;
+					// info.qualifier = QualifierReplacer.getDateQualifier();
+					// info.signingInfo = null;
+					// info.targets = null;
+					// info.toDirectory = true;
+					// info.useJarFormat = true;
+					// info.useWorkspaceCompiledClasses = false;
+					// info.zipFileName = null;
+
 					Job job = new SiteBuildOperation(featureModels, buildSiteModel, "Build Moflon Update Site");
 					job.setUser(true);
 					return job;
@@ -129,8 +127,7 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 				final ITargetLocation[] targetLocations = definition.getTargetLocations();
 				for (int i = 0; i < targetLocations.length; i++) {
 					if (targetLocations[i] instanceof IUBundleContainer) {
-						final IUBundleContainer bundleContainer =
-								(IUBundleContainer) targetLocations[i];
+						final IUBundleContainer bundleContainer = (IUBundleContainer) targetLocations[i];
 						final URI[] repositories = repoTracker.getKnownRepositories(ui.getSession());
 						final URI[] uris = bundleContainer.getRepositories();
 						for (URI uri : uris) {
@@ -152,24 +149,18 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 
 	@Override
 	public Class<?>[] getAdapterList() {
-		return new Class<?>[] {
-				FeatureExportOperation.class,
-				LoadTargetDefinitionJob.class,
-				SiteBuildOperation.class,
-				ProvisioningUI.class,
-				ITargetDefinition.class,
-				UpdateSiteReloadJob.class
-		};
+		return new Class<?>[] { FeatureExportOperation.class, LoadTargetDefinitionJob.class, SiteBuildOperation.class,
+				ProvisioningUI.class, ITargetDefinition.class, UpdateSiteReloadJob.class };
 	}
-	
+
 	private final ITargetDefinition createTargetDefinition(final IFile file) {
 		try {
 			final IContentDescription description = file.getContentDescription();
 			if (description != null) {
 				final IContentType contentType = description.getContentType();
 				if (contentType != null && TARGET_DEFINITION_FILE_CONTENT_TYPE_ID.equals(contentType.getId())) {
-					final ITargetPlatformService service =
-							(ITargetPlatformService) PDECore.getDefault().acquireService(ITargetPlatformService.class.getName());
+					final ITargetPlatformService service = (ITargetPlatformService) PDECore.getDefault()
+							.acquireService(ITargetPlatformService.class.getName());
 					return service.getTarget(file).getTargetDefinition();
 				}
 			}
@@ -178,12 +169,12 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 		}
 		return null;
 	}
-	
+
 	private final ProvisioningUI createProvisioningUI(final ITargetDefinition definition) throws CoreException {
 		final ProvisioningSession session = new ProvisioningSession(P2TargetUtils.getAgent());
 		return new ProvisioningUI(session, P2TargetUtils.getProfileId(definition), new Policy());
 	}
-	
+
 	private final LoadTargetDefinitionJob createTargetDefinitionLoaderJob(final ITargetDefinition definition) {
 		final LoadTargetDefinitionJob job = new LoadTargetDefinitionJob(definition);
 		job.setUser(true);

@@ -14,11 +14,11 @@ public class EClassDiagramTextProvider extends EMoflonDiagramTextProvider {
 		return selectedElement instanceof EClass;
 	}
 
-   @Override
-   public boolean supportsSelection(final ISelection selection) {
-      return true;
-   }
-   
+	@Override
+	public boolean supportsSelection(final ISelection selection) {
+		return true;
+	}
+
 	@Override
 	protected boolean directionIsForward() {
 		return false;
@@ -28,7 +28,7 @@ public class EClassDiagramTextProvider extends EMoflonDiagramTextProvider {
 	protected EPackage getPackage() {
 		return EclassvizPackage.eINSTANCE;
 	}
-	
+
 	@Override
 	protected void postprocess(CorrespondenceModel corrs) {
 		corrs.getCorrespondences().forEach(corr -> new EClassPostProcessor().postProcess(corr));

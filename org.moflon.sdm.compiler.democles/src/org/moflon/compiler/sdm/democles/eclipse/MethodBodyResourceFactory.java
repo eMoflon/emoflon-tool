@@ -17,42 +17,35 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.moflon.core.utilities.MoflonUtil;
 
-public class MethodBodyResourceFactory extends AdapterResourceFactory<EOperation>
-{
+public class MethodBodyResourceFactory extends AdapterResourceFactory<EOperation> {
 
-   public MethodBodyResourceFactory(String extensionName)
-   {
-      super(extensionName, EcorePackage.eINSTANCE.getEOperation());
-   }
+	public MethodBodyResourceFactory(String extensionName) {
+		super(extensionName, EcorePackage.eINSTANCE.getEOperation());
+	}
 
-   @Override
-   protected final URI getURI(EOperation eOperation, String type)
-   {
-      return getOperationURI(eOperation).appendFileExtension(type);
-   }
+	@Override
+	protected final URI getURI(EOperation eOperation, String type) {
+		return getOperationURI(eOperation).appendFileExtension(type);
+	}
 
-   private static final URI getOperationURI(final EOperation eOperation)
-   {
-      return eOperation.eResource().getURI().trimSegments(1).appendSegment(getOperationID(eOperation));
-   }
+	private static final URI getOperationURI(final EOperation eOperation) {
+		return eOperation.eResource().getURI().trimSegments(1).appendSegment(getOperationID(eOperation));
+	}
 
-   private static final String getOperationID(final EOperation eOperation)
-   {
-      String signature = MoflonUtil.getFQN(eOperation.getEContainingClass()) + "_" + eOperation.getName();
-      for (final EParameter param : eOperation.getEParameters())
-      {
-         signature += "_" + param.getName() + "_" + getNameOfClassifier(param.getEType());
-      }
-      return signature;
-   }
+	private static final String getOperationID(final EOperation eOperation) {
+		String signature = MoflonUtil.getFQN(eOperation.getEContainingClass()) + "_" + eOperation.getName();
+		for (final EParameter param : eOperation.getEParameters()) {
+			signature += "_" + param.getName() + "_" + getNameOfClassifier(param.getEType());
+		}
+		return signature;
+	}
 
-   /**
-    * Returns the name of the associated Java class of the given type.
-    */
-   private static final String getNameOfClassifier(final EClassifier type)
-   {
-      if (type == null)
-         throw new IllegalArgumentException("type may not be null");
-      return type.getInstanceTypeName() != null ? type.getInstanceTypeName() : type.getName();
-   }
+	/**
+	 * Returns the name of the associated Java class of the given type.
+	 */
+	private static final String getNameOfClassifier(final EClassifier type) {
+		if (type == null)
+			throw new IllegalArgumentException("type may not be null");
+		return type.getInstanceTypeName() != null ? type.getInstanceTypeName() : type.getName();
+	}
 }

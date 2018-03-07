@@ -8,33 +8,29 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.tgg.algorithm.synchronization.SynchronizationHelper;
 import org.moflon.tgg.mosl.codeadapter.CodeadapterPackage;
 
-
 public class CodeadapterTrafo extends SynchronizationHelper {
 
-   public CodeadapterTrafo(String pathToProject)
-   {
-	   super(CodeadapterPackage.eINSTANCE, pathToProject);
-   }
-   
-   public CodeadapterTrafo(String pathToProject, ResourceSet set)
-   {
-	   super(CodeadapterPackage.eINSTANCE, pathToProject, set);
-   }
-   
-   public CodeadapterTrafo()
-   {
-      super(CodeadapterPackage.eINSTANCE, ".");
-   }
+	public CodeadapterTrafo(String pathToProject) {
+		super(CodeadapterPackage.eINSTANCE, pathToProject);
+	}
+
+	public CodeadapterTrafo(String pathToProject, ResourceSet set) {
+		super(CodeadapterPackage.eINSTANCE, pathToProject, set);
+	}
+
+	public CodeadapterTrafo() {
+		super(CodeadapterPackage.eINSTANCE, ".");
+	}
 
 	public static void main(String[] args) throws IOException {
 		// Set up logging
-        BasicConfigurator.configure();
+		BasicConfigurator.configure();
 
 		// Forward Transformation
-        CodeadapterTrafo helper = new CodeadapterTrafo();
-        helper.setVerbose(true);
+		CodeadapterTrafo helper = new CodeadapterTrafo();
+		helper.setVerbose(true);
 		helper.performForward("instances/fwd.src.xmi");
-		
+
 		// Backward Transformation
 		helper = new CodeadapterTrafo();
 		helper.performBackward("instances/bwd.src.xmi");
@@ -60,8 +56,7 @@ public class CodeadapterTrafo extends SynchronizationHelper {
 			loadSrc(source);
 			performForward();
 		} catch (IllegalArgumentException iae) {
-			System.err.println("Unable to load " + source + ", "
-					+ iae.getMessage());
+			System.err.println("Unable to load " + source + ", " + iae.getMessage());
 			return;
 		}
 	}
@@ -86,8 +81,7 @@ public class CodeadapterTrafo extends SynchronizationHelper {
 			loadTrg(target);
 			performBackward();
 		} catch (IllegalArgumentException iae) {
-			System.err.println("Unable to load " + target + ", "
-					+ iae.getMessage());
+			System.err.println("Unable to load " + target + ", " + iae.getMessage());
 			return;
 		}
 	}

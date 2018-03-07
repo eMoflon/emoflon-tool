@@ -27,9 +27,8 @@ public class CodeGeneratorChain<T> {
 	public CodeGeneratorChain(T element) {
 		this(element, null);
 	}
-	
-	CodeGeneratorChain(T value,
-			CodeGeneratorChain<T> next) {
+
+	CodeGeneratorChain(T value, CodeGeneratorChain<T> next) {
 		this.value = value;
 		this.next = next;
 	}
@@ -37,7 +36,7 @@ public class CodeGeneratorChain<T> {
 	final CodeGeneratorChain<T> copy() {
 		return copyAndMerge(null);
 	}
-	
+
 	final CodeGeneratorChain<T> copyAndMerge(CodeGeneratorChain<T> otherChain) {
 		if (next != null) {
 			return new CodeGeneratorChain<T>(value, next.copyAndMerge(otherChain));
@@ -45,11 +44,11 @@ public class CodeGeneratorChain<T> {
 			return new CodeGeneratorChain<T>(value, otherChain);
 		}
 	}
-	
+
 	final CodeGeneratorChain<T> reverseCopy() {
 		return reverseCopy(null);
 	}
-	
+
 	private final CodeGeneratorChain<T> reverseCopy(CodeGeneratorChain<T> reverseTail) {
 		if (next != null) {
 			return next.reverseCopy(new CodeGeneratorChain<T>(value, reverseTail));
@@ -57,12 +56,12 @@ public class CodeGeneratorChain<T> {
 			return new CodeGeneratorChain<T>(value, reverseTail);
 		}
 	}
-	
-    public final T getValue() {
-    	return value;
-    }
-    
-    public final CodeGeneratorChain<T> getNext() {
-    	return next;
-    }
+
+	public final T getValue() {
+		return value;
+	}
+
+	public final CodeGeneratorChain<T> getNext() {
+		return next;
+	}
 }

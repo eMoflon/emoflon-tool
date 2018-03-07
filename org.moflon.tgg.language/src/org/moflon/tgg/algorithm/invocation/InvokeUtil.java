@@ -9,44 +9,37 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-public class InvokeUtil
-{
-   public static EObject invokeOperationWithSingleArg(EObject target, EOperation operation, EObject singleArgument)
-   {
-      EClass targetClass = (EClass) target;
+public class InvokeUtil {
+	public static EObject invokeOperationWithSingleArg(EObject target, EOperation operation, EObject singleArgument) {
+		EClass targetClass = (EClass) target;
 
-      // Create an actual object of the desired type 'target'
-      EObject object = EcoreUtil.create(targetClass);
+		// Create an actual object of the desired type 'target'
+		EObject object = EcoreUtil.create(targetClass);
 
-      EList<Object> parameterValues = new BasicEList<Object>();
-      parameterValues.add(singleArgument);
+		EList<Object> parameterValues = new BasicEList<Object>();
+		parameterValues.add(singleArgument);
 
-      try
-      {
-         return (EObject) object.eInvoke(operation, parameterValues);
-      } catch (InvocationTargetException e)
-      {
-         e.printStackTrace();
-      }
+		try {
+			return (EObject) object.eInvoke(operation, parameterValues);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 
-      return null;
-   }
+		return null;
+	}
 
-   public static Object invokeOperationWithNArguments(EObject target, EOperation operation, EList<?> arguments)
-   {
-      EClass targetClass = (EClass) target;
+	public static Object invokeOperationWithNArguments(EObject target, EOperation operation, EList<?> arguments) {
+		EClass targetClass = (EClass) target;
 
-      // Create an actual object of the desired type 'target'
-      EObject object = EcoreUtil.create(targetClass);
-      try
-      {
-         return object.eInvoke(operation, arguments);
-      } catch (InvocationTargetException e)
-      {
-         e.printStackTrace();
-      }
+		// Create an actual object of the desired type 'target'
+		EObject object = EcoreUtil.create(targetClass);
+		try {
+			return object.eInvoke(operation, arguments);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 
-      return null;
-   }
+		return null;
+	}
 
 }

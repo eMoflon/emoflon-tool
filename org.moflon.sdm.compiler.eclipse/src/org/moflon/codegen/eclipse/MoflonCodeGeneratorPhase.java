@@ -6,9 +6,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.moflon.codegen.MethodBodyHandler;
 
-public interface MoflonCodeGeneratorPhase
-{
+public interface MoflonCodeGeneratorPhase {
 
-   public IStatus run(IProject project, Resource rsource, MethodBodyHandler methodBodyHandler, IProgressMonitor monitor);
+	public IStatus run(IProject project, Resource rsource, MethodBodyHandler methodBodyHandler,
+			IProgressMonitor monitor);
 
 }

@@ -17,22 +17,26 @@ import org.gervarro.democles.specification.impl.Variable;
 public class AttributeAssignmentTemplateProvider implements CodeGeneratorProvider<Chain<TemplateController>> {
 
 	@Override
-   public final Chain<TemplateController> getTemplateController(
-			final GeneratorOperation operation, final Chain<TemplateController> tail) {
+	public final Chain<TemplateController> getTemplateController(final GeneratorOperation operation,
+			final Chain<TemplateController> tail) {
 		Adornment adornment = operation.getPrecondition();
 		if (adornment.get(0) == Adornment.FREE && adornment.get(1) == Adornment.BOUND) {
 			ConstraintType type = (ConstraintType) operation.getType();
 			if (type == CoreConstraintModule.EQUAL) {
 				if (operation.getPostcondition().get(0) == Adornment.NOT_TYPECHECKED) {
-					return new Chain<TemplateController>(new TemplateController("/assignment/AssignWithTypeCheck", operation), tail);
+					return new Chain<TemplateController>(
+							new TemplateController("/assignment/AssignWithTypeCheck", operation), tail);
 				} else if (operation.isAlwaysSuccessful()) {
 					if (forceCasting(operation)) {
-						return new Chain<TemplateController>(new TemplateController("/assignment/AssignWithClassCastException", operation), tail);
+						return new Chain<TemplateController>(
+								new TemplateController("/assignment/AssignWithClassCastException", operation), tail);
 					} else {
-						return new Chain<TemplateController>(new TemplateController("/assignment/Assign", operation), tail);
+						return new Chain<TemplateController>(new TemplateController("/assignment/Assign", operation),
+								tail);
 					}
 				} else {
-					return new Chain<TemplateController>(new TemplateController("/assignment/AssignWithNullCheck", operation), tail);
+					return new Chain<TemplateController>(
+							new TemplateController("/assignment/AssignWithNullCheck", operation), tail);
 				}
 			}
 		}
@@ -44,12 +48,14 @@ public class AttributeAssignmentTemplateProvider implements CodeGeneratorProvide
 	public final boolean isResponsibleFor(final GeneratorOperation operation) {
 		return operation != null && operation.getType() instanceof CoreConstraintType;
 	}
-	
+
 	private final boolean forceCasting(final GeneratorOperation operation) {
 		List<GeneratorVariable> parameters = operation.getParameters();
-		if (EcorePackage.eINSTANCE.getEDataType().isInstance(AssignmentOperationBuilder.lookupEClassifier(parameters.get(0)))) {
+		if (EcorePackage.eINSTANCE.getEDataType()
+				.isInstance(AssignmentOperationBuilder.lookupEClassifier(parameters.get(0)))) {
 			GeneratorVariable variable = parameters.get(1);
-			if (variable.getSpecification() instanceof Variable && EcorePackage.eINSTANCE.getEJavaObject().equals(AssignmentOperationBuilder.lookupEClassifier(variable))) {
+			if (variable.getSpecification() instanceof Variable && EcorePackage.eINSTANCE.getEJavaObject()
+					.equals(AssignmentOperationBuilder.lookupEClassifier(variable))) {
 				return true;
 			}
 		}

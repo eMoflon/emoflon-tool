@@ -20,14 +20,15 @@ public class AmalgamationUtil {
 	private RulesTable lookupMethods = null;
 
 	private HashMap<Match, Collection<Match>> matchToComplements = new HashMap<>();
-	
+
 	private HashSet<String> complementRuleNames = null;
 
 	public AmalgamationUtil(RulesTable lookupMethods) {
 		this.lookupMethods = lookupMethods;
 		isAmalgamatedTGG = lookupMethods.getRules().stream().anyMatch(r -> r.getKernel() != null);
 		complementRuleNames = new HashSet<>();
-		lookupMethods.getRules().stream().filter(r -> r.getKernel() != null).forEach(r -> complementRuleNames.add(r.getRuleName()));
+		lookupMethods.getRules().stream().filter(r -> r.getKernel() != null)
+				.forEach(r -> complementRuleNames.add(r.getRuleName()));
 	}
 
 	public Collection<Match> determineComplements(Match kernel, Collection<Match> candidates) {
@@ -66,12 +67,12 @@ public class AmalgamationUtil {
 	public boolean isAmalgamatedTGG() {
 		return isAmalgamatedTGG;
 	}
-	
-	public boolean isComplementMatch(Match m){
+
+	public boolean isComplementMatch(Match m) {
 		return isAmalgamatedTGG() && complementRuleNames.contains(m.getRuleName());
 	}
-	
-	public boolean isKernelMatch(Match m){
+
+	public boolean isKernelMatch(Match m) {
 		return !isComplementMatch(m);
 	}
 
