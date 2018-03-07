@@ -34,7 +34,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <url>
       <update label="eMoflon at GitHub" url="https://emoflon.github.io/eclipse-plugin/beta/updatesite"/>
-      <discovery label="eMoflon Core Update Site" url="http://emoflon.org/emoflon-core/org.moflon.core.releng.updatesite/"/>
+      <discovery label="eMoflon Core Update Site" url="http://emoflon.org/emoflon-core-updatesite/stable/updatesite/"/>
    </url>
 
    <requires>
