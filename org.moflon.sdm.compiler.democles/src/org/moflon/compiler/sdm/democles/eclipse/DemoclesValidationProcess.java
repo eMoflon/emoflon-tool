@@ -17,71 +17,62 @@ import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.emf.build.GenericMoflonProcess;
 
-public class DemoclesValidationProcess extends GenericMoflonProcess
-{
-   private final boolean shallSaveIntermediateModels;
+public class DemoclesValidationProcess extends GenericMoflonProcess {
+	private final boolean shallSaveIntermediateModels;
 
-   public DemoclesValidationProcess(final IFile ecoreFile, final ResourceSet resourceSet, final EMoflonPreferencesStorage preferencesStorage)
-   {
-      this(ecoreFile, resourceSet, false, preferencesStorage);
-   }
+	public DemoclesValidationProcess(final IFile ecoreFile, final ResourceSet resourceSet,
+			final EMoflonPreferencesStorage preferencesStorage) {
+		this(ecoreFile, resourceSet, false, preferencesStorage);
+	}
 
-   public DemoclesValidationProcess(IFile ecoreFile, ResourceSet resourceSet, boolean shallSaveIntermediateModels, EMoflonPreferencesStorage preferencesStorage)
-   {
-      super(ecoreFile, resourceSet, preferencesStorage);
-      this.shallSaveIntermediateModels = shallSaveIntermediateModels;
-   }
+	public DemoclesValidationProcess(IFile ecoreFile, ResourceSet resourceSet, boolean shallSaveIntermediateModels,
+			EMoflonPreferencesStorage preferencesStorage) {
+		super(ecoreFile, resourceSet, preferencesStorage);
+		this.shallSaveIntermediateModels = shallSaveIntermediateModels;
+	}
 
-   @Override
-   public String getTaskName()
-   {
-      return "Validating SDMs";
-   }
+	@Override
+	public String getTaskName() {
+		return "Validating SDMs";
+	}
 
-   @Override
-   public IStatus processResource(final IProgressMonitor monitor)
-   {
-      try
-      {
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Validation task", 15);
-         final Resource resource = getEcoreResource();
-         final EPackage ePackage = (EPackage) resource.getContents().get(0);
+	@Override
+	public IStatus processResource(final IProgressMonitor monitor) {
+		try {
+			final SubMonitor subMon = SubMonitor.convert(monitor, "Validation task", 15);
+			final Resource resource = getEcoreResource();
+			final EPackage ePackage = (EPackage) resource.getContents().get(0);
 
-         final String engineID = MoflonPropertiesContainerHelper.getMethodBodyHandler(getMoflonProperties());
-         ScopeValidationConfigurator validatorConfig = (ScopeValidationConfigurator) Platform.getAdapterManager().loadAdapter(this, engineID);
+			final String engineID = MoflonPropertiesContainerHelper.getMethodBodyHandler(getMoflonProperties());
+			ScopeValidationConfigurator validatorConfig = (ScopeValidationConfigurator) Platform.getAdapterManager()
+					.loadAdapter(this, engineID);
 
-         if (validatorConfig == null)
-         {
-            validatorConfig = new DefaultValidatorConfig(getResourceSet(), this.getPreferencesStorage());
-         }
-         subMon.worked(5);
+			if (validatorConfig == null) {
+				validatorConfig = new DefaultValidatorConfig(getResourceSet(), this.getPreferencesStorage());
+			}
+			subMon.worked(5);
 
-         if (subMon.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
+			if (subMon.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
 
-         final ITask validator = new DemoclesValidatorTask(validatorConfig.createScopeValidator(), ePackage);
-         final IStatus validatorStatus = validator.run(subMon.split(10));
-         if (subMon.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-         if (!validatorStatus.isOK())
-         {
-            return validatorStatus;
-         }
+			final ITask validator = new DemoclesValidatorTask(validatorConfig.createScopeValidator(), ePackage);
+			final IStatus validatorStatus = validator.run(subMon.split(10));
+			if (subMon.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
+			if (!validatorStatus.isOK()) {
+				return validatorStatus;
+			}
 
-         if (shallSaveIntermediateModels)
-         {
-            DemoclesValidationUtils.clearAllIntermediateModels(WorkspaceHelper.getModelFolder(this.getProject()));
-            DemoclesValidationUtils.saveAllIntermediateModels(ePackage);
-         }
+			if (shallSaveIntermediateModels) {
+				DemoclesValidationUtils.clearAllIntermediateModels(WorkspaceHelper.getModelFolder(this.getProject()));
+				DemoclesValidationUtils.saveAllIntermediateModels(ePackage);
+			}
 
-         return Status.OK_STATUS;
-      } catch (final Exception e)
-      {
-         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
-      }
-   }
+			return Status.OK_STATUS;
+		} catch (final Exception e) {
+			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
+		}
+	}
 }

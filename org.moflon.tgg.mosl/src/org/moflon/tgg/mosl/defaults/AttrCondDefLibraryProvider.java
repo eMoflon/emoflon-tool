@@ -12,21 +12,21 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
 public class AttrCondDefLibraryProvider {
-	
+
 	public static final String fileName = "AttrCondDefLibrary.tgg";
-	
+
 	public static final String src = "src/";
-	
+
 	public static final String moslPath = "/org/moflon/tgg/mosl/csp/lib/";
 
 	public static void syncAttrCondDefLibrary(IProject project) throws CoreException {
 
-		if(!containsAttrCondDefLibrary(project)){
+		if (!containsAttrCondDefLibrary(project)) {
 			final String defaultLib = DefaultFilesHelper.generateDefaultAttrCondDefLibrary();
 			final String projectName = project.getProject().getName().replace('.', '/');
 			final IPath pathToLib = new Path(src + projectName + moslPath + fileName);
 
-		    addAllFoldersAndFile(project, pathToLib, defaultLib, new NullProgressMonitor());
+			addAllFoldersAndFile(project, pathToLib, defaultLib, new NullProgressMonitor());
 		}
 	}
 
@@ -35,15 +35,14 @@ public class AttrCondDefLibraryProvider {
 
 		for (IResource member : members) {
 			if (member instanceof IFile) {
-				if(member.getName().equals(fileName))
+				if (member.getName().equals(fileName))
 					return true;
-			}
-			else if (member instanceof IContainer){
-				if(containsAttrCondDefLibrary((IContainer) member))
+			} else if (member instanceof IContainer) {
+				if (containsAttrCondDefLibrary((IContainer) member))
 					return true;
 			}
 		}
-		
+
 		return false;
 	}
 }

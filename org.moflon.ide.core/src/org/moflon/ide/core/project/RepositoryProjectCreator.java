@@ -17,80 +17,77 @@ import org.moflon.ide.core.properties.PluginPropertiesHelper;
 import org.moflon.ide.core.runtime.builders.RepositoryBuilder;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
-public class RepositoryProjectCreator extends MoflonProjectCreator
-{
+public class RepositoryProjectCreator extends MoflonProjectCreator {
 
-   private static final List<String> GITIGNORE_LINES = Arrays.asList(//
-         "/bin", //
-         "/gen/*", //
-         "/model/*.ecore", "/model/*.genmodel", "/model/*.xmi", //
-         "!/**/.keep*");
+	private static final List<String> GITIGNORE_LINES = Arrays.asList(//
+			"/bin", //
+			"/gen/*", //
+			"/model/*.ecore", "/model/*.genmodel", "/model/*.xmi", //
+			"!/**/.keep*");
 
-   /**
-   * Pass-through constructor to {@link MoflonProjectCreator}
-   * @param project the project to create
-   * @param projectProperties the metadata to use
-   * @param projectConfigurator the project configurator
-   */
-   public RepositoryProjectCreator(IProject project, PluginProperties projectProperties, MoflonProjectConfigurator projectConfigurator)
-   {
-      super(project, projectProperties, projectConfigurator);
-   }
+	/**
+	 * Pass-through constructor to {@link MoflonProjectCreator}
+	 * 
+	 * @param project
+	 *            the project to create
+	 * @param projectProperties
+	 *            the metadata to use
+	 * @param projectConfigurator
+	 *            the project configurator
+	 */
+	public RepositoryProjectCreator(IProject project, PluginProperties projectProperties,
+			MoflonProjectConfigurator projectConfigurator) {
+		super(project, projectProperties, projectConfigurator);
+	}
 
-   @Override
-   protected SDMCodeGeneratorIds getCodeGeneratorHandler()
-   {
-      if (PluginPropertiesHelper.hasAttributeConstraints(getPluginProperties()))
-      {
-         return SDMCodeGeneratorIds.DEMOCLES_ATTRIBUTES;
-      } else
-      {
-         return SDMCodeGeneratorIds.DEMOCLES;
-      }
-   }
+	@Override
+	protected SDMCodeGeneratorIds getCodeGeneratorHandler() {
+		if (PluginPropertiesHelper.hasAttributeConstraints(getPluginProperties())) {
+			return SDMCodeGeneratorIds.DEMOCLES_ATTRIBUTES;
+		} else {
+			return SDMCodeGeneratorIds.DEMOCLES;
+		}
+	}
 
-   @Override
-   protected List<String> getGitignoreLines()
-   {
-      return GITIGNORE_LINES;
-   }
+	@Override
+	protected List<String> getGitignoreLines() {
+		return GITIGNORE_LINES;
+	}
 
-   @Override
-   protected String getNatureId() throws CoreException
-   {
-      return RepositoryNature.getId();
-   }
+	@Override
+	protected String getNatureId() throws CoreException {
+		return RepositoryNature.getId();
+	}
 
-   @Override
-   protected String getBuilderId() throws CoreException
-   {
-      return RepositoryBuilder.getId();
-   }
+	@Override
+	protected String getBuilderId() throws CoreException {
+		return RepositoryBuilder.getId();
+	}
 
-   @Override
-   protected void initializeMoflonProperties(final MoflonPropertiesContainer moflonProperties)
-   {
-      super.initializeMoflonProperties(moflonProperties);
+	@Override
+	protected void initializeMoflonProperties(final MoflonPropertiesContainer moflonProperties) {
+		super.initializeMoflonProperties(moflonProperties);
 
-      updateMetamodelProjectName(moflonProperties, getPluginProperties().get(MocaTreeEAPropertiesReader.METAMODEL_PROJECT_NAME_KEY));
-      moflonProperties.setTGGBuildMode(null);
+		updateMetamodelProjectName(moflonProperties,
+				getPluginProperties().get(MocaTreeEAPropertiesReader.METAMODEL_PROJECT_NAME_KEY));
+		moflonProperties.setTGGBuildMode(null);
 
-   }
+	}
 
-   /**
-   * This method sets the {@link MetaModelProject} of the given {@link MoflonPropertiesContainer} to the given value
-   */
-   public static void updateMetamodelProjectName(final MoflonPropertiesContainer moflonProperties, final String metamodelProjectName)
-   {
-      MetaModelProject metamodelProject = moflonProperties.getMetaModelProject();
-      if (metamodelProject == null)
-      {
-         metamodelProject = PropertycontainerFactory.eINSTANCE.createMetaModelProject();
-         moflonProperties.setMetaModelProject(metamodelProject);
-         metamodelProject.setMetaModelProjectName(metamodelProjectName);
-      }
+	/**
+	 * This method sets the {@link MetaModelProject} of the given
+	 * {@link MoflonPropertiesContainer} to the given value
+	 */
+	public static void updateMetamodelProjectName(final MoflonPropertiesContainer moflonProperties,
+			final String metamodelProjectName) {
+		MetaModelProject metamodelProject = moflonProperties.getMetaModelProject();
+		if (metamodelProject == null) {
+			metamodelProject = PropertycontainerFactory.eINSTANCE.createMetaModelProject();
+			moflonProperties.setMetaModelProject(metamodelProject);
+			metamodelProject.setMetaModelProjectName(metamodelProjectName);
+		}
 
-      metamodelProject.setMetaModelProjectName(metamodelProjectName);
-   }
+		metamodelProject.setMetaModelProjectName(metamodelProjectName);
+	}
 
 }

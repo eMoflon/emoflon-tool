@@ -1,75 +1,59 @@
 package org.moflon.tgg.algorithm.modelgenerator;
 
-public class RulePerformStats
-{
+public class RulePerformStats {
 
-   private String ruleName;
+	private String ruleName;
 
-   private int performCount;
+	private int performCount;
 
-   private int failures;
+	private int failures;
 
-   private long totalPerformDuration;
+	private long totalPerformDuration;
 
-   private long totalFailureDuration;
-    
-   
-   
-   protected RulePerformStats(String ruleName) {
-      this.ruleName = ruleName;
-   }
-   
-   public long getTotalDuration()
-   {
-      return totalPerformDuration;
-   }
+	private long totalFailureDuration;
 
-   public void addToDuration(long totalDuration)
-   {
-      this.totalPerformDuration += totalDuration;
-   }
+	protected RulePerformStats(String ruleName) {
+		this.ruleName = ruleName;
+	}
 
-   
-   
-   public int getFailures()
-   {
-      return failures;
-   }
+	public long getTotalDuration() {
+		return totalPerformDuration;
+	}
 
-   public void incrementFailures()
-   {
-      this.failures++;
-   }
+	public void addToDuration(long totalDuration) {
+		this.totalPerformDuration += totalDuration;
+	}
 
-   public int getPerformCount()
-   {
-      return performCount;
-   }
+	public int getFailures() {
+		return failures;
+	}
 
-   public void addPerforms(int performCount)
-   {
-      this.performCount += performCount;
-   }
+	public void incrementFailures() {
+		this.failures++;
+	}
 
-   public String getRuleName()
-   {
-      return ruleName;
-   }
+	public int getPerformCount() {
+		return performCount;
+	}
 
-   public void setRuleName(String ruleName)
-   {
-      this.ruleName = ruleName;
-   }
+	public void addPerforms(int performCount) {
+		this.performCount += performCount;
+	}
 
-   public long getTotalFailureDuration()
-   {
-      return totalFailureDuration;
-   }
+	public String getRuleName() {
+		return ruleName;
+	}
 
-   public void addToFailureDuration(long totalFailureDuration)
-   {
-      this.totalFailureDuration += totalFailureDuration;
-   }
+	public void setRuleName(String ruleName) {
+		this.ruleName = ruleName;
+	}
 
+	public long getTotalFailureDuration() {
+		return totalFailureDuration;
+	}
+
+	public void addToFailureDuration(long totalFailureDuration) {
+		this.totalFailureDuration += totalFailureDuration;
+	}
 
 }

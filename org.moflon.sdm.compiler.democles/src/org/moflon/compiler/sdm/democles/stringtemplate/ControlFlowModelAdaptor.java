@@ -16,11 +16,10 @@ import org.stringtemplate.v4.misc.ObjectModelAdaptor;
 import org.stringtemplate.v4.misc.STNoSuchPropertyException;
 
 public class ControlFlowModelAdaptor extends ObjectModelAdaptor {
-	public static final ControlFlowModelAdaptor INSTANCE =
-			new ControlFlowModelAdaptor();
+	public static final ControlFlowModelAdaptor INSTANCE = new ControlFlowModelAdaptor();
 
-	public Object getProperty(Interpreter interpreter, ST template, Object object,
-			Object property, String propertyName) throws STNoSuchPropertyException {
+	public Object getProperty(Interpreter interpreter, ST template, Object object, Object property, String propertyName)
+			throws STNoSuchPropertyException {
 		if (object instanceof VariableReference && "index".equals(propertyName)) {
 			VariableReference varRef = (VariableReference) object;
 			return varRef.getInvocation().getParameters().indexOf(varRef);
@@ -41,8 +40,8 @@ public class ControlFlowModelAdaptor extends ObjectModelAdaptor {
 		if (object instanceof PatternInvocation) {
 			PatternInvocation invocation = (PatternInvocation) object;
 			if ("boundParameters".equals(propertyName)) {
-				ArrayList<VariableReference> boundParameters =
-						new ArrayList<VariableReference>(invocation.getParameters().size());
+				ArrayList<VariableReference> boundParameters = new ArrayList<VariableReference>(
+						invocation.getParameters().size());
 				for (VariableReference reference : invocation.getParameters()) {
 					if (!reference.isFree()) {
 						boundParameters.add(reference);
@@ -50,8 +49,8 @@ public class ControlFlowModelAdaptor extends ObjectModelAdaptor {
 				}
 				return boundParameters;
 			} else if ("freeParameters".equals(propertyName)) {
-				ArrayList<VariableReference> freeParameters =
-						new ArrayList<VariableReference>(invocation.getParameters().size());
+				ArrayList<VariableReference> freeParameters = new ArrayList<VariableReference>(
+						invocation.getParameters().size());
 				for (VariableReference reference : invocation.getParameters()) {
 					if (reference.isFree()) {
 						freeParameters.add(reference);
@@ -59,7 +58,8 @@ public class ControlFlowModelAdaptor extends ObjectModelAdaptor {
 				}
 				return freeParameters;
 			} else if ("id".equals(propertyName)) {
-				return invocation.getCfNode().getId() + "_" + invocation.getPattern().eResource().getURI().fileExtension();
+				return invocation.getCfNode().getId() + "_"
+						+ invocation.getPattern().eResource().getURI().fileExtension();
 			}
 		}
 		if (object instanceof RepetitionNode && "onlyShortcuts".equals(propertyName)) {

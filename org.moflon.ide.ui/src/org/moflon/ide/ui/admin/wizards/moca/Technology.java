@@ -1,10 +1,11 @@
 package org.moflon.ide.ui.admin.wizards.moca;
 
 /**
- * Parser / Unparser technologies. 
+ * Parser / Unparser technologies.
+ * 
  * @author david
  *
  */
 public enum Technology {
-   ANTLR, XML, CUSTOM
+	ANTLR, XML, CUSTOM
 }

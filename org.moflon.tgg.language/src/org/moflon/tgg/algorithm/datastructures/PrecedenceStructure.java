@@ -34,15 +34,15 @@ public abstract class PrecedenceStructure<M> {
 	protected TIntObjectHashMap<TIntHashSet> matchToParents = new TIntObjectHashMap<>();
 
 	protected TObjectIntHashMap<M> matchToInt = new TObjectIntHashMap<>();
-	
+
 	private int counter = 1;
-	
+
 	protected void calculateTables(M match) {
-		
+
 		matchToInt.put(match, counter);
-		
+
 		matches.put(counter, match);
-		
+
 		counter++;
 
 		getCreatedElements(match).forEach(elt -> addMatchToCreateTable(elt, matchToInt(match)));
@@ -52,32 +52,31 @@ public abstract class PrecedenceStructure<M> {
 		TIntHashSet parents = extendParentsTable(match);
 
 		children.forEach(c -> {
-			if(matchToParents.contains(c))
+			if (matchToParents.contains(c))
 				matchToParents.get(c).add(matchToInt(match));
 			return true;
 		});
 
 		parents.forEach(p -> {
-			if(matchToChildren.contains(p))
+			if (matchToChildren.contains(p))
 				matchToChildren.get(p).add(matchToInt(match));
 			return true;
 		});
 	}
-	
-	
+
 	public void removeMatches(Collection<M> toBeRemoved) {
-		
+
 		int[] allTobeRevokedIDs = new int[toBeRemoved.size()];
 		int i = 0;
-		for(M m : toBeRemoved){
+		for (M m : toBeRemoved) {
 			allTobeRevokedIDs[i] = matchToInt(m);
 			i++;
 		}
-		
+
 		createToMatch.keySet().forEach(elt -> createToMatch.get(elt).removeAll(allTobeRevokedIDs));
 		contextToMatch.keySet().forEach(elt -> contextToMatch.get(elt).removeAll(allTobeRevokedIDs));
-		
-		for(int id : allTobeRevokedIDs){
+
+		for (int id : allTobeRevokedIDs) {
 			matchToChildren.get(id).forEach(child -> matchToParents.get(child).remove(id));
 			matchToParents.get(id).forEach(parent -> matchToChildren.get(parent).remove(id));
 			matchToChildren.remove(id);
@@ -113,8 +112,8 @@ public abstract class PrecedenceStructure<M> {
 		return extendTable(match, getContextElements(match), createToMatch, matchToParents);
 	}
 
-	private TIntHashSet extendTable(M match, Collection<EObject> elements,
-			HashMap<EObject, TIntArrayList> eltToMatches, TIntObjectHashMap<TIntHashSet> matchTable) {
+	private TIntHashSet extendTable(M match, Collection<EObject> elements, HashMap<EObject, TIntArrayList> eltToMatches,
+			TIntObjectHashMap<TIntHashSet> matchTable) {
 		TIntHashSet table = new TIntHashSet();
 		for (EObject elt : elements) {
 			table.addAll(getOrReturnEmpty(elt, eltToMatches));
@@ -150,10 +149,11 @@ public abstract class PrecedenceStructure<M> {
 	public TIntCollection creates(EObject o) {
 		return createToMatch.get(o);
 	}
+
 	public Stream<M> createsAsStream(Graph elements) {
 		return elements.stream().flatMap(e -> getCreatingMatches(e).stream());
 	}
-	
+
 	public Stream<M> createsAsStream(EObject elt) {
 		return getCreatingMatches(elt).stream();
 	}
@@ -175,8 +175,8 @@ public abstract class PrecedenceStructure<M> {
 	public Collection<M> getMatches() {
 		return new ArrayList<M>(matches.valueCollection());
 	}
-	
-	public TIntCollection getMatchIDs(){
+
+	public TIntCollection getMatchIDs() {
 		return new TIntHashSet(matches.keySet());
 	}
 
@@ -192,7 +192,7 @@ public abstract class PrecedenceStructure<M> {
 		HashMap<M, org.moflon.tgg.runtime.TripleMatch> conversionTable = convertToMatches();
 		ps.getTripleMatches().addAll(conversionTable.values().stream().sorted((a, b) -> a.getNumber() - b.getNumber())
 				.collect(Collectors.toList()));
-		
+
 		getMatchIDs().forEach(m -> {
 			children(m).forEach(child -> {
 				if (conversionTable.containsKey(intToMatch(m)))
@@ -248,12 +248,12 @@ public abstract class PrecedenceStructure<M> {
 	protected abstract M fromEMF(org.moflon.tgg.runtime.TripleMatch m);
 
 	public M intToMatch(int id) {
-		if(!matches.containsKey(id))
+		if (!matches.containsKey(id))
 			throw new RuntimeException("never seen that match id before");
 		return matches.get(id);
 	}
-	
-	public int matchToInt(M m){
+
+	public int matchToInt(M m) {
 		return matchToInt.get(m);
 	}
 

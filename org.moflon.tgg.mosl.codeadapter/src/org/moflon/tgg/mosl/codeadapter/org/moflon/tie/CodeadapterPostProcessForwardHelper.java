@@ -99,7 +99,7 @@ public class CodeadapterPostProcessForwardHelper {
 			ParamValue pVal = attrCond.getValues().get(i);
 			Collection<ParamValueToVariable> corrs = eMoflonEMFUtil.getOppositeReferenceTyped(pVal,
 					ParamValueToVariable.class, "source");
-			if(corrs.size() != 1)
+			if (corrs.size() != 1)
 				throw new IllegalStateException("There must be exactly one correspondence for " + pVal);
 			Variable var = corrs.stream().findAny().get().getTarget();
 			tggConstraint.getVariables().move(i, var);

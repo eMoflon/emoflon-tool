@@ -18,49 +18,48 @@ import org.junit.runners.model.RunnerScheduler;
  * @author Mathieu Carbou (mathieu.carbou@gmail.com)
  */
 public class ConcurrentJunitRunner extends BlockJUnit4ClassRunner {
-    public ConcurrentJunitRunner(final Class<?> klass) throws InitializationError {
-        super(klass);
-        
-        setScheduler(new RunnerScheduler() {
-            ExecutorService executorService = Executors.newFixedThreadPool(
-                            (int) (Runtime.getRuntime().availableProcessors()),
-                    new NamedThreadFactory(klass.getSimpleName()));
-            CompletionService<Void> completionService = new ExecutorCompletionService<Void>(executorService);
-            Queue<Future<Void>> tasks = new LinkedList<Future<Void>>();
+	public ConcurrentJunitRunner(final Class<?> klass) throws InitializationError {
+		super(klass);
 
-            @Override
-            public void schedule(Runnable childStatement) {
-                tasks.offer(completionService.submit(childStatement, null));
-            }
+		setScheduler(new RunnerScheduler() {
+			ExecutorService executorService = Executors.newFixedThreadPool(
+					(int) (Runtime.getRuntime().availableProcessors()), new NamedThreadFactory(klass.getSimpleName()));
+			CompletionService<Void> completionService = new ExecutorCompletionService<Void>(executorService);
+			Queue<Future<Void>> tasks = new LinkedList<Future<Void>>();
 
-            @Override
-            public void finished() {
-                try {
-                    while (!tasks.isEmpty())
-                        tasks.remove(completionService.take());
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                } finally {
-                    while (!tasks.isEmpty())
-                        tasks.poll().cancel(true);
-                    executorService.shutdownNow();
-                }
-            }
-        });
-    }
+			@Override
+			public void schedule(Runnable childStatement) {
+				tasks.offer(completionService.submit(childStatement, null));
+			}
 
-    static final class NamedThreadFactory implements ThreadFactory {
-        static final AtomicInteger poolNumber = new AtomicInteger(1);
-        final AtomicInteger threadNumber = new AtomicInteger(1);
-        final ThreadGroup group;
+			@Override
+			public void finished() {
+				try {
+					while (!tasks.isEmpty())
+						tasks.remove(completionService.take());
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} finally {
+					while (!tasks.isEmpty())
+						tasks.poll().cancel(true);
+					executorService.shutdownNow();
+				}
+			}
+		});
+	}
 
-        NamedThreadFactory(String poolName) {
-            group = new ThreadGroup(poolName + "-" + poolNumber.getAndIncrement());
-        }
+	static final class NamedThreadFactory implements ThreadFactory {
+		static final AtomicInteger poolNumber = new AtomicInteger(1);
+		final AtomicInteger threadNumber = new AtomicInteger(1);
+		final ThreadGroup group;
 
-        @Override
-        public Thread newThread(Runnable r) {
-            return new Thread(group, r, group.getName() + "-thread-" + threadNumber.getAndIncrement(), 0);
-        }
-    }
+		NamedThreadFactory(String poolName) {
+			group = new ThreadGroup(poolName + "-" + poolNumber.getAndIncrement());
+		}
+
+		@Override
+		public Thread newThread(Runnable r) {
+			return new Thread(group, r, group.getName() + "-thread-" + threadNumber.getAndIncrement(), 0);
+		}
+	}
 }

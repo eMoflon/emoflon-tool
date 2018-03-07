@@ -18,41 +18,36 @@ import com.google.inject.Binder;
 import SDMLanguage.SDMLanguagePackage;
 
 /**
- * Use this class to register components to be used at runtime / without the Equinox extension registry.
+ * Use this class to register components to be used at runtime / without the
+ * Equinox extension registry.
  */
-public class TGGRuntimeModule extends org.moflon.tgg.mosl.AbstractTGGRuntimeModule
-{
+public class TGGRuntimeModule extends org.moflon.tgg.mosl.AbstractTGGRuntimeModule {
 
-   @Override
-   public Class<? extends IScopeProvider> bindIScopeProvider()
-   {
-      return TGGScopeProvider.class;
-   }
+	@Override
+	public Class<? extends IScopeProvider> bindIScopeProvider() {
+		return TGGScopeProvider.class;
+	}
 
-   @Override
-   public void configure(final Binder binder)
-   {
-      super.configure(binder);
-   }
+	@Override
+	public void configure(final Binder binder) {
+		super.configure(binder);
+	}
 
-   // Temporarily solution issue #781 (EObjectValidator has been switched off completely :-))
-   @Override
-   public org.eclipse.emf.ecore.EValidator.Registry bindEValidatorRegistry()
-   {
-      org.eclipse.emf.ecore.EValidator.Registry registry = super.bindEValidatorRegistry();
-      registry.put(SDMLanguagePackage.eINSTANCE, new NonRequiredFeatureValidatingValidator());
-      registry.put(CspPackageImpl.eINSTANCE, new NonRequiredFeatureValidatingValidator());
-      return registry;
-   }
-   
+	// Temporarily solution issue #781 (EObjectValidator has been switched off
+	// completely :-))
+	@Override
+	public org.eclipse.emf.ecore.EValidator.Registry bindEValidatorRegistry() {
+		org.eclipse.emf.ecore.EValidator.Registry registry = super.bindEValidatorRegistry();
+		registry.put(SDMLanguagePackage.eINSTANCE, new NonRequiredFeatureValidatingValidator());
+		registry.put(CspPackageImpl.eINSTANCE, new NonRequiredFeatureValidatingValidator());
+		return registry;
+	}
 
-   private final class NonRequiredFeatureValidatingValidator extends EObjectValidator
-   {
-      @Override
-      protected boolean validate_MultiplicityConforms(EObject eObject, EStructuralFeature eStructuralFeature, DiagnosticChain diagnostics,
-            Map<Object, Object> context)
-      {
-         return true;
-      }
-   }
+	private final class NonRequiredFeatureValidatingValidator extends EObjectValidator {
+		@Override
+		protected boolean validate_MultiplicityConforms(EObject eObject, EStructuralFeature eStructuralFeature,
+				DiagnosticChain diagnostics, Map<Object, Object> context) {
+			return true;
+		}
+	}
 }

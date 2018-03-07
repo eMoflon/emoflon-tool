@@ -44,7 +44,7 @@ import org.moflon.tgg.language.precompiler.RefinementPrecompiler;
 import net.sourceforge.plantuml.eclipse.utils.DiagramTextProvider;
 
 public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
-   private static final Logger logger = Logger.getLogger(MOSLTGGDiagramTextProvider.class);
+	private static final Logger logger = Logger.getLogger(MOSLTGGDiagramTextProvider.class);
 	private boolean outdated = false;
 	private XtextEditor oldEditor;
 	private HashMap<String, String> oldValue = new HashMap<>();
@@ -63,7 +63,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 						jobManager.join(ResourcesPlugin.FAMILY_AUTO_BUILD, new NullProgressMonitor());
 						outdated = true;
 					} catch (Exception e) {
-                  LogUtils.error(logger, e);
+						LogUtils.error(logger, e);
 					}
 
 					return Status.OK_STATUS;
@@ -78,7 +78,7 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	@Override
 	public String getDiagramText(final IEditorPart editorPart, final ISelection selection) {
 		try {
-			 final TripleGraphGrammar preTgg = getTGG(MoslTggConstants.PRE_TGG_FILE_EXTENSION);
+			final TripleGraphGrammar preTgg = getTGG(MoslTggConstants.PRE_TGG_FILE_EXTENSION);
 
 			// look for the correct tggFile
 			TripleGraphGrammar tgg = getTGG();
@@ -95,9 +95,9 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 
 			// Decision for Schema or Rule
 			if (!rule.isPresent()) {
-				String schemaKeyName= getKeyName("Schema");
+				String schemaKeyName = getKeyName("Schema");
 				String diagram = oldValue.get(schemaKeyName);
-				if(diagram == null){
+				if (diagram == null) {
 					TGGSchemaDiagramTextProvider schemaProvider = new TGGSchemaDiagramTextProvider();
 					DirectedGraph graph = (DirectedGraph) schemaProvider.modelToDot(preTgg);
 					diagram = graph != null ? new DotUnparserAdapter().unparse(graph) : "@startuml @enduml";
@@ -107,7 +107,8 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 				return rule.map(r -> {
 					outdated = false;
 					TGGRuleDiagramTextProvider tggTextProvider = new TGGRuleDiagramTextProvider();
-					String diagram = new DotUnparserAdapter().unparse(tggTextProvider.modelToDot(handleRule(r, preTgg, r.isAbstractRule())));
+					String diagram = new DotUnparserAdapter()
+							.unparse(tggTextProvider.modelToDot(handleRule(r, preTgg, r.isAbstractRule())));
 					oldValue.put(getKeyName(r.getName()), diagram);
 					return diagram;
 				}).orElse("@startuml @enduml");
@@ -117,43 +118,42 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 		}
 	}
 
-   @Override
-   public boolean supportsEditor(IEditorPart editorPart) {
-      if (oldEditor != null && oldEditor.equals(editorPart))
-         return true;
+	@Override
+	public boolean supportsEditor(IEditorPart editorPart) {
+		if (oldEditor != null && oldEditor.equals(editorPart))
+			return true;
 
-      if (editorPart instanceof XtextEditor) {
-         XtextEditor ed = (XtextEditor) editorPart;
-         if ("org.moflon.tgg.mosl.TGG".equals(ed.getLanguageName())) {
-            oldEditor = ed;
-            oldValue = new HashMap<>();
-            oldEditor.addPropertyListener(listener);
-            return true;
-         }
-      }
+		if (editorPart instanceof XtextEditor) {
+			XtextEditor ed = (XtextEditor) editorPart;
+			if ("org.moflon.tgg.mosl.TGG".equals(ed.getLanguageName())) {
+				oldEditor = ed;
+				oldValue = new HashMap<>();
+				oldEditor.addPropertyListener(listener);
+				return true;
+			}
+		}
 
-      return false;
-   }
+		return false;
+	}
 
-   @Override
-   public boolean supportsSelection(ISelection arg0)
-   {
-      // TODO Auto-generated method stub
-      return false;
-   }
+	@Override
+	public boolean supportsSelection(ISelection arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-	private String getKeyName(String name){
+	private String getKeyName(String name) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(project.getLocation().toOSString()).append('/').append(name);
 		return sb.toString();
 	}
 
-	private TGGRule handleRule(TGGRule rule, TripleGraphGrammar preTgg, boolean condition){
-		if(ToggleRefinementHandler.flattenRefinements() && condition){
-			RefinementPrecompiler rp =PrecompilerFactory.eINSTANCE.createRefinementPrecompiler();
+	private TGGRule handleRule(TGGRule rule, TripleGraphGrammar preTgg, boolean condition) {
+		if (ToggleRefinementHandler.flattenRefinements() && condition) {
+			RefinementPrecompiler rp = PrecompilerFactory.eINSTANCE.createRefinementPrecompiler();
 			PrecompileLog pLog = PrecompilerFactory.eINSTANCE.createPrecompileLog();
 			rp.setPrecompilelog(pLog);
-			for(TGGRule parent : rule.getRefines()){
+			for (TGGRule parent : rule.getRefines()) {
 				parent = handleRule(parent, preTgg, true);
 				rp.combineRuleWithParent(rule, parent);
 			}
@@ -184,7 +184,8 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 		if (oldEditor != null && oldEditor.getEditorInput() instanceof FileEditorInput) {
 			IFile file = FileEditorInput.class.cast(oldEditor.getEditorInput()).getFile();
 			project = file.getProject();
-			IFile tggFile = project.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), fileExtension));
+			IFile tggFile = project
+					.getFile(MoflonConventions.getDefaultPathToFileInProject(project.getName(), fileExtension));
 			if (tggFile.exists()) {
 				ResourceSet rs = eMoflonEMFUtil.createDefaultResourceSet();
 				PluginURIToResourceURIRemapper.createPluginToResourceMap(rs);
@@ -198,7 +199,8 @@ public class MOSLTGGDiagramTextProvider implements DiagramTextProvider {
 	}
 
 	private String getTGGFileWithRules() {
-		String tggFile = ToggleRefinementHandler.flattenRefinements() ? MoslTggConstants.TGG_FILE_EXTENSION : MoslTggConstants.PRE_TGG_FILE_EXTENSION;
+		String tggFile = ToggleRefinementHandler.flattenRefinements() ? MoslTggConstants.TGG_FILE_EXTENSION
+				: MoslTggConstants.PRE_TGG_FILE_EXTENSION;
 		if (!currentTggFile.equals(tggFile)) {
 			currentTggFile = tggFile;
 			outdated = true;

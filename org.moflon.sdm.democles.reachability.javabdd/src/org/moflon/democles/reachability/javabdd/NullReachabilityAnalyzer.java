@@ -9,16 +9,14 @@ import org.gervarro.democles.compiler.CompilerPattern;
  * @author Roland Kluge - Initial implementation
  *
  */
-public class NullReachabilityAnalyzer implements ReachabilityAnalyzer
-{
+public class NullReachabilityAnalyzer implements ReachabilityAnalyzer {
 
-   /**
-    * Always true.
-    */
-   @Override
-   public boolean analyzeReachability(final CompilerPattern pattern, final Adornment adornment)
-   {
-      return true;
-   }
+	/**
+	 * Always true.
+	 */
+	@Override
+	public boolean analyzeReachability(final CompilerPattern pattern, final Adornment adornment) {
+		return true;
+	}
 
 }

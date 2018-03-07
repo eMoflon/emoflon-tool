@@ -4,18 +4,15 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
-public class RedrawGraphSelectionAdapter extends SelectionAdapter
-{
-   private Viewer viewer;
+public class RedrawGraphSelectionAdapter extends SelectionAdapter {
+	private Viewer viewer;
 
-   public RedrawGraphSelectionAdapter(Viewer viewer)
-   {
-      this.viewer = viewer;
-   }
+	public RedrawGraphSelectionAdapter(Viewer viewer) {
+		this.viewer = viewer;
+	}
 
-   @Override
-   public void widgetSelected(SelectionEvent e)
-   {
-      viewer.setInput(viewer.getInput());
-   }
+	@Override
+	public void widgetSelected(SelectionEvent e) {
+		viewer.setInput(viewer.getInput());
+	}
 }

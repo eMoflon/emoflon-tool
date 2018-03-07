@@ -16,41 +16,33 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
-public class AdapterResource extends XMIResourceImpl implements Adapter.Internal
-{
+public class AdapterResource extends XMIResourceImpl implements Adapter.Internal {
 
-   protected Notifier target = null;
+	protected Notifier target = null;
 
-   public AdapterResource(URI uri)
-   {
-      super(uri);
-   }
+	public AdapterResource(URI uri) {
+		super(uri);
+	}
 
-   public boolean isAdapterForType(Object type)
-   {
-      return uri.fileExtension().equals(type);
-   }
+	public boolean isAdapterForType(Object type) {
+		return uri.fileExtension().equals(type);
+	}
 
-   public void notifyChanged(Notification msg)
-   {
-      // Do nothing.
-   }
+	public void notifyChanged(Notification msg) {
+		// Do nothing.
+	}
 
-   public Notifier getTarget()
-   {
-      return target;
-   }
+	public Notifier getTarget() {
+		return target;
+	}
 
-   public void setTarget(Notifier newTarget)
-   {
-      target = newTarget;
-   }
+	public void setTarget(Notifier newTarget) {
+		target = newTarget;
+	}
 
-   public void unsetTarget(Notifier oldTarget)
-   {
-      if (target == oldTarget)
-      {
-         setTarget(null);
-      }
-   }
+	public void unsetTarget(Notifier oldTarget) {
+		if (target == oldTarget) {
+			setTarget(null);
+		}
+	}
 }

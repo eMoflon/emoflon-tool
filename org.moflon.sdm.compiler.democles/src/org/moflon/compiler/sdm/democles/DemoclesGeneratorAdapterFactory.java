@@ -4,7 +4,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.moflon.emf.codegen.GeneratorAdapterFactory;
 import org.moflon.emf.injection.ide.InjectionManager;
 
-public class DemoclesGeneratorAdapterFactory extends GeneratorAdapterFactory implements org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor {
+public class DemoclesGeneratorAdapterFactory extends GeneratorAdapterFactory
+		implements org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor {
 	final TemplateConfigurationProvider config;
 
 	public DemoclesGeneratorAdapterFactory(final TemplateConfigurationProvider templateConfigurationProvider,

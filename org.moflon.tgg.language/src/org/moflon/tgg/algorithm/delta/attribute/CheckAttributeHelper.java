@@ -20,24 +20,24 @@ public class CheckAttributeHelper {
 	public boolean hasExpectedValue(String ovName, String attributeName, Object expectedValue, ComparingOperator comp) {
 		// Ensure value is as expected
 		switch (comp) {
-		case EQUAL:			
+		case EQUAL:
 			return getValue(ovName, attributeName).equals(expectedValue);
 
 		case UNEQUAL:
 			return !getValue(ovName, attributeName).equals(expectedValue);
-			
+
 		case GREATER:
-			return (Double)getValue(ovName, attributeName) > (Double)expectedValue;
-			
+			return (Double) getValue(ovName, attributeName) > (Double) expectedValue;
+
 		case GREATER_OR_EQUAL:
-			return (Double)getValue(ovName, attributeName) >= (Double)expectedValue;
-			
+			return (Double) getValue(ovName, attributeName) >= (Double) expectedValue;
+
 		case LESS:
-			return (Double)getValue(ovName, attributeName) < (Double)expectedValue;
-			
+			return (Double) getValue(ovName, attributeName) < (Double) expectedValue;
+
 		case LESS_OR_EQUAL:
-			return (Double)getValue(ovName, attributeName) <= (Double)expectedValue;
-			
+			return (Double) getValue(ovName, attributeName) <= (Double) expectedValue;
+
 		default:
 			return false;
 		}
@@ -59,11 +59,9 @@ public class CheckAttributeHelper {
 	}
 
 	private Optional<TripleMatchNodeMapping> getMappingForOV(String ovName) {
-		return tripleMatch.getNodeMappings().stream()
-				.filter(nm -> nm.getNodeName().equals(ovName))
-				.findAny();
+		return tripleMatch.getNodeMappings().stream().filter(nm -> nm.getNodeName().equals(ovName)).findAny();
 	}
-	
+
 	public void setValue(String ovName, String attributeName, Object value) {
 		// Retrieve correct node in match
 		Optional<TripleMatchNodeMapping> mapping = getMappingForOV(ovName);

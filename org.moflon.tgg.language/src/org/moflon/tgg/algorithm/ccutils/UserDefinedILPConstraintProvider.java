@@ -5,9 +5,7 @@ import java.util.Collection;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 
 public interface UserDefinedILPConstraintProvider {
-	
-	
-	public Collection<UserDefinedILPConstraint> getUserDefinedConstraints(ConsistencyCheckPrecedenceGraph protocol);
 
+	public Collection<UserDefinedILPConstraint> getUserDefinedConstraints(ConsistencyCheckPrecedenceGraph protocol);
 
 }

@@ -11,20 +11,17 @@ import org.gervarro.democles.specification.emf.Pattern;
 import org.gervarro.democles.specification.impl.DefaultPattern;
 import org.gervarro.democles.specification.impl.DefaultPatternBody;
 
-public class BindingAndBlackPatternMatcherCompiler extends
-		PatternMatcherCompiler {
+public class BindingAndBlackPatternMatcherCompiler extends PatternMatcherCompiler {
 
-	public BindingAndBlackPatternMatcherCompiler(
-			EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder,
+	public BindingAndBlackPatternMatcherCompiler(EMFPatternBuilder<DefaultPattern, DefaultPatternBody> patternBuilder,
 			CompilerPatternBuilder compilerPatternBuilder) {
 		super(patternBuilder, compilerPatternBuilder);
 	}
-	
+
 	protected CompilerPattern compilePattern(Pattern pattern, Adornment adornment) {
-		org.gervarro.democles.specification.impl.DefaultPattern patternRuntime = 
-				patternBuilder.build(pattern);
-		final OperationBuilder<GeneratorOperation,GeneratorVariable> builder =
-				new BindingAndBlackOperationBuilder(pattern, adornment);
+		org.gervarro.democles.specification.impl.DefaultPattern patternRuntime = patternBuilder.build(pattern);
+		final OperationBuilder<GeneratorOperation, GeneratorVariable> builder = new BindingAndBlackOperationBuilder(
+				pattern, adornment);
 		compilablePatternBuilder.addOperationBuilder(builder);
 		try {
 			final CompilerPattern compilerPattern = compilablePatternBuilder.build(patternRuntime);

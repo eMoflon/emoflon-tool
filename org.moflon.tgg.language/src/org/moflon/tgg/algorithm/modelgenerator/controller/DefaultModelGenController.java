@@ -1,12 +1,10 @@
 package org.moflon.tgg.algorithm.modelgenerator.controller;
 
-public class DefaultModelGenController extends AbstractModelGenerationController
-{
+public class DefaultModelGenController extends AbstractModelGenerationController {
 
-   @Override
-   public void initializeSubControllers()
-   {
+	@Override
+	public void initializeSubControllers() {
 
-   }
+	}
 
 }

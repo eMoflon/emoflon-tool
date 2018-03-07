@@ -61,22 +61,21 @@ public class ConsistencySynchronizer {
 	private PrecedenceInputGraph targetPrecedenceGraph;
 
 	private TIntObjectHashMap<TIntHashSet> appliedSourceToTarget;
-	
+
 	private UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
 	private UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider;
 
 	private int variableCount;
-	
+
 	private int constraintCount;
-	
+
 	private AbstractILPSolver solver;
 
 	private double runtimeOfCorrespondenceCreation;
-	
-	private double runtimeOfILPSolving;
-	
-	private double runtimeOfRemovingDeselectedCorrespondences;
 
+	private double runtimeOfILPSolving;
+
+	private double runtimeOfRemovingDeselectedCorrespondences;
 
 	public ConsistencySynchronizer(Delta srcDelta, Delta trgDelta, StaticAnalysis staticAnalysis,
 			CorrespondenceModel graphTriple, ConsistencyCheckPrecedenceGraph protocol) {
@@ -98,11 +97,11 @@ public class ConsistencySynchronizer {
 
 		applyAllMatchPairs();
 		double toc = System.currentTimeMillis();
-		
+
 		runtimeOfCorrespondenceCreation = toc - tic;
 
 		filter();
-	
+
 	}
 
 	private void applyAllMatchPairs() {
@@ -132,7 +131,7 @@ public class ConsistencySynchronizer {
 						arguments.add(sourceMatch);
 						arguments.add(targetMatch);
 						EOperation isApplCC = sourceMatch.getIsApplicableCCOperation();
-						if(isApplCC == null)
+						if (isApplCC == null)
 							isApplCC = targetMatch.getIsApplicableCCOperation();
 						IsApplicableRuleResult isApplRR = (IsApplicableRuleResult) InvokeUtil
 								.invokeOperationWithNArguments(isApplCC.getEContainingClass(), isApplCC, arguments);
@@ -154,31 +153,31 @@ public class ConsistencySynchronizer {
 	}
 
 	private void filter() {
-		
+
 		double tic = System.currentTimeMillis();
 
 		solver = new ILP_Gurobi_Solver();
-		
-		if(userDefinedILPConstraintProvider != null)
+
+		if (userDefinedILPConstraintProvider != null)
 			solver.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
-		if(userDefinedILPObjectiveProvider != null)
+		if (userDefinedILPObjectiveProvider != null)
 			solver.setUserDefinedILPObjectiveProvider(userDefinedILPObjectiveProvider);
-		
+
 		int[] solvingResult = solver.solve(srcElements, trgElements, protocol);
-		
+
 		variableCount = solver.getVariableCount();
 		constraintCount = solver.getConstraintCount();
-		
+
 		double toc = System.currentTimeMillis();
-		
+
 		runtimeOfILPSolving = toc - tic;
-		
+
 		double tic2 = System.currentTimeMillis();
 		removeMatches(solvingResult);
 		double toc2 = System.currentTimeMillis();
-		
+
 		runtimeOfRemovingDeselectedCorrespondences = toc2 - tic2;
-		
+
 	}
 
 	private void removeMatches(int[] matches) {
@@ -191,17 +190,14 @@ public class ConsistencySynchronizer {
 			}
 		}
 
-		
 		protocol.removeMatches(excluded);
-		
+
 	}
-
-
 
 	private void extractMatchPairs() {
 		Collection<Match> srcMatches = collectDerivations(srcElements, srcLookupMethods);
 		Collection<Match> trgMatches = collectDerivations(trgElements, trgLookupMethods);
-		
+
 		Set<String> ruleNames = Stream
 				.concat(srcLookupMethods.getRules().stream(), trgLookupMethods.getRules().stream())
 				.map(r -> r.getRuleName()).collect(Collectors.toSet());
@@ -217,7 +213,7 @@ public class ConsistencySynchronizer {
 				trgMatches.add(emptyMatch);
 		});
 
-		// collect precedences 
+		// collect precedences
 		sourcePrecedenceGraph.collectAllPrecedences(srcMatches);
 		targetPrecedenceGraph.collectAllPrecedences(trgMatches);
 
@@ -229,7 +225,8 @@ public class ConsistencySynchronizer {
 	}
 
 	private boolean noIsApprMethod(String ruleName, RulesTable lookupMethods) {
-		return lookupMethods.getRules().stream().filter(r -> r.getRuleName().equals(ruleName)).findAny().get().getIsAppropriateMethods().isEmpty();
+		return lookupMethods.getRules().stream().filter(r -> r.getRuleName().equals(ruleName)).findAny().get()
+				.getIsAppropriateMethods().isEmpty();
 	}
 
 	private void extendReady(TIntCollection readyMatches, PrecedenceInputGraph pg) {
@@ -252,49 +249,51 @@ public class ConsistencySynchronizer {
 			readyMatches.addAll(newReady);
 		}
 	}
-	
-	public Collection<EObject> getInconsistentSourceElements(){
+
+	public Collection<EObject> getInconsistentSourceElements() {
 		return getInconsistentElements(srcElements);
-		
+
 	}
-	
-	public Collection<EObject> getInconsistentTargetElements(){
+
+	public Collection<EObject> getInconsistentTargetElements() {
 		return getInconsistentElements(trgElements);
 	}
-	
-	private Collection<EObject> getInconsistentElements(Graph graph){
-		
+
+	private Collection<EObject> getInconsistentElements(Graph graph) {
+
 		Graph unmarked = new Graph(graph.getElements());
 
-		Collection<EObject> consistent = protocol.getMatches().stream().flatMap(m -> m.getCreatedHashSet().stream()).collect(Collectors.toSet());
+		Collection<EObject> consistent = protocol.getMatches().stream().flatMap(m -> m.getCreatedHashSet().stream())
+				.collect(Collectors.toSet());
 		unmarked.removeDestructive(consistent);
-		
-		//remove opposite edges as well
+
+		// remove opposite edges as well
 		Collection<EObject> consistentOppositeEdges = new HashSet<>();
-		for(EMoflonEdge edge : unmarked.getEdges()){
+		for (EMoflonEdge edge : unmarked.getEdges()) {
 			EReference feature = (EReference) edge.getSrc().eClass().getEStructuralFeature(edge.getName());
-			if(feature.getEOpposite() != null){
+			if (feature.getEOpposite() != null) {
 				EMoflonEdge oppositeEdge = RuntimeFactory.eINSTANCE.createEMoflonEdge();
 				oppositeEdge.setName(feature.getEOpposite().getName());
 				oppositeEdge.setSrc(edge.getTrg());
 				oppositeEdge.setTrg(edge.getSrc());
-				if(consistent.contains(oppositeEdge))
-					consistentOppositeEdges.add(edge);					
+				if (consistent.contains(oppositeEdge))
+					consistentOppositeEdges.add(edge);
 			}
 		}
 		unmarked.removeDestructive(consistentOppositeEdges);
-		
+
 		return unmarked.getElements();
 	}
-	
-	protected void setUserDefinedILPConstraintProvider(UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
+
+	protected void setUserDefinedILPConstraintProvider(
+			UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
 		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
 	}
-	
+
 	public void setUserDefinedILPObjectiveProvider(UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider) {
 		this.userDefinedILPObjectiveProvider = userDefinedILPObjectiveProvider;
 	}
-	
+
 	public int getVariableCount() {
 		return variableCount;
 	}
@@ -302,13 +301,13 @@ public class ConsistencySynchronizer {
 	public int getConstraintCount() {
 		return constraintCount;
 	}
-	
-	public Problem getILPProblem(){
-		if(solver == null)
+
+	public Problem getILPProblem() {
+		if (solver == null)
 			throw new RuntimeException("You first need to execute consistency checking to prepare an ILP problem");
 		return solver.getILPProblem();
 	}
-	
+
 	public double getRuntimeOfCorrespondenceCreation() {
 		return runtimeOfCorrespondenceCreation;
 	}

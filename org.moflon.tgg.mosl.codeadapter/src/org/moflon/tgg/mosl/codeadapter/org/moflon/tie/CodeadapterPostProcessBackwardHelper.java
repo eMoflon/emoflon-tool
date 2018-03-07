@@ -68,7 +68,7 @@ public class CodeadapterPostProcessBackwardHelper {
 			if (corr instanceof CorrTypeToEClass)
 				postProcessBackward_CorrType((CorrTypeToEClass) corr);
 
-			if (corr instanceof RuleToTGGRule) 
+			if (corr instanceof RuleToTGGRule)
 				postProcessBackward_Rule((RuleToTGGRule) corr);
 
 			if (corr instanceof ObjectVariablePatternToTGGObjectVariable)
@@ -218,14 +218,14 @@ public class CodeadapterPostProcessBackwardHelper {
 				}
 			}
 		}
-		
+
 		// Import and add referenced source and target packages
 		EPackage srcPack = corrType.getSource().getEPackage();
 		EPackage trgPack = corrType.getTarget().getEPackage();
-		
+
 		importEPackage(schema, srcPack);
 		importEPackage(schema, trgPack);
-		
+
 		if (!schema.getSourceTypes().contains(srcPack))
 			schema.getSourceTypes().add(srcPack);
 
@@ -260,23 +260,19 @@ public class CodeadapterPostProcessBackwardHelper {
 
 	}
 
-   private void importEPackage(Schema schema, EPackage epackage)
-   {
-      if (epackage != null)
-      {
-         String ePackageNsURI = epackage.getNsURI();
-         if (ePackageNsURI != null)
-         {
-            if (!addedImports.contains(ePackageNsURI))
-            {
-               addedImports.add(ePackageNsURI);
-               Import packageImport = TggFactory.eINSTANCE.createImport();
-               packageImport.setName(ePackageNsURI);
-               schema.getImports().add(packageImport);
-            }
-         }
-      }
-   }
+	private void importEPackage(Schema schema, EPackage epackage) {
+		if (epackage != null) {
+			String ePackageNsURI = epackage.getNsURI();
+			if (ePackageNsURI != null) {
+				if (!addedImports.contains(ePackageNsURI)) {
+					addedImports.add(ePackageNsURI);
+					Import packageImport = TggFactory.eINSTANCE.createImport();
+					packageImport.setName(ePackageNsURI);
+					schema.getImports().add(packageImport);
+				}
+			}
+		}
+	}
 
 	private void setSuperCorrType(CorrType corrType, EClass corrEClass, Schema schema) {
 		for (EClass trgSuperCorrType : corrEClass.getEAllSuperTypes()) {

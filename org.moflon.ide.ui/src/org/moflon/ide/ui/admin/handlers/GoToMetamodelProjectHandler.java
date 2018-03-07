@@ -19,60 +19,50 @@ import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
 import org.moflon.core.ui.AbstractCommandHandler;
 
 /**
- * Handler that selects the corresponding meta-model for a repository project (in the Package Explorer).
+ * Handler that selects the corresponding meta-model for a repository project
+ * (in the Package Explorer).
  */
-public class GoToMetamodelProjectHandler extends AbstractCommandHandler
-{
+public class GoToMetamodelProjectHandler extends AbstractCommandHandler {
 
-   @Override
-   public Object execute(final ExecutionEvent event) throws ExecutionException
-   {
-      final ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
-      IProject project = null;
-      if (selection instanceof StructuredSelection)
-      {
-         final StructuredSelection structuredSelection = (StructuredSelection) selection;
-         final Object firstElement = structuredSelection.getFirstElement();
-         if (firstElement instanceof IJavaProject)
-         {
-            project = ((IJavaProject) firstElement).getProject();
-         }
-         else if(firstElement instanceof IResource)
-         {
-            project = ((IResource) firstElement).getProject();
-         }
-         else if (firstElement instanceof IJavaElement)
-         {
-             project = ((IJavaElement) firstElement).getJavaProject().getProject();
-         }
-      } else if (selection instanceof ITextSelection)
-      {
-         project = getEditedFile(event).getProject();
-      }
+	@Override
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		final ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
+		IProject project = null;
+		if (selection instanceof StructuredSelection) {
+			final StructuredSelection structuredSelection = (StructuredSelection) selection;
+			final Object firstElement = structuredSelection.getFirstElement();
+			if (firstElement instanceof IJavaProject) {
+				project = ((IJavaProject) firstElement).getProject();
+			} else if (firstElement instanceof IResource) {
+				project = ((IResource) firstElement).getProject();
+			} else if (firstElement instanceof IJavaElement) {
+				project = ((IJavaElement) firstElement).getJavaProject().getProject();
+			}
+		} else if (selection instanceof ITextSelection) {
+			project = getEditedFile(event).getProject();
+		}
 
-      if (project != null && project.exists())
-      {
-         final MoflonPropertiesContainer properties = MoflonPropertiesContainerHelper.load(project, new NullProgressMonitor());
-         if (properties.getMetaModelProject() == null)
-         {
-            logger.error("Meta-model property of project " + project.getName() + " is not set.");
-         }
-         else 
-         {
+		if (project != null && project.exists()) {
+			final MoflonPropertiesContainer properties = MoflonPropertiesContainerHelper.load(project,
+					new NullProgressMonitor());
+			if (properties.getMetaModelProject() == null) {
+				logger.error("Meta-model property of project " + project.getName() + " is not set.");
+			} else {
 
-            final String metaModelProjectName = properties.getMetaModelProject().getMetaModelProjectName();
+				final String metaModelProjectName = properties.getMetaModelProject().getMetaModelProjectName();
 
-            final IProject metaModelProject = ResourcesPlugin.getWorkspace().getRoot().getProject(metaModelProjectName);
+				final IProject metaModelProject = ResourcesPlugin.getWorkspace().getRoot()
+						.getProject(metaModelProjectName);
 
-            final IWorkbenchPart activePart = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getActivePart();
-            if (activePart != null && activePart instanceof IPackagesViewPart)
-            {
-               ((IPackagesViewPart) activePart).selectAndReveal(metaModelProject);
-            }
-         }
-      }
+				final IWorkbenchPart activePart = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage()
+						.getActivePart();
+				if (activePart != null && activePart instanceof IPackagesViewPart) {
+					((IPackagesViewPart) activePart).selectAndReveal(metaModelProject);
+				}
+			}
+		}
 
-      return null;
-   }
+		return null;
+	}
 
 }

@@ -4,13 +4,12 @@
 package org.moflon.tgg.mosl;
 
 /**
- * Initialization support for running Xtext languages 
- * without equinox extension registry
+ * Initialization support for running Xtext languages without equinox extension
+ * registry
  */
-public class TGGStandaloneSetup extends TGGStandaloneSetupGenerated{
+public class TGGStandaloneSetup extends TGGStandaloneSetupGenerated {
 
 	public static void doSetup() {
 		new TGGStandaloneSetup().createInjectorAndDoEMFRegistration();
 	}
 }
-

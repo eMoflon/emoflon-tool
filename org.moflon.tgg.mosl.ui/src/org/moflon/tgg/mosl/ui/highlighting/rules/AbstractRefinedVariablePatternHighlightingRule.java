@@ -7,7 +7,8 @@ import org.moflon.tgg.mosl.tgg.CorrVariablePattern;
 import org.moflon.tgg.mosl.tgg.NamePattern;
 import org.moflon.tgg.mosl.tgg.Rule;
 
-public abstract class AbstractRefinedVariablePatternHighlightingRule extends AbstractNamePatternHighlightRule implements IOperatorRelated {
+public abstract class AbstractRefinedVariablePatternHighlightingRule extends AbstractNamePatternHighlightRule
+		implements IOperatorRelated {
 
 	public AbstractRefinedVariablePatternHighlightingRule(String id, String description) {
 		super(id, description);
@@ -47,11 +48,10 @@ public abstract class AbstractRefinedVariablePatternHighlightingRule extends Abs
 		return tmp;
 	}
 
-	private boolean containsRuleVariablePatternName(Rule rule,boolean isSource, NamePattern origin) {
+	private boolean containsRuleVariablePatternName(Rule rule, boolean isSource, NamePattern origin) {
 		return origin instanceof CorrVariablePattern
 				? containsRuleVariablePatternName(rule.getCorrespondencePatterns(), origin)
-				: (isSource?
-						containsRuleVariablePatternName(rule.getSourcePatterns(), origin)
+				: (isSource ? containsRuleVariablePatternName(rule.getSourcePatterns(), origin)
 						: containsRuleVariablePatternName(rule.getTargetPatterns(), origin));
 	}
 

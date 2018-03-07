@@ -12,14 +12,13 @@ import org.moflon.ide.core.runtime.builders.IntegrationBuilder;
 
 public class MOSLTGGNature extends ProjectConfiguratorNature {
 
-   public static String getId()
-   {
-      return "org.moflon.tgg.mosl.codeadapter.moslTGGNature";
-   }
+	public static String getId() {
+		return "org.moflon.tgg.mosl.codeadapter.moslTGGNature";
+	}
 
 	@Override
-	public ICommand[] updateBuildSpecs(final IProjectDescription description,
-			ICommand[] buildSpecs, final boolean added) throws CoreException {
+	public ICommand[] updateBuildSpecs(final IProjectDescription description, ICommand[] buildSpecs,
+			final boolean added) throws CoreException {
 		if (added) {
 			int integrationBuilderPosition = ProjectUtil.indexOf(buildSpecs, IntegrationBuilder.getId());
 			// Insert or move Xtext builder before IntegrationBuilder
@@ -38,7 +37,8 @@ public class MOSLTGGNature extends ProjectConfiguratorNature {
 				xtextBuilderPosition = integrationBuilderPosition++;
 				buildSpecs[xtextBuilderPosition] = xtextBuilder;
 			}
-			// Insert or move MOSL-TGG builder before IntegrationBuilder and after Xtext builder
+			// Insert or move MOSL-TGG builder before IntegrationBuilder and after Xtext
+			// builder
 			int moslTGGBuilderPosition = ProjectUtil.indexOf(buildSpecs, MoslTGGBuilder.BUILDER_ID);
 			if (moslTGGBuilderPosition < 0) {
 				final ICommand moslTGGBuilder = description.newCommand();
@@ -79,10 +79,10 @@ public class MOSLTGGNature extends ProjectConfiguratorNature {
 	public String[] updateNatureIDs(String[] natureIDs, final boolean added) throws CoreException {
 		if (added) {
 			if (!containsNatureID(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID)) {
-			   natureIDs = insertAtEnd(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
+				natureIDs = insertAtEnd(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);
 			}
 			if (!containsNatureID(natureIDs, MOSLTGGNature.getId())) {
-			   natureIDs = insertAtEnd(natureIDs, MOSLTGGNature.getId());
+				natureIDs = insertAtEnd(natureIDs, MOSLTGGNature.getId());
 			}
 		} else {
 			int xtextNaturePosition = ProjectUtil.indexOf(natureIDs, WorkspaceHelper.XTEXT_NATURE_ID);

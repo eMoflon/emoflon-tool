@@ -24,13 +24,13 @@ public class ExportToEAPJob extends Job {
 
 	final static private String EA_TREE_FILE_EXTENSION = ".moca.xmi";
 	final static private String CONVERTER_JOB_NAME = "Exporting Ecore-File to EAP";
-	
+
 	private Logger logger;
-	
+
 	private String filePath;
 	private Node eaTree;
 	private String ecoreFileName;
-	
+
 	public ExportToEAPJob(String filePath, String ecoreFileName, Node eaTree) {
 		super(CONVERTER_JOB_NAME);
 		this.filePath = filePath;
@@ -44,36 +44,40 @@ public class ExportToEAPJob extends Job {
 		IProject eapProject = null;
 		IFile eaTreeFile = null;
 		IFile lockFile = null;
-		if(filePath != null && eaTree != null){
+		if (filePath != null && eaTree != null) {
 			List<String> parts = Arrays.asList(filePath.split("/"));
 			eapProject = ConverterHelper.getProject(parts);
 			lockFile = ConverterHelper.getLockFile(eapProject, parts);
-			if(lockFile != null && lockFile.exists())
-				return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(UIActivator.class), IStatus.ERROR, getLockedErrorMessage(lockFile).toString(), null);
-			if(eapProject != null){
+			if (lockFile != null && lockFile.exists())
+				return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(UIActivator.class), IStatus.ERROR,
+						getLockedErrorMessage(lockFile).toString(), null);
+			if (eapProject != null) {
 				IFolder tempFolder = eapProject.getFolder(".temp");
-				if(tempFolder != null && !tempFolder.exists())
+				if (tempFolder != null && !tempFolder.exists())
 					try {
 						tempFolder.create(true, true, monitor);
 					} catch (CoreException e) {
 						logger.error("Cannot create .temp Folder", e);
 					}
-				
-				if(tempFolder != null && tempFolder.exists()){
-					eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), eaTree, tempFolder.getLocation().toString() + "/" + ecoreFileName + EA_TREE_FILE_EXTENSION);
+
+				if (tempFolder != null && tempFolder.exists()) {
+					eMoflonEMFUtil.saveModel(eMoflonEMFUtil.createDefaultResourceSet(), eaTree,
+							tempFolder.getLocation().toString() + "/" + ecoreFileName + EA_TREE_FILE_EXTENSION);
 					eaTreeFile = tempFolder.getFile(ecoreFileName + EA_TREE_FILE_EXTENSION);
-					EnterpriseArchitectHelper.importXMIFilesToEAP(parts.get(parts.size()-1),eapProject, eaTreeFile, monitor);
+					EnterpriseArchitectHelper.importXMIFilesToEAP(parts.get(parts.size() - 1), eapProject, eaTreeFile,
+							monitor);
 				}
 			}
 		}
 		return new Status(IStatus.OK, WorkspaceHelper.getPluginId(UIActivator.class), IStatus.OK, "", null);
 	}
 
-	private static StringBuilder getLockedErrorMessage(IFile lockFile){
+	private static StringBuilder getLockedErrorMessage(IFile lockFile) {
 		StringBuilder message = new StringBuilder(100);
-		message.append("Selected ").append(lockFile.getName().replace(lockFile.getFileExtension(), "")).append("eap File is open! Please close the File");
+		message.append("Selected ").append(lockFile.getName().replace(lockFile.getFileExtension(), ""))
+				.append("eap File is open! Please close the File");
 		return message;
-		
+
 	}
-	
+
 }

@@ -15,11 +15,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.moflon.emf.codegen.dependency.SDMEnhancedEcoreResource;
 
-public class SDMEnhancedEcoreResourceFactory extends XMIResourceFactoryImpl
-{
+public class SDMEnhancedEcoreResourceFactory extends XMIResourceFactoryImpl {
 
-   public Resource createResource(URI uri)
-   {
-      return new SDMEnhancedEcoreResource(uri);
-   }
+	public Resource createResource(URI uri) {
+		return new SDMEnhancedEcoreResource(uri);
+	}
 }

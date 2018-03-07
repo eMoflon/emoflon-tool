@@ -14,22 +14,21 @@ import org.gervarro.democles.compiler.CompilerPatternBody;
 
 public class RegularPatternMatcher extends SearchPlanAdapter {
 
-	public RegularPatternMatcher(String patternType, CompilerPatternBody body,
-			Adornment adornment, Chain<GeneratorOperation> searchPlan,
-			boolean multipleMatches) {
+	public RegularPatternMatcher(String patternType, CompilerPatternBody body, Adornment adornment,
+			Chain<GeneratorOperation> searchPlan, boolean multipleMatches) {
 		super(patternType, body, adornment, searchPlan, multipleMatches);
 	}
 
 	@Override
-	public TemplateInvocation prepareTemplateInvocation(
-			OperationSequenceCompiler operationSequenceCompiler,
+	public TemplateInvocation prepareTemplateInvocation(OperationSequenceCompiler operationSequenceCompiler,
 			ImportManager importManager) {
-      final Adornment adornment = getAdornment();
-      final Chain<GeneratorOperation> searchPlan = getSearchPlan();
-      final CompilerPatternBody body = getBody();
+		final Adornment adornment = getAdornment();
+		final Chain<GeneratorOperation> searchPlan = getSearchPlan();
+		final CompilerPatternBody body = getBody();
 		Chain<TemplateController> templateChain = null;
 		if (searchPlan != null) {
-			templateChain = new Chain<TemplateController>(new TemplateController(isMultiMatch() ? "/regular/AllMatches" : "/regular/SingleMatch"));
+			templateChain = new Chain<TemplateController>(
+					new TemplateController(isMultiMatch() ? "/regular/AllMatches" : "/regular/SingleMatch"));
 			templateChain = operationSequenceCompiler.buildOperationChain(searchPlan, templateChain);
 		}
 
@@ -42,7 +41,9 @@ public class RegularPatternMatcher extends SearchPlanAdapter {
 		}
 
 		return new TemplateInvocation(isMultiMatch() ? "/regular/MatchAllMethod" : "/regular/MatchSingleMethod",
-				new String[] { "engine", "importManager", "body", "adornment", "boundSymbolicParameters", "chain", "alwaysSuccessful" },
-				new Object[] { operationSequenceCompiler, importManager, body, adornment, boundInternalSymbolicParameters, templateChain, isAlwaysSuccessful() });
+				new String[] { "engine", "importManager", "body", "adornment", "boundSymbolicParameters", "chain",
+						"alwaysSuccessful" },
+				new Object[] { operationSequenceCompiler, importManager, body, adornment,
+						boundInternalSymbolicParameters, templateChain, isAlwaysSuccessful() });
 	}
 }

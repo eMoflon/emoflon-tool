@@ -1,6 +1,5 @@
 package org.moflon.ide.ui.admin.views;
 
-
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.gef4.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.gef4.zest.core.viewers.GraphViewer;
@@ -32,136 +31,121 @@ import org.moflon.ide.ui.admin.views.util.ModelContentProvider;
 import org.moflon.ide.ui.admin.views.util.ModelDropListener;
 import org.moflon.ide.ui.admin.views.util.ModelLabelProvider;
 
-public class AbstractSyntaxView extends ViewPart implements IZoomableWorkbenchPart
-{
+public class AbstractSyntaxView extends ViewPart implements IZoomableWorkbenchPart {
 
-   public static final String ID = "org.moflon.ide.ui.admin.views.AbstractSyntaxView";
+	public static final String ID = "org.moflon.ide.ui.admin.views.AbstractSyntaxView";
 
-   private GraphViewer viewer;
+	private GraphViewer viewer;
 
-   private ModelDropListener modelDropListener;
+	private ModelDropListener modelDropListener;
 
-   public static AbstractSyntaxView INSTANCE;
+	public static AbstractSyntaxView INSTANCE;
 
-   public AbstractSyntaxView()
-   {
-      super();
-      INSTANCE = this;
-   }
+	public AbstractSyntaxView() {
+		super();
+		INSTANCE = this;
+	}
 
-   public void createPartControl(Composite parent)
-   {
-      viewer = new GraphViewer(parent, SWT.BORDER);
-      getSite().setSelectionProvider(viewer);
-      viewer.setContentProvider(new ModelContentProvider());
-      viewer.setLabelProvider(new ModelLabelProvider());
-      LayoutAlgorithm layout = getLayout();
-      viewer.setLayoutAlgorithm(layout, true);
-      addDropSupport();
-      viewer.applyLayout();
-      fillToolBar();
-      Graph graph = viewer.getGraphControl();
-      graph.setAnimationEnabled(true);
-      graph.addMenuDetectListener(new MenuListener(viewer));
-      graph.addKeyListener(new KeyListener(viewer));
-      viewer.addDoubleClickListener(new DoubleClickListener());
-      viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
-   }
+	public void createPartControl(Composite parent) {
+		viewer = new GraphViewer(parent, SWT.BORDER);
+		getSite().setSelectionProvider(viewer);
+		viewer.setContentProvider(new ModelContentProvider());
+		viewer.setLabelProvider(new ModelLabelProvider());
+		LayoutAlgorithm layout = getLayout();
+		viewer.setLayoutAlgorithm(layout, true);
+		addDropSupport();
+		viewer.applyLayout();
+		fillToolBar();
+		Graph graph = viewer.getGraphControl();
+		graph.setAnimationEnabled(true);
+		graph.addMenuDetectListener(new MenuListener(viewer));
+		graph.addKeyListener(new KeyListener(viewer));
+		viewer.addDoubleClickListener(new DoubleClickListener());
+		viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
+	}
 
-   private void addDropSupport()
-   {
-      int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
-      Transfer[] transferTypes = new Transfer[] { LocalSelectionTransfer.getTransfer(), LocalTransfer.getInstance(), FileTransfer.getInstance() };
+	private void addDropSupport() {
+		int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
+		Transfer[] transferTypes = new Transfer[] { LocalSelectionTransfer.getTransfer(), LocalTransfer.getInstance(),
+				FileTransfer.getInstance() };
 
-      modelDropListener = new ModelDropListener(viewer);
-      viewer.addDropSupport(operations, transferTypes, modelDropListener);
-   }
+		modelDropListener = new ModelDropListener(viewer);
+		viewer.addDropSupport(operations, transferTypes, modelDropListener);
+	}
 
-   private LayoutAlgorithm getLayout()
-   {
-      LayoutAlgorithm layout;
-      layout = new TreeLayoutAlgorithm();
-      return layout;
-   }
+	private LayoutAlgorithm getLayout() {
+		LayoutAlgorithm layout;
+		layout = new TreeLayoutAlgorithm();
+		return layout;
+	}
 
-   /**
-    * Passing the focus request to the viewer's control.
-    */
+	/**
+	 * Passing the focus request to the viewer's control.
+	 */
 
-   public void setFocus()
-   {
-   }
+	public void setFocus() {
+	}
 
-   private void fillToolBar()
-   {
-      ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
-      IActionBars bars = getViewSite().getActionBars();
-      bars.getMenuManager().add(toolbarZoomContributionViewItem);
-      addLayoutOptions(bars.getMenuManager());
-   }
+	private void fillToolBar() {
+		ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
+		IActionBars bars = getViewSite().getActionBars();
+		bars.getMenuManager().add(toolbarZoomContributionViewItem);
+		addLayoutOptions(bars.getMenuManager());
+	}
 
-   private void addLayoutOptions(IMenuManager menu)
-   {
-      menu.add(new Action("Clear View", IAction.AS_PUSH_BUTTON) {
-         public void run()
-         {
-            modelDropListener.clear();
-         }
-      });
+	private void addLayoutOptions(IMenuManager menu) {
+		menu.add(new Action("Clear View", IAction.AS_PUSH_BUTTON) {
+			public void run() {
+				modelDropListener.clear();
+			}
+		});
 
-      menu.add(new Action("Redraw Graph", IAction.AS_PUSH_BUTTON) {
-         public void run()
-         {
-            updateViewer();
-         }
-      });
+		menu.add(new Action("Redraw Graph", IAction.AS_PUSH_BUTTON) {
+			public void run() {
+				updateViewer();
+			}
+		});
 
-      menu.add(new Separator());
+		menu.add(new Separator());
 
-      Action action = new Action("Tree Layout", IAction.AS_RADIO_BUTTON) {
-         public void run()
-         {
-            viewer.setLayoutAlgorithm(new TreeLayoutAlgorithm(), true);
-         }
-      };
-      action.setChecked(true);
+		Action action = new Action("Tree Layout", IAction.AS_RADIO_BUTTON) {
+			public void run() {
+				viewer.setLayoutAlgorithm(new TreeLayoutAlgorithm(), true);
+			}
+		};
+		action.setChecked(true);
 
-      menu.add(action);
+		menu.add(action);
 
-      menu.add(new Action("Spring Layout", IAction.AS_RADIO_BUTTON) {
-         public void run()
-         {
-            FixedSpringLayoutAlgorithm layout = new FixedSpringLayoutAlgorithm();
-            // A random number, could be random for each new loaded instance
-            layout.setSeed(4711);
-            viewer.setLayoutAlgorithm(layout, true);
-         }
-      });
+		menu.add(new Action("Spring Layout", IAction.AS_RADIO_BUTTON) {
+			public void run() {
+				FixedSpringLayoutAlgorithm layout = new FixedSpringLayoutAlgorithm();
+				// A random number, could be random for each new loaded instance
+				layout.setSeed(4711);
+				viewer.setLayoutAlgorithm(layout, true);
+			}
+		});
 
-      menu.add(new Action("Grid Layout", IAction.AS_RADIO_BUTTON) {
-         public void run()
-         {
-            viewer.setLayoutAlgorithm(new GridLayoutAlgorithm(), true);
-         }
-      });
+		menu.add(new Action("Grid Layout", IAction.AS_RADIO_BUTTON) {
+			public void run() {
+				viewer.setLayoutAlgorithm(new GridLayoutAlgorithm(), true);
+			}
+		});
 
-      menu.add(new Action("Radial Layout", IAction.AS_RADIO_BUTTON) {
-         public void run()
-         {
-            viewer.setLayoutAlgorithm(new RadialLayoutAlgorithm(), true);
-         }
-      });
-   }
+		menu.add(new Action("Radial Layout", IAction.AS_RADIO_BUTTON) {
+			public void run() {
+				viewer.setLayoutAlgorithm(new RadialLayoutAlgorithm(), true);
+			}
+		});
+	}
 
-   @Override
-   public AbstractZoomableViewer getZoomableViewer()
-   {
-      return viewer;
-   }
+	@Override
+	public AbstractZoomableViewer getZoomableViewer() {
+		return viewer;
+	}
 
-   public void updateViewer()
-   {
-      viewer.setInput(viewer.getInput());
-   }
+	public void updateViewer() {
+		viewer.setInput(viewer.getInput());
+	}
 
 }

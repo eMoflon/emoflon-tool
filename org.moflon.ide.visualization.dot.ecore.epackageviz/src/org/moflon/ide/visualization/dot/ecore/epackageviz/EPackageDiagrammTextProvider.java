@@ -16,11 +16,10 @@ public class EPackageDiagrammTextProvider extends EMoflonDiagramTextProvider {
 		return selectedElement instanceof EPackage;
 	}
 
-   @Override
-   public boolean supportsSelection(final ISelection selection)
-   {
-      return true;
-   }
+	@Override
+	public boolean supportsSelection(final ISelection selection) {
+		return true;
+	}
 
 	@Override
 	protected boolean directionIsForward() {
@@ -29,40 +28,40 @@ public class EPackageDiagrammTextProvider extends EMoflonDiagramTextProvider {
 
 	@Override
 	protected EPackage getPackage() {
-		return EpackagevizPackage.eINSTANCE;		
+		return EpackagevizPackage.eINSTANCE;
 	}
 
-	protected String unparse(EObject input, EObject selectedElement){
+	protected String unparse(EObject input, EObject selectedElement) {
 		AbstractGraph graph = EcoreUtil.copy(modelToDot(input));
-		EPackage ePackage = EPackage.class.cast(selectedElement);		
-		for(AbstractGraph subGraph : graph.getSubGraphs()){
-			if(subGraph.getName().compareTo(ePackage.getName())==0){
+		EPackage ePackage = EPackage.class.cast(selectedElement);
+		for (AbstractGraph subGraph : graph.getSubGraphs()) {
+			if (subGraph.getName().compareTo(ePackage.getName()) == 0) {
 				ClassGraph superGraph = ClassGraph.class.cast(graph);
 				ClassGraph classGraph = ClassGraph.class.cast(subGraph);
 				classGraph.getSkinparams().addAll(superGraph.getSkinparams());
-				graph=classGraph;
+				graph = classGraph;
 				break;
 			}
 		}
 		return unparse(graph);
 	}
-	
-    @Override
+
+	@Override
 	protected EObject getInput(EObject selectedElement) {
 		EPackage selectedPackage = EPackage.class.cast(selectedElement);
 		return getRootPackage(selectedPackage);
 	}
-    
-    private EPackage getRootPackage(EPackage currentPackage){
-    	EPackage superPackage = currentPackage.getESuperPackage();
-    	if(superPackage == null)
-    		return currentPackage;
-    	else
-    		return getRootPackage(superPackage);
-    }
-	
+
+	private EPackage getRootPackage(EPackage currentPackage) {
+		EPackage superPackage = currentPackage.getESuperPackage();
+		if (superPackage == null)
+			return currentPackage;
+		else
+			return getRootPackage(superPackage);
+	}
+
 	@Override
-	protected void registerConfigurator(SynchronizationHelper helper){
-	   helper.setConfigurator(new EPackageVisualizationConfigurator());
+	protected void registerConfigurator(SynchronizationHelper helper) {
+		helper.setConfigurator(new EPackageVisualizationConfigurator());
 	}
 }

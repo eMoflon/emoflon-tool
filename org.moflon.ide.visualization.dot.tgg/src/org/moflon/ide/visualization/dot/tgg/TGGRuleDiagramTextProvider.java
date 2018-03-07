@@ -15,17 +15,16 @@ import org.moflon.tgg.runtime.CorrespondenceModel;
 
 public class TGGRuleDiagramTextProvider extends EMoflonDiagramTextProvider {
 
-   @Override
-   public boolean isElementValidInput(Object selectedElement) {
-      return selectedElement instanceof TGGRule;
-   }
+	@Override
+	public boolean isElementValidInput(Object selectedElement) {
+		return selectedElement instanceof TGGRule;
+	}
 
-   @Override
-   public boolean supportsSelection(final ISelection selection)
-   {
-      return true;
-   }
-   
+	@Override
+	public boolean supportsSelection(final ISelection selection) {
+		return true;
+	}
+
 	@Override
 	protected boolean directionIsForward() {
 		return false;

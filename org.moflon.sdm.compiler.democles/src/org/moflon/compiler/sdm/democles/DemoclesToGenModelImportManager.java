@@ -8,7 +8,7 @@ import org.gervarro.democles.codegen.ImportManager;
 
 public final class DemoclesToGenModelImportManager implements ImportManager {
 	private final GenModel genModel;
-	
+
 	public DemoclesToGenModelImportManager(final GenModel genModel) {
 		this.genModel = genModel;
 	}

@@ -69,7 +69,7 @@ public class SynchronizationHelper {
 	protected Configurator configurator;
 
 	protected UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
-	
+
 	protected UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider;
 
 	protected int ilpProblemVariablesCount;
@@ -98,15 +98,14 @@ public class SynchronizationHelper {
 
 	protected boolean verbose = false;
 	protected boolean mute = false;
-	
-	protected Problem ilpProblem;
-	
-	private double runtimeOfCorrespondenceCreation;
-	
-	private double runtimeOfILPSolving;
-	
-	private double runtimeOfRemovingDeselectedCorrespondences;
 
+	protected Problem ilpProblem;
+
+	private double runtimeOfCorrespondenceCreation;
+
+	private double runtimeOfILPSolving;
+
+	private double runtimeOfRemovingDeselectedCorrespondences;
 
 	// Setters
 
@@ -132,7 +131,8 @@ public class SynchronizationHelper {
 
 	public void setCorr(final EObject corrModell) {
 		if (!isInTheCorrectResourceSet(corrModell)) {
-			throw new IllegalStateException("Correspondence model must be in the resource set of your synchronization helper");
+			throw new IllegalStateException(
+					"Correspondence model must be in the resource set of your synchronization helper");
 		}
 		this.corr = (CorrespondenceModel) corrModell;
 	}
@@ -243,7 +243,8 @@ public class SynchronizationHelper {
 		this(corrPackage, pathToProject, eMoflonEMFUtil.createDefaultResourceSet());
 	}
 
-	public SynchronizationHelper(final EPackage corrPackage, final String pathToProject, final ResourceSet resourceSet) {
+	public SynchronizationHelper(final EPackage corrPackage, final String pathToProject,
+			final ResourceSet resourceSet) {
 		this.set = resourceSet;
 		setCorrPackage(corrPackage);
 		loadRulesFromProject(pathToProject);
@@ -257,9 +258,8 @@ public class SynchronizationHelper {
 	}
 
 	/**
-	 * Use this constructor only if you prefer to prepare your own
-	 * synchronization helper (e.g., via inheritance) and set the protected
-	 * fields by yourself
+	 * Use this constructor only if you prefer to prepare your own synchronization
+	 * helper (e.g., via inheritance) and set the protected fields by yourself
 	 */
 	public SynchronizationHelper() {
 
@@ -270,7 +270,8 @@ public class SynchronizationHelper {
 		if (batchMode)
 			protocol = new SynchronizationProtocol();
 		else if (protocol == null)
-			throw new IllegalStateException("You cannot synchronize your delta without providing a translation protocol");
+			throw new IllegalStateException(
+					"You cannot synchronize your delta without providing a translation protocol");
 	}
 
 	protected void establishGraphTriple() {
@@ -310,7 +311,8 @@ public class SynchronizationHelper {
 
 			// Edge deletion
 			for (EMoflonEdge de : localDeltaSpec.getDeletedEdges())
-				performActionOnFeature(de, (f, o) -> ((EList) de.getSrc().eGet(f)).remove(o), (f, o) -> de.getSrc().eUnset(f));
+				performActionOnFeature(de, (f, o) -> ((EList) de.getSrc().eGet(f)).remove(o),
+						(f, o) -> de.getSrc().eUnset(f));
 
 			// Node deletion
 			for (EObject delObj : localDeltaSpec.getDeletedNodes())
@@ -318,11 +320,13 @@ public class SynchronizationHelper {
 
 			// Attribute deltas
 			for (AttributeDelta ac : localDeltaSpec.getAttributeChanges())
-				ac.getAffectedNode().eSet(ac.getAffectedAttribute(), EcoreUtil.createFromString(ac.getAffectedAttribute().getEAttributeType(), ac.getNewValue()));
+				ac.getAffectedNode().eSet(ac.getAffectedAttribute(),
+						EcoreUtil.createFromString(ac.getAffectedAttribute().getEAttributeType(), ac.getNewValue()));
 		};
 	}
 
-	private void performActionOnFeature(EMoflonEdge e, BiConsumer<EStructuralFeature, EObject> actionMany, BiConsumer<EStructuralFeature, EObject> actionOne) {
+	private void performActionOnFeature(EMoflonEdge e, BiConsumer<EStructuralFeature, EObject> actionMany,
+			BiConsumer<EStructuralFeature, EObject> actionOne) {
 		EStructuralFeature feature = e.getSrc().eClass().getEStructuralFeature(e.getName());
 		if (!feature.isDerived()) {
 			if (feature.isMany()) {
@@ -353,19 +357,24 @@ public class SynchronizationHelper {
 		}
 
 		if (verbose)
-			logger.info("\nI am going to propagate this as delta: \n" + delta + "\nPlease check and ensure that it is as expected!");
+			logger.info("\nI am going to propagate this as delta: \n" + delta
+					+ "\nPlease check and ensure that it is as expected!");
 	}
 
 	protected void sanityCheckDelta() {
 		if (delta != null && deltaSpec != null) {
 			if (deltaSpec.getAddedNodes().size() != delta.getAddedNodes().size()) {
-				logger.warn("The added nodes in your delta specification do not match the added nodes in the resulting delta!");
+				logger.warn(
+						"The added nodes in your delta specification do not match the added nodes in the resulting delta!");
 			} else if (deltaSpec.getAddedEdges().size() > delta.getAddedEdges().size()) {
-				logger.warn("The added edges in your delta specification do not match the added edges in the resulting delta!");
+				logger.warn(
+						"The added edges in your delta specification do not match the added edges in the resulting delta!");
 			} else if (deltaSpec.getDeletedEdges().size() > delta.getDeletedEdges().size()) {
-				logger.warn("The deleted edges in your delta specification do not match the deleted edges in the resulting delta!");
+				logger.warn(
+						"The deleted edges in your delta specification do not match the deleted edges in the resulting delta!");
 			} else if (deltaSpec.getDeletedNodes().size() != delta.getDeletedNodes().size()) {
-				logger.warn("The deleted nodes in your delta specification do not match the deleted nodes in the resulting delta!");
+				logger.warn(
+						"The deleted nodes in your delta specification do not match the deleted nodes in the resulting delta!");
 			}
 		}
 	}
@@ -453,7 +462,8 @@ public class SynchronizationHelper {
 		establishForwardDelta();
 		establishTranslationProtocol();
 
-		performSynchronization(new ForwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(), tempOutputContainer));
+		performSynchronization(new ForwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(),
+				tempOutputContainer));
 
 		if (trg == null)
 			trg = corr.getTarget();
@@ -471,7 +481,8 @@ public class SynchronizationHelper {
 
 		ccProtocol = new ConsistencyCheckPrecedenceGraph();
 
-		ConsistencySynchronizer cs = new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr, ccProtocol);
+		ConsistencySynchronizer cs = new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr,
+				ccProtocol);
 		if (userDefinedILPConstraintProvider != null)
 			cs.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
 		if (userDefinedILPObjectiveProvider != null)
@@ -491,19 +502,21 @@ public class SynchronizationHelper {
 			sourceInconsistency = prepareDelta(cs.getInconsistentSourceElements());
 			sourceInconsistency.setTargetModel(src);
 
-			set.createResource(URI.createURI(src.eResource().getURI().toString() + ".delta.xmi")).getContents().add(sourceInconsistency);
+			set.createResource(URI.createURI(src.eResource().getURI().toString() + ".delta.xmi")).getContents()
+					.add(sourceInconsistency);
 
 			targetInconsistency = prepareDelta(cs.getInconsistentTargetElements());
 			targetInconsistency.setTargetModel(trg);
 
-			set.createResource(URI.createURI(trg.eResource().getURI().toString() + ".delta.xmi")).getContents().add(targetInconsistency);
+			set.createResource(URI.createURI(trg.eResource().getURI().toString() + ".delta.xmi")).getContents()
+					.add(targetInconsistency);
 		}
 
 		ilpProblemVariablesCount = cs.getVariableCount();
 		ilpProblemConstraintsCount = cs.getConstraintCount();
-		
+
 		ilpProblem = cs.getILPProblem();
-		
+
 		runtimeOfCorrespondenceCreation = cs.getRuntimeOfCorrespondenceCreation();
 		runtimeOfILPSolving = cs.getRuntimeOfILPSolving();
 		runtimeOfRemovingDeselectedCorrespondences = cs.getRuntimeOfRemovingDeselectedCorrespondences();
@@ -535,7 +548,8 @@ public class SynchronizationHelper {
 		establishBackwardDelta();
 		establishTranslationProtocol();
 
-		performSynchronization(new BackwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(), tempOutputContainer));
+		performSynchronization(new BackwardSynchronizer(corr, delta, protocol, configurator, determineLookupMethods(),
+				tempOutputContainer));
 
 		if (src == null)
 			src = corr.getSource();
@@ -579,7 +593,8 @@ public class SynchronizationHelper {
 	 *            the basename of the file containing the rules
 	 */
 	private void loadRulesFromProject(final String pathToProject, final String rulesFileBaseName) {
-		setRules((StaticAnalysis) loadModel(pathToProject + "/model/" + MoflonConventions.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi"));
+		setRules((StaticAnalysis) loadModel(pathToProject + "/model/"
+				+ MoflonConventions.getDefaultNameOfFileInProjectWithoutExtension(rulesFileBaseName) + ".sma.xmi"));
 	}
 
 	/**
@@ -589,8 +604,8 @@ public class SynchronizationHelper {
 	 *            the absolute or relative path to the Jar file (e.g.,
 	 *            "./libraries/Rules.jar")
 	 * @param pathToResourceInJar
-	 *            the absolute path of the rules package inside the Jar file
-	 *            (e.g., "/model/MyIntegration.sma.xmi")
+	 *            the absolute path of the rules package inside the Jar file (e.g.,
+	 *            "/model/MyIntegration.sma.xmi")
 	 */
 	public void loadRulesFromJarArchive(final String pathToJarArchive, final String pathToResourceInJar) {
 		setRules((StaticAnalysis) loadModelFromJar(pathToJarArchive, pathToResourceInJar));
@@ -716,7 +731,8 @@ public class SynchronizationHelper {
 				EMoflonEdge edge = (EMoflonEdge) elt;
 				ds.getAddedEdges().add(edge);
 				try {
-					performActionOnFeature(edge, (f, o) -> ((EList<?>) edge.getSrc().eGet(f)).remove(o), (f, o) -> edge.getSrc().eUnset(f));
+					performActionOnFeature(edge, (f, o) -> ((EList<?>) edge.getSrc().eGet(f)).remove(o),
+							(f, o) -> edge.getSrc().eUnset(f));
 				} catch (Exception e) {
 				}
 
@@ -736,11 +752,11 @@ public class SynchronizationHelper {
 	public int getIlpProblemConstraintsCount() {
 		return ilpProblemConstraintsCount;
 	}
-	
-	public Problem getIlpProblem(){
+
+	public Problem getIlpProblem() {
 		return ilpProblem;
 	}
-	
+
 	public double getRuntimeOfCorrespondenceCreation() {
 		return runtimeOfCorrespondenceCreation;
 	}

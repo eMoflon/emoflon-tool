@@ -14,19 +14,17 @@ import org.gervarro.democles.compiler.CompilerPatternBody;
 
 public class ExpressionPatternMatcher extends SearchPlanAdapter {
 
-	public ExpressionPatternMatcher(String patternType,
-			CompilerPatternBody body, Adornment adornment,
+	public ExpressionPatternMatcher(String patternType, CompilerPatternBody body, Adornment adornment,
 			Chain<GeneratorOperation> searchPlan, boolean multipleMatches) {
 		super(patternType, body, adornment, searchPlan, multipleMatches);
 	}
 
 	@Override
-	public TemplateInvocation prepareTemplateInvocation(
-			final OperationSequenceCompiler operationSequenceCompiler,
+	public TemplateInvocation prepareTemplateInvocation(final OperationSequenceCompiler operationSequenceCompiler,
 			final ImportManager importManager) {
-	   final Adornment adornment = getAdornment();
-	   final Chain<GeneratorOperation> searchPlan = getSearchPlan();
-	   final CompilerPatternBody body = getBody();
+		final Adornment adornment = getAdornment();
+		final Chain<GeneratorOperation> searchPlan = getSearchPlan();
+		final CompilerPatternBody body = getBody();
 		Chain<TemplateController> templateChain = null;
 		if (searchPlan != null) {
 			if (adornment.get(0) == Adornment.FREE) {
@@ -44,8 +42,10 @@ public class ExpressionPatternMatcher extends SearchPlanAdapter {
 		}
 
 		return new TemplateInvocation("/expression/MatchSingleMethod",
-				new String[] { "engine", "importManager", "body", "adornment", "boundSymbolicParameters", "chain", "alwaysSuccessful" },
-				new Object[] { operationSequenceCompiler, importManager, body, adornment, boundInternalSymbolicParameters, templateChain, isAlwaysSuccessful() });
+				new String[] { "engine", "importManager", "body", "adornment", "boundSymbolicParameters", "chain",
+						"alwaysSuccessful" },
+				new Object[] { operationSequenceCompiler, importManager, body, adornment,
+						boundInternalSymbolicParameters, templateChain, isAlwaysSuccessful() });
 	}
 
 }

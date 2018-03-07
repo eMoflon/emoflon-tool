@@ -12,14 +12,14 @@ public class CreationOperatorPatternHighlightRule extends AbstractOperatorPatter
 
 	@Override
 	public boolean getOperatorCondition(Operator op) {
-		return op!= null && op.getValue() != null && op.getValue().contains("++");
+		return op != null && op.getValue() != null && op.getValue().contains("++");
 	}
 
 	@Override
 	protected TextStyle getTextStyle() {
-	      TextStyle ts = new TextStyle();
-	      ts.setColor(MOSLColor.DARK_GREEN.getColor());
-	      return ts;
+		TextStyle ts = new TextStyle();
+		ts.setColor(MOSLColor.DARK_GREEN.getColor());
+		return ts;
 	}
 
 }

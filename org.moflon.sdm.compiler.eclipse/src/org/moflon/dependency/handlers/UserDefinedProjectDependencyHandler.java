@@ -9,19 +9,17 @@ import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
 import org.moflon.emf.codegen.dependency.SimpleDependency;
 
 /**
- * A dependency handler which extracts "additional dependencies" from moflon.properties.xmi
+ * A dependency handler which extracts "additional dependencies" from
+ * moflon.properties.xmi
  */
-public class UserDefinedProjectDependencyHandler implements DependencyHandler
-{
-   public Collection<Dependency> getEcoreDependencies(IProject project)
-   {
-      return DependencyHandler.getDependencies(project, properties -> properties.getAdditionalDependencies(), 
-            dep -> new PackageRemappingDependency(URI.createURI(dep), true, false));
-   }
+public class UserDefinedProjectDependencyHandler implements DependencyHandler {
+	public Collection<Dependency> getEcoreDependencies(IProject project) {
+		return DependencyHandler.getDependencies(project, properties -> properties.getAdditionalDependencies(),
+				dep -> new PackageRemappingDependency(URI.createURI(dep), true, false));
+	}
 
-   public Collection<Dependency> getGenModelDependencies(IProject project)
-   {
-      return DependencyHandler.getDependencies(project, properties -> properties.getAdditionalUsedGenPackages(), 
-            dep -> new SimpleDependency(URI.createURI(dep)));
-   }
+	public Collection<Dependency> getGenModelDependencies(IProject project) {
+		return DependencyHandler.getDependencies(project, properties -> properties.getAdditionalUsedGenPackages(),
+				dep -> new SimpleDependency(URI.createURI(dep)));
+	}
 }

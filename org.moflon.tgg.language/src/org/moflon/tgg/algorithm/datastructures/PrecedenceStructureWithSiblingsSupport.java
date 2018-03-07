@@ -6,8 +6,8 @@ import gnu.trove.set.hash.TIntHashSet;
 
 public abstract class PrecedenceStructureWithSiblingsSupport<M> extends PrecedenceStructure<M> {
 
-	protected TIntObjectHashMap<TIntHashSet> matchToSiblings = new TIntObjectHashMap<>(); 
-	
+	protected TIntObjectHashMap<TIntHashSet> matchToSiblings = new TIntObjectHashMap<>();
+
 	public void calculateSiblings() {
 		for (M match : matches.valueCollection()) {
 			TIntHashSet siblings = new TIntHashSet();

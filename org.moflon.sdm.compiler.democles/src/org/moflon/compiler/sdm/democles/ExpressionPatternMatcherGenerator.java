@@ -8,14 +8,14 @@ import org.moflon.core.preferences.EMoflonPreferencesStorage;
 
 public class ExpressionPatternMatcherGenerator extends PatternMatcherGenerator {
 
-	public ExpressionPatternMatcherGenerator(PatternMatcherCompiler delegate,
-			String patternType, EMoflonPreferencesStorage preferencesStorage) {
+	public ExpressionPatternMatcherGenerator(PatternMatcherCompiler delegate, String patternType,
+			EMoflonPreferencesStorage preferencesStorage) {
 		super(delegate, patternType, preferencesStorage);
 	}
 
 	@Override
 	public SearchPlanAdapter createSearchPlanAdapter(CompilerPatternBody body, Adornment adornment,
-				Chain<GeneratorOperation> searchPlan, boolean multipleMatches) {
+			Chain<GeneratorOperation> searchPlan, boolean multipleMatches) {
 		return new ExpressionPatternMatcher(patternType, body, adornment, searchPlan, multipleMatches);
 	}
 }

@@ -4,8 +4,6 @@ import java.util.Map;
 
 public class UserDefinedILPConstraint {
 
-
-
 	private Map<Integer, Double> idsToCoefficients;
 
 	private String mathematicalSign;

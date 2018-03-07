@@ -8,34 +8,28 @@ import org.moflon.sdm.constraints.democles.AttributeVariableConstraint;
 import org.moflon.sdm.constraints.democles.util.DemoclesSwitch;
 import org.moflon.sdm.constraints.operationspecification.constraint.AttributeVariableConstraintsTypeModule;
 
-public class AttributeVariableConstraintsModule extends TypeModule
-{
+public class AttributeVariableConstraintsModule extends TypeModule {
 
-   public AttributeVariableConstraintsModule(final AttributeVariableConstraintsTypeModule typeModule)
-   {
-      super(typeModule);
-   }
+	public AttributeVariableConstraintsModule(final AttributeVariableConstraintsTypeModule typeModule) {
+		super(typeModule);
+	}
 
-   @Override
-   protected Switch<VariableType> createVariableTypeSwitch()
-   {
-      return null;
-   }
+	@Override
+	protected Switch<VariableType> createVariableTypeSwitch() {
+		return null;
+	}
 
-   @Override
-   protected Switch<ConstraintType> createConstraintTypeSwitch()
-   {
-      return new AttributeVariableConstraintsTypeSwitch();
-   }
+	@Override
+	protected Switch<ConstraintType> createConstraintTypeSwitch() {
+		return new AttributeVariableConstraintsTypeSwitch();
+	}
 
-   private class AttributeVariableConstraintsTypeSwitch extends DemoclesSwitch<ConstraintType>
-   {
+	private class AttributeVariableConstraintsTypeSwitch extends DemoclesSwitch<ConstraintType> {
 
-      @Override
-      public ConstraintType caseAttributeVariableConstraint(final AttributeVariableConstraint object)
-      {
-         return ((AttributeVariableConstraintsTypeModule) typeModule).getConstraintType(object);
-      }
+		@Override
+		public ConstraintType caseAttributeVariableConstraint(final AttributeVariableConstraint object) {
+			return ((AttributeVariableConstraintsTypeModule) typeModule).getConstraintType(object);
+		}
 
-   }
+	}
 }

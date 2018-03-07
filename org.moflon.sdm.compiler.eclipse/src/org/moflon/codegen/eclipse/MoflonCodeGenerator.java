@@ -39,233 +39,215 @@ import org.moflon.emf.injection.ide.InjectionExtractor;
 import org.moflon.emf.injection.ide.InjectionManager;
 import org.moflon.sdm.injection.CompilerInjectionExtractorImpl;
 
-public class MoflonCodeGenerator extends GenericMoflonProcess
-{
-   private static final Logger logger = Logger.getLogger(MoflonCodeGenerator.class);
+public class MoflonCodeGenerator extends GenericMoflonProcess {
+	private static final Logger logger = Logger.getLogger(MoflonCodeGenerator.class);
 
-   private InjectionManager injectionManager;
+	private InjectionManager injectionManager;
 
-   private GenModel genModel;
+	private GenModel genModel;
 
-   private MoflonCodeGeneratorPhase additionalCodeGenerationPhase;
+	private MoflonCodeGeneratorPhase additionalCodeGenerationPhase;
 
-   public MoflonCodeGenerator(final IFile ecoreFile, final ResourceSet resourceSet, final EMoflonPreferencesStorage preferencesStorage)
-   {
-      super(ecoreFile, resourceSet, preferencesStorage);
-   }
+	public MoflonCodeGenerator(final IFile ecoreFile, final ResourceSet resourceSet,
+			final EMoflonPreferencesStorage preferencesStorage) {
+		super(ecoreFile, resourceSet, preferencesStorage);
+	}
 
-   @Override
-   public String getTaskName()
-   {
-      return "Generating code";
-   }
+	@Override
+	public String getTaskName() {
+		return "Generating code";
+	}
 
-   @Override
-   public IStatus processResource(final IProgressMonitor monitor)
-   {
-      try
-      {
-         final int totalWork = 5 + 10 + 10 + 15 + 35 + 30 + 5;
-         final MoflonPropertiesContainer moflonProperties = getMoflonProperties();
-         final SubMonitor subMon = SubMonitor.convert(monitor, "Code generation task for " + moflonProperties.getProjectName(), totalWork);
-         final String fullProjectName = getFullProjectName(moflonProperties);
-         logger.info("Generating code for: " + fullProjectName);
+	@Override
+	public IStatus processResource(final IProgressMonitor monitor) {
+		try {
+			final int totalWork = 5 + 10 + 10 + 15 + 35 + 30 + 5;
+			final MoflonPropertiesContainer moflonProperties = getMoflonProperties();
+			final SubMonitor subMon = SubMonitor.convert(monitor,
+					"Code generation task for " + moflonProperties.getProjectName(), totalWork);
+			final String fullProjectName = getFullProjectName(moflonProperties);
+			logger.info("Generating code for: " + fullProjectName);
 
-         long toc = System.nanoTime();
+			long toc = System.nanoTime();
 
-         final Resource resource = getEcoreResource();
-         final EPackage ePackage = (EPackage) resource.getContents().get(0);
+			final Resource resource = getEcoreResource();
+			final EPackage ePackage = (EPackage) resource.getContents().get(0);
 
-         // (1) Instantiate code generation engine
-         final String engineID = MoflonPropertiesContainerHelper.getMethodBodyHandler(getMoflonProperties());
-         final MethodBodyHandler methodBodyHandler = (MethodBodyHandler) Platform.getAdapterManager().loadAdapter(this, engineID);
-         subMon.worked(5);
-         if (methodBodyHandler == null)
-         {
-            return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), "Unknown method body handler: " + engineID + ". Code generation aborted.");
-         }
-         if (subMon.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
+			// (1) Instantiate code generation engine
+			final String engineID = MoflonPropertiesContainerHelper.getMethodBodyHandler(getMoflonProperties());
+			final MethodBodyHandler methodBodyHandler = (MethodBodyHandler) Platform.getAdapterManager()
+					.loadAdapter(this, engineID);
+			subMon.worked(5);
+			if (methodBodyHandler == null) {
+				return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
+						"Unknown method body handler: " + engineID + ". Code generation aborted.");
+			}
+			if (subMon.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
 
-         // (2.1) Validate SDMs
-         final ITask validator = methodBodyHandler.createValidator(ePackage);
-         StatusHolder validationStatusHolder = new StatusHolder();
-         final WorkspaceJob validationJob = new WorkspaceJob(engineID) {
-            @Override
-            public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException
-            {
-               final SubMonitor subMon = SubMonitor.convert(monitor, "Validation job", 100);
-               validationStatusHolder.status = validator.run(subMon.split(100));
-               return Status.OK_STATUS;
-            }
-         };
-         JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
-         validationJob.setJobGroup(jobGroup);
-         validationJob.schedule();
-         //         final IStatus validatorStatus = validationJob.runInWorkspace(subMon.split(10));
-         int timeoutForValidationTaskInMillis = getPreferencesStorage().getValidationTimeout();
-         jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
+			// (2.1) Validate SDMs
+			final ITask validator = methodBodyHandler.createValidator(ePackage);
+			StatusHolder validationStatusHolder = new StatusHolder();
+			final WorkspaceJob validationJob = new WorkspaceJob(engineID) {
+				@Override
+				public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
+					final SubMonitor subMon = SubMonitor.convert(monitor, "Validation job", 100);
+					validationStatusHolder.status = validator.run(subMon.split(100));
+					return Status.OK_STATUS;
+				}
+			};
+			JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
+			validationJob.setJobGroup(jobGroup);
+			validationJob.schedule();
+			// final IStatus validatorStatus =
+			// validationJob.runInWorkspace(subMon.split(10));
+			int timeoutForValidationTaskInMillis = getPreferencesStorage().getValidationTimeout();
+			jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
 
-         if (validationJob.getResult() == null)
-         {
-            //TODO@rkluge: This is a really ugly hack that should be removed as soon as a more elegant solution is available
-            //validationJob.getThread().stop();
-            throw new OperationCanceledException("Validation took longer than " + (timeoutForValidationTaskInMillis / 1000)
-                  + "s. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
-         }
+			if (validationJob.getResult() == null) {
+				// TODO@rkluge: This is a really ugly hack that should be removed as soon as a
+				// more elegant solution is available
+				// validationJob.getThread().stop();
+				throw new OperationCanceledException("Validation took longer than "
+						+ (timeoutForValidationTaskInMillis / 1000)
+						+ "s. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
+			}
 
-         if (subMon.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
+			if (subMon.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
 
-         final IStatus validationStatus = validationStatusHolder.status;
-         if (validationStatus.matches(IStatus.ERROR))
-         {
-            return validationStatus;
-         }
+			final IStatus validationStatus = validationStatusHolder.status;
+			if (validationStatus.matches(IStatus.ERROR)) {
+				return validationStatus;
+			}
 
-         // (2.1) Perform additional code generation phase
-         final IStatus weaverStatus;
-         if (this.additionalCodeGenerationPhase != null)
-         {
-            weaverStatus = this.additionalCodeGenerationPhase.run(getProject(), resource, methodBodyHandler, subMon.split(10));
+			// (2.1) Perform additional code generation phase
+			final IStatus weaverStatus;
+			if (this.additionalCodeGenerationPhase != null) {
+				weaverStatus = this.additionalCodeGenerationPhase.run(getProject(), resource, methodBodyHandler,
+						subMon.split(10));
 
-            if (subMon.isCanceled())
-            {
-               return Status.CANCEL_STATUS;
-            }
+				if (subMon.isCanceled()) {
+					return Status.CANCEL_STATUS;
+				}
 
-            if (weaverStatus.matches(IStatus.ERROR))
-            {
-               return weaverStatus;
-            }
-         } else
-         {
-            weaverStatus = Status.OK_STATUS;
-            subMon.worked(10);
-         }
+				if (weaverStatus.matches(IStatus.ERROR)) {
+					return weaverStatus;
+				}
+			} else {
+				weaverStatus = Status.OK_STATUS;
+				subMon.worked(10);
+			}
 
-         // (3) Build or load GenModel
-         final MonitoredGenModelBuilder genModelBuilderJob = new MonitoredGenModelBuilder(getResourceSet(), getAllResources(), getEcoreFile(), true,
-               getMoflonProperties());
-         final IStatus genModelBuilderStatus = genModelBuilderJob.run(subMon.split(15));
-         if (subMon.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-         if (genModelBuilderStatus.matches(IStatus.ERROR))
-         {
-            return genModelBuilderStatus;
-         }
-         this.genModel = genModelBuilderJob.getGenModel();
+			// (3) Build or load GenModel
+			final MonitoredGenModelBuilder genModelBuilderJob = new MonitoredGenModelBuilder(getResourceSet(),
+					getAllResources(), getEcoreFile(), true, getMoflonProperties());
+			final IStatus genModelBuilderStatus = genModelBuilderJob.run(subMon.split(15));
+			if (subMon.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
+			if (genModelBuilderStatus.matches(IStatus.ERROR)) {
+				return genModelBuilderStatus;
+			}
+			this.genModel = genModelBuilderJob.getGenModel();
 
-         // (4) Load injections
-         final IProject project = getEcoreFile().getProject();
+			// (4) Load injections
+			final IProject project = getEcoreFile().getProject();
 
-         final IStatus injectionStatus = createInjections(project, genModel);
-         if (subMon.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-         if (injectionStatus.matches(IStatus.ERROR))
-         {
-            return injectionStatus;
-         }
+			final IStatus injectionStatus = createInjections(project, genModel);
+			if (subMon.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
+			if (injectionStatus.matches(IStatus.ERROR)) {
+				return injectionStatus;
+			}
 
-         // (5) Process GenModel
-         subMon.subTask("Processing SDMs for project " + project.getName());
-         final ITask genModelProcessor = methodBodyHandler.createGenModelProcessor(this, resource);
-         final IStatus genModelProcessorStatus = genModelProcessor.run(subMon.split(35));
-         if (subMon.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-         if (genModelProcessorStatus.matches(IStatus.ERROR))
-         {
-            return genModelProcessorStatus;
-         }
+			// (5) Process GenModel
+			subMon.subTask("Processing SDMs for project " + project.getName());
+			final ITask genModelProcessor = methodBodyHandler.createGenModelProcessor(this, resource);
+			final IStatus genModelProcessorStatus = genModelProcessor.run(subMon.split(35));
+			if (subMon.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
+			if (genModelProcessorStatus.matches(IStatus.ERROR)) {
+				return genModelProcessorStatus;
+			}
 
-         // (6) Generate code
-         subMon.subTask("Generating code for project " + project.getName());
-         final Descriptor codeGenerationEngine = methodBodyHandler.createCodeGenerationEngine(this, resource);
-         final CodeGenerator codeGenerator = new CodeGenerator(codeGenerationEngine);
-         final IStatus codeGenerationStatus = codeGenerator.generateCode(genModel, new BasicMonitor.EclipseSubProgress(subMon, 30));
-         if (subMon.isCanceled())
-         {
-            return Status.CANCEL_STATUS;
-         }
-         if (codeGenerationStatus.matches(IStatus.ERROR))
-         {
-            return codeGenerationStatus;
-         }
-         subMon.worked(5);
+			// (6) Generate code
+			subMon.subTask("Generating code for project " + project.getName());
+			final Descriptor codeGenerationEngine = methodBodyHandler.createCodeGenerationEngine(this, resource);
+			final CodeGenerator codeGenerator = new CodeGenerator(codeGenerationEngine);
+			final IStatus codeGenerationStatus = codeGenerator.generateCode(genModel,
+					new BasicMonitor.EclipseSubProgress(subMon, 30));
+			if (subMon.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
+			if (codeGenerationStatus.matches(IStatus.ERROR)) {
+				return codeGenerationStatus;
+			}
+			subMon.worked(5);
 
-         long tic = System.nanoTime();
+			long tic = System.nanoTime();
 
-         logger.info(String.format(Locale.US, "Completed in %.3fs", (tic - toc) / 1e9));
+			logger.info(String.format(Locale.US, "Completed in %.3fs", (tic - toc) / 1e9));
 
-         final boolean everythingOK = validationStatus.isOK() && injectionStatus.isOK() && weaverStatus.isOK();
-         return everythingOK ? new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "Code generation succeeded")
-               : new MultiStatus(WorkspaceHelper.getPluginId(getClass()), validationStatus.getCode(),
-                     new IStatus[] { validationStatus, weaverStatus, injectionStatus }, "Code generation warnings/errors", null);
-      } catch (final Exception e)
-      {
-         logger.debug(WorkspaceHelper.printStacktraceToString(e));
-         return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR,
-               e.getClass().getName() + " occurred during eMoflon code generation. Message: '" + e.getMessage() + "'. (Stacktrace is logged with level debug)",
-               e);
-      }
-   }
+			final boolean everythingOK = validationStatus.isOK() && injectionStatus.isOK() && weaverStatus.isOK();
+			return everythingOK
+					? new Status(IStatus.OK, WorkspaceHelper.getPluginId(getClass()), "Code generation succeeded")
+					: new MultiStatus(WorkspaceHelper.getPluginId(getClass()), validationStatus.getCode(),
+							new IStatus[] { validationStatus, weaverStatus, injectionStatus },
+							"Code generation warnings/errors", null);
+		} catch (final Exception e) {
+			logger.debug(WorkspaceHelper.printStacktraceToString(e));
+			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR,
+					e.getClass().getName() + " occurred during eMoflon code generation. Message: '" + e.getMessage()
+							+ "'. (Stacktrace is logged with level debug)",
+					e);
+		}
+	}
 
-   public final GenModel getGenModel()
-   {
-      return genModel;
-   }
+	public final GenModel getGenModel() {
+		return genModel;
+	}
 
-   public final InjectionManager getInjectorManager()
-   {
-      return injectionManager;
-   }
+	public final InjectionManager getInjectorManager() {
+		return injectionManager;
+	}
 
-   protected String getFullProjectName(final MoflonPropertiesContainer moflonProperties)
-   {
-      final String metaModelProjectName = moflonProperties.getMetaModelProject().getMetaModelProjectName();
-      final String fullProjectName;
-      if (MoflonPropertiesContainerHelper.UNDEFINED_METAMODEL_NAME.equals(metaModelProjectName))
-      {
-         fullProjectName = moflonProperties.getProjectName();
-      } else
-      {
-         fullProjectName = metaModelProjectName + "::" + moflonProperties.getProjectName();
-      }
-      return fullProjectName;
-   }
+	protected String getFullProjectName(final MoflonPropertiesContainer moflonProperties) {
+		final String metaModelProjectName = moflonProperties.getMetaModelProject().getMetaModelProjectName();
+		final String fullProjectName;
+		if (MoflonPropertiesContainerHelper.UNDEFINED_METAMODEL_NAME.equals(metaModelProjectName)) {
+			fullProjectName = moflonProperties.getProjectName();
+		} else {
+			fullProjectName = metaModelProjectName + "::" + moflonProperties.getProjectName();
+		}
+		return fullProjectName;
+	}
 
-   /**
-    * Loads the injections from the /injection folder
-    */
-   private IStatus createInjections(final IProject project, final GenModel genModel) throws CoreException
-   {
-      IFolder injectionFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.INJECTION_FOLDER, new NullProgressMonitor());
-      CodeInjector injector = new CodeInjectorImpl(project.getLocation().toOSString());
+	/**
+	 * Loads the injections from the /injection folder
+	 */
+	private IStatus createInjections(final IProject project, final GenModel genModel) throws CoreException {
+		IFolder injectionFolder = WorkspaceHelper.addFolder(project, WorkspaceHelper.INJECTION_FOLDER,
+				new NullProgressMonitor());
+		CodeInjector injector = new CodeInjectorImpl(project.getLocation().toOSString());
 
-      InjectionExtractor injectionExtractor = new XTextInjectionExtractor(injectionFolder, genModel);
-      CompilerInjectionExtractorImpl compilerInjectionExtractor = new CompilerInjectionExtractorImpl(project, genModel);
+		InjectionExtractor injectionExtractor = new XTextInjectionExtractor(injectionFolder, genModel);
+		CompilerInjectionExtractorImpl compilerInjectionExtractor = new CompilerInjectionExtractorImpl(project,
+				genModel);
 
-      injectionManager = new InjectionManager(injectionExtractor, compilerInjectionExtractor, injector);
-      return injectionManager.extractInjections();
-   }
+		injectionManager = new InjectionManager(injectionExtractor, compilerInjectionExtractor, injector);
+		return injectionManager.extractInjections();
+	}
 
-   private static class StatusHolder
-   {
-      IStatus status;
-   }
+	private static class StatusHolder {
+		IStatus status;
+	}
 
-   public void setAdditionalCodeGenerationPhase(final MoflonCodeGeneratorPhase codeGenerationPhase)
-   {
-      this.additionalCodeGenerationPhase = codeGenerationPhase;
-   }
+	public void setAdditionalCodeGenerationPhase(final MoflonCodeGeneratorPhase codeGenerationPhase) {
+		this.additionalCodeGenerationPhase = codeGenerationPhase;
+	}
 }

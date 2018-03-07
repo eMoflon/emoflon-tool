@@ -13,8 +13,8 @@ import org.moflon.ide.core.runtime.builders.AntlrBuilder;
 public class AntlrNature extends ProjectConfiguratorNature {
 
 	@Override
-	public ICommand[] updateBuildSpecs(final IProjectDescription description,
-			ICommand[] buildSpecs, final boolean added) throws CoreException {
+	public ICommand[] updateBuildSpecs(final IProjectDescription description, ICommand[] buildSpecs,
+			final boolean added) throws CoreException {
 		if (added) {
 			int javaBuilderPosition = ProjectUtil.indexOf(buildSpecs, JavaCore.BUILDER_ID);
 			int antlrBuilderPosition = ProjectUtil.indexOf(buildSpecs, AntlrBuilder.getId());
@@ -27,7 +27,8 @@ public class AntlrNature extends ProjectConfiguratorNature {
 			}
 			if (javaBuilderPosition < antlrBuilderPosition) {
 				final ICommand antlrBuilder = buildSpecs[antlrBuilderPosition];
-				System.arraycopy(buildSpecs, javaBuilderPosition, buildSpecs, javaBuilderPosition+1, antlrBuilderPosition-javaBuilderPosition);
+				System.arraycopy(buildSpecs, javaBuilderPosition, buildSpecs, javaBuilderPosition + 1,
+						antlrBuilderPosition - javaBuilderPosition);
 				antlrBuilderPosition = javaBuilderPosition++;
 				buildSpecs[antlrBuilderPosition] = antlrBuilder;
 			}
@@ -57,6 +58,6 @@ public class AntlrNature extends ProjectConfiguratorNature {
 	}
 
 	public static String getId() {
-	   return "org.moflon.ide.core.runtime.natures.AntlrNature";
+		return "org.moflon.ide.core.runtime.natures.AntlrNature";
 	}
 }

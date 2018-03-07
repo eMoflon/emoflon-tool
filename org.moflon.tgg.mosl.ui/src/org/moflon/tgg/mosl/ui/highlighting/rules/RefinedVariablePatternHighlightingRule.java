@@ -13,19 +13,15 @@ public class RefinedVariablePatternHighlightingRule extends AbstractRefinedVaria
 
 	@Override
 	protected TextStyle getTextStyle() {
-	      TextStyle ts = new TextStyle();
-	      ts.setColor(MOSLColor.DEFAULT.getColor());
-	      ts.setStyle(SWT.BOLD);
-	      return ts;
+		TextStyle ts = new TextStyle();
+		ts.setColor(MOSLColor.DEFAULT.getColor());
+		ts.setStyle(SWT.BOLD);
+		return ts;
 	}
 
 	@Override
 	public boolean getOperatorCondition(Operator op) {
 		return op == null || op.getValue() == null || "".equals(op.getValue());
 	}
-
-
-
-
 
 }

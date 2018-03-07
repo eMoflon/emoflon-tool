@@ -26,7 +26,7 @@ import net.sf.javailp.SolverFactoryGurobi;
 public class TGGRuleApplicationProtocol extends PrecedenceStructure<TGGRuleApplication> {
 
 	private int name = 0;
-	
+
 	TIntHashSet allVariables = new TIntHashSet();
 
 	@Override
@@ -59,20 +59,20 @@ public class TGGRuleApplicationProtocol extends PrecedenceStructure<TGGRuleAppli
 
 		SolverFactory factory = new SolverFactoryGurobi();
 		factory.setParameter(Solver.VERBOSE, 0);
-		for(int v : getArrayFromResult(factory.get().solve(prepareProblem(appType)))){
-			
-			if(v < 0){
+		for (int v : getArrayFromResult(factory.get().solve(prepareProblem(appType)))) {
+
+			if (v < 0) {
 				deleteElements(-v, appType);
 			}
-			
+
 		}
 
 	}
 
 	private void deleteElements(int v, AppType appType) {
-		
+
 		TGGRuleApplication m = intToMatch(v);
-		
+
 		switch (appType) {
 		case FWD:
 			deleteElements(m.getCreatedCorr());
@@ -89,16 +89,16 @@ public class TGGRuleApplicationProtocol extends PrecedenceStructure<TGGRuleAppli
 		default:
 			break;
 		}
-		
+
 	}
-	
-	private void deleteElements(Collection<EObject> elements){
-		for(EObject e : elements)
+
+	private void deleteElements(Collection<EObject> elements) {
+		for (EObject e : elements)
 			e.eResource().getContents().remove(e);
 	}
 
 	private Problem prepareProblem(AppType appType) {
-		
+
 		Problem ilpProblem = new Problem();
 
 		for (EObject el : createToMatch.keySet()) {
@@ -159,11 +159,11 @@ public class TGGRuleApplicationProtocol extends PrecedenceStructure<TGGRuleAppli
 		}
 
 	}
-	
+
 	protected int[] getArrayFromResult(Result result) {
-		
+
 		String[] resultPartials = result.toString().split(", ");
-		
+
 		// cutting clutter at start and finish
 		resultPartials[0] = resultPartials[0].split("\\{")[1];
 		resultPartials[resultPartials.length - 1] = resultPartials[resultPartials.length - 1].split("\\}")[0];
@@ -173,12 +173,12 @@ public class TGGRuleApplicationProtocol extends PrecedenceStructure<TGGRuleAppli
 
 		for (int i = 0; i < resultPartials.length; i++) {
 			// solver also reports results of formulas, this rules them out
-			if(!resultPartials[i].contains(".")){
-				
+			if (!resultPartials[i].contains(".")) {
+
 				String[] eval = resultPartials[i].split("=");
 
 				int identifier = Integer.parseInt(eval[0]);
-			
+
 				// negate identifier if equals 0
 				if (Integer.parseInt(eval[1]) == 0) {
 					identifier = 0 - identifier;
@@ -187,7 +187,7 @@ public class TGGRuleApplicationProtocol extends PrecedenceStructure<TGGRuleAppli
 				returnArrayPos++;
 			}
 		}
-		
+
 		return returnArray;
 	}
 

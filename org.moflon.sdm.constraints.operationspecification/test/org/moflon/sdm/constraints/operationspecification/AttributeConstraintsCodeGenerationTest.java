@@ -13,35 +13,37 @@ import org.junit.Test;
 
 import SDMLanguage.SDMLanguagePackage;
 
-public class AttributeConstraintsCodeGenerationTest
-{
+public class AttributeConstraintsCodeGenerationTest {
 
-   @Test
-   public void testGenerateCode() throws InvocationTargetException
-   {
+	@Test
+	public void testGenerateCode() throws InvocationTargetException {
 
-      final File pathToWorkspaceRoot = new File("").getAbsoluteFile().getParentFile();
-      ResourceSet rs = new ResourceSetImpl();
-      rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-      rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
-      // This is required if not running in plugin
-      rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true), URI.createFileURI(pathToWorkspaceRoot.getAbsolutePath() + "\\"));
-      // This is needed for loading using file based metamodel
-      rs.getURIConverter().getURIMap().put(URI.createPlatformPluginURI("/org.moflon.sdm.constraints.operationspecification/", true),
-            URI.createPlatformResourceURI("/org.moflon.sdm.constraints.operationspecification/", true));
+		final File pathToWorkspaceRoot = new File("").getAbsoluteFile().getParentFile();
+		ResourceSet rs = new ResourceSetImpl();
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
+		// This is required if not running in plugin
+		rs.getURIConverter().getURIMap().put(URI.createPlatformResourceURI("/", true),
+				URI.createFileURI(pathToWorkspaceRoot.getAbsolutePath() + "\\"));
+		// This is needed for loading using file based metamodel
+		rs.getURIConverter().getURIMap().put(
+				URI.createPlatformPluginURI("/org.moflon.sdm.constraints.operationspecification/", true),
+				URI.createPlatformResourceURI("/org.moflon.sdm.constraints.operationspecification/", true));
 
-      EcorePackage.eINSTANCE.eResource();
-      SDMLanguagePackage.eINSTANCE.eResource();
+		EcorePackage.eINSTANCE.eResource();
+		SDMLanguagePackage.eINSTANCE.eResource();
 
-      // This is for loading using generate metamodel
-      OperationspecificationPackage.eINSTANCE.getClass();
+		// This is for loading using generate metamodel
+		OperationspecificationPackage.eINSTANCE.getClass();
 
-      URI uri1 = URI.createPlatformResourceURI(String.format("/%s/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi",
-            "org.moflon.sdm.constraints.operationspecification"), true);
-      Resource r = rs.getResource(uri1, true);
-      AttributeConstraintLibrary lib = (AttributeConstraintLibrary) r.getContents().get(0);
-      @SuppressWarnings("unused")
-      OperationSpecificationGroup group = lib.getOperationSpecifications().get(0);
-   }
+		URI uri1 = URI.createPlatformResourceURI(
+				String.format("/%s/lib/buildInConstraintsLibrary/BuildInAttributeVariableConstraintLibrary.xmi",
+						"org.moflon.sdm.constraints.operationspecification"),
+				true);
+		Resource r = rs.getResource(uri1, true);
+		AttributeConstraintLibrary lib = (AttributeConstraintLibrary) r.getContents().get(0);
+		@SuppressWarnings("unused")
+		OperationSpecificationGroup group = lib.getOperationSpecifications().get(0);
+	}
 
 }

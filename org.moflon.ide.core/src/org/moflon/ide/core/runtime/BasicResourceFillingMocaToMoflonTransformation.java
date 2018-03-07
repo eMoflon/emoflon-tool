@@ -28,15 +28,11 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 
 	private final MetamodelBuilder metamodelBuilder;
 	private final IProject metamodelProject;
-	private final LinkedList<ITask> metamodelLoaderTasks =
-			new LinkedList<>();
-	private final LinkedList<ProjectDependencyAnalyzer> projectDependencyAnalyzerTasks =
-			new LinkedList<>();
+	private final LinkedList<ITask> metamodelLoaderTasks = new LinkedList<>();
+	private final LinkedList<ProjectDependencyAnalyzer> projectDependencyAnalyzerTasks = new LinkedList<>();
 
-	public BasicResourceFillingMocaToMoflonTransformation(
-			final ResourceSet set,
-			final MetamodelBuilder metamodelBuilder,
-			final IProject metamodelProject) {
+	public BasicResourceFillingMocaToMoflonTransformation(final ResourceSet set,
+			final MetamodelBuilder metamodelBuilder, final IProject metamodelProject) {
 		this.set = set;
 		this.metamodelBuilder = metamodelBuilder;
 		this.metamodelProject = metamodelProject;
@@ -51,32 +47,29 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 	}
 
 	public final MetamodelBuilder getMetamodelBuilder() {
-	   return this.metamodelBuilder;
+		return this.metamodelBuilder;
 	}
 
-	public final IProject getMetamodelProject()
-   {
-      return metamodelProject;
-   }
+	public final IProject getMetamodelProject() {
+		return metamodelProject;
+	}
 
 	public ResourceSet getResourceSet() {
-	   return this.set;
+		return this.set;
 	}
 
-	public IWorkspace getWorkspace()
-   {
-      return workspace;
-   }
+	public IWorkspace getWorkspace() {
+		return workspace;
+	}
 
 	@Override
-	public void handleOutermostPackage(final Node node,
-			final EPackage outermostPackage) {
+	public void handleOutermostPackage(final Node node, final EPackage outermostPackage) {
 		final String projectName = getProjectName(node);
 		final String exportAttribute = lookupAttribute(node, MocaTreeConstants.MOCA_TREE_ATTRIBUTE_EXPORT);
 		if (isExported(exportAttribute)) {
 			final String nodeName = node.getName();
-			if (MocaTreeConstants.MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT.equals(nodeName) ||
-					MocaTreeConstants.MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT.equals(nodeName)) {
+			if (MocaTreeConstants.MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT.equals(nodeName)
+					|| MocaTreeConstants.MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT.equals(nodeName)) {
 				// Handling (creating/opening) projects in Eclipse workspace
 				final IProject workspaceProject = workspace.getRoot().getProject(projectName);
 				if (!workspaceProject.exists()) {
@@ -89,16 +82,14 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 				assert workspaceProject.isAccessible();
 				handleOpenProject(node, workspaceProject);
 				metamodelLoaderTasks.add(new MetamodelLoader(metamodelBuilder, set, node, outermostPackage));
-				projectDependencyAnalyzerTasks.add(
-						new ProjectDependencyAnalyzer(metamodelBuilder, metamodelProject, workspaceProject, outermostPackage));
+				projectDependencyAnalyzerTasks.add(new ProjectDependencyAnalyzer(metamodelBuilder, metamodelProject,
+						workspaceProject, outermostPackage));
 			} else {
-				reportError("Project " + getProjectName(node)
-						+ " has unknown type " + node.getName());
+				reportError("Project " + getProjectName(node) + " has unknown type " + node.getName());
 			}
 		} else {
 			if (!MocaTreeConstants.MOCA_TREE_ATTRIBUTE_REPOSITORY_PROJECT.equals(node.getName())) {
-				reportError("Project " + getProjectName(node)
-						+ " must always be exported");
+				reportError("Project " + getProjectName(node) + " must always be exported");
 			}
 			metamodelLoaderTasks.add(new MetamodelLoader(metamodelBuilder, set, node, outermostPackage));
 		}
@@ -133,8 +124,7 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 		return MoflonUtil.lastCapitalizedSegmentOf(name);
 	}
 
-	protected static final String lookupAttribute(final Node node,
-			final String attributeName) {
+	protected static final String lookupAttribute(final Node node, final String attributeName) {
 		for (final Attribute attribute : node.getAttribute()) {
 			if (attributeName.equals(attribute.getName())) {
 				return attribute.getValue();
@@ -155,24 +145,23 @@ public class BasicResourceFillingMocaToMoflonTransformation extends ExporterImpl
 		// Do nothing
 	}
 
-	private final void handleOrReportMissingProject(final Node node,
-			final IProject project) {
+	private final void handleOrReportMissingProject(final Node node, final IProject project) {
 		handleMissingProject(node, project);
 		if (!project.exists()) {
-         reportError("Project %s is missing", getProjectName(node));
+			reportError("Project %s is missing", getProjectName(node));
 		}
 	}
 
-	private final void handleOrReportClosedProject(final Node node,
-			final IProject project) {
+	private final void handleOrReportClosedProject(final Node node, final IProject project) {
 		handleClosedProject(node, project);
 		if (!project.isAccessible()) {
-         reportError("Project %s is closed", project.getName());
+			reportError("Project %s is closed", project.getName());
 		}
 	}
 
 	protected final void reportError(final String errorMessage, final Object... arguments) {
-		throw new UncheckedCoreException(String.format(errorMessage, arguments), WorkspaceHelper.getPluginId(getClass()));
+		throw new UncheckedCoreException(String.format(errorMessage, arguments),
+				WorkspaceHelper.getPluginId(getClass()));
 	}
 
 	protected void reportError(final CoreException e) {

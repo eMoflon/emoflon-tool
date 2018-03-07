@@ -13,15 +13,16 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.emf.codegen.AbstractMoflonClassGeneratorAdapter;
 
 public class MoflonGenClass extends GenClassImpl {
-	
+
 	public List<GenOperation> getImplementedGenOperations() {
 		EList<GenClass> implementedGenClasses = new UniqueEList<GenClass>(getImplementedGenClasses());
 		ECollections.reverse(implementedGenClasses);
 		if (needsRootImplementsInterfaceOperations()) {
 			GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
 			if (rootImplementsInterface != null) {
-				List<GenClass> allBaseClasses = new UniqueEList<GenClass>(rootImplementsInterface.getAllBaseGenClasses());
-				for (Iterator<GenClass> i = allBaseClasses.iterator(); i.hasNext(); ) {
+				List<GenClass> allBaseClasses = new UniqueEList<GenClass>(
+						rootImplementsInterface.getAllBaseGenClasses());
+				for (Iterator<GenClass> i = allBaseClasses.iterator(); i.hasNext();) {
 					GenClass genClass = i.next();
 					if (genClass.isEObject()) {
 						i.remove();
@@ -36,9 +37,10 @@ public class MoflonGenClass extends GenClassImpl {
 
 	public class OperationFilter extends CollidingGenOperationFilter {
 		public boolean accept(GenOperation genOperation) {
-			final AbstractMoflonClassGeneratorAdapter adapter =
-					(AbstractMoflonClassGeneratorAdapter) EcoreUtil.getRegisteredAdapter(MoflonGenClass.this, AbstractMoflonClassGeneratorAdapter.class);
-			return super.accept(genOperation) || adapter != null && adapter.hasGeneratedMethodBody(genOperation.getEcoreOperation());
+			final AbstractMoflonClassGeneratorAdapter adapter = (AbstractMoflonClassGeneratorAdapter) EcoreUtil
+					.getRegisteredAdapter(MoflonGenClass.this, AbstractMoflonClassGeneratorAdapter.class);
+			return super.accept(genOperation)
+					|| adapter != null && adapter.hasGeneratedMethodBody(genOperation.getEcoreOperation());
 		}
 	}
 }

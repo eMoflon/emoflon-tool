@@ -15,22 +15,18 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.moflon.core.utilities.MoflonUtil;
 
-public final class PatternResourceFactory extends AdapterResourceFactory<EClass>
-{
+public final class PatternResourceFactory extends AdapterResourceFactory<EClass> {
 
-   public PatternResourceFactory(String extensionName)
-   {
-      super(extensionName, EcorePackage.eINSTANCE.getEClass());
-   }
+	public PatternResourceFactory(String extensionName) {
+		super(extensionName, EcorePackage.eINSTANCE.getEClass());
+	}
 
-   @Override
-   protected final URI getURI(EClass eClass, String type)
-   {
-      return getClassURI(eClass).appendFileExtension(type);
-   }
+	@Override
+	protected final URI getURI(EClass eClass, String type) {
+		return getClassURI(eClass).appendFileExtension(type);
+	}
 
-   private static final URI getClassURI(final EClass eClass)
-   {
-      return eClass.eResource().getURI().trimSegments(1).appendSegment(MoflonUtil.getFQN(eClass));
-   }
+	private static final URI getClassURI(final EClass eClass) {
+		return eClass.eResource().getURI().trimSegments(1).appendSegment(MoflonUtil.getFQN(eClass));
+	}
 }

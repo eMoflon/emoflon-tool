@@ -31,9 +31,9 @@ public class TripleGraphGrammarLoader implements ITask {
 		final IProject workspaceProject = workspaceRoot.getProject(getProjectName());
 		assert workspaceProject.isAccessible();
 		final URI projectURI = eMoflonEMFUtil.lookupProjectURI(workspaceProject);
-		final URI tggURI = URI.createURI("model/" + getTGGFileName() + MoslTggConstants.PRE_TGG_FILE_EXTENSION).resolve(projectURI);
-		final PackageRemappingDependency resourceLoader =
-				new PackageRemappingDependency(tggURI, false, false);
+		final URI tggURI = URI.createURI("model/" + getTGGFileName() + MoslTggConstants.PRE_TGG_FILE_EXTENSION)
+				.resolve(projectURI);
+		final PackageRemappingDependency resourceLoader = new PackageRemappingDependency(tggURI, false, false);
 		final Resource tggResource = resourceLoader.getResource(set, false);
 		tggResource.getContents().add(tgg);
 		return Status.OK_STATUS;

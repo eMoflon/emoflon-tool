@@ -5,5 +5,6 @@ import org.stringtemplate.v4.STGroup;
 
 public interface TemplateConfigurationProvider {
 	public STGroup getTemplateGroup(final String patternType);
+
 	public OperationSequenceCompiler getOperationSequenceCompiler(final String patternType);
 }

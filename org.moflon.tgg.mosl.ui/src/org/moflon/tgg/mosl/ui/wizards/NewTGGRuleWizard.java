@@ -16,7 +16,7 @@ import org.moflon.tgg.mosl.defaults.DefaultFilesHelper;
 public class NewTGGRuleWizard extends AbstractMoflonWizard implements INewWizard {
 
 	public static final String NEW_TGG_RULE_WIZARD_ID = "org.moflon.tgg.mosl.newTGGRule";
-	
+
 	protected NewTGGRuleProjectInfoPage projectInfo;
 
 	@Override
@@ -29,7 +29,8 @@ public class NewTGGRuleWizard extends AbstractMoflonWizard implements INewWizard
 	protected void doFinish(IProgressMonitor monitor) throws CoreException {
 		IProject project = projectInfo.getRuleLocation().getProject();
 		String ruleContent = DefaultFilesHelper.generateDefaultRule(projectInfo.getSchema(), projectInfo.getRuleName());
-		IPath pathToFile = projectInfo.getRuleLocation().getProjectRelativePath().append(projectInfo.getRuleName()).addFileExtension("tgg");
+		IPath pathToFile = projectInfo.getRuleLocation().getProjectRelativePath().append(projectInfo.getRuleName())
+				.addFileExtension("tgg");
 		addAllFoldersAndFile(project, pathToFile, ruleContent, SubMonitor.convert(monitor).split(1));
 
 		IFile file = project.getFile(pathToFile);

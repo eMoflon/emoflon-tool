@@ -10,126 +10,111 @@ import org.eclipse.emf.ecore.EObject;
  * @author anjorin
  *
  */
-public class TripleMatch
-{
-   private static int counter = 0;
+public class TripleMatch {
+	private static int counter = 0;
 
-   private String ruleName;
+	private String ruleName;
 
-   private int id;
+	private int id;
 
-   private Graph source;
+	private Graph source;
 
-   private Graph corr;
+	private Graph corr;
 
-   private Graph target;
+	private Graph target;
 
-   private Graph created;
+	private Graph created;
 
-   private Graph context;
+	private Graph context;
 
-   private Graph createdSrc;
+	private Graph createdSrc;
 
-   private Graph createdTrg;
+	private Graph createdTrg;
 
-   private Graph createdCorrAndTrg;
+	private Graph createdCorrAndTrg;
 
-   private Graph createdCorrAndSrc;
-   
-   private Graph createdCorr;
+	private Graph createdCorrAndSrc;
 
-   private Map<String, EObject> nodeMappings;
+	private Graph createdCorr;
 
-   public TripleMatch(String ruleName, Graph source, Graph target, Graph corr, Graph created, Graph context, Map<String, EObject> nodeMapping)
-   {
-      this.ruleName = ruleName;
-      id = counter++;
+	private Map<String, EObject> nodeMappings;
 
-      this.nodeMappings = nodeMapping;
-      this.created = created;
-      this.context = context;
-      this.source = source;
-      this.target = target;
-      this.corr = corr;
-      this.createdSrc = source.remove(context);
-      this.createdTrg = target.remove(context);
-      this.createdCorr = corr.remove(context);
-      this.createdCorrAndSrc = corr.add(source).removeDestructive(context);
-      this.createdCorrAndTrg = corr.add(target).removeDestructive(context);
-   }
+	public TripleMatch(String ruleName, Graph source, Graph target, Graph corr, Graph created, Graph context,
+			Map<String, EObject> nodeMapping) {
+		this.ruleName = ruleName;
+		id = counter++;
 
-   public Graph getSourceElements()
-   {
-      return source;
-   }
+		this.nodeMappings = nodeMapping;
+		this.created = created;
+		this.context = context;
+		this.source = source;
+		this.target = target;
+		this.corr = corr;
+		this.createdSrc = source.remove(context);
+		this.createdTrg = target.remove(context);
+		this.createdCorr = corr.remove(context);
+		this.createdCorrAndSrc = corr.add(source).removeDestructive(context);
+		this.createdCorrAndTrg = corr.add(target).removeDestructive(context);
+	}
 
-   public Graph getTargetElements()
-   {
-      return target;
-   }
+	public Graph getSourceElements() {
+		return source;
+	}
 
-   public Graph getCorrespondenceElements()
-   {
-      return corr;
-   }
+	public Graph getTargetElements() {
+		return target;
+	}
 
-   public Graph getCreatedElements()
-   {
-      return created;
-   }
+	public Graph getCorrespondenceElements() {
+		return corr;
+	}
 
-   public Graph getContextElements()
-   {
-      return context;
-   }
+	public Graph getCreatedElements() {
+		return created;
+	}
 
-   public String getRuleName()
-   {
-      return ruleName;
-   }
+	public Graph getContextElements() {
+		return context;
+	}
 
-   public int getID()
-   {
-      return id;
-   }
+	public String getRuleName() {
+		return ruleName;
+	}
 
-   public Graph getCreatedSrcElts()
-   {
-      return createdSrc;
-   }
+	public int getID() {
+		return id;
+	}
 
-   public Graph getCreatedTrgElts()
-   {
-      return createdTrg;
-   }
-   
-   public Graph getCreatedCorrElts(){
-	   return createdCorr;
-   }
+	public Graph getCreatedSrcElts() {
+		return createdSrc;
+	}
 
-   public Graph getCreatedCorrAndTrgElts()
-   {
-      return createdCorrAndTrg;
-   }
+	public Graph getCreatedTrgElts() {
+		return createdTrg;
+	}
 
-   public Graph getCreatedCorrAndSrcElts()
-   {
-      return createdCorrAndSrc;
-   }
+	public Graph getCreatedCorrElts() {
+		return createdCorr;
+	}
 
-   public EObject getNode(String nodeName)
-   {
-      return nodeMappings.get(nodeName);
-   }
+	public Graph getCreatedCorrAndTrgElts() {
+		return createdCorrAndTrg;
+	}
 
-   public Map<String, EObject> getNodeMappings()
-   {
-      return nodeMappings;
-   }
-   
-   @Override
-   public String toString()
-   {
-      return "TripleMatch: " + ruleName + "(" + counter + "," + id + ")";
-   }
+	public Graph getCreatedCorrAndSrcElts() {
+		return createdCorrAndSrc;
+	}
+
+	public EObject getNode(String nodeName) {
+		return nodeMappings.get(nodeName);
+	}
+
+	public Map<String, EObject> getNodeMappings() {
+		return nodeMappings;
+	}
+
+	@Override
+	public String toString() {
+		return "TripleMatch: " + ruleName + "(" + counter + "," + id + ")";
+	}
 }

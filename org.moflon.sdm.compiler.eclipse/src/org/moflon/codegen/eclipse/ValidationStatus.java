@@ -88,8 +88,9 @@ public class ValidationStatus implements IStatus {
 		} else if (value == Severity.OK_VALUE) {
 			return IStatus.OK;
 		}
-		IStatus invalidSeverityConversion = new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(ValidationStatus.class), "Cannot convert " + severity.getLiteral()
-				+ " severity to a marker");
+		IStatus invalidSeverityConversion = new Status(IStatus.ERROR,
+				WorkspaceHelper.getPluginId(ValidationStatus.class),
+				"Cannot convert " + severity.getLiteral() + " severity to a marker");
 		throw new CoreException(invalidSeverityConversion);
 	}
 }

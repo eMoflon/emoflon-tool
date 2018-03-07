@@ -14,15 +14,13 @@ public final class PackageDescriptor implements Descriptor {
 	private final String factoryPluginID;
 	private final String factoryClassName;
 
-   public PackageDescriptor(final String packagePluginID,
-		   final String packageClassName,
-		   final String factoryPluginID,
-		   final String factoryClassName) {
-	   this.packagePluginID = packagePluginID;
-	   this.packageClassName = packageClassName;
-	   this.factoryPluginID = factoryPluginID;
-	   this.factoryClassName = factoryClassName;
-   }
+	public PackageDescriptor(final String packagePluginID, final String packageClassName, final String factoryPluginID,
+			final String factoryClassName) {
+		this.packagePluginID = packagePluginID;
+		this.packageClassName = packageClassName;
+		this.factoryPluginID = factoryPluginID;
+		this.factoryClassName = factoryClassName;
+	}
 
 	@Override
 	public EPackage getEPackage() {
@@ -45,12 +43,11 @@ public final class PackageDescriptor implements Descriptor {
 			throw new WrappedException(e);
 		}
 	}
-	
+
 	@Override
 	public EFactory getEFactory() {
 		try {
-			final Class<?> eFactoryClass =
-					CommonPlugin.loadClass(factoryPluginID, factoryClassName);
+			final Class<?> eFactoryClass = CommonPlugin.loadClass(factoryPluginID, factoryClassName);
 			return (EFactory) eFactoryClass.newInstance();
 		} catch (ClassNotFoundException e) {
 			throw new WrappedException(e);

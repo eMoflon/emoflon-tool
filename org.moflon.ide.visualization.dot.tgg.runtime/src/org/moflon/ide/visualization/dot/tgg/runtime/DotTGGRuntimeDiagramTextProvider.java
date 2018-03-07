@@ -5,29 +5,24 @@ import org.eclipse.jface.viewers.ISelection;
 import org.moflon.ide.visualisation.dot.language.EMoflonDiagramTextProvider;
 import org.moflon.tgg.runtime.PrecedenceStructure;
 
-public class DotTGGRuntimeDiagramTextProvider extends EMoflonDiagramTextProvider
-{
-   @Override
-   protected boolean directionIsForward()
-   {
-      return true;
-   }
+public class DotTGGRuntimeDiagramTextProvider extends EMoflonDiagramTextProvider {
+	@Override
+	protected boolean directionIsForward() {
+		return true;
+	}
 
-   @Override
-   protected EPackage getPackage()
-   {
-      return RuntimePackage.eINSTANCE;
-   }
+	@Override
+	protected EPackage getPackage() {
+		return RuntimePackage.eINSTANCE;
+	}
 
-   @Override
-   public boolean isElementValidInput(Object selectedElement)
-   {
-      return selectedElement instanceof PrecedenceStructure;
-   }
+	@Override
+	public boolean isElementValidInput(Object selectedElement) {
+		return selectedElement instanceof PrecedenceStructure;
+	}
 
-   @Override
-   public boolean supportsSelection(final ISelection selection)
-   {
-      return true;
-   }
+	@Override
+	public boolean supportsSelection(final ISelection selection) {
+		return true;
+	}
 }

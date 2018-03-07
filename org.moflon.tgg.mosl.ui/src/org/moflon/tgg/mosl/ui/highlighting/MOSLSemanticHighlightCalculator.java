@@ -34,11 +34,12 @@ public class MOSLSemanticHighlightCalculator extends DefaultSemanticHighlighting
 		super.doProvideHighlightingFor(resource, acceptor, cancelIndicator);
 
 	}
-	
-	private void findHighlightingRuleForNode(INode node, Collection<AbstractHighlightingRule> rules, IHighlightedPositionAcceptor acceptor){
+
+	private void findHighlightingRuleForNode(INode node, Collection<AbstractHighlightingRule> rules,
+			IHighlightedPositionAcceptor acceptor) {
 		EObject moslObject = NodeModelUtils.findActualSemanticObjectFor(node);
-		for (AbstractHighlightingRule rule : rules){
-			if(rule.canProvideHighlighting(moslObject, node, acceptor))
+		for (AbstractHighlightingRule rule : rules) {
+			if (rule.canProvideHighlighting(moslObject, node, acceptor))
 				return;
 		}
 	}

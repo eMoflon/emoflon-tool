@@ -6,10 +6,8 @@ import java.util.Map;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.runtime.CCMatch;
 
-
 public interface UserDefinedILPObjectiveProvider {
-	
-	
+
 	default public UserDefinedILPObjective getUserDefinedObjective(ConsistencyCheckPrecedenceGraph protocol) {
 		Map<Integer, Double> idsToCoefficients = new HashMap<>();
 		for (int matchId : protocol.getMatchIDs().toArray()) {
@@ -20,6 +18,5 @@ public interface UserDefinedILPObjectiveProvider {
 		}
 		return new UserDefinedILPObjective(idsToCoefficients, UserDefinedILPObjective.OptGoal.MAX);
 	}
-
 
 }

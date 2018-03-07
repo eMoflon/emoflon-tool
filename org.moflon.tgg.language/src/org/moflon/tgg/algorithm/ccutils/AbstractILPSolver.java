@@ -21,7 +21,7 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 	private int variableCount;
 
 	private int constraintCount;
-	
+
 	private Problem ilpProblem;
 
 	// this list keeps a record of all variables that appear in the clausels.
@@ -44,7 +44,6 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 
 		Solver solver = factory.get();
 
-		
 		try {
 			// solve
 			Result result = solver.solve(ilpProblem);
@@ -55,12 +54,13 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 		} catch (Exception e) {
 			throw new RuntimeException("ILP Problem is not solvable.");
 		}
-	
+
 	}
 
 	protected abstract SolverFactory getSolverFactory();
 
-	protected Problem createIlpProblemFromGraphs(Graph sourceGraph, Graph targetGraph, ConsistencyCheckPrecedenceGraph protocol) {
+	protected Problem createIlpProblemFromGraphs(Graph sourceGraph, Graph targetGraph,
+			ConsistencyCheckPrecedenceGraph protocol) {
 		Problem ilpProblem = new Problem();
 
 		// get all alternative clauses
@@ -68,7 +68,8 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 			TIntCollection variables = protocol.creates(elm);
 			if (variables != null && !variables.isEmpty()) {
 				int[] alternatives = variables.toArray();
-				ilpProblem.add(new Constraint(String.valueOf(elm.hashCode()), getAlternativeLinearFromArray(alternatives), "<=", 1));
+				ilpProblem.add(new Constraint(String.valueOf(elm.hashCode()),
+						getAlternativeLinearFromArray(alternatives), "<=", 1));
 			}
 		}
 
@@ -76,7 +77,8 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 			TIntCollection variables = protocol.creates(elm);
 			if (variables != null && !variables.isEmpty()) {
 				int[] alternatives = variables.toArray();
-				ilpProblem.add(new Constraint(String.valueOf(elm.hashCode()), getAlternativeLinearFromArray(alternatives), "<=", 1));
+				ilpProblem.add(new Constraint(String.valueOf(elm.hashCode()),
+						getAlternativeLinearFromArray(alternatives), "<=", 1));
 			}
 		}
 
@@ -95,19 +97,20 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 
 		// incorporate user constraints on the ILP problem
 		if (userDefinedILPConstraintProvider != null) {
-			for (UserDefinedILPConstraint constraint : userDefinedILPConstraintProvider.getUserDefinedConstraints(protocol)) {
+			for (UserDefinedILPConstraint constraint : userDefinedILPConstraintProvider
+					.getUserDefinedConstraints(protocol)) {
 				Linear linear = new Linear();
 				for (int id : constraint.getIdsToCoefficients().keySet()) {
 					linear.add(constraint.getIdsToCoefficients().get(id), id);
 				}
-				ilpProblem.add(new Constraint(String.valueOf(constraint.hashCode()), linear, constraint.getMathematicalSign(), constraint.getReferenceValue()));
+				ilpProblem.add(new Constraint(String.valueOf(constraint.hashCode()), linear,
+						constraint.getMathematicalSign(), constraint.getReferenceValue()));
 			}
 		}
-		
 
 		// define the objective -> bsp: MAX(A+B+C)
 		Linear objective = new Linear();
-		if (userDefinedILPObjectiveProvider != null)  {
+		if (userDefinedILPObjectiveProvider != null) {
 			// incorporate user objectives on the ILP problem
 			UserDefinedILPObjective userObj = userDefinedILPObjectiveProvider.getUserDefinedObjective(protocol);
 			Linear linear = new Linear();
@@ -115,8 +118,7 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 				linear.add(userObj.getIdsToCoefficients().get(id), id);
 			}
 			ilpProblem.setObjective(linear, userObj.getOptimizationGoal() == OptGoal.MIN ? OptType.MIN : OptType.MAX);
-		}
-		else {
+		} else {
 			for (int matchId : protocol.getMatchIDs().toArray()) {
 				CCMatch match = protocol.intToMatch(matchId);
 				int weight = match.getSourceMatch().getCreatedHashSet().size();
@@ -125,8 +127,6 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 			}
 			ilpProblem.setObjective(objective, OptType.MAX);
 		}
-			
-		
 
 		// define variables as ilp boolean variables
 		variables.forEach(variable -> {
@@ -190,7 +190,7 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 	public void setUserDefinedILPConstraintProvider(UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
 		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
 	}
-	
+
 	public void setUserDefinedILPObjectiveProvider(UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider) {
 		this.userDefinedILPObjectiveProvider = userDefinedILPObjectiveProvider;
 	}
@@ -206,7 +206,7 @@ public abstract class AbstractILPSolver extends AbstractSolver {
 	public TIntHashSet getVariables() {
 		return variables;
 	}
-	
+
 	public Problem getILPProblem() {
 		return ilpProblem;
 	}

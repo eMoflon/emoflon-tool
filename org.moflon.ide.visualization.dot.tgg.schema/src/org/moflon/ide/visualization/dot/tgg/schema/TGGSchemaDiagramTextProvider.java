@@ -5,7 +5,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.moflon.ide.visualisation.dot.language.EMoflonDiagramTextProvider;
 import org.moflon.tgg.language.TripleGraphGrammar;
 
-
 public class TGGSchemaDiagramTextProvider extends EMoflonDiagramTextProvider {
 
 	@Override
@@ -13,11 +12,10 @@ public class TGGSchemaDiagramTextProvider extends EMoflonDiagramTextProvider {
 		return selectedElement instanceof TripleGraphGrammar;
 	}
 
-   @Override
-   public boolean supportsSelection(final ISelection selection)
-   {
-      return true;
-   }
+	@Override
+	public boolean supportsSelection(final ISelection selection) {
+		return true;
+	}
 
 	@Override
 	protected boolean directionIsForward() {

@@ -8,15 +8,15 @@ import org.moflon.testing.autotester.EnterpriseArchitectAwareWorkspaceInstaller;
  *
  * @author Roland Kluge
  */
-public abstract class AbstractInstallCommandHandler extends AbstractCommandHandler
-{
-   /**
-    * Returns the {@link EnterpriseArchitectAwareWorkspaceInstaller} to be used by the subclasses
-    * @return the {@link EnterpriseArchitectAwareWorkspaceInstaller}
-    */
-   protected final EnterpriseArchitectAwareWorkspaceInstaller getWorkspaceController()
-   {
-      return new EnterpriseArchitectAwareWorkspaceInstaller();
-   }
+public abstract class AbstractInstallCommandHandler extends AbstractCommandHandler {
+	/**
+	 * Returns the {@link EnterpriseArchitectAwareWorkspaceInstaller} to be used by
+	 * the subclasses
+	 * 
+	 * @return the {@link EnterpriseArchitectAwareWorkspaceInstaller}
+	 */
+	protected final EnterpriseArchitectAwareWorkspaceInstaller getWorkspaceController() {
+		return new EnterpriseArchitectAwareWorkspaceInstaller();
+	}
 
 }
