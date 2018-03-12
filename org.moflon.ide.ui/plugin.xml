@@ -210,6 +210,11 @@
         <key commandId="org.moflon.ide.ui.commands.ecore2mocaxmi.EAPExportCommand" contextId="org.eclipse.ui.contexts.window" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" sequence="M2+M3+E M"></key>
     </extension>
     <extension point="org.eclipse.core.expressions.definitions">
+        <definition id="org.moflon.ide.ui.definitions.hasIntegrationNature">
+            <adapt type="org.eclipse.core.resources.IResource">
+                <test property="org.eclipse.core.resources.projectNature" value="org.moflon.ide.core.runtime.natures.IntegrationNature"></test>
+            </adapt>
+        </definition>
         <definition id="org.moflon.ide.ui.definitions.hasRepositoryNature">
             <adapt type="org.eclipse.core.resources.IResource">
                 <test property="org.eclipse.core.resources.projectNature" value="org.moflon.ide.core.runtime.natures.RepositoryNature"></test>
