@@ -31,7 +31,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
    </license>
 
    <requires>
-      <import feature="org.moflon.ide.feature" version="2.6.0" match="greaterOrEqual"/>
+      <import feature="org.moflon.ide.feature" version="3.0.0" match="greaterOrEqual"/>
       <import feature="net.sourceforge.plantuml.feature" version="1.1.19"/>
    </requires>
 
