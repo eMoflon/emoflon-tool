@@ -10,7 +10,7 @@ Require-Bundle:
  org.eclipse.pde.core,
  org.gervarro.eclipse.task;bundle-version="[1.0.1,2.0.0)",
  org.moflon.core.utilities,
- org.moflon.core.propertycontainer,
+ org.moflon.core.propertycontainer;bundle-version="2.1.0",
  SDMLanguage,
  org.moflon.sdm.compiler.democles.validation.result,
  org.moflon.sdm.compiler.democles.validation.scope,

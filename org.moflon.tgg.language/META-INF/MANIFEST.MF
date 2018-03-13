@@ -3,12 +3,12 @@ Bundle-SymbolicName: org.moflon.tgg.language;singleton:=true
 Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.9.1",
  org.eclipse.core.runtime,
  org.eclipse.emf.codegen.ecore;bundle-version="2.9.1",
- org.moflon.core.utilities,
+ org.eclipse.emf.ecore,
+ org.moflon.core.utilities;bundle-version="3.0.0",
  SDMLanguage,
  org.moflon.tgg.runtime,
- org.moflon.core.propertycontainer,
  MocaTree,
- org.eclipse.emf.ecore
+ org.moflon.core.propertycontainer;bundle-version="2.1.0"
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
