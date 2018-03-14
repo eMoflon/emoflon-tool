@@ -1,5 +1,12 @@
 Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.moflon.tgg.mosl.codeadapter
+Bundle-Vendor: eMoflon Developers
+Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.moflon.tgg.mosl.codeadapter;singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ClassPath: .
 Export-Package: org.moflon.tgg.mosl.builder,
  org.moflon.tgg.mosl.codeadapter,
  org.moflon.tgg.mosl.codeadapter.Rules,
@@ -8,8 +15,6 @@ Export-Package: org.moflon.tgg.mosl.builder,
  org.moflon.tgg.mosl.codeadapter.impl,
  org.moflon.tgg.mosl.codeadapter.util,
  org.moflon.tgg.mosl.codeadapter.org.moflon.tie
-Bundle-Name: org.moflon.tgg.mosl.codeadapter
-Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.moflon.core.utilities,
  org.gervarro.eclipse.workspace.util;bundle-version="[2.0.0,3.0.0)",
  org.gervarro.eclipse.workspace.autosetup;bundle-version="[1.0.0,2.0.0)",
@@ -25,7 +30,3 @@ Require-Bundle: org.moflon.core.utilities,
  org.moflon.core.plugins;bundle-version="2.2.0",
  MocaTree,
  org.moflon.core.build
-Bundle-ManifestVersion: 2
-Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: eMoflon Developers
