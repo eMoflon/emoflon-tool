@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.moflon.ide.tgg.mosl
+Bundle-Name: org.moflon.tgg.mosl
 Bundle-Vendor: eMoflon Developers
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.moflon.tgg.mosl;singleton:=true
