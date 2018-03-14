@@ -35,117 +35,13 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
    <url>
       <update label="eMoflon at GitHub" url="https://emoflon.github.io/eclipse-plugin/beta/updatesite"/>
       <discovery label="eMoflon Core Update Site" url="http://emoflon.org/emoflon-core-updatesite/stable/updatesite/"/>
+      <discovery label="Democles Core" url="http://gervarro.org/democles"/>
+      <discovery label="Democles External" url="http://gervarro.org/external"/>
+      <discovery label="Democles Eclipse Utils" url="http://gervarro.org/eclipse-utils"/>
    </url>
 
    <requires>
-      <import plugin="org.eclipse.core.resources" version="3.5.2" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.5.0" match="compatible"/>
-      <import plugin="org.eclipse.emf.codegen.ecore" version="2.5.0" match="compatible"/>
-      <import plugin="org.eclipse.jdt.core" version="3.5.2" match="compatible"/>
-      <import plugin="org.eclipse.jgit" version="4.4.0" match="greaterOrEqual"/>
-      <import plugin="org.gervarro.eclipse.task" version="1.0.1" match="compatible"/>
-      <import plugin="org.gervarro.eclipse.workspace.util" version="2.0.0" match="compatible"/>
-      <import plugin="org.gervarro.eclipse.workspace.autosetup" version="1.0.0" match="compatible"/>
-      <import plugin="org.moflon.core.utilities" version="1.3.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.core.propertycontainer" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="MocaTree" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.core.moca.processing" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.core.mocatomoflon" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="SDMLanguage" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.sdm.compiler.eclipse" version="3.0.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.sdm.compiler.democles.validation.result" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.tgg.cspcodeadapter" version="2.0.1" match="greaterOrEqual"/>
-      <import plugin="org.moflon.tgg.runtime" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.tgg.language" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.core.plugins" version="2.2.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.emf.injection"/>
-      <import plugin="org.moflon.core.build"/>
-      <import plugin="org.moflon.core.preferences"/>
-      <import plugin="org.moflon.emf.build"/>
-      <import plugin="org.moflon.emf.codegen"/>
-      <import plugin="org.moflon.core.ui"/>
-      <import plugin="org.eclipse.core.filesystem" version="1.3.200" match="compatible"/>
-      <import plugin="org.eclipse.core.expressions" version="3.4.0" match="compatible"/>
-      <import plugin="org.eclipse.jdt.core" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.jdt.core.manipulation" version="1.5.0" match="compatible"/>
-      <import plugin="org.eclipse.ltk.core.refactoring" version="3.6.100" match="compatible"/>
-      <import plugin="org.eclipse.jface.text" version="3.7.0" match="compatible"/>
-      <import plugin="org.eclipse.ui" version="3.5.2" match="compatible"/>
-      <import plugin="org.eclipse.ui.console" version="3.5.100" match="compatible"/>
-      <import plugin="org.eclipse.ui.forms" version="3.6.100" match="compatible"/>
-      <import plugin="org.eclipse.ui.ide" version="3.8.0" match="compatible"/>
-      <import plugin="org.eclipse.e4.ui.model.workbench" version="1.0.1"/>
-      <import plugin="org.eclipse.jdt.ui" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.ui.editors" version="3.10.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.12.0" match="greaterOrEqual"/>
-      <import plugin="org.gervarro.eclipse.workspace.autosetup" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.core.ui" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.emf.injection.ide" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.runtime" version="3.9.0" match="greaterOrEqual"/>
-      <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.runtime" version="3.8.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.edit.ui" version="2.8.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.debug.ui" version="3.8.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.core.ui.autosetup"/>
-      <import plugin="org.eclipse.core.resources" version="3.8.101" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.9.0" match="compatible"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.9.1" match="compatible"/>
-      <import plugin="org.eclipse.emf.codegen.ecore" version="2.9.1" match="compatible"/>
-      <import plugin="org.stringtemplate" version="4.2.1" match="compatible"/>
-      <import plugin="org.moflon.sdm.democles.patternmatcher" version="0.4.0" match="equivalent"/>
-      <import plugin="org.moflon.emf.injection.ui"/>
-      <import plugin="org.eclipse.core.resources" version="3.9.0" match="compatible"/>
-      <import plugin="org.moflon.emf.build" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.codegen.ecore" version="2.10.0" match="compatible"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.9.1" match="compatible"/>
-      <import plugin="org.gervarro.democles.codegen.emf" version="1.1.0" match="compatible"/>
-      <import plugin="org.gervarro.democles.codegen.stringtemplate" version="1.1.0" match="compatible"/>
-      <import plugin="org.gervarro.democles.codegen.stringtemplate.emf" version="1.1.0" match="compatible"/>
-      <import plugin="org.gervarro.democles.common" version="2.0.0" match="compatible"/>
-      <import plugin="org.gervarro.democles.compiler" version="1.1.0" match="compatible"/>
-      <import plugin="org.gervarro.democles.emf" version="2.0.0" match="compatible"/>
-      <import plugin="org.gervarro.democles.plan" version="2.0.0" match="compatible"/>
-      <import plugin="org.gervarro.democles.specification.emf" version="2.0.0" match="compatible"/>
-      <import plugin="org.eclipse.emf.ecore.editor" version="2.5.0" match="compatible"/>
-      <import plugin="org.eclipse.emf.converter" version="2.5.0" match="compatible"/>
-      <import plugin="org.eclipse.pde.core"/>
-      <import plugin="org.eclipse.equinox.p2.ui" version="2.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.equinox.p2.operations" version="2.4.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.pde.core" version="3.9.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jface.text" version="3.7.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.editors" version="3.7.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.7.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.resources" version="3.7.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.codegen.ecore" version="2.7.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.tgg.language" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare"/>
-      <import plugin="org.junit" version="4.11.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.equinox.p2.ui" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.team.ui"/>
-      <import plugin="org.eclipse.debug.ui" version="3.6.3" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.pde.ui" version="3.6.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.ide.application" version="1.0.400" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.runtime" version="3.7.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.codegen.ecore" version="2.9.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.9.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.8.1" match="compatible"/>
-      <import plugin="org.eclipse.core.resources" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.swt"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.8.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.12.0" match="greaterOrEqual"/>
-      <import plugin="org.moflon.sdm.compiler.democles.pattern" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xtext"/>
-      <import plugin="org.eclipse.xtext.ui"/>
-      <import plugin="org.eclipse.xtext.util"/>
-      <import plugin="org.gervarro.democles.common" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.gervarro.democles.plan" version="0.3.2" match="greaterOrEqual"/>
-      <import plugin="org.moflon.core.utilities" version="1.2.1" match="greaterOrEqual"/>
-      <import feature="org.eclipse.emf" version="2.10.0" match="greaterOrEqual"/>
       <import feature="org.moflon.core.feature" version="1.0.0" match="greaterOrEqual"/>
-      <import feature="org.gervarro.democles.feature.compiler" version="0.4.0.v20160412-1015"/>
-      <import feature="org.gervarro.democles.feature.specification" version="0.4.0.v20160412-1015"/>
-      <import feature="org.gervarro.eclipse.util.feature" version="2.0.0.v20161231-0040"/>
    </requires>
 
    <plugin
@@ -408,6 +304,167 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
 
    <plugin
          id="org.moflon.sdm.democles.reachability.javabdd"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.eclipse.task"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.eclipse.task.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.eclipse.workspace.autosetup"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.eclipse.workspace.autosetup.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.eclipse.workspace.util"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.eclipse.workspace.util.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.builder.ant"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.codegen.emf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.codegen.emf.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.codegen.stringtemplate"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.codegen.stringtemplate.emf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.codegen.stringtemplate.emf.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.codegen.stringtemplate.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.common"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.common.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.compiler"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.compiler.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.emf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.emf.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.plan"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.plan.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.specification.emf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gervarro.democles.specification.emf.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
