@@ -4,7 +4,6 @@
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.core"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.eaaddin"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.editor"/>
-<project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.plugins"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.ui"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.ide.workspaceinstaller.psf"/>
 <project reference="1.0,https://github.com/eMoflon/emoflon-tool.git,master,org.moflon.testing.autotester"/>
@@ -17,7 +16,6 @@
 <item elementID="=org.moflon.ide.core" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.moflon.ide.eaaddin" type="4"/>
 <item elementID="=org.moflon.testing.testframework" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item elementID="=org.moflon.ide.plugins" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.moflon.testing.autotester" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 </workingSets>
 </psf>
