@@ -15,7 +15,7 @@ public class EMoflonStandardWorkspaces {
 	 * This string separates the name of a workspace from the name of the branch to
 	 * be used If this separator is missing from a workspace name, a sensible
 	 * default choice is not to modify the branch name in the PSF file.
-	 * 
+	 *
 	 * Important: the separator must be a valid character within directory names
 	 * (NOT: /, \, #,...)
 	 */
@@ -24,7 +24,7 @@ public class EMoflonStandardWorkspaces {
 	/*
 	 * !!! Danger Zone !!! !!! Danger Zone !!! !!! Danger Zone !!! !!! Danger Zone
 	 * !!! !!! Danger Zone !!!
-	 * 
+	 *
 	 * ATTENTION: The following names are also used in the plugin.xml and in the
 	 * autotest script to load the correct workspaces.
 	 */
@@ -70,8 +70,6 @@ public class EMoflonStandardWorkspaces {
 
 	public static final String MODULE_CORE_SDM = "ModuleCoreSDM";
 
-	public static final String MODULE_GT = "ModuleGT";
-
 	public static final String MODULE_TGG = "ModuleTGG";
 
 	public static final String MODULE_TGG_CORE = "ModuleTGGCore";
@@ -102,14 +100,13 @@ public class EMoflonStandardWorkspaces {
 		addPathLookup(MODULE_IDE, Arrays.asList("development/IDE_Rest_Modules.psf"));
 		addPathLookup(MODULE_TGG_CORE, Arrays.asList("development/TGG_Core_Modules.psf"));
 		addPathLookup(MODULE_TGG_MOSL, Arrays.asList("development/TGG_MOSL_Modules.psf"));
-		addPathLookup(MODULE_GT, Arrays.asList("development/GT_MOSL_Modules.psf"));
 		addPathLookup(MODULE_VISUALIZATION, Arrays.asList("development/IDE_Vis_Modules.psf"));
 		addPathLookup(MODULE_DOCUMENTATION, Arrays.asList("development/Documentation.psf"));
 
 		addPathLookup(MODULE_TGG, joinLists(MODULE_TGG_CORE, MODULE_TGG_MOSL));
 		addPathLookup(MODULE_ALL,
 				joinLists(MODULE_META, MODULE_IDE, MODULE_CORE_SDM, MODULE_TGG_CORE, MODULE_VISUALIZATION)); // "development/All_Modules.psf"
-		addPathLookup(MODULE_ALL_INCL_MOSL, joinLists(MODULE_ALL, MODULE_GT, MODULE_TGG_MOSL)); // "development/All_Modules_incl_MOSL.psf"
+		addPathLookup(MODULE_ALL_INCL_MOSL, joinLists(MODULE_ALL, MODULE_TGG_MOSL)); // "development/All_Modules_incl_MOSL.psf"
 
 		// Handbook workspace modules
 		addPathLookup(DEMO_WORKSPACE_NAME, Arrays.asList("examples/DemoWorkspace.psf"));
@@ -133,7 +130,7 @@ public class EMoflonStandardWorkspaces {
 	/**
 	 * Returns the project-relative path to the PSF file that corresponds to the
 	 * given workspace name.
-	 * 
+	 *
 	 * If no such path exists, the list is empty
 	 */
 	public static List<String> getPathToPsfFileForWorkspace(final String workspaceName) {
@@ -150,7 +147,7 @@ public class EMoflonStandardWorkspaces {
 
 	/**
 	 * Registers the given list of paths to PSF files for the given module name
-	 * 
+	 *
 	 * @param moduleName
 	 * @param paths
 	 */
@@ -160,7 +157,7 @@ public class EMoflonStandardWorkspaces {
 
 	/**
 	 * Joins the paths corresponding to the given module names to a new (flat) list.
-	 * 
+	 *
 	 * The resulting list preserves the order of the paths of the given modules (and
 	 * their corresponding paths) but does not contain duplicates. Only the first
 	 * path of a set of duplicates is kept.
@@ -180,7 +177,7 @@ public class EMoflonStandardWorkspaces {
 	 * Creates a binary operator on string lists that uses
 	 * {@link Collection#addAll(Collection)} to add all elements of the second
 	 * operand to the first operand
-	 * 
+	 *
 	 * @return
 	 */
 	private static BinaryOperator<List<String>> createListJoiner() {
@@ -193,12 +190,12 @@ public class EMoflonStandardWorkspaces {
 	/**
 	 * Extracts the component of the workspace name that describes the desired
 	 * branch to use
-	 * 
+	 *
 	 * Anything beyond the {@link #BRANCH_NAME_SEPARATOR} is interpreted as branch
 	 * name. If {@link #BRANCH_NAME_SEPARATOR} does not appear within the
 	 * workspaceName, then null is returned If {@link #BRANCH_NAME_SEPARATOR} is the
 	 * last character, then the result is also null.
-	 * 
+	 *
 	 * @param workspaceName
 	 *            the raw workspace name
 	 * @return the branch specificator as described above
@@ -213,7 +210,7 @@ public class EMoflonStandardWorkspaces {
 	/**
 	 * Returns the name part of the workspace name (i.e., without the branch
 	 * specificator)
-	 * 
+	 *
 	 * @param workspaceName
 	 *            the raw workspace name
 	 * @return the name part
