@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
 		// Forward Transformation
         <className> helper = new <className>();
 		helper.performForward("instances/fwd.src.xmi");
-		
+
 		// Backward Transformation
 		helper = new <className>();
 		helper.performBackward("instances/bwd.src.xmi");
@@ -101,7 +101,7 @@ import org.moflon.tgg.runtime.CorrespondenceModel;
 import java.util.function.BiConsumer;
 
 <basic()>
-	
+
 	public static void main(String[] args) throws IOException {
 		// Create helper
 		BasicConfigurator.configure();
@@ -111,7 +111,7 @@ import java.util.function.BiConsumer;
 		String delta = "instances/fwd.trg.delta.xmi";
 		String corr  = "instances/fwd.corr.xmi";
 		BiConsumer\<String, String\> synchronizer = helper::syncBackward;
-		
+
 		// Propagate changes
 		synchronizer.accept(corr, delta);
 	}
@@ -164,7 +164,7 @@ import org.moflon.tgg.algorithm.modelgenerator.ModelGenerator;
 import org.moflon.tgg.algorithm.modelgenerator.controller.*;
 
 <basic()>
-	
+
 	public static void main(String[] args) throws IOException {
 		// Set up logging
 		BasicConfigurator.configure();
@@ -187,14 +187,14 @@ TGGMainConsistencyCheck(projects, corrPackage, projectName, className) ::= <<
 	public static void main(String[] args) throws IOException {
 		// Set up logging
         BasicConfigurator.configure();
-        
+
         <className> helper = new <className>();
         helper.loadSrc("instances/src.xmi");
 		helper.loadTrg("instances/trg.xmi");
 
 		boolean prepareDeltas = true;
 		helper.createCorrespondences(prepareDeltas);
-		
+
 		if(prepareDeltas){
 			//src and trg models are modified when preparing deltas.
 			//save all files in a separate location
@@ -202,8 +202,8 @@ TGGMainConsistencyCheck(projects, corrPackage, projectName, className) ::= <<
 			helper.saveTrg("instances/cc_result/trg.xmi");
 			helper.saveCorr("instances/cc_result/corr.xmi");
 			helper.saveConsistencyCheckProtocol("instances/cc_result/protocol.xmi");
-			helper.saveInconsistentSourceDelta("instances/cc_result/src.delta.xmi");
-			helper.saveInconsistentTargetDelta("instances/cc_result/trg.delta.xmi");
+			helper.saveInconsistentSourceDelta();
+			helper.saveInconsistentTargetDelta();
 		}
 		else{
 			//src and trg models are not modified.

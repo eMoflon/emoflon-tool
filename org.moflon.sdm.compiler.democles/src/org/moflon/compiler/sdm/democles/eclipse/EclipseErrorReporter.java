@@ -2,6 +2,7 @@ package org.moflon.compiler.sdm.democles.eclipse;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -77,7 +78,8 @@ public class EclipseErrorReporter extends MultiStatusAwareErrorReporter {
 	}
 
 	private IMarker createMarker(final String markerId, final ErrorMessage message) throws CoreException {
-		IMarker validationMarker = file.createMarker(markerId);
+	   final IResource markedResource = file.exists() ? file : file.getProject();
+		IMarker validationMarker = markedResource.createMarker(markerId);
 		validationMarker.setAttribute(IMarker.MESSAGE, message.getId());
 		validationMarker.setAttribute(IMarker.LOCATION, getLocationDescription(message));
 		validationMarker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);

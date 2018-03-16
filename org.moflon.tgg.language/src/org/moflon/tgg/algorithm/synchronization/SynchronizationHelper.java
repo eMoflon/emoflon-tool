@@ -44,7 +44,7 @@ import net.sf.javailp.Problem;
  * with useful default values. This helper also invokes the synchronizer and
  * provides a simple interface to the user, hiding as much details as possible.
  * The generated stubs in a TGG project subclass this helper.
- * 
+ *
  *
  */
 public class SynchronizationHelper {
@@ -186,9 +186,9 @@ public class SynchronizationHelper {
 
 	/**
 	 * Sets the 'mute' state of this helper.
-	 * 
+	 *
 	 * If true, no log messages are printed, e.g., in case of errors.
-	 * 
+	 *
 	 * @param isMute
 	 */
 	public void setMute(final boolean isMute) {
@@ -583,10 +583,10 @@ public class SynchronizationHelper {
 
 	/**
 	 * Loads the rules for the given project, located at the given path.
-	 * 
+	 *
 	 * The rules are loaded from the following location:
 	 * '[pathToProject]/model/[rulesFileBaseName].sma.xmi' .
-	 * 
+	 *
 	 * @param pathToProject
 	 *            path that contains the project
 	 * @param rulesFileBaseName
@@ -599,7 +599,7 @@ public class SynchronizationHelper {
 
 	/**
 	 * Loads TGG rules from inside a Jar archive.
-	 * 
+	 *
 	 * @param pathToJarArchive
 	 *            the absolute or relative path to the Jar file (e.g.,
 	 *            "./libraries/Rules.jar")
@@ -613,10 +613,10 @@ public class SynchronizationHelper {
 
 	/**
 	 * Loads the rules for the given project, located at the given path.
-	 * 
+	 *
 	 * The rules are loaded from the following location:
 	 * '[pathToProject]/model/[CorrespondencePackageName].sma.xmi' .
-	 * 
+	 *
 	 * @param pathToProject
 	 *            path that contains the project
 	 */
@@ -696,6 +696,9 @@ public class SynchronizationHelper {
 		eMoflonEMFUtil.saveModel(pgAsPSs.eResource().getResourceSet(), pgAsPSs, path);
 	}
 
+	/**
+	 * @deprecated Use {@link #saveInconsistentSourceDelta()}
+	 */
 	@Deprecated
 	public void saveInconsistentSourceDelta(final String path) {
 		saveInconsistentSourceDelta();
@@ -709,6 +712,9 @@ public class SynchronizationHelper {
 		}
 	}
 
+   /**
+    * @deprecated Use {@link #saveInconsistentTargetDelta()}
+    */
 	@Deprecated
 	public void saveInconsistentTargetDelta(final String path) {
 

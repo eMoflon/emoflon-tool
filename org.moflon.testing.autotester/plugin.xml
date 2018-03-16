@@ -114,8 +114,6 @@
     </menuContribution>
   </extension>
   <extension point="org.eclipse.ui.commands">
-    <command categoryId="org.moflon.ide.ui.commands.DevelopmentCategory" defaultHandler="org.moflon.core.ui.handler.NoActionCommandHandler" id="org.moflon.ide.ui.commands.MoflonDevtoolsMenuCommand" name="Install Prepared eMoflon Workspaces">
-    </command>
     <category id="org.moflon.ide.ui.commands.DevelopmentCategory" name="Development commands"></category>
     <command categoryId="org.moflon.ide.ui.commands.DevelopmentCategory" defaultHandler="org.moflon.testing.autotester.handler.InstallModulesHandler" id="org.moflon.devtools.ui.commands.install.InstallModuleCommand" name="Install Module">
       <commandParameter id="org.moflon.devtools.ui.commands.install.workspacename" name="Workspace Name" optional="true">
