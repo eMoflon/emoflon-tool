@@ -27,6 +27,7 @@ import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
 import org.moflon.emf.build.MonitoredMetamodelLoader;
+import org.moflon.emf.codegen.MoflonGenModelBuilder;
 import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
 import org.moflon.emf.codegen.dependency.SDMEnhancedEcoreResource;
 import org.moflon.ide.core.MoslTggConstants;
@@ -111,7 +112,7 @@ public class IntegrationBuilder extends RepositoryBuilder {
 		final String defaultFileName = MoflonUtil.lastCapitalizedSegmentOf(getProject().getName());
 		final IFile tggFile = modelFolder.getFile(defaultFileName + MoslTggConstants.TGG_FILE_EXTENSION);
 
-		final URI projectURI = eMoflonEMFUtil.lookupProjectURI(getProject());
+		final URI projectURI = MoflonGenModelBuilder.determineProjectUriBasedOnPreferences(getProject());
 		final URI workspaceProjectURI = URI.createURI(getProject().getName() + "/", true)
 				.resolve(URI.createPlatformResourceURI("/", true));
 		final URI modelFolderURI = URI.createURI(WorkspaceHelper.MODEL_FOLDER + "/", true);
