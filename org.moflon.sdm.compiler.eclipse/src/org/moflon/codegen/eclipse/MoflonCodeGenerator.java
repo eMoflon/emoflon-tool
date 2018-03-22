@@ -200,10 +200,9 @@ public class MoflonCodeGenerator extends GenericMoflonProcess {
 							new IStatus[] { validationStatus, weaverStatus, injectionStatus },
 							"Code generation warnings/errors", null);
 		} catch (final Exception e) {
-			logger.debug(WorkspaceHelper.printStacktraceToString(e));
 			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR,
-					e.getClass().getName() + " occurred during eMoflon code generation. Message: '" + e.getMessage()
-							+ "'. (Stacktrace is logged with level debug)",
+					String.format("%s occurred during eMoflon code generation. Message: '%s'. Stacktrace:\n%s",
+							e.getClass().getName(), e.getMessage(), WorkspaceHelper.printStacktraceToString(e)),
 					e);
 		}
 	}
