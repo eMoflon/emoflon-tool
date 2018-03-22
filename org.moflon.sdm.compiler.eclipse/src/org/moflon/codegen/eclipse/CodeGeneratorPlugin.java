@@ -62,36 +62,4 @@ public class CodeGeneratorPlugin implements BundleActivator {
 	public static void createPluginToResourceMapping(ResourceSet set) throws CoreException {
 		eMoflonEMFUtil.createPluginToResourceMapping(set);
 	}
-
-	// TODO@rkluge: Remove, appears to be unused 2017-12-19
-	// public static final List<Resource> exploreDependentResources(final Resource
-	// initialResource)
-	// {
-	// final UniqueEList<Resource> result = new UniqueEList<Resource>();
-	// result.add(initialResource);
-	// for (int i = 0; i < result.size(); i++)
-	// {
-	// final Resource resource = result.get(i);
-	// for (final TreeIterator<EObject> j = resource.getAllContents(); j.hasNext();)
-	// {
-	// final EObject eObject = j.next();
-	// if (eObject instanceof EDataType)
-	// {
-	// j.prune();
-	// }
-	// for (final EObject eCrossReference : eObject.eCrossReferences())
-	// {
-	// if (eCrossReference instanceof EClass)
-	// {
-	// final EPackage referencedEPackage = ((EClass) eCrossReference).getEPackage();
-	// if (resource != referencedEPackage.eResource())
-	// {
-	// result.add(referencedEPackage.eResource());
-	// }
-	// }
-	// }
-	// }
-	// }
-	// return result;
-	// }
 }
