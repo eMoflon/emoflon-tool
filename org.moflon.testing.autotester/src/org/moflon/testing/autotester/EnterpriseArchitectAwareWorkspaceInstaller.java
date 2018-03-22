@@ -106,7 +106,7 @@ public class EnterpriseArchitectAwareWorkspaceInstaller extends WorkspaceInstall
 		final List<IProject> result = new ArrayList<IProject>(projects.length);
 		for (final IProject project : projects) {
 			try {
-				// TODO@rkluge: Hack to avoid dependency cycle
+				// Hack to avoid dependency cycle
 				if (project.isAccessible() && !project.hasNature("org.moflon.tgg.mosl.codeadapter.moslTGGNature")) {
 					result.add(project);
 				}
