@@ -148,6 +148,26 @@
                 </with>
             </enabledWhen>
         </handler>
+        <handler
+              class="org.moflon.ide.ui.admin.handlers.CreateUserDefinedConstraintsLibraryHandler"
+              commandId="org.moflon.ide.ui.commands.CreateUserDefinedConstraintsLibrary">
+           <enabledWhen>
+              <and>
+                 <count
+                       value="1">
+                 </count>
+                 <iterate
+                       ifEmpty="false"
+                       operator="and">
+                    <or>
+                       <reference
+                             definitionId="org.moflon.ide.ui.definitions.hasRepositoryNature">
+                       </reference>
+                    </or>
+                 </iterate>
+              </and>
+           </enabledWhen>
+        </handler>
     </extension>
     <extension point="org.eclipse.ui.commands">
         <command categoryId="org.moflon.core.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.validation.ValidateCommand" name="Validate"></command>
@@ -158,6 +178,10 @@
         <command categoryId="org.moflon.core.ui.commands.MainCategory" description="Opens the corresponding meta-model project" id="org.moflon.ide.ui.commands.navigate.GoToMetamodelProject" name="Show meta-model project"></command>
         <command categoryId="org.moflon.core.ui.commands.MainCategory" id="org.moflon.ide.ui.commands.build.ExportAndBuild" name="Export"></command>
         <command id="org.moflon.ide.ui.moflon" name="eMoflon popup"></command>
+        <command
+              id="org.moflon.ide.ui.commands.CreateUserDefinedConstraintsLibrary"
+              name="Create constraints library">
+        </command>
     </extension>
     <extension point="org.eclipse.ui.menus">
         <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=additions">
@@ -172,6 +196,14 @@
             </command>
         </menuContribution>
         <menuContribution allPopups="false" locationURI="popup:org.moflon.ide.ui.moflon?after=moflonGroupBuilding">
+            <command
+                  commandId="org.moflon.ide.ui.commands.CreateUserDefinedConstraintsLibrary"
+                  label="Create user-defined attribute library"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="false">
+               </visibleWhen>
+            </command>
             <command commandId="org.moflon.ide.ui.commands.build.ExportAndBuild" icon="resources/icons/exportAndBuild.gif" label="%exportAndBuildLabel" style="push" tooltip="%exportAndBuildTooltip">
                 <visibleWhen checkEnabled="false"></visibleWhen>
             </command>
