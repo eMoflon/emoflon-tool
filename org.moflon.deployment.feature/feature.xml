@@ -2,7 +2,7 @@
 <feature
       id="org.moflon.ide.feature"
       label="eMoflon Tool (required)"
-      version="3.0.0.qualifier"
+      version="3.1.0.qualifier"
       provider-name="eMoflon Developers"
       plugin="org.moflon.ide.ui">
 
