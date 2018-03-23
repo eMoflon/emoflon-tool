@@ -1,9 +1,6 @@
 package org.moflon.ide.ui.admin.handlers;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -17,12 +14,7 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobGroup;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.HandlerUtil;
 import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.ui.AbstractCommandHandler;
 import org.moflon.core.utilities.MoflonConventions;
@@ -36,7 +28,7 @@ import org.moflon.ide.ui.preferences.EMoflonPreferenceInitializer;
  * @author Roland Kluge - Initial implementation
  *
  */
-public abstract class AbstractValidateHandler extends AbstractCommandHandler {
+public abstract class AbstractValidateHandler extends AbstractMoflonToolCommandHandler {
 
 	/**
 	 * Invokes {@link #validateProjects(Collection, IProgressMonitor)} for all
@@ -91,28 +83,6 @@ public abstract class AbstractValidateHandler extends AbstractCommandHandler {
 		configureBackOrForeground(job);
 
 		runWithTimeout(job);
-	}
-
-	private Collection<IProject> extractSelectedProjects(ExecutionEvent event) throws ExecutionException {
-		final ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
-		if (selection instanceof StructuredSelection) {
-			return getProjectsFromSelection((IStructuredSelection)selection);
-		} else {
-			return new ArrayList<>();
-		}
-	}
-
-	private List<IFile> extractSelectedFiles(ExecutionEvent event) throws ExecutionException {
-		final List<IFile> files = new ArrayList<>();
-		final ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
-		final TreeSelection treeSelection = (TreeSelection) selection;
-		for (final Iterator<?> selectionIterator = treeSelection.iterator(); selectionIterator.hasNext();) {
-			final Object element = selectionIterator.next();
-			if (element instanceof IFile) {
-				files.add((IFile) element);
-			}
-		}
-		return files;
 	}
 
 	/**
