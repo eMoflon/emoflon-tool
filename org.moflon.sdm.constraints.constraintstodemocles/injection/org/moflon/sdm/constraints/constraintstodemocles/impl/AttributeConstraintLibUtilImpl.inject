@@ -1,60 +1,65 @@
-
-import java.io.IOException;
-import org.moflon.core.utilities.LogUtils;
-import org.moflon.core.utilities.WorkspaceHelper;
-import org.moflon.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator;
-import org.moflon.sdm.constraints.operationspecification.OperationspecificationPackage;
-import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import  java.io.IOException;
+import  org.moflon.core.utilities.LogUtils;
+import  org.moflon.core.utilities.WorkspaceHelper;
+import  org.moflon.sdm.constraints.constraintstodemocles.AttributeConstraintLibraryUtil;
+import  org.moflon.sdm.constraints.operationspecification.AttributeConstraintsOperationActivator;
+import  org.moflon.sdm.constraints.operationspecification.OperationspecificationPackage;
+import  org.apache.log4j.Logger;
+import  org.eclipse.core.resources.IProject;
+import  org.eclipse.emf.common.util.URI;
+import  org.eclipse.emf.ecore.resource.Resource;
+import  org.eclipse.emf.ecore.resource.ResourceSet;
+import  org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 partial class AttributeConstraintLibUtilImpl {
 
 @members<--
 
-	public void init(ResourceSet resourceSet, IProject project) {
-		this.resourceSet = resourceSet;
-		this.project = project;
-		Resource buildInLibResource = AttributeConstraintLibraryUtil.loadAttributeConstraintLibraryResource(
-				AttributeConstraintLibraryUtil.getURIOfBuiltInLibrary(), false, this.resourceSet);
-		if (buildInLibResource == null) {
-			throw new RuntimeException("Could not find built-in attribute constraint library");
-		}
-		this.setBuildInAttributeConstraintLibrary((AttributeConstraintLibrary) buildInLibResource.getContents().get(0));
+   public void init(ResourceSet resourceSet, IProject project)
+   {
+      this.resourceSet = resourceSet;
+      this.project = project;
+      Resource buildInLibResource = AttributeConstraintLibraryUtil
+            .loadAttributeConstraintLibraryResource(AttributeConstraintLibraryUtil.getURIOfBuiltInLibrary(), false, this.resourceSet);
+      if (buildInLibResource == null)
+      {
+         throw new RuntimeException("Could not find built-in attribute constraint library");
+      }
+      this.setBuildInAttributeConstraintLibrary((AttributeConstraintLibrary) buildInLibResource.getContents().get(0));
 
-		Resource userDefLibResource = AttributeConstraintLibraryUtil.loadAttributeConstraintLibraryResource(
-				AttributeConstraintLibraryUtil.getURIOfUserDefinedLibrary(this.project), false, this.resourceSet);
-		if (userDefLibResource != null) {
-			this.setUserDefinedAttributeConstraintLibrary(
-					(AttributeConstraintLibrary) userDefLibResource.getContents().get(0));
-		}
+      Resource userDefLibResource = AttributeConstraintLibraryUtil
+            .loadAttributeConstraintLibraryResource(AttributeConstraintLibraryUtil.getURIOfUserDefinedLibrary(this.project), false, this.resourceSet);
+      if (userDefLibResource != null)
+      {
+         this.setUserDefinedAttributeConstraintLibrary((AttributeConstraintLibrary) userDefLibResource.getContents().get(0));
+      }
 
-	}
+   }
 
-	private ResourceSet resourceSet;
+   private ResourceSet resourceSet;
 
-	private IProject project;
+   private IProject project;
 
-	private static final Logger logger = Logger.getLogger(AttributeConstraintLibUtilImpl.class);
+   private static final Logger logger = Logger.getLogger(AttributeConstraintLibUtilImpl.class);
 
-	-->
+   -->
 
 @model saveUserDefinedAttributeConstraintLibrary ()<--
-		userDefinedAttributeConstraintLibrary.setPrefix(project.getName() + "AttributeConstraintsLib");
+      userDefinedAttributeConstraintLibrary.setPrefix(project.getName() + "AttributeConstraintsLib");
 
-		if (userDefinedAttributeConstraintLibrary.eResource() == null) {
-			Resource resource = AttributeConstraintLibraryUtil.loadAttributeConstraintLibraryResource(
-					AttributeConstraintLibraryUtil.getURIOfUserDefinedLibrary(this.project), true, this.resourceSet);
-			resource.getContents().add(userDefinedAttributeConstraintLibrary);
-		}
+      if (userDefinedAttributeConstraintLibrary.eResource() == null)
+      {
+         Resource resource = AttributeConstraintLibraryUtil
+               .loadAttributeConstraintLibraryResource(AttributeConstraintLibraryUtil.getURIOfUserDefinedLibrary(this.project), true, this.resourceSet);
+         resource.getContents().add(userDefinedAttributeConstraintLibrary);
+      }
 
-		try {
-			userDefinedAttributeConstraintLibrary.eResource().save(null);
-		} catch (final IOException e) {
-			LogUtils.error(logger, e);
-		}-->
+      try
+      {
+         userDefinedAttributeConstraintLibrary.eResource().save(null);
+      } catch (final IOException e)
+      {
+         LogUtils.error(logger, e);
+      }-->
 
 }
