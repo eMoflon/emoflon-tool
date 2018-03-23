@@ -18,6 +18,7 @@ import org.gervarro.eclipse.task.ITask;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.emf.codegen.MoflonGenModelBuilder;
 import org.moflon.emf.codegen.dependency.DependencyTypes;
 import org.moflon.emf.codegen.dependency.PackageRemappingDependency;
 import org.moflon.emf.codegen.dependency.SDMEnhancedEcoreResource;
@@ -68,7 +69,7 @@ public class MetamodelLoader implements ITask {
 						|| MocaTreeConstants.MOCA_TREE_ATTRIBUTE_INTEGRATION_PROJECT.equals(nodeName)) {
 					final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 					assert project.isAccessible();
-					final URI projectURI = eMoflonEMFUtil.lookupProjectURI(project);
+					final URI projectURI = MoflonGenModelBuilder.determineProjectUriBasedOnPreferences(project);
 					final URI metamodelURI = getProjectRelativeMetamodelURI(node).resolve(projectURI);
 
 					eMoflonEMFUtil.createPluginToResourceMapping(set, project);
