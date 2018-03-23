@@ -127,7 +127,7 @@ public class IntegrationBuilder extends RepositoryBuilder {
 		uriMapping.put(tggFileURI, preTGGFileURI);
 		uriMapping.put(ecoreFileURI, preEcoreFileURI);
 
-		final MonitoredMetamodelLoader metamodelLoader = new MonitoredMetamodelLoader(set, tggFile, moflonProperties);
+		final MonitoredMetamodelLoader metamodelLoader = new PreEcoreAwareMonitoredMetamodelLoader(set, tggFile, moflonProperties);
 		metamodelLoader.run(subMon.split(10));
 		final Resource tggResource = metamodelLoader.getMainResource();
 		final Resource ecoreResource = set.getResource(ecoreFileURI, false);
