@@ -41,7 +41,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
    </url>
 
    <requires>
-      <import feature="org.moflon.core.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.moflon.core.feature" version="1.1" match="equivalent"/>
    </requires>
 
    <plugin
