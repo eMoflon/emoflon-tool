@@ -27,12 +27,9 @@ import SDMLanguage.expressions.LiteralExpression;
 
 public class EclipseErrorReporter extends MultiStatusAwareErrorReporter
 {
-   private IFile file;
-
    public EclipseErrorReporter(final IFile ecoreFile)
    {
       super(ecoreFile);
-      this.file = ecoreFile;
    }
 
    /**
@@ -106,11 +103,6 @@ public class EclipseErrorReporter extends MultiStatusAwareErrorReporter
       validationMarker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
       validationMarker.setAttribute(IMarker.SEVERITY, convertValidationResultSeverityToEclipseMarkerSeverity(message.getSeverity()));
       return validationMarker;
-   }
-
-   protected IResource getFile()
-   {
-      return this.file;
    }
 
    /**
