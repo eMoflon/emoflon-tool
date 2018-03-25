@@ -38,6 +38,7 @@ See here for more details on EPL: http://www.eclipse.org/org/documents/epl-v10.p
       <discovery label="Democles Core" url="http://gervarro.org/democles"/>
       <discovery label="Democles External" url="http://gervarro.org/external"/>
       <discovery label="Democles Eclipse Utils" url="http://gervarro.org/eclipse-utils"/>
+      <discovery label="eMoflon Core 1.1.0 Update Site" url="https://raw.githubusercontent.com/eMoflon/emoflon-core-updatesite/emoflon-core_1.1.0/stable/updatesite/"/>
    </url>
 
    <requires>
