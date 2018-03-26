@@ -29,4 +29,5 @@ Require-Bundle: org.moflon.core.utilities,
  org.eclipse.xtext.ui;bundle-version="2.9.0",
  org.moflon.core.plugins;bundle-version="2.2.0",
  MocaTree,
- org.moflon.core.build
+ org.moflon.core.build,
+ org.moflon.emf.codegen

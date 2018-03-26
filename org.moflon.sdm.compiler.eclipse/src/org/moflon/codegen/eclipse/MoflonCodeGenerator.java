@@ -88,30 +88,32 @@ public class MoflonCodeGenerator extends GenericMoflonProcess {
 
 			// (2.1) Validate SDMs
 			final ITask validator = methodBodyHandler.createValidator(ePackage);
-			StatusHolder validationStatusHolder = new StatusHolder();
+			final StatusHolder validationStatusHolder = new StatusHolder();
 			final WorkspaceJob validationJob = new WorkspaceJob(engineID) {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
 					final SubMonitor subMon = SubMonitor.convert(monitor, "Validation job", 100);
-					validationStatusHolder.status = validator.run(subMon.split(100));
-					return Status.OK_STATUS;
+					try {
+						validationStatusHolder.status = validator.run(subMon.split(100));
+					} catch (final Exception e) {
+						validationStatusHolder.status = new Status(IStatus.ERROR,
+								WorkspaceHelper.getPluginId(MoflonCodeGenerator.class),
+								String.format("%s occurred during validation with message %s",
+										e.getClass().getSimpleName(), e.getMessage()));
+					}
+					return validationStatusHolder.status;
 				}
 			};
-			JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
+			final JobGroup jobGroup = new JobGroup("Validation job group", 1, 1);
 			validationJob.setJobGroup(jobGroup);
 			validationJob.schedule();
-			// final IStatus validatorStatus =
-			// validationJob.runInWorkspace(subMon.split(10));
-			int timeoutForValidationTaskInMillis = getPreferencesStorage().getValidationTimeout();
+			final int timeoutForValidationTaskInMillis = getPreferencesStorage().getValidationTimeout();
 			jobGroup.join(timeoutForValidationTaskInMillis, subMon.split(10));
 
 			if (validationJob.getResult() == null) {
-				// TODO@rkluge: This is a really ugly hack that should be removed as soon as a
-				// more elegant solution is available
-				// validationJob.getThread().stop();
-				throw new OperationCanceledException("Validation took longer than "
-						+ (timeoutForValidationTaskInMillis / 1000)
-						+ "s. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page");
+				throw new OperationCanceledException(String.format(
+						"Validation took longer than %ds. This could(!) mean that some of your patterns have no valid search plan. You may increase the timeout value using the eMoflon property page",
+						(timeoutForValidationTaskInMillis / 1000)));
 			}
 
 			if (subMon.isCanceled()) {
@@ -200,10 +202,9 @@ public class MoflonCodeGenerator extends GenericMoflonProcess {
 							new IStatus[] { validationStatus, weaverStatus, injectionStatus },
 							"Code generation warnings/errors", null);
 		} catch (final Exception e) {
-			logger.debug(WorkspaceHelper.printStacktraceToString(e));
 			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR,
-					e.getClass().getName() + " occurred during eMoflon code generation. Message: '" + e.getMessage()
-							+ "'. (Stacktrace is logged with level debug)",
+					String.format("%s occurred during eMoflon code generation. Message: '%s'. Stacktrace:\n%s",
+							e.getClass().getName(), e.getMessage(), WorkspaceHelper.printStacktraceToString(e)),
 					e);
 		}
 	}

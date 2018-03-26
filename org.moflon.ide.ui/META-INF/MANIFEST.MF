@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.ide.ui
 Bundle-SymbolicName: org.moflon.ide.ui;singleton:=true
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.1.0.qualifier
 Bundle-Activator: org.moflon.ide.ui.UIActivator
 Bundle-Vendor: eMoflon Developers
 Require-Bundle: 
@@ -37,7 +37,10 @@ Require-Bundle:
  org.moflon.sdm.compiler.democles,
  org.moflon.core.preferences,
  org.moflon.core.ui;bundle-version="1.0.0",
- org.moflon.core.build
+ org.moflon.core.build,
+ org.moflon.sdm.constraints.operationspecification,
+ org.eclipse.emf.ecore.xmi,
+ org.moflon.sdm.constraints.constraintstodemocles
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.moflon.ide.ui,

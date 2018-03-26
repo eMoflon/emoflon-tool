@@ -41,6 +41,7 @@ import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
 import org.moflon.core.utilities.eMoflonEMFUtil;
+import org.moflon.emf.codegen.MoflonGenModelBuilder;
 import org.moflon.ide.core.MoslTggConstants;
 import org.moflon.tgg.algorithm.configuration.PGSavingConfigurator;
 import org.moflon.tgg.language.TripleGraphGrammar;
@@ -260,7 +261,7 @@ public class MOSLTGGConversionHelper extends AbstractHandler {
 		final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(saveTargetName);
 		eMoflonEMFUtil.createPluginToResourceMapping(resourceSet, project);
 		URI relativePreEcoreXmiURI = URI.createURI(MoflonConventions.getDefaultPathToFileInProject(file, ".pre.ecore"));
-		URI projectURI = eMoflonEMFUtil.lookupProjectURI(project);
+		URI projectURI = MoflonGenModelBuilder.determineProjectUriBasedOnPreferences(project);
 		URI preEcoreXmiURI = relativePreEcoreXmiURI.resolve(projectURI);
 		Resource preEcoreResource = resourceSet.createResource(preEcoreXmiURI);
 		preEcoreResource.getContents().add(corrPackage);
