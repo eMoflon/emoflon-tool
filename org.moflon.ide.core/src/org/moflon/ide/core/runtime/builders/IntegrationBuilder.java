@@ -94,6 +94,10 @@ public class IntegrationBuilder extends RepositoryBuilder {
 				final IStatus status = new Status(e.getStatus().getSeverity(), WorkspaceHelper.getPluginId(getClass()),
 						e.getMessage(), e);
 				handleErrorsInEclipse(status, (IFile) resource);
+			} catch (final Exception e) {
+				final IStatus status = new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
+						e.getMessage(), e);
+				handleErrorsInEclipse(status, (IFile) resource);
 			}
 		}
 	}
@@ -127,7 +131,8 @@ public class IntegrationBuilder extends RepositoryBuilder {
 		uriMapping.put(tggFileURI, preTGGFileURI);
 		uriMapping.put(ecoreFileURI, preEcoreFileURI);
 
-		final MonitoredMetamodelLoader metamodelLoader = new PreEcoreAwareMonitoredMetamodelLoader(set, tggFile, moflonProperties);
+		final MonitoredMetamodelLoader metamodelLoader = new PreEcoreAwareMonitoredMetamodelLoader(set, tggFile,
+				moflonProperties);
 		metamodelLoader.run(subMon.split(10));
 		final Resource tggResource = metamodelLoader.getMainResource();
 		final Resource ecoreResource = set.getResource(ecoreFileURI, false);
