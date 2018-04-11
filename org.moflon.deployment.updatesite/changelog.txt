@@ -1,13 +1,13 @@
-2018-03-23 eMoflon 3.1.0 released
+2018-03-26 eMoflon 3.1.0 released
 
 Minor improvements
 * NPE protection
 * Improved error reporting
 * Create user-defined constraint library via context menu
 
-* To obtain the full list, use the following URL/GitHub issue query:
+To obtain the full list, use the following URL/GitHub issue query:
   * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue+closed%3A2018-02-08..2018-03-23
-  * GitHub issues query: is:issue closed:2018-02-08..2018-03-23
+  * GitHub issues query: is:issue closed:2018-02-08..2018-03-26
 
 2018-02-08 eMoflon 3.0.0 released
 User notes
