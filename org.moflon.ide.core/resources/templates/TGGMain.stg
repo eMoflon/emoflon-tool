@@ -193,6 +193,11 @@ TGGMainConsistencyCheck(projects, corrPackage, projectName, className) ::= <<
 		helper.loadTrg("instances/trg.xmi");
 
 		boolean prepareDeltas = true;
+		
+		//TODO
+		//set your solver here:
+		//helper.setILPSolver(CplexSolver.create().withPresolve().build());
+		
 		helper.createCorrespondences(prepareDeltas);
 
 		if(prepareDeltas){

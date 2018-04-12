@@ -7,15 +7,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.cardygan.ilp.api.BinaryVar;
+import org.cardygan.ilp.api.Model;
+import org.cardygan.ilp.api.Result;
+import org.cardygan.ilp.api.Solver;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
-import org.moflon.tgg.algorithm.ccutils.AbstractILPSolver;
-import org.moflon.tgg.algorithm.ccutils.ILP_Gurobi_Solver;
-import org.moflon.tgg.algorithm.ccutils.UserDefinedILPConstraintProvider;
-import org.moflon.tgg.algorithm.ccutils.UserDefinedILPObjectiveProvider;
+import org.moflon.tgg.algorithm.ccutils.ILPProblemPreparation;
+import org.moflon.tgg.algorithm.ccutils.UserDefinedILPStrategy;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -37,7 +39,6 @@ import gnu.trove.list.TIntList;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;
-import net.sf.javailp.Problem;
 
 /**
  * A specialization of {@link Synchronizer} for consistency checks.
@@ -62,20 +63,23 @@ public class ConsistencySynchronizer {
 
 	private TIntObjectHashMap<TIntHashSet> appliedSourceToTarget;
 
-	private UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
-	private UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider;
-
 	private int variableCount;
+
+	private int chosenVariableCount;
 
 	private int constraintCount;
 
-	private AbstractILPSolver solver;
+	private ILPProblemPreparation ilpProblemPreparation = new ILPProblemPreparation();
 
 	private double runtimeOfCorrespondenceCreation;
 
 	private double runtimeOfILPSolving;
 
 	private double runtimeOfRemovingDeselectedCorrespondences;
+
+	private Solver solver;
+
+	private UserDefinedILPStrategy userDefinedILPstrategy;
 
 	public ConsistencySynchronizer(Delta srcDelta, Delta trgDelta, StaticAnalysis staticAnalysis,
 			CorrespondenceModel graphTriple, ConsistencyCheckPrecedenceGraph protocol) {
@@ -156,40 +160,39 @@ public class ConsistencySynchronizer {
 
 		double tic = System.currentTimeMillis();
 
-		solver = new ILP_Gurobi_Solver();
+		Model model = ilpProblemPreparation.createIlpProblemFromGraphs(srcElements, trgElements, protocol);
 
-		if (userDefinedILPConstraintProvider != null)
-			solver.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
-		if (userDefinedILPObjectiveProvider != null)
-			solver.setUserDefinedILPObjectiveProvider(userDefinedILPObjectiveProvider);
+		if (userDefinedILPstrategy != null)
+			userDefinedILPstrategy.modifyILPproblem(model, protocol);
 
-		int[] solvingResult = solver.solve(srcElements, trgElements, protocol);
-
-		variableCount = solver.getVariableCount();
-		constraintCount = solver.getConstraintCount();
+		Result result = model.solve(solver);
 
 		double toc = System.currentTimeMillis();
 
 		runtimeOfILPSolving = toc - tic;
 
+		variableCount = model.getVars().size();
+		constraintCount = model.getConstraints().size();
+
 		double tic2 = System.currentTimeMillis();
-		removeMatches(solvingResult);
+		removeMatches(result);
 		double toc2 = System.currentTimeMillis();
 
 		runtimeOfRemovingDeselectedCorrespondences = toc2 - tic2;
 
 	}
 
-	private void removeMatches(int[] matches) {
+	private void removeMatches(Result result) {
 		ArrayList<CCMatch> excluded = new ArrayList<>();
-		for (int value : matches) {
-			if (value < 0) {
-				CCMatch excludedMatch = protocol.intToMatch(-value);
-				excluded.add(excludedMatch);
-				excludedMatch.getCreateCorr().forEach(e -> graphTriple.getCorrespondences().remove(e));
-			}
+		for (CCMatch m : protocol.getMatches()) {
+			BinaryVar binaryVar = protocol.getBinaryVar(m);
+			int value = result.getSolutions().get(binaryVar).intValue();
+			if (value != 1) {
+				excluded.add(m);
+				m.getCreateCorr().forEach(e -> graphTriple.getCorrespondences().remove(e));
+			} else
+				chosenVariableCount++;
 		}
-
 		protocol.removeMatches(excluded);
 
 	}
@@ -285,27 +288,16 @@ public class ConsistencySynchronizer {
 		return unmarked.getElements();
 	}
 
-	protected void setUserDefinedILPConstraintProvider(
-			UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
-		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
-	}
-
-	public void setUserDefinedILPObjectiveProvider(UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider) {
-		this.userDefinedILPObjectiveProvider = userDefinedILPObjectiveProvider;
-	}
-
 	public int getVariableCount() {
 		return variableCount;
 	}
 
-	public int getConstraintCount() {
-		return constraintCount;
+	public int getChosenVariableCount() {
+		return chosenVariableCount;
 	}
 
-	public Problem getILPProblem() {
-		if (solver == null)
-			throw new RuntimeException("You first need to execute consistency checking to prepare an ILP problem");
-		return solver.getILPProblem();
+	public int getConstraintCount() {
+		return constraintCount;
 	}
 
 	public double getRuntimeOfCorrespondenceCreation() {
@@ -318,6 +310,14 @@ public class ConsistencySynchronizer {
 
 	public double getRuntimeOfRemovingDeselectedCorrespondences() {
 		return runtimeOfRemovingDeselectedCorrespondences;
+	}
+
+	public void setILPSolver(Solver solver) {
+		this.solver = solver;
+	}
+
+	public void setUserDefinedILPStrategy(UserDefinedILPStrategy userDefinedILPstrategy) {
+		this.userDefinedILPstrategy = userDefinedILPstrategy;
 	}
 
 }
