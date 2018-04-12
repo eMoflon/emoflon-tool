@@ -8,6 +8,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
+import org.cardygan.ilp.api.Model;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -18,8 +19,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.eMoflonEMFUtil;
-import org.moflon.tgg.algorithm.ccutils.UserDefinedILPConstraintProvider;
-import org.moflon.tgg.algorithm.ccutils.UserDefinedILPObjectiveProvider;
 import org.moflon.tgg.algorithm.configuration.Configurator;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -36,7 +35,6 @@ import org.moflon.tgg.runtime.DeltaSpecification;
 import org.moflon.tgg.runtime.EMoflonEdge;
 import org.moflon.tgg.runtime.RuntimeFactory;
 
-import net.sf.javailp.Problem;
 
 /**
  * Responsible for checking if input data makes sense, inducing default deltas
@@ -68,11 +66,9 @@ public class SynchronizationHelper {
 
 	protected Configurator configurator;
 
-	protected UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
-	
-	protected UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider;
-
 	protected int ilpProblemVariablesCount;
+	
+	private int ilpProblemChosenVariablesCount;
 
 	protected int ilpProblemConstraintsCount;
 
@@ -99,13 +95,15 @@ public class SynchronizationHelper {
 	protected boolean verbose = false;
 	protected boolean mute = false;
 	
-	protected Problem ilpProblem;
+	protected Model ilpProblem;
 	
 	private double runtimeOfCorrespondenceCreation;
 	
 	private double runtimeOfILPSolving;
 	
 	private double runtimeOfRemovingDeselectedCorrespondences;
+
+	
 
 
 	// Setters
@@ -150,14 +148,6 @@ public class SynchronizationHelper {
 
 	public void setConfigurator(final Configurator configurator) {
 		this.configurator = configurator;
-	}
-
-	public void setUserDefiendILPConstraintProvider(UserDefinedILPConstraintProvider userDefiendILPConstraintProvider) {
-		this.userDefinedILPConstraintProvider = userDefiendILPConstraintProvider;
-	}
-
-	public void setUserDefiendILPObjectiveProvider(UserDefinedILPObjectiveProvider userDefiendILPObjectiveProvider) {
-		this.userDefinedILPObjectiveProvider = userDefiendILPObjectiveProvider;
 	}
 
 	public Configurator getConfigurator() {
@@ -472,10 +462,6 @@ public class SynchronizationHelper {
 		ccProtocol = new ConsistencyCheckPrecedenceGraph();
 
 		ConsistencySynchronizer cs = new ConsistencySynchronizer(srcDelta, trgDelta, determineLookupMethods(), corr, ccProtocol);
-		if (userDefinedILPConstraintProvider != null)
-			cs.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
-		if (userDefinedILPObjectiveProvider != null)
-			cs.setUserDefinedILPObjectiveProvider(userDefinedILPObjectiveProvider);
 		cs.createCorrespondences();
 
 		int inconsistentElementCount = 0;
@@ -500,9 +486,8 @@ public class SynchronizationHelper {
 		}
 
 		ilpProblemVariablesCount = cs.getVariableCount();
+		ilpProblemChosenVariablesCount = cs.getChosenVariableCount();
 		ilpProblemConstraintsCount = cs.getConstraintCount();
-		
-		ilpProblem = cs.getILPProblem();
 		
 		runtimeOfCorrespondenceCreation = cs.getRuntimeOfCorrespondenceCreation();
 		runtimeOfILPSolving = cs.getRuntimeOfILPSolving();
@@ -732,13 +717,13 @@ public class SynchronizationHelper {
 	public int getIlpProblemVariablesCount() {
 		return ilpProblemVariablesCount;
 	}
+	
+	public int getIlpProblemChosenVariablesCount() {
+		return ilpProblemChosenVariablesCount;
+	}
 
 	public int getIlpProblemConstraintsCount() {
 		return ilpProblemConstraintsCount;
-	}
-	
-	public Problem getIlpProblem(){
-		return ilpProblem;
 	}
 	
 	public double getRuntimeOfCorrespondenceCreation() {

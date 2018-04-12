@@ -18,9 +18,14 @@ Import-Package: org.antlr.stringtemplate,org.antlr.stringtemplate.lang
 Export-Package: .,
  convenience,
  distance,
- net.sf.javabdd,
- net.sf.javailp,
- net.sf.javailp.minisat,
+ org.cardygan.ilp.api,
+ org.cardygan.ilp.api.expr,
+ org.cardygan.ilp.api.expr.bool,
+ org.cardygan.ilp.api.util,
+ org.cardygan.ilp.internal,
+ org.cardygan.ilp.internal.expr,
+ org.cardygan.ilp.internal.expr.cnf,
+ org.cardygan.ilp.internal.util,
  org.gervarro.democles.common,
  org.gervarro.democles.common.emf,
  org.gervarro.democles.common.runtime,
@@ -79,7 +84,13 @@ Export-Package: .,
  util
 Bundle-Name: TGGLanguage (MOFLON)
 Bundle-Version: 2.1.0.qualifier
-Bundle-ClassPath: .,lib/democles.jar,lib/javabdd-1.0b2.jar,lib/RTED_v1
- .1.jar,lib/trove-3.1a1.jar,lib/glpk-java.jar,lib/javailp-1.2a.jar
+Bundle-ClassPath: .,
+ lib/democles.jar,
+ lib/javabdd-1.0b2.jar,
+ lib/RTED_v1.1.jar,
+ lib/trove-3.1a1.jar,
+ lib/glpk-java.jar,
+ lib/javailp-1.2a.jar,
+ lib/ilp-0.1.11.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.TGGLanguageActivator

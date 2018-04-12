@@ -2,13 +2,26 @@ package org.moflon.tgg.algorithm.datastructures;
 
 import java.util.Collection;
 
+import org.cardygan.ilp.api.BinaryVar;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.runtime.CCMatch;
 import org.moflon.tgg.runtime.Match;
 import org.moflon.tgg.runtime.TripleMatch;
 import org.moflon.tgg.runtime.TripleMatchNodeMapping;
 
+import gnu.trove.map.hash.THashMap;
+
 public class ConsistencyCheckPrecedenceGraph extends PrecedenceStructure<CCMatch> {
+	
+	private THashMap<CCMatch, BinaryVar> matchToBinaryVar = new THashMap<>();
+	
+	public void putBinaryVar(CCMatch m, BinaryVar bv) {
+		matchToBinaryVar.put(m, bv);
+	}
+	
+	public BinaryVar getBinaryVar(CCMatch m) {
+		return matchToBinaryVar.get(m);
+	}
 	
 	@Override
 	public Collection<EObject> getContextElements(CCMatch m) {

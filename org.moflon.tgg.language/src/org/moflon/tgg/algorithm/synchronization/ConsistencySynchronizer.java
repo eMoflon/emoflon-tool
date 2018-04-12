@@ -7,15 +7,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.cardygan.ilp.api.BinaryVar;
+import org.cardygan.ilp.api.Model;
+import org.cardygan.ilp.api.Result;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
-import org.moflon.tgg.algorithm.ccutils.AbstractILPSolver;
-import org.moflon.tgg.algorithm.ccutils.ILP_Gurobi_Solver;
-import org.moflon.tgg.algorithm.ccutils.UserDefinedILPConstraintProvider;
-import org.moflon.tgg.algorithm.ccutils.UserDefinedILPObjectiveProvider;
+import org.moflon.tgg.algorithm.ccutils.ILPSolverUtil;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
 import org.moflon.tgg.algorithm.datastructures.PrecedenceInputGraph;
@@ -37,7 +37,7 @@ import gnu.trove.list.TIntList;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;
-import net.sf.javailp.Problem;
+
 
 /**
  * A specialization of {@link Synchronizer} for consistency checks.
@@ -62,14 +62,14 @@ public class ConsistencySynchronizer {
 
 	private TIntObjectHashMap<TIntHashSet> appliedSourceToTarget;
 	
-	private UserDefinedILPConstraintProvider userDefinedILPConstraintProvider;
-	private UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider;
 
 	private int variableCount;
 	
+	private int chosenVariableCount;
+	
 	private int constraintCount;
 	
-	private AbstractILPSolver solver;
+	private ILPSolverUtil solver = new ILPSolverUtil();
 
 	private double runtimeOfCorrespondenceCreation;
 	
@@ -157,41 +157,35 @@ public class ConsistencySynchronizer {
 		
 		double tic = System.currentTimeMillis();
 
-		solver = new ILP_Gurobi_Solver();
+		Result result = solver.solve(srcElements, trgElements, protocol);
 		
-		if(userDefinedILPConstraintProvider != null)
-			solver.setUserDefinedILPConstraintProvider(userDefinedILPConstraintProvider);
-		if(userDefinedILPObjectiveProvider != null)
-			solver.setUserDefinedILPObjectiveProvider(userDefinedILPObjectiveProvider);
+        double toc = System.currentTimeMillis();
 		
-		int[] solvingResult = solver.solve(srcElements, trgElements, protocol);
+		runtimeOfILPSolving = toc - tic;
 		
 		variableCount = solver.getVariableCount();
 		constraintCount = solver.getConstraintCount();
 		
-		double toc = System.currentTimeMillis();
-		
-		runtimeOfILPSolving = toc - tic;
-		
 		double tic2 = System.currentTimeMillis();
-		removeMatches(solvingResult);
+		removeMatches(result);
 		double toc2 = System.currentTimeMillis();
 		
 		runtimeOfRemovingDeselectedCorrespondences = toc2 - tic2;
 		
 	}
 
-	private void removeMatches(int[] matches) {
+	private void removeMatches(Result result) {
 		ArrayList<CCMatch> excluded = new ArrayList<>();
-		for (int value : matches) {
-			if (value < 0) {
-				CCMatch excludedMatch = protocol.intToMatch(-value);
-				excluded.add(excludedMatch);
-				excludedMatch.getCreateCorr().forEach(e -> graphTriple.getCorrespondences().remove(e));
+		for(CCMatch m : protocol.getMatches()){
+			BinaryVar binaryVar = protocol.getBinaryVar(m);
+			int value = result.getSolutions().get(binaryVar).intValue();
+			if(value != 1) {
+				excluded.add(m);
+				m.getCreateCorr().forEach(e -> graphTriple.getCorrespondences().remove(e));
 			}
+			else
+				chosenVariableCount++;
 		}
-
-		
 		protocol.removeMatches(excluded);
 		
 	}
@@ -287,25 +281,19 @@ public class ConsistencySynchronizer {
 		return unmarked.getElements();
 	}
 	
-	protected void setUserDefinedILPConstraintProvider(UserDefinedILPConstraintProvider userDefinedILPConstraintProvider) {
-		this.userDefinedILPConstraintProvider = userDefinedILPConstraintProvider;
-	}
-	
-	public void setUserDefinedILPObjectiveProvider(UserDefinedILPObjectiveProvider userDefinedILPObjectiveProvider) {
-		this.userDefinedILPObjectiveProvider = userDefinedILPObjectiveProvider;
-	}
-	
 	public int getVariableCount() {
 		return variableCount;
+	}
+	
+	public int getChosenVariableCount() {
+		return chosenVariableCount;
 	}
 
 	public int getConstraintCount() {
 		return constraintCount;
 	}
 	
-	public Problem getILPProblem(){
-		if(solver == null)
-			throw new RuntimeException("You first need to execute consistency checking to prepare an ILP problem");
+	public Model getILPProblem(){
 		return solver.getILPProblem();
 	}
 	
