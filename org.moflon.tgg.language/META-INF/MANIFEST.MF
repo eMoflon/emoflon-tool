@@ -89,8 +89,6 @@ Bundle-ClassPath: .,
  lib/javabdd-1.0b2.jar,
  lib/RTED_v1.1.jar,
  lib/trove-3.1a1.jar,
- lib/glpk-java.jar,
- lib/javailp-1.2a.jar,
  lib/ilp-0.1.11.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.TGGLanguageActivator
