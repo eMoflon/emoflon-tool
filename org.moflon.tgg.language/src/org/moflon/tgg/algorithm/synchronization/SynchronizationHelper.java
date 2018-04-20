@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
 import org.cardygan.ilp.api.Model;
+import org.cardygan.ilp.api.Result;
 import org.cardygan.ilp.api.Solver;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -106,6 +107,8 @@ public class SynchronizationHelper {
 	private Solver ilpSolver;
 	
 	private UserDefinedILPStrategy userDefinedILPstrategy;
+	
+	private Result ilpResult;
 
 	// Setters
 
@@ -510,12 +513,12 @@ public class SynchronizationHelper {
 		ilpProblemVariablesCount = cs.getVariableCount();
 		ilpProblemChosenVariablesCount = cs.getChosenVariableCount();
 		ilpProblemConstraintsCount = cs.getConstraintCount();
-
-
-
+		
 		runtimeOfCorrespondenceCreation = cs.getRuntimeOfCorrespondenceCreation();
 		runtimeOfILPSolving = cs.getRuntimeOfILPSolving();
 		runtimeOfRemovingDeselectedCorrespondences = cs.getRuntimeOfRemovingDeselectedCorrespondences();
+		
+		ilpResult = cs.getResult();
 	}
 
 	protected void performSynchronization(final Synchronizer synchronizer) {
@@ -777,6 +780,10 @@ public class SynchronizationHelper {
 	
 	public void setUserDefinedILPStrategy(UserDefinedILPStrategy userDefinedILPstrategy) {
 		this.userDefinedILPstrategy = userDefinedILPstrategy;
+	}
+	
+	public Result getILPResult() {
+		return ilpResult;
 	}
 
 }

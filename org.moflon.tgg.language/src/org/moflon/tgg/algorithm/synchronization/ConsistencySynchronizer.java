@@ -78,7 +78,9 @@ public class ConsistencySynchronizer {
 	private double runtimeOfRemovingDeselectedCorrespondences;
 
 	private Solver solver;
-
+	
+	private Result result;
+	
 	private UserDefinedILPStrategy userDefinedILPstrategy;
 
 	public ConsistencySynchronizer(Delta srcDelta, Delta trgDelta, StaticAnalysis staticAnalysis,
@@ -165,7 +167,7 @@ public class ConsistencySynchronizer {
 		if (userDefinedILPstrategy != null)
 			userDefinedILPstrategy.modifyILPproblem(model, protocol);
 
-		Result result = model.solve(solver);
+		this.result = model.solve(solver);
 
 		double toc = System.currentTimeMillis();
 
@@ -186,15 +188,16 @@ public class ConsistencySynchronizer {
 		ArrayList<CCMatch> excluded = new ArrayList<>();
 		for (CCMatch m : protocol.getMatches()) {
 			BinaryVar binaryVar = protocol.getBinaryVar(m);
-			int value = result.getSolutions().get(binaryVar).intValue();
-			if (value != 1) {
+			Double doubleValue = result.getSolutions().get(binaryVar);
+			
+			if (doubleValue == null || doubleValue.intValue() != 1) {
 				excluded.add(m);
 				m.getCreateCorr().forEach(e -> graphTriple.getCorrespondences().remove(e));
 			} else
 				chosenVariableCount++;
 		}
 		protocol.removeMatches(excluded);
-
+		
 	}
 
 	private void extractMatchPairs() {
@@ -302,6 +305,10 @@ public class ConsistencySynchronizer {
 
 	public double getRuntimeOfCorrespondenceCreation() {
 		return runtimeOfCorrespondenceCreation;
+	}
+	
+	public Result getResult() {
+		return result;
 	}
 
 	public double getRuntimeOfILPSolving() {
