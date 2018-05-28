@@ -2,7 +2,7 @@ package org.moflon.tgg.algorithm.datastructures;
 
 import java.util.Collection;
 
-import org.cardygan.ilp.api.BinaryVar;
+import org.cardygan.ilp.api.model.BinaryVar;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.runtime.CCMatch;
 import org.moflon.tgg.runtime.Match;
