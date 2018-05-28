@@ -5,11 +5,11 @@ import static org.cardygan.ilp.api.util.ExprDsl.mult;
 import static org.cardygan.ilp.api.util.ExprDsl.param;
 import static org.cardygan.ilp.api.util.ExprDsl.sum;
 
-import org.cardygan.ilp.api.BinaryVar;
-import org.cardygan.ilp.api.Constraint;
-import org.cardygan.ilp.api.Model;
-import org.cardygan.ilp.api.Objective;
-import org.cardygan.ilp.api.expr.ArithExpr;
+import org.cardygan.ilp.api.model.ArithExpr;
+import org.cardygan.ilp.api.model.BinaryVar;
+import org.cardygan.ilp.api.model.Constraint;
+import org.cardygan.ilp.api.model.Model;
+import org.cardygan.ilp.api.model.Objective;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
@@ -46,8 +46,7 @@ public class ILPProblemPreparation {
 			TIntCollection variables = protocol.creates(elm);
 			if (variables != null && !variables.isEmpty()) {
 				int[] alternatives = variables.toArray();
-				Constraint alternativesConstraint = ilpProblem.newConstraint("c" + constraintCount++);
-				alternativesConstraint.setExpr(leq(sum(binaryVarFactory.getBinaryVars(alternatives)), param(1)));
+				ilpProblem.newConstraint("c" + constraintCount++, leq(sum(binaryVarFactory.getBinaryVars(alternatives)), param(1)));
 			}
 		}
 
@@ -59,14 +58,13 @@ public class ILPProblemPreparation {
 
 				BinaryVar premise = binaryVarFactory.getBinaryVar(matchId);
 				BinaryVar conclusion = binaryVarFactory.getBinaryVar(parentID);
-				Constraint implicationConstraint = ilpProblem.newConstraint("c" + constraintCount++);
-				implicationConstraint.setExpr(leq(premise, conclusion));
+				ilpProblem.newConstraint("c" + constraintCount++, leq(premise, conclusion));
 			}
 		}
 
 		
 		//set objective
-		Objective objective = ilpProblem.newObjective(true);
+		
 		int[] matchIDs = protocol.getMatchIDs().toArray();
 		ArithExpr[] arithExprs = new ArithExpr[matchIDs.length];
 		for (int i = 0; i < matchIDs.length; i++) {
@@ -76,7 +74,7 @@ public class ILPProblemPreparation {
 			weight += match.getTargetMatch().getCreatedHashSet().size();
 			arithExprs[i] = mult(param(weight), binaryVarFactory.getBinaryVar(matchID));
 		}
-		objective.setExpr(sum(arithExprs));
+		ilpProblem.newObjective(true,sum(arithExprs));
 		
 		return ilpProblem;
 	}

@@ -7,10 +7,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.cardygan.ilp.api.BinaryVar;
-import org.cardygan.ilp.api.Model;
 import org.cardygan.ilp.api.Result;
-import org.cardygan.ilp.api.Solver;
+import org.cardygan.ilp.api.model.BinaryVar;
+import org.cardygan.ilp.api.model.Model;
+import org.cardygan.ilp.api.solver.Solver;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;

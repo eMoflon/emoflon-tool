@@ -6,6 +6,7 @@
 			<attribute name="ignore_optional_problems" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/ilp-0.2.0.jar"/>
 	<classpathentry kind="lib" path="lib/trove-3.1a1.jar"/>
 	<classpathentry kind="lib" path="lib/javabdd-1.0b2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
@@ -13,6 +14,5 @@
 	<classpathentry exported="true" kind="lib" path="lib/democles.jar"/>
 	<classpathentry kind="lib" path="lib/RTED_v1.1.jar"/>
 	<classpathentry kind="src" path="injection"/>
-	<classpathentry kind="lib" path="lib/ilp-0.1.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

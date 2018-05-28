@@ -1,7 +1,7 @@
 package org.moflon.tgg.algorithm.ccutils;
 
-import org.cardygan.ilp.api.BinaryVar;
-import org.cardygan.ilp.api.Model;
+import org.cardygan.ilp.api.model.BinaryVar;
+import org.cardygan.ilp.api.model.Model;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 
 import gnu.trove.map.TIntObjectMap;
