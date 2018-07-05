@@ -1,0 +1,14 @@
+
+partial class PatternInvocationImpl {
+
+@members<--
+
+   @Override
+   public String toString()
+   {
+      return "PatternInvocationImpl [pattern=" + pattern + ", parameters=" + parameters + ", hasReferencedFreeParameters()=" + hasReferencedFreeParameters()
+            + ", isMultipleMatch()=" + isMultipleMatch() + "]";
+   }
+   -->
+
+}

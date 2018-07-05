@@ -1,0 +1,14 @@
+
+partial class VariableReferenceImpl {
+
+@members<--
+
+   @Override
+   public String toString()
+   {
+      return "VariableReferenceImpl [to=" + to + ", from=" + from + "]";
+   }
+
+   -->
+
+}

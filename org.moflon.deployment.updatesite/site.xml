@@ -4,7 +4,7 @@
    <description name="eMoflon central update site" url="https://emoflon.github.io/documentation.html/">
       This is the central update site of eMoflon.
    </description>
-   <feature url="features/org.moflon.ide.feature_3.2.0.qualifier.jar" id="org.moflon.ide.feature" version="3.2.0.qualifier">
+   <feature url="features/org.moflon.ide.feature_3.3.0.qualifier.jar" id="org.moflon.ide.feature" version="3.3.0.qualifier">
       <category name="org.moflon.tool.main"/>
    </feature>
    <feature url="features/org.moflon.ide.visualization.feature_3.0.0.qualifier.jar" id="org.moflon.ide.visualization.feature" version="3.0.0.qualifier">
@@ -12,12 +12,6 @@
    </feature>
    <feature url="features/org.moflon.tgg.mosl.feature_3.0.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="3.0.0.qualifier">
       <category name="org.moflon.tool.main"/>
-   </feature>
-   <feature url="features/org.moflon.gt.mosl.pattern.language.feature_1.0.0.qualifier.jar" id="org.moflon.gt.mosl.pattern.language.feature" version="1.0.0.qualifier">
-      <category name="org.moflon.tool.experimental"/>
-   </feature>
-   <feature url="features/org.moflon.gt.mosl.controlflow.language.feature_1.0.0.qualifier.jar" id="org.moflon.gt.mosl.controlflow.language.feature" version="1.0.0.qualifier">
-      <category name="org.moflon.tool.experimental"/>
    </feature>
    <category-def name="org.moflon.tool.main" label="eMoflon Tool">
       <description>

@@ -218,14 +218,7 @@ public class MoflonCodeGenerator extends GenericMoflonProcess {
 	}
 
 	protected String getFullProjectName(final MoflonPropertiesContainer moflonProperties) {
-		final String metaModelProjectName = moflonProperties.getMetaModelProject().getMetaModelProjectName();
-		final String fullProjectName;
-		if (MoflonPropertiesContainerHelper.UNDEFINED_METAMODEL_NAME.equals(metaModelProjectName)) {
-			fullProjectName = moflonProperties.getProjectName();
-		} else {
-			fullProjectName = metaModelProjectName + "::" + moflonProperties.getProjectName();
-		}
-		return fullProjectName;
+		return moflonProperties.getProjectName();
 	}
 
 	/**

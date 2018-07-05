@@ -1,0 +1,13 @@
+
+partial class ActionImpl {
+
+@members<--
+   @Override
+   public String toString()
+   {
+      return "ActionImpl [reassignedVariables=" + reassignedVariables + ", constructedVariables=" + constructedVariables;
+      //+ ", next=" + n + ", prev=" + p + "]";
+   }
+   -->
+
+}
