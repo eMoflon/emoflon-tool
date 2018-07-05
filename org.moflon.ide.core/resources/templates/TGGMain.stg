@@ -196,6 +196,8 @@ TGGMainConsistencyCheck(projects, corrPackage, projectName, className) ::= <<
 		
 		//TODO
 		//set your solver here:
+		//helper.setILPSolver(GurobiSolver.create().build());
+		// OR
 		//helper.setILPSolver(CplexSolver.create().withPresolve().build());
 		
 		helper.createCorrespondences(prepareDeltas);

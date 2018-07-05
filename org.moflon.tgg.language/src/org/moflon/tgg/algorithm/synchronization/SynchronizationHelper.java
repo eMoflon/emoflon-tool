@@ -8,9 +8,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
-import org.cardygan.ilp.api.Model;
 import org.cardygan.ilp.api.Result;
-import org.cardygan.ilp.api.Solver;
+import org.cardygan.ilp.api.solver.Solver;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
