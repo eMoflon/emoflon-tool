@@ -1,8 +1,10 @@
 package org.moflon.compiler.sdm.democles.attributes;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -74,6 +76,16 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 	protected AttributeConstraintLibUtilImpl attributeConstraintLibUtil = (AttributeConstraintLibUtilImpl) ConstraintstodemoclesFactory.eINSTANCE
 			.createAttributeConstraintLibUtil();
 
+	private PatternMatcher bindingAndBlackPatternMatcher;
+
+	private PatternMatcher bindingPatternMatcher;
+
+	private PatternMatcher blackPatternMatcher;
+
+	private PatternMatcher redPatternMatcher;
+
+	private PatternMatcher greenPatternMatcher;
+
 	public AttributeConstraintCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project,
 			final EMoflonPreferencesStorage preferencesStorage) {
 		super(resourceSet, preferencesStorage);
@@ -101,6 +113,18 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 	}
 
 	@Override
+	public Map<String, PatternMatcher> getSearchPlanGenerators() {
+		final Map<String, PatternMatcher> searchPlanGenerators = new HashMap<>();
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION, greenPatternMatcher);
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.RED_FILE_EXTENSION, redPatternMatcher);
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION, blackPatternMatcher);
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION, bindingPatternMatcher);
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION,
+				bindingAndBlackPatternMatcher);
+		return searchPlanGenerators;
+	}
+
+	@Override
 	public ScopeValidator createScopeValidator() {
 		final Resource resource = new ResourceImpl(URI.createURI("ScopeValidator"));
 		resourceSet.getResources().add(resource);
@@ -125,11 +149,11 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			expressionTransformerResource.getContents().add(expressionExplorer);
 			expressionExplorer.setExpressionTransformer(expressionTransformer);
 
-			final PatternMatcher bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
-			final PatternMatcher bindingPatternMatcher = configureBindingPatternMatcher(resource);
-			final PatternMatcher blackPatternMatcher = configureBlackPatternMatcher(resource);
-			final PatternMatcher redPatternMatcher = configureRedPatternMatcher(resource);
-			final PatternMatcher greenPatternMatcher = configureGreenPatternMatcher(resource);
+			bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
+			bindingPatternMatcher = configureBindingPatternMatcher(resource);
+			blackPatternMatcher = configureBlackPatternMatcher(resource);
+			redPatternMatcher = configureRedPatternMatcher(resource);
+			greenPatternMatcher = configureGreenPatternMatcher(resource);
 
 			// (1) Handler for regular story nodes
 			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeFactory.eINSTANCE

@@ -76,7 +76,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 	/**
 	 * Returns the ID of this build. It must be identical to the ID in the
 	 * plugin.xml file.
-	 * 
+	 *
 	 * @return the builder ID
 	 */
 	public static String getId() {
@@ -87,7 +87,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 	public void clean(final IProgressMonitor monitor) throws CoreException {
 		final SubMonitor subMon = SubMonitor.convert(monitor, "Cleaning " + getProject(), 2);
 
-		deleteProblemMarkers();
+		deleteProblemMarkersInternal();
 		subMon.worked(1);
 
 		final IFolder tempFolder = getProject().getFolder(MetamodelBuilder.TEMP_FOLDER);
@@ -125,7 +125,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 			final SubMonitor subMon = SubMonitor.convert(monitor, "Building " + getProject().getName(), 21);
 
 			try {
-				deleteProblemMarkers();
+				deleteProblemMarkersInternal();
 
 				MetamodelProjectCreator.addGitignoreFileForMetamodelProject(getProject(), subMon.split(1));
 
@@ -303,5 +303,10 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 				}
 			}
 		}
+	}
+
+	private final void deleteProblemMarkersInternal() throws CoreException {
+		getProject().deleteMarkers(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, false, IResource.DEPTH_INFINITE);
+		getProject().deleteMarkers(WorkspaceHelper.INJECTION_PROBLEM_MARKER_ID, false, IResource.DEPTH_INFINITE);
 	}
 }
