@@ -4,7 +4,7 @@
    <description name="eMoflon central update site" url="https://emoflon.github.io/documentation.html/">
       This is the central update site of eMoflon.
    </description>
-   <feature url="features/org.moflon.ide.feature_3.3.0.qualifier.jar" id="org.moflon.ide.feature" version="3.3.0.qualifier">
+   <feature url="features/org.moflon.ide.feature_3.4.0.qualifier.jar" id="org.moflon.ide.feature" version="3.4.0.qualifier">
       <category name="org.moflon.tool.main"/>
    </feature>
    <feature url="features/org.moflon.ide.visualization.feature_3.0.0.qualifier.jar" id="org.moflon.ide.visualization.feature" version="3.0.0.qualifier">
