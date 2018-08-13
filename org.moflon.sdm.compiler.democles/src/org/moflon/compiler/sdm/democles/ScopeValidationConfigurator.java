@@ -9,6 +9,11 @@ import org.moflon.sdm.compiler.democles.validation.scope.ScopeValidator;
 public interface ScopeValidationConfigurator {
 	ScopeValidator createScopeValidator();
 
+	/**
+	 * Returns the configured operation-to-template mapping
+	 * @param genModel the {@link GenModel} to consult
+	 * @return the operation-to-template mapping
+	 */
 	TemplateConfigurationProvider createTemplateConfiguration(GenModel genModel);
 
 	/**

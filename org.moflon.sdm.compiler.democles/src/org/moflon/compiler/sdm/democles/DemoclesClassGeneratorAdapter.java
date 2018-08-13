@@ -88,7 +88,6 @@ public class DemoclesClassGeneratorAdapter extends AbstractMoflonClassGeneratorA
 						+ scope.getClass().getSimpleName());
 				template.add("scope", scope);
 				template.add("importManager", democlesImportManager);
-				// template.inspect();
 				generatedMethodBody = template.render();
 			}
 		}
@@ -100,9 +99,19 @@ public class DemoclesClassGeneratorAdapter extends AbstractMoflonClassGeneratorA
 		return generatedMethodBody;
 	}
 
+	/**
+	 * This class produces the pattern matching code that is usually appended to a
+	 * class implementation file
+	 *
+	 * @param isImplementation
+	 *            whether the current class is the implementation of the interface.
+	 *            The pattern matching code is only added if isImplementation is
+	 *            true.
+	 *
+	 * @return the generated Java code
+	 */
 	@Override
 	public String getInjectedCode(final boolean isImplementation) {
-		// Produces pattern matching code
 		final StringBuilder code = new StringBuilder();
 		if (isImplementation) {
 			final GenClass genClass = (GenClass) generatingObject;

@@ -1,10 +1,8 @@
 package org.moflon.compiler.sdm.democles.attributes;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -110,18 +108,6 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 				attributeVariableConstraintsTypeModule);
 		this.bindingAndBlackPatternBuilder
 				.addConstraintTypeSwitch(attributeVariableConstraintsModule.getConstraintTypeSwitch());
-	}
-
-	@Override
-	public Map<String, PatternMatcher> getSearchPlanGenerators() {
-		final Map<String, PatternMatcher> searchPlanGenerators = new HashMap<>();
-		searchPlanGenerators.put(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION, greenPatternMatcher);
-		searchPlanGenerators.put(DemoclesMethodBodyHandler.RED_FILE_EXTENSION, redPatternMatcher);
-		searchPlanGenerators.put(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION, blackPatternMatcher);
-		searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION, bindingPatternMatcher);
-		searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION,
-				bindingAndBlackPatternMatcher);
-		return searchPlanGenerators;
 	}
 
 	@Override
@@ -334,5 +320,30 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 	@Override
 	public TemplateConfigurationProvider createTemplateConfiguration(final GenModel genModel) {
 		return new AttributeConstraintTemplateConfig(genModel, attributeVariableConstraintLibraries);
+	}
+
+	@Override
+	protected PatternMatcher getBindingAndBlackPatternSearchPlanGenerator() {
+		return bindingAndBlackPatternMatcher;
+	}
+
+	@Override
+	protected PatternMatcher getBindingPatternSearchPlanGenerator() {
+		return bindingPatternMatcher;
+	}
+
+	@Override
+	protected PatternMatcher getBlackPatternSearchPlanGenerator() {
+		return blackPatternMatcher;
+	}
+
+	@Override
+	protected PatternMatcher getRedPatternSearchPlanGenerator() {
+		return redPatternMatcher;
+	}
+
+	@Override
+	protected PatternMatcher getGreenPatternSearchPlanGenerator() {
+		return greenPatternMatcher;
 	}
 }
