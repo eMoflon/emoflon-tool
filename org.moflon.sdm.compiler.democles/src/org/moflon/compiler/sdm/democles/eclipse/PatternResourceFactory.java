@@ -13,7 +13,7 @@ package org.moflon.compiler.sdm.democles.eclipse;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.EcoreUtils;
 
 public final class PatternResourceFactory extends AdapterResourceFactory<EClass> {
 
@@ -27,6 +27,6 @@ public final class PatternResourceFactory extends AdapterResourceFactory<EClass>
 	}
 
 	private static final URI getClassURI(final EClass eClass) {
-		return eClass.eResource().getURI().trimSegments(1).appendSegment(MoflonUtil.getFQN(eClass));
+		return eClass.eResource().getURI().trimSegments(1).appendSegment(EcoreUtils.getFQN(eClass));
 	}
 }

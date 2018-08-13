@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.moflon.core.utilities.MoflonUtil;
+import org.moflon.core.utilities.EcoreUtils;
 
 public class MethodBodyResourceFactory extends AdapterResourceFactory<EOperation> {
 
@@ -33,7 +33,7 @@ public class MethodBodyResourceFactory extends AdapterResourceFactory<EOperation
 	}
 
 	private static final String getOperationID(final EOperation eOperation) {
-		String signature = MoflonUtil.getFQN(eOperation.getEContainingClass()) + "_" + eOperation.getName();
+		String signature = EcoreUtils.getFQN(eOperation.getEContainingClass()) + "_" + eOperation.getName();
 		for (final EParameter param : eOperation.getEParameters()) {
 			signature += "_" + param.getName() + "_" + getNameOfClassifier(param.getEType());
 		}

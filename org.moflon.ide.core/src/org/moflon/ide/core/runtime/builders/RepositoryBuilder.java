@@ -59,7 +59,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder {
 
 		final IProject project = getProject();
 
-		deleteProblemMarkersInternal();
+		deleteProblemMarkers();
 		subMon.worked(1);
 
 		cleanGeneratedCode(project);
@@ -119,7 +119,7 @@ public class RepositoryBuilder extends AbstractVisitorBuilder {
 					addTriggerProject(referencedConfig.getProject());
 				}
 
-				deleteProblemMarkersInternal();
+				deleteProblemMarkers();
 				cleanGeneratedCode(getProject());
 
 				// Build
@@ -242,10 +242,4 @@ public class RepositoryBuilder extends AbstractVisitorBuilder {
 			logger.debug("Could not load error reporter '" + reporterClass + "'");
 		}
 	}
-
-	private final void deleteProblemMarkersInternal() throws CoreException {
-		getProject().deleteMarkers(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, false, IResource.DEPTH_INFINITE);
-		getProject().deleteMarkers(WorkspaceHelper.INJECTION_PROBLEM_MARKER_ID, false, IResource.DEPTH_INFINITE);
-	}
-
 }

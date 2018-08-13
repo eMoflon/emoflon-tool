@@ -2,7 +2,6 @@ package org.moflon.ide.core.project;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -36,7 +35,7 @@ public class IntegrationProjectCreator extends MoflonProjectCreator {
 
 	/**
 	 * Pass-through constructor to {@link MoflonProjectCreator}
-	 * 
+	 *
 	 * @param project
 	 *            the project to create
 	 * @param projectProperties
@@ -51,7 +50,7 @@ public class IntegrationProjectCreator extends MoflonProjectCreator {
 	}
 
 	private void addIntegrationSpecificDependencies(PluginProperties projectProperties) {
-				
+
 		List<String> integrationSpecificDependencies = Arrays.asList(new String[] { //
 				WorkspaceHelper.getPluginId(eMoflonEMFUtil.class), //
 				WorkspaceHelper.getPluginId(MocaTreeFactory.class), //
@@ -60,12 +59,12 @@ public class IntegrationProjectCreator extends MoflonProjectCreator {
 				WorkspaceHelper.getPluginId(TGGLanguageActivator.class), //
 				WorkspaceHelper.getPluginId(TGGRuntimePlugin.class) //
 		});
-		
+
 		List<String> allDependencies = new ArrayList<>();
 		allDependencies.addAll(integrationSpecificDependencies);
-		
+
 		projectProperties.setDependencies(allDependencies);
-		
+
 	}
 
 	/**
@@ -105,7 +104,7 @@ public class IntegrationProjectCreator extends MoflonProjectCreator {
 		if (moflonProperties.getTGGBuildMode() == null) {
 			moflonProperties.setTGGBuildMode(factory.createTGGBuildMode());
 		}
-		
+
 		if(moflonProperties.getMetaModelProject() == null) {
 			MetaModelProject metaModelProject = PropertycontainerFactory.eINSTANCE.createMetaModelProject();
 			metaModelProject.setMetaModelProjectName(MoflonPropertiesContainerHelper.UNDEFINED_METAMODEL_NAME);

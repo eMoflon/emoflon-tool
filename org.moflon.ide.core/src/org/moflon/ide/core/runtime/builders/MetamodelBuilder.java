@@ -87,7 +87,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 	public void clean(final IProgressMonitor monitor) throws CoreException {
 		final SubMonitor subMon = SubMonitor.convert(monitor, "Cleaning " + getProject(), 2);
 
-		deleteProblemMarkersInternal();
+		deleteProblemMarkers();
 		subMon.worked(1);
 
 		final IFolder tempFolder = getProject().getFolder(MetamodelBuilder.TEMP_FOLDER);
@@ -125,7 +125,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 			final SubMonitor subMon = SubMonitor.convert(monitor, "Building " + getProject().getName(), 21);
 
 			try {
-				deleteProblemMarkersInternal();
+				deleteProblemMarkers();
 
 				MetamodelProjectCreator.addGitignoreFileForMetamodelProject(getProject(), subMon.split(1));
 
@@ -177,7 +177,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 				ResourcesPlugin.getWorkspace().checkpoint(false);
 
 				// Load resources (metamodels and tgg files)
-				triggerProjects.clear();
+				clearTriggerProjects();
 				ITask[] taskArray = new ITask[exporter.getMetamodelLoaderTasks().size()];
 				taskArray = exporter.getMetamodelLoaderTasks().toArray(taskArray);
 				final IStatus metamodelLoaderStatus = ProgressMonitoringJob.executeSyncSubTasks(taskArray,
@@ -185,7 +185,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 						subMon.split(5));
 				ProgressMonitorUtil.checkCancellation(subMon);
 				if (!metamodelLoaderStatus.isOK()) {
-					if (kind == IncrementalProjectBuilder.FULL_BUILD && !triggerProjects.isEmpty()) {
+					if (kind == IncrementalProjectBuilder.FULL_BUILD && !getTriggerProjects().isEmpty()) {
 						needRebuild();
 					}
 					processProblemStatus(metamodelLoaderStatus, mocaFile);
@@ -197,9 +197,9 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 						.getProjectDependencyAnalyzerTasks().size()];
 				dependencyAnalyzers = exporter.getProjectDependencyAnalyzerTasks().toArray(dependencyAnalyzers);
 				for (ProjectDependencyAnalyzer analyzer : dependencyAnalyzers) {
-					analyzer.setInterestingProjects(triggerProjects);
+					analyzer.setInterestingProjects(getTriggerProjects());
 				}
-				triggerProjects.clear();
+				clearTriggerProjects();
 				final IStatus projectDependencyAnalyzerStatus = ProgressMonitoringJob.executeSyncSubTasks(
 						dependencyAnalyzers,
 						new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Dependency analysis failed", null),
@@ -226,6 +226,11 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 				LogUtils.error(logger, e, "Unable to update created projects.");
 			}
 		}
+	}
+
+	@Deprecated
+	private void clearTriggerProjects() {
+		triggerProjects.clear();
 	}
 
 	private void persistResources(final MultiStatus mocaToMoflonStatus, final ResourceSet set,
@@ -303,10 +308,5 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 				}
 			}
 		}
-	}
-
-	private final void deleteProblemMarkersInternal() throws CoreException {
-		getProject().deleteMarkers(WorkspaceHelper.MOFLON_PROBLEM_MARKER_ID, false, IResource.DEPTH_INFINITE);
-		getProject().deleteMarkers(WorkspaceHelper.INJECTION_PROBLEM_MARKER_ID, false, IResource.DEPTH_INFINITE);
 	}
 }

@@ -1,5 +1,6 @@
 package org.moflon.ide.core.runtime;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
@@ -36,7 +37,7 @@ public class ProjectDependencyAnalyzer implements ITask {
 
 	private final EPackage metamodelRoot;
 
-	private final Set<IProject> interestingProjects = new TreeSet<IProject>(MetamodelBuilder.PROJECT_COMPARATOR);
+	private final Set<IProject> interestingProjects = new TreeSet<IProject>(MetamodelBuilder.DEFAULT_PROJECT_COMPARATOR);
 
 	public ProjectDependencyAnalyzer(final AbstractVisitorBuilder builder, final IProject metamodelProject,
 			final IProject moflonProject, final EPackage metamodelRoot) {
@@ -75,7 +76,7 @@ public class ProjectDependencyAnalyzer implements ITask {
 		}
 	}
 
-	public final void setInterestingProjects(Set<IProject> projects) {
+	public final void setInterestingProjects(final Collection<IProject> projects) {
 		interestingProjects.addAll(projects);
 	}
 
@@ -83,7 +84,7 @@ public class ProjectDependencyAnalyzer implements ITask {
 	public IStatus run(IProgressMonitor monitor) {
 		final MultiStatus status = new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0,
 				"Project dependency analysis failed", null);
-		final TreeSet<IProject> projectReferences = new TreeSet<IProject>(MetamodelBuilder.PROJECT_COMPARATOR);
+		final TreeSet<IProject> projectReferences = new TreeSet<IProject>(MetamodelBuilder.DEFAULT_PROJECT_COMPARATOR);
 		analyzeDependencies(status, projectReferences, metamodelRoot.eResource());
 
 		for (IProject reference : projectReferences) {

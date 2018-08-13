@@ -7,9 +7,7 @@ import static org.cardygan.ilp.api.util.ExprDsl.sum;
 
 import org.cardygan.ilp.api.model.ArithExpr;
 import org.cardygan.ilp.api.model.BinaryVar;
-import org.cardygan.ilp.api.model.Constraint;
 import org.cardygan.ilp.api.model.Model;
-import org.cardygan.ilp.api.model.Objective;
 import org.eclipse.emf.ecore.EObject;
 import org.moflon.tgg.algorithm.datastructures.ConsistencyCheckPrecedenceGraph;
 import org.moflon.tgg.algorithm.datastructures.Graph;
@@ -32,11 +30,11 @@ public class ILPProblemPreparation {
 
 	public Model createIlpProblemFromGraphs(Graph sourceGraph, Graph targetGraph,
 			ConsistencyCheckPrecedenceGraph protocol) {
-		
+
 		ilpProblem = new Model();
 
 		binaryVarFactory = new BinaryVarProvider(ilpProblem, protocol);
-		
+
 		int constraintCount = 0;
 
 		// get all alternative clauses
@@ -62,9 +60,9 @@ public class ILPProblemPreparation {
 			}
 		}
 
-		
+
 		//set objective
-		
+
 		int[] matchIDs = protocol.getMatchIDs().toArray();
 		ArithExpr[] arithExprs = new ArithExpr[matchIDs.length];
 		for (int i = 0; i < matchIDs.length; i++) {
@@ -75,7 +73,7 @@ public class ILPProblemPreparation {
 			arithExprs[i] = mult(param(weight), binaryVarFactory.getBinaryVar(matchID));
 		}
 		ilpProblem.newObjective(true,sum(arithExprs));
-		
+
 		return ilpProblem;
 	}
 
