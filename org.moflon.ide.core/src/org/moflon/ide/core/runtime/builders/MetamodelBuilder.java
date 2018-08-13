@@ -254,6 +254,12 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 		return new AntPatternCondition(new String[0]);
 	}
 
+	@Override
+	protected void deleteProblemMarkers() throws CoreException {
+		super.deleteProblemMarkers();
+		getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
+	}
+
 	/**
 	 * Creates the file projectInformation.txt in the .temp folder.
 	 */
