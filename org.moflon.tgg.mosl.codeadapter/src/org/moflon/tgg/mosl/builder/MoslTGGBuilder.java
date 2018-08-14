@@ -69,7 +69,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 			final Map<String, String> args, final IProgressMonitor monitor) {
 
 		final int kind = correctBuildTrigger(originalKind);
-		final SubMonitor subMonitor = SubMonitor.convert(monitor, triggerProjects.size() + 1);
+		final SubMonitor subMonitor = SubMonitor.convert(monitor, getTriggerProjects().size() + 1);
 
 		if (getCommand().isBuilding(kind)) {
 			final IFolder moslFolder = getProject().getFolder(new Path(srcFolder));
@@ -79,9 +79,9 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 			}
 		}
 
-		if (!hasRelevantDeltas(buildVisitor) && this.isAutoOrIncrementalBuild(kind)) {
+		if (!hasRelevantDeltas(buildVisitor) && isAutoOrIncrementalBuild(kind)) {
 			try {
-				for (final IProject project : triggerProjects) {
+				for (final IProject project : getTriggerProjects()) {
 
 					final RelevantElementCollector relevantElementCollector = new RelevantElementCollector(project,
 							getTriggerCondition(project)) {
@@ -139,7 +139,7 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 				final ProjectDependencyAnalyzer projectDependencyAnalyzer = new ProjectDependencyAnalyzer(this,
 						getProject(), getProject(), ePackage);
 
-				final Set<IProject> interestingProjects = new TreeSet<>(MetamodelBuilder.PROJECT_COMPARATOR);
+				final Set<IProject> interestingProjects = new TreeSet<>(MetamodelBuilder.DEFAULT_PROJECT_COMPARATOR);
 				interestingProjects.addAll(Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects()));
 				projectDependencyAnalyzer.setInterestingProjects(interestingProjects);
 

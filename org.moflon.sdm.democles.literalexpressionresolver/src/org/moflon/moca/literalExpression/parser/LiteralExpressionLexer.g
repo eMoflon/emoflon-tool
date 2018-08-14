@@ -10,20 +10,20 @@ lexer grammar LiteralExpressionLexer;
           int charPos = e.charPositionInLine;
           int tokenLenght = 1;
           Token token = e.token;
-          if(token != null) 
+          if(token != null)
             tokenLenght = token.getText().length();
-                  
-          
+
+
           problem.setType(ProblemType.ERROR);
-          problem.setLine(line); 
-          problem.setCharacterPositionStart(charPos); 
+          problem.setLine(line);
+          problem.setCharacterPositionStart(charPos);
           problem.setCharacterPositionEnd(charPos+tokenLenght);
-          problem.setMessage("Lexer: " + getErrorMessage(e, tokenNames)); 
-          
+          problem.setMessage("Lexer: " + getErrorMessage(e, tokenNames));
+
           problems.add(problem);
           super.displayRecognitionError(tokenNames, e);
     }
-} 
+}
 
 @header {
 package org.moflon.moca.literalExpression.parser;
@@ -50,6 +50,8 @@ RPAR:')';
 TRUE:'true';
 FALSE:'false';
 NULL:'null';
+FLOAT_SUFFIX_SMALL:'f';
+FLOAT_SUFFIX_LARGE:'F';
 
 fragment
 SMALL_LETTER: ('a'..'z');
@@ -60,10 +62,10 @@ DIGIT: ('0'..'9');
 fragment
 LETTER: SMALL_LETTER | CAPITAL_LETTER;
 fragment
-ID: LETTER | DIGIT | UNDERSCORE; 
+ID: LETTER | DIGIT | UNDERSCORE;
 
-STRING : QUOTE (~('\r'|'\n'|QUOTE)| '\\' QUOTE)* QUOTE; 
+STRING : QUOTE (~('\r'|'\n'|QUOTE)| '\\' QUOTE)* QUOTE;
 ENUM_LITERAL: CAPITAL_LETTER (CAPITAL_LETTER | UNDERSCORE | DIGIT)+;
 SMALL_ID: SMALL_LETTER ID*;
 CAPITAL_ID: CAPITAL_LETTER ID*;
-PNUMBER: ('+'|'-')? DIGIT+ (DOT DIGIT+)?;
+PNUMBER: ('+'|'-')? DIGIT+ (DOT DIGIT+)? (FLOAT_SUFFIX_SMALL|FLOAT_SUFFIX_LARGE)?;

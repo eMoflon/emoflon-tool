@@ -10,5 +10,5 @@ Long(constant, importManager, autoboxing) ::= <<
 >>
 
 Float(constant, importManager, autoboxing) ::= <<
-<if(autoboxing)><importManager.("java.lang.Float")>.valueOf(<constant>)<else><constant>f<endif>
+<if(autoboxing)><importManager.("java.lang.Float")>.valueOf(<constant>f)<else><constant>f<endif>
 >>

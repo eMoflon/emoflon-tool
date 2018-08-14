@@ -74,6 +74,16 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 	protected AttributeConstraintLibUtilImpl attributeConstraintLibUtil = (AttributeConstraintLibUtilImpl) ConstraintstodemoclesFactory.eINSTANCE
 			.createAttributeConstraintLibUtil();
 
+	private PatternMatcher bindingAndBlackPatternMatcher;
+
+	private PatternMatcher bindingPatternMatcher;
+
+	private PatternMatcher blackPatternMatcher;
+
+	private PatternMatcher redPatternMatcher;
+
+	private PatternMatcher greenPatternMatcher;
+
 	public AttributeConstraintCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project,
 			final EMoflonPreferencesStorage preferencesStorage) {
 		super(resourceSet, preferencesStorage);
@@ -125,11 +135,11 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			expressionTransformerResource.getContents().add(expressionExplorer);
 			expressionExplorer.setExpressionTransformer(expressionTransformer);
 
-			final PatternMatcher bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
-			final PatternMatcher bindingPatternMatcher = configureBindingPatternMatcher(resource);
-			final PatternMatcher blackPatternMatcher = configureBlackPatternMatcher(resource);
-			final PatternMatcher redPatternMatcher = configureRedPatternMatcher(resource);
-			final PatternMatcher greenPatternMatcher = configureGreenPatternMatcher(resource);
+			bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
+			bindingPatternMatcher = configureBindingPatternMatcher(resource);
+			blackPatternMatcher = configureBlackPatternMatcher(resource);
+			redPatternMatcher = configureRedPatternMatcher(resource);
+			greenPatternMatcher = configureGreenPatternMatcher(resource);
 
 			// (1) Handler for regular story nodes
 			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeFactory.eINSTANCE
@@ -310,5 +320,30 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 	@Override
 	public TemplateConfigurationProvider createTemplateConfiguration(final GenModel genModel) {
 		return new AttributeConstraintTemplateConfig(genModel, attributeVariableConstraintLibraries);
+	}
+
+	@Override
+	protected PatternMatcher getBindingAndBlackPatternSearchPlanGenerator() {
+		return bindingAndBlackPatternMatcher;
+	}
+
+	@Override
+	protected PatternMatcher getBindingPatternSearchPlanGenerator() {
+		return bindingPatternMatcher;
+	}
+
+	@Override
+	protected PatternMatcher getBlackPatternSearchPlanGenerator() {
+		return blackPatternMatcher;
+	}
+
+	@Override
+	protected PatternMatcher getRedPatternSearchPlanGenerator() {
+		return redPatternMatcher;
+	}
+
+	@Override
+	protected PatternMatcher getGreenPatternSearchPlanGenerator() {
+		return greenPatternMatcher;
 	}
 }

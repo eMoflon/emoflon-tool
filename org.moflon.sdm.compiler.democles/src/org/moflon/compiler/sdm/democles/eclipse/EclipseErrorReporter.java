@@ -96,7 +96,8 @@ public class EclipseErrorReporter extends MultiStatusAwareErrorReporter
 
    private IMarker createMarker(final String markerId, final ErrorMessage message) throws CoreException
    {
-      final IResource markedResource = getFile().exists() ? getFile() : getFile().getProject();
+      final IFile file = getFile();
+      final IResource markedResource = file.exists() ? file : file.getProject();
       IMarker validationMarker = markedResource.createMarker(markerId);
       validationMarker.setAttribute(IMarker.MESSAGE, message.getId());
       validationMarker.setAttribute(IMarker.LOCATION, getLocationDescription(message));

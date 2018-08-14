@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -22,6 +23,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainer;
 import org.moflon.core.propertycontainer.MoflonPropertiesContainerHelper;
+import org.moflon.core.utilities.ExceptionUtil;
 import org.moflon.core.utilities.MoflonConventions;
 import org.moflon.core.utilities.MoflonUtil;
 import org.moflon.core.utilities.WorkspaceHelper;
@@ -158,8 +160,7 @@ public class IntegrationBuilder extends RepositoryBuilder {
 		try {
 			precompiler.precompileTGG(tgg);
 		} catch (final RuntimeException e) {
-			// Report error if model transformation fails
-			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
+			return ExceptionUtil.createDefaultErrorStatus(getClass(), e);
 		}
 
 		// print refinement precompiling log
@@ -171,8 +172,7 @@ public class IntegrationBuilder extends RepositoryBuilder {
 			// refined ones
 			enrichCspsWithTypeInformation();
 		} catch (final RuntimeException e) {
-			// Report error if model transformation fails
-			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
+			return ExceptionUtil.createDefaultErrorStatus(getClass(), e);
 		}
 
 		// Persist tgg model after precompilation
@@ -183,7 +183,7 @@ public class IntegrationBuilder extends RepositoryBuilder {
 		try {
 			tggResource.save(saveOptions);
 		} catch (final IOException e) {
-			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
+			return ExceptionUtil.createDefaultErrorStatus(getClass(), e);
 		}
 		subMon.worked(5);
 
@@ -207,9 +207,7 @@ public class IntegrationBuilder extends RepositoryBuilder {
 				compiler.deriveOperationalRules(tgg,
 						ApplicationTypes.get(moflonProperties.getTGGBuildMode().getBuildMode().getValue()));
 			} catch (final RuntimeException e) {
-				// Report error if model transformation fails
-				return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(),
-						e);
+				return ExceptionUtil.createDefaultErrorStatus(getClass(), e);
 			}
 			StaticAnalysis staticAnalysis = compiler.getStaticAnalysis();
 
@@ -224,8 +222,7 @@ public class IntegrationBuilder extends RepositoryBuilder {
 			try {
 				smaResource.save(saveOptions);
 			} catch (final IOException e) {
-				return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(),
-						e);
+				return ExceptionUtil.createDefaultErrorStatus(getClass(), e);
 			}
 
 			// Persist compiler injections
@@ -243,9 +240,7 @@ public class IntegrationBuilder extends RepositoryBuilder {
 				try {
 					compiler.compileModelgenerationSdms(tgg);
 				} catch (final RuntimeException e) {
-					// Report error if model transformation fails
-					return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR,
-							e.getMessage(), e);
+					return ExceptionUtil.createDefaultErrorStatus(getClass(), e);
 				}
 				for (RuleAnalyzerResult analyzerResult : compiler.getRuleAnalyzer().getRuleAnalyzerResult()) {
 					logger.warn(analyzerResult.getMessage() + ": " + analyzerResult.getEObject());
@@ -263,7 +258,7 @@ public class IntegrationBuilder extends RepositoryBuilder {
 			// Persist ecore resource
 			ecoreResource.save(saveOptions);
 		} catch (final IOException e) {
-			return new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()), IStatus.ERROR, e.getMessage(), e);
+			return ExceptionUtil.createDefaultErrorStatus(getClass(), e);
 		}
 		subMon.worked(5);
 
@@ -282,6 +277,12 @@ public class IntegrationBuilder extends RepositoryBuilder {
 			VariableTypeManager varTypeManager = CspcodeadapterFactory.eINSTANCE.createVariableTypeManager();
 			varTypeManager.setTggrule(rule);
 			CSP csp = rule.getCsp();
+			final List<TGGConstraint> constraintsWithMissingName = csp.getConstraints().stream().filter(constraint -> constraint.getName() == null).collect(Collectors.toList());
+			if (!constraintsWithMissingName.isEmpty()) {
+				throw new IllegalStateException(
+						String.format("TGG rule %s contains %d constraints without name", rule.getName(), constraintsWithMissingName.size()));
+			}
+
 			if (csp != null) {
 				try {
 					varTypeManager.deriveVariableTypes(csp);

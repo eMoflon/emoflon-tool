@@ -6,6 +6,12 @@ import org.gervarro.democles.codegen.GeneratorOperation;
 import org.gervarro.democles.codegen.TemplateController;
 import org.moflon.sdm.constraints.operationspecification.ConstraintSpecification;
 
+/**
+ * This class provides the operation-to-template mapping for operations that belong to {@link ConstraintSpecification}s
+ *
+ * @author Frederik Deckwerth - Initial implementation
+ * @author Roland Kluge - Docu
+ */
 public class AttributeConstraintsTemplateProvider implements CodeGeneratorProvider<Chain<TemplateController>> {
 
 	@Override
@@ -13,19 +19,27 @@ public class AttributeConstraintsTemplateProvider implements CodeGeneratorProvid
 			final Chain<TemplateController> tail) {
 
 		if (operation.getType() instanceof ConstraintSpecification) {
-			ConstraintSpecification cType = (ConstraintSpecification) operation.getType();
+			final ConstraintSpecification cType = (ConstraintSpecification) operation.getType();
 
-			String prefix = cType.getAttributeConstraintLibrary().getPrefix();
-			String operationIdentifier = cType.getOperationSpecificationGroup().getOperationIdentifier();
-			String adornmentString = operation.getPrecondition().toString();
-
-			String fullyQualifiedTemplateName = "/" + prefix + "/" + operationIdentifier + "/" + operationIdentifier
-					+ adornmentString;
-			return new Chain<TemplateController>(new TemplateController(fullyQualifiedTemplateName, operation), tail);
+			final String fullyQualifiedTemplateName = createTemplateName(operation, cType);
+			return new Chain<>(new TemplateController(fullyQualifiedTemplateName, operation), tail);
 		}
-		throw new RuntimeException("Invalid operation");
+		throw new RuntimeException("Invalid operation type: " + operation.getType());
 	}
 
+	private String createTemplateName(final GeneratorOperation operation, final ConstraintSpecification cType) {
+		final String prefix = cType.getAttributeConstraintLibrary().getPrefix();
+		final String operationIdentifier = cType.getOperationSpecificationGroup().getOperationIdentifier();
+		final String adornmentString = operation.getPrecondition().toString();
+
+		final String fullyQualifiedTemplateName = "/" + prefix + "/" + operationIdentifier + "/" + operationIdentifier
+				+ adornmentString;
+		return fullyQualifiedTemplateName;
+	}
+
+	/**
+	 * This class is only responsible for {@link ConstraintSpecification} operations
+	 */
 	@Override
 	public boolean isResponsibleFor(final GeneratorOperation operation) {
 		return operation != null && operation.getType() instanceof ConstraintSpecification;

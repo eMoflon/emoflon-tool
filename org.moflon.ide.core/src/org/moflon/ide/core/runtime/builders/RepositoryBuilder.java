@@ -242,5 +242,4 @@ public class RepositoryBuilder extends AbstractVisitorBuilder {
 			logger.debug("Could not load error reporter '" + reporterClass + "'");
 		}
 	}
-
 }

@@ -76,7 +76,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 	/**
 	 * Returns the ID of this build. It must be identical to the ID in the
 	 * plugin.xml file.
-	 * 
+	 *
 	 * @return the builder ID
 	 */
 	public static String getId() {
@@ -177,7 +177,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 				ResourcesPlugin.getWorkspace().checkpoint(false);
 
 				// Load resources (metamodels and tgg files)
-				triggerProjects.clear();
+				clearTriggerProjects();
 				ITask[] taskArray = new ITask[exporter.getMetamodelLoaderTasks().size()];
 				taskArray = exporter.getMetamodelLoaderTasks().toArray(taskArray);
 				final IStatus metamodelLoaderStatus = ProgressMonitoringJob.executeSyncSubTasks(taskArray,
@@ -185,7 +185,7 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 						subMon.split(5));
 				ProgressMonitorUtil.checkCancellation(subMon);
 				if (!metamodelLoaderStatus.isOK()) {
-					if (kind == IncrementalProjectBuilder.FULL_BUILD && !triggerProjects.isEmpty()) {
+					if (kind == IncrementalProjectBuilder.FULL_BUILD && !getTriggerProjects().isEmpty()) {
 						needRebuild();
 					}
 					processProblemStatus(metamodelLoaderStatus, mocaFile);
@@ -197,9 +197,9 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 						.getProjectDependencyAnalyzerTasks().size()];
 				dependencyAnalyzers = exporter.getProjectDependencyAnalyzerTasks().toArray(dependencyAnalyzers);
 				for (ProjectDependencyAnalyzer analyzer : dependencyAnalyzers) {
-					analyzer.setInterestingProjects(triggerProjects);
+					analyzer.setInterestingProjects(getTriggerProjects());
 				}
-				triggerProjects.clear();
+				clearTriggerProjects();
 				final IStatus projectDependencyAnalyzerStatus = ProgressMonitoringJob.executeSyncSubTasks(
 						dependencyAnalyzers,
 						new MultiStatus(WorkspaceHelper.getPluginId(getClass()), 0, "Dependency analysis failed", null),
@@ -228,6 +228,11 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 		}
 	}
 
+	@Deprecated
+	private void clearTriggerProjects() {
+		triggerProjects.clear();
+	}
+
 	private void persistResources(final MultiStatus mocaToMoflonStatus, final ResourceSet set,
 			Map<Object, Object> saveOnlyIfChangedOption) {
 		for (final Resource resource : set.getResources()) {
@@ -247,6 +252,12 @@ public class MetamodelBuilder extends AbstractVisitorBuilder {
 			return new AntPatternCondition(new String[] { "model/*.ecore" });
 		}
 		return new AntPatternCondition(new String[0]);
+	}
+
+	@Override
+	protected void deleteProblemMarkers() throws CoreException {
+		super.deleteProblemMarkers();
+		getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
 	}
 
 	/**

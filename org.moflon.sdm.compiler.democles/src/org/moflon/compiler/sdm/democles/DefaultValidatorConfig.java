@@ -110,12 +110,13 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 	@Override
 	public Map<String, PatternMatcher> getSearchPlanGenerators() {
 		final Map<String, PatternMatcher> searchPlanGenerators = new HashMap<>();
-		searchPlanGenerators.put(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION, greenPatternMatcher);
-		searchPlanGenerators.put(DemoclesMethodBodyHandler.RED_FILE_EXTENSION, redPatternMatcher);
-		searchPlanGenerators.put(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION, blackPatternMatcher);
-		searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION, bindingPatternMatcher);
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION, getGreenPatternSearchPlanGenerator());
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.RED_FILE_EXTENSION, getRedPatternSearchPlanGenerator());
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION, getBlackPatternSearchPlanGenerator());
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION,
+				getBindingPatternSearchPlanGenerator());
 		searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION,
-				bindingAndBlackPatternMatcher);
+				getBindingAndBlackPatternSearchPlanGenerator());
 		return searchPlanGenerators;
 	}
 
@@ -162,7 +163,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularBindingAndBlackInvocationBuilder
 					.setSuffix(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION);
 			regularBindingAndBlackInvocationBuilder.setMainActionBuilder(true);
-			regularBindingAndBlackInvocationBuilder.setPatternMatcher(bindingAndBlackPatternMatcher);
+			regularBindingAndBlackInvocationBuilder.setPatternMatcher(getBindingAndBlackPatternSearchPlanGenerator());
 
 			final BindingExpressionBuilder regularBindingExpressionBuilder = ScopeFactory.eINSTANCE
 					.createBindingExpressionBuilder();
@@ -173,7 +174,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularBindingExpressionBuilder.setExpressionExplorer(expressionExplorer);
 			regularBindingExpressionBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION);
 			regularBindingExpressionBuilder.setMainActionBuilder(false);
-			regularBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
+			regularBindingExpressionBuilder.setPatternMatcher(getBindingPatternSearchPlanGenerator());
 			regularBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final BlackPatternBuilder regularBlackInvocationBuilder = ScopeFactory.eINSTANCE
@@ -186,7 +187,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			regularBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
 			regularBlackInvocationBuilder.setMainActionBuilder(true);
-			regularBlackInvocationBuilder.setPatternMatcher(blackPatternMatcher);
+			regularBlackInvocationBuilder.setPatternMatcher(getBlackPatternSearchPlanGenerator());
 			regularBlackPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final NacPatternBuilder regularNacPatternBuilder = ScopeFactory.eINSTANCE.createNacPatternBuilder();
@@ -196,7 +197,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularNacPatternBuilder.setPatternTransformer(regularNacPatternTransformer);
 			regularNacPatternBuilder.setExpressionExplorer(expressionExplorer);
 			regularNacPatternBuilder.setMainActionBuilder(false);
-			regularNacPatternBuilder.setPatternMatcher(blackPatternMatcher);
+			regularNacPatternBuilder.setPatternMatcher(getBlackPatternSearchPlanGenerator());
 			regularNacPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RedPatternBuilder regularRedInvocationBuilder = ScopeFactory.eINSTANCE.createRedPatternBuilder();
@@ -207,7 +208,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularRedInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			regularRedInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.RED_FILE_EXTENSION);
 			regularRedInvocationBuilder.setMainActionBuilder(false);
-			regularRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
+			regularRedInvocationBuilder.setPatternMatcher(getRedPatternSearchPlanGenerator());
 			regularRedPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final GreenPatternBuilder regularGreenInvocationBuilder = ScopeFactory.eINSTANCE
@@ -219,7 +220,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			regularGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			regularGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
 			regularGreenInvocationBuilder.setMainActionBuilder(true);
-			regularGreenInvocationBuilder.setPatternMatcher(greenPatternMatcher);
+			regularGreenInvocationBuilder.setPatternMatcher(getGreenPatternSearchPlanGenerator());
 			regularGreenPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RedNodeDeletionBuilder regularRedNodeDeletionBuilder = ScopeFactory.eINSTANCE
@@ -241,7 +242,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			forEachBindingExpressionBuilder.setExpressionExplorer(expressionExplorer);
 			forEachBindingExpressionBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION);
 			forEachBindingExpressionBuilder.setMainActionBuilder(false);
-			forEachBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
+			forEachBindingExpressionBuilder.setPatternMatcher(getBindingPatternSearchPlanGenerator());
 			forEachBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final BlackPatternBuilder forEachBlackInvocationBuilder = ScopeFactory.eINSTANCE
@@ -253,7 +254,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			forEachBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			forEachBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
 			forEachBlackInvocationBuilder.setMainActionBuilder(true);
-			forEachBlackInvocationBuilder.setPatternMatcher(blackPatternMatcher);
+			forEachBlackInvocationBuilder.setPatternMatcher(getBlackPatternSearchPlanGenerator());
 			forEachBlackPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final NacPatternBuilder forEachNacPatternBuilder = ScopeFactory.eINSTANCE.createNacPatternBuilder();
@@ -263,7 +264,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			forEachNacPatternBuilder.setPatternTransformer(forEachNacPatternTransformer);
 			forEachNacPatternBuilder.setExpressionExplorer(expressionExplorer);
 			forEachNacPatternBuilder.setMainActionBuilder(false);
-			forEachNacPatternBuilder.setPatternMatcher(blackPatternMatcher);
+			forEachNacPatternBuilder.setPatternMatcher(getBlackPatternSearchPlanGenerator());
 			forEachNacPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RedPatternBuilder forEachRedInvocationBuilder = ScopeFactory.eINSTANCE.createRedPatternBuilder();
@@ -274,7 +275,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			forEachRedInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			forEachRedInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.RED_FILE_EXTENSION);
 			forEachRedInvocationBuilder.setMainActionBuilder(false);
-			forEachRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
+			forEachRedInvocationBuilder.setPatternMatcher(getRedPatternSearchPlanGenerator());
 			forEachRedPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final GreenPatternBuilder forEachGreenInvocationBuilder = ScopeFactory.eINSTANCE
@@ -286,7 +287,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			forEachGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			forEachGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
 			forEachGreenInvocationBuilder.setMainActionBuilder(true);
-			forEachGreenInvocationBuilder.setPatternMatcher(greenPatternMatcher);
+			forEachGreenInvocationBuilder.setPatternMatcher(getGreenPatternSearchPlanGenerator());
 			forEachGreenPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RedNodeDeletionBuilder forEachRedNodeDeletionBuilder = ScopeFactory.eINSTANCE
@@ -311,6 +312,26 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 
 	public EMoflonPreferencesStorage getPreferencesStorage() {
 		return this.preferencesStorage;
+	}
+
+	protected PatternMatcher getBindingAndBlackPatternSearchPlanGenerator() {
+		return bindingAndBlackPatternMatcher;
+	}
+
+	protected PatternMatcher getBindingPatternSearchPlanGenerator() {
+		return bindingPatternMatcher;
+	}
+
+	protected PatternMatcher getBlackPatternSearchPlanGenerator() {
+		return blackPatternMatcher;
+	}
+
+	protected PatternMatcher getRedPatternSearchPlanGenerator() {
+		return redPatternMatcher;
+	}
+
+	protected PatternMatcher getGreenPatternSearchPlanGenerator() {
+		return greenPatternMatcher;
 	}
 
 	protected PatternMatcher configureBindingAndBlackPatternMatcher(Resource resource) throws IOException {
