@@ -16,3 +16,4 @@ Bundle-Name: Moca Framework MocaTree
 Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
+Automatic-Module-Name: MocaTree

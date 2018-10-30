@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.moflon.ide.feature"
-      label="eMoflon Tool (required)"
-      version="3.4.0.qualifier"
+      label="eMoflon::TIE-SDM (required)"
+      version="3.5.0.qualifier"
       provider-name="eMoflon Developers"
       plugin="org.moflon.ide.ui">
 

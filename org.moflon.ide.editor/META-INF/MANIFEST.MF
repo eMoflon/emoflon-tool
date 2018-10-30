@@ -22,3 +22,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: eMoflon Developers
 Import-Package: org.eclipse.emf.ecore.presentation
+Automatic-Module-Name: org.moflon.ide.editor

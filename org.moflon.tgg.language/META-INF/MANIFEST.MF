@@ -83,13 +83,14 @@ Export-Package: .,
  org.moflon.tgg.language.precompiler.util,
  org.moflon.tgg.language.util,
  util
-Bundle-Name: TGGLanguage (MOFLON)
-Bundle-Version: 2.1.0.qualifier
+Bundle-Name: TGGLanguage (eMoflon)
+Bundle-Version: 2.2.0.qualifier
 Bundle-ClassPath: .,
  lib/democles.jar,
  lib/javabdd-1.0b2.jar,
  lib/RTED_v1.1.jar,
  lib/trove-3.1a1.jar,
- lib/ilp-0.2.0.jar
+ lib/ilp-0.2.1.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.TGGLanguageActivator
+Automatic-Module-Name: org.moflon.tgg.language

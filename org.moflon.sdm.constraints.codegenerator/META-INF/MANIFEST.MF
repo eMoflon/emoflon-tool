@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.moflon.sdm.constraints.codegenerator
 Bundle-SymbolicName: org.moflon.sdm.constraints.codegenerator;singleton:=true
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.1.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: eMoflon Developers
 Bundle-ActivationPolicy: lazy
@@ -27,3 +27,4 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="[3.9.0,4.0.0)",
  org.moflon.core.preferences,
  org.moflon.emf.build;bundle-version="1.0.0"
 Export-Package: org.moflon.compiler.sdm.democles.attributes
+Automatic-Module-Name: org.moflon.sdm.constraints.codegenerator

@@ -18,3 +18,4 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="[3.8.101,4.0.0)",
  org.moflon.core.build,
  org.moflon.core.preferences,
  org.moflon.emf.build
+Automatic-Module-Name: org.moflon.sdm.controlflow.reversenavigation

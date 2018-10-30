@@ -26,47 +26,36 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 	protected PatternMatcher configureBindingAndBlackPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler bindingAndBlackPatternMatcherCompiler = configureBindingAndBlackPatternMatcherCompiler(
 				resource);
-		final RegularPatternMatcherGenerator bindingAndBlackPatternMatcherGenerator = new RegularPatternMatcherGenerator(
-				bindingAndBlackPatternMatcherCompiler, BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR,
-				getPreferencesStorage());
-		resource.getContents().add(bindingAndBlackPatternMatcherGenerator);
-		return bindingAndBlackPatternMatcherGenerator;
+		return createAndRegisterRegularPatternMatcherGenerator(bindingAndBlackPatternMatcherCompiler,
+				BINDING_AND_BLACK_PATTERN_MATCHER_GENERATOR, resource);
 	}
 
 	@Override
 	protected PatternMatcher configureBindingPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler bindingPatternMatcherCompiler = configureBindingPatternMatcherCompiler(resource);
-		final RegularPatternMatcherGenerator bindingPatternMatcherGenerator = new RegularPatternMatcherGenerator(
-				bindingPatternMatcherCompiler, BINDING_PATTERN_MATCHER_GENERATOR, getPreferencesStorage());
-		resource.getContents().add(bindingPatternMatcherGenerator);
-		return bindingPatternMatcherGenerator;
+		return createAndRegisterRegularPatternMatcherGenerator(bindingPatternMatcherCompiler,
+				BINDING_PATTERN_MATCHER_GENERATOR, resource);
 	}
 
 	@Override
 	protected PatternMatcher configureBlackPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler blackPatternMatcherCompiler = configureBlackPatternMatcherCompiler(resource);
-		final RegularPatternMatcherGenerator blackPatternMatcherGenerator = new RegularPatternMatcherGenerator(
-				blackPatternMatcherCompiler, BLACK_PATTERN_MATCHER_GENERATOR, getPreferencesStorage());
-		resource.getContents().add(blackPatternMatcherGenerator);
-		return blackPatternMatcherGenerator;
+		return createAndRegisterRegularPatternMatcherGenerator(blackPatternMatcherCompiler,
+				BLACK_PATTERN_MATCHER_GENERATOR, resource);
 	}
 
 	@Override
 	protected PatternMatcher configureRedPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler redPatternMatcherCompiler = configureRedPatternMatcherCompiler(resource);
-		final RegularPatternMatcherGenerator redPatternMatcherGenerator = new RegularPatternMatcherGenerator(
-				redPatternMatcherCompiler, RED_PATTERN_MATCHER_GENERATOR, getPreferencesStorage());
-		resource.getContents().add(redPatternMatcherGenerator);
-		return redPatternMatcherGenerator;
+		return createAndRegisterRegularPatternMatcherGenerator(redPatternMatcherCompiler, RED_PATTERN_MATCHER_GENERATOR,
+				resource);
 	}
 
 	@Override
 	protected PatternMatcher configureGreenPatternMatcher(final Resource resource) throws IOException {
 		final PatternMatcherCompiler greenPatternMatcherCompiler = configureGreenPatternMatcherCompiler(resource);
-		final RegularPatternMatcherGenerator greenPatternMatcherGenerator = new RegularPatternMatcherGenerator(
-				greenPatternMatcherCompiler, GREEN_PATTERN_MATCHER_GENERATOR, getPreferencesStorage());
-		resource.getContents().add(greenPatternMatcherGenerator);
-		return greenPatternMatcherGenerator;
+		return createAndRegisterRegularPatternMatcherGenerator(greenPatternMatcherCompiler,
+				GREEN_PATTERN_MATCHER_GENERATOR, resource);
 	}
 
 	@Override
@@ -77,5 +66,22 @@ public class DefaultCodeGeneratorConfig extends DefaultValidatorConfig {
 				expressionPatternMatcherCompiler, EXPRESSION_PATTERN_MATCHER_GENERATOR, getPreferencesStorage());
 		resource.getContents().add(expressionPatternMatcherGenerator);
 		return expressionPatternMatcherGenerator;
+	}
+
+	/**
+	 * Creates a {@link RegularPatternMatcherGenerator} from the given
+	 * {@link PatternMatcherCompiler} and registers it a the {@link Resource}
+	 *
+	 * @param patternMatcherCompiler
+	 * @param generatorName
+	 * @param resource
+	 * @return
+	 */
+	private PatternMatcher createAndRegisterRegularPatternMatcherGenerator(
+			final PatternMatcherCompiler patternMatcherCompiler, String generatorName, final Resource resource) {
+		final RegularPatternMatcherGenerator bindingAndBlackPatternMatcherGenerator = new RegularPatternMatcherGenerator(
+				patternMatcherCompiler, generatorName, getPreferencesStorage());
+		resource.getContents().add(bindingAndBlackPatternMatcherGenerator);
+		return bindingAndBlackPatternMatcherGenerator;
 	}
 }

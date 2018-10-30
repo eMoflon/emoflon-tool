@@ -91,6 +91,8 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 
 	private PatternMatcher greenPatternMatcher;
 
+	private PatternMatcher expressionPatternMatcher;
+
 	private final EMoflonPreferencesStorage preferencesStorage;
 
 	public DefaultValidatorConfig(final ResourceSet resourceSet, EMoflonPreferencesStorage preferencesStorage) {
@@ -117,6 +119,8 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 				getBindingPatternSearchPlanGenerator());
 		searchPlanGenerators.put(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION,
 				getBindingAndBlackPatternSearchPlanGenerator());
+		searchPlanGenerators.put(DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION,
+				getExpressionPatternSearchPlanGenerator());
 		return searchPlanGenerators;
 	}
 
@@ -145,11 +149,12 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			expressionTransformerResource.getContents().add(expressionExplorer);
 			expressionExplorer.setExpressionTransformer(expressionTransformer);
 
-			bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
-			bindingPatternMatcher = configureBindingPatternMatcher(resource);
-			blackPatternMatcher = configureBlackPatternMatcher(resource);
-			redPatternMatcher = configureRedPatternMatcher(resource);
-			greenPatternMatcher = configureGreenPatternMatcher(resource);
+			this.setBindingAndBlackPatternMatcher(configureBindingAndBlackPatternMatcher(resource));
+			this.setBindingPatternMatcher(configureBindingPatternMatcher(resource));
+			this.setBlackPatternMatcher(configureBlackPatternMatcher(resource));
+			this.setRedPatternMatcher(configureRedPatternMatcher(resource));
+			this.setGreenPatternMatcher(configureGreenPatternMatcher(resource));
+			this.setExpressionPatternMatcher(configureExpressionPatternMatcher(resource));
 
 			// (1) Handler for regular story nodes
 			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeFactory.eINSTANCE
@@ -302,7 +307,7 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 			expressionActionBuilder.setPatternVariableHandler(expressionPatternTransformer);
 			expressionActionBuilder.setExpressionExplorer(expressionExplorer);
 			expressionActionBuilder.setSuffix(DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION);
-			expressionActionBuilder.setPatternMatcher(configureExpressionPatternMatcher(resource));
+			expressionActionBuilder.setPatternMatcher(expressionPatternMatcher);
 			expressionPatternTransformer.setExpressionTransformer(expressionTransformer);
 		} catch (final IOException e) {
 			// Do nothing
@@ -332,6 +337,34 @@ public class DefaultValidatorConfig implements ScopeValidationConfigurator {
 
 	protected PatternMatcher getGreenPatternSearchPlanGenerator() {
 		return greenPatternMatcher;
+	}
+
+	protected PatternMatcher getExpressionPatternSearchPlanGenerator() {
+		return expressionPatternMatcher;
+	}
+
+	protected void setBindingAndBlackPatternMatcher(PatternMatcher bindingAndBlackPatternMatcher) {
+		this.bindingAndBlackPatternMatcher = bindingAndBlackPatternMatcher;
+	}
+
+	protected void setBindingPatternMatcher(PatternMatcher bindingPatternMatcher) {
+		this.bindingPatternMatcher = bindingPatternMatcher;
+	}
+
+	protected void setBlackPatternMatcher(PatternMatcher blackPatternMatcher) {
+		this.blackPatternMatcher = blackPatternMatcher;
+	}
+
+	protected void setRedPatternMatcher(PatternMatcher redPatternMatcher) {
+		this.redPatternMatcher = redPatternMatcher;
+	}
+
+	protected void setGreenPatternMatcher(PatternMatcher greenPatternMatcher) {
+		this.greenPatternMatcher = greenPatternMatcher;
+	}
+
+	protected void setExpressionPatternMatcher(PatternMatcher expressionPatternMatcher) {
+		this.expressionPatternMatcher = expressionPatternMatcher;
 	}
 
 	protected PatternMatcher configureBindingAndBlackPatternMatcher(Resource resource) throws IOException {

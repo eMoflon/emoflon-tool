@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file contains all tests for eMoflon::TIE-SDM from https://github.com/eMoflon/emoflon-tests -->
+<psf version="2.0">
+<provider id="org.eclipse.egit.core.GitProvider">
+<!-- Democles -->
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,Democles_0"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DemoclesTestSuite_0"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,my.enumtest.x.y"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OnlineShop"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OnlineShopLang"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OnlineShopLangTestGen"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OnlineSocialNetwork"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,RailwayControl"/>
+
+<!-- Misc-->
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,BooleanStatementNodes"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DemoLanguages"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DoubleContainer"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DoubleLinkedListLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,EclipseTestSuite"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,InjectionTest"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,InjectionTestSpecification"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MemoryBoxLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MemoryBoxToDoubleLinkedListIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MemoryBoxToDoubleLinkedListTransformation"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MocaToMoflonAttributeConstr"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MocaToMoflonAttributeConstrTestGenerator"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ValidationTest"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SDMTestSuite"/>
+
+<!-- TGG0-->
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,BlockCodeAdapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,BlockDiagramCodeAdapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,BxSurveyClassDiagramToRDBMSIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CD"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CDDSWithNACs"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CDToCDIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ClassDiagramToRDBMSIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ClassInheritanceHierarchy"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ClassInhHier2DB"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CompanyToITIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,Database"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DatabaseLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,DS"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,FamiliesToPersonsCodeAdapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,FamiliesToPersonsRefinementFlat"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,FamiliesToPersonsRefinementHierachical,"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ObjectOrientedLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OOToDatabaseIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OrderedCD2DS"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ProcessCodeAdapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,RefinementTestTGG"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SimpleRDBMSMetamodel,"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SimpleUMLMetamodel"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,StackCodeAdapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,VHDLTGGCodeAdapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,TGGTestSuite_0"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,TGGTestsuite_extra"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,TGGTestsuite"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OOToRDBSSpecification"/>
+
+<!-- TGG1 -->
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,BlockDiagramCodeAdapter_EdgeRules"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,EdgeRulesTestSuite"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,FolksonomyCodeAdapter"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,FolksonomyDataGenerator"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,LibraryToBibliography"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,LibraryToBibliographyCSP,"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,LibraryToBibliographyIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,LibraryToBibliographyIntegrationCSP"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,MDAE"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OSCAx"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ProcessCodeAdapter_EdgeRules"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ProductrequirementsToSimulinkproject"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ProductrequirementsToSimulinkprojectIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SimpleEcoreToHTML"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SimpleEcoreToHTMLExample"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,TGGTestSuite_1"/>
+
+<!-- Zoo0 -->
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,BoardGameTGG_eMoflonTutorial"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CDtoDoc_ToolPaperExample"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CDtoDocTGG"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,CDtoDocumentation"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ClassDiagramToDocumentationIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,eMoflonTutorialEAVersion"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,fixmlTGG"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,fixmlTransformation"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OpenstreetMap"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OSMLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,OSMTGG"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,PetriNet2Statechart"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,PetriNetToStatechartIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ProcessCodeAdapterWizard"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ProcessLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SokobanImportExport"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,SokobanTutorial"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,StatechartLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,ZooTestSuite0"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,de.tudarmstadt.maki.modeling.graphmodel.specification"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,de.tudarmstadt.maki.modeling.jvlc.specification"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,de.tudarmstadt.maki.modeling.graphmodel"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-tests.git,master,de.tudarmstadt.maki.modeling.jvlc"/>
+
+<!-- Demo -->
+<project reference="1.0,https://github.com/eMoflon/emoflon-examples.git,master,demo/org.moflon.demo"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-examples.git,master,demo/org.moflon.demo.testsuite"/>
+
+<!-- Handbook -->
+<project reference="1.0,https://github.com/eMoflon/emoflon-examples.git,master,part4/DictionaryLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.final.visual.learningBoxLanguage"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-examples.git,master,LearningBoxToDictionaryIntegration"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-examples.git,master,org.moflon.doc.handbook.examples.leitnersBoxGui"/>
+<project reference="1.0,https://github.com/eMoflon/emoflon-examples.git,master,LeitnersLearningBox"/>
+</provider>
+</psf>

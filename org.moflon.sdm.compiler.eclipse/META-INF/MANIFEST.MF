@@ -31,3 +31,4 @@ Export-Package: org.moflon.codegen,
  org.moflon.eclipse.resource
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: eMoflon Developers
+Automatic-Module-Name: org.moflon.sdm.compiler.eclipse

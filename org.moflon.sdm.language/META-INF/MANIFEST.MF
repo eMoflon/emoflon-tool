@@ -46,3 +46,4 @@ Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.sdm.language.SDMLanguagePlugin
+Automatic-Module-Name: SDMLanguage

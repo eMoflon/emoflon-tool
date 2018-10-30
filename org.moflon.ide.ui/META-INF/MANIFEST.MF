@@ -49,3 +49,4 @@ Export-Package: org.moflon.ide.ui,
  org.moflon.ide.ui.admin.wizards.moca,
  org.moflon.ide.ui.preferences
 Bundle-ClassPath: .
+Automatic-Module-Name: org.moflon.ide.ui
