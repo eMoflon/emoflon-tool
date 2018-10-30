@@ -31,3 +31,4 @@ Require-Bundle: org.moflon.core.utilities,
  MocaTree,
  org.moflon.core.build,
  org.moflon.emf.codegen
+Automatic-Module-Name: org.moflon.tgg.mosl.codeadapter

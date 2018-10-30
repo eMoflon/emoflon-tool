@@ -14,3 +14,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: eMoflon Developers
 Bundle-ClassPath: .,
  lib/javabdd-1.0b2.jar
+Automatic-Module-Name: org.moflon.sdm.democles.reachability.javabdd

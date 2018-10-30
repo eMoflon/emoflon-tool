@@ -28,3 +28,4 @@ Bundle-Version: 2.0.0.qualifier
 Bundle-ClassPath: .,lib/jdom.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.core.moca.processing.MocaPlugin
+Automatic-Module-Name: org.moflon.core.moca.processing

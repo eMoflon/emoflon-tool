@@ -93,3 +93,4 @@ Bundle-ClassPath: .,
  lib/ilp-0.2.0.jar
 Bundle-Localization: plugin
 Bundle-Activator: org.moflon.TGGLanguageActivator
+Automatic-Module-Name: org.moflon.tgg.language

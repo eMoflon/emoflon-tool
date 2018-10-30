@@ -24,3 +24,4 @@ Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: eMoflon Developers
+Automatic-Module-Name: org.moflon.ide.visualization.dot.ecore.epackageviz

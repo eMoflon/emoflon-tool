@@ -40,3 +40,4 @@ Export-Package: org.moflon.tgg.mosl,
  org.moflon.tgg.mosl.tgg.util,
  org.moflon.tgg.mosl.validation
 Import-Package: org.apache.log4j
+Automatic-Module-Name: org.moflon.tgg.mosl

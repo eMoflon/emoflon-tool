@@ -25,3 +25,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.moflon.sdm.constraints.operationspecification.At
  tributeConstraintsOperationActivator
 Bundle-Vendor: eMoflon Developers
+Automatic-Module-Name: org.moflon.sdm.constraints.operationspecification

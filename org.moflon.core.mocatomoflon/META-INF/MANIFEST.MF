@@ -28,3 +28,4 @@ Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: eMoflon Developers
+Automatic-Module-Name: org.moflon.core.mocatomoflon
