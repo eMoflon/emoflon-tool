@@ -79,39 +79,20 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 	}
 
 	public static final void initResourceSetForDemocles(final ResourceSet resourceSet) {
-		final MethodBodyResourceFactory sdmFactory = new MethodBodyResourceFactory(SDM_FILE_EXTENSION);
 		final EList<AdapterFactory> adapterFactories = resourceSet.getAdapterFactories();
 		final Map<String, Object> extensionToFactoryMap = resourceSet.getResourceFactoryRegistry()
 				.getExtensionToFactoryMap();
 
-		adapterFactories.add(sdmFactory);
-		extensionToFactoryMap.put(SDM_FILE_EXTENSION, sdmFactory);
-		final MethodBodyResourceFactory dfsFactory = new MethodBodyResourceFactory(DFS_FILE_EXTENSION);
-		adapterFactories.add(dfsFactory);
-		extensionToFactoryMap.put(DFS_FILE_EXTENSION, dfsFactory);
-		final MethodBodyResourceFactory cfFactory = new MethodBodyResourceFactory(CONTROL_FLOW_FILE_EXTENSION);
-		adapterFactories.add(cfFactory);
-		extensionToFactoryMap.put(CONTROL_FLOW_FILE_EXTENSION, cfFactory);
+		createAndRegisterMethodBodyFactory(adapterFactories, extensionToFactoryMap, SDM_FILE_EXTENSION);
+		createAndRegisterMethodBodyFactory(adapterFactories, extensionToFactoryMap, DFS_FILE_EXTENSION);
+		createAndRegisterMethodBodyFactory(adapterFactories, extensionToFactoryMap, CONTROL_FLOW_FILE_EXTENSION);
 
-		final PatternResourceFactory bindingAndBlackFactory = new PatternResourceFactory(
-				BINDING_AND_BLACK_FILE_EXTENSION);
-		adapterFactories.add(bindingAndBlackFactory);
-		extensionToFactoryMap.put(BINDING_AND_BLACK_FILE_EXTENSION, bindingAndBlackFactory);
-		final PatternResourceFactory blackFactory = new PatternResourceFactory(BLACK_FILE_EXTENSION);
-		adapterFactories.add(blackFactory);
-		extensionToFactoryMap.put(BLACK_FILE_EXTENSION, blackFactory);
-		final PatternResourceFactory redFactory = new PatternResourceFactory(RED_FILE_EXTENSION);
-		adapterFactories.add(redFactory);
-		extensionToFactoryMap.put(RED_FILE_EXTENSION, redFactory);
-		final PatternResourceFactory greenFactory = new PatternResourceFactory(GREEN_FILE_EXTENSION);
-		adapterFactories.add(greenFactory);
-		extensionToFactoryMap.put(GREEN_FILE_EXTENSION, greenFactory);
-		final PatternResourceFactory bindingFactory = new PatternResourceFactory(BINDING_FILE_EXTENSION);
-		adapterFactories.add(bindingFactory);
-		extensionToFactoryMap.put(BINDING_FILE_EXTENSION, bindingFactory);
-		final PatternResourceFactory expressionFactory = new PatternResourceFactory(EXPRESSION_FILE_EXTENSION);
-		adapterFactories.add(expressionFactory);
-		extensionToFactoryMap.put(EXPRESSION_FILE_EXTENSION, expressionFactory);
+		createAndRegisterPatternFactory(adapterFactories, extensionToFactoryMap, BINDING_AND_BLACK_FILE_EXTENSION);
+		createAndRegisterPatternFactory(adapterFactories, extensionToFactoryMap, BLACK_FILE_EXTENSION);
+		createAndRegisterPatternFactory(adapterFactories, extensionToFactoryMap, RED_FILE_EXTENSION);
+		createAndRegisterPatternFactory(adapterFactories, extensionToFactoryMap, GREEN_FILE_EXTENSION);
+		createAndRegisterPatternFactory(adapterFactories, extensionToFactoryMap, BINDING_FILE_EXTENSION);
+		createAndRegisterPatternFactory(adapterFactories, extensionToFactoryMap, EXPRESSION_FILE_EXTENSION);
 	}
 
 	@Override
@@ -199,6 +180,20 @@ public class DemoclesMethodBodyHandler implements MethodBodyHandler {
 		dfsGraphResource.getContents().add(graph);
 		validator.validate(activity, inefficientBuilder);
 		return validator.getValidationReport();
+	}
+
+	private static void createAndRegisterMethodBodyFactory(final EList<AdapterFactory> adapterFactories,
+			final Map<String, Object> extensionToFactoryMap, String extension) {
+		final MethodBodyResourceFactory sdmFactory = new MethodBodyResourceFactory(extension);
+		adapterFactories.add(sdmFactory);
+		extensionToFactoryMap.put(extension, sdmFactory);
+	}
+
+	private static void createAndRegisterPatternFactory(final EList<AdapterFactory> adapterFactories,
+			final Map<String, Object> extensionToFactoryMap, String extension) {
+		final PatternResourceFactory bindingAndBlackFactory = new PatternResourceFactory(extension);
+		adapterFactories.add(bindingAndBlackFactory);
+		extensionToFactoryMap.put(extension, bindingAndBlackFactory);
 	}
 
 	// SDM loader methods

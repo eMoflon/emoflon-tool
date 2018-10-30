@@ -33,7 +33,6 @@ import org.moflon.sdm.compiler.democles.validation.scope.BindingExpressionBuilde
 import org.moflon.sdm.compiler.democles.validation.scope.BlackPatternBuilder;
 import org.moflon.sdm.compiler.democles.validation.scope.ExpressionExplorer;
 import org.moflon.sdm.compiler.democles.validation.scope.NacPatternBuilder;
-import org.moflon.sdm.compiler.democles.validation.scope.PatternMatcher;
 import org.moflon.sdm.compiler.democles.validation.scope.RedNodeDeletionBuilder;
 import org.moflon.sdm.compiler.democles.validation.scope.RedPatternBuilder;
 import org.moflon.sdm.compiler.democles.validation.scope.RegularPatternInvocationBuilder;
@@ -73,16 +72,6 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 
 	protected AttributeConstraintLibUtilImpl attributeConstraintLibUtil = (AttributeConstraintLibUtilImpl) ConstraintstodemoclesFactory.eINSTANCE
 			.createAttributeConstraintLibUtil();
-
-	private PatternMatcher bindingAndBlackPatternMatcher;
-
-	private PatternMatcher bindingPatternMatcher;
-
-	private PatternMatcher blackPatternMatcher;
-
-	private PatternMatcher redPatternMatcher;
-
-	private PatternMatcher greenPatternMatcher;
 
 	public AttributeConstraintCodeGeneratorConfig(final ResourceSet resourceSet, final IProject project,
 			final EMoflonPreferencesStorage preferencesStorage) {
@@ -135,11 +124,12 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			expressionTransformerResource.getContents().add(expressionExplorer);
 			expressionExplorer.setExpressionTransformer(expressionTransformer);
 
-			bindingAndBlackPatternMatcher = configureBindingAndBlackPatternMatcher(resource);
-			bindingPatternMatcher = configureBindingPatternMatcher(resource);
-			blackPatternMatcher = configureBlackPatternMatcher(resource);
-			redPatternMatcher = configureRedPatternMatcher(resource);
-			greenPatternMatcher = configureGreenPatternMatcher(resource);
+			this.setBindingAndBlackPatternMatcher(configureBindingAndBlackPatternMatcher(resource));
+			this.setBindingPatternMatcher(configureBindingPatternMatcher(resource));
+			this.setBlackPatternMatcher(configureBlackPatternMatcher(resource));
+			this.setRedPatternMatcher(configureRedPatternMatcher(resource));
+			this.setGreenPatternMatcher(configureGreenPatternMatcher(resource));
+			this.setExpressionPatternMatcher(configureExpressionPatternMatcher(resource));
 
 			// (1) Handler for regular story nodes
 			final StoryNodeActionBuilder regularStoryNodeActionBuilder = ScopeFactory.eINSTANCE
@@ -153,7 +143,8 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			regularBindingAndBlackInvocationBuilder
 					.setSuffix(DemoclesMethodBodyHandler.BINDING_AND_BLACK_FILE_EXTENSION);
 			regularBindingAndBlackInvocationBuilder.setMainActionBuilder(true);
-			regularBindingAndBlackInvocationBuilder.setPatternMatcher(bindingAndBlackPatternMatcher);
+			regularBindingAndBlackInvocationBuilder
+					.setPatternMatcher(this.getBindingAndBlackPatternSearchPlanGenerator());
 
 			final BindingExpressionBuilder regularBindingExpressionBuilder = ScopeFactory.eINSTANCE
 					.createBindingExpressionBuilder();
@@ -164,7 +155,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			regularBindingExpressionBuilder.setExpressionExplorer(expressionExplorer);
 			regularBindingExpressionBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION);
 			regularBindingExpressionBuilder.setMainActionBuilder(false);
-			regularBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
+			regularBindingExpressionBuilder.setPatternMatcher(this.getBindingPatternSearchPlanGenerator());
 			regularBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final BlackPatternBuilder regularBlackInvocationBuilder = ScopevalidationFactory.eINSTANCE
@@ -178,7 +169,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			regularBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			regularBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
 			regularBlackInvocationBuilder.setMainActionBuilder(true);
-			regularBlackInvocationBuilder.setPatternMatcher(blackPatternMatcher);
+			regularBlackInvocationBuilder.setPatternMatcher(this.getBlackPatternSearchPlanGenerator());
 			regularBlackPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final NacPatternBuilder regularNacPatternBuilder = ScopeFactory.eINSTANCE.createNacPatternBuilder();
@@ -188,7 +179,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			regularNacPatternBuilder.setPatternTransformer(regularNacPatternTransformer);
 			regularNacPatternBuilder.setExpressionExplorer(expressionExplorer);
 			regularNacPatternBuilder.setMainActionBuilder(false);
-			regularNacPatternBuilder.setPatternMatcher(blackPatternMatcher);
+			regularNacPatternBuilder.setPatternMatcher(this.getBlackPatternSearchPlanGenerator());
 			regularNacPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RedPatternBuilder regularRedInvocationBuilder = ScopeFactory.eINSTANCE.createRedPatternBuilder();
@@ -199,7 +190,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			regularRedInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			regularRedInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.RED_FILE_EXTENSION);
 			regularRedInvocationBuilder.setMainActionBuilder(false);
-			regularRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
+			regularRedInvocationBuilder.setPatternMatcher(this.getRedPatternSearchPlanGenerator());
 			regularRedPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RegularPatternInvocationBuilder regularGreenInvocationBuilder = ScopevalidationFactory.eINSTANCE
@@ -211,7 +202,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			regularGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			regularGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
 			regularGreenInvocationBuilder.setMainActionBuilder(true);
-			regularGreenInvocationBuilder.setPatternMatcher(greenPatternMatcher);
+			regularGreenInvocationBuilder.setPatternMatcher(this.getGreenPatternSearchPlanGenerator());
 			regularGreenPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RedNodeDeletionBuilder regularRedNodeDeletionBuilder = ScopeFactory.eINSTANCE
@@ -233,7 +224,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			forEachBindingExpressionBuilder.setExpressionExplorer(expressionExplorer);
 			forEachBindingExpressionBuilder.setSuffix(DemoclesMethodBodyHandler.BINDING_FILE_EXTENSION);
 			forEachBindingExpressionBuilder.setMainActionBuilder(false);
-			forEachBindingExpressionBuilder.setPatternMatcher(bindingPatternMatcher);
+			forEachBindingExpressionBuilder.setPatternMatcher(this.getBindingPatternSearchPlanGenerator());
 			forEachBindingPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final BlackPatternBuilder forEachBlackInvocationBuilder = ScopevalidationFactory.eINSTANCE
@@ -246,7 +237,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			forEachBlackInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			forEachBlackInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.BLACK_FILE_EXTENSION);
 			forEachBlackInvocationBuilder.setMainActionBuilder(true);
-			forEachBlackInvocationBuilder.setPatternMatcher(blackPatternMatcher);
+			forEachBlackInvocationBuilder.setPatternMatcher(this.getBlackPatternSearchPlanGenerator());
 			forEachBlackPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final NacPatternBuilder forEachNacPatternBuilder = ScopeFactory.eINSTANCE.createNacPatternBuilder();
@@ -256,7 +247,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			forEachNacPatternBuilder.setPatternTransformer(forEachNacPatternTransformer);
 			forEachNacPatternBuilder.setExpressionExplorer(expressionExplorer);
 			forEachNacPatternBuilder.setMainActionBuilder(false);
-			forEachNacPatternBuilder.setPatternMatcher(blackPatternMatcher);
+			forEachNacPatternBuilder.setPatternMatcher(this.getBlackPatternSearchPlanGenerator());
 			forEachNacPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RedPatternBuilder forEachRedInvocationBuilder = ScopeFactory.eINSTANCE.createRedPatternBuilder();
@@ -267,7 +258,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			forEachRedInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			forEachRedInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.RED_FILE_EXTENSION);
 			forEachRedInvocationBuilder.setMainActionBuilder(false);
-			forEachRedInvocationBuilder.setPatternMatcher(redPatternMatcher);
+			forEachRedInvocationBuilder.setPatternMatcher(this.getRedPatternSearchPlanGenerator());
 			forEachRedPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RegularPatternInvocationBuilder forEachGreenInvocationBuilder = ScopevalidationFactory.eINSTANCE
@@ -279,7 +270,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			forEachGreenInvocationBuilder.setExpressionExplorer(expressionExplorer);
 			forEachGreenInvocationBuilder.setSuffix(DemoclesMethodBodyHandler.GREEN_FILE_EXTENSION);
 			forEachGreenInvocationBuilder.setMainActionBuilder(true);
-			forEachGreenInvocationBuilder.setPatternMatcher(greenPatternMatcher);
+			forEachGreenInvocationBuilder.setPatternMatcher(this.getGreenPatternSearchPlanGenerator());
 			forEachGreenPatternTransformer.setExpressionTransformer(expressionTransformer);
 
 			final RedNodeDeletionBuilder forEachRedNodeDeletionBuilder = ScopeFactory.eINSTANCE
@@ -294,7 +285,7 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 			expressionActionBuilder.setPatternVariableHandler(expressionPatternTransformer);
 			expressionActionBuilder.setExpressionExplorer(expressionExplorer);
 			expressionActionBuilder.setSuffix(DemoclesMethodBodyHandler.EXPRESSION_FILE_EXTENSION);
-			expressionActionBuilder.setPatternMatcher(configureExpressionPatternMatcher(resource));
+			expressionActionBuilder.setPatternMatcher(this.getExpressionPatternSearchPlanGenerator());
 			expressionPatternTransformer.setExpressionTransformer(expressionTransformer);
 		} catch (final IOException e) {
 			// Do nothing
@@ -320,30 +311,5 @@ public class AttributeConstraintCodeGeneratorConfig extends DefaultCodeGenerator
 	@Override
 	public TemplateConfigurationProvider createTemplateConfiguration(final GenModel genModel) {
 		return new AttributeConstraintTemplateConfig(genModel, attributeVariableConstraintLibraries);
-	}
-
-	@Override
-	protected PatternMatcher getBindingAndBlackPatternSearchPlanGenerator() {
-		return bindingAndBlackPatternMatcher;
-	}
-
-	@Override
-	protected PatternMatcher getBindingPatternSearchPlanGenerator() {
-		return bindingPatternMatcher;
-	}
-
-	@Override
-	protected PatternMatcher getBlackPatternSearchPlanGenerator() {
-		return blackPatternMatcher;
-	}
-
-	@Override
-	protected PatternMatcher getRedPatternSearchPlanGenerator() {
-		return redPatternMatcher;
-	}
-
-	@Override
-	protected PatternMatcher getGreenPatternSearchPlanGenerator() {
-		return greenPatternMatcher;
 	}
 }
