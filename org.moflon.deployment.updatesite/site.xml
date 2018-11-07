@@ -4,13 +4,13 @@
    <description name="eMoflon central update site" url="https://emoflon.github.io/documentation.html/">
       This is the central update site of eMoflon.
    </description>
-   <feature url="features/org.moflon.ide.feature_3.5.1.qualifier.jar" id="org.moflon.ide.feature" version="3.5.1.qualifier">
+   <feature url="features/org.moflon.ide.feature_3.5.0.qualifier.jar" id="org.moflon.ide.feature" version="3.5.0.qualifier">
       <category name="org.moflon.tool.main"/>
    </feature>
    <feature url="features/org.moflon.ide.visualization.feature_3.0.0.qualifier.jar" id="org.moflon.ide.visualization.feature" version="3.0.0.qualifier">
       <category name="org.moflon.tool.main"/>
    </feature>
-   <feature url="features/org.moflon.tgg.mosl.feature_3.0.0.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="3.0.0.qualifier">
+   <feature url="features/org.moflon.tgg.mosl.feature_3.0.1.qualifier.jar" id="org.moflon.tgg.mosl.feature" version="3.0.1.qualifier">
       <category name="org.moflon.tool.main"/>
    </feature>
    <category-def name="org.moflon.tool.main" label="eMoflon Tool">
