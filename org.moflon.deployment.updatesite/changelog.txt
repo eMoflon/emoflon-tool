@@ -1,3 +1,14 @@
+2018-11-07 eMoflon 3.5.1 released
+
+  Minor bug fix
+  * The error marker "Unable to construct the correspondence metamodel from the Xtext specification" was not removed during a fresh build
+    (Related issue: Unable to construct the correspondence metamodel from the Xtext specification #346)
+
+  To obtain the full list, use the following URL/GitHub issue query:
+    * URL: https://github.com/eMoflon/emoflon-tool/issues?utf8=%E2%9C%93&q=is%3Aissue+closed%3A2018-10-30..2018-11-07
+    * GitHub issues query: is:issue closed:2018-10-30..2018-11-07
+
+
 2018-10-30 eMoflon 3.5.0 released
 
 Fixes in internal API

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <associateSites>
-	<associateSite url="http://files.idi.ntnu.no/publish/plantuml/repository/"
-		label="PlantUML update site" />
-	<associateSite url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"
-		label="XText update site (release)" />
+  <associateSite url="http://hallvard.github.io/plantuml"
+    label="PlantUML update site" />
+  <associateSite url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"
+    label="XText update site (release)" />
 </associateSites>
