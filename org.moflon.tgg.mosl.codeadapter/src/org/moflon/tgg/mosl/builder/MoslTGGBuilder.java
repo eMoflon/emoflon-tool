@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -31,6 +32,8 @@ import org.moflon.ide.core.runtime.natures.IntegrationNature;
 import org.moflon.ide.core.runtime.natures.RepositoryNature;
 
 public class MoslTGGBuilder extends AbstractVisitorBuilder {
+
+	private static final String MISSING_CORRESPONDENCE_MODEL_ERROR_MESSAGE_PREFIX = "Unable to construct the correspondence metamodel from the Xtext specification in ";
 
 	public static final Logger logger = Logger.getLogger(MoslTGGBuilder.class);
 
@@ -73,6 +76,9 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 
 		if (getCommand().isBuilding(kind)) {
 			final IFolder moslFolder = getProject().getFolder(new Path(srcFolder));
+
+			clearProblemMarkers(moslFolder);
+
 			if ((isAutoOrIncrementalBuild(kind) && hasRelevantDeltas(buildVisitor))
 					|| (isFullBuild(kind) && hasRelevantResources(buildVisitor))) {
 				processResource(moslFolder, kind, args, subMonitor.split(1));
@@ -117,6 +123,20 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 		}
 	}
 
+	private void clearProblemMarkers(final IFolder moslFolder) {
+		try {
+			final IMarker[] markers = moslFolder.findMarkers(IMarker.PROBLEM, true, 1);
+			for (final IMarker marker : markers) {
+				final String message = marker.getAttribute(IMarker.MESSAGE, "");
+				if (message.startsWith(MISSING_CORRESPONDENCE_MODEL_ERROR_MESSAGE_PREFIX)) {
+					marker.delete();
+				}
+			}
+		} catch (final CoreException e) {
+			logger.error("Problem during deletion of problem markers", e);
+		}
+	}
+
 	private boolean hasRelevantResources(final RelevantElementCollector buildVisitor) {
 		return !buildVisitor.getRelevantResources().isEmpty();
 	}
@@ -148,13 +168,11 @@ public class MoslTGGBuilder extends AbstractVisitorBuilder {
 				job.schedule();
 
 			} else {
-
 				processProblemStatus(new Status(IStatus.ERROR, WorkspaceHelper.getPluginId(getClass()),
-						"Unable to construct the correspondence metamodel from the Xtext specification in " + resource,
-						null), resource);
+						MISSING_CORRESPONDENCE_MODEL_ERROR_MESSAGE_PREFIX + resource, null), resource);
 
 			}
-		} catch (CoreException e) {
+		} catch (final CoreException e) {
 			try {
 				processProblemStatus(e.getStatus(), resource);
 				LogUtils.error(logger, e, "Unable to update created projects: " + e.getMessage());
