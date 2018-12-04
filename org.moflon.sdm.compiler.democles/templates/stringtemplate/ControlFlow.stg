@@ -288,18 +288,18 @@ DeleteNode(variable, importManager) ::= <<
 <importManager.("org.eclipse.emf.ecore.util.EcoreUtil")>.delete(<variable.name>);
 <variable.name> = null;
 >>
-
+//<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 BindingPatternInvocationImpl(invocation, importManager) ::= <<
-<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
+<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 >>
 
 //
 RegularPatternInvocationImpl(invocation, importManager) ::= <<
 <if (invocation.cfNode.origin)><importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<endif><invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 >>
-
+//<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 SingleResultPatternInvocationImpl(invocation, importManager) ::= <<
-<importManager.(invocation.cfNode.origin.owningActivity.owningOperation.eContainingClass.genModelElement.qualifiedClassName)>.<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
+<invocation.pattern.name><invocation.parameters:BoundOrFree()>(<invocation.boundParameters:VariableName(); separator=", ">)
 >>
 
 WriteVariable(varRef, index, importManager) ::= <<
