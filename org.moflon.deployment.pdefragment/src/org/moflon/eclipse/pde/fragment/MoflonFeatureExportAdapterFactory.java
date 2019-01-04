@@ -40,8 +40,8 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 	@Override
 	public Object getAdapter(final Object adaptableObject, @SuppressWarnings("rawtypes") final Class adapterType) {
 		if (adaptableObject instanceof String && adapterType == FeatureExportOperation.class) {
-			FeatureModelManager featureModelManager = PDECore.getDefault().getFeatureModelManager();
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("org.moflon.deployer");
+			final FeatureModelManager featureModelManager = PDECore.getDefault().getFeatureModelManager();
+			final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("org.moflon.deployer");
 			if (WorkspaceFeatureModelManager.isFeatureProject(project)) {
 				final IFeatureModel workspaceFeatureModel = featureModelManager.getFeatureModel(project);
 				final FeatureExportInfo info = new FeatureExportInfo();
@@ -64,11 +64,11 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 				return new FeatureExportOperation(info, "Export Features");
 			}
 		} else if (adaptableObject instanceof IProject && adapterType == SiteBuildOperation.class) {
-			IProject project = (IProject) adaptableObject;
+			final IProject project = (IProject) adaptableObject;
 			try {
 				if (project.isAccessible() && project.hasNature(UPDATE_SITE_NATURE)) {
-					IFile siteXmlFile = project.getFile("site.xml");
-					ISiteModel buildSiteModel = new WorkspaceSiteModel(siteXmlFile);
+					final IFile siteXmlFile = project.getFile("site.xml");
+					final ISiteModel buildSiteModel = new WorkspaceSiteModel(siteXmlFile);
 					buildSiteModel.load();
 
 					final FeatureModelManager featureModelManager = PDECore.getDefault().getFeatureModelManager();
@@ -96,11 +96,11 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 					// info.useWorkspaceCompiledClasses = false;
 					// info.zipFileName = null;
 
-					Job job = new SiteBuildOperation(featureModels, buildSiteModel, "Build Moflon Update Site");
+					final Job job = new SiteBuildOperation(featureModels, buildSiteModel, "Build Moflon Update Site");
 					job.setUser(true);
 					return job;
 				}
-			} catch (CoreException e) {
+			} catch (final CoreException e) {
 				// Do nothing
 			}
 		} else if (adaptableObject instanceof IFile && adapterType == ITargetDefinition.class) {
@@ -116,7 +116,7 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 				final ITargetDefinition definition = (ITargetDefinition) adaptableObject;
 				final ProvisioningUI ui = createProvisioningUI(definition);
 				return new UpdateSiteReloadJob(ui);
-			} catch (CoreException e) {
+			} catch (final CoreException e) {
 				// Do nothing
 			}
 		} else if (adaptableObject instanceof ITargetDefinition && adapterType == ProvisioningUI.class) {
@@ -130,7 +130,7 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 						final IUBundleContainer bundleContainer = (IUBundleContainer) targetLocations[i];
 						final URI[] repositories = repoTracker.getKnownRepositories(ui.getSession());
 						final URI[] uris = bundleContainer.getRepositories();
-						for (URI uri : uris) {
+						for (final URI uri : uris) {
 							if (Arrays.binarySearch(repositories, uri) < 0) {
 								repoTracker.addRepository(uri, "", ui.getSession());
 							}
@@ -138,7 +138,7 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 					}
 				}
 				return ui;
-			} catch (CoreException e) {
+			} catch (final CoreException e) {
 				// Do nothing
 			}
 		} else if (adaptableObject instanceof ProvisioningUI && adapterType == UpdateSiteReloadJob.class) {
@@ -160,11 +160,11 @@ public class MoflonFeatureExportAdapterFactory implements IAdapterFactory {
 				final IContentType contentType = description.getContentType();
 				if (contentType != null && TARGET_DEFINITION_FILE_CONTENT_TYPE_ID.equals(contentType.getId())) {
 					final ITargetPlatformService service = (ITargetPlatformService) PDECore.getDefault()
-							.acquireService(ITargetPlatformService.class.getName());
+							.acquireService(ITargetPlatformService.class);
 					return service.getTarget(file).getTargetDefinition();
 				}
 			}
-		} catch (CoreException e) {
+		} catch (final CoreException e) {
 			// Do nothing
 		}
 		return null;
